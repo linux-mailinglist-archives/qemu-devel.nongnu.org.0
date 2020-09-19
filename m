@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E13D270F48
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:07:49 +0200 (CEST)
-Received: from localhost ([::1]:44964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7D4270F4D
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:10:11 +0200 (CEST)
+Received: from localhost ([::1]:53028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfOu-0004uo-6A
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
+	id 1kJfRC-0008HD-RI
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfGx-0005DY-UP
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60598)
+ id 1kJfH3-0005GX-Lz
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfGu-0007MD-Ah
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:35 -0400
+ id 1kJfGu-0007ML-Kf
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 11:59:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600531171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=onQMoCCAGls0VB8cHuzv+FYOkPBuZIpvYqOxHWyox8c=;
- b=Mk0kyoZZt8UowbGU5AEBp2n2eZRphvY0HRww+fpDAz8ewRGFLwjHHdSZvoNkmlLjT72WW8
- noFYFSquogc2GatHs8HnE2wYj2CDWiKIcM6Qe0dLqJdUiHduZPOmsh++MNAPBkDTBMKdQb
- o1giGt1Stj0PwoY/QT48/skcdtKFaSo=
+ bh=UrJOonvIjELSqtDFm8g0RL+Rypzdfoyi8NbsNFUM9fI=;
+ b=TopPua5m6x2NoOkpOgCR/x3R96nPUzYqRKGrMjfeU/j20q3n9cg/20NLnyxumvcEFTaixC
+ 2xf2bfQ/+S6n22oizmkz/9C8MyA42nth0f/B/A6CnHjYQKIBnVMjf9UHzhIeBY3wx6xOUT
+ wegjmfSR9Tn3E1ywiK9xorwqqY8fY6I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-dYrovaY0NCeQXKOGcMFjWQ-1; Sat, 19 Sep 2020 11:59:29 -0400
-X-MC-Unique: dYrovaY0NCeQXKOGcMFjWQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-472-W3a91TFVPf2BQnJwnT_RKw-1; Sat, 19 Sep 2020 11:59:30 -0400
+X-MC-Unique: W3a91TFVPf2BQnJwnT_RKw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6971F10066FC
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2180A801AAB
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 447D61002388;
- Sat, 19 Sep 2020 15:59:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0E141975E;
+ Sat, 19 Sep 2020 15:59:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/57] MAINTAINERS: add Paolo Bonzini as RCU maintainer
-Date: Sat, 19 Sep 2020 11:58:28 -0400
-Message-Id: <20200919155916.1046398-10-pbonzini@redhat.com>
+Subject: [PULL 10/57] target/i386: support KVM_FEATURE_ASYNC_PF_INT
+Date: Sat, 19 Sep 2020 11:58:29 -0400
+Message-Id: <20200919155916.1046398-11-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,40 +81,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-The RCU code that Paolo maintains is missing a MAINTAINERS file entry.
+Linux-5.8 introduced interrupt based mechanism for 'page ready' events
+delivery and disabled the old, #PF based one (see commit 2635b5c4a0e4
+"KVM: x86: interrupt based APF 'page ready' event delivery"). Linux
+guest switches to using in in 5.9 (see commit b1d405751cd5 "KVM: x86:
+Switch KVM guest to using interrupts for page ready APF delivery").
+The feature has a new KVM_FEATURE_ASYNC_PF_INT bit assigned and
+the interrupt vector is set in MSR_KVM_ASYNC_PF_INT MSR. Support this
+in QEMU.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200909090851.14458-1-stefanha@redhat.com>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Message-Id: <20200908141206.357450-1-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/i386/cpu.c     |  4 +++-
+ target/i386/cpu.h     |  1 +
+ target/i386/kvm.c     | 10 ++++++++++
+ target/i386/machine.c | 19 +++++++++++++++++++
+ 4 files changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3d17cad19a..9b01385484 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2310,6 +2310,14 @@ F: softmmu/cpus.c
- F: softmmu/cpu-throttle.c
- F: qapi/run-state.json
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 49d8958528..7603784351 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -903,7 +903,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "kvmclock", "kvm-nopiodelay", "kvm-mmu", "kvmclock",
+             "kvm-asyncpf", "kvm-steal-time", "kvm-pv-eoi", "kvm-pv-unhalt",
+             NULL, "kvm-pv-tlb-flush", NULL, "kvm-pv-ipi",
+-            "kvm-poll-control", "kvm-pv-sched-yield", NULL, NULL,
++            "kvm-poll-control", "kvm-pv-sched-yield", "kvm-asyncpf-int", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             "kvmclock-stable-bit", NULL, NULL, NULL,
+@@ -4209,6 +4209,7 @@ static PropValue kvm_default_props[] = {
+     { "kvmclock", "on" },
+     { "kvm-nopiodelay", "on" },
+     { "kvm-asyncpf", "on" },
++    { "kvm-asyncpf-int", "on" },
+     { "kvm-steal-time", "on" },
+     { "kvm-pv-eoi", "on" },
+     { "kvmclock-stable-bit", "on" },
+@@ -7092,6 +7093,7 @@ static void x86_cpu_initfn(Object *obj)
+     object_property_add_alias(obj, "kvm_nopiodelay", obj, "kvm-nopiodelay");
+     object_property_add_alias(obj, "kvm_mmu", obj, "kvm-mmu");
+     object_property_add_alias(obj, "kvm_asyncpf", obj, "kvm-asyncpf");
++    object_property_add_alias(obj, "kvm_asyncpf_int", obj, "kvm-asyncpf-int");
+     object_property_add_alias(obj, "kvm_steal_time", obj, "kvm-steal-time");
+     object_property_add_alias(obj, "kvm_pv_eoi", obj, "kvm-pv-eoi");
+     object_property_add_alias(obj, "kvm_pv_unhalt", obj, "kvm-pv-unhalt");
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d3097be6a5..18e99e9b39 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1492,6 +1492,7 @@ typedef struct CPUX86State {
+     uint64_t wall_clock_msr;
+     uint64_t steal_time_msr;
+     uint64_t async_pf_en_msr;
++    uint64_t async_pf_int_msr;
+     uint64_t pv_eoi_en_msr;
+     uint64_t poll_control_msr;
  
-+Read, Copy, Update (RCU)
-+M: Paolo Bonzini <pbonzini@redhat.com>
-+S: Maintained
-+F: include/qemu/rcu*.h
-+F: tests/rcutorture.c
-+F: tests/test-rcu-*.c
-+F: util/rcu.c
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index d87af57a23..0ab90c3669 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -287,6 +287,7 @@ static const struct kvm_para_features {
+     { KVM_CAP_NOP_IO_DELAY, KVM_FEATURE_NOP_IO_DELAY },
+     { KVM_CAP_PV_MMU, KVM_FEATURE_MMU_OP },
+     { KVM_CAP_ASYNC_PF, KVM_FEATURE_ASYNC_PF },
++    { KVM_CAP_ASYNC_PF_INT, KVM_FEATURE_ASYNC_PF_INT },
+ };
+ 
+ static int get_para_features(KVMState *s)
+@@ -2821,6 +2822,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+         if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_ASYNC_PF)) {
+             kvm_msr_entry_add(cpu, MSR_KVM_ASYNC_PF_EN, env->async_pf_en_msr);
+         }
++        if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_ASYNC_PF_INT)) {
++            kvm_msr_entry_add(cpu, MSR_KVM_ASYNC_PF_EN, env->async_pf_int_msr);
++        }
+         if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_PV_EOI)) {
+             kvm_msr_entry_add(cpu, MSR_KVM_PV_EOI_EN, env->pv_eoi_en_msr);
+         }
+@@ -3206,6 +3210,9 @@ static int kvm_get_msrs(X86CPU *cpu)
+     if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_ASYNC_PF)) {
+         kvm_msr_entry_add(cpu, MSR_KVM_ASYNC_PF_EN, 0);
+     }
++    if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_ASYNC_PF_INT)) {
++        kvm_msr_entry_add(cpu, MSR_KVM_ASYNC_PF_INT, 0);
++    }
+     if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_PV_EOI)) {
+         kvm_msr_entry_add(cpu, MSR_KVM_PV_EOI_EN, 0);
+     }
+@@ -3446,6 +3453,9 @@ static int kvm_get_msrs(X86CPU *cpu)
+         case MSR_KVM_ASYNC_PF_EN:
+             env->async_pf_en_msr = msrs[i].data;
+             break;
++        case MSR_KVM_ASYNC_PF_INT:
++            env->async_pf_int_msr = msrs[i].data;
++            break;
+         case MSR_KVM_PV_EOI_EN:
+             env->pv_eoi_en_msr = msrs[i].data;
+             break;
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index b1acf7d0ef..233e46bb70 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -394,6 +394,13 @@ static bool async_pf_msr_needed(void *opaque)
+     return cpu->env.async_pf_en_msr != 0;
+ }
+ 
++static bool async_pf_int_msr_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
 +
- Human Monitor (HMP)
- M: Dr. David Alan Gilbert <dgilbert@redhat.com>
- S: Maintained
++    return cpu->env.async_pf_int_msr != 0;
++}
++
+ static bool pv_eoi_msr_needed(void *opaque)
+ {
+     X86CPU *cpu = opaque;
+@@ -467,6 +474,17 @@ static const VMStateDescription vmstate_async_pf_msr = {
+     }
+ };
+ 
++static const VMStateDescription vmstate_async_pf_int_msr = {
++    .name = "cpu/async_pf_int_msr",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = async_pf_int_msr_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.async_pf_int_msr, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_pv_eoi_msr = {
+     .name = "cpu/async_pv_eoi_msr",
+     .version_id = 1,
+@@ -1438,6 +1456,7 @@ VMStateDescription vmstate_x86_cpu = {
+     .subsections = (const VMStateDescription*[]) {
+         &vmstate_exception_info,
+         &vmstate_async_pf_msr,
++        &vmstate_async_pf_int_msr,
+         &vmstate_pv_eoi_msr,
+         &vmstate_steal_time_msr,
+         &vmstate_poll_control_msr,
 -- 
 2.26.2
 
