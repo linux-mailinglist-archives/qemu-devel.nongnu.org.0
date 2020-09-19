@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94EEB270F97
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:42:34 +0200 (CEST)
-Received: from localhost ([::1]:44012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F3C270F8D
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:34:00 +0200 (CEST)
+Received: from localhost ([::1]:41412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJfwX-0001MO-M1
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
+	id 1kJfoF-0005TK-Ha
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHZ-0005hR-Q0
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37037
+ id 1kJfHd-0005mV-3d
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36641
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHM-0007Sk-Jg
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:13 -0400
+ id 1kJfHQ-0007Vf-Tq
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531198;
+ s=mimecast20190719; t=1600531203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X9eCFYO6l9GJtfOOyYVjpx6vOqeIf53FmvdsQtyCNqE=;
- b=DYzq765R0jSbouDgBYC3ASL3dnf/7cGejWFe0rXsby0tHEAO8VYjlhhnnsng6kJIW3e2xw
- 6hyfUx6zBon4iOKTKl8rZGmkdB3YOQfjUfuEO87twdfDm5z7gfdzN+oBL44emfm4TJpCHG
- yH0z6p6TlIUof6GdB8iA/wBRTbCN3ig=
+ bh=0oqdwKIol3TeyBC9JBnbi8HPeCxqWfu6IT9P7TbZoq0=;
+ b=VQSLI5zI/d01/nobfdtw64Hb4qO+i1Joyr3MzfhytZ8Anx3uTJPW1rq6OxoIFZXHiJlUcK
+ PWaEqmH7jgnZQRb/+TxsmU1CCvh/HjxybwcQbzN2kncz9ZYld4e6Wb2Nt3xx0bMKFmoHca
+ 8I+TKDdeEE+/lJUU48eJBuU4lJQD1ig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-lJ13Vf9uM1SxFyFue7REnA-1; Sat, 19 Sep 2020 11:59:55 -0400
-X-MC-Unique: lJ13Vf9uM1SxFyFue7REnA-1
+ us-mta-22-ayFlRcZcMi2Ir6mL-v_z1g-1; Sat, 19 Sep 2020 11:59:59 -0400
+X-MC-Unique: ayFlRcZcMi2Ir6mL-v_z1g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B6AA1074651;
- Sat, 19 Sep 2020 15:59:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05F411074644;
+ Sat, 19 Sep 2020 15:59:58 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D64731002388;
- Sat, 19 Sep 2020 15:59:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C9DF1002388;
+ Sat, 19 Sep 2020 15:59:54 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 54/57] hw/i386/q35: Remove unreachable Xen code on Q35 machine
-Date: Sat, 19 Sep 2020 11:59:13 -0400
-Message-Id: <20200919155916.1046398-55-pbonzini@redhat.com>
+Subject: [PULL 55/57] exec: Remove MemoryRegion::global_locking field
+Date: Sat, 19 Sep 2020 11:59:14 -0400
+Message-Id: <20200919155916.1046398-56-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,75 +82,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Xen accelerator requires specific changes to a machine to be able
-to use it. See for example the 'Xen PC' machine configure its PCI
-bus calling pc_xen_hvm_init_pci(). There is no 'Xen Q35' machine
-declared. This code was probably added while introducing the Q35
-machine, based on the existing PC machine (see commit df2d8b3ed4
-"Introduce q35 pc based chipset emulator"). Remove the unreachable
-code to simplify this file.
+Last uses of memory_region_clear_global_locking() have been
+removed in commit 7070e085d4 ("acpi: mark PMTIMER as unlocked")
+and commit 08565552f7 ("cputlb: Move NOTDIRTY handling from I/O
+path to TLB path").
+Remove memory_region_clear_global_locking() and the now unused
+'global_locking' field in MemoryRegion.
 
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20200722082517.18708-1-philmd@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200806150726.962-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc_q35.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ accel/tcg/cputlb.c    |  4 ++--
+ exec.c                |  2 +-
+ include/exec/memory.h | 14 --------------
+ softmmu/memory.c      |  6 ------
+ 4 files changed, 3 insertions(+), 23 deletions(-)
 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 4a37bc3e6d..aa4b6c8e30 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -34,9 +34,7 @@
- #include "sysemu/arch_init.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/rtc/mc146818rtc.h"
--#include "hw/xen/xen.h"
- #include "sysemu/kvm.h"
--#include "sysemu/xen.h"
- #include "hw/kvm/clock.h"
- #include "hw/pci-host/q35.h"
- #include "hw/qdev-properties.h"
-@@ -179,10 +177,6 @@ static void pc_q35_init(MachineState *machine)
-         x86ms->below_4g_mem_size = machine->ram_size;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 6489abbf8c..4657a3b8a6 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1053,7 +1053,7 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+         cpu_io_recompile(cpu, retaddr);
      }
  
--    if (xen_enabled()) {
--        xen_hvm_init(pcms, &ram_memory);
--    }
+-    if (mr->global_locking && !qemu_mutex_iothread_locked()) {
++    if (!qemu_mutex_iothread_locked()) {
+         qemu_mutex_lock_iothread();
+         locked = true;
+     }
+@@ -1114,7 +1114,7 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+      */
+     save_iotlb_data(cpu, iotlbentry->addr, section, mr_offset);
+ 
+-    if (mr->global_locking && !qemu_mutex_iothread_locked()) {
++    if (!qemu_mutex_iothread_locked()) {
+         qemu_mutex_lock_iothread();
+         locked = true;
+     }
+diff --git a/exec.c b/exec.c
+index e34b602bdf..bc55a92292 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3136,7 +3136,7 @@ static bool prepare_mmio_access(MemoryRegion *mr)
+     bool unlocked = !qemu_mutex_iothread_locked();
+     bool release_lock = false;
+ 
+-    if (unlocked && mr->global_locking) {
++    if (unlocked) {
+         qemu_mutex_lock_iothread();
+         unlocked = false;
+         release_lock = true;
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index ec9edee742..9f6468f346 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -404,7 +404,6 @@ struct MemoryRegion {
+     bool nonvolatile;
+     bool rom_device;
+     bool flush_coalesced_mmio;
+-    bool global_locking;
+     uint8_t dirty_log_mask;
+     bool is_iommu;
+     RAMBlock *ram_block;
+@@ -1738,19 +1737,6 @@ void memory_region_set_flush_coalesced(MemoryRegion *mr);
+  */
+ void memory_region_clear_flush_coalesced(MemoryRegion *mr);
+ 
+-/**
+- * memory_region_clear_global_locking: Declares that access processing does
+- *                                     not depend on the QEMU global lock.
+- *
+- * By clearing this property, accesses to the memory region will be processed
+- * outside of QEMU's global lock (unless the lock is held on when issuing the
+- * access request). In this case, the device model implementing the access
+- * handlers is responsible for synchronization of concurrency.
+- *
+- * @mr: the memory region to be updated.
+- */
+-void memory_region_clear_global_locking(MemoryRegion *mr);
 -
-     x86_cpus_init(x86ms, pcmc->default_cpu_version);
- 
-     kvmclock_create();
-@@ -208,10 +202,7 @@ static void pc_q35_init(MachineState *machine)
+ /**
+  * memory_region_add_eventfd: Request an eventfd to be triggered when a word
+  *                            is written to a location.
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index d030eb6f7c..31b0c5250e 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1221,7 +1221,6 @@ static void memory_region_initfn(Object *obj)
+     mr->ops = &unassigned_mem_ops;
+     mr->enabled = true;
+     mr->romd_mode = true;
+-    mr->global_locking = true;
+     mr->destructor = memory_region_destructor_none;
+     QTAILQ_INIT(&mr->subregions);
+     QTAILQ_INIT(&mr->coalesced);
+@@ -2277,11 +2276,6 @@ void memory_region_clear_flush_coalesced(MemoryRegion *mr)
      }
+ }
  
-     /* allocate ram and load rom/bios */
--    if (!xen_enabled()) {
--        pc_memory_init(pcms, get_system_memory(),
--                       rom_memory, &ram_memory);
--    }
-+    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
+-void memory_region_clear_global_locking(MemoryRegion *mr)
+-{
+-    mr->global_locking = false;
+-}
+-
+ static bool userspace_eventfd_warning;
  
-     /* create pci host bus */
-     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
-@@ -271,7 +262,7 @@ static void pc_q35_init(MachineState *machine)
- 
-     assert(pcms->vmport != ON_OFF_AUTO__MAX);
-     if (pcms->vmport == ON_OFF_AUTO_AUTO) {
--        pcms->vmport = xen_enabled() ? ON_OFF_AUTO_OFF : ON_OFF_AUTO_ON;
-+        pcms->vmport = ON_OFF_AUTO_ON;
-     }
- 
-     /* init basic PC hardware */
+ void memory_region_add_eventfd(MemoryRegion *mr,
 -- 
 2.26.2
 
