@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D73270D8E
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 13:18:04 +0200 (CEST)
-Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8748270DDE
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 14:24:43 +0200 (CEST)
+Received: from localhost ([::1]:43546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJasV-0000W7-Jq
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 07:18:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60222)
+	id 1kJbv0-0004KY-8e
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 08:24:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJarg-0008W6-8d
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 07:17:12 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41917)
+ id 1kJbu7-0003nE-57; Sat, 19 Sep 2020 08:23:47 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kJare-0007Jn-5f
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 07:17:11 -0400
-Received: by mail-wr1-x441.google.com with SMTP id w5so8055736wrp.8
- for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 04:17:09 -0700 (PDT)
+ id 1kJbu4-0005jk-QD; Sat, 19 Sep 2020 08:23:46 -0400
+Received: by mail-wm1-x344.google.com with SMTP id b79so8056682wmb.4;
+ Sat, 19 Sep 2020 05:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+ilFZNnYoYIYiL4CGDdlLQ9udt7KqUaPBi+PM3pg+gE=;
- b=QvkxZCsZ9nA2Opdmhzmt+x5MPSqC08R4YguwLb3Au6w5skakWoaPqs0LtPDu/i5Qr6
- /QBu57cFQI+ceAT4Dx1GaTvcBesbgZcOEVK9X3IVKe3qiAYeDk7AcA/TqH5MYu0wZCpf
- KqrKf60/CRm3uUIWJM+N8+qBWORPkvNu6l6KGffmjmn9LZEmY3nAeJWXNMx5B/cLyXJ6
- jUtEZBqwqbrJM6hyGoLfZBd/CJ81MBsafia8Z40Yk0K7JtdEXhnIhHididDKgYRp/gIY
- gQScFV+Ye1yv2MVkOF6YD3i/yCOPNRBTfjn/WMmVccVExVv3sHZ8DnBqCL1PCjSdLpfn
- aEqQ==
+ bh=x792t5UgtPuY5LZTB49doOI/JJSALOXiZvyzW0t5x+c=;
+ b=BOHpXfjdTvyGuTna9BiGKh6JLCpXZTodw3hN3etKMWj3HztuXgxT9nPGXweegoAbWK
+ /c1o3t+8/nnlAeImqOyZRVXRLwWAtpUwhX3mi5Oqwwdfa+ivcPOHGZxV/JpyrDZyzBEW
+ Iz4YLWzAnn+J6NPulAMEWvzevD9jfqANWyWtqGfApAhAmp8hYW7473cS/Z+goo3MkuEk
+ DBTPUHSX4dHJIS7smU5LPicDK229Y++kq9Jq6ncuU3SSY92ImthYifBAQvd13Y2otPb+
+ 1YvMNtCPj/PMFyh4XUGy3qGraAF5qVpKC0yiTvHkx7lvtF7Jl6XmlF3ZloLO8jAA+dzc
+ 12FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+ilFZNnYoYIYiL4CGDdlLQ9udt7KqUaPBi+PM3pg+gE=;
- b=a5nWbbi1luBHsZUZ2foi79uDAyk2MdSudbcj1uqZYigSUq8uJwajcrGxs0winTdZ+U
- WdHlRTJqpvjEqW/fqwOF9Nd6TaFhSdWxX10gCTHjeNUAyQu7w6gMfxgYbf0VCBd9Hlk7
- 1NIYHa0CVRqam/SA0Ty/zQgdKJTIKg9j19QIA3LB5Kjli2rcTVrCI/2y85QEdxPc2Giq
- wWSRbVeOz2z926i2U7RdNwxm3smFa6a5kn2zgfZE4FJ98sHncqf/rDXQFh/8ZnvUZCBj
- fjGxryzfb0VY3LQCHnWqt3oPSRq0MvtIJtD7gDEAnGOa/G/hygknR1iPbY192qfkBLfG
- zQYA==
-X-Gm-Message-State: AOAM532ei9bZ8pO1aaFtdu+11FVU3g0A+zX3mqHUYcZzhQiukPgQ0Une
- 5RLM/UoCU28S0T6ZuGB+6TA=
-X-Google-Smtp-Source: ABdhPJyO+7UAjZ5/C4VNQU9kdNbroKIYVkazjjaKfMa3acXVGeLSgBSrV9JKXKe0n5t8x5T5tLA2jA==
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr43900198wrp.246.1600514228592; 
- Sat, 19 Sep 2020 04:17:08 -0700 (PDT)
+ bh=x792t5UgtPuY5LZTB49doOI/JJSALOXiZvyzW0t5x+c=;
+ b=FkyR7LU6L7v0r+rxCgXOnDyzO164UrDqnTkMnk1aI8tvH8yQl3fbQiUEY04YBcsvoc
+ tym8cDjI+jgLja1BvhUrwwFTwXTnigNUb+I9v0q+522uNV+o1y/CIis2MWT/VfJCgPll
+ dILGH/anBDRWrkrniHWdl9hGoAXUE+Mnon1qV0O/7CgN40gSov4/DNFpUeam+v1NP3yv
+ tPQ5dfuQlcj5CWXwVi7umHWZ1/AYAsSX1bYrazrewic9DLvUK4FA9ZpKnfuhltI0YoT3
+ nZaYuyj8FH+NmYXS2yS2W1HwwhSAM1AygJTyRrHa5Symlu3gkKagAzG2GItCRt8S/591
+ R7Mw==
+X-Gm-Message-State: AOAM531bVDHfcl/zChbd5U98JtJmpK3v5ZtFdDyoNlu29KxQe69Ie8ME
+ hGbKXcmGlkgARRDyE5ekUQNny5lhMLU=
+X-Google-Smtp-Source: ABdhPJx8NQNWx5+UK5hbmiFeHbiPQ6hDt28AUcOjbZwaOpNvxgG3FwW8lMB3FlTPshT4MXYi0VsT9A==
+X-Received: by 2002:a05:600c:210c:: with SMTP id
+ u12mr22001682wml.185.1600518222482; 
+ Sat, 19 Sep 2020 05:23:42 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id t1sm9349211wmi.16.2020.09.19.04.17.07
+ by smtp.gmail.com with ESMTPSA id f12sm9972368wmf.26.2020.09.19.05.23.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 19 Sep 2020 04:17:07 -0700 (PDT)
-Subject: Re: Bottleneck problem to merge Python patches
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "crosa@redhat.com" <crosa@redhat.com>, Lukas Straub <lukasstraub2@web.de>
-References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
- <20200828104102.4490-2-ahmedkhaledkaraman@gmail.com>
- <CAL1e-=iA95PR-mM9E+nfsvFRJLhQsj5Q9qPAM=7QS9mg-QvcbQ@mail.gmail.com>
+ Sat, 19 Sep 2020 05:23:41 -0700 (PDT)
+Subject: Re: [PATCH] xen: xenguest is not used so is not needed
+To: Anthony PERARD <anthony.perard@citrix.com>,
+ Michael Tokarev <mjt@tls.msk.ru>
+References: <20200727140048.19779-1-mjt@msgid.tls.msk.ru>
+ <20200727150949.GC2866@perard.uk.xensource.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6ad83ff4-1b4f-69f0-7dbe-85680e2f403e@amsat.org>
-Date: Sat, 19 Sep 2020 13:17:06 +0200
+Message-ID: <07fb2cbf-e006-0ee8-a749-af0d5b4fcc9e@amsat.org>
+Date: Sat, 19 Sep 2020 14:23:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=iA95PR-mM9E+nfsvFRJLhQsj5Q9qPAM=7QS9mg-QvcbQ@mail.gmail.com>
+In-Reply-To: <20200727150949.GC2866@perard.uk.xensource.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.869,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,85 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ldoktor@redhat.com" <ldoktor@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- "aleksandar.qemu.devel@gmail.com" <aleksandar.qemu.devel@gmail.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Aleksandar,
+Cc'ing qemu-trivial@
 
-(extending the Cc list to broader audience)
-
-On 9/18/20 10:33 PM, Aleksandar Markovic wrote:
+On 7/27/20 5:09 PM, Anthony PERARD wrote:
+> On Mon, Jul 27, 2020 at 05:00:48PM +0300, Michael Tokarev wrote:
+>> There's no references in only file which includes xenguest.h
+>> to any xen definitions. And there's no references to -lxenguest
+>> in qemu, either. Drop it.
 > 
-> On Friday, August 28, 2020, Ahmed Karaman <ahmedkhaledkaraman@gmail.com
-> <mailto:ahmedkhaledkaraman@gmail.com>> wrote:
+> I'm not sure what you mean by "no references to -lxenguest", do you mean
+> in the binary?
 > 
->     - Apply pylint and flake8 formatting rules to the script.
->     - Use 'tempfile' instead of '/tmp' for creating temporary files.
+>> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 > 
->     ---
+> Otherwise, thanks for the cleanup!
 > 
-> Hello, folks.
+> Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 > 
-> This series seems forgotten. Can some of you perhaps take a look,
-> review, and possibly integrate some patches in a pull request?
-> 
-> Ahmed invested quite of time to improve the functionality and quality of
-> scripts, and they are truly useful for developers interested in
-> performance measurement.
-
-The Python patches are indeed being merged slowly, but are not
-forgotten :) Eduardo sent just a pull request *yesterday* for
-patches he had queued *before* QEMU 5.1, that is more than 1 year
-ago!
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg742228.html
-
-I hope he will be able to process the other Python patches sent
-the last 12 months. He raised the problem few month ago saying he
-was overwhelmed and was looking for help from the community.
-Cleber helped a pair of times, I helped once, but then nobody
-popped up volunteering.
-
-I agree this is a community problem, nobody wants to become the
-de-facto Python maintainer. Current maintainers are already busy
-solving problem with low-level languages such C.
-As a project, QEMU is evolving, using more and more Python, switched
-to Meson, we might have Rust code too. Learning that for current
-maintainers takes time. I guess we lack new contributors/maintainers
-with interest in Python & QEMU.
-
-This is my simple/rough analysis, as John had the same problem
-2/3 months ago, his patches were on the list unreviewed for various
-weeks. Same problem with Avocado patches, Lukas sent a series a bit
-before Ahmed and it is still unreviewed:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg737272.html
-
-Alex Bennée recently said:
-
- "review time is the currency of qemu-devel ;-)"
-
-We might be failing at explaining new contributors the importance
-of peer-review, as this helps a lot maintainers. It is described
-in the wiki but maybe new contributors don't read it, we don't
-remember them to:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Participating_in_Code_Review
-and:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Return_the_favor
-
-My 2 cents...
-
-Regards,
-
-Phil.
-
-> 
-> Thanks,
-> Aleksandar
 
