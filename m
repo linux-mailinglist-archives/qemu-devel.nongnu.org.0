@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29543270F87
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:30:56 +0200 (CEST)
-Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BF4270F90
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Sep 2020 18:36:31 +0200 (CEST)
+Received: from localhost ([::1]:49982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJflH-0001ZR-4W
-	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
+	id 1kJfqf-0000a0-Hb
+	for lists+qemu-devel@lfdr.de; Sat, 19 Sep 2020 12:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHb-0005jc-Bg
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36050)
+ id 1kJfHd-0005mm-Gf
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJfHM-0007S5-Kr
- for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:14 -0400
+ id 1kJfHG-0007Rm-SA
+ for qemu-devel@nongnu.org; Sat, 19 Sep 2020 12:00:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600531194;
+ s=mimecast20190719; t=1600531193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KWrmc5Ev93CzvFANEfLqvjroURewAAlVIo8XZm51r/g=;
- b=OP9uhb7CMUe2sXDRkxEo8UtvpZIuiFxEQZF0hIredwpXs20V8/G0yfkwnKeOv1gWcwIfmp
- a76aLCQdee1GcUJg8Z9X16BsipboFM/2FUt0pKrJxfIyhonWXI1o7CrbP+OQdEy/5kQS/r
- P4PzJBYeUG53mlhi+u1+ZSrTvjQjppk=
+ bh=XnSf1LAuLV+MUmLsNDrigQ0JXDrj9izEtgHHuUjdSPY=;
+ b=IhZHhmVvJRw2KJTibc5F/FK6whbMX0xFWhHEKJenV5C2KMfdLWSp2XCuVjYPqiifVUgPSh
+ pjgiM+I+kyYOE4eHx3B0ijAMDCKhyLQhFFmi004uXuB9ZvWoJQOHEgK7CsjuECZ3kVyr+W
+ /tfMiEcII9vZnOgRTxoSo8pE9aRPyFs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-_R2gSqWTPZK461l1oLqj8A-1; Sat, 19 Sep 2020 11:59:50 -0400
-X-MC-Unique: _R2gSqWTPZK461l1oLqj8A-1
+ us-mta-208-XKuddB2gNL6PicyhRwQy3g-1; Sat, 19 Sep 2020 11:59:51 -0400
+X-MC-Unique: XKuddB2gNL6PicyhRwQy3g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C39A56BE3;
- Sat, 19 Sep 2020 15:59:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DFCE8712D9
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:50 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BCC95576A;
- Sat, 19 Sep 2020 15:59:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F18845576A
+ for <qemu-devel@nongnu.org>; Sat, 19 Sep 2020 15:59:49 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/57] fuzz: use qemu_get_exec_dir
-Date: Sat, 19 Sep 2020 11:59:01 -0400
-Message-Id: <20200919155916.1046398-43-pbonzini@redhat.com>
+Subject: [PULL 44/57] cutils: introduce get_relocated_path
+Date: Sat, 19 Sep 2020 11:59:03 -0400
+Message-Id: <20200919155916.1046398-45-pbonzini@redhat.com>
 In-Reply-To: <20200919155916.1046398-1-pbonzini@redhat.com>
 References: <20200919155916.1046398-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 06:41:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/19 11:03:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -81,42 +81,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make things consistent with how softmmu/vl.c uses os_find_datadir.
-Initializing the path to the executables will also be needed for
-get_relocatable_path to work.
+Add the function that will compute a relocated version of the
+directories in CONFIG_QEMU_*DIR and CONFIG_QEMU_*PATH.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/fuzz/fuzz.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/qemu/cutils.h | 12 +++++++++
+ meson.build           |  4 +--
+ util/cutils.c         | 61 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 75 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index e906ef9efa..1811cb1d88 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -153,6 +153,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_LIBQOS);
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index eb59852dfd..3a86ec0321 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -184,4 +184,16 @@ int uleb128_decode_small(const uint8_t *in, uint32_t *n);
+  */
+ int qemu_pstrcmp0(const char **str1, const char **str2);
  
-+    qemu_init_exec_dir(**argv);
-     target_name = strstr(**argv, "-target-");
-     if (target_name) {        /* The binary name specifies the target */
-         target_name += strlen("-target-");
-@@ -165,7 +166,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-          * location of the executable. Using this we add exec_dir/pc-bios to
-          * the datadirs.
-          */
--        bindir = g_path_get_dirname(**argv);
-+        bindir = qemu_get_exec_dir();
-         datadir = g_build_filename(bindir, "pc-bios", NULL);
-         if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
-             qemu_add_data_dir(datadir);
++
++/**
++ * get_relocated_path:
++ * @dir: the directory (typically a `CONFIG_*DIR` variable) to be relocated.
++ *
++ * Returns a path for @dir that uses the directory of the running executable
++ * as the prefix.  For example, if `bindir` is `/usr/bin` and @dir is
++ * `/usr/share/qemu`, the function will append `../share/qemu` to the
++ * directory that contains the running executable and return the result.
++ */
++char *get_relocated_path(const char *dir);
++
+ #endif
+diff --git a/meson.build b/meson.build
+index 1f8487eacf..1b1cde8725 100644
+--- a/meson.build
++++ b/meson.build
+@@ -566,9 +566,9 @@ config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1]
+ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
+ 
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+-strings = ['HOST_DSOSUF', 'CONFIG_IASL', 'bindir', 'qemu_confdir', 'qemu_datadir',
++strings = ['HOST_DSOSUF', 'CONFIG_IASL', 'bindir', 'prefix', 'qemu_confdir', 'qemu_datadir',
+            'qemu_moddir', 'qemu_localstatedir', 'qemu_helperdir', 'qemu_localedir',
+-           'qemu_icondir', 'qemu_desktopdir', 'qemu_firmwarepath']
++           'qemu_icondir', 'qemu_desktopdir', 'qemu_firmwarepath', 'sysconfdir']
+ foreach k, v: config_host
+   if arrays.contains(k)
+     if v != ''
+diff --git a/util/cutils.c b/util/cutils.c
+index 36ce712271..8da34e04b0 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -889,3 +889,64 @@ int qemu_pstrcmp0(const char **str1, const char **str2)
+ {
+     return g_strcmp0(*str1, *str2);
+ }
++
++static inline bool starts_with_prefix(const char *dir)
++{
++    size_t prefix_len = strlen(CONFIG_PREFIX);
++    return !memcmp(dir, CONFIG_PREFIX, prefix_len) &&
++        (!dir[prefix_len] || G_IS_DIR_SEPARATOR(dir[prefix_len]));
++}
++
++/* Return the next path component in dir, and store its length in *p_len.  */
++static inline const char *next_component(const char *dir, int *p_len)
++{
++    int len;
++    while (*dir && G_IS_DIR_SEPARATOR(*dir)) {
++        dir++;
++    }
++    len = 0;
++    while (dir[len] && !G_IS_DIR_SEPARATOR(dir[len])) {
++        len++;
++    }
++    *p_len = len;
++    return dir;
++}
++
++char *get_relocated_path(const char *dir)
++{
++    size_t prefix_len = strlen(CONFIG_PREFIX);
++    const char *bindir = CONFIG_BINDIR;
++    const char *exec_dir = qemu_get_exec_dir();
++    GString *result;
++    int len_dir, len_bindir;
++
++    /* Fail if qemu_init_exec_dir was not called.  */
++    assert(exec_dir[0]);
++    if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
++        return strdup(dir);
++    }
++
++    result = g_string_new(exec_dir);
++
++    /* Advance over common components.  */
++    len_dir = len_bindir = prefix_len;
++    do {
++        dir += len_dir;
++        bindir += len_bindir;
++        dir = next_component(dir, &len_dir);
++        bindir = next_component(bindir, &len_bindir);
++    } while (len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
++
++    /* Ascend from bindir to the common prefix with dir.  */
++    while (len_bindir) {
++        bindir += len_bindir;
++        g_string_append(result, "/..");
++        bindir = next_component(bindir, &len_bindir);
++    }
++
++    if (*dir) {
++        assert(G_IS_DIR_SEPARATOR(dir[-1]));
++        g_string_append(result, dir - 1);
++    }
++    return result->str;
++}
 -- 
 2.26.2
 
