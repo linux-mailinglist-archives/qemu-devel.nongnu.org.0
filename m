@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65100271642
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 19:20:17 +0200 (CEST)
-Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B027C271647
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 19:22:21 +0200 (CEST)
+Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kK30a-0005Zt-AM
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 13:20:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
+	id 1kK32a-0008O6-N3
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 13:22:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kK2xz-000404-Qx
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 13:17:35 -0400
-Received: from mailout11.t-online.de ([194.25.134.85]:50884)
+ id 1kK2y8-00041R-3o
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 13:17:45 -0400
+Received: from mailout11.t-online.de ([194.25.134.85]:50978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kK2xy-0006FR-2G
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 13:17:35 -0400
-Received: from fwd13.aul.t-online.de (fwd13.aul.t-online.de [172.20.27.62])
- by mailout11.t-online.de (Postfix) with SMTP id 40457425E999;
- Sun, 20 Sep 2020 19:17:31 +0200 (CEST)
+ id 1kK2y3-0006Fi-OY
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 13:17:43 -0400
+Received: from fwd23.aul.t-online.de (fwd23.aul.t-online.de [172.20.26.128])
+ by mailout11.t-online.de (Postfix) with SMTP id 110024227A3A;
+ Sun, 20 Sep 2020 19:17:38 +0200 (CEST)
 Received: from linpower.localnet
- (JbTBTgZ1wh5e1YUvG8omkAi00eJ6ksRPSWkzSvHvuJpzQ7vTc-3D2ESCnrNWnBQw+q@[93.236.144.216])
- by fwd13.t-online.de
+ (S+TPB6ZF8hyTWgWKs8RTEDB-qWhNOH3J1Hr3QLR2XNsvOS2Z0-rYyYW6LGiJ1CcQHH@[93.236.144.216])
+ by fwd23.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1kK2xu-08uzLs0; Sun, 20 Sep 2020 19:17:30 +0200
+ esmtp id 1kK2xx-1mxmc40; Sun, 20 Sep 2020 19:17:33 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id EC356200613; Sun, 20 Sep 2020 19:17:29 +0200 (CEST)
+ id EE572200618; Sun, 20 Sep 2020 19:17:29 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 1/9] audio: handle buf == NULL in put_buffer_out()
-Date: Sun, 20 Sep 2020 19:17:21 +0200
-Message-Id: <20200920171729.15861-1-vr_qemu@t-online.de>
+Subject: [PATCH 2/9] audio/audio: fix video playback slowdown with spiceaudio
+Date: Sun, 20 Sep 2020 19:17:22 +0200
+Message-Id: <20200920171729.15861-2-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <84f1c61a-8399-c75e-96c2-febfc2dd5fab@t-online.de>
 References: <84f1c61a-8399-c75e-96c2-febfc2dd5fab@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: JbTBTgZ1wh5e1YUvG8omkAi00eJ6ksRPSWkzSvHvuJpzQ7vTc-3D2ESCnrNWnBQw+q
-X-TOI-EXPURGATEID: 150726::1600622250-00003E0D-CF49BECB/0/0 CLEAN NORMAL
-X-TOI-MSGID: 40b6d91d-6ee8-420f-b398-9d75a203800e
+X-ID: S+TPB6ZF8hyTWgWKs8RTEDB-qWhNOH3J1Hr3QLR2XNsvOS2Z0-rYyYW6LGiJ1CcQHH
+X-TOI-EXPURGATEID: 150726::1600622253-00017F06-698604E3/0/0 CLEAN NORMAL
+X-TOI-MSGID: c6469676-489e-4bdc-8004-1bcce84d763c
 Received-SPF: none client-ip=194.25.134.85;
  envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 13:17:31
@@ -70,52 +70,51 @@ Cc: qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the next patch all audio backends put_buffer_out() functions
-have to handle the buf == NULL case, provided the get_buffer_out()
-function may return buf = NULL and size > 0.
+This patch allows the audio backends get_buffer_out() functions
+to drop audio data and mitigates a bug reported on the qemu-devel
+mailing list.
 
-It turns out that all audio backends get_buffer_out() functions
-either can't return buf = NULL or return buf = NULL and size = 0
-at the same time. The only exception is the spiceaudio backend
-where size may be uninitialized.
+https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03832.html
 
+The new rules for the variables buf and size returned by
+get_buffer_out() are:
+size == 0: Downstream playback buffer is full. Retry later.
+size > 0, buf != NULL: Copy size bytes to buf for playback.
+size > 0, buf == NULL: Drop size bytes.
+
+The audio playback rate with spiceaudio for the no audio case is
+too fast, but that's what we had before commit fb35c2cec5
+"audio/dsound: fix invalid parameters error". The complete fix
+comes with the next patch.
+
+Reported-by: Qi Zhou <atmgnd@outlook.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/spiceaudio.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ audio/audio.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-index b6b5da4812..c8d81ba442 100644
---- a/audio/spiceaudio.c
-+++ b/audio/spiceaudio.c
-@@ -135,6 +135,7 @@ static void *line_out_get_buffer(HWVoiceOut *hw, size_t *size)
-             (out->fsize - out->fpos) * hw->info.bytes_per_frame);
-     } else {
-         audio_rate_start(&out->rate);
-+        *size = LINE_OUT_SAMPLES << 2;
-     }
-     return out->frame + out->fpos;
- }
-@@ -143,12 +144,14 @@ static size_t line_out_put_buffer(HWVoiceOut *hw, void *buf, size_t size)
- {
-     SpiceVoiceOut *out = container_of(hw, SpiceVoiceOut, hw);
+diff --git a/audio/audio.c b/audio/audio.c
+index ce8c6dec5f..ad3f57b4c4 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1091,12 +1091,15 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, size_t live)
+     while (live) {
+         size_t size, decr, proc;
+         void *buf = hw->pcm_ops->get_buffer_out(hw, &size);
+-        if (!buf || size == 0) {
++
++        if (size == 0) {
+             break;
+         }
  
--    assert(buf == out->frame + out->fpos && out->fpos <= out->fsize);
--    out->fpos += size >> 2;
-+    if (buf) {
-+        assert(buf == out->frame + out->fpos && out->fpos <= out->fsize);
-+        out->fpos += size >> 2;
- 
--    if (out->fpos == out->fsize) { /* buffer full */
--        spice_server_playback_put_samples(&out->sin, out->frame);
--        out->frame = NULL;
-+        if (out->fpos == out->fsize) { /* buffer full */
-+            spice_server_playback_put_samples(&out->sin, out->frame);
-+            out->frame = NULL;
+         decr = MIN(size / hw->info.bytes_per_frame, live);
+-        audio_pcm_hw_clip_out(hw, buf, decr);
++        if (buf) {
++            audio_pcm_hw_clip_out(hw, buf, decr);
 +        }
-     }
- 
-     return size;
+         proc = hw->pcm_ops->put_buffer_out(hw, buf,
+                                            decr * hw->info.bytes_per_frame) /
+             hw->info.bytes_per_frame;
 -- 
 2.26.2
 
