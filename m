@@ -2,57 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D821C271648
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 19:22:22 +0200 (CEST)
-Received: from localhost ([::1]:54270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE00C271684
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 20:00:57 +0200 (CEST)
+Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kK32b-0008QF-Tf
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 13:22:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44308)
+	id 1kK3du-0003Su-OG
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 14:00:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kK2yN-00043K-Fy
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 13:18:00 -0400
-Received: from mailout11.t-online.de ([194.25.134.85]:51116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kK2yL-0006HF-SA
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 13:17:59 -0400
-Received: from fwd40.aul.t-online.de (fwd40.aul.t-online.de [172.20.26.139])
- by mailout11.t-online.de (Postfix) with SMTP id 9C2864256C51;
- Sun, 20 Sep 2020 19:17:56 +0200 (CEST)
-Received: from linpower.localnet
- (G-LqO6ZFQhtVJ4wGXZSDSgM57BRmZT9PIPGCSOpjRa-ikfuzLDr7U2cPpbnkf3YQ6z@[93.236.144.216])
- by fwd40.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1kK2yF-3uB8XQ0; Sun, 20 Sep 2020 19:17:51 +0200
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 07EFC33550C; Sun, 20 Sep 2020 19:17:30 +0200 (CEST)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 9/9] audio: revert tests for pcm_ops table
-Date: Sun, 20 Sep 2020 19:17:29 +0200
-Message-Id: <20200920171729.15861-9-vr_qemu@t-online.de>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kK3bc-0001tE-25; Sun, 20 Sep 2020 13:58:32 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46115)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kK3ba-0002zz-Bj; Sun, 20 Sep 2020 13:58:31 -0400
+Received: by mail-wr1-x443.google.com with SMTP id o5so10418617wrn.13;
+ Sun, 20 Sep 2020 10:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/VdMmIK1mFI+lDfNuHVDrs8UFSjcbDwK40S9cUUzWDc=;
+ b=QRJIXjimYc9U2s41ONtTcXuiMRx+V6+rtPb0+muIpJIPYdSGU4oKuHx5h6fdNgaMLq
+ J/+ajSX3AgjLaRo6CwLywBK9/Np3Z14K6yZpD3czkcz3CQQUUezBnQG2E9qnZL//pD9q
+ /JcS6VEf/DZ8vL/hdhzumbznWxDcXxk6n6Dg0AG8yqfncVE7wgtBzwLUv4CfieeRpjSt
+ /l0bOl0RPot5T12wJyfKPOYTRIf0qLsZ3KdYvSZqDSy7dDlgKPc2W+QyyyavmB1lpzdN
+ 8jnFy4iD0oXIs7uP2QUZArJCcqRy9mlrq2MAZ7uIbHHshtIfhbqw+flniQjOsjorDz+9
+ 7LDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=/VdMmIK1mFI+lDfNuHVDrs8UFSjcbDwK40S9cUUzWDc=;
+ b=DFu0BTv9ixg1/UxzrCf60egopt8INfWzK3pKmhEUuQp9Pv3ncPJ/5tNuJ8ceD0eUlI
+ +qBtrtU07K8OajReX9cjdri+jKN5RwrIFDS0h4oE6KM972hK68162DCsBBolm9XvOaQw
+ z8FlJzkOiMzPWHZa2nzYqmCucaO5c1RLUpuzkho5LbapcPGwa+q3lEVBeHtQyRwZpc3T
+ /uHKb8939KyTPo6O6NZkGLlhAeA4J5LPPbMpmdy7iYYv5sQztHhiUEQ1N/0G/MmlhI46
+ wwP2J1OMxulTo7hNrjpZuDTTKt572lOURW9UEhj03Ln7mMhk2x+/0kzDNkzhMug6FptJ
+ 8f1g==
+X-Gm-Message-State: AOAM533KsaC2+F0dZdxPRfyS6Bk5QitsHq2dP/9EWgT/DN8kg66ixGqt
+ k+MEz6CFcybdexX0fIlvjHinmivg4Tw=
+X-Google-Smtp-Source: ABdhPJzyA4BPXa0TcPAvvf3B4Qlqe5FZqYcC8NaakD7BsM0nFSBE3kqTlepYlcUpVP7xYZPETxKhrA==
+X-Received: by 2002:a5d:574e:: with SMTP id q14mr46669203wrw.281.1600624707731; 
+ Sun, 20 Sep 2020 10:58:27 -0700 (PDT)
+Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id u66sm15675781wme.12.2020.09.20.10.58.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Sep 2020 10:58:26 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] hw/arm/raspi: Fix SYS_timer on Linux + misc changes
+Date: Sun, 20 Sep 2020 19:58:18 +0200
+Message-Id: <20200920175825.417680-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <84f1c61a-8399-c75e-96c2-febfc2dd5fab@t-online.de>
-References: <84f1c61a-8399-c75e-96c2-febfc2dd5fab@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ID: G-LqO6ZFQhtVJ4wGXZSDSgM57BRmZT9PIPGCSOpjRa-ikfuzLDr7U2cPpbnkf3YQ6z
-X-TOI-EXPURGATEID: 150726::1600622271-00001797-BE7FCD5B/0/0 CLEAN NORMAL
-X-TOI-MSGID: fb6186ab-3716-4ad8-81f2-02470f0e43e6
-Received-SPF: none client-ip=194.25.134.85;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 13:17:31
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,43 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?q?Zolt=C3=A1n=20K=C5=91v=C3=A1g=C3=B3?= <dirty.ice.hu@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With previous commit every audio backend has a pcm_ops function
-table. It's no longer necessary to test if the table is
-available. This reverts commit cbaf25d1f5: "audio: fix
-wavcapture segfault"
+In this series we implement the COMPARE registers of the
+SYS_timer, since they are used by Linux.
 
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- audio/audio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This fixes the hang reported by Niek here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg682090.html
 
-diff --git a/audio/audio.c b/audio/audio.c
-index b908e041dd..f63781b4db 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -649,7 +649,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-         total += isamp;
-     }
- 
--    if (hw->pcm_ops && !hw->pcm_ops->volume_in) {
-+    if (!hw->pcm_ops->volume_in) {
-         mixeng_volume (sw->buf, ret, &sw->vol);
-     }
- 
-@@ -743,7 +743,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-     if (samples) {
-         sw->conv(sw->buf, buf, samples);
- 
--        if (sw->hw->pcm_ops && !sw->hw->pcm_ops->volume_out) {
-+        if (!sw->hw->pcm_ops->volume_out) {
-             mixeng_volume(sw->buf, samples, &sw->vol);
-         }
-     }
+Few trivial patches used while working on this added.
+
+Philippe Mathieu-Daudé (7):
+  hw/arm/raspi: Define various blocks base addresses
+  hw/arm/bcm2835: Add more unimplemented peripherals
+  hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
+  hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT definition
+  hw/timer/bcm2835: Rename variable holding CTRL_STATUS register
+  hw/timer/bcm2835: Support the timer COMPARE registers
+  hw/arm/bcm2835_peripherals: Correctly wire the SYS_timer IRQs
+
+ include/hw/arm/bcm2835_peripherals.h |  2 ++
+ include/hw/arm/raspi_platform.h      | 51 +++++++++++++++++++++++-----
+ include/hw/timer/bcm2835_systmr.h    | 17 +++++++---
+ hw/arm/bcm2835_peripherals.c         | 15 ++++++--
+ hw/intc/bcm2835_ic.c                 |  4 ++-
+ hw/timer/bcm2835_systmr.c            | 50 ++++++++++++++++-----------
+ hw/intc/trace-events                 |  4 +++
+ hw/timer/trace-events                |  4 ++-
+ 8 files changed, 111 insertions(+), 36 deletions(-)
+
 -- 
 2.26.2
 
