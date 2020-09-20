@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980512712E0
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 10:25:15 +0200 (CEST)
-Received: from localhost ([::1]:42128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C172712DF
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 10:24:26 +0200 (CEST)
+Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJueo-00017e-NT
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 04:25:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46086)
+	id 1kJue1-0008F7-6C
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 04:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kJuag-0003ch-2d; Sun, 20 Sep 2020 04:20:58 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56566
+ id 1kJual-0003pj-16; Sun, 20 Sep 2020 04:21:03 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56576
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kJuae-0003uy-5x; Sun, 20 Sep 2020 04:20:57 -0400
+ id 1kJuaj-0003vI-Ah; Sun, 20 Sep 2020 04:21:02 -0400
 Received: from host81-154-161-117.range81-154.btcentralplus.com
  ([81.154.161.117] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kJubA-0006Dn-Kp; Sun, 20 Sep 2020 09:21:33 +0100
+ id 1kJubF-0006Dn-IG; Sun, 20 Sep 2020 09:21:38 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: armbru@redhat.com, david@gibson.dropbear.id.au, atar4qemu@gmail.com,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Sun, 20 Sep 2020 09:20:17 +0100
-Message-Id: <20200920082018.16135-6-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 20 Sep 2020 09:20:18 +0100
+Message-Id: <20200920082018.16135-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
 References: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 81.154.161.117
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 5/6] macio: don't reference serial_hd() directly within the
- device
+Subject: [PATCH 6/6] sabre: don't call sysbus_mmio_map() in sabre_realize()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,90 +64,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead use qdev_prop_set_chr() to configure the ESCC serial chardevs at the
-Mac Old World and New World machine level.
-
-Also remove the now obsolete comment referring to the use of serial_hd() and
-change user_createable to true accordingly.
+The device should not map itself but instead should be mapped to sysbus by the
+sun4u machine.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/macio.c | 5 +----
- hw/ppc/mac_newworld.c | 6 ++++++
- hw/ppc/mac_oldworld.c | 6 ++++++
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ hw/pci-host/sabre.c | 8 --------
+ hw/sparc64/sun4u.c  | 7 +++++++
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 679722628e..ce641d41fd 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -109,8 +109,6 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
-     qdev_prop_set_uint32(DEVICE(&s->escc), "disabled", 0);
-     qdev_prop_set_uint32(DEVICE(&s->escc), "frequency", ESCC_CLOCK);
-     qdev_prop_set_uint32(DEVICE(&s->escc), "it_shift", 4);
--    qdev_prop_set_chr(DEVICE(&s->escc), "chrA", serial_hd(0));
--    qdev_prop_set_chr(DEVICE(&s->escc), "chrB", serial_hd(1));
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
-     if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
-@@ -458,8 +456,7 @@ static void macio_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_OTHERS << 8;
-     device_class_set_props(dc, macio_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
--    /* Reason: Uses serial_hds in macio_instance_init */
--    dc->user_creatable = false;
-+    dc->user_creatable = true;
- }
+diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
+index 5ac6283623..5394ad5cd0 100644
+--- a/hw/pci-host/sabre.c
++++ b/hw/pci-host/sabre.c
+@@ -378,16 +378,8 @@ static void sabre_realize(DeviceState *dev, Error **errp)
+ {
+     SabreState *s = SABRE(dev);
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(s);
+     PCIDevice *pci_dev;
  
- static const TypeInfo macio_bus_info = {
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index e42bd7a626..e59b30e0a7 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -123,6 +123,7 @@ static void ppc_core99_init(MachineState *machine)
-     UNINHostState *uninorth_pci;
-     PCIBus *pci_bus;
-     PCIDevice *macio;
-+    ESCCState *escc;
-     bool has_pmu, has_adb;
-     MACIOIDEState *macio_ide;
-     BusState *adb_bus;
-@@ -382,6 +383,11 @@ static void ppc_core99_init(MachineState *machine)
-     qdev_prop_set_bit(dev, "has-adb", has_adb);
-     object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
+-    /* sabre_config */
+-    sysbus_mmio_map(sbd, 0, s->special_base);
+-    /* PCI configuration space */
+-    sysbus_mmio_map(sbd, 1, s->special_base + 0x1000000ULL);
+-    /* pci_ioport */
+-    sysbus_mmio_map(sbd, 2, s->special_base + 0x2000000ULL);
+-
+     memory_region_init(&s->pci_mmio, OBJECT(s), "pci-mmio", 0x100000000ULL);
+     memory_region_add_subregion(get_system_memory(), s->mem_base,
+                                 &s->pci_mmio);
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index b4aabfc076..f80ddde5dc 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -592,6 +592,13 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
                               &error_abort);
-+
-+    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
-+    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
-+    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
-+
-     pci_realize_and_unref(macio, pci_bus, &error_fatal);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(sabre), &error_fatal);
  
-     /* We only emulate 2 out of 3 IDE controllers for now */
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 7aba040f1b..25ade63ba3 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -96,6 +96,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     PCIBus *pci_bus;
-     PCIDevice *macio;
-     MACIOIDEState *macio_ide;
-+    ESCCState *escc;
-     SysBusDevice *s;
-     DeviceState *dev, *pic_dev;
-     BusState *adb_bus;
-@@ -283,6 +284,11 @@ static void ppc_heathrow_init(MachineState *machine)
-     qdev_prop_set_uint64(dev, "frequency", tbfreq);
-     object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
-                              &error_abort);
++    /* sabre_config */
++    sysbus_mmio_map(SYS_BUS_DEVICE(sabre), 0, PBM_SPECIAL_BASE);
++    /* PCI configuration space */
++    sysbus_mmio_map(SYS_BUS_DEVICE(sabre), 1, PBM_SPECIAL_BASE + 0x1000000ULL);
++    /* pci_ioport */
++    sysbus_mmio_map(SYS_BUS_DEVICE(sabre), 2, PBM_SPECIAL_BASE + 0x2000000ULL);
 +
-+    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
-+    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
-+    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
-+
-     pci_realize_and_unref(macio, pci_bus, &error_fatal);
- 
-     macio_ide = MACIO_IDE(object_resolve_path_component(OBJECT(macio),
+     /* Wire up PCI interrupts to CPU */
+     for (i = 0; i < IVEC_MAX; i++) {
+         qdev_connect_gpio_out_named(DEVICE(sabre), "ivec-irq", i,
 -- 
 2.20.1
 
