@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E8127132D
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 11:32:45 +0200 (CEST)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE97B271330
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 11:34:38 +0200 (CEST)
+Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJvi8-0000Ic-Gy
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 05:32:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55774)
+	id 1kJvjx-0002vF-UG
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 05:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJvfs-00070E-5y
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 05:30:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59257)
+ id 1kJvft-000724-LG
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 05:30:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJvfp-0002jX-PS
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 05:30:23 -0400
+ id 1kJvfr-0002ko-L1
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 05:30:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600594220;
+ s=mimecast20190719; t=1600594222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zD9jBe1EmwDBcxarRI11aTqgdpuDo9LGHH5SQT5KW94=;
- b=T26mQPt3+nxEAlM65bmJN54Ig7XyVrgN2teMg8s9ccQn7r0NE3XOGjnh3OlAreQ4vofW2g
- NxVHjaYSVf/A5ETYh3cW54utRKDh3YccnO7qGAEn37dNiblZBi1evkWH21O+vfNsc9wfxk
- u08y+Cl3ko85sZGLjI34IxsNbRmYVRk=
+ bh=Ol00XmrU6YOdMCPnPe4jya8crbRvztmmkpbeim6bD/E=;
+ b=Dbe/b8camqZnzoWiwQ6WOuNj3uWUpWhK8pkIXvDR4iNZUQyVyCi4upa7NvnL4WjSfRrSkO
+ tJZ7/zxKs4ZJbASjUxH/JgBNK3OBhVxGQh2hg89Cn25PEto5gU8wyI8LdvWUsJnJbuWkpU
+ miiVp8lSrS9mfA1BS9Tltwfxd0kpCjE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-Gp-Z_fanN96gh_kbumXb9Q-1; Sun, 20 Sep 2020 05:30:18 -0400
-X-MC-Unique: Gp-Z_fanN96gh_kbumXb9Q-1
+ us-mta-366-WuII_KLHPTWw0Vpj3JltAQ-1; Sun, 20 Sep 2020 05:30:18 -0400
+X-MC-Unique: WuII_KLHPTWw0Vpj3JltAQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9F7710066FF
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEAB8186DD55
  for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 09:30:17 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E13D1002C04
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD11B10027AA
  for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 09:30:17 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] configure: cleanup invocation of submodule Make
-Date: Sun, 20 Sep 2020 05:30:13 -0400
-Message-Id: <20200920093016.1150346-2-pbonzini@redhat.com>
+Subject: [PATCH 2/4] configure: cleanup CFLAGS and LDFLAGS for submodules
+Date: Sun, 20 Sep 2020 05:30:14 -0400
+Message-Id: <20200920093016.1150346-3-pbonzini@redhat.com>
 In-Reply-To: <20200920093016.1150346-1-pbonzini@redhat.com>
 References: <20200920093016.1150346-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 03:58:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 02:12:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -68,8 +68,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.996,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,79 +84,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move common command line options to SUBDIR_MAKEFLAGS, thus simplifying
-the rules themselves.
+The -g and -O2 flags that configure adds to CFLAGS are only used by submodules,
+so do not put anymore the confusing CFLAGS variable in config-host.mak and
+replace it with more explicit SUBMODULE_CFLAGS variable.
+
+There was also no equivalent SUBMODULE_LDFLAGS variable, add it.  This would
+theoretically help with LTO if we want -g and -O2 options on the command line.
+I say "theoretically" because submodules should not be linking anything; but
+since we were passing an "LD" variable we might as well get its flags right.
+
+CFLAGS are now synthesized in the configuration summary as a quick way to present
+--enable-debug and --enable-debug-info.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ Makefile    |  3 +--
+ configure   | 13 +++++++++----
+ meson.build |  3 ++-
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 897246d77c..57fb63832f 100644
+index 57fb63832f..3367ca520c 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -137,7 +137,12 @@ configure: ;
+@@ -137,11 +137,10 @@ configure: ;
  .PHONY: all clean distclean install \
  	recurse-all dist msi FORCE
  
--SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory --quiet)
-+SUBMODULE_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS)
-+SUBDIR_MAKEFLAGS = $(if $(V),,--no-print-directory --quiet)		\
-+	PKG_CONFIG="$(PKG_CONFIG)" 					\
-+	CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)"		\
-+	CFLAGS="$(SUBMODULE_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)"		\
-+	ARFLAGS="$(ARFLAGS)"
+-SUBMODULE_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS)
+ SUBDIR_MAKEFLAGS = $(if $(V),,--no-print-directory --quiet)		\
+ 	PKG_CONFIG="$(PKG_CONFIG)" 					\
+ 	CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)"		\
+-	CFLAGS="$(SUBMODULE_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)"		\
++	CFLAGS="$(SUBMODULE_CFLAGS)" LDFLAGS="$(SUBMODULE_LDFLAGS)"	\
+ 	ARFLAGS="$(ARFLAGS)"
  
  include $(SRC_PATH)/tests/Makefile.include
+diff --git a/configure b/configure
+index ffc28e392f..5fabc77fb3 100755
+--- a/configure
++++ b/configure
+@@ -6108,12 +6108,16 @@ elif test "$fortify_source" = "yes" ; then
+   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
+   debug=no
+ fi
++
++SUBMODULE_CFLAGS=-Wall
++SUBMODULE_LDFLAGS=
+ if test "$debug_info" = "yes"; then
+-  CFLAGS="-g $CFLAGS"
+-  LDFLAGS="-g $LDFLAGS"
++  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -g"
++  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -g"
+ fi
+ if test "$debug" = "no"; then
+-  CFLAGS="-O2 $CFLAGS"
++  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -O2"
++  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -O2"
+ fi
  
-@@ -146,12 +151,12 @@ Makefile: $(addsuffix /all, $(SUBDIRS))
- 
- # LIBFDT_lib="": avoid breaking existing trees with objects requiring -fPIC
- DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_lib=""
--DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
- DTC_CPPFLAGS=-I$(SRC_PATH)/dtc/libfdt
- 
- .PHONY: dtc/all
- dtc/all: .git-submodule-status dtc/libfdt
--	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt,)
-+	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS)			\
-+            CPPFLAGS="$(DTC_CPPFLAGS)" $(SUBDIR_MAKEFLAGS) libfdt,)
- 
- dtc/%: .git-submodule-status
- 	@mkdir -p $@
-@@ -161,7 +166,7 @@ dtc/%: .git-submodule-status
- # Therefore we replicate some of the logic in the sub-makefile.
- # Remove all the extra -Warning flags that QEMU uses that Capstone doesn't;
- # no need to annoy QEMU developers with such things.
--CAP_CFLAGS = $(patsubst -W%,,$(CFLAGS) $(QEMU_CFLAGS)) $(CAPSTONE_CFLAGS)
-+CAP_CFLAGS := $(patsubst -W%,,$(SUBMODULE_CFLAGS)) $(CAPSTONE_CFLAGS)
- CAP_CFLAGS += -DCAPSTONE_USE_SYS_DYN_MEM
- CAP_CFLAGS += -DCAPSTONE_HAS_ARM
- CAP_CFLAGS += -DCAPSTONE_HAS_ARM64
-@@ -169,16 +174,17 @@ CAP_CFLAGS += -DCAPSTONE_HAS_POWERPC
- CAP_CFLAGS += -DCAPSTONE_HAS_X86
- 
- .PHONY: capstone/all
-+capstone/all: SUBMODULE_CFLAGS = $(CAP_CFLAGS)
- capstone/all: .git-submodule-status
--	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/capstone CAPSTONE_SHARED=no BUILDDIR="$(BUILD_DIR)/capstone" CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)" CFLAGS="$(CAP_CFLAGS)" $(SUBDIR_MAKEFLAGS) $(BUILD_DIR)/capstone/$(LIBCAPSTONE))
-+	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/capstone 		\
-+            CAPSTONE_SHARED=no BUILDDIR="$(BUILD_DIR)/capstone" 	\
-+            $(SUBDIR_MAKEFLAGS) $(BUILD_DIR)/capstone/$(LIBCAPSTONE))
- 
- .PHONY: slirp/all
- slirp/all: .git-submodule-status
- 	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp		\
--		BUILD_DIR="$(BUILD_DIR)/slirp" 			\
--		PKG_CONFIG="$(PKG_CONFIG)" 				\
--		CC="$(CC)" AR="$(AR)" 	LD="$(LD)" RANLIB="$(RANLIB)"	\
--		CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)")
-+		BUILD_DIR="$(BUILD_DIR)/slirp" 				\
-+		$(SUBDIR_MAKEFLAGS))
- 
- ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
- ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+ case "$ARCH" in
+@@ -7288,7 +7292,8 @@ echo "RANLIB=$ranlib" >> $config_host_mak
+ echo "NM=$nm" >> $config_host_mak
+ echo "PKG_CONFIG=$pkg_config_exe" >> $config_host_mak
+ echo "WINDRES=$windres" >> $config_host_mak
+-echo "CFLAGS=$CFLAGS" >> $config_host_mak
++echo "SUBMODULE_CFLAGS=$CFLAGS \$(QEMU_CFLAGS) $SUBMODULE_CFLAGS" >> $config_host_mak
++echo "SUBMODULE_LDFLAGS=$LDFLAGS \$(QEMU_LDFLAGS) $SUBMODULE_LDFLAGS" >> $config_host_mak
+ echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
+ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 1b1cde8725..1099f2a87c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1476,7 +1476,8 @@ if targetos == 'darwin'
+   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
+ endif
+ summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
+-summary_info += {'CFLAGS':            config_host['CFLAGS']}
++summary_info += {'CFLAGS':            '-O' + get_option('optimization')
++                                           + (get_option('debug') ? ' -g' : '')}
+ summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
+ summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+ summary_info += {'make':              config_host['MAKE']}
 -- 
 2.26.2
 
