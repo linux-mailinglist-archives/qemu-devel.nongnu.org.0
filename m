@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C827169B
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 20:06:54 +0200 (CEST)
-Received: from localhost ([::1]:35290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A7B271687
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 20:02:31 +0200 (CEST)
+Received: from localhost ([::1]:53072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kK3jh-0001RL-Kd
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 14:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
+	id 1kK3fS-0005W8-6L
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 14:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kK3bj-0001xg-UN; Sun, 20 Sep 2020 13:58:40 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kK3bi-00031X-HP; Sun, 20 Sep 2020 13:58:39 -0400
-Received: by mail-wr1-x442.google.com with SMTP id z1so10451821wrt.3;
- Sun, 20 Sep 2020 10:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1xZK1vadig9h9dP7jrIfkZesoIogtY0XRXYELyLBf2M=;
- b=U0PK9Eik3JEvu0Sum1qSEdY4uHVbNBMFh9FnCQbiFUIgbVQfR2DoRTPxDOCYKBSEnw
- k8AkxkWBAiSTC9AKlEEFmhwwdxU/hxnykVbmd+q/52OPW1nuhd/Q116cPu8gxJxcDeOC
- MsBfa14wpz74rSFOLk5uD1JuQXz37PPCxYZF5dMHG1+Kuxm+n3xex4W3JT88IpylEZs+
- IikRLob4iz4H7HbKsYpgmLVde4rq5N6sF8WJIy1EAJi/Xds1HVQllCuzY60F6iDpxLox
- PnKN9kJ57t/friTdyywiZZqNCEa0HhjHIhxiR05pa7/rNaBwSdqydsAC7rTIRmMOF1Jn
- +0RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1xZK1vadig9h9dP7jrIfkZesoIogtY0XRXYELyLBf2M=;
- b=HBEgr9RdKK1YotlTkBh0UPI+BujreYzAqrGmorfi2HvR8r7gkgA0BoFEXfXcbInDyR
- lWqsjs8qq/YFxRMdxg9d/+Zd96VYNrN8GEA/vfFY/B3ZGfvxfEVeUT7IiQ5ERdoF5Q04
- db7WKHM7Uqdf/bW75X2TEKBG3CEYkVmYiQeT4O11c53PMHbh9NzqkN8BVm55tHQUQGyf
- TsbOtSIf6sTCWkonb5tUJIW4KgBqiqPLxBQrJB5VQTI3M5ES6pUAYoxG0a2LSgkFMVBF
- naJSjnAkLRtHoXYuoOUHjF0sIlw4TH0KWTOKFhZDAFfnVEC4ZIHLB5lg/2aNXfUXYpBA
- K5OA==
-X-Gm-Message-State: AOAM53172siuuaYiEaZbcfBWTVDtSdoUL2JLObxEiNga/AKy2rR28Wg3
- QsZ0g621TsdBb+K56ru45coSZNRy4PI=
-X-Google-Smtp-Source: ABdhPJwvPUpT893V2jMyyuv+t4itMljSkWTehXE8WAQqLoahv8TFm0MNZCnJR7ExWJlXV0eqspoZdw==
-X-Received: by 2002:adf:f2d0:: with SMTP id d16mr46647540wrp.332.1600624716675; 
- Sun, 20 Sep 2020 10:58:36 -0700 (PDT)
-Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u66sm15675781wme.12.2020.09.20.10.58.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Sep 2020 10:58:36 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] hw/arm/bcm2835_peripherals: Correctly wire the SYS_timer
- IRQs
-Date: Sun, 20 Sep 2020 19:58:25 +0200
-Message-Id: <20200920175825.417680-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200920175825.417680-1-f4bug@amsat.org>
-References: <20200920175825.417680-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kK3co-0003ki-0x; Sun, 20 Sep 2020 13:59:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57014
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kK3ck-000364-Qv; Sun, 20 Sep 2020 13:59:45 -0400
+Received: from host81-154-161-117.range81-154.btcentralplus.com
+ ([81.154.161.117] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kK3dA-0000Zr-1T; Sun, 20 Sep 2020 19:00:13 +0100
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
+ <20200920082018.16135-6-mark.cave-ayland@ilande.co.uk>
+ <c16922ec-9bd1-b990-23a2-ddc73abaeea@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <3a9fbaa9-6cf9-769d-730b-54e77b9929fc@ilande.co.uk>
+Date: Sun, 20 Sep 2020 18:59:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <c16922ec-9bd1-b990-23a2-ddc73abaeea@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-SA-Exim-Connect-IP: 81.154.161.117
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 5/6] macio: don't reference serial_hd() directly within
+ the device
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,49 +90,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Luc Michel <luc.michel@greensocs.com>
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ atar4qemu@gmail.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SYS_timer is not directly wired to the ARM core, but to the
-SoC interrupt controller.
+On 20/09/2020 11:52, BALATON Zoltan via wrote:
 
-Fixes: 0e5bbd74064 ("hw/arm/bcm2835_peripherals: Use the SYS_timer")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/bcm2835_peripherals.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+> On Sun, 20 Sep 2020, Mark Cave-Ayland wrote:
+>> Instead use qdev_prop_set_chr() to configure the ESCC serial chardevs at the
+>> Mac Old World and New World machine level.
+>>
+>> Also remove the now obsolete comment referring to the use of serial_hd() and
+>> change user_createable to true accordingly.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>> hw/misc/macio/macio.c | 5 +----
+>> hw/ppc/mac_newworld.c | 6 ++++++
+>> hw/ppc/mac_oldworld.c | 6 ++++++
+>> 3 files changed, 13 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+>> index 679722628e..ce641d41fd 100644
+>> --- a/hw/misc/macio/macio.c
+>> +++ b/hw/misc/macio/macio.c
+>> @@ -109,8 +109,6 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
+>>     qdev_prop_set_uint32(DEVICE(&s->escc), "disabled", 0);
+>>     qdev_prop_set_uint32(DEVICE(&s->escc), "frequency", ESCC_CLOCK);
+>>     qdev_prop_set_uint32(DEVICE(&s->escc), "it_shift", 4);
+>> -    qdev_prop_set_chr(DEVICE(&s->escc), "chrA", serial_hd(0));
+>> -    qdev_prop_set_chr(DEVICE(&s->escc), "chrB", serial_hd(1));
+>>     qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
+>>     qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
+>>     if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
+>> @@ -458,8 +456,7 @@ static void macio_class_init(ObjectClass *klass, void *data)
+>>     k->class_id = PCI_CLASS_OTHERS << 8;
+>>     device_class_set_props(dc, macio_properties);
+>>     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>> -    /* Reason: Uses serial_hds in macio_instance_init */
+>> -    dc->user_creatable = false;
+>> +    dc->user_creatable = true;
+> 
+> According to a comment in
+> 
+> https://git.qemu.org/?p=qemu.git;a=blob;f=hw/core/qdev.c;h=96772a15bd5b76d3ebe27d45ed1f2c1beb7f5386;hb=HEAD#l1135
+> 
+> user_creatable = true is the default and most devices don't set it explicitely so I
+> think you can just remove the line setting it here.
+> 
+> Regards,
+> BALATON Zoltan
 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 4e6c678aa99..d1a1ff0676e 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -171,8 +171,17 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->peri_mr, ST_OFFSET,
-                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systmr), 0));
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 0,
--        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
--                               INTERRUPT_ARM_TIMER));
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER0));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 1,
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER1));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 2,
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER2));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 3,
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER3));
- 
-     /* UART0 */
-     qdev_prop_set_chr(DEVICE(&s->uart0), "chardev", serial_hd(0));
--- 
-2.26.2
+Ah yes indeed, thanks for the reference. I'll see if anyone else has any further
+comments on the series before posting an updated v2 with this line removed.
 
+
+ATB,
+
+Mark.
 
