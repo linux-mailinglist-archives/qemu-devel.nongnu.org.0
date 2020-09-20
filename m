@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B4D2717D9
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 22:28:31 +0200 (CEST)
-Received: from localhost ([::1]:50430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D162717D7
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 22:27:08 +0200 (CEST)
+Received: from localhost ([::1]:47840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kK5wk-0005x5-N0
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 16:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48122)
+	id 1kK5vP-0004q9-7o
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 16:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kK5tB-00047e-9R
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:24:49 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:33354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kK5t9-0003i3-PO
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:24:49 -0400
-Received: by mail-ed1-x544.google.com with SMTP id g4so10947050edk.0
- for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 13:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rhOiwwkQr0OlZH+2tHyW/N6tD+lw91UfEhEdHsa4xqc=;
- b=u6qlmdU0LQ1K1nlXIN1GuHN47/bOfoDi6VaEGE1UqhYi5asynmr85XFVxYaMhG0H8e
- ZxKjefYcTxqAyizSMBjxCbbH0SOFdn2Mw2yzwSvklP5V9WDnvZXZYEYYoJ4/WBmTUJ/X
- mvmhkn0tx8sAIlLRx6t4iNsFif4jcj2fz0p+R6fVVoJCGLpgEokiRt+TdLqg5SSms/6z
- a3Hqz3Hr6qXp7ZFKMi4x3eyGnM0owbOeUiAIGWoCCrVqKraCjVOeJ0LoQoiivKnlAErf
- wilt8ypy+DIXp2o8e16/P6g3WcKBfh3Sa+/OLY39P9ggGtRj/pntEdAGdwhgEd4798te
- UKrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rhOiwwkQr0OlZH+2tHyW/N6tD+lw91UfEhEdHsa4xqc=;
- b=iare9xtDTg8IMsMTTG0+rC0YJIWAdMPKZro/mKq8m+Nw5XSqnYy1HCCNyPzfpVJhGE
- 2Pdv1774wKDd/NBpzaSXI4fHqVrSpYMaER8YmsILNNDYri567kKHszWwC2V1STsiFQkw
- qnZ3AxRaqjoR8KCClOybxsjqmYmW7LcLOjOhCnCldNWXhIQEoKUAerfxYi9faj7ovNuE
- /ecNCTgGWfJNUUsPihpHyvxnmAf8ZUkulvpVqmGp4G3jMUKKpAgyllwRtaraIuJLSJYn
- K4oPhbqRwqy7mqBMkOFyilDN/vVKFRbgFVJ4RnS4bHCzOBvdgFdu0ouC7Q4fLKyOLT2A
- Goug==
-X-Gm-Message-State: AOAM532Qb/rcfjswUaW+JjG1az7D31O3DbpE7g7L/ao4rPQUT0jlaoBc
- mqniUiEc0QATj/w/cQ3RpDHdEn93i3PidGBdDjsXgQ==
-X-Google-Smtp-Source: ABdhPJycmfZe1XTsRcafNb2dy5GkECY6fV8g1AnVtt7tbiluRp+FABYSuF3/oAu7d0H2Th1021+N/QmSs8Rgt4aiKFc=
-X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr48142823edw.251.1600633486211; 
- Sun, 20 Sep 2020 13:24:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kK5tA-00047Y-CX
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:24:48 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:37788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kK5t8-0003hb-HP
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:24:48 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 22:24:38 +0200
+Received: (qmail 61296 invoked from network); 20 Sep 2020 20:24:42 -0000
+Received: from ac34.vpn.kamp-intra.net (HELO ?172.20.250.34?)
+ (pl@kamp.de@::ffff:172.20.250.34)
+ by submission.kamp.de with ESMTPS (AES128-SHA encrypted) ESMTPA;
+ 20 Sep 2020 20:24:42 -0000
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+From: Peter Lieven <pl@kamp.de>
+Subject: Limiting per vCPU Usage
+Message-ID: <68336702-cedc-dc38-3d18-d153cd7652dd@kamp.de>
+Date: Sun, 20 Sep 2020 22:24:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20200908164157.47108-1-liq3ea@163.com>
- <2ea35f00-3388-22b3-6961-169d2b8a55b7@redhat.com>
-In-Reply-To: <2ea35f00-3388-22b3-6961-169d2b8a55b7@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 20 Sep 2020 21:24:35 +0100
-Message-ID: <CAFEAcA-sNwcHQyvQx+kH-G4f6oh=8Uew2+NPbWo2Nv4_pVW9EA@mail.gmail.com>
-Subject: Re: [RFC 0/4] Add a 'in_mmio' device flag to avoid the DMA to MMIO
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 15:03:25
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,33 +58,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Li Qiang <liq3ea@163.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 20 Sep 2020 at 08:56, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 08/09/20 18:41, Li Qiang wrote:
-> > Currently the qemu device fuzzer find some DMA to MMIO issue. If the
-> > device handling MMIO currently trigger a DMA which the address is MMIO,
-> > this will reenter the device MMIO handler. As some of the device doesn't
-> > consider this it will sometimes crash the qemu.
+Hi Qemu folks,
 
-> I don't think this is a good solution.  These are device bugs and they
-> need to be fixed.
 
-Do you have an opinion on what the right approach to fixing them is?
-It seems like a hard problem to me; my brain has been too full of
-cotton wool recently and I haven't felt up to sitting down and
-trying to think through whether there's a clean way to handle the
-reentrancy-into-device-code problem in the general case...
+is there a BCP to limit just the maximum usage of a virtual (KVM) cpu?
 
-thanks
--- PMM
+I know that there are many approaches, but as far as I know they all limit the complete qemu process which is far more
+
+than just the virtual CPUs.
+
+Is it possible to limit just the vCPU threads and leave threads that handle the monitor, vnc, qmp, iothreads, storage backend etc.
+
+unthrottled?
+
+
+Thanks,
+
+Peter
+
+
 
