@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A7B271687
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 20:02:31 +0200 (CEST)
-Received: from localhost ([::1]:53072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABA02716D6
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 20:09:57 +0200 (CEST)
+Received: from localhost ([::1]:40872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kK3fS-0005W8-6L
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 14:02:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51330)
+	id 1kK3me-0003la-9E
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 14:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kK3co-0003ki-0x; Sun, 20 Sep 2020 13:59:46 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57014
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kK3gE-0007Ov-Oy
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 14:03:21 -0400
+Resent-Date: Sun, 20 Sep 2020 14:03:18 -0400
+Resent-Message-Id: <E1kK3gE-0007Ov-Oy@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kK3ck-000364-Qv; Sun, 20 Sep 2020 13:59:45 -0400
-Received: from host81-154-161-117.range81-154.btcentralplus.com
- ([81.154.161.117] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kK3dA-0000Zr-1T; Sun, 20 Sep 2020 19:00:13 +0100
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
- <20200920082018.16135-6-mark.cave-ayland@ilande.co.uk>
- <c16922ec-9bd1-b990-23a2-ddc73abaeea@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <3a9fbaa9-6cf9-769d-730b-54e77b9929fc@ilande.co.uk>
-Date: Sun, 20 Sep 2020 18:59:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kK3gA-0003iV-UQ
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 14:03:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600624984; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=btTk+k3fkocc7En+M5zuAkNRSMQ2x72JXLY2gwl0pswjuee4+4gPQbERAcW+WxjBjr+Mm/tfcbmosloN5g8/b2ohVssgV/XhEu95K5wJnMX4lPuFKRyFUptYh2N4sEwXRGadVA3Hral/0IFaW68+oJ0W40nDW7Nv6XA05sgMEBM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600624984;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=JTK7iI4BtKvu5RQE6CdIzhJTEefQ8bbYusgOF/e27Eo=; 
+ b=MgtlVJQOU95Qh+u1TnW3yqtpoQj++PUvTQ0cB7swKbKWH0+HwbxHJuLM6DoDrjneHIEOLQjXk1LpEZ9eX8bGUZxanh23D5h2OPmoSS4ms7mLB1fzNw8MDJu/4nEXPH+JPzn6y4BOtYlXxNNRsW20L2S7AWB9PnvcGSUIkQXUUbY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600624982573892.0258322654381;
+ Sun, 20 Sep 2020 11:03:02 -0700 (PDT)
+Subject: Re: [PATCH 0/2] vhost-vdpa: add trace functions in vhost-vdpa.c
+Message-ID: <160062498079.23907.15017544598835348843@66eaa9a8a123>
+In-Reply-To: <20200920162434.868041-1-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c16922ec-9bd1-b990-23a2-ddc73abaeea@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 81.154.161.117
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 5/6] macio: don't reference serial_hd() directly within
- the device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: lvivier@redhat.com
+Date: Sun, 20 Sep 2020 11:03:02 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 14:03:11
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,63 +69,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- atar4qemu@gmail.com, armbru@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, lulu@redhat.com, mst@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/2020 11:52, BALATON Zoltan via wrote:
-
-> On Sun, 20 Sep 2020, Mark Cave-Ayland wrote:
->> Instead use qdev_prop_set_chr() to configure the ESCC serial chardevs at the
->> Mac Old World and New World machine level.
->>
->> Also remove the now obsolete comment referring to the use of serial_hd() and
->> change user_createable to true accordingly.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->> hw/misc/macio/macio.c | 5 +----
->> hw/ppc/mac_newworld.c | 6 ++++++
->> hw/ppc/mac_oldworld.c | 6 ++++++
->> 3 files changed, 13 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
->> index 679722628e..ce641d41fd 100644
->> --- a/hw/misc/macio/macio.c
->> +++ b/hw/misc/macio/macio.c
->> @@ -109,8 +109,6 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
->>     qdev_prop_set_uint32(DEVICE(&s->escc), "disabled", 0);
->>     qdev_prop_set_uint32(DEVICE(&s->escc), "frequency", ESCC_CLOCK);
->>     qdev_prop_set_uint32(DEVICE(&s->escc), "it_shift", 4);
->> -    qdev_prop_set_chr(DEVICE(&s->escc), "chrA", serial_hd(0));
->> -    qdev_prop_set_chr(DEVICE(&s->escc), "chrB", serial_hd(1));
->>     qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
->>     qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
->>     if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
->> @@ -458,8 +456,7 @@ static void macio_class_init(ObjectClass *klass, void *data)
->>     k->class_id = PCI_CLASS_OTHERS << 8;
->>     device_class_set_props(dc, macio_properties);
->>     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->> -    /* Reason: Uses serial_hds in macio_instance_init */
->> -    dc->user_creatable = false;
->> +    dc->user_creatable = true;
-> 
-> According to a comment in
-> 
-> https://git.qemu.org/?p=qemu.git;a=blob;f=hw/core/qdev.c;h=96772a15bd5b76d3ebe27d45ed1f2c1beb7f5386;hb=HEAD#l1135
-> 
-> user_creatable = true is the default and most devices don't set it explicitely so I
-> think you can just remove the line setting it here.
-> 
-> Regards,
-> BALATON Zoltan
-
-Ah yes indeed, thanks for the reference. I'll see if anyone else has any further
-comments on the series before posting an updated v2 with this line removed.
-
-
-ATB,
-
-Mark.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyMDE2MjQzNC44Njgw
+NDEtMS1sdml2aWVyQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMDkyMDE2MjQzNC44Njgw
+NDEtMS1sdml2aWVyQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIDAvMl0gdmhvc3QtdmRwYTog
+YWRkIHRyYWNlIGZ1bmN0aW9ucyBpbiB2aG9zdC12ZHBhLmMKCj09PSBURVNUIFNDUklQVCBCRUdJ
+TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
+MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
+dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
+IFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJk
+ODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAq
+IFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDA5MjAxNzU4MjUuNDE3NjgwLTEtZjRidWdA
+YW1zYXQub3JnIC0+IHBhdGNoZXcvMjAyMDA5MjAxNzU4MjUuNDE3NjgwLTEtZjRidWdAYW1zYXQu
+b3JnCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvODRmMWM2MWEtODM5OS1jNzVlLTk2YzIt
+ZmViZmMyZGQ1ZmFiQHQtb25saW5lLmRlIC0+IHBhdGNoZXcvODRmMWM2MWEtODM5OS1jNzVlLTk2
+YzItZmViZmMyZGQ1ZmFiQHQtb25saW5lLmRlClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVz
+dCcKMDhkMTAwMiB2aG9zdC12ZHBhOiBhZGQgdHJhY2UtZXZlbnRzCjdhYzZiMTEgdXRpbC9oZXhk
+dW1wOiBpbnRyb2R1Y2UgcWVtdV9oZXhkdW1wX2xpbmUoKQoKPT09IE9VVFBVVCBCRUdJTiA9PT0K
+MS8yIENoZWNraW5nIGNvbW1pdCA3YWM2YjExOTE5NTkgKHV0aWwvaGV4ZHVtcDogaW50cm9kdWNl
+IHFlbXVfaGV4ZHVtcF9saW5lKCkpCjIvMiBDaGVja2luZyBjb21taXQgMDhkMTAwMjU0YzhiICh2
+aG9zdC12ZHBhOiBhZGQgdHJhY2UtZXZlbnRzKQpFUlJPUjogSGV4IG51bWJlcnMgbXVzdCBiZSBw
+cmVmaXhlZCB3aXRoICcweCcKIzI5OiBGSUxFOiBody92aXJ0aW8vdHJhY2UtZXZlbnRzOjMyOgor
+dmhvc3RfdmRwYV9zZXRfbWVtX3RhYmxlKHZvaWQgKmRldiwgdWludDMyX3QgbnJlZ2lvbnMsIHVp
+bnQzMl90IHBhZGRpbmcpICJkZXY6ICVwIG5yZWdpb25zOiAlIlBSSXUzMiIgcGFkZGluZzogJSJQ
+Ukl4MzIKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzEyNjogRklM
+RTogaHcvdmlydGlvL3Zob3N0LXZkcGEuYzoyNzU6CiteSWZvciAoaSA9IDA7IGkgPCBtZW0tPm5y
+ZWdpb25zOyBpKyspIHskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJz
+CiMxOTQ6IEZJTEU6IGh3L3ZpcnRpby92aG9zdC12ZHBhLmM6MzU1OgorXklxZW11X2hleGR1bXBf
+bGluZShsaW5lLCBiLCBjb25maWcsIGxlbiwgZmFsc2UpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBz
+aG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE5NTogRklMRTogaHcvdmlydGlvL3Zob3N0LXZkcGEuYzoz
+NTY6CiteSXRyYWNlX3Zob3N0X3ZkcGFfZHVtcF9jb25maWcoZGV2LCBsaW5lKTskCgpFUlJPUjog
+Y29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMyMTY6IEZJTEU6IGh3L3ZpcnRpby92
+aG9zdC12ZHBhLmM6Mzc3OgorXkl2aG9zdF92ZHBhX2R1bXBfY29uZmlnKGRldiwgZGF0YSwgc2l6
+ZSk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMjM1OiBGSUxF
+OiBody92aXJ0aW8vdmhvc3QtdmRwYS5jOjQwMzoKK15Jdmhvc3RfdmRwYV9kdW1wX2NvbmZpZyhk
+ZXYsIGNvbmZpZywgY29uZmlnX2xlbik7JAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
+cnMKIzI1MTogRklMRTogaHcvdmlydGlvL3Zob3N0LXZkcGEuYzo0MzM6CisgICAgdHJhY2Vfdmhv
+c3RfdmRwYV9zZXRfbG9nX2Jhc2UoZGV2LCBiYXNlLCBsb2ctPnNpemUsIGxvZy0+cmVmY250LCBs
+b2ctPmZkLCBsb2ctPmxvZyk7Cgp0b3RhbDogNiBlcnJvcnMsIDEgd2FybmluZ3MsIDI5MSBsaW5l
+cyBjaGVja2VkCgpQYXRjaCAyLzIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQ
+VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
+b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwOTIwMTYyNDM0
+Ljg2ODA0MS0xLWx2aXZpZXJAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVz
+c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
+Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
+dmVsQHJlZGhhdC5jb20=
 
