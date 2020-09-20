@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53EB271483
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 15:26:54 +0200 (CEST)
-Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0E827148E
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 15:28:34 +0200 (CEST)
+Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJzMj-0005I1-8o
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 09:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34570)
+	id 1kJzOL-00089r-Qd
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 09:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1kJzLb-00044Z-Qx
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:25:43 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:44286)
+ id 1kJzLs-0004N2-Rx
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:26:00 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:44406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1kJzLX-00037p-Ul
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:25:43 -0400
+ id 1kJzLq-0003IU-Kj
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:26:00 -0400
 Received: from MUA
  by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
  (Exim 4.93.0.4) (envelope-from <mail@maciej.szmigiero.name>)
- id 1kJzLM-00087M-DX; Sun, 20 Sep 2020 15:25:28 +0200
+ id 1kJzLR-00087P-Of; Sun, 20 Sep 2020 15:25:33 +0200
 From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: [PATCH] pc-dimm: remove unnecessary get_vmstate_memory_region() method
-Date: Sun, 20 Sep 2020 15:25:18 +0200
-Message-Id: <9476ea5c7dc758b9b083a232eeb8d9b380b5e138.1600556464.git.maciej.szmigiero@oracle.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH 0/3] Hyper-V Dynamic Memory Protocol driver (hv-balloon)
+Date: Sun, 20 Sep 2020 15:25:19 +0200
+Message-Id: <cover.1600556526.git.maciej.szmigiero@oracle.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -52,122 +53,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
 
-The get_vmstate_memory_region() method from PCDIMMDeviceClass is only
-ever called from this class and is never overridden, so it can be converted
-into an ordinary function.
+This series adds a Hyper-V Dynamic Memory Protocol driver (hv-balloon)
+and its protocol definitions.
+Also included is a driver providing backing devices for memory hot-add
+protocols ("haprots").
 
-Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
----
- hw/mem/pc-dimm.c         | 33 ++++++++++++++-------------------
- include/hw/mem/pc-dimm.h |  5 -----
- 2 files changed, 14 insertions(+), 24 deletions(-)
+A haprot device works like a virtual DIMM stick: it allows inserting
+extra RAM into the guest at run time.
 
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index c30351070bb8..01c133f3b864 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -34,6 +34,16 @@
- 
- static int pc_dimm_get_free_slot(const int *hint, int max_slots, Error **errp);
- 
-+static MemoryRegion *pc_dimm_get_memory_region(PCDIMMDevice *dimm, Error **errp)
-+{
-+    if (!dimm->hostmem) {
-+        error_setg(errp, "'" PC_DIMM_MEMDEV_PROP "' property must be set");
-+        return NULL;
-+    }
-+
-+    return host_memory_backend_get_memory(dimm->hostmem);
-+}
-+
- void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
-                       const uint64_t *legacy_align, Error **errp)
- {
-@@ -66,9 +76,8 @@ void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
- 
- void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine, Error **errp)
- {
--    PCDIMMDeviceClass *ddc = PC_DIMM_GET_CLASS(dimm);
--    MemoryRegion *vmstate_mr = ddc->get_vmstate_memory_region(dimm,
--                                                              &error_abort);
-+    MemoryRegion *vmstate_mr = pc_dimm_get_memory_region(dimm,
-+                                                         &error_abort);
- 
-     memory_device_plug(MEMORY_DEVICE(dimm), machine);
-     vmstate_register_ram(vmstate_mr, DEVICE(dimm));
-@@ -76,9 +85,8 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine, Error **errp)
- 
- void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
- {
--    PCDIMMDeviceClass *ddc = PC_DIMM_GET_CLASS(dimm);
--    MemoryRegion *vmstate_mr = ddc->get_vmstate_memory_region(dimm,
--                                                              &error_abort);
-+    MemoryRegion *vmstate_mr = pc_dimm_get_memory_region(dimm,
-+                                                         &error_abort);
- 
-     memory_device_unplug(MEMORY_DEVICE(dimm), machine);
-     vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
-@@ -205,16 +213,6 @@ static void pc_dimm_unrealize(DeviceState *dev)
-     host_memory_backend_set_mapped(dimm->hostmem, false);
- }
- 
--static MemoryRegion *pc_dimm_get_memory_region(PCDIMMDevice *dimm, Error **errp)
--{
--    if (!dimm->hostmem) {
--        error_setg(errp, "'" PC_DIMM_MEMDEV_PROP "' property must be set");
--        return NULL;
--    }
--
--    return host_memory_backend_get_memory(dimm->hostmem);
--}
--
- static uint64_t pc_dimm_md_get_addr(const MemoryDeviceState *md)
- {
-     return object_property_get_uint(OBJECT(md), PC_DIMM_ADDR_PROP,
-@@ -266,7 +264,6 @@ static void pc_dimm_md_fill_device_info(const MemoryDeviceState *md,
- static void pc_dimm_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
--    PCDIMMDeviceClass *ddc = PC_DIMM_CLASS(oc);
-     MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
- 
-     dc->realize = pc_dimm_realize;
-@@ -274,8 +271,6 @@ static void pc_dimm_class_init(ObjectClass *oc, void *data)
-     device_class_set_props(dc, pc_dimm_properties);
-     dc->desc = "DIMM memory module";
- 
--    ddc->get_vmstate_memory_region = pc_dimm_get_memory_region;
--
-     mdc->get_addr = pc_dimm_md_get_addr;
-     mdc->set_addr = pc_dimm_md_set_addr;
-     /* for a dimm plugged_size == region_size */
-diff --git a/include/hw/mem/pc-dimm.h b/include/hw/mem/pc-dimm.h
-index 1d570defc95b..6874d34943f8 100644
---- a/include/hw/mem/pc-dimm.h
-+++ b/include/hw/mem/pc-dimm.h
-@@ -56,9 +56,6 @@ struct PCDIMMDevice {
-  * PCDIMMDeviceClass:
-  * @realize: called after common dimm is realized so that the dimm based
-  * devices get the chance to do specified operations.
-- * @get_vmstate_memory_region: returns #MemoryRegion which indicates the
-- * memory of @dimm should be kept during live migration. Will not fail
-- * after the device was realized.
-  */
- struct PCDIMMDeviceClass {
-     /* private */
-@@ -66,8 +63,6 @@ struct PCDIMMDeviceClass {
- 
-     /* public */
-     void (*realize)(PCDIMMDevice *dimm, Error **errp);
--    MemoryRegion *(*get_vmstate_memory_region)(PCDIMMDevice *dimm,
--                                               Error **errp);
- };
- 
- void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
+The main differences from the ACPI-based PC DIMM hotplug are:
+* Notifying the guest about the new memory range is not done via ACPI but
+via a protocol handler that registers with the haprot framework.
+This means that the ACPI DIMM slot limit does not apply.
+
+* A protocol handler can prevent removal of a haprot device when it is
+still in use by setting its "busy" field.
+
+* A protocol handler can also register an "unplug" callback so it gets
+notified when an user decides to remove the haprot device.
+This way the protocol handler can inform the guest about this fact and / or
+do its own cleanup.
+
+The hv-balloon driver is like virtio-balloon on steroids: it allows both
+changing the guest memory allocation via ballooning and inserting extra
+RAM into it by adding haprot virtual DIMM sticks.
+One of advantages of these over ACPI-based PC DIMM hotplug is that such
+memory can be hotplugged in much smaller granularity because the ACPI DIMM
+slot limit does not apply.
+
+In contrast with ACPI DIMM hotplug where one can only request to unplug a
+whole DIMM stick this driver allows removing memory from guest in single
+page (4k) units via ballooning.
+Then, once the guest has released the whole memory backed by a haprot
+virtual DIMM stick such device is marked "unused" and can be removed from
+the VM, if one wants so.
+A "HV_BALLOON_HAPROT_UNUSED" QMP event is emitted in this case so the
+software controlling QEMU knows that this operation is now possible.
+
+The haprot devices are also marked unused after a VM reboot (with a
+corresponding "HV_BALLOON_HAPROT_UNUSED" QMP event).
+They are automatically reinserted (if still present) after the guest
+reconnects to this protocol (a "HV_BALLOON_HAPROT_INUSE" QMP event is then
+emitted).
+
+For performance reasons, the guest-released memory is tracked in few range
+trees, as a series of (start, count) ranges.
+Each time a new page range is inserted into such tree its neighbors are
+checked as candidates for possible merging with it.
+
+Besides performance reasons, the Dynamic Memory protocol itself uses page
+ranges as the data structure in its messages, so relevant pages need to be
+merged into such ranges anyway.
+
+One has to be careful when tracking the guest-released pages, since the
+guest can maliciously report returning pages outside its current address
+space, which later clash with the address range of newly added memory.
+Similarly, the guest can report freeing the same page twice.
+
+The above design results in much better ballooning performance than when
+using virtio-balloon with the same guest: 230 GB / minute with this driver
+versus 70 GB / minute with virtio-balloon.
+
+During a ballooning operation most of time is spent waiting for the guest
+to come up with newly freed page ranges, processing the received ranges on
+the host side (in QEMU / KVM) is nearly instantaneous.
+
+The unballoon operation is also pretty much instantaneous:
+thanks to the merging of the ballooned out page ranges 200 GB of memory can
+be returned to the guest in about 1 second.
+With virtio-balloon this operation takes about 2.5 minutes.
+
+These tests were done against a Windows Server 2019 guest running on a
+Xeon E5-2699, after dirtying the whole memory inside guest before each
+balloon operation.
+
+Using a range tree instead of a bitmap to track the removed memory also
+means that the solution scales well with the guest size: even a 1 TB range
+takes just few bytes of memory.
+
+The required GTree operations are available at
+https://gitlab.gnome.org/maciejsszmigiero/glib/-/tree/gtree-add-iterators
+Since they are not yet in the upstream Glib a check for them was added to
+"configure" script, together with new "--enable-hv-balloon" and
+"--disable-hv-balloon" arguments.
+If these GTree operations are missing in the system Glib this driver will
+be skipped during QEMU build.
+
+An optional "status-report=on" device parameter requests memory status
+events from the guest (typically sent every second), which allow the host
+to learn both the guest memory available and the guest memory in use
+counts.
+They are emitted externally as "HV_BALLOON_STATUS_REPORT" QMP events.
+
+The driver is named hv-balloon since the Linux kernel client driver for
+the Dynamic Memory Protocol is named as such and to follow the naming
+pattern established by the virtio-balloon driver.
+The whole protocol runs over Hyper-V VMBus that has its implementation
+recently merged in.
+
+The driver was tested against Windows Server 2012 R2, Windows Server 2016
+and Windows Server 2016 guests and obeys the guest alignment requirements
+reported to the host via DM_CAPABILITIES_REPORT message.
+Extensive event tracing is available under 'hv_balloon_*' prefix.
+
+Example usage:
+* Add "-device vmbus-bridge,id=vmbus-bridge -device hv-balloon,id=hvb"
+  to the QEMU command line and set "maxmem" value to something large,
+  like 1T.
+
+* Use QEMU monitor commands to add a haprot virtual DIMM stick, together
+  with its memory backend:
+  object_add memory-backend-ram,id=mem1,size=200G
+  device_add mem-haprot,id=ha1,memdev=mem1
+  The first command is actually the same as for ACPI-based DIMM hotplug.
+
+* Use the ballooning interface monitor commands to force the guest to give
+  out as much memory as possible:
+  balloon 1
+  The ballooning interface monitor commands can also be used to resize
+  the guest up and down appropriately.
+
+* One can check the current guest size by issuing a "info balloon" command.
+  This is useful to know what is happening, since large ballooning or
+  unballooning operations take some time to complete.
+
+* Once the guest releases the whole memory backed by a haprot device
+  (or is restarted) a "HV_BALLOON_HAPROT_UNUSED" QMP event will be
+  generated.
+  The haprot device then can be removed, together with its memory backend:
+  device_del ha1
+  object_del mem1
+
+Future directions:
+* Allow sharing the ballooning QEMU interface between hv-balloon and
+  virtio-balloon drivers.
+  Currently, only one of them can be added to the VM at the same time.
+
+* Allow new haport devices to reuse the same address range as the ones
+  that were previously deleted via device_del monitor command without
+  having to restart the VM.
+
+* Add vmstate / live migration support to the hv-balloon driver.
+
+* Use haprot device to also add memory via virtio interface (this requires
+  defining a new operation in virtio-balloon protocol and appropriate
+  support from the client virtio-balloon driver in the Linux kernel).
+
+ Kconfig.host                     |    3 +
+ configure                        |   35 +
+ hw/hyperv/Kconfig                |    5 +
+ hw/hyperv/hv-balloon.c           | 2172 ++++++++++++++++++++++++++++++
+ hw/hyperv/meson.build            |    1 +
+ hw/hyperv/trace-events           |   17 +
+ hw/i386/Kconfig                  |    2 +
+ hw/i386/pc.c                     |   18 +-
+ hw/mem/Kconfig                   |    4 +
+ hw/mem/haprot.c                  |  263 ++++
+ hw/mem/meson.build               |    1 +
+ include/hw/hyperv/dynmem-proto.h |  425 ++++++
+ include/hw/mem/haprot.h          |   72 +
+ meson.build                      |    2 +
+ qapi/misc.json                   |   74 +
+ 15 files changed, 3093 insertions(+), 1 deletion(-)
+ create mode 100644 hw/hyperv/hv-balloon.c
+ create mode 100644 hw/mem/haprot.c
+ create mode 100644 include/hw/hyperv/dynmem-proto.h
+ create mode 100644 include/hw/mem/haprot.h
+
 
