@@ -2,91 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154E82712D0
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 09:59:28 +0200 (CEST)
-Received: from localhost ([::1]:48210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E032712D4
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 10:22:31 +0200 (CEST)
+Received: from localhost ([::1]:59148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJuFr-0007hK-6D
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 03:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42738)
+	id 1kJucA-00050n-1Z
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 04:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJuEk-0006yg-Dm
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 03:58:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJuEh-0001WN-BV
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 03:58:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600588692;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5GB5/zu05Cq7nBrtEwXVxtUbbylCF5Lq338WruWDUeo=;
- b=J4Lq2TzDiuv5yw1RbKZX86vWlPExi9BzyvB8WWckaVj3MX3xAhX4QZytV3OXiSLaGmF/xD
- l9FOfDlonA/80fIg5zM+vn64waQBbO9sAdvmUTCX+VMMxqgKEH4EZQQaNyiTadxuVaxoJe
- Zv4tKnmKMyCduQ1WBuC7aDNCHpe8WuU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-gZNbgJBvOSi1p2sNrn-D0w-1; Sun, 20 Sep 2020 03:58:09 -0400
-X-MC-Unique: gZNbgJBvOSi1p2sNrn-D0w-1
-Received: by mail-wr1-f69.google.com with SMTP id f18so4334812wrv.19
- for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 00:58:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5GB5/zu05Cq7nBrtEwXVxtUbbylCF5Lq338WruWDUeo=;
- b=jSXEFzOGTSS1b8P8QYzx4XO+iJXkRsSzsIyTa66IfIaa6QI0vgpiGwsfQJKISPuzMN
- 7V2iwtH9ecTX3tp16iIEjnqv0XWwhfo5A5BONJp4kwALOQV9vrUgLqfBXTx/GHAJWdtC
- 1KqUZIb6fQ5sr5MTnytsfbvCy53kycNh6lRPSJ5WGDw4GEd4tDvEbGd6CMOSqX/18gUv
- +BS+LvtZZ7ePJK/MdkjBeAnytvT8sCDwpg8oGSBtGckz7rD30Efq/sn/ot7y6XnZloR6
- y4U0YsUs2dl9xDTUYz4l3ZJ9SGLoueevgtO7cLvb6nQXaNCyDhsPHCLwoTQyvg5Y/Bu8
- WCDw==
-X-Gm-Message-State: AOAM531mSR6VApqmWQ9Jui0K+wmKWc187k9yi7/CTtxHQFhGQSFwYucx
- qgHVarhr/Rd0hWbqRx9r+lLM4Z/nMkdg/sMuqWRhSBbSffiSofkvNDi392mTba+TqSsFAViDLw9
- ljr5ymrxs/k1L6BI=
-X-Received: by 2002:adf:fc0a:: with SMTP id i10mr45991269wrr.111.1600588688334; 
- Sun, 20 Sep 2020 00:58:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxDxGahU3R6/Z2VUh+0jodGp0ohMCA0Ur7q0HohUgMTpaFvOFXU98CG202z/SO7G9NVFd7mZw==
-X-Received: by 2002:adf:fc0a:: with SMTP id i10mr45991247wrr.111.1600588688117; 
- Sun, 20 Sep 2020 00:58:08 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id v17sm15609962wrc.23.2020.09.20.00.58.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Sep 2020 00:58:07 -0700 (PDT)
-Subject: Re: [PATCH v4 00/15] Reverse debugging
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <160006358590.31457.16757371597343007847.stgit@pasha-ThinkPad-X280>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ad338011-6abf-7833-6553-cf724b4fb23d@redhat.com>
-Date: Sun, 20 Sep 2020 09:58:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kJuaO-0003O6-Jf; Sun, 20 Sep 2020 04:20:42 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56512
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kJuaL-0003pO-0N; Sun, 20 Sep 2020 04:20:40 -0400
+Received: from host81-154-161-117.range81-154.btcentralplus.com
+ ([81.154.161.117] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kJuak-0006Dn-QA; Sun, 20 Sep 2020 09:21:07 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: armbru@redhat.com, david@gibson.dropbear.id.au, atar4qemu@gmail.com,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Date: Sun, 20 Sep 2020 09:20:12 +0100
+Message-Id: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <160006358590.31457.16757371597343007847.stgit@pasha-ThinkPad-X280>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 03:58:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-2.996,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 81.154.161.117
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH 0/6] QOM minor fixes
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,29 +59,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
- alex.bennee@linaro.org, mtosatti@redhat.com, armbru@redhat.com,
- mreitz@redhat.com, stefanha@redhat.com, crosa@redhat.com, philmd@redhat.com,
- zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/20 08:06, Pavel Dovgalyuk wrote:
-> GDB remote protocol supports reverse debugging of the targets.
-> It includes 'reverse step' and 'reverse continue' operations.
-> The first one finds the previous step of the execution,
-> and the second one is intended to stop at the last breakpoint that
-> would happen when the program is executed normally.
-> 
-> Reverse debugging is possible in the replay mode, when at least
-> one snapshot was created at the record or replay phase.
-> QEMU can use these snapshots for travelling back in time with GDB.
+This series started off as a fix for the nd_table misuse in the sparc32-ledma
+device as pointed out by Markus, and then I remembered there was similar
+issue around the use of serial_hd() in macio. The last patch is one I've had
+sitting in a local branch for a while and is a mistake I made during the
+original sabre.c split which seems appropriate to include here.
 
-I had queued this, it is a very nice patch series.  Unfortunately, the
-tests failed on gitlab:
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-https://gitlab.com/bonzini/qemu/-/jobs/745795080
 
-Paolo
+Mark Cave-Ayland (6):
+  sparc32-dma: use object_initialize_child() for espdma and ledma child
+    objects
+  sparc32-ledma: use object_initialize_child() for lance child object
+  sparc32-espdma: use object_initialize_child() for esp child object
+  sparc32-ledma: don't reference nd_table directly within the device
+  macio: don't reference serial_hd() directly within the device
+  sabre: don't call sysbus_mmio_map() in sabre_realize()
+
+ hw/dma/sparc32_dma.c           | 49 +++++++++++++++++-----------------
+ hw/misc/macio/macio.c          |  5 +---
+ hw/pci-host/sabre.c            |  8 ------
+ hw/ppc/mac_newworld.c          |  6 +++++
+ hw/ppc/mac_oldworld.c          |  6 +++++
+ hw/sparc/sun4m.c               | 21 +++++++++------
+ hw/sparc64/sun4u.c             |  7 +++++
+ include/hw/sparc/sparc32_dma.h |  8 +++---
+ 8 files changed, 61 insertions(+), 49 deletions(-)
+
+-- 
+2.20.1
 
 
