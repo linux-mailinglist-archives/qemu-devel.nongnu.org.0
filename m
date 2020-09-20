@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A5127145D
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 15:09:46 +0200 (CEST)
-Received: from localhost ([::1]:32874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4714927146D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 15:16:12 +0200 (CEST)
+Received: from localhost ([::1]:46130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJz69-0007kc-0R
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 09:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60056)
+	id 1kJzCN-0004vk-BX
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 09:16:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJz3o-00067o-Dn
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:07:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49677)
+ id 1kJz42-0006Hk-7T
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:07:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kJz3k-00017d-DG
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:07:19 -0400
+ id 1kJz3k-000188-Om
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 09:07:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600607233;
+ s=mimecast20190719; t=1600607236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UHOXeaaNH7mO2Pxxop/1n3qru7dlsdRVvl4+1v0LLIU=;
- b=h4ZCTnCscv+bMuQStmWXq8KNAypanxcF1/bt7h+YtMhe2fTQK3SJELuXJHscGe+gKfrw6B
- ySL4LuMsd07TFhoeCdA1h5b9JDIOu+dHL6osvK01donyJL/qJVTfBnEMRvtNQX5bIG3/63
- eMirA7GEFQJmXJlFJZT+uLAAd1JmMAY=
+ bh=f4S4A0fo0iSnAxDrl2HyvBYPVZ7O12WHs5dRXT+y0/4=;
+ b=cKEzXChpLq/vEZTGn/XLL2oZ9NvAbemqdSOxWYw8v1jlfDl4EpIUA1Q4GFxx9vi5y8ltbq
+ 2M/KlyTbhbm++kJc2tunCixuSME0JCwa3BkxgVQgIHeh8Xlzz9GiiaMUEMkyJsHF7DpYyd
+ HSPyuf/DqRq/Z/6pXMntgIpfVgIFxLQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-YPqjf2sDMFW4SFBrxa5Lgw-1; Sun, 20 Sep 2020 09:07:11 -0400
-X-MC-Unique: YPqjf2sDMFW4SFBrxa5Lgw-1
+ us-mta-104-hj3UFUcgOPSIXgwITR0_oQ-1; Sun, 20 Sep 2020 09:07:12 -0400
+X-MC-Unique: hj3UFUcgOPSIXgwITR0_oQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 053608030B8
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 525778030BA
  for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 13:07:11 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C620161983
- for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 13:07:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F5BD60C84
+ for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 13:07:11 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] configure: remove dead variable
-Date: Sun, 20 Sep 2020 09:07:04 -0400
-Message-Id: <20200920130708.1156310-6-pbonzini@redhat.com>
+Subject: [PATCH 6/9] configure: move CONFIG_* symbols to meson
+Date: Sun, 20 Sep 2020 09:07:05 -0400
+Message-Id: <20200920130708.1156310-7-pbonzini@redhat.com>
 In-Reply-To: <20200920130708.1156310-1-pbonzini@redhat.com>
 References: <20200920130708.1156310-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +68,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.501,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,73 +84,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These symbols are easily computed from just the target name,
+so remove them from config-target.mak.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 11 -----------
- 1 file changed, 11 deletions(-)
+ configure   | 11 +----------
+ meson.build | 27 ++++++++++++++++++++++++---
+ 2 files changed, 25 insertions(+), 13 deletions(-)
 
 diff --git a/configure b/configure
-index ee5c4da54b..df3b031b1c 100755
+index df3b031b1c..e64327e0f8 100755
 --- a/configure
 +++ b/configure
-@@ -808,9 +808,6 @@ fi
+@@ -7612,7 +7612,6 @@ upper() {
  
- # OS specific
- 
--# host *BSD for user mode
--HOST_VARIANT_DIR=""
--
- case $targetos in
- MINGW32*)
-   mingw32="yes"
-@@ -837,14 +834,12 @@ FreeBSD)
-   audio_possible_drivers="oss sdl pa"
-   # needed for kinfo_getvmmap(3) in libutil.h
-   netmap=""  # enable netmap autodetect
--  HOST_VARIANT_DIR="freebsd"
- ;;
- DragonFly)
-   bsd="yes"
-   make="${MAKE-gmake}"
-   audio_drv_list="oss try-sdl"
-   audio_possible_drivers="oss sdl pa"
--  HOST_VARIANT_DIR="dragonfly"
- ;;
- NetBSD)
-   bsd="yes"
-@@ -852,14 +847,12 @@ NetBSD)
-   audio_drv_list="oss try-sdl"
-   audio_possible_drivers="oss sdl"
-   oss_lib="-lossaudio"
--  HOST_VARIANT_DIR="netbsd"
- ;;
- OpenBSD)
-   bsd="yes"
-   make="${MAKE-gmake}"
-   audio_drv_list="try-sdl"
-   audio_possible_drivers="sdl"
--  HOST_VARIANT_DIR="openbsd"
- ;;
- Darwin)
-   bsd="yes"
-@@ -876,7 +869,6 @@ Darwin)
-   # Disable attempts to use ObjectiveC features in os/object.h since they
-   # won't work when we're compiling with gcc as a C compiler.
-   QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
--  HOST_VARIANT_DIR="darwin"
- ;;
- SunOS)
-   solaris="yes"
-@@ -7626,9 +7618,6 @@ if [ "$TARGET_ABI_DIR" = "" ]; then
+ target_arch_name="$(upper $TARGET_ARCH)"
+ echo "TARGET_$target_arch_name=y" >> $config_target_mak
+-echo "TARGET_NAME=$target_name" >> $config_target_mak
+ echo "TARGET_BASE_ARCH=$TARGET_BASE_ARCH" >> $config_target_mak
+ if [ "$TARGET_ABI_DIR" = "" ]; then
    TARGET_ABI_DIR=$TARGET_ARCH
+@@ -7630,21 +7629,15 @@ if test "$target_bigendian" = "yes" ; then
+   echo "TARGET_WORDS_BIGENDIAN=y" >> $config_target_mak
  fi
- echo "TARGET_ABI_DIR=$TARGET_ABI_DIR" >> $config_target_mak
--if [ "$HOST_VARIANT_DIR" != "" ]; then
--    echo "HOST_VARIANT_DIR=$HOST_VARIANT_DIR" >> $config_target_mak
+ if test "$target_softmmu" = "yes" ; then
+-  echo "CONFIG_SOFTMMU=y" >> $config_target_mak
+   if test "$mttcg" = "yes" ; then
+     echo "TARGET_SUPPORTS_MTTCG=y" >> $config_target_mak
+   fi
+ fi
+ if test "$target_user_only" = "yes" ; then
+-  echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+-  echo "CONFIG_QEMU_INTERP_PREFIX=\"$interp_prefix1\"" >> $config_target_mak
+   symlink "../qemu-$target_name" "$target_dir/qemu-$target_name"
+ else
+   symlink "../qemu-system-$target_name" "$target_dir/qemu-system-$target_name"
+ fi
+-if test "$target_linux_user" = "yes" ; then
+-  echo "CONFIG_LINUX_USER=y" >> $config_target_mak
 -fi
- if [ "$TARGET_SYSTBL_ABI" != "" ]; then
-     echo "TARGET_SYSTBL_ABI=$TARGET_SYSTBL_ABI" >> $config_target_mak
-     echo "TARGET_SYSTBL=$TARGET_SYSTBL" >> $config_target_mak
+ list=""
+ if test ! -z "$gdb_xml_files" ; then
+   for x in $gdb_xml_files; do
+@@ -7656,9 +7649,6 @@ fi
+ if test "$target_user_only" = "yes" && test "$bflt" = "yes"; then
+   echo "TARGET_HAS_BFLT=y" >> $config_target_mak
+ fi
+-if test "$target_bsd_user" = "yes" ; then
+-  echo "CONFIG_BSD_USER=y" >> $config_target_mak
+-fi
+ 
+ done # for target in $targets
+ 
+@@ -7668,6 +7658,7 @@ fi
+ if [ "$capstone" = "git" -o "$capstone" = "internal" ]; then
+   subdirs="$subdirs capstone"
+ fi
++echo "CONFIG_QEMU_INTERP_PREFIX=$interp_prefix" | sed 's/%M/@0@/' >> $config_host_mak
+ echo "SUBDIRS=$subdirs" >> $config_host_mak
+ if test -n "$LIBCAPSTONE"; then
+   echo "LIBCAPSTONE=$LIBCAPSTONE" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 7a5eced5f0..6863b9febf 100644
+--- a/meson.build
++++ b/meson.build
+@@ -639,12 +639,15 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
+ config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
+ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
+ 
++ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+ strings = ['HOST_DSOSUF', 'CONFIG_IASL', 'bindir', 'prefix', 'qemu_confdir', 'qemu_datadir',
+            'qemu_moddir', 'qemu_localstatedir', 'qemu_helperdir', 'qemu_localedir',
+            'qemu_icondir', 'qemu_desktopdir', 'qemu_firmwarepath', 'sysconfdir']
+ foreach k, v: config_host
+-  if arrays.contains(k)
++  if ignored.contains(k)
++    # do nothing
++  elif arrays.contains(k)
+     if v != ''
+       v = '"' + '", "'.join(v.split()) + '", '
+     endif
+@@ -720,7 +723,23 @@ kconfig_external_symbols = [
+ ignored = ['TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_DIRS']
+ 
+ foreach target : target_dirs
+-  config_target = keyval.load(meson.current_build_dir() / target / 'config-target.mak')
++  config_target = { 'TARGET_NAME': target.split('-')[0] }
++  if target.endswith('linux-user')
++    assert(targetos == 'linux')
++    config_target += { 'CONFIG_LINUX_USER': 'y' }
++  elif target.endswith('bsd-user')
++    assert('CONFIG_BSD' in config_host)
++    config_target += { 'CONFIG_BSD_USER': 'y' }
++  elif target.endswith('softmmu')
++    config_target += { 'CONFIG_SOFTMMU': 'y' }
++  endif
++  if target.endswith('-user')
++    config_target += {
++      'CONFIG_USER_ONLY': 'y',
++      'CONFIG_QEMU_INTERP_PREFIX':
++        config_host['CONFIG_QEMU_INTERP_PREFIX'].format(config_target['TARGET_NAME'])
++    }
++  endif
+ 
+   have_accel = false
+   foreach sym: accelerators
+@@ -735,6 +754,8 @@ foreach target : target_dirs
+   endforeach
+   assert(have_accel)
+ 
++  config_target += keyval.load('default-configs/targets' / target + '.mak')
++
+   foreach k, v: disassemblers
+     if config_host['ARCH'].startswith(k) or config_target['TARGET_BASE_ARCH'].startswith(k)
+       foreach sym: v
+@@ -752,7 +773,7 @@ foreach target : target_dirs
+       # do nothing
+     elif k == 'TARGET_BASE_ARCH'
+       config_target_data.set('TARGET_' + v.to_upper(), 1)
+-    elif k == 'TARGET_NAME'
++    elif k == 'TARGET_NAME' or k == 'CONFIG_QEMU_INTERP_PREFIX'
+       config_target_data.set_quoted(k, v)
+     elif v == 'y'
+       config_target_data.set(k, 1)
 -- 
 2.26.2
 
