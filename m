@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E5A2717D4
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 22:23:17 +0200 (CEST)
-Received: from localhost ([::1]:45100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B4D2717D9
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 22:28:31 +0200 (CEST)
+Received: from localhost ([::1]:50430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kK5rg-0003Re-7b
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 16:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
+	id 1kK5wk-0005x5-N0
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 16:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kK5qa-0002zh-Hb
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:22:08 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38895)
+ id 1kK5tB-00047e-9R
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:24:49 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:33354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kK5qW-0003UA-NZ
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:22:08 -0400
-Received: by mail-ej1-x641.google.com with SMTP id gx22so5877640ejb.5
- for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 13:22:04 -0700 (PDT)
+ id 1kK5t9-0003i3-PO
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 16:24:49 -0400
+Received: by mail-ed1-x544.google.com with SMTP id g4so10947050edk.0
+ for <qemu-devel@nongnu.org>; Sun, 20 Sep 2020 13:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nRMkBIqXPszwInDD9n8LAeQdx6PLxnyTBJqYNjsSfHM=;
- b=LKLn8DipZyW7FA5AVLTsBjVPnyXEUHFGq6p79CKvxsw0NidT+swPM0/X9AC8R5tBNy
- lfFEjxncojsRIV4eJUKYD6xijpu4/4PUopScePe/dFoKbEnuBHScyilmO5ZZ4VKpyQMF
- 1119OXUFye9kLQLuKDgWw6WrOYLEIcfOoOfLQvgCfu9/NREZPjCBfOaBTo+7ZykH9Je3
- UX52XZF/1hiJIN0O+nphSOcGw1+Nj+rPN/pXqWGEEjUvR0T4hdLydnJklBddZAdPxCAn
- BHlCJ2kGdpmDSlNg3QZ33ZN42WiQMKaEBwP4qk1cRVWLku6FRdfD+BXxAtE3u/Xh8+AZ
- iZ4w==
+ :cc; bh=rhOiwwkQr0OlZH+2tHyW/N6tD+lw91UfEhEdHsa4xqc=;
+ b=u6qlmdU0LQ1K1nlXIN1GuHN47/bOfoDi6VaEGE1UqhYi5asynmr85XFVxYaMhG0H8e
+ ZxKjefYcTxqAyizSMBjxCbbH0SOFdn2Mw2yzwSvklP5V9WDnvZXZYEYYoJ4/WBmTUJ/X
+ mvmhkn0tx8sAIlLRx6t4iNsFif4jcj2fz0p+R6fVVoJCGLpgEokiRt+TdLqg5SSms/6z
+ a3Hqz3Hr6qXp7ZFKMi4x3eyGnM0owbOeUiAIGWoCCrVqKraCjVOeJ0LoQoiivKnlAErf
+ wilt8ypy+DIXp2o8e16/P6g3WcKBfh3Sa+/OLY39P9ggGtRj/pntEdAGdwhgEd4798te
+ UKrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nRMkBIqXPszwInDD9n8LAeQdx6PLxnyTBJqYNjsSfHM=;
- b=fgca1GXG7rCPKpcV/gYjX25W9h+IYCXD6aZxx7wq6MUfLMZ5I6VgPRlGqRU1tf78Ah
- uZO2693WRoFV8wBGeFwuapA82jdUQGNFqkDOk7eGsrMQtFs+egX49sqY+W7JaHbQklLw
- NRzgm7mQnzk9kIRM8Qd58bmifrz06JNB0ayyUu1yAL8vgk4j9OsB2m3/Eg012/BW23b3
- 1KfnWhwFjSeHZ+/mROGK8vMy949bFZ9ZdzJztHiblFKnez2TekSCNfe1J9tEUvLp/eLK
- JGHYn3+O8rL6ZuQEoWeslnPBIWNG0F3/pjMY+2c0Uj1RKhs47DK0O38VpwAOlP/aTszm
- jB+g==
-X-Gm-Message-State: AOAM5321Vi9ncmi8KRDPMvhU3Zjs8tKvBlxWEHMgNHEWfPegTfmt4W6U
- RSRbP3zOGYNxOEdlRp1oBjSbWvwUNyZpChTCj+GV+A==
-X-Google-Smtp-Source: ABdhPJzc9UoJTlkE3MBe+qs70hGB/YCxIix2976FWOi6NCTodp/M4T+y/DrjgZLzU4gkEFphl3pgRO1hfcsY1nBYv6g=
-X-Received: by 2002:a17:906:4a53:: with SMTP id
- a19mr48933361ejv.56.1600633323043; 
- Sun, 20 Sep 2020 13:22:03 -0700 (PDT)
+ bh=rhOiwwkQr0OlZH+2tHyW/N6tD+lw91UfEhEdHsa4xqc=;
+ b=iare9xtDTg8IMsMTTG0+rC0YJIWAdMPKZro/mKq8m+Nw5XSqnYy1HCCNyPzfpVJhGE
+ 2Pdv1774wKDd/NBpzaSXI4fHqVrSpYMaER8YmsILNNDYri567kKHszWwC2V1STsiFQkw
+ qnZ3AxRaqjoR8KCClOybxsjqmYmW7LcLOjOhCnCldNWXhIQEoKUAerfxYi9faj7ovNuE
+ /ecNCTgGWfJNUUsPihpHyvxnmAf8ZUkulvpVqmGp4G3jMUKKpAgyllwRtaraIuJLSJYn
+ K4oPhbqRwqy7mqBMkOFyilDN/vVKFRbgFVJ4RnS4bHCzOBvdgFdu0ouC7Q4fLKyOLT2A
+ Goug==
+X-Gm-Message-State: AOAM532Qb/rcfjswUaW+JjG1az7D31O3DbpE7g7L/ao4rPQUT0jlaoBc
+ mqniUiEc0QATj/w/cQ3RpDHdEn93i3PidGBdDjsXgQ==
+X-Google-Smtp-Source: ABdhPJycmfZe1XTsRcafNb2dy5GkECY6fV8g1AnVtt7tbiluRp+FABYSuF3/oAu7d0H2Th1021+N/QmSs8Rgt4aiKFc=
+X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr48142823edw.251.1600633486211; 
+ Sun, 20 Sep 2020 13:24:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200918204759.225810-1-marcandre.lureau@redhat.com>
- <0e14e115-797d-b91b-dec5-7a2a26836d92@redhat.com>
-In-Reply-To: <0e14e115-797d-b91b-dec5-7a2a26836d92@redhat.com>
+References: <20200908164157.47108-1-liq3ea@163.com>
+ <2ea35f00-3388-22b3-6961-169d2b8a55b7@redhat.com>
+In-Reply-To: <2ea35f00-3388-22b3-6961-169d2b8a55b7@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 20 Sep 2020 21:21:52 +0100
-Message-ID: <CAFEAcA93ARShU6uxVeecGnaJjRkErj5y788xuy3vChMLHRz3Zw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Convert pc-bios Makefiles to meson
+Date: Sun, 20 Sep 2020 21:24:35 +0100
+Message-ID: <CAFEAcA-sNwcHQyvQx+kH-G4f6oh=8Uew2+NPbWo2Nv4_pVW9EA@mail.gmail.com>
+Subject: Re: [RFC 0/4] Add a 'in_mmio' device flag to avoid the DMA to MMIO
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -67,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,25 +79,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Li Qiang <liq3ea@163.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 19 Sep 2020 at 15:59, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Sun, 20 Sep 2020 at 08:56, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> I don't know, the way pc-bios/ works seems just wrong to me.  pc-bios
-> should IMO be its own build system with support for docker-based cross
-> compilers similar to tests/tcg.
+> On 08/09/20 18:41, Li Qiang wrote:
+> > Currently the qemu device fuzzer find some DMA to MMIO issue. If the
+> > device handling MMIO currently trigger a DMA which the address is MMIO,
+> > this will reenter the device MMIO handler. As some of the device doesn't
+> > consider this it will sometimes crash the qemu.
 
-Yes, I've always thought this :-) It borrows the host x86 compiler
-just because it kinda happens to work most of the time in the
-common cases. Now we have proper docker cross infrastructure
-available it would certainly be nice to use it consistently for
-building firmware. (It would also make it more palatable to
-have VDSOs for linux-user, which would also need to be built with
-a target C compiler.)
+> I don't think this is a good solution.  These are device bugs and they
+> need to be fixed.
 
+Do you have an opinion on what the right approach to fixing them is?
+It seems like a hard problem to me; my brain has been too full of
+cotton wool recently and I haven't felt up to sitting down and
+trying to think through whether there's a clean way to handle the
+reentrancy-into-device-code problem in the general case...
+
+thanks
 -- PMM
 
