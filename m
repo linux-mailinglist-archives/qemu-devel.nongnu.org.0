@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDD5271689
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 20:03:54 +0200 (CEST)
-Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4D3271686
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 20:02:15 +0200 (CEST)
+Received: from localhost ([::1]:52462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kK3gn-0006wt-CX
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 14:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51092)
+	id 1kK3fD-0005GM-0T
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 14:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kK3bd-0001tb-Of; Sun, 20 Sep 2020 13:58:34 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41599)
+ id 1kK3be-0001ue-Vl; Sun, 20 Sep 2020 13:58:35 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kK3bc-00030I-5W; Sun, 20 Sep 2020 13:58:33 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w5so10431944wrp.8;
- Sun, 20 Sep 2020 10:58:31 -0700 (PDT)
+ id 1kK3bd-00030Z-F0; Sun, 20 Sep 2020 13:58:34 -0400
+Received: by mail-wr1-x431.google.com with SMTP id z4so10435019wrr.4;
+ Sun, 20 Sep 2020 10:58:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=exASe8riCxZfialHMwQ4chenzKGKS91MOy7C7us9oAE=;
- b=aB9ikbhA1WxIY00RVeYkATZZwVwF9rr9FdbyV+XjSVrBSII4FeZQMvyiR71cSphkTN
- 4XTo1rQ9aWcQMkKOLpbfWtkaGk4097Y0Kaq8nCPZ1VYVyGX3zgzUjlZtfZhBZZZ/PGpQ
- 6swYwb9453TbiwzYvfRHh0ZTszsM/J7m9TXuryI3apcRAsSHuZvMrd9kCzVbMXC953wZ
- L/WslWDk2Gk7KB7s8Yo3SE7l8z+UwaP+Dkg1KBDNv+Xhfu2OZGujqLfqhQAfVk0l98ct
- GsZ8XGyaTOcpetncJGKpxAnqV0drPkSej3ksFUHoPx0Cc7xaWepK2tOHNPEt0gdq42AD
- HDhg==
+ bh=dcCXq9EmDF/ND5OQIcbMSYGFUbh9qfqOjQv8VK2LW0A=;
+ b=mcw1/4AUz+zjMfM9db6StlM88A312gpLsWvAoOOF83A5evn2GgHGmHQZI4w1ZV1kap
+ tFFyzLN7EOCK5mCxRCf6Z04sEHTcNy7oveBJygH++ZMhBVH5T3WwGoUIRZERRAwUfJVz
+ d1Wo+IZ9+dj4Eq+5JtPJlnkC7+v7JBKJC6DeTtc4sjNctWQ6hgSKe6R1noHwJUYCWrk3
+ GDuXTlTYnpb9NFQa1uEHhRbOaHSmTYFCQ27tdr8eEfB/OXBOE8h5f+vs1A4kdRzdVp85
+ T92/S1yZtCVFXl16WH1U6sqOcfPBiZQov9UvLWIrS25iuzKnZcu5Wc5TF44TGTPpa0bh
+ NIcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=exASe8riCxZfialHMwQ4chenzKGKS91MOy7C7us9oAE=;
- b=iJziOsc4KD9k3ZJvw+XFovNeSDF1OTdChMwO+5uQxJY5VKdNzej6ybTEOP/VfS3ejf
- voKzERXQn5gRcZTPvRpUAN0ldvkvr8x4ZSkEGDhoY+nOPgFrFJrs6FWhJtOjUSgABXRM
- 8sP3C1/3sIi4K0l2kPatiH25TJHLxN0gzhaNzlijdtvQV3Rowwz7rQ1v/yneVCVqDZUs
- oI2mhDj+EFlPlaIYZat9MjnkgRSzZkzCap93fm7hMFvUQQP5lgXqxO4iCoy2q34ngvTL
- SbF+pdxMJ5F6PeKItCd3NLwHGsCa+u1JUd7eaPRwx2+/yqAifXMco0XMjfuJ0Bc5W7Hp
- WPoA==
-X-Gm-Message-State: AOAM5334MS7JxBEAhHj5PvZJLv66hOJFsu1GrZpnbOtiaOMqApyvg4BA
- RRsdxMlbIwK5f01HyRRj2mhZEJoE8ys=
-X-Google-Smtp-Source: ABdhPJy9tRbHrwObNDOH1LtPq7s+jobQcrpZ1objkviac8YBiukYpRQ0FDZZ9TO21sdJMAvEYFPqVQ==
-X-Received: by 2002:adf:ea01:: with SMTP id q1mr46406039wrm.97.1600624710298; 
- Sun, 20 Sep 2020 10:58:30 -0700 (PDT)
+ bh=dcCXq9EmDF/ND5OQIcbMSYGFUbh9qfqOjQv8VK2LW0A=;
+ b=IM0pOWzGVJ6VjFxCF62AYnnftc5DBXqoNOuBaifWurv58OAsnF+qjue7otoKH2waJo
+ aNMWHfT9kS8OPQd/+LqZGe0ToiALoACRtwpMmH6ygbrYPBBMbczYK9+x0Lod+kt3x1Eh
+ PGj+/eLgu5Qj8+EtwYEPbcyzcBGcuGTHu60OEToER4cFqmSUn/YfXXHznS4wcCBtVVkk
+ nNzvDYLswA+TGX7ofbzQ6hhA4Pj3ctL7eU/qtZimhbvQ25bLDVo2w32r8/VqPmnTSgcB
+ NHQwI1r/K1gFRjYnFgBN1xV89ZM5fq7dX3kRsTHl8YLtj8qjw910218O65oi95XAqIC0
+ EbKw==
+X-Gm-Message-State: AOAM533pbXl7GMjJQVpQFsvJnpf5XrBsrjIRcayguOiCPuHLMFbNs07z
+ Ps9noMJsTi1apamRUnrvaTpyhoqGfOU=
+X-Google-Smtp-Source: ABdhPJx8/sLmvqWLL3TJeO5YXXwImvYZb/pxaYZQTv+mQfMKrn0uPW/vUv4Vr14Vxp3D9NVeYI05UQ==
+X-Received: by 2002:adf:ce01:: with SMTP id p1mr32321632wrn.61.1600624711595; 
+ Sun, 20 Sep 2020 10:58:31 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u66sm15675781wme.12.2020.09.20.10.58.29
+ by smtp.gmail.com with ESMTPSA id u66sm15675781wme.12.2020.09.20.10.58.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Sep 2020 10:58:29 -0700 (PDT)
+ Sun, 20 Sep 2020 10:58:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] hw/arm/bcm2835: Add more unimplemented peripherals
-Date: Sun, 20 Sep 2020 19:58:20 +0200
-Message-Id: <20200920175825.417680-3-f4bug@amsat.org>
+Subject: [PATCH 3/7] hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
+Date: Sun, 20 Sep 2020 19:58:21 +0200
+Message-Id: <20200920175825.417680-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200920175825.417680-1-f4bug@amsat.org>
 References: <20200920175825.417680-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,57 +95,62 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bcm2835-v3d is used since Linux 4.7, see commit
-49ac67e0c39c ("ARM: bcm2835: Add VC4 to the device tree"),
-and the bcm2835-txp since Linux 4.19, see commit
-b7dd29b401f5 ("ARM: dts: bcm283x: Add Transposer block").
+Add trace events for GPU and CPU IRQs.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/arm/bcm2835_peripherals.h | 2 ++
- hw/arm/bcm2835_peripherals.c         | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/intc/bcm2835_ic.c | 4 +++-
+ hw/intc/trace-events | 4 ++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index b4d3ae121ac..8af8e78f67a 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -47,6 +47,7 @@ struct BCM2835PeripheralState {
+diff --git a/hw/intc/bcm2835_ic.c b/hw/intc/bcm2835_ic.c
+index 53ab8f58810..9000d995e81 100644
+--- a/hw/intc/bcm2835_ic.c
++++ b/hw/intc/bcm2835_ic.c
+@@ -18,6 +18,7 @@
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "trace.h"
  
-     BCM2835SystemTimerState systmr;
-     BCM2835MphiState mphi;
-+    UnimplementedDeviceState tpx;
-     UnimplementedDeviceState armtmr;
-     UnimplementedDeviceState cprman;
-     UnimplementedDeviceState a2w;
-@@ -68,6 +69,7 @@ struct BCM2835PeripheralState {
-     UnimplementedDeviceState otp;
-     UnimplementedDeviceState dbus;
-     UnimplementedDeviceState ave0;
-+    UnimplementedDeviceState v3d;
-     UnimplementedDeviceState bscsl;
-     UnimplementedDeviceState smi;
-     DWC2State dwc2;
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index a9d7f53f6e9..4e6c678aa99 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -343,6 +343,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-                                INTERRUPT_USB));
- 
-+    create_unimp(s, &s->tpx, "bcm2835-tpx", TPX_OFFSET, 0x1000);
-     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
-     create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
-     create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-@@ -356,6 +357,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
-     create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
-     create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
-+    create_unimp(s, &s->v3d, "bcm2835-v3d", V3D_OFFSET, 0x1000);
-     create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
+ #define GPU_IRQS 64
+ #define ARM_IRQS 8
+@@ -51,7 +52,6 @@ static void bcm2835_ic_update(BCM2835ICState *s)
+     set = (s->gpu_irq_level & s->gpu_irq_enable)
+         || (s->arm_irq_level & s->arm_irq_enable);
+     qemu_set_irq(s->irq, set);
+-
  }
  
+ static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
+@@ -59,6 +59,7 @@ static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
+     BCM2835ICState *s = opaque;
+ 
+     assert(irq >= 0 && irq < 64);
++    trace_bcm2835_ic_set_gpu_irq(irq, level);
+     s->gpu_irq_level = deposit64(s->gpu_irq_level, irq, 1, level != 0);
+     bcm2835_ic_update(s);
+ }
+@@ -68,6 +69,7 @@ static void bcm2835_ic_set_arm_irq(void *opaque, int irq, int level)
+     BCM2835ICState *s = opaque;
+ 
+     assert(irq >= 0 && irq < 8);
++    trace_bcm2835_ic_set_cpu_irq(irq, level);
+     s->arm_irq_level = deposit32(s->arm_irq_level, irq, 1, level != 0);
+     bcm2835_ic_update(s);
+ }
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 527c3f76cae..22782b3f089 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -199,3 +199,7 @@ nvic_sysreg_write(uint64_t addr, uint32_t value, unsigned size) "NVIC sysreg wri
+ heathrow_write(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
+ heathrow_read(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
+ heathrow_set_irq(int num, int level) "set_irq: num=0x%02x level=%d"
++
++# bcm2835_ic.c
++bcm2835_ic_set_gpu_irq(int irq, int level) "GPU irq #%d level %d"
++bcm2835_ic_set_cpu_irq(int irq, int level) "CPU irq #%d level %d"
 -- 
 2.26.2
 
