@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A32712D3
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 10:22:31 +0200 (CEST)
-Received: from localhost ([::1]:59124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9AC2712D5
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Sep 2020 10:22:32 +0200 (CEST)
+Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kJuc9-000503-QE
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 04:22:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
+	id 1kJucB-00055p-NX
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 04:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kJuaN-0003Nv-52; Sun, 20 Sep 2020 04:20:39 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56516
+ id 1kJuaR-0003OL-Nv; Sun, 20 Sep 2020 04:20:43 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56530
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kJuaL-0003qP-2k; Sun, 20 Sep 2020 04:20:38 -0400
+ id 1kJuaQ-0003uQ-2Q; Sun, 20 Sep 2020 04:20:43 -0400
 Received: from host81-154-161-117.range81-154.btcentralplus.com
  ([81.154.161.117] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kJuap-0006Dn-Lv; Sun, 20 Sep 2020 09:21:12 +0100
+ id 1kJuau-0006Dn-L5; Sun, 20 Sep 2020 09:21:18 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: armbru@redhat.com, david@gibson.dropbear.id.au, atar4qemu@gmail.com,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Sun, 20 Sep 2020 09:20:13 +0100
-Message-Id: <20200920082018.16135-2-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 20 Sep 2020 09:20:14 +0100
+Message-Id: <20200920082018.16135-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
 References: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 81.154.161.117
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 1/6] sparc32-dma: use object_initialize_child() for espdma and
- ledma child objects
+Subject: [PATCH 2/6] sparc32-ledma: use object_initialize_child() for lance
+ child object
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,72 +65,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Store the child objects directly within the sparc32-dma object rather than using
-link properties.
+Store the child object directly within the sparc32-ledma object rather than
+using link properties.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/dma/sparc32_dma.c           | 15 +++++++++------
- include/hw/sparc/sparc32_dma.h |  4 ++--
- 2 files changed, 11 insertions(+), 8 deletions(-)
+ hw/dma/sparc32_dma.c           | 14 ++++++++------
+ include/hw/sparc/sparc32_dma.h |  2 +-
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index d20a5bc065..b25a212f7a 100644
+index b25a212f7a..84196afb95 100644
 --- a/hw/dma/sparc32_dma.c
 +++ b/hw/dma/sparc32_dma.c
-@@ -379,10 +379,9 @@ static void sparc32_dma_realize(DeviceState *dev, Error **errp)
-         return;
-     }
+@@ -331,24 +331,26 @@ static const TypeInfo sparc32_espdma_device_info = {
+ static void sparc32_ledma_device_init(Object *obj)
+ {
+     DMADeviceState *s = SPARC32_DMA_DEVICE(obj);
++    LEDMADeviceState *ls = SPARC32_LEDMA_DEVICE(obj);
  
--    espdma = qdev_new(TYPE_SPARC32_ESPDMA_DEVICE);
-+    espdma = DEVICE(&s->espdma);
-     object_property_set_link(OBJECT(espdma), "iommu", iommu, &error_abort);
--    object_property_add_child(OBJECT(s), "espdma", OBJECT(espdma));
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(espdma), &error_fatal);
-+    sysbus_realize(SYS_BUS_DEVICE(espdma), &error_fatal);
- 
-     esp = DEVICE(object_resolve_path_component(OBJECT(espdma), "esp"));
-     sbd = SYS_BUS_DEVICE(esp);
-@@ -394,10 +393,9 @@ static void sparc32_dma_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->dmamem, 0x0,
-                                 sysbus_mmio_get_region(sbd, 0));
- 
--    ledma = qdev_new(TYPE_SPARC32_LEDMA_DEVICE);
-+    ledma = DEVICE(&s->ledma);
-     object_property_set_link(OBJECT(ledma), "iommu", iommu, &error_abort);
--    object_property_add_child(OBJECT(s), "ledma", OBJECT(ledma));
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(ledma), &error_fatal);
-+    sysbus_realize(SYS_BUS_DEVICE(ledma), &error_fatal);
- 
-     lance = DEVICE(object_resolve_path_component(OBJECT(ledma), "lance"));
-     sbd = SYS_BUS_DEVICE(lance);
-@@ -421,6 +419,11 @@ static void sparc32_dma_init(Object *obj)
- 
-     memory_region_init(&s->dmamem, OBJECT(s), "dma", DMA_SIZE + DMA_ETH_SIZE);
-     sysbus_init_mmio(sbd, &s->dmamem);
+     memory_region_init_io(&s->iomem, OBJECT(s), &dma_mem_ops, s,
+                           "ledma-mmio", DMA_SIZE);
 +
-+    object_initialize_child(obj, "espdma", &s->espdma,
-+                            TYPE_SPARC32_ESPDMA_DEVICE);
-+    object_initialize_child(obj, "ledma", &s->ledma,
-+                            TYPE_SPARC32_LEDMA_DEVICE);
++    object_initialize_child(obj, "lance", &ls->lance, TYPE_LANCE);
  }
  
- static void sparc32_dma_class_init(ObjectClass *klass, void *data)
+ static void sparc32_ledma_device_realize(DeviceState *dev, Error **errp)
+ {
+-    DeviceState *d;
++    LEDMADeviceState *s = SPARC32_LEDMA_DEVICE(dev);
++    SysBusPCNetState *lance = SYSBUS_PCNET(&s->lance);
+     NICInfo *nd = &nd_table[0];
+ 
+     /* FIXME use qdev NIC properties instead of nd_table[] */
+     qemu_check_nic_model(nd, TYPE_LANCE);
+ 
+-    d = qdev_new(TYPE_LANCE);
+-    object_property_add_child(OBJECT(dev), "lance", OBJECT(d));
+-    qdev_set_nic_properties(d, nd);
+-    object_property_set_link(OBJECT(d), "dma", OBJECT(dev), &error_abort);
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(d), &error_fatal);
++    qdev_set_nic_properties(DEVICE(lance), nd);
++    object_property_set_link(OBJECT(lance), "dma", OBJECT(dev), &error_abort);
++    sysbus_realize(SYS_BUS_DEVICE(lance), &error_fatal);
+ }
+ 
+ static void sparc32_ledma_device_class_init(ObjectClass *klass, void *data)
 diff --git a/include/hw/sparc/sparc32_dma.h b/include/hw/sparc/sparc32_dma.h
-index a402665a9c..a7b1dd8418 100644
+index a7b1dd8418..f2bfe272ba 100644
 --- a/include/hw/sparc/sparc32_dma.h
 +++ b/include/hw/sparc/sparc32_dma.h
-@@ -56,8 +56,8 @@ struct SPARC32DMAState {
+@@ -43,7 +43,7 @@ DECLARE_INSTANCE_CHECKER(LEDMADeviceState, SPARC32_LEDMA_DEVICE,
+ struct LEDMADeviceState {
+     DMADeviceState parent_obj;
  
-     MemoryRegion dmamem;
-     MemoryRegion ledma_alias;
--    ESPDMADeviceState *espdma;
--    LEDMADeviceState *ledma;
-+    ESPDMADeviceState espdma;
-+    LEDMADeviceState ledma;
+-    SysBusPCNetState *lance;
++    SysBusPCNetState lance;
  };
  
- /* sparc32_dma.c */
+ #define TYPE_SPARC32_DMA "sparc32-dma"
 -- 
 2.20.1
 
