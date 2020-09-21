@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FFA27359E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:19:39 +0200 (CEST)
-Received: from localhost ([::1]:58442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752D42735A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:22:14 +0200 (CEST)
+Received: from localhost ([::1]:38332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKU9q-0000df-3Y
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58886)
+	id 1kKUCL-00049k-FS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:22:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1j-000060-7H
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24105)
+ id 1kKU1l-0000Bo-DN
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:17 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46608
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1h-0001b1-BI
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:14 -0400
+ id 1kKU1j-0001bJ-Ff
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600726272;
+ s=mimecast20190719; t=1600726274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UCTMr39FHuk0vjVaS7H5c3xouop2xzcz/9htq84mkLM=;
- b=d6NSG3Ug4XxfSfjbRoOgrBsr/ONjPmzGypitYnXWf75iKHo/PtAtLfREGCPoR1zdkG1n/c
- ip6pg/6E+di7YI8DBWJBmcyk7v59GhBhohItpOfgwJtmKgX2nOlKVcqdihD7LegS5w+Hh2
- xeAo273/nVZGvCMqpsVx8c87pwabcvA=
+ bh=Ow/Goc64TH+sEuIKExQSCYDG7D9ex4nmrSV1na4tT+4=;
+ b=BSM0Y/xm/HWHe5tVe3w0A5j0i2AAT87aRUcEpDJglQLK+e2EK2G3yDgvfmnGcxArNxgf/4
+ Ov+tD5flvAMJoT1z8PCeZ1pqEr0Zq/1rZrC67dnF/lkKCmwvnW7XOPtFcXkuc5PlHjveyo
+ ikZxQ9M9ZEoFF9VWwEBHd9g/ys7jA+o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-Fbv_PM7IN9egNmuO9b0JSw-1; Mon, 21 Sep 2020 18:11:10 -0400
-X-MC-Unique: Fbv_PM7IN9egNmuO9b0JSw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-335-XJ313jX4OBWy2vr9XZL3cg-1; Mon, 21 Sep 2020 18:11:12 -0400
+X-MC-Unique: XJ313jX4OBWy2vr9XZL3cg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C87D91007461
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 22:11:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4908B1007465
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 22:11:11 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6A545D9CD;
- Mon, 21 Sep 2020 22:11:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0AA7B75261;
+ Mon, 21 Sep 2020 22:11:10 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/24] input-barrier: Register properties as class properties
-Date: Mon, 21 Sep 2020 18:10:31 -0400
-Message-Id: <20200921221045.699690-11-ehabkost@redhat.com>
+Subject: [PATCH 11/24] tmp421: Register properties as class properties
+Date: Mon, 21 Sep 2020 18:10:32 -0400
+Message-Id: <20200921221045.699690-12-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 18:11:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,7 +82,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,74 +91,66 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- ui/input-barrier.c | 44 ++++++++++++++++++++++----------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ hw/misc/tmp421.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-diff --git a/ui/input-barrier.c b/ui/input-barrier.c
-index 87543a33993..9a196d0a33d 100644
---- a/ui/input-barrier.c
-+++ b/ui/input-barrier.c
-@@ -689,28 +689,6 @@ static void input_barrier_instance_init(Object *obj)
-     ib->y_origin = 0;
-     ib->width = 1920;
-     ib->height = 1080;
+diff --git a/hw/misc/tmp421.c b/hw/misc/tmp421.c
+index 212d6e0e831..1c19a3a9713 100644
+--- a/hw/misc/tmp421.c
++++ b/hw/misc/tmp421.c
+@@ -340,22 +340,6 @@ static void tmp421_realize(DeviceState *dev, Error **errp)
+     tmp421_reset(&s->i2c);
+ }
+ 
+-static void tmp421_initfn(Object *obj)
+-{
+-    object_property_add(obj, "temperature0", "int",
+-                        tmp421_get_temperature,
+-                        tmp421_set_temperature, NULL, NULL);
+-    object_property_add(obj, "temperature1", "int",
+-                        tmp421_get_temperature,
+-                        tmp421_set_temperature, NULL, NULL);
+-    object_property_add(obj, "temperature2", "int",
+-                        tmp421_get_temperature,
+-                        tmp421_set_temperature, NULL, NULL);
+-    object_property_add(obj, "temperature3", "int",
+-                        tmp421_get_temperature,
+-                        tmp421_set_temperature, NULL, NULL);
+-}
 -
--    object_property_add_str(obj, "name",
--                            input_barrier_get_name,
--                            input_barrier_set_name);
--    object_property_add_str(obj, "server",
--                            input_barrier_get_server,
--                            input_barrier_set_server);
--    object_property_add_str(obj, "port",
--                            input_barrier_get_port,
--                            input_barrier_set_port);
--    object_property_add_str(obj, "x-origin",
--                            input_barrier_get_x_origin,
--                            input_barrier_set_x_origin);
--    object_property_add_str(obj, "y-origin",
--                            input_barrier_get_y_origin,
--                            input_barrier_set_y_origin);
--    object_property_add_str(obj, "width",
--                            input_barrier_get_width,
--                            input_barrier_set_width);
--    object_property_add_str(obj, "height",
--                            input_barrier_get_height,
--                            input_barrier_set_height);
- }
- 
- static void input_barrier_class_init(ObjectClass *oc, void *data)
-@@ -718,6 +696,28 @@ static void input_barrier_class_init(ObjectClass *oc, void *data)
-     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
- 
-     ucc->complete = input_barrier_complete;
+ static void tmp421_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -368,6 +352,19 @@ static void tmp421_class_init(ObjectClass *klass, void *data)
+     k->send = tmp421_tx;
+     dc->vmsd = &vmstate_tmp421;
+     sc->dev = (DeviceInfo *) data;
 +
-+    object_class_property_add_str(oc, "name",
-+                                  input_barrier_get_name,
-+                                  input_barrier_set_name);
-+    object_class_property_add_str(oc, "server",
-+                                  input_barrier_get_server,
-+                                  input_barrier_set_server);
-+    object_class_property_add_str(oc, "port",
-+                                  input_barrier_get_port,
-+                                  input_barrier_set_port);
-+    object_class_property_add_str(oc, "x-origin",
-+                                  input_barrier_get_x_origin,
-+                                  input_barrier_set_x_origin);
-+    object_class_property_add_str(oc, "y-origin",
-+                                  input_barrier_get_y_origin,
-+                                  input_barrier_set_y_origin);
-+    object_class_property_add_str(oc, "width",
-+                                  input_barrier_get_width,
-+                                  input_barrier_set_width);
-+    object_class_property_add_str(oc, "height",
-+                                  input_barrier_get_height,
-+                                  input_barrier_set_height);
++    object_class_property_add(klass, "temperature0", "int",
++                              tmp421_get_temperature,
++                              tmp421_set_temperature, NULL, NULL);
++    object_class_property_add(klass, "temperature1", "int",
++                              tmp421_get_temperature,
++                              tmp421_set_temperature, NULL, NULL);
++    object_class_property_add(klass, "temperature2", "int",
++                              tmp421_get_temperature,
++                              tmp421_set_temperature, NULL, NULL);
++    object_class_property_add(klass, "temperature3", "int",
++                              tmp421_get_temperature,
++                              tmp421_set_temperature, NULL, NULL);
  }
  
- static const TypeInfo input_barrier_info = {
+ static const TypeInfo tmp421_info = {
+@@ -375,7 +372,6 @@ static const TypeInfo tmp421_info = {
+     .parent        = TYPE_I2C_SLAVE,
+     .instance_size = sizeof(TMP421State),
+     .class_size    = sizeof(TMP421Class),
+-    .instance_init = tmp421_initfn,
+     .abstract      = true,
+ };
+ 
 -- 
 2.26.2
 
