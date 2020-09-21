@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1AB2723E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:27:43 +0200 (CEST)
-Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA2F2723E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:30:06 +0200 (CEST)
+Received: from localhost ([::1]:45872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKKv0-0005a4-3k
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56946)
+	id 1kKKxJ-0007oy-5K
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:30:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kKKst-000450-BM
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:25:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30737)
+ id 1kKKsx-00049d-3W
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:25:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25866
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kKKsr-0008Ke-8m
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:25:30 -0400
+ id 1kKKss-0008L7-Sf
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:25:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600691126;
+ s=mimecast20190719; t=1600691128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0fvhbzkZBlah2ukn27UuxBi4t3g/ZUc8XC+naQ5iTZY=;
- b=e4zwur7r0CYWey0NODg7/rOi9YZ+r3FD0CPes8vXLpHUXBc2/Mq7rNr6pJJ9X/Z5lei/D0
- NFy1e44y6+nIWvZrJ49FaVZpLeSzVI66pZLrUO92DefvcJxDXYxFsKmp6xRqjRNJb1gzW5
- qLP0O+UzVvz/1zWtKHnlBIkyymV8MlI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0p5jI72BV9q9kGL4Bgyc+PLA0efN3Fk3NOXsGKztPwo=;
+ b=JFavyLMZ6tTX3uIfFZfi+MRfQ4vdxPFOMcx0hnrburlAhIjjDfy0F7I9i2T4oOdgdNTWtj
+ OGSSmeENFg6hhZHR42Gxwo06an6J847qrcRWM2YigeXAzXNk3bcui7MM7fSvcyszUnNPDX
+ KRFbjTCalgQ4uceZZ9ADPVttDW8xq88=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-DPSIcjk6MTOpBXI3a1A37A-1; Mon, 21 Sep 2020 08:25:23 -0400
-X-MC-Unique: DPSIcjk6MTOpBXI3a1A37A-1
+ us-mta-179-kQO_G-s3MvOKKpXX9Yy5OA-1; Mon, 21 Sep 2020 08:25:26 -0400
+X-MC-Unique: kQO_G-s3MvOKKpXX9Yy5OA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C789118BA289;
- Mon, 21 Sep 2020 12:25:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51372EA323;
+ Mon, 21 Sep 2020 12:25:25 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-113-150.ams2.redhat.com
  [10.36.113.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C95E6198B;
- Mon, 21 Sep 2020 12:25:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28B4368432;
+ Mon, 21 Sep 2020 12:25:21 +0000 (UTC)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v5 0/4] vhost-vsock: force virtio version 1
-Date: Mon, 21 Sep 2020 14:25:02 +0200
-Message-Id: <20200921122506.82515-1-sgarzare@redhat.com>
+Subject: [PATCH v5 1/4] virtio: skip legacy support check on machine types
+ less than 5.1
+Date: Mon, 21 Sep 2020 14:25:03 +0200
+Message-Id: <20200921122506.82515-2-sgarzare@redhat.com>
+In-Reply-To: <20200921122506.82515-1-sgarzare@redhat.com>
+References: <20200921122506.82515-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,62 +94,146 @@ Cc: Thomas Huth <thuth@redhat.com>, Qinghua Cheng <qcheng@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v5:
-   - Patch 2: added a phrase about transitional device in the commit
-     message [Cornelia]
-   - All patches reviewed by Cornelia
+Commit 9b3a35ec82 ("virtio: verify that legacy support is not accidentally
+on") added a check that returns an error if legacy support is on, but the
+device does not support legacy.
 
-v4: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg07353.html
-v3: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg06549.html
-v2: https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg04437.html
-v1: https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg04373.html
+Unfortunately some devices were wrongly declared legacy capable even if
+they were not (e.g vhost-vsock).
 
-Recently changes in QEMU 5.1 requires to set 'disable-legacy=on'
-on vhost-vsock-pci and vhost-user-vsock-pci devices:
+To avoid migration issues, we add a virtio-device property
+(x-disable-legacy-check) to skip the legacy error, printing a warning
+instead, for machine types < 5.1.
 
-    $ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=5
-        qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=5:
-        device is modern-only, use disable-legacy=on
+Cc: qemu-stable@nongnu.org
+Fixes: 9b3a35ec82 ("virtio: verify that legacy support is not accidentally on")
+Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Suggested-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+v4:
+ - fixed commit message and warning message [Cornelia]
+v3:
+ - added virtio_legacy_check_disabled() helper
+ - moved warning where error was returned [Cornelia]
+v2:
+ - fixed Cornelia's e-mail address
+---
+ include/hw/virtio/virtio.h |  2 ++
+ hw/core/machine.c          |  1 +
+ hw/s390x/virtio-ccw.c      | 15 ++++++++++++---
+ hw/virtio/virtio-pci.c     | 14 ++++++++++++--
+ hw/virtio/virtio.c         |  7 +++++++
+ 5 files changed, 34 insertions(+), 5 deletions(-)
 
-As discussed with Cornelia [2], this series forces virtio version 1
-to vhost-vsock-pci, vhost-user-vsock-pci, and vhost-vsock-ccw devices.
-
-virtio-vsock was introduced after the release of VIRTIO 1.0 specifications,
-so it should be 'modern-only'.
-In addition Cornelia verified that forcing a legacy mode on vhost-vsock-pci
-device using x86-64 host and s390x guest, so with different endianness,
-produces strange behaviours.
-
-This series should be merged in stable branch since it fixes migration issues
-with QEMU 5.1:
-- we skip legacy support check in the old machine types (< 5.1)
-- we force virtio version 1 for vhost-vsock-pci and vhost-vsock-ccw devices
-  only in the new machine types (>= 5.1). vhost-user-vsock-pci was introduced
-  in 5.1 and doesn't support migration, so we forced virtio version 1 in any
-  case,
-
-Thanks,
-Stefano
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg05312.html
-[2] https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg02515.html
-
-Stefano Garzarella (4):
-  virtio: skip legacy support check on machine types less than 5.1
-  vhost-vsock-pci: force virtio version 1
-  vhost-user-vsock-pci: force virtio version 1
-  vhost-vsock-ccw: force virtio version 1
-
- include/hw/virtio/virtio.h       |  2 ++
- hw/core/machine.c                |  1 +
- hw/s390x/vhost-vsock-ccw.c       | 12 ++++++++++++
- hw/s390x/virtio-ccw.c            | 15 ++++++++++++---
- hw/virtio/vhost-user-vsock-pci.c |  4 +++-
- hw/virtio/vhost-vsock-pci.c      | 10 +++++++++-
- hw/virtio/virtio-pci.c           | 14 ++++++++++++--
- hw/virtio/virtio.c               |  7 +++++++
- 8 files changed, 58 insertions(+), 7 deletions(-)
-
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 807280451b..f90cfb03e3 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -103,6 +103,7 @@ struct VirtIODevice
+     bool use_started;
+     bool started;
+     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
++    bool disable_legacy_check;
+     VMChangeStateEntry *vmstate;
+     char *bus_name;
+     uint8_t device_endian;
+@@ -396,5 +397,6 @@ static inline bool virtio_device_disabled(VirtIODevice *vdev)
+ }
+ 
+ bool virtio_legacy_allowed(VirtIODevice *vdev);
++bool virtio_legacy_check_disabled(VirtIODevice *vdev);
+ 
+ #endif
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index ea26d61237..b686eab798 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -44,6 +44,7 @@ GlobalProperty hw_compat_5_0[] = {
+     { "vmport", "x-signal-unsupported-cmd", "off" },
+     { "vmport", "x-report-vmx-type", "off" },
+     { "vmport", "x-cmds-v2", "off" },
++    { "virtio-device", "x-disable-legacy-check", "true" },
+ };
+ const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+ 
+diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+index 8feb3451a0..c534cdf2e5 100644
+--- a/hw/s390x/virtio-ccw.c
++++ b/hw/s390x/virtio-ccw.c
+@@ -1122,9 +1122,18 @@ static void virtio_ccw_device_plugged(DeviceState *d, Error **errp)
+     }
+ 
+     if (!virtio_ccw_rev_max(dev) && !virtio_legacy_allowed(vdev)) {
+-        error_setg(errp, "Invalid value of property max_rev "
+-                   "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
+-        return;
++        /*
++         * To avoid migration issues, we allow legacy mode when legacy
++         * check is disabled in the old machine types (< 5.1).
++         */
++        if (virtio_legacy_check_disabled(vdev)) {
++            warn_report("device requires revision >= 1, but for backward "
++                        "compatibility max_revision=0 is allowed");
++        } else {
++            error_setg(errp, "Invalid value of property max_rev "
++                       "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
++            return;
++        }
+     }
+ 
+     if (virtio_get_num_queues(vdev) > VIRTIO_QUEUE_MAX) {
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 5bc769f685..bb91e34594 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1597,8 +1597,18 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
+ 
+     if (legacy) {
+         if (!virtio_legacy_allowed(vdev)) {
+-            error_setg(errp, "device is modern-only, use disable-legacy=on");
+-            return;
++            /*
++             * To avoid migration issues, we allow legacy mode when legacy
++             * check is disabled in the old machine types (< 5.1).
++             */
++            if (virtio_legacy_check_disabled(vdev)) {
++                warn_report("device is modern-only, but for backward "
++                            "compatibility legacy is allowed");
++            } else {
++                error_setg(errp,
++                           "device is modern-only, use disable-legacy=on");
++                return;
++            }
+         }
+         if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+             error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index e983025217..b85277da67 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3304,6 +3304,11 @@ bool virtio_legacy_allowed(VirtIODevice *vdev)
+     }
+ }
+ 
++bool virtio_legacy_check_disabled(VirtIODevice *vdev)
++{
++    return vdev->disable_legacy_check;
++}
++
+ hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n)
+ {
+     return vdev->vq[n].vring.desc;
+@@ -3713,6 +3718,8 @@ static Property virtio_properties[] = {
+     DEFINE_VIRTIO_COMMON_FEATURES(VirtIODevice, host_features),
+     DEFINE_PROP_BOOL("use-started", VirtIODevice, use_started, true),
+     DEFINE_PROP_BOOL("use-disabled-flag", VirtIODevice, use_disabled_flag, true),
++    DEFINE_PROP_BOOL("x-disable-legacy-check", VirtIODevice,
++                     disable_legacy_check, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.26.2
 
