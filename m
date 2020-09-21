@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580B9271E9F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 11:12:37 +0200 (CEST)
-Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA91271EB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 11:16:52 +0200 (CEST)
+Received: from localhost ([::1]:57696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKHsC-000592-Ei
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 05:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35998)
+	id 1kKHwJ-0008Ep-27
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 05:16:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKHqW-0004J3-0e
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 05:10:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40955)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kKHvQ-0007oF-Bp
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 05:15:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKHqU-0007as-7I
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 05:10:51 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kKHvO-0008HT-12
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 05:15:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600679449;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1600679752;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mmz1buBQ+LQ6S/L28zcq+Pfxcxn99IXVH24Dn4zPQxE=;
- b=AsxFkS/hgf57OrT4+ivzMCXFn3l2EVzcV2FGQ/jp5APWfIolYMvhkIxAIjHtBBcu4Ezcxe
- Q5EjJJr7Xb1aLshEipqpsT4xOretclPo2EDZHqEAAPLDGRc3IIPWINmI16V1bNmlGn8vfC
- B2sraJI5edBrbHFEELvqn7QrrJJsiYg=
+ bh=6xnzMbR3mjGVBuHyZshldr6EVuknGnusbogq43tKvP0=;
+ b=IyaZOgzRaD1AhC+Ozbn3Y+0JG1qWcIAw98BGbNlvYnU/RBsFlwxZeL8A+22NPBFxTPY4Ss
+ tIcmDX7XnKVrUpga3SdZZVBWcLXh8YNHGKbG5kP1GcNo7BPObHHyz76W6HK4Qh9wyrSPB7
+ b0alstu/DeNa7lJjc6Up/arRwa8XpXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-YeZ0otIlPCOOoKYKW7IAGA-1; Mon, 21 Sep 2020 05:10:47 -0400
-X-MC-Unique: YeZ0otIlPCOOoKYKW7IAGA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-549-VqXeKWvPN2W18ednXV4k-w-1; Mon, 21 Sep 2020 05:15:45 -0400
+X-MC-Unique: VqXeKWvPN2W18ednXV4k-w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 418AB6414B;
- Mon, 21 Sep 2020 09:10:46 +0000 (UTC)
-Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 070553782;
- Mon, 21 Sep 2020 09:10:37 +0000 (UTC)
-Date: Mon, 21 Sep 2020 10:10:34 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] virtiofsd: document cache=auto default
-Message-ID: <20200921091034.GC3221@work-vm>
-References: <20200916112250.760245-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C54DAF203;
+ Mon, 21 Sep 2020 09:15:44 +0000 (UTC)
+Received: from redhat.com (ovpn-113-113.ams2.redhat.com [10.36.113.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C97242635A;
+ Mon, 21 Sep 2020 09:15:42 +0000 (UTC)
+Date: Mon, 21 Sep 2020 10:15:40 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v2] qom: code hardening - have bound checking while
+ looping with integer value
+Message-ID: <20200921091540.GH1942072@redhat.com>
+References: <20200921090704.25353-1-ani@anisinha.ca>
 MIME-Version: 1.0
-In-Reply-To: <20200916112250.760245-1-stefanha@redhat.com>
+In-Reply-To: <20200921090704.25353-1-ani@anisinha.ca>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,47 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, "Harry G. Coin" <hgcoin@gmail.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> From: "Harry G. Coin" <hgcoin@gmail.com>
+On Mon, Sep 21, 2020 at 02:37:04PM +0530, Ani Sinha wrote:
+> Object property insertion code iterates over an integer to get an unused
+> index that can be used as an unique name for an object property. This loop
+> increments the integer value indefinitely. Although very unlikely, this can
+> still cause an integer overflow.
+> In this change, we fix the above code by checking against INT_MAX and making
+
+s/INT/INT16/
+
+> sure that the interger index does not overflow beyond that value. If no
+> available index is found, the code would cause an assertion failure. This
+> assertion failure is necessary because the callers of the function do not check
+> the return value for NULL.
 > 
-> The virtiofsd --help output documents the cache=auto default value but
-> the man page does not. Fix this.
-> 
-> Signed-off-by: Harry G. Coin <hgcoin@gmail.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-Thanks, I'll add it to the next pull.
-
-Dave
-
-
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
 > ---
->  docs/tools/virtiofsd.rst | 1 +
->  1 file changed, 1 insertion(+)
+>  qom/object.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> index e33c81ed41..352a29ce3c 100644
-> --- a/docs/tools/virtiofsd.rst
-> +++ b/docs/tools/virtiofsd.rst
-> @@ -103,6 +103,7 @@ Options
->    forbids the FUSE client from caching to achieve best coherency at the cost of
->    performance.  ``auto`` acts similar to NFS with a 1 second metadata cache
->    timeout.  ``always`` sets a long cache lifetime at the expense of coherency.
-> +  The default is ``auto``.
+> diff --git a/qom/object.c b/qom/object.c
+> index 387efb25eb..9962874598 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -1166,11 +1166,11 @@ object_property_try_add(Object *obj, const char *name, const char *type,
 >  
->  Examples
->  --------
-> -- 
-> 2.26.2
-> 
+>      if (name_len >= 3 && !memcmp(name + name_len - 3, "[*]", 4)) {
+>          int i;
+> -        ObjectProperty *ret;
+> +        ObjectProperty *ret = NULL;
+>          char *name_no_array = g_strdup(name);
+>  
+>          name_no_array[name_len - 3] = '\0';
+> -        for (i = 0; ; ++i) {
+> +        for (i = 0; i < INT16_MAX; ++i) {
+>              char *full_name = g_strdup_printf("%s[%d]", name_no_array, i);
+>  
+>              ret = object_property_try_add(obj, full_name, type, get, set,
+> @@ -1181,6 +1181,7 @@ object_property_try_add(Object *obj, const char *name, const char *type,
+>              }
+>          }
+>          g_free(name_no_array);
+> +        assert(ret);
+>          return ret;
+>      }
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+Regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
