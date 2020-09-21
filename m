@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C661D27314B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:56:25 +0200 (CEST)
-Received: from localhost ([::1]:35512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6595727313E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:54:54 +0200 (CEST)
+Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQ36-0007KG-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
+	id 1kKQ1d-0004yO-Fd
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:54:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPr9-0001x2-PU
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38016)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPrC-00023q-IL
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPr5-0000UR-8f
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:03 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPrA-0000Vn-9R
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600710238;
+ s=mimecast20190719; t=1600710243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=mTBQD1RouwrIiBCnATDtZzVn8ZCZ2+TsfWw8aoAr0a8=;
- b=OuPt85OT90NIAjDuiX4/wskYtcaiC0NWNE0uYnXmSiAvMQuswK4H645KXLtTp0LBFHjrof
- nGvfcsDo3hbY4nOCBejWKzfkB5mMXieQPhK4xtySJP62WfrySaxa+ioKU+yTK5S1pvsxpe
- k4zjB1Pl9BqUnAxXqrlNhIK6MT2hAhM=
+ references:references; bh=/UmXmUa32ia7ANLkHzN23p7fJASLDmfNqVjjUoJTrvk=;
+ b=QV9sFi10bPUYP5NHE7ypthuQIxDp/ovP4G1t7A/p0FCb5TDZDaRYzp8Ir6zgMAksJvYIq4
+ LU7LRATR5yEmV6p8E1jTMCrQgF3mwkPREodB4PFeFFQF+bxdgjx1GMBMzA8oEp20DNTgKc
+ Fu7/FG8Lzx+FJOvYVKKQxtm1c4NWomk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-xHEUzK7pMnmDqQ4thx6KSQ-1; Mon, 21 Sep 2020 13:43:56 -0400
-X-MC-Unique: xHEUzK7pMnmDqQ4thx6KSQ-1
+ us-mta-573-zEcrQt3VPeKgFqhtCtpVkQ-1; Mon, 21 Sep 2020 13:44:01 -0400
+X-MC-Unique: zEcrQt3VPeKgFqhtCtpVkQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EE70801AE1;
- Mon, 21 Sep 2020 17:43:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DD0E104D3E9;
+ Mon, 21 Sep 2020 17:44:00 +0000 (UTC)
 Received: from thuth.com (ovpn-112-14.ams2.redhat.com [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFFD25D9CD;
- Mon, 21 Sep 2020 17:43:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D0DF5D9CD;
+ Mon, 21 Sep 2020 17:43:55 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 6/7] gitlab-ci: Increase the timeout for the cross-compiler
- builds
-Date: Mon, 21 Sep 2020 19:43:19 +0200
-Message-Id: <20200921174320.46062-7-thuth@redhat.com>
+Subject: [PATCH 7/7] configure: Bump the minimum required Python version to 3.6
+Date: Mon, 21 Sep 2020 19:43:20 +0200
+Message-Id: <20200921174320.46062-8-thuth@redhat.com>
 In-Reply-To: <20200921174320.46062-1-thuth@redhat.com>
 References: <20200921174320.46062-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -85,28 +84,30 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the cross-compiler builds (the mips build and the win64 build
-for example) are quite slow and sometimes hit the 1h time limit.
-Increase the limit a little bit to make sure that we do not get failures
-in the CI runs just because of some few minutes.
+All our supported build platforms have Python 3.6 or newer nowadays,
+and there are some useful features in Python 3.6 which are not available
+in 3.5 yet, so let's bump the minimum Python version to 3.6 now.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 510cfec03b..03ebfabb3f 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -2,6 +2,7 @@
- .cross_system_build_job_template: &cross_system_build_job_definition
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  timeout: 80m
-   script:
-     - mkdir build
-     - cd build
+diff --git a/configure b/configure
+index 7564479008..a3a643168e 100755
+--- a/configure
++++ b/configure
+@@ -1965,8 +1965,8 @@ fi
+ 
+ # Note that if the Python conditional here evaluates True we will exit
+ # with status 1 which is a shell 'false' value.
+-if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
+-  error_exit "Cannot use '$python', Python >= 3.5 is required." \
++if ! $python -c 'import sys; sys.exit(sys.version_info < (3,6))'; then
++  error_exit "Cannot use '$python', Python >= 3.6 is required." \
+       "Use --python=/path/to/python to specify a supported Python."
+ fi
+ 
 -- 
 2.18.2
 
