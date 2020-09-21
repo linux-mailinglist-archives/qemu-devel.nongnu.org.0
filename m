@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC722726B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:12:19 +0200 (CEST)
-Received: from localhost ([::1]:33324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A222C2726B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:13:43 +0200 (CEST)
+Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKMYE-0007ai-UU
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39070)
+	id 1kKMZa-00015M-PS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKMUf-0004n1-8g
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKMUh-0004n6-1e
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:44 -0400
+Resent-Date: Mon, 21 Sep 2020 10:08:39 -0400
+Resent-Message-Id: <E1kKMUh-0004n6-1e@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKMUd-0000HR-3I
  for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKMUb-0000HN-7N
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600697311;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=1PnikJiiMlxy1QIzox8ciiXQ7dXimCZr1Qzu5ah74Lg=;
- b=CThh/R1SwQaWAzE06uBJHreYAmfFxJPjLstZKgNWPE38+r5IfQ0H0GrbkbDqY+aKqHk6hx
- 6+Zz1T+CM6yH7+hHHbFZaGybvEncFr4z7A/1O6sApMyTl5y4z2EbHmWdyAKNAH0ndKGIhe
- b9vEBnNaloG6k84Yh1BMCIwzQ0IQwmE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-O9CLcebQPzWKbWDown5zkg-1; Mon, 21 Sep 2020 10:08:22 -0400
-X-MC-Unique: O9CLcebQPzWKbWDown5zkg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCCC3100559C
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 14:08:21 +0000 (UTC)
-Received: from redhat.com (ovpn-113-113.ams2.redhat.com [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 539AA5DEBB;
- Mon, 21 Sep 2020 14:08:06 +0000 (UTC)
-Date: Mon, 21 Sep 2020 15:08:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
-Message-ID: <20200921140803.GN1942072@redhat.com>
-References: <20200918213436.GA3520@redhat.com> <20200921085019.GB3221@work-vm>
- <20200921133516.GA13362@redhat.com>
+ARC-Seal: i=1; a=rsa-sha256; t=1600697305; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mg+osyCE+GmiA/tbEBfc+82D06fzgOWvuNDsWSqloWeh1nMywVTcRBcRaOH/DtDxx2PUyqbUHh78Wk2yfpIkF+sljRGSZlhJkW059ZdTsAwXsLKEKdYFik/GhiPcTyYTGZWYTZeRvc19nAms0TxjRMzvdg/kiLDkWXf8OBZJQ5A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600697305;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=2TUdOq9ILCpA6hXcYf6/nWt4Ful6FXVWMrh6UzAmUgs=; 
+ b=XYiPfGPDVmvI2xRQRIXhLOgaMBWesC6DvL4WMzzugmE04FFGy44jhjkl9y5ZyK6gGFkaKZKrzdhDp3NKXh6Ju+s1XtLIfmmE43tzLp5PWnYaZrQCHSc2Dilbmfbjaa+Q4mQ8SRZuJd+VnNCV3Klf5zwqeMKLHlM/HeEKmqzdZs8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 16006973038451021.3602729047459;
+ Mon, 21 Sep 2020 07:08:23 -0700 (PDT)
+Subject: Re: [PULL v3 00/15] virtio,pc,acpi: fixes, tests
+Message-ID: <160069730268.23907.16716971959079980933@66eaa9a8a123>
+In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200921133516.GA13362@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mst@redhat.com
+Date: Mon, 21 Sep 2020 07:08:23 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 10:08:32
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,62 +69,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: virtio-fs-list <virtio-fs@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 21, 2020 at 09:35:16AM -0400, Vivek Goyal wrote:
-> On Mon, Sep 21, 2020 at 09:50:19AM +0100, Dr. David Alan Gilbert wrote:
-> > * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > > Hi All,
-> > > 
-> > > virtiofsd default thread pool size is 64. To me it feels that in most of
-> > > the cases thread pool size 1 performs better than thread pool size 64.
-> > > 
-> > > I ran virtiofs-tests.
-> > > 
-> > > https://github.com/rhvgoyal/virtiofs-tests
-> > > 
-> > > And here are the comparision results. To me it seems that by default
-> > > we should switch to 1 thread (Till we can figure out how to make
-> > > multi thread performance better even when single process is doing
-> > > I/O in client).
-> > > 
-> > > I am especially more interested in getting performance better for
-> > > single process in client. If that suffers, then it is pretty bad.
-> > > 
-> > > Especially look at randread, randwrite, seqwrite performance. seqread
-> > > seems pretty good anyway.
-> > > 
-> > > If I don't run who test suite and just ran randread-psync job,
-> > > my throughput jumps from around 40MB/s to 60MB/s. That's a huge
-> > > jump I would say.
-> > > 
-> > > Thoughts?
-> > 
-> > What's your host setup; how many cores has the host got and how many did
-> > you give the guest?
-> 
-> Got 2 processors on host with 16 cores in each processor. With
-> hyperthreading enabled, it makes 32 logical cores on each processor and
-> that makes 64 logical cores on host.
-> 
-> I have given 32 to guest.
-
-FWIW, I'd be inclined to disable hyperthreading in the BIOS for one
-test to validate whether it is impacting performance results seen.
-Hyperthreads are weak compared to a real CPU, and could result in
-misleading data even if you are limiting your guest to 1/2 the host
-logical CPUs.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyMTExMjkxMy41NTUz
+OTItMS1tc3RAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAwOTIxMTEyOTEzLjU1NTM5Mi0x
+LW1zdEByZWRoYXQuY29tClN1YmplY3Q6IFtQVUxMIHYzIDAwLzE1XSB2aXJ0aW8scGMsYWNwaTog
+Zml4ZXMsIHRlc3RzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCBy
+ZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2tw
+YXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRp
+bmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBh
+IG5ldyBicmFuY2ggJ3Rlc3QnCjVlZjQ1ZTMgdmlydGlvLWlvbW11LXBjaTogZm9yY2UgdmlydGlv
+IHZlcnNpb24gMQplZTkxNzZiIHZpcnRpby1pb21tdTogQ2hlY2sgZ3RyZWVzIGFyZSBub24gbnVs
+bCBiZWZvcmUgZGVzdHJveWluZyB0aGVtCjcwODAzNzU3IGNwaHA6IHJlbW92ZSBkZXByZWNhdGVk
+IGNwdS1hZGQgY29tbWFuZChzKQo3NDdlMjUxIHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDog
+ZW5hYmxlIHRoZSByZWNvbm5lY3QgdGVzdHMKYTI4Mzg4NCB0ZXN0cy9xdGVzdC92aG9zdC11c2Vy
+LXRlc3Q6IGFkZCBtaWdyYXRlX3JlY29ubmVjdCB0ZXN0CjIxMTk5ZGEgdGVzdHMvcXRlc3Qvdmhv
+c3QtdXNlci10ZXN0OiBhZGQgc3VwcG9ydCBmb3IgdGhlIHZob3N0LXVzZXItYmxrIGRldmljZQpk
+MDdhMGRkIHRlc3RzL3F0ZXN0L2xpYnFvcy92aXJ0aW8tYmxrOiBhZGQgc3VwcG9ydCBmb3Igdmhv
+c3QtdXNlci1ibGsKMjcwYjkzZiB0ZXN0cy9xdGVzdC92aG9zdC11c2VyLXRlc3Q6IHByZXBhcmUg
+dGhlIHRlc3RzIGZvciBhZGRpbmcgbmV3IGRldiBjbGFzcwo1YzJkODljIHZob3N0OiBjaGVjayBx
+dWV1ZSBzdGF0ZSBpbiB0aGUgdmhvc3RfZGV2X3NldF9sb2cgcm91dGluZQo5MjlmYTFiIHZob3N0
+OiByZWNoZWNrIGRldiBzdGF0ZSBpbiB0aGUgdmhvc3RfbWlncmF0aW9uX2xvZyByb3V0aW5lCjQy
+Njc5NGIgcGM6IGZpeCBhdXRvX2VuYWJsZV9udW1hX3dpdGhfbWVtaHAvYXV0b19lbmFibGVfbnVt
+YV93aXRoX21lbWRldiBmb3IgdGhlIDUuMCBtYWNoaW5lCmMwNmI4NzcgdmlydGlvLW1lbTogZGV0
+YWNoIHRoZSBlbGVtZW50IGZyb20gdGhlIHZpcnRxdWV1ZSB3aGVuIGVycm9yIG9jY3VycwozOGRm
+ZTIyIHZob3N0LXZkcGE6IGJhdGNoIHVwZGF0aW5nIElPVExCIG1hcHBpbmdzCmFhMjExNjcgdmhv
+c3Q6IHN3aXRjaCB0byB1c2UgSU9UTEIgdjIgZm9ybWF0Cjc0NWUzOGIgbGludXggaGVhZGVyczog
+c3luYyB0byA1LjktcmM0Cgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE1IENoZWNraW5nIGNvbW1p
+dCA3NDVlMzhiNTJhMjUgKGxpbnV4IGhlYWRlcnM6IHN5bmMgdG8gNS45LXJjNCkKMi8xNSBDaGVj
+a2luZyBjb21taXQgYWEyMTE2Nzg5MjIyICh2aG9zdDogc3dpdGNoIHRvIHVzZSBJT1RMQiB2MiBm
+b3JtYXQpCjMvMTUgQ2hlY2tpbmcgY29tbWl0IDM4ZGZlMjI5ZjNlMCAodmhvc3QtdmRwYTogYmF0
+Y2ggdXBkYXRpbmcgSU9UTEIgbWFwcGluZ3MpCjQvMTUgQ2hlY2tpbmcgY29tbWl0IGMwNmI4Nzc5
+Y2U2OCAodmlydGlvLW1lbTogZGV0YWNoIHRoZSBlbGVtZW50IGZyb20gdGhlIHZpcnRxdWV1ZSB3
+aGVuIGVycm9yIG9jY3VycykKNS8xNSBDaGVja2luZyBjb21taXQgNDI2Nzk0YjQ0ZmM5IChwYzog
+Zml4IGF1dG9fZW5hYmxlX251bWFfd2l0aF9tZW1ocC9hdXRvX2VuYWJsZV9udW1hX3dpdGhfbWVt
+ZGV2IGZvciB0aGUgNS4wIG1hY2hpbmUpCjYvMTUgQ2hlY2tpbmcgY29tbWl0IDkyOWZhMWJmZmY4
+ZSAodmhvc3Q6IHJlY2hlY2sgZGV2IHN0YXRlIGluIHRoZSB2aG9zdF9taWdyYXRpb25fbG9nIHJv
+dXRpbmUpCjcvMTUgQ2hlY2tpbmcgY29tbWl0IDVjMmQ4OWNmY2E3ZSAodmhvc3Q6IGNoZWNrIHF1
+ZXVlIHN0YXRlIGluIHRoZSB2aG9zdF9kZXZfc2V0X2xvZyByb3V0aW5lKQo4LzE1IENoZWNraW5n
+IGNvbW1pdCAyNzBiOTNmNGU4ZDkgKHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogcHJlcGFy
+ZSB0aGUgdGVzdHMgZm9yIGFkZGluZyBuZXcgZGV2IGNsYXNzKQo5LzE1IENoZWNraW5nIGNvbW1p
+dCBkMDdhMGRkYjYxOGEgKHRlc3RzL3F0ZXN0L2xpYnFvcy92aXJ0aW8tYmxrOiBhZGQgc3VwcG9y
+dCBmb3Igdmhvc3QtdXNlci1ibGspCjEwLzE1IENoZWNraW5nIGNvbW1pdCAyMTE5OWRhNTI3Mzcg
+KHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogYWRkIHN1cHBvcnQgZm9yIHRoZSB2aG9zdC11
+c2VyLWJsayBkZXZpY2UpCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
+IzI1MjogRklMRTogdGVzdHMvcXRlc3Qvdmhvc3QtdXNlci10ZXN0LmM6MTA3MDoKK15JICAgIHNp
+emVvZihtc2ctPnBheWxvYWQuY29uZmlnLnJlZ2lvbikgKyBtc2ctPnBheWxvYWQuY29uZmlnLnNp
+emU7JAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAyNTYgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggMTAvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjExLzE1IENoZWNraW5nIGNvbW1p
+dCBhMjgzODg0NGRhZGMgKHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogYWRkIG1pZ3JhdGVf
+cmVjb25uZWN0IHRlc3QpCjEyLzE1IENoZWNraW5nIGNvbW1pdCA3NDdlMjUxNWZmYWEgKHRlc3Rz
+L3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogZW5hYmxlIHRoZSByZWNvbm5lY3QgdGVzdHMpCjEzLzE1
+IENoZWNraW5nIGNvbW1pdCA3MDgwMzc1N2U2ZjQgKGNwaHA6IHJlbW92ZSBkZXByZWNhdGVkIGNw
+dS1hZGQgY29tbWFuZChzKSkKMTQvMTUgQ2hlY2tpbmcgY29tbWl0IGVlOTE3NmJlYmQzOCAodmly
+dGlvLWlvbW11OiBDaGVjayBndHJlZXMgYXJlIG5vbiBudWxsIGJlZm9yZSBkZXN0cm95aW5nIHRo
+ZW0pCjE1LzE1IENoZWNraW5nIGNvbW1pdCA1ZWY0NWUzMjJhMzAgKHZpcnRpby1pb21tdS1wY2k6
+IGZvcmNlIHZpcnRpbyB2ZXJzaW9uIDEpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5k
+IGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6
+Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwOTIxMTEyOTEzLjU1NTM5Mi0xLW1zdEByZWRoYXQuY29t
+L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
+dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
+ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
