@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E17227338B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 22:18:56 +0200 (CEST)
-Received: from localhost ([::1]:39174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0468F2733DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 22:49:41 +0200 (CEST)
+Received: from localhost ([::1]:53358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKSH1-00030p-0D
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 16:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34650)
+	id 1kKSkl-0002x4-IB
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 16:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKSFE-0002SD-HS
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 16:17:04 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKSFB-0004sk-PJ
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 16:17:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600719420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7CVis8ozLJDYsPA2ILkJHvj11QvtCQxe8IZoh70/YuA=;
- b=EbKqDdntR1k9v++qA62M1hXP2QvaO0PcgVwlN/SrW8wNyPXrjZf8Nc4fR/OfgmDWCdA4X1
- OAocrs6L4eEBcNGqcOAfBzfMzDlDR2cVOXuFtSIMcxUn+C02Jdw80e60AE2JPtZbPTQFii
- AmYurgZ7VrAqeSZ4YncXxNyEKltAEtk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-pdU5SRJ-NjmpU4_51GnXoQ-1; Mon, 21 Sep 2020 16:16:48 -0400
-X-MC-Unique: pdU5SRJ-NjmpU4_51GnXoQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED4DD909CC0;
- Mon, 21 Sep 2020 20:16:47 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-114-27.rdu2.redhat.com [10.10.114.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDDF23A40;
- Mon, 21 Sep 2020 20:16:41 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 50E5D220C56; Mon, 21 Sep 2020 16:16:41 -0400 (EDT)
-Date: Mon, 21 Sep 2020 16:16:41 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
-Message-ID: <20200921201641.GD13362@redhat.com>
-References: <20200918213436.GA3520@redhat.com>
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1kKSVK-0006SS-Dn
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 16:33:43 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28894
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1kKSVG-0006vA-Ro
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 16:33:42 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08LKWH87064198; Mon, 21 Sep 2020 16:33:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=mime-version :
+ content-type : content-transfer-encoding : date : from : to : cc : subject
+ : in-reply-to : references : message-id; s=pp1;
+ bh=eTx6mYU7LQhlYMa5QEYRsFMLZ1oiYdRotyvvVLb4OlQ=;
+ b=gQPUECbkooxFwB5vT7gg5Ugn9gSOuSdBR6ngHNkLSkG+1qVcfZZRmqGuZ/qmz6EptPR1
+ LgsdOSvu1lOl2BFa2pcdP66KIQAit9w/8ExLSvCQLZWpJSvecVZIgmGfexmAKbay9Odq
+ uGkPqNHuE+yZu4Hirp+Bj3S4GPwtP0iaodo94MFgxgrQ4WgPlQ4PjlHiKeRkYjgdBtab
+ WJrlM9PBLooHSAxjEQDqiBm5Y38dPm7N4oZEi7SdEsSbKlSw3K7M0uwOXO8wP1olizyX
+ qYPfSjJi2CEPQ1HNNnmjWn8hze2GLuYtcG7Mef4JnBpUjF3AUN9tpjwTtZWTYoeN95P2 qA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33q3530790-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Sep 2020 16:33:33 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08LKWTpN064788;
+ Mon, 21 Sep 2020 16:33:33 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33q353078p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Sep 2020 16:33:33 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08LKVfWH013081;
+ Mon, 21 Sep 2020 20:33:32 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma04dal.us.ibm.com with ESMTP id 33n9m8pbc2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Sep 2020 20:33:32 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08LKXV6s52494846
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Sep 2020 20:33:31 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C46E82805E;
+ Mon, 21 Sep 2020 20:33:31 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E1D628058;
+ Mon, 21 Sep 2020 20:33:31 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.16.170.189])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 21 Sep 2020 20:33:30 +0000 (GMT)
 MIME-Version: 1.0
-In-Reply-To: <20200918213436.GA3520@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 16:17:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 21 Sep 2020 16:33:30 -0400
+From: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3] SEV: QMP support for Inject-Launch-Secret
+In-Reply-To: <20200921190800.GA32491@work-vm>
+References: <20200706215451.59179-1-tobin@linux.vnet.ibm.com>
+ <20200921190800.GA32491@work-vm>
+Message-ID: <b7faab72e909b709797e6098ec894c72@linux.vnet.ibm.com>
+X-Sender: tobin@linux.ibm.com
+User-Agent: Roundcube Webmail/1.0.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-21_08:2020-09-21,
+ 2020-09-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 spamscore=0
+ lowpriorityscore=0 mlxscore=0 suspectscore=2 priorityscore=1501
+ malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009210146
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=tobin@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 16:33:35
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 21 Sep 2020 16:48:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,121 +115,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, jejb@linux.ibm.com,
+ tobin@ibm.com, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 18, 2020 at 05:34:36PM -0400, Vivek Goyal wrote:
-> Hi All,
+On 2020-09-21 15:16, Dr. David Alan Gilbert wrote:
+> * Tobin Feldman-Fitzthum (tobin@linux.vnet.ibm.com) wrote:
+>> AMD SEV allows a guest owner to inject a secret blob
+>> into the memory of a virtual machine. The secret is
+>> encrypted with the SEV Transport Encryption Key and
+>> integrity is guaranteed with the Transport Integrity
+>> Key. Although QEMU faciliates the injection of the
+>> launch secret, it cannot access the secret.
+>> 
+>> Signed-off-by: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>
 > 
-> virtiofsd default thread pool size is 64. To me it feels that in most of
-> the cases thread pool size 1 performs better than thread pool size 64.
+> Hi Tobin,
+>   Did the ovmf stuff for agreeing the GUID for automating this ever
+> happen?
 > 
-> I ran virtiofs-tests.
+OVMF patches have not been upstreamed yet. I think we are planning
+to do that relatively soon.
+
+-Tobin
+> Dave
 > 
-> https://github.com/rhvgoyal/virtiofs-tests
-
-I spent more time debugging this. First thing I noticed is that we
-are using "exclusive" glib thread pool.
-
-https://developer.gnome.org/glib/stable/glib-Thread-Pools.html#g-thread-pool-new
-
-This seems to run pre-determined number of threads dedicated to that
-thread pool. Little instrumentation of code revealed that every new
-request gets assiged to new thread (despite the fact that previous
-thread finished its job). So internally there might be some kind of
-round robin policy to choose next thread for running the job.
-
-I decided to switch to "shared" pool instead where it seemed to spin
-up new threads only if there is enough work. Also threads can be shared
-between pools.
-
-And looks like testing results are way better with "shared" pools. So
-may be we should switch to shared pool by default. (Till somebody shows
-in what cases exclusive pools are better).
-
-Second thought which came to mind was what's the impact of NUMA. What
-if qemu and virtiofsd process/threads are running on separate NUMA
-node. That should increase memory access latency and increased overhead.
-So I used "numactl --cpubind=0" to bind both qemu and virtiofsd to node
-0. My machine seems to have two numa nodes. (Each node is having 32
-logical processors). Keeping both qemu and virtiofsd on same node
-improves throughput further.
-
-So here are the results.
-
-vtfs-none-epool --> cache=none, exclusive thread pool.
-vtfs-none-spool --> cache=none, shared thread pool.
-vtfs-none-spool-numa --> cache=none, shared thread pool, same numa node
-
-
-NAME                    WORKLOAD                Bandwidth       IOPS            
-vtfs-none-epool         seqread-psync           36(MiB/s)       9392            
-vtfs-none-spool         seqread-psync           68(MiB/s)       17k             
-vtfs-none-spool-numa    seqread-psync           73(MiB/s)       18k             
-
-vtfs-none-epool         seqread-psync-multi     210(MiB/s)      52k             
-vtfs-none-spool         seqread-psync-multi     260(MiB/s)      65k             
-vtfs-none-spool-numa    seqread-psync-multi     309(MiB/s)      77k             
-
-vtfs-none-epool         seqread-libaio          286(MiB/s)      71k             
-vtfs-none-spool         seqread-libaio          328(MiB/s)      82k             
-vtfs-none-spool-numa    seqread-libaio          332(MiB/s)      83k             
-
-vtfs-none-epool         seqread-libaio-multi    201(MiB/s)      50k             
-vtfs-none-spool         seqread-libaio-multi    254(MiB/s)      63k             
-vtfs-none-spool-numa    seqread-libaio-multi    276(MiB/s)      69k             
-
-vtfs-none-epool         randread-psync          40(MiB/s)       10k             
-vtfs-none-spool         randread-psync          64(MiB/s)       16k             
-vtfs-none-spool-numa    randread-psync          72(MiB/s)       18k             
-
-vtfs-none-epool         randread-psync-multi    211(MiB/s)      52k             
-vtfs-none-spool         randread-psync-multi    252(MiB/s)      63k             
-vtfs-none-spool-numa    randread-psync-multi    297(MiB/s)      74k             
-
-vtfs-none-epool         randread-libaio         313(MiB/s)      78k             
-vtfs-none-spool         randread-libaio         320(MiB/s)      80k             
-vtfs-none-spool-numa    randread-libaio         330(MiB/s)      82k             
-
-vtfs-none-epool         randread-libaio-multi   257(MiB/s)      64k             
-vtfs-none-spool         randread-libaio-multi   274(MiB/s)      68k             
-vtfs-none-spool-numa    randread-libaio-multi   319(MiB/s)      79k             
-
-vtfs-none-epool         seqwrite-psync          34(MiB/s)       8926            
-vtfs-none-spool         seqwrite-psync          55(MiB/s)       13k             
-vtfs-none-spool-numa    seqwrite-psync          66(MiB/s)       16k             
-
-vtfs-none-epool         seqwrite-psync-multi    196(MiB/s)      49k             
-vtfs-none-spool         seqwrite-psync-multi    225(MiB/s)      56k             
-vtfs-none-spool-numa    seqwrite-psync-multi    270(MiB/s)      67k             
-
-vtfs-none-epool         seqwrite-libaio         257(MiB/s)      64k             
-vtfs-none-spool         seqwrite-libaio         304(MiB/s)      76k             
-vtfs-none-spool-numa    seqwrite-libaio         267(MiB/s)      66k             
-
-vtfs-none-epool         seqwrite-libaio-multi   312(MiB/s)      78k             
-vtfs-none-spool         seqwrite-libaio-multi   366(MiB/s)      91k             
-vtfs-none-spool-numa    seqwrite-libaio-multi   381(MiB/s)      95k             
-
-vtfs-none-epool         randwrite-psync         38(MiB/s)       9745            
-vtfs-none-spool         randwrite-psync         55(MiB/s)       13k             
-vtfs-none-spool-numa    randwrite-psync         67(MiB/s)       16k             
-
-vtfs-none-epool         randwrite-psync-multi   186(MiB/s)      46k             
-vtfs-none-spool         randwrite-psync-multi   240(MiB/s)      60k             
-vtfs-none-spool-numa    randwrite-psync-multi   271(MiB/s)      67k             
-
-vtfs-none-epool         randwrite-libaio        224(MiB/s)      56k             
-vtfs-none-spool         randwrite-libaio        296(MiB/s)      74k             
-vtfs-none-spool-numa    randwrite-libaio        290(MiB/s)      72k             
-
-vtfs-none-epool         randwrite-libaio-multi  300(MiB/s)      75k             
-vtfs-none-spool         randwrite-libaio-multi  350(MiB/s)      87k             
-vtfs-none-spool-numa    randwrite-libaio-multi  383(MiB/s)      95k             
-
-Thanks
-Vivek
-
+>> ---
+>>  include/monitor/monitor.h |  3 ++
+>>  include/sysemu/sev.h      |  2 ++
+>>  monitor/misc.c            |  8 ++---
+>>  qapi/misc-target.json     | 18 +++++++++++
+>>  target/i386/monitor.c     |  9 ++++++
+>>  target/i386/sev-stub.c    |  5 +++
+>>  target/i386/sev.c         | 66 
+>> +++++++++++++++++++++++++++++++++++++++
+>>  target/i386/trace-events  |  1 +
+>>  8 files changed, 108 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+>> index 1018d754a6..bf049c5b00 100644
+>> --- a/include/monitor/monitor.h
+>> +++ b/include/monitor/monitor.h
+>> @@ -4,6 +4,7 @@
+>>  #include "block/block.h"
+>>  #include "qapi/qapi-types-misc.h"
+>>  #include "qemu/readline.h"
+>> +#include "include/exec/hwaddr.h"
+>> 
+>>  extern __thread Monitor *cur_mon;
+>>  typedef struct MonitorHMP MonitorHMP;
+>> @@ -36,6 +37,8 @@ void monitor_flush(Monitor *mon);
+>>  int monitor_set_cpu(int cpu_index);
+>>  int monitor_get_cpu_index(void);
+>> 
+>> +void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, uint64_t size, Error 
+>> **errp);
+>> +
+>>  void monitor_read_command(MonitorHMP *mon, int show_prompt);
+>>  int monitor_read_password(MonitorHMP *mon, ReadLineFunc 
+>> *readline_func,
+>>                            void *opaque);
+>> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+>> index 98c1ec8d38..b279b293e8 100644
+>> --- a/include/sysemu/sev.h
+>> +++ b/include/sysemu/sev.h
+>> @@ -18,4 +18,6 @@
+>> 
+>>  void *sev_guest_init(const char *id);
+>>  int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
+>> +int sev_inject_launch_secret(const char *hdr, const char *secret,
+>> +                             uint64_t gpa);
+>>  #endif
+>> diff --git a/monitor/misc.c b/monitor/misc.c
+>> index 89bb970b00..b9ec8ba410 100644
+>> --- a/monitor/misc.c
+>> +++ b/monitor/misc.c
+>> @@ -674,10 +674,10 @@ static void hmp_physical_memory_dump(Monitor 
+>> *mon, const QDict *qdict)
+>>      memory_dump(mon, count, format, size, addr, 1);
+>>  }
+>> 
+>> -static void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, Error **errp)
+>> +void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, uint64_t size, Error 
+>> **errp)
+>>  {
+>>      MemoryRegionSection mrs = memory_region_find(get_system_memory(),
+>> -                                                 addr, 1);
+>> +                                                 addr, size);
+>> 
+>>      if (!mrs.mr) {
+>>          error_setg(errp, "No memory is mapped at address 0x%" 
+>> HWADDR_PRIx, addr);
+>> @@ -701,7 +701,7 @@ static void hmp_gpa2hva(Monitor *mon, const QDict 
+>> *qdict)
+>>      MemoryRegion *mr = NULL;
+>>      void *ptr;
+>> 
+>> -    ptr = gpa2hva(&mr, addr, &local_err);
+>> +    ptr = gpa2hva(&mr, addr, 1, &local_err);
+>>      if (local_err) {
+>>          error_report_err(local_err);
+>>          return;
+>> @@ -777,7 +777,7 @@ static void hmp_gpa2hpa(Monitor *mon, const QDict 
+>> *qdict)
+>>      void *ptr;
+>>      uint64_t physaddr;
+>> 
+>> -    ptr = gpa2hva(&mr, addr, &local_err);
+>> +    ptr = gpa2hva(&mr, addr, 1, &local_err);
+>>      if (local_err) {
+>>          error_report_err(local_err);
+>>          return;
+>> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+>> index dee3b45930..d145f916b3 100644
+>> --- a/qapi/misc-target.json
+>> +++ b/qapi/misc-target.json
+>> @@ -200,6 +200,24 @@
+>>  { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
+>>    'if': 'defined(TARGET_I386)' }
+>> 
+>> +##
+>> +# @sev-inject-launch-secret:
+>> +#
+>> +# This command injects a secret blob into memory of SEV guest.
+>> +#
+>> +# @packet-header: the launch secret packet header encoded in base64
+>> +#
+>> +# @secret: the launch secret data to be injected encoded in base64
+>> +#
+>> +# @gpa: the guest physical address where secret will be injected.
+>> +#
+>> +# Since: 5.1
+>> +#
+>> +##
+>> +{ 'command': 'sev-inject-launch-secret',
+>> +  'data': { 'packet-header': 'str', 'secret': 'str', 'gpa': 'uint64' 
+>> },
+>> +  'if': 'defined(TARGET_I386)' }
+>> +
+>>  ##
+>>  # @dump-skeys:
+>>  #
+>> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+>> index 27ebfa3ad2..42bcfe6dc0 100644
+>> --- a/target/i386/monitor.c
+>> +++ b/target/i386/monitor.c
+>> @@ -736,3 +736,12 @@ SevCapability *qmp_query_sev_capabilities(Error 
+>> **errp)
+>> 
+>>      return data;
+>>  }
+>> +
+>> +void qmp_sev_inject_launch_secret(const char *packet_hdr,
+>> +                                  const char *secret, uint64_t gpa,
+>> +                                  Error **errp)
+>> +{
+>> +    if (sev_inject_launch_secret(packet_hdr, secret, gpa) != 0) {
+>> +        error_setg(errp, "SEV inject secret failed");
+>> +    }
+>> +}
+>> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+>> index e5ee13309c..fed4588185 100644
+>> --- a/target/i386/sev-stub.c
+>> +++ b/target/i386/sev-stub.c
+>> @@ -48,3 +48,8 @@ SevCapability *sev_get_capabilities(void)
+>>  {
+>>      return NULL;
+>>  }
+>> +int sev_inject_launch_secret(const char *hdr, const char *secret,
+>> +                             uint64_t gpa)
+>> +{
+>> +    return 1;
+>> +}
+>> diff --git a/target/i386/sev.c b/target/i386/sev.c
+>> index d273174ad3..cbeb8f2e02 100644
+>> --- a/target/i386/sev.c
+>> +++ b/target/i386/sev.c
+>> @@ -28,6 +28,8 @@
+>>  #include "sysemu/runstate.h"
+>>  #include "trace.h"
+>>  #include "migration/blocker.h"
+>> +#include "exec/address-spaces.h"
+>> +#include "monitor/monitor.h"
+>> 
+>>  #define TYPE_SEV_GUEST "sev-guest"
+>>  #define SEV_GUEST(obj)                                          \
+>> @@ -769,6 +771,70 @@ sev_encrypt_data(void *handle, uint8_t *ptr, 
+>> uint64_t len)
+>>      return 0;
+>>  }
+>> 
+>> +int sev_inject_launch_secret(const char *packet_hdr,
+>> +                             const char *secret, uint64_t gpa)
+>> +{
+>> +    struct kvm_sev_launch_secret input;
+>> +    guchar *data = NULL, *hdr = NULL;
+>> +    int error, ret = 1;
+>> +    void *hva;
+>> +    gsize hdr_sz = 0, data_sz = 0;
+>> +    Error *local_err = NULL;
+>> +    MemoryRegion *mr = NULL;
+>> +
+>> +    /* secret can be inject only in this state */
+>> +    if (!sev_check_state(sev_guest, SEV_STATE_LAUNCH_SECRET)) {
+>> +        error_report("SEV: Not in correct state. (LSECRET) %x",
+>> +                     sev_guest->state);
+>> +        return 1;
+>> +    }
+>> +
+>> +    hdr = g_base64_decode(packet_hdr, &hdr_sz);
+>> +    if (!hdr || !hdr_sz) {
+>> +        error_report("SEV: Failed to decode sequence header");
+>> +        return 1;
+>> +    }
+>> +
+>> +    data = g_base64_decode(secret, &data_sz);
+>> +    if (!data || !data_sz) {
+>> +        error_report("SEV: Failed to decode data");
+>> +        goto err;
+>> +    }
+>> +
+>> +    hva = gpa2hva(&mr, gpa, data_sz, &local_err);
+>> +    if (!hva) {
+>> +        error_report("SEV: Failed to calculate guest address.");
+>> +        goto err;
+>> +    }
+>> +
+>> +    input.hdr_uaddr = (uint64_t)(unsigned long)hdr;
+>> +    input.hdr_len = hdr_sz;
+>> +
+>> +    input.trans_uaddr = (uint64_t)(unsigned long)data;
+>> +    input.trans_len = data_sz;
+>> +
+>> +    input.guest_uaddr = (uint64_t)(unsigned long)hva;
+>> +    input.guest_len = data_sz;
+>> +
+>> +    trace_kvm_sev_launch_secret(gpa, input.guest_uaddr,
+>> +                                input.trans_uaddr, input.trans_len);
+>> +
+>> +    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_LAUNCH_SECRET,
+>> +                    &input, &error);
+>> +    if (ret) {
+>> +        error_report("SEV: failed to inject secret ret=%d fw_error=%d 
+>> '%s'",
+>> +                     ret, error, fw_error_to_str(error));
+>> +        goto err;
+>> +    }
+>> +
+>> +    ret = 0;
+>> +
+>> +err:
+>> +    g_free(data);
+>> +    g_free(hdr);
+>> +    return ret;
+>> +}
+>> +
+>>  static void
+>>  sev_register_types(void)
+>>  {
+>> diff --git a/target/i386/trace-events b/target/i386/trace-events
+>> index 789c700d4a..9f299e94a2 100644
+>> --- a/target/i386/trace-events
+>> +++ b/target/i386/trace-events
+>> @@ -15,3 +15,4 @@ kvm_sev_launch_start(int policy, void *session, void 
+>> *pdh) "policy 0x%x session
+>>  kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 
+>> 0x%" PRIu64
+>>  kvm_sev_launch_measurement(const char *value) "data %s"
+>>  kvm_sev_launch_finish(void) ""
+>> +kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, 
+>> int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len 
+>> %d"
+>> --
+>> 2.20.1 (Apple Git-117)
+>> 
 
