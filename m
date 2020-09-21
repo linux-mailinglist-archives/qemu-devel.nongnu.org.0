@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0FE0272893
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:44:36 +0200 (CEST)
-Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6B127290A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:50:21 +0200 (CEST)
+Received: from localhost ([::1]:40442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKN3U-0005Wh-1W
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:44:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52422)
+	id 1kKN92-0001wk-TC
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKN1U-0004Ni-TT
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:42:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41738)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN5g-00084E-BH
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:46:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKN1S-0005tF-UM
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:42:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN5e-0006UN-9l
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:46:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600699350;
+ s=mimecast20190719; t=1600699608;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xoMAFBwb8ptKT6pJ90YzaJr1+KGeRrVDE4llFWuUbuE=;
- b=emgf+YMr1kG6FiOtg/66k/1C7zzKrJJZVd+4GApyexlVB8eggHAK6k53MUiCsODmajZ4O+
- pN1+hqlppCYfUVfIadP1yy6cet+SxfYpi0AILP9athzWAEdR7cPEO4khUQH86kvxB8nj9u
- ZRQOwf7aLwmTX1d6TmPBcjwenC8hFcE=
+ bh=/5Hqn6jySfjP7Wr40wPCovOfu0GOxO7kQ9MhyB1X8Cc=;
+ b=WqXzJctcX3eyTSuvgXrQpnMF80M+l+BvC9S55unwC3AE0AFItB51f4aO65fIkq121+Jmvw
+ r7jlyU6gG3a95RS19dqUaZzAIwoYNRr+5c+l+D7LaqrtaOU84aqRztDXia8sls4iSI7MJL
+ xb5RwDimeWloYhZmebm730e4qnU1gYk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-3RemWG0HMmiD6-sZ0D8sUQ-1; Mon, 21 Sep 2020 10:42:27 -0400
-X-MC-Unique: 3RemWG0HMmiD6-sZ0D8sUQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-591-glTVh78ZMpO9whWlI4j2gQ-1; Mon, 21 Sep 2020 10:46:44 -0400
+X-MC-Unique: glTVh78ZMpO9whWlI4j2gQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E018010082E5;
- Mon, 21 Sep 2020 14:42:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B337478823;
- Mon, 21 Sep 2020 14:42:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4F5771132E9A; Mon, 21 Sep 2020 16:42:25 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v5 8/8] qapi: New -compat deprecated-input=crash
-References: <20200914084802.4185028-1-armbru@redhat.com>
- <20200914084802.4185028-9-armbru@redhat.com>
- <e1c94dc7-b97f-4919-0210-fe3c0e19e93f@redhat.com>
-Date: Mon, 21 Sep 2020 16:42:25 +0200
-In-Reply-To: <e1c94dc7-b97f-4919-0210-fe3c0e19e93f@redhat.com> (Eric Blake's
- message of "Mon, 14 Sep 2020 10:58:55 -0500")
-Message-ID: <87d02f199q.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 370051021202;
+ Mon, 21 Sep 2020 14:46:43 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF0AA5D9CD;
+ Mon, 21 Sep 2020 14:46:41 +0000 (UTC)
+Subject: Re: [PATCH 16/37] qapi: establish mypy type-checking baseline
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200915224027.2529813-1-jsnow@redhat.com>
+ <20200915224027.2529813-17-jsnow@redhat.com>
+ <874knvguzb.fsf@dusky.pond.sub.org>
+ <d8faa68c-6900-5666-943c-98815348fc5b@redhat.com>
+ <87imc7a71d.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <f10940c0-ee44-bf84-866b-0c3cde11fa05@redhat.com>
+Date: Mon, 21 Sep 2020 10:46:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <87imc7a71d.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,43 +86,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On 9/21/20 4:05 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 9/18/20 7:55 AM, Markus Armbruster wrote:
+>>> Ignorant question: why does this come after PATCH 13 "qapi/common.py:
+>>> add notational type hints", but before all the other patches adding type
+>>> hints?
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> Fix two very minor issues, and then establish a mypy type-checking
+>>>> baseline.
+>>>>
+>>>> Like pylint, this should be run from the folder above:
+>>>>
+>>>>    > mypy --config-file=qapi/mypy.ini qapi/
+>>> I get:
+>>>       $ mypy --config-file qapi/mypy.ini qapi
+>>>       qapi/mypy.ini: [mypy]: Strict mode is not supported in configuration files: specify individual flags instead (see 'mypy -h' for the list of flags enabled in strict mode)
+>>>       qapi/types.py:29: error: Need type annotation for 'objects_seen' (hint: "objects_seen: Set[<type>] = ...")
+>>>       Found 1 error in 1 file (checked 18 source files)
+>>> Is this expected?
+>>> In case it matters:
+>>>       $ mypy --version
+>>>       mypy 0.761
+>>>
+>>
+>> (Warning; FiSH and stgit ahead)
+>>
+>> cd ~/src/qemu/scripts
+>> pipenv --python 3.6
+>> pipenv shell
+>> pip install pylint flake8
+>>
+>> ### Testing mypy 0.770
+>>
+>> pip install mypy==0.770
+>> stg goto qapi-establish-mypy-type
+>>
+>> while true; and flake8 qapi/; and pylint --rcfile=qapi/pylintrc qapi/;
+>> and mypy --config-file=qapi/mypy.ini qapi/; and stg push; end
+>>
+>> pip uninstall mypy
+>>
+>> ###
+>>
+>>
+>>
+>> 0.782 - OK
+>> 0.770 - OK
+>> 0.760 - FAIL, Fixable*
+>> 0.750 - OK*
+>> 0.740 - OK*
+>> 0.730 - OK*
+>> 0.720 - OK*
+>> 0.710 - OK** (Does not recognize 'no_implicit_reexport' option)
+>> 0.700 - OK*** (Not compatible with bleeding edge pylint/flake8)
+>> 0.670 - OK***
+>> 0.660 - OK***
+>> 0.650 - OK***
+>> 0.641 - OK***
+>> 0.630 - Fails again.
+>>
+>>
+>>
+>> 0.760 doesn't support strict in the config file (It needs component
+>> options), and it wants a few extra annotations where its inference
+>> power is weaker. Well, easy enough to fix up.
+>>
+>> 0.630 fails again and insists that __init__ should have a return type
+>> annotation of None. Modern mypy is smart enough to know that's what
+>> that type is supposed to be. Arbitrarily, this is my cutoff for what
+>> seems reasonable to even want to support.
+>>
+>> I still find the lack of "strict=true" in the config file irritating
+>> and might ask to target 0.770 or newer. There should be no reason we
+>> can't install that in a venv for CI to chew on.
+>>
+>> Humbly ask I take the lazy way out and document that we support mypy
+>>> = 0.770.
+> 
+> Our "supported build platforms" policy puts hard limits on the minimum
+> versions for tools the build requires.
+> 
+> Mypy is not such a tool.  I hope we get to the point where we can have
+> "make check" run it, but skipping the test when we don't have a
+> sufficiently modern mypy feels okay to me, as long as our gating CI
+> still guards the master branch.
+> 
 
-> On 9/14/20 3:48 AM, Markus Armbruster wrote:
->> Policy "crash" calls abort() when deprecated input is received.
->> Bugs in integration tests may mask the error from policy "reject".
->> Provide a larger hammer: crash outright.  Masking that seems unlikely.
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->
->> +++ b/qemu-options.hx
->> @@ -3392,7 +3392,7 @@ DEFHEADING()
->>   DEFHEADING(Debug/Expert options:)
->>     DEF("compat", HAS_ARG, QEMU_OPTION_compat,
->> -    "-compat [deprecated-input=accept|reject][,deprecated-output=accept|hide]\n"
->> +    "-compat [deprecated-input=accept|reject|crash][,deprecated-output=accept|hide]\n"
->>       "                Policy for handling deprecated management interfaces\n",
->>       QEMU_ARCH_ALL)
->>   SRST
->> @@ -3403,6 +3403,8 @@ SRST
->>           Accept deprecated commands and arguments
->>       ``deprecated-input=reject``
->>           Reject deprecated commands and arguments
->> +    ``deprecated-input=crash``
->> +        Crash on deprecated command
->
-> Missing 'and arguments'?
+Yes, that's been my view. These tools *are* new and they *do* change 
+often. Chasing a wide compatibility window with them is prohibitively 
+difficult. Luckily, they're not needed for running the packages at all.
 
-Yes.
+If I do add linting to 'make check', it is going to be through a virtual 
+environment that deploys *specific versions* of these tools, and it will 
+happen transparently. The VM tests already do this.
 
-> Otherwise,
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Thanks!
+--js
 
 
