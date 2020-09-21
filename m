@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40052735A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:22:08 +0200 (CEST)
-Received: from localhost ([::1]:37750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1942735B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:25:08 +0200 (CEST)
+Received: from localhost ([::1]:48720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKUCF-0003vP-Te
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
+	id 1kKUF9-0008VB-Mf
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU27-0000c7-Gh
+ id 1kKU27-0000aq-2Q
  for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36446)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU22-0001eG-G0
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:39 -0400
+ id 1kKU22-0001eQ-Eo
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600726287;
+ s=mimecast20190719; t=1600726288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=folivq79vU79XSA6rq0LSS3y2MaZhG4xZKnlYr4A8ng=;
- b=ZhHr6cIDzONXWh4qqQWcGwHc0E+ksEZAlcUmIhd3e6ATu0I+jOKWG0RHx698zlXxaXtD1F
- 4sZjWOTp/v+lLaqefm7laErYTqVCsCFlw0DfoF2YGY7AighJfnynD0h3lfOn9RUBvrERUi
- /qEVlfal8gdGIhQZaaOPjvYPIWFWXk4=
+ bh=jqtEZWQxZSHY7rT/HZvuRkl1HSoTAI8T3ZT+fIlVs1Y=;
+ b=Xn5zcvPf4yH/1nbxNkuTIHp9Y3L0c9xFI6fsiIUw/T1ZYcz1w+4uLSh2YCSRuq1oAFuWxC
+ rEbs4BWKKTbUQJcx7P5AN2IBk6/grVxBw0cq5PSGn++gc1C4LjHuFoWfu1+27ASClNV/M7
+ hnPjkBvWLoV7BPE0QNI6n8NLCA37uas=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-i3vfzWNRNMuAmyIMiBfllA-1; Mon, 21 Sep 2020 18:11:26 -0400
-X-MC-Unique: i3vfzWNRNMuAmyIMiBfllA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-206-m1R--18VMEOT6DC8rwoJLw-1; Mon, 21 Sep 2020 18:11:26 -0400
+X-MC-Unique: m1R--18VMEOT6DC8rwoJLw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02A04873081;
- Mon, 21 Sep 2020 22:11:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7B64185FD93
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 22:11:25 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDCE616E20;
- Mon, 21 Sep 2020 22:11:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A599073684;
+ Mon, 21 Sep 2020 22:11:25 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/24] virt: Register "its" as class property
-Date: Mon, 21 Sep 2020 18:10:37 -0400
-Message-Id: <20200921221045.699690-17-ehabkost@redhat.com>
+Subject: [PATCH 17/24] cpu/core: Register core-id and nr-threads as class
+ properties
+Date: Mon, 21 Sep 2020 18:10:38 -0400
+Message-Id: <20200921221045.699690-18-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -67,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +82,46 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, "Daniel P. Berrange" <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Class properties make QOM introspection simpler and easier, as
 they don't require an object to be instantiated.
 
-Note: "its" is currently registered conditionally, but this makes
-the feature be registered unconditionally.  The only side effect
-is that it will be now possible to set its=on on virt-2.7 and
-older.
-
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- hw/arm/virt.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ hw/cpu/core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index d1ab660fa60..986b75a6b89 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2484,6 +2484,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable emulating a "
-                                           "guest CPU which implements the ARM "
-                                           "Memory Tagging Extension");
-+
-+    object_class_property_add_bool(oc, "its", virt_get_its,
-+                                   virt_set_its);
-+    object_class_property_set_description(oc, "its",
-+                                          "Set on/off to enable/disable "
-+                                          "ITS instantiation");
-+
+diff --git a/hw/cpu/core.c b/hw/cpu/core.c
+index 3a659291eae..92d3b2fbad6 100644
+--- a/hw/cpu/core.c
++++ b/hw/cpu/core.c
+@@ -69,10 +69,6 @@ static void cpu_core_instance_init(Object *obj)
+     MachineState *ms = MACHINE(qdev_get_machine());
+     CPUCore *core = CPU_CORE(obj);
+ 
+-    object_property_add(obj, "core-id", "int", core_prop_get_core_id,
+-                        core_prop_set_core_id, NULL, NULL);
+-    object_property_add(obj, "nr-threads", "int", core_prop_get_nr_threads,
+-                        core_prop_set_nr_threads, NULL, NULL);
+     core->nr_threads = ms->smp.threads;
  }
  
- static void virt_instance_init(Object *obj)
-@@ -2511,11 +2518,6 @@ static void virt_instance_init(Object *obj)
-     } else {
-         /* Default allows ITS instantiation */
-         vms->its = true;
--        object_property_add_bool(obj, "its", virt_get_its,
--                                 virt_set_its);
--        object_property_set_description(obj, "its",
--                                        "Set on/off to enable/disable "
--                                        "ITS instantiation");
-     }
+@@ -81,6 +77,10 @@ static void cpu_core_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
  
-     /* Default disallows iommu instantiation */
+     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
++    object_class_property_add(oc, "core-id", "int", core_prop_get_core_id,
++                              core_prop_set_core_id, NULL, NULL);
++    object_class_property_add(oc, "nr-threads", "int", core_prop_get_nr_threads,
++                              core_prop_set_nr_threads, NULL, NULL);
+ }
+ 
+ static const TypeInfo cpu_core_type_info = {
 -- 
 2.26.2
 
