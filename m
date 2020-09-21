@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152672735BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:26:49 +0200 (CEST)
-Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E842735C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:28:55 +0200 (CEST)
+Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKUGm-0003Gw-4Z
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59194)
+	id 1kKUIo-0005yK-HM
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:28:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU29-0000eC-E2
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38976)
+ id 1kKU2H-0000fu-W5
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU24-0001gL-75
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:41 -0400
+ id 1kKU25-0001go-Bx
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600726294;
+ s=mimecast20190719; t=1600726296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z5+/1tyGKR8UL8izbNzf4NPhJhG0pfUnyRttNwTzYwI=;
- b=C5rZ2qwEA+F0Ishm1J7G9WMs9S25qX0Lc0ZsOGf3Mb3peK+VfQx9fHs+M3QpY/eTHvzt80
- I4ei1BGW04NUqIdq5PHoH0qUCp3VJRpGpZP/BYPwAdQJbCE6Yp0u3AYkDJANgkfZAwBrou
- KVPO3hgkKnYlCv4haKI2bvebLKbwewE=
+ bh=zEmubyhVPEqVZS8bAuyRyp9dmKFyakhI1Fgi9Dy1TSI=;
+ b=Iajyvj8yt0tKRIc+uJLQZ/E8/l4Di3/U2+lEVi80e32RsWcpO9vQokE18epyTbrUiNrdJ+
+ d+o9tgssVwBobmqEdBtmdyVmNcpN980oD92Otn4DIvUPmNTyvwinYYAu9TjWhZ3E+pHh8V
+ 6KUvtcaBKP1NvsDiUqVz08XuljbQwF8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-SjKwBzV8NaWE28qR60HC-w-1; Mon, 21 Sep 2020 18:11:30 -0400
-X-MC-Unique: SjKwBzV8NaWE28qR60HC-w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-139-LNbx3JBZOs-xl3Yst2Y3aQ-1; Mon, 21 Sep 2020 18:11:34 -0400
+X-MC-Unique: LNbx3JBZOs-xl3Yst2Y3aQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8141D873081;
- Mon, 21 Sep 2020 22:11:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B696210059A2
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 22:11:33 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A13310013BD;
- Mon, 21 Sep 2020 22:11:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D2CF5577B;
+ Mon, 21 Sep 2020 22:11:30 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/24] machine: Register "memory-backend" as class property
-Date: Mon, 21 Sep 2020 18:10:41 -0400
-Message-Id: <20200921221045.699690-21-ehabkost@redhat.com>
+Subject: [PATCH 21/24] vga-pci: Register "big-endian-framebuffer" as class
+ property
+Date: Mon, 21 Sep 2020 18:10:42 -0400
+Message-Id: <20200921221045.699690-22-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +82,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+ "Daniel P. Berrange" <berrange@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,43 +91,49 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/machine.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/display/vga-pci.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index ea26d612374..675ca6d651c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -874,6 +874,12 @@ static void machine_class_init(ObjectClass *oc, void *data)
-         machine_get_memory_encryption, machine_set_memory_encryption);
-     object_class_property_set_description(oc, "memory-encryption",
-         "Set memory encryption object to use");
-+
-+    object_class_property_add_str(oc, "memory-backend",
-+                                  machine_get_memdev, machine_set_memdev);
-+    object_class_property_set_description(oc, "memory-backend",
-+                                          "Set RAM backend"
-+                                          "Valid value is ID of hostmem based backend");
+diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
+index 3b45fa3bad0..b2a7d03c5d5 100644
+--- a/hw/display/vga-pci.c
++++ b/hw/display/vga-pci.c
+@@ -269,13 +269,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
+     }
  }
  
- static void machine_class_base_init(ObjectClass *oc, void *data)
-@@ -925,12 +931,6 @@ static void machine_initfn(Object *obj)
-                                         "Table (HMAT)");
-     }
- 
--    object_property_add_str(obj, "memory-backend",
--                            machine_get_memdev, machine_set_memdev);
--    object_property_set_description(obj, "memory-backend",
--                                    "Set RAM backend"
--                                    "Valid value is ID of hostmem based backend");
+-static void pci_std_vga_init(Object *obj)
+-{
+-    /* Expose framebuffer byteorder via QOM */
+-    object_property_add_bool(obj, "big-endian-framebuffer",
+-                             vga_get_big_endian_fb, vga_set_big_endian_fb);
+-}
 -
-     /* Register notifier when init is done for sysbus sanity checks */
-     ms->sysbus_notifier.notify = machine_init_notify;
-     qemu_add_machine_init_done_notifier(&ms->sysbus_notifier);
+ static void pci_secondary_vga_realize(PCIDevice *dev, Error **errp)
+ {
+     PCIVGAState *d = PCI_VGA(dev);
+@@ -388,6 +381,10 @@ static void vga_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_DISPLAY_VGA;
+     device_class_set_props(dc, vga_pci_properties);
+     dc->hotpluggable = false;
++
++    /* Expose framebuffer byteorder via QOM */
++    object_class_property_add_bool(klass, "big-endian-framebuffer",
++                                   vga_get_big_endian_fb, vga_set_big_endian_fb);
+ }
+ 
+ static void secondary_class_init(ObjectClass *klass, void *data)
+@@ -405,7 +402,6 @@ static void secondary_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo vga_info = {
+     .name          = "VGA",
+     .parent        = TYPE_PCI_VGA,
+-    .instance_init = pci_std_vga_init,
+     .class_init    = vga_class_init,
+ };
+ 
 -- 
 2.26.2
 
