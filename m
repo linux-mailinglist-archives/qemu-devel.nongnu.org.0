@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDD0272A4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:35:22 +0200 (CEST)
-Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345A4272A59
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:38:07 +0200 (CEST)
+Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKNqb-0006eU-SX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38560)
+	id 1kKNtF-0001ET-UW
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kKNjv-0004s6-3G; Mon, 21 Sep 2020 11:28:27 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:57728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kKNjt-00050t-CQ; Mon, 21 Sep 2020 11:28:26 -0400
-Received: from [172.17.10.14] (unknown [172.17.10.14])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 8D1DD21CC5;
- Mon, 21 Sep 2020 15:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1600702102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fSQvclVDcXZ1wD+4XXss/Y5cF5u1BIBLD/qPA1mnwzA=;
- b=TAr3q2ihTe2Bu/aSZGO/hQDwPpE3aipRoPlU6JGM9ni3lYuL+4wB2gTTGkPT7eAll/n/Al
- 5YXAOwXoR79pFcgcBTAFqkeTQwHqOgWvpbHxuewTo6lo1esgH9SKM40KUzpgfkidB6+QzB
- 1PDNqgV70RxEGdtmRArF/DhcJUQXHzM=
-Subject: Re: [PATCH 2/3] hw/arm/bcm2835: Add more unimplemented peripherals
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200921034729.432931-1-f4bug@amsat.org>
- <20200921034729.432931-3-f4bug@amsat.org>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <472f3b7a-d633-9f1f-bb47-cc28b39d9628@greensocs.com>
-Date: Mon, 21 Sep 2020 17:29:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKNmb-0006Lj-M9
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:31:14 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:40847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKNmY-0005dg-7f
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:31:13 -0400
+Received: by mail-ej1-x641.google.com with SMTP id z22so18312128ejl.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 08:31:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eJ8IxxkankdquCR3vrLLTpL7dj4nEonmsbUNK1XHvt4=;
+ b=XQMlw5SWZN3ejJJrvvunA55Fo3iQ8gViZgrVCrc3oNH+r5tCaR50NsVFtvdCKkNYSo
+ M/Yj6jsY2+Zjd43PQVVVfzppuCKThoQ8yMmWVDY1d58aQAo0QTw5kEktpGIl90sXF6xz
+ vYbhr7o2fm+zH5VEYS4Rj2eUkRZT7UCcEYEQE3/ygV8/xjW/C0wNL/CuLxPaCdci5xac
+ NxaQwL+dRAquZdFlFpVtN2Vr5ZJYmla7n6ZrTlZlibjF2Eq4tlG83udhQ79unS77T4mr
+ QIImPl2zDccupU9JcqimSTonU8tWBwvn94Gv5N5CDfA68Xq0OKb1kI8gTHy4UYlrKXad
+ yiuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eJ8IxxkankdquCR3vrLLTpL7dj4nEonmsbUNK1XHvt4=;
+ b=mGwGlo3U8AduC9HOrh3PhnuQ6q7deB+JwXXzxVn92WmNUxarrrpeNzDW6K8uL9yxI9
+ DRsHhIH0w9Kq2ngZ+eSzS5BMjWp13ByWV+McVX82F9A4KEIEepvlKD1KcXVXteVRtSxS
+ nFVnXRknQSwJgJO5Zj9P+C3YvH3ucYYbfY2T5bJS73uaaMKCTQJUN7uoTWX/eWvprO7D
+ DjYq+Uc1xElcU+JGc6Zmlr8zyf+YxvDOqWxg4qj3J9o7hS/Tu3wAaL91bdrgDK0/HSdH
+ NHzQEwgtteHiHlFPf8+Du3T1XdbVlHmIewlvJbOXjVlcZlbzPn7YIk6dBsbEBBLABTus
+ cVng==
+X-Gm-Message-State: AOAM532TEiKCpIVECVkxNgAm+/J3Toq7ZcwBmoHd4wlWWQcBWymVmduh
+ 62YvlxBLxk+R742MC/ejIODam24QVNl0RAaCNoqVYw==
+X-Google-Smtp-Source: ABdhPJzOivhaDy4cncFdLNLdMN1xpfK5iaIGbjQlFg/a7+l/ZvESNoj0usMiG8SwMigKv6DIfL4gTmhfXljiWcoqLZI=
+X-Received: by 2002:a17:907:20d9:: with SMTP id
+ qq25mr6683ejb.382.1600702268560; 
+ Mon, 21 Sep 2020 08:31:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200921034729.432931-3-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 11:27:16
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+References: <20200810195019.25427-1-peter.maydell@linaro.org>
+ <20200810195019.25427-11-peter.maydell@linaro.org>
+ <875z8t7kd0.fsf@dusky.pond.sub.org>
+In-Reply-To: <875z8t7kd0.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Sep 2020 16:30:57 +0100
+Message-ID: <CAFEAcA9ZPO32XC1NwH=qa4mNF8c_xZeW8Z6MTrJ0FLmB6kytXQ@mail.gmail.com>
+Subject: Re: [PATCH v5 10/20] docs/interop: Convert qemu-ga-ref to rST
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,66 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Paul Zimmerman <pauldzim@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/20 5:47 AM, Philippe Mathieu-Daudé wrote:
-> The bcm2835-v3d is used since Linux 4.7, see commit
-> 49ac67e0c39c ("ARM: bcm2835: Add VC4 to the device tree"),
-> and the bcm2835-txp since Linux 4.19, see commit
-> b7dd29b401f5 ("ARM: dts: bcm283x: Add Transposer block").
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Fri, 4 Sep 2020 at 14:16, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > Convert qemu-ga-ref to rST format. This includes dropping
+> > the plain-text, pdf and info format outputs for this document;
+> > as with all our other Sphinx-based documentation, we provide
+> > HTML and manpage only.
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+> > -@copying
+> > -This is the QEMU Guest Agent Protocol reference manual.
+> > -
+> > -Copyright @copyright{} 2016 The QEMU Project developers
+> > -
+> > -@quotation
+> > -This manual is free documentation: you can redistribute it and/or
+> > -modify it under the terms of the GNU General Public License as
+> > -published by the Free Software Foundation, either version 2 of the
+> > -License, or (at your option) any later version.
+> > -
+> > -This manual is distributed in the hope that it will be useful, but
+> > -WITHOUT ANY WARRANTY; without even the implied warranty of
+> > -MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> > -General Public License for more details.
+> > -
+> > -You should have received a copy of the GNU General Public License
+> > -along with this manual.  If not, see http://www.gnu.org/licenses/.
+> > -@end quotation
+> > -@end copying
+>
+> Does the interop manual carry an equivalent copyright notice?
 
-> ---
->   include/hw/arm/bcm2835_peripherals.h | 2 ++
->   hw/arm/bcm2835_peripherals.c         | 2 ++
->   2 files changed, 4 insertions(+)
-> 
-> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-> index b4d3ae121ac..ccd9eb11102 100644
-> --- a/include/hw/arm/bcm2835_peripherals.h
-> +++ b/include/hw/arm/bcm2835_peripherals.h
-> @@ -47,6 +47,7 @@ struct BCM2835PeripheralState {
->   
->       BCM2835SystemTimerState systmr;
->       BCM2835MphiState mphi;
-> +    UnimplementedDeviceState txp;
->       UnimplementedDeviceState armtmr;
->       UnimplementedDeviceState cprman;
->       UnimplementedDeviceState a2w;
-> @@ -68,6 +69,7 @@ struct BCM2835PeripheralState {
->       UnimplementedDeviceState otp;
->       UnimplementedDeviceState dbus;
->       UnimplementedDeviceState ave0;
-> +    UnimplementedDeviceState v3d;
->       UnimplementedDeviceState bscsl;
->       UnimplementedDeviceState smi;
->       DWC2State dwc2;
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index a9d7f53f6e9..15c5c72e465 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -343,6 +343,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->           qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
->                                  INTERRUPT_USB));
->   
-> +    create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
->       create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
->       create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
->       create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-> @@ -356,6 +357,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->       create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
->       create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
->       create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
-> +    create_unimp(s, &s->v3d, "bcm2835-v3d", V3D_OFFSET, 0x1000);
->       create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
->   }
->   
-> 
+NB: in the Texinfo versions, Texinfo does not put this copyright/license
+notice in its generated manpages, and it is in the generated HTML only
+as an HTML comment, not visible to the ordinary reader.
+
+The Sphinx interop manual has the usual footer:
+https://www.qemu.org/docs/master/interop/index.html
+"=C2=A92020, The QEMU Project Developers."
+
+The system manual has an explicit "License" section:
+https://www.qemu.org/docs/master/system/license.html
+but that's documenting the license of the program, not the
+manual (it's docs/system/license.rst).
+
+We could do any or all of:
+ * decide that we're happy with the current situation
+ * expand the "copyright" footer to something like
+   '=C2=A92020, The QEMU Project Developers; this manual is GPLv2'
+ * have a docs/foo/license.rst for each manual, and expand
+   it to mention the documentation license as well as the
+   code license
+
+Given that the Texinfo generated QMP/QGA references don't
+actually present this text to the reader, my inclination
+is to say that this is something we should address in
+a separate patchseries, not as part of this conversion.
+
+thanks
+-- PMM
 
