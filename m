@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07D1271D1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:07:23 +0200 (CEST)
-Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFA8271D12
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:04:48 +0200 (CEST)
+Received: from localhost ([::1]:35896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKGr4-00067P-Vo
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42090)
+	id 1kKGoZ-0002kt-Gs
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKGgl-0004Vh-Fx; Mon, 21 Sep 2020 03:56:44 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38909)
+ id 1kKGgl-0004Vk-Nt; Mon, 21 Sep 2020 03:56:44 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKGgj-0005uW-2Q; Mon, 21 Sep 2020 03:56:43 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l9so11520634wme.3;
- Mon, 21 Sep 2020 00:56:39 -0700 (PDT)
+ id 1kKGgj-0005uc-EC; Mon, 21 Sep 2020 03:56:43 -0400
+Received: by mail-wr1-x442.google.com with SMTP id w5so11644009wrp.8;
+ Mon, 21 Sep 2020 00:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bdvjopkTSWyYlzzNIYBWFkPl2GYS4eTOsFgqMfsz/M4=;
- b=AacNfGaIGNK+5xuW8s1l0Qd+TpoVrU/nTYtNc+F7NhNK9yos+VwG5vzFcRyiYaFncc
- SkPVDbP4U5Bp7OLoJ42D+E59fruC+WJYfr5DytUvXXS8VJvqr7OdrDn8IvBU2FRp4564
- iJadkEPZuDyXkiUHnQnMkPupKeVOoYSsd6266ZfBHjGeV7tIuKClIw/5Dv1WY4aTgidS
- IZ2ej/wT+uu+dz2K0IlnKS+F4b49sd9+Du9qMc7yIIOg/IhTCyhRR4vNob5x0ZbU2rio
- gIctGbcsO30NG8Gnu6cubOU5upZt7MYNeMLWZebAsjxTRy8dkY0IDiqCG4nWcBe5+6x8
- /g6A==
+ bh=3cUAmcXEySvZuiPUDhUwrBrWEw0aliYA7aOM+n1UWOI=;
+ b=HHGnt+RFag9XZfkWzme5pKMLKAPNbLZq1vHaYb2qtu+SFuxHrDXFvaz3DELv/QkAnk
+ 3Y74UyD9FYSZZXOW32Al4PVpx6coBMzUUlB5rXR9DY1MEkc9yliI9D6bMBamMtLrwlBg
+ cBZ9qnuA1VX16P2t9zB27TTJDy2Gc86hcgGVedGlSiIDlY24HIRRe7dxzV8bAYMesxCL
+ Gdcrr7HR51fxftvwjXNoGOD0Dfxnjzm8na99RtXDUO1geAN1Glumrqea8QiH5+CA37rz
+ /GaGcyLk0FsEfykRgqEwFapqYMamvd8MCnry759Uh/0kiA9Q06uc5PI2rmhWCq1H2Fd6
+ Obdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bdvjopkTSWyYlzzNIYBWFkPl2GYS4eTOsFgqMfsz/M4=;
- b=GWN8mr2JuT3vmskU98JZV0uPqDurgjH2AIqCO1iHIldwXgWF1EMsd5gzL103N7X9k+
- +rbF7lYgauhxzQF72gnS4HWwn/ohUKL6Ht4NJ3LAZ8xEMpaLYnb7xBHJZLhIb7bfZCGV
- 8Mb6j0KzbP0yUc9V/VnEpf2aFb2dHTCWnXLFZ3YN8nCHXx6+EktfHh6/w+eJmEpOfmcU
- aDGUOa9BEgaxyyqtVnFTsbZAp3aq5TlaNFPx9a9zHi55CpASAztnB4dd0OFxRY/281vh
- +am1hHQVWHv1fMqrQKB3lWF8VwdOf/Z130RPOtEy/7Lx82rt5yhR97h71zNREs5JUJYI
- 91jQ==
-X-Gm-Message-State: AOAM5304VyvYq3Zam1+TenID5QDq6TvTliWoCYmQhCDIzzrN98IiSxND
- F7DTyuk7NKrPYqmmZC1OzdMPPpMj25g=
-X-Google-Smtp-Source: ABdhPJz4KWGoGBmgjPt3scc6aJt1Q2ubx6+vDVKuTC72WwiVAhzOkQSvL5b6IRB6X7rNS35y3XsLjQ==
-X-Received: by 2002:a7b:c92c:: with SMTP id h12mr28912799wml.121.1600674998178; 
- Mon, 21 Sep 2020 00:56:38 -0700 (PDT)
+ bh=3cUAmcXEySvZuiPUDhUwrBrWEw0aliYA7aOM+n1UWOI=;
+ b=I0qP/4OQuLPW9EuddO2TN3h2GBIywhi4jmsjc0W4t22SKCe+wiqzNfEFFBMC5/AXZq
+ 4hohoTxqWhll3NkdKHi+z9jdr5pKU74nzhH+UVY2OqXA21ATC2iwGppDXLPfHHmpIndW
+ 1cBWqltydrdPP8mG9HzvJHvRLtxwTDqtn0um4unnm9EpGjUSXg/BaEYBThAKWlCi//wT
+ J8oWHEEtgAAs0/vdt8U8Rt03uxSnpN6WVeZ4etuK/U+cLvIqKov9Xy3FcWGYRNcJ8R59
+ g7ZjjEgMrbgFk3ar4ajOtPmHxDzhqTcbtsa+flln4vu9tB3uWOl8YVbCryfZIktRSEzP
+ psCw==
+X-Gm-Message-State: AOAM532icoUZQrs4xBuGnEGnryICh3f9bk+siwPlVI8X5qaoYPPJxG6U
+ qrRhmGl9NcS1/2toqfJmwoVEwX1gANQ=
+X-Google-Smtp-Source: ABdhPJyYhBHjfebxHKTyJVFY+HdnLw1Z/14Lys9WpMdXMRbXNFVqgci3j600qn/bWT8Imrxom2LVeg==
+X-Received: by 2002:a5d:60c6:: with SMTP id x6mr19007867wrt.157.1600674999332; 
+ Mon, 21 Sep 2020 00:56:39 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id o15sm17807538wmh.29.2020.09.21.00.56.37
+ by smtp.gmail.com with ESMTPSA id o15sm17807538wmh.29.2020.09.21.00.56.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 00:56:37 -0700 (PDT)
+ Mon, 21 Sep 2020 00:56:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/8] hw/arm/raspi: Use RaspiProcessorId to set the firmware
- load address
-Date: Mon, 21 Sep 2020 09:56:27 +0200
-Message-Id: <20200921075628.466506-8-f4bug@amsat.org>
+Subject: [PATCH v3 8/8] hw/arm/raspi: Remove use of the 'version' value in the
+ board code
+Date: Mon, 21 Sep 2020 09:56:28 +0200
+Message-Id: <20200921075628.466506-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200921075628.466506-1-f4bug@amsat.org>
 References: <20200921075628.466506-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,28 +95,98 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The firmware load address depends of the SoC ("processor id") used,
-not of the version of the board.
+We expected the 'version' ID to match the board processor ID,
+but this is not always true (for example boards with revision
+id 0xa02042/0xa22042 are Raspberry Pi 2 with a BCM2837 SoC).
+This was not important because we were not modelling them, but
+since the recent refactor now allow to model these boards, it
+is safer to check the processor id directly. Remove the version
+check.
 
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/raspi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/arm/raspi.c | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 0d8e5a34c78..ae98a2fbfca 100644
+index ae98a2fbfca..b5b30f0f38f 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -238,7 +238,8 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-      * the normal Linux boot process
-      */
-     if (machine->firmware) {
--        hwaddr firmware_addr = version == 3 ? FIRMWARE_ADDR_3 : FIRMWARE_ADDR_2;
-+        hwaddr firmware_addr = processor_id <= PROCESSOR_ID_BCM2836
-+                             ? FIRMWARE_ADDR_2 : FIRMWARE_ADDR_3;
-         /* load the firmware image (typically kernel.img) */
-         r = load_image_targphys(machine->firmware, firmware_addr,
-                                 ram_size - firmware_addr);
+@@ -98,11 +98,6 @@ static RaspiProcessorId board_processor_id(uint32_t board_rev)
+     return proc_id;
+ }
+ 
+-static int board_version(uint32_t board_rev)
+-{
+-    return board_processor_id(board_rev) + 1;
+-}
+-
+ static const char *board_soc_type(uint32_t board_rev)
+ {
+     return soc_property[board_processor_id(board_rev)].type;
+@@ -201,7 +196,8 @@ static void reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
+     cpu_set_pc(cs, info->smp_loader_start);
+ }
+ 
+-static void setup_boot(MachineState *machine, int version, size_t ram_size)
++static void setup_boot(MachineState *machine, RaspiProcessorId processor_id,
++                       size_t ram_size)
+ {
+     RaspiMachineState *s = RASPI_MACHINE(machine);
+     int r;
+@@ -210,12 +206,13 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+     s->binfo.ram_size = ram_size;
+     s->binfo.nb_cpus = machine->smp.cpus;
+ 
+-    if (version <= 2) {
+-        /* The rpi1 and 2 require some custom setup code to run in Secure
+-         * mode before booting a kernel (to set up the SMC vectors so
+-         * that we get a no-op SMC; this is used by Linux to call the
++    if (processor_id <= PROCESSOR_ID_BCM2836) {
++        /*
++         * The BCM2835 and BCM2836 require some custom setup code to run
++         * in Secure mode before booting a kernel (to set up the SMC vectors
++         * so that we get a no-op SMC; this is used by Linux to call the
+          * firmware for some cache maintenance operations.
+-         * The rpi3 doesn't need this.
++         * The BCM2837 doesn't need this.
+          */
+         s->binfo.board_setup_addr = BOARDSETUP_ADDR;
+         s->binfo.write_board_setup = write_board_setup;
+@@ -223,10 +220,10 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+         s->binfo.secure_boot = true;
+     }
+ 
+-    /* Pi2 and Pi3 requires SMP setup */
+-    if (version >= 2) {
++    /* BCM2836 and BCM2837 requires SMP setup */
++    if (processor_id >= PROCESSOR_ID_BCM2836) {
+         s->binfo.smp_loader_start = SMPBOOT_ADDR;
+-        if (version == 2) {
++        if (processor_id == PROCESSOR_ID_BCM2836) {
+             s->binfo.write_secondary_boot = write_smpboot;
+         } else {
+             s->binfo.write_secondary_boot = write_smpboot64;
+@@ -260,7 +257,6 @@ static void raspi_machine_init(MachineState *machine)
+     RaspiMachineClass *mc = RASPI_MACHINE_GET_CLASS(machine);
+     RaspiMachineState *s = RASPI_MACHINE(machine);
+     uint32_t board_rev = mc->board_rev;
+-    int version = board_version(board_rev);
+     uint64_t ram_size = board_ram_size(board_rev);
+     uint32_t vcram_size;
+     DriveInfo *di;
+@@ -301,7 +297,8 @@ static void raspi_machine_init(MachineState *machine)
+ 
+     vcram_size = object_property_get_uint(OBJECT(&s->soc), "vcram-size",
+                                           &error_abort);
+-    setup_boot(machine, version, machine->ram_size - vcram_size);
++    setup_boot(machine, board_processor_id(mc->board_rev),
++               machine->ram_size - vcram_size);
+ }
+ 
+ static void raspi_machine_class_common_init(MachineClass *mc,
 -- 
 2.26.2
 
