@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9942726B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:12:21 +0200 (CEST)
-Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0EB2726D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:18:37 +0200 (CEST)
+Received: from localhost ([::1]:43724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKMYG-0007du-B3
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
+	id 1kKMeH-0003ft-0Y
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:18:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKMVy-00067m-Pl
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:10:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46643)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKMc5-0002wj-BI
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:16:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKMVu-0000Q2-5Q
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:09:56 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKMc2-0001d7-EW
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:16:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600697392;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1600697773;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sFbaDCKyhtAolPKogznx7buXOckNJ3eKUugLxLMHalA=;
- b=O5Lb2aTVOBCCvEdmRzNHhmRXOEn0kQvoo83Sg1iR87/YUu6Mg3jIcOdYSee7P5Hv230Ksh
- ZZKQBWeHScoH0K2e3oBxEFXSOehm3JqQEBsJ6DaZ7g2OnVPVMc8JyiDiXN4Y4p5rJqOS/H
- Enr+9QhdgILmgeWe6z+GwmGWrsb0znE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-RNwxcw1ZOeK_V6wfnp5bZA-1; Mon, 21 Sep 2020 10:09:50 -0400
-X-MC-Unique: RNwxcw1ZOeK_V6wfnp5bZA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 128B4801AE1;
- Mon, 21 Sep 2020 14:09:49 +0000 (UTC)
-Received: from redhat.com (ovpn-113-113.ams2.redhat.com [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CE7210013D0;
- Mon, 21 Sep 2020 14:09:48 +0000 (UTC)
-Date: Mon, 21 Sep 2020 15:09:45 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: Limiting per vCPU Usage
-Message-ID: <20200921140945.GO1942072@redhat.com>
-References: <68336702-cedc-dc38-3d18-d153cd7652dd@kamp.de>
- <20200921082950.GF1942072@redhat.com>
- <ddc410b9-2c15-4398-86a9-df3441e62138@kamp.de>
+ bh=RLEao7MexzyfFt4A22pF9B8msxKiRQ3kUMgQGtfkcyE=;
+ b=R/qvSvIVvdBKOzyVl9rLNAgMxN6BlFNKejGXKVSROoBjs3zAUZVk7l5v3uOdoyjiiaBTNi
+ mXaNmSflB+v2G4Eb4Ta3CrYNZwM0PIxv4Hni6zX4qSJ62/x92ppCC44OLXC0ExkY45V16q
+ YzSLarBFN8mh6IrFNpnfVwu4QygDQ1w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-0lWNDV8CMSSwebpKv5jWMg-1; Mon, 21 Sep 2020 10:16:11 -0400
+X-MC-Unique: 0lWNDV8CMSSwebpKv5jWMg-1
+Received: by mail-wm1-f69.google.com with SMTP id w3so3804132wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 07:16:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to;
+ bh=MxSQ+/VT7jxoULMAB6ENxExKkpQSG3hnmi7mwloL+CQ=;
+ b=NLht9ZnDSG9T1PGFq655R3embiU13iQzV0Rznf2JPjaHuWDpku1Mlm4MgNZLZno0yY
+ SQ07uhM93PGfv3T4Cz9THzkoznWYCRzjIH/6YQ2ia2CScjPkCXlS/RmWVbAVh+n571IE
+ a62dASzplkq3OdoOAmCF0IjYR6EHFoX74TU9zBnkK+weIhWNr/HDX4Ua+0iIJbao2Nu7
+ wrOobMrayZ5AQsmogjjDn3cqKxKe+bbHXNKoK/LBZ20aFRZO9cGmbVYk/NgQ6/dEcLkp
+ 3xa7NZp75DWAbiUK8vtqqbwbYsGRR7JsjJ2B+sR6Uiq6m1SKxY1+D3Y7phkM0SlUqnDz
+ uSQw==
+X-Gm-Message-State: AOAM5326DgOg+D09P4u2ct0W1rQ/1yRIrEsWqsYLz2mbCvqoNWKdNgKZ
+ 8yO4+DNvjlwRvgcVaD3Far5C9TLlVyae0VD+uEpY0RxFQjts7Z18j3Q6HGiCcdthG+3kLCueihg
+ zW/Uv58REmBriB1w=
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr38911wmh.115.1600697769786;
+ Mon, 21 Sep 2020 07:16:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIEXEMRiLlWfOTN5Sx+ogSHqMIhXCttzIJ1hWpMiQrExxAO0ut6F4RerRyTGOR5O+ZjIa6AA==
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr38868wmh.115.1600697769411;
+ Mon, 21 Sep 2020 07:16:09 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d153:8d0f:94cf:5114?
+ ([2001:b07:6468:f312:d153:8d0f:94cf:5114])
+ by smtp.gmail.com with ESMTPSA id q4sm20637248wru.65.2020.09.21.07.16.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Sep 2020 07:16:08 -0700 (PDT)
+Subject: Re: [RFC] Move to C11 Atomics
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20200921104107.134323-1-stefanha@redhat.com>
+ <b32450b7-13e4-9968-cd99-fe8210040d3b@redhat.com>
+ <20200921134423.GA156064@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <439bbea5-60d7-aa9c-e693-3a3b1143154c@redhat.com>
+Date: Mon, 21 Sep 2020 16:16:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <ddc410b9-2c15-4398-86a9-df3441e62138@kamp.de>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200921134423.GA156064@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="HxOFWWUTyL9j5WspOOxIxiIvnYK7C8lCD"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -71,8 +86,9 @@ X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,48 +101,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Daniel Berrange <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 21, 2020 at 03:47:56PM +0200, Peter Lieven wrote:
-> Am 21.09.20 um 10:29 schrieb Daniel P. Berrangé:
-> > On Sun, Sep 20, 2020 at 10:24:41PM +0200, Peter Lieven wrote:
-> > > Hi Qemu folks,
-> > > 
-> > > 
-> > > is there a BCP to limit just the maximum usage of a virtual (KVM) cpu?
-> > > 
-> > > I know that there are many approaches, but as far as I know they all limit the complete qemu process which is far more
-> > > 
-> > > than just the virtual CPUs.
-> > > 
-> > > Is it possible to limit just the vCPU threads and leave threads that
-> > > handle the monitor, vnc, qmp, iothreads, storage backend etc.
-> > Libvirt uses cgroups to achieve what you describe. A cgroup for the
-> > QEMU process as a whole, then create child cgroups, one for each
-> > vCPUs, and a further one for non-vCPU threads. CPU limits are then
-> > applied on the child cgroups.
-> 
-> 
-> Hi Daniel,
-> 
-> 
-> I came up with the same solution. Is there a nice way to get the thread ids of the vCPUs?
-> 
-> Iterating over all thread IDs and check the names works, but the thread names are not considered
-> 
-> a stable API (text from original commit message).
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--HxOFWWUTyL9j5WspOOxIxiIvnYK7C8lCD
+Content-Type: multipart/mixed; boundary="Mg6yjmpBcvud8J52XPKpgsveFucMDA5YA"
 
-The QMP  query-cpus  command tells you thread IDs. There is similar for
-I/O threads too.  This is what libvirt uses to determine the mappings.
+--Mg6yjmpBcvud8J52XPKpgsveFucMDA5YA
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+On 21/09/20 15:44, Stefan Hajnoczi wrote:
+> On Mon, Sep 21, 2020 at 01:15:30PM +0200, Paolo Bonzini wrote:
+>> On 21/09/20 12:41, Stefan Hajnoczi wrote:
+>>> The upshot is that all atomic variables in QEMU need to use C11 Atomic
+>>> atomic_* types. This is a big change!
+>>
+>> The main issue with this is that C11 atomic types do too much magic,
+>> including defaulting to seq-cst operations for loads and stores. As
+>> documented in docs/devel/atomics.rst, seq-cst loads and stores are
+>> almost never what you want (they're only a little below volatile :)):
+>=20
+> I can't find where atomics.rst says seq-cst operations are almost never
+> what you want?
+
+Note that I'm talking only about loads and stores.  They are so much
+never what you want that we don't even provide a wrapper for them in
+qemu/atomic.h.
+
+  ``qemu/atomic.h`` also provides loads and stores that cannot be
+  reordered with each other::
+
+    typeof(*ptr) atomic_mb_read(ptr)
+    void         atomic_mb_set(ptr, val)
+
+  However these do not provide sequential consistency and, in
+  particular, they do not participate in the total ordering enforced by
+  sequentially-consistent operations.  For this reason they are
+  deprecated.  They should instead be replaced with any of the following
+  (ordered from easiest to hardest):
+
+  - accesses inside a mutex or spinlock
+
+  - lightweight synchronization primitives such as ``QemuEvent``
+
+  - RCU operations (``atomic_rcu_read``, ``atomic_rcu_set``) when
+  publishing or accessing a new version of a data structure
+
+  - other atomic accesses: ``atomic_read`` and ``atomic_load_acquire``
+  for loads, ``atomic_set`` and ``atomic_store_release`` for stores,
+  ``smp_mb`` to forbid reordering subsequent loads before a store.
+
+where seq-cst loads and stores are again completely missing.  smp_mb is
+there to replace them, as we did in commit 5710a3e0 ("async: use
+explicit memory barriers").
+
+>> we can use store-release/load-acquire
+>=20
+> They don't provide atomic arithmetic/logic operations. The only
+> non-seq-cst ALU operation I see in atomic.h is
+> atomic_fetch_inc_nonzero(), and it's a cmpxchg() loop (ugly compared to
+> an atomic ALU instruction).
+
+Seq-cst is fine for RMW operations (arithmetic/logic, xchg, cmpxchg),
+also because they're usually less performance critical than loads and
+stores.  It's only loads and stores that give a false sense of
+correctness as in the above commit.
+
+Paolo
+
+
+--Mg6yjmpBcvud8J52XPKpgsveFucMDA5YA--
+
+--HxOFWWUTyL9j5WspOOxIxiIvnYK7C8lCD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl9otacACgkQv/vSX3jH
+roN82Af8DitMvRQ39kET3eMpMr06j1oGBHcG8XXbR6RumoKwJYS/kesf/zICI3d5
+yUq2iaQL05kTq1Mhu5gdxjEUce/G4MM24UwgE4fDiAemSL+beF64GJG4RYjEKBFR
+1SvdPE2enB8HEHDXMFR8QQDMmb0y+WXzQk65T2PpBor/wsEdMTnhapk0SunbYiLE
+HN7AsTOIDmrL9EYJL0aV8RlfTrJy0dJAw154ebJj7F1Rdmdmwl+CliwBOQu6Meom
+jOCUSZ2m3D5N/GQ92p6t6xSlhYVRap5noHvBxh7/h7925kBfkABIBqCVZbZU7FGf
+pgpz+UZEKZBjio63L5o86yRA1mcDog==
+=V6pn
+-----END PGP SIGNATURE-----
+
+--HxOFWWUTyL9j5WspOOxIxiIvnYK7C8lCD--
 
 
