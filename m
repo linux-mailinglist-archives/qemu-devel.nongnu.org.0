@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A0C271C03
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 09:33:27 +0200 (CEST)
-Received: from localhost ([::1]:55462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F88271C41
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 09:47:59 +0200 (CEST)
+Received: from localhost ([::1]:60626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKGKD-0002wc-TG
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 03:33:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35036)
+	id 1kKGYH-0005uX-Vv
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 03:47:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGIy-0002P2-Kq
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 03:32:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24899)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGTq-0004Xt-UL
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 03:43:22 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34851
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGIv-0002Sm-8T
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 03:32:07 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGTn-00040p-QE
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 03:43:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600673522;
+ s=mimecast20190719; t=1600674194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cLzUdlT6NbmhexNVcEtUqH2U6/hcCqt0eA/eZPT11Wo=;
- b=iPOSmnmm1Lb9mX2tbRh+TyZq4UGh6Hs0ruIvuVglyz9Qdg8buqFZ4bp9iYlxH6sSdVHsBd
- zxLcDfvz6KPdD0vm1VPfdQX7gAzOQE6gCmD8HWIniXK+BAAU/jJv8wstBGHmRtXrUFDts9
- leJtu1NWRDCn/uKcx66X53vxoa1R2Ng=
+ bh=C2WHT3yNYYCK3XWpo/rfz9tq9qKGBn9AP5S3Kp1CL4s=;
+ b=RUtztKVHFchfj2qlYR811tTpLfuvUNIRQxMLUSF77pT+Hf/3JXurd0OuW4KCluHL9tb2dX
+ 62WeB/Sx6r2NvJOmvVcKPF1iwp3P8a1Fq35tbZX13pXCBPddah4cXgAT4S42GDEnS/L41R
+ zuWkF/bYJTpwO5slQQ5wm4O03UWBLoE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-JL2u5Pp4MdeVJf7HT_fw8A-1; Mon, 21 Sep 2020 03:31:57 -0400
-X-MC-Unique: JL2u5Pp4MdeVJf7HT_fw8A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-357-3zy5A49zPjKVXY6zfDQM7g-1; Mon, 21 Sep 2020 03:43:10 -0400
+X-MC-Unique: 3zy5A49zPjKVXY6zfDQM7g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97159100945B;
- Mon, 21 Sep 2020 07:31:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDCC210BBEC2;
+ Mon, 21 Sep 2020 07:43:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5034478825;
- Mon, 21 Sep 2020 07:31:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 954FB10013D0;
+ Mon, 21 Sep 2020 07:43:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C65041132E9A; Mon, 21 Sep 2020 09:31:54 +0200 (CEST)
+ id 2A0311132E9A; Mon, 21 Sep 2020 09:43:07 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 06/37] qapi: delint using flake8
+Subject: Re: [PATCH 09/37] qapi/common.py: Add indent manager
 References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-7-jsnow@redhat.com>
- <87wo0tor80.fsf@dusky.pond.sub.org>
- <8238685e-f4a4-cf2f-2511-5e4473f5fdd3@redhat.com>
- <87a6xog7n8.fsf@dusky.pond.sub.org>
- <82b4b8ce-b348-75fd-bd44-d96303a4875d@redhat.com>
- <87bli3jrwy.fsf@dusky.pond.sub.org>
- <631e465a-a0e8-4e92-482d-bc92bba6f5bf@redhat.com>
-Date: Mon, 21 Sep 2020 09:31:54 +0200
-In-Reply-To: <631e465a-a0e8-4e92-482d-bc92bba6f5bf@redhat.com> (John Snow's
- message of "Fri, 18 Sep 2020 14:13:58 -0400")
-Message-ID: <87v9g7a8lx.fsf@dusky.pond.sub.org>
+ <20200915224027.2529813-10-jsnow@redhat.com>
+ <87k0wtiwlb.fsf@dusky.pond.sub.org>
+ <37ea889c-746e-bea9-a719-6bee9e86f1a8@redhat.com>
+ <87v9gcesh8.fsf@dusky.pond.sub.org>
+ <301fb683-9b57-d355-3b08-776ab4869975@redhat.com>
+ <87363fjqv6.fsf@dusky.pond.sub.org>
+ <084495dc-dfb3-084d-ff83-cdfb90cd61f4@redhat.com>
+Date: Mon, 21 Sep 2020 09:43:07 +0200
+In-Reply-To: <084495dc-dfb3-084d-ff83-cdfb90cd61f4@redhat.com> (John Snow's
+ message of "Fri, 18 Sep 2020 12:08:19 -0400")
+Message-ID: <87r1qva838.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.501,
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.501,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,45 +97,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> On 9/18/20 6:33 AM, Markus Armbruster wrote:
+> On 9/18/20 6:55 AM, Markus Armbruster wrote:
 >> John Snow <jsnow@redhat.com> writes:
-[...]
->>> Embedded templates are always gonna look kinda nasty, I think, because
->>> you're trying to fight style guidelines in two languages
->>> simultaneously and it's never gonna quite work out exactly how you
->>> want without some pretty complex abstraction mechanisms that are well
->>> beyond the power we need right now.
->> The thought "screw this, pile the output through /usr/bin/indent"
->> has
->> crossed my mind more than once.
+>
+>>> We'll get to them in due time. For now, please admire the lipstick.
+>> If I take off my glasses and step six feet back, I just might be
+>> able to
+>> overlook it.
 >> 
 >
-> Bigger fish to fry, but with other languages like rust looming, making
-> the core generation facilities nicer might be ...nice. Not for this
-> series.
-
-Definitely not.
-
-The way we generate C now is (close to) the stupidest way that could
-possibly work.  Stupid is *good*, until it creates actual problems.
-
-Any improvement will have to balance readability vs. hackability.
-
-What we have now is often hard to read, but pretty easy to hack.  May
-sound like a contradiction, but it's been my experience.
-
-> Two approaches in general would make sense to me:
+> I consider writing a nice __repr__ good habit, I'd prefer not to
+> delete it just because the rest of our code doesn't do so yet. (Give
+> me time.)
 >
-> 1. Building an AST for C instead of strings, and rendering the AST.
+> I spend a lot of my time in the interactive python console: having
+> nice __repr__ methods is a good habit, not an unsightly blemish.
+>
+>>>>>>> +    def pop(self, amount: int = 4) -> int:
+>>>>>>> +        """Pop `amount` spaces off of the indent, default four."""
+>>>>>>> +        if self._level < amount:
+>>>>>>> +            raise ArithmeticError(
+>>>>>>> +                "Can't pop {:d} spaces from {:s}".format(amount, repr(self)))
+>>>> I think assert(amount <= self._level) would do just fine.
+>>>>
+>>>
+>>> Secretly, asserts can be disabled in Python just like they can in C code.
+>> There are compilers that let you switch off array bounds checking.
+>> Would you advocate manual bounds checking to protect people from their
+>> own folly?
+>> 
+>>> My habit: if it's something that should already be true given the
+>>> nature of how the code is laid out, use an assertion. If I am
+>>> preventing an erroneous state (Especially from callers in other
+>>> modules), explicitly raise an exception.
+>> I check function preconditions ruthlessly with assert.  There's no
+>> sane
+>> way to recover anyway.
+>> Without a way to recover, the only benefit is crashing more
+>> prettily.
+>> If the error is six levels deep in a some fancy-pants framework, then
+>> prettier crashes might actually help someone finding the error slightly
+>> faster.  But it ain't.
+>> My final argument is local consistency: use of assertions to check
+>> preconditions is pervasive in scripts/qapi/.
+>> 
+>
+> You're right that there's no safe recovery from an error such as
+> this. The only actual difference is whether you see AssertionError or 
+> ArithmeticError.
+>
+> One can be disabled (But you rightly shouldn't), the other can't. One
+> has more semantic meaning and information to it.
 
-I fear the need to define an AST for C makes this uneconomical.
+YAGNI.
 
-I've missed the ease of generating Lisp in Lisp many times.
+> I prefer what I've currently written.
 
-> 2. Writing a templating engine that doesn't break the Python
-> indentation flow by hoisting them into module constants and improving
-> the rendering logic.
+Where personal preference collides with local consistency, I'm with
+local consistency.
 
-Too vague for me to judge, happy to look at PoC patches.
+You can get the two in line: change everything to your preference.
+
+You signalled intent to do that for __repr__(): "Give me time".
+Alright, having such __repr__() is obviously more important / useful to
+you than avoiding the extra code is to me.
+
+I received no such signal for checking preconditions.  Good, because I'd
+go "are you serious?" :)
 
 
