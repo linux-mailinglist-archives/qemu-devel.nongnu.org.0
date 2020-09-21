@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C2F271E39
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:42:44 +0200 (CEST)
-Received: from localhost ([::1]:39874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E250271E4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:45:31 +0200 (CEST)
+Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKHPH-0004dv-Vb
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56098)
+	id 1kKHRy-0008RX-8T
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:45:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKHNG-0002wH-V3
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:40:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31209
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kKHOM-0004CA-Ur
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:41:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKHNF-0003jO-9e
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:40:38 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kKHOK-0003wy-BX
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:41:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600677636;
+ s=mimecast20190719; t=1600677703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6H8T/07ppLF1qD9jQtcpbeScZ48vpizivVNIMlvNl10=;
- b=bOjzA0hcXO5+BtWNd7SV2wu/Im6Gz4zZyUaKzk5zfvtlBtx4qv3fCP/Ezwu7OdzxJP5WdX
- +HEgcROEXxZjfKhMXS7xK3z4Ms9O9ME7golJTKnLtvRzTy3WI34KfCyiW0r9IKeU3lo4WF
- tot3hXwEHFfOXiWGcn4pyvVoUkIijtg=
+ bh=AHtbKFsPjrczbiCnPLqsIFgvPmOlYaKvh+314t+WBpQ=;
+ b=G9pxOxJfE91kewi131vVGnmsqTvpj7NBz+1ylXCAe5zVFBrnPVM+gcrsOkGWc85JJT2Dis
+ cT+x/DfVVJQWrx84VhW2gCLb5rU5pXsdcvVjdxu2WNDrIevG8nyZn7cLX+XrqYLoy0VnUc
+ Yo2H2q+jZMMmM0j67xv1EVs9A1QigiI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-z2Xdu6ShMcazLFPZPHuHpg-1; Mon, 21 Sep 2020 04:40:34 -0400
-X-MC-Unique: z2Xdu6ShMcazLFPZPHuHpg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-287-XidPdK7ZOPavNRE1DSU3Rw-1; Mon, 21 Sep 2020 04:41:41 -0400
+X-MC-Unique: XidPdK7ZOPavNRE1DSU3Rw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9545E1091063;
- Mon, 21 Sep 2020 08:40:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55FA060C13;
- Mon, 21 Sep 2020 08:40:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DD8071132E9A; Mon, 21 Sep 2020 10:40:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 3/6] hw/sd/sdcard: Do not use legal address '0' for
- INVALID_ADDRESS
-References: <20200918174117.180057-1-f4bug@amsat.org>
- <20200918174117.180057-4-f4bug@amsat.org>
-Date: Mon, 21 Sep 2020 10:40:31 +0200
-In-Reply-To: <20200918174117.180057-4-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 18 Sep 2020 19:41:14
- +0200")
-Message-ID: <874knra5fk.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB1B21005504
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 08:41:40 +0000 (UTC)
+Received: from localhost (ovpn-114-170.ams2.redhat.com [10.36.114.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83F0A6886A;
+ Mon, 21 Sep 2020 08:41:37 +0000 (UTC)
+Date: Mon, 21 Sep 2020 09:41:36 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 0/2] vhost-vdpa: add trace functions in vhost-vdpa.c
+Message-ID: <20200921084136.GB71121@stefanha-x1.localdomain>
+References: <20200920162434.868041-1-lvivier@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200920162434.868041-1-lvivier@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:53:20
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.501,
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.501,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,55 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+--LpQ9ahxlCli8rRTG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> As it is legal to WRITE/ERASE the address/block 0,
-> change the value of this definition to an illegal
-> address: UINT32_MAX.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
->
-> Same problem I had with the pflash device last year...
-> This break migration :(
-> What is the best way to do this?
+On Sun, Sep 20, 2020 at 06:24:32PM +0200, Laurent Vivier wrote:
+> Add trace events functions in vdpa functions.
+>=20
+> Modify qemu_hexdump() to be able to dump the vdpa config
+> in trace logs in hexadecimal form.
+>=20
+> Laurent Vivier (2):
+>   util/hexdump: introduce qemu_hexdump_line()
+>   vhost-vdpa: add trace-events
+>=20
+>  hw/virtio/trace-events | 29 ++++++++++++++
+>  hw/virtio/vhost-vdpa.c | 85 +++++++++++++++++++++++++++++++++++++++---
+>  include/qemu-common.h  |  8 ++++
+>  util/hexdump.c         | 54 +++++++++++++++++----------
+>  4 files changed, 151 insertions(+), 25 deletions(-)
 
-Remind me: did we solve the problem with pflash, and if yes, how?
+Please take this through the VIRTIO/vhost/vDPA tree:
 
-> ---
->  hw/sd/sd.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 30ae435d669..4c05152f189 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -53,7 +53,7 @@
-> =20
->  #define SDSC_MAX_CAPACITY   (2 * GiB)
-> =20
-> -#define INVALID_ADDRESS     0
-> +#define INVALID_ADDRESS     UINT32_MAX
-> =20
->  typedef enum {
->      sd_r0 =3D 0,    /* no response */
-> @@ -666,8 +666,8 @@ static int sd_vmstate_pre_load(void *opaque)
-> =20
->  static const VMStateDescription sd_vmstate =3D {
->      .name =3D "sd-card",
-> -    .version_id =3D 1,
-> -    .minimum_version_id =3D 1,
-> +    .version_id =3D 2,
-> +    .minimum_version_id =3D 2,
->      .pre_load =3D sd_vmstate_pre_load,
->      .fields =3D (VMStateField[]) {
->          VMSTATE_UINT32(mode, SDState),
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--LpQ9ahxlCli8rRTG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9oZ0AACgkQnKSrs4Gr
+c8hCiAf+IrJdPyV83AnyDNdprHZStFs2qjxrwnoqjfDTROi7mW27fuQcuhjaOX53
+reLW4EB6SxHljYw3KdTJzyNvO3sxpU0kxH5VDl+AAu5fZUJN0GxTzw8jH8evPePv
+4GH8DIvXc5mL6icOOuHRrh9T7XGghV1xxCCxPtjuL0HNI70JP74tJ2Zf0V5qmWZI
+9dCe6643DlZef+hXZTbTqVQEfudGiB8fifMq+7uXTDWZwL07J/h4RjH4WxTN/YpW
+AjrU4iJYVZjp3/PB4Te6jH3WN72MdgRojitHx5CK26vAKH+rwgjkJRv/9NGNTjrF
+3yaTUQvndrOkTdqQHKX3u9GCveMpnw==
+=Uq3E
+-----END PGP SIGNATURE-----
+
+--LpQ9ahxlCli8rRTG--
 
 
