@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A7D273580
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:13:38 +0200 (CEST)
-Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82DDC273588
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:15:30 +0200 (CEST)
+Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKU41-0001A7-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
+	id 1kKU5p-0004JG-HC
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:15:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1P-0007te-QK
+ id 1kKU1P-0007tC-EZ
  for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:10:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41018)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1O-0001WD-77
+ id 1kKU1N-0001W3-S1
  for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:10:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600726253;
@@ -25,42 +25,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jTnW0jmo2VI56wFSPFzk1BP1JiamT5UX+hn7CumPlEg=;
- b=R87HNV3aSTmLY+6MpGKCJjE9SoJo8SMHFqlgxvStlR8/wSSPTZA4PzeewoMWeavgaZsjW1
- D0BQU348gNXRw0UpYMGSX+YuPMyEf/mhLptl4/VQeW9YrTjtTgTO4qba8aWlOIhDe6uTwS
- +XFo51j9aFU6U/H5ioGroGnn9PeFzLc=
+ bh=jvXtzMDBmKU/rJx6CSPHzlbVRTQHljGXv5cU8mvsngI=;
+ b=dcZetXI7ZCAIGXm1um/IHRR6XSJGD+R1HR0DM7Gp/HCh/UhWuue0UNQzY+kC7EHfycG6gZ
+ NJOPER92rK3WVI2Y9tKVGz+EhMEfSxMRCI/NnbX3KI3cPMQfV1KX3wE+e2wdfRjFL9A7Hi
+ oLFE1/gqiuJFnpN9mx7Cl8DTv3LLS6Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-r9j4ihfsP-axBpWDdNI49g-1; Mon, 21 Sep 2020 18:10:49 -0400
-X-MC-Unique: r9j4ihfsP-axBpWDdNI49g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-75-pD2WeKkINNmOj_yyw5qf5A-1; Mon, 21 Sep 2020 18:10:51 -0400
+X-MC-Unique: pD2WeKkINNmOj_yyw5qf5A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48AF1868404;
- Mon, 21 Sep 2020 22:10:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F4EC1007464;
+ Mon, 21 Sep 2020 22:10:50 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01B1D5D9CD;
- Mon, 21 Sep 2020 22:10:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A34CB60BFA;
+ Mon, 21 Sep 2020 22:10:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/24] cryptodev-vhost-user: Register "chardev" as class
- property
-Date: Mon, 21 Sep 2020 18:10:22 -0400
-Message-Id: <20200921221045.699690-2-ehabkost@redhat.com>
+Subject: [PATCH 02/24] cryptodev-backend: Register "chardev" as class property
+Date: Mon, 21 Sep 2020 18:10:23 -0400
+Message-Id: <20200921221045.699690-3-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -95,46 +94,35 @@ Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
 Cc: qemu-devel@nongnu.org
 ---
- backends/cryptodev-vhost-user.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ backends/cryptodev.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
-index 41089dede15..690738c6c95 100644
---- a/backends/cryptodev-vhost-user.c
-+++ b/backends/cryptodev-vhost-user.c
-@@ -336,13 +336,6 @@ cryptodev_vhost_user_get_chardev(Object *obj, Error **errp)
-     return NULL;
- }
+diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+index ada4ebe78b1..3f141f61ed6 100644
+--- a/backends/cryptodev.c
++++ b/backends/cryptodev.c
+@@ -206,10 +206,6 @@ cryptodev_backend_can_be_deleted(UserCreatable *uc)
  
--static void cryptodev_vhost_user_instance_int(Object *obj)
--{
--    object_property_add_str(obj, "chardev",
--                            cryptodev_vhost_user_get_chardev,
--                            cryptodev_vhost_user_set_chardev);
--}
--
- static void cryptodev_vhost_user_finalize(Object *obj)
+ static void cryptodev_backend_instance_init(Object *obj)
  {
-     CryptoDevBackendVhostUser *s =
-@@ -363,13 +356,17 @@ cryptodev_vhost_user_class_init(ObjectClass *oc, void *data)
-     bc->create_session = cryptodev_vhost_user_sym_create_session;
-     bc->close_session = cryptodev_vhost_user_sym_close_session;
-     bc->do_sym_op = NULL;
-+
-+    object_class_property_add_str(oc, "chardev",
-+                                  cryptodev_vhost_user_get_chardev,
-+                                  cryptodev_vhost_user_set_chardev);
-+
+-    object_property_add(obj, "queues", "uint32",
+-                          cryptodev_backend_get_queues,
+-                          cryptodev_backend_set_queues,
+-                          NULL, NULL);
+     /* Initialize devices' queues property to 1 */
+     object_property_set_int(obj, "queues", 1, NULL);
+ }
+@@ -230,6 +226,10 @@ cryptodev_backend_class_init(ObjectClass *oc, void *data)
+     ucc->can_be_deleted = cryptodev_backend_can_be_deleted;
+ 
+     QTAILQ_INIT(&crypto_clients);
++    object_class_property_add(oc, "queues", "uint32",
++                              cryptodev_backend_get_queues,
++                              cryptodev_backend_set_queues,
++                              NULL, NULL);
  }
  
- static const TypeInfo cryptodev_vhost_user_info = {
-     .name = TYPE_CRYPTODEV_BACKEND_VHOST_USER,
-     .parent = TYPE_CRYPTODEV_BACKEND,
-     .class_init = cryptodev_vhost_user_class_init,
--    .instance_init = cryptodev_vhost_user_instance_int,
-     .instance_finalize = cryptodev_vhost_user_finalize,
-     .instance_size = sizeof(CryptoDevBackendVhostUser),
- };
+ static const TypeInfo cryptodev_backend_info = {
 -- 
 2.26.2
 
