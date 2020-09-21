@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DA52722F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:48:08 +0200 (CEST)
-Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94242272317
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:50:53 +0200 (CEST)
+Received: from localhost ([::1]:50108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKKIh-00053D-L9
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45950)
+	id 1kKKLM-0008Ti-Kl
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kKKG3-0002st-Oo
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:25 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35346)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kKKFz-0002Zd-UR
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:22 -0400
-Received: by mail-ot1-x343.google.com with SMTP id o6so12035730ota.2
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JMmm8TGPn//jd5jY6m0a826oipVywIyf/+rAMPgzmhY=;
- b=E1CjE783yBqOVFbA7nfNzhoK068a9Bua+lm14hHj6GfJz2ivyylrxyoL+0kj0ND3iK
- ipYZC2AXgxyBT0dMwjZ2OK1CT51bIox0/t/8lb3wC999bbZNpVyP69gtXgy+iRWxc75Y
- UaZDYk+c71MuzKKWLrnEJ7+0P6FekD7RDHuWQMPcX9tkRPv4s3e8impRm8Rv2JqgF1QV
- DK7BTLJcgehNiq/6ZeJEmYrzEmfUG04+/QRsceBx7+3mrNBF8i2EOVuoS00Ecaa3V6ZQ
- cGb8ZiTrwn0H2yXKGNdvzbggpBo3ZBk/7Zc6EDCAaJLJemswzGF090qu8EFBzKQkvjZd
- eLBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JMmm8TGPn//jd5jY6m0a826oipVywIyf/+rAMPgzmhY=;
- b=USiqFDhh3lc8Hyze1RYBPhAJdr6pH3r3KoDvC7yRSWmNpwzMCDJRpWQxpvR4QwFSi7
- 0Ep7kuFemW6yid1jkVvXx2JOSLDWxQnbzVGH+nhHtkSBllGH++WHET6EcE44z6ChtHP8
- Hj7vL9A4nvgDikjcZxeB0dOMKrMx2Sctmi869khswh+pVLbIDypYB82YMBAyrAaKRMw+
- 1ywtdfC55kciMwfMW2rIS9JnWsm/JltiuSVg1F1oXQeM7FR3DeHXji1phgncqgq/Jp/w
- 1R9fHReEHdBCDQBD9/j6BvqLkBM68hYHVZghAZdbfquXkGo4HjebKs6XL1AXOePEJeO4
- 7UHQ==
-X-Gm-Message-State: AOAM532LGnWn/o0jqiTiZsqskqFdV9en3sD42eFXEuH/aKK9GQlX1PQA
- nB0oMEcmE+iWZjDHjjyHwKPt8tb8QE7J8unHHtI=
-X-Google-Smtp-Source: ABdhPJzkJeC8u4ooJFTQ1jmjg/ogq7a4ZYsHt+9WvC9+NVvl/uQE4JCTwExhCLuaPMxwd4+ez3c3AE22A36bcARU+xI=
-X-Received: by 2002:a05:6830:610:: with SMTP id
- w16mr28975320oti.353.1600688718672; 
- Mon, 21 Sep 2020 04:45:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kKKG7-0002xy-Ui
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:27 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36891
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kKKG4-0002Zz-Vc
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600688722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=V5RYcxHCm9l48OZycLxVvQBCX0ztkzgmpSVLtm3QEO4=;
+ b=AJAZxW3kj7QeX1UZOkNAHIroXOyXfc9SUKVk8oCoEF7YY1CaOgEU0nd/7Xq13jtEvadi0U
+ Lg0JH/dm/7MOSaeym2syAloL47UBeWfjermbjH37GjwcyEqQTCpLJTqex0iZlrHRIx/xRW
+ 61n1zhVOU8a4pzT4N5y7MD2sHZDCxts=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-Or_9P2grOtqopohqk4I34w-1; Mon, 21 Sep 2020 07:45:21 -0400
+X-MC-Unique: Or_9P2grOtqopohqk4I34w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAFF99CC09;
+ Mon, 21 Sep 2020 11:45:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
+ [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EB0F5D9D5;
+ Mon, 21 Sep 2020 11:45:11 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C175916E0A; Mon, 21 Sep 2020 13:45:09 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] microvm: add usb support
+Date: Mon, 21 Sep 2020 13:45:07 +0200
+Message-Id: <20200921114509.14511-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20200921112913.555392-1-mst@redhat.com>
-In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Mon, 21 Sep 2020 19:44:42 +0800
-Message-ID: <CAKXe6SLYL0DDWTbPEwa7y47BOpagg8HkUf+nfgzz_3Or_ebUqQ@mail.gmail.com>
-Subject: Re: [PULL v3 00/15] virtio,pc,acpi: fixes, tests
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 04:38:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,134 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Qemu Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michael S. Tsirkin <mst@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8821=E6=
-=97=A5=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=887:30=E5=86=99=E9=81=93=EF=BC=9A
->
-> The following changes since commit 053a4177817db307ec854356e95b5b350800a2=
-16:
->
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-2020091=
-8' into staging (2020-09-18 16:34:26 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to acbdbd5db6dab68534702987a487360fd8ae02b7:
->
->   virtio-iommu-pci: force virtio version 1 (2020-09-21 06:14:46 -0400)
->
-> ----------------------------------------------------------------
-> virtio,pc,acpi: fixes, tests
->
-> Fixes and tests all over the place.
-> Batch iommu updates for vdpa.
-> Removal of deprecated cpu hotplug commands.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
-> David Hildenbrand (1):
->       pc: fix auto_enable_numa_with_memhp/auto_enable_numa_with_memdev fo=
-r the 5.0 machine
->
-> Dima Stepanov (7):
->       vhost: recheck dev state in the vhost_migration_log routine
->       vhost: check queue state in the vhost_dev_set_log routine
->       tests/qtest/vhost-user-test: prepare the tests for adding new dev c=
-lass
->       tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
->       tests/qtest/vhost-user-test: add support for the vhost-user-blk dev=
-ice
->       tests/qtest/vhost-user-test: add migrate_reconnect test
->       tests/qtest/vhost-user-test: enable the reconnect tests
->
-> Eric Auger (2):
->       virtio-iommu: Check gtrees are non null before destroying them
->       virtio-iommu-pci: force virtio version 1
->
-> Igor Mammedov (1):
->       cphp: remove deprecated cpu-add command(s)
->
-> Jason Wang (3):
->       linux headers: sync to 5.9-rc4
->       vhost: switch to use IOTLB v2 format
->       vhost-vdpa: batch updating IOTLB mappings
->
-> Li Qiang (1):
->       virtio-mem: detach the element from the virtqueue when error occurs
+This depends on the xhci sysfs patch series by=0D
+Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>=0D
+=0D
+Gerd Hoffmann (2):=0D
+  microvm: add irq table=0D
+  microvm: add usb support=0D
+=0D
+ include/hw/i386/microvm.h | 25 +++++++++++++++++++++++++=0D
+ hw/i386/acpi-microvm.c    | 20 ++++++++++++++++++++=0D
+ hw/i386/microvm.c         | 12 ++++++++++++=0D
+ 3 files changed, 57 insertions(+)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-Hello Michael,
-It seems you lost the virtio-pmem patch.
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg02639.html
-
-Anyway, it can be queued in the next pr.
-
-Thanks,
-Li Qiang
-
->
->  qapi/machine.json                                  |  24 --
->  include/hw/boards.h                                |   1 -
->  include/hw/i386/pc.h                               |   1 -
->  include/hw/virtio/vhost-backend.h                  |   2 +
->  include/hw/virtio/vhost-user-blk.h                 |  10 +
->  include/hw/virtio/vhost-vdpa.h                     |   1 +
->  include/hw/virtio/vhost.h                          |   1 +
->  include/monitor/hmp.h                              |   1 -
->  include/standard-headers/drm/drm_fourcc.h          | 140 ++++++++++
->  include/standard-headers/linux/ethtool.h           |  87 +++++++
->  include/standard-headers/linux/input-event-codes.h |   3 +-
->  include/standard-headers/linux/vhost_types.h       |  11 +
->  include/standard-headers/linux/virtio_9p.h         |   4 +-
->  include/standard-headers/linux/virtio_blk.h        |  26 +-
->  include/standard-headers/linux/virtio_config.h     |   8 +-
->  include/standard-headers/linux/virtio_console.h    |   8 +-
->  include/standard-headers/linux/virtio_net.h        |   6 +-
->  include/standard-headers/linux/virtio_scsi.h       |  20 +-
->  linux-headers/asm-generic/unistd.h                 |   6 +-
->  linux-headers/asm-mips/unistd_n32.h                |   1 +
->  linux-headers/asm-mips/unistd_n64.h                |   1 +
->  linux-headers/asm-mips/unistd_o32.h                |   1 +
->  linux-headers/asm-powerpc/kvm.h                    |   5 +
->  linux-headers/asm-powerpc/unistd_32.h              |   1 +
->  linux-headers/asm-powerpc/unistd_64.h              |   1 +
->  linux-headers/asm-s390/kvm.h                       |   7 +-
->  linux-headers/asm-s390/unistd_32.h                 |   1 +
->  linux-headers/asm-s390/unistd_64.h                 |   1 +
->  linux-headers/asm-x86/unistd_32.h                  |   1 +
->  linux-headers/asm-x86/unistd_64.h                  |   1 +
->  linux-headers/asm-x86/unistd_x32.h                 |   1 +
->  linux-headers/linux/kvm.h                          |   4 +
->  linux-headers/linux/vfio.h                         |   2 +-
->  linux-headers/linux/vhost.h                        |   2 +
->  hw/block/vhost-user-blk.c                          |  19 +-
->  hw/core/machine-hmp-cmds.c                         |  12 -
->  hw/core/machine-qmp-cmds.c                         |  12 -
->  hw/i386/pc.c                                       |  27 --
->  hw/i386/pc_piix.c                                  |   1 -
->  hw/i386/pc_q35.c                                   |   2 +-
->  hw/s390x/s390-virtio-ccw.c                         |  12 -
->  hw/virtio/vhost-backend.c                          |  88 +++++--
->  hw/virtio/vhost-vdpa.c                             |  66 +++++
->  hw/virtio/vhost.c                                  |  49 +++-
->  hw/virtio/virtio-iommu-pci.c                       |   2 +-
->  hw/virtio/virtio-iommu.c                           |   8 +-
->  hw/virtio/virtio-mem.c                             |   3 +
->  tests/qtest/cpu-plug-test.c                        | 100 +------
->  tests/qtest/libqos/virtio-blk.c                    |  14 +-
->  tests/qtest/test-hmp.c                             |   1 -
->  tests/qtest/vhost-user-test.c                      | 289 +++++++++++++++=
-+++---
->  docs/system/deprecated.rst                         |  25 +-
->  hmp-commands.hx                                    |  15 --
->  53 files changed, 812 insertions(+), 323 deletions(-)
->
->
 
