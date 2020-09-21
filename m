@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD4272A4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:35:09 +0200 (CEST)
-Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F19272A62
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:40:57 +0200 (CEST)
+Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKNqO-0007cg-70
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:35:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39702)
+	id 1kKNw0-0003EB-P3
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKNoR-0006su-KO
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:33:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21561
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKNsS-0000jQ-Hx
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:37:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35710
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKNoL-0005pl-92
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:33:06 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKNsP-0006WU-KN
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:37:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600702379;
+ s=mimecast20190719; t=1600702632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ppMqlyz29WQ+6okIWu2qVq1vAw0JRtCNW4i0J0v/ANw=;
- b=AEwq9Mp5nTciB4Uim7JIi8W8kqsZRwdAYAKI7h6wPUT/JSXhicbC70K2Kei99Ufrcmo+2u
- HJbeK/ISarweT+EKkeh90zrJttovnfTNOZyUMjvuk/bF7HWZ7rsyew7wU9Fz++nMmKNZwF
- 3guZC+Xo2uXoyb73RBgyir2zzoB6iII=
+ bh=C9rHQQl1dsyNnui0tfFE1ivSCi2lWj1pcfZa1ujftB0=;
+ b=CG35N5fEwdM7kmx9YUZ8WCygbR8ofn7KjIicEgxVCCDae661uR40v9vxrkcgMYtDCjwUKX
+ u92fxmyw2T4veYtjOevt+fr868meh7SmyFyXhm/ZlPh41zcooom3WyaedGlLMYIf3S5iVh
+ iJfW8senPu4QXcUXO3wXs+7o68bGyww=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-RGukSrMvN1KslNYISg7Mvw-1; Mon, 21 Sep 2020 11:32:55 -0400
-X-MC-Unique: RGukSrMvN1KslNYISg7Mvw-1
+ us-mta-596-s4H4jgWyNDmHY-ahFDvS_A-1; Mon, 21 Sep 2020 11:37:06 -0400
+X-MC-Unique: s4H4jgWyNDmHY-ahFDvS_A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B16186DD3C;
- Mon, 21 Sep 2020 15:32:54 +0000 (UTC)
-Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 920EB78823;
- Mon, 21 Sep 2020 15:32:46 +0000 (UTC)
-Date: Mon, 21 Sep 2020 16:32:43 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
-Message-ID: <20200921153243.GK3221@work-vm>
-References: <20200918213436.GA3520@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 660BB80B73A;
+ Mon, 21 Sep 2020 15:37:05 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D6A27881A;
+ Mon, 21 Sep 2020 15:37:04 +0000 (UTC)
+Date: Mon, 21 Sep 2020 11:37:04 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Subject: Re: [PATCH v3 1/2] Introduce (x86) CPU model deprecation API
+Message-ID: <20200921153704.GN57321@habkost.net>
+References: <1600245434-63021-1-git-send-email-robert.hu@linux.intel.com>
+ <20200917181831.GU7594@habkost.net>
+ <509a84f209fe6ac60b2e4b913a49190d0f1eeaa2.camel@linux.intel.com>
+ <20200918164237.GZ7594@habkost.net>
+ <d3a01f58e5ab0886b2e4d53d5a73162769722cd7.camel@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200918213436.GA3520@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+In-Reply-To: <d3a01f58e5ab0886b2e4d53d5a73162769722cd7.camel@linux.intel.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 07:01:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 11:10:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -81,83 +84,462 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jose.carlos.venegas.munoz@intel.com, qemu-devel@nongnu.org,
- cdupontd@redhat.com, virtio-fs-list <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, archana.m.shinde@intel.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>, "Hu, Robert" <robert.hu@intel.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-  I've been doing some of my own perf tests and I think I agree
-about the thread pool size;  my test is a kernel build
-and I've tried a bunch of different options.
+On Sat, Sep 19, 2020 at 11:22:12AM +0800, Robert Hoo wrote:
+> On Fri, 2020-09-18 at 16:42 +0000, Eduardo Habkost wrote:
+> > ...
+> > > > > ---
+> > > > > Changelog
+> > > > > v3:
+> > > > > Make the deprecation implementation CPUClass generic.
+> > > > > 
+> > > > > v2:
+> > > > > Move deprecation check from parse_cpu_option() to
+> > > > > machine_run_board_init(), so
+> > > > > that it can cover implicit cpu_type assignment cases.
+> > > > 
+> > > > What do you mean by implicit cpu_type assignment cases?
+> > > 
+> > > Means the case that user doesn't explicitly assign '-cpu xxx' but
+> > > implicitly inherits machine's default cpu type.
+> > > vl.c
+> > >     /* parse features once if machine provides default cpu_type */
+> > >     current_machine->cpu_type = machine_class->default_cpu_type;
+> > >     if (cpu_option) {
+> > >         current_machine->cpu_type = parse_cpu_option(cpu_option);
+> > >     }
+> > 
+> > We probably would never deprecate CPU models that are still used
+> > by default, so this is not an issue.
+> 
+> Understand.
+> Even though less possible, I think it is still doable, say, firstly
+> switch the default model to the other one, then deprecate it.
 
-My config:
-  Host: 16 core AMD EPYC (32 thread), 128G RAM,
-     5.9.0-rc4 kernel, rhel 8.2ish userspace.
-  5.1.0 qemu/virtiofsd built from git.
-  Guest: Fedora 32 from cloud image with just enough extra installed for
-a kernel build.
+Right.  I mean it's OK to not print warnings if default_cpu_type
+is deprecated.
 
-  git cloned and checkout v5.8 of Linux into /dev/shm/linux on the host
-fresh before each test.  Then log into the guest, make defconfig,
-time make -j 16 bzImage,  make clean; time make -j 16 bzImage 
-The numbers below are the 'real' time in the guest from the initial make
-(the subsequent makes dont vary much)
+> > 
+> > > > 
+> > > > Doing it inside parse_cpu_option() like you did in v1 will make
+> > > > the deprecation warnings appear for *-user too (which is a good
+> > > > thing).
+> > > > 
+> > > 
+> > > So you changed your mind;-)
+> > 
+> > Sorry, I don't remember suggesting this.  I couldn't find any
+> > reply from myself in v1, and v2 already had the code moved to
+> > machine_run_board_init().
+> > 
+> > Note that doing the check in machine_run_board_init() is not
+> > necessarily a problem, I'm just trying to understand why the code
+> > was moved from parse_cpu_option() to machine_run_board_init()
+> > between v1 and v2.
+> > 
+> Sorry, I just searched my Linux mailbox, cannot find previous thread
+> either. But in my memory, it was your suggestion:) and I prefer this
+> than doing it in parse_cpu_option() as well, as parse_cpu_option() is
+> early time, the passed in cpu_model could be not concrete yet. See my
+> below idea of making unversioned cpu_model virtual.
 
-Below are the detauls of what each of these means, but here are the
-numbers first
+That's OK to me.
 
-virtiofsdefault        4m0.978s
-9pdefault              9m41.660s
-virtiofscache=none    10m29.700s
-9pmmappass             9m30.047s
-9pmbigmsize           12m4.208s
-9pmsecnone             9m21.363s
-virtiofscache=noneT1   7m17.494s
-virtiofsdefaultT1      3m43.326s
+> > > 
+> > > Could you shed more details? I don't get this point. What do you
+> > > mean
+> > > "*-user"?
+> > 
+> > I mean QEMU user mode emulator, bsd-user and linux-user (e.g. the
+> > qemu-x86_64 binary).  They call parse_cpu_option() as well.
+> > 
+> Oh, I'm not familiar with these user modes yet. How about leave them
+> alone at this moment? let's cover most cases, i.e. based on machine
+> type, first. Then in the future we consider how to expand this to *-
+> user cases.
 
-So the winner there by far is the 'virtiofsdefaultT1' - that's
-the default virtiofs settings, but with --thread-pool-size=1 - so
-yes it gives a small benefit.
-But interestingly the cache=none virtiofs performance is pretty bad,
-but thread-pool-size=1 on that makes a BIG improvement.
+No problem to me.
 
+> > > 
+> > > > > Add qapi new member documentation. Thanks Eric for comment and
+> > > > > guidance on qapi.
+> > > > > 
+> > > > >  hw/core/machine.c        | 12 ++++++++++--
+> > > > >  include/hw/core/cpu.h    |  6 ++++++
+> > > > >  qapi/machine-target.json |  7 ++++++-
+> > > > >  target/i386/cpu.c        | 29 +++++++++++++++++++++++------
+> > > > >  4 files changed, 45 insertions(+), 9 deletions(-)
+> > > > > 
+> > > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > > > index ea26d61..b41f88d 100644
+> > > > > --- a/hw/core/machine.c
+> > > > > +++ b/hw/core/machine.c
+> > > > > @@ -1095,6 +1095,8 @@ MemoryRegion
+> > > > > *machine_consume_memdev(MachineState *machine,
+> > > > >  void machine_run_board_init(MachineState *machine)
+> > > > >  {
+> > > > >      MachineClass *machine_class = MACHINE_GET_CLASS(machine);
+> > > > > +    ObjectClass *oc = object_class_by_name(machine->cpu_type);
+> > > > > +    CPUClass *cc;
+> > > > > 
+> > > > >      if (machine->ram_memdev_id) {
+> > > > >          Object *o;
+> > > > > @@ -1114,11 +1116,10 @@ void
+> > > > > machine_run_board_init(MachineState
+> > > > > *machine)
+> > > > >       * specified a CPU with -cpu check here that the user CPU
+> > > > > is
+> > > > > supported.
+> > > > >       */
+> > > > >      if (machine_class->valid_cpu_types && machine->cpu_type) {
+> > > > > -        ObjectClass *class = object_class_by_name(machine-
+> > > > > > cpu_type);
+> > > > > 
+> > > > >          int i;
+> > > > > 
+> > > > >          for (i = 0; machine_class->valid_cpu_types[i]; i++) {
+> > > > > -            if (object_class_dynamic_cast(class,
+> > > > > +            if (object_class_dynamic_cast(oc,
+> > > > >                                            machine_class-
+> > > > > > valid_cpu_types[i])) {
+> > > > > 
+> > > > >                  /* The user specificed CPU is in the valid
+> > > > > field,
+> > > > > we are
+> > > > >                   * good to go.
+> > > > > @@ -1141,6 +1142,13 @@ void machine_run_board_init(MachineState
+> > > > > *machine)
+> > > > >          }
+> > > > >      }
+> > > > > 
+> > > > > +    /* Check if CPU type is deprecated and warn if so */
+> > > > > +    cc = CPU_CLASS(oc);
+> > > > > +    if (cc->deprecated) {
+> > > > > +        warn_report("CPU model %s is deprecated -- %s",
+> > > > > machine-
+> > > > > > cpu_type,
+> > > > > 
+> > > > > +                    cc->deprecation_note);
+> > > > > +    }
+> > > > > +
+> > > > >      machine_class->init(machine);
+> > > > >  }
+> > > > > 
+> > > > > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> > > > > index 99dc33f..c4b17c8 100644
+> > > > > --- a/include/hw/core/cpu.h
+> > > > > +++ b/include/hw/core/cpu.h
+> > > > > @@ -155,6 +155,10 @@ struct TranslationBlock;
+> > > > >   * @disas_set_info: Setup architecture specific components of
+> > > > > disassembly info
+> > > > >   * @adjust_watchpoint_address: Perform a target-specific
+> > > > > adjustment to an
+> > > > >   * address before attempting to match it against watchpoints.
+> > > > > + * @deprecated: True if this CPU model is deprecated (going to
+> > > > > be
+> > > > > removed in
+> > > > > + *              near future).
+> > > > > + * @deprecation_note: Message about the deprecation. e.g.
+> > > > > Since
+> > > > > which version
+> > > > > + *                    will it be obsoleted.
+> > > > 
+> > > > We don't need two separate fields if (deprecation_note != NULL)
+> > > > means the CPU model is deprecated.  This is how it was
+> > > > implemented in MachineClass (see
+> > > > MachineClass::deprecation_reason).
+> > > > 
+> > > 
+> > > Agree.
+> > > I think such applies to X86CPUModel::deprecated and
+> > > X86CPUModel::note
+> > > as well; and rename X86CPUModel::note --> deprecation_note. How do
+> > > you
+> > > like this?
+> > 
+> > Sound good!
+> > 
+> > > 
+> > > > >   *
+> > > > >   * Represents a CPU family or model.
+> > > > >   */
+> > > > > @@ -221,6 +225,8 @@ struct CPUClass {
+> > > > >      vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr
+> > > > > addr,
+> > > > > int len);
+> > > > >      void (*tcg_initialize)(void);
+> > > > > 
+> > > > > +    bool deprecated;
+> > > > > +    const char *deprecation_note;
+> > > > >      /* Keep non-pointer data at the end to minimize holes.  */
+> > > > >      int gdb_num_core_regs;
+> > > > >      bool gdb_stop_before_watchpoint;
+> > > > > diff --git a/qapi/machine-target.json b/qapi/machine-
+> > > > > target.json
+> > > > > index 698850c..fec3bb8 100644
+> > > > > --- a/qapi/machine-target.json
+> > > > > +++ b/qapi/machine-target.json
+> > > > > @@ -286,6 +286,10 @@
+> > > > >  #            in the VM configuration, because aliases may stop
+> > > > > being
+> > > > >  #            migration-safe in the future (since 4.1)
+> > > > >  #
+> > > > > +# @deprecated: If true, this CPU model is deprecated and may
+> > > > > be
+> > > > > removed in
+> > > > > +#              in some future version of QEMU according to the
+> > > > > QEMU deprecation
+> > > > > +#              policy. (since 5.2)
+> > > > > +#
+> > > > >  # @unavailable-features is a list of QOM property names that
+> > > > >  # represent CPU model attributes that prevent the CPU from
+> > > > > running.
+> > > > >  # If the QOM property is read-only, that means there's no
+> > > > > known
+> > > > > @@ -310,7 +314,8 @@
+> > > > >              'static': 'bool',
+> > > > >              '*unavailable-features': [ 'str' ],
+> > > > >              'typename': 'str',
+> > > > > -            '*alias-of' : 'str' },
+> > > > > +            '*alias-of' : 'str',
+> > > > > +            'deprecated' : 'bool' },
+> > > > >    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) ||
+> > > > > defined(TARGET_I386) || defined(TARGET_S390X) ||
+> > > > > defined(TARGET_MIPS)' }
+> > > > > 
+> > > > >  ##
+> > > > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > > > > index 49d8958..9cb82b7 100644
+> > > > > --- a/target/i386/cpu.c
+> > > > > +++ b/target/i386/cpu.c
+> > > > > @@ -1716,6 +1716,7 @@ typedef struct X86CPUVersionDefinition {
+> > > > >      const char *alias;
+> > > > >      const char *note;
+> > > > >      PropValue *props;
+> > > > > +    bool       deprecated;
+> > > > >  } X86CPUVersionDefinition;
+> > > > > 
+> > > > >  /* Base definition for a CPU model */
+> > > > > @@ -1751,6 +1752,11 @@ struct X86CPUModel {
+> > > > >       * This matters only for "-cpu help" and query-cpu-
+> > > > > definitions
+> > > > >       */
+> > > > >      bool is_alias;
+> > > > > +    /*
+> > > > > +     * If true, this model is deprecated, and may be removed
+> > > > > in
+> > > > > the future.
+> > > > > +     * Trying to use it now will cause a warning.
+> > > > > +     */
+> > > > > +    bool deprecated;
+> > > > >  };
+> > > > > 
+> > > > >  /* Get full model name for CPU version */
+> > > > > @@ -5096,6 +5102,7 @@ static void
+> > > > > x86_cpu_definition_entry(gpointer
+> > > > > data, gpointer user_data)
+> > > > >      info->migration_safe = cc->migration_safe;
+> > > > >      info->has_migration_safe = true;
+> > > > >      info->q_static = cc->static_model;
+> > > > > +    info->deprecated = cc->model ? cc->model->deprecated :
+> > > > > false;
+> > > > >      /*
+> > > > >       * Old machine types won't report aliases, so that alias
+> > > > > translation
+> > > > >       * doesn't break compatibility with previous QEMU
+> > > > > versions.
+> > > > > @@ -5486,9 +5493,12 @@ static void
+> > > > > x86_cpu_cpudef_class_init(ObjectClass *oc, void *data)
+> > > > >  {
+> > > > >      X86CPUModel *model = data;
+> > > > >      X86CPUClass *xcc = X86_CPU_CLASS(oc);
+> > > > > +    CPUClass *cc = CPU_CLASS(oc);
+> > > > > 
+> > > > >      xcc->model = model;
+> > > > >      xcc->migration_safe = true;
+> > > > > +    cc->deprecated = model->deprecated;
+> > > > > +    cc->deprecation_note = g_strdup(model->note);
+> > > > 
+> > > > The meaning of cc->deprecation_note and model->note is a bit
+> > > > ambiguous here.  model->note is not necessarily a deprecation
+> > > > note, but its contents are being copied unconditionally to
+> > > > cc->deprecation_note.
+> > > > 
+> > > > What about setting cc->deprecation_note only if and only if the
+> > > > model is deprecated?
+> > > > 
+> > > 
+> > > Agree. Since X86CPUModel::note is actually unused by anything now,
+> > > going to rename it to deprecation_note as aforementioned.
+> > 
+> > .note is used by all the CPU models that set .note.  See for
+> > example:
+> > 
+> > x86 Cascadelake-Server-v1  Intel Xeon Processor (Cascadelake)
+> > x86 Cascadelake-Server-v2  Intel Xeon Processor (Cascadelake)
+> > [ARCH_CAPABILITIES]
+> > x86 Cascadelake-Server-v3  Intel Xeon Processor (Cascadelake)
+> > [ARCH_CAPABILITIES, no TSX]
+> > x86 Cascadelake-Server-v4  Intel Xeon Processor (Cascadelake)
+> > [ARCH_CAPABILITIES, no TSX]
+> > 
+> OK, then I'll add another deprecation_note.
+> > 
+> > > 
+> > > A side concern,
+> > > cc->deprecation_note = g_strdup(model->note);
+> > > 
+> > > I don's see where free the cc object. Assuming the dup'ed string,
+> > > as
+> > > well as object, will last through QEMU process life time, freed
+> > > implicitly as this process gone. Is my understanding right?
+> > 
+> > We never free QOM class structs (like CPUClass), so that's OK.
+> > 
+> > > > 
+> > > > >  }
+> > > > > 
+> > > > >  static void x86_register_cpu_model_type(const char *name,
+> > > > > X86CPUModel *model)
+> > > > > @@ -5524,21 +5534,28 @@ static void
+> > > > > x86_register_cpudef_types(X86CPUDefinition *def)
+> > > > >      x86_register_cpu_model_type(def->name, m);
+> > > > > 
+> > > > >      /* Versioned models: */
+> > > > > -
+> > > > >      for (vdef = x86_cpu_def_get_versions(def); vdef->version;
+> > > > > vdef++) {
+> > > > > -        X86CPUModel *m = g_new0(X86CPUModel, 1);
+> > > > > +        X86CPUModel *vm = g_new0(X86CPUModel, 1);
+> > > > >          g_autofree char *name =
+> > > > >              x86_cpu_versioned_model_name(def, vdef->version);
+> > > > > -        m->cpudef = def;
+> > > > > -        m->version = vdef->version;
+> > > > > -        m->note = vdef->note;
+> > > > > -        x86_register_cpu_model_type(name, m);
+> > > > > +        vm->cpudef = def;
+> > > > > +        vm->version = vdef->version;
+> > > > > +        vm->note = vdef->note;
+> > > > > +        vm->deprecated = vdef->deprecated;
+> > > > > +        /* If Model-v1 is deprecated, Model is deprecated. */
+> > > > > +        if (vdef->version == 1 && vdef->deprecated == true) {
+> > > > > +            m->deprecated = true;
+> > > > > +            m->note = vdef->note;
+> > > > 
+> > > > I'm not sure this rule will always apply.  If we deprecate
+> > > > "Model-v1" but not "Model-v2", we probably don't want "Model" to
+> > > > be deprecated too.
+> > > 
+> > > Agree
+> > > > 
+> > > > Considering that we don't have cases where specific versions are
+> > > > being deprecated, what about making it as simple as possible and
+> > > > just add a new X86CPUDefinition::deprecation_note field?  No need
+> > > > for any new fields in X86CPUModel (model->cpudef-
+> > > > >deprecation_note
+> > > > can be used directly), no need for two new fields in CPUClass
+> > > > (just deprecation_note).
+> > > 
+> > > How about eliminating the unversioned CPU model? Then we can still
+> > > have
+> > > deprecation_note in X86CPUModel, which looks more natural to me
+> > > than in
+> > > X86CPUDefition.
+> > > For anyway, the unversioned CPU model will eventually be
+> > > instantiated
+> > > to its some versioned CPU model. It's like a virtual class.
+> > 
+> > What do you mean by eliminating the unversioned CPU model?  Keep
+> > in mind that we need "-cpu Model" to keep working, because of
+> > compatibility and also because "-cpu Model" is more convenient.
+> > 
+> Yes, keeping "-cpu Model" usage as before is my thought as well. I mean
+> making it virtual, no real CPU model associate with it, but parse it to
+> some concrete version when CPUModel initializes.
+> 
+> > There are ways the representation of CPU models + aliases +
+> > versions can be improved, but I assume you wouldn't want a large
+> > refactor of the CPU model/version table to get in the way of a
+> > simple feature.
+> > 
+> Yes. Trying as less refactor as possible. I think my changes even
+> cannot be called refactor at all. :)
+> My idea is to make unversioned CPU model virtual. I did some patch,
+> doable:
+> 1) in x86_register_cpudef_types(), don't register cpu_model type for
+> the unversioned 'Model'.
+> 2) in x86_cpu_class_by_name(), check passed-in cpu_model param
+> versioned or not, if the virtual unversioned 'Model', parse it to some
+> concrete version by global default_cpu_version designation.
+> 
+> So, user can still use '-cpu Model' as before, no interface changes.
+> And no nature changes:
+> 1) in current code, even legacy 'Model', you have created a v1 model
+> for it. i.e., every virtual 'Model' already has at least one concrete
+> versioned one.
+> 2) in current code, x86_cpu_model_resolve_version() is called when
+> x86_cpu_load_model(). x86_cpu_model_resolve_version() actually does
+> kind of work that concreting unversioned Model to its versioned one, by
+> global default_cpu_version designation. Same as my aforementioned
+> above.
+> 
+> Would you like me to integrate this implementation in v4? to have a
+> look.
 
-virtiofsdefault:
-  ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux
-  ./x86_64-softmmu/qemu-system-x86_64 -M pc,memory-backend=mem,accel=kvm -smp 8 -cpu host -m 32G,maxmem=64G,slots=1 -object memory-backend-memfd,id=mem,size=32G,share=on -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=kernel
-  mount -t virtiofs kernel /mnt
+I think we might give this a try, but I wouldn't like to have
+your model deprecation series delayed because of this.  Some
+obstacles I expect to see:
 
-9pdefault
-  ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=passthrough
-  mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L
+Right now the code assumes a 1:1 mapping between CPU model and
+QOM class.  We even have a `typename` field returned by
+query-cpu-definitions.
 
-virtiofscache=none
-  ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux -o cache=none
-  ./x86_64-softmmu/qemu-system-x86_64 -M pc,memory-backend=mem,accel=kvm -smp 8 -cpu host -m 32G,maxmem=64G,slots=1 -object memory-backend-memfd,id=mem,size=32G,share=on -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=kernel
-  mount -t virtiofs kernel /mnt
+It would also become an obstacle for removing the existing
+arch-specific class_by_name methods and do the model->class
+mapping based solely on a string template.  See this thread for a
+glimpse on what we have been trying to do:
+https://lore.kernel.org/qemu-devel/877eb173a3.fsf@dusky.pond.sub.org/
 
-9pmmappass
-  ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=passthrough
-  mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L,cache=mmap
+I'm not saying we shouldn't do what you suggest, but it would add
+a lot of complexity to your CPU model deprecation work (that's
+very close to be ready to be merged).
 
-9pmbigmsize
-   ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=passthrough
-   mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L,cache=mmap,msize=1048576
+> > > 
+> > > > 
+> > > > If one day we decide to deprecate just some versions of a CPU
+> > > > model, we can extend X86CPUVersionDefinition in the future.
+> > > > 
+> > > > > +        }
+> > > > > +        x86_register_cpu_model_type(name, vm);
+> > > > > 
+> > > > >          if (vdef->alias) {
+> > > > >              X86CPUModel *am = g_new0(X86CPUModel, 1);
+> > > > >              am->cpudef = def;
+> > > > >              am->version = vdef->version;
+> > > > >              am->is_alias = true;
+> > > > > +            am->note = vdef->note;
+> > > > > +            am->deprecated = vdef->deprecated;
+> > > > >              x86_register_cpu_model_type(vdef->alias, am);
+> > > > >          }
+> > > > >      }
+> > > > > --
+> > > > > 1.8.3.1
+> > > > > 
+> > > > 
+> > > > 
+> > 
+> > --
+> > Eduardo
+> > 
+> 
 
-9pmsecnone
-   ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=none
-   mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L
-
-virtiofscache=noneT1
-   ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux -o cache=none --thread-pool-size=1
-   mount -t virtiofs kernel /mnt
-
-virtiofsdefaultT1
-   ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux --thread-pool-size=1
-    ./x86_64-softmmu/qemu-system-x86_64 -M pc,memory-backend=mem,accel=kvm -smp 8 -cpu host -m 32G,maxmem=64G,slots=1 -object memory-backend-memfd,id=mem,size=32G,share=on -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=kernel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eduardo
 
 
