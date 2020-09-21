@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F68273182
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:09:39 +0200 (CEST)
-Received: from localhost ([::1]:34382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FAA273164
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:03:18 +0200 (CEST)
+Received: from localhost ([::1]:50362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQFu-0002WP-4b
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48936)
+	id 1kKQ9l-0005QU-1D
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKQ2B-00077Q-Ek
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:55:27 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKQ29-0001nD-GF
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:55:27 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id gr14so19070010ejb.1
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 10:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bCrE34MnbVdDowmPT6kMQGf/vb7ALGieKX82jIu37ZE=;
- b=U8hh+LRDUImDxn440ZLufEt7EyVObg0TINZQMA3BDQN1SZV/RXz8oRr/+H8hr04Moz
- j2pol5qC5Qr71y5mtMsIL/kjbkUauvSMJN1RdoveqbAaebahLSBAtl0ospcAk5439Rt+
- aBJ5cZ10MeDs4kDk3KifjbW/9iUGQdsa8WPGNr/OA4sN1xQ6vLim1UUMyEvavts83GbO
- E9MmSpVeCu6GWPnZC9d/PJMOmH9bb2L/Ubmh8YolLHdIe327jUQ5hcVGGKAaK8mNprgE
- /Ut7iUmtmju6ICT0vuhaHm/VI0NcxVwfYE0LSdagzZx+NgqlHgDtq8gDK0CjWN9qXVgw
- q7oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bCrE34MnbVdDowmPT6kMQGf/vb7ALGieKX82jIu37ZE=;
- b=UR653wW7oYpb2QG6V82guQ3qu3Mkls1F9jvPsWkyyNThKd9ZfQfsofEfM+LK3wtxXt
- 5X7C1nEzhUHdQmmGBLXtbZVnxlnl0Eg3eeuNemRQ8URSKEFyOYiJ1doX1GPLTjnLoQOo
- XhYO4vwNUuhcSpW158B5EpdK3VNHjA0rN81ihbr6WGVmWcYu71X4GI9o03w0G/iZWTsC
- +HA9y2ziul5je/nS0WuSRZ4a5WFf/tU9qIIgrhsodJyZITYBnKqLUhauX4DoRXDJ/p5s
- qKqeqgMpl7utZye07plabcSet/8F7a8qQoA8mBkqQyj16Uaul3Rt1OimaD2ZsXqUxI91
- 3n8g==
-X-Gm-Message-State: AOAM533BBIfsFeSuYS6tRL2GeuwvWeGEGljJpBTQKHYHLiQ6dKzv5VaQ
- P50cCFbaxGndq6Ib/d2+ppxmZThvuPvEb+YXO16Zew==
-X-Google-Smtp-Source: ABdhPJwwjJQ5uCRGyddt+SCfScS2eR9k3t+oeWDdMWf1OnG6OG/W4ekZAx6y8i3tqkzr69o7ZQTNC5UVDBpRW00rc7k=
-X-Received: by 2002:a17:906:24d6:: with SMTP id
- f22mr627848ejb.85.1600710923790; 
- Mon, 21 Sep 2020 10:55:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kKQ3I-0000aQ-Bb; Mon, 21 Sep 2020 13:56:36 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:34823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kKQ3G-00021s-4n; Mon, 21 Sep 2020 13:56:36 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 73DB45804AC;
+ Mon, 21 Sep 2020 13:56:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Mon, 21 Sep 2020 13:56:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=9nDOZLFxC+NN56ZABKF+HP1WngG
+ WrS3dVOWPmF7uP40=; b=h44GNJDHHjG2jt0brvqgsMbGz08CGpCmeVyVolGJgaP
+ r71TDuMeyXE75y2e7tmVAC/vSZOCMcZYbHwY7EbvZ3+1jj1QGM/UV5u2loyvlBRB
+ jtY5mnKHP5KpmbbLQbFJdLFccCXCUxbFqRTgO30lG1BAM1RNdXCt8SzpT0vnKPjS
+ 9N3Svg/XpS9d+5v5x8ujQT1/5VDUTG+uU6x1svtBOhiOa1a409yuV6k/Lej4SLPA
+ ahzF005Ns6yKnEf3nJtD23tqQaVAZzx7uKLsBi9YUMl7w43W7WFFrs17PD/Oy67y
+ VAtsN/YqovZzBXPLfXUuzLHEFgVuoiMktxTKJY9DExQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9nDOZL
+ FxC+NN56ZABKF+HP1WngGWrS3dVOWPmF7uP40=; b=rcSP76t6c9oN5KAKZ92otB
+ dkhXHC0LWmmaXniMjyGqjXwcOgTKBCIHH10ie3iAtoNB0fkdb5v2M98q5nsiZ4mB
+ gw02Te+1LAzxEjR3qN4E9kTQAhuHlRXWl2quCv1NMjOqXwEcFrZMJKRqyABvlhZ3
+ CfqIXcJsqmdk3F5HwdpxpoqwYBhRkPkF2biyYmo2D2gQ5xSM3v8Fp8cH5GdKMTAf
+ I8aTrXX7j+Lbn96dN9W8hear3QnS8s3uZS72sLZgQLuvB1w4QTQQ6yORikwIugqb
+ 8hHh3oG9B8UbIPo2LJcz7DfDUlT9043/JtMPZybEPmxr+hv5LDBdVsJmZS05fjwA
+ ==
+X-ME-Sender: <xms:TuloX0P8vtXm-r_7cSnzhaaCf0Rj0krVxah0tLM1ZWEr3fC4gTGA0g>
+ <xme:TuloX6-2r4ggEnC0-ilmvnCwOqp3kKcBCs-6dFbKbIW63AqCzdt-aRVwfK3VCeqK3
+ kx9sCJhuMkztBOLAXI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:TuloX7RapjN-1qpmS3y5STjNDBsGagv0QN7ChAIcPvkcYsS3dXP9fA>
+ <xmx:TuloX8vCJW5kdgYgVIGpNq0Dsse4I4qJdNt6sn9tIOtVQImBvu7s_A>
+ <xmx:TuloX8cWfqz0fsZeEOiuRhLO4fbwRq02nggMjQG47yVTQIukjjrxjw>
+ <xmx:T-loX6tKwG1COIQ5ySLQs8S9O2tURGUe4WoG7drXpCXVtl5A7HwZ5A>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E88713064683;
+ Mon, 21 Sep 2020 13:56:28 -0400 (EDT)
+Date: Mon, 21 Sep 2020 19:56:27 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v2 09/17] hw/block/nvme: refactor aio submission
+Message-ID: <20200921175627.GA999349@apples.localdomain>
+References: <20200918203621.602915-1-its@irrelevant.dk>
+ <20200918203621.602915-10-its@irrelevant.dk>
+ <20200921152015.GB4034182@dhcp-10-100-145-180.wdl.wdc.com>
 MIME-Version: 1.0
-References: <20200918202750.10358-1-ehabkost@redhat.com>
-In-Reply-To: <20200918202750.10358-1-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Sep 2020 18:55:11 +0100
-Message-ID: <CAFEAcA_AJcHaUjXdRH4jc5hkEq63d5ngap9vpp-yx4JsTDiQiA@mail.gmail.com>
-Subject: Re: [PULL 0/4] x86 queue, 2020-09-18
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Disposition: inline
+In-Reply-To: <20200921152015.GB4034182@dhcp-10-100-145-180.wdl.wdc.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 13:56:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,47 +97,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Sep 2020 at 21:28, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> The following changes since commit 053a4177817db307ec854356e95b5b350800a2=
-16:
->
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-2020091=
-8' into staging (2020-09-18 16:34:26 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/ehabkost/qemu.git tags/x86-next-pull-request
->
-> for you to fetch changes up to 31ada106d891f56f54d4234ce58c552bc2e734af:
->
->   i386: Simplify CPUID_8000_001E for AMD (2020-09-18 13:50:31 -0400)
->
-> ----------------------------------------------------------------
-> x86 queue, 2020-09-18
->
-> Cleanups:
-> * Correct the meaning of '0xffffffff' value for hv-spinlocks (Vitaly Kuzn=
-etsov)
-> * vmport: Drop superfluous parenthesis (Philippe Mathieu-Daud=C3=A9)
->
-> Fixes:
-> * Use generic APIC ID encoding code for EPYC (Babu Moger)
->
-> ----------------------------------------------------------------
 
+--LZvS9be/3tNcYl/X
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+On Sep 21 08:20, Keith Busch wrote:
+> On Fri, Sep 18, 2020 at 10:36:13PM +0200, Klaus Jensen wrote:
+> > +static inline bool nvme_req_is_write(NvmeRequest *req)
+> > +{
+> > +    switch (req->cmd.opcode) {
+> > +    case NVME_CMD_WRITE:
+> > +    case NVME_CMD_WRITE_ZEROES:
+> > +        return true;
+> > +    default:
+> > +        return false;
+> > +    }
+> > +}
+>=20
+> It doesn't look like this is called for WRITE_ZEROES anywhere. It also
+> looks like this helper is a bit unnecessary. We can reorganize some of
+> the flow so that we're not checking the opcode twice:
+>=20
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+Ooops. Yes, that is a leftover from when I had a patch that combined
+nvme_rw and nvme_write_zeroes in the series.
 
--- PMM
+I'll remove it.
+
+--LZvS9be/3tNcYl/X
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9o6UcACgkQTeGvMW1P
+Dek9Lgf/Su4fHhA07v2L66niggUfk/qRRiCxaQOkdTrx/lDIj7O9CfQXs5JTVPQZ
+evx7k6UJadR5LsdnPrWqm0K3ALOKeWcRTgTwa7spPHDRuluW2pFgvYSW7Xmmn493
+tTG9nJvIMD7861ilCcGjeYetgh7qjqBFLI9jZLHhY/d6F+a0E7x6BdhgynDueood
+T4hZ202xiciWylYC6Gglz9Gq/JpkSiE4u3nD2BY4fs+ci+r0PlXwPYCV7Lm04Rah
+AutGbTH9BsCrqXLA1MWCQhPns9YqPs2hdpcPtCONGndHPuDqlMo38LLL8AV9N7Ht
+bu20jfvw9/MuurjhQG+aDSDGz4hCnA==
+=2Cdz
+-----END PGP SIGNATURE-----
+
+--LZvS9be/3tNcYl/X--
 
