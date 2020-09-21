@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8A72735AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:23:25 +0200 (CEST)
-Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADC627358C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:16:18 +0200 (CEST)
+Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKUDU-0006Se-W0
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58874)
+	id 1kKU6b-00057H-Gb
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:16:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1h-0008TT-Km
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55310
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1kKU1f-0008P0-S9
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52162
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1g-0001ae-1U
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:13 -0400
+ id 1kKU1d-0001Zt-Bz
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600726271;
+ s=mimecast20190719; t=1600726268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nbTMuNTCnHfILdL0OqkdIuBhc6flK1JddONBlf63Zow=;
- b=L6LZ2v+6fiRZELD2c03wcyhbiV6irf3WLEn4vFAG2x9zdtdyvVJ7idjmtCX3zfIb+WYK/g
- 6KxWl5zxV+AUFtbcSSIXBMq7r7mS77Tt0nu5L2Ag4L64fgY8UApfHLRPOVVwjY3L88JVN7
- yGa4wzgcvUL+I218MooaUdDur4aFeWA=
+ bh=6ZrRv5WK1DRp4gqR2jMWM6MQtae2evShrenuAPevph0=;
+ b=hvFdKQwY2Zbf/ayDKPWVSggzEUeKL155C/vwIr7/U//2Ke8NM7ZUChe9jX8x9zZr2A7WOh
+ luf//uOGQgdq1+iRq7SAfPLZuxDwbTW0Lr4I/xgeGMaP1O6aEKl2tkN20o6M20PWYkIGBf
+ VpW3vyy+3kI1lwgQWiq6J48TJXFIHV0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-Vl6haqGbPB2bHPZOytqI4Q-1; Mon, 21 Sep 2020 18:11:07 -0400
-X-MC-Unique: Vl6haqGbPB2bHPZOytqI4Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-237-rVLKgCDlPdiRS4cvBVhcGQ-1; Mon, 21 Sep 2020 18:11:06 -0400
+X-MC-Unique: rVLKgCDlPdiRS4cvBVhcGQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5BA6909CB7;
- Mon, 21 Sep 2020 22:11:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E018185C708
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 22:11:05 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A23910013BD;
- Mon, 21 Sep 2020 22:11:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0620873670;
+ Mon, 21 Sep 2020 22:11:01 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/24] vexpress-a15: Register "virtualization" as class
- property
-Date: Mon, 21 Sep 2020 18:10:29 -0400
-Message-Id: <20200921221045.699690-9-ehabkost@redhat.com>
+Subject: [PATCH 09/24] input-linux: Register properties as class properties
+Date: Mon, 21 Sep 2020 18:10:30 -0400
+Message-Id: <20200921221045.699690-10-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 18:11:01
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 18:11:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -69,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,8 +82,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, "Daniel P. Berrange" <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+ "Daniel P. Berrange" <berrange@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,45 +91,57 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/arm/vexpress.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ ui/input-linux.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-index 0cc35749d7d..13339302af5 100644
---- a/hw/arm/vexpress.c
-+++ b/hw/arm/vexpress.c
-@@ -769,12 +769,6 @@ static void vexpress_a15_instance_init(Object *obj)
-      * but can also be specifically set to on or off.
-      */
-     vms->virt = true;
--    object_property_add_bool(obj, "virtualization", vexpress_get_virt,
--                             vexpress_set_virt);
--    object_property_set_description(obj, "virtualization",
--                                    "Set on/off to enable/disable the ARM "
--                                    "Virtualization Extensions "
--                                    "(defaults to same as 'secure')");
+diff --git a/ui/input-linux.c b/ui/input-linux.c
+index 5d501c8360c..cb86774a51e 100644
+--- a/ui/input-linux.c
++++ b/ui/input-linux.c
+@@ -489,19 +489,6 @@ static void input_linux_set_grab_toggle(Object *obj, int value,
+ 
+ static void input_linux_instance_init(Object *obj)
+ {
+-    object_property_add_str(obj, "evdev",
+-                            input_linux_get_evdev,
+-                            input_linux_set_evdev);
+-    object_property_add_bool(obj, "grab_all",
+-                             input_linux_get_grab_all,
+-                             input_linux_set_grab_all);
+-    object_property_add_bool(obj, "repeat",
+-                             input_linux_get_repeat,
+-                             input_linux_set_repeat);
+-    object_property_add_enum(obj, "grab-toggle", "GrabToggleKeys",
+-                             &GrabToggleKeys_lookup,
+-                             input_linux_get_grab_toggle,
+-                             input_linux_set_grab_toggle);
  }
  
- static void vexpress_a9_instance_init(Object *obj)
-@@ -822,6 +816,14 @@ static void vexpress_a15_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
+ static void input_linux_class_init(ObjectClass *oc, void *data)
+@@ -509,6 +496,20 @@ static void input_linux_class_init(ObjectClass *oc, void *data)
+     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
  
-     vmc->daughterboard = &a15_daughterboard;
+     ucc->complete = input_linux_complete;
 +
-+    object_class_property_add_bool(oc, "virtualization", vexpress_get_virt,
-+                                   vexpress_set_virt);
-+    object_class_property_set_description(oc, "virtualization",
-+                                          "Set on/off to enable/disable the ARM "
-+                                          "Virtualization Extensions "
-+                                          "(defaults to same as 'secure')");
-+
++    object_class_property_add_str(oc, "evdev",
++                                  input_linux_get_evdev,
++                                  input_linux_set_evdev);
++    object_class_property_add_bool(oc, "grab_all",
++                                   input_linux_get_grab_all,
++                                   input_linux_set_grab_all);
++    object_class_property_add_bool(oc, "repeat",
++                                   input_linux_get_repeat,
++                                   input_linux_set_repeat);
++    object_class_property_add_enum(oc, "grab-toggle", "GrabToggleKeys",
++                                   &GrabToggleKeys_lookup,
++                                   input_linux_get_grab_toggle,
++                                   input_linux_set_grab_toggle);
  }
  
- static const TypeInfo vexpress_info = {
+ static const TypeInfo input_linux_info = {
 -- 
 2.26.2
 
