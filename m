@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94307271CE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:02:57 +0200 (CEST)
-Received: from localhost ([::1]:59690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07D1271D1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:07:23 +0200 (CEST)
+Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKGmm-0000tF-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:02:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42092)
+	id 1kKGr4-00067P-Vo
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKGgl-0004Vi-HD; Mon, 21 Sep 2020 03:56:44 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52713)
+ id 1kKGgl-0004Vh-Fx; Mon, 21 Sep 2020 03:56:44 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKGgj-0005uS-2C; Mon, 21 Sep 2020 03:56:43 -0400
-Received: by mail-wm1-x343.google.com with SMTP id q9so11142415wmj.2;
- Mon, 21 Sep 2020 00:56:38 -0700 (PDT)
+ id 1kKGgj-0005uW-2Q; Mon, 21 Sep 2020 03:56:43 -0400
+Received: by mail-wm1-x341.google.com with SMTP id l9so11520634wme.3;
+ Mon, 21 Sep 2020 00:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PocNKqZn4p1bTkwGmp+nEPuAjYmk0VY+dPd4muqyYJI=;
- b=atIgRAocCEop8xYEs1+Tdur9yq7HmwSZav8/4Kw0PFPiWbwak8aUkVWx/yDe+vHJBU
- i1igu5utpyVZgI0Psypcg6cwXhRq+QZVmevSYdzdhyWJF2DSAnzyIIq6wFVjDAebK5+9
- 5HPfz5g6fHQ9t5dfW/fD/6BsvxygTqfFGjsTB9rqOPh29YjPBLITybI93lDGUJB7KXSK
- 03nY98SR9ng6BnlXtf9VFSCg8q0sK4hZshM40FR+5kfKYC2w7DeGbpA4aVg48rzJeTCI
- VD0ysi/juDiodw7uGdGpAZDp7EGWEvkIx5iRMCK71OCtyos/2dhEYIvF21qDRbRvDcP9
- Vy4Q==
+ bh=bdvjopkTSWyYlzzNIYBWFkPl2GYS4eTOsFgqMfsz/M4=;
+ b=AacNfGaIGNK+5xuW8s1l0Qd+TpoVrU/nTYtNc+F7NhNK9yos+VwG5vzFcRyiYaFncc
+ SkPVDbP4U5Bp7OLoJ42D+E59fruC+WJYfr5DytUvXXS8VJvqr7OdrDn8IvBU2FRp4564
+ iJadkEPZuDyXkiUHnQnMkPupKeVOoYSsd6266ZfBHjGeV7tIuKClIw/5Dv1WY4aTgidS
+ IZ2ej/wT+uu+dz2K0IlnKS+F4b49sd9+Du9qMc7yIIOg/IhTCyhRR4vNob5x0ZbU2rio
+ gIctGbcsO30NG8Gnu6cubOU5upZt7MYNeMLWZebAsjxTRy8dkY0IDiqCG4nWcBe5+6x8
+ /g6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PocNKqZn4p1bTkwGmp+nEPuAjYmk0VY+dPd4muqyYJI=;
- b=G/ZgaX7r2VLIJw97hdwqsiox8dGW8hZz/MFZ4K/SzV39JSMlVXED6CF3qajNoKlcxB
- exiRrsKVORL8N4A4nEVQbe0TS247w/cKOdtg2FaNQzAno3MhZl4tqDbbBn9/pPDUvsrN
- 1KHqqgce3nCBMu8IpSUTfxb3A43h/VLH04QudaU1lulktObuVqNUKBHhJSvs476BE59U
- 1ivS8/z3jKVmcWdKBKQGyu5t+r5u3N70Hp/9wSrbNuQOPZFbpHOgSeRA54d0LZr/ydip
- TcRktEqUj52kSherwci1N7B9fMHHQFK+n74oO1WeZCkAc+KNT+5mdoF/Q0Kw8NsNgKEO
- D8Ng==
-X-Gm-Message-State: AOAM532dji7DWJ47KrR4YRjzv8hQVtuQFm6D1YKkSSlatJl04D8VTfeW
- UvpPc2Z+ExpzWlHYG4dRSL/aHZmymiA=
-X-Google-Smtp-Source: ABdhPJxJVyzDa4aB72g0ssN1c/fNQLfrOl5hSpYoyJeTjXBNN6kPn8vWikUC/ganxCLFz7kPeRkSvA==
-X-Received: by 2002:a05:600c:2317:: with SMTP id
- 23mr30190066wmo.183.1600674997083; 
- Mon, 21 Sep 2020 00:56:37 -0700 (PDT)
+ bh=bdvjopkTSWyYlzzNIYBWFkPl2GYS4eTOsFgqMfsz/M4=;
+ b=GWN8mr2JuT3vmskU98JZV0uPqDurgjH2AIqCO1iHIldwXgWF1EMsd5gzL103N7X9k+
+ +rbF7lYgauhxzQF72gnS4HWwn/ohUKL6Ht4NJ3LAZ8xEMpaLYnb7xBHJZLhIb7bfZCGV
+ 8Mb6j0KzbP0yUc9V/VnEpf2aFb2dHTCWnXLFZ3YN8nCHXx6+EktfHh6/w+eJmEpOfmcU
+ aDGUOa9BEgaxyyqtVnFTsbZAp3aq5TlaNFPx9a9zHi55CpASAztnB4dd0OFxRY/281vh
+ +am1hHQVWHv1fMqrQKB3lWF8VwdOf/Z130RPOtEy/7Lx82rt5yhR97h71zNREs5JUJYI
+ 91jQ==
+X-Gm-Message-State: AOAM5304VyvYq3Zam1+TenID5QDq6TvTliWoCYmQhCDIzzrN98IiSxND
+ F7DTyuk7NKrPYqmmZC1OzdMPPpMj25g=
+X-Google-Smtp-Source: ABdhPJz4KWGoGBmgjPt3scc6aJt1Q2ubx6+vDVKuTC72WwiVAhzOkQSvL5b6IRB6X7rNS35y3XsLjQ==
+X-Received: by 2002:a7b:c92c:: with SMTP id h12mr28912799wml.121.1600674998178; 
+ Mon, 21 Sep 2020 00:56:38 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id o15sm17807538wmh.29.2020.09.21.00.56.36
+ by smtp.gmail.com with ESMTPSA id o15sm17807538wmh.29.2020.09.21.00.56.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 00:56:36 -0700 (PDT)
+ Mon, 21 Sep 2020 00:56:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/8] hw/arm/raspi: Introduce RaspiProcessorId enum
-Date: Mon, 21 Sep 2020 09:56:26 +0200
-Message-Id: <20200921075628.466506-7-f4bug@amsat.org>
+Subject: [PATCH v3 7/8] hw/arm/raspi: Use RaspiProcessorId to set the firmware
+ load address
+Date: Mon, 21 Sep 2020 09:56:27 +0200
+Message-Id: <20200921075628.466506-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200921075628.466506-1-f4bug@amsat.org>
 References: <20200921075628.466506-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,92 +95,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we only support a reduced set of the REV_CODE_PROCESSOR id
-encoded in the board revision, define the PROCESSOR_ID values
-as an enum. We can simplify the board_soc_type and cores_count
-methods.
+The firmware load address depends of the SoC ("processor id") used,
+not of the version of the board.
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/raspi.c | 45 +++++++++++++++++++++------------------------
- 1 file changed, 21 insertions(+), 24 deletions(-)
+ hw/arm/raspi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 3426521379e..0d8e5a34c78 100644
+index 0d8e5a34c78..ae98a2fbfca 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -69,16 +69,33 @@ FIELD(REV_CODE, MANUFACTURER,      16, 4);
- FIELD(REV_CODE, MEMORY_SIZE,       20, 3);
- FIELD(REV_CODE, STYLE,             23, 1);
- 
-+typedef enum RaspiProcessorId {
-+    PROCESSOR_ID_BCM2836 = 1,
-+    PROCESSOR_ID_BCM2837 = 2,
-+} RaspiProcessorId;
-+
-+static const struct {
-+    const char *type;
-+    int cores_count;
-+} soc_property[] = {
-+    [PROCESSOR_ID_BCM2836] = {TYPE_BCM2836, BCM283X_NCPUS},
-+    [PROCESSOR_ID_BCM2837] = {TYPE_BCM2837, BCM283X_NCPUS},
-+};
-+
- static uint64_t board_ram_size(uint32_t board_rev)
- {
-     assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style */
-     return 256 * MiB << FIELD_EX32(board_rev, REV_CODE, MEMORY_SIZE);
- }
- 
--static int board_processor_id(uint32_t board_rev)
-+static RaspiProcessorId board_processor_id(uint32_t board_rev)
- {
-+    int proc_id = FIELD_EX32(board_rev, REV_CODE, PROCESSOR);
-+
-     assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style */
--    return FIELD_EX32(board_rev, REV_CODE, PROCESSOR);
-+    assert(proc_id < ARRAY_SIZE(soc_property) && soc_property[proc_id].type);
-+
-+    return proc_id;
- }
- 
- static int board_version(uint32_t board_rev)
-@@ -88,32 +105,12 @@ static int board_version(uint32_t board_rev)
- 
- static const char *board_soc_type(uint32_t board_rev)
- {
--    static const char *soc_types[] = {
--        NULL, TYPE_BCM2836, TYPE_BCM2837,
--    };
--    int proc_id = board_processor_id(board_rev);
--
--    if (proc_id >= ARRAY_SIZE(soc_types) || !soc_types[proc_id]) {
--        error_report("Unsupported processor id '%d' (board revision: 0x%x)",
--                     proc_id, board_rev);
--        exit(1);
--    }
--    return soc_types[proc_id];
-+    return soc_property[board_processor_id(board_rev)].type;
- }
- 
- static int cores_count(uint32_t board_rev)
- {
--    static const int soc_cores_count[] = {
--        0, BCM283X_NCPUS, BCM283X_NCPUS,
--    };
--    int proc_id = board_processor_id(board_rev);
--
--    if (proc_id >= ARRAY_SIZE(soc_cores_count) || !soc_cores_count[proc_id]) {
--        error_report("Unsupported processor id '%d' (board revision: 0x%x)",
--                     proc_id, board_rev);
--        exit(1);
--    }
--    return soc_cores_count[proc_id];
-+    return soc_property[board_processor_id(board_rev)].cores_count;
- }
- 
- static const char *board_type(uint32_t board_rev)
+@@ -238,7 +238,8 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+      * the normal Linux boot process
+      */
+     if (machine->firmware) {
+-        hwaddr firmware_addr = version == 3 ? FIRMWARE_ADDR_3 : FIRMWARE_ADDR_2;
++        hwaddr firmware_addr = processor_id <= PROCESSOR_ID_BCM2836
++                             ? FIRMWARE_ADDR_2 : FIRMWARE_ADDR_3;
+         /* load the firmware image (typically kernel.img) */
+         r = load_image_targphys(machine->firmware, firmware_addr,
+                                 ram_size - firmware_addr);
 -- 
 2.26.2
 
