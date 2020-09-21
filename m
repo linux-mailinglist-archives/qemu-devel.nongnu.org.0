@@ -2,48 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E0927195F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 04:37:42 +0200 (CEST)
-Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F42271974
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 04:47:36 +0200 (CEST)
+Received: from localhost ([::1]:52946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKBi2-0001Ih-0w
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 22:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42746)
+	id 1kKBrb-0005o3-GB
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 22:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kKBgf-0000Ui-3R
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 22:36:17 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:34212)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKBqC-0004rt-8L
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 22:46:08 -0400
+Resent-Date: Sun, 20 Sep 2020 22:46:08 -0400
+Resent-Message-Id: <E1kKBqC-0004rt-8L@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kKBgc-0001pu-Qy
- for qemu-devel@nongnu.org; Sun, 20 Sep 2020 22:36:16 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 08L2ZNmB015893
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Sun, 20 Sep 2020 22:35:30 -0400
-Date: Sun, 20 Sep 2020 22:35:23 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Dima Stepanov <dstepanov.src@gmail.com>
-Subject: Re: [PATCH 00/12] Add a General Virtual Device Fuzzer
-Message-ID: <20200921023523.qqjflrnhpfdauf3l@mozz.bu.edu>
-References: <20200723033933.21883-1-alxndr@bu.edu>
- <20200826111047.GA16426@dimastep-nix>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKBq8-0003w1-0O
+ for qemu-devel@nongnu.org; Sun, 20 Sep 2020 22:46:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600656350; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=IJYpOZfVO2WPwqnZq4ORMbHLl+2dwaP+jmUirMRovGFEMB+ZybEIQAJVahMKrsnqLOF+q0BFw3Wjjkl4MU0BHZakbehzbusvkA3zZ9f2RFJA/vMzOeUgUuZckL1aAZKAW9ZBVlsPmjzJ6hTQVGt7jQa6CKG7+2wi/fA43cjz/GE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600656350;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=v3mDTNVvjoQl2OJgpsXkk28yfb5Y8sreOtgGiUaw4Ec=; 
+ b=QZbuAKCHY12iDzEH5+7qW5WYoxKHo4CCU7ITb4zN/PZVslxWVq4l2ycFv7yKsGQ/HRyvV2QtTwU5zIR8Ao4b2Fa5MO9qyZc4CBW1MN33VSo0lcLafyphNcP+Ric54oZP3db60BTuJvy9z+7+3v03jFpOZBon7lAgPPr/KOJy7aM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600656348083316.1653217303033;
+ Sun, 20 Sep 2020 19:45:48 -0700 (PDT)
+Subject: Re: [PATCH v3 00/16] Add a General Virtual Device Fuzzer
+Message-ID: <160065634652.23907.9296670847201322907@66eaa9a8a123>
+In-Reply-To: <20200921022506.873303-1-alxndr@bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200826111047.GA16426@dimastep-nix>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 22:36:14
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alxndr@bu.edu
+Date: Sun, 20 Sep 2020 19:45:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/20 22:46:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,172 +69,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- andrew@coatesdev.com
+Reply-To: qemu-devel@nongnu.org
+Cc: alxndr@bu.edu, qemu-devel@nongnu.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200826 1410, Dima Stepanov wrote:
-> Hi Alex,
-> 
-> Thanks for the nice general fuzzer implementation, looks pretty
-> exciting. Are there any future plans discussion which i can read
-> or maybe join? I have some ideas about it so it could be great to
-> syncronize.
-> 
-> Regards, Dima.
-
-Hi Dima,
-Apologies about the late response - I needed to catch up on some
-academic work but things seem to be going back to normal now. We have
-fuzzing meetings at 10 AM on Thursdays. Does this work for you? 
-Thanks!
--Alex
-
-> On Wed, Jul 22, 2020 at 11:39:21PM -0400, Alexander Bulekov wrote:
-> > This is a general virtual-device fuzzer, designed to fuzz devices over Port IO,
-> > MMIO, and DMA.
-> > To get started with this:
-> >  1. Build the fuzzers (see docs/devel/fuzzing.txt)
-> >     Note: Build with --enable-sanitizers, or create a "dictionary file":
-> >     echo kw1=\"\x84\x05\x5C\x5E\" > dict
-> >     and pass it as an argument to libFuzzer with -dict=./dict
-> >     This magic value is a command separator that lets the fuzzer perform
-> >     multiple IO actions with a single input.
-> > 
-> >  2. Pick the qemu arguments you wish to fuzz:
-> >     export QEMU_FUZZ_ARGS="-M q35 -device virtio-balloon"
-> > 
-> >  3. Tell the fuzzer which QOM objects or MemoryRegion names to fuzz. I find the
-> >  "info qom-tree", "info qtree" and "info mtree" commands useful for identifying
-> >  these. Supports globbing. Here I will try to simultaneously fuzz(for no good
-> >  reason) virtio-balloon and e1000e, which is included by default in the q35:
-> >     export QEMU_FUZZ_OBJECTS='virtio* e1000*'
-> >     You can also try to fuzz the whole machine:
-> >     export QEMU_FUZZ_OBJECTS='*'
-> > 
-> >  4. Run the fuzzer for 0 inputs. The fuzzer should output a list of
-> >  MemoryRegions/PCI Devices it will try to fuzz. Confirm that these match your
-> >  expectations.
-> >     ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz -runs=0
-> > 
-> >  5. Run the fuzzer:
-> >     ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz 
-> > 
-> > 
-> > Basically, at the core, this fuzzer is an interpreter that splits the input
-> > into a series of commands, such as mmio_write, pio_write, etc. We structure
-> > these commands to hit only MemoryRegions that are associated with the devices
-> > specified in QEMU_FUZZ_OBJECTS. Additionally, these patches add "hooks" to
-> > functions that are typically used by virtual-devices to read from RAM (DMA).
-> > These hooks attempt to populate these DMA regions with fuzzed data, just in
-> > time.
-> > 
-> > Patch 1 changes the way we tell QTest to log to stderr (becomes important when
-> > building reproducers with this fuzzer)
-> > 
-> > Patches 2-6 add the fuzzer and the necessary DMA callbacks
-> > 
-> > Patches 7-10 are my (very rough) attempt at integrating this into OSS-Fuzz
-> > 
-> > Patches 11-12 contain the "reordering" and minimization scripts used to
-> > produce a QTest reproducer for a crash.
-> > 
-> > Additional notes:
-> >  * With the latest changes, the
-> >  fuzzer is quite effective at only targeting the device we care about,
-> >  so it will probably be beneficial to allow reboot() as an option for
-> >  resetting state, rather than fork(), for devices where that works well.
-> > 
-> >  * We have only scratched the surface for device "backends". I.e. I am using
-> >  fake null-co:// drives for block devices and SLiRP for network devices (see
-> >  scripts/oss-fuzz/general_fuzzer_configs.yml). Using more complex backends will
-> >  likely break due to forking/threading/statefulness related reasons and will
-> >  require more work.
-> > 
-> > * Because I still can't figure out how to make QOS do what I want, this
-> >   only maps PCI BARs on i386. For other targets, the fuzzer can still
-> >   try to do it on its own :). Only did a very simple test on ppc and arm
-> > 
-> >  * This is failing on GitLab due to a leak:
-> >  https://gitlab.com/a1xndr/qemu/-/jobs/652179729
-> >  I am not sure how to work around it yet, since I don't think we can
-> >  free what the trace says we should free (argv from wordexp that we pass
-> >  to qemu_main).
-> > 
-> > 
-> > Some of the issues I have found or reproduced with this fuzzer:
-> > https://bugs.launchpad.net/bugs/1525123
-> > https://bugs.launchpad.net/bugs/1681439
-> > https://bugs.launchpad.net/bugs/1777315
-> > https://bugs.launchpad.net/bugs/1878034
-> > https://bugs.launchpad.net/bugs/1878043
-> > https://bugs.launchpad.net/bugs/1878054
-> > https://bugs.launchpad.net/bugs/1878057
-> > https://bugs.launchpad.net/bugs/1878067
-> > https://bugs.launchpad.net/bugs/1878134
-> > https://bugs.launchpad.net/bugs/1878136
-> > https://bugs.launchpad.net/bugs/1878253
-> > https://bugs.launchpad.net/bugs/1878255
-> > https://bugs.launchpad.net/bugs/1878259
-> > https://bugs.launchpad.net/bugs/1878263
-> > https://bugs.launchpad.net/bugs/1878323
-> > https://bugs.launchpad.net/bugs/1878641
-> > https://bugs.launchpad.net/bugs/1878642
-> > https://bugs.launchpad.net/bugs/1878645
-> > https://bugs.launchpad.net/bugs/1878651
-> > https://bugs.launchpad.net/bugs/1879223
-> > https://bugs.launchpad.net/bugs/1879227
-> > https://bugs.launchpad.net/bugs/1879531
-> > https://bugs.launchpad.net/bugs/1880355
-> > https://bugs.launchpad.net/bugs/1880539
-> > https://bugs.launchpad.net/bugs/1884693
-> > https://bugs.launchpad.net/bugs/1886362
-> > https://bugs.launchpad.net/bugs/1887303
-> > https://bugs.launchpad.net/bugs/1887309
-> > https://bugs.launchpad.net/bugs/697510
-> > 
-> > -Alex
-> > 
-> > Alexander Bulekov (12):
-> >   fuzz: Change the way we write qtest log to stderr
-> >   fuzz: Add general virtual-device fuzzer
-> >   fuzz: Add PCI features to the general fuzzer
-> >   fuzz: Add DMA support to the generic-fuzzer
-> >   fuzz: Declare DMA Read callback function
-> >   fuzz: Add fuzzer callbacks to DMA-read functions
-> >   scripts/oss-fuzz: Add wrapper program for generic fuzzer
-> >   scripts/oss-fuzz: Add general-fuzzer build script
-> >   scripts/oss-fuzz: Add general-fuzzer configs for oss-fuzz
-> >   scripts/oss-fuzz: build the general-fuzzer configs
-> >   scripts/oss-fuzz: Add script to reorder a general-fuzzer trace
-> >   scripts/oss-fuzz: Add crash trace minimization script
-> > 
-> >  exec.c                                        |   2 +
-> >  include/exec/memory.h                         |  16 +
-> >  include/exec/memory_ldst_cached.inc.h         |   3 +
-> >  memory_ldst.inc.c                             |   4 +
-> >  scripts/oss-fuzz/build.sh                     |   8 +-
-> >  scripts/oss-fuzz/build_general_fuzzers.py     |  62 ++
-> >  scripts/oss-fuzz/general_fuzzer_configs.yml   | 103 +++
-> >  scripts/oss-fuzz/minimize_qtest_trace.py      | 117 +++
-> >  .../oss-fuzz/reorder_fuzzer_qtest_trace.py    |  94 +++
-> >  scripts/oss-fuzz/target.c                     |  40 +
-> >  softmmu/memory.c                              |  14 +
-> >  tests/qtest/fuzz/Makefile.include             |   1 +
-> >  tests/qtest/fuzz/fuzz.c                       |   5 +-
-> >  tests/qtest/fuzz/general_fuzz.c               | 758 ++++++++++++++++++
-> >  14 files changed, 1223 insertions(+), 4 deletions(-)
-> >  create mode 100755 scripts/oss-fuzz/build_general_fuzzers.py
-> >  create mode 100644 scripts/oss-fuzz/general_fuzzer_configs.yml
-> >  create mode 100755 scripts/oss-fuzz/minimize_qtest_trace.py
-> >  create mode 100755 scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
-> >  create mode 100644 scripts/oss-fuzz/target.c
-> >  create mode 100644 tests/qtest/fuzz/general_fuzz.c
-> > 
-> > -- 
-> > 2.27.0
-> > 
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyMTAyMjUwNi44NzMz
+MDMtMS1hbHhuZHJAYnUuZWR1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA5MjEwMjI1MDYuODczMzAzLTEt
+YWx4bmRyQGJ1LmVkdQpTdWJqZWN0OiBbUEFUQ0ggdjMgMDAvMTZdIEFkZCBhIEdlbmVyYWwgVmly
+dHVhbCBEZXZpY2UgRnV6emVyCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
+CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
+dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
+Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
+VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0
+dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAg
+ICBwYXRjaGV3LzIwMjAwOTIwMTE0NDE2LjM1MzI3Ny0xLWY0YnVnQGFtc2F0Lm9yZyAtPiBwYXRj
+aGV3LzIwMjAwOTIwMTE0NDE2LjM1MzI3Ny0xLWY0YnVnQGFtc2F0Lm9yZwogLSBbdGFnIHVwZGF0
+ZV0gICAgICBwYXRjaGV3LzIwMjAwOTIwMTU1MDQyLjQwMDczNy0xLWY0YnVnQGFtc2F0Lm9yZyAt
+PiBwYXRjaGV3LzIwMjAwOTIwMTU1MDQyLjQwMDczNy0xLWY0YnVnQGFtc2F0Lm9yZwogKiBbbmV3
+IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwOTIxMDIyNTA2Ljg3MzMwMy0xLWFseG5kckBidS5l
+ZHUgLT4gcGF0Y2hldy8yMDIwMDkyMTAyMjUwNi44NzMzMDMtMS1hbHhuZHJAYnUuZWR1ClN3aXRj
+aGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKODg1ZjUyOSBmdXp6OiBBZGQgaW5zdHJ1Y3Rpb25z
+IGZvciB1c2luZyBnZW5lcmFsLWZ1enoKYzYwMTQ2YiBzY3JpcHRzL29zcy1mdXp6OiBBZGQgY3Jh
+c2ggdHJhY2UgbWluaW1pemF0aW9uIHNjcmlwdAphOGJjMzY4IHNjcmlwdHMvb3NzLWZ1eno6IEFk
+ZCBzY3JpcHQgdG8gcmVvcmRlciBhIGdlbmVyYWwtZnV6emVyIHRyYWNlCjMxNmJmNDYgc2NyaXB0
+cy9vc3MtZnV6ejogYnVpbGQgdGhlIGdlbmVyYWwtZnV6emVyIGNvbmZpZ3MKOWE5N2JiNyBzY3Jp
+cHRzL29zcy1mdXp6OiBBZGQgZ2VuZXJhbC1mdXp6ZXIgY29uZmlncyBmb3Igb3NzLWZ1enoKMjM1
+NTZiNyBzY3JpcHRzL29zcy1mdXp6OiBBZGQgZ2VuZXJhbC1mdXp6ZXIgYnVpbGQgc2NyaXB0CjI0
+NWUwNzAgc2NyaXB0cy9vc3MtZnV6ejogQWRkIHdyYXBwZXIgcHJvZ3JhbSBmb3IgZ2VuZXJpYyBm
+dXp6ZXIKODkxYTAwYSBmdXp6OiBhZGQgYSBjcm9zc292ZXIgZnVuY3Rpb24gdG8gZ2VuZXJpYy1m
+dXp6ZXIKZjgxNDI0NyBmdXp6OiBhZGQgYSBESVNBQkxFX1BDSSBvcCB0byBnZW5lcmFsLWZ1enpl
+cgo1YzU3NGVkIGZ1eno6IEFkZCBzdXBwb3J0IGZvciBjdXN0b20gY3Jvc3NvdmVyIGZ1bmN0aW9u
+cwoxMWVkNGI0IGZ1eno6IEFkZCBmdXp6ZXIgY2FsbGJhY2tzIHRvIERNQS1yZWFkIGZ1bmN0aW9u
+cwo2NjEzOTQyIGZ1eno6IERlY2xhcmUgRE1BIFJlYWQgY2FsbGJhY2sgZnVuY3Rpb24KZWMyYzY3
+NSBmdXp6OiBBZGQgRE1BIHN1cHBvcnQgdG8gdGhlIGdlbmVyaWMtZnV6emVyCjZlYjkyYjQgZnV6
+ejogQWRkIFBDSSBmZWF0dXJlcyB0byB0aGUgZ2VuZXJhbCBmdXp6ZXIKZDBkNTA0NiBmdXp6OiBB
+ZGQgZ2VuZXJhbCB2aXJ0dWFsLWRldmljZSBmdXp6ZXIKYzkyNTAzMiBtZW1vcnk6IEFkZCBGbGF0
+VmlldyBmb3JlYWNoIGZ1bmN0aW9uCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE2IENoZWNraW5n
+IGNvbW1pdCBjOTI1MDMyNjY3ZmEgKG1lbW9yeTogQWRkIEZsYXRWaWV3IGZvcmVhY2ggZnVuY3Rp
+b24pCjIvMTYgQ2hlY2tpbmcgY29tbWl0IGQwZDUwNDZhZDExNiAoZnV6ejogQWRkIGdlbmVyYWwg
+dmlydHVhbC1kZXZpY2UgZnV6emVyKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBm
+aWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxOTogCm5ldyBmaWxlIG1v
+ZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUwNSBsaW5lcyBjaGVja2Vk
+CgpQYXRjaCAyLzE2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMvMTYgQ2hlY2tpbmcgY29t
+bWl0IDZlYjkyYjQ0ODM0ZSAoZnV6ejogQWRkIFBDSSBmZWF0dXJlcyB0byB0aGUgZ2VuZXJhbCBm
+dXp6ZXIpCjQvMTYgQ2hlY2tpbmcgY29tbWl0IGVjMmM2NzVkM2M2NiAoZnV6ejogQWRkIERNQSBz
+dXBwb3J0IHRvIHRoZSBnZW5lcmljLWZ1enplcikKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2
+b2lkZWQgaW4gLmMgZmlsZXMKIzg0OiBGSUxFOiB0ZXN0cy9xdGVzdC9mdXp6L2dlbmVyYWxfZnV6
+ei5jOjEyMDoKK3ZvaWQgZnV6el9kbWFfcmVhZF9jYihzaXplX3QgYWRkciwgc2l6ZV90IGxlbiwg
+TWVtb3J5UmVnaW9uICptciwgYm9vbCBpc193cml0ZSk7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2Fy
+bmluZ3MsIDI0NyBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzE2IGhhcyBzdHlsZSBwcm9ibGVtcywg
+cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
+cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
+SU5FUlMuCgo1LzE2IENoZWNraW5nIGNvbW1pdCA2NjEzOTQyZDIzNWMgKGZ1eno6IERlY2xhcmUg
+RE1BIFJlYWQgY2FsbGJhY2sgZnVuY3Rpb24pCjYvMTYgQ2hlY2tpbmcgY29tbWl0IDExZWQ0YjQ2
+M2FiZSAoZnV6ejogQWRkIGZ1enplciBjYWxsYmFja3MgdG8gRE1BLXJlYWQgZnVuY3Rpb25zKQo3
+LzE2IENoZWNraW5nIGNvbW1pdCA1YzU3NGVkODE1OWEgKGZ1eno6IEFkZCBzdXBwb3J0IGZvciBj
+dXN0b20gY3Jvc3NvdmVyIGZ1bmN0aW9ucykKOC8xNiBDaGVja2luZyBjb21taXQgZjgxNDI0NzNj
+MGY5IChmdXp6OiBhZGQgYSBESVNBQkxFX1BDSSBvcCB0byBnZW5lcmFsLWZ1enplcikKOS8xNiBD
+aGVja2luZyBjb21taXQgODkxYTAwYTM0MTBhIChmdXp6OiBhZGQgYSBjcm9zc292ZXIgZnVuY3Rp
+b24gdG8gZ2VuZXJpYy1mdXp6ZXIpCjEwLzE2IENoZWNraW5nIGNvbW1pdCAyNDVlMDcwNThmNDgg
+KHNjcmlwdHMvb3NzLWZ1eno6IEFkZCB3cmFwcGVyIHByb2dyYW0gZm9yIGdlbmVyaWMgZnV6emVy
+KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
+RVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBl
+cnJvcnMsIDEgd2FybmluZ3MsIDQwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzE2IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCjExLzE2IENoZWNraW5nIGNvbW1pdCAyMzU1NmI3NzEyY2QgKHNj
+cmlwdHMvb3NzLWZ1eno6IEFkZCBnZW5lcmFsLWZ1enplciBidWlsZCBzY3JpcHQpCldBUk5JTkc6
+IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
+cGRhdGluZz8KIzE3OiAKbmV3IGZpbGUgbW9kZSAxMDA3NTUKCldBUk5JTkc6IGxpbmUgb3ZlciA4
+MCBjaGFyYWN0ZXJzCiM1NzogRklMRTogc2NyaXB0cy9vc3MtZnV6ei9idWlsZF9nZW5lcmFsX2Z1
+enplcnMucHk6MzY6CisgICAgICAgICAgICAgICAgICAgZnV6el9hcmdzPXN0cl90b19jX2J5dGVf
+YXJyYXkoY2ZnWyJhcmdzIl0ucmVwbGFjZSgiXG4iLCAiICIpKSwKCldBUk5JTkc6IGxpbmUgb3Zl
+ciA4MCBjaGFyYWN0ZXJzCiM1ODogRklMRTogc2NyaXB0cy9vc3MtZnV6ei9idWlsZF9nZW5lcmFs
+X2Z1enplcnMucHk6Mzc6CisgICAgICAgICAgICAgICAgICAgZnV6el9vYmpzPXN0cl90b19jX2J5
+dGVfYXJyYXkoY2ZnWyJvYmplY3RzIl0ucmVwbGFjZSgiXG4iLCAiICIpKSwKCnRvdGFsOiAwIGVy
+cm9ycywgMyB3YXJuaW5ncywgNjkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTEvMTYgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KMTIvMTYgQ2hlY2tpbmcgY29tbWl0IDlhOTdiYjc5ODJkMiAoc2Ny
+aXB0cy9vc3MtZnV6ejogQWRkIGdlbmVyYWwtZnV6emVyIGNvbmZpZ3MgZm9yIG9zcy1mdXp6KQpX
+QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
+IG5lZWQgdXBkYXRpbmc/CiMxNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
+cnMsIDEgd2FybmluZ3MsIDEwMyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMi8xNiBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoxMy8xNiBDaGVja2luZyBjb21taXQgMzE2YmY0NmZiM2E3IChzY3Jp
+cHRzL29zcy1mdXp6OiBidWlsZCB0aGUgZ2VuZXJhbC1mdXp6ZXIgY29uZmlncykKMTQvMTYgQ2hl
+Y2tpbmcgY29tbWl0IGE4YmMzNjhmYzExMSAoc2NyaXB0cy9vc3MtZnV6ejogQWRkIHNjcmlwdCB0
+byByZW9yZGVyIGEgZ2VuZXJhbC1mdXp6ZXIgdHJhY2UpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
+ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIyOiAK
+bmV3IGZpbGUgbW9kZSAxMDA3NTUKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgOTQgbGlu
+ZXMgY2hlY2tlZAoKUGF0Y2ggMTQvMTYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTUvMTYg
+Q2hlY2tpbmcgY29tbWl0IGM2MDE0NmI1MGEyYiAoc2NyaXB0cy9vc3MtZnV6ejogQWRkIGNyYXNo
+IHRyYWNlIG1pbmltaXphdGlvbiBzY3JpcHQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxl
+dGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE3OiAKbmV3IGZp
+bGUgbW9kZSAxMDA3NTUKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTU3IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDE1LzE2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE2LzE2IENoZWNr
+aW5nIGNvbW1pdCA4ODVmNTI5NWNlNWYgKGZ1eno6IEFkZCBpbnN0cnVjdGlvbnMgZm9yIHVzaW5n
+IGdlbmVyYWwtZnV6eikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
+dGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
+b3JnL2xvZ3MvMjAyMDA5MjEwMjI1MDYuODczMzAzLTEtYWx4bmRyQGJ1LmVkdS90ZXN0aW5nLmNo
+ZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
+IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
+YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
