@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011D4273155
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:58:42 +0200 (CEST)
-Received: from localhost ([::1]:43190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CFB273156
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:58:49 +0200 (CEST)
+Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQ5I-00024o-W6
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46586)
+	id 1kKQ5Q-0002PG-Qs
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPqv-0001p1-LZ
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36984)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPr0-0001rB-DV
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPqt-0000TC-RQ
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPqw-0000TU-SA
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600710227;
+ s=mimecast20190719; t=1600710229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VWtdcaSlRL03NB4tiaS/+t74UPE2IWjl3rKsB18MrpA=;
- b=Z7vCKzVypw+C713IefRBipNn3eJE9LiC7iR8kRZbgbGYnvzF3pgiN8b1eLtHpAsudjsbs1
- ElobLcLlw0Wnr14ALrbhOL9x8ouT1Qx4jmFM2LRce3IKGK0gas4nQBcWgy25wWBvUKRyzf
- twtTmGQKTnsyW08LhqRqBvM7o+j0pN8=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=5CwXmhBsAUVyFK41bdYNOdR7gmZqx9o4xlLibQBLF1M=;
+ b=gSqF6d/4T0NeRRKPKCKN+cSY/3vCLKzbBVUWJzPrd4vHvwqqBYBcXYwA4ue6ml2a78TM0C
+ xPgO7qf2QI11BWV1hYj4nDHuRs/0PnoOkNNZ5G+h6Ik6+DyrcyxtnYZofiVXZzlXZ8QVtq
+ pkdXSMEtz/rihEoZ0DsBaa6HLatvc8I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-ERj3jWBHMpOKLOLyTM9VFw-1; Mon, 21 Sep 2020 13:43:45 -0400
-X-MC-Unique: ERj3jWBHMpOKLOLyTM9VFw-1
+ us-mta-213-PnuO8CKQMDS6y_nGAmF8Ug-1; Mon, 21 Sep 2020 13:43:47 -0400
+X-MC-Unique: PnuO8CKQMDS6y_nGAmF8Ug-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3144118BA281;
- Mon, 21 Sep 2020 17:43:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD6491018F60;
+ Mon, 21 Sep 2020 17:43:46 +0000 (UTC)
 Received: from thuth.com (ovpn-112-14.ams2.redhat.com [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9D285D9CD;
- Mon, 21 Sep 2020 17:43:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F9D45D9CD;
+ Mon, 21 Sep 2020 17:43:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 3/7] tests/docker: Update the tricore container to debian 10
-Date: Mon, 21 Sep 2020 19:43:16 +0200
-Message-Id: <20200921174320.46062-4-thuth@redhat.com>
+Subject: [PATCH 4/7] shippable.yml: Remove the Debian9-based MinGW
+ cross-compiler tests
+Date: Mon, 21 Sep 2020 19:43:17 +0200
+Message-Id: <20200921174320.46062-5-thuth@redhat.com>
 In-Reply-To: <20200921174320.46062-1-thuth@redhat.com>
 References: <20200921174320.46062-1-thuth@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -88,55 +85,30 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do not support Debian 9 anymore, thus update the Tricore container
-to Debian 10 now.
+We're not supporting Debian 9 anymore, and we are now testing
+MinGW cross-compiler builds in the gitlab-CI, too, so we do not
+really need these jobs in the shippable.yml anymore.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/containers.yml                          | 2 +-
- tests/docker/Makefile.include                        | 2 +-
- tests/docker/dockerfiles/debian-tricore-cross.docker | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .shippable.yml | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 6769eef0ff..089cea7c14 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -210,7 +210,7 @@ sparc64-debian-cross-container:
- tricore-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
--  needs: ['amd64-debian9-container']
-+  needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-tricore-cross
- 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 75704268ff..02ec92830b 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -137,7 +137,7 @@ docker-image-debian-sparc64-cross: docker-image-debian10
- docker-image-travis: NOUSER=1
- 
- # Specialist build images, sometimes very limited tools
--docker-image-debian-tricore-cross: docker-image-debian9
-+docker-image-debian-tricore-cross: docker-image-debian10
- docker-image-debian-all-test-cross: docker-image-debian10
- docker-image-debian-arm64-test-cross: docker-image-debian11
- 
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 769d95c77b..985925134c 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -7,7 +7,7 @@
- #
- # SPDX-License-Identifier: GPL-2.0-or-later
- #
--FROM qemu/debian9
-+FROM qemu/debian10
- 
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
+diff --git a/.shippable.yml b/.shippable.yml
+index 0b4fd6df1d..14350e6de8 100644
+--- a/.shippable.yml
++++ b/.shippable.yml
+@@ -7,10 +7,6 @@ env:
+   matrix:
+     - IMAGE=debian-amd64
+       TARGET_LIST=x86_64-softmmu,x86_64-linux-user
+-    - IMAGE=debian-win32-cross
+-      TARGET_LIST=arm-softmmu,i386-softmmu
+-    - IMAGE=debian-win64-cross
+-      TARGET_LIST=aarch64-softmmu,sparc64-softmmu,x86_64-softmmu
+     - IMAGE=debian-armel-cross
+       TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
+     - IMAGE=debian-armhf-cross
 -- 
 2.18.2
 
