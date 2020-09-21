@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B98127229C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:35:27 +0200 (CEST)
-Received: from localhost ([::1]:37328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EE02722B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:37:35 +0200 (CEST)
+Received: from localhost ([::1]:45720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKK6Q-00081f-1L
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
+	id 1kKK8U-00037k-8A
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:37:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK13-0002bd-Ak
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40705)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK16-0002ir-HQ
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27039
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK11-0000f8-Br
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK14-0000fw-La
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600687790;
+ s=mimecast20190719; t=1600687793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
- b=O9cpXkzeaa5BF0fmdvEPpsrX4BwFfWw1Z3lfvIfYYgElz3QW7TCkZwGhiOzPOUgIdjCLUz
- 7qMLUcNxDlHZ2fbjTyvI7N1rhqGiOwVGsZrIvSMaUF3NVJln3JL13Ue74rV15S/XYWE7WE
- EMRMSf586SMJqpjptDZ2bP14WjBQ5GE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-sX9q3ZvbO36GwUVOj-VtCg-1; Mon, 21 Sep 2020 07:29:48 -0400
-X-MC-Unique: sX9q3ZvbO36GwUVOj-VtCg-1
-Received: by mail-wr1-f71.google.com with SMTP id d9so5738016wrv.16
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:29:48 -0700 (PDT)
+ bh=Msq8goiUIrREy947KknDtEH1ZqD2k0E/AfsZQGv/SGY=;
+ b=N234ZGF4POsHlYU3kKZWv6ex0ai//lf/vUAYC02vLLb2FTpemfpZ8qUGUMxDxHBoBT8t7X
+ KoV87ojDAvTfdsr7ODRph+tvJnKcv9lfoc/fGwQbmOwpZiGJGxC5WSo3Op21NHl7pFUJ6i
+ MdJ08h52P2JHJ5ji1nrlRNxx9rRGjGM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-yHIKNOdKNhiRV2ymp9RrTw-1; Mon, 21 Sep 2020 07:29:51 -0400
+X-MC-Unique: yHIKNOdKNhiRV2ymp9RrTw-1
+Received: by mail-wm1-f69.google.com with SMTP id l15so3619201wmh.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:29:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
- b=rs+YIsrFM4DfBPHR0P4gyXfeZK7+qaoh+q1+nRgsXNI3LVNoRID0dDfKCyzZYX4nhH
- 6iE5+Z5BGtUBa5P1rpnCazphCmgIY+UlLz4RVmFN7Toyx++nCSqI1e5D5gpZ6Op21LXi
- WKns7QwL7EXTpfeI4L3r+uWsCdw/WKLsrzg9Uw+68fv5D8P4HmuTMy7jmZh/qCqDJqid
- imSt1ulXt41O25G32id2s/sQHAsXkGaxKoHPveBxpFY+RURo1aeZaZ4rbtRQql6PdDGX
- c8UA1bQNudEUypGnd27IK2CvN/QV0xUZ7RKdOdBrixDojuJlicd85O6zgkq/AZ9VmR8k
- gLAg==
-X-Gm-Message-State: AOAM532h6+aNLHOdxV5Pm1TjkvYTgFj+2YEWWjrKPTxLamvc3xxeTSYY
- IEx4heYGAO7IEoqISeW0WgyhF0za1fDSncEuaTKrofs8jwc3MOnGl82ObBP8u1Co+HZT1OAl2HX
- U3Pb2jqEUh3sRBhk=
-X-Received: by 2002:a1c:4b13:: with SMTP id y19mr29124719wma.75.1600687787125; 
- Mon, 21 Sep 2020 04:29:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpya+pyFUyghfzVS7wej2xaR4dSlxXZn9zuk7Z0R+La0vIrpCn4qzDRaUtKHnBsV39ykgSGA==
-X-Received: by 2002:a1c:4b13:: with SMTP id y19mr29124694wma.75.1600687786905; 
- Mon, 21 Sep 2020 04:29:46 -0700 (PDT)
+ bh=Msq8goiUIrREy947KknDtEH1ZqD2k0E/AfsZQGv/SGY=;
+ b=ff2uySe4jDkqvPvyUiyN/sJCwNUyrHlyqPbvaR5d6c4bWx9vKk/10EwrzbmP5PYYNx
+ 7eUyrOC47odqxTPiTshb1pVj1T+z/YGXGv72Wz64ekJx3HLnbp0cy8CuDbSEYTYWfvY4
+ 2S962eiP1KMWvstO/5RBEQnhCC0/jwEA8yAJRNJACa19GzlxUnlxpPa8hGYOceqYYgs9
+ 5QirBdLPhHclfvSqEJMHN0Gh2pArhRSEflkTqkCCp6vCGJoL/8rzfafY1KkMPpFeP+D2
+ 1Saa6T5GiNw5/7AfnntNE8bvlF92gfXGTLmWKzf+Pf2zeAr6vsPcvqWEr2V0807BvThC
+ DNYA==
+X-Gm-Message-State: AOAM530R1xcMowAh6yWZcvEEFXsqa/SDTnOOEqgHAIw5pVpFiHKhLrW8
+ WN66IuG4VkWqLqO7MPekMuvAkadvBaIJVS3cKnzaIOyl7bRsUKhM9BbobuHm+U3rvm1/QRkEzVk
+ MC3k9rwNm7z5giTQ=
+X-Received: by 2002:a1c:dec2:: with SMTP id v185mr29269727wmg.1.1600687789879; 
+ Mon, 21 Sep 2020 04:29:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCJrDHaWQhXZOcIDWttSNTjKvZZYBkk9I2tAvMFQ+hE/lPA4vt2knzTCIUSK2JEgiksYiZyw==
+X-Received: by 2002:a1c:dec2:: with SMTP id v185mr29269706wmg.1.1600687789666; 
+ Mon, 21 Sep 2020 04:29:49 -0700 (PDT)
 Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
  [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id q18sm21048565wre.78.2020.09.21.04.29.45
+ by smtp.gmail.com with ESMTPSA id j26sm21906061wrc.79.2020.09.21.04.29.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 04:29:46 -0700 (PDT)
-Date: Mon, 21 Sep 2020 07:29:44 -0400
+ Mon, 21 Sep 2020 04:29:49 -0700 (PDT)
+Date: Mon, 21 Sep 2020 07:29:47 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 03/15] vhost-vdpa: batch updating IOTLB mappings
-Message-ID: <20200921112913.555392-4-mst@redhat.com>
+Subject: [PULL v3 04/15] virtio-mem: detach the element from the virtqueue
+ when error occurs
+Message-ID: <20200921112913.555392-5-mst@redhat.com>
 References: <20200921112913.555392-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
@@ -72,17 +74,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 04:38:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,153 +97,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@163.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Li Qiang <liq3ea@163.com>
 
-To speed up the memory mapping updating between vhost-vDPA and vDPA
-device driver, this patch passes the IOTLB batching flags via IOTLB
-API. Two new flags was introduced, VHOST_IOTLB_BATCH_BEGIN is a hint
-that a bathced IOTLB updating may be initiated from the
-userspace. VHOST_IOTLB_BATCH_END is a hint that userspace has finished
-the updating:
+If error occurs while processing the virtio request we should call
+'virtqueue_detach_element' to detach the element from the virtqueue
+before free the elem.
 
-VHOST_IOTLB_BATCH_BEGIN
-VHOST_IOTLB_UPDATE/VHOST_IOTLB_INVALIDATE
-...
-VHOST_IOTLB_BATCH_END
-
-Vhost-vDPA can then know that all mappings has been set and can do
-optimization like passing all the mappings to the vDPA device driver.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20200907104903.31551-4-jasowang@redhat.com>
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Message-Id: <20200816142245.17556-1-liq3ea@163.com>
+Fixes: 910b25766b ("virtio-mem: Paravirtualized memory hot(un)plug")
+Acked-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-vdpa.h |  1 +
- hw/virtio/vhost-vdpa.c         | 66 ++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
+ hw/virtio/virtio-mem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 6455663388..9b81a409da 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -18,6 +18,7 @@ typedef struct vhost_vdpa {
-     int device_fd;
-     uint32_t msg_type;
-     MemoryListener listener;
-+    struct vhost_dev *dev;
- } VhostVDPA;
- 
- extern AddressSpace address_space_memory;
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 4580f3efd8..ba1ae3ea44 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -78,6 +78,46 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-     return ret;
- }
- 
-+static void vhost_vdpa_listener_begin(MemoryListener *listener)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    struct vhost_dev *dev = v->dev;
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+
-+    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-+        return;
-+    }
-+
-+    msg.type = v->msg_type;
-+    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+                     fd, errno, strerror(errno));
-+    }
-+}
-+
-+static void vhost_vdpa_listener_commit(MemoryListener *listener)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    struct vhost_dev *dev = v->dev;
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+
-+    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-+        return;
-+    }
-+
-+    msg.type = v->msg_type;
-+    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+                     fd, errno, strerror(errno));
-+    }
-+}
-+
- static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                            MemoryRegionSection *section)
- {
-@@ -191,6 +231,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-  * depends on the addnop().
-  */
- static const MemoryListener vhost_vdpa_memory_listener = {
-+    .begin = vhost_vdpa_listener_begin,
-+    .commit = vhost_vdpa_listener_commit,
-     .region_add = vhost_vdpa_listener_region_add,
-     .region_del = vhost_vdpa_listener_region_del,
- };
-@@ -226,6 +268,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
-     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
- 
-     v = opaque;
-+    v->dev = dev;
-     dev->opaque =  opaque ;
-     vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
-     dev->backend_features = features;
-@@ -280,6 +323,28 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
-     return !(status & VIRTIO_CONFIG_S_FEATURES_OK);
- }
- 
-+static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
-+{
-+    uint64_t features;
-+    uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-+    int r;
-+
-+    if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-+        return 0;
-+    }
-+
-+    features &= f;
-+    r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
-+    if (r) {
-+        return 0;
-+    }
-+
-+    dev->backend_cap = features;
-+
-+    return 0;
-+}
-+
- int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-                                    uint32_t *device_id)
- {
-@@ -452,6 +517,7 @@ const VhostOps vdpa_ops = {
-         .vhost_set_vring_kick = vhost_vdpa_set_vring_kick,
-         .vhost_set_vring_call = vhost_vdpa_set_vring_call,
-         .vhost_get_features = vhost_vdpa_get_features,
-+        .vhost_set_backend_cap = vhost_vdpa_set_backend_cap,
-         .vhost_set_owner = vhost_vdpa_set_owner,
-         .vhost_set_vring_endian = NULL,
-         .vhost_backend_memslots_limit = vhost_vdpa_memslots_limit,
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 8fbec77ccc..7c8ca9f28b 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -318,6 +318,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+         if (iov_to_buf(elem->out_sg, elem->out_num, 0, &req, len) < len) {
+             virtio_error(vdev, "virtio-mem protocol violation: invalid request"
+                          " size: %d", len);
++            virtqueue_detach_element(vq, elem, 0);
+             g_free(elem);
+             return;
+         }
+@@ -327,6 +328,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+             virtio_error(vdev, "virtio-mem protocol violation: not enough space"
+                          " for response: %zu",
+                          iov_size(elem->in_sg, elem->in_num));
++            virtqueue_detach_element(vq, elem, 0);
+             g_free(elem);
+             return;
+         }
+@@ -348,6 +350,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
+         default:
+             virtio_error(vdev, "virtio-mem protocol violation: unknown request"
+                          " type: %d", type);
++            virtqueue_detach_element(vq, elem, 0);
+             g_free(elem);
+             return;
+         }
 -- 
 MST
 
