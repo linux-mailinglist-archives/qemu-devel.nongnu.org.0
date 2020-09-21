@@ -2,60 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A222C2726B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:13:43 +0200 (CEST)
-Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD6C2726AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:10:50 +0200 (CEST)
+Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKMZa-00015M-PS
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
+	id 1kKMWn-0005sV-HF
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:10:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kKMUh-0004n6-1e
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:44 -0400
-Resent-Date: Mon, 21 Sep 2020 10:08:39 -0400
-Resent-Message-Id: <E1kKMUh-0004n6-1e@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kKMUd-0000HR-3I
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600697305; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=mg+osyCE+GmiA/tbEBfc+82D06fzgOWvuNDsWSqloWeh1nMywVTcRBcRaOH/DtDxx2PUyqbUHh78Wk2yfpIkF+sljRGSZlhJkW059ZdTsAwXsLKEKdYFik/GhiPcTyYTGZWYTZeRvc19nAms0TxjRMzvdg/kiLDkWXf8OBZJQ5A=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600697305;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=2TUdOq9ILCpA6hXcYf6/nWt4Ful6FXVWMrh6UzAmUgs=; 
- b=XYiPfGPDVmvI2xRQRIXhLOgaMBWesC6DvL4WMzzugmE04FFGy44jhjkl9y5ZyK6gGFkaKZKrzdhDp3NKXh6Ju+s1XtLIfmmE43tzLp5PWnYaZrQCHSc2Dilbmfbjaa+Q4mQ8SRZuJd+VnNCV3Klf5zwqeMKLHlM/HeEKmqzdZs8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 16006973038451021.3602729047459;
- Mon, 21 Sep 2020 07:08:23 -0700 (PDT)
-Subject: Re: [PULL v3 00/15] virtio,pc,acpi: fixes, tests
-Message-ID: <160069730268.23907.16716971959079980933@66eaa9a8a123>
-In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKMUq-0004sh-M3
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKMUo-0000IT-TE
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600697326;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bBoOP2bsrpqSrWBv6BZ9m/qCfNs24g68o6hYRVMSxjA=;
+ b=blP2fuudX9A4NFjAd92GaDkd5OJRY4UQLd/v91sSXbY0sWcHbXesywl+JCprk/i6N1I5L+
+ wWDh7k3uWeLH4Qr7Vqyu7nILGk7n2tfCiC2AwKJI0Onu6GMnWRJt1e+n9HoSJVnQjG6ZRV
+ yt2Flq/ojLV7Y2Xi/0rXzYPgfb7bEXY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-3QQONmwhMxm2YKsJ5j_iSQ-1; Mon, 21 Sep 2020 10:08:29 -0400
+X-MC-Unique: 3QQONmwhMxm2YKsJ5j_iSQ-1
+Received: by mail-wr1-f71.google.com with SMTP id x15so5874039wrm.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 07:08:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bBoOP2bsrpqSrWBv6BZ9m/qCfNs24g68o6hYRVMSxjA=;
+ b=VJ2IEsigy4Xhe2V0yCoTaB+he0pVzIzzlfPjqSga76s34t2tB1pk+UYJ3RxtFsk9hK
+ C7MQkBalOxC46yPXOM8x7R3LXlYbfrd8ZNkkT1ntCmYBRnxog68wLbYeNqF4Cerb8CsS
+ 7P2Vor0prRZRzXgjU7AdIIqMqTToQTE9EKcyOX70tdWVJl3erHLGy8dINB6wG1Qd2CqQ
+ m0jCXMTlFX4IKJzumwEgwWxVGyCPyXftLhOQJxnUTE8yHh3W3zN0wUlczQaeLOenioW2
+ 2oMr/8c7G0eswcPK9qGEaFwTrSt1vaKktixjf1Ybupy5f3TR3jDbV1vtXeZTYr9NTW1t
+ NCTg==
+X-Gm-Message-State: AOAM530ruYCXOBxCAA1nD5Fj53THj5FerqmcVDLGCh+H8bJcVFW+vUYF
+ RPnf74acZ+/X8XN5rH4NdXmyMu5zLJ0pkjaqEBzV5y+WIXqZlz/lR2hfFpBTB+2gmqc3T8xOqz5
+ omWi1YKDw+FppBB0=
+X-Received: by 2002:adf:f5ce:: with SMTP id k14mr51166930wrp.286.1600697308213; 
+ Mon, 21 Sep 2020 07:08:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx6RSO3fnt1scH0UU+eS+RfKA2zc58ScuQU0k4q/jgIDNiqMVqv6oDwH9yVF+EH4GCwp8dXYw==
+X-Received: by 2002:adf:f5ce:: with SMTP id k14mr51166919wrp.286.1600697308030; 
+ Mon, 21 Sep 2020 07:08:28 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d153:8d0f:94cf:5114?
+ ([2001:b07:6468:f312:d153:8d0f:94cf:5114])
+ by smtp.gmail.com with ESMTPSA id k4sm21545961wrx.51.2020.09.21.07.08.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Sep 2020 07:08:26 -0700 (PDT)
+Subject: Re: Issue 25514 in oss-fuzz: qemu: Coverage build failure
+To: Alexander Bulekov <alxndr@bu.edu>
+References: <0=0a88cf92d34dc9db91727cc9bd0dc58b=d9ca53ad17e3d19752f355e6c3ba1ecc=oss-fuzz@monorail-prod.appspotmail.com>
+ <0000000000003aa8d805afd00f24@google.com>
+ <995b1aa7-8efc-57d2-a85e-5520fab0755b@redhat.com>
+ <20200921133840.sby75zn7unds2q3a@mozz.bu.edu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <437d5c39-0a27-b261-102b-0da64734966a@redhat.com>
+Date: Mon, 21 Sep 2020 16:08:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mst@redhat.com
-Date: Mon, 21 Sep 2020 07:08:23 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 10:08:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200921133840.sby75zn7unds2q3a@mozz.bu.edu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,74 +104,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyMTExMjkxMy41NTUz
-OTItMS1tc3RAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAwOTIxMTEyOTEzLjU1NTM5Mi0x
-LW1zdEByZWRoYXQuY29tClN1YmplY3Q6IFtQVUxMIHYzIDAwLzE1XSB2aXJ0aW8scGMsYWNwaTog
-Zml4ZXMsIHRlc3RzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCBy
-ZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2tw
-YXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRp
-bmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBh
-IG5ldyBicmFuY2ggJ3Rlc3QnCjVlZjQ1ZTMgdmlydGlvLWlvbW11LXBjaTogZm9yY2UgdmlydGlv
-IHZlcnNpb24gMQplZTkxNzZiIHZpcnRpby1pb21tdTogQ2hlY2sgZ3RyZWVzIGFyZSBub24gbnVs
-bCBiZWZvcmUgZGVzdHJveWluZyB0aGVtCjcwODAzNzU3IGNwaHA6IHJlbW92ZSBkZXByZWNhdGVk
-IGNwdS1hZGQgY29tbWFuZChzKQo3NDdlMjUxIHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDog
-ZW5hYmxlIHRoZSByZWNvbm5lY3QgdGVzdHMKYTI4Mzg4NCB0ZXN0cy9xdGVzdC92aG9zdC11c2Vy
-LXRlc3Q6IGFkZCBtaWdyYXRlX3JlY29ubmVjdCB0ZXN0CjIxMTk5ZGEgdGVzdHMvcXRlc3Qvdmhv
-c3QtdXNlci10ZXN0OiBhZGQgc3VwcG9ydCBmb3IgdGhlIHZob3N0LXVzZXItYmxrIGRldmljZQpk
-MDdhMGRkIHRlc3RzL3F0ZXN0L2xpYnFvcy92aXJ0aW8tYmxrOiBhZGQgc3VwcG9ydCBmb3Igdmhv
-c3QtdXNlci1ibGsKMjcwYjkzZiB0ZXN0cy9xdGVzdC92aG9zdC11c2VyLXRlc3Q6IHByZXBhcmUg
-dGhlIHRlc3RzIGZvciBhZGRpbmcgbmV3IGRldiBjbGFzcwo1YzJkODljIHZob3N0OiBjaGVjayBx
-dWV1ZSBzdGF0ZSBpbiB0aGUgdmhvc3RfZGV2X3NldF9sb2cgcm91dGluZQo5MjlmYTFiIHZob3N0
-OiByZWNoZWNrIGRldiBzdGF0ZSBpbiB0aGUgdmhvc3RfbWlncmF0aW9uX2xvZyByb3V0aW5lCjQy
-Njc5NGIgcGM6IGZpeCBhdXRvX2VuYWJsZV9udW1hX3dpdGhfbWVtaHAvYXV0b19lbmFibGVfbnVt
-YV93aXRoX21lbWRldiBmb3IgdGhlIDUuMCBtYWNoaW5lCmMwNmI4NzcgdmlydGlvLW1lbTogZGV0
-YWNoIHRoZSBlbGVtZW50IGZyb20gdGhlIHZpcnRxdWV1ZSB3aGVuIGVycm9yIG9jY3VycwozOGRm
-ZTIyIHZob3N0LXZkcGE6IGJhdGNoIHVwZGF0aW5nIElPVExCIG1hcHBpbmdzCmFhMjExNjcgdmhv
-c3Q6IHN3aXRjaCB0byB1c2UgSU9UTEIgdjIgZm9ybWF0Cjc0NWUzOGIgbGludXggaGVhZGVyczog
-c3luYyB0byA1LjktcmM0Cgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE1IENoZWNraW5nIGNvbW1p
-dCA3NDVlMzhiNTJhMjUgKGxpbnV4IGhlYWRlcnM6IHN5bmMgdG8gNS45LXJjNCkKMi8xNSBDaGVj
-a2luZyBjb21taXQgYWEyMTE2Nzg5MjIyICh2aG9zdDogc3dpdGNoIHRvIHVzZSBJT1RMQiB2MiBm
-b3JtYXQpCjMvMTUgQ2hlY2tpbmcgY29tbWl0IDM4ZGZlMjI5ZjNlMCAodmhvc3QtdmRwYTogYmF0
-Y2ggdXBkYXRpbmcgSU9UTEIgbWFwcGluZ3MpCjQvMTUgQ2hlY2tpbmcgY29tbWl0IGMwNmI4Nzc5
-Y2U2OCAodmlydGlvLW1lbTogZGV0YWNoIHRoZSBlbGVtZW50IGZyb20gdGhlIHZpcnRxdWV1ZSB3
-aGVuIGVycm9yIG9jY3VycykKNS8xNSBDaGVja2luZyBjb21taXQgNDI2Nzk0YjQ0ZmM5IChwYzog
-Zml4IGF1dG9fZW5hYmxlX251bWFfd2l0aF9tZW1ocC9hdXRvX2VuYWJsZV9udW1hX3dpdGhfbWVt
-ZGV2IGZvciB0aGUgNS4wIG1hY2hpbmUpCjYvMTUgQ2hlY2tpbmcgY29tbWl0IDkyOWZhMWJmZmY4
-ZSAodmhvc3Q6IHJlY2hlY2sgZGV2IHN0YXRlIGluIHRoZSB2aG9zdF9taWdyYXRpb25fbG9nIHJv
-dXRpbmUpCjcvMTUgQ2hlY2tpbmcgY29tbWl0IDVjMmQ4OWNmY2E3ZSAodmhvc3Q6IGNoZWNrIHF1
-ZXVlIHN0YXRlIGluIHRoZSB2aG9zdF9kZXZfc2V0X2xvZyByb3V0aW5lKQo4LzE1IENoZWNraW5n
-IGNvbW1pdCAyNzBiOTNmNGU4ZDkgKHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogcHJlcGFy
-ZSB0aGUgdGVzdHMgZm9yIGFkZGluZyBuZXcgZGV2IGNsYXNzKQo5LzE1IENoZWNraW5nIGNvbW1p
-dCBkMDdhMGRkYjYxOGEgKHRlc3RzL3F0ZXN0L2xpYnFvcy92aXJ0aW8tYmxrOiBhZGQgc3VwcG9y
-dCBmb3Igdmhvc3QtdXNlci1ibGspCjEwLzE1IENoZWNraW5nIGNvbW1pdCAyMTE5OWRhNTI3Mzcg
-KHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogYWRkIHN1cHBvcnQgZm9yIHRoZSB2aG9zdC11
-c2VyLWJsayBkZXZpY2UpCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
-IzI1MjogRklMRTogdGVzdHMvcXRlc3Qvdmhvc3QtdXNlci10ZXN0LmM6MTA3MDoKK15JICAgIHNp
-emVvZihtc2ctPnBheWxvYWQuY29uZmlnLnJlZ2lvbikgKyBtc2ctPnBheWxvYWQuY29uZmlnLnNp
-emU7JAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAyNTYgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggMTAvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
-ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
-bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjExLzE1IENoZWNraW5nIGNvbW1p
-dCBhMjgzODg0NGRhZGMgKHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogYWRkIG1pZ3JhdGVf
-cmVjb25uZWN0IHRlc3QpCjEyLzE1IENoZWNraW5nIGNvbW1pdCA3NDdlMjUxNWZmYWEgKHRlc3Rz
-L3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogZW5hYmxlIHRoZSByZWNvbm5lY3QgdGVzdHMpCjEzLzE1
-IENoZWNraW5nIGNvbW1pdCA3MDgwMzc1N2U2ZjQgKGNwaHA6IHJlbW92ZSBkZXByZWNhdGVkIGNw
-dS1hZGQgY29tbWFuZChzKSkKMTQvMTUgQ2hlY2tpbmcgY29tbWl0IGVlOTE3NmJlYmQzOCAodmly
-dGlvLWlvbW11OiBDaGVjayBndHJlZXMgYXJlIG5vbiBudWxsIGJlZm9yZSBkZXN0cm95aW5nIHRo
-ZW0pCjE1LzE1IENoZWNraW5nIGNvbW1pdCA1ZWY0NWUzMjJhMzAgKHZpcnRpby1pb21tdS1wY2k6
-IGZvcmNlIHZpcnRpbyB2ZXJzaW9uIDEpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5k
-IGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6
-Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwOTIxMTEyOTEzLjU1NTM5Mi0xLW1zdEByZWRoYXQuY29t
-L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
-dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
-ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 21/09/20 15:38, Alexander Bulekov wrote:
+> Hi Paolo,
+> These are the builds with clang coverage enabled.
+> The normal fuzzing builds are succeeding now (log from this morning:
+> https://oss-fuzz-build-logs.storage.googleapis.com/log-a426424c-cae4-407a-ae7b-205a9ae59286.txt
+> )
+> 
+> I already send a patch that seems to fix the coverage build failure, but
+> I can't explain why it does the trick. 
+> Message-Id: <20200909220516.614222-1-alxndr@bu.edu>
+> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg03639.html
+
+The reason for the bug is the -Wl,-lm in QEMU_LDFLAGS.  Putting the
+tricky flags first actually makes sense, so I'll queue it.
+
+Paolo
+
 
