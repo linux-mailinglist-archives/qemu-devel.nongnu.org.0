@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746EB273135
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:53:53 +0200 (CEST)
-Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BABB273149
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:56:21 +0200 (CEST)
+Received: from localhost ([::1]:35026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQ0e-0003ee-HT
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46522)
+	id 1kKQ32-00076Z-6v
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPql-0001Ps-9j
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41792)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPqr-0001es-3a
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50295
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPqj-0000SO-Hr
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:38 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPqp-0000Sl-8Q
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600710216;
+ s=mimecast20190719; t=1600710222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=yQI49b5LN7qhGwj3PD3df4ITi/yxuq8O1WjK9ROGQkU=;
- b=O0WDJwQu83w9kI2/nf8id5QJra41rJxUpRCPjisg7n50eAXnf6HFh2eSIfWuVBrDykuz9y
- EvwLbypnsRsu2uQvM+WldsPdL1/m+QMh6fnd7ZVYdki8EYJDBgZadYjxLqFEO43suK8cAK
- Cnk+ITU6J/eKAgKjnWNXbDvVk1iRDZo=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=wxo9MPnciL1SFKGNTV67/pwbSzAZrRNqagOyhi6AP2s=;
+ b=MliKbDxASWw+xaQjvrT3+nQk3H3dIHUsI+ZPyESbavrPSn32xPAwhVknnhpl1hsFhP5N4Z
+ oSKnVZ9HefgSgTAo2UIdbAclko80yUVWIE57v2NmwjQE2OZwLjLfSz+WY+YSme0ARjy+WW
+ EfndP1amWb77HFjiAoYjeT4rZiSytP0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-k7vHoF-SMt6YtEM8wx6Fgw-1; Mon, 21 Sep 2020 13:43:34 -0400
-X-MC-Unique: k7vHoF-SMt6YtEM8wx6Fgw-1
+ us-mta-566-VSt6cGbbNC6j5tyjaBnwNA-1; Mon, 21 Sep 2020 13:43:37 -0400
+X-MC-Unique: VSt6cGbbNC6j5tyjaBnwNA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64EC818BA280;
- Mon, 21 Sep 2020 17:43:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446DF1018F64;
+ Mon, 21 Sep 2020 17:43:36 +0000 (UTC)
 Received: from thuth.com (ovpn-112-14.ams2.redhat.com [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 021335D9CD;
- Mon, 21 Sep 2020 17:43:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3D905D9E4;
+ Mon, 21 Sep 2020 17:43:33 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 0/7] Do not support Debian 9 and Python 3.5 anymore
-Date: Mon, 21 Sep 2020 19:43:13 +0200
-Message-Id: <20200921174320.46062-1-thuth@redhat.com>
+Subject: [PATCH 1/7] tests/docker: Use Fedora containers for MinGW
+ cross-builds in the gitlab-CI
+Date: Mon, 21 Sep 2020 19:43:14 +0200
+Message-Id: <20200921174320.46062-2-thuth@redhat.com>
+In-Reply-To: <20200921174320.46062-1-thuth@redhat.com>
+References: <20200921174320.46062-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 11:10:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,49 +86,157 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Debian 9 is EOL now, and according to our support policy, we do not
-support it anymore. Let's switch the corresponding CI builds to
-either Fedora (for a more recent version of the MinGW compilers) or
-Debian 10 instead.
+According to our support policy, we do not support Debian 9 in QEMU
+anymore, and we only support building the Windows binaries with a
+very recent version of the MinGW toolchain. So we should not test
+the MinGW cross-compilation with Debian 9 anymore, but switch to
+something newer like Fedora. To do this, we need a separate Fedora
+container for each build that provides the QEMU_CONFIGURE_OPTS
+environment variable.
+Unfortunately, the MinGW 64-bit compiler seems to be a little bit
+slow, so we also have to disable some features like "capstone" in the
+build here to make sure that the CI pipelines still finish within a
+reasonable amount of time.
 
-Together with the Travis patch series that I recently posted ("Update
-Travis from Xenial to Bionic and Focal"), our CI should now be free of
-distros that we do not support anymore. And all supported build systems
-now use at least Python 3.6, so we can drop the support for Python 3.5.
-
-Based-on: <20200918103430.297167-1-thuth@redhat.com>
-
-Thomas Huth (7):
-  tests/docker: Use Fedora containers for MinGW cross-builds in the
-    gitlab-CI
-  gitlab-ci: Remove the Debian9-based containers and containers-layer3
-  tests/docker: Update the tricore container to debian 10
-  shippable.yml: Remove the Debian9-based MinGW cross-compiler tests
-  tests/docker: Remove old Debian 9 containers
-  gitlab-ci: Increase the timeout for the cross-compiler builds
-  configure: Bump the minimum required Python version to 3.6
-
- .gitlab-ci.d/containers.yml                   | 38 +++++-----------
- .gitlab-ci.d/crossbuilds.yml                  |  5 ++-
- .gitlab-ci.yml                                |  1 -
- .shippable.yml                                |  4 --
- configure                                     |  4 +-
- tests/docker/Makefile.include                 |  2 +-
- .../dockerfiles/debian-tricore-cross.docker   |  2 +-
- .../dockerfiles/debian-win32-cross.docker     | 38 ----------------
- .../dockerfiles/debian-win64-cross.docker     | 45 -------------------
- tests/docker/dockerfiles/debian9-mxe.docker   | 21 ---------
- tests/docker/dockerfiles/debian9.docker       | 32 -------------
- .../dockerfiles/fedora-win32-cross.docker     | 42 +++++++++++++++++
- .../dockerfiles/fedora-win64-cross.docker     | 38 ++++++++++++++++
- 13 files changed, 98 insertions(+), 174 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/debian-win32-cross.docker
- delete mode 100644 tests/docker/dockerfiles/debian-win64-cross.docker
- delete mode 100644 tests/docker/dockerfiles/debian9-mxe.docker
- delete mode 100644 tests/docker/dockerfiles/debian9.docker
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/containers.yml                   | 10 +++++
+ .gitlab-ci.d/crossbuilds.yml                  |  4 +-
+ .../dockerfiles/fedora-win32-cross.docker     | 42 +++++++++++++++++++
+ .../dockerfiles/fedora-win64-cross.docker     | 38 +++++++++++++++++
+ 4 files changed, 92 insertions(+), 2 deletions(-)
  create mode 100644 tests/docker/dockerfiles/fedora-win32-cross.docker
  create mode 100644 tests/docker/dockerfiles/fedora-win64-cross.docker
 
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 8c89efeb6d..15e7b564f9 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -248,6 +248,16 @@ i386-fedora-cross-container:
+   variables:
+     NAME: fedora-i386-cross
+ 
++win32-fedora-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora-win32-cross
++
++win64-fedora-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora-win64-cross
++
+ amd64-ubuntu1804-container:
+   <<: *container_job_definition
+   variables:
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 4ec7226b5c..510cfec03b 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -105,9 +105,9 @@ cross-s390x-user:
+ cross-win32-system:
+   <<: *cross_system_build_job_definition
+   variables:
+-    IMAGE: debian-win32-cross
++    IMAGE: fedora-win32-cross
+ 
+ cross-win64-system:
+   <<: *cross_system_build_job_definition
+   variables:
+-    IMAGE: debian-win64-cross
++    IMAGE: fedora-win64-cross
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+new file mode 100644
+index 0000000000..5903e1b0b4
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -0,0 +1,42 @@
++FROM fedora:32
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++    bc \
++    bzip2 \
++    diffutils \
++    findutils \
++    gcc \
++    gettext \
++    git \
++    hostname \
++    make \
++    meson \
++    mingw32-bzip2 \
++    mingw32-curl \
++    mingw32-glib2 \
++    mingw32-gmp \
++    mingw32-gnutls \
++    mingw32-gtk3 \
++    mingw32-libjpeg-turbo \
++    mingw32-libpng \
++    mingw32-libtasn1 \
++    mingw32-nettle \
++    mingw32-nsis \
++    mingw32-pixman \
++    mingw32-pkg-config \
++    mingw32-SDL2 \
++    perl \
++    perl-Test-Harness \
++    python3 \
++    python3-PyYAML \
++    python3-setuptools \
++    tar \
++    which
++
++RUN dnf install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
++ENV FEATURES mingw
++
++# Specify the cross prefix for this image (see tests/docker/common.rc)
++ENV QEMU_CONFIGURE_OPTS --cross-prefix=i686-w64-mingw32-
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+new file mode 100644
+index 0000000000..7f03cd8ffc
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -0,0 +1,38 @@
++FROM fedora:32
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++    bc \
++    bzip2 \
++    diffutils \
++    findutils \
++    gcc \
++    gettext \
++    git \
++    hostname \
++    make \
++    meson \
++    mingw64-bzip2 \
++    mingw64-curl \
++    mingw64-glib2 \
++    mingw64-gmp \
++    mingw64-gtk3 \
++    mingw64-libjpeg-turbo \
++    mingw64-libpng \
++    mingw64-libtasn1 \
++    mingw64-pixman \
++    mingw64-pkg-config \
++    perl \
++    perl-Test-Harness \
++    python3 \
++    python3-PyYAML \
++    python3-setuptools \
++    tar \
++    which
++
++RUN dnf install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
++ENV FEATURES mingw
++
++# Specify the cross prefix for this image (see tests/docker/common.rc)
++ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32- --disable-capstone
 -- 
 2.18.2
 
