@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605942735B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:25:43 +0200 (CEST)
-Received: from localhost ([::1]:52072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3E527359C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:19:27 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKUFi-0001UL-Cp
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59012)
+	id 1kKU9e-0000IJ-8r
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU21-0000Om-DV
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51576)
+ id 1kKU1x-0000OC-9D
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1u-0001cy-4a
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:28 -0400
+ id 1kKU1t-0001ck-Ei
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600726285;
+ s=mimecast20190719; t=1600726284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BThF7N+Op21kuNeQbnQ7uJs6mHbs40rqZPjGXbQAkzo=;
- b=PSLuQ9YLRq6KXgjOwyeUfib/xOlK00Y7PF8v1pzAs7f6oTi5VJ0A/SmAd3eirKeK3SXbY9
- 9i4LNRsiz/v+FHGah3GZpdX0/I+rpjN9o1k6xWMEj6yWvt7saY0aSHx95Hcy0wP/2feCBf
- +IT3CC/+JonoJEpEMo1CvS2UOYoppJ4=
+ bh=yI99G5RliSRDk0T3kuWGTzNZKNFmQSbNekxeuovQbRA=;
+ b=AwYxLKM1E5nU+7wBNdquqOYLfvhamO7/SOT7XudTxnDR7/Xc9a2798b7z+rqPgMp2Kr6j5
+ vMJD96zrwdP4tEa22fT8pHOZqwvIeQJN1GhWVmr0Bt5eX0NkjXC7qaq5X4pdJv9VTLYT/4
+ zucBla+DtXxu6gw+qKrVeCYDD13u6m4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-Gt_GSBgxOxmB7I2yIhgM3g-1; Mon, 21 Sep 2020 18:11:21 -0400
-X-MC-Unique: Gt_GSBgxOxmB7I2yIhgM3g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-513-YslSO1dlOnq2BGEsKiCFqA-1; Mon, 21 Sep 2020 18:11:22 -0400
+X-MC-Unique: YslSO1dlOnq2BGEsKiCFqA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA15C185FD70;
- Mon, 21 Sep 2020 22:11:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFB8A1DE0F;
+ Mon, 21 Sep 2020 22:11:21 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39B8B51576;
- Mon, 21 Sep 2020 22:11:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83BE010013BD;
+ Mon, 21 Sep 2020 22:11:21 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/24] s390x: Register all CPU properties as class properties
-Date: Mon, 21 Sep 2020 18:10:33 -0400
-Message-Id: <20200921221045.699690-13-ehabkost@redhat.com>
+Subject: [PATCH 13/24] i386: Register most CPU properties as class properties
+Date: Mon, 21 Sep 2020 18:10:34 -0400
+Message-Id: <20200921221045.699690-14-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -80,11 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -94,102 +91,104 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Richard Henderson <rth@twiddle.net>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: qemu-s390x@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- target/s390x/internal.h   |  1 -
- target/s390x/cpu.c        |  1 -
- target/s390x/cpu_models.c | 35 ++++++++++++++++-------------------
- 3 files changed, 16 insertions(+), 21 deletions(-)
+ target/i386/cpu.c | 66 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 34 insertions(+), 32 deletions(-)
 
-diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-index b1e0ebf67f8..bac0d3c67b2 100644
---- a/target/s390x/internal.h
-+++ b/target/s390x/internal.h
-@@ -260,7 +260,6 @@ static inline void s390_cpu_unhalt(S390CPU *cpu)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 1c58f764dcb..66792f28ba7 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6922,44 +6922,12 @@ static void x86_cpu_initfn(Object *obj)
+     env->nr_dies = 1;
+     cpu_set_cpustate_pointers(cpu);
  
- 
- /* cpu_models.c */
--void s390_cpu_model_register_props(Object *obj);
- void s390_cpu_model_class_register_props(ObjectClass *oc);
- void s390_realize_cpu_model(CPUState *cs, Error **errp);
- ObjectClass *s390_cpu_class_by_name(const char *name);
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 749cd548f0f..1dc45ca11b9 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -302,7 +302,6 @@ static void s390_cpu_initfn(Object *obj)
-         timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
-     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
- #endif
--    s390_cpu_model_register_props(obj);
- }
- 
- static void s390_cpu_finalize(Object *obj)
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index c2af2261743..b97e9596ab0 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -1089,25 +1089,6 @@ static void set_feature_group(Object *obj, Visitor *v, const char *name,
-     }
- }
- 
--void s390_cpu_model_register_props(Object *obj)
--{
--    S390FeatGroup group;
--    S390Feat feat;
+-    object_property_add(obj, "family", "int",
+-                        x86_cpuid_version_get_family,
+-                        x86_cpuid_version_set_family, NULL, NULL);
+-    object_property_add(obj, "model", "int",
+-                        x86_cpuid_version_get_model,
+-                        x86_cpuid_version_set_model, NULL, NULL);
+-    object_property_add(obj, "stepping", "int",
+-                        x86_cpuid_version_get_stepping,
+-                        x86_cpuid_version_set_stepping, NULL, NULL);
+-    object_property_add_str(obj, "vendor",
+-                            x86_cpuid_get_vendor,
+-                            x86_cpuid_set_vendor);
+-    object_property_add_str(obj, "model-id",
+-                            x86_cpuid_get_model_id,
+-                            x86_cpuid_set_model_id);
+-    object_property_add(obj, "tsc-frequency", "int",
+-                        x86_cpuid_get_tsc_freq,
+-                        x86_cpuid_set_tsc_freq, NULL, NULL);
+     object_property_add(obj, "feature-words", "X86CPUFeatureWordInfo",
+                         x86_cpu_get_feature_words,
+                         NULL, NULL, (void *)env->features);
+     object_property_add(obj, "filtered-features", "X86CPUFeatureWordInfo",
+                         x86_cpu_get_feature_words,
+                         NULL, NULL, (void *)cpu->filtered_features);
+-    /*
+-     * The "unavailable-features" property has the same semantics as
+-     * CpuDefinitionInfo.unavailable-features on the "query-cpu-definitions"
+-     * QMP command: they list the features that would have prevented the
+-     * CPU from running if the "enforce" flag was set.
+-     */
+-    object_property_add(obj, "unavailable-features", "strList",
+-                        x86_cpu_get_unavailable_features,
+-                        NULL, NULL, NULL);
 -
--    for (feat = 0; feat < S390_FEAT_MAX; feat++) {
--        const S390FeatDef *def = s390_feat_def(feat);
--        object_property_add(obj, def->name, "bool", get_feature,
--                            set_feature, NULL, (void *) feat);
--        object_property_set_description(obj, def->name, def->desc);
--    }
--    for (group = 0; group < S390_FEAT_GROUP_MAX; group++) {
--        const S390FeatGroupDef *def = s390_feat_group_def(group);
--        object_property_add(obj, def->name, "bool", get_feature_group,
--                            set_feature_group, NULL, (void *) group);
--        object_property_set_description(obj, def->name, def->desc);
--    }
--}
--
- static void s390_cpu_model_initfn(Object *obj)
- {
-     S390CPU *cpu = S390_CPU(obj);
-@@ -1215,11 +1196,27 @@ static char *get_description(Object *obj, Error **errp)
+-#if !defined(CONFIG_USER_ONLY)
+-    object_property_add(obj, "crash-information", "GuestPanicInformation",
+-                        x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
+-#endif
  
- void s390_cpu_model_class_register_props(ObjectClass *oc)
- {
-+    S390FeatGroup group;
-+    S390Feat feat;
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         int bitnr;
+@@ -7308,6 +7276,40 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+     cc->disas_set_info = x86_disas_set_info;
+ 
+     dc->user_creatable = true;
 +
-     object_class_property_add_bool(oc, "migration-safe", get_is_migration_safe,
-                                    NULL);
-     object_class_property_add_bool(oc, "static", get_is_static,
-                                    NULL);
-     object_class_property_add_str(oc, "description", get_description, NULL);
++    object_class_property_add(oc, "family", "int",
++                              x86_cpuid_version_get_family,
++                              x86_cpuid_version_set_family, NULL, NULL);
++    object_class_property_add(oc, "model", "int",
++                              x86_cpuid_version_get_model,
++                              x86_cpuid_version_set_model, NULL, NULL);
++    object_class_property_add(oc, "stepping", "int",
++                              x86_cpuid_version_get_stepping,
++                              x86_cpuid_version_set_stepping, NULL, NULL);
++    object_class_property_add_str(oc, "vendor",
++                                  x86_cpuid_get_vendor,
++                                  x86_cpuid_set_vendor);
++    object_class_property_add_str(oc, "model-id",
++                                  x86_cpuid_get_model_id,
++                                  x86_cpuid_set_model_id);
++    object_class_property_add(oc, "tsc-frequency", "int",
++                              x86_cpuid_get_tsc_freq,
++                              x86_cpuid_set_tsc_freq, NULL, NULL);
++    /*
++     * The "unavailable-features" property has the same semantics as
++     * CpuDefinitionInfo.unavailable-features on the "query-cpu-definitions"
++     * QMP command: they list the features that would have prevented the
++     * CPU from running if the "enforce" flag was set.
++     */
++    object_class_property_add(oc, "unavailable-features", "strList",
++                              x86_cpu_get_unavailable_features,
++                              NULL, NULL, NULL);
 +
-+    for (feat = 0; feat < S390_FEAT_MAX; feat++) {
-+        const S390FeatDef *def = s390_feat_def(feat);
-+        object_class_property_add(oc, def->name, "bool", get_feature,
-+                                  set_feature, NULL, (void *) feat);
-+        object_class_property_set_description(oc, def->name, def->desc);
-+    }
-+    for (group = 0; group < S390_FEAT_GROUP_MAX; group++) {
-+        const S390FeatGroupDef *def = s390_feat_group_def(group);
-+        object_class_property_add(oc, def->name, "bool", get_feature_group,
-+                                  set_feature_group, NULL, (void *) group);
-+        object_class_property_set_description(oc, def->name, def->desc);
-+    }
++#if !defined(CONFIG_USER_ONLY)
++    object_class_property_add(oc, "crash-information", "GuestPanicInformation",
++                              x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
++#endif
++
  }
  
- #ifdef CONFIG_KVM
+ static const TypeInfo x86_cpu_type_info = {
 -- 
 2.26.2
 
