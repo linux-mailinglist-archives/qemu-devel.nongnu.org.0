@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D112271E49
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:45:23 +0200 (CEST)
-Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F21271E5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:52:12 +0200 (CEST)
+Received: from localhost ([::1]:52848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKHRq-0008Ga-D8
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:45:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
+	id 1kKHYR-0001pF-VU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kKHPT-00060D-P9
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:42:55 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kKHPR-000415-SP
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:42:55 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id v14so6764842pjd.4
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 01:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5NtaKEO/a3oN1/+TjZG82aOyq75NUbquYfSOeRKXfR0=;
- b=Qnufvqoej0YxOmnZy3i102b/GQjOYZRxBOiG64+ktCy5CNE4lDlg7SlIDVqXrdmAKm
- 9Myjkupa2VcmDeUkrAgOIVp8KWyefJDoNqyXVfUM/YNsPHXYpRTWh0hk7bTR9q+gbJDI
- UITKZsZJ9UaU/8qNQhHQIkBVb/4Qdu8jEqacGsJoUbLspdi3avaTFuHxcU+c2c03nitu
- HEwUcrc4pAKWAkZL4KlyXUOTFVWWdCXGP6/gcD8Q7DOqsXzChH1bR2PfJ+xD74X0bO26
- ycm1p5qsWmuaCPmyMpSFzhqUqAl0Tf2FeaIiza8WIg0Bvv/3OsIBN6w27loXMn8U9UGh
- 2/8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5NtaKEO/a3oN1/+TjZG82aOyq75NUbquYfSOeRKXfR0=;
- b=ET7Yz/GAPB75mVyeMNF9D5XFImgqRgt3Vlkn88smbuXRohuSb1J4G/d6EESp+tCS8y
- LQEHJVFXveDh2sAi9b7usMX9NklK2XulkHVkwO5oUVUK3Na9GNtySiFroKt7aMJjjWv+
- voapQsxFXMg+++tJwfP3ZEu9k1oAdXDERSVMuXFbef8zQd1sAXiJaarEL1EpcYt0tExN
- Gr0vID0khj8Hkt7tb57OsfA/wGueYTNDHzodI6K3CsrSYxBFV9s6ciJXSyQYyOlxYUTV
- TqHZcIfWxLqJ9c5oHU8YuNQ7vro2Ewh6MNyHYg5VIESYoweOyC6SlfIdgBevrlIEcZJh
- XlbA==
-X-Gm-Message-State: AOAM532JsnUug2SNfGx2dqBJYgtMenP1S4RPOpx4thrVao5SqhFrACIS
- oT5lTmoJANQmV8HW+uplbVF9R78qNOT/1hBhv0zXrB3FTRE=
-X-Google-Smtp-Source: ABdhPJyJpOR4mgPNAz32kBklzhIQST44HKLsrg/BIhkAfdaKyFKPLOqdHWZ9T/nC/X8QLLXuZ1RmNiEtV9YPKXl5wTc=
-X-Received: by 2002:a17:90b:1916:: with SMTP id
- mp22mr22351811pjb.132.1600677772013; 
- Mon, 21 Sep 2020 01:42:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kKHWy-0001O3-Aq
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:50:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57955
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kKHWt-0004rj-8U
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:50:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600678234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rjRs7t1lbnCL2uKfLDC/o96iZNsPgEuMhPjbGywGuqs=;
+ b=dNGb0OgELt5cheDQUihw/LRIJrpnAoZ81/eJxwg8LNCLpMdrK9V15taZoVYhvr2t5v6AyB
+ HJfCBkXtpYZVdhyq8PHLZf3lMQzVgWsv7PjD9LLQRJajCKZP++3C2AB2PTr7BH7LIaSDdW
+ D6NjYm75Y1aPVW3Vo/4DqdemDcjM58g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-6wfNg6scMeOAvvs77QoPEQ-1; Mon, 21 Sep 2020 04:50:30 -0400
+X-MC-Unique: 6wfNg6scMeOAvvs77QoPEQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F300D188C131
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 08:50:28 +0000 (UTC)
+Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27EDC1C6;
+ Mon, 21 Sep 2020 08:50:21 +0000 (UTC)
+Date: Mon, 21 Sep 2020 09:50:19 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
+Message-ID: <20200921085019.GB3221@work-vm>
+References: <20200918213436.GA3520@redhat.com>
 MIME-Version: 1.0
-References: <20200824134431.GA35623@stefanha-x1.localdomain>
- <CAJSP0QW3xniHzHS=_Ok1D-NuAViHUShCxYs38YDo-YjUxC_+ZA@mail.gmail.com>
- <709da6a3-d158-270b-fb63-43ef65dfe668@virtuozzo.com>
- <dd5d6d0f-cc52-d3d5-0bbc-c57dcfef6842@virtuozzo.com>
- <CAJSP0QVRMzw5AAJEPpOChyFK4hUuEe1VE909QvYb6HQGOV_8XA@mail.gmail.com>
- <ec0e4c0b-9570-de7c-66fd-5cb4085ab075@virtuozzo.com>
-In-Reply-To: <ec0e4c0b-9570-de7c-66fd-5cb4085ab075@virtuozzo.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 21 Sep 2020 09:42:40 +0100
-Message-ID: <CAJSP0QWQ_-9OPLiqS1xx1t3yt-U=D15xur4JV-Uf6wbYnR+pvA@mail.gmail.com>
-Subject: Re: QEMU 5.0 virtio-blk performance regression with high queue depths
-To: "Denis V. Lunev" <den@virtuozzo.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=stefanha@gmail.com; helo=mail-pj1-x102b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <20200918213436.GA3520@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:53:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.501,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,51 +81,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 18, 2020 at 10:59 AM Denis V. Lunev <den@virtuozzo.com> wrote:
-> On 9/17/20 3:41 PM, Stefan Hajnoczi wrote:
-> > On Wed, Sep 16, 2020 at 5:43 PM Denis V. Lunev <den@virtuozzo.com> wrote:
-> >> On 9/16/20 5:07 PM, Denis V. Lunev wrote:
-> >>> I will make a check today.
-> >>>
-> >>> Talking about our performance measurements, we have not
-> >>> seen ANY performance degradation, especially 30-40%.
-> >>> This looking quite strange to me.
-> >>>
-> >>> Though there is quite important difference. We are always
-> >>> using O_DIRECT and 'native' AIO engine.
-> >>>
-> >>> Den
-> >> I have put my hands into this and it looks like you are right. There is
-> >> a difference. It is not as significant for me as in your case, but I observe
-> >> stable around 10% difference with 128 vs 256 queue size.
-> >>
-> >> I have checked with:
-> >> - QEMU 5.1
-> >> - Fedora 31 in guest
-> >> - qcow2 (64k, 1Mb) and raw image on host
-> >> - nocache and both threaded/native IO modes
-> >>
-> >> The test was run on Thinkpad Carbon X1 gen 6 laptop.
-> >>
-> >> For the reference, I have seen 330k IOPS for read
-> >> at max which is looking awesome for native and 220k
-> >> IOPS for threads.
-> > Thanks for confirming! Reverting the commit is unattractive since it
-> > does improve performance in some cases.
-> >
-> > It would be good to understand the root cause so the regression can be
-> > fixed without reducing queue-size again.
-> >
-> > Do you have time to investigate?
-> I will make a try next week.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Hi All,
+> 
+> virtiofsd default thread pool size is 64. To me it feels that in most of
+> the cases thread pool size 1 performs better than thread pool size 64.
+> 
+> I ran virtiofs-tests.
+> 
+> https://github.com/rhvgoyal/virtiofs-tests
+> 
+> And here are the comparision results. To me it seems that by default
+> we should switch to 1 thread (Till we can figure out how to make
+> multi thread performance better even when single process is doing
+> I/O in client).
+> 
+> I am especially more interested in getting performance better for
+> single process in client. If that suffers, then it is pretty bad.
+> 
+> Especially look at randread, randwrite, seqwrite performance. seqread
+> seems pretty good anyway.
+> 
+> If I don't run who test suite and just ran randread-psync job,
+> my throughput jumps from around 40MB/s to 60MB/s. That's a huge
+> jump I would say.
+> 
+> Thoughts?
 
-Thanks!
+What's your host setup; how many cores has the host got and how many did
+you give the guest?
 
-Stefan
+Dave
+
+> Thanks
+> Vivek
+> 
+> 
+> NAME                    WORKLOAD                Bandwidth       IOPS            
+> cache-auto              seqread-psync           690(MiB/s)      172k            
+> cache-auto-1-thread     seqread-psync           729(MiB/s)      182k            
+> 
+> cache-auto              seqread-psync-multi     2578(MiB/s)     644k            
+> cache-auto-1-thread     seqread-psync-multi     2597(MiB/s)     649k            
+> 
+> cache-auto              seqread-mmap            660(MiB/s)      165k            
+> cache-auto-1-thread     seqread-mmap            672(MiB/s)      168k            
+> 
+> cache-auto              seqread-mmap-multi      2499(MiB/s)     624k            
+> cache-auto-1-thread     seqread-mmap-multi      2618(MiB/s)     654k            
+> 
+> cache-auto              seqread-libaio          286(MiB/s)      71k             
+> cache-auto-1-thread     seqread-libaio          260(MiB/s)      65k             
+> 
+> cache-auto              seqread-libaio-multi    1508(MiB/s)     377k            
+> cache-auto-1-thread     seqread-libaio-multi    986(MiB/s)      246k            
+> 
+> cache-auto              randread-psync          35(MiB/s)       9191            
+> cache-auto-1-thread     randread-psync          55(MiB/s)       13k             
+> 
+> cache-auto              randread-psync-multi    179(MiB/s)      44k             
+> cache-auto-1-thread     randread-psync-multi    209(MiB/s)      52k             
+> 
+> cache-auto              randread-mmap           32(MiB/s)       8273            
+> cache-auto-1-thread     randread-mmap           50(MiB/s)       12k             
+> 
+> cache-auto              randread-mmap-multi     161(MiB/s)      40k             
+> cache-auto-1-thread     randread-mmap-multi     185(MiB/s)      46k             
+> 
+> cache-auto              randread-libaio         268(MiB/s)      67k             
+> cache-auto-1-thread     randread-libaio         254(MiB/s)      63k             
+> 
+> cache-auto              randread-libaio-multi   256(MiB/s)      64k             
+> cache-auto-1-thread     randread-libaio-multi   155(MiB/s)      38k             
+> 
+> cache-auto              seqwrite-psync          23(MiB/s)       6026            
+> cache-auto-1-thread     seqwrite-psync          30(MiB/s)       7925            
+> 
+> cache-auto              seqwrite-psync-multi    100(MiB/s)      25k             
+> cache-auto-1-thread     seqwrite-psync-multi    154(MiB/s)      38k             
+> 
+> cache-auto              seqwrite-mmap           343(MiB/s)      85k             
+> cache-auto-1-thread     seqwrite-mmap           355(MiB/s)      88k             
+> 
+> cache-auto              seqwrite-mmap-multi     408(MiB/s)      102k            
+> cache-auto-1-thread     seqwrite-mmap-multi     438(MiB/s)      109k            
+> 
+> cache-auto              seqwrite-libaio         41(MiB/s)       10k             
+> cache-auto-1-thread     seqwrite-libaio         65(MiB/s)       16k             
+> 
+> cache-auto              seqwrite-libaio-multi   137(MiB/s)      34k             
+> cache-auto-1-thread     seqwrite-libaio-multi   214(MiB/s)      53k             
+> 
+> cache-auto              randwrite-psync         22(MiB/s)       5801            
+> cache-auto-1-thread     randwrite-psync         30(MiB/s)       7927            
+> 
+> cache-auto              randwrite-psync-multi   100(MiB/s)      25k             
+> cache-auto-1-thread     randwrite-psync-multi   151(MiB/s)      37k             
+> 
+> cache-auto              randwrite-mmap          31(MiB/s)       7984            
+> cache-auto-1-thread     randwrite-mmap          55(MiB/s)       13k             
+> 
+> cache-auto              randwrite-mmap-multi    124(MiB/s)      31k             
+> cache-auto-1-thread     randwrite-mmap-multi    213(MiB/s)      53k             
+> 
+> cache-auto              randwrite-libaio        40(MiB/s)       10k             
+> cache-auto-1-thread     randwrite-libaio        64(MiB/s)       16k             
+> 
+> cache-auto              randwrite-libaio-multi  139(MiB/s)      34k             
+> cache-auto-1-thread     randwrite-libaio-multi  212(MiB/s)      53k             
+> 
+> 
+> 
+> 
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
