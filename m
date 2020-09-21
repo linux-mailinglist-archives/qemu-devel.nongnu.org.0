@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F470272465
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:55:36 +0200 (CEST)
-Received: from localhost ([::1]:58372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3753127246F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:58:40 +0200 (CEST)
+Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKLLz-0000C9-CC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:55:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37336)
+	id 1kKLOx-0001OR-A0
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kKLL2-0008DD-GO
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:54:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30671)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kKLL0-0004Wa-Eq
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:54:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600692873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4feFmLaAhFNoJH0PFwMJy3rWgNdNW0NFC/376gkfbCc=;
- b=b0TEXgDrCn2ChDb3iAuO9PuxQdJyhXauRDPdNWnOi+pJIWDFxdqLmhJvz3Q5iiOVF6jHF9
- hm+SqoEEzfKFKzFUbnL1JPch8gE7X92/Q+Zewxjwu94ZOCmsN416OJl5OAuCFn+JPpTTpk
- a9j9WdKanlC9okvKWZ+NeMkZdJwgdbc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-fRWyhbAwPleBJRsxRalk9A-1; Mon, 21 Sep 2020 08:54:29 -0400
-X-MC-Unique: fRWyhbAwPleBJRsxRalk9A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AB6564150;
- Mon, 21 Sep 2020 12:54:28 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC5407881A;
- Mon, 21 Sep 2020 12:54:18 +0000 (UTC)
-Date: Mon, 21 Sep 2020 14:54:15 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKLNW-0000vh-CU
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:57:10 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:42394)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKLNR-0004wk-Ub
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:57:09 -0400
+Received: by mail-ej1-x643.google.com with SMTP id q13so17542832ejo.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 05:57:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DG0y9qn/lKIgS0h/nLSEmonQRe3mA2s/LQVbb+04v74=;
+ b=x4gqpJ/ddQjg84zAvB3H9GTU3bZNIr0ya1U9tOOKEqB0bHQo1TY/gb5PkEbn7qbYIo
+ Ce9bYx9OOZf80n2uGP6JWE3m+rqrAFPdM6cMBm8dAX3wXgIqU/872oCoytlZg1ORUcH7
+ fg2krRGYaQ896WoVInHqwJtFOuA9fj0kgndc67dLce6WEB9ITwWV1VOM512PSeL3O9Fq
+ 8e/6/NAkXGfQiGSR3Xs9eeLrrwB7F9b8bzR8ExNzmV6dpsgQBBiNC64hOgJrPq0t6fcq
+ srmjO2lfmvFjHPV4OgSb4bzdlqH3g+kpbgceJD80ye2TUKrhVd7ieCGR0wBhHl8WRJpp
+ j9Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DG0y9qn/lKIgS0h/nLSEmonQRe3mA2s/LQVbb+04v74=;
+ b=YgJhbV8mDaYETyh6ChBhKknfTLVxPKw+62VZPQ2ZwAXNDKWLM9QCMR0F1Qgl0a9gFh
+ AtwODNTr1Mj+hDQxyPBb19orn3CYQDhyaiseJFpX3svzZm/pB11NUT783jnIQHScdN94
+ ImLk7dFULf1G5P0MhadZ0lliOGiIEj0g9Q+gflUCNs56McE95Mf+u/yo4Hp1UwJO5jP5
+ 2BCQy5FKQZpEjo5OIVZETI7KHBr+MMGW/KRHp3Xos6/YdPcmfEAX+VbLy9e27ftxPFQq
+ 3kwAZQ/2D50PIYLvQUc20MzFXLQVwcsXrHXfzmAJqntvCdhFHghSo4zVraWjICWSgIZD
+ ZMlA==
+X-Gm-Message-State: AOAM532LvTmb74qonK6yyfJVa743MhbeNJUhhU13Kgp1WREuSH0urqAz
+ KX/ldaw9nfb71Vs2UQwLtrarOgWt3qGTnqTA6k8jZQ==
+X-Google-Smtp-Source: ABdhPJw0LgP03GdSyIadM01l5bAlKeDhpemoUZNC/30a6jLuRo/me7c65vFpVeNQO39AYV7djmuaPbbjHUmtmtcuzkA=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr48863901ejb.85.1600693023380; 
+ Mon, 21 Sep 2020 05:57:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200914084802.4185028-1-armbru@redhat.com>
+In-Reply-To: <20200914084802.4185028-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Sep 2020 13:56:52 +0100
+Message-ID: <CAFEAcA9qPx=rtNcQ5FJk8a3YjZN7XyD1cJddQbD7Km9fBpm-0A@mail.gmail.com>
 Subject: Re: [PATCH v5 0/8] Configurable policy for handling deprecated
  interfaces
-Message-ID: <20200921125415.GI27515@angien.pipo.sk>
-References: <20200914084802.4185028-1-armbru@redhat.com>
- <20200921124514.GB27434@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20200921124514.GB27434@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,32 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- mdroth@linux.vnet.ibm.com, libvir-list@redhat.com,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- marcandre.lureau@gmail.com, libguestfs@redhat.com
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Libvirt <libvir-list@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 21, 2020 at 13:45:14 +0100, Richard W.M. Jones wrote:
-> Some general comments on using the patch:
-> 
-> * For libguestfs I chose to add
-> 
->   -compat deprecated-input=reject,deprecated-output=hide
-> 
->   This is only enabled in developer builds of libguestfs when we
->   are running qemu directly (not via libvirt).  The patch for
->   this is attached.
-> 
-> * What's the point/difference in having reject vs crash?
+On Mon, 14 Sep 2020 at 09:55, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> New option -compat lets you configure what to do when deprecated
+> interfaces get used.  This is intended for testing users of the
+> management interfaces.  It is experimental.
+>
+> -compat deprecated-input=<in-policy> configures what to do when
+> deprecated input is received.  Available policies:
+>
+> * accept: Accept deprecated commands and arguments (default)
+> * reject: Reject them
+> * crash: Crash
+>
+> -compat deprecated-output=<out-policy> configures what to do when
+> deprecated output is sent.  Available output policies:
+>
+> * accept: Emit deprecated command results and events (default)
+> * hide: Suppress them
+>
+> For now, -compat covers only deprecated syntactic aspects of QMP.  We
+> may want to extend it to cover semantic aspects, CLI, and experimental
+> features.
 
-I'll be adding the following documentation for the qemu.conf entry in
-libvirt controling the feature:
+Some bikeshedding on option naming...
 
-+# The "reject" option is less harsh towards the VMs but some code paths ignore
-+# errors reported by qemu and thus it may not be obvious that a deprecated
-+# command/field was used, thus it's suggested to use the "crash" option instead.
+If this only covers QMP, should we make the argument to -compat
+have a name that expresses that? eg deprecated-qmp-input,
+deprecated-qmp-output ?
 
+Also, it seems a bit repetitive to say 'deprecated' here all
+the time -- do you have a future use of -compat in mind which
+would be to adjust something that is *not* deprecated ? If
+not, maybe the 'deprecated' part should be in the option name
+rather than in every argument, eg
+
+  -deprecation-compat qmp-input=crash,qmp-output=hide,cli-option=reject
+
+?
+
+thanks
+-- PMM
 
