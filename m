@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B807027315D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:01:42 +0200 (CEST)
-Received: from localhost ([::1]:51152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439292731B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:13:32 +0200 (CEST)
+Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQ8D-0005oH-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:01:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49682)
+	id 1kKQJf-0006qY-C3
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kKQ5J-0003Mw-GO
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:58:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kKQ5H-0002If-Eu
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:58:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600711117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WDRa/yB+rPwrpk/BcOyE9u9KfnPnLd8OTsPjnWdZ784=;
- b=U7xBxM1nmba66UkGbhcdBOTWchwZaXtyTboEGjdxi9WsD0RMYDNSK9QzYbut58fquI0lNh
- HkH93o0iGY9BT6KkrTxGO+W76lmDDAJAuzrkdkWC4tiAdojTFr/qOwKymsK6Jaq9R/uep2
- 1M4JBzAkj0o4ZLXKEIQ+Avzl24PQGkA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-GosDdAlrMx6adlH-8AVz0g-1; Mon, 21 Sep 2020 13:57:22 -0400
-X-MC-Unique: GosDdAlrMx6adlH-8AVz0g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 640801005E66;
- Mon, 21 Sep 2020 17:57:21 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B9405D9CD;
- Mon, 21 Sep 2020 17:57:08 +0000 (UTC)
-Date: Mon, 21 Sep 2020 13:57:06 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: Bottleneck problem to merge Python patches
-Message-ID: <20200921175706.GA8403@localhost.localdomain>
-References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
- <20200828104102.4490-2-ahmedkhaledkaraman@gmail.com>
- <CAL1e-=iA95PR-mM9E+nfsvFRJLhQsj5Q9qPAM=7QS9mg-QvcbQ@mail.gmail.com>
- <6ad83ff4-1b4f-69f0-7dbe-85680e2f403e@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kKQ4n-0002R3-IT; Mon, 21 Sep 2020 13:58:09 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kKQ4k-0002CJ-0H; Mon, 21 Sep 2020 13:58:08 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g4so13743089wrs.5;
+ Mon, 21 Sep 2020 10:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UlxmOjXuOR+ZkFFBxFLY+lAZ2WLFKoQ4QLYdAyvOkrI=;
+ b=EAqZBtQLFQyYdnzJQeTbg5Z/67BBZQqtNtmD4B47InMD1RjhE9AObzntVtcpk7Hhss
+ EFV1iDXzi88370Z0Jt3JUw/24xrNpAFWglkzR42SX5pcZLiugJ23+btwir5xRvu0a1us
+ UY5Ajrx/ShhIRFuErrfEDJVxWEcznd2JMa4DELIw9i9D2qwh8zX3uvrmdEgBpMrAOzOf
+ 4dAzUjxFBAjIp0c5sLs7vs/RJU8ObFr1Vyt4WCRtD6nwsIoQSFJSySdmn6OEeEssFDFV
+ TFKSolr/3kQ0AWDraRwm/TfOhAXBAQWm8x3VVDuJpwDR0KqKy8UvtZ473ebASuftqPug
+ BBWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UlxmOjXuOR+ZkFFBxFLY+lAZ2WLFKoQ4QLYdAyvOkrI=;
+ b=mbCZZA01OP/P51omY3EBiZy49Cl1Pw6HzMwdG+I1vT9oS8sEGJuzcCusWyAZaIP853
+ wrR0w+/ySe+liL9enY3nXq4d3PFnHH5/9+MaUskZby6bP9ktePh/tEigaOzYMK0VlNQq
+ v8R9Gb1VW9Dp3Gf+LPt3kxESUkwvFs8WTFgcGKQ8OQwCqxtBfxJWckOD7Y2VgPwq5M+V
+ XirlOV43WKnvHWnCzeO1A9AJmzRJJp3z9jG+WUXOP6VMlhFTR/ySG5nT5pIngfREvCnQ
+ cifGsGkFdDa1TeSY8+IUwPIDt+WsrA+BTJpjqRgJSsvGfNefEEzZaakGLrm5qK3xDNUG
+ 3V+g==
+X-Gm-Message-State: AOAM531zKB+l3ZTAJXC1og/YjNLL0j9tcS8UgtAWltcBIEHKOQCBGqbw
+ j7jt5D2O6rjm8cpUOsgIY5DwA1ZeOCA=
+X-Google-Smtp-Source: ABdhPJzVC2oNVI0hoRuzr1P7NMonkuQ8Yf6ON8YbBptXvSM+W8+3BspMzSEMkEBFHfyW+lbiAijlPw==
+X-Received: by 2002:adf:eb8f:: with SMTP id t15mr916368wrn.417.1600711083837; 
+ Mon, 21 Sep 2020 10:58:03 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id e1sm22781149wrp.49.2020.09.21.10.58.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Sep 2020 10:58:03 -0700 (PDT)
+Subject: Re: [PATCH 4/6] sparc32-ledma: don't reference nd_table directly
+ within the device
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, armbru@redhat.com,
+ david@gibson.dropbear.id.au, atar4qemu@gmail.com, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
+ <20200920082018.16135-5-mark.cave-ayland@ilande.co.uk>
+ <0ea7090a-34f0-d437-1c7d-34570b529943@amsat.org>
+ <c9ae2d9d-4a4e-8b68-1f58-4e1fe3bbd55a@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4bab3a2c-919b-621e-5ba8-6a124f8c642e@amsat.org>
+Date: Mon, 21 Sep 2020 19:58:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <6ad83ff4-1b4f-69f0-7dbe-85680e2f403e@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c9ae2d9d-4a4e-8b68-1f58-4e1fe3bbd55a@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,149 +94,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ldoktor@redhat.com" <ldoktor@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Lukas Straub <lukasstraub2@web.de>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- "aleksandar.qemu.devel@gmail.com" <aleksandar.qemu.devel@gmail.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/21/20 7:08 PM, Mark Cave-Ayland wrote:
+> On 21/09/2020 10:57, Philippe Mathieu-Daudé wrote:
+> 
+>> Hi Mark,
+>>
+>> On 9/20/20 10:20 AM, Mark Cave-Ayland wrote:
+>>> Instead use qdev_set_nic_properties() to configure the on-board NIC at the
+>>> sun4m machine level.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>  hw/dma/sparc32_dma.c |  5 -----
+>>>  hw/sparc/sun4m.c     | 21 +++++++++++++--------
+>>>  2 files changed, 13 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
+>>> index 2cbe331959..b643b413c5 100644
+>>> --- a/hw/dma/sparc32_dma.c
+>>> +++ b/hw/dma/sparc32_dma.c
+>>> @@ -342,12 +342,7 @@ static void sparc32_ledma_device_realize(DeviceState *dev, Error **errp)
+>>>  {
+>>>      LEDMADeviceState *s = SPARC32_LEDMA_DEVICE(dev);
+>>>      SysBusPCNetState *lance = SYSBUS_PCNET(&s->lance);
+>>> -    NICInfo *nd = &nd_table[0];
+>>>  
+>>> -    /* FIXME use qdev NIC properties instead of nd_table[] */
+>>> -    qemu_check_nic_model(nd, TYPE_LANCE);
+>>> -
+>>> -    qdev_set_nic_properties(DEVICE(lance), nd);
+>>>      object_property_set_link(OBJECT(lance), "dma", OBJECT(dev), &error_abort);
+>>>      sysbus_realize(SYS_BUS_DEVICE(lance), &error_fatal);
+>>>  }
+>>> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+>>> index 947b69d159..ed5f3ccd9f 100644
+>>> --- a/hw/sparc/sun4m.c
+>>> +++ b/hw/sparc/sun4m.c
+>>> @@ -319,7 +319,7 @@ static void *iommu_init(hwaddr addr, uint32_t version, qemu_irq irq)
+>>>  
+>>>  static void *sparc32_dma_init(hwaddr dma_base,
+>>>                                hwaddr esp_base, qemu_irq espdma_irq,
+>>> -                              hwaddr le_base, qemu_irq ledma_irq)
+>>> +                              hwaddr le_base, qemu_irq ledma_irq, NICInfo *nd)
+>>
+>> Instead of passing NICInfo to sparc32_dma_init,
+>> shouldn't you extract the lance code from it?
+> 
+> Hi Philippe,
+> 
+> I'm not sure I understand what you mean here? The sparc32-dma device is realised
+> within the sparc32_dma_init() function and qdev_set_nic_properties() must be called
+> before realise happens.
+> 
+> If you can explain a bit more about how you think it can be separated out then I can
+> take a look.
 
-On Sat, Sep 19, 2020 at 01:17:06PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Hi Aleksandar,
->=20
-> (extending the Cc list to broader audience)
->=20
-> On 9/18/20 10:33 PM, Aleksandar Markovic wrote:
-> >=20
-> > On Friday, August 28, 2020, Ahmed Karaman <ahmedkhaledkaraman@gmail.com
-> > <mailto:ahmedkhaledkaraman@gmail.com>> wrote:
-> >=20
-> >     - Apply pylint and flake8 formatting rules to the script.
-> >     - Use 'tempfile' instead of '/tmp' for creating temporary files.
-> >=20
-> >     ---
-> >=20
-> > Hello, folks.
-> >=20
-> > This series seems forgotten. Can some of you perhaps take a look,
-> > review, and possibly integrate some patches in a pull request?
-> >=20
-> > Ahmed invested quite of time to improve the functionality and quality o=
-f
-> > scripts, and they are truly useful for developers interested in
-> > performance measurement.
->=20
-> The Python patches are indeed being merged slowly, but are not
-> forgotten :) Eduardo sent just a pull request *yesterday* for
-> patches he had queued *before* QEMU 5.1, that is more than 1 year
-> ago!
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg742228.html
->=20
-> I hope he will be able to process the other Python patches sent
-> the last 12 months. He raised the problem few month ago saying he
-> was overwhelmed and was looking for help from the community.
-> Cleber helped a pair of times, I helped once, but then nobody
-> popped up volunteering.
->
+Sorry I guess I got confused by the 2 different sparc32_dma_init()
+functions.
 
-Yes, Python patches are not forgotten... they have been haunting me
-every day and night for the last few months.  I have a *lot* of blame
-to take here, so my sincere apologies.
+Since ledma always expose lance, maybe you can use:
 
-One word of hope is that my resources (which were exhausted during the
-last months towards the Avocado 82.0 LTS release, released last week)
-are now freed.  And *a lot* of the Avocado features were eyeing QEMU,
-so it's just natural that I will (because I want and have to) get
-back to being more active and responsive.
+diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
+index 2cbe331959a..9a907a30373 100644
+--- a/hw/dma/sparc32_dma.c
++++ b/hw/dma/sparc32_dma.c
+@@ -336,18 +336,14 @@ static void sparc32_ledma_device_init(Object *obj)
+                           "ledma-mmio", DMA_SIZE);
 
-> I agree this is a community problem, nobody wants to become the
-> de-facto Python maintainer. Current maintainers are already busy
-> solving problem with low-level languages such C.
-> As a project, QEMU is evolving, using more and more Python, switched
-> to Meson, we might have Rust code too. Learning that for current
-> maintainers takes time. I guess we lack new contributors/maintainers
-> with interest in Python & QEMU.
->=20
-> This is my simple/rough analysis, as John had the same problem
-> 2/3 months ago, his patches were on the list unreviewed for various
-> weeks. Same problem with Avocado patches, Lukas sent a series a bit
-> before Ahmed and it is still unreviewed:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg737272.html
->
+     object_initialize_child(obj, "lance", &ls->lance, TYPE_LANCE);
++    qdev_alias_all_properties(DEVICE(&ls->lance), obj);
+ }
 
-ACK.  This is a good real example of my previous abstract explanation
-above.
+This way you set the properties directly on the ledma and only
+have to sysbus_map lance.
 
-So, besides me getting back with more resources to review and maintain
-the Python pathes, I have also requested Willian Rampazzo (thanks!) to
-keep an eye on those patches and help with reviews.
-
-> Alex Benn=E9e recently said:
->=20
->  "review time is the currency of qemu-devel ;-)"
->=20
-> We might be failing at explaining new contributors the importance
-> of peer-review, as this helps a lot maintainers. It is described
-> in the wiki but maybe new contributors don't read it, we don't
-> remember them to:
-> https://wiki.qemu.org/Contribute/SubmitAPatch#Participating_in_Code_Revie=
-w
-> and:
-> https://wiki.qemu.org/Contribute/SubmitAPatch#Return_the_favor
->=20
-> My 2 cents...
->=20
-> Regards,
->=20
-> Phil.
->
-
-So while more help is always welcome, I do sincerely hope with myself
-and Willian back into the loop, the Python patches won't lag behind
-anymore.
-
-And thanks for raising the awareness of the issue Phil!
-
-- Cleber.
-
-> >=20
-> > Thanks,
-> > Aleksandar
->=20
-
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9o6W8ACgkQZX6NM6Xy
-CfMvVw//THGuneja1obdGViVG1S5vTZsH+Sp9iAcUM/ASXgtQq6J8+IF4xicHS0l
-R+Hf6du7evFpt+G6UKZRpfIQIUcmCRzitfVpMLT0vwSwjHMA2AFC6BddRp1oh1c5
-reA7uGgc7FDu28n4m2rTMCiOYMD4H2lO+qwume9HXAmDT5WugQUm/Zc0iNARHVd7
-onmlEBtL+FtRMrGmFBGVfZjhPhTIfSB78PALu5lsmqB1xRhgP5kEy/Lc/lM6emPq
-16HSt5ocqqFMNkV0uT+Zlz60TzVkQBCsw1ZIg+6kadk/6SA9MudZo/jTKuUSWGIr
-a+6FOlo5qqPCC4Czy0oMQM6a54fFC3saBNSW3vNg5e+fR7UbIuyrWrIZPeELCPv4
-x5q5JBSOHrAouHQY3lpku8oPBjQyZwMrXGeJ79z/lS+yBaPo4qqnBhYQhtVxK5te
-1Ra78EeMThgwbv+/lxzTn+/ZeYrjZJso+pl1IJE98YS8gtId5mNfC967n55J01xP
-un+tuu7BCb+xVU981NDvpdnc92YGgfwjPKzsiunm3x+/WYdR2avNglMNtJy0Diar
-RI5cwuvloEL4ENgRFVBV9oQQLBhwCYZXus8L5F13GOxC8j4dm4jwkl7bIk0GqYKk
-lHolp6xxgkNkpT2F6mRuXmgku/Mh6vXK/Pk8imJ6+ubq6PMz/qE=
-=V4GJ
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
-
+> 
+> 
+> ATB,
+> 
+> Mark.
+> 
 
