@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6595727313E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:54:54 +0200 (CEST)
-Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F68273182
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:09:39 +0200 (CEST)
+Received: from localhost ([::1]:34382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQ1d-0004yO-Fd
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
+	id 1kKQFu-0002WP-4b
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPrC-00023q-IL
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPrA-0000Vn-9R
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600710243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=/UmXmUa32ia7ANLkHzN23p7fJASLDmfNqVjjUoJTrvk=;
- b=QV9sFi10bPUYP5NHE7ypthuQIxDp/ovP4G1t7A/p0FCb5TDZDaRYzp8Ir6zgMAksJvYIq4
- LU7LRATR5yEmV6p8E1jTMCrQgF3mwkPREodB4PFeFFQF+bxdgjx1GMBMzA8oEp20DNTgKc
- Fu7/FG8Lzx+FJOvYVKKQxtm1c4NWomk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-zEcrQt3VPeKgFqhtCtpVkQ-1; Mon, 21 Sep 2020 13:44:01 -0400
-X-MC-Unique: zEcrQt3VPeKgFqhtCtpVkQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DD0E104D3E9;
- Mon, 21 Sep 2020 17:44:00 +0000 (UTC)
-Received: from thuth.com (ovpn-112-14.ams2.redhat.com [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D0DF5D9CD;
- Mon, 21 Sep 2020 17:43:55 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 7/7] configure: Bump the minimum required Python version to 3.6
-Date: Mon, 21 Sep 2020 19:43:20 +0200
-Message-Id: <20200921174320.46062-8-thuth@redhat.com>
-In-Reply-To: <20200921174320.46062-1-thuth@redhat.com>
-References: <20200921174320.46062-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKQ2B-00077Q-Ek
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:55:27 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34119)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKQ29-0001nD-GF
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:55:27 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id gr14so19070010ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 10:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bCrE34MnbVdDowmPT6kMQGf/vb7ALGieKX82jIu37ZE=;
+ b=U8hh+LRDUImDxn440ZLufEt7EyVObg0TINZQMA3BDQN1SZV/RXz8oRr/+H8hr04Moz
+ j2pol5qC5Qr71y5mtMsIL/kjbkUauvSMJN1RdoveqbAaebahLSBAtl0ospcAk5439Rt+
+ aBJ5cZ10MeDs4kDk3KifjbW/9iUGQdsa8WPGNr/OA4sN1xQ6vLim1UUMyEvavts83GbO
+ E9MmSpVeCu6GWPnZC9d/PJMOmH9bb2L/Ubmh8YolLHdIe327jUQ5hcVGGKAaK8mNprgE
+ /Ut7iUmtmju6ICT0vuhaHm/VI0NcxVwfYE0LSdagzZx+NgqlHgDtq8gDK0CjWN9qXVgw
+ q7oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bCrE34MnbVdDowmPT6kMQGf/vb7ALGieKX82jIu37ZE=;
+ b=UR653wW7oYpb2QG6V82guQ3qu3Mkls1F9jvPsWkyyNThKd9ZfQfsofEfM+LK3wtxXt
+ 5X7C1nEzhUHdQmmGBLXtbZVnxlnl0Eg3eeuNemRQ8URSKEFyOYiJ1doX1GPLTjnLoQOo
+ XhYO4vwNUuhcSpW158B5EpdK3VNHjA0rN81ihbr6WGVmWcYu71X4GI9o03w0G/iZWTsC
+ +HA9y2ziul5je/nS0WuSRZ4a5WFf/tU9qIIgrhsodJyZITYBnKqLUhauX4DoRXDJ/p5s
+ qKqeqgMpl7utZye07plabcSet/8F7a8qQoA8mBkqQyj16Uaul3Rt1OimaD2ZsXqUxI91
+ 3n8g==
+X-Gm-Message-State: AOAM533BBIfsFeSuYS6tRL2GeuwvWeGEGljJpBTQKHYHLiQ6dKzv5VaQ
+ P50cCFbaxGndq6Ib/d2+ppxmZThvuPvEb+YXO16Zew==
+X-Google-Smtp-Source: ABdhPJwwjJQ5uCRGyddt+SCfScS2eR9k3t+oeWDdMWf1OnG6OG/W4ekZAx6y8i3tqkzr69o7ZQTNC5UVDBpRW00rc7k=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr627848ejb.85.1600710923790; 
+ Mon, 21 Sep 2020 10:55:23 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200918202750.10358-1-ehabkost@redhat.com>
+In-Reply-To: <20200918202750.10358-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Sep 2020 18:55:11 +0100
+Message-ID: <CAFEAcA_AJcHaUjXdRH4jc5hkEq63d5ngap9vpp-yx4JsTDiQiA@mail.gmail.com>
+Subject: Re: [PULL 0/4] x86 queue, 2020-09-18
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,40 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All our supported build platforms have Python 3.6 or newer nowadays,
-and there are some useful features in Python 3.6 which are not available
-in 3.5 yet, so let's bump the minimum Python version to 3.6 now.
+On Fri, 18 Sep 2020 at 21:28, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit 053a4177817db307ec854356e95b5b350800a2=
+16:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-2020091=
+8' into staging (2020-09-18 16:34:26 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/x86-next-pull-request
+>
+> for you to fetch changes up to 31ada106d891f56f54d4234ce58c552bc2e734af:
+>
+>   i386: Simplify CPUID_8000_001E for AMD (2020-09-18 13:50:31 -0400)
+>
+> ----------------------------------------------------------------
+> x86 queue, 2020-09-18
+>
+> Cleanups:
+> * Correct the meaning of '0xffffffff' value for hv-spinlocks (Vitaly Kuzn=
+etsov)
+> * vmport: Drop superfluous parenthesis (Philippe Mathieu-Daud=C3=A9)
+>
+> Fixes:
+> * Use generic APIC ID encoding code for EPYC (Babu Moger)
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 7564479008..a3a643168e 100755
---- a/configure
-+++ b/configure
-@@ -1965,8 +1965,8 @@ fi
- 
- # Note that if the Python conditional here evaluates True we will exit
- # with status 1 which is a shell 'false' value.
--if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
--  error_exit "Cannot use '$python', Python >= 3.5 is required." \
-+if ! $python -c 'import sys; sys.exit(sys.version_info < (3,6))'; then
-+  error_exit "Cannot use '$python', Python >= 3.6 is required." \
-       "Use --python=/path/to/python to specify a supported Python."
- fi
- 
--- 
-2.18.2
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
