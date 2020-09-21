@@ -2,99 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4652D27215B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 12:39:54 +0200 (CEST)
-Received: from localhost ([::1]:40968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA31272128
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 12:31:57 +0200 (CEST)
+Received: from localhost ([::1]:35642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKJEf-00086D-BV
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 06:39:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58282)
+	id 1kKJ6y-0005Qo-R2
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 06:31:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kKJDj-0007gd-C0
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 06:38:55 -0400
-Received: from mail-bn8nam11on2086.outbound.protection.outlook.com
- ([40.107.236.86]:19868 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ id 1kKJ4u-0004qf-Qa
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 06:29:48 -0400
+Received: from mail-bn8nam12on2045.outbound.protection.outlook.com
+ ([40.107.237.45]:65504 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kKJDh-0002lV-6h
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 06:38:54 -0400
+ id 1kKJ4t-0001cU-3L
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 06:29:48 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MmYduQkN/HaVKwEzwh574dVGugDaVaDWgsv1dRgjSgaEn+pU3WtEGnlkbg30XLSEs4Gk4grKHoV/H/0A/zqzj4fddfec6z0+cVxA8x5/jbNGRpRaNGnYzUYdxSMUaVqoXDwsl9IlLAIwwjdaEZr11l2O4wY4sUDp1eEifU83PvaoDI1ObOxV9nHLx28kDEelOHAttmKu7DLYdyAaC0lo37Zh4+wKSkLl9H5PvWZ7aAsq+RxXx7bhF28F7/Esnk+00hulLuVpUbdmOw9p/FIRwy3PaNsnxAJW4w4RwC6M8t+sRlkxshFHJLpP6j6OoA3oqLY3XCoc8K7nGZ++W3MjlA==
+ b=PoN14WLxZNKHVb5ajKbi/fWR1txf0aIzq1L+JTGg3Uy5x4i7axOpI5tdiqU1+Qbxh6whgADI7ibQ5bDLP/gXtwJTyceYiaa3fHDMvnU0Zwabq0FWTkzp9jZn7w7NHBMxLAMFSO3EMTstPVwh7fxBUeUdYZvtGBGGJdxfhl3Gjs0MJFg1gBh7RSesAfA2x7TVEzzcKruokG1xPZfUBgRyXYm8vyFVpaCmPfRSZs3WNwu8QygUUl5CJ2SxlyGlKKikTZWOxBwzoLUCmPiHcOhd59Ay8v6HEvS3OzYzT5rKhg/Kzpm1G9YU69UeRuE5FpbCtCROJnEfRYXaelutiLGrCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bPx2XPdCfrN7Jj0Aj6Gms8fjrDaiU4KTrvaMRUr9UGY=;
- b=b8nJIKe7GpMEtVYgtmLlRem8deU1cyPxfIJeplxA4SVCx0+zpQZ0SD16nzI1Yt2pF35pr1AjCNZkC3i13NnP+GRBKgFU8Z1A83i/9wHtzlXFtv47BTUBRoixA0oIJGfkl+Gd/LzlWoNiRFAY2uX+Y3A6/oWypRf0fZD1w55NFsdLi1DFGq3Z8eo1Ax4Af89sqIRw5iqGV6SyiXU4zKMT1hfa0Cmw92Dw/95C/CCzN3uHUYGf80ZUERSCQ7xtuaSw6wvSP975cMfgXZDCGws8gCfBo2FO+2NamIWiujrjV7YuXn+2vOVDwmHXTKDwhwWHizFjve1sKxnkcSUvAb4aJA==
+ bh=UsLXZg6B7IDJIKL8yKb0WUuA9LkqUWPQe2W4UfLn+9o=;
+ b=XdDP2cam9vZuJHfAq7158mGYd4iSD/KNGJTY+0ywLDzCHr0gSp00/mV1DvLJCw8H2bElOcASSSaIwr2L5ehC1nVi/9X2wJCRcpL3IuwTJf0uSoYuCgfXo/RkSVuM0AomIJxorC8ePD6wSGshgqobQEmXWIEB6yfxo4C5slde8PCRx2h8QWHt1IfZKdmsTKDly3TshGiq0eBuflWaECl9UlgBbb/18Ogtd3eBeNmho8OKYe9ExmB4wIIihHEtK+ywEb8ZC1RNuo9IXFJwFQXNiIwZLlv1TriqoTpPZYPeoGpT90t/StAvWKEk/ipMqbNZgfSiO+xKAv40JcYF8fksRw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
  dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bPx2XPdCfrN7Jj0Aj6Gms8fjrDaiU4KTrvaMRUr9UGY=;
- b=UCf2eZiue2LS74P0CMPR987YW6ZqLt+8ABjaqCEltXpau6ApOuegzIqgInnYxB/K6L8fchXkoDiS8HJ6m5EGqVTk7ZS3XrGl6sJjqNHAQKEcuJOJ7V51bLh12Ys5D2jOAZfh6YNNHtwrKAc/fq4lT4844QEBiEQLpQlTn1YLOUY=
+ bh=UsLXZg6B7IDJIKL8yKb0WUuA9LkqUWPQe2W4UfLn+9o=;
+ b=iODP+NhSv8LUF7ladngkPZ0x6exgjSBLnhgxQSP3PGo6ty3LCQX+RepwwMS1H+fIg1KKG8Sw4vUf0LkijEjTWQCBWOONHBWSZMTVFpgNrpsk562yE44VHSABlMiPTBl1UKXsVmL8PaXftNiIbrGlynseM8Ltlg2cJRkxSwzQKQI=
 Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB5781.namprd02.prod.outlook.com (2603:10b6:a03:121::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.19; Mon, 21 Sep
- 2020 10:23:48 +0000
+ by BYAPR02MB4135.namprd02.prod.outlook.com (2603:10b6:a03::24) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.15; Mon, 21 Sep 2020 10:29:44 +0000
 Received: from BY5PR02MB6772.namprd02.prod.outlook.com
  ([fe80::68a7:8ea6:8731:d69f]) by BY5PR02MB6772.namprd02.prod.outlook.com
  ([fe80::68a7:8ea6:8731:d69f%6]) with mapi id 15.20.3391.026; Mon, 21 Sep 2020
- 10:23:48 +0000
+ 10:29:44 +0000
 From: Sai Pavan Boddu <saipava@xilinx.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH v7 3/7] usb/hcd-xhci: Split pci wrapper for xhci base model
-Thread-Topic: [PATCH v7 3/7] usb/hcd-xhci: Split pci wrapper for xhci base
- model
-Thread-Index: AQHWjDSLz43wsxuBK0SAtVI1dSocLKlst0gAgAYymIA=
-Date: Mon, 21 Sep 2020 10:23:47 +0000
-Message-ID: <BY5PR02MB67728C3C8852FA9F1343C9F0CA3A0@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <1600266140-20763-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1600266140-20763-4-git-send-email-sai.pavan.boddu@xilinx.com>
- <20200917114406.sudvur5sjt4nqjd4@sirius.home.kraxel.org>
-In-Reply-To: <20200917114406.sudvur5sjt4nqjd4@sirius.home.kraxel.org>
+To: Joel Stanley <joel@jms.id.au>, =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?=
+ <clg@kaod.org>
+Subject: RE: eMMC support
+Thread-Topic: eMMC support
+Thread-Index: AdaMV1egTP30pYAoRjSnbjGpoRC6iAANeBGAAN0oZ7A=
+Date: Mon, 21 Sep 2020 10:29:43 +0000
+Message-ID: <BY5PR02MB677292568BE17BEFC32E6065CA3A0@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <BY5PR02MB6772761F83EDC56737969C18CA210@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <CACPK8XexXLYrwMenkyou0Xkc8Tx+p1SNi7jbFBj6aObAKHcBwQ@mail.gmail.com>
+In-Reply-To: <CACPK8XexXLYrwMenkyou0Xkc8Tx+p1SNi7jbFBj6aObAKHcBwQ@mail.gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
 X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+authentication-results: jms.id.au; dkim=none (message not signed)
+ header.d=none;jms.id.au; dmarc=none action=none header.from=xilinx.com;
 x-originating-ip: [149.199.50.128]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 5c269d5c-c3ee-4281-c69a-08d85e186d80
-x-ms-traffictypediagnostic: BYAPR02MB5781:
+x-ms-office365-filtering-correlation-id: 6b08fbcd-49c9-4d5f-6ab9-08d85e1941a7
+x-ms-traffictypediagnostic: BYAPR02MB4135:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB5781C91D88E32A8C35F84B53CA3A0@BYAPR02MB5781.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-microsoft-antispam-prvs: <BYAPR02MB4135EEE6CFC6BF0F2E407AF8CA3A0@BYAPR02MB4135.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: a8S5hhsKP6yngkNrTYLLItR+Zoek3gExW0sK391s9UK9CQv28tPFU3JLaSCPz1/EKeTWvF9myzNijTKlkcyJNCMO9fdiazLWlqtrFP3c4PB8knYbQTKQ3qWreuGJX05SOhjw3zMT1B6+Ajz6NW3+o0QlzhQo8KvJ/LqnLoN/j3ejljQTOa24oPa27J+bzLgho4v0qrtafiTuoBqtFlbGUDqM+PI7Rj5q2qX+4tokorhAH4Ah4LwjSghfRGB5tD1DVqGw9AfnFV5IK4CG6lKyFdFnWZCkypBqac45a66oM837CJeig+M3ACKLTNnc2PYEpKa7uWwCmXdrUOUoX3wjlA==
+x-microsoft-antispam-message-info: zqvwftjDu9meoGQ9s0MdkGUAxVnphqnq+KFuLuZ8M7NvZSPWTT+B4OiIFLUbuXkgmO+/SLK2ClGSonwfihh3fgN6iN510n0e/hMJxa5LIFMAEWyXRFZ/ezQ4ZHaVwauJnoJ64+HiEswDh6XH/rcj3rgk04IeiqTzIpVbYRVBSutbbGlXec2olN0OBSLC5361FcikvxELyuvIbbfchNf+8qk84MpRAxTMCswt1/G9NWt/viME9M5C8NHoeo622eFX0FanYRf9V71sZiSKpy7Yj/IRdUDM3L5O65zDjGhyL/DBP68PHOqGhDOqD32lKZPseY0AeTme38hkc2A74oYB5GY2wM7+i/xQvuCnyBI6ZeCkFPLAVzmOrQeEqmntNWlrmLV7dp2lNePObeT+PSf8ug==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(396003)(376002)(346002)(366004)(39850400004)(2906002)(64756008)(66556008)(66446008)(52536014)(66476007)(33656002)(83380400001)(54906003)(5660300002)(7416002)(4326008)(186003)(8936002)(8676002)(71200400001)(26005)(55016002)(478600001)(66946007)(76116006)(9686003)(316002)(53546011)(86362001)(7696005)(6506007)(6916009);
+ SFS:(136003)(39850400004)(366004)(396003)(346002)(376002)(3480700007)(33656002)(9686003)(66574015)(4326008)(55016002)(83380400001)(5660300002)(966005)(478600001)(52536014)(86362001)(76116006)(64756008)(66556008)(66476007)(66946007)(66446008)(71200400001)(316002)(26005)(53546011)(2906002)(54906003)(6506007)(7116003)(110136005)(8676002)(8936002)(186003)(7696005);
  DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: JcQAVC7A1P/qbzJg/1lqiqJ3K4TZU77J5V/EQJ224648tIV/Z3Owp3gIE3S0hvlYA7eJ//rL6OoRRqex6ZDLG7U7pDPrxSy3MrYw4onTqIV37+KHBAvZE8FpfSFPjLvV6cjCcYcYw+JM2vFKsmwZgTf5feJeEp3Nw7/As2Hv2wvACRpz3Q16eAWEXZm4sOXpyc4qoYX4gVN8CODjCM1oVMiBeZ7o0uDtQv74f7MQH5+zumXoqKZyr6XFSHIkULLSAfYeqLABXqBRv9aynYD3fi/c0BtjZyTEl2M9GgDVBuP3eXYPjlcX853gwMU1hpc6UmwGdISrZNOWSFKwK9+PN2/fShLL3nFTCQAPqpnIvMDorqF4Sq9XrPMpwifRf50O1BiO3TjcEPiD/qcsajgmesfJkBKljAB2Y1lkn7Ful1q2g/dyLz84ZrzZOO/p7KHXbAu1jCShdxtXML05f47OXY+ojMzjIfFTxU/yuxO6w4votrRhMgsAJ6ZZyhVX2MDafevylN7/l1fTSLjaUXh3dmdCEcD3pGbC8hHE1sg6GHbNKyyTKuY2DqL2kRhbhkAH6LAqsiDbhQryLKWXdFQvf8nYuOXTDi4ic6FES6qxD55tXzq420QWP02p2X7I/TugmdAcu0IDJCQpKJZThzc4zA==
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+x-ms-exchange-antispam-messagedata: cZZZpTp0MeMuHzM9BDXVlcmVZSGoHigMlALUd/VM0ffBbuWLVENjfDWro4v8EMMDXC52sbJ5NycOueXLKYeFJvwnPl6/UriPmhib8cJhSRERRE2RjWEj4oyzqQVAwXSDxBgXR8gH2xn4JK3qijp2lq5MP1PNpx5SOjUPdx39FDv6x/BDcREqvNxcEne3xQC8K95rst92Z0JrdGPqosqgKGcYHz0Qe7r3a9VvwD7uAwy3rEVZjo1Iq5QvsF4gXx7icieLvXM+qiU6g8h/FZxCRmKG8RIVBDjd8c9ed41XjVvnyFEhUf2eb/GnpOoi4LFWUBzsiHQr5lCoGyZCjp5hGLGWQf+LsTVI72UDf3JwT4zjkWZOo+GSo/x1+SYeHnL73vZ+d9ZN2tBNfmc+16QWea2wL9qOZjrmP2J9NgT/zJJ1ihkmnUdtWDpg60shz/l1Lxcgymsxdy0EKYoaRMXOC0Ejza0uh4g3vtg183BKYikfrhdJ5JLTyUirB4sK6duL7IViyiBXAwYkakbHqwyFcVEp2EA/yMch3GBuJ9QJyHlKNBA6PjFZpgQcWZ5KFu/AcwD1xPE65vCI6wbcyqnrXmnBXS+3UxfKA7SZY2evpdXZmjOdZvVnv117GNtX44O2Ifegu1i7R3h2pKsTaGC5gw==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c269d5c-c3ee-4281-c69a-08d85e186d80
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2020 10:23:47.9927 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b08fbcd-49c9-4d5f-6ab9-08d85e1941a7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2020 10:29:44.0125 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WssP0rNVLbM56uD9zLr4UR42TUFQXIWnaty8pUPb/AoUbGIYWLx8vXEzf8w4lopXdNOlkUE5rZx1fbM8W5wawQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5781
-Received-SPF: pass client-ip=40.107.236.86; envelope-from=saipava@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 06:38:51
+X-MS-Exchange-CrossTenant-userprincipalname: RLWz2QTQG6rUUgPTX2Cm9U8o/vY5SJN0j0a3bKE05+LtmXud/j5n9P07Gmj01IFZ/1HqkAsaEkxdqxWnt23Gwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4135
+Received-SPF: pass client-ip=40.107.237.45; envelope-from=saipava@xilinx.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 06:29:45
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -114,98 +113,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Edgar Iglesias <edgari@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?iso-8859-1?Q?=27Marc-Andr=E9_Lureau=27?= <marcandre.lureau@redhat.com>,
- Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- =?iso-8859-1?Q?=27Philippe_Mathieu-Daud=E9=27?= <philmd@redhat.com>
+Cc: Edgar Iglesias <edgari@xilinx.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
-
-Thanks, I will update this in V8.
-
-Regards,
-Sai Pavan
-> -----Original Message-----
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> Sent: Thursday, September 17, 2020 5:14 PM
-> To: Sai Pavan Boddu <saipava@xilinx.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>; Markus Armbruster
-> <armbru@redhat.com>; 'Marc-Andr=E9 Lureau'
-> <marcandre.lureau@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>;
-> Edgar Iglesias <edgari@xilinx.com>; Francisco Eduardo Iglesias
-> <figlesia@xilinx.com>; qemu-devel@nongnu.org; Alistair Francis
-> <alistair.francis@wdc.com>; Eduardo Habkost <ehabkost@redhat.com>;
-> Ying Fang <fangying1@huawei.com>; 'Philippe Mathieu-Daud=E9'
-> <philmd@redhat.com>; Vikram Garhwal <fnuv@xilinx.com>; Paul
-> Zimmerman <pauldzim@gmail.com>; Sai Pavan Boddu
-> <saipava@xilinx.com>
-> Subject: Re: [PATCH v7 3/7] usb/hcd-xhci: Split pci wrapper for xhci base
-> model
->=20
->   Hi,
->=20
-> > +static const VMStateDescription vmstate_xhci_pci =3D {
-> > +    .name =3D "xhci-pci",
-> > +    .version_id =3D 1,
-> > +    .fields =3D (VMStateField[]) {
-> > +        VMSTATE_PCI_DEVICE(parent_obj, XHCIPciState),
-> > +        VMSTATE_MSIX(parent_obj, XHCIPciState),
-> > +        VMSTATE_UINT8_ARRAY(msix_used, XHCIPciState, MAXINTRS),
-> > +        VMSTATE_END_OF_LIST()
-> > +    }
-> > +};
->=20
-> > @@ -3634,7 +3527,6 @@ static const VMStateDescription
-> vmstate_xhci_intr =3D {
-> >          VMSTATE_UINT32(erdp_high,     XHCIInterrupter),
-> >
-> >          /* state */
-> > -        VMSTATE_BOOL(msix_used,       XHCIInterrupter),
-> >          VMSTATE_BOOL(er_pcs,          XHCIInterrupter),
-> >          VMSTATE_UINT64(er_start,      XHCIInterrupter),
-> >          VMSTATE_UINT32(er_size,       XHCIInterrupter),
-> > @@ -3657,9 +3549,6 @@ static const VMStateDescription vmstate_xhci =3D =
-{
-> >      .version_id =3D 1,
-> >      .post_load =3D usb_xhci_post_load,
-> >      .fields =3D (VMStateField[]) {
-> > -        VMSTATE_PCI_DEVICE(parent_obj, XHCIState),
-> > -        VMSTATE_MSIX(parent_obj, XHCIState),
-> > -
-> >          VMSTATE_STRUCT_VARRAY_UINT32(ports, XHCIState, numports, 1,
-> >                                       vmstate_xhci_port, XHCIPort),
-> >          VMSTATE_STRUCT_VARRAY_UINT32(slots, XHCIState, numslots, 1,
->=20
-> Uh oh, that'll break cross-version live migration (i.e. save state with 5=
-.1, load
-> with 5.2).  Sorry for not noticing this earlier.
->=20
-> You can't remove the msix_used field.  I guess easiest is to just leave t=
-hat in
-> XHCIInterrupter even if only xhci-pci actually uses it.
->=20
-> The vmstate_xhci + vmstate_xhci_pci reorganization should work with a few
-> changes:
->  * First it must be one vmstate which keeps the fields in order.
->    I think you can do that by not registering vmstate_xhci directly, but
->    using an VMSTATE_STRUCT() entry in vmstate_xhci_pci.
->  * Second the name must not change, so vmstate_xhci_pci must continue to
->    use the "xhci" name.
->  * I think for vmstates referenced by VMSTATE_STRUCT the name doesn't
->    matter, so you could rename vmstate_xhci to -- for example --
->    "xhci-core" so vmstate_xhci and vmstate_xhci_pci have different
->    names.
->=20
-> take care,
->   Gerd
-
+SGkgSm9lbCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKb2VsIFN0
+YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KPiBTZW50OiBUaHVyc2RheSwgU2VwdGVtYmVyIDE3LCAy
+MDIwIDY6MjUgQU0NCj4gVG86IFNhaSBQYXZhbiBCb2RkdSA8c2FpcGF2YUB4aWxpbnguY29tPjsg
+Q8OpZHJpYyBMZSBHb2F0ZXINCj4gPGNsZ0BrYW9kLm9yZz4NCj4gQ2M6IFBoaWxpcHBlIE1hdGhp
+ZXUtRGF1ZMOpIDxmNGJ1Z0BhbXNhdC5vcmc+OyBFZGdhciBJZ2xlc2lhcw0KPiA8ZWRnYXJpQHhp
+bGlueC5jb20+OyBxZW11LWRldmVsQG5vbmdudS5vcmcNCj4gU3ViamVjdDogUmU6IGVNTUMgc3Vw
+cG9ydA0KPiANCj4gT24gV2VkLCAxNiBTZXAgMjAyMCBhdCAxODozNSwgU2FpIFBhdmFuIEJvZGR1
+IDxzYWlwYXZhQHhpbGlueC5jb20+DQo+IHdyb3RlOg0KPiA+DQo+ID4gSGkgUGhpbGlwcGUsDQo+
+ID4NCj4gPg0KPiA+DQo+ID4gV2UgYXJlIGxvb2tpbmcgdG8gYWRkIGVNTUMgc3VwcG9ydCwgSSBz
+ZWFyY2hlZCB0aGUgbWFpbGluZyBsaXN0IGFuZCBmb3VuZA0KPiBhIHNlcmllcyBwb3N0ZWQgb24g
+ZU1NQyBieSDigJxWaW5jZW50IFBhbGF0aW7igJ0NCj4gPg0KPiA+IGh0dHBzOi8vbGlzdHMuZ251
+Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8yMDExLTA3L21zZzAyODMzLmh0bWwNCj4gDQo+
+IEkgd291bGQgYmUgaW50ZXJlc3RlZCBpbiBlbW1jIHN1cHBvcnQgZm9yIHRoZSBhc3BlZWQgbWFj
+aGluZXMuIFBsZWFzZSBjYw0KPiBtZSB3aGVuIHlvdSBwb3N0IHBhdGNoZXMuDQo+IA0KPiA+IEkg
+d291bGQgbGlrZSB0byBjb25zaWRlciB0aGUgYWJvdmUgd29yayBhbmQgbWl4LXVwIHdpdGggbW9y
+ZSBjaGFuZ2VzIHRvDQo+IHN0YXJ0IGFkZGluZyBzdXBwb3J0IGZvciBlTU1DLiBEbyB5b3UgaGF2
+ZSBhbnkgc3VnZ2VzdGlvbnMgb24gdGhlDQo+IGFwcHJvYWNoIGZvbGxvd2VkIGluIGFib3ZlIHBh
+dGNoZXMgPw0KPiANCj4gVGhlIHBhdGNoZXMgaGFkIG1pbm9yIHJldmlldyBjb21tZW50cywgYnV0
+IEkgYXNzdW1lIHRoZSByZWFzb24gdGhleQ0KPiBkaWRuJ3QgZ28gYW55d2hlcmUgaXMgdGhlIGF1
+dGhvciBuZXZlciBmb2xsb3dlZCB1cCB3aXRoIGZ1cnRoZXIgcmV2aXNpb25zLiBJDQo+IHdvdWxk
+IHN1Z2dlc3QgYXBwbHlpbmcgdGhlbSB0byB0aGUgY3VycmVudCB0cmVlLCBjbGVhbmluZyB1cCBh
+bnkgc3R5bGUNCj4gY2hhbmdlcyB0aGF0IGhhdmUgaGFwcGVuZWQgc2luY2UgdGhleSB3ZXJlIHBv
+c3RlZCwgYW5kIHJlLXBvc3RpbmcgdGhlbQ0KPiBmb3IgcmV2aWV3Lg0KW1NhaSBQYXZhbiBCb2Rk
+dV0gT2sgdGhhbmtzLiBJIHdpbGwgcmUtcG9zdCB0aGUgcGF0Y2hlcyBtaXhpbmcgdXAgd2l0aCBz
+b21lIG9mIG91ciB3b3JrLg0KDQpSZWdhcmRzLA0KU2FpIFBhdmFuDQo+IA0KPiBDaGVlcnMsDQo+
+IA0KPiBKb2VsDQo+IA0KPiA+DQo+ID4NCj4gPg0KPiA+IE5vdGU6IEhlcmUgaXMgdGhlIGV4aXN0
+aW5nIHN1cHBvcnQgYXZhaWxhYmxlIGluIFhpbGlueCBmb3JrLCB3aGljaA0KPiA+IG1pZ2h0IHJl
+cXVpcmUgc29tZSB3b3JrDQo+ID4gaHR0cHM6Ly9naXRodWIuY29tL1hpbGlueC9xZW11L2Jsb2Iv
+bWFzdGVyL2h3L3NkL3NkLmMNCj4gPg0KPiA+DQo+ID4NCj4gPiBSZWdhcmRzLA0KPiA+IFNhaSBQ
+YXZhbg0K
 
