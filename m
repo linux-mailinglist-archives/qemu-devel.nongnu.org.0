@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25A6272ADF
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:59:05 +0200 (CEST)
-Received: from localhost ([::1]:54400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1A0272AE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 18:01:13 +0200 (CEST)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKODY-0002oB-Tg
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46412)
+	id 1kKOFc-0004Ze-Ry
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 12:01:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKOBO-0001WG-GL
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:56:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37892)
+ id 1kKOC3-0002B5-Hc
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:57:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKOBK-0001C0-Fa
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:56:49 -0400
+ id 1kKOC0-0001J6-K2
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:57:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600703804;
+ s=mimecast20190719; t=1600703844;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C0c0CinvLiX+mHo3netu0fA89FPuDJGkFf7/qzzBX1o=;
- b=LoXdTMrEtUTw6o9p4v7L4QbTDSUi/Nbt31SPFHza36dEp8WdWc92kmJw9hJMPGNtzNm94o
- e7D3KnznmH1sEC0OIZVjIZkXxFZWliJG2lmHiUU4M9BZjrce9LjNM23eVVig0uVWHt0INr
- z01DTxOVjrCSlVyLujrH0PF+7RM3TUc=
+ bh=s7nNGPgoIAUnaCvp/C+6OjD+zeHiTsKiaNNu/a6qfaI=;
+ b=Pb7Jpk8tDFFQEQ5GhuNDd7vwv1359jcgKk46Ne9peWvB2XYodl7lmgc2TOIyGNL7J6Y25Z
+ pvpEtHAcn+kjmV8jJa4I196oRmIUKxma6Cu8nFvLGTqwWwsbYlRm8XxzLQoPy/GwH8N2xo
+ 14SHqd1zEYvvIT1Q9LnBPTB501sexNA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-j93zMc8zP2aXd3e-13gRBQ-1; Mon, 21 Sep 2020 11:56:41 -0400
-X-MC-Unique: j93zMc8zP2aXd3e-13gRBQ-1
+ us-mta-241-Do1QzwLNOseGk061RqRqWw-1; Mon, 21 Sep 2020 11:56:42 -0400
+X-MC-Unique: Do1QzwLNOseGk061RqRqWw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F701425D9;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C28A1074654;
  Mon, 21 Sep 2020 15:56:40 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDFEA7366D;
- Mon, 21 Sep 2020 15:56:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E5937366D;
+ Mon, 21 Sep 2020 15:56:40 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 56/57] configure: fix performance regression due to PIC objects
-Date: Mon, 21 Sep 2020 11:56:37 -0400
-Message-Id: <20200921155638.1328200-2-pbonzini@redhat.com>
+Subject: [PULL 57/57] oss-fuzz: move linker arg to fix coverage-build
+Date: Mon, 21 Sep 2020 11:56:38 -0400
+Message-Id: <20200921155638.1328200-3-pbonzini@redhat.com>
 In-Reply-To: <20200921155638.1328200-1-pbonzini@redhat.com>
 References: <20200921155638.1328200-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -81,40 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Karaman <ahmedkrmn@outlook.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because most files in QEMU are grouped into static libraries, Meson conservatively
-compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
-some TCG tests.
+From: Alexander Bulekov <alxndr@bu.edu>
 
-As a stopgap measure, use the b_staticpic option to limit the slowdown to
---enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
-us to use b_staticpic=false and let Meson do the right thing.
+The order of the add_project_link_arguments calls impacts which
+arguments are placed between --start-group and --end-group.
+OSS-Fuzz coverage builds seem to just add these to CFLAGS:
+-fprofile-instr-generate -fcoverage-mapping pthread -Wl,--no-as-needed
+-Wl,-ldl -Wl,-lm Wno-unused-command-line-argument
 
-Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200919155639.1045857-1-pbonzini@redhat.com>
+The -Wl,-ldl flag that is enough to shift the fork_fuzz.ld linker-script
+back into the linker group. Move the linker-script meson call before the
+other calls to make sure the flag is placed correctly.
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20200909220516.614222-1-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/configure b/configure
-index 3757e48b17..dfecfd6c16 100755
---- a/configure
-+++ b/configure
-@@ -7849,6 +7849,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-+        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
- 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim \
- 	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+diff --git a/meson.build b/meson.build
+index ace15dc8c0..9aeefa60fb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -54,6 +54,14 @@ configure_file(input: files('scripts/ninjatool.py'),
+ # Compiler flags #
+ ##################
+ 
++# Specify linker-script with add_project_link_arguments so that it is not placed
++# within a linker --start-group/--end-group pair
++if 'CONFIG_FUZZ' in config_host
++   add_project_link_arguments(['-Wl,-T,',
++                               (meson.current_source_dir() / 'tests/qtest/fuzz/fork_fuzz.ld')],
++                              native: false, language: ['c', 'cpp', 'objc'])
++endif
++
+ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
+                       native: false, language: ['c', 'objc'])
+ add_project_arguments(config_host['QEMU_CXXFLAGS'].split(),
+@@ -63,13 +71,6 @@ add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
+ add_project_arguments(config_host['QEMU_INCLUDES'].split(),
+                       language: ['c', 'cpp', 'objc'])
+ 
+-# Specify linker-script with add_project_link_arguments so that it is not placed
+-# within a linker --start-group/--end-group pair
+-if 'CONFIG_FUZZ' in config_host
+-   add_project_link_arguments(['-Wl,-T,',
+-                               (meson.current_source_dir() / 'tests/qtest/fuzz/fork_fuzz.ld')],
+-                              native: false, language: ['c', 'cpp', 'objc'])
+-endif
+ 
+ link_language = meson.get_external_property('link_language', 'cpp')
+ if link_language == 'cpp'
 -- 
 2.26.2
-
 
 
