@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58074272AD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:56:28 +0200 (CEST)
-Received: from localhost ([::1]:50664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE9D272AE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:59:49 +0200 (CEST)
+Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKOB1-00011z-5B
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45616)
+	id 1kKOEG-0003fO-9n
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:59:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKO8q-00006v-0X
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:54:12 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35338
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKOBQ-0001Wb-0F
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:56:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52213
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKO8n-0000aB-FN
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:54:11 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKOBL-0001Bz-Hh
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:56:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600703648;
+ s=mimecast20190719; t=1600703804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4yWKCUXEYwQNRoeWh16KS7yP4yljWdGYDSmcgI1jlcE=;
- b=fZg9NXKLccPp9N2ixEXScQC2amuHwc5VrU8K7sEjEL9ZKJ5QuvUtUUAXJ/wxpm3LN6LTEa
- co+6aGHRkqTl/K5zB2ioMpnG/UIxGqlICbWPxtOBl7m9vA+C7KYQHBLeTKAlqoRzgKKxuB
- I0Y9rs2dKAuMYa3+bZDHRSh80G+ZpHs=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rRsWXp7qGgRiUtayh7rmzmpwh24768AWkOET8psZKLU=;
+ b=Ed09cNCG/lnivAXOn+FtmFZ9VRQqNdVo2IqV0fR2/zrAmTcWMVSc+u522yVgZ/y3jXYvq4
+ JbIukrT77IQv1mV5uMknJMe6uM2Mu/G/9Jn9sD9h5RhkAN9boQSBIMEO8s5ALnxtQlCM9A
+ 4eKUYoswFTou1kO7cK32XIoD9+uvnY8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-IJw2LaRxNVOKpXRcXa-NHw-1; Mon, 21 Sep 2020 11:54:03 -0400
-X-MC-Unique: IJw2LaRxNVOKpXRcXa-NHw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-266-JlhZevEYMsOrG4wxCb7vYg-1; Mon, 21 Sep 2020 11:56:40 -0400
+X-MC-Unique: JlhZevEYMsOrG4wxCb7vYg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9591801AE8;
- Mon, 21 Sep 2020 15:54:01 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 696C25577B;
- Mon, 21 Sep 2020 15:54:01 +0000 (UTC)
-Date: Mon, 21 Sep 2020 11:54:00 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: Bottleneck problem to merge Python patches
-Message-ID: <20200921155400.GO57321@habkost.net>
-References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
- <20200828104102.4490-2-ahmedkhaledkaraman@gmail.com>
- <CAL1e-=iA95PR-mM9E+nfsvFRJLhQsj5Q9qPAM=7QS9mg-QvcbQ@mail.gmail.com>
- <6ad83ff4-1b4f-69f0-7dbe-85680e2f403e@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CF1080B727
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 15:56:39 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6145A81C41
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 15:56:39 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/57] Misc patches for 2020-09-19
+Date: Mon, 21 Sep 2020 11:56:36 -0400
+Message-Id: <20200921155638.1328200-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6ad83ff4-1b4f-69f0-7dbe-85680e2f403e@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 04:38:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -85,107 +79,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ldoktor@redhat.com" <ldoktor@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Lukas Straub <lukasstraub2@web.de>,
- "Daniel P . Berrange" <berrange@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
- "aleksandar.qemu.devel@gmail.com" <aleksandar.qemu.devel@gmail.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>, "crosa@redhat.com" <crosa@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 19, 2020 at 01:17:06PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi Aleksandar,
-> 
-> (extending the Cc list to broader audience)
-> 
-> On 9/18/20 10:33 PM, Aleksandar Markovic wrote:
-> > 
-> > On Friday, August 28, 2020, Ahmed Karaman <ahmedkhaledkaraman@gmail.com
-> > <mailto:ahmedkhaledkaraman@gmail.com>> wrote:
-> > 
-> >     - Apply pylint and flake8 formatting rules to the script.
-> >     - Use 'tempfile' instead of '/tmp' for creating temporary files.
-> > 
-> >     ---
-> > 
-> > Hello, folks.
-> > 
-> > This series seems forgotten. Can some of you perhaps take a look,
-> > review, and possibly integrate some patches in a pull request?
-> > 
-> > Ahmed invested quite of time to improve the functionality and quality of
-> > scripts, and they are truly useful for developers interested in
-> > performance measurement.
-> 
-> The Python patches are indeed being merged slowly, but are not
-> forgotten :) Eduardo sent just a pull request *yesterday* for
-> patches he had queued *before* QEMU 5.1, that is more than 1 year
-> ago!
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg742228.html
-> 
-> I hope he will be able to process the other Python patches sent
-> the last 12 months. He raised the problem few month ago saying he
-> was overwhelmed and was looking for help from the community.
-> Cleber helped a pair of times, I helped once, but then nobody
-> popped up volunteering.
+The following changes since commit 053a4177817db307ec854356e95b5b350800a216:
 
-The patches were from July this year.  But, yeah, I'm not being
-able to keep up with the maintainer role for Python code, and
-plan to change my M: line to R: in the "Python scripts" section.
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-20200918' into staging (2020-09-18 16:34:26 +0100)
 
-> 
-> I agree this is a community problem, nobody wants to become the
-> de-facto Python maintainer. Current maintainers are already busy
-> solving problem with low-level languages such C.
-> As a project, QEMU is evolving, using more and more Python, switched
-> to Meson, we might have Rust code too. Learning that for current
-> maintainers takes time. I guess we lack new contributors/maintainers
-> with interest in Python & QEMU.
+are available in the Git repository at:
 
-I believe the solution here is to not have a single owner for all
-Python code, but owners for specific areas.  We already have 36
-F: entries in MAINTAINERS for files inside `scripts/`, and each
-of those maintainers can send pull requests containing Python
-code in the areas they maintain.  Including Ahmed, who is already
-listed as the maintainer of `scripts/performance/`.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-> 
-> This is my simple/rough analysis, as John had the same problem
-> 2/3 months ago, his patches were on the list unreviewed for various
-> weeks. Same problem with Avocado patches, Lukas sent a series a bit
-> before Ahmed and it is still unreviewed:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg737272.html
-> 
-> Alex Bennée recently said:
-> 
->  "review time is the currency of qemu-devel ;-)"
-> 
-> We might be failing at explaining new contributors the importance
-> of peer-review, as this helps a lot maintainers. It is described
-> in the wiki but maybe new contributors don't read it, we don't
-> remember them to:
-> https://wiki.qemu.org/Contribute/SubmitAPatch#Participating_in_Code_Review
-> and:
-> https://wiki.qemu.org/Contribute/SubmitAPatch#Return_the_favor
-> 
-> My 2 cents...
-> 
-> Regards,
-> 
-> Phil.
-> 
-> > 
-> > Thanks,
-> > Aleksandar
-> 
+for you to fetch changes up to 6b58f5adc256c7b7f61f1b22fba75b4c6218ed0b:
 
+  oss-fuzz: move linker arg to fix coverage-build (2020-09-21 10:23:09 -0400)
+
+v1->v2: rebased, couple new patches
+
+----------------------------------------------------------------
+* SCSI fix (Dmitry, Li Feng, Li Qiang)
+* memory API fixes (Eduardo)
+* removal of deprecated '-numa node' (Igor)
+* ACPI fix for VMBus (Jon)
+* relocatable install (myself)
+* always remove docker containers (myself)
+* serial cleanups (Philippe)
+* vmware cpuid leaf for tsc and apic frequency (Sunil)
+* KVM_FEATURE_ASYNC_PF_INT support (Vitaly)
+* i386 XSAVE bugfix (Xiaoyao)
+
+meson:
+* fixes (Marc-André, Max, Stefan, Alexander, myself)
+* moved libmpathpersist, cocoa, malloc tests (myself)
+* support for 0.56 introspected test dependencies (myself)
+
+----------------------------------------------------------------
+Alexander Bulekov (1):
+      oss-fuzz: move linker arg to fix coverage-build
+
+Anthony PERARD (1):
+      meson: fix installation of keymaps
+
+Claudio Fontana (1):
+      tests: add missing genh dependency
+
+Dmitry Fomichev (1):
+      scsi-generic: Fix HM-zoned device scan
+
+Eduardo Habkost (1):
+      memory: Convert IOMMUMemoryRegionClass doc comment to kernel-doc
+
+Igor Mammedov (3):
+      numa: drop support for '-numa node' (without memory specified)
+      doc: Cleanup "'-mem-path' fallback to RAM" deprecation text
+      numa: remove fixup numa_state->num_nodes to MAX_NODES
+
+Jon Doron (1):
+      acpi: i386: Move VMBus DSDT entry to SB
+
+Li Feng (1):
+      vhost-scsi: support inflight io track
+
+Li Qiang (2):
+      hw: megasas: return -1 when 'megasas_map_sgl' fails
+      hw: megasas: consider 'iov_count=0' is an error in megasas_map_sgl
+
+Marc-André Lureau (2):
+      meson: fix MSI rule
+      meson: error out if qemu_suffix starts with /
+
+Paolo Bonzini (26):
+      meson: clean up build_by_default
+      ninjatool: rebuild multi-output targets if outputs are missing
+      meson: move libudev test
+      meson: move libmpathpersist test
+      meson: extend libmpathpersist test for static linking
+      configure: move malloc_trim/tcmalloc/jemalloc to meson
+      configure: fix --meson=/path/to/meson
+      configure: move cocoa option to Meson
+      configure: do not limit Hypervisor.framework test to Darwin
+      meson: qtest: set "depends" correctly
+      mtest2make: add support for introspected test dependencies
+      meson: report accelerator support
+      oslib: do not call g_strdup from qemu_get_exec_dir
+      fuzz: use qemu_get_exec_dir
+      oslib-posix: default exec_dir to bindir
+      cutils: introduce get_relocated_path
+      oslib-posix: relocate path to /var
+      module: relocate path to modules
+      net: relocate paths to helpers and scripts
+      vl: relocate paths to data directories
+      vl: relocate path to configuration file
+      qemu-bridge-helper: relocate path to default ACL
+      qga: relocate path to default configuration and hook
+      ui: relocate paths to icons and translations
+      configure: use a platform-neutral prefix
+      configure: fix performance regression due to PIC objects
+
+Philippe Mathieu-Daudé (11):
+      configure: Do not intent to build WHPX on 32-bit host
+      hw/mips/mipssim: Use MMIO serial device on fake ISA I/O
+      hw/char/serial: Remove TYPE_SERIAL_IO
+      hw/char/serial: Assert serial_ioport_read/write offset fits 8 bytes
+      hw/char/serial: Replace commented DPRINTF() by trace event
+      hw/char/serial: Remove old DEBUG_SERIAL commented code
+      hw/char/serial: Rename I/O read/write trace events
+      hw/char/serial: Make 'wakeup' property boolean
+      hw/char/serial-{isa, pci}: Alias QDEV properties from generic serial object
+      hw/i386/q35: Remove unreachable Xen code on Q35 machine
+      exec: Remove MemoryRegion::global_locking field
+
+Stefan Hajnoczi (2):
+      MAINTAINERS: add Paolo Bonzini as RCU maintainer
+      configure: rename QEMU_GA_MSI_ENABLED to CONFIG_QGA_MSI
+
+Stefano Garzarella (1):
+      checkpatch: avoid error on cover letter files
+
+Sunil Muthuswamy (1):
+      WHPX: vmware cpuid leaf for tsc and apic frequency
+
+Vitaly Kuznetsov (1):
+      target/i386: support KVM_FEATURE_ASYNC_PF_INT
+
+Xiaoyao Li (1):
+      i386/cpu: Clear FEAT_XSAVE_COMP_{LO,HI} when XSAVE is not available
+
+ MAINTAINERS                           |   8 ++
+ Makefile                              |   4 +-
+ accel/tcg/cputlb.c                    |   4 +-
+ configure                             | 238 ++++++----------------------------
+ docs/devel/build-system.rst           |   5 +
+ docs/system/deprecated.rst            |  44 ++++---
+ exec.c                                |   2 +-
+ hw/char/serial-isa.c                  |   4 +-
+ hw/char/serial-pci.c                  |   3 +-
+ hw/char/serial.c                      |  65 +---------
+ hw/char/trace-events                  |   5 +-
+ hw/core/machine.c                     |   1 -
+ hw/core/numa.c                        |  59 ---------
+ hw/i386/acpi-build.c                  |  12 +-
+ hw/i386/pc_piix.c                     |   1 -
+ hw/i386/pc_q35.c                      |  14 +-
+ hw/mips/mipssim.c                     |   5 +-
+ hw/ppc/spapr.c                        |   1 -
+ hw/scsi/megasas.c                     |   6 +-
+ hw/scsi/scsi-generic.c                |  10 +-
+ hw/scsi/vhost-scsi-common.c           |  27 ++++
+ include/exec/memory.h                 |  64 +++++----
+ include/hw/boards.h                   |   2 -
+ include/hw/char/serial.h              |  13 +-
+ include/hw/virtio/vhost-scsi-common.h |   2 +
+ include/net/net.h                     |   4 +-
+ include/qemu-common.h                 |   1 -
+ include/qemu/cutils.h                 |  12 ++
+ include/qemu/osdep.h                  |   8 +-
+ include/scsi/constants.h              |   1 +
+ include/sysemu/numa.h                 |   4 -
+ include/sysemu/sysemu.h               |   2 +-
+ meson.build                           | 202 +++++++++++++++++++++++------
+ meson_options.txt                     |   9 ++
+ net/tap.c                             |  26 +++-
+ os-posix.c                            |  24 ----
+ os-win32.c                            |  11 --
+ pc-bios/keymaps/meson.build           |   2 +
+ qemu-bridge-helper.c                  |   9 +-
+ qga/main.c                            |   8 +-
+ qga/meson.build                       |   1 +
+ scripts/checkpatch.pl                 |   2 +-
+ scripts/mtest2make.py                 |  19 ++-
+ scripts/ninjatool.py                  |   3 +
+ softmmu/memory.c                      |   6 -
+ softmmu/vl.c                          |  43 ++++--
+ target/i386/cpu.c                     |   6 +-
+ target/i386/cpu.h                     |   1 +
+ target/i386/kvm.c                     |  10 ++
+ target/i386/machine.c                 |  19 +++
+ target/i386/whp-dispatch.h            |   3 +-
+ target/i386/whpx-all.c                |  96 ++++++++++++--
+ tests/fp/meson.build                  |   2 -
+ tests/meson.build                     |   9 +-
+ tests/qemu-iotests/meson.build        |   3 +-
+ tests/qtest/fuzz/fuzz.c               |  12 +-
+ tests/qtest/meson.build               |   4 +-
+ trace/meson.build                     |   1 -
+ ui/gtk.c                              |  10 +-
+ ui/meson.build                        |   2 +-
+ ui/sdl2.c                             |   9 +-
+ ui/shader/meson.build                 |   1 -
+ util/cutils.c                         |  61 +++++++++
+ util/module.c                         |  10 +-
+ util/oslib-posix.c                    |  35 +++--
+ util/oslib-win32.c                    |  14 +-
+ 66 files changed, 705 insertions(+), 599 deletions(-)
 -- 
-Eduardo
+2.26.2
 
 
