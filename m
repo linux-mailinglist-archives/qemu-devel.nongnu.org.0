@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F0C271D63
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:09:20 +0200 (CEST)
-Received: from localhost ([::1]:49622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66D3271D1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 10:07:39 +0200 (CEST)
+Received: from localhost ([::1]:44862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKGsx-0000ER-9E
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:09:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44494)
+	id 1kKGrK-0006e7-Vh
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 04:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGpK-0004nF-4i
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:05:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25318)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGpj-0005Ag-Rs
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:05:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGpH-0006tr-Qg
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:05:33 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKGph-00076b-SH
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 04:05:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600675530;
+ s=mimecast20190719; t=1600675557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iiYlmgIuPiZN02xTXUQ6YrLklz+4kq4vloiT1WAKutQ=;
- b=IXgETKLvlLoQgNf4yImqeACm3Vn+6JSEK1Ijr2SUvQqQ7XDWwh99LionrzywCSMeZCeEhF
- Nr6q3E6SN2d21Twoqmr2UET7efOLB2eWO/w4Zxc4dYstJRqlWKbtoN5rFDnABOBw+elW2q
- rN4UGfO55Z5VNUddwNmsBOHayq7HvuU=
+ bh=T1U7u2vieqF7x2Au7Wvi4HzioVukpY6SIhvvNSFUr70=;
+ b=CO9Wz9smdWvdlIncQTy3LJVACm1VR/QyqW3EfRpqJsnNm+HxUBauE+85MSQzqnFn9emHHC
+ vBXK8cO+q3SAosJlt/e4ruW1MTqcmXdmGjkN/FXrWLE5afo9o4Tk4qXXt+5khh5wSi7t0L
+ Z+3/7YbzNcWYOg2ppyIher4Y12amp9A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-afXz_0ilPFG6qfFFPOtJdQ-1; Mon, 21 Sep 2020 04:05:27 -0400
-X-MC-Unique: afXz_0ilPFG6qfFFPOtJdQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-542-jO3wUq0fNjCrsGXPzFADqQ-1; Mon, 21 Sep 2020 04:05:53 -0400
+X-MC-Unique: jO3wUq0fNjCrsGXPzFADqQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41DAF801AB7;
- Mon, 21 Sep 2020 08:05:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 057C86414B;
+ Mon, 21 Sep 2020 08:05:52 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6BC881C42;
- Mon, 21 Sep 2020 08:05:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C77AC60C13;
+ Mon, 21 Sep 2020 08:05:51 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 67E101132E9A; Mon, 21 Sep 2020 10:05:24 +0200 (CEST)
+ id 7C1FD1132E9A; Mon, 21 Sep 2020 10:05:50 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
 Subject: Re: [PATCH 16/37] qapi: establish mypy type-checking baseline
 References: <20200915224027.2529813-1-jsnow@redhat.com>
  <20200915224027.2529813-17-jsnow@redhat.com>
  <874knvguzb.fsf@dusky.pond.sub.org>
- <ccc530c6-4ad5-cf0b-09d0-65b14311a1ec@redhat.com>
-Date: Mon, 21 Sep 2020 10:05:24 +0200
-In-Reply-To: <ccc530c6-4ad5-cf0b-09d0-65b14311a1ec@redhat.com> (John Snow's
- message of "Fri, 18 Sep 2020 10:27:07 -0400")
-Message-ID: <87k0wna723.fsf@dusky.pond.sub.org>
+ <d8faa68c-6900-5666-943c-98815348fc5b@redhat.com>
+Date: Mon, 21 Sep 2020 10:05:50 +0200
+In-Reply-To: <d8faa68c-6900-5666-943c-98815348fc5b@redhat.com> (John Snow's
+ message of "Fri, 18 Sep 2020 15:03:41 -0400")
+Message-ID: <87imc7a71d.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -45
 X-Spam_score: -4.6
@@ -85,9 +85,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -111,173 +110,71 @@ John Snow <jsnow@redhat.com> writes:
 >>      qapi/types.py:29: error: Need type annotation for 'objects_seen' (hint: "objects_seen: Set[<type>] = ...")
 >>      Found 1 error in 1 file (checked 18 source files)
 >> Is this expected?
->> 
->
-> Nope.
->
 >> In case it matters:
 >>      $ mypy --version
 >>      mypy 0.761
 >> 
 >
-> I am using mypy 0.782.
+> (Warning; FiSH and stgit ahead)
 >
-> I will investigate to see if there is an *easy* win to allow older
-> versions to work.
+> cd ~/src/qemu/scripts
+> pipenv --python 3.6
+> pipenv shell
+> pip install pylint flake8
 >
-> In the meantime, please consider trying this:
+> ### Testing mypy 0.770
 >
-> pip install --user mypy==0.782
-> ~/.local/bin/mypy --config-file=qapi/mypy.ini qapi/
+> pip install mypy==0.770
+> stg goto qapi-establish-mypy-type
+>
+> while true; and flake8 qapi/; and pylint --rcfile=qapi/pylintrc qapi/;
+> and mypy --config-file=qapi/mypy.ini qapi/; and stg push; end
+>
+> pip uninstall mypy
+>
+> ###
+>
+>
+>
+> 0.782 - OK
+> 0.770 - OK
+> 0.760 - FAIL, Fixable*
+> 0.750 - OK*
+> 0.740 - OK*
+> 0.730 - OK*
+> 0.720 - OK*
+> 0.710 - OK** (Does not recognize 'no_implicit_reexport' option)
+> 0.700 - OK*** (Not compatible with bleeding edge pylint/flake8)
+> 0.670 - OK***
+> 0.660 - OK***
+> 0.650 - OK***
+> 0.641 - OK***
+> 0.630 - Fails again.
+>
+>
+>
+> 0.760 doesn't support strict in the config file (It needs component
+> options), and it wants a few extra annotations where its inference
+> power is weaker. Well, easy enough to fix up.
+>
+> 0.630 fails again and insists that __init__ should have a return type
+> annotation of None. Modern mypy is smart enough to know that's what
+> that type is supposed to be. Arbitrarily, this is my cutoff for what
+> seems reasonable to even want to support.
+>
+> I still find the lack of "strict=true" in the config file irritating
+> and might ask to target 0.770 or newer. There should be no reason we
+> can't install that in a venv for CI to chew on.
+>
+> Humbly ask I take the lazy way out and document that we support mypy
+> >= 0.770.
 
-I'll consider dragging my feet until upgrading Fedora gives it to me for
-free.
+Our "supported build platforms" policy puts hard limits on the minimum
+versions for tools the build requires.
 
-The less I interact with package managers, the happier I am.
-
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>   scripts/qapi/doc.py    |  3 +-
->>>   scripts/qapi/mypy.ini  | 65 ++++++++++++++++++++++++++++++++++++++++++
->>>   scripts/qapi/schema.py |  3 +-
->>>   3 files changed, 69 insertions(+), 2 deletions(-)
->>>   create mode 100644 scripts/qapi/mypy.ini
->>>
->>> diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
->>> index cbf7076ed9..70f7cdfaa6 100644
->>> --- a/scripts/qapi/doc.py
->>> +++ b/scripts/qapi/doc.py
->>> @@ -5,7 +5,8 @@
->>>   """This script produces the documentation of a qapi schema in texinfo format"""
->>>     import re
->>> -from .gen import QAPIGenDoc, QAPISchemaVisitor
->>> +from .gen import QAPIGenDoc
->>> +from .schema import QAPISchemaVisitor
->> Your mypy doesn't like such lazy imports?  Mine seems not to care.
->> 
->
-> Yeah, it specifically complained that no such definition existed in
-> that file.
-
-I sense a certain wobbliness in mypy.  Perhaps to be expected from a
-tool with major version zero.  There's a risk that developers' local
-"make check" and our gating CI differ too much.  We'll see.
-
->>>     
->>>   MSG_FMT = """
->>> diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
->>> new file mode 100644
->>> index 0000000000..a0f2365a53
->>> --- /dev/null
->>> +++ b/scripts/qapi/mypy.ini
->>> @@ -0,0 +1,65 @@
->>> +[mypy]
->>> +strict = True
->>> +strict_optional = False
->>> +disallow_untyped_calls = False
->>> +python_version = 3.6
->>> +
->>> +[mypy-qapi.commands]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.doc]
->>> +disallow_subclassing_any = False
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +
->>> +[mypy-qapi.error]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.events]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.expr]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.gen]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.introspect]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.parser]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.schema]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.source]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.types]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->>> +
->>> +[mypy-qapi.visit]
->>> +disallow_untyped_defs = False
->>> +disallow_incomplete_defs = False
->>> +check_untyped_defs = False
->> Greek to me.  I'll learn in due time.
->> 
->
-> I am using these options:
->
-> --strict, which is effectively -Wall.
->
-> --no-strict-optional, which disables type checking errors on conflict
->   between Optional[T] and T. Namely, when you initialize a class field
->  to None and set that variable after initialization, callers must be 
-> prepared to see if that field was None or not. We do that effectively
-> nowhere.
->
-> As Python will surely explode in a noticeable way if we got an
-> unexpected 'None', I am just suppressing these warnings "for now".
-
-Okay.
-
-We may want to rethink how we define and initialize these variables.  We
-initialize mostly to keep pylint happy.  We initialize to None precisely
-to make use before the real initialization explode.
-
-> --allow-untyped-calls silences errors in files that have calls to
->   functions in files I still have not typed. By the end of the series, 
-> this option goes away, because there's nothing untyped left.
->
->
-> For each untyped file, we are actually starting with all of the above
-> options and then layering these options on top. Any egregious typing 
-> errors present in these "ignored" files will be spotted.
->
-> To get the bad files to pass, we only need three options:
->
-> allow untyped defs -- Simply permits us to have functions without
-> annotations.
->
-> allow incomplete defs -- allows functions that are only partially typed.
->
-> check untyped defs = False -- Don't try to type check untyped definitions.
-
-Thanks!
-
-[...]
+Mypy is not such a tool.  I hope we get to the point where we can have
+"make check" run it, but skipping the test when we don't have a
+sufficiently modern mypy feels okay to me, as long as our gating CI
+still guards the master branch.
 
 
