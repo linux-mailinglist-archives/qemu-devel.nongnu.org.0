@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504F2273104
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:45:10 +0200 (CEST)
-Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5EC273102
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:45:05 +0200 (CEST)
+Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKPsD-0001Ut-Bn
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:45:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46010)
+	id 1kKPs8-0001UY-4G
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKPon-00087P-Nj
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kKPon-00087R-Px
  for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:41:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48281
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKPod-0000Gm-LU
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:34104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kKPoe-0000H9-Lf
  for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:41:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600710083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5vcqOV6E+JI2pXXXeNgIcuJFW0+I/vJFhtJcuAc2Vo0=;
- b=WQuSucLyZKNIxEKRcv5T0f0QMXab7aHe5epGrvQsH4jjDTDwPyDbNdluqE4GyfANBQKDAl
- mHFRTp54pOuezrLSnygBLgcWYiqEw8iTv2Rw+goSkEzDr+/BYwktLPbaRKP1ZCG414/58g
- k9NOnYK+k0Do61Hp60C4EJc9P0H+d9Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-FeL1pMKOO-mJfW7m2hhnpQ-1; Mon, 21 Sep 2020 13:41:19 -0400
-X-MC-Unique: FeL1pMKOO-mJfW7m2hhnpQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FEEC185B384;
- Mon, 21 Sep 2020 17:41:18 +0000 (UTC)
-Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 293005C1DC;
- Mon, 21 Sep 2020 17:41:13 +0000 (UTC)
-Date: Mon, 21 Sep 2020 18:41:10 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 6/9] migration: wire up support for snapshot device
- selection
-Message-ID: <20200921174110.GO3221@work-vm>
-References: <20200915113523.2520317-1-berrange@redhat.com>
- <20200915113523.2520317-7-berrange@redhat.com>
+Received: by mail-pj1-x1034.google.com with SMTP id s14so240081pju.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 10:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=a3xDNZ7X5vKgkbce6iNasAuvv5vN3OhZYwiJJsW3uGU=;
+ b=awAmJULsrklwurhqPSgooahcyyO8jhAtSszZlCnIWwHNzyw6XkHtgKt6GASQAP4GIW
+ ST3/TMT/fYB03UUhXAZWlctkkP33nLHq3sMyrjjOzoR/Ly48qtRy0QHI1NHFbmDyXDXK
+ 4JJAaoVWBmbPkIEpp40I6KCmUp2XJU21offAHLx5z01d8efx1Lvtbge/hvAvMaiYwFn1
+ UkPL6VjXFjxaNN7VIcFUtOkCuyjGVaFVkG2HMSMnKnh4hwFQ8c9FzZBb3ELq7nOGYhgC
+ vHgVn+sBEaIQ5ffFyrymNKjTJcfEWMW15XT4RISHWf1o0i8Ske5KB3naDohiStDwsQo8
+ PiSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=a3xDNZ7X5vKgkbce6iNasAuvv5vN3OhZYwiJJsW3uGU=;
+ b=fkEKEdyO6yi1vZ2HROmRFQAaCmabaFr7ouGdbcNdFHb+VINeSvm6LrDbaaJ6nB47af
+ dcglNnzFoQNJvyhRs5OgvxeoGu6l2G7g7rOYSbzeRX0hkmCSPD9OwiKo0CBMo5MAAKTS
+ PS+ytvU/tJAe2SChQq0EuZvgTwXZhuiW3J/4Lj4YmPx/npuAy57K0odh1cbqV8HISd+/
+ /5r4dIU610y0C33bgTaG7wshkdXo3jCXpTIGa0nlNKkOlQujSqC9P0SsdsjYT6Qo2S5g
+ RG2mzP1UvlSwCla2VT+eJQNHdHqKnJNcJrX6P4Hvyf1oO1CXNqwAKvfgqtp3VlT0XJda
+ Il+A==
+X-Gm-Message-State: AOAM530AIVDeQwVONXINAeMspTMXWk721pbk9cUc3FeEWJuBXX5W6wMc
+ QMLN0oLy1Z8jjBxk8a7chwG9uDn17bNgAw==
+X-Google-Smtp-Source: ABdhPJz6WfiAQwmlqC3V2y5W+SuTJ74316H8Kh/+ChUO4g1NpnX2N7hmWyISqwoagIev/8k8/OZB8Q==
+X-Received: by 2002:a17:90a:cb93:: with SMTP id
+ a19mr383566pju.207.1600710085421; 
+ Mon, 21 Sep 2020 10:41:25 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id x4sm12585379pfm.86.2020.09.21.10.41.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Sep 2020 10:41:24 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 03/11] capstone: Require version 4.0 from a system library
+Date: Mon, 21 Sep 2020 10:41:10 -0700
+Message-Id: <20200921174118.39352-4-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200921174118.39352-1-richard.henderson@linaro.org>
+References: <20200921174118.39352-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200915113523.2520317-7-berrange@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 11:10:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,205 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> Modify load_snapshot/save_snapshot to accept the device list and vmstate
-> node name parameters previously added to the block layer.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+We're about to use a portion of the 4.0 API.
+Reject a system library version prior to that.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  include/migration/snapshot.h | 12 ++++++++++--
->  migration/savevm.c           | 24 ++++++++++++++----------
->  monitor/hmp-cmds.c           |  4 ++--
->  replay/replay-snapshot.c     |  4 ++--
->  softmmu/vl.c                 |  2 +-
->  5 files changed, 29 insertions(+), 17 deletions(-)
-> 
-> diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
-> index d7db1174ef..b2c72e0a1b 100644
-> --- a/include/migration/snapshot.h
-> +++ b/include/migration/snapshot.h
-> @@ -15,7 +15,15 @@
->  #ifndef QEMU_MIGRATION_SNAPSHOT_H
->  #define QEMU_MIGRATION_SNAPSHOT_H
->  
-> -int save_snapshot(const char *name, bool overwrite, Error **errp);
-> -int load_snapshot(const char *name, Error **errp);
-> +#include "qapi/qapi-builtin-types.h"
-> +
-> +int save_snapshot(const char *name, bool overwrite,
-> +                  const char *vmstate,
-> +                  bool has_devices, strList *devices,
-> +                  Error **errp);
-> +int load_snapshot(const char *name,
-> +                  const char *vmstate,
-> +                  bool has_devices, strList *devices,
-> +                  Error **errp);
->  
->  #endif
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 2025e3e579..b3d2ce7045 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -43,6 +43,8 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-commands-migration.h"
->  #include "qapi/qapi-commands-misc.h"
-> +#include "qapi/clone-visitor.h"
-> +#include "qapi/qapi-builtin-visit.h"
->  #include "qapi/qmp/qerror.h"
->  #include "qemu/error-report.h"
->  #include "sysemu/cpus.h"
-> @@ -2658,7 +2660,8 @@ int qemu_load_device_state(QEMUFile *f)
->      return 0;
->  }
->  
-> -int save_snapshot(const char *name, bool overwrite, Error **errp)
-> +int save_snapshot(const char *name, bool overwrite, const char *vmstate,
-> +                  bool has_devices, strList *devices, Error **errp)
->  {
->      BlockDriverState *bs;
->      QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
-> @@ -2680,18 +2683,18 @@ int save_snapshot(const char *name, bool overwrite, Error **errp)
->          return ret;
->      }
->  
-> -    if (!bdrv_all_can_snapshot(false, NULL, errp)) {
-> +    if (!bdrv_all_can_snapshot(has_devices, devices, errp)) {
->          return ret;
->      }
->  
->      /* Delete old snapshots of the same name */
->      if (name && overwrite) {
-> -        if (bdrv_all_delete_snapshot(name, false, NULL, errp) < 0) {
-> +        if (bdrv_all_delete_snapshot(name, has_devices, devices, errp) < 0) {
->              return ret;
->          }
->      }
->  
-> -    bs = bdrv_all_find_vmstate_bs(NULL, false, NULL, errp);
-> +    bs = bdrv_all_find_vmstate_bs(vmstate, has_devices, devices, errp);
->      if (bs == NULL) {
->          return ret;
->      }
-> @@ -2757,7 +2760,7 @@ int save_snapshot(const char *name, bool overwrite, Error **errp)
->      aio_context_release(aio_context);
->      aio_context = NULL;
->  
-> -    ret = bdrv_all_create_snapshot(sn, bs, vm_state_size, false, NULL, errp);
-> +    ret = bdrv_all_create_snapshot(sn, bs, vm_state_size, has_devices, devices, errp);
->      if (ret < 0) {
->          goto the_end;
->      }
-> @@ -2858,7 +2861,8 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
->      migration_incoming_state_destroy();
->  }
->  
-> -int load_snapshot(const char *name, Error **errp)
-> +int load_snapshot(const char *name, const char *vmstate,
-> +                  bool has_devices, strList *devices, Error **errp)
->  {
->      BlockDriverState *bs_vm_state;
->      QEMUSnapshotInfo sn;
-> @@ -2873,15 +2877,15 @@ int load_snapshot(const char *name, Error **errp)
->          return -1;
->      }
->  
-> -    if (!bdrv_all_can_snapshot(false, NULL, errp)) {
-> +    if (!bdrv_all_can_snapshot(has_devices, devices, errp)) {
->          return -1;
->      }
-> -    ret = bdrv_all_find_snapshot(name, false, NULL, errp);
-> +    ret = bdrv_all_find_snapshot(name, has_devices, devices, errp);
->      if (ret < 0) {
->          return -1;
->      }
->  
-> -    bs_vm_state = bdrv_all_find_vmstate_bs(NULL, false, NULL, errp);
-> +    bs_vm_state = bdrv_all_find_vmstate_bs(vmstate, has_devices, devices, errp);
->      if (!bs_vm_state) {
->          return -1;
->      }
-> @@ -2902,7 +2906,7 @@ int load_snapshot(const char *name, Error **errp)
->      /* Flush all IO requests so they don't interfere with the new state.  */
->      bdrv_drain_all_begin();
->  
-> -    ret = bdrv_all_goto_snapshot(name, false, NULL, errp);
-> +    ret = bdrv_all_goto_snapshot(name, has_devices, devices, errp);
->      if (ret < 0) {
->          goto err_drain;
->      }
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index c1b8533d0c..1191aac3ae 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1121,7 +1121,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
->  
->      vm_stop(RUN_STATE_RESTORE_VM);
->  
-> -    if (load_snapshot(name, &err) == 0 && saved_vm_running) {
-> +    if (load_snapshot(name, NULL, false, NULL, &err) == 0 && saved_vm_running) {
->          vm_start();
->      }
->      hmp_handle_error(mon, err);
-> @@ -1131,7 +1131,7 @@ void hmp_savevm(Monitor *mon, const QDict *qdict)
->  {
->      Error *err = NULL;
->  
-> -    save_snapshot(qdict_get_try_str(qdict, "name"), true, &err);
-> +    save_snapshot(qdict_get_try_str(qdict, "name"), true, NULL, false, NULL, &err);
->      hmp_handle_error(mon, err);
->  }
->  
-> diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
-> index 8e7ff97d11..8ed09177b5 100644
-> --- a/replay/replay-snapshot.c
-> +++ b/replay/replay-snapshot.c
-> @@ -77,13 +77,13 @@ void replay_vmstate_init(void)
->  
->      if (replay_snapshot) {
->          if (replay_mode == REPLAY_MODE_RECORD) {
-> -            if (save_snapshot(replay_snapshot, true, &err) != 0) {
-> +            if (save_snapshot(replay_snapshot, true, NULL, false, NULL, &err) != 0) {
->                  error_report_err(err);
->                  error_report("Could not create snapshot for icount record");
->                  exit(1);
->              }
->          } else if (replay_mode == REPLAY_MODE_PLAY) {
-> -            if (load_snapshot(replay_snapshot, &err) != 0) {
-> +            if (load_snapshot(replay_snapshot, NULL, false, NULL, &err) != 0) {
->                  error_report_err(err);
->                  error_report("Could not load snapshot for icount replay");
->                  exit(1);
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index f7b103467c..820d380229 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -4459,7 +4459,7 @@ void qemu_init(int argc, char **argv, char **envp)
->      register_global_state();
->      if (loadvm) {
->          Error *local_err = NULL;
-> -        if (load_snapshot(loadvm, &local_err) < 0) {
-> +        if (load_snapshot(loadvm, NULL, false, NULL, &local_err) < 0) {
->              error_report_err(local_err);
->              autostart = 0;
->              exit(1);
-> -- 
-> 2.26.2
-> 
+diff --git a/meson.build b/meson.build
+index 4c92b43fe5..114b136129 100644
+--- a/meson.build
++++ b/meson.build
+@@ -613,7 +613,7 @@ if capstone_opt == 'no'
+   capstone_opt = false
+ elif capstone_opt in ['yes', 'auto', 'system']
+   have_internal = fs.exists('capstone/Makefile')
+-  capstone = dependency('capstone', static: enable_static,
++  capstone = dependency('capstone', version: '>=4.0', static: enable_static,
+                         required: capstone_opt == 'system' or
+                                   capstone_opt == 'yes' and not have_internal)
+   if capstone.found()
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.25.1
 
 
