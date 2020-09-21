@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF5C2722B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:37:16 +0200 (CEST)
-Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C642722F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:47:45 +0200 (CEST)
+Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKK8B-0002o6-4p
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43376)
+	id 1kKKIK-0004Hl-Qr
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:47:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK48-00067V-UN
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:33:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43969)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1S-0003BX-Su
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:30:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK47-0001B3-3f
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:33:04 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1Q-0000mj-Ur
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:30:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600687982;
+ s=mimecast20190719; t=1600687816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=36TA9HMx1SoySJn4HFpzuhjqQbFM6na/gI7hXXyaZgY=;
- b=cYsUinM772qiqrUdINI0Ee5koTmgxsjZdU4it3/qT1bydZK7TY4mQrjGHYO2hMRB6ZH8mk
- SZ1DOT55TIdbzTnHb3j8Oo8i4uYsgJt5E2Qh1Nb14fHEOPwR7QJjy4uwup+sAxAUyfeRmY
- Q8BpzJFbXqqKJxl6vUwT1J0BNbguMsM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-zIN81FBdOV673VL_2oPf5g-1; Mon, 21 Sep 2020 07:30:10 -0400
-X-MC-Unique: zIN81FBdOV673VL_2oPf5g-1
-Received: by mail-wr1-f69.google.com with SMTP id h4so5772132wrb.4
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:30:10 -0700 (PDT)
+ bh=KU3CQZix1HzPA27WzsYYTB+dAz58fIp+8wyLXMfCqA0=;
+ b=VTR5ePTuNEMlO7Ni//5btI5nCnEgvfAi2oVmSdbkyLceTKlTZwyIOL5eWcSnSknQIG7ONU
+ oYslXhupEXZK6Zgt0LTqGe+LmfsvyWHPalPYoZ+wVgwC8FFhtumZb0Tq1pAp9OA18XD5uc
+ sIHxm120FA0u3YEcwLatndjcKfPHAD4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-307-9N1ZMDAVMHGJQNdSIuahpA-1; Mon, 21 Sep 2020 07:30:13 -0400
+X-MC-Unique: 9N1ZMDAVMHGJQNdSIuahpA-1
+Received: by mail-wr1-f70.google.com with SMTP id n15so5714452wrv.23
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:30:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=36TA9HMx1SoySJn4HFpzuhjqQbFM6na/gI7hXXyaZgY=;
- b=evzmG0mOgZBwuqF9bKqDxW3LcHaXIfE+Gd7mYV0ZVnB9aBjmfFmRTx4saeWIhCQKPN
- Wrhh4N9swMcTFLvHFbhkCvDOHkdYxUCLGtge0dcJtjiimpLt1y7/NsiIwVAw0wevu5iv
- wZ4S4ZwJhEbuALSBbermIHjeorqYpVYyMYHjB1iRZZcoZOd+L0hcqdl27+1XIxuHaPNu
- 99j24EftmY8lEvDSY9XtAwBEIQfW/a2AE41udryKXkbPxqT8xjZe30+FYugG+e33npUi
- M98IHezA9ZtMGRSiLn1EfCX2jiN+N+FMgupY01cu8dJvl73YBIkqqg9AqSWM8Yu5i3XC
- ML2g==
-X-Gm-Message-State: AOAM530X0lj0+z/K0Dm9V+qn75ZKRv7AlM+zJQ3y+M/+RZK5E9XWhdIA
- emhefgRT294wmp3tsDtvOeevFqRLujcsFM8/o0ipi+pQUwKmANEevTXmevCK7AfXwma6SDrDH1T
- n27CIMkRQMGyCv6Q=
-X-Received: by 2002:a7b:c1c3:: with SMTP id a3mr32097238wmj.68.1600687809173; 
- Mon, 21 Sep 2020 04:30:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+pgZeOiLFACaWFOqzcBzfkk1tubzThSx4BM76fvNOhsl/VJK3vNNexMm2GDe5Y5H3VlNboQ==
-X-Received: by 2002:a7b:c1c3:: with SMTP id a3mr32097224wmj.68.1600687808975; 
- Mon, 21 Sep 2020 04:30:08 -0700 (PDT)
+ bh=KU3CQZix1HzPA27WzsYYTB+dAz58fIp+8wyLXMfCqA0=;
+ b=sfH9YK+UGkQqfaYBFGPCYvf1kbF/Mbmu1Zv0z8yfbAWSXJiNRh5Q2BAqL6t/sNZzaL
+ CxxJY2JWOPWslFfChk3YGmC+W7iT+QZBRspoIQwnwwYi1qfbebgr/1khVAQ/bGqUXWaG
+ ZkzRkrvU0SPEHhjx3Pef8Ih+tTegr3zG4gZPTGm81azeuci4d7lRhulsKwHcx+xEkfb8
+ f3fNrH8F0VQVn5s9SXtcOux0sjExMiYBXxTJsarzg9seioPoSPTTCjAslq0A5S0sDs8v
+ tHdYMGe2YzYEaPGdfiFegT9I4UzBCaU0iGsDygttP1/RF4GWOFOBI0WAeCZ/+a7s6uat
+ r5CA==
+X-Gm-Message-State: AOAM5322yNV8Qw+pzxnoisrZawxRZK3TQO2eRxe3EqF88mT6AC0lcREa
+ k6jp98oDzYp/CNChkvp9WbLWw/MnRoEBNXv+goJ0JfZQbiezJWqB1Tfv4WyLkvwMxgrn54GPlRa
+ rtWVX4MaLnT8NlhM=
+X-Received: by 2002:adf:8544:: with SMTP id 62mr51629620wrh.262.1600687811902; 
+ Mon, 21 Sep 2020 04:30:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzojiz9irGa+Z5d09e363yKQDPo18DTjLQtL2ERELXhj+qIAOq2A+fJBzNIYQkqEfIvjTARXw==
+X-Received: by 2002:adf:8544:: with SMTP id 62mr51629602wrh.262.1600687811713; 
+ Mon, 21 Sep 2020 04:30:11 -0700 (PDT)
 Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
  [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id m18sm18746322wmg.32.2020.09.21.04.30.07
+ by smtp.gmail.com with ESMTPSA id u12sm21010496wrt.81.2020.09.21.04.30.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 04:30:08 -0700 (PDT)
-Date: Mon, 21 Sep 2020 07:30:06 -0400
+ Mon, 21 Sep 2020 04:30:11 -0700 (PDT)
+Date: Mon, 21 Sep 2020 07:30:09 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 11/15] tests/qtest/vhost-user-test: add migrate_reconnect
- test
-Message-ID: <20200921112913.555392-12-mst@redhat.com>
+Subject: [PULL v3 12/15] tests/qtest/vhost-user-test: enable the reconnect
+ tests
+Message-ID: <20200921112913.555392-13-mst@redhat.com>
 References: <20200921112913.555392-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
@@ -73,9 +73,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -98,82 +98,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dima Stepanov <dimastep@yandex-team.ru>
+ Dima Stepanov <dimastep@yandex-team.ru>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dima Stepanov <dimastep@yandex-team.ru>
 
-Add new migrate_reconnect test for the vhost-user-blk device. Perform a
-disconnect after sending response for the VHOST_USER_SET_LOG_BASE
-command.
+For now a QTEST_VHOST_USER_FIXME environment variable is used to
+separate reconnect tests for the vhost-user-net device. Looks like the
+reconnect functionality is pretty stable, so this separation is
+deprecated.
+Remove it and enable these tests for the default run.
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <6f38139d24a1be703a6f1c7d983faccdf21d2a9a.1599813294.git.dimastep@yandex-team.ru>
+Message-Id: <9fee5b17c7940f9126ba7cc014b09106c98118db.1599813294.git.dimastep@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/vhost-user-test.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ tests/qtest/vhost-user-test.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
 diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 6692d7e5e8..6e64df7a45 100644
+index 6e64df7a45..1fc5dd6584 100644
 --- a/tests/qtest/vhost-user-test.c
 +++ b/tests/qtest/vhost-user-test.c
-@@ -146,6 +146,7 @@ static VhostUserMsg m __attribute__ ((unused));
- enum {
-     TEST_FLAGS_OK,
-     TEST_FLAGS_DISCONNECT,
-+    TEST_FLAGS_MIGRATE_DISCONNECT,
-     TEST_FLAGS_BAD,
-     TEST_FLAGS_END,
- };
-@@ -436,6 +437,15 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE);
- 
-         g_cond_broadcast(&s->data_cond);
-+        /*
-+         * Perform disconnect after sending a response. In this
-+         * case the next write command on the QEMU side (for now
-+         * it is SET_FEATURES will return -1, because of disconnect.
-+         */
-+        if (s->test_flags == TEST_FLAGS_MIGRATE_DISCONNECT) {
-+            qemu_chr_fe_disconnect(chr);
-+            s->test_flags = TEST_FLAGS_BAD;
-+        }
-         break;
- 
-     case VHOST_USER_SET_VRING_BASE:
-@@ -737,6 +747,17 @@ static void *vhost_user_test_setup_memfd(GString *cmd_line, void *arg)
-     return server;
- }
- 
-+static void *vhost_user_test_setup_migrate_reconnect(GString *cmd_line,
-+        void *arg)
-+{
-+    TestServer *server;
-+
-+    server = vhost_user_test_setup_memfd(cmd_line, arg);
-+    server->test_flags = TEST_FLAGS_MIGRATE_DISCONNECT;
-+
-+    return server;
-+}
-+
- static void test_read_guest_mem(void *obj, void *arg, QGuestAllocator *alloc)
- {
-     TestServer *server = arg;
-@@ -1149,5 +1170,9 @@ static void register_vhost_user_test(void)
-     opts.before = vhost_user_test_setup_memfd;
-     qos_add_test("migrate", "vhost-user-blk",
+@@ -1139,20 +1139,17 @@ static void register_vhost_user_test(void)
+                  "virtio-net",
                   test_migrate, &opts);
-+
-+    opts.before = vhost_user_test_setup_migrate_reconnect;
-+    qos_add_test("migrate_reconnect", "vhost-user-blk",
-+                 test_migrate, &opts);
- }
- libqos_init(register_vhost_user_test);
+ 
+-    /* keeps failing on build-system since Aug 15 2017 */
+-    if (getenv("QTEST_VHOST_USER_FIXME")) {
+-        opts.before = vhost_user_test_setup_reconnect;
+-        qos_add_test("vhost-user/reconnect", "virtio-net",
+-                     test_reconnect, &opts);
++    opts.before = vhost_user_test_setup_reconnect;
++    qos_add_test("vhost-user/reconnect", "virtio-net",
++                 test_reconnect, &opts);
+ 
+-        opts.before = vhost_user_test_setup_connect_fail;
+-        qos_add_test("vhost-user/connect-fail", "virtio-net",
+-                     test_vhost_user_started, &opts);
++    opts.before = vhost_user_test_setup_connect_fail;
++    qos_add_test("vhost-user/connect-fail", "virtio-net",
++                 test_vhost_user_started, &opts);
+ 
+-        opts.before = vhost_user_test_setup_flags_mismatch;
+-        qos_add_test("vhost-user/flags-mismatch", "virtio-net",
+-                     test_vhost_user_started, &opts);
+-    }
++    opts.before = vhost_user_test_setup_flags_mismatch;
++    qos_add_test("vhost-user/flags-mismatch", "virtio-net",
++                 test_vhost_user_started, &opts);
+ 
+     opts.before = vhost_user_test_setup_multiqueue;
+     opts.edge.extra_device_opts = "mq=on";
 -- 
 MST
 
