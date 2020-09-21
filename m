@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF312719A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 05:49:24 +0200 (CEST)
-Received: from localhost ([::1]:42174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC202719B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 05:54:57 +0200 (CEST)
+Received: from localhost ([::1]:56212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKCpP-0008Mk-B6
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 23:49:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53388)
+	id 1kKCum-0005lg-HK
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 23:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKCni-0006Ol-4T; Sun, 20 Sep 2020 23:47:38 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37354)
+ id 1kKCsx-0004Kb-RJ; Sun, 20 Sep 2020 23:53:03 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKCng-0001wX-AZ; Sun, 20 Sep 2020 23:47:37 -0400
-Received: by mail-wm1-x342.google.com with SMTP id a9so11058969wmm.2;
- Sun, 20 Sep 2020 20:47:35 -0700 (PDT)
+ id 1kKCsv-0002z1-UJ; Sun, 20 Sep 2020 23:53:03 -0400
+Received: by mail-wr1-x444.google.com with SMTP id k15so11153731wrn.10;
+ Sun, 20 Sep 2020 20:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PhiofoUUiQN7Yir5VKkk/ymgbiAyhHHgyBkdAM+UqlU=;
- b=OiOAdrPXgQZTmnKylnTxI4uCwjy52dceXO/O1uwJ1RVTemGYFdSUh9Lv+qi1is1d6A
- Jwj7JZzYzTjMhLXZRGRjBdpKJlwDqtfz+WNEwq8yfjFdb3dVytw8ld47jATPMuPixjwZ
- NkXDoLmrcDxnM/PoVKkaZlzBhYeP2O+YEIOc5LV0ei+K/pz559C7lvfFh/6npB/FXTeK
- y26r83/e+JVYgbPN3ppb/vx0ZKZNe8v9PN2ZhXzHcm0f/3AmdUmoY3xIzLBYi+y6OmG7
- 0YoOf/yVdIHLZEa83hZ3iau0C8WQEjRniAgG66zoBTVZTljQ7yPrMcBJJGP/y9yHT1Tr
- tTKQ==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eMGxJsP/XV9ZaclU9UPc3RpZWVI8bwkuQY3IaryKxOg=;
+ b=WsE9sT9jXWXrmtRZi9y2glEVJzIZYpOORuh2yRP51CQFdsBxjzppWiQAxPG4D3DaKe
+ eyhkW+JRTyVy5mPumgaHwZmeEg0CgG6t8if+/OZtpW9TpLL00w/VAC4QN/r9Kb0f5H3/
+ 66WQUgGS9Fp+j+lei7oRAEMWIfwM/ZTyQqJPEZGM7KYCtBeSu33cjJywkaMELUwTdIMY
+ V/QyHH17P1zV80vfpEu9JtZS6IxrOq5qvWUGqmetP54tUwjYkRnCxfGY8YKNspWxbk+A
+ vwHsy8pKcV0dcwir7dIy0C0Gpug5Rot5DIjAijel6B4flPYPJY+Gz5bD7gkZpJOpSlBq
+ 9yMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PhiofoUUiQN7Yir5VKkk/ymgbiAyhHHgyBkdAM+UqlU=;
- b=L1QzdUgTABWs09+2Ryh8r4VtzTDjMYoQWtqe4BIs4iKbcxkCWy5PQBGy5Al2qcgzDY
- Z8i3kupSZs96d6nPyF+OqPGuif/ElmlxLbaCOuuxRroLCzOGMTiThg09OMzPrfy6XNNZ
- 76wfVFsFqHXf3W57pnCPj46dA1yfBpS/B2JWV2ZVJ+aRp2PBG51RCqniqIcpChmWzvan
- 5kJj0puT98p6ZgmE4LcmHpJpzjoAifXVYNNn8HrawJu4WuPDLZEfkaU51Hv+6869rlwP
- FcO3+REkvQwdpw5MJg8hA5ID4fnXqTpvGOkJ6fWTxesi/Odp82ZBm+c9jux3NQNRjqew
- xW4w==
-X-Gm-Message-State: AOAM531ChruQyEsrI9vjNwLmXJknGvf2+tGQls1hMjvQeBMScYWuQMB7
- FajbNx3BFNfOxsLtT5YkEmwEG9VD9w0=
-X-Google-Smtp-Source: ABdhPJwSb6pOUfeGT4IC3ogpNDh4NIA7qeDzIq0oLs6OYAFscbwM8sD4lqSCdzze+CXdCQB5kSxMHg==
-X-Received: by 2002:a05:600c:2906:: with SMTP id
- i6mr28545718wmd.48.1600660054349; 
- Sun, 20 Sep 2020 20:47:34 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=eMGxJsP/XV9ZaclU9UPc3RpZWVI8bwkuQY3IaryKxOg=;
+ b=RvcO+QfLbi/rwFH82AGLkjKqESvEHd7GkYVO+iyn8SFQ2xlI4bpr5ie8Y++iVKOFf2
+ kyKwgSkvCnPJ27yJuEJ8+bSfbUcRDZlSSncZhGg25xYhdwULxH4hy0bSVEtsF0CU12jY
+ sRQx6BvvWwf4ZAVgxbP04h9STK/v+MqA9S/xlg7btrvTAQykttMKuZ649aBgu7qV4j8e
+ 8Wn+889y7U+AtFceG/oqufz3V5ul8zgUC70GnVKn5g1/L0JrKr8jNxTVzi5fozLFbrdG
+ oGLIm9kgiemv2s24jmVm0h9CmUL3d6+bje86tYvLz5P1yBnlyOaoAN2YGmYbPQ2whXrb
+ yV6g==
+X-Gm-Message-State: AOAM533qDVVtGiW4rlJFH06hz3EirIEahapqcLqzNZy8JInzJQvU+XER
+ +ZySuuo3fE5+FRqKNN6aQgeQblUdNG4=
+X-Google-Smtp-Source: ABdhPJxU9pafd02i5UXWr3h+GSnIn8Nsc0ed9XCHmtS7oaaEfo+2qTQSRQgDzyCsehgY0EgVDqrl9g==
+X-Received: by 2002:a5d:680b:: with SMTP id w11mr53323417wru.73.1600660379770; 
+ Sun, 20 Sep 2020 20:52:59 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u63sm11751440wmb.13.2020.09.20.20.47.33
+ by smtp.gmail.com with ESMTPSA id a17sm19633754wra.24.2020.09.20.20.52.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Sep 2020 20:47:33 -0700 (PDT)
+ Sun, 20 Sep 2020 20:52:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/arm/raspi: Remove ignore_memory_transaction_failures
- on the raspi2
-Date: Mon, 21 Sep 2020 05:47:29 +0200
-Message-Id: <20200921034729.432931-4-f4bug@amsat.org>
+Subject: [PATCH v2 0/5] hw/arm/raspi: Fix SYS_timer to unbrick Linux kernels
+ v3.7+
+Date: Mon, 21 Sep 2020 05:52:52 +0200
+Message-Id: <20200921035257.434532-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200921034729.432931-1-f4bug@amsat.org>
-References: <20200921034729.432931-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,46 +85,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Paul Zimmerman <pauldzim@gmail.com>, qemu-arm@nongnu.org,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
  Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 1c3db49d39 added the raspi3, which uses the same peripherals
-than the raspi2 (but with different ARM cores). The raspi3 was
-introduced without the ignore_memory_transaction_failures flag.
-Almost 2 years later, the machine is usable running U-Boot and
-Linux.
-In commit 00cbd5bd74 we mapped a lot of unimplemented devices,
-commit d442d95f added thermal block and commit 0e5bbd7406 the
-system timer.
-As we are happy with the raspi3, let's remove this flag on the
-raspi2.
+In this series we implement the COMPARE registers of the
+SYS_timer, since they are used by Linux.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/raspi.c | 3 ---
- 1 file changed, 3 deletions(-)
+This fixes the hang reported by Niek here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg682090.html
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index d2f674587d3..811eaf52ff5 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -321,9 +321,6 @@ static void raspi_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_cpus = mc->min_cpus = mc->max_cpus = cores_count(board_rev);
-     mc->default_ram_size = board_ram_size(board_rev);
-     mc->default_ram_id = "ram";
--    if (board_version(board_rev) == 2) {
--        mc->ignore_memory_transaction_failures = true;
--    }
- };
- 
- static const TypeInfo raspi_machine_types[] = {
+Since v1:
+- Extracted unrelated patches to previous series
+  (which happened to be mis-rebased)
+
+Based-on: <20200921034729.432931-1-f4bug@amsat.org>
+Supersedes: <20200920175825.417680-1-f4bug@amsat.org>
+
+Philippe Mathieu-Daudé (5):
+  hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
+  hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT definition
+  hw/timer/bcm2835: Rename variable holding CTRL_STATUS register
+  hw/timer/bcm2835: Support the timer COMPARE registers
+  hw/arm/bcm2835_peripherals: Correctly wire the SYS_timer IRQs
+
+ include/hw/timer/bcm2835_systmr.h | 17 ++++++++---
+ hw/arm/bcm2835_peripherals.c      | 13 ++++++--
+ hw/intc/bcm2835_ic.c              |  4 ++-
+ hw/timer/bcm2835_systmr.c         | 50 ++++++++++++++++++-------------
+ hw/intc/trace-events              |  4 +++
+ hw/timer/trace-events             |  4 ++-
+ 6 files changed, 64 insertions(+), 28 deletions(-)
+
 -- 
 2.26.2
 
