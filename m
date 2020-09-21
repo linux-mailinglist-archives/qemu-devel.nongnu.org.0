@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51137272927
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:53:03 +0200 (CEST)
-Received: from localhost ([::1]:44688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1172272947
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:00:04 +0200 (CEST)
+Received: from localhost ([::1]:52288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKNBe-0003up-DR
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55332)
+	id 1kKNIR-0007Nn-Og
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN9m-0002Y1-M9
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:51:08 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36942
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKNH2-0006uU-2y
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:58:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN9k-0007Au-Ko
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:51:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKNGz-0008Aa-V5
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:58:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600699862;
+ s=mimecast20190719; t=1600700312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=68b2ElVnZ71kYVmnF85XQNkjqTJ9WZPhdil7agezL0M=;
- b=gry/NhZMFildWMsUS/V85aV+L7gETuQ6tX2HR0fnrYSdORlq+RAykcAgdHWY8RzhriRTYH
- AYJVENUiEGYeR3NZGfpwNVF0bTA5c8gaf/Xu2tt8b2oDJYj2rC/Mq6ZdsDBFKtWt471Ln+
- b6SVpI785UHZmrHjruf4uasitsvwioI=
+ bh=Rn1FO0BjwChzAznzPSY/P8voBploiKFl8e/QkGEHZOI=;
+ b=ScBImx5SH80ut/v8cJ+Bmyy3o0DdZtcOdM5QVx9J+FG78HNg18pLQgCmwNMAM4gysJDYc/
+ mmuGnE91Tvym0RQi3mLsPlnxSiaxAmTznqr2NPCaAFWfjMfBRlLGqUGDvtoBkRVW3FmBmK
+ hOb17S5dlOQ94wJq+eueJ64trNZfm/c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-5AJTRBs1MZmBSwAUDvxf5w-1; Mon, 21 Sep 2020 10:51:00 -0400
-X-MC-Unique: 5AJTRBs1MZmBSwAUDvxf5w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-57-2gy_uY2JNO6cT_3Qg1AJAA-1; Mon, 21 Sep 2020 10:58:28 -0400
+X-MC-Unique: 2gy_uY2JNO6cT_3Qg1AJAA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 647698015A5;
- Mon, 21 Sep 2020 14:50:59 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7E771A885;
- Mon, 21 Sep 2020 14:50:58 +0000 (UTC)
-Subject: Re: [PATCH 06/37] qapi: delint using flake8
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-7-jsnow@redhat.com>
- <87wo0tor80.fsf@dusky.pond.sub.org>
- <8238685e-f4a4-cf2f-2511-5e4473f5fdd3@redhat.com>
- <87a6xog7n8.fsf@dusky.pond.sub.org>
- <82b4b8ce-b348-75fd-bd44-d96303a4875d@redhat.com>
- <87bli3jrwy.fsf@dusky.pond.sub.org>
- <631e465a-a0e8-4e92-482d-bc92bba6f5bf@redhat.com>
- <87v9g7a8lx.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <550dc85f-87ad-b601-6b19-721f3fd9058e@redhat.com>
-Date: Mon, 21 Sep 2020 10:50:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 582DF801AEA;
+ Mon, 21 Sep 2020 14:58:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CECB77366A;
+ Mon, 21 Sep 2020 14:58:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5DC501132E9A; Mon, 21 Sep 2020 16:58:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v5 0/8] Configurable policy for handling deprecated
+ interfaces
+References: <20200914084802.4185028-1-armbru@redhat.com>
+ <CAFEAcA9qPx=rtNcQ5FJk8a3YjZN7XyD1cJddQbD7Km9fBpm-0A@mail.gmail.com>
+Date: Mon, 21 Sep 2020 16:58:19 +0200
+In-Reply-To: <CAFEAcA9qPx=rtNcQ5FJk8a3YjZN7XyD1cJddQbD7Km9fBpm-0A@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 21 Sep 2020 13:56:52 +0100")
+Message-ID: <875z8718j8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87v9g7a8lx.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,29 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Libvirt <libvir-list@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/20 3:31 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> On 9/18/20 6:33 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
-> [...]
+Peter Maydell <peter.maydell@linaro.org> writes:
 
->> 2. Writing a templating engine that doesn't break the Python
->> indentation flow by hoisting them into module constants and improving
->> the rendering logic.
-> 
-> Too vague for me to judge, happy to look at PoC patches.
-> 
+> On Mon, 14 Sep 2020 at 09:55, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> New option -compat lets you configure what to do when deprecated
+>> interfaces get used.  This is intended for testing users of the
+>> management interfaces.  It is experimental.
+>>
+>> -compat deprecated-input=<in-policy> configures what to do when
+>> deprecated input is received.  Available policies:
+>>
+>> * accept: Accept deprecated commands and arguments (default)
+>> * reject: Reject them
+>> * crash: Crash
+>>
+>> -compat deprecated-output=<out-policy> configures what to do when
+>> deprecated output is sent.  Available output policies:
+>>
+>> * accept: Emit deprecated command results and events (default)
+>> * hide: Suppress them
+>>
+>> For now, -compat covers only deprecated syntactic aspects of QMP.  We
+>> may want to extend it to cover semantic aspects, CLI, and experimental
+>> features.
+>
+> Some bikeshedding on option naming...
+>
+> If this only covers QMP, should we make the argument to -compat
+> have a name that expresses that? eg deprecated-qmp-input,
+> deprecated-qmp-output ?
 
-Okay, some other day. Not important enough presently. It's just hard to 
-stop brainstorming ideas as I learn about and touch different areas of code.
+It's only implemented for QMP so far.  But we really want it for all
+external interfaces for use by machines.  Today, that's QMP and CLI.
 
---js
+Naming the parameters deprecated-qmp-{input,output} leads to separate
+settings for QMP and CLI.
+
+Naming them just deprecated-{input,output} leads to a single set of
+settings common to all externeal interfaces, or to sugar for setting all
+the deprecated-*-{input,output} we may have.
+
+I don't think getting it wrong now would be a big deal.  No excuse for
+getting it wrong unthinkingly :)
+
+> Also, it seems a bit repetitive to say 'deprecated' here all
+> the time -- do you have a future use of -compat in mind which
+> would be to adjust something that is *not* deprecated ? If
+> not, maybe the 'deprecated' part should be in the option name
+> rather than in every argument, eg
+>
+>   -deprecation-compat qmp-input=crash,qmp-output=hide,cli-option=reject
+>
+> ?
+
+My cover letter hints at such future uses: "We may want to extend it to
+cover [...] experimental features."  Something like
+
+    -compat experimental-input=reject,experimental-output=hide
 
 
