@@ -2,68 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B6F27268F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:02:58 +0200 (CEST)
-Received: from localhost ([::1]:47410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C20092726BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:14:50 +0200 (CEST)
+Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKMPC-0001Kr-2T
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
+	id 1kKMaf-0001z5-Rx
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kKMNE-0000no-Bl
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:00:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kKMNB-0007ee-Oi
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:00:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kKMN9-0005We-Os
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 14:00:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BA0422E80EA
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 14:00:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kKMWk-0006k3-2f
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:10:46 -0400
+Received: from mail-co1nam11on2041.outbound.protection.outlook.com
+ ([40.107.220.41]:21802 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1kKMWh-0000jC-3G
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:10:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LiPeA9Y8DC5lFuDPCPioh7veGHlA+prLDlA6Wqa0C+gn/csnurAJaI3Jv+e/lGgiGjjViFa+NcrD/NGybqsakVfQ66ty6pZ9GPZ14oDoOjz+wdZkiiwHTzqHqj2Gn3Ct4i+Moy+iDbILKZNcRSPE8e+/VjLzrgT8mduik0ee9n0MI/PI78z/GUPHxyGL83S8c/9xkVDGx1W0rFn/eDAdMBGJFiExGeBTrgcLoyRY13G7LAlw61RvGjrt6bGf9slAvP+UkqZASHM9E0sufOFV71WY+yKJ609gFXYGD4ouK6jqsSjvloiGDD0mt79WW/KAUwnThGzSJc5WH5SXxYuxCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=degpsbBo984arjxl2XYhfPiKZ5IRhJ1LWWxCdWq19ig=;
+ b=jJmmqineiWxfYj03H9olmjnCnRTLTEz+aWD+ZE6ngcfclN/qQoLjeJBvY5RbfEmv9U7fKVzgLBK2T7CpY8caBf0+ahP4u8iTAqK2rvnHt36YTAhuIhMnHHFfKJQTg++EzCrr33CeBcYz5AL29P1z65MnJA1MeF9kbjUg5KgOd3BV9My2vAcuaIeHyZzBfKhxDyC8xNagGVTz4Zp3TuBhJyFfM4f6Kzwa+N5GlEc8laLt5Ona3hwygfT/kyCQXeBV0oNMj8lUiVNsPmEZZA0OrOsUoOC448dJExkkLgs4548XpllwReaaQGibpBKT8Z+BTRyaXrEUKq40IMdEqw/m+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=degpsbBo984arjxl2XYhfPiKZ5IRhJ1LWWxCdWq19ig=;
+ b=aCm9aaDqGWlr1sgYJERdAO+bwRx2jNwrzN+7NS0aXtv1QyAuoK7yjaoGEkFhB1oZewhIAebSsGvdtvVb3I1kMK3h3qkTpHN7vkMM10abWWXcPRdgXLhumBaQC9D++NPIbVhcL24URen0XJneOsn9wb37xx+/HUwZPlV+0pvZRh0=
+Authentication-Results: twiddle.net; dkim=none (message not signed)
+ header.d=none;twiddle.net; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM6PR12MB3273.namprd12.prod.outlook.com (2603:10b6:5:188::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.14; Mon, 21 Sep 2020 13:55:36 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::299a:8ed2:23fc:6346]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::299a:8ed2:23fc:6346%3]) with mapi id 15.20.3391.024; Mon, 21 Sep 2020
+ 13:55:36 +0000
+Subject: Re: [PATCH v3 1/5] sev/i386: Add initial support for SEV-ES
+To: Dov Murik <dovmurik@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+References: <cover.1600205384.git.thomas.lendacky@amd.com>
+ <e2456cc461f329f52aa6eb3fcd0d0ce9451b8fa7.1600205384.git.thomas.lendacky@amd.com>
+ <e8cf44ef-3180-8922-5f0a-2ce532005e51@linux.vnet.ibm.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <2d1c5321-4c4a-e98c-ca91-7fbea9ae4ba4@amd.com>
+Date: Mon, 21 Sep 2020 08:55:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <e8cf44ef-3180-8922-5f0a-2ce532005e51@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DM5PR16CA0045.namprd16.prod.outlook.com
+ (2603:10b6:4:15::31) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Sep 2020 13:50:45 -0000
-From: Laurent Vivier <1896263@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier maxco stefanha
-X-Launchpad-Bug-Reporter: Apteryx (maxco)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <160044888692.1133.11388395637815022535.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160069624572.17714.8717326043147456455.malone@soybean.canonical.com>
-Subject: [Bug 1896263] Re: The bios-tables-test test causes QEMU to crash
- (Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed) on AMD processors
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 1d86bb926ec2342d98971fb6abeccea0eda963b2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 07:41:04
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.30.118] (165.204.77.1) by
+ DM5PR16CA0045.namprd16.prod.outlook.com (2603:10b6:4:15::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.14 via Frontend Transport; Mon, 21 Sep 2020 13:55:35 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ea9ecd52-6d7e-48c1-341a-08d85e3603c6
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3273:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3273064F310C9F5633E9E762EC3A0@DM6PR12MB3273.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:534;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hQEDaXrl512eNa5EyInkUXIqDMZ/ZP8+xs6JH9GAdwqe7gINsyVNPO0Gp19bnXgzqvnWke7hUCst4lL0S1KBdEHYESe9OfmxXw0xfREvs5cIIgC+ZfrSj2vn0w7O4wsvxJ+L4g59jL9myM5fx3Bzg3Lf5wfzxSLT/LwE/vkaLQhjcWTV9njcy3i3fWOZgYo7MN6Fj2Iuv9MWpeSTC79dEaUpaK/WQj3BQHCCK4IegIAt3PsZ7bTUefAAvxeG9ThUXP42CFvbhNyy8Ah5807+fs02TL4IvcihuEm4Tgb6VGy2YrI7A0sETawIuekH2oE6++oxO5kSm7sz7/6ZxtbwuKcVaJe4zU822deywTww3QOve8PDLve3enWXLy96B0j+cj6KR1/UlcQRZAZiOppjX+0ek/EE/ZuirkpDK97oehA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(478600001)(7416002)(66556008)(8936002)(66946007)(83380400001)(4326008)(86362001)(52116002)(66476007)(8676002)(5660300002)(186003)(316002)(31686004)(956004)(2906002)(26005)(54906003)(6486002)(16526019)(36756003)(31696002)(53546011)(16576012)(2616005)(43740500002)(309714004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: JReioS71rsPf25GILv4qTlt72yADdG40BeN6lTCS6VpFn8sAActSkBwiRvIiVC/tAsfWc9jrysQzvnJbKMJVdMnXh/T0m0CrP6DEkCYjdzl8pyZ+soYrDHOwwRzagv+6l52jKUJKI03+BIj+I+vkSpiUfwgh7gavHwf8Rzc9bMGoAZgsb1diuoAdeOvE++5xNJV5x6a5TmeKwYhar8eMts7DOgdT95inbc0JRRhorB5cA251QOmArotEdnYWAPp/3CN+gGfQxvge5a3jn6AB2ttGebx0CfA2Dny9kFBZu9qCfZDD+TsLQcTiLhfTlO1v6Ub0B60dHA239Z9fe5gue7yXHPsa7vPfWrbjIka8rtlLtovGO0pTMPI9afrylZe1cryH7GXqfVyahoJZsWyxPk4HqPcGocEs1cJLNJ+GwLSMpfUOp4EGgwOcEeSLEO0jrUQvhCikAlIEhyPDHWjnCSHjrWRRKtZ7i9g3MF2clkYVSVcuoUShrH7Z0xSi0a9Tl1Y2PZbgZSNe4/gF7UzVzmEZzT/1oneu9D2QqHaQOK+9mfTU0I6vxJcYdGpLjln0XQ3foULga7NVv/NCpe9ecccQBxcTok3724J7O7JFNAFyHIsU6oyVUzzpU8SX2pWrvZkb108clteVnzMTyP02cA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea9ecd52-6d7e-48c1-341a-08d85e3603c6
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2020 13:55:36.0329 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PrOdQiAL89/NkLk29fIwgUKZYnrEmdsxphTBfOaKgd5zuGODuBo9Ko37aBAKfboXaUqIL5fRy1dhFXMfR+wUKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3273
+Received-SPF: none client-ip=40.107.220.41;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 10:10:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,207 +120,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896263 <1896263@bugs.launchpad.net>
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've reproduced the problem with HEAD of master, qemu-4.2.0 and
-qemu-4.0.0.
+On 9/21/20 1:45 AM, Dov Murik wrote:
+> On 16/09/2020 0:29, Tom Lendacky wrote:
+>> From: Tom Lendacky <thomas.lendacky@amd.com>
+>>
+>> Provide initial support for SEV-ES. This includes creating a function to
+>> indicate the guest is an SEV-ES guest (which will return false until all
+>> support is in place), performing the proper SEV initialization and
+>> ensuring that the guest CPU state is measured as part of the launch.
+>>
+>> Co-developed-by: Jiri Slaby <jslaby@suse.cz>
+>> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+>> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+>> ---
+>>   target/i386/cpu.c      |  1 +
+>>   target/i386/sev-stub.c |  5 +++++
+>>   target/i386/sev.c      | 46 ++++++++++++++++++++++++++++++++++++++++--
+>>   target/i386/sev_i386.h |  1 +
+>>   4 files changed, 51 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index 588f32e136..bbbe581d35 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -5969,6 +5969,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t
+>> index, uint32_t count,
+>>           break;
+>>       case 0x8000001F:
+>>           *eax = sev_enabled() ? 0x2 : 0;
+>> +        *eax |= sev_es_enabled() ? 0x8 : 0;
+>>           *ebx = sev_get_cbit_position();
+>>           *ebx |= sev_get_reduced_phys_bits() << 6;
+>>           *ecx = 0;
+>> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+>> index 88e3f39a1e..040ac90563 100644
+>> --- a/target/i386/sev-stub.c
+>> +++ b/target/i386/sev-stub.c
+>> @@ -49,3 +49,8 @@ SevCapability *sev_get_capabilities(Error **errp)
+>>       error_setg(errp, "SEV is not available in this QEMU");
+>>       return NULL;
+>>   }
+>> +
+>> +bool sev_es_enabled(void)
+>> +{
+>> +    return false;
+>> +}
+>> diff --git a/target/i386/sev.c b/target/i386/sev.c
+>> index c3ecf86704..6c9cd0854b 100644
+>> --- a/target/i386/sev.c
+>> +++ b/target/i386/sev.c
+>> @@ -359,6 +359,12 @@ sev_enabled(void)
+>>       return !!sev_guest;
+>>   }
+>>
+>> +bool
+>> +sev_es_enabled(void)
+>> +{
+>> +    return false;
+>> +}
+>> +
+>>   uint64_t
+>>   sev_get_me_mask(void)
+>>   {
+>> @@ -578,6 +584,22 @@ sev_launch_update_data(SevGuestState *sev, uint8_t
+>> *addr, uint64_t len)
+>>       return ret;
+>>   }
+>>
+>> +static int
+>> +sev_launch_update_vmsa(SevGuestState *sev)
+>> +{
+>> +    int ret, fw_error;
+>> +
+>> +    ret = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_UPDATE_VMSA, NULL,
+>> &fw_error);
+>> +    if (ret) {
+>> +        error_report("%s: LAUNCH_UPDATE_VMSA ret=%d fw_error=%d '%s'",
+>> +                __func__, ret, fw_error, fw_error_to_str(fw_error));
+>> +        goto err;
+> 
+> goto (and the err: label) is not needed.
 
-I think the problem comes from the the kernel.
+Yup, will remove both.
 
-Host CPU: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
-Host kernel: 5.8.4-200.fc32.x86_64
+> 
+>> +    }
+>> +
+>> +err:
+>> +    return ret;
+>> +}
+>> +
+>>   static void
+>>   sev_launch_get_measure(Notifier *notifier, void *unused)
+>>   {
+>> @@ -590,6 +612,14 @@ sev_launch_get_measure(Notifier *notifier, void
+>> *unused)
+>>           return;
+>>       }
+>>
+>> +    if (sev_es_enabled()) {
+>> +        /* measure all the VM save areas before getting launch_measure */
+>> +        ret = sev_launch_update_vmsa(sev);
+>> +        if (ret) {
+>> +            exit(1);
+> 
+> Other error cases in this function just return on error. Why quit QEMU here?
 
--- =
+This is inside an void return function so an error can't be returned. It
+matches what happens if sev_launch_finish() fails. To that end, a
+LAUNCH_MEASURE error should probably exit(), also.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896263
+Thanks,
+Tom
 
-Title:
-  The bios-tables-test test causes QEMU to crash (Assertion `ret =3D=3D
-  cpu->kvm_msr_buf->nmsrs' failed) on AMD processors
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU release version: Any recent version (5.0.0, 5.1.0, git master)
-  Host CPU: AMD Ryzen 3900X
-
-  The following backtrace is from commit
-  e883b492c221241d28aaa322c61536436090538a.
-
-  QTEST_QEMU_BINARY=3D./build/qemu-system-x86_64 gdb ./build/tests/qtest/bi=
-os-tables-test
-  GNU gdb (GDB) 9.2
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.h=
-tml>
-  This is free software: you are free to change and redistribute it.
-  There is NO WARRANTY, to the extent permitted by law.
-  Type "show copying" and "show warranty" for details.
-  This GDB was configured as "x86_64-unknown-linux-gnu".
-  Type "show configuration" for configuration details.
-  For bug reporting instructions, please see:
-  <http://www.gnu.org/software/gdb/bugs/>.
-  Find the GDB manual and other documentation resources online at:
-      <http://www.gnu.org/software/gdb/documentation/>.
-
-  For help, type "help".
-  Type "apropos word" to search for commands related to "word"...
-  Reading symbols from ./build/tests/qtest/bios-tables-test...
-  (gdb) run
-  Starting program: /home/mcournoyer/src/qemu/build/tests/qtest/bios-tables=
--test =
-
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a=
-0cr-glibc-2.31/lib/libthread_db.so.1".
-  [New Thread 0x7ffff7af6700 (LWP 18955)]
-  # random seed: R02S5106b7afa2fd84a0353605795c04ab7d
-  1..19
-  # Start of x86_64 tests
-  # Start of acpi tests
-  # starting QEMU: exec ./build/qemu-system-x86_64 -qtest unix:/tmp/qtest-1=
-8951.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-18951.qmp,=
-id=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine pc,ke=
-rnel-irqchip=3Doff -accel kvm -accel tcg -net none -display none  -drive id=
-=3Dhd0,if=3Dnone,file=3Dtests/acpi-test-disk-R3kbyc,format=3Draw -device id=
-e-hd,drive=3Dhd0  -accel qtest
-  [Attaching after Thread 0x7ffff7af7900 (LWP 18951) fork to child process =
-18956]
-  [New inferior 2 (process 18956)]
-  [Detaching after fork from parent process 18951]
-  [Inferior 1 (process 18951) detached]
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a=
-0cr-glibc-2.31/lib/libthread_db.so.1".
-  [New Thread 0x7ffff7af6700 (LWP 18957)]
-  [Thread 0x7ffff7af6700 (LWP 18957) exited]
-  process 18956 is executing new program: /gnu/store/87kif0bpf0anwbsaw0jvg8=
-fyciw4sz67-bash-5.0.16/bin/bash
-  process 18956 is executing new program: /home/mcournoyer/src/qemu/build/q=
-emu-system-x86_64
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a=
-0cr-glibc-2.31/lib/libthread_db.so.1".
-  [New Thread 0x7ffff48ed700 (LWP 18958)]
-  [New Thread 0x7fffeffff700 (LWP 18960)]
-  [New Thread 0x7fffef61c700 (LWP 18961)]
-  [New Thread 0x7fffed5ff700 (LWP 18962)]
-  qemu-system-x86_64: error: failed to set MSR 0x4b564d02 to 0x0
-  qemu-system-x86_64: ../target/i386/kvm.c:2714: kvm_buf_set_msrs: Assertio=
-n `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-  Thread 2.5 "qemu-system-x86" received signal SIGABRT, Aborted.
-  [Switching to Thread 0x7fffef61c700 (LWP 18961)]
-  0x00007ffff65dbaba in raise () from /gnu/store/fa6wj5bxkj5ll1d7292a70knmy=
-l7a0cr-glibc-2.31/lib/libc.so.6
-  (gdb) taas bt
-
-  Thread 2.6 (Thread 0x7fffed5ff700 (LWP 18962)):
-  #0  0x00007ffff6770c4d in pthread_cond_timedwait@@GLIBC_2.3.2 () from /gn=
-u/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #1  0x0000555555cc8a0e in qemu_sem_timedwait (sem=3Dsem@entry=3D0x5555566=
-2f758, ms=3Dms@entry=3D10000) at ../util/qemu-thread-posix.c:282
-  #2  0x0000555555cd91b5 in worker_thread (opaque=3Dopaque@entry=3D0x555556=
-62f6e0) at ../util/thread-pool.c:91
-  #3  0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #4  0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #5  0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.5 (Thread 0x7fffef61c700 (LWP 18961)):
-  #0  0x00007ffff65dbaba in raise () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #1  0x00007ffff65dcbf5 in abort () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #2  0x00007ffff65d470a in __assert_fail_base () from /gnu/store/fa6wj5bxk=
-j5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #3  0x00007ffff65d4782 in __assert_fail () from /gnu/store/fa6wj5bxkj5ll1=
-d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #4  0x0000555555a3e979 in kvm_buf_set_msrs (cpu=3D0x555556688a20) at ../t=
-arget/i386/kvm.c:2714
-  #5  0x0000555555a438cc in kvm_put_msrs (level=3D3, cpu=3D0x555556688a20) =
-at ../target/i386/kvm.c:3005
-  #6  kvm_arch_put_registers (cpu=3Dcpu@entry=3D0x555556688a20, level=3Dlev=
-el@entry=3D3) at ../target/i386/kvm.c:3989
-  #7  0x0000555555af7b0e in do_kvm_cpu_synchronize_post_init (cpu=3D0x55555=
-6688a20, arg=3D...) at ../accel/kvm/kvm-all.c:2355
-  #8  0x00005555558ef8e2 in process_queued_cpu_work (cpu=3Dcpu@entry=3D0x55=
-5556688a20) at ../cpus-common.c:343
-  #9  0x0000555555b6ac25 in qemu_wait_io_event_common (cpu=3Dcpu@entry=3D0x=
-555556688a20) at ../softmmu/cpus.c:1117
-  #10 0x0000555555b6ac84 in qemu_wait_io_event (cpu=3Dcpu@entry=3D0x5555566=
-88a20) at ../softmmu/cpus.c:1157
-  #11 0x0000555555b6aec8 in qemu_kvm_cpu_thread_fn (arg=3Darg@entry=3D0x555=
-556688a20) at ../softmmu/cpus.c:1193
-  #12 0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #13 0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #14 0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.4 (Thread 0x7fffeffff700 (LWP 18960)):
-  #0  0x00007ffff66919d9 in poll () from /gnu/store/fa6wj5bxkj5ll1d7292a70k=
-nmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #1  0x00007ffff78f0051 in g_main_context_iterate.isra () from /gnu/store/=
-n1mx1dp0hcrzm1akf8qdqa9gmybzazs2-profile/lib/libglib-2.0.so.0
-  #2  0x00007ffff78f0392 in g_main_loop_run () from /gnu/store/n1mx1dp0hcrz=
-m1akf8qdqa9gmybzazs2-profile/lib/libglib-2.0.so.0
-  #3  0x000055555584b5a1 in iothread_run (opaque=3Dopaque@entry=3D0x5555565=
-57720) at ../iothread.c:80
-  #4  0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #5  0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #6  0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.3 (Thread 0x7ffff48ed700 (LWP 18958)):
-  #0  0x00007ffff66657a1 in clock_nanosleep@GLIBC_2.2.5 () from /gnu/store/=
-fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #1  0x00007ffff666ac03 in nanosleep () from /gnu/store/fa6wj5bxkj5ll1d729=
-2a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #2  0x00007ffff7919cdf in g_usleep () from /gnu/store/n1mx1dp0hcrzm1akf8q=
-dqa9gmybzazs2-profile/lib/libglib-2.0.so.0
-  #3  0x0000555555cb3b04 in call_rcu_thread (opaque=3Dopaque@entry=3D0x0) a=
-t ../util/rcu.c:250
-  #4  0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #5  0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #6  0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.1 (Thread 0x7ffff48f2c80 (LWP 18956)):
-  #0  0x00007ffff677094c in pthread_cond_wait@@GLIBC_2.3.2 () from /gnu/sto=
-re/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #1  0x0000555555cc854f in qemu_cond_wait_impl (cond=3D0x5555563b0020 <qem=
-u_work_cond>, mutex=3D0x5555563cd620 <qemu_global_mutex>, file=3D0x555555db=
-ad06 "../cpus-common.c", line=3D154) at ../util/qemu-thread-posix.c:174
-  #2  0x00005555558ef484 in do_run_on_cpu (cpu=3Dcpu@entry=3D0x555556688a20=
-, func=3Dfunc@entry=3D0x555555af7b00 <do_kvm_cpu_synchronize_post_init>, da=
-ta=3D..., mutex=3Dmutex@entry=3D0x5555563cd620 <qemu_global_mutex>) at ../c=
-pus-common.c:154
-  #3  0x0000555555b6aa7c in run_on_cpu (cpu=3Dcpu@entry=3D0x555556688a20, f=
-unc=3Dfunc@entry=3D0x555555af7b00 <do_kvm_cpu_synchronize_post_init>, data=
-=3D..., data@entry=3D...) at ../softmmu/cpus.c:1085
-  #4  0x0000555555af8d4e in kvm_cpu_synchronize_post_init (cpu=3Dcpu@entry=
-=3D0x555556688a20) at ../accel/kvm/kvm-all.c:2361
-  #5  0x0000555555b6a94a in cpu_synchronize_post_init (cpu=3D0x555556688a20=
-) at /home/mcournoyer/src/qemu/include/sysemu/hw_accel.h:55
-  #6  cpu_synchronize_all_post_init () at ../softmmu/cpus.c:953
-  #7  0x0000555555b0dca7 in qemu_init (argc=3D<optimized out>, argv=3D<opti=
-mized out>, envp=3D<optimized out>) at ../softmmu/vl.c:4387
-  #8  0x0000555555840609 in main (argc=3D<optimized out>, argv=3D<optimized=
- out>, envp=3D<optimized out>) at ../softmmu/main.c:49
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896263/+subscriptions
+> 
+>> +        }
+>> +    }
+>> +
+>>       measurement = g_new0(struct kvm_sev_launch_measure, 1);
+>>
+>>       /* query the measurement blob length */
+>> @@ -684,7 +714,7 @@ sev_guest_init(const char *id)
+>>   {
+>>       SevGuestState *sev;
+>>       char *devname;
+>> -    int ret, fw_error;
+>> +    int ret, fw_error, cmd;
+>>       uint32_t ebx;
+>>       uint32_t host_cbitpos;
+>>       struct sev_user_data_status status = {};
+>> @@ -745,8 +775,20 @@ sev_guest_init(const char *id)
+>>       sev->api_major = status.api_major;
+>>       sev->api_minor = status.api_minor;
+>>
+>> +    if (sev_es_enabled()) {
+>> +        if (!(status.flags & SEV_STATUS_FLAGS_CONFIG_ES)) {
+>> +            error_report("%s: guest policy requires SEV-ES, but "
+>> +                         "host SEV-ES support unavailable",
+>> +                         __func__);
+>> +            goto err;
+>> +        }
+>> +        cmd = KVM_SEV_ES_INIT;
+>> +    } else {
+>> +        cmd = KVM_SEV_INIT;
+>> +    }
+>> +
+>>       trace_kvm_sev_init();
+>> -    ret = sev_ioctl(sev->sev_fd, KVM_SEV_INIT, NULL, &fw_error);
+>> +    ret = sev_ioctl(sev->sev_fd, cmd, NULL, &fw_error);
+>>       if (ret) {
+>>           error_report("%s: failed to initialize ret=%d fw_error=%d '%s'",
+>>                        __func__, ret, fw_error, fw_error_to_str(fw_error));
+>> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+>> index 4db6960f60..4f9a5e9b21 100644
+>> --- a/target/i386/sev_i386.h
+>> +++ b/target/i386/sev_i386.h
+>> @@ -29,6 +29,7 @@
+>>   #define SEV_POLICY_SEV          0x20
+>>
+>>   extern bool sev_enabled(void);
+>> +extern bool sev_es_enabled(void);
+>>   extern uint64_t sev_get_me_mask(void);
+>>   extern SevInfo *sev_get_info(void);
+>>   extern uint32_t sev_get_cbit_position(void);
+>>
 
