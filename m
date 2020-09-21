@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AAF27359D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:19:31 +0200 (CEST)
-Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436052735C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:29:22 +0200 (CEST)
+Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKU9i-0000Wr-Ar
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59142)
+	id 1kKUJF-0006ij-C7
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU27-0000b9-5n
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28670)
+ id 1kKU25-0000Wl-Di
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU22-0001ei-DN
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:38 -0400
+ id 1kKU21-0001fz-IC
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:11:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600726290;
+ s=mimecast20190719; t=1600726291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/EBpP8r6TKM0MA75vsOahpPWeODiE6EuJYCvSL2cu0U=;
- b=LsxGDYQu0m8hPk+rOw9772goAncEq6ZflTaUqmPdZJYeeb/9h+qBScrWdOBliuyUkR6PTG
- mhYARUcT5bHlTGUup8V88sVXLuTwOb0sOO/L8/FJomXAoDCHEpw0tbFJckBzQckbzmyI2S
- EtcON5BMaBNBC9sCJ0kui2ed2xyiVfY=
+ bh=i4WApan/GZKTLeUW28LxUT+wI7HTy1waMMiyOA8pIHY=;
+ b=E1Dv92fjkM+fExsLbN1pK7Z7q/TfeUpAAF8waHhaCT+Q+p9Fe4o7zueZtx7O+GLpCLTn4M
+ a5597Wj33YQ0u4FsfF51/yhqG+iNZelGS4dEbUveJB0CEcGHGuC8agIzC7GTDzA0Hgx40N
+ x1jm2uNHZ3nyXln8AEz/m7qJTPZO/18=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-JHjv2d3aO6OUJxXtyCP9hg-1; Mon, 21 Sep 2020 18:11:28 -0400
-X-MC-Unique: JHjv2d3aO6OUJxXtyCP9hg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-247-piy_bAwAM6O-cF3MAXLwEw-1; Mon, 21 Sep 2020 18:11:30 -0400
+X-MC-Unique: piy_bAwAM6O-cF3MAXLwEw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 281DD10059A2;
- Mon, 21 Sep 2020 22:11:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93F72185FD70;
+ Mon, 21 Sep 2020 22:11:28 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE4A510013BD;
- Mon, 21 Sep 2020 22:11:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40C9616E20;
+ Mon, 21 Sep 2020 22:11:28 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/24] arm/cpu64: Register "aarch64" as class property
-Date: Mon, 21 Sep 2020 18:10:39 -0400
-Message-Id: <20200921221045.699690-19-ehabkost@redhat.com>
+Subject: [PATCH 19/24] xlnx-zcu102: Register properties as class properties
+Date: Mon, 21 Sep 2020 18:10:40 -0400
+Message-Id: <20200921221045.699690-20-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -80,9 +80,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, "Daniel P. Berrange" <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,54 +93,60 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- target/arm/cpu64.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ hw/arm/xlnx-zcu102.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 3c2b3d95993..349c9fa3a3a 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -758,15 +758,6 @@ static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
-     }
- }
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index 19d5a4d4e0e..4deb96bfcc1 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -208,20 +208,8 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
  
--static void aarch64_cpu_initfn(Object *obj)
--{
--    object_property_add_bool(obj, "aarch64", aarch64_cpu_get_aarch64,
--                             aarch64_cpu_set_aarch64);
--    object_property_set_description(obj, "aarch64",
--                                    "Set on/off to enable/disable aarch64 "
--                                    "execution state ");
--}
+     /* Default to secure mode being disabled */
+     s->secure = false;
+-    object_property_add_bool(obj, "secure", zcu102_get_secure,
+-                             zcu102_set_secure);
+-    object_property_set_description(obj, "secure",
+-                                    "Set on/off to enable/disable the ARM "
+-                                    "Security Extensions (TrustZone)");
 -
- static void aarch64_cpu_finalizefn(Object *obj)
- {
- }
-@@ -786,6 +777,12 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_num_core_regs = 34;
-     cc->gdb_core_xml_file = "aarch64-core.xml";
-     cc->gdb_arch_name = aarch64_gdb_arch_name;
-+
-+    object_class_property_add_bool(oc, "aarch64", aarch64_cpu_get_aarch64,
-+                                   aarch64_cpu_set_aarch64);
-+    object_class_property_set_description(oc, "aarch64",
-+                                          "Set on/off to enable/disable aarch64 "
-+                                          "execution state ");
+     /* Default to virt (EL2) being disabled */
+     s->virt = false;
+-    object_property_add_bool(obj, "virtualization", zcu102_get_virt,
+-                             zcu102_set_virt);
+-    object_property_set_description(obj, "virtualization",
+-                                    "Set on/off to enable/disable emulating a "
+-                                    "guest CPU which implements the ARM "
+-                                    "Virtualization Extensions");
  }
  
- static void aarch64_cpu_instance_init(Object *obj)
-@@ -823,7 +820,6 @@ static const TypeInfo aarch64_cpu_type_info = {
-     .name = TYPE_AARCH64_CPU,
-     .parent = TYPE_ARM_CPU,
-     .instance_size = sizeof(ARMCPU),
--    .instance_init = aarch64_cpu_initfn,
-     .instance_finalize = aarch64_cpu_finalizefn,
-     .abstract = true,
-     .class_size = sizeof(AArch64CPUClass),
+ static void xlnx_zcu102_machine_class_init(ObjectClass *oc, void *data)
+@@ -237,6 +225,19 @@ static void xlnx_zcu102_machine_class_init(ObjectClass *oc, void *data)
+     mc->max_cpus = XLNX_ZYNQMP_NUM_APU_CPUS + XLNX_ZYNQMP_NUM_RPU_CPUS;
+     mc->default_cpus = XLNX_ZYNQMP_NUM_APU_CPUS;
+     mc->default_ram_id = "ddr-ram";
++
++    object_class_property_add_bool(oc, "secure", zcu102_get_secure,
++                                   zcu102_set_secure);
++    object_class_property_set_description(oc, "secure",
++                                          "Set on/off to enable/disable the ARM "
++                                          "Security Extensions (TrustZone)");
++
++    object_class_property_add_bool(oc, "virtualization", zcu102_get_virt,
++                                   zcu102_set_virt);
++    object_class_property_set_description(oc, "virtualization",
++                                          "Set on/off to enable/disable emulating a "
++                                          "guest CPU which implements the ARM "
++                                          "Virtualization Extensions");
+ }
+ 
+ static const TypeInfo xlnx_zcu102_machine_init_typeinfo = {
 -- 
 2.26.2
 
