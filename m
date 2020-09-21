@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CFB273156
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:58:49 +0200 (CEST)
-Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD990273136
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:54:01 +0200 (CEST)
+Received: from localhost ([::1]:55354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQ5Q-0002PG-Qs
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
+	id 1kKQ0m-0003n5-PD
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPr0-0001rB-DV
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26003)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPr8-0001vV-BC
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPqw-0000TU-SA
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:43:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKPr4-0000UM-78
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 13:44:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600710229;
+ s=mimecast20190719; t=1600710237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=5CwXmhBsAUVyFK41bdYNOdR7gmZqx9o4xlLibQBLF1M=;
- b=gSqF6d/4T0NeRRKPKCKN+cSY/3vCLKzbBVUWJzPrd4vHvwqqBYBcXYwA4ue6ml2a78TM0C
- xPgO7qf2QI11BWV1hYj4nDHuRs/0PnoOkNNZ5G+h6Ik6+DyrcyxtnYZofiVXZzlXZ8QVtq
- pkdXSMEtz/rihEoZ0DsBaa6HLatvc8I=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=txVtSusGIWUv9yp1/LucJfBamvhPtUCA/Mzl8njc4j4=;
+ b=YP/LnlosQATb5tPLzCTt4yO6J1lsJyt1bHzenHVRjVQrh2tNcCMQ2/pYnyblm6TK6b+fBg
+ j8lnqzUdshpAcPzfbPfLbhSfQnkp21nGgoeE3Ghy4ImGwgFXxR8puFbXV/lYUhzl4aUUmO
+ 4Z69X9KWOSXf9Yf39Sm6eq8WNJsFQ4I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-PnuO8CKQMDS6y_nGAmF8Ug-1; Mon, 21 Sep 2020 13:43:47 -0400
-X-MC-Unique: PnuO8CKQMDS6y_nGAmF8Ug-1
+ us-mta-493-Czk9A0wDPZaGps6Q6BZwKg-1; Mon, 21 Sep 2020 13:43:53 -0400
+X-MC-Unique: Czk9A0wDPZaGps6Q6BZwKg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD6491018F60;
- Mon, 21 Sep 2020 17:43:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 711451018F60;
+ Mon, 21 Sep 2020 17:43:52 +0000 (UTC)
 Received: from thuth.com (ovpn-112-14.ams2.redhat.com [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F9D45D9CD;
- Mon, 21 Sep 2020 17:43:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 378EE5D9CD;
+ Mon, 21 Sep 2020 17:43:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 4/7] shippable.yml: Remove the Debian9-based MinGW
- cross-compiler tests
-Date: Mon, 21 Sep 2020 19:43:17 +0200
-Message-Id: <20200921174320.46062-5-thuth@redhat.com>
+Subject: [PATCH 5/7] tests/docker: Remove old Debian 9 containers
+Date: Mon, 21 Sep 2020 19:43:18 +0200
+Message-Id: <20200921174320.46062-6-thuth@redhat.com>
 In-Reply-To: <20200921174320.46062-1-thuth@redhat.com>
 References: <20200921174320.46062-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
@@ -85,30 +88,205 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're not supporting Debian 9 anymore, and we are now testing
-MinGW cross-compiler builds in the gitlab-CI, too, so we do not
-really need these jobs in the shippable.yml anymore.
+We do not support Debian 9 in QEMU anymore, and the Debian 9 containers
+are now no longer used in the gitlab-CI. Time to remove them.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .shippable.yml | 4 ----
- 1 file changed, 4 deletions(-)
+ .gitlab-ci.d/containers.yml                   | 12 -----
+ .../dockerfiles/debian-win32-cross.docker     | 38 ----------------
+ .../dockerfiles/debian-win64-cross.docker     | 45 -------------------
+ tests/docker/dockerfiles/debian9-mxe.docker   | 21 ---------
+ tests/docker/dockerfiles/debian9.docker       | 32 -------------
+ 5 files changed, 148 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-win32-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-win64-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian9-mxe.docker
+ delete mode 100644 tests/docker/dockerfiles/debian9.docker
 
-diff --git a/.shippable.yml b/.shippable.yml
-index 0b4fd6df1d..14350e6de8 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -7,10 +7,6 @@ env:
-   matrix:
-     - IMAGE=debian-amd64
-       TARGET_LIST=x86_64-softmmu,x86_64-linux-user
--    - IMAGE=debian-win32-cross
--      TARGET_LIST=arm-softmmu,i386-softmmu
--    - IMAGE=debian-win64-cross
--      TARGET_LIST=aarch64-softmmu,sparc64-softmmu,x86_64-softmmu
-     - IMAGE=debian-armel-cross
-       TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
-     - IMAGE=debian-armhf-cross
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 089cea7c14..11d079ea58 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -48,18 +48,6 @@ amd64-debian11-container:
+   variables:
+     NAME: debian11
+ 
+-amd64-debian9-container:
+-  <<: *container_job_definition
+-  variables:
+-    NAME: debian9
+-
+-amd64-debian9-mxe-container:
+-  <<: *container_job_definition
+-  stage: containers-layer2
+-  needs: ['amd64-debian9-container']
+-  variables:
+-    NAME: debian9-mxe
+-
+ alpha-debian-cross-container:
+   <<: *container_job_definition
+   stage: containers-layer2
+diff --git a/tests/docker/dockerfiles/debian-win32-cross.docker b/tests/docker/dockerfiles/debian-win32-cross.docker
+deleted file mode 100644
+index b045e821b9..0000000000
+--- a/tests/docker/dockerfiles/debian-win32-cross.docker
++++ /dev/null
+@@ -1,38 +0,0 @@
+-#
+-# Docker mingw32 cross-compiler target
+-#
+-# This docker target builds on the debian Stretch MXE base image.
+-#
+-FROM qemu/debian9-mxe
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-ENV TARGET i686
+-
+-ENV PATH $PATH:/usr/lib/mxe/usr/bin:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
+-
+-ENV PKG_CONFIG_PATH \
+-    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
+-
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        mxe-$TARGET-w64-mingw32.shared-bzip2 \
+-        mxe-$TARGET-w64-mingw32.shared-curl \
+-        mxe-$TARGET-w64-mingw32.shared-glib \
+-        mxe-$TARGET-w64-mingw32.shared-libgcrypt \
+-        mxe-$TARGET-w64-mingw32.shared-libusb1 \
+-        mxe-$TARGET-w64-mingw32.shared-lzo \
+-        mxe-$TARGET-w64-mingw32.shared-nettle \
+-        mxe-$TARGET-w64-mingw32.shared-ncurses \
+-        mxe-$TARGET-w64-mingw32.shared-nsis \
+-        mxe-$TARGET-w64-mingw32.shared-pixman \
+-        mxe-$TARGET-w64-mingw32.shared-pkgconf \
+-        mxe-$TARGET-w64-mingw32.shared-pthreads \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2 \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-mixer \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-gfx \
+-        mxe-$TARGET-w64-mingw32.shared-zlib
+-
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
+-ENV QEMU_CONFIGURE_OPTS --cross-prefix=$TARGET-w64-mingw32.shared-
+diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b/tests/docker/dockerfiles/debian-win64-cross.docker
+deleted file mode 100644
+index 4cc4a3f365..0000000000
+--- a/tests/docker/dockerfiles/debian-win64-cross.docker
++++ /dev/null
+@@ -1,45 +0,0 @@
+-#
+-# Docker mingw64 cross-compiler target
+-#
+-# This docker target builds on the debian Stretch MXE base image.
+-#
+-FROM qemu/debian9-mxe
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-ENV TARGET x86-64
+-
+-ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
+-
+-ENV PKG_CONFIG_PATH \
+-    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
+-
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        mxe-$TARGET-w64-mingw32.shared-bzip2 \
+-        mxe-$TARGET-w64-mingw32.shared-curl \
+-        mxe-$TARGET-w64-mingw32.shared-glib \
+-        mxe-$TARGET-w64-mingw32.shared-libgcrypt \
+-        mxe-$TARGET-w64-mingw32.shared-libusb1 \
+-        mxe-$TARGET-w64-mingw32.shared-lzo \
+-        mxe-$TARGET-w64-mingw32.shared-nettle \
+-        mxe-$TARGET-w64-mingw32.shared-ncurses \
+-        mxe-$TARGET-w64-mingw32.shared-nsis \
+-        mxe-$TARGET-w64-mingw32.shared-pixman \
+-        mxe-$TARGET-w64-mingw32.shared-pkgconf \
+-        mxe-$TARGET-w64-mingw32.shared-pthreads \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2 \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-mixer \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-gfx \
+-        mxe-$TARGET-w64-mingw32.shared-zlib \
+-        curl && \
+-    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvEmulation.h \
+-        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvemulation.h?format=raw" && \
+-    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvPlatform.h \
+-        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvplatform.h?format=raw" && \
+-    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/winhvplatformdefs.h \
+-        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvplatformdefs.h?format=raw"
+-
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
+-ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32.shared-
+diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/dockerfiles/debian9-mxe.docker
+deleted file mode 100644
+index ae2c222a6f..0000000000
+--- a/tests/docker/dockerfiles/debian9-mxe.docker
++++ /dev/null
+@@ -1,21 +0,0 @@
+-#
+-# Docker mingw cross-compiler target
+-#
+-# This docker target builds on the debian Stretch base image.
+-#
+-FROM qemu/debian9
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends gnupg dirmngr
+-
+-# Add the foreign architecture we want and install dependencies
+-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C6BF758A33A3A276 && \
+-    echo "deb http://pkg.mxe.cc/repos/apt stretch main" > /etc/apt/sources.list.d/mxeapt.list
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        $(apt-get -s install -y --no-install-recommends gw32.shared-mingw-w64 | egrep "^Inst mxe-x86-64-unknown-" | cut -d\  -f2)
+-
+-ENV PATH $PATH:/usr/lib/mxe/usr/bin/
+diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
+deleted file mode 100644
+index 3edb5147ef..0000000000
+--- a/tests/docker/dockerfiles/debian9.docker
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#
+-# Docker multiarch cross-compiler target
+-#
+-# This docker target is builds on Debian cross compiler targets to build distro
+-# with a selection of cross compilers for building test binaries.
+-#
+-# On its own you can't build much but the docker-foo-cross targets
+-# build on top of the base debian image.
+-#
+-FROM debian:stretch-slim
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+-
+-# Install common build utilities
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        bc \
+-        build-essential \
+-        ca-certificates \
+-        clang \
+-        gdb-multiarch \
+-        gettext \
+-        git \
+-        libncurses5-dev \
+-        pkg-config \
+-        psmisc \
+-        python3 \
+-        python3-setuptools \
+-        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
 -- 
 2.18.2
 
