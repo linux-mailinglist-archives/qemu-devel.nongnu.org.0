@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEE82731CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:20:32 +0200 (CEST)
-Received: from localhost ([::1]:55928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC179273181
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:09:36 +0200 (CEST)
+Received: from localhost ([::1]:34088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQQR-0003Gu-Kx
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
+	id 1kKQFr-0002PG-Tx
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKQBS-0008OO-B5
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:05:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23139)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kKQBx-0000YA-57
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:05:33 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37358
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKQBN-00037f-C5
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:05:01 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kKQBv-0003Gd-3a
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:05:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600711495;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1600711529;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nQ84asbVTglHo1OSk7EcLvjlCedWaCtV86FkOdMGtB4=;
- b=SjqLDz6Bbxp2gvWo3TfxCrD62TFJzMYIZzioPH4svL9zNqI6yddfPF1ZWOng9xwB/T7MaL
- jqOz7Zxpxj/VOXzGlI38/nAx5ejLOEWqeWUBRBd7gWq0gWB1nbllr7x69A8mneALC5wWzt
- oqdw2PDiAUr9E2n8IvoHpVj2GmD8ckY=
+ bh=7HrzgmiXlX8QJfbiEKM/FFjbq+/t8MHC+trFzNRAKrQ=;
+ b=Z5x99+XJ4kgYgETZv6KwOjRK8dosivPlVX2B+WzdUNnnpw3EUmnga/AGweisJaqxfZNgYf
+ 5OZIOAbvxYk47Myq/vCa7s3uy1xqfp8MunuTr0zHFaHxqij4DNDNqQt3nLVEp2U7c96aeV
+ abUsxgGTbMIFlYYSnIKABeSvDpLSg7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-S3uTRnqYMeGbc_cFWr5PBg-1; Mon, 21 Sep 2020 14:04:52 -0400
-X-MC-Unique: S3uTRnqYMeGbc_cFWr5PBg-1
+ us-mta-423-v4RvONbHO2WqXFBeeUtaXw-1; Mon, 21 Sep 2020 14:05:27 -0400
+X-MC-Unique: v4RvONbHO2WqXFBeeUtaXw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79525873016;
- Mon, 21 Sep 2020 18:04:51 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EECA881C41;
- Mon, 21 Sep 2020 18:04:46 +0000 (UTC)
-Subject: Re: [PATCH 7/7] configure: Bump the minimum required Python version
- to 3.6
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 924818014D9;
+ Mon, 21 Sep 2020 18:05:26 +0000 (UTC)
+Received: from redhat.com (ovpn-113-113.ams2.redhat.com [10.36.113.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79E9C7368B;
+ Mon, 21 Sep 2020 18:05:21 +0000 (UTC)
+Date: Mon, 21 Sep 2020 19:05:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 2/7] gitlab-ci: Remove the Debian9-based containers and
+ containers-layer3
+Message-ID: <20200921180518.GU1942072@redhat.com>
 References: <20200921174320.46062-1-thuth@redhat.com>
- <20200921174320.46062-8-thuth@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <9bd2d32f-27eb-c32c-0e19-eb16612a9400@redhat.com>
-Date: Mon, 21 Sep 2020 14:04:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ <20200921174320.46062-3-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200921174320.46062-8-thuth@redhat.com>
+In-Reply-To: <20200921174320.46062-3-thuth@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,56 +86,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
  Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/20 1:43 PM, Thomas Huth wrote:
-> All our supported build platforms have Python 3.6 or newer nowadays,
-> and there are some useful features in Python 3.6 which are not available
-> in 3.5 yet, so let's bump the minimum Python version to 3.6 now.
+On Mon, Sep 21, 2020 at 07:43:15PM +0200, Thomas Huth wrote:
+> According to our support policy, Debian 9 is not supported by the
+> QEMU project anymore. Since we now switched the MinGW cross-compiler
+> builds to Fedora, we do not need these Debian9-based containers
+> in the gitlab-CI anymore, and can now also get rid of the "layer3"
+> container build stage this way.
 > 
-
-Just to add in case anyone wonders: This isn't incrementalism for 
-incrementalism's sake, but the type hint annotations added in Python 3.6 
-allow us to statically type the QAPI parser.
-
-We are already using (and enforcing) these annotations in iotests.py, 
-and I believe adding this to QAPI will be of high value going forward.
-
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   configure | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  .gitlab-ci.d/containers.yml | 14 --------------
+>  .gitlab-ci.yml              |  1 -
+>  2 files changed, 15 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 > 
-> diff --git a/configure b/configure
-> index 7564479008..a3a643168e 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1965,8 +1965,8 @@ fi
->   
->   # Note that if the Python conditional here evaluates True we will exit
->   # with status 1 which is a shell 'false' value.
-> -if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
-> -  error_exit "Cannot use '$python', Python >= 3.5 is required." \
-> +if ! $python -c 'import sys; sys.exit(sys.version_info < (3,6))'; then
-> +  error_exit "Cannot use '$python', Python >= 3.6 is required." \
->         "Use --python=/path/to/python to specify a supported Python."
->   fi
->   
-> 
+> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+> index 15e7b564f9..6769eef0ff 100644
+> --- a/.gitlab-ci.d/containers.yml
+> +++ b/.gitlab-ci.d/containers.yml
+> @@ -214,20 +214,6 @@ tricore-debian-cross-container:
+>    variables:
+>      NAME: debian-tricore-cross
+>  
+> -win32-debian-cross-container:
+> -  <<: *container_job_definition
+> -  stage: containers-layer3
+> -  needs: ['amd64-debian9-mxe-container']
+> -  variables:
+> -    NAME: debian-win32-cross
+> -
+> -win64-debian-cross-container:
+> -  <<: *container_job_definition
+> -  stage: containers-layer3
+> -  needs: ['amd64-debian9-mxe-container']
+> -  variables:
+> -    NAME: debian-win64-cross
+> -
+>  xtensa-debian-cross-container:
+>    <<: *container_job_definition
+>    variables:
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index a18e18b57e..c265e7f8ab 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -4,7 +4,6 @@
+>  stages:
+>    - containers
+>    - containers-layer2
+> -  - containers-layer3
 
-Do we need to bump the minimum version in the Sphinx conf, too?
+Yay, I never liked having so many layers.
 
-There's also a minimum version check in iotests.py that is now 
-*possibly* redundant, but it does no harm.
 
-Regardless, none of those things cause any harm:
-
-Reviewed-by: John Snow <jsnow@redhat.com>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
