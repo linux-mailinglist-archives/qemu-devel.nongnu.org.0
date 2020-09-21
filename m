@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82DDC273588
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:15:30 +0200 (CEST)
-Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF71273598
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:18:50 +0200 (CEST)
+Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKU5p-0004JG-HC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:15:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58698)
+	id 1kKU93-0007uB-Cr
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:18:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1P-0007tC-EZ
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:10:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60547)
+ id 1kKU1R-0007vN-9H
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:10:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKU1N-0001W3-S1
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:10:55 -0400
+ id 1kKU1P-0001Wn-JO
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:10:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600726253;
+ s=mimecast20190719; t=1600726254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jvXtzMDBmKU/rJx6CSPHzlbVRTQHljGXv5cU8mvsngI=;
- b=dcZetXI7ZCAIGXm1um/IHRR6XSJGD+R1HR0DM7Gp/HCh/UhWuue0UNQzY+kC7EHfycG6gZ
- NJOPER92rK3WVI2Y9tKVGz+EhMEfSxMRCI/NnbX3KI3cPMQfV1KX3wE+e2wdfRjFL9A7Hi
- oLFE1/gqiuJFnpN9mx7Cl8DTv3LLS6Q=
+ bh=Y1M+ptRXUElShVbGc8t7tTmSRMjAYObK3+M0oAoHaqc=;
+ b=YM7PvrmgBf1JUhSFOYv9SmXmIwoGdRDs7y8LYADUW/Jfx/GLOCK9fk56TeH6WrFzMSW8S3
+ fKnP+/cTIJC+ZbgslOepiqrfts5k/J/wMpcPixt+REIs8OelihfhhZ2BuCgHsu9g7x5mI8
+ 7BUxnaODTzq4Ao8wFcxmrwCsH9RYa4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-pD2WeKkINNmOj_yyw5qf5A-1; Mon, 21 Sep 2020 18:10:51 -0400
-X-MC-Unique: pD2WeKkINNmOj_yyw5qf5A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-560-ou9enofSNpmTayuY1tI_yg-1; Mon, 21 Sep 2020 18:10:52 -0400
+X-MC-Unique: ou9enofSNpmTayuY1tI_yg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F4EC1007464;
- Mon, 21 Sep 2020 22:10:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D373425D0;
+ Mon, 21 Sep 2020 22:10:51 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A34CB60BFA;
- Mon, 21 Sep 2020 22:10:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D581C7366D;
+ Mon, 21 Sep 2020 22:10:50 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/24] cryptodev-backend: Register "chardev" as class property
-Date: Mon, 21 Sep 2020 18:10:23 -0400
-Message-Id: <20200921221045.699690-3-ehabkost@redhat.com>
+Subject: [PATCH 03/24] rng-egd: Register "chardev" as class property
+Date: Mon, 21 Sep 2020 18:10:24 -0400
+Message-Id: <20200921221045.699690-4-ehabkost@redhat.com>
 In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -81,8 +81,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Amit Shah <amit@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,38 +91,47 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Amit Shah <amit@kernel.org>
 Cc: qemu-devel@nongnu.org
 ---
- backends/cryptodev.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ backends/rng-egd.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/backends/cryptodev.c b/backends/cryptodev.c
-index ada4ebe78b1..3f141f61ed6 100644
---- a/backends/cryptodev.c
-+++ b/backends/cryptodev.c
-@@ -206,10 +206,6 @@ cryptodev_backend_can_be_deleted(UserCreatable *uc)
+diff --git a/backends/rng-egd.c b/backends/rng-egd.c
+index d905fe657c5..d3a8b1ebe2a 100644
+--- a/backends/rng-egd.c
++++ b/backends/rng-egd.c
+@@ -137,12 +137,6 @@ static char *rng_egd_get_chardev(Object *obj, Error **errp)
+     return NULL;
+ }
  
- static void cryptodev_backend_instance_init(Object *obj)
+-static void rng_egd_init(Object *obj)
+-{
+-    object_property_add_str(obj, "chardev",
+-                            rng_egd_get_chardev, rng_egd_set_chardev);
+-}
+-
+ static void rng_egd_finalize(Object *obj)
  {
--    object_property_add(obj, "queues", "uint32",
--                          cryptodev_backend_get_queues,
--                          cryptodev_backend_set_queues,
--                          NULL, NULL);
-     /* Initialize devices' queues property to 1 */
-     object_property_set_int(obj, "queues", 1, NULL);
- }
-@@ -230,6 +226,10 @@ cryptodev_backend_class_init(ObjectClass *oc, void *data)
-     ucc->can_be_deleted = cryptodev_backend_can_be_deleted;
+     RngEgd *s = RNG_EGD(obj);
+@@ -157,6 +151,8 @@ static void rng_egd_class_init(ObjectClass *klass, void *data)
  
-     QTAILQ_INIT(&crypto_clients);
-+    object_class_property_add(oc, "queues", "uint32",
-+                              cryptodev_backend_get_queues,
-+                              cryptodev_backend_set_queues,
-+                              NULL, NULL);
+     rbc->request_entropy = rng_egd_request_entropy;
+     rbc->opened = rng_egd_opened;
++    object_class_property_add_str(klass, "chardev",
++                                  rng_egd_get_chardev, rng_egd_set_chardev);
  }
  
- static const TypeInfo cryptodev_backend_info = {
+ static const TypeInfo rng_egd_info = {
+@@ -164,7 +160,6 @@ static const TypeInfo rng_egd_info = {
+     .parent = TYPE_RNG_BACKEND,
+     .instance_size = sizeof(RngEgd),
+     .class_init = rng_egd_class_init,
+-    .instance_init = rng_egd_init,
+     .instance_finalize = rng_egd_finalize,
+ };
+ 
 -- 
 2.26.2
 
