@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309E8272CF3
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 18:36:36 +0200 (CEST)
-Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F00272D40
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 18:38:57 +0200 (CEST)
+Received: from localhost ([::1]:50564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKOnp-0008Du-EH
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 12:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57172)
+	id 1kKOq8-0003Dc-O3
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 12:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKOhe-0004Tc-SX
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 12:30:11 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44821
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKOhm-0004W6-MM
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 12:30:18 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50508
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKOhb-0007OS-GW
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 12:30:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKOhd-0007QZ-An
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 12:30:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600705799;
+ s=mimecast20190719; t=1600705804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xGl0Wf6pnfWpWYSfHB9A49lGc8kjUq8riXJkPMG2AM8=;
- b=c6U15YCzw7EoctljkEbFDKfmX2sU02VuIQ6Vvqs8E3wu09JNr1R1LB9xXO0fwPfwSbph3/
- oKst1jU9TXT/JmOkFyzYNVCemaOAsiy9Fb5y3igY2f9begFS+4G7yJYCR6u7NrKdks6Zx0
- DS4ItitR1pYBmxx0myFuWvULhZ0JfUg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-4QnfG3TbMtOJI1JTv0FYdw-1; Mon, 21 Sep 2020 12:29:57 -0400
-X-MC-Unique: 4QnfG3TbMtOJI1JTv0FYdw-1
-Received: by mail-wm1-f69.google.com with SMTP id l26so31852wmg.7
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 09:29:57 -0700 (PDT)
+ bh=sZC6xa6hR7fJNx1ScYKH1kNh8OmwESP7iiqvw8pbcT0=;
+ b=PALxeFnBmJkAw3eckd3L+NNRYPjFfPqMZGHFoQ9O2xIcW64/sgQJ8pfrdZ5FZLCjjg25hh
+ +9Iuv0n6xJXYi3rDUkGv+iEtraT5ZcktRirX/uoL2aJ1x+9cCrvfTL8nuykpTqrgX8VnXJ
+ m7NPKJzNvmeYHF7EWMq7K+BMxxr9lj4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-mI6Tou2DPa-hO5jMZAw18g-1; Mon, 21 Sep 2020 12:30:02 -0400
+X-MC-Unique: mI6Tou2DPa-hO5jMZAw18g-1
+Received: by mail-wr1-f69.google.com with SMTP id f18so6093542wrv.19
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 09:30:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xGl0Wf6pnfWpWYSfHB9A49lGc8kjUq8riXJkPMG2AM8=;
- b=pTxtdTDF+70jJX9QnnVUysGhwvwJF2EX7CmX5grurdrTRbPqU3h04kTzEB0E09wbab
- mAksDzqCDyoMLQ0FCtWzqnn62ciOXQZ0DUo5c59joPkYz6p596ygvNVw+iiWWuqInqOe
- eF8OCUCZ0KwvW1VHRyXB3Y2FvBK1wmbUtHiDVPX8z0NteUzyBEtlX6zTmQKpEeyxz4GG
- Jg8MiJ7XR9PXO5btare9YJ03GFiyLKdRKHE2/YSLLkGVLLFY6f/pSOAdFgvb5ovxX4TR
- epQ0mJgVwNpxLcE0Vp1er4n/ThPPEK1tjYS0TZJmHXUmEUdJeR5vlPawht2CWITLgaht
- NRLA==
-X-Gm-Message-State: AOAM530I6IlbNdwA+Mb0hepxouNvKuv/VQiE6tzk8GQluO3BAkpqHVt6
- mtLYH//rsianSi0jkxRN56WrxDB7lGEoc06P2POSougnjAgL7KUO8e3AByU7meTjTvaEs97B0p8
- I/rwpPD3SLzj/vrQ=
-X-Received: by 2002:a1c:4455:: with SMTP id r82mr228888wma.60.1600705796064;
- Mon, 21 Sep 2020 09:29:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+X4qczrV8ZTksRXbP87bPX8afhBXnDWPugb4xP9pK2qLFT5NFEKPwXpKjD/aYHZSvXphTvw==
-X-Received: by 2002:a1c:4455:: with SMTP id r82mr228868wma.60.1600705795863;
- Mon, 21 Sep 2020 09:29:55 -0700 (PDT)
+ bh=sZC6xa6hR7fJNx1ScYKH1kNh8OmwESP7iiqvw8pbcT0=;
+ b=ukFGQbPBuNXVoxyus+iJhAwzpkg6aQlGiY8ZUeQLAjUFSUR4s3F1IB5zk6jDqFa/Er
+ VavOAqgbNejVRtWA2sXaJRG/TwjO5M/P30EmSa7BnmtzK8M+Gqxxnoa1ahP1Jq0L9890
+ Fcc3hMBTC3MkaamU6NAFc3YCMpr6TAeo/RIF0outb9wx4aATSp01lvwgdw3YIl3aF45T
+ 3+B1yd9yhKq0KrvhUrQburvperadDicaWyp3guyf1OhjhDFrplyukhmthaDI0ZmNHA/h
+ Vo8y1COqQcAZpabp5vYrN9mNpzkPY8UN704kQqGlK2QA6aE98RQSRGCbbRoLu9NwVCxv
+ 6mDg==
+X-Gm-Message-State: AOAM533j9mjY6Wj3Lr8aA0nMz4NTWNZ6SHXz4uXgZSyO8ITXkgYw93I7
+ usQ6LHbpslFTzNE1N2HVvx348xuWGUigIunjpmX1QHv01W1v0/5bcspUNBEK0KjRkfjmPiu3+Uu
+ nT0P3DSQFYxYqzpc=
+X-Received: by 2002:a7b:c959:: with SMTP id i25mr197182wml.39.1600705801473;
+ Mon, 21 Sep 2020 09:30:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyNS1UUWMCMi5dN+C53zPVnHzJVRbDkldI4yGh41Hj0IqRxHo0OfxT7hN44z4Ta/Ssr8zP9Zg==
+X-Received: by 2002:a7b:c959:: with SMTP id i25mr197162wml.39.1600705801250;
+ Mon, 21 Sep 2020 09:30:01 -0700 (PDT)
 Received: from x1w.redhat.com (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a10sm121077wmj.38.2020.09.21.09.29.54
+ by smtp.gmail.com with ESMTPSA id y1sm127613wma.36.2020.09.21.09.30.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 09:29:55 -0700 (PDT)
+ Mon, 21 Sep 2020 09:30:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/6] util/vfio-helpers: Pass page protections to
- qemu_vfio_pci_map_bar()
-Date: Mon, 21 Sep 2020 18:29:44 +0200
-Message-Id: <20200921162949.553863-2-philmd@redhat.com>
+Subject: [PATCH 2/6] block/nvme: Map doorbells pages write-only
+Date: Mon, 21 Sep 2020 18:29:45 +0200
+Message-Id: <20200921162949.553863-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200921162949.553863-1-philmd@redhat.com>
 References: <20200921162949.553863-1-philmd@redhat.com>
@@ -105,63 +104,111 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pages are currently mapped READ/WRITE. To be able to use different
-protections, add a new argument to qemu_vfio_pci_map_bar().
+Per the datasheet sections 3.1.13/3.1.14:
+  "The host should not read the doorbell registers."
+
+As we don't need read access, map the doorbells with write-only
+permission. We keep a reference to this mapped address in the
+BDRVNVMeState structure.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qemu/vfio-helpers.h | 2 +-
- block/nvme.c                | 3 ++-
- util/vfio-helpers.c         | 4 ++--
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ block/nvme.c | 29 +++++++++++++++++++----------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
-index 1f057c2b9e4..4491c8e1a6e 100644
---- a/include/qemu/vfio-helpers.h
-+++ b/include/qemu/vfio-helpers.h
-@@ -22,7 +22,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
- int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s);
- void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host);
- void *qemu_vfio_pci_map_bar(QEMUVFIOState *s, int index,
--                            uint64_t offset, uint64_t size,
-+                            uint64_t offset, uint64_t size, int prot,
-                             Error **errp);
- void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
-                              uint64_t offset, uint64_t size);
 diff --git a/block/nvme.c b/block/nvme.c
-index f4f27b6da7d..5a4dc6a722a 100644
+index 5a4dc6a722a..3c834da8fec 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -712,7 +712,8 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+@@ -31,7 +31,7 @@
+ #define NVME_SQ_ENTRY_BYTES 64
+ #define NVME_CQ_ENTRY_BYTES 16
+ #define NVME_QUEUE_SIZE 128
+-#define NVME_BAR_SIZE 8192
++#define NVME_DOORBELL_SIZE 4096
+ 
+ /*
+  * We have to leave one slot empty as that is the full queue case where
+@@ -84,10 +84,6 @@ typedef struct {
+ /* Memory mapped registers */
+ typedef volatile struct {
+     NvmeBar ctrl;
+-    struct {
+-        uint32_t sq_tail;
+-        uint32_t cq_head;
+-    } doorbells[];
+ } NVMeRegs;
+ 
+ #define INDEX_ADMIN     0
+@@ -103,6 +99,11 @@ struct BDRVNVMeState {
+     AioContext *aio_context;
+     QEMUVFIOState *vfio;
+     NVMeRegs *regs;
++    /* Memory mapped registers */
++    volatile struct {
++        uint32_t sq_tail;
++        uint32_t cq_head;
++    } *doorbells;
+     /* The submission/completion queue pairs.
+      * [0]: admin queue.
+      * [1..]: io queues.
+@@ -247,14 +248,14 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+-    q->sq.doorbell = &s->regs->doorbells[idx * s->doorbell_scale].sq_tail;
++    q->sq.doorbell = &s->doorbells[idx * s->doorbell_scale].sq_tail;
+ 
+     nvme_init_queue(s, &q->cq, size, NVME_CQ_ENTRY_BYTES, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+-    q->cq.doorbell = &s->regs->doorbells[idx * s->doorbell_scale].cq_head;
++    q->cq.doorbell = &s->doorbells[idx * s->doorbell_scale].cq_head;
+ 
+     return q;
+ fail:
+@@ -712,13 +713,12 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
          goto out;
      }
  
--    s->regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, NVME_BAR_SIZE, errp);
-+    s->regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, NVME_BAR_SIZE,
-+                                    PROT_READ | PROT_WRITE, errp);
+-    s->regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, NVME_BAR_SIZE,
++    s->regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, sizeof(NvmeBar),
+                                     PROT_READ | PROT_WRITE, errp);
      if (!s->regs) {
          ret = -EINVAL;
          goto out;
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 583bdfb36fc..9ac307e3d42 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -146,13 +146,13 @@ static int qemu_vfio_pci_init_bar(QEMUVFIOState *s, int index, Error **errp)
-  * Map a PCI bar area.
-  */
- void *qemu_vfio_pci_map_bar(QEMUVFIOState *s, int index,
--                            uint64_t offset, uint64_t size,
-+                            uint64_t offset, uint64_t size, int prot,
-                             Error **errp)
- {
-     void *p;
-     assert_bar_index_valid(s, index);
-     p = mmap(NULL, MIN(size, s->bar_region_info[index].size - offset),
--             PROT_READ | PROT_WRITE, MAP_SHARED,
-+             prot, MAP_SHARED,
-              s->device, s->bar_region_info[index].offset + offset);
-     if (p == MAP_FAILED) {
-         error_setg_errno(errp, errno, "Failed to map BAR region");
+     }
+-
+     /* Perform initialize sequence as described in NVMe spec "7.6.1
+      * Initialization". */
+ 
+@@ -748,6 +748,13 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+         }
+     }
+ 
++    s->doorbells = qemu_vfio_pci_map_bar(s->vfio, 0, sizeof(NvmeBar),
++                                         NVME_DOORBELL_SIZE, PROT_WRITE, errp);
++    if (!s->doorbells) {
++        ret = -EINVAL;
++        goto out;
++    }
++
+     /* Set up admin queue. */
+     s->queues = g_new(NVMeQueuePair *, 1);
+     s->queues[INDEX_ADMIN] = nvme_create_queue_pair(s, aio_context, 0,
+@@ -873,7 +880,9 @@ static void nvme_close(BlockDriverState *bs)
+                            &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
+                            false, NULL, NULL);
+     event_notifier_cleanup(&s->irq_notifier[MSIX_SHARED_IRQ_IDX]);
+-    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, NVME_BAR_SIZE);
++    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->doorbells,
++                            sizeof(NvmeBar), NVME_DOORBELL_SIZE);
++    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, sizeof(NvmeBar));
+     qemu_vfio_close(s->vfio);
+ 
+     g_free(s->device);
 -- 
 2.26.2
 
