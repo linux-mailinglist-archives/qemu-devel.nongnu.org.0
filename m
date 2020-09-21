@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0725F2723E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:29:56 +0200 (CEST)
-Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DA72723F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:33:57 +0200 (CEST)
+Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKKx9-0007a7-1G
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57138)
+	id 1kKL12-0002nK-4m
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kKKtK-0004RD-7s
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:25:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57513)
+ id 1kKKtR-0004VU-Mv
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:26:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kKKtH-00009M-9p
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:25:57 -0400
+ id 1kKKtQ-0000Bm-5j
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:26:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600691154;
+ s=mimecast20190719; t=1600691163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+sglpfqz+FSX2DyXDyQm7XCF3s5OmOX2rqNAym9G8uE=;
- b=SWNgPKfi0q0aX1iu/Hjbq/q+fj/jEKkN+4+wTASLWitz4l4a9baoZtcj/zJGLoy024e3Ch
- emmxVbRpvgGkX95LirHyM3tgdXQ6wT+Ryj9nuaUH+pbs0G7Sc6F5QnqXoBhvoZbaf853+6
- wNDv71a0yj2LQ9AMzLwTtU14xv+nSfw=
+ bh=pFAhFyha1dr/ayw6Q6yCDQIHRvmzlKL9CI6hQL7NrCk=;
+ b=NJrWgLSVzAvJiZ2Q3G4YBiT7pXi44C24PsA5v5TwJZb1vBmKuZqSwaFa8iopCB0KzliPIO
+ gq68Q/fDkh9snb2EoW6jmhQRYjXUVVGCNPaboflVlqajm/EZMVbL7rUzjIjTYlTSyHOuUr
+ 0KvE3SYR+MYP2SOXM5eQV586Pi9N4xs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-9pLCtEY7PgCSFu2BYuvHEQ-1; Mon, 21 Sep 2020 08:25:50 -0400
-X-MC-Unique: 9pLCtEY7PgCSFu2BYuvHEQ-1
+ us-mta-557-wHM_UKR0PhmWoh__8eonmg-1; Mon, 21 Sep 2020 08:26:00 -0400
+X-MC-Unique: wHM_UKR0PhmWoh__8eonmg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ECFA807100;
- Mon, 21 Sep 2020 12:25:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F5A08064B4;
+ Mon, 21 Sep 2020 12:25:57 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-113-150.ams2.redhat.com
  [10.36.113.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5F536CE4D;
- Mon, 21 Sep 2020 12:25:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83D216E70B;
+ Mon, 21 Sep 2020 12:25:49 +0000 (UTC)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v5 2/4] vhost-vsock-pci: force virtio version 1
-Date: Mon, 21 Sep 2020 14:25:04 +0200
-Message-Id: <20200921122506.82515-3-sgarzare@redhat.com>
+Subject: [PATCH v5 3/4] vhost-user-vsock-pci: force virtio version 1
+Date: Mon, 21 Sep 2020 14:25:05 +0200
+Message-Id: <20200921122506.82515-4-sgarzare@redhat.com>
 In-Reply-To: <20200921122506.82515-1-sgarzare@redhat.com>
 References: <20200921122506.82515-1-sgarzare@redhat.com>
 MIME-Version: 1.0
@@ -94,74 +94,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Commit 9b3a35ec82 ("virtio: verify that legacy support is not
 accidentally on") added a safety check that requires to set
-'disable-legacy=on' on vhost-vsock-pci device:
+'disable-legacy=on' on vhost-user-vsock-pci device:
 
-    $ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=5
-        qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=5:
+    $ ./qemu-system-x86_64 ... \
+    -chardev socket,id=char0,reconnect=0,path=/tmp/vhost4.socket \
+    -device vhost-user-vsock-pci,chardev=char0
+        qemu-system-x86_64: -device vhost-user-vsock-pci,chardev=char0:
         device is modern-only, use disable-legacy=on
 
 virtio-vsock was introduced after the release of VIRTIO 1.0
 specifications, so it should be 'modern-only'.
-In addition Cornelia verified that forcing a legacy mode on
-vhost-vsock-pci device using x86-64 host and s390x guest, so with
-different endianness, produces strange behaviours.
 
 This patch forces virtio version 1 and removes the 'transitional_name'
-property removing the need to specify 'disable-legacy=on' on
-vhost-vsock-pci device.
-
-To avoid migration issues, we force virtio version 1 only when
-legacy check is enabled in the new machine types (>= 5.1).
-
-As the transitional device name is not commonly used, we do not
-provide compatibility handling for it.
+property, as done for vhost-vsock-pci, removing the need to specify
+'disable-legacy=on' on vhost-user-vsock-pci device.
 
 Cc: qemu-stable@nongnu.org
-Reported-by: Qian Cai <caiqian@redhat.com>
-Reported-by: Qinghua Cheng <qcheng@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1868449
 Suggested-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
-v5:
- - added a phrase about transitional device in the commit message [Cornelia]
-v3:
- - forced virtio version 1 only with new machine types
+v4:
+ - added comment in the code [Cornelia]
 v2:
  - fixed commit message [Cornelia]
 ---
- hw/virtio/vhost-vsock-pci.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-user-vsock-pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
-index e56067b427..205da8d1f5 100644
---- a/hw/virtio/vhost-vsock-pci.c
-+++ b/hw/virtio/vhost-vsock-pci.c
-@@ -44,6 +44,15 @@ static void vhost_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
- {
-     VHostVSockPCI *dev = VHOST_VSOCK_PCI(vpci_dev);
+diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
+index 763f89984e..72a96199cd 100644
+--- a/hw/virtio/vhost-user-vsock-pci.c
++++ b/hw/virtio/vhost-user-vsock-pci.c
+@@ -41,6 +41,9 @@ static void vhost_user_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(vpci_dev);
      DeviceState *vdev = DEVICE(&dev->vdev);
-+    VirtIODevice *virtio_dev = VIRTIO_DEVICE(vdev);
-+
-+    /*
-+     * To avoid migration issues, we force virtio version 1 only when
-+     * legacy check is enabled in the new machine types (>= 5.1).
-+     */
-+    if (!virtio_legacy_check_disabled(virtio_dev)) {
-+        virtio_pci_force_virtio_1(vpci_dev);
-+    }
  
++    /* unlike vhost-vsock, we do not need to care about pre-5.1 compat */
++    virtio_pci_force_virtio_1(vpci_dev);
++
      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
  }
-@@ -73,7 +82,6 @@ static void vhost_vsock_pci_instance_init(Object *obj)
- static const VirtioPCIDeviceTypeInfo vhost_vsock_pci_info = {
-     .base_name             = TYPE_VHOST_VSOCK_PCI,
-     .generic_name          = "vhost-vsock-pci",
--    .transitional_name     = "vhost-vsock-pci-transitional",
-     .non_transitional_name = "vhost-vsock-pci-non-transitional",
-     .instance_size = sizeof(VHostVSockPCI),
-     .instance_init = vhost_vsock_pci_instance_init,
+ 
+@@ -69,7 +72,6 @@ static void vhost_user_vsock_pci_instance_init(Object *obj)
+ static const VirtioPCIDeviceTypeInfo vhost_user_vsock_pci_info = {
+     .base_name             = TYPE_VHOST_USER_VSOCK_PCI,
+     .generic_name          = "vhost-user-vsock-pci",
+-    .transitional_name     = "vhost-user-vsock-pci-transitional",
+     .non_transitional_name = "vhost-user-vsock-pci-non-transitional",
+     .instance_size = sizeof(VHostUserVSockPCI),
+     .instance_init = vhost_user_vsock_pci_instance_init,
 -- 
 2.26.2
 
