@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601F7272297
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:34:34 +0200 (CEST)
-Received: from localhost ([::1]:34788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B98127229C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:35:27 +0200 (CEST)
+Received: from localhost ([::1]:37328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKK5Z-00070c-AU
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42470)
+	id 1kKK6Q-00081f-1L
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK11-0002YI-7j
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25928)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK13-0002bd-Ak
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK0z-0000ed-4E
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:50 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK11-0000f8-Br
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:29:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600687788;
+ s=mimecast20190719; t=1600687790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qmTXxwrSFY2mMpUUnscQSUtPOEOWVGicMQRRdIRDUlc=;
- b=BnSF1k50NScTm05TP4P95yATDWAdAkng0yaBn8mEsAkTeozVIW9bvv6HeDehQ71agwjwYL
- nbVcorvF5trPSZ7m0JUGtlzNz6gwdkmXMaiyFiC7RaeKWByabUh/wBfHmfcUVWv81yzf8i
- 4Tt1GH4LfuZ+kjRnURAtN4ttxwl1X8Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-EEaxqOFlM_yGv_jdXnr2Ag-1; Mon, 21 Sep 2020 07:29:46 -0400
-X-MC-Unique: EEaxqOFlM_yGv_jdXnr2Ag-1
-Received: by mail-wm1-f72.google.com with SMTP id w3so3625749wmg.4
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:29:45 -0700 (PDT)
+ bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
+ b=O9cpXkzeaa5BF0fmdvEPpsrX4BwFfWw1Z3lfvIfYYgElz3QW7TCkZwGhiOzPOUgIdjCLUz
+ 7qMLUcNxDlHZ2fbjTyvI7N1rhqGiOwVGsZrIvSMaUF3NVJln3JL13Ue74rV15S/XYWE7WE
+ EMRMSf586SMJqpjptDZ2bP14WjBQ5GE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-sX9q3ZvbO36GwUVOj-VtCg-1; Mon, 21 Sep 2020 07:29:48 -0400
+X-MC-Unique: sX9q3ZvbO36GwUVOj-VtCg-1
+Received: by mail-wr1-f71.google.com with SMTP id d9so5738016wrv.16
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:29:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=qmTXxwrSFY2mMpUUnscQSUtPOEOWVGicMQRRdIRDUlc=;
- b=UJyn9ONy/MmY9lxAphM132eYbhVE9M93PEsatOfacfE7pvbix5YGcTtEpfwADzCbiH
- JfVqepLfKHeme1AfB1WJzz8wd0MMNKagLA5vm/gedCwO3YohVvId9+uewcCDfxYKi27M
- jPEp7jsop+6rz1fnenUzRWqMeyrXO6SLGdx42mAivTHCgTjE6S8Cy4nfeHl6aqjVeibo
- 5zle+O9OVuxpST1FKpGPmVHDQylUZuh1gaf3qXt8SkiodDht93kTjHTCLQdUbWFryiIZ
- wFsA+yUb3bpedJ+RJkT6qksVx+D39YoBdjs4L+vGc2Kor1yZ1NEieqwiBaZdeXErujH0
- RYzQ==
-X-Gm-Message-State: AOAM533c7JB/4F+D4CBrwCYaaDIT/W5fqnmWkg7EX+OtwN0p8bszl+4w
- F2xrSGJZGdyPIuIlwvv4pzo5eSrX2POCQSU8KM1XUP+INzt/YVbLziUIiVJMOke9csazSg2Jolb
- VHYO+MylFmpnRabQ=
-X-Received: by 2002:adf:ec87:: with SMTP id z7mr55881462wrn.57.1600687784581; 
- Mon, 21 Sep 2020 04:29:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqs/CTxguv/+NxE7QCwkPsQ4zBlqJ0Eo9TBQJTDDEgG3mfwBQHOjCRzrkwHjzthPEXCFRucQ==
-X-Received: by 2002:adf:ec87:: with SMTP id z7mr55881446wrn.57.1600687784386; 
- Mon, 21 Sep 2020 04:29:44 -0700 (PDT)
+ bh=GXFOFA+oBpG8V2C34lkq5FMQCHgmci5cClagY+iuF1U=;
+ b=rs+YIsrFM4DfBPHR0P4gyXfeZK7+qaoh+q1+nRgsXNI3LVNoRID0dDfKCyzZYX4nhH
+ 6iE5+Z5BGtUBa5P1rpnCazphCmgIY+UlLz4RVmFN7Toyx++nCSqI1e5D5gpZ6Op21LXi
+ WKns7QwL7EXTpfeI4L3r+uWsCdw/WKLsrzg9Uw+68fv5D8P4HmuTMy7jmZh/qCqDJqid
+ imSt1ulXt41O25G32id2s/sQHAsXkGaxKoHPveBxpFY+RURo1aeZaZ4rbtRQql6PdDGX
+ c8UA1bQNudEUypGnd27IK2CvN/QV0xUZ7RKdOdBrixDojuJlicd85O6zgkq/AZ9VmR8k
+ gLAg==
+X-Gm-Message-State: AOAM532h6+aNLHOdxV5Pm1TjkvYTgFj+2YEWWjrKPTxLamvc3xxeTSYY
+ IEx4heYGAO7IEoqISeW0WgyhF0za1fDSncEuaTKrofs8jwc3MOnGl82ObBP8u1Co+HZT1OAl2HX
+ U3Pb2jqEUh3sRBhk=
+X-Received: by 2002:a1c:4b13:: with SMTP id y19mr29124719wma.75.1600687787125; 
+ Mon, 21 Sep 2020 04:29:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpya+pyFUyghfzVS7wej2xaR4dSlxXZn9zuk7Z0R+La0vIrpCn4qzDRaUtKHnBsV39ykgSGA==
+X-Received: by 2002:a1c:4b13:: with SMTP id y19mr29124694wma.75.1600687786905; 
+ Mon, 21 Sep 2020 04:29:46 -0700 (PDT)
 Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
  [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id u66sm35327317wme.1.2020.09.21.04.29.42
+ by smtp.gmail.com with ESMTPSA id q18sm21048565wre.78.2020.09.21.04.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 04:29:43 -0700 (PDT)
-Date: Mon, 21 Sep 2020 07:29:41 -0400
+ Mon, 21 Sep 2020 04:29:46 -0700 (PDT)
+Date: Mon, 21 Sep 2020 07:29:44 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 02/15] vhost: switch to use IOTLB v2 format
-Message-ID: <20200921112913.555392-3-mst@redhat.com>
+Subject: [PULL v3 03/15] vhost-vdpa: batch updating IOTLB mappings
+Message-ID: <20200921112913.555392-4-mst@redhat.com>
 References: <20200921112913.555392-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
@@ -101,87 +101,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-This patch tries to switch to use new kernel IOTLB format V2. Previous
-version may have inconsistent ABI between 32bit and 64bit machines
-because of the hole after type field. Refer kernel commit
-("429711aec282 vhost: switch to use new message format") for more
-information.
+To speed up the memory mapping updating between vhost-vDPA and vDPA
+device driver, this patch passes the IOTLB batching flags via IOTLB
+API. Two new flags was introduced, VHOST_IOTLB_BATCH_BEGIN is a hint
+that a bathced IOTLB updating may be initiated from the
+userspace. VHOST_IOTLB_BATCH_END is a hint that userspace has finished
+the updating:
 
-To enable this feature, qemu need to use a new ioctl
-VHOST_SET_BACKEND_FEATURE with VHOST_BACKEND_F_IOTLB_MSG_V2 bit. A new
-vhost setting backend features ops was introduced. And when we try to
-set features for vhost dev, we will examine the support of new IOTLB
-format and enable it. This process is total transparent to guest,
-which means we can have different IOTLB message type in src and dst
-during migration.
+VHOST_IOTLB_BATCH_BEGIN
+VHOST_IOTLB_UPDATE/VHOST_IOTLB_INVALIDATE
+...
+VHOST_IOTLB_BATCH_END
 
-The conversion of IOTLB message is straightforward, just check the
-type and behave accordingly.
+Vhost-vDPA can then know that all mappings has been set and can do
+optimization like passing all the mappings to the vDPA device driver.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20200907104903.31551-3-jasowang@redhat.com>
+Message-Id: <20200907104903.31551-4-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h |  2 +
- include/hw/virtio/vhost.h         |  1 +
- hw/virtio/vhost-backend.c         | 88 +++++++++++++++++++++++++------
- hw/virtio/vhost.c                 | 10 ++++
- 4 files changed, 84 insertions(+), 17 deletions(-)
+ include/hw/virtio/vhost-vdpa.h |  1 +
+ hw/virtio/vhost-vdpa.c         | 66 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 8825bd278f..8a6f8e2a7a 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -74,6 +74,7 @@ typedef int (*vhost_set_features_op)(struct vhost_dev *dev,
-                                      uint64_t features);
- typedef int (*vhost_get_features_op)(struct vhost_dev *dev,
-                                      uint64_t *features);
-+typedef int (*vhost_set_backend_cap_op)(struct vhost_dev *dev);
- typedef int (*vhost_set_owner_op)(struct vhost_dev *dev);
- typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
- typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
-@@ -146,6 +147,7 @@ typedef struct VhostOps {
-     vhost_set_vring_busyloop_timeout_op vhost_set_vring_busyloop_timeout;
-     vhost_set_features_op vhost_set_features;
-     vhost_get_features_op vhost_get_features;
-+    vhost_set_backend_cap_op vhost_set_backend_cap;
-     vhost_set_owner_op vhost_set_owner;
-     vhost_reset_device_op vhost_reset_device;
-     vhost_get_vq_index_op vhost_get_vq_index;
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 767a95ec0b..94585067f7 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -79,6 +79,7 @@ struct vhost_dev {
-     uint64_t backend_features;
-     uint64_t protocol_features;
-     uint64_t max_queues;
-+    uint64_t backend_cap;
-     bool started;
-     bool log_enabled;
-     uint64_t log_size;
-diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-index 782b1d67d9..88c8ecc9e0 100644
---- a/hw/virtio/vhost-backend.c
-+++ b/hw/virtio/vhost-backend.c
-@@ -156,6 +156,28 @@ static int vhost_kernel_set_features(struct vhost_dev *dev,
-     return vhost_kernel_call(dev, VHOST_SET_FEATURES, &features);
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index 6455663388..9b81a409da 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -18,6 +18,7 @@ typedef struct vhost_vdpa {
+     int device_fd;
+     uint32_t msg_type;
+     MemoryListener listener;
++    struct vhost_dev *dev;
+ } VhostVDPA;
+ 
+ extern AddressSpace address_space_memory;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 4580f3efd8..ba1ae3ea44 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -78,6 +78,46 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+     return ret;
  }
  
-+static int vhost_kernel_set_backend_cap(struct vhost_dev *dev)
++static void vhost_vdpa_listener_begin(MemoryListener *listener)
++{
++    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
++    struct vhost_dev *dev = v->dev;
++    struct vhost_msg_v2 msg;
++    int fd = v->device_fd;
++
++    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
++        return;
++    }
++
++    msg.type = v->msg_type;
++    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
++
++    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
++        error_report("failed to write, fd=%d, errno=%d (%s)",
++                     fd, errno, strerror(errno));
++    }
++}
++
++static void vhost_vdpa_listener_commit(MemoryListener *listener)
++{
++    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
++    struct vhost_dev *dev = v->dev;
++    struct vhost_msg_v2 msg;
++    int fd = v->device_fd;
++
++    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
++        return;
++    }
++
++    msg.type = v->msg_type;
++    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
++
++    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
++        error_report("failed to write, fd=%d, errno=%d (%s)",
++                     fd, errno, strerror(errno));
++    }
++}
++
+ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+                                            MemoryRegionSection *section)
+ {
+@@ -191,6 +231,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+  * depends on the addnop().
+  */
+ static const MemoryListener vhost_vdpa_memory_listener = {
++    .begin = vhost_vdpa_listener_begin,
++    .commit = vhost_vdpa_listener_commit,
+     .region_add = vhost_vdpa_listener_region_add,
+     .region_del = vhost_vdpa_listener_region_del,
+ };
+@@ -226,6 +268,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+ 
+     v = opaque;
++    v->dev = dev;
+     dev->opaque =  opaque ;
+     vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
+     dev->backend_features = features;
+@@ -280,6 +323,28 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
+     return !(status & VIRTIO_CONFIG_S_FEATURES_OK);
+ }
+ 
++static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
 +{
 +    uint64_t features;
-+    uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2;
++    uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
++        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
 +    int r;
 +
-+    if (vhost_kernel_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
++    if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
 +        return 0;
 +    }
 +
 +    features &= f;
-+    r = vhost_kernel_call(dev, VHOST_SET_BACKEND_FEATURES,
-+                              &features);
++    r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
 +    if (r) {
 +        return 0;
 +    }
@@ -191,122 +231,17 @@ index 782b1d67d9..88c8ecc9e0 100644
 +    return 0;
 +}
 +
- static int vhost_kernel_get_features(struct vhost_dev *dev,
-                                      uint64_t *features)
+ int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+                                    uint32_t *device_id)
  {
-@@ -195,34 +217,65 @@ static int vhost_kernel_vsock_set_running(struct vhost_dev *dev, int start)
- static void vhost_kernel_iotlb_read(void *opaque)
- {
-     struct vhost_dev *dev = opaque;
--    struct vhost_msg msg;
-     ssize_t len;
- 
--    while ((len = read((uintptr_t)dev->opaque, &msg, sizeof msg)) > 0) {
--        if (len < sizeof msg) {
--            error_report("Wrong vhost message len: %d", (int)len);
--            break;
--        }
--        if (msg.type != VHOST_IOTLB_MSG) {
--            error_report("Unknown vhost iotlb message type");
--            break;
--        }
-+    if (dev->backend_cap &
-+        (0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2)) {
-+        struct vhost_msg_v2 msg;
- 
--        vhost_backend_handle_iotlb_msg(dev, &msg.iotlb);
-+        while ((len = read((uintptr_t)dev->opaque, &msg, sizeof msg)) > 0) {
-+            if (len < sizeof msg) {
-+                error_report("Wrong vhost message len: %d", (int)len);
-+                break;
-+            }
-+            if (msg.type != VHOST_IOTLB_MSG_V2) {
-+                error_report("Unknown vhost iotlb message type");
-+                break;
-+            }
-+
-+            vhost_backend_handle_iotlb_msg(dev, &msg.iotlb);
-+        }
-+    } else {
-+        struct vhost_msg msg;
-+
-+        while ((len = read((uintptr_t)dev->opaque, &msg, sizeof msg)) > 0) {
-+            if (len < sizeof msg) {
-+                error_report("Wrong vhost message len: %d", (int)len);
-+                break;
-+            }
-+            if (msg.type != VHOST_IOTLB_MSG) {
-+                error_report("Unknown vhost iotlb message type");
-+                break;
-+            }
-+
-+            vhost_backend_handle_iotlb_msg(dev, &msg.iotlb);
-+        }
-     }
- }
- 
- static int vhost_kernel_send_device_iotlb_msg(struct vhost_dev *dev,
-                                               struct vhost_iotlb_msg *imsg)
- {
--    struct vhost_msg msg;
-+    if (dev->backend_cap & (1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2)) {
-+        struct vhost_msg_v2 msg;
- 
--    msg.type = VHOST_IOTLB_MSG;
--    msg.iotlb = *imsg;
-+        msg.type = VHOST_IOTLB_MSG_V2;
-+        msg.iotlb = *imsg;
- 
--    if (write((uintptr_t)dev->opaque, &msg, sizeof msg) != sizeof msg) {
--        error_report("Fail to update device iotlb");
--        return -EFAULT;
-+        if (write((uintptr_t)dev->opaque, &msg, sizeof msg) != sizeof msg) {
-+            error_report("Fail to update device iotlb");
-+            return -EFAULT;
-+        }
-+    } else {
-+        struct vhost_msg msg;
-+
-+        msg.type = VHOST_IOTLB_MSG;
-+        msg.iotlb = *imsg;
-+
-+        if (write((uintptr_t)dev->opaque, &msg, sizeof msg) != sizeof msg) {
-+            error_report("Fail to update device iotlb");
-+            return -EFAULT;
-+        }
-     }
- 
-     return 0;
-@@ -260,6 +313,7 @@ static const VhostOps kernel_ops = {
-                                 vhost_kernel_set_vring_busyloop_timeout,
-         .vhost_set_features = vhost_kernel_set_features,
-         .vhost_get_features = vhost_kernel_get_features,
-+        .vhost_set_backend_cap = vhost_kernel_set_backend_cap,
-         .vhost_set_owner = vhost_kernel_set_owner,
-         .vhost_reset_device = vhost_kernel_reset_device,
-         .vhost_get_vq_index = vhost_kernel_get_vq_index,
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 1a1384e7a6..e986bf53e4 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -818,7 +818,17 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
-     r = dev->vhost_ops->vhost_set_features(dev, features);
-     if (r < 0) {
-         VHOST_OPS_DEBUG("vhost_set_features failed");
-+        goto out;
-     }
-+    if (dev->vhost_ops->vhost_set_backend_cap) {
-+        r = dev->vhost_ops->vhost_set_backend_cap(dev);
-+        if (r < 0) {
-+            VHOST_OPS_DEBUG("vhost_set_backend_cap failed");
-+            goto out;
-+        }
-+    }
-+
-+out:
-     return r < 0 ? -errno : 0;
- }
- 
+@@ -452,6 +517,7 @@ const VhostOps vdpa_ops = {
+         .vhost_set_vring_kick = vhost_vdpa_set_vring_kick,
+         .vhost_set_vring_call = vhost_vdpa_set_vring_call,
+         .vhost_get_features = vhost_vdpa_get_features,
++        .vhost_set_backend_cap = vhost_vdpa_set_backend_cap,
+         .vhost_set_owner = vhost_vdpa_set_owner,
+         .vhost_set_vring_endian = NULL,
+         .vhost_backend_memslots_limit = vhost_vdpa_memslots_limit,
 -- 
 MST
 
