@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B71272699
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:05:39 +0200 (CEST)
-Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC722726B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:12:19 +0200 (CEST)
+Received: from localhost ([::1]:33324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKMRm-0002es-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:05:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37392)
+	id 1kKMYE-0007ai-UU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKMPo-0001zm-V9
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:03:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23950)
+ id 1kKMUf-0004n1-8g
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKMPk-00083P-7W
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:03:36 -0400
+ id 1kKMUb-0000HN-7N
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:08:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600697010;
+ s=mimecast20190719; t=1600697311;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7+hw10uMaDqdS1BKjS6aEopJlVTkdKVvtVNlC+9N3ZA=;
- b=CI/yftaOxjRRgXzwnqGhEJPwsm706WTEztc07an3WTRTeE2XqrGxqM09pvDWkZSeXdvEdh
- BYE0jRrbgKhyVAndE4fMlF8+Hp3FDV97py7xzJZ/CQJlvRmQ2zwhX4PRcCJQxwwb1xDoLh
- rn9yfgzp876tPdSIupUtu0NvYQsbip4=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=1PnikJiiMlxy1QIzox8ciiXQ7dXimCZr1Qzu5ah74Lg=;
+ b=CThh/R1SwQaWAzE06uBJHreYAmfFxJPjLstZKgNWPE38+r5IfQ0H0GrbkbDqY+aKqHk6hx
+ 6+Zz1T+CM6yH7+hHHbFZaGybvEncFr4z7A/1O6sApMyTl5y4z2EbHmWdyAKNAH0ndKGIhe
+ b9vEBnNaloG6k84Yh1BMCIwzQ0IQwmE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-ocwGwjCtMGWoOaLULcg99w-1; Mon, 21 Sep 2020 10:03:10 -0400
-X-MC-Unique: ocwGwjCtMGWoOaLULcg99w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-201-O9CLcebQPzWKbWDown5zkg-1; Mon, 21 Sep 2020 10:08:22 -0400
+X-MC-Unique: O9CLcebQPzWKbWDown5zkg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DC90801FCC;
- Mon, 21 Sep 2020 14:03:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCCC3100559C
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 14:08:21 +0000 (UTC)
 Received: from redhat.com (ovpn-113-113.ams2.redhat.com [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A2F31002C06;
- Mon, 21 Sep 2020 14:03:07 +0000 (UTC)
-Date: Mon, 21 Sep 2020 15:03:05 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 539AA5DEBB;
+ Mon, 21 Sep 2020 14:08:06 +0000 (UTC)
+Date: Mon, 21 Sep 2020 15:08:03 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: Should we apply for GitLab's open source program?
-Message-ID: <20200921140305.GM1942072@redhat.com>
-References: <878sdp4ks9.fsf@linaro.org>
- <20200904160836.GS721059@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
+Message-ID: <20200921140803.GN1942072@redhat.com>
+References: <20200918213436.GA3520@redhat.com> <20200921085019.GB3221@work-vm>
+ <20200921133516.GA13362@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200904160836.GS721059@redhat.com>
+In-Reply-To: <20200921133516.GA13362@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,84 +82,55 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "qemu@sfconservancy.org" <qemu@sfconservancy.org>
+Cc: virtio-fs-list <virtio-fs@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 04, 2020 at 05:08:36PM +0100, Daniel P. Berrangé wrote:
-> On Fri, Sep 04, 2020 at 04:35:34PM +0100, Alex Bennée wrote:
+On Mon, Sep 21, 2020 at 09:35:16AM -0400, Vivek Goyal wrote:
+> On Mon, Sep 21, 2020 at 09:50:19AM +0100, Dr. David Alan Gilbert wrote:
+> > * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > > Hi All,
+> > > 
+> > > virtiofsd default thread pool size is 64. To me it feels that in most of
+> > > the cases thread pool size 1 performs better than thread pool size 64.
+> > > 
+> > > I ran virtiofs-tests.
+> > > 
+> > > https://github.com/rhvgoyal/virtiofs-tests
+> > > 
+> > > And here are the comparision results. To me it seems that by default
+> > > we should switch to 1 thread (Till we can figure out how to make
+> > > multi thread performance better even when single process is doing
+> > > I/O in client).
+> > > 
+> > > I am especially more interested in getting performance better for
+> > > single process in client. If that suffers, then it is pretty bad.
+> > > 
+> > > Especially look at randread, randwrite, seqwrite performance. seqread
+> > > seems pretty good anyway.
+> > > 
+> > > If I don't run who test suite and just ran randread-psync job,
+> > > my throughput jumps from around 40MB/s to 60MB/s. That's a huge
+> > > jump I would say.
+> > > 
+> > > Thoughts?
 > > 
-> > Hi,
-> > 
-> > Given our growing reliance on GitLab and the recent announcement about
-> > free tier minutes:
-> > 
-> >   https://about.gitlab.com/pricing/faq-consumption-cicd/
-> > 
-> > is it time we officially apply for GitLab's Open Source Program:
-> > 
-> >   https://about.gitlab.com/solutions/open-source/program/
-> > 
-> > ?
-> > 
-> > From what I can see the QEMU project will easily qualify - the only
-> > minor inconvenience is needing to reapply every year. So far it seems as
-> > a public project their are no usage limits anyway. We are currently
-> > listed as 0 of 50,000 minutes:
-> > 
-> >   https://gitlab.com/groups/qemu-project/-/usage_quotas#pipelines-quota-tab
+> > What's your host setup; how many cores has the host got and how many did
+> > you give the guest?
 > 
-> I suspect that ultimately we will end up wanting / needing to do
-> this. As you say, there's no significant downside, and it will
-> unlock features.
+> Got 2 processors on host with 16 cores in each processor. With
+> hyperthreading enabled, it makes 32 logical cores on each processor and
+> that makes 64 logical cores on host.
 > 
-> Note there is an issue open about making the application process
-> simpler:
-> 
-> https://gitlab.com/groups/gitlab-com/marketing/community-relations/opensource-program/-/epics/18
-> 
-> which could be a reason to not rush into applying immediately
-> if we don't have an obvious pressing need.
-> 
-> As you say there's no enforcement of CI minutes at all right now
-> anyway as reported at:
-> 
->   https://gitlab.com/gitlab-org/gitlab/-/issues/243722
+> I have given 32 to guest.
 
-FYI, I've very roughly summed up the CI minutes consumed on
-
- https://gitlab.com/qemu-project/qemu/-/pipelines/192481227/builds
-
-and it comes to around 1400 minutes.
-
-So the default 400 minute limit proposed is clearly useless.
-
-The Open Source Program  offers 50,000 minutes. With our current
-set of jobs that allows for 35 CI pipelines per month, barely
-one per day.
-
-IOW, I fear QEMU will easily hit the GitLab CI minute quota even
-with the 50k minutes per month limit.
-
-Libvirt only uses about 450 CI minutes per pipeline, but we
-merge code on a more frequent basis since we don't use the
-pull request model, so we'll use up a 50k minutes allowance
-very quickly too.
-
-It looks like joining the Open Source program is a must have
-as the proposde 400 CI minute quota is unusably small.
-
-Even once we do that though, it looks inescapable that projects
-of our scale will need to bring more of our own CI hardware to
-the table, or failing that, continue to leverage a wide variety
-3rd party CI systems (travis, cirrus, etc). 
-
-It is still unclear how we'll cope with contributors doing
-CI in their own forks, but GitLab continue to offer positive
-feedback that they want to make projects in our situation
-succesful and thus want to find some kind of solution to the
-CI quota problem with the forking workflow.
+FWIW, I'd be inclined to disable hyperthreading in the BIOS for one
+test to validate whether it is impacting performance results seen.
+Hyperthreads are weak compared to a real CPU, and could result in
+misleading data even if you are limiting your guest to 1/2 the host
+logical CPUs.
 
 Regards,
 Daniel
