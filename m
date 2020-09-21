@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097CF27332C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 21:53:06 +0200 (CEST)
-Received: from localhost ([::1]:38522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71449273322
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 21:49:12 +0200 (CEST)
+Received: from localhost ([::1]:33280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKRs0-0006fQ-UC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 15:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50640)
+	id 1kKRoF-0004D1-BB
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 15:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kKRgH-0001ae-2B; Mon, 21 Sep 2020 15:40:57 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:40598)
+ id 1kKRhW-0002GN-MJ; Mon, 21 Sep 2020 15:42:19 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kKRgF-0007zu-BR; Mon, 21 Sep 2020 15:40:56 -0400
+ id 1kKRhR-0008BP-Nn; Mon, 21 Sep 2020 15:42:14 -0400
 Received: from [172.17.10.14] (unknown [172.17.10.14])
- by beetle.greensocs.com (Postfix) with ESMTPSA id E994D21CC5;
- Mon, 21 Sep 2020 19:40:50 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id B276321CC5;
+ Mon, 21 Sep 2020 19:42:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1600717251;
+ s=mail; t=1600717326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SJhzqHGenUT2igcwbjLJQqVVKAgdEOLOrVJsUbOHY6U=;
- b=1g4iVbCfHMycB7ABVES038Y/m+7wh/OWHJMsmtlhOcDzBlEL/wsvkHDICXWIO86wxGXA/x
- 1u/wAYXP1ooOBwYunlHMTiCWlI/q0X9zLOvkf4mUH9hcJI/4O6bYG5+gVkowsFD+WReFBD
- AbpQxGLpve7Q+6jE900h3IUzPtqCbyw=
-Subject: Re: [PATCH v2 1/5] hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
+ bh=HjPKyPL+3DdKx1MpcE6pKRGhAmWtiEVSfBZTE/PYyy4=;
+ b=FnaGYBHS3+r/MGhmPV9Cn5NaPD/Yt9SbvAcZS9YUk8+dqsz8w7ivOoYGHpMK+qVkdbNmf3
+ vbfnHYZKGCwDzzYQ4/QLnob+OfpIrFFIU5++gjF5xIjLvm+04NMBCr3wtRxSmxK1f7yXJH
+ 0IApgSsCLi0GMCnodBFQVGQArMN6YBY=
+Subject: Re: [PATCH v2 2/5] hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT
+ definition
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200921035257.434532-1-f4bug@amsat.org>
- <20200921035257.434532-2-f4bug@amsat.org>
+ <20200921035257.434532-3-f4bug@amsat.org>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <36eba17d-58a9-3521-7c6a-aec211819232@greensocs.com>
-Date: Mon, 21 Sep 2020 21:41:45 +0200
+Message-ID: <7bee96b4-b5dd-6b24-280a-aca50906d207@greensocs.com>
+Date: Mon, 21 Sep 2020 21:43:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200921035257.434532-2-f4bug@amsat.org>
+In-Reply-To: <20200921035257.434532-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,64 +76,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/21/20 5:52 AM, Philippe Mathieu-Daudé wrote:
-> Add trace events for GPU and CPU IRQs.
+> Use the BCM2835_SYSTIMER_COUNT definition instead of the
+> magic '4' value.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->   hw/intc/bcm2835_ic.c | 4 +++-
->   hw/intc/trace-events | 4 ++++
->   2 files changed, 7 insertions(+), 1 deletion(-)
+>   include/hw/timer/bcm2835_systmr.h | 4 +++-
+>   hw/timer/bcm2835_systmr.c         | 3 ++-
+>   2 files changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/intc/bcm2835_ic.c b/hw/intc/bcm2835_ic.c
-> index 53ab8f58810..9000d995e81 100644
-> --- a/hw/intc/bcm2835_ic.c
-> +++ b/hw/intc/bcm2835_ic.c
-> @@ -18,6 +18,7 @@
->   #include "migration/vmstate.h"
->   #include "qemu/log.h"
->   #include "qemu/module.h"
-> +#include "trace.h"
+> diff --git a/include/hw/timer/bcm2835_systmr.h b/include/hw/timer/bcm2835_systmr.h
+> index 64166bd7120..11272837a6b 100644
+> --- a/include/hw/timer/bcm2835_systmr.h
+> +++ b/include/hw/timer/bcm2835_systmr.h
+> @@ -18,6 +18,8 @@ typedef struct BCM2835SystemTimerState BCM2835SystemTimerState;
+>   DECLARE_INSTANCE_CHECKER(BCM2835SystemTimerState, BCM2835_SYSTIMER,
+>                            TYPE_BCM2835_SYSTIMER)
 >   
->   #define GPU_IRQS 64
->   #define ARM_IRQS 8
-> @@ -51,7 +52,6 @@ static void bcm2835_ic_update(BCM2835ICState *s)
->       set = (s->gpu_irq_level & s->gpu_irq_enable)
->           || (s->arm_irq_level & s->arm_irq_enable);
->       qemu_set_irq(s->irq, set);
-> -
->   }
->   
->   static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
-> @@ -59,6 +59,7 @@ static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
->       BCM2835ICState *s = opaque;
->   
->       assert(irq >= 0 && irq < 64);
-> +    trace_bcm2835_ic_set_gpu_irq(irq, level);
->       s->gpu_irq_level = deposit64(s->gpu_irq_level, irq, 1, level != 0);
->       bcm2835_ic_update(s);
->   }
-> @@ -68,6 +69,7 @@ static void bcm2835_ic_set_arm_irq(void *opaque, int irq, int level)
->       BCM2835ICState *s = opaque;
->   
->       assert(irq >= 0 && irq < 8);
-> +    trace_bcm2835_ic_set_cpu_irq(irq, level);
->       s->arm_irq_level = deposit32(s->arm_irq_level, irq, 1, level != 0);
->       bcm2835_ic_update(s);
->   }
-> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-> index 527c3f76cae..22782b3f089 100644
-> --- a/hw/intc/trace-events
-> +++ b/hw/intc/trace-events
-> @@ -199,3 +199,7 @@ nvic_sysreg_write(uint64_t addr, uint32_t value, unsigned size) "NVIC sysreg wri
->   heathrow_write(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
->   heathrow_read(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
->   heathrow_set_irq(int num, int level) "set_irq: num=0x%02x level=%d"
+> +#define BCM2835_SYSTIMER_COUNT 4
 > +
-> +# bcm2835_ic.c
-> +bcm2835_ic_set_gpu_irq(int irq, int level) "GPU irq #%d level %d"
-> +bcm2835_ic_set_cpu_irq(int irq, int level) "CPU irq #%d level %d"
+>   struct BCM2835SystemTimerState {
+>       /*< private >*/
+>       SysBusDevice parent_obj;
+> @@ -28,7 +30,7 @@ struct BCM2835SystemTimerState {
+>   
+>       struct {
+>           uint32_t status;
+> -        uint32_t compare[4];
+> +        uint32_t compare[BCM2835_SYSTIMER_COUNT];
+>       } reg;
+>   };
+>   
+> diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+> index 3387a6214a2..ff8c5536610 100644
+> --- a/hw/timer/bcm2835_systmr.c
+> +++ b/hw/timer/bcm2835_systmr.c
+> @@ -134,7 +134,8 @@ static const VMStateDescription bcm2835_systmr_vmstate = {
+>       .minimum_version_id = 1,
+>       .fields = (VMStateField[]) {
+>           VMSTATE_UINT32(reg.status, BCM2835SystemTimerState),
+> -        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState, 4),
+> +        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState,
+> +                             BCM2835_SYSTIMER_COUNT),
+>           VMSTATE_END_OF_LIST()
+>       }
+>   };
 > 
 
