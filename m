@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544DC27237D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:14:22 +0200 (CEST)
-Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C0D2723CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:22:38 +0200 (CEST)
+Received: from localhost ([::1]:33020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKKi4-0006ia-SN
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:14:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53684)
+	id 1kKKq5-0001wh-Q5
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:22:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKKew-000684-IQ
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:11:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44090)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKKot-0001V2-OZ
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:21:23 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57559
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKKeu-0006kL-Bh
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:11:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKKor-0007uG-2x
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:21:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600690262;
+ s=mimecast20190719; t=1600690879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yJ979M6HD6VGwbKwqQKLiQH5zU3sesoSCg3VBFdoXOo=;
- b=Vy001IATZA6LGSuSuponT4ZItqikf7Wwje/y60vV97IoDRY/BJx5CfumuFzgibncq3gM4I
- xTn2+DmgTGNf2dwd1AqsIxw2y/CzdpivOG2leLzGzybA0KuukCgkHdyYnrocOWUVs1IXEV
- EgPgYDPvQOu6MoIBkLcUFaY9lmcowr4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-42feAefEPSOU_e-gF_ebVw-1; Mon, 21 Sep 2020 08:10:58 -0400
-X-MC-Unique: 42feAefEPSOU_e-gF_ebVw-1
-Received: by mail-wr1-f72.google.com with SMTP id i10so5772276wrq.5
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 05:10:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yJ979M6HD6VGwbKwqQKLiQH5zU3sesoSCg3VBFdoXOo=;
- b=qdForGQZqkJIwW09OXu2IZzrpXv1qlOTMHmp9CWk3FtApXDdHKzhGTcB/8REbHegEe
- xNphAVfVSsqGyibHnM3uD3yqxGtapU6H/LGKsBAtVeHZwCzdB4zYuUzLxH9lMCvcd0W+
- LvUDvN6skoK26KltCJxALjtuP5OY0OKRK9JTl9/S9GNd1QzXTDvbo+ZLBjHvRFvurzHX
- T9zxFuXpBiC35Qc4X7tTlGWNBSI/GzCMw+5q8Bi9ueDtErpEVRRbIqbbWFqyyZbC8m4K
- wFi8esHj7PRJrBowh/CX8aAccjvmkyTy05/3XEJdM+rYNW/NVn0u/f3ZV5yF1K8bVPnE
- OFRQ==
-X-Gm-Message-State: AOAM530l06SRAOyRPgEzapJcP22a+rx4xvkPICF5EXJq62/hwKhQlIIV
- 7fHy4WV/2d+cxpFFQR+KwXiSJRfqnZ3eLr2ZrShNHqJ25fMKZ6I1btmLzsGwbvCtwgGkZijnlJa
- l2onJj254eSy1nRQ=
-X-Received: by 2002:adf:e488:: with SMTP id i8mr55394259wrm.116.1600690257379; 
- Mon, 21 Sep 2020 05:10:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoxyW5GLpJ92fS3n2dOBcl9Iq6LCBi+XK0R6iFuC9uY/8bLg7YpsplreShmcOt7NRipkDj/w==
-X-Received: by 2002:adf:e488:: with SMTP id i8mr55394230wrm.116.1600690257149; 
- Mon, 21 Sep 2020 05:10:57 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d153:8d0f:94cf:5114?
- ([2001:b07:6468:f312:d153:8d0f:94cf:5114])
- by smtp.gmail.com with ESMTPSA id 70sm19767504wme.15.2020.09.21.05.10.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Sep 2020 05:10:56 -0700 (PDT)
-Subject: Re: Issue 25514 in oss-fuzz: qemu: Coverage build failure
-To: qemu-devel <qemu-devel@nongnu.org>, "Oleinik, Alexander" <alxndr@bu.edu>
-References: <0=0a88cf92d34dc9db91727cc9bd0dc58b=d9ca53ad17e3d19752f355e6c3ba1ecc=oss-fuzz@monorail-prod.appspotmail.com>
- <0000000000003aa8d805afd00f24@google.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <995b1aa7-8efc-57d2-a85e-5520fab0755b@redhat.com>
-Date: Mon, 21 Sep 2020 14:10:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=y5oW26ETPlDDNzHxi8EtRB94aMrTHZxvl29TWxXQvrI=;
+ b=aL72PKUsT/Zf3Gp8EdWCK41vij4x+csXv42ZDhQ7pWnveaBl9t14rTNkosx8Zi0gncYbE9
+ Ajl8uQOqB4v+CXJMojwVIIHRQvKY8MaDHaCAvxZqsFST2/WPOeCw+uu78wUZzNX6DwxgOH
+ qi28hiXIabJFNqmu2UVtIbp3kvin25k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-6cYTxvfZNIaqfpODGDqBjw-1; Mon, 21 Sep 2020 08:21:17 -0400
+X-MC-Unique: 6cYTxvfZNIaqfpODGDqBjw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E480188C122;
+ Mon, 21 Sep 2020 12:21:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAF6410013DB;
+ Mon, 21 Sep 2020 12:21:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4823E1132E9A; Mon, 21 Sep 2020 14:21:14 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 3/6] hw/sd/sdcard: Do not use legal address '0' for
+ INVALID_ADDRESS
+References: <20200918174117.180057-1-f4bug@amsat.org>
+ <20200918174117.180057-4-f4bug@amsat.org>
+ <874knra5fk.fsf@dusky.pond.sub.org>
+ <6384105c-65ca-60f8-4fa0-afd2e46b144a@redhat.com>
+Date: Mon, 21 Sep 2020 14:21:14 +0200
+In-Reply-To: <6384105c-65ca-60f8-4fa0-afd2e46b144a@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 21 Sep 2020 12:31:21
+ +0200")
+Message-ID: <87pn6f48xx.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <0000000000003aa8d805afd00f24@google.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 04:38:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,38 +89,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, "Dr . David Alan
+ Gilbert" <dgilbert@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Kevin O'Connor <kevin@koconnor.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/09/20 12:10, ClusterFuzz-External via monorail wrote:
-> 
-> Comment #2 on issue 25514 by ClusterFuzz-External: qemu: Coverage build
-> failure
-> https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=25514#c2
-> 
-> Friendly reminder that the the build is still failing.
-> Please try to fix this failure to ensure that fuzzing remains productive.
-> Latest build log:
-> https://oss-fuzz-build-logs.storage.googleapis.com/log-632125f2-e66b-4480-9504-c1097198069a.txt
-> 
-> -- 
-> You received this message because:
-> 1. You were specifically CC'd on the issue
-> 
-> You may adjust your notification preferences at:
-> https://bugs.chromium.org/hosting/settings
-> 
-> Reply to this email to add a comment.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-It's now failing with:
+> +Paolo & Kevin.
+>
+> On 9/21/20 10:40 AM, Markus Armbruster wrote:
+>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>>=20
+>>> As it is legal to WRITE/ERASE the address/block 0,
+>>> change the value of this definition to an illegal
+>>> address: UINT32_MAX.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> ---
+>>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>> Cc: Markus Armbruster <armbru@redhat.com>
+>>>
+>>> Same problem I had with the pflash device last year...
+>>> This break migration :(
+>>> What is the best way to do this?
+>>=20
+>> Remind me: did we solve the problem with pflash, and if yes, how?
+>
+> No we can't. The best I could do is add a comment and as this
+> is not fixable. See commit aba53a12bd5: ("hw/block/pflash_cfi01:
+> Document use of non-CFI compliant command '0x00'").
+>
+> I now consider the device in maintenance-only
+> mode and won't add any new features.
+>
+> I started working on a new implementation, hoping it can be a
+> drop in replacement. Laszlo still has hope that QEMU pflash
+> device will support sector locking so firmware developers could
+> test upgrading fw in VMs.
+>
+> Back to the SDcard, it might be less critical, so a migration
+> breaking change might be acceptable. I'm only aware of Paolo
+> and Kevin using this device for testing. Not sure of its
+> importance in production.
 
-Step #3: /usr/bin/ld: section .interp loaded at
-[00000000000002a8,00000000000002c3] overlaps section .data.fuzz_ordered
-loaded at [0000000000000000,000000000016ebff]
+Neither am I.
 
-Do you know what's going on?  Also, should we make
-scripts/oss-fuzz/build.sh use "make V=1"?
+Which machine types include this device by default?
 
-Paolo
+How can a non-default device be added, and to which machine types?
+
+I gather the fix changes device state incompatibly.  Always, or only in
+certain states?  I'm asking because if device state remains compatible
+most of the time, we might be able use subsection trickery to keep
+migration working most of the time.  Has been done before, I think.
 
 
