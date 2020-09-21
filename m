@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6B127290A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:50:21 +0200 (CEST)
-Received: from localhost ([::1]:40442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFA227292A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:53:40 +0200 (CEST)
+Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKN92-0001wk-TC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:50:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
+	id 1kKNCF-0004Ti-Ah
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN5g-00084E-BH
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:46:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48376)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN8M-0001eg-8R
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:49:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN5e-0006UN-9l
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:46:51 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKN8K-0006qH-9l
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 10:49:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600699608;
+ s=mimecast20190719; t=1600699775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/5Hqn6jySfjP7Wr40wPCovOfu0GOxO7kQ9MhyB1X8Cc=;
- b=WqXzJctcX3eyTSuvgXrQpnMF80M+l+BvC9S55unwC3AE0AFItB51f4aO65fIkq121+Jmvw
- r7jlyU6gG3a95RS19dqUaZzAIwoYNRr+5c+l+D7LaqrtaOU84aqRztDXia8sls4iSI7MJL
- xb5RwDimeWloYhZmebm730e4qnU1gYk=
+ bh=s+svlnk7NA0CKsBAmsy9xPORizPjATc2TL13wdBWfSg=;
+ b=a1OIydOBCRq0HAPoZHSvgUc8znUNeN8fF72PudD1BoroXg6U7iBH/Z+wDHwW0tZQlQimaG
+ 1PkElPyrGU0C+tOR87xBPzAmnW8lFkRroB1g2UYdfAhp5G2DNg/6d+xCa8/dtbJwk4H+wP
+ jtTHzTJELcjLAVidt7eg5cNGCAER+Tc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-glTVh78ZMpO9whWlI4j2gQ-1; Mon, 21 Sep 2020 10:46:44 -0400
-X-MC-Unique: glTVh78ZMpO9whWlI4j2gQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-419-_zeg38CDPmGf4lxY1vbZ8g-1; Mon, 21 Sep 2020 10:49:16 -0400
+X-MC-Unique: _zeg38CDPmGf4lxY1vbZ8g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 370051021202;
- Mon, 21 Sep 2020 14:46:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 892A28015A5;
+ Mon, 21 Sep 2020 14:49:14 +0000 (UTC)
 Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF0AA5D9CD;
- Mon, 21 Sep 2020 14:46:41 +0000 (UTC)
-Subject: Re: [PATCH 16/37] qapi: establish mypy type-checking baseline
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-17-jsnow@redhat.com>
- <874knvguzb.fsf@dusky.pond.sub.org>
- <d8faa68c-6900-5666-943c-98815348fc5b@redhat.com>
- <87imc7a71d.fsf@dusky.pond.sub.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 187666115F;
+ Mon, 21 Sep 2020 14:49:12 +0000 (UTC)
+Subject: Re: Bottleneck problem to merge Python patches
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "crosa@redhat.com" <crosa@redhat.com>, Lukas Straub <lukasstraub2@web.de>
+References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
+ <20200828104102.4490-2-ahmedkhaledkaraman@gmail.com>
+ <CAL1e-=iA95PR-mM9E+nfsvFRJLhQsj5Q9qPAM=7QS9mg-QvcbQ@mail.gmail.com>
+ <6ad83ff4-1b4f-69f0-7dbe-85680e2f403e@amsat.org>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <f10940c0-ee44-bf84-866b-0c3cde11fa05@redhat.com>
-Date: Mon, 21 Sep 2020 10:46:41 -0400
+Message-ID: <524f04de-7d1c-ffba-0445-02f82ab6e2ca@redhat.com>
+Date: Mon, 21 Sep 2020 10:49:11 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87imc7a71d.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <6ad83ff4-1b4f-69f0-7dbe-85680e2f403e@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,109 +88,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: "ldoktor@redhat.com" <ldoktor@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Ben Widawsky <ben@bwidawsk.net>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ "aleksandar.qemu.devel@gmail.com" <aleksandar.qemu.devel@gmail.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/20 4:05 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+On 9/19/20 7:17 AM, Philippe Mathieu-Daudé wrote:
+> Hi Aleksandar,
 > 
->> On 9/18/20 7:55 AM, Markus Armbruster wrote:
->>> Ignorant question: why does this come after PATCH 13 "qapi/common.py:
->>> add notational type hints", but before all the other patches adding type
->>> hints?
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> Fix two very minor issues, and then establish a mypy type-checking
->>>> baseline.
->>>>
->>>> Like pylint, this should be run from the folder above:
->>>>
->>>>    > mypy --config-file=qapi/mypy.ini qapi/
->>> I get:
->>>       $ mypy --config-file qapi/mypy.ini qapi
->>>       qapi/mypy.ini: [mypy]: Strict mode is not supported in configuration files: specify individual flags instead (see 'mypy -h' for the list of flags enabled in strict mode)
->>>       qapi/types.py:29: error: Need type annotation for 'objects_seen' (hint: "objects_seen: Set[<type>] = ...")
->>>       Found 1 error in 1 file (checked 18 source files)
->>> Is this expected?
->>> In case it matters:
->>>       $ mypy --version
->>>       mypy 0.761
->>>
->>
->> (Warning; FiSH and stgit ahead)
->>
->> cd ~/src/qemu/scripts
->> pipenv --python 3.6
->> pipenv shell
->> pip install pylint flake8
->>
->> ### Testing mypy 0.770
->>
->> pip install mypy==0.770
->> stg goto qapi-establish-mypy-type
->>
->> while true; and flake8 qapi/; and pylint --rcfile=qapi/pylintrc qapi/;
->> and mypy --config-file=qapi/mypy.ini qapi/; and stg push; end
->>
->> pip uninstall mypy
->>
->> ###
->>
->>
->>
->> 0.782 - OK
->> 0.770 - OK
->> 0.760 - FAIL, Fixable*
->> 0.750 - OK*
->> 0.740 - OK*
->> 0.730 - OK*
->> 0.720 - OK*
->> 0.710 - OK** (Does not recognize 'no_implicit_reexport' option)
->> 0.700 - OK*** (Not compatible with bleeding edge pylint/flake8)
->> 0.670 - OK***
->> 0.660 - OK***
->> 0.650 - OK***
->> 0.641 - OK***
->> 0.630 - Fails again.
->>
->>
->>
->> 0.760 doesn't support strict in the config file (It needs component
->> options), and it wants a few extra annotations where its inference
->> power is weaker. Well, easy enough to fix up.
->>
->> 0.630 fails again and insists that __init__ should have a return type
->> annotation of None. Modern mypy is smart enough to know that's what
->> that type is supposed to be. Arbitrarily, this is my cutoff for what
->> seems reasonable to even want to support.
->>
->> I still find the lack of "strict=true" in the config file irritating
->> and might ask to target 0.770 or newer. There should be no reason we
->> can't install that in a venv for CI to chew on.
->>
->> Humbly ask I take the lazy way out and document that we support mypy
->>> = 0.770.
+> (extending the Cc list to broader audience)
 > 
-> Our "supported build platforms" policy puts hard limits on the minimum
-> versions for tools the build requires.
-> 
-> Mypy is not such a tool.  I hope we get to the point where we can have
-> "make check" run it, but skipping the test when we don't have a
-> sufficiently modern mypy feels okay to me, as long as our gating CI
-> still guards the master branch.
+> On 9/18/20 10:33 PM, Aleksandar Markovic wrote:
+>>
+>> On Friday, August 28, 2020, Ahmed Karaman <ahmedkhaledkaraman@gmail.com
+>> <mailto:ahmedkhaledkaraman@gmail.com>> wrote:
+>>
+>>      - Apply pylint and flake8 formatting rules to the script.
+>>      - Use 'tempfile' instead of '/tmp' for creating temporary files.
+>>
+>>      ---
+>>
+>> Hello, folks.
+>>
+>> This series seems forgotten. Can some of you perhaps take a look,
+>> review, and possibly integrate some patches in a pull request?
+>>
+>> Ahmed invested quite of time to improve the functionality and quality of
+>> scripts, and they are truly useful for developers interested in
+>> performance measurement.
 > 
 
-Yes, that's been my view. These tools *are* new and they *do* change 
-often. Chasing a wide compatibility window with them is prohibitively 
-difficult. Luckily, they're not needed for running the packages at all.
+Hi, I will add it to my queue. I intended to take over Python 
+maintenance but I have been busy refactoring the QAPI python code and 
+haven't been reading my mail as regularly.
 
-If I do add linting to 'make check', it is going to be through a virtual 
-environment that deploys *specific versions* of these tools, and it will 
-happen transparently. The VM tests already do this.
+> The Python patches are indeed being merged slowly, but are not
+> forgotten :) Eduardo sent just a pull request *yesterday* for
+> patches he had queued *before* QEMU 5.1, that is more than 1 year
+> ago!
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg742228.html
+> 
+> I hope he will be able to process the other Python patches sent
+> the last 12 months. He raised the problem few month ago saying he
+> was overwhelmed and was looking for help from the community.
+> Cleber helped a pair of times, I helped once, but then nobody
+> popped up volunteering.
+> 
+> I agree this is a community problem, nobody wants to become the
+> de-facto Python maintainer. Current maintainers are already busy
+> solving problem with low-level languages such C.
+> As a project, QEMU is evolving, using more and more Python, switched
+> to Meson, we might have Rust code too. Learning that for current
+> maintainers takes time. I guess we lack new contributors/maintainers
+> with interest in Python & QEMU.
+> 
 
---js
+I'm volunteering, since I am doing so much work in Python. I could use a 
+dedicated reviewer to help me, however. I prefer a maintainer policy 
+where all patches get at least ONE review by someone other than the 
+primary author.
+
+In the case that I am writing so much Python, I still need a 
+co-maintainer to help review *my* patches.
+
+> This is my simple/rough analysis, as John had the same problem
+> 2/3 months ago, his patches were on the list unreviewed for various
+> weeks. Same problem with Avocado patches, Lukas sent a series a bit
+> before Ahmed and it is still unreviewed:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg737272.html
+> 
+> Alex Bennée recently said:
+> 
+>   "review time is the currency of qemu-devel ;-)"
+> 
+> We might be failing at explaining new contributors the importance
+> of peer-review, as this helps a lot maintainers. It is described
+> in the wiki but maybe new contributors don't read it, we don't
+> remember them to:
+> https://wiki.qemu.org/Contribute/SubmitAPatch#Participating_in_Code_Review
+> and:
+> https://wiki.qemu.org/Contribute/SubmitAPatch#Return_the_favor
+> 
+> My 2 cents...
+> 
+> Regards,
+> 
+> Phil.
+> 
+>>
+>> Thanks,
+>> Aleksandar
+> 
 
 
