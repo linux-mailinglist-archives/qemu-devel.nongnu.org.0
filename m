@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791472722A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:36:08 +0200 (CEST)
-Received: from localhost ([::1]:40202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CE72722EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:46:16 +0200 (CEST)
+Received: from localhost ([::1]:36914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKK75-0000sQ-H9
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
+	id 1kKKGt-0002tJ-Gs
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1c-0003Z5-J0
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:30:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1a-0000s5-Fo
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:30:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600687825;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QGEKUXK8Ua+eb00vBAjJ3dQj8Co+dbRWsNgAI1iqUvA=;
- b=RYUZl4qn7uwWEuqj1H82Ry63Bp6+ZpqmRMf9aXI5aODUQRqSTt3pg2HJiPbfuH7iLeZpGw
- dFW0fe/RgdSsV0hoRlHNPUl8pZsd/fEpny5uAJxTElULP4He43ma+Bda7nQriUTiy36TzH
- sS6XngTonHQ1FKscCMC40Ahk7rm/Spw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-ZrNVeUYWNwSnFTAqunqWTw-1; Mon, 21 Sep 2020 07:30:22 -0400
-X-MC-Unique: ZrNVeUYWNwSnFTAqunqWTw-1
-Received: by mail-wr1-f71.google.com with SMTP id v5so5690095wrs.17
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:30:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kKK2d-0004UM-8p
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:31:31 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kKK2b-00015n-KN
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:31:30 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id t14so8757738pgl.10
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7/Cf4+bQ+JCv4CMTx69Me1q6TM58iCqVGSPw4dCcDeI=;
+ b=m8F+NPA8XhFVWXSamfPp836sDzMNdOtRGP+zI9961QsMx67V+D5LNMEQ2Eb4gSy3UA
+ v8DoxgkZv/4Rh1AWByG+19ugf8CxuiGm9La9FUKzfVeVgp7PlEsBChJdXkYYUZuZyXv1
+ aFKNrapVD4LAtAxvzKVvkgK/iW6GlrKM5ZfElAjmvPt2/yme8ivlP4MgFKiB5AzhturB
+ XSXQAHtW33hI5pCGS4qEtg9n0M2fUzO/I/mMplLalQ9DLGuV5ZcwFL+c4rt0oXv/TE8C
+ VCtseu8gKwTjU81Rv/vmqjUvFniHJKXHTIZApKWkTuC6Cj5QztpGP9fk76uls8NUXRey
+ CeEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QGEKUXK8Ua+eb00vBAjJ3dQj8Co+dbRWsNgAI1iqUvA=;
- b=WIgUILovj8uOdH0yHNxGGEMskn4eSVh4RVHLwBI7Z/3n1ZiPuQw6kzfN+IpkpkmRIe
- H3sK1Qguu39fZyPIvjLGuhbvy2Y6a8FW9hRkaUPyWIB7JDOOaq0/46OmL/Bgu09U2m/E
- vTj1UtzuQEuShB48voijhP6b4l5p1tEoU7Qhr47q2dki6FqFumR4u8pErX8htQJc3jps
- NpDqa4gNZEj1ji/tszkQTPVsBvI0kMrMcsKuNNOoTZl/lOZbyofQTNdeTthjfhNTCyAz
- rARq088MJUM0EsTiQQbRFDD8h9CMaDRgAEXGvGCz4FSvk6sGNCHnM/g6wmUqItxw/uDW
- gPnQ==
-X-Gm-Message-State: AOAM530OykzGgA73Yzh4xd3y9toF7L473eJX26nYVvfFNtCOU0UzrUeY
- 6Yg4D3RsEd4qVZ2zZ8KbXi1G+aaFL2/uuofyfKaxN7hXUGHjG9E/ToorPs9r6Db44+ZW45Xi884
- onE2JPNgskbr6eLg=
-X-Received: by 2002:a5d:4710:: with SMTP id y16mr53663001wrq.203.1600687820841; 
- Mon, 21 Sep 2020 04:30:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyv7S7M+jDpJ6fHP1jEept0BRI/xhsbyO/Nh5eVzfMEwLcCqKXFojmbRuBrL3nttLieRzkEXg==
-X-Received: by 2002:a5d:4710:: with SMTP id y16mr53662991wrq.203.1600687820696; 
- Mon, 21 Sep 2020 04:30:20 -0700 (PDT)
-Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
- [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id y6sm20479084wrn.41.2020.09.21.04.30.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 04:30:20 -0700 (PDT)
-Date: Mon, 21 Sep 2020 07:30:18 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v3 15/15] virtio-iommu-pci: force virtio version 1
-Message-ID: <20200921112913.555392-16-mst@redhat.com>
-References: <20200921112913.555392-1-mst@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7/Cf4+bQ+JCv4CMTx69Me1q6TM58iCqVGSPw4dCcDeI=;
+ b=B4Ja+FSZPdvuOHQxkVrUR0hQWHGzPcF9ve1Du37R4LnCR1xDN9yuELgmsjtya9Rbef
+ iOhbQGw4IkrohxesKVxe2ujOI7zRMNZiZwm4qrZPvRUOT1JtLNHgkuznEHTw/uEuwds8
+ nfU0QA049T5KtdcJ0SBocbe7KtTEDB/LxOE3Xs4S4io2S0d2ZxNTiIVMIzvjEv4sN1S0
+ XI+1S3JayLDpAIct1k4U8sGXda5IL4ls4cuymVIZOLefaJbFsBZMDYxQWIbL+J6UsGsR
+ a/7yTaKSDYaBg+JaxIQSeHYz2DBYFEPIPyM2xFSlr0ObHXUc4LZ1YS3pNhmCNsGhXlkI
+ /+vg==
+X-Gm-Message-State: AOAM530MyMCwanIMdJStla40rNoTmIitOYsnm558nEyqlRfBYDrwT8PE
+ hvum9Sg1h3WNdcFKxDZdyqhzldiLa9tziMh/yUU=
+X-Google-Smtp-Source: ABdhPJxqLKkpQ3jdk7GZbSj7ZN9kF6U8AVizFK/ZKnwyx4icK/042ujdPkiwJbovdwhlPDSJIK/z7Tl/11zyvkrB2u0=
+X-Received: by 2002:aa7:9730:0:b029:13e:d13d:a091 with SMTP id
+ k16-20020aa797300000b029013ed13da091mr42278198pfg.40.1600687888335; Mon, 21
+ Sep 2020 04:31:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <160044888692.1133.11388395637815022535.malonedeb@chaenomeles.canonical.com>
+In-Reply-To: <160044888692.1133.11388395637815022535.malonedeb@chaenomeles.canonical.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 21 Sep 2020 12:31:16 +0100
+Message-ID: <CAJSP0QXp5dq_nHdFZgyh5Ye1Pv+kOvVS0GRici2y1Xadu+LbGw@mail.gmail.com>
+Subject: Re: [Bug 1896263] [NEW] The bios-tables-test test causes QEMU to
+ crash (Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed) on AMD processors
+To: Bug 1896263 <1896263@bugs.launchpad.net>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=stefanha@gmail.com; helo=mail-pg1-x52f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,59 +80,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- qemu-stable@nongnu.org, Eric Auger <eric.auger@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+On Fri, Sep 18, 2020 at 6:18 PM Apteryx <1896263@bugs.launchpad.net> wrote:
+> Host CPU: AMD Ryzen 3900X
 
-Commit 9b3a35ec82 ("virtio: verify that legacy support is not
-accidentally on") added a safety check that requires to set
-'disable-legacy=on' on virtio-iommu-pci:
+I also hit this test failure.
 
-qemu-system-aarch64: -device virtio-iommu-pci: device is modern-only,
-use disable-legacy=on
+Host CPU: Intel(R) Core(TM) i7-8665U CPU @ 1.90GHz
+Host kernel: Linux 5.8.6-201.fc32.x86_64
 
-virtio-iommu was introduced after the release of VIRTIO 1.0
-specifications, so it should be 'modern-only'.
-
-This patch forces virtio version 1 and removes the 'transitional_name'
-property removing the need to specify 'disable-legacy=on' on
-virtio-iommu-pci device.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
-Message-Id: <20200908193309.20569-3-eric.auger@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/virtio/virtio-iommu-pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index 76540e57b1..378f63b210 100644
---- a/hw/virtio/virtio-iommu-pci.c
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -69,6 +69,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     object_property_set_link(OBJECT(dev), "primary-bus",
-                              OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
-                              &error_abort);
-+    virtio_pci_force_virtio_1(vpci_dev);
-     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
- 
-@@ -98,7 +99,6 @@ static void virtio_iommu_pci_instance_init(Object *obj)
- static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
-     .base_name             = TYPE_VIRTIO_IOMMU_PCI,
-     .generic_name          = "virtio-iommu-pci",
--    .transitional_name     = "virtio-iommu-pci-transitional",
-     .non_transitional_name = "virtio-iommu-pci-non-transitional",
-     .instance_size = sizeof(VirtIOIOMMUPCI),
-     .instance_init = virtio_iommu_pci_instance_init,
--- 
-MST
-
+qemu-system-x86_64: error: failed to set MSR 0x4b564d02 to 0x0
+qemu-system-x86_64: ../target/i386/kvm.c:2714: kvm_buf_set_msrs:
+Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
 
