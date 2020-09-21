@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA89272403
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:38:09 +0200 (CEST)
-Received: from localhost ([::1]:37258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D032723FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:36:08 +0200 (CEST)
+Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKL56-0007gM-C5
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:38:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58504)
+	id 1kKL3A-00059M-1o
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKKyu-0001Ug-Tg
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:31:44 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36094
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKKze-0002JX-Li
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:32:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKKyq-0000pj-T2
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:31:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKKzb-0000v4-Ec
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:32:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600691500;
+ s=mimecast20190719; t=1600691546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0AKhMO9wh5Fh+D60WATXEswIxIiyJs66dsN0HQFJYrg=;
- b=S7Ay4CzEU8pMK72gCyXfb0F/lrdXrCQjlC6n0Xog7/OLJC3ohI9z0yh8L83EJS2/BfGQtV
- LU82OpZ0adfOoH1vJfr9rFJ/3RAvxk16lMPBPvHjlpJDYl4Z7ZWBnmEHYXtKUDR++xfphB
- 4K4xWRRDbWnpncH0G1wXOOJHA4tiG8M=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-VfPmZ2BAMa6he1i3wwfetw-1; Mon, 21 Sep 2020 08:31:36 -0400
-X-MC-Unique: VfPmZ2BAMa6he1i3wwfetw-1
-Received: by mail-wm1-f69.google.com with SMTP id w3so3686133wmg.4
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 05:31:36 -0700 (PDT)
+ bh=vNMNIDMF6eTHlo4TYQrUVrdAeMqSLNfpT/KFR4Sy12I=;
+ b=FlhgdSTemhJpjE2wWLpgcc5TsbVDdS/lg6mlxZwj9lKpl+cr6NIFf/j1vlRVgCETvgz699
+ EZq2SxKxRA9btasGGj/32w5mAK0HEbQQbEvMJHq58eiBSZbgCEEi7SE4E271PS2AtAD9i4
+ LrNJKXBhdrqVuz/uUKIEM/aZMUQH4xw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-rLhVLX5-O_Cnyyak7V-kLw-1; Mon, 21 Sep 2020 08:32:24 -0400
+X-MC-Unique: rLhVLX5-O_Cnyyak7V-kLw-1
+Received: by mail-wr1-f70.google.com with SMTP id r16so5786718wrm.18
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 05:32:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=0AKhMO9wh5Fh+D60WATXEswIxIiyJs66dsN0HQFJYrg=;
- b=cn+1X7GLRpEsJEjuh/QkA2C2m4e8hHEy52Rkxp+PhrIGph3lpte0WyhCBcVYfUWhWF
- 2wFzZYhi06T26PPGQJMHZAHIrKtqV3D6mADwNPLgegvhgjiUN0Lm7ncA6bgRhI/56BtT
- sB80kdPIi+7W5uLgIiz5bcJJziFikP3G8fwF9lk5huyzL2iqtVXCwQbx9zMMnSQdPXhi
- g1pACZRugYR2u2tSfkuTr9k3f95xive3m+DtEnqxn7DQuer6Bj+pt2WL9B7BMOlfw7H5
- TswcJJmqOrLRlcSn+u0fU8P0TwxfHAofMHPq/sASakw9YatzF4Hkz//cJGJ1r+xjp2Uk
- gWrg==
-X-Gm-Message-State: AOAM532Bnky7Py7ekss6tuiqNVGZPB+7gZOz/g0RqxtuhIO9UbasOCmK
- rmgO0GZK7Arwd4O1NZQk8MKu69SnyQ1q/TuskCX2eczDZq7z8mT+I41rvoI3Htw9ujC/M8gDEfU
- OlPKIXI65nAz35Bo=
-X-Received: by 2002:a7b:c24b:: with SMTP id b11mr31514941wmj.134.1600691495689; 
- Mon, 21 Sep 2020 05:31:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0obBAg/4nrERK1bZU2viYoHCx9AAqQBd2KcGrAUQ8toJ7Rd762iGB7H9vp43OuK5WlGsY/Q==
-X-Received: by 2002:a7b:c24b:: with SMTP id b11mr31514912wmj.134.1600691495436; 
- Mon, 21 Sep 2020 05:31:35 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=vNMNIDMF6eTHlo4TYQrUVrdAeMqSLNfpT/KFR4Sy12I=;
+ b=JnAF/fDPCSPmi62fEbtWRMlvSWgTM/l5IFCnz08LTCCmqH28gUbVaOdTc0p9vb5V71
+ VSdh6C87y5Yb6H0UjVZuiaVpuYKVHRfc83rvaoBwG93Gg5uCnCQXW2XqMl0OK29Ej7Lf
+ bkdowJlTaRcDQSgdWGWW6iENtghVDZmoXbakmmHEY7WmOA/JmMt4jMcrG/aibZ0xpfe4
+ yvz5QTqiOWo+ClzN6jHXH9vA6Dwx16B8EmroPfsQkVqshwisTgZE0TYiNR6KqcR7KewR
+ JKf4YNgkE7J/5M8JolfEaGkJ2P3nwLJTriFRxYC8LdC6EDATY276DDvLwELTLQgSWmvD
+ arBQ==
+X-Gm-Message-State: AOAM530jkmQ+KiGKIcjA9zo8g1xnXOQuv/ZnlBKrrRIu6Gfy52qj3FGs
+ GwBn9Z3Jfj/IZ4nnN3vpK7IpmnVh+1mzcxLJbJTa8V9T1WrIY8/BqPP6y6UWUqqRbnc/RXEEwJC
+ dV4bXhp2GP4HWNjI=
+X-Received: by 2002:a1c:4303:: with SMTP id q3mr29955530wma.158.1600691542798; 
+ Mon, 21 Sep 2020 05:32:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXOhzxfnYUNnHPF27lTuL5xwbV/vKYDUsVVRMXRhQURpr798s2B5gSuP+ZWStCbQSfOvT6rw==
+X-Received: by 2002:a1c:4303:: with SMTP id q3mr29955511wma.158.1600691542604; 
+ Mon, 21 Sep 2020 05:32:22 -0700 (PDT)
 Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
  [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id 189sm19658839wmb.3.2020.09.21.05.31.33
+ by smtp.gmail.com with ESMTPSA id c25sm19486859wml.31.2020.09.21.05.32.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 05:31:34 -0700 (PDT)
-Date: Mon, 21 Sep 2020 08:31:31 -0400
+ Mon, 21 Sep 2020 05:32:21 -0700 (PDT)
+Date: Mon, 21 Sep 2020 08:32:19 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Li Qiang <liq3ea@gmail.com>
-Subject: Re: [PULL v3 00/15] virtio,pc,acpi: fixes, tests
-Message-ID: <20200921083052-mutt-send-email-mst@kernel.org>
-References: <20200921112913.555392-1-mst@redhat.com>
- <CAKXe6SLYL0DDWTbPEwa7y47BOpagg8HkUf+nfgzz_3Or_ebUqQ@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 0/2] vhost-vdpa: add trace functions in vhost-vdpa.c
+Message-ID: <20200921083214-mutt-send-email-mst@kernel.org>
+References: <20200920162434.868041-1-lvivier@redhat.com>
+ <20200921084136.GB71121@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <CAKXe6SLYL0DDWTbPEwa7y47BOpagg8HkUf+nfgzz_3Or_ebUqQ@mail.gmail.com>
+In-Reply-To: <20200921084136.GB71121@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,75 +94,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Qemu Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 21, 2020 at 07:44:42PM +0800, Li Qiang wrote:
-> Michael S. Tsirkin <mst@redhat.com> 于2020年9月21日周一 下午7:30写道：
-> >
-> > The following changes since commit 053a4177817db307ec854356e95b5b350800a216:
-> >
-> >   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-20200918' into staging (2020-09-18 16:34:26 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to acbdbd5db6dab68534702987a487360fd8ae02b7:
-> >
-> >   virtio-iommu-pci: force virtio version 1 (2020-09-21 06:14:46 -0400)
-> >
-> > ----------------------------------------------------------------
-> > virtio,pc,acpi: fixes, tests
-> >
-> > Fixes and tests all over the place.
-> > Batch iommu updates for vdpa.
-> > Removal of deprecated cpu hotplug commands.
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > ----------------------------------------------------------------
-> > David Hildenbrand (1):
-> >       pc: fix auto_enable_numa_with_memhp/auto_enable_numa_with_memdev for the 5.0 machine
-> >
-> > Dima Stepanov (7):
-> >       vhost: recheck dev state in the vhost_migration_log routine
-> >       vhost: check queue state in the vhost_dev_set_log routine
-> >       tests/qtest/vhost-user-test: prepare the tests for adding new dev class
-> >       tests/qtest/libqos/virtio-blk: add support for vhost-user-blk
-> >       tests/qtest/vhost-user-test: add support for the vhost-user-blk device
-> >       tests/qtest/vhost-user-test: add migrate_reconnect test
-> >       tests/qtest/vhost-user-test: enable the reconnect tests
-> >
-> > Eric Auger (2):
-> >       virtio-iommu: Check gtrees are non null before destroying them
-> >       virtio-iommu-pci: force virtio version 1
-> >
-> > Igor Mammedov (1):
-> >       cphp: remove deprecated cpu-add command(s)
-> >
-> > Jason Wang (3):
-> >       linux headers: sync to 5.9-rc4
-> >       vhost: switch to use IOTLB v2 format
-> >       vhost-vdpa: batch updating IOTLB mappings
-> >
-> > Li Qiang (1):
-> >       virtio-mem: detach the element from the virtqueue when error occurs
+On Mon, Sep 21, 2020 at 09:41:36AM +0100, Stefan Hajnoczi wrote:
+> On Sun, Sep 20, 2020 at 06:24:32PM +0200, Laurent Vivier wrote:
+> > Add trace events functions in vdpa functions.
+> > 
+> > Modify qemu_hexdump() to be able to dump the vdpa config
+> > in trace logs in hexadecimal form.
+> > 
+> > Laurent Vivier (2):
+> >   util/hexdump: introduce qemu_hexdump_line()
+> >   vhost-vdpa: add trace-events
+> > 
+> >  hw/virtio/trace-events | 29 ++++++++++++++
+> >  hw/virtio/vhost-vdpa.c | 85 +++++++++++++++++++++++++++++++++++++++---
+> >  include/qemu-common.h  |  8 ++++
+> >  util/hexdump.c         | 54 +++++++++++++++++----------
+> >  4 files changed, 151 insertions(+), 25 deletions(-)
 > 
-> Hello Michael,
-> It seems you lost the virtio-pmem patch.
+> Please take this through the VIRTIO/vhost/vDPA tree:
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg02639.html
+> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-That's because I was never copied. Can you repost with all tags and Cc
-me?
-Subject can be PATCH repost.
 
-> Anyway, it can be queued in the next pr.
-> 
-> Thanks,
-> Li Qiang
+Will do, tagged.
 
 
