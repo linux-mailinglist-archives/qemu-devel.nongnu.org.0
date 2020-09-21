@@ -2,39 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FC42727B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:36:43 +0200 (CEST)
-Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D370227271B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:34:36 +0200 (CEST)
+Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKMvq-0007EK-OZ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:36:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47840)
+	id 1kKMtn-0005En-TW
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kKMqb-0003jR-Ho; Mon, 21 Sep 2020 10:31:17 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47073)
+ id 1kKMqZ-0003g3-I6; Mon, 21 Sep 2020 10:31:15 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:47069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kKMqV-000489-Po; Mon, 21 Sep 2020 10:31:17 -0400
+ id 1kKMqU-000485-Qd; Mon, 21 Sep 2020 10:31:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=v4gKZaqKz1G+sKMjhNDHmeGnrnmkuq3yo8FI13XopGw=; 
- b=fycE8xRFlW204ERnaYgctSRQD7P6MmH1BOI39smnolN/QBcskMzGEZLkLrl09ovInsf5eWnlfEsr1soE/Jl0cTezpNPLz9Hh3EQcQ6kOJ0qb63UmMX+ZAuTDQLVsc8CKTEfmBT3yFvXpSLKPT1tPx1WGPXZsa6Zl/+4tWbEIG/CVm8HKUL5JhWuF560O2vnrveI1dpDFx32q/f+HTug/IHNrAdtGNWqytzKOxlETeaIhmZAsAAj8DkGWSsKJWjIDRWBFKZLq0E96fRdRAX0KSwAD5hx1P7mr7OvR+NLVSOM9gHH1NO3WFdfC5S4SK2Xs8h/j9S/0VBRgO9FdIdkRlA==;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=Tw8Cc9SW+/2F9odwf3t7puTe414oOegZOiua3UDi2nU=; 
+ b=L7gh9t7P9WP/9i9d5cnBCEP+oOtHRiXeSr8cdS31cHx8iM6aFGk1JfrogdX6tp9R6rTZAJD0RZ3NMpbwPpuX9QGE7B2mcTXN1YAPXCV1G61tnl4MkP4DicK8/J1wurrROIIPrkL3MJ4YrqfYhLxP6Ge/rCdqYqaZspBYfuB6HPTyCJFP1pMYr4ebIlpzFt6fh4zqlni/4CNCrpy7oskCIntkKyXQ+ZlGlOabp/NWrGtpOybZBnw1E9MRKuRRlOKbRyt5gpJ/GmGGvBwBXuQbghaYFyjtdn3Ume97f9A+j2AIr6/i9ZxSSPFA6G4GlJWZyrxfX/OHOQMj6wWJpzx3Tw==;
 Received: from [81.0.34.134] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kKMqQ-0000Wd-Bd; Mon, 21 Sep 2020 16:31:06 +0200
+ id 1kKMqQ-0000Wf-9Z; Mon, 21 Sep 2020 16:31:06 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1kKMqD-0005yT-2a; Mon, 21 Sep 2020 16:30:53 +0200
+ id 1kKMqD-0005yV-3j; Mon, 21 Sep 2020 16:30:53 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/2] Skip copy-on-write when allocating a zero cluster
-Date: Mon, 21 Sep 2020 16:30:48 +0200
-Message-Id: <cover.1600698425.git.berto@igalia.com>
+Subject: [PATCH v4 1/2] qcow2: Report BDRV_BLOCK_ZERO more accurately in
+ bdrv_co_block_status()
+Date: Mon, 21 Sep 2020 16:30:49 +0200
+Message-Id: <e12fc2535199ce30c2674132dd62716bbd6359b3.1600698425.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1600698425.git.berto@igalia.com>
+References: <cover.1600698425.git.berto@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -66,34 +69,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I had to rebase the series due to conflicting changes on master. There
-are no other differences.
+If a BlockDriverState supports backing files but has none then any
+unallocated area reads back as zeroes.
 
-Berto
+bdrv_co_block_status() is only reporting this is if want_zero is true,
+but this is an inexpensive test and there is no reason not to do it in
+all cases.
 
-v4:
-- Fix rebase conflicts after cb8503159a
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ block/io.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-v3: https://lists.gnu.org/archive/html/qemu-block/2020-09/msg00912.html
-- Add a new patch to improve the reporting of BDRV_BLOCK_ZERO [Vladimir]
-- Rename function to bdrv_co_is_zero_fast() [Vladimir, Kevin]
-- Don't call bdrv_common_block_status_above() if bytes == 0
-
-v2: https://lists.gnu.org/archive/html/qemu-block/2020-08/msg01165.html
-- Add new, simpler API: bdrv_is_unallocated_or_zero_above()
-
-v1: https://lists.gnu.org/archive/html/qemu-block/2020-08/msg00403.html
-
-Alberto Garcia (2):
-  qcow2: Report BDRV_BLOCK_ZERO more accurately in
-    bdrv_co_block_status()
-  qcow2: Skip copy-on-write when allocating a zero cluster
-
- include/block/block.h |  2 ++
- block/io.c            | 35 +++++++++++++++++++++++++++++++----
- block/qcow2.c         | 35 +++++++++++++++++++----------------
- 3 files changed, 52 insertions(+), 20 deletions(-)
-
+diff --git a/block/io.c b/block/io.c
+index a2389bb38c..ef1ea806e8 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2391,17 +2391,17 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+ 
+     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
+         ret |= BDRV_BLOCK_ALLOCATED;
+-    } else if (want_zero && bs->drv->supports_backing) {
++    } else if (bs->drv->supports_backing) {
+         BlockDriverState *cow_bs = bdrv_cow_bs(bs);
+ 
+-        if (cow_bs) {
++        if (!cow_bs) {
++            ret |= BDRV_BLOCK_ZERO;
++        } else if (want_zero) {
+             int64_t size2 = bdrv_getlength(cow_bs);
+ 
+             if (size2 >= 0 && offset >= size2) {
+                 ret |= BDRV_BLOCK_ZERO;
+             }
+-        } else {
+-            ret |= BDRV_BLOCK_ZERO;
+         }
+     }
+ 
 -- 
 2.20.1
 
