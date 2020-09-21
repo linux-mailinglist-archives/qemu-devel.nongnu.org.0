@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0451327232E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:55:52 +0200 (CEST)
-Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F00E272331
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:57:00 +0200 (CEST)
+Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKKQB-00062X-3h
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:55:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
+	id 1kKKRH-0007Pd-Bc
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kKKG7-0002vu-3C
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43229
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kKKG8-0002zP-Gv
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:28 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30552
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kKKG4-0002a1-Ld
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:26 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kKKG6-0002bX-33
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:45:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600688723;
+ s=mimecast20190719; t=1600688725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c6pD2+Pc8POfcBxmxk90BGRRuH6Y8wbJMwjn9MiDPb8=;
- b=efTkzcAfX9+KFF6T+6AfTMhG9bdqlqEe2txs/eZGmccP7Zvr/iXfN9gjLzdNmimFILu0dH
- a1wXDgThYI9s9cEOdTYBpAAKS1VVhizDfVEgla0xqLH95wmLkhYeat/g2gcO4Slp/SH1Wf
- 14lhzaLIDC/tMBApEiLMLTMuUpXfZnY=
+ bh=nov3hMfz33U+yqvP0A61L4yla7ySq2UFMPH9rNuTgpg=;
+ b=OzUq0XIILqJycXFaAXg44jR4HqGASHUqBXF5QCxCQ+OmmmWEpZ6e+1ioxWNrD0vquBIwDG
+ 6DKR7Agr1h145DkX7hFdtNWMh4/+B5hnUONg2UEVdzbj3vYRT7WA7STXrJm0es4nlqW0vb
+ 4pM2IwMGdHFiT/3hxXnIbRkZB8BSLF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-lI26gkozP261_3IDl0ZEPQ-1; Mon, 21 Sep 2020 07:45:21 -0400
-X-MC-Unique: lI26gkozP261_3IDl0ZEPQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-3-MXtvkae3MGeYzFaL-lEUZQ-1; Mon, 21 Sep 2020 07:45:23 -0400
+X-MC-Unique: MXtvkae3MGeYzFaL-lEUZQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18BE09CC0C;
- Mon, 21 Sep 2020 11:45:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61E468015FA;
+ Mon, 21 Sep 2020 11:45:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 153FE7366A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DFCA9F70;
  Mon, 21 Sep 2020 11:45:11 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CF49B16E16; Mon, 21 Sep 2020 13:45:09 +0200 (CEST)
+ id DBD751750A; Mon, 21 Sep 2020 13:45:09 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] microvm: add irq table
-Date: Mon, 21 Sep 2020 13:45:08 +0200
-Message-Id: <20200921114509.14511-2-kraxel@redhat.com>
+Subject: [PATCH 2/2] microvm: add usb support
+Date: Mon, 21 Sep 2020 13:45:09 +0200
+Message-Id: <20200921114509.14511-3-kraxel@redhat.com>
 In-Reply-To: <20200921114509.14511-1-kraxel@redhat.com>
 References: <20200921114509.14511-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 07:01:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -90,47 +90,101 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a comment with a table listing the IRQs,
-both legacy pc and microvm side-by-side.
+Wire up "usb=on" machine option.  When enabled add a sysbus xhci
+controller with 8 ports.  Declare it in the ACPI DSDT table so the
+guest OS finds it.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/i386/microvm.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ include/hw/i386/microvm.h |  5 ++++-
+ hw/i386/acpi-microvm.c    | 20 ++++++++++++++++++++
+ hw/i386/microvm.c         | 12 ++++++++++++
+ 3 files changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
-index be2d95af4d74..27eadd6c535c 100644
+index 27eadd6c535c..e255e787b6d5 100644
 --- a/include/hw/i386/microvm.h
 +++ b/include/hw/i386/microvm.h
-@@ -27,6 +27,28 @@
- #include "hw/acpi/acpi_dev_interface.h"
- #include "qom/object.h"
+@@ -40,7 +40,7 @@
+  *   7     |  parallel  |
+  *   8     |  rtc       | rtc (rtc=on)
+  *   9     |  acpi      | acpi (ged)
+- *  10     |  pci lnk   |
++ *  10     |  pci lnk   | xhci (usb=on)
+  *  11     |  pci lnk   |
+  *  12     |  ps2       |
+  *  13     |  fpu       |
+@@ -59,6 +59,9 @@
+ #define GED_MMIO_BASE_REGS    (GED_MMIO_BASE + 0x200)
+ #define GED_MMIO_IRQ          9
  
-+/*
-+ *  IRQ    |  pc        | microvm (acpi=on)
-+ * --------+------------+------------------
-+ *   0     |  pit       |
-+ *   1     |  kbd       |
-+ *   2     |  cascade   |
-+ *   3     |  serial 1  |
-+ *   4     |  serial 0  | serial
-+ *   5     |  -         |
-+ *   6     |  floppy    |
-+ *   7     |  parallel  |
-+ *   8     |  rtc       | rtc (rtc=on)
-+ *   9     |  acpi      | acpi (ged)
-+ *  10     |  pci lnk   |
-+ *  11     |  pci lnk   |
-+ *  12     |  ps2       |
-+ *  13     |  fpu       |
-+ *  14     |  ide 0     |
-+ *  15     |  ide 1     |
-+ *  16-23  |  pci gsi   | virtio
-+ */
++#define MICROVM_XHCI_BASE     0xfe900000
++#define MICROVM_XHCI_IRQ      10
 +
- /* Platform virtio definitions */
- #define VIRTIO_MMIO_BASE      0xfeb00000
- #define VIRTIO_NUM_TRANSPORTS 8
+ /* Machine type options */
+ #define MICROVM_MACHINE_PIT                 "pit"
+ #define MICROVM_MACHINE_PIC                 "pic"
+diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+index df39c5d3bd90..a2b6c4478f3b 100644
+--- a/hw/i386/acpi-microvm.c
++++ b/hw/i386/acpi-microvm.c
+@@ -87,6 +87,25 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+     }
+ }
+ 
++static void acpi_dsdt_add_xhci(Aml *scope, MicrovmMachineState *mms)
++{
++    if (!machine_usb(MACHINE(mms))) {
++        return;
++    }
++
++    Aml *dev = aml_device("XHCI");
++    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0D10")));
++
++    uint32_t irq = MICROVM_XHCI_IRQ;
++    Aml *crs = aml_resource_template();
++    aml_append(crs, aml_memory32_fixed(MICROVM_XHCI_BASE, 0x4000,
++                                       AML_READ_WRITE));
++    aml_append(crs, aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
++                                  AML_EXCLUSIVE, &irq, 1));
++    aml_append(dev, aml_name_decl("_CRS", crs));
++    aml_append(scope, dev);
++}
++
+ static void
+ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
+                    MicrovmMachineState *mms)
+@@ -112,6 +131,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
+                   GED_MMIO_IRQ, AML_SYSTEM_MEMORY, GED_MMIO_BASE);
+     acpi_dsdt_add_power_button(sb_scope);
+     acpi_dsdt_add_virtio(sb_scope, mms);
++    acpi_dsdt_add_xhci(sb_scope, mms);
+     aml_append(dsdt, sb_scope);
+ 
+     /* ACPI 5.0: Table 7-209 System State Package */
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 60d32722301f..592dc51ce7bf 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -147,6 +147,18 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+         x86ms->acpi_dev = HOTPLUG_HANDLER(dev);
+     }
+ 
++    if (x86_machine_is_acpi_enabled(x86ms) && machine_usb(MACHINE(mms))) {
++        DeviceState *dev = qdev_new("sysbus-xhci");
++        qdev_prop_set_uint32(dev, "intrs", 1);
++        qdev_prop_set_uint32(dev, "slots", 64); /* MAXSLOTS */
++        qdev_prop_set_uint32(dev, "p2", 8);
++        qdev_prop_set_uint32(dev, "p3", 8);
++        sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
++        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, MICROVM_XHCI_BASE);
++        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
++                           x86ms->gsi[MICROVM_XHCI_IRQ]);
++    }
++
+     if (mms->pic == ON_OFF_AUTO_ON || mms->pic == ON_OFF_AUTO_AUTO) {
+         qemu_irq *i8259;
+ 
 -- 
 2.27.0
 
