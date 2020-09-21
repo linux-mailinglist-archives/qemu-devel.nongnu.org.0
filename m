@@ -2,113 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68DB2735B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:25:37 +0200 (CEST)
-Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4652735C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 00:27:40 +0200 (CEST)
+Received: from localhost ([::1]:58346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKUFc-00019D-Q2
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:25:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59712)
+	id 1kKUHb-0004BO-8q
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 18:27:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kKU5I-0004YY-4C
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:14:57 -0400
-Received: from mail-dm6nam10on2087.outbound.protection.outlook.com
- ([40.107.93.87]:11712 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1kKUCp-00064B-18
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:22:43 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:56134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1kKU5F-0001sH-83
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:14:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K41jTDIoGpWqzLSivih93lGWTauXurWy1YcqbJXZk+7JHy/DMFGAPGTRNKumvSO9ro1OmLLWKaWq6lZa8hkWsYxCbYjn7RiM3PJU1qMejKh3Skv2j8pxGvFrKAJcF2ZrtEoPVV65ky4zHgf3XvuRkZQm4fVGQ4UT80hsEIfATYio4sqtpwPurM9UiQjrwux2rJw4SWVU01JICmD/Mo76UaDRoNFQuRPHoLMMU3WvDpThIds49PIrY3xKQ527QFR7HTjvxIUKjinrLUXddLWqq5WsPC39DDZG4cqfMC5zCeS5NnItR7AGgw7w8b5tByISi95zSq8sED917YWKU+nyGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P+aCiMhNep/lcoVO9RQSivcFxmWShufeBeS+VQWX3/U=;
- b=hBOFWXBcT25cjfCHR6KpeUX/K9KQfNdYtI0Dyy00WRxFlwrKr9Z67LXIlLunyq5I6cFEQbWdCWHw4VEPIzy9Va7Vq7353XYmDWImuV9Wo6TSC+9H7cyN1yWbqQhOsUrl50k7nvcjhmgcB9In/BAQibfmmd0B2rIrfvXi8Aw0zTARf92JA2QQ6fpxtBXusDRwSIAWOdM5kQfAzpque/gNS+pSwrlH8CmpnUvZu/4EE9zizun4Ps8e98FCl98cU/jApxTMicOqqT6/JKZThc2di/UZxyCS7ifkOGZ/IQY4APeiC9pnhlbRGTd2npTuWUWBSplC/BeOUXlFpcB8d+h7Rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P+aCiMhNep/lcoVO9RQSivcFxmWShufeBeS+VQWX3/U=;
- b=0qo27rB2Tpte27tgbM4dtFeDWLYeXBAEQFUWeNnOaICsLaXrx5JGJUjcyIudfIffiL05VGvUKMhY54byk/dkPlvANcd3GZ1oIK7rjPcauO3VX7fzrHLTli2A1xig8nNeZI7HCI5tMjPZGlmiBQb1Nq6KH6tMLCWJjAXXBT1ByX4=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM6PR12MB3467.namprd12.prod.outlook.com (2603:10b6:5:3c::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3391.11; Mon, 21 Sep 2020 22:14:49 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::299a:8ed2:23fc:6346%3]) with mapi id 15.20.3391.024; Mon, 21 Sep 2020
- 22:14:49 +0000
-Subject: Re: [PATCH v3] SEV: QMP support for Inject-Launch-Secret
-To: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200706215451.59179-1-tobin@linux.vnet.ibm.com>
- <20200921190800.GA32491@work-vm>
- <b7faab72e909b709797e6098ec894c72@linux.vnet.ibm.com>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <d70d7e31-9ce2-00c0-ff6f-27b0a69b9d26@amd.com>
-Date: Mon, 21 Sep 2020 17:14:47 -0500
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1kKUCl-0002j4-Vg
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 18:22:42 -0400
+Received: from MUA
+ by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (Exim 4.93.0.4) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1kKUCQ-0005w5-LC; Tue, 22 Sep 2020 00:22:18 +0200
+Subject: Re: [PATCH 0/3] Hyper-V Dynamic Memory Protocol driver (hv-balloon)
+To: David Hildenbrand <david@redhat.com>
+References: <cover.1600556526.git.maciej.szmigiero@oracle.com>
+ <c51f9ebd-5303-9919-1469-c99ff6a461b1@redhat.com>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
+ 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 Sg==
+Message-ID: <d9032b0f-80e2-2eca-637d-251eb1f8f001@maciej.szmigiero.name>
+Date: Tue, 22 Sep 2020 00:22:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <b7faab72e909b709797e6098ec894c72@linux.vnet.ibm.com>
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <c51f9ebd-5303-9919-1469-c99ff6a461b1@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN4PR0501CA0034.namprd05.prod.outlook.com
- (2603:10b6:803:40::47) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.118] (165.204.77.1) by
- SN4PR0501CA0034.namprd05.prod.outlook.com (2603:10b6:803:40::47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.17 via Frontend
- Transport; Mon, 21 Sep 2020 22:14:48 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d7521b1a-7546-4226-19cf-08d85e7bc189
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3467:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB346742E6D5A48BFE731E96EFEC3A0@DM6PR12MB3467.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:525;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2glIfsdEkq33KwPR4Bkg89WYAZww6o+7/NEtPROwotSTClAp2FPzjal+4rWJ1fmfGAAnNrDaz/PDZdwDSwfPRBjuCliViRbAi5baSkqeA5U2A7yNXF3HouKHYM+0ERJqH8c/5y1ICj/Ehofx8jWNQOtm1ICWVKJWov/eXe+i7ejeta2PjuqFKiJkH/ju1Gg1/x9fHg2xJz6ElXF/QOVUZZIo+EvDGnAutYdznSi4F9Sgebt4tINkwG3qMIPzKip+sGMltohBQu3OcJpjda++th51GVMghmnW+vve2f2YOakIMjbhjFAoxLQ3fX+aumVdGS8TNutK0i537qcrWI3yjQ2fzmzkMb32IniNzgrgMSAxYPz4HxntNZV2GLPFTqxVQ6ctLduG9RLfw0+6N7mKHPujJaczwpSRc39iNsH8UBZKr/rNNNHm7UwivuWAMjre/3Z35YnhSfQQnNVnn7NBnsygCvwxZP6Fsm0ZPm7ZNBk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(376002)(346002)(39860400002)(366004)(2616005)(36756003)(66946007)(110136005)(2906002)(52116002)(66556008)(83380400001)(66476007)(8676002)(53546011)(5660300002)(966005)(16576012)(478600001)(4326008)(86362001)(26005)(6486002)(16526019)(31696002)(31686004)(8936002)(956004)(316002)(186003)(219293001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: kk29AljpeEeEJyA3ZChwFV9222uDE8zYPVgrCO89q67i2wjc0Wz1PBBkRrulxrGUU4v4sZO/0HMGNB11zSwkzank5qrMbf4WhgD0pA/JI+zX7mDeZf+oIDQR+r/DZ39JOIB7ZVJkzwJBNMSLhlrXo88SlK1e2Ap7+jXZwMbwqAtIRS9N7HIiumnJdjBwsPGCLkmutICV1ov64i1OmgUe7M35ZqWaUI429GQFnALTdonwMDzuYCJ0uZJlr2INWjgJotXrB0GWwj1xyTil3MlMg/pF70wpLHyCAV04o2faZO7b0hHPKODs4oCjJchhBwQ0tuImNjqmJXWgHL4GYfH23JUlVThu4FtPfhu4pVng4VBXfifoQqWoe9tf2qrBOI7k19jh/hyenPWm6FPLamiPvwaMlWRqqWjg5NcZlmLpUHX2yRAR0KJeDFe9Bw67kJ7trO31/4jOtSYj2CgtaxklCBOiCvJSjx+AXm2olD+YFl/GeOZkF7HrkFGkZ2UNvD1I4yMw3t1ZkOziUWCZPhtle73+uJuFfkv9x4ty+EUrbClTrbJf2/6u9vtUxu/PmtPYOA4bQvvPZAlDr0r5P0hZLuNLaGjyrV9FDPKoLtyYDFVYPBvvlGhu4ukavQtCb14xlEdfBi1E8IISbzYawP0k0Q==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7521b1a-7546-4226-19cf-08d85e7bc189
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2020 22:14:49.6310 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m0a/yeUGG0L0NNru6QTymMp6dIBGIUimXEGTRQIw1OlqusxJfDDMFRFdciStzexS/qkFdKpdCUiODp+x/x40Mw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3467
-Received-SPF: none client-ip=40.107.93.87;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 18:14:51
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 18:22:30
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,287 +125,267 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: brijesh.singh@amd.com, jejb@linux.ibm.com, tobin@ibm.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/20 3:33 PM, Tobin Feldman-Fitzthum wrote:
-> On 2020-09-21 15:16, Dr. David Alan Gilbert wrote:
->> * Tobin Feldman-Fitzthum (tobin@linux.vnet.ibm.com) wrote:
->>> AMD SEV allows a guest owner to inject a secret blob
->>> into the memory of a virtual machine. The secret is
->>> encrypted with the SEV Transport Encryption Key and
->>> integrity is guaranteed with the Transport Integrity
->>> Key. Although QEMU faciliates the injection of the
->>> launch secret, it cannot access the secret.
->>>
->>> Signed-off-by: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>
->>
->> Hi Tobin,
->>   Did the ovmf stuff for agreeing the GUID for automating this ever
->> happen?
->>
-> OVMF patches have not been upstreamed yet. I think we are planning
-> to do that relatively soon.
+Hi David,
 
-The SEV-ES code was recently accepted and uses a GUID for locating SEV
-related information. You can probably build upon that GUID or stack
-another GUID above that. The GUID block has a size indicator that can help
-determine what information is available or for tracking stacked GUIDs.
+Thank you for your comments.
 
-https://github.com/tianocore/edk2/commit/30937f2f98c42496f2f143fe8374ae7f7e684847
+First, I want to underline that this driver targets Windows guests,
+where ability to modify and adapt the guest memory management
+code is extremely limited.
+
+While it does work with Linux guests, too, this is definitely not its
+native environment.
+
+It also has to support rather big guests, up to 1 TB of RAM, so
+performance-related things are important.
+
+Further answers are bellow.
+
+On 21.09.2020 11:10, David Hildenbrand wrote:
+> On 20.09.20 15:25, Maciej S. Szmigiero wrote:
+>> From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+>>
+>> This series adds a Hyper-V Dynamic Memory Protocol driver (hv-balloon)
+>> and its protocol definitions.
+>> Also included is a driver providing backing devices for memory hot-add
+>> protocols ("haprots").
+>>
+>> A haprot device works like a virtual DIMM stick: it allows inserting
+>> extra RAM into the guest at run time.
+>>
+>> The main differences from the ACPI-based PC DIMM hotplug are:
+>> * Notifying the guest about the new memory range is not done via ACPI but
+>> via a protocol handler that registers with the haprot framework.
+>> This means that the ACPI DIMM slot limit does not apply.
+>>
+>> * A protocol handler can prevent removal of a haprot device when it is
+>> still in use by setting its "busy" field.
+>>
+>> * A protocol handler can also register an "unplug" callback so it gets
+>> notified when an user decides to remove the haprot device.
+>> This way the protocol handler can inform the guest about this fact and / or
+>> do its own cleanup.
+>>
+>> The hv-balloon driver is like virtio-balloon on steroids: it allows both
+>> changing the guest memory allocation via ballooning and inserting extra
+>> RAM into it by adding haprot virtual DIMM sticks.
+>> One of advantages of these over ACPI-based PC DIMM hotplug is that such
+>> memory can be hotplugged in much smaller granularity because the ACPI DIMM
+>> slot limit does not apply.
+> 
+> Reading further below, it's essentially DIMM-based memory hotplug +
+> virtio-balloon - except the 256MB DIMM limit. But reading below, I don't
+> see how you want to avoid the KVM memory slot limit that's in a similar
+> size (I recall 256*2 due to 2 address spaces). 
+
+The idea is to use virtual DIMM sticks for hot-adding extra memory at
+runtime, while using ballooning for runtime adjustment of the guest
+memory size within the current maximum.
+
+When the guest is rebooted the virtual DIMMs configuration is adjusted
+by the software controlling QEMU (some are removed and / or some are
+added) to give the guest the same effective memory size as it had before
+the reboot.
+
+So, yes, it will be a problem if the user expands their running guest
+~256 times, each time making it even bigger than previously, without
+rebooting it even once, but this does seem to be an edge use case.
+
+In the future it would be better to automatically turn the current
+effective guest size into its boot memory size when the VM restarts
+(the VM will then have no virtual DIMMs inserted after a reboot), but
+doing this requires quite a few changes to QEMU, that's why it isn't
+there yet.
+
+The above is basically how Hyper-V hypervisor handles its memory size
+changes and it seems to be as close to having a transparently resizable
+guest as reasonably possible.
+
+
+> Or avoid VMA limits when wanting to grow a VM big in very tiny steps over
+> time (e.g., adding 64MB at a time).
+
+Not sure if you are taking about VMA limits inside the host or the guest.
+>>
+>> In contrast with ACPI DIMM hotplug where one can only request to unplug a
+>> whole DIMM stick this driver allows removing memory from guest in single
+>> page (4k) units via ballooning.
+>> Then, once the guest has released the whole memory backed by a haprot
+>> virtual DIMM stick such device is marked "unused" and can be removed from
+>> the VM, if one wants so.
+>> A "HV_BALLOON_HAPROT_UNUSED" QMP event is emitted in this case so the
+>> software controlling QEMU knows that this operation is now possible.
+>>
+>> The haprot devices are also marked unused after a VM reboot (with a
+>> corresponding "HV_BALLOON_HAPROT_UNUSED" QMP event).
+>> They are automatically reinserted (if still present) after the guest
+>> reconnects to this protocol (a "HV_BALLOON_HAPROT_INUSE" QMP event is then
+>> emitted).
+>>
+>> For performance reasons, the guest-released memory is tracked in few range
+>> trees, as a series of (start, count) ranges.
+>> Each time a new page range is inserted into such tree its neighbors are
+>> checked as candidates for possible merging with it.
+>>
+>> Besides performance reasons, the Dynamic Memory protocol itself uses page
+>> ranges as the data structure in its messages, so relevant pages need to be
+>> merged into such ranges anyway.
+>>
+>> One has to be careful when tracking the guest-released pages, since the
+>> guest can maliciously report returning pages outside its current address
+>> space, which later clash with the address range of newly added memory.
+>> Similarly, the guest can report freeing the same page twice.
+>>
+>> The above design results in much better ballooning performance than when
+>> using virtio-balloon with the same guest: 230 GB / minute with this driver
+>> versus 70 GB / minute with virtio-balloon.
+> 
+> I assume these numbers apply with Windows guests only. IIRC Linux
+> hv_balloon does not support page migration/compaction, while
+> virtio-balloon does. So you might end up with quite some fragmented
+> memory with hv_balloon in Linux guests - of course, usually only in
+> corner cases.
+
+As I previously mentioned, this driver targets mainly Windows guests.
+
+And Windows seems to be rather determined to free the requested number
+of pages: waiting for the guest to reply to a 2GB balloon request
+sometimes takes 2-3 seconds.
+So i guess it does some kind of memory compaction during that request
+processing time.
+
+>>
+>> During a ballooning operation most of time is spent waiting for the guest
+>> to come up with newly freed page ranges, processing the received ranges on
+>> the host side (in QEMU / KVM) is nearly instantaneous.
+>>
+>> The unballoon operation is also pretty much instantaneous:
+>> thanks to the merging of the ballooned out page ranges 200 GB of memory can
+>> be returned to the guest in about 1 second.
+>> With virtio-balloon this operation takes about 2.5 minutes.
+>>
+>> These tests were done against a Windows Server 2019 guest running on a
+>> Xeon E5-2699, after dirtying the whole memory inside guest before each
+>> balloon operation.
+>>
+>> Using a range tree instead of a bitmap to track the removed memory also
+>> means that the solution scales well with the guest size: even a 1 TB range
+>> takes just few bytes of memory.
+>> Example usage:
+>> * Add "-device vmbus-bridge,id=vmbus-bridge -device hv-balloon,id=hvb"
+>>   to the QEMU command line and set "maxmem" value to something large,
+>>   like 1T.
+>>
+>> * Use QEMU monitor commands to add a haprot virtual DIMM stick, together
+>>   with its memory backend:
+>>   object_add memory-backend-ram,id=mem1,size=200G
+>>   device_add mem-haprot,id=ha1,memdev=mem1
+>>   The first command is actually the same as for ACPI-based DIMM hotplug.
+>>
+>> * Use the ballooning interface monitor commands to force the guest to give
+>>   out as much memory as possible:
+>>   balloon 1
+> 
+> At least under virtio-balloon with Linux, that will pretty sure trigger
+> a guest crash. Is something like that expected to work with Windows
+> guests reasonably well?
+
+Windows will generally leave some memory free when processing balloon
+requests, although the precise amount varies between few hundred MB to
+values like 1+ GB.
+
+Usually it runs stable even with these few hundred MBs of free memory
+remaining but I have seen occasional crashes at shutdown time in this
+case (probably something critical failing to initialize due to the
+system running out of memory).
+
+While the above command was just a quick example, I personally think
+it is the guest who should be enforcing a balloon floor since it is
+the guest that knows its internal memory requirements, not the host.
+
+For this reason the hv_balloon client driver inside the Linux kernel
+implements its own, rough balloon floor - see compute_balloon_floor().
+
+On the other hand, one can also argue that the user wish should be
+respected as much as possible.
+
+>>   The ballooning interface monitor commands can also be used to resize
+>>   the guest up and down appropriately.
+>>
+>> * One can check the current guest size by issuing a "info balloon" command.
+>>   This is useful to know what is happening, since large ballooning or
+>>   unballooning operations take some time to complete.
+> 
+> So, every time you want to add more memory (after the balloon was
+> deflated) to a guest, you have to plug a new mem-haprot device, correct?
+
+Yes.
+
+> So your QEMU user has to be well aware of how to balance "balloon" and
+> "object_add/device_add/object_del_device_del" commands to achieve the
+> desired guest size.
+
+In this case the VM user does not interact directly with the QEMU process.
+
+Rather, the user tells the software controlling QEMU (think: libvirt)
+their wish how large they want the guest to be and this software then
+does everything what is necessary to achieve such target and make it
+persistent across guest reboots.
+
+ 
+>>
+>> * Once the guest releases the whole memory backed by a haprot device
+>>   (or is restarted) a "HV_BALLOON_HAPROT_UNUSED" QMP event will be
+>>   generated.
+>>   The haprot device then can be removed, together with its memory backend:
+>>   device_del ha1
+>>   object_del mem1
+> 
+> So, you rely on some external entity to properly shrink a guest again
+> (e.g., during reboot).
+
+Yes.
+
+>>
+>> Future directions:
+>> * Allow sharing the ballooning QEMU interface between hv-balloon and
+>>   virtio-balloon drivers.
+>>   Currently, only one of them can be added to the VM at the same time.
+> 
+> Yeah, that makes sense. Only one at a time.
+
+Having only one *active* at a time makes sense, however it ultimately
+would be nice to be able to have them both inserted into a VM:
+one for Windows guests and one for Linux ones.
+Even though only one obviously would be active at the same time.
+
+>>
+>> * Allow new haport devices to reuse the same address range as the ones
+>>   that were previously deleted via device_del monitor command without
+>>   having to restart the VM.
+>>
+>> * Add vmstate / live migration support to the hv-balloon driver.
+>>
+>> * Use haprot device to also add memory via virtio interface (this requires
+>>   defining a new operation in virtio-balloon protocol and appropriate
+>>   support from the client virtio-balloon driver in the Linux kernel).
+> 
+> Most probably not the direction we are going to take. We have virtio-mem
+> for clean, fine-grained, NUMA-aware, paravirtualized memory hot(un)plug
+> now, and we are well aware of various issues with (base-page size based)
+> memory ballooning that are fairly impossible to solve (especially in the
+> context of vfio).
+> 
 
 Thanks,
-Tom
-
-> 
-> -Tobin
->> Dave
->>
->>> ---
->>>  include/monitor/monitor.h |  3 ++
->>>  include/sysemu/sev.h      |  2 ++
->>>  monitor/misc.c            |  8 ++---
->>>  qapi/misc-target.json     | 18 +++++++++++
->>>  target/i386/monitor.c     |  9 ++++++
->>>  target/i386/sev-stub.c    |  5 +++
->>>  target/i386/sev.c         | 66 +++++++++++++++++++++++++++++++++++++++
->>>  target/i386/trace-events  |  1 +
->>>  8 files changed, 108 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
->>> index 1018d754a6..bf049c5b00 100644
->>> --- a/include/monitor/monitor.h
->>> +++ b/include/monitor/monitor.h
->>> @@ -4,6 +4,7 @@
->>>  #include "block/block.h"
->>>  #include "qapi/qapi-types-misc.h"
->>>  #include "qemu/readline.h"
->>> +#include "include/exec/hwaddr.h"
->>>
->>>  extern __thread Monitor *cur_mon;
->>>  typedef struct MonitorHMP MonitorHMP;
->>> @@ -36,6 +37,8 @@ void monitor_flush(Monitor *mon);
->>>  int monitor_set_cpu(int cpu_index);
->>>  int monitor_get_cpu_index(void);
->>>
->>> +void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, uint64_t size, Error
->>> **errp);
->>> +
->>>  void monitor_read_command(MonitorHMP *mon, int show_prompt);
->>>  int monitor_read_password(MonitorHMP *mon, ReadLineFunc *readline_func,
->>>                            void *opaque);
->>> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
->>> index 98c1ec8d38..b279b293e8 100644
->>> --- a/include/sysemu/sev.h
->>> +++ b/include/sysemu/sev.h
->>> @@ -18,4 +18,6 @@
->>>
->>>  void *sev_guest_init(const char *id);
->>>  int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
->>> +int sev_inject_launch_secret(const char *hdr, const char *secret,
->>> +                             uint64_t gpa);
->>>  #endif
->>> diff --git a/monitor/misc.c b/monitor/misc.c
->>> index 89bb970b00..b9ec8ba410 100644
->>> --- a/monitor/misc.c
->>> +++ b/monitor/misc.c
->>> @@ -674,10 +674,10 @@ static void hmp_physical_memory_dump(Monitor
->>> *mon, const QDict *qdict)
->>>      memory_dump(mon, count, format, size, addr, 1);
->>>  }
->>>
->>> -static void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, Error **errp)
->>> +void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, uint64_t size, Error
->>> **errp)
->>>  {
->>>      MemoryRegionSection mrs = memory_region_find(get_system_memory(),
->>> -                                                 addr, 1);
->>> +                                                 addr, size);
->>>
->>>      if (!mrs.mr) {
->>>          error_setg(errp, "No memory is mapped at address 0x%"
->>> HWADDR_PRIx, addr);
->>> @@ -701,7 +701,7 @@ static void hmp_gpa2hva(Monitor *mon, const QDict
->>> *qdict)
->>>      MemoryRegion *mr = NULL;
->>>      void *ptr;
->>>
->>> -    ptr = gpa2hva(&mr, addr, &local_err);
->>> +    ptr = gpa2hva(&mr, addr, 1, &local_err);
->>>      if (local_err) {
->>>          error_report_err(local_err);
->>>          return;
->>> @@ -777,7 +777,7 @@ static void hmp_gpa2hpa(Monitor *mon, const QDict
->>> *qdict)
->>>      void *ptr;
->>>      uint64_t physaddr;
->>>
->>> -    ptr = gpa2hva(&mr, addr, &local_err);
->>> +    ptr = gpa2hva(&mr, addr, 1, &local_err);
->>>      if (local_err) {
->>>          error_report_err(local_err);
->>>          return;
->>> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
->>> index dee3b45930..d145f916b3 100644
->>> --- a/qapi/misc-target.json
->>> +++ b/qapi/misc-target.json
->>> @@ -200,6 +200,24 @@
->>>  { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
->>>    'if': 'defined(TARGET_I386)' }
->>>
->>> +##
->>> +# @sev-inject-launch-secret:
->>> +#
->>> +# This command injects a secret blob into memory of SEV guest.
->>> +#
->>> +# @packet-header: the launch secret packet header encoded in base64
->>> +#
->>> +# @secret: the launch secret data to be injected encoded in base64
->>> +#
->>> +# @gpa: the guest physical address where secret will be injected.
->>> +#
->>> +# Since: 5.1
->>> +#
->>> +##
->>> +{ 'command': 'sev-inject-launch-secret',
->>> +  'data': { 'packet-header': 'str', 'secret': 'str', 'gpa': 'uint64' },
->>> +  'if': 'defined(TARGET_I386)' }
->>> +
->>>  ##
->>>  # @dump-skeys:
->>>  #
->>> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
->>> index 27ebfa3ad2..42bcfe6dc0 100644
->>> --- a/target/i386/monitor.c
->>> +++ b/target/i386/monitor.c
->>> @@ -736,3 +736,12 @@ SevCapability *qmp_query_sev_capabilities(Error
->>> **errp)
->>>
->>>      return data;
->>>  }
->>> +
->>> +void qmp_sev_inject_launch_secret(const char *packet_hdr,
->>> +                                  const char *secret, uint64_t gpa,
->>> +                                  Error **errp)
->>> +{
->>> +    if (sev_inject_launch_secret(packet_hdr, secret, gpa) != 0) {
->>> +        error_setg(errp, "SEV inject secret failed");
->>> +    }
->>> +}
->>> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
->>> index e5ee13309c..fed4588185 100644
->>> --- a/target/i386/sev-stub.c
->>> +++ b/target/i386/sev-stub.c
->>> @@ -48,3 +48,8 @@ SevCapability *sev_get_capabilities(void)
->>>  {
->>>      return NULL;
->>>  }
->>> +int sev_inject_launch_secret(const char *hdr, const char *secret,
->>> +                             uint64_t gpa)
->>> +{
->>> +    return 1;
->>> +}
->>> diff --git a/target/i386/sev.c b/target/i386/sev.c
->>> index d273174ad3..cbeb8f2e02 100644
->>> --- a/target/i386/sev.c
->>> +++ b/target/i386/sev.c
->>> @@ -28,6 +28,8 @@
->>>  #include "sysemu/runstate.h"
->>>  #include "trace.h"
->>>  #include "migration/blocker.h"
->>> +#include "exec/address-spaces.h"
->>> +#include "monitor/monitor.h"
->>>
->>>  #define TYPE_SEV_GUEST "sev-guest"
->>>  #define SEV_GUEST(obj)                                          \
->>> @@ -769,6 +771,70 @@ sev_encrypt_data(void *handle, uint8_t *ptr,
->>> uint64_t len)
->>>      return 0;
->>>  }
->>>
->>> +int sev_inject_launch_secret(const char *packet_hdr,
->>> +                             const char *secret, uint64_t gpa)
->>> +{
->>> +    struct kvm_sev_launch_secret input;
->>> +    guchar *data = NULL, *hdr = NULL;
->>> +    int error, ret = 1;
->>> +    void *hva;
->>> +    gsize hdr_sz = 0, data_sz = 0;
->>> +    Error *local_err = NULL;
->>> +    MemoryRegion *mr = NULL;
->>> +
->>> +    /* secret can be inject only in this state */
->>> +    if (!sev_check_state(sev_guest, SEV_STATE_LAUNCH_SECRET)) {
->>> +        error_report("SEV: Not in correct state. (LSECRET) %x",
->>> +                     sev_guest->state);
->>> +        return 1;
->>> +    }
->>> +
->>> +    hdr = g_base64_decode(packet_hdr, &hdr_sz);
->>> +    if (!hdr || !hdr_sz) {
->>> +        error_report("SEV: Failed to decode sequence header");
->>> +        return 1;
->>> +    }
->>> +
->>> +    data = g_base64_decode(secret, &data_sz);
->>> +    if (!data || !data_sz) {
->>> +        error_report("SEV: Failed to decode data");
->>> +        goto err;
->>> +    }
->>> +
->>> +    hva = gpa2hva(&mr, gpa, data_sz, &local_err);
->>> +    if (!hva) {
->>> +        error_report("SEV: Failed to calculate guest address.");
->>> +        goto err;
->>> +    }
->>> +
->>> +    input.hdr_uaddr = (uint64_t)(unsigned long)hdr;
->>> +    input.hdr_len = hdr_sz;
->>> +
->>> +    input.trans_uaddr = (uint64_t)(unsigned long)data;
->>> +    input.trans_len = data_sz;
->>> +
->>> +    input.guest_uaddr = (uint64_t)(unsigned long)hva;
->>> +    input.guest_len = data_sz;
->>> +
->>> +    trace_kvm_sev_launch_secret(gpa, input.guest_uaddr,
->>> +                                input.trans_uaddr, input.trans_len);
->>> +
->>> +    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_LAUNCH_SECRET,
->>> +                    &input, &error);
->>> +    if (ret) {
->>> +        error_report("SEV: failed to inject secret ret=%d fw_error=%d
->>> '%s'",
->>> +                     ret, error, fw_error_to_str(error));
->>> +        goto err;
->>> +    }
->>> +
->>> +    ret = 0;
->>> +
->>> +err:
->>> +    g_free(data);
->>> +    g_free(hdr);
->>> +    return ret;
->>> +}
->>> +
->>>  static void
->>>  sev_register_types(void)
->>>  {
->>> diff --git a/target/i386/trace-events b/target/i386/trace-events
->>> index 789c700d4a..9f299e94a2 100644
->>> --- a/target/i386/trace-events
->>> +++ b/target/i386/trace-events
->>> @@ -15,3 +15,4 @@ kvm_sev_launch_start(int policy, void *session, void
->>> *pdh) "policy 0x%x session
->>>  kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%"
->>> PRIu64
->>>  kvm_sev_launch_measurement(const char *value) "data %s"
->>>  kvm_sev_launch_finish(void) ""
->>> +kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int
->>> len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
->>> -- 
->>> 2.20.1 (Apple Git-117)
->>>
+Maciej
 
