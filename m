@@ -2,32 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65ED027307A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:05:27 +0200 (CEST)
-Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21552730AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 19:10:00 +0200 (CEST)
+Received: from localhost ([::1]:38168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKPFm-0003Pj-5Q
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:05:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37046)
+	id 1kKPKB-0007Cv-CZ
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 13:09:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kKPDy-0002ol-Ir; Mon, 21 Sep 2020 13:03:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59022
+ id 1kKPJL-0006fr-JC; Mon, 21 Sep 2020 13:09:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59038
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kKPDw-0003zU-Do; Mon, 21 Sep 2020 13:03:34 -0400
+ id 1kKPJJ-0004e1-KW; Mon, 21 Sep 2020 13:09:07 -0400
 Received: from host81-154-161-117.range81-154.btcentralplus.com
  ([81.154.161.117] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kKPER-0000hs-ST; Mon, 21 Sep 2020 18:04:08 +0100
-To: Markus Armbruster <armbru@redhat.com>
+ id 1kKPJq-0000kC-5g; Mon, 21 Sep 2020 18:09:42 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ armbru@redhat.com, david@gibson.dropbear.id.au, atar4qemu@gmail.com,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20200920082018.16135-1-mark.cave-ayland@ilande.co.uk>
  <20200920082018.16135-5-mark.cave-ayland@ilande.co.uk>
- <87imc78osh.fsf@dusky.pond.sub.org>
+ <0ea7090a-34f0-d437-1c7d-34570b529943@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -53,12 +55,12 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <2211cf4a-c35d-cfe2-f123-9a312ea5d72c@ilande.co.uk>
-Date: Mon, 21 Sep 2020 18:03:18 +0100
+Message-ID: <c9ae2d9d-4a4e-8b68-1f58-4e1fe3bbd55a@ilande.co.uk>
+Date: Mon, 21 Sep 2020 18:08:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <87imc78osh.fsf@dusky.pond.sub.org>
+In-Reply-To: <0ea7090a-34f0-d437-1c7d-34570b529943@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -90,15 +92,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, atar4qemu@gmail.com,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/09/2020 10:25, Markus Armbruster wrote:
+On 21/09/2020 10:57, Philippe Mathieu-Daudé wrote:
 
-> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+> Hi Mark,
 > 
+> On 9/20/20 10:20 AM, Mark Cave-Ayland wrote:
 >> Instead use qdev_set_nic_properties() to configure the on-board NIC at the
 >> sun4m machine level.
 >>
@@ -135,57 +136,18 @@ On 21/09/2020 10:25, Markus Armbruster wrote:
 >>                                hwaddr esp_base, qemu_irq espdma_irq,
 >> -                              hwaddr le_base, qemu_irq ledma_irq)
 >> +                              hwaddr le_base, qemu_irq ledma_irq, NICInfo *nd)
->>  {
->>      DeviceState *dma;
->>      ESPDMADeviceState *espdma;
->> @@ -328,16 +328,11 @@ static void *sparc32_dma_init(hwaddr dma_base,
->>      SysBusPCNetState *lance;
->>  
->>      dma = qdev_new(TYPE_SPARC32_DMA);
->> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dma), &error_fatal);
->> -    sysbus_mmio_map(SYS_BUS_DEVICE(dma), 0, dma_base);
->> -
->>      espdma = SPARC32_ESPDMA_DEVICE(object_resolve_path_component(
->>                                     OBJECT(dma), "espdma"));
->>      sysbus_connect_irq(SYS_BUS_DEVICE(espdma), 0, espdma_irq);
->>  
->>      esp = ESP(object_resolve_path_component(OBJECT(espdma), "esp"));
->> -    sysbus_mmio_map(SYS_BUS_DEVICE(esp), 0, esp_base);
->> -    scsi_bus_legacy_handle_cmdline(&esp->esp.bus);
->>  
->>      ledma = SPARC32_LEDMA_DEVICE(object_resolve_path_component(
->>                                   OBJECT(dma), "ledma"));
->> @@ -345,6 +340,14 @@ static void *sparc32_dma_init(hwaddr dma_base,
->>  
->>      lance = SYSBUS_PCNET(object_resolve_path_component(
->>                           OBJECT(ledma), "lance"));
->> +    qdev_set_nic_properties(DEVICE(lance), nd);
->> +
->> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dma), &error_fatal);
->> +    sysbus_mmio_map(SYS_BUS_DEVICE(dma), 0, dma_base);
->> +
->> +    sysbus_mmio_map(SYS_BUS_DEVICE(esp), 0, esp_base);
->> +    scsi_bus_legacy_handle_cmdline(&esp->esp.bus);
->> +
->>      sysbus_mmio_map(SYS_BUS_DEVICE(lance), 0, le_base);
->>  
->>      return dma;
 > 
-> You delay a bit of work on devices @dma and @esp.  Can you explain why?
+> Instead of passing NICInfo to sparc32_dma_init,
+> shouldn't you extract the lance code from it?
 
-This is where it starts to get a little hazy: the sysbus_mmio_map() for the dma
-device should be fine, since that's the container device for ledma and espdma devices
-which is realised the line above.
+Hi Philippe,
 
-The call to scsi_bus_legacy_handle_cmdline() is interesting - AFAICT if the esp
-device within the dma device hasn't been realised then I get a crash, and that's why
-I moved the legacy command line handling to after realise.
+I'm not sure I understand what you mean here? The sparc32-dma device is realised
+within the sparc32_dma_init() function and qdev_set_nic_properties() must be called
+before realise happens.
 
-The lance and esp devices are embedded within ledma and espdma devices respectively,
-but are actually sysbus devices because they can be used by other machines. I'm not
-sure if lance is used anywhere else, but esp certainly is. Hence they are mapped
-after the dma device is realised as it feels odd to attach devices to sysbus outside
-of a machine init function.
+If you can explain a bit more about how you think it can be separated out then I can
+take a look.
 
 
 ATB,
