@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC322719A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 05:49:03 +0200 (CEST)
-Received: from localhost ([::1]:40674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF312719A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 05:49:24 +0200 (CEST)
+Received: from localhost ([::1]:42174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKCp4-0007kf-MR
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 23:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53358)
+	id 1kKCpP-0008Mk-B6
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 23:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKCnh-0006OM-1G; Sun, 20 Sep 2020 23:47:37 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36618)
+ id 1kKCni-0006Ol-4T; Sun, 20 Sep 2020 23:47:38 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKCnf-0001wL-Iy; Sun, 20 Sep 2020 23:47:36 -0400
-Received: by mail-wm1-x343.google.com with SMTP id z9so11039790wmk.1;
- Sun, 20 Sep 2020 20:47:34 -0700 (PDT)
+ id 1kKCng-0001wX-AZ; Sun, 20 Sep 2020 23:47:37 -0400
+Received: by mail-wm1-x342.google.com with SMTP id a9so11058969wmm.2;
+ Sun, 20 Sep 2020 20:47:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KdvaemirANjxASMz4DV4dQ6pghmLGYonwRX/Dh0qzZc=;
- b=jxiIAdJ77HW4opFpV5DRvKmQBqumR8pwmz3L/YxvsJpMOyN+n/GDDQKe5dCZfW0OyE
- J+kune1gasTRfaEIlrEE0rLBCA8ObmizUJu05tUQ1olc8Lj1eWH9WV/12wPtF2FpcqUD
- BzqRW9Cq3/Sra6gkjQaciEM/yS/zGDoYv/B0ddMBZXp3CMIn77iV6AUA8huE29ZhnWCy
- T7t6iqk0+wbb+sPNaTuB/IvxXFgvJlvQqsdTdHSvrVRs7nHuVnJZCl6A74ghfWgbwdQN
- lWnWVHLAOSQJIPR0H4dWf3BwLhIn9EjsDl/I3jR3y8w9jIX+fYsZKYk/raRrtzFilygn
- FtSA==
+ bh=PhiofoUUiQN7Yir5VKkk/ymgbiAyhHHgyBkdAM+UqlU=;
+ b=OiOAdrPXgQZTmnKylnTxI4uCwjy52dceXO/O1uwJ1RVTemGYFdSUh9Lv+qi1is1d6A
+ Jwj7JZzYzTjMhLXZRGRjBdpKJlwDqtfz+WNEwq8yfjFdb3dVytw8ld47jATPMuPixjwZ
+ NkXDoLmrcDxnM/PoVKkaZlzBhYeP2O+YEIOc5LV0ei+K/pz559C7lvfFh/6npB/FXTeK
+ y26r83/e+JVYgbPN3ppb/vx0ZKZNe8v9PN2ZhXzHcm0f/3AmdUmoY3xIzLBYi+y6OmG7
+ 0YoOf/yVdIHLZEa83hZ3iau0C8WQEjRniAgG66zoBTVZTljQ7yPrMcBJJGP/y9yHT1Tr
+ tTKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KdvaemirANjxASMz4DV4dQ6pghmLGYonwRX/Dh0qzZc=;
- b=jW3GMyKvapG6/N5sjvr+G7wV2nVFSoWQpVD0Y9masVMJw3G5XgoqcFl4Qrod+zcUJt
- 65qscCjPkZ2gwUgtHBGNS1/7qdmCBQuxOutDtqMFp+vGRz/RFR3M6+JZZkpOiBor5twK
- 5Zn2tffxhV6rTjycLgEDLFdY6njLk12Q8OCix9u5X9Y5Uxgt4QJVaaaGQBw3rj831tZh
- pPFhwg0Kwa2WCLM7tc0Gj6j4072B2YqZUf5BoR5WVer+cqK1GNrD1cSqCU7zOEi2Kwwq
- pQt9XWLIAzd+/IKNsXmLNSJf4tulNogckkEJZIQ2J+LjCvneQdya58K8K5LdRcsrI4rs
- nRKQ==
-X-Gm-Message-State: AOAM533T8RzPsILFX/vuC+oRPas49XkfFuJAVOgFplK2h0sNH9WreGZP
- U+ha7rKfdSV7WbzwsVQIZ87WWpDNC+k=
-X-Google-Smtp-Source: ABdhPJz18Kw2GyVmY0FqBltnwOd4Z0OESTnapcUh3oPmzu3Xe6kv2JNhZSnsJcjWUg3KhBe4LlUTWQ==
-X-Received: by 2002:a1c:4303:: with SMTP id q3mr27817605wma.158.1600660053209; 
- Sun, 20 Sep 2020 20:47:33 -0700 (PDT)
+ bh=PhiofoUUiQN7Yir5VKkk/ymgbiAyhHHgyBkdAM+UqlU=;
+ b=L1QzdUgTABWs09+2Ryh8r4VtzTDjMYoQWtqe4BIs4iKbcxkCWy5PQBGy5Al2qcgzDY
+ Z8i3kupSZs96d6nPyF+OqPGuif/ElmlxLbaCOuuxRroLCzOGMTiThg09OMzPrfy6XNNZ
+ 76wfVFsFqHXf3W57pnCPj46dA1yfBpS/B2JWV2ZVJ+aRp2PBG51RCqniqIcpChmWzvan
+ 5kJj0puT98p6ZgmE4LcmHpJpzjoAifXVYNNn8HrawJu4WuPDLZEfkaU51Hv+6869rlwP
+ FcO3+REkvQwdpw5MJg8hA5ID4fnXqTpvGOkJ6fWTxesi/Odp82ZBm+c9jux3NQNRjqew
+ xW4w==
+X-Gm-Message-State: AOAM531ChruQyEsrI9vjNwLmXJknGvf2+tGQls1hMjvQeBMScYWuQMB7
+ FajbNx3BFNfOxsLtT5YkEmwEG9VD9w0=
+X-Google-Smtp-Source: ABdhPJwSb6pOUfeGT4IC3ogpNDh4NIA7qeDzIq0oLs6OYAFscbwM8sD4lqSCdzze+CXdCQB5kSxMHg==
+X-Received: by 2002:a05:600c:2906:: with SMTP id
+ i6mr28545718wmd.48.1600660054349; 
+ Sun, 20 Sep 2020 20:47:34 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u63sm11751440wmb.13.2020.09.20.20.47.32
+ by smtp.gmail.com with ESMTPSA id u63sm11751440wmb.13.2020.09.20.20.47.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Sep 2020 20:47:32 -0700 (PDT)
+ Sun, 20 Sep 2020 20:47:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/arm/bcm2835: Add more unimplemented peripherals
-Date: Mon, 21 Sep 2020 05:47:28 +0200
-Message-Id: <20200921034729.432931-3-f4bug@amsat.org>
+Subject: [PATCH 3/3] hw/arm/raspi: Remove ignore_memory_transaction_failures
+ on the raspi2
+Date: Mon, 21 Sep 2020 05:47:29 +0200
+Message-Id: <20200921034729.432931-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200921034729.432931-1-f4bug@amsat.org>
 References: <20200921034729.432931-1-f4bug@amsat.org>
@@ -62,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -87,6 +89,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
  Paul Zimmerman <pauldzim@gmail.com>, qemu-arm@nongnu.org,
@@ -94,57 +97,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bcm2835-v3d is used since Linux 4.7, see commit
-49ac67e0c39c ("ARM: bcm2835: Add VC4 to the device tree"),
-and the bcm2835-txp since Linux 4.19, see commit
-b7dd29b401f5 ("ARM: dts: bcm283x: Add Transposer block").
+Commit 1c3db49d39 added the raspi3, which uses the same peripherals
+than the raspi2 (but with different ARM cores). The raspi3 was
+introduced without the ignore_memory_transaction_failures flag.
+Almost 2 years later, the machine is usable running U-Boot and
+Linux.
+In commit 00cbd5bd74 we mapped a lot of unimplemented devices,
+commit d442d95f added thermal block and commit 0e5bbd7406 the
+system timer.
+As we are happy with the raspi3, let's remove this flag on the
+raspi2.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/arm/bcm2835_peripherals.h | 2 ++
- hw/arm/bcm2835_peripherals.c         | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/arm/raspi.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index b4d3ae121ac..ccd9eb11102 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -47,6 +47,7 @@ struct BCM2835PeripheralState {
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index d2f674587d3..811eaf52ff5 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -321,9 +321,6 @@ static void raspi_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_cpus = mc->min_cpus = mc->max_cpus = cores_count(board_rev);
+     mc->default_ram_size = board_ram_size(board_rev);
+     mc->default_ram_id = "ram";
+-    if (board_version(board_rev) == 2) {
+-        mc->ignore_memory_transaction_failures = true;
+-    }
+ };
  
-     BCM2835SystemTimerState systmr;
-     BCM2835MphiState mphi;
-+    UnimplementedDeviceState txp;
-     UnimplementedDeviceState armtmr;
-     UnimplementedDeviceState cprman;
-     UnimplementedDeviceState a2w;
-@@ -68,6 +69,7 @@ struct BCM2835PeripheralState {
-     UnimplementedDeviceState otp;
-     UnimplementedDeviceState dbus;
-     UnimplementedDeviceState ave0;
-+    UnimplementedDeviceState v3d;
-     UnimplementedDeviceState bscsl;
-     UnimplementedDeviceState smi;
-     DWC2State dwc2;
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index a9d7f53f6e9..15c5c72e465 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -343,6 +343,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-                                INTERRUPT_USB));
- 
-+    create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
-     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
-     create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
-     create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-@@ -356,6 +357,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
-     create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
-     create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
-+    create_unimp(s, &s->v3d, "bcm2835-v3d", V3D_OFFSET, 0x1000);
-     create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
- }
- 
+ static const TypeInfo raspi_machine_types[] = {
 -- 
 2.26.2
 
