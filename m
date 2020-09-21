@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345A4272A59
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:38:07 +0200 (CEST)
-Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD4272A4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:35:09 +0200 (CEST)
+Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKNtF-0001ET-UW
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
+	id 1kKNqO-0007cg-70
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:35:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKNmb-0006Lj-M9
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:31:14 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:40847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKNmY-0005dg-7f
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:31:13 -0400
-Received: by mail-ej1-x641.google.com with SMTP id z22so18312128ejl.7
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 08:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eJ8IxxkankdquCR3vrLLTpL7dj4nEonmsbUNK1XHvt4=;
- b=XQMlw5SWZN3ejJJrvvunA55Fo3iQ8gViZgrVCrc3oNH+r5tCaR50NsVFtvdCKkNYSo
- M/Yj6jsY2+Zjd43PQVVVfzppuCKThoQ8yMmWVDY1d58aQAo0QTw5kEktpGIl90sXF6xz
- vYbhr7o2fm+zH5VEYS4Rj2eUkRZT7UCcEYEQE3/ygV8/xjW/C0wNL/CuLxPaCdci5xac
- NxaQwL+dRAquZdFlFpVtN2Vr5ZJYmla7n6ZrTlZlibjF2Eq4tlG83udhQ79unS77T4mr
- QIImPl2zDccupU9JcqimSTonU8tWBwvn94Gv5N5CDfA68Xq0OKb1kI8gTHy4UYlrKXad
- yiuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eJ8IxxkankdquCR3vrLLTpL7dj4nEonmsbUNK1XHvt4=;
- b=mGwGlo3U8AduC9HOrh3PhnuQ6q7deB+JwXXzxVn92WmNUxarrrpeNzDW6K8uL9yxI9
- DRsHhIH0w9Kq2ngZ+eSzS5BMjWp13ByWV+McVX82F9A4KEIEepvlKD1KcXVXteVRtSxS
- nFVnXRknQSwJgJO5Zj9P+C3YvH3ucYYbfY2T5bJS73uaaMKCTQJUN7uoTWX/eWvprO7D
- DjYq+Uc1xElcU+JGc6Zmlr8zyf+YxvDOqWxg4qj3J9o7hS/Tu3wAaL91bdrgDK0/HSdH
- NHzQEwgtteHiHlFPf8+Du3T1XdbVlHmIewlvJbOXjVlcZlbzPn7YIk6dBsbEBBLABTus
- cVng==
-X-Gm-Message-State: AOAM532TEiKCpIVECVkxNgAm+/J3Toq7ZcwBmoHd4wlWWQcBWymVmduh
- 62YvlxBLxk+R742MC/ejIODam24QVNl0RAaCNoqVYw==
-X-Google-Smtp-Source: ABdhPJzOivhaDy4cncFdLNLdMN1xpfK5iaIGbjQlFg/a7+l/ZvESNoj0usMiG8SwMigKv6DIfL4gTmhfXljiWcoqLZI=
-X-Received: by 2002:a17:907:20d9:: with SMTP id
- qq25mr6683ejb.382.1600702268560; 
- Mon, 21 Sep 2020 08:31:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kKNoR-0006su-KO
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:33:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21561
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kKNoL-0005pl-92
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:33:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600702379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ppMqlyz29WQ+6okIWu2qVq1vAw0JRtCNW4i0J0v/ANw=;
+ b=AEwq9Mp5nTciB4Uim7JIi8W8kqsZRwdAYAKI7h6wPUT/JSXhicbC70K2Kei99Ufrcmo+2u
+ HJbeK/ISarweT+EKkeh90zrJttovnfTNOZyUMjvuk/bF7HWZ7rsyew7wU9Fz++nMmKNZwF
+ 3guZC+Xo2uXoyb73RBgyir2zzoB6iII=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-RGukSrMvN1KslNYISg7Mvw-1; Mon, 21 Sep 2020 11:32:55 -0400
+X-MC-Unique: RGukSrMvN1KslNYISg7Mvw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B16186DD3C;
+ Mon, 21 Sep 2020 15:32:54 +0000 (UTC)
+Received: from work-vm (ovpn-114-207.ams2.redhat.com [10.36.114.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 920EB78823;
+ Mon, 21 Sep 2020 15:32:46 +0000 (UTC)
+Date: Mon, 21 Sep 2020 16:32:43 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
+Message-ID: <20200921153243.GK3221@work-vm>
+References: <20200918213436.GA3520@redhat.com>
 MIME-Version: 1.0
-References: <20200810195019.25427-1-peter.maydell@linaro.org>
- <20200810195019.25427-11-peter.maydell@linaro.org>
- <875z8t7kd0.fsf@dusky.pond.sub.org>
-In-Reply-To: <875z8t7kd0.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Sep 2020 16:30:57 +0100
-Message-ID: <CAFEAcA9ZPO32XC1NwH=qa4mNF8c_xZeW8Z6MTrJ0FLmB6kytXQ@mail.gmail.com>
-Subject: Re: [PATCH v5 10/20] docs/interop: Convert qemu-ga-ref to rST
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20200918213436.GA3520@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 07:01:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,68 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: jose.carlos.venegas.munoz@intel.com, qemu-devel@nongnu.org,
+ cdupontd@redhat.com, virtio-fs-list <virtio-fs@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, archana.m.shinde@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Sep 2020 at 14:16, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > Convert qemu-ga-ref to rST format. This includes dropping
-> > the plain-text, pdf and info format outputs for this document;
-> > as with all our other Sphinx-based documentation, we provide
-> > HTML and manpage only.
+Hi,
+  I've been doing some of my own perf tests and I think I agree
+about the thread pool size;  my test is a kernel build
+and I've tried a bunch of different options.
 
-> > -@copying
-> > -This is the QEMU Guest Agent Protocol reference manual.
-> > -
-> > -Copyright @copyright{} 2016 The QEMU Project developers
-> > -
-> > -@quotation
-> > -This manual is free documentation: you can redistribute it and/or
-> > -modify it under the terms of the GNU General Public License as
-> > -published by the Free Software Foundation, either version 2 of the
-> > -License, or (at your option) any later version.
-> > -
-> > -This manual is distributed in the hope that it will be useful, but
-> > -WITHOUT ANY WARRANTY; without even the implied warranty of
-> > -MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> > -General Public License for more details.
-> > -
-> > -You should have received a copy of the GNU General Public License
-> > -along with this manual.  If not, see http://www.gnu.org/licenses/.
-> > -@end quotation
-> > -@end copying
->
-> Does the interop manual carry an equivalent copyright notice?
+My config:
+  Host: 16 core AMD EPYC (32 thread), 128G RAM,
+     5.9.0-rc4 kernel, rhel 8.2ish userspace.
+  5.1.0 qemu/virtiofsd built from git.
+  Guest: Fedora 32 from cloud image with just enough extra installed for
+a kernel build.
 
-NB: in the Texinfo versions, Texinfo does not put this copyright/license
-notice in its generated manpages, and it is in the generated HTML only
-as an HTML comment, not visible to the ordinary reader.
+  git cloned and checkout v5.8 of Linux into /dev/shm/linux on the host
+fresh before each test.  Then log into the guest, make defconfig,
+time make -j 16 bzImage,  make clean; time make -j 16 bzImage 
+The numbers below are the 'real' time in the guest from the initial make
+(the subsequent makes dont vary much)
 
-The Sphinx interop manual has the usual footer:
-https://www.qemu.org/docs/master/interop/index.html
-"=C2=A92020, The QEMU Project Developers."
+Below are the detauls of what each of these means, but here are the
+numbers first
 
-The system manual has an explicit "License" section:
-https://www.qemu.org/docs/master/system/license.html
-but that's documenting the license of the program, not the
-manual (it's docs/system/license.rst).
+virtiofsdefault        4m0.978s
+9pdefault              9m41.660s
+virtiofscache=none    10m29.700s
+9pmmappass             9m30.047s
+9pmbigmsize           12m4.208s
+9pmsecnone             9m21.363s
+virtiofscache=noneT1   7m17.494s
+virtiofsdefaultT1      3m43.326s
 
-We could do any or all of:
- * decide that we're happy with the current situation
- * expand the "copyright" footer to something like
-   '=C2=A92020, The QEMU Project Developers; this manual is GPLv2'
- * have a docs/foo/license.rst for each manual, and expand
-   it to mention the documentation license as well as the
-   code license
+So the winner there by far is the 'virtiofsdefaultT1' - that's
+the default virtiofs settings, but with --thread-pool-size=1 - so
+yes it gives a small benefit.
+But interestingly the cache=none virtiofs performance is pretty bad,
+but thread-pool-size=1 on that makes a BIG improvement.
 
-Given that the Texinfo generated QMP/QGA references don't
-actually present this text to the reader, my inclination
-is to say that this is something we should address in
-a separate patchseries, not as part of this conversion.
 
-thanks
--- PMM
+virtiofsdefault:
+  ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux
+  ./x86_64-softmmu/qemu-system-x86_64 -M pc,memory-backend=mem,accel=kvm -smp 8 -cpu host -m 32G,maxmem=64G,slots=1 -object memory-backend-memfd,id=mem,size=32G,share=on -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=kernel
+  mount -t virtiofs kernel /mnt
+
+9pdefault
+  ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=passthrough
+  mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L
+
+virtiofscache=none
+  ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux -o cache=none
+  ./x86_64-softmmu/qemu-system-x86_64 -M pc,memory-backend=mem,accel=kvm -smp 8 -cpu host -m 32G,maxmem=64G,slots=1 -object memory-backend-memfd,id=mem,size=32G,share=on -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=kernel
+  mount -t virtiofs kernel /mnt
+
+9pmmappass
+  ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=passthrough
+  mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L,cache=mmap
+
+9pmbigmsize
+   ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=passthrough
+   mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L,cache=mmap,msize=1048576
+
+9pmsecnone
+   ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -smp 8 -cpu host -m 32G -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -virtfs local,path=/dev/shm/linux,mount_tag=kernel,security_model=none
+   mount -t 9p -o trans=virtio kernel /mnt -oversion=9p2000.L
+
+virtiofscache=noneT1
+   ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux -o cache=none --thread-pool-size=1
+   mount -t virtiofs kernel /mnt
+
+virtiofsdefaultT1
+   ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/dev/shm/linux --thread-pool-size=1
+    ./x86_64-softmmu/qemu-system-x86_64 -M pc,memory-backend=mem,accel=kvm -smp 8 -cpu host -m 32G,maxmem=64G,slots=1 -object memory-backend-memfd,id=mem,size=32G,share=on -drive if=virtio,file=/home/images/f-32-kernel.qcow2 -nographic -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=kernel
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
