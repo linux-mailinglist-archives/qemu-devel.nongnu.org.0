@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D370227271B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:34:36 +0200 (CEST)
-Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD2A2727BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 16:37:54 +0200 (CEST)
+Received: from localhost ([::1]:44090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKMtn-0005En-TW
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47788)
+	id 1kKMwz-000834-OU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 10:37:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kKMqZ-0003g3-I6; Mon, 21 Sep 2020 10:31:15 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:47069)
+ id 1kKMqa-0003hn-HU; Mon, 21 Sep 2020 10:31:16 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:47070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kKMqU-000485-Qd; Mon, 21 Sep 2020 10:31:14 -0400
+ id 1kKMqV-000488-Ja; Mon, 21 Sep 2020 10:31:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=Tw8Cc9SW+/2F9odwf3t7puTe414oOegZOiua3UDi2nU=; 
- b=L7gh9t7P9WP/9i9d5cnBCEP+oOtHRiXeSr8cdS31cHx8iM6aFGk1JfrogdX6tp9R6rTZAJD0RZ3NMpbwPpuX9QGE7B2mcTXN1YAPXCV1G61tnl4MkP4DicK8/J1wurrROIIPrkL3MJ4YrqfYhLxP6Ge/rCdqYqaZspBYfuB6HPTyCJFP1pMYr4ebIlpzFt6fh4zqlni/4CNCrpy7oskCIntkKyXQ+ZlGlOabp/NWrGtpOybZBnw1E9MRKuRRlOKbRyt5gpJ/GmGGvBwBXuQbghaYFyjtdn3Ume97f9A+j2AIr6/i9ZxSSPFA6G4GlJWZyrxfX/OHOQMj6wWJpzx3Tw==;
+ bh=8MSD+kShelfQs8Qfb7zJ8s9z9wACV8Cb3xSSkIL2i+w=; 
+ b=X5naWv+19Zzk5JbLrKYrVqANGKKZyITaHZihlN9pslZTdYT76BKh4fhWtUbD+wwOTw3gect3MFB3wncEL/Z8fDf9gUif5bchgjS2rsjfUOpixkw0mwsgNoOjF+3eoy3C0mtHoXKsXCGcQ14pgbf6niN2dM2bEFLyljlvv4nebD9aojqZj3avstBAElsXbJ3fpNiJJrXszmv/qukVq/MNqq2ILdioa7EXNcTh4Q5HomZVWVWSgsyO+1KfSlFExdZcDQMHeIPeH+a140Ca4i4hzijjhdHEk7zst3KGNtVMqUDvnfZ8uQeilEABJNaRzRMUM300j3MEf213ePf9FN+h1w==;
 Received: from [81.0.34.134] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1kKMqQ-0000Wf-9Z; Mon, 21 Sep 2020 16:31:06 +0200
+ id 1kKMqQ-0000We-AF; Mon, 21 Sep 2020 16:31:06 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1kKMqD-0005yV-3j; Mon, 21 Sep 2020 16:30:53 +0200
+ id 1kKMqD-0005yX-4m; Mon, 21 Sep 2020 16:30:53 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/2] qcow2: Report BDRV_BLOCK_ZERO more accurately in
- bdrv_co_block_status()
-Date: Mon, 21 Sep 2020 16:30:49 +0200
-Message-Id: <e12fc2535199ce30c2674132dd62716bbd6359b3.1600698425.git.berto@igalia.com>
+Subject: [PATCH v4 2/2] qcow2: Skip copy-on-write when allocating a zero
+ cluster
+Date: Mon, 21 Sep 2020 16:30:50 +0200
+Message-Id: <318f33908c9d78577d9afbd5dee252f2785492dc.1600698425.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1600698425.git.berto@igalia.com>
 References: <cover.1600698425.git.berto@igalia.com>
@@ -69,44 +69,144 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a BlockDriverState supports backing files but has none then any
-unallocated area reads back as zeroes.
+Since commit c8bb23cbdbe32f5c326365e0a82e1b0e68cdcd8a when a write
+request results in a new allocation QEMU first tries to see if the
+rest of the cluster outside the written area contains only zeroes.
 
-bdrv_co_block_status() is only reporting this is if want_zero is true,
-but this is an inexpensive test and there is no reason not to do it in
-all cases.
+In that case, instead of doing a normal copy-on-write operation and
+writing explicit zero buffers to disk, the code zeroes the whole
+cluster efficiently using pwrite_zeroes() with BDRV_REQ_NO_FALLBACK.
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+This improves performance very significantly but it only happens when
+we are writing to an area that was completely unallocated before. Zero
+clusters (QCOW2_CLUSTER_ZERO_*) are treated like normal clusters and
+are therefore slower to allocate.
+
+This happens because the code uses bdrv_is_allocated_above() rather
+bdrv_block_status_above(). The former is not as accurate for this
+purpose but it is faster. However in the case of qcow2 the underlying
+call does already report zero clusters just fine so there is no reason
+why we cannot use that information.
+
+After testing 4KB writes on an image that only contains zero clusters
+this patch results in almost five times more IOPS.
+
 Signed-off-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/block/block.h |  2 ++
+ block/io.c            | 27 +++++++++++++++++++++++++++
+ block/qcow2.c         | 35 +++++++++++++++++++----------------
+ 3 files changed, 48 insertions(+), 16 deletions(-)
 
+diff --git a/include/block/block.h b/include/block/block.h
+index 981ab5b314..26ada4445b 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -496,6 +496,8 @@ int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
+ int bdrv_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
+                             bool include_base, int64_t offset, int64_t bytes,
+                             int64_t *pnum);
++int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
++                                      int64_t bytes);
+ 
+ bool bdrv_is_read_only(BlockDriverState *bs);
+ int bdrv_can_set_read_only(BlockDriverState *bs, bool read_only,
 diff --git a/block/io.c b/block/io.c
-index a2389bb38c..ef1ea806e8 100644
+index ef1ea806e8..8084dec522 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -2391,17 +2391,17 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+@@ -2541,6 +2541,33 @@ int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
+                                    offset, bytes, pnum, map, file);
+ }
  
-     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
-         ret |= BDRV_BLOCK_ALLOCATED;
--    } else if (want_zero && bs->drv->supports_backing) {
-+    } else if (bs->drv->supports_backing) {
-         BlockDriverState *cow_bs = bdrv_cow_bs(bs);
++/*
++ * Check @bs (and its backing chain) to see if the range defined
++ * by @offset and @bytes is known to read as zeroes.
++ * Return 1 if that is the case, 0 otherwise and -errno on error.
++ * This test is meant to be fast rather than accurate so returning 0
++ * does not guarantee non-zero data.
++ */
++int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
++                                      int64_t bytes)
++{
++    int ret;
++    int64_t pnum = bytes;
++
++    if (!bytes) {
++        return 1;
++    }
++
++    ret = bdrv_common_block_status_above(bs, NULL, false, offset,
++                                         bytes, &pnum, NULL, NULL);
++
++    if (ret < 0) {
++        return ret;
++    }
++
++    return (pnum == bytes) && (ret & BDRV_BLOCK_ZERO);
++}
++
+ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+                                    int64_t bytes, int64_t *pnum)
+ {
+diff --git a/block/qcow2.c b/block/qcow2.c
+index b05512718c..114526ce62 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2387,26 +2387,26 @@ static bool merge_cow(uint64_t offset, unsigned bytes,
+     return false;
+ }
  
--        if (cow_bs) {
-+        if (!cow_bs) {
-+            ret |= BDRV_BLOCK_ZERO;
-+        } else if (want_zero) {
-             int64_t size2 = bdrv_getlength(cow_bs);
+-static bool is_unallocated(BlockDriverState *bs, int64_t offset, int64_t bytes)
+-{
+-    int64_t nr;
+-    return !bytes ||
+-        (!bdrv_is_allocated_above(bs, NULL, false, offset, bytes, &nr) &&
+-         nr == bytes);
+-}
+-
+-static bool is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
++/*
++ * Return 1 if the COW regions read as zeroes, 0 if not, < 0 on error.
++ * Note that returning 0 does not guarantee non-zero data.
++ */
++static int is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
+ {
+     /*
+      * This check is designed for optimization shortcut so it must be
+      * efficient.
+-     * Instead of is_zero(), use is_unallocated() as it is faster (but not
+-     * as accurate and can result in false negatives).
++     * Instead of is_zero(), use bdrv_co_is_zero_fast() as it is
++     * faster (but not as accurate and can result in false negatives).
+      */
+-    return is_unallocated(bs, m->offset + m->cow_start.offset,
+-                          m->cow_start.nb_bytes) &&
+-           is_unallocated(bs, m->offset + m->cow_end.offset,
+-                          m->cow_end.nb_bytes);
++    int ret = bdrv_co_is_zero_fast(bs, m->offset + m->cow_start.offset,
++                                   m->cow_start.nb_bytes);
++    if (ret <= 0) {
++        return ret;
++    }
++
++    return bdrv_co_is_zero_fast(bs, m->offset + m->cow_end.offset,
++                                m->cow_end.nb_bytes);
+ }
  
-             if (size2 >= 0 && offset >= size2) {
-                 ret |= BDRV_BLOCK_ZERO;
-             }
--        } else {
--            ret |= BDRV_BLOCK_ZERO;
+ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+@@ -2432,7 +2432,10 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+             continue;
          }
-     }
+ 
+-        if (!is_zero_cow(bs, m)) {
++        ret = is_zero_cow(bs, m);
++        if (ret < 0) {
++            return ret;
++        } else if (ret == 0) {
+             continue;
+         }
  
 -- 
 2.20.1
