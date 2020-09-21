@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B795B2722CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:42:14 +0200 (CEST)
-Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5DA2722EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 13:44:54 +0200 (CEST)
+Received: from localhost ([::1]:60550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKKCz-0005w9-OJ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:42:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
+	id 1kKKFZ-00010j-Ma
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 07:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1J-0002yq-GU
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:30:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47201)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1J-0002zP-UR
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:30:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26764
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1H-0000kg-3w
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kKK1I-0000kn-20
  for qemu-devel@nongnu.org; Mon, 21 Sep 2020 07:30:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600687806;
+ s=mimecast20190719; t=1600687807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gyuuZ4Sz8ayGeGEwQkqastteCZWQE5SL9GYanhN/cu8=;
- b=eKPzCMRO6DLYLNLLH1sq3CM9RJECo0f5zfa/fOEFIkN9omN40E4K21q3kpnPF0x0s1V3xC
- z6Fp5jmrLrZtOlodWOgklM83bc2vzXlTdJR8fOxmt13/xI5KrrVphkp3lOgLUKryfmWBQA
- C5VCFgekvsXfetuBhFCocx0hhgQZrQ8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-3UasNvh1Ofa455rcsmPYVA-1; Mon, 21 Sep 2020 07:30:02 -0400
-X-MC-Unique: 3UasNvh1Ofa455rcsmPYVA-1
-Received: by mail-wm1-f71.google.com with SMTP id s24so2399226wmh.1
- for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:30:02 -0700 (PDT)
+ bh=cQLHX1DoJKJj5W3DVopK1pVavkbFhdLI78v3G2Q4YW4=;
+ b=ekBOn+UXZ95i9bhy6sPC2cKbghpn1u7NU4OYhgrw58BfeFGxn7lhsnbuGurycj8hdZoUMn
+ csEpxQZdDcUFTNL75LWKWux6ciko//7Edg6/tEIoPOWq0H+rGKrl4fPRjoKnxzXEH1KAIq
+ /Sz39eZ86ijnIkT3F/03tbvSEveDs6E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-aSiBmOz0MaG5Ir9Un5Z6TQ-1; Mon, 21 Sep 2020 07:30:05 -0400
+X-MC-Unique: aSiBmOz0MaG5Ir9Un5Z6TQ-1
+Received: by mail-wm1-f72.google.com with SMTP id m25so3630244wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Sep 2020 04:30:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=gyuuZ4Sz8ayGeGEwQkqastteCZWQE5SL9GYanhN/cu8=;
- b=lWyEULimGDAKTUKiz4GSaiuxVY4d540V57la/mLphUdjXskh9TzFnLE0eCl7PON6Y6
- XE5bASUhgRcQ6qdK3a8hmo5QR3QASDxy1ya2jgrczEHd21gMlArokm5ZXeWmmYAb33Mz
- earkYfVKimmYtGEfT8YT+hf974ljA8HzY6ATLMM7ZFWMEEs+CWVsnJMm0kAAco/wQaGf
- 6eoyaz1reLJ6oe59qdh57xc5xIYqZtBzkoqiYokRaXEZMrWZwSwtXa5+F0CxP5w/TTWt
- rmz2oR/50F2zrYf2Dn+jMJU5pygEWTTI7WLbCOVOc8ulBTaSee5lndfsyKE8BUfMdxSn
- Vi/A==
-X-Gm-Message-State: AOAM531tNHI8SvDd3NoWib+pO2ss2GCd3pqLtXhpzqzr/8qVyxkwZe9V
- hQSeAEsAw77wUYYJBlQqaT+2TYbRo/c3jaaFHcwjoGKQ4QUNqUBHh2Pvq5XCm5qNLFzqZMi2dvH
- Sr7QPgHvFJZzW3CM=
-X-Received: by 2002:adf:ed09:: with SMTP id a9mr51037354wro.407.1600687801159; 
- Mon, 21 Sep 2020 04:30:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzidabeKWpG37vz4yJQS1XbVL6H++ZTrLFQ/d3IPLItplARU3zPLv11Lz8pP4fdRdnV6tnmPQ==
-X-Received: by 2002:adf:ed09:: with SMTP id a9mr51037329wro.407.1600687800951; 
- Mon, 21 Sep 2020 04:30:00 -0700 (PDT)
+ bh=cQLHX1DoJKJj5W3DVopK1pVavkbFhdLI78v3G2Q4YW4=;
+ b=TjdeHw319HFI4AlnmRxlsMo/clpzqsr8mCx7qh55WR6wCtlPkTeMdPZ3xtTuoiP2Qj
+ y6K+dJUBDsWxDx5Z1jqMb4U3XY7+zp0dLeGLkdA2c10B9AnzLq8chn1YuvKAz1yMpBUJ
+ wi/C7o+HRjcEnA7S4vPJNdDngWngJ2ZHunhg/aI/NzSD7njQYw92wNhQr1pGAdkagkor
+ nTUeOLqxrFkkUmugvrWzBbAgbNYfJgmkx6eynW4zzoqdLz9DqNJflckmpy1QuT529D7k
+ z2ciqcT5gGCY2F88ioeF+Qb25VqzHLZf7T9xQ8VzkrXZ7H7YVCKtjAYHaDJc74cTrROT
+ r1Ug==
+X-Gm-Message-State: AOAM532yc2lYw/KSy7kID6VUq/EYJ/nIoE3v1z6I+FlaYskowQjvZjUL
+ UjHDxa3N2H5Pyi4hnbeWcq5S3hxOwHF04e3meQnBjhuSVq3ZeY8tjmVOL1XktVKt5nfToVM9R4/
+ DBCP1mWmxh26LC+M=
+X-Received: by 2002:a1c:8115:: with SMTP id c21mr30483530wmd.153.1600687803700; 
+ Mon, 21 Sep 2020 04:30:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrRbMEGccnhmsiFdwd8VU4AetpjDNRf6etteU7xNpH3LPY3MJVgNqm50bsUrqvhC03DzHYpA==
+X-Received: by 2002:a1c:8115:: with SMTP id c21mr30483504wmd.153.1600687803559; 
+ Mon, 21 Sep 2020 04:30:03 -0700 (PDT)
 Received: from redhat.com (bzq-109-65-116-225.red.bezeqint.net.
  [109.65.116.225])
- by smtp.gmail.com with ESMTPSA id c205sm19311028wmd.33.2020.09.21.04.29.59
+ by smtp.gmail.com with ESMTPSA id u186sm19575150wmu.34.2020.09.21.04.30.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 04:30:00 -0700 (PDT)
-Date: Mon, 21 Sep 2020 07:29:58 -0400
+ Mon, 21 Sep 2020 04:30:02 -0700 (PDT)
+Date: Mon, 21 Sep 2020 07:30:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 08/15] tests/qtest/vhost-user-test: prepare the tests for
- adding new dev class
-Message-ID: <20200921112913.555392-9-mst@redhat.com>
+Subject: [PULL v3 09/15] tests/qtest/libqos/virtio-blk: add support for
+ vhost-user-blk
+Message-ID: <20200921112913.555392-10-mst@redhat.com>
 References: <20200921112913.555392-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200921112913.555392-1-mst@redhat.com>
@@ -73,17 +74,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:43:11
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,261 +106,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dima Stepanov <dimastep@yandex-team.ru>
 
-For now only vhost-user-net device is supported by the test. Other
-vhost-user devices are not tested. As a first step make source code
-refactoring so new devices can reuse the same test routines. To make
-this provide a new vhost_user_ops structure with the methods to
-initialize device, its command line or make a proper vhost-user
-responses.
+Add support for the vhost-user-blk-pci device. This node can be used by
+the vhost-user-blk tests. Tests for the vhost-user-blk device are added
+in the following patches.
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+Message-Id: <4d3e683a87557bcef520826c54aa3e5ab7c64111.1599813294.git.dimastep@yandex-team.ru>
 Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <a48b60fb96fef230b75fff72a2d77040dcb5ef7c.1599813294.git.dimastep@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/vhost-user-test.c | 105 ++++++++++++++++++++++++----------
- 1 file changed, 76 insertions(+), 29 deletions(-)
+ tests/qtest/libqos/virtio-blk.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 9ee0f1e4fd..3df5322614 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -135,6 +135,10 @@ enum {
-     TEST_FLAGS_END,
- };
- 
-+enum {
-+    VHOST_USER_NET,
-+};
-+
- typedef struct TestServer {
-     gchar *socket_path;
-     gchar *mig_path;
-@@ -154,10 +158,25 @@ typedef struct TestServer {
-     bool test_fail;
-     int test_flags;
-     int queues;
-+    struct vhost_user_ops *vu_ops;
- } TestServer;
- 
-+struct vhost_user_ops {
-+    /* Device types. */
-+    int type;
-+    void (*append_opts)(TestServer *s, GString *cmd_line,
-+            const char *chr_opts);
-+
-+    /* VHOST-USER commands. */
-+    void (*set_features)(TestServer *s, CharBackend *chr,
-+            VhostUserMsg *msg);
-+    void (*get_protocol_features)(TestServer *s,
-+            CharBackend *chr, VhostUserMsg *msg);
-+};
-+
- static const char *init_hugepagefs(void);
--static TestServer *test_server_new(const gchar *name);
-+static TestServer *test_server_new(const gchar *name,
-+        struct vhost_user_ops *ops);
- static void test_server_free(TestServer *server);
- static void test_server_listen(TestServer *server);
- 
-@@ -167,7 +186,7 @@ enum test_memfd {
-     TEST_MEMFD_NO,
- };
- 
--static void append_vhost_opts(TestServer *s, GString *cmd_line,
-+static void append_vhost_net_opts(TestServer *s, GString *cmd_line,
-                              const char *chr_opts)
+diff --git a/tests/qtest/libqos/virtio-blk.c b/tests/qtest/libqos/virtio-blk.c
+index 5da02591bc..c0fd9d24e3 100644
+--- a/tests/qtest/libqos/virtio-blk.c
++++ b/tests/qtest/libqos/virtio-blk.c
+@@ -30,7 +30,8 @@
+ static void *qvirtio_blk_get_driver(QVirtioBlk *v_blk,
+                                     const char *interface)
  {
-     g_string_append_printf(cmd_line, QEMU_CMD_CHR QEMU_CMD_NETDEV,
-@@ -332,25 +351,15 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         break;
- 
-     case VHOST_USER_SET_FEATURES:
--        g_assert_cmpint(msg.payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES),
--                        !=, 0ULL);
--        if (s->test_flags == TEST_FLAGS_DISCONNECT) {
--            qemu_chr_fe_disconnect(chr);
--            s->test_flags = TEST_FLAGS_BAD;
-+        if (s->vu_ops->set_features) {
-+            s->vu_ops->set_features(s, chr, &msg);
-         }
-         break;
- 
-     case VHOST_USER_GET_PROTOCOL_FEATURES:
--        /* send back features to qemu */
--        msg.flags |= VHOST_USER_REPLY_MASK;
--        msg.size = sizeof(m.payload.u64);
--        msg.payload.u64 = 1 << VHOST_USER_PROTOCOL_F_LOG_SHMFD;
--        msg.payload.u64 |= 1 << VHOST_USER_PROTOCOL_F_CROSS_ENDIAN;
--        if (s->queues > 1) {
--            msg.payload.u64 |= 1 << VHOST_USER_PROTOCOL_F_MQ;
-+        if (s->vu_ops->get_protocol_features) {
-+            s->vu_ops->get_protocol_features(s, chr, &msg);
-         }
--        p = (uint8_t *) &msg;
--        qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
-         break;
- 
-     case VHOST_USER_GET_VRING_BASE:
-@@ -467,7 +476,8 @@ static const char *init_hugepagefs(void)
- #endif
- }
- 
--static TestServer *test_server_new(const gchar *name)
-+static TestServer *test_server_new(const gchar *name,
-+        struct vhost_user_ops *ops)
- {
-     TestServer *server = g_new0(TestServer, 1);
-     char template[] = "/tmp/vhost-test-XXXXXX";
-@@ -495,6 +505,7 @@ static TestServer *test_server_new(const gchar *name)
- 
-     server->log_fd = -1;
-     server->queues = 1;
-+    server->vu_ops = ops;
- 
-     return server;
- }
-@@ -669,11 +680,11 @@ static void vhost_user_test_cleanup(void *s)
- 
- static void *vhost_user_test_setup(GString *cmd_line, void *arg)
- {
--    TestServer *server = test_server_new("vhost-user-test");
-+    TestServer *server = test_server_new("vhost-user-test", arg);
-     test_server_listen(server);
- 
-     append_mem_opts(server, cmd_line, 256, TEST_MEMFD_AUTO);
--    append_vhost_opts(server, cmd_line, "");
-+    server->vu_ops->append_opts(server, cmd_line, "");
- 
-     g_test_queue_destroy(vhost_user_test_cleanup, server);
- 
-@@ -682,11 +693,11 @@ static void *vhost_user_test_setup(GString *cmd_line, void *arg)
- 
- static void *vhost_user_test_setup_memfd(GString *cmd_line, void *arg)
- {
--    TestServer *server = test_server_new("vhost-user-test");
-+    TestServer *server = test_server_new("vhost-user-test", arg);
-     test_server_listen(server);
- 
-     append_mem_opts(server, cmd_line, 256, TEST_MEMFD_YES);
--    append_vhost_opts(server, cmd_line, "");
-+    server->vu_ops->append_opts(server, cmd_line, "");
- 
-     g_test_queue_destroy(vhost_user_test_cleanup, server);
- 
-@@ -720,7 +731,7 @@ static void test_migrate(void *obj, void *arg, QGuestAllocator *alloc)
-         return;
+-    if (!g_strcmp0(interface, "virtio-blk")) {
++    if (!g_strcmp0(interface, "virtio-blk") ||
++            !g_strcmp0(interface, "vhost-user-blk")) {
+         return v_blk;
      }
+     if (!g_strcmp0(interface, "virtio")) {
+@@ -120,6 +121,17 @@ static void virtio_blk_register_nodes(void)
+     qos_node_produces("virtio-blk-pci", "virtio-blk");
  
--    dest = test_server_new("dest");
-+    dest = test_server_new("dest", s->vu_ops);
-     dest_cmdline = g_string_new(qos_get_current_command_line());
-     uri = g_strdup_printf("%s%s", "unix:", dest->mig_path);
- 
-@@ -730,7 +741,7 @@ static void test_migrate(void *obj, void *arg, QGuestAllocator *alloc)
-     test_server_listen(dest);
-     g_string_append_printf(dest_cmdline, " -incoming %s", uri);
-     append_mem_opts(dest, dest_cmdline, 256, TEST_MEMFD_AUTO);
--    append_vhost_opts(dest, dest_cmdline, "");
-+    dest->vu_ops->append_opts(dest, dest_cmdline, "");
-     to = qtest_init(dest_cmdline->str);
- 
-     /* This would be where you call qos_allocate_objects(to, NULL), if you want
-@@ -831,11 +842,11 @@ connect_thread(gpointer data)
- 
- static void *vhost_user_test_setup_reconnect(GString *cmd_line, void *arg)
- {
--    TestServer *s = test_server_new("reconnect");
-+    TestServer *s = test_server_new("reconnect", arg);
- 
-     g_thread_new("connect", connect_thread, s);
-     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
--    append_vhost_opts(s, cmd_line, ",server");
-+    s->vu_ops->append_opts(s, cmd_line, ",server");
- 
-     g_test_queue_destroy(vhost_user_test_cleanup, s);
- 
-@@ -866,13 +877,13 @@ static void test_reconnect(void *obj, void *arg, QGuestAllocator *alloc)
- 
- static void *vhost_user_test_setup_connect_fail(GString *cmd_line, void *arg)
- {
--    TestServer *s = test_server_new("connect-fail");
-+    TestServer *s = test_server_new("connect-fail", arg);
- 
-     s->test_fail = true;
- 
-     g_thread_new("connect", connect_thread, s);
-     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
--    append_vhost_opts(s, cmd_line, ",server");
-+    s->vu_ops->append_opts(s, cmd_line, ",server");
- 
-     g_test_queue_destroy(vhost_user_test_cleanup, s);
- 
-@@ -881,13 +892,13 @@ static void *vhost_user_test_setup_connect_fail(GString *cmd_line, void *arg)
- 
- static void *vhost_user_test_setup_flags_mismatch(GString *cmd_line, void *arg)
- {
--    TestServer *s = test_server_new("flags-mismatch");
-+    TestServer *s = test_server_new("flags-mismatch", arg);
- 
-     s->test_flags = TEST_FLAGS_DISCONNECT;
- 
-     g_thread_new("connect", connect_thread, s);
-     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
--    append_vhost_opts(s, cmd_line, ",server");
-+    s->vu_ops->append_opts(s, cmd_line, ",server");
- 
-     g_test_queue_destroy(vhost_user_test_cleanup, s);
- 
-@@ -924,11 +935,47 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
-     wait_for_rings_started(s, s->queues * 2);
+     g_free(arg);
++
++    /* vhost-user-blk-pci */
++    arg = g_strdup_printf("id=drv0,chardev=chdev0,addr=%x.%x",
++                                PCI_SLOT, PCI_FN);
++    opts.extra_device_opts = arg;
++    add_qpci_address(&opts, &addr);
++    qos_node_create_driver("vhost-user-blk-pci", virtio_blk_pci_create);
++    qos_node_consumes("vhost-user-blk-pci", "pci-bus", &opts);
++    qos_node_produces("vhost-user-blk-pci", "vhost-user-blk");
++
++    g_free(arg);
  }
  
-+static void vu_net_set_features(TestServer *s, CharBackend *chr,
-+        VhostUserMsg *msg)
-+{
-+    g_assert_cmpint(msg->payload.u64 &
-+            (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES), !=, 0ULL);
-+    if (s->test_flags == TEST_FLAGS_DISCONNECT) {
-+        qemu_chr_fe_disconnect(chr);
-+        s->test_flags = TEST_FLAGS_BAD;
-+    }
-+}
-+
-+static void vu_net_get_protocol_features(TestServer *s, CharBackend *chr,
-+        VhostUserMsg *msg)
-+{
-+    /* send back features to qemu */
-+    msg->flags |= VHOST_USER_REPLY_MASK;
-+    msg->size = sizeof(m.payload.u64);
-+    msg->payload.u64 = 1 << VHOST_USER_PROTOCOL_F_LOG_SHMFD;
-+    msg->payload.u64 |= 1 << VHOST_USER_PROTOCOL_F_CROSS_ENDIAN;
-+    if (s->queues > 1) {
-+        msg->payload.u64 |= 1 << VHOST_USER_PROTOCOL_F_MQ;
-+    }
-+    qemu_chr_fe_write_all(chr, (uint8_t *)msg, VHOST_USER_HDR_SIZE + msg->size);
-+}
-+
-+/* Each VHOST-USER device should have its ops structure defined. */
-+static struct vhost_user_ops g_vu_net_ops = {
-+    .type = VHOST_USER_NET,
-+
-+    .append_opts = append_vhost_net_opts,
-+
-+    .set_features = vu_net_set_features,
-+    .get_protocol_features = vu_net_get_protocol_features,
-+};
-+
- static void register_vhost_user_test(void)
- {
-     QOSGraphTestOptions opts = {
-         .before = vhost_user_test_setup,
-         .subprocess = true,
-+        .arg = &g_vu_net_ops,
-     };
- 
-     qemu_add_opts(&qemu_chardev_opts);
+ libqos_init(virtio_blk_register_nodes);
 -- 
 MST
 
