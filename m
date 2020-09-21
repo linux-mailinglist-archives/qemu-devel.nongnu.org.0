@@ -2,71 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84C627249F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 15:09:06 +0200 (CEST)
-Received: from localhost ([::1]:49580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BFD272506
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 15:13:34 +0200 (CEST)
+Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKLZ3-0000dw-Np
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 09:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
+	id 1kKLdN-0004cU-Mj
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 09:13:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kKLXE-0008VF-Lb
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 09:07:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kKLXD-0007LF-3M
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 09:07:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600693630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=llsU2FQ3j6EzkrsurBg+jEiSMGoecRncjGgL5uSHvSs=;
- b=TyjLfs9IwztKwb0TjafiXdEZ2HEulbnH6gSBq8o0lt8w/ncyQMT9nvLM2ZVQX4xMheiujk
- aVJllxzE6OHpibaa13goLS/g3qiNW/98yvXKqIMtWHLVfRyqnoNuAyIroRvZJQOSGGQTt5
- +3ANY1TQH/bWxE43J3Z2WeokGwNDFsg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-DAqmdOnpP0KExjVYCcHebQ-1; Mon, 21 Sep 2020 09:07:06 -0400
-X-MC-Unique: DAqmdOnpP0KExjVYCcHebQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CFFA801F95;
- Mon, 21 Sep 2020 13:07:05 +0000 (UTC)
-Received: from gondolin (unknown [10.40.192.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 962957366D;
- Mon, 21 Sep 2020 13:06:59 +0000 (UTC)
-Date: Mon, 21 Sep 2020 15:06:56 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2] s390x/tcg: Implement MONITOR CALL
-Message-ID: <20200921150656.0f2fcb81.cohuck@redhat.com>
-In-Reply-To: <20200918085122.26132-1-david@redhat.com>
-References: <20200918085122.26132-1-david@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1kKLb3-0002rg-4S
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 09:11:09 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:4190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1kKLaz-00084j-Ec
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 09:11:08 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 9AB614547A;
+ Mon, 21 Sep 2020 15:10:52 +0200 (CEST)
+To: seabios@seabios.org, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+From: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Regression with latest SeaBIOS booting multi-disk root LVs?
+Message-ID: <247d7ead-e426-abb5-07a1-0bd009253c37@proxmox.com>
+Date: Mon, 21 Sep 2020 15:10:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 09:10:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +54,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Sep 2020 10:51:22 +0200
-David Hildenbrand <david@redhat.com> wrote:
+Hi list,
 
-> Recent upstream Linux uses the MONITOR CALL instruction for things like
-> BUG_ON() and WARN_ON(). We currently inject an operation exception when
-> we hit a MONITOR CALL instruction - which is wrong, as the instruction
-> is not glued to specific CPU features.
-> 
-> Doing a simple WARN_ON_ONCE() currently results in a panic:
->   [   18.162801] illegal operation: 0001 ilc:2 [#1] SMP
->   [   18.162889] Modules linked in:
->   [...]
->   [   18.165476] Kernel panic - not syncing: Fatal exception: panic_on_oops
-> 
-> With a proper implementation, we now get:
->   [   18.242754] ------------[ cut here ]------------
->   [   18.242855] WARNING: CPU: 7 PID: 1 at init/main.c:1534 [...]
->   [   18.242919] Modules linked in:
->   [...]
->   [   18.246262] ---[ end trace a420477d71dc97b4 ]---
->   [   18.259014] Freeing unused kernel memory: 4220K
-> 
-> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
-> 
-> v1 -> v2:
-> -  Simplify by not using the tb flags, always calling the helper.
-> 
-> I looked into monitor-event counting, which looks easy at first glance
-> - but proper DAT/access exception handling is tricky. Leaving that for
-> a cold winter evening :)
+since SeaBIOS 1.14.0 (QEMU 5.1) VMs with LVM root disks spanning more 
+than one PV fail to boot, if only the first is set as bootable. I 
+believe this is due to the changes in SeaBIOS only initializing drives 
+marked as 'bootable' by QEMU.
 
-Fortunately, this is covered by a facility bit, so no need to do this
-now :)
+One fix is to mark all disks containing root data as bootable, but 
+existing setups will still break on upgrade (where only the disk 
+containing the bootloader is marked). This is not ideal.
 
-> 
-> ---
->  target/s390x/excp_helper.c | 23 +++++++++++++++++++++++
->  target/s390x/helper.h      |  1 +
->  target/s390x/insn-data.def |  3 +++
->  target/s390x/translate.c   | 21 +++++++++++++++++++++
->  4 files changed, 48 insertions(+)
+Discovered by a user in our bugtracker:
+https://bugzilla.proxmox.com/show_bug.cgi?id=3011
 
-Thanks, applied.
+and verified by installing Ubuntu 20.04 w/ LVM and GRUB on virtio-scsi, 
+then expanding the LV to a second disk.
+
+I found that just reverting SeaBIOS to 1.13.0 makes it work again, same 
+guest install, even with QEMU 5.1.
+
+Is this intended behaviour? A bug in GRUB? Any fix or workaround?
+
+~ Stefan
 
 
