@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AEB272A0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:28:27 +0200 (CEST)
-Received: from localhost ([::1]:51084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570EC272A54
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 17:36:58 +0200 (CEST)
+Received: from localhost ([::1]:57184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKNju-0004AL-BD
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37896)
+	id 1kKNs7-0006wN-O3
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 11:36:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKNhT-0003CF-PP
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:25:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32242)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKNhO-0004iO-1x
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 11:25:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600701948;
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1kKNix-0004Bj-CB; Mon, 21 Sep 2020 11:27:28 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:57660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1kKNir-0004rn-Hm; Mon, 21 Sep 2020 11:27:26 -0400
+Received: from [172.17.10.14] (unknown [172.17.10.14])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 0D19C21CBD;
+ Mon, 21 Sep 2020 15:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1600702035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ty17NOniwf6ri61OCYkwg0VUKGt3Id+fVQ8gVGk0318=;
- b=WQnyMbS9tZrRYscszfms+9kc6Q85nkK2t/ddWKvOIYzHYqJqtuIR7lpZ0T/LMSU+xnR078
- 7VzEZUF6BbZeSI/jUxBVC752RxUYakEJw7MCRCME2keZ+OoSODVHCSLDH4eV880Ehe0TZE
- 7iMpJc2ITp2sPsr5yxAss4yiIdC6wkQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-K5ZBWPuKMSKJohnS6f09dQ-1; Mon, 21 Sep 2020 11:25:43 -0400
-X-MC-Unique: K5ZBWPuKMSKJohnS6f09dQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 525EF18C520E;
- Mon, 21 Sep 2020 15:25:42 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1155755765;
- Mon, 21 Sep 2020 15:25:41 +0000 (UTC)
-Date: Mon, 21 Sep 2020 11:25:41 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Subject: Re: [PATCH v3 2/2] Mark Icelake-Client CPU models deprecated
-Message-ID: <20200921152541.GM57321@habkost.net>
-References: <1600245434-63021-1-git-send-email-robert.hu@linux.intel.com>
- <1600245434-63021-2-git-send-email-robert.hu@linux.intel.com>
- <20200917180158.GT7594@habkost.net>
- <de6e39509242483607525f9e27aeff92e510a5dc.camel@linux.intel.com>
- <20200918042036.GY7594@habkost.net>
- <e1003e56e9b38e257841eb9385f6c00bdaf0d4fa.camel@linux.intel.com>
+ bh=hxJ4PdvFYAs4L5U0XHX5tLQsiwbC0irTnH3fLQiq3Cw=;
+ b=uEMKUZGihkqoMNTwjD/WPgqYo+VxxQ6heU+/YXEROCjpcUufzRhdaF0MuiTwKUwPeRd5xo
+ T+4VedncEwNo4m/VFhjfx5ZegPQ1yKvnuchwgRxp+crd8d2eYfEGhjiYEaWVRkJsvzJ/nP
+ F0V8lH0KSoxPTHiHcl7JelzlJ3ogLhs=
+Subject: Re: [PATCH 1/3] hw/arm/raspi: Define various blocks base addresses
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200921034729.432931-1-f4bug@amsat.org>
+ <20200921034729.432931-2-f4bug@amsat.org>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <63cb517b-87a4-b6a3-a895-f778e3d1f37f@greensocs.com>
+Date: Mon, 21 Sep 2020 17:28:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <e1003e56e9b38e257841eb9385f6c00bdaf0d4fa.camel@linux.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20200921034729.432931-2-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 11:27:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,87 +67,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, robert.hu@intel.com,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 21, 2020 at 03:45:12PM +0800, Robert Hoo wrote:
-> On Fri, 2020-09-18 at 00:20 -0400, Eduardo Habkost wrote:
-> > On Fri, Sep 18, 2020 at 10:18:56AM +0800, Robert Hoo wrote:
-> > > On Thu, 2020-09-17 at 14:01 -0400, Eduardo Habkost wrote:
-> > > > On Wed, Sep 16, 2020 at 04:37:14PM +0800, Robert Hoo wrote:
-> > > > > Going to obsolete Icelake-Client CPU models in the future.
-> > > > > 
-> > > > > Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> > > > > ---
-> > > > > Change log
-> > > > > v3:
-> > > > > Obsolete in v5.2 --> v5.3.
-> > > > > 
-> > > > >  target/i386/cpu.c | 10 +++++++++-
-> > > > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > > > > index 9cb82b7..15c1c00 100644
-> > > > > --- a/target/i386/cpu.c
-> > > > > +++ b/target/i386/cpu.c
-> > > > > @@ -3467,7 +3467,12 @@ static X86CPUDefinition
-> > > > > builtin_x86_defs[] =
-> > > > > {
-> > > > >          .xlevel = 0x80000008,
-> > > > >          .model_id = "Intel Core Processor (Icelake)",
-> > > > >          .versions = (X86CPUVersionDefinition[]) {
-> > > > > -            { .version = 1 },
-> > > > > +            {
-> > > > > +                .version = 1,
-> > > > > +                .deprecated = true,
-> > > > > +                .note = "Deprecated. Will be obsoleted in
-> > > > > v5.3.
-> > > > > Please use "
-> > > > > +                        "'Icelake-Server-v1' CPU model",
-> > > > 
-> > > > What's the difference between "deprecated" and "obsoleted"?
-> > > > 
-> > > 
-> > > Forgive my non-native understanding on English word:-D
-> > 
-> > No problem!  I'm not a native speaker either.  :-)
-> > 
-> > > Here is my understanding:
-> > > 'Deprecate' is to express strong disapproval on the usage; but, can
-> > > still be used if user insists.
-> > > 'Obsolete' means not usable anymore.
-> > > 
-> > > You can feel free to reword the note words.
-> > > Perhaps substitute 'removed' for 'obsolete' will be better.
-> > 
-> > "Removed" would be clearer, yes.  It's probably better to not
-> > mention the exact version, and just say it will be removed in
-> > the future.
+On 9/21/20 5:47 AM, Philippe Mathieu-Daudé wrote:
+> The Raspberry firmware is closed-source. While running it, it
+> accesses various I/O registers. Logging these accesses as UNIMP
+> (unimplemented) help to understand what the firmware is doing
+> (ideally we want it able to boot a Linux kernel).
 > 
-> Then I would tend to agree with your suggestion of no specific
-> 'deprecation_note' at all; instead, a general warning message "will be
-> removed in the future" in machine_run_board_init().
-
-That would work too, but having "please use Icelake-Server
-instead" would reduce user confusion.  It would also be
-consistent with how MachineClass does it, and make it easier to
-combine those two APIs together in the future.
-
-It's not a hard requirement, though.  I'm OK if you want to keep
-it as simple as possible.
-
-> > 
-> > Or maybe just make the message shorter and set deprecation_note
-> > to "Please use Icelake-Server instead".  The details can be
-> > documented in docs/system/deprecated.rst.
-> > 
-> Prefer documenting detail and model specific deprecation plan in
-> docs/system/deprecated.rst.
+> Document various blocks we might use later.
 > 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
--- 
-Eduardo
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
+> ---
+>   include/hw/arm/raspi_platform.h | 51 +++++++++++++++++++++++++++------
+>   1 file changed, 43 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
+> index 61b04a1bd4a..c7f50b260f6 100644
+> --- a/include/hw/arm/raspi_platform.h
+> +++ b/include/hw/arm/raspi_platform.h
+> @@ -20,20 +20,29 @@
+>    * You should have received a copy of the GNU General Public License
+>    * along with this program; if not, write to the Free Software
+>    * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+> + *
+> + * Various undocumented addresses and names come from Herman Hermitage's VC4
+> + * documentation:
+> + * https://github.com/hermanhermitage/videocoreiv/wiki/MMIO-Register-map
+>    */
+>   
+>   #ifndef HW_ARM_RASPI_PLATFORM_H
+>   #define HW_ARM_RASPI_PLATFORM_H
+>   
+>   #define MSYNC_OFFSET            0x0000   /* Multicore Sync Block */
+> -#define IC0_OFFSET              0x2000
+> +#define CCPT_OFFSET             0x1000   /* Compact Camera Port 2 TX */
+> +#define INTE_OFFSET             0x2000   /* VC Interrupt controller */
+>   #define ST_OFFSET               0x3000   /* System Timer */
+> +#define TXP_OFFSET              0x4000   /* Transposer */
+> +#define JPEG_OFFSET             0x5000
+>   #define MPHI_OFFSET             0x6000   /* Message-based Parallel Host Intf. */
+>   #define DMA_OFFSET              0x7000   /* DMA controller, channels 0-14 */
+> -#define ARM_OFFSET              0xB000   /* BCM2708 ARM control block */
+> +#define ARBA_OFFSET             0x9000
+> +#define BRDG_OFFSET             0xa000
+> +#define ARM_OFFSET              0xB000   /* ARM control block */
+>   #define ARMCTRL_OFFSET          (ARM_OFFSET + 0x000)
+>   #define ARMCTRL_IC_OFFSET       (ARM_OFFSET + 0x200) /* Interrupt controller */
+> -#define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 */
+> +#define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 (SP804) */
+>   #define ARMCTRL_0_SBM_OFFSET    (ARM_OFFSET + 0x800) /* User 0 (ARM) Semaphores
+>                                                         * Doorbells & Mailboxes */
+>   #define CPRMAN_OFFSET           0x100000 /* Power Management, Watchdog */
+> @@ -42,24 +51,50 @@
+>   #define AVS_OFFSET              0x103000 /* Audio Video Standard */
+>   #define RNG_OFFSET              0x104000
+>   #define GPIO_OFFSET             0x200000
+> -#define UART0_OFFSET            0x201000
+> -#define MMCI0_OFFSET            0x202000
+> -#define I2S_OFFSET              0x203000
+> -#define SPI0_OFFSET             0x204000
+> +#define UART0_OFFSET            0x201000 /* PL011 */
+> +#define MMCI0_OFFSET            0x202000 /* Legacy MMC */
+> +#define I2S_OFFSET              0x203000 /* PCM */
+> +#define SPI0_OFFSET             0x204000 /* SPI master */
+>   #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
+> +#define PIXV0_OFFSET            0x206000
+> +#define PIXV1_OFFSET            0x207000
+> +#define DPI_OFFSET              0x208000
+> +#define DSI0_OFFSET             0x209000 /* Display Serial Interface */
+> +#define PWM_OFFSET              0x20c000
+> +#define PERM_OFFSET             0x20d000
+> +#define TEC_OFFSET              0x20e000
+>   #define OTP_OFFSET              0x20f000
+> +#define SLIM_OFFSET             0x210000 /* SLIMbus */
+> +#define CPG_OFFSET              0x211000
+>   #define THERMAL_OFFSET          0x212000
+> -#define BSC_SL_OFFSET           0x214000 /* SPI slave */
+> +#define AVSP_OFFSET             0x213000
+> +#define BSC_SL_OFFSET           0x214000 /* SPI slave (bootrom) */
+>   #define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
+>   #define EMMC1_OFFSET            0x300000
+> +#define EMMC2_OFFSET            0x340000
+> +#define HVS_OFFSET              0x400000
+>   #define SMI_OFFSET              0x600000
+> +#define DSI1_OFFSET             0x700000
+> +#define UCAM_OFFSET             0x800000
+> +#define CMI_OFFSET              0x802000
+>   #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
+>   #define BSC2_OFFSET             0x805000 /* BSC2 I2C/TWI */
+> +#define VECA_OFFSET             0x806000
+> +#define PIXV2_OFFSET            0x807000
+> +#define HDMI_OFFSET             0x808000
+> +#define HDCP_OFFSET             0x809000
+> +#define ARBR0_OFFSET            0x80a000
+>   #define DBUS_OFFSET             0x900000
+>   #define AVE0_OFFSET             0x910000
+>   #define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller */
+> +#define V3D_OFFSET              0xc00000
+>   #define SDRAMC_OFFSET           0xe00000
+> +#define L2CC_OFFSET             0xe01000 /* Level 2 Cache controller */
+> +#define L1CC_OFFSET             0xe02000 /* Level 1 Cache controller */
+> +#define ARBR1_OFFSET            0xe04000
+>   #define DMA15_OFFSET            0xE05000 /* DMA controller, channel 15 */
+> +#define DCRC_OFFSET             0xe07000
+> +#define AXIP_OFFSET             0xe08000
+>   
+>   /* GPU interrupts */
+>   #define INTERRUPT_TIMER0               0
+> 
 
