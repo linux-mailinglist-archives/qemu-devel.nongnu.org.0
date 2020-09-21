@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676562731DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:25:38 +0200 (CEST)
-Received: from localhost ([::1]:36516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8BB2731B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 20:15:48 +0200 (CEST)
+Received: from localhost ([::1]:47742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKQVM-0007LQ-Sz
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:25:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52956)
+	id 1kKQLr-00087z-1o
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 14:15:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKQFy-0003t4-GY
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:09:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51704)
+ id 1kKQGL-0004YB-Ip
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:10:08 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47852
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKQFw-0003g9-DV
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:09:42 -0400
+ id 1kKQGJ-0003hk-J5
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 14:10:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600711779;
+ s=mimecast20190719; t=1600711803;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DXPFvONr3DDfea6nuAneeuRTopdj5Vqy0kJ3SnjcJnY=;
- b=i1fOBC2B4GLt1H7//GRilVUtbk4MuAA55lT8DVYjOrAYBlo6CSNDqat1OkvS4cwaJv9cZr
- o/XFahovFcyaOw/5Tb1Fvd1EDNgTd3dWPt/I+aTquExvWUId/o/Rjs+QRQtacRoZY0yKea
- 8jqMUaCNG8wuVtkAkdNITRYUR7dS58s=
+ bh=fJRr9sw2KAcXFJkIh7o8OKsWgD2Po9U2a+e1Xv874K8=;
+ b=R12gzbmw1UGo4WvBuyPQ5QHXXUei73ZRCILEoP2ZkV4AeZ5pCfANPCadghhHKbgKavJRB2
+ N69zaOFJlSXJB9or+54mx4Yk04tbHR5iuqMgNpcXbPiz4T9OYB4xUGV5QuuR4lAYyNyioH
+ utlB76XLOKEQWYlTbrNQnZ0ajlFHp3c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-l44BIDwrOVyotFmGwLC0XA-1; Mon, 21 Sep 2020 14:09:37 -0400
-X-MC-Unique: l44BIDwrOVyotFmGwLC0XA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-271-89x0c1p1OJejixeFHGi20Q-1; Mon, 21 Sep 2020 14:09:59 -0400
+X-MC-Unique: 89x0c1p1OJejixeFHGi20Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73702800135;
- Mon, 21 Sep 2020 18:09:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E194F18BA280;
+ Mon, 21 Sep 2020 18:09:58 +0000 (UTC)
 Received: from redhat.com (ovpn-113-113.ams2.redhat.com [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E4CD110013DB;
- Mon, 21 Sep 2020 18:09:30 +0000 (UTC)
-Date: Mon, 21 Sep 2020 19:09:27 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DFAC73688;
+ Mon, 21 Sep 2020 18:09:53 +0000 (UTC)
+Date: Mon, 21 Sep 2020 19:09:50 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 6/7] gitlab-ci: Increase the timeout for the
- cross-compiler builds
-Message-ID: <20200921180927.GY1942072@redhat.com>
+Subject: Re: [PATCH 7/7] configure: Bump the minimum required Python version
+ to 3.6
+Message-ID: <20200921180950.GZ1942072@redhat.com>
 References: <20200921174320.46062-1-thuth@redhat.com>
- <20200921174320.46062-7-thuth@redhat.com>
+ <20200921174320.46062-8-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200921174320.46062-7-thuth@redhat.com>
+In-Reply-To: <20200921174320.46062-8-thuth@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,17 +63,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 01:44:53
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,36 +96,18 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 21, 2020 at 07:43:19PM +0200, Thomas Huth wrote:
-> Some of the cross-compiler builds (the mips build and the win64 build
-> for example) are quite slow and sometimes hit the 1h time limit.
-> Increase the limit a little bit to make sure that we do not get failures
-> in the CI runs just because of some few minutes.
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
+On Mon, Sep 21, 2020 at 07:43:20PM +0200, Thomas Huth wrote:
+> All our supported build platforms have Python 3.6 or newer nowadays,
+> and there are some useful features in Python 3.6 which are not available
+> in 3.5 yet, so let's bump the minimum Python version to 3.6 now.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  .gitlab-ci.d/crossbuilds.yml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index 510cfec03b..03ebfabb3f 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -2,6 +2,7 @@
->  .cross_system_build_job_template: &cross_system_build_job_definition
->    stage: build
->    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-> +  timeout: 80m
->    script:
->      - mkdir build
->      - cd build
-> -- 
-> 2.18.2
-> 
+>  configure | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 
 Regards,
 Daniel
