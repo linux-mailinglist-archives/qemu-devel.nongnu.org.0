@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959522719B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 05:55:14 +0200 (CEST)
-Received: from localhost ([::1]:57036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE61A2719B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 05:57:53 +0200 (CEST)
+Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKCv3-00065z-MI
-	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 23:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55104)
+	id 1kKCxc-0000G5-Ss
+	for lists+qemu-devel@lfdr.de; Sun, 20 Sep 2020 23:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKCsy-0004LU-IR; Sun, 20 Sep 2020 23:53:04 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52689)
+ id 1kKCsz-0004N1-Rd; Sun, 20 Sep 2020 23:53:05 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kKCsx-0002zY-23; Sun, 20 Sep 2020 23:53:04 -0400
-Received: by mail-wm1-x329.google.com with SMTP id q9so10701963wmj.2;
- Sun, 20 Sep 2020 20:53:02 -0700 (PDT)
+ id 1kKCsy-00030A-8T; Sun, 20 Sep 2020 23:53:05 -0400
+Received: by mail-wm1-x343.google.com with SMTP id b79so11040596wmb.4;
+ Sun, 20 Sep 2020 20:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dcCXq9EmDF/ND5OQIcbMSYGFUbh9qfqOjQv8VK2LW0A=;
- b=ZXz6++ulUuofMXLwMdkIFvVYbVfptOwYGMHDECsZA2fVY/cXk4fKyoqg8+K8RGdTVV
- WMFFpIPcfH3iP4DO1Gzeo3RY1gpQrkwrzpUc27+vRG03RExbSU/QWPUpwpu5N+pnYky5
- dchThiTyq1ovWX4xeYh6Qz0Sc30T09qD49SAUacGFsqaMHY7HBrMMc1UpPUGoA1Nq7Mt
- d8FhUvZcyF3qojmnUC6gTXJypfbIi1m2iuWi5p5AEKIp6lAan2FV0G3668A3Tkrr+0ZK
- jPvp0qaYollresdg8LSy2rxK5IGt/3Rn66drq2WT5eXUre5vkSj7zS8qtSzGwEPFI9i1
- galg==
+ bh=3AjXG5w656FN23Be/Hsok/QAzJiXXjNLyOG7YnfgnNo=;
+ b=h9H0UvxpYdAmTGw6vkfHy7CmkRryqCaWAqDtjFWiieXT0tTd8zXqbgazKrzULUMSxk
+ Bf0BEGMwtchgO/GB2VcMHDEh31tQYb/lWClxzjmpXW+VKvyyYK5CvYrM0CRgvneHfOoy
+ Ga3am9DlOn/aHP2HFatMIULVg8tSBMHwldtR4KjlqEHjvsxo72oZNlULzVhM+6lO9YZg
+ qi1ZKCd1gSHwK6oL2SqVv4kZdKVe7qWr0XW3o4oVoFpjLDNDhUmba8pCNlDHUBHitYau
+ EMwQ6wJqGxQJJ/PQFVZiyxuCrHFfd8fN2KAx4RNEJDIDpIAMCUfKifZbV1EtGYVfwKWV
+ 9zag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dcCXq9EmDF/ND5OQIcbMSYGFUbh9qfqOjQv8VK2LW0A=;
- b=djpNlScLbbQkNACaULGzjUm4BwhTfmyF959u710laNaw2Pzcz5FM57WjeaQzKPWzjS
- oA/AP05fDWUlcCMjRXVSPukyegupQdjFvhi83skQzMg+rQXV8npl7nI3lz3PwH3n8lad
- pIKrEKMkhgUJJK+R86NCwe9nfYbg8pHOzXT7N5FH1xPs8u44+msgnYnHEJFG3+AjQLaI
- JOyUyBPFGMpjubqEfThppKGZHvYKnKo9i9e10GAKZ8/6KQgoFb6JnVtjAZSzGOGJU7oc
- 3IgilE1x1jcLYxJFPgsO1mLdnqVhjiWlc6B+YsUNbNj/P69pimr1scvX/8q6M/73WuCq
- TJyw==
-X-Gm-Message-State: AOAM531Y64IbMNQbZf5QR8760nJ5q195wDsjJrPjnvcJ194yQbjnAR3X
- jypFbsjSLirUTIQ1xNTbXjEvEAuU5K8=
-X-Google-Smtp-Source: ABdhPJwRl3Z5WIikTR6gR38co3WDSTZo81ph0bORf7hpIY/ds2mvi4K2+q+lEmrWAxcDsY8qPqIWYA==
-X-Received: by 2002:a1c:7e15:: with SMTP id z21mr27599378wmc.21.1600660381007; 
- Sun, 20 Sep 2020 20:53:01 -0700 (PDT)
+ bh=3AjXG5w656FN23Be/Hsok/QAzJiXXjNLyOG7YnfgnNo=;
+ b=R4mx3/xIJB7PVGxVuGQZt0tOpW5tPbYA4VW5KoDZq1M8cys2/BO6s6dOHv26HKGycb
+ t+DTOZbJpWjkoSBHuyQVh2Nh38btZn76kVslx/NBrWs7I1izjs0y9IXbHNV8q4ChpXhR
+ BsDEJrbDKqDgQTIiB+IPrXjNAmMQ4kkmRIbdspKiLwNpqBN3kfiA/pWCde4FdpIvulvT
+ aK/G5aG2L2Bxtn0yooWveM3bUjZp/FU/+yybZOZKSUMOpjjgWThp4ugghgFjfg7bGZAA
+ dGtlOrKeOXrGTBj75WNJnRPZUaps0vxglDclJCEuSqgiG1RW1RJEawNWSrS0vLDJsBBW
+ 3GyA==
+X-Gm-Message-State: AOAM53376cRRkaM1HbANQ6AUtQHZPWafiz+9i53ZO09e2VEdjbdm1qo5
+ EvEd3ZeA9KIrc3W+l7rgF8zjv1ANWLE=
+X-Google-Smtp-Source: ABdhPJwUmv0Zim/84lID1wmhTMas5abQoKCPogiScrn4qGrqI3NqShPh9tuOcE8ERtoXqNeqWKuDMQ==
+X-Received: by 2002:a7b:c8c9:: with SMTP id f9mr28700692wml.67.1600660382318; 
+ Sun, 20 Sep 2020 20:53:02 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a17sm19633754wra.24.2020.09.20.20.52.59
+ by smtp.gmail.com with ESMTPSA id a17sm19633754wra.24.2020.09.20.20.53.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Sep 2020 20:53:00 -0700 (PDT)
+ Sun, 20 Sep 2020 20:53:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
-Date: Mon, 21 Sep 2020 05:52:53 +0200
-Message-Id: <20200921035257.434532-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/5] hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT
+ definition
+Date: Mon, 21 Sep 2020 05:52:54 +0200
+Message-Id: <20200921035257.434532-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200921035257.434532-1-f4bug@amsat.org>
 References: <20200921035257.434532-1-f4bug@amsat.org>
@@ -62,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,62 +96,51 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add trace events for GPU and CPU IRQs.
+Use the BCM2835_SYSTIMER_COUNT definition instead of the
+magic '4' value.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/bcm2835_ic.c | 4 +++-
- hw/intc/trace-events | 4 ++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ include/hw/timer/bcm2835_systmr.h | 4 +++-
+ hw/timer/bcm2835_systmr.c         | 3 ++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/bcm2835_ic.c b/hw/intc/bcm2835_ic.c
-index 53ab8f58810..9000d995e81 100644
---- a/hw/intc/bcm2835_ic.c
-+++ b/hw/intc/bcm2835_ic.c
-@@ -18,6 +18,7 @@
- #include "migration/vmstate.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "trace.h"
+diff --git a/include/hw/timer/bcm2835_systmr.h b/include/hw/timer/bcm2835_systmr.h
+index 64166bd7120..11272837a6b 100644
+--- a/include/hw/timer/bcm2835_systmr.h
++++ b/include/hw/timer/bcm2835_systmr.h
+@@ -18,6 +18,8 @@ typedef struct BCM2835SystemTimerState BCM2835SystemTimerState;
+ DECLARE_INSTANCE_CHECKER(BCM2835SystemTimerState, BCM2835_SYSTIMER,
+                          TYPE_BCM2835_SYSTIMER)
  
- #define GPU_IRQS 64
- #define ARM_IRQS 8
-@@ -51,7 +52,6 @@ static void bcm2835_ic_update(BCM2835ICState *s)
-     set = (s->gpu_irq_level & s->gpu_irq_enable)
-         || (s->arm_irq_level & s->arm_irq_enable);
-     qemu_set_irq(s->irq, set);
--
- }
- 
- static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
-@@ -59,6 +59,7 @@ static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
-     BCM2835ICState *s = opaque;
- 
-     assert(irq >= 0 && irq < 64);
-+    trace_bcm2835_ic_set_gpu_irq(irq, level);
-     s->gpu_irq_level = deposit64(s->gpu_irq_level, irq, 1, level != 0);
-     bcm2835_ic_update(s);
- }
-@@ -68,6 +69,7 @@ static void bcm2835_ic_set_arm_irq(void *opaque, int irq, int level)
-     BCM2835ICState *s = opaque;
- 
-     assert(irq >= 0 && irq < 8);
-+    trace_bcm2835_ic_set_cpu_irq(irq, level);
-     s->arm_irq_level = deposit32(s->arm_irq_level, irq, 1, level != 0);
-     bcm2835_ic_update(s);
- }
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 527c3f76cae..22782b3f089 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -199,3 +199,7 @@ nvic_sysreg_write(uint64_t addr, uint32_t value, unsigned size) "NVIC sysreg wri
- heathrow_write(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
- heathrow_read(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
- heathrow_set_irq(int num, int level) "set_irq: num=0x%02x level=%d"
++#define BCM2835_SYSTIMER_COUNT 4
 +
-+# bcm2835_ic.c
-+bcm2835_ic_set_gpu_irq(int irq, int level) "GPU irq #%d level %d"
-+bcm2835_ic_set_cpu_irq(int irq, int level) "CPU irq #%d level %d"
+ struct BCM2835SystemTimerState {
+     /*< private >*/
+     SysBusDevice parent_obj;
+@@ -28,7 +30,7 @@ struct BCM2835SystemTimerState {
+ 
+     struct {
+         uint32_t status;
+-        uint32_t compare[4];
++        uint32_t compare[BCM2835_SYSTIMER_COUNT];
+     } reg;
+ };
+ 
+diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+index 3387a6214a2..ff8c5536610 100644
+--- a/hw/timer/bcm2835_systmr.c
++++ b/hw/timer/bcm2835_systmr.c
+@@ -134,7 +134,8 @@ static const VMStateDescription bcm2835_systmr_vmstate = {
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(reg.status, BCM2835SystemTimerState),
+-        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState, 4),
++        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState,
++                             BCM2835_SYSTIMER_COUNT),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 -- 
 2.26.2
 
