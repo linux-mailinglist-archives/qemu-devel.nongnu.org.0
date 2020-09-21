@@ -2,76 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2E52723F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:33:25 +0200 (CEST)
-Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4D7272402
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Sep 2020 14:36:37 +0200 (CEST)
+Received: from localhost ([::1]:33878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKL0W-0002U9-TM
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
+	id 1kKL3c-0006Iu-FU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 08:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kKKtz-00054i-67
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:26:39 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25640
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kKKtv-0000Hs-CI
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:26:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600691194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fp4Dqk5F09EHvZ8x/DZST0uz2UViw+AHL0qVru9TkZY=;
- b=hqYBfRbJobZ4AbaAiv1Uw5VNrkDQg2EXuh7fOoceflzftQRQiIgCtqxPOihetsK7khNS3P
- gwStBL/3t68aB/2+8Re6Ii0PqASzlzNkBONmJ2zqpbzsKx5G499M2IQmrpCrvNSmMCNIhM
- kh27ukNNsBZ0R/DhcOx5Yuiz9n4Ait8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-8fjNlrujPEiegtdMYlvdUw-1; Mon, 21 Sep 2020 08:26:32 -0400
-X-MC-Unique: 8fjNlrujPEiegtdMYlvdUw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67F0110BBECA;
- Mon, 21 Sep 2020 12:26:31 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-113-150.ams2.redhat.com
- [10.36.113.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0495578825;
- Mon, 21 Sep 2020 12:26:18 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH v5 4/4] vhost-vsock-ccw: force virtio version 1
-Date: Mon, 21 Sep 2020 14:25:06 +0200
-Message-Id: <20200921122506.82515-5-sgarzare@redhat.com>
-In-Reply-To: <20200921122506.82515-1-sgarzare@redhat.com>
-References: <20200921122506.82515-1-sgarzare@redhat.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1kKKwJ-0007U8-F9
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:29:03 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36336)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1kKKwH-0000R7-6W
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 08:29:03 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08LCDh6K013468; Mon, 21 Sep 2020 08:28:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=+x9X6bupAgc2IksDqVNyfDddO1DhtBLWIkEqfjhE/vw=;
+ b=aNd00OG/5hBUvZyUfB6TX0QATFwqHmhOlV7Wg0jGRMbK5cJ68ZMBiRKEDFFfS9ESL7lF
+ cHXGCUI/nzMUbYf3a+m5T0DYWqpFDszG31PJUsIS64fbXgLiOCamQbnedXlGlU3kW8p4
+ wpznej3gTWsI7fLzpVrk/BPtIBIsVOqjUr0xHcklWjy1SEwuFZegJPhecsweKg9ciyEc
+ nM4PyaSDxgGak/ybld11VSQ0Nbxt3w9KXSwMBSj/bfZ7qfh0rifOKmVmSDMGiZhrV25T
+ ycqmmzx2aTmakFYwJfEGUZYICy2Fja+/xUztUs5wli7z8+AEaDMxTmRtB+gd2IC0JP1Q mA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33pv080du2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Sep 2020 08:28:57 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08LCDgdn013155;
+ Mon, 21 Sep 2020 08:28:56 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33pv080dsw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Sep 2020 08:28:56 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08LCRSC7031630;
+ Mon, 21 Sep 2020 12:28:54 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04fra.de.ibm.com with ESMTP id 33n9m7s1p1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Sep 2020 12:28:54 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 08LCSoLr16777692
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Sep 2020 12:28:50 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D519C52052;
+ Mon, 21 Sep 2020 12:28:51 +0000 (GMT)
+Received: from [9.65.232.226] (unknown [9.65.232.226])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 356E85204E;
+ Mon, 21 Sep 2020 12:28:49 +0000 (GMT)
+Subject: Re: [PATCH] migration: Truncate state file in xen-save-devices-state
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, sstabellini@kernel.org,
+ anthony.perard@citrix.com
+References: <20200921094830.114028-1-dovmurik@linux.vnet.ibm.com>
+ <20200921111723.GF3221@work-vm>
+From: Dov Murik <dovmurik@linux.vnet.ibm.com>
+Message-ID: <f1ae6a96-322d-faaf-7ab8-1481cffa7aa7@linux.vnet.ibm.com>
+Date: Mon, 21 Sep 2020 15:28:48 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 03:43:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20200921111723.GF3221@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-21_03:2020-09-21,
+ 2020-09-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 phishscore=0
+ impostorscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0
+ suspectscore=0 malwarescore=0 spamscore=0 mlxscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009210089
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 08:28:59
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,61 +112,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Qinghua Cheng <qcheng@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Qian Cai <caiqian@redhat.com>, qemu-stable@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio-vsock was introduced after the release of VIRTIO 1.0
-specifications, so it should be 'modern-only'.
 
-This patch forces virtio version 1 as done for vhost-vsock-pci.
 
-To avoid migration issues, we force virtio version 1 only when
-legacy check is enabled in the new machine types (>= 5.1).
+On 21/09/2020 14:17, Dr. David Alan Gilbert wrote:
+> * Dov Murik (dovmurik@linux.vnet.ibm.com) wrote:
+>> When running the xen-save-devices-state QMP command, if the filename
+>> already exists it will be truncated before dumping the devices' state
+>> into it.
+>>
+>> Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+>> ---
+> 
+> OK, that looks fine to me, so:
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+>>
+>> Note that I found the above issue while trying to debug
+>> xen-load-devices-state which simply fails (prints "Configuration section
+>> missing" to stderr) directly after xen-save-devices-state (in the same
+>> VM).  I wonder if I should file a bug report as-is or investigate some
+>> more.  Advice welcome.
+> 
+> I don't try the xen-* commands normally; I've cc'ing in Stefano and
+> Anthony.
 
-Cc: qemu-stable@nongnu.org
-Suggested-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
-v3:
- - forced virtio version 1 only with new machine types
----
- hw/s390x/vhost-vsock-ccw.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Thanks Dave.  Just to be clear, I'm running this without Xen at all; but
+these commands seem to work OK for dumping/restoring guest's devices
+state (without RAM) -- if I modify the code to circumvent the mentioned
+problem.
 
-diff --git a/hw/s390x/vhost-vsock-ccw.c b/hw/s390x/vhost-vsock-ccw.c
-index 0822ecca89..246416a8f9 100644
---- a/hw/s390x/vhost-vsock-ccw.c
-+++ b/hw/s390x/vhost-vsock-ccw.c
-@@ -40,9 +40,21 @@ static void vhost_vsock_ccw_class_init(ObjectClass *klass, void *data)
- static void vhost_vsock_ccw_instance_init(Object *obj)
- {
-     VHostVSockCCWState *dev = VHOST_VSOCK_CCW(obj);
-+    VirtioCcwDevice *ccw_dev = VIRTIO_CCW_DEVICE(obj);
-+    VirtIODevice *virtio_dev;
- 
-     virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-                                 TYPE_VHOST_VSOCK);
-+
-+    virtio_dev = VIRTIO_DEVICE(&dev->vdev);
-+
-+    /*
-+     * To avoid migration issues, we force virtio version 1 only when
-+     * legacy check is enabled in the new machine types (>= 5.1).
-+     */
-+    if (!virtio_legacy_check_disabled(virtio_dev)) {
-+        ccw_dev->force_revision_1 = true;
-+    }
- }
- 
- static const TypeInfo vhost_vsock_ccw_info = {
--- 
-2.26.2
+Dov
 
+> 
+> Dave
+> 
+>>
+>> -Dov
+>>
+>> ---
+>>   migration/savevm.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/migration/savevm.c b/migration/savevm.c
+>> index 304d98ff78..e1b26672cc 100644
+>> --- a/migration/savevm.c
+>> +++ b/migration/savevm.c
+>> @@ -2803,7 +2803,8 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+>>       vm_stop(RUN_STATE_SAVE_VM);
+>>       global_state_store_running();
+>>   
+>> -    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT, 0660, errp);
+>> +    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT | O_TRUNC,
+>> +                                    0660, errp);
+>>       if (!ioc) {
+>>           goto the_end;
+>>       }
+>> -- 
+>> 2.20.1
+>>
 
