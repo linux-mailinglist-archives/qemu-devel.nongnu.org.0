@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A3E273ECA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:47:00 +0200 (CEST)
-Received: from localhost ([::1]:48740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825FC273E9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:33:14 +0200 (CEST)
+Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKet1-0004BJ-1f
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42362)
+	id 1kKefh-0006NM-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kKeoh-0008Av-FC
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:42:31 -0400
-Received: from mga11.intel.com ([192.55.52.93]:64260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kKeof-0008QL-MP
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:42:31 -0400
-IronPort-SDR: BxImpKJwBpOIYeRSJEb9WZ4C+2ur3/45eXzaBsic6ahvfxHw0waCuNnmKmoIXYusl+pRl9T5jT
- 75RHSCm5uOFg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="157947015"
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; d="scan'208";a="157947015"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2020 02:42:28 -0700
-IronPort-SDR: oH53HOW+Tg2JO2wYxA107xA81KstdBLDGU/HgV4bKh1CIi53UTNq8EIfJNh+08wEkPALNXS4Tj
- CHNzswQE6f6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,290,1596524400"; d="scan'208";a="348424046"
-Received: from unknown (HELO localhost.localdomain.bj.intel.com)
- ([10.240.192.103])
- by orsmga007.jf.intel.com with ESMTP; 22 Sep 2020 02:42:26 -0700
-From: leirao <lei.rao@intel.com>
-To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v2 3/3] Fix the qemu crash when guest shutdown in COLO mode
-Date: Tue, 22 Sep 2020 05:24:50 -0400
-Message-Id: <1600766690-94980-4-git-send-email-lei.rao@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1600766690-94980-1-git-send-email-lei.rao@intel.com>
-References: <1600766690-94980-1-git-send-email-lei.rao@intel.com>
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=lei.rao@intel.com;
- helo=mga11.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 05:42:20
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kKecM-0003Fw-Vf
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:29:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35213)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kKecE-0006VA-EA
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:29:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600766976;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3GgwqzX7XMBe7c0URWFwkkHtsTYTiI3bXMAq9ylSl+o=;
+ b=NITWVlbVNvJp+/+OErTAnNoZ51xMxl71brJkujq7IT5K+K3wGQIIWud+bOOdOMs7nXtBzp
+ BCaPPm8V4A4+i8wbw8+PGWrcwa0jjz+ClgQYC4vO0ufXpRwBL4xuAFLgJpgEb/K9ZGOK22
+ m6tV1oje3R12EcsOp5+RTdXl3vMTxnc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-566-FujbP47UM5O5LNOdhWyaCg-1; Tue, 22 Sep 2020 05:29:31 -0400
+X-MC-Unique: FujbP47UM5O5LNOdhWyaCg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15364186DD26;
+ Tue, 22 Sep 2020 09:29:30 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-36.sin2.redhat.com
+ [10.67.117.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 67AF229676;
+ Tue, 22 Sep 2020 09:29:26 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: [PATCH v2] fdc: check null block pointer before r/w data transfer
+Date: Tue, 22 Sep 2020 14:57:22 +0530
+Message-Id: <20200922092722.344518-1-ppandit@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,37 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: leirao <lei.rao@intel.com>, qemu-devel@nongnu.org
+Cc: Ruhr-University <bugs-syssec@rub.de>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In COLO mode, if the startup parameters of QEMU include "no-shutdown",
-QEMU will crash when the guest shutdown. The root cause is when the
-guest shutdown, the state of VM will switch COLO to SHUTDOWN. When do
-checkpoint again, the state will be changed to COLO. But the state
-switch is undefined in runstate_transitions_def, we should add it.
-This patch fixes the following:
-qemu-system-x86_64: invalid runstate transition: 'shutdown' -> 'colo'
-Aborted
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Signed-off-by: leirao <lei.rao@intel.com>
+While transferring data via fdctrl_read/write_data() routines,
+check that current drive does not have a null block pointer.
+Avoid null pointer dereference.
+
+ -> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Ffdc_nullptr1
+    ==1658854==Hint: address points to the zero page.
+    #0 blk_inc_in_flight block/block-backend.c:1327
+    #1 blk_prw block/block-backend.c:1299
+    #2 blk_pwrite block/block-backend.c:1464
+    #3 fdctrl_write_data hw/block/fdc.c:2418
+    #4 fdctrl_write hw/block/fdc.c:962
+    #5 portio_write ioport.c:205
+    #6 memory_region_write_accessor memory.c:483
+    #7 access_with_adjusted_size memory.c:544
+    #8 memory_region_dispatch_write memory.c:1476
+
+Reported-by: Ruhr-University <bugs-syssec@rub.de>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- softmmu/vl.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/block/fdc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index f7b1034..c21606c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -631,6 +631,7 @@ static const RunStateTransition runstate_transitions_def[] = {
-     { RUN_STATE_SHUTDOWN, RUN_STATE_PAUSED },
-     { RUN_STATE_SHUTDOWN, RUN_STATE_FINISH_MIGRATE },
-     { RUN_STATE_SHUTDOWN, RUN_STATE_PRELAUNCH },
-+    { RUN_STATE_SHUTDOWN, RUN_STATE_COLO },
- 
-     { RUN_STATE_DEBUG, RUN_STATE_SUSPENDED },
-     { RUN_STATE_RUNNING, RUN_STATE_SUSPENDED },
--- 
-1.8.3.1
+Update v2: treat NULL blk pointer as an error
+  -> https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg06642.html
+
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 224bac504f..bf968dc66f 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -1923,7 +1923,8 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
+                                    fd_sector(cur_drv));
+                     return 0;
+                 }
+-            if (blk_pread(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
++            if (!cur_drv->blk
++                || blk_pread(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+                           BDRV_SECTOR_SIZE)
+                 < 0) {
+                 FLOPPY_DPRINTF("error getting sector %d\n",
+@@ -2427,7 +2428,8 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
+         if (pos == FD_SECTOR_LEN - 1 ||
+             fdctrl->data_pos == fdctrl->data_len) {
+             cur_drv = get_cur_drv(fdctrl);
+-            if (blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
++            if (!cur_drv->blk
++                || blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+                            BDRV_SECTOR_SIZE, 0) < 0) {
+                 FLOPPY_DPRINTF("error writing sector %d\n",
+                                fd_sector(cur_drv));
+--
+2.26.2
 
 
