@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0DA27407F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:11:11 +0200 (CEST)
-Received: from localhost ([::1]:37494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC10274087
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:13:48 +0200 (CEST)
+Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKgCU-0007AJ-BS
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
+	id 1kKgF1-0002OQ-At
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfsx-0001Ng-Dk
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:50:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34333)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKft1-0001XO-5V
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:51:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfst-0000nP-ML
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:50:59 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfsz-0000oA-4P
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:51:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600771855;
+ s=mimecast20190719; t=1600771860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ea+fAxd76C35M69AMFmG807EWQmuEAGwHDLdotk1wII=;
- b=i4sKxCohazqmQlNoqB+lqm1+8+H4EcEPfT4abvEZj8Bjte+5YFsiMvPnD24XfuceWzJoFh
- wyCxq6XQvhXy/vxrI39CWAFDI09wVvCCrJVl8Dw6DQtzrfeTqxbIDTx22Dp0VVDnqdq1sI
- ZAtMRbeo6BsWyzpQD29hxQPDzMoyofg=
+ bh=Hnj3PSRtLOsHp9ec4/iMuR+OvApwM2qEmtwfQx+hol0=;
+ b=D8+36IOGX+p4xGhvJrUyyM5k1+IbGqEzMI4kawBz3lZzbNOznWt2VhzrMNSXRgmDozN2tY
+ wvyO8wJchPqPKlc+JfrY+9c7IyrizPk08ELQXUq+Wo9ccUv1X2k1uFl5UaQm6dCLzQV8AY
+ +OLlqp3ENXFsgbrHdZSpie4TTmfCskc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-qR_5u4mlMg2ZWNeAQdcvqw-1; Tue, 22 Sep 2020 06:50:51 -0400
-X-MC-Unique: qR_5u4mlMg2ZWNeAQdcvqw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-567-oQ6tuRm6NHe59JC-tTsvTg-1; Tue, 22 Sep 2020 06:50:56 -0400
+X-MC-Unique: oQ6tuRm6NHe59JC-tTsvTg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51EB91084C80;
- Tue, 22 Sep 2020 10:50:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57E2964082;
+ Tue, 22 Sep 2020 10:50:55 +0000 (UTC)
 Received: from localhost (ovpn-114-26.ams2.redhat.com [10.36.114.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF27D5DA7B;
- Tue, 22 Sep 2020 10:50:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 238CF5C1DC;
+ Tue, 22 Sep 2020 10:50:51 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 16/20] storage-daemon: Call bdrv_close_all() on exit
-Date: Tue, 22 Sep 2020 12:49:28 +0200
-Message-Id: <20200922104932.46384-17-mreitz@redhat.com>
+Subject: [PATCH v2 17/20] iotests: Give access to the qemu-storage-daemon
+Date: Tue, 22 Sep 2020 12:49:29 +0200
+Message-Id: <20200922104932.46384-18-mreitz@redhat.com>
 In-Reply-To: <20200922104932.46384-1-mreitz@redhat.com>
 References: <20200922104932.46384-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,29 +83,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Otherwise, exports and block devices are not properly shut down and
-closed, unless the users explicitly issues blockdev-del and
-block-export-del commands for each of them.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- storage-daemon/qemu-storage-daemon.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qemu-iotests/check     | 11 +++++++++++
+ tests/qemu-iotests/common.rc | 17 +++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index e6157ff518..0b6d469751 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -324,6 +324,9 @@ int main(int argc, char *argv[])
-         main_loop_wait(false);
-     }
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index e14a1f354d..467a7cf1b7 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -644,6 +644,17 @@ if [ -z $QEMU_NBD_PROG ]; then
+ fi
+ export QEMU_NBD_PROG="$(type -p "$QEMU_NBD_PROG")"
  
-+    bdrv_drain_all_begin();
-+    bdrv_close_all();
++if [ -z "$QEMU_STGD_PROG" ]; then
++    if [ -x "$build_iotests/qemu-storage-daemon" ]; then
++        export QEMU_STGD_PROG="$build_iotests/qemu-storage-daemon"
++    elif [ -x "$build_root/storage-daemon/qemu-storage-daemon" ]; then
++        export QEMU_STGD_PROG="$build_root/storage-daemon/qemu-storage-daemon"
++    else
++        _init_error "qemu-storage-daemon not found"
++    fi
++fi
++export QEMU_STGD_PROG="$(type -p "$QEMU_STGD_PROG")"
 +
-     monitor_cleanup();
-     qemu_chr_cleanup();
-     user_creatable_cleanup();
+ if [ -x "$build_iotests/socket_scm_helper" ]
+ then
+     export SOCKET_SCM_HELPER="$build_iotests/socket_scm_helper"
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 23f46da2db..e4751d4985 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -124,6 +124,7 @@ fi
+ : ${VALGRIND_QEMU_IMG=$VALGRIND_QEMU}
+ : ${VALGRIND_QEMU_IO=$VALGRIND_QEMU}
+ : ${VALGRIND_QEMU_NBD=$VALGRIND_QEMU}
++: ${VALGRIND_QEMU_STGD=$VALGRIND_QEMU}
+ 
+ # The Valgrind own parameters may be set with
+ # its environment variable VALGRIND_OPTS, e.g.
+@@ -211,6 +212,21 @@ _qemu_nbd_wrapper()
+     return $RETVAL
+ }
+ 
++_qemu_storage_daemon_wrapper()
++{
++    local VALGRIND_LOGFILE="${TEST_DIR}"/$$.valgrind
++    (
++        if [ -n "${QEMU_STGD_NEED_PID}" ]; then
++            echo $BASHPID > "${QEMU_TEST_DIR}/qemu-storage-daemon.pid"
++        fi
++        VALGRIND_QEMU="${VALGRIND_QEMU_STGD}" _qemu_proc_exec "${VALGRIND_LOGFILE}" \
++            "$QEMU_STGD_PROG" $QEMU_STGD_OPTIONS "$@"
++    )
++    RETVAL=$?
++    _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
++    return $RETVAL
++}
++
+ # Valgrind bug #409141 https://bugs.kde.org/show_bug.cgi?id=409141
+ # Until valgrind 3.16+ is ubiquitous, we must work around a hang in
+ # valgrind when issuing sigkill. Disable valgrind for this invocation.
+@@ -223,6 +239,7 @@ export QEMU=_qemu_wrapper
+ export QEMU_IMG=_qemu_img_wrapper
+ export QEMU_IO=_qemu_io_wrapper
+ export QEMU_NBD=_qemu_nbd_wrapper
++export QEMU_STGD=_qemu_storage_daemon_wrapper
+ 
+ if [ "$IMGOPTSSYNTAX" = "true" ]; then
+     DRIVER="driver=$IMGFMT"
 -- 
 2.26.2
 
