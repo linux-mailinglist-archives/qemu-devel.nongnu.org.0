@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DFD273FC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:40:52 +0200 (CEST)
-Received: from localhost ([::1]:43422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868CC273FCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:42:25 +0200 (CEST)
+Received: from localhost ([::1]:50418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKfj9-0006Ht-12
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:40:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54488)
+	id 1kKfke-0000r7-HZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaV-0004N7-7V
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29951)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKfbK-0005mi-6k
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:32:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaS-0006T1-Iu
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kKfbI-0006XK-8h
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:32:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600770711;
+ s=mimecast20190719; t=1600770763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=woNXgy+g6diIx3edLt4lKkiGEuXFcC6Qn4PHaQTNE9g=;
- b=IQsi3VgDef5U0gX/1YOtDi9qtD/XlCxXi1hTZ0xbPsysEX0j7y0r1KZEfu9QI3AQekgUNL
- XWGev6WUtT6wm4Uq1531ae/JpyAgncPBVvUtqcZa/91oocTu0OW1wde8k2KeNBrJYdpGiP
- lyFcrmA/X0ddQKi12TM9HMyVdMdy9vY=
+ bh=/NQROmubNRzjDNlUJtaBjm/wgwvnsgYrHOc9B0RolBQ=;
+ b=Wtu50vxnAhIHvOoIWGeSnpzHem8eWm1O4wlc+qm/yJZyQzCU8/kRBu3WozusmWvbRBG95B
+ KhI158tB4CYJkO7KMxQ53wTKtaPfn4LIciawisoP+zcSBEPX3huYKisNO1GiS+xtBMpIey
+ oe2ZjmLgM29wSYB4iRXH/2eLx745/xk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-hkJENZLJOM6Ut41kAIQmAg-1; Tue, 22 Sep 2020 06:31:49 -0400
-X-MC-Unique: hkJENZLJOM6Ut41kAIQmAg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-514-pFZbjvROPwi9ihyKJJtZMQ-1; Tue, 22 Sep 2020 06:32:41 -0400
+X-MC-Unique: pFZbjvROPwi9ihyKJJtZMQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3A751005E61;
- Tue, 22 Sep 2020 10:31:48 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-20.ams2.redhat.com [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75B6019C4F;
- Tue, 22 Sep 2020 10:31:47 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 8/8] s390x/tcg: Implement CIPHER MESSAGE WITH
- AUTHENTICATION (KMA)
-Date: Tue, 22 Sep 2020 12:31:29 +0200
-Message-Id: <20200922103129.12824-9-david@redhat.com>
-In-Reply-To: <20200922103129.12824-1-david@redhat.com>
-References: <20200922103129.12824-1-david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E625801AB5;
+ Tue, 22 Sep 2020 10:32:40 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-122.ams2.redhat.com [10.36.113.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDA875DA7B;
+ Tue, 22 Sep 2020 10:32:38 +0000 (UTC)
+Subject: Re: [PATCH 0/1] block: future of sheepdog storage driver ?
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200922090147.1993705-1-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <0073f0f8-2a59-9bad-3088-4790ec07fe31@redhat.com>
+Date: Tue, 22 Sep 2020 12:32:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200922090147.1993705-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,8 +68,9 @@ X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +83,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Liu Yuan <namei.unix@gmail.com>, sheepdog@lists.wpkg.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As with the other crypto functions, we only implement subcode 0 (query)
-and no actual encryption/decryption. We now implement S390_FEAT_MSA_EXT_8.
+On 22/09/2020 11.01, Daniel P. Berrangé wrote:
+[...]
+> Does someone have a compelling reason for QEMU to keep supporting
+> this driver, other than the fact that it already exists ?
+> 
+> If not, it looks like a candidate for deprecating in QEMU with a
+> view to later removing it.
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/gen-features.c | 1 +
- target/s390x/insn-data.def  | 1 +
- target/s390x/translate.c    | 7 +++++++
- 3 files changed, 9 insertions(+)
+I think you gave enough examples why this is a good candidate for
+deprecation. So I'd say: Simply send a patch to deprecate it. That's
+what's our deprecation process is good for. If someone still cares for
+sheepdog, they then can speak up and we can revert the patch that put it
+on the deprecation list.
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 1736b85ab0..8de18f7f41 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -717,6 +717,7 @@ static uint16_t qemu_MAX[] = {
-     /* features introduced after the z13 */
-     S390_FEAT_INSTRUCTION_EXEC_PROT,
-     S390_FEAT_MISC_INSTRUCTION_EXT,
-+    S390_FEAT_MSA_EXT_8,
- };
- 
- /****** END FEATURE DEFS ******/
-diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index bcd424e9ae..1ffdc20d59 100644
---- a/target/s390x/insn-data.def
-+++ b/target/s390x/insn-data.def
-@@ -979,6 +979,7 @@
-     D(0xb92d, KMCTR,   RRF_b, MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMCTR)
-     D(0xb92e, KM,      RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KM)
-     D(0xb92f, KMC,     RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMC)
-+    D(0xb929, KMA,     RRF_b, MSA8, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMA)
-     D(0xb93c, PPNO,    RRE,   MSA5, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_PPNO)
-     D(0xb93e, KIMD,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KIMD)
-     D(0xb93f, KLMD,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KLMD)
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index c90cb37aae..df549e59e9 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -2715,6 +2715,12 @@ static DisasJumpType op_msa(DisasContext *s, DisasOps *o)
-     TCGv_i32 t_r1, t_r2, t_r3, type;
- 
-     switch (s->insn->data) {
-+    case S390_FEAT_TYPE_KMA:
-+        if (r3 == r1 || r3 == r2) {
-+            gen_program_exception(s, PGM_SPECIFICATION);
-+            return DISAS_NORETURN;
-+        }
-+        /* FALL THROUGH */
-     case S390_FEAT_TYPE_KMCTR:
-         if (r3 & 1 || !r3) {
-             gen_program_exception(s, PGM_SPECIFICATION);
-@@ -6130,6 +6136,7 @@ enum DisasInsnEnum {
- #define FAC_MSA3        S390_FEAT_MSA_EXT_3 /* msa-extension-3 facility */
- #define FAC_MSA4        S390_FEAT_MSA_EXT_4 /* msa-extension-4 facility */
- #define FAC_MSA5        S390_FEAT_MSA_EXT_5 /* msa-extension-5 facility */
-+#define FAC_MSA8        S390_FEAT_MSA_EXT_8 /* msa-extension-8 facility */
- #define FAC_ECT         S390_FEAT_EXTRACT_CPU_TIME
- #define FAC_PCI         S390_FEAT_ZPCI /* z/PCI facility */
- #define FAC_AIS         S390_FEAT_ADAPTER_INT_SUPPRESSION
--- 
-2.26.2
+ Thomas
 
 
