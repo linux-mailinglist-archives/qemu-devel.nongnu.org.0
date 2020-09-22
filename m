@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1509273B6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 09:06:52 +0200 (CEST)
-Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D96E273B5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 09:03:21 +0200 (CEST)
+Received: from localhost ([::1]:37142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKcO3-00035r-V6
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 03:06:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58156)
+	id 1kKcKe-0006a3-AX
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 03:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <duanzhenzhong@jd.com>)
- id 1kKcC9-0001zI-5a
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 02:54:33 -0400
-Received: from smtp4.jd.com ([59.151.64.78]:2049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <duanzhenzhong@jd.com>)
- id 1kKcC1-0003c9-5J
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 02:54:31 -0400
-Received: from JDCloudMail10.360buyAD.local (172.31.68.43) by
- JDCloudMail16.360buyAD.local (172.31.68.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1847.3; Tue, 22 Sep 2020 14:47:40 +0800
-Received: from JDCloudMail10.360buyAD.local ([fe80::7489:42a2:4437:c234]) by
- JDCloudMail10.360buyAD.local ([fe80::7489:42a2:4437:c234%5]) with mapi id
- 15.01.1847.007; Tue, 22 Sep 2020 14:47:40 +0800
-To: "mst@redhat.com" <mst@redhat.com>, "tiwei.bie@intel.com"
- <tiwei.bie@intel.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Question about guest notification offload
-Thread-Topic: Question about guest notification offload
-Thread-Index: AdaQqRkooEfHrtFKS3u4T/9zU7Lj4A==
-Date: Tue, 22 Sep 2020 06:47:40 +0000
-Message-ID: <a4141e1402b6434896fc5949d33e3b06@jd.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.31.12.238]
-Content-Type: multipart/alternative;
- boundary="_000_a4141e1402b6434896fc5949d33e3b06jdcom_"
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kKcF4-0003dW-VH
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 02:57:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kKcEz-000425-Um
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 02:57:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600757848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q99VPgV8vXmQ4qrSDr09hOonSD3fsQ1DdpkynigjR5U=;
+ b=VZCMtcVdpohLb/VYaJRZQPsKPHF2EVAQ/QGqzFR59a95BUJ8g39nhJuiyYP5Gkf0mumTrK
+ zoCMlE7btn4GrhlzXinv8MvbfMPpyM8jSjKGzkquxaFoAhqx+ealW7Fdqu0RuLcJZ30qH/
+ Kz/dK1z9v/UoX3Ic0XQH7ARv0GOD0rw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-d_Wtj7oJNy6zQOstXwjxbg-1; Tue, 22 Sep 2020 02:57:24 -0400
+X-MC-Unique: d_Wtj7oJNy6zQOstXwjxbg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93C671074654;
+ Tue, 22 Sep 2020 06:57:23 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-3.ams2.redhat.com
+ [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CAE727BDC;
+ Tue, 22 Sep 2020 06:57:18 +0000 (UTC)
+Subject: Re: [PATCH] hw/arm/virt: use pflash image real size when mapping
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?B?aGFpYmluemhhbmco5byg5rW35paMKQ==?= <haibinzhang@tencent.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
+References: <790EEEF3-0799-4507-BF30-DA85440E766F@tencent.com>
+ <52eb89e8-3602-2a2a-df9e-66130bce4070@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <db1e1feb-aef0-e8c4-429b-61586106edec@redhat.com>
+Date: Tue, 22 Sep 2020 08:57:17 +0200
 MIME-Version: 1.0
-Received-SPF: pass client-ip=59.151.64.78; envelope-from=duanzhenzhong@jd.com;
- helo=smtp4.jd.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:47:41
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: 38
-X-Spam_score: 3.8
-X-Spam_bar: +++
-X-Spam_report: (3.8 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <52eb89e8-3602-2a2a-df9e-66130bce4070@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 22 Sep 2020 03:01:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,117 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Leif Lindholm <leif@nuviainc.com>, Ard Biesheuvel <Ard.Biesheuvel@arm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: 段振中 <duanzhenzhong@jd.com>
-From: 段振中 via <qemu-devel@nongnu.org>
 
---_000_a4141e1402b6434896fc5949d33e3b06jdcom_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+On 09/18/20 15:41, Philippe Mathieu-Daudé wrote:
+> Cc'ing firmware experts.
+> 
+> On 9/18/20 2:26 PM, haibinzhang(寮犳捣鏂�) wrote:
+>> Default size of arm-virt pflash image is 64MB which
+>> will cost extra 128MB(64MBx2) memory per qemu process
+>> and 12.5GB for 100 qemu processes. Host memory is
+>> precious and it is valuable to reduce pflash image size.
+>> For compatibility arm-virt uses real size when mapping.
+> 
+> Flash#0 is a device because eventually its model will handle
+> sector/block protection, so firmware can do CapsuleUpdate
+> (updating itself). Meanwhile you could treat flash#0 as a pure
+> ROM device... But this wouldn't be the 'arm-virt' machine anymore.
+> 
+>>
+>> Signed-off-by: Haibin Zhang <haibinzhang@tencent.com>
+>> ---
+>>  hw/arm/virt.c | 22 ++++++++++++++++++++--
+>>  1 file changed, 20 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index acf9bfbece..3545e12865 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -50,6 +50,7 @@
+>>  #include "sysemu/sysemu.h"
+>>  #include "sysemu/tpm.h"
+>>  #include "sysemu/kvm.h"
+>> +#include "sysemu/block-backend.h"
+>>  #include "hw/loader.h"
+>>  #include "exec/address-spaces.h"
+>>  #include "qemu/bitops.h"
+>> @@ -1001,10 +1002,27 @@ static void virt_flash_map(VirtMachineState *vms,
+>>       */
+>>      hwaddr flashsize = vms->memmap[VIRT_FLASH].size / 2;
+>>      hwaddr flashbase = vms->memmap[VIRT_FLASH].base;
+>> +    int64_t realsize;
+>> +    BlockBackend *blk;
+>>
+>> -    virt_flash_map1(vms->flash[0], flashbase, flashsize,
+>> +    realsize = flashsize;
+>> +    blk = pflash_cfi01_get_blk(vms->flash[0]);
+>> +    if (blk) {
+>> +        realsize = blk_getlength(blk);
+>> +        realsize = realsize < flashsize ? realsize : flashsize;
+>> +    }
+> 
+> Stefan recently posted "nvdimm: read-only file support" which
+> might be a better way to achieve what you want:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg741137.html
+> 
+>> +
+>> +    virt_flash_map1(vms->flash[0], flashbase, realsize,
+>>                      secure_sysmem);
+>> -    virt_flash_map1(vms->flash[1], flashbase + flashsize, flashsize,
+>> +
+>> +    realsize = flashsize;
+>> +    blk = pflash_cfi01_get_blk(vms->flash[1]);
+>> +    if (blk) {
+>> +        realsize = blk_getlength(blk);
+>> +        realsize = realsize < flashsize ? realsize : flashsize;
+>> +    }
+>> +
+>> +    virt_flash_map1(vms->flash[1], flashbase + flashsize, realsize,
+>>                      sysmem);
+>>  }
+>>
+>> --
+>> 2.23.0
+>>
+> 
 
-SGkgTWFpbnRhaW5lcnMsDQoNCkkgc2V0dXAgYSB2ZHBhIGRldmljZSBhbmQgd2FudCB0byB1c2Ug
-dGhlIGhvc3QgYW5kIGd1ZXN0IG5vdGlmaWNhdGlvbnMgb2ZmbG9hZCBmb3IgYmV0dGVyIHBlcmZv
-cm1hbmNlLg0KSG9zdCBub3RpZmljYXRpb24gb2ZmbG9hZCB3b3JrcyB3ZWxsIGJ1dCBzZWVtcyBn
-dWVzdCBub3RpZmljYXRpb24gb2ZmbG9hZCBpc26hr3Qgc3VwcG9ydGVkIGluIHFlbXUuDQoNCkkg
-c2VlIHRoZXJlIHdlcmUgZWZmb3J0IHRvIGFkZCB0aGUgc3VwcG9ydCBmb3IgYm90aCBpbiBiZWxv
-dyBsaW5rIHR3byB5ZWFycyBhZ28uDQpodHRwczovL2xpc3RzLm9hc2lzLW9wZW4ub3JnL2FyY2hp
-dmVzL3ZpcnRpby1kZXYvMjAxODAzL21zZzAwMzA4Lmh0bWwNCg0KSG9zdCBub3RpZmljYXRpb24g
-b2ZmbG9hZCBnb3QgaXRzIHdheSBpbiBmaW5hbGx5IGJ1dCBndWVzdCBub3RpZmljYXRpb24gb2Zm
-bG9hZCBub3QsIEmhr20gaW50ZXJlc3RlZCB0byBrbm93IHRoZSByZWFzb24NCmd1ZXN0IG5vdGlm
-aWNhdGlvbiBvZmZsb2FkIG1pc3NlZC4gQXBwcmVjaWF0ZSB5b3VyIHJlcGx5LiBUaGFua3MgdmVy
-eSBtdWNoLg0KDQpaaGVuemhvbmcNCg==
+We've been here before.
 
---_000_a4141e1402b6434896fc5949d33e3b06jdcom_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+  [Qemu-devel] [RFC PATCH] hw/arm/virt: use variable size of flash device to save memory
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:=B5=C8=CF=DF;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"\@=B5=C8=CF=DF";
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:=B5=C8=CF=DF;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:=B5=C8=CF=DF;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:=B5=C8=CF=DF;}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"text-justi=
-fy-trim:punctuation">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi Maintainers,<o:p></o:p></spa=
-n></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">I setup a vdpa device and want =
-to use the host and guest notifications offload for better performance.<o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Host notification offload works=
- well but seems guest notification offload isn=A1=AFt supported in qemu.<o:=
-p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">I see there were effort to add =
-the support for both in below link two years ago.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><a href=3D"https://lists.oasis-=
-open.org/archives/virtio-dev/201803/msg00308.html">https://lists.oasis-open=
-.org/archives/virtio-dev/201803/msg00308.html</a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US">H=
-ost notification offload got its way in finally but guest notification offl=
-oad not, I=A1=AFm interested to know the reason<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US">g=
-uest notification offload missed. Appreciate your reply. Thanks very much.<=
-o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US"><=
-o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US">Z=
-henzhong<o:p></o:p></span></p>
-</div>
-</body>
-</html>
+  https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg06773.html
+  http://mid.mail-archive.com/20190325125142.11628-1-zhengxiang9@huawei.com
 
---_000_a4141e1402b6434896fc5949d33e3b06jdcom_--
+I don't have anything to add.
+
+Laszlo
+
 
