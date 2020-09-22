@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481D8274C63
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:46:42 +0200 (CEST)
-Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23EC274C55
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:42:26 +0200 (CEST)
+Received: from localhost ([::1]:58060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKr3Z-0002NF-8i
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:46:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
+	id 1kKqzR-0004aw-PD
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt3-0004eP-Ld
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20171)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt8-0004qA-4L
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt1-0007fj-Rk
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:49 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt4-0007g6-E8
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814147;
+ s=mimecast20190719; t=1600814149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zf3U7GT859YgMsfNxOYBu76mnA//cyA3+FAGAPVPv3I=;
- b=AjQjGqgHcHXGl29WH8uf58vIRECV74wxpzaF327im3SrJQ6ClHcdEQml7WIP+mhMl0HMxw
- /49zxgelDhhoDwSw3Wda4PPLB9CCDRJyYG0wSqlz8spTWQ9Xwm3WA+xS/8hNbRF+fgrzYR
- fk03afFzSoQYzy3JssVT/oM2QR7gC00=
+ bh=A3czMzA7jYvQ1EYINs1q1A8p7rMTBFDZJx5iX7pQP+o=;
+ b=daCcEvv4ULad8fw2bwUkM84QQ9eR6PkIYwbmgwPz1rA8FnHe6b4WsH1No/dakontKIgoer
+ X0cLoafGH262iJ93hMdDKuEr5arRFAy6LmeXBKouYw/rzBXv1L/1ZvbNSKwBat0uFhoDne
+ oqTxQe1twDOt3tntxSLYlmcn2WWS+xs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-qoncvMnvPzWAb5OZd-7p_A-1; Tue, 22 Sep 2020 18:35:45 -0400
-X-MC-Unique: qoncvMnvPzWAb5OZd-7p_A-1
+ us-mta-472-Fnyoah9MMr6hkkOa34iVPg-1; Tue, 22 Sep 2020 18:35:46 -0400
+X-MC-Unique: Fnyoah9MMr6hkkOa34iVPg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80CD41074641;
- Tue, 22 Sep 2020 22:35:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8733A1074669;
+ Tue, 22 Sep 2020 22:35:45 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABAA560BF4;
- Tue, 22 Sep 2020 22:35:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABFA560BF4;
+ Tue, 22 Sep 2020 22:35:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 16/26] qapi/pragma.py: Move QAPISchemaPragma into its own
- module
-Date: Tue, 22 Sep 2020 18:35:15 -0400
-Message-Id: <20200922223525.4085762-17-jsnow@redhat.com>
+Subject: [PATCH 17/26] qapi/pragma.py: Move pragma parsing out of parser.py
+Date: Tue, 22 Sep 2020 18:35:16 -0400
+Message-Id: <20200922223525.4085762-18-jsnow@redhat.com>
 In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
 References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -85,71 +84,189 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+parser.py is a JSON parser at heart and shouldn't necessarily understand
+what it is parsing on a semantic level. Move pragma parsing to pragma.py,
+and leave the parser a little more happily ignorant.
+
+Note: the type annotation in error.py now creates a cyclic import, because
+error -> source -> pragma -> error. Use the magical mypy constant TYPE_CHECKING
+to avoid this cycle at runtime. pylint dislikes this cycle still, but it can
+be safely ignored.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/pragma.py | 25 +++++++++++++++++++++++++
- scripts/qapi/source.py | 15 ++-------------
- 2 files changed, 27 insertions(+), 13 deletions(-)
- create mode 100644 scripts/qapi/pragma.py
+ scripts/qapi/error.py  |  8 +++---
+ scripts/qapi/parser.py | 41 ++++---------------------------
+ scripts/qapi/pragma.py | 55 +++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 59 insertions(+), 45 deletions(-)
 
-diff --git a/scripts/qapi/pragma.py b/scripts/qapi/pragma.py
-new file mode 100644
-index 0000000000..7f3db9ab87
---- /dev/null
-+++ b/scripts/qapi/pragma.py
-@@ -0,0 +1,25 @@
-+#
-+# QAPI pragma information
-+#
-+# Copyright (c) 2020 John Snow, for Red Hat Inc.
-+#
-+# Authors:
-+#  John Snow <jsnow@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2.
-+# See the COPYING file in the top-level directory.
-+
-+from typing import List
-+
-+
-+class QAPISchemaPragma:
-+    # Replace with @dataclass in Python 3.7+
-+    # pylint: disable=too-few-public-methods
-+
-+    def __init__(self) -> None:
-+        # Are documentation comments required?
-+        self.doc_required = False
-+        # Whitelist of commands allowed to return a non-dictionary
-+        self.returns_whitelist: List[str] = []
-+        # Whitelist of entities allowed to violate case conventions
-+        self.name_case_whitelist: List[str] = []
-diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-index d1de9e36b1..fe1424be03 100644
---- a/scripts/qapi/source.py
-+++ b/scripts/qapi/source.py
-@@ -11,20 +11,9 @@
+diff --git a/scripts/qapi/error.py b/scripts/qapi/error.py
+index ab6a0f6271..be5fd24218 100644
+--- a/scripts/qapi/error.py
++++ b/scripts/qapi/error.py
+@@ -11,9 +11,11 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.
+ # See the COPYING file in the top-level directory.
  
- import copy
- import sys
--from typing import List, Optional, TypeVar
-+from typing import Optional, TypeVar
+-from typing import Optional
++from typing import Optional, TYPE_CHECKING
  
+-from .source import QAPISourceInfo
++if TYPE_CHECKING:
++    # pylint: disable=cyclic-import
++    from .source import QAPISourceInfo
+ 
+ 
+ class QAPIError(Exception):
+@@ -23,7 +25,7 @@ class QAPIError(Exception):
+ class QAPISourceError(QAPIError):
+     """Error class for all exceptions identifying a source location."""
+     def __init__(self,
+-                 info: QAPISourceInfo,
++                 info: 'QAPISourceInfo',
+                  msg: str,
+                  col: Optional[int] = None):
+         super().__init__()
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index f65afa4eb2..5b3a9b5da8 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -26,10 +26,10 @@
+     Type,
+     TypeVar,
+     Union,
+-    cast,
+ )
+ 
+ from .error import QAPIError, QAPISourceError, QAPISemError
++from .pragma import PragmaError
+ from .source import QAPISourceInfo
+ 
+ 
+@@ -151,14 +151,10 @@ def _parse(self) -> None:
+                     self.docs.extend(exprs_include.docs)
+             elif "pragma" in expr:
+                 self.reject_expr_doc(cur_doc)
+-                if len(expr) != 1:
+-                    raise QAPISemError(info, "invalid 'pragma' directive")
+-                pragma = expr['pragma']
+-                if not isinstance(pragma, dict):
+-                    raise QAPISemError(
+-                        info, "value of 'pragma' must be an object")
+-                for name, value in pragma.items():
+-                    self._pragma(name, value, info)
++                try:
++                    info.pragma.parse(expr)
++                except PragmaError as err:
++                    raise QAPISemError(info, str(err)) from err
+             else:
+                 if cur_doc and not cur_doc.symbol:
+                     raise QAPISemError(
+@@ -204,33 +200,6 @@ def _include(cls,
+ 
+         return QAPISchemaParser(incl_fname, previously_included, info)
+ 
+-    @classmethod
+-    def _pragma(cls,
+-                name: str,
+-                value: object,
+-                info: QAPISourceInfo) -> None:
+-        if name == 'doc-required':
+-            if not isinstance(value, bool):
+-                raise QAPISemError(info,
+-                                   "pragma 'doc-required' must be boolean")
+-            info.pragma.doc_required = value
+-        elif name == 'returns-whitelist':
+-            if (not isinstance(value, list)
+-                    or any([not isinstance(elt, str) for elt in value])):
+-                raise QAPISemError(
+-                    info,
+-                    "pragma returns-whitelist must be a list of strings")
+-            info.pragma.returns_whitelist = cast(List[str], value)
+-        elif name == 'name-case-whitelist':
+-            if (not isinstance(value, list)
+-                    or any([not isinstance(elt, str) for elt in value])):
+-                raise QAPISemError(
+-                    info,
+-                    "pragma name-case-whitelist must be a list of strings")
+-            info.pragma.name_case_whitelist = cast(List[str], value)
+-        else:
+-            raise QAPISemError(info, "unknown pragma '%s'" % name)
 -
--class QAPISchemaPragma:
+     def accept(self, skip_comment: bool = True) -> None:
+         """
+         Read the next lexeme.
+diff --git a/scripts/qapi/pragma.py b/scripts/qapi/pragma.py
+index 7f3db9ab87..03ba3cac90 100644
+--- a/scripts/qapi/pragma.py
++++ b/scripts/qapi/pragma.py
+@@ -9,17 +9,60 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.
+ # See the COPYING file in the top-level directory.
+ 
+-from typing import List
++from typing import Mapping, Sequence
++
++from .error import QAPIError
++
++
++class PragmaError(QAPIError):
++    """For errors relating to Pragma validation."""
+ 
+ 
+ class QAPISchemaPragma:
 -    # Replace with @dataclass in Python 3.7+
 -    # pylint: disable=too-few-public-methods
 -
--    def __init__(self) -> None:
--        # Are documentation comments required?
--        self.doc_required = False
--        # Whitelist of commands allowed to return a non-dictionary
+     def __init__(self) -> None:
+         # Are documentation comments required?
+         self.doc_required = False
+         # Whitelist of commands allowed to return a non-dictionary
 -        self.returns_whitelist: List[str] = []
--        # Whitelist of entities allowed to violate case conventions
++        self.returns_whitelist: Sequence[str] = tuple()
+         # Whitelist of entities allowed to violate case conventions
 -        self.name_case_whitelist: List[str] = []
-+from .pragma import QAPISchemaPragma
- 
- 
- class QAPISourceInfo:
++        self.name_case_whitelist: Sequence[str] = tuple()
++
++    def _add_doc_required(self, value: object) -> None:
++        if not isinstance(value, bool):
++            raise PragmaError("pragma 'doc-required' must be boolean")
++        self.doc_required = value
++
++    def _add_returns_whitelist(self, value: object) -> None:
++        if (not isinstance(value, list)
++                or any([not isinstance(elt, str) for elt in value])):
++            raise PragmaError(
++                "pragma returns-whitelist must be a list of strings")
++        self.returns_whitelist = tuple(value)
++
++    def _add_name_case_whitelist(self, value: object) -> None:
++        if (not isinstance(value, list)
++                or any([not isinstance(elt, str) for elt in value])):
++            raise PragmaError(
++                "pragma name-case-whitelist must be a list of strings")
++        self.name_case_whitelist = tuple(value)
++
++    def add(self, name: str, value: object) -> None:
++        if name == 'doc-required':
++            self._add_doc_required(value)
++        elif name == 'returns-whitelist':
++            self._add_returns_whitelist(value)
++        elif name == 'name-case-whitelist':
++            self._add_name_case_whitelist(value)
++        else:
++            raise PragmaError(f"unknown pragma '{name}'")
++
++    def parse(self, expression: Mapping[str, object]) -> None:
++        if expression.keys() != {'pragma'}:
++            raise PragmaError("invalid 'pragma' directive")
++
++        body = expression['pragma']
++        if not isinstance(body, dict):
++            raise PragmaError("value of 'pragma' must be an object")
++
++        for name, value in body.items():
++            self.add(name, value)
 -- 
 2.26.2
 
