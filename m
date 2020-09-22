@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94A3274BD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:07:07 +0200 (CEST)
-Received: from localhost ([::1]:57954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F34274BE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:13:08 +0200 (CEST)
+Received: from localhost ([::1]:42574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqRG-0002IN-Vd
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
+	id 1kKqX5-0007fi-7K
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgD-0007WU-0r
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55146)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKphW-0001ds-9Y
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:19:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgB-0006eH-3A
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:28 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKphU-0006ni-8K
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:19:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809506;
+ s=mimecast20190719; t=1600809587;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ebOceglSTdw4GEvJBey9gnPjX8dXLi8jeI5/H6dHIc8=;
- b=HTi5a4JFbVnKu9+WY1ZWVKQZX62P/2zxQi8cS5b64Vjs+Q6T5c2oOj2+5IzYxlsfEdaNSQ
- WXElc/oRySWOcrzTgw5UB0PGNyqOsnTIELLE83vMQIEYUausn3zvnVTtJyFC5T7Vfib3Q/
- OTo2Vbip5e3MJkhZUzRCqq22KAqpy7U=
+ bh=d9V+xuQlr5cJ6tU6Snq0yeWWINcocWE7ZjT0AGItVTs=;
+ b=fqZBhTU2q8pjcCWSp2r2jHhkV0A7HZovjmFeDOU5cy2RqDo4J808BDep622QH/vWo5wbq3
+ 5uGeMQ9ReBJ7IhnLPpRSsWv3Pr/fnnJI1BMQU9VJnfAnjYVVAQ2rfslDuuQW41ByYWUc0U
+ xi9un26JS/9LR6gAWhMtBT0Ct+Su2UI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-ZLPmkTHmOgqyJwScLfBRBA-1; Tue, 22 Sep 2020 17:18:22 -0400
-X-MC-Unique: ZLPmkTHmOgqyJwScLfBRBA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-3-BnU46HygMFazVkYKSZOtVQ-1; Tue, 22 Sep 2020 17:19:43 -0400
+X-MC-Unique: BnU46HygMFazVkYKSZOtVQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C69181CBEB;
- Tue, 22 Sep 2020 21:18:21 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D42CD5DA7B;
- Tue, 22 Sep 2020 21:18:19 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 11/14] qapi/doc.py: Don't use private attributes of QAPIGen
- property
-Date: Tue, 22 Sep 2020 17:17:59 -0400
-Message-Id: <20200922211802.4083666-12-jsnow@redhat.com>
-In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
-References: <20200922211802.4083666-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88AC51007B01;
+ Tue, 22 Sep 2020 21:19:42 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FC5060E1C;
+ Tue, 22 Sep 2020 21:19:42 +0000 (UTC)
+Date: Tue, 22 Sep 2020 17:19:41 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 02/38] qapi-gen: Separate arg-parsing from generation
+Message-ID: <20200922211941.GC2044576@habkost.net>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-3-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200922210101.4081073-3-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -79,43 +80,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new __bool__ method to do the same without exposing the private
-attribute.
+On Tue, Sep 22, 2020 at 05:00:25PM -0400, John Snow wrote:
+> This is a minor re-work of the entrypoint script. It isolates a
+> generate() method from the actual command-line mechanism.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/doc.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 5f2b0cd51d..2914e93b1c 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -344,7 +344,7 @@ def visit_event(self,
-         self._gen.add(texi_msg('Event', doc, ifcond, members))
- 
-     def symbol(self, doc: QAPIDoc, entity: QAPISchemaEntity) -> None:
--        if self._gen._body:
-+        if self._gen:
-             self._gen.add('\n')
-         self.cur_doc = doc
-         entity.visit(self)
-@@ -352,7 +352,7 @@ def symbol(self, doc: QAPIDoc, entity: QAPISchemaEntity) -> None:
- 
-     def freeform(self, doc: QAPIDoc) -> None:
-         assert not doc.args
--        if self._gen._body:
-+        if self._gen:
-             self._gen.add('\n')
-         self._gen.add(texi_body(doc) + texi_sections(doc, None))
- 
 -- 
-2.26.2
+Eduardo
 
 
