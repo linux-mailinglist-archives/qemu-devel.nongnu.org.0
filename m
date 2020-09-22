@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46791274BD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:05:12 +0200 (CEST)
-Received: from localhost ([::1]:52906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94A3274BD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:07:07 +0200 (CEST)
+Received: from localhost ([::1]:57954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqPP-00008x-B9
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
+	id 1kKqRG-0002IN-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpg8-0007MQ-Te
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45325)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgD-0007WU-0r
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpg7-0006dm-5h
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:24 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgB-0006eH-3A
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809502;
+ s=mimecast20190719; t=1600809506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFP2CDfnv5mGONcJkgdqHIpJD+65gzkUZZDABDlD0+Y=;
- b=UMtjxFp63CIak7fRH9Hjs1eTww3rNOLnnURh9nxFrFDB2U5lMlAv0J/Os1zEddAcrubPb2
- W4MO/HCGAkrTrrWxmo9swrIC/HOensoUeV9YkN7XxV4sW1EpnECOMxrmh4SWkjRHTZxnXl
- zVcI/vxgiOaoWUu8GZk1lzSe4mmlxiY=
+ bh=ebOceglSTdw4GEvJBey9gnPjX8dXLi8jeI5/H6dHIc8=;
+ b=HTi5a4JFbVnKu9+WY1ZWVKQZX62P/2zxQi8cS5b64Vjs+Q6T5c2oOj2+5IzYxlsfEdaNSQ
+ WXElc/oRySWOcrzTgw5UB0PGNyqOsnTIELLE83vMQIEYUausn3zvnVTtJyFC5T7Vfib3Q/
+ OTo2Vbip5e3MJkhZUzRCqq22KAqpy7U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-8YuupQF7OrSdgfERS7Bfng-1; Tue, 22 Sep 2020 17:18:20 -0400
-X-MC-Unique: 8YuupQF7OrSdgfERS7Bfng-1
+ us-mta-486-ZLPmkTHmOgqyJwScLfBRBA-1; Tue, 22 Sep 2020 17:18:22 -0400
+X-MC-Unique: ZLPmkTHmOgqyJwScLfBRBA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 884C1186DD27;
- Tue, 22 Sep 2020 21:18:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C69181CBEB;
+ Tue, 22 Sep 2020 21:18:21 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99D965DE50;
- Tue, 22 Sep 2020 21:18:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D42CD5DA7B;
+ Tue, 22 Sep 2020 21:18:19 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 10/14] qapi/gen.py: Add __bool__ dunder method to QAPIGen
-Date: Tue, 22 Sep 2020 17:17:58 -0400
-Message-Id: <20200922211802.4083666-11-jsnow@redhat.com>
+Subject: [PATCH 11/14] qapi/doc.py: Don't use private attributes of QAPIGen
+ property
+Date: Tue, 22 Sep 2020 17:17:59 -0400
+Message-Id: <20200922211802.4083666-12-jsnow@redhat.com>
 In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,28 +85,35 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Falseish when there is no body or preamble; Trueish when there is.
-Header and footer are excluded for now, because they are assumed to be
-dynamic and always present.
+Use the new __bool__ method to do the same without exposing the private
+attribute.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/gen.py | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/qapi/doc.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index ed498397ad..892d7d772e 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -40,6 +40,9 @@ def __init__(self, fname: Optional[str]):
-         self._preamble = ''
-         self._body = ''
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index 5f2b0cd51d..2914e93b1c 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -344,7 +344,7 @@ def visit_event(self,
+         self._gen.add(texi_msg('Event', doc, ifcond, members))
  
-+    def __bool__(self) -> bool:
-+        return bool(self._preamble or self._body)
-+
-     def preamble_add(self, text: str) -> None:
-         self._preamble += text
+     def symbol(self, doc: QAPIDoc, entity: QAPISchemaEntity) -> None:
+-        if self._gen._body:
++        if self._gen:
+             self._gen.add('\n')
+         self.cur_doc = doc
+         entity.visit(self)
+@@ -352,7 +352,7 @@ def symbol(self, doc: QAPIDoc, entity: QAPISchemaEntity) -> None:
+ 
+     def freeform(self, doc: QAPIDoc) -> None:
+         assert not doc.args
+-        if self._gen._body:
++        if self._gen:
+             self._gen.add('\n')
+         self._gen.add(texi_body(doc) + texi_sections(doc, None))
  
 -- 
 2.26.2
