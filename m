@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04BC273EA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:37:39 +0200 (CEST)
-Received: from localhost ([::1]:56460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F886273E9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:35:43 +0200 (CEST)
+Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKejy-0003Q4-Nl
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39612)
+	id 1kKei6-0000Mx-IF
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kKef5-00068P-Uy; Tue, 22 Sep 2020 05:32:35 -0400
-Resent-Date: Tue, 22 Sep 2020 05:32:35 -0400
-Resent-Message-Id: <E1kKef5-00068P-Uy@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21731)
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1kKeg9-0007Ps-As; Tue, 22 Sep 2020 05:33:43 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kKef3-00070Y-7V; Tue, 22 Sep 2020 05:32:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1600767018; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KVpaG9bJ7mJffR86frelEdIv+WrkPlOtTUB1GBFksBD8EOnJffSahEX1YQs+DsFEvA0LsDCDXMgshCggRn6kHeRvriZissqgELgjwcpRV6ZAxqRaQxNp+nE4xRDXnrn9vou1MHlfQ9sXgtaaq2ToxWCgdMMANSpBGjFdsrqq9GU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1600767018;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=D4DIMr06Njxf6DVvs7o1fUGh1IQ09kuy8PuWU3bfCAs=; 
- b=ZOCSrF5Bd2dq26J08o4XG+IEd3id3USxz1R1A9yS4X0CHf4BLYUloa4Msidb7SQ31RVBrvmTjVgR2JJvEiuJudRgM0JnX+frNFTmKYBxPrIUvUSziMui8EckkpVnhr0cpKRsLfcM/U5FVo/EGB6ClTaO14R8RIaaO4XtnREEbw8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1600767016322169.2570710812787;
- Tue, 22 Sep 2020 02:30:16 -0700 (PDT)
-Subject: Re: [PATCH v2] qemu/atomic.h: prefix qemu_ to solve <stdatomic.h>
- collisions
-Message-ID: <160076700882.418.13612231969011652089@66eaa9a8a123>
-In-Reply-To: <20200922085838.230505-1-stefanha@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: stefanha@redhat.com
-Date: Tue, 22 Sep 2020 02:30:16 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 04:44:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1kKeg4-00076M-69; Tue, 22 Sep 2020 05:33:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600767197; cv=none; d=zoho.com.cn; s=zohoarc; 
+ b=RB0G5oTDbhNWNUPTeSO3Vb7udHrsdmDtsTvOsInUUq4j/+xEwHAableXKS1IsH2RKdaKKD6PeZazCeCp2jnYrJu3LxRxw2EuUlpeH+M3+V9rO9EJHSuV0+YnJfx0mYWYHOPuB+uVJRShnYzAJEtddzmcY7A/S7WRiXt68ssQbMg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
+ s=zohoarc; t=1600767197;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=0pjPDA+mCxU9SBqvaKOL9JMw3NJGhITXCI6GpxmGSig=; 
+ b=C93IJcMmMjcKq++8T28POH7rM3APVgbdXCyJH4vydogtbOku2eGyXkT2Y8eOTXvYl8AbRGP5F7jvpsbNasSM/jcoFOGr1ryIwvaYLvrQJYlFF5SpJFFJAGaOqI8mBAZrD5JaO0+fFN9ihSngKwep9wgKjwVCO7tdSItPVbpXYuU=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+ dkim=pass  header.i=euphon.net;
+ spf=pass  smtp.mailfrom=fam@euphon.net;
+ dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1600767197; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:Mime-Version:Content-Transfer-Encoding;
+ bh=0pjPDA+mCxU9SBqvaKOL9JMw3NJGhITXCI6GpxmGSig=;
+ b=eOttp2pOlgtU/eixsGVqYRXanjIlwsHUgIgMyjKpC9Dk2/cUlIUJ37H6xFYQ3n7+
+ uhzdj8Dzt9msvGnU+I2m/l4Kh2NVRhCmODA7NphanMJpmSd23AiXfyAecOtd232K4TN
+ +EkqxGIDlzwrq9rRm25ZUrFq2/+xwair+zJqagvE=
+Received: from vpn-10-85-95-225.fra53.corp.amazon.com (54.239.6.177
+ [54.239.6.177]) by mx.zoho.com.cn
+ with SMTPS id 1600767196240862.1538975018872;
+ Tue, 22 Sep 2020 17:33:16 +0800 (CST)
+Message-ID: <ced372a0cb707de8f7db49524d3a0fd7f7f8f142.camel@euphon.net>
+Subject: Re: [PATCH 2/6] block/nvme: Map doorbells pages write-only
+From: Fam Zheng <fam@euphon.net>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Date: Tue, 22 Sep 2020 10:33:10 +0100
+In-Reply-To: <22dab788-06f1-3686-51f3-24ee7ce77fda@redhat.com>
+References: <20200921162949.553863-1-philmd@redhat.com>
+ <20200921162949.553863-3-philmd@redhat.com>
+ <6ea4b96862a0dac22205592b6c8d9e21ab57189a.camel@euphon.net>
+ <22dab788-06f1-3686-51f3-24ee7ce77fda@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-ZohoCNMailClient: External
+Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
+ helo=sender2-op-o12.zoho.com.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 04:19:31
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,92 +78,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, peter.maydell@linaro.org, sheepdog@lists.wpkg.org,
- kvm@vger.kernel.org, mst@redhat.com, jasowang@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, jcmvbkbc@gmail.com,
- Alistair.Francis@wdc.com, kraxel@redhat.com, chenhc@lemote.com, jslaby@suse.cz,
- sstabellini@kernel.org, berto@igalia.com, sagark@eecs.berkeley.edu,
- ysato@users.sourceforge.jp, quintela@redhat.com, paul@xen.org,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- aleksandar.qemu.devel@gmail.com, anthony.perard@citrix.com,
- namei.unix@gmail.com, rth@twiddle.net, mjrosato@linux.ibm.com,
- thuth@redhat.com, ehabkost@redhat.com, sw@weilnetz.de, pl@kamp.de,
- dgilbert@redhat.com, yuval.shaia.ml@gmail.com, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
- qemu-riscv@nongnu.org, sunilmut@microsoft.com, jsnow@redhat.com,
- zhang.zhanghailiang@huawei.com, xen-devel@lists.xenproject.org,
- kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- kbastian@mail.uni-paderborn.de, cohuck@redhat.com, laurent@vivier.eu,
- mreitz@redhat.com, palmer@dabbelt.com, pbonzini@redhat.com,
- aleksandar.rikalo@syrmia.com, aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyMjA4NTgzOC4yMzA1
-MDUtMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA5MjIwODU4MzguMjMw
-NTA1LTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIHFlbXUvYXRvbWlj
-Lmg6IHByZWZpeCBxZW11XyB0byBzb2x2ZSA8c3RkYXRvbWljLmg+IGNvbGxpc2lvbnMKCj09PSBU
-RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rl
-di9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdp
-dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sg
-YmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9w
-YXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwOTIy
-MDg1ODM4LjIzMDUwNS0xLXN0ZWZhbmhhQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMDkyMjA4
-NTgzOC4yMzA1MDUtMS1zdGVmYW5oYUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5j
-aCAndGVzdCcKMWU2NDU3ZCBxZW11L2F0b21pYy5oOiBwcmVmaXggcWVtdV8gdG8gc29sdmUgPHN0
-ZGF0b21pYy5oPiBjb2xsaXNpb25zCgo9PT0gT1VUUFVUIEJFR0lOID09PQpXQVJOSU5HOiBCbG9j
-ayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzI1MDE6IEZJ
-TEU6IGh3L3ZpcnRpby92aG9zdC5jOjkyOgorICAgICAgICAgKiBidXQgaXQncyBlYXNpZXIgdG8g
-dXNlIHFlbXVfYXRvbWljXyogdGhhbiByb2xsIG91ciBvd24uICovCgpFUlJPUjogTWFjcm9zIHdp
-dGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxl
-IGxvb3AKIzI5NzM6IEZJTEU6IGluY2x1ZGUvcWVtdS9hdG9taWMuaDoxNTI6CisjZGVmaW5lIHFl
-bXVfYXRvbWljX3JjdV9yZWFkX19ub2NoZWNrKHB0ciwgdmFscHRyKSAgICAgIFwKICAgICBfX2F0
-b21pY19sb2FkKHB0ciwgdmFscHRyLCBfX0FUT01JQ19SRUxBWEVEKTsgICAgICAgXAogICAgIHNt
-cF9yZWFkX2JhcnJpZXJfZGVwZW5kcygpOwoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGJlZm9yZSB0
-aGF0ICcqJyAoY3R4OlZ4QikKIzMxMjg6IEZJTEU6IGluY2x1ZGUvcWVtdS9hdG9taWMuaDozNDc6
-CisjZGVmaW5lIHFlbXVfYXRvbWljX3JlYWRfX25vY2hlY2socCkgKCooX190eXBlb2ZfXygqKHAp
-KSB2b2xhdGlsZSopIChwKSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBpcyB1
-c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzEyODogRklMRTogaW5jbHVkZS9x
-ZW11L2F0b21pYy5oOjM0NzoKKyNkZWZpbmUgcWVtdV9hdG9taWNfcmVhZF9fbm9jaGVjayhwKSAo
-KihfX3R5cGVvZl9fKCoocCkpIHZvbGF0aWxlKikgKHApKQoKRVJST1I6IHNwYWNlIHJlcXVpcmVk
-IGJlZm9yZSB0aGF0ICcqJyAoY3R4OlZ4QikKIzMxMzA6IEZJTEU6IGluY2x1ZGUvcWVtdS9hdG9t
-aWMuaDozNDk6CisgICAgKCgqKF9fdHlwZW9mX18oKihwKSkgdm9sYXRpbGUqKSAocCkpID0gKGkp
-KQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IFVzZSBvZiB2b2xh
-dGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojMzEzMDogRklMRTog
-aW5jbHVkZS9xZW11L2F0b21pYy5oOjM0OToKKyAgICAoKCooX190eXBlb2ZfXygqKHApKSB2b2xh
-dGlsZSopIChwKSkgPSAoaSkpCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcg
-KGN0eDpWeFYpCiMzMTM1OiBGSUxFOiBpbmNsdWRlL3FlbXUvYXRvbWljLmg6MzUyOgorI2RlZmlu
-ZSBxZW11X2F0b21pY19zZXQocHRyLCBpKSAgICAgcWVtdV9hdG9taWNfc2V0X19ub2NoZWNrKHB0
-cixpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIF4KCkVSUk9SOiBtZW1vcnkgYmFycmllciB3aXRob3V0IGNvbW1lbnQKIzMy
-MTA6IEZJTEU6IGluY2x1ZGUvcWVtdS9hdG9taWMuaDo0MTA6CisjZGVmaW5lIHFlbXVfYXRvbWlj
-X3hjaGcocHRyLCBpKSAoc21wX21iKCksIF9fc3luY19sb2NrX3Rlc3RfYW5kX3NldChwdHIsIGkp
-KQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
-IGxpbmUKIzMyODU6IEZJTEU6IGluY2x1ZGUvcWVtdS9hdG9taWMuaDo0NjI6CisvKiBxZW11X2F0
-b21pY19tYl9yZWFkL3NldCBzZW1hbnRpY3MgbWFwIEphdmEgdm9sYXRpbGUgdmFyaWFibGVzLiBU
-aGV5IGFyZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNl
-cGFyYXRlIGxpbmUKIzY0MDI6IEZJTEU6IHV0aWwvYml0bWFwLmM6MjE0OgorICAgICAgICAvKiBJ
-ZiB3ZSBhdm9pZGVkIHRoZSBmdWxsIGJhcnJpZXIgaW4gcWVtdV9hdG9taWNfb3IoKSwgaXNzdWUg
-YQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRl
-IGxpbmUKIzc0Mzg6IEZJTEU6IHV0aWwvcmN1LmM6ODU6CisgICAgICAgIC8qIEluc3RlYWQgb2Yg
-dXNpbmcgcWVtdV9hdG9taWNfbWJfc2V0IGZvciBpbmRleC0+d2FpdGluZywgYW5kCgpXQVJOSU5H
-OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNzQ2
-NDogRklMRTogdXRpbC9yY3UuYzoxNTQ6CisgICAgICAgIC8qIEluIGVpdGhlciBjYXNlLCB0aGUg
-cWVtdV9hdG9taWNfbWJfc2V0IGJlbG93IGJsb2NrcyBzdG9yZXMgdGhhdCBmcmVlCgp0b3RhbDog
-NyBlcnJvcnMsIDUgd2FybmluZ3MsIDY1MjAgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDFlNjQ1N2Rm
-YjQ5OSAocWVtdS9hdG9taWMuaDogcHJlZml4IHFlbXVfIHRvIHNvbHZlIDxzdGRhdG9taWMuaD4g
-Y29sbGlzaW9ucykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
-IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
-dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09
-CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
-bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA5MjIwODU4MzguMjMwNTA1LTEt
-c3RlZmFuaGFAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+On Tue, 2020-09-22 at 10:41 +0200, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Fam,
+>=20
+> +Paolo?
+>=20
+> On 9/22/20 10:18 AM, Fam Zheng wrote:
+> > On Mon, 2020-09-21 at 18:29 +0200, Philippe Mathieu-Daud=C3=A9 wrote:
+> > > Per the datasheet sections 3.1.13/3.1.14:
+> > >   "The host should not read the doorbell registers."
+> > >=20
+> > > As we don't need read access, map the doorbells with write-only
+> > > permission. We keep a reference to this mapped address in the
+> > > BDRVNVMeState structure.
+> >=20
+> > Besides looking more correct in access mode, is there any side
+> > effect
+> > of WO mapping?
+>=20
+> TBH I don't have enough knowledge to answer this question.
+> I tested successfully on X86. I'm writing more tests.
+
+The reason I'm asking is more because x86 pages are either RO or RW. So
+I'd like to see if there's a practical reason behind this patch (I have
+no idea about the effects on MTRR and/or IOMMU).
+
+Fam
+
+>=20
+> >=20
+> > Fam
+> >=20
+> > >=20
+> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > > ---
+> > >  block/nvme.c | 29 +++++++++++++++++++----------
+> > >  1 file changed, 19 insertions(+), 10 deletions(-)
+> > >=20
+> > > diff --git a/block/nvme.c b/block/nvme.c
+> > > index 5a4dc6a722a..3c834da8fec 100644
+> > > --- a/block/nvme.c
+> > > +++ b/block/nvme.c
+> > > @@ -31,7 +31,7 @@
+> > >  #define NVME_SQ_ENTRY_BYTES 64
+> > >  #define NVME_CQ_ENTRY_BYTES 16
+> > >  #define NVME_QUEUE_SIZE 128
+> > > -#define NVME_BAR_SIZE 8192
+> > > +#define NVME_DOORBELL_SIZE 4096
+> > > =20
+> > >  /*
+> > >   * We have to leave one slot empty as that is the full queue
+> > > case
+> > > where
+> > > @@ -84,10 +84,6 @@ typedef struct {
+> > >  /* Memory mapped registers */
+> > >  typedef volatile struct {
+> > >      NvmeBar ctrl;
+> > > -    struct {
+> > > -        uint32_t sq_tail;
+> > > -        uint32_t cq_head;
+> > > -    } doorbells[];
+> > >  } NVMeRegs;
+> > > =20
+> > >  #define INDEX_ADMIN     0
+> > > @@ -103,6 +99,11 @@ struct BDRVNVMeState {
+> > >      AioContext *aio_context;
+> > >      QEMUVFIOState *vfio;
+> > >      NVMeRegs *regs;
+> > > +    /* Memory mapped registers */
+> > > +    volatile struct {
+> > > +        uint32_t sq_tail;
+> > > +        uint32_t cq_head;
+> > > +    } *doorbells;
+> > >      /* The submission/completion queue pairs.
+> > >       * [0]: admin queue.
+> > >       * [1..]: io queues.
+> > > @@ -247,14 +248,14 @@ static NVMeQueuePair
+> > > *nvme_create_queue_pair(BDRVNVMeState *s,
+> > >          error_propagate(errp, local_err);
+> > >          goto fail;
+> > >      }
+> > > -    q->sq.doorbell =3D &s->regs->doorbells[idx * s-
+> > > > doorbell_scale].sq_tail;
+> > >=20
+> > > +    q->sq.doorbell =3D &s->doorbells[idx * s-
+> > > >doorbell_scale].sq_tail;
+> > > =20
+> > >      nvme_init_queue(s, &q->cq, size, NVME_CQ_ENTRY_BYTES,
+> > > &local_err);
+> > >      if (local_err) {
+> > >          error_propagate(errp, local_err);
+> > >          goto fail;
+> > >      }
+> > > -    q->cq.doorbell =3D &s->regs->doorbells[idx * s-
+> > > > doorbell_scale].cq_head;
+> > >=20
+> > > +    q->cq.doorbell =3D &s->doorbells[idx * s-
+> > > >doorbell_scale].cq_head;
+> > > =20
+> > >      return q;
+> > >  fail:
+> > > @@ -712,13 +713,12 @@ static int nvme_init(BlockDriverState *bs,
+> > > const char *device, int namespace,
+> > >          goto out;
+> > >      }
+> > > =20
+> > > -    s->regs =3D qemu_vfio_pci_map_bar(s->vfio, 0, 0,
+> > > NVME_BAR_SIZE,
+> > > +    s->regs =3D qemu_vfio_pci_map_bar(s->vfio, 0, 0,
+> > > sizeof(NvmeBar),
+> > >                                      PROT_READ | PROT_WRITE,
+> > > errp);
+> > >      if (!s->regs) {
+> > >          ret =3D -EINVAL;
+> > >          goto out;
+> > >      }
+> > > -
+> > >      /* Perform initialize sequence as described in NVMe spec
+> > > "7.6.1
+> > >       * Initialization". */
+> > > =20
+> > > @@ -748,6 +748,13 @@ static int nvme_init(BlockDriverState *bs,
+> > > const
+> > > char *device, int namespace,
+> > >          }
+> > >      }
+> > > =20
+> > > +    s->doorbells =3D qemu_vfio_pci_map_bar(s->vfio, 0,
+> > > sizeof(NvmeBar),
+> > > +                                         NVME_DOORBELL_SIZE,
+> > > PROT_WRITE, errp);
+> > > +    if (!s->doorbells) {
+> > > +        ret =3D -EINVAL;
+> > > +        goto out;
+> > > +    }
+> > > +
+> > >      /* Set up admin queue. */
+> > >      s->queues =3D g_new(NVMeQueuePair *, 1);
+> > >      s->queues[INDEX_ADMIN] =3D nvme_create_queue_pair(s,
+> > > aio_context,
+> > > 0,
+> > > @@ -873,7 +880,9 @@ static void nvme_close(BlockDriverState *bs)
+> > >                             &s-
+> > > >irq_notifier[MSIX_SHARED_IRQ_IDX],
+> > >                             false, NULL, NULL);
+> > >      event_notifier_cleanup(&s-
+> > > >irq_notifier[MSIX_SHARED_IRQ_IDX]);
+> > > -    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0,
+> > > NVME_BAR_SIZE);
+> > > +    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->doorbells,
+> > > +                            sizeof(NvmeBar),
+> > > NVME_DOORBELL_SIZE);
+> > > +    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0,
+> > > sizeof(NvmeBar));
+> > >      qemu_vfio_close(s->vfio);
+> > > =20
+> > >      g_free(s->device);
+>=20
+>=20
+
 
