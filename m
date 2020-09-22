@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685A7273FB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:35:04 +0200 (CEST)
-Received: from localhost ([::1]:55358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47DA273FAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:33:23 +0200 (CEST)
+Received: from localhost ([::1]:49612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKfdX-0007pO-GE
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:35:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54316)
+	id 1kKfbv-0005Sj-0n
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:33:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaL-00042y-LX
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21456)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaM-00043i-4S
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaJ-0006Qz-SN
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaK-0006R3-3n
  for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600770703;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U944P9G+m879NAeS9xgfrL2agGNL/VREm8Rnvr0AK6I=;
- b=NUky9F8OLFSzYEMkgXBtbi7TDss+VKJNM3qsHKAfp2fN63nUtkUb/SDBF4rBzxY3qzw9mH
- idr6NU/yOWfMKaWQviu8fwg4ZpI6HPyoepslEFqG3opYxP1tiR3OJHtlDaTkKGYsOZsGm9
- v7l4EbVZL0y0YFxH/urywahDDKlaOBE=
+ bh=MPgFiifJH5K6+Z0e1+d84KSygjRUxBz0uDl0bxL56po=;
+ b=V63vtVgd/flvm7YGTP/j1iFNMkjBs36jh/3TeU5sRX+2/wacbmH8w8Eafhz9LX5OZ09Amh
+ GgiLVRSXNCo+IP9VLcPBz0YyvJsagMorvWAJGC/UZ2MlPy+CBLtCaRHB/24qrr9Ny7GFI7
+ I9Bbfqvgh238MJ75QuMRF+4KHjyQuZY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-Wm5jHawZMvywpw6_r_SPmw-1; Tue, 22 Sep 2020 06:31:39 -0400
-X-MC-Unique: Wm5jHawZMvywpw6_r_SPmw-1
+ us-mta-192-x03nDxkROK-NwP4G-5Y2gQ-1; Tue, 22 Sep 2020 06:31:41 -0400
+X-MC-Unique: x03nDxkROK-NwP4G-5Y2gQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84A28185A0FE;
- Tue, 22 Sep 2020 10:31:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DA2810BBEC3;
+ Tue, 22 Sep 2020 10:31:40 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-20.ams2.redhat.com [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2344F27BD1;
- Tue, 22 Sep 2020 10:31:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3AB619C4F;
+ Tue, 22 Sep 2020 10:31:38 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/8] s390x/tcg: Implement SUBTRACT HALFWORD (SGH)
-Date: Tue, 22 Sep 2020 12:31:23 +0200
-Message-Id: <20200922103129.12824-3-david@redhat.com>
+Subject: [PATCH v1 3/8] s390x/tcg: Implement MULTIPLY (MG, MGRK)
+Date: Tue, 22 Sep 2020 12:31:24 +0200
+Message-Id: <20200922103129.12824-4-david@redhat.com>
 In-Reply-To: <20200922103129.12824-1-david@redhat.com>
 References: <20200922103129.12824-1-david@redhat.com>
 MIME-Version: 1.0
@@ -84,25 +84,61 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Easy to wire up.
+Multiply two signed 64bit values and store the 128bit result in r1 (0-63)
+and r1 + 1 (64-127).
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/insn-data.def | 1 +
- 1 file changed, 1 insertion(+)
+ target/s390x/insn-data.def |  2 ++
+ target/s390x/translate.c   | 13 +++++++++++++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 8dbeaf8c49..e851e9df5e 100644
+index e851e9df5e..2b4ad1530d 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -883,6 +883,7 @@
- /* SUBTRACT HALFWORD */
-     C(0x4b00, SH,      RX_a,  Z,   r1, m2_16s, new, r1_32, sub, subs32)
-     C(0xe37b, SHY,     RXY_a, LD,  r1, m2_16s, new, r1_32, sub, subs32)
-+    C(0xe339, SGH,     RXY_a, MIE2,r1, m2_16s, r1, 0, sub, subs64)
- /* SUBTRACT HIGH */
-     C(0xb9c9, SHHHR,   RRF_a, HW,  r2_sr32, r3_sr32, new, r1_32h, sub, subs32)
-     C(0xb9d9, SHHLR,   RRF_a, HW,  r2_sr32, r3, new, r1_32h, sub, subs32)
+@@ -650,8 +650,10 @@
+ 
+ /* MULTIPLY */
+     C(0x1c00, MR,      RR_a,  Z,   r1p1_32s, r2_32s, new, r1_D32, mul, 0)
++    C(0xb9ec, MGRK,    RRF_a, MIE2,r3_o, r2_o, r1_P, 0, muls128, 0)
+     C(0x5c00, M,       RX_a,  Z,   r1p1_32s, m2_32s, new, r1_D32, mul, 0)
+     C(0xe35c, MFY,     RXY_a, GIE, r1p1_32s, m2_32s, new, r1_D32, mul, 0)
++    C(0xe384, MG,      RXY_a, MIE2,r1p1_o, m2_64, r1_P, 0, muls128, 0)
+     F(0xb317, MEEBR,   RRE,   Z,   e1, e2, new, e1, meeb, 0, IF_BFP)
+     F(0xb31c, MDBR,    RRE,   Z,   f1, f2, new, f1, mdb, 0, IF_BFP)
+     F(0xb34c, MXBR,    RRE,   Z,   x2h, x2l, x1, x1, mxb, 0, IF_BFP)
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 21d77b7e74..b536491892 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -3518,6 +3518,12 @@ static DisasJumpType op_mul128(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
+ }
+ 
++static DisasJumpType op_muls128(DisasContext *s, DisasOps *o)
++{
++    tcg_gen_muls2_i64(o->out2, o->out, o->in1, o->in2);
++    return DISAS_NEXT;
++}
++
+ static DisasJumpType op_meeb(DisasContext *s, DisasOps *o)
+ {
+     gen_helper_meeb(o->out, cpu_env, o->in1, o->in2);
+@@ -5542,6 +5548,13 @@ static void in1_r1p1(DisasContext *s, DisasOps *o)
+ }
+ #define SPEC_in1_r1p1 SPEC_r1_even
+ 
++static void in1_r1p1_o(DisasContext *s, DisasOps *o)
++{
++    o->in1 = regs[get_field(s, r1) + 1];
++    o->g_in1 = true;
++}
++#define SPEC_in1_r1p1_o SPEC_r1_even
++
+ static void in1_r1p1_32s(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
 -- 
 2.26.2
 
