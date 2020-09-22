@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8482274AF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:15:10 +0200 (CEST)
-Received: from localhost ([::1]:45464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FAA274B27
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:29:25 +0200 (CEST)
+Received: from localhost ([::1]:56380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpcz-0002pa-Sx
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:15:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
+	id 1kKpqm-0003HL-62
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQL-0002YK-EL
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:02:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQH-0004er-68
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:02:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600808520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dwdxZ7usePEAdoPVmc2yggRyJc5HQsHt+MgZta716kw=;
- b=DBr64MgI27Nea9d9DoAas47oPqPCEMBnVkMdvETvgcyRWo3mFVS9X8AukcU9vc4w+BpWFo
- Wc6zi5T3qDTi1JSLjxCcr6LO2s37nkqxz0ONxLCli1MtEEXicPFB1/7swmXFbvBMY5zzlL
- zF0y6EhVPSkzmQ6+jdmGpP3SMQ8C2Ro=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-6po8QN2nNq2xxctc7_aaWA-1; Tue, 22 Sep 2020 17:01:56 -0400
-X-MC-Unique: 6po8QN2nNq2xxctc7_aaWA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98973801FD7;
- Tue, 22 Sep 2020 21:01:55 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB2DF55765;
- Tue, 22 Sep 2020 21:01:54 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 36/38] qapi/visit.py: assert tag_member contains a
- QAPISchemaEnumType
-Date: Tue, 22 Sep 2020 17:00:59 -0400
-Message-Id: <20200922210101.4081073-37-jsnow@redhat.com>
-In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKpQE-0002WF-Nv
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:59 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37494)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKpQB-0004eA-8y
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:58 -0400
+Received: by mail-ed1-x535.google.com with SMTP id n22so17594483edt.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 14:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S/ipl+rogTiPzM94V0fePhfrN6Rn5ekEkWVt2sfv2VQ=;
+ b=MWcrrGpLDF0v9wJHSFto0AqVlUuZg3CFNPjrlcg1l9rCMPkDL/iD05yc0R0SJELtjJ
+ uKRVxG5KOolCHVFas8B6KG+ur1B7zfZB5p5wBS7TGrD23A6mCWfE+Eo94k4p44byc2Rq
+ g4wdWqxATK+wQmTPX5Al/eRkso8EMBByhMsQi0gU62q+lNe/eWnvs/54jHwAIDS23tvt
+ 0zk7vhiK5DEXsHB66RNQkrNzuuqun/ZZH9mMCYLoRDs5DUskKibB/3ytoKYPKwbCKyJn
+ d4zYGpCiV9AzjSd6AUSeUVW4Dp6jd7Xp0YIt2n3fpTmdSUZ3lIGU18O0oPThd7+1E76P
+ 9erQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S/ipl+rogTiPzM94V0fePhfrN6Rn5ekEkWVt2sfv2VQ=;
+ b=rDLshTEsz3ImJeMcLVYiWMucaAGigE2b6sld2gx18ZfCwKBZhO7RNx+s6hXoz7RM7e
+ jYDTg4GyYmEfYnm1587qoqnDIi/YnlxKB3i5egvolYsD8EJhUe7UouUSYgX7DCng/O4c
+ hZbpKfxXODvI8BVxeh0gE9Y/WZJ9DOF19Q+SSlFBwpwDB+uGk4msaBoxQwmAttblaGyW
+ gEdo/hxIJmR6TUmnNHnt5UWA7y6jgMeozQuMYPT6Ktx0wEdIn91NYkxxo7g4mIin2s5m
+ Wh9QNqr5KwpHz3jKrxAFjYWy+0vwKdGN+qT9gE/7MvezqjD3TLDxL7/UnoGHEBeqK1RF
+ 4Mdg==
+X-Gm-Message-State: AOAM533imCxQKmvGTafB+692Y/0bDxHiWUnIyS2OSxVodvH4kUut83r8
+ GaMJUa7NtuumEeEh0qqeeNqdTOWCRE7saVv+2VuftQ==
+X-Google-Smtp-Source: ABdhPJzSiKifwgCeiPYvuk4NFuChnXL6V5G4QPviTS7/9BeOETcSfsY3TxPzA1sjONDETzJI3ZSfU+2dozds+JBQu30=
+X-Received: by 2002:a05:6402:1495:: with SMTP id
+ e21mr5930780edv.146.1600808512965; 
+ Tue, 22 Sep 2020 14:01:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200921110929.7410-1-kraxel@redhat.com>
+In-Reply-To: <20200921110929.7410-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Sep 2020 22:01:41 +0100
+Message-ID: <CAFEAcA--PkErHfgZ_OsxyhdsXtipLvszVBe0UwMmoS3DJM113w@mail.gmail.com>
+Subject: Re: [PULL 0/1] Input 20200921 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,58 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/visit.py | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+On Mon, 21 Sep 2020 at 12:09, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 053a4177817db307ec854356e95b5b350800a216:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-20200918' i=
+> nto staging (2020-09-18 16:34:26 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/input-20200921-pull-request
+>
+> for you to fetch changes up to 38b01a997e6678b4ba86ab12a78a39b7d94ee7d0:
+>
+>   hw/input/tsc2xxx: Reduce MouseTransformInfo structure exposure (2020-09-21 =
+> 11:22:34 +0200)
+>
+> ----------------------------------------------------------------
+> input: tsc2xxx fix.
+>
+> ----------------------------------------------------------------
 
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 4edaee33e3..180c140180 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -22,7 +22,10 @@
-     indent,
- )
- from .gen import QAPISchemaModularCVisitor, ifcontext
--from .schema import QAPISchemaObjectType
-+from .schema import (
-+    QAPISchemaEnumType,
-+    QAPISchemaObjectType,
-+)
- 
- 
- def gen_visit_decl(name, scalar=False):
-@@ -84,15 +87,17 @@ def gen_visit_object_members(name, base, members, variants):
-         ret += gen_endif(memb.ifcond)
- 
-     if variants:
-+        tag_member = variants.tag_member
-+        assert isinstance(tag_member.type, QAPISchemaEnumType)
-+
-         ret += mcgen('''
-     switch (obj->%(c_name)s) {
- ''',
--                     c_name=c_name(variants.tag_member.name))
-+                     c_name=c_name(tag_member.name))
- 
-         for var in variants.variants:
--            case_str = c_enum_const(variants.tag_member.type.name,
--                                    var.name,
--                                    variants.tag_member.type.prefix)
-+            case_str = c_enum_const(tag_member.type.name, var.name,
-+                                    tag_member.type.prefix)
-             ret += gen_if(var.ifcond)
-             if var.type.name == 'q_empty':
-                 # valid variant and nothing to do
--- 
-2.26.2
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
