@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864822741FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 14:21:54 +0200 (CEST)
-Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D3B2741F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 14:19:38 +0200 (CEST)
+Received: from localhost ([::1]:36956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKhIv-0005ma-JC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 08:21:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
+	id 1kKhGj-0003jb-4o
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 08:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kKhE5-0001Rp-N1
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:16:54 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:47680)
+ id 1kKhE9-0001Sh-I9
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:16:59 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:47710)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kKhDv-0006Ud-MQ
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:16:53 -0400
+ id 1kKhE5-0006Uy-C1
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:16:57 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 96F9F40A2071;
- Tue, 22 Sep 2020 12:16:41 +0000 (UTC)
-Subject: [PATCH v5 11/15] gdbstub: add reverse continue support in replay mode
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5AC9641741D2;
+ Tue, 22 Sep 2020 12:16:47 +0000 (UTC)
+Subject: [PATCH v5 12/15] replay: describe reverse debugging in docs/replay.txt
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Tue, 22 Sep 2020 15:16:41 +0300
-Message-ID: <160077700131.10249.7441865764115208059.stgit@pasha-ThinkPad-X280>
+Date: Tue, 22 Sep 2020 15:16:47 +0300
+Message-ID: <160077700705.10249.8717431230865871452.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <160077693745.10249.9707329107813662236.stgit@pasha-ThinkPad-X280>
 References: <160077693745.10249.9707329107813662236.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=83.149.199.84;
  envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 08:15:38
@@ -63,204 +63,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch adds support of the reverse continue operation for gdbstub.
-Reverse continue finds the last breakpoint that would happen in normal
-execution from the beginning to the current moment.
-Implementation of the reverse continue replays the execution twice:
-to find the breakpoints that were hit and to seek to the last breakpoint.
-Reverse continue loads the previous snapshot and tries to find the breakpoint
-since that moment. If there are no such breakpoints, it proceeds to
-the earlier snapshot, and so on. When no breakpoints or watchpoints were
-hit at all, execution stops at the beginning of the replay log.
+This patch updates the documentation and describes usage of the reverse
+debugging in QEMU+GDB.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
----
- exec.c                    |    1 +
- gdbstub.c                 |   10 ++++++
- include/sysemu/replay.h   |    8 +++++
- replay/replay-debugging.c |   71 +++++++++++++++++++++++++++++++++++++++++++++
- softmmu/cpus.c            |    5 +++
- stubs/replay.c            |    5 +++
- 6 files changed, 99 insertions(+), 1 deletion(-)
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/exec.c b/exec.c
-index 65983738f2..4333dde185 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2756,6 +2756,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                  * Don't process the watchpoints when we are
-                  * in a reverse debugging operation.
-                  */
-+                replay_breakpoint();
-                 return;
-             }
-             if (flags == BP_MEM_READ) {
-diff --git a/gdbstub.c b/gdbstub.c
-index 79e8ccc050..ac92273018 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -1907,6 +1907,13 @@ static void handle_backward(GdbCmdContext *gdb_ctx, void *user_ctx)
-                 put_packet("E14");
-             }
-             return;
-+        case 'c':
-+            if (replay_reverse_continue()) {
-+                gdb_continue();
-+            } else {
-+                put_packet("E14");
-+            }
-+            return;
-         }
-     }
+--
+
+v4 changes:
+ - added an example of the command line for reverse debugging of
+   the diskless machine
+---
+ docs/replay.txt |   46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+
+diff --git a/docs/replay.txt b/docs/replay.txt
+index 70c27edb36..39fe5e9740 100644
+--- a/docs/replay.txt
++++ b/docs/replay.txt
+@@ -265,6 +265,16 @@ of the original disk image, use overlay files linked to the original images.
+ Therefore all new snapshots (including the starting one) will be saved in
+ overlays and the original image remains unchanged.
  
-@@ -2161,7 +2168,8 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
-     }
++When you need to use snapshots with diskless virtual machine,
++it must be started with 'orphan' qcow2 image. This image will be used
++for storing VM snapshots. Here is the example of the command line for this:
++
++  qemu-system-i386 -icount shift=3,rr=replay,rrfile=record.bin,rrsnapshot=init \
++    -net none -drive file=empty.qcow2,if=none,id=rr
++
++empty.qcow2 drive does not connected to any virtual block device and used
++for VM snapshots only.
++
+ Network devices
+ ---------------
  
-     if (replay_mode == REPLAY_MODE_PLAY) {
--        g_string_append(gdbserver_state.str_buf, ";ReverseStep+");
-+        g_string_append(gdbserver_state.str_buf,
-+            ";ReverseStep+;ReverseContinue+");
-     }
+@@ -294,6 +304,42 @@ for recording and replaying must contain identical number of ports in record
+ and replay modes, but their backends may differ.
+ E.g., '-serial stdio' in record mode, and '-serial null' in replay mode.
  
-     if (gdb_ctx->num_params &&
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 13a8123b09..b6cac175c4 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -81,11 +81,19 @@ const char *replay_get_filename(void);
-  * Returns true on success.
-  */
- bool replay_reverse_step(void);
-+/*
-+ * Start searching the last breakpoint/watchpoint.
-+ * Used by gdbstub for backwards debugging.
-+ * Returns true if the process successfully started.
-+ */
-+bool replay_reverse_continue(void);
- /*
-  * Returns true if replay module is processing
-  * reverse_continue or reverse_step request
-  */
- bool replay_running_debug(void);
-+/* Called in reverse debugging mode to collect breakpoint information */
-+void replay_breakpoint(void);
++Reverse debugging
++-----------------
++
++Reverse debugging allows "executing" the program in reverse direction.
++GDB remote protocol supports "reverse step" and "reverse continue"
++commands. The first one steps single instruction backwards in time,
++and the second one finds the last breakpoint in the past.
++
++Recorded executions may be used to enable reverse debugging. QEMU can't
++execute the code in backwards direction, but can load a snapshot and
++replay forward to find the desired position or breakpoint.
++
++The following GDB commands are supported:
++ - reverse-stepi (or rsi) - step one instruction backwards
++ - reverse-continue (or rc) - find last breakpoint in the past
++
++Reverse step loads the nearest snapshot and replays the execution until
++the required instruction is met.
++
++Reverse continue may include several passes of examining the execution
++between the snapshots. Each of the passes include the following steps:
++ 1. loading the snapshot
++ 2. replaying to examine the breakpoints
++ 3. if breakpoint or watchpoint was met
++    - loading the snaphot again
++    - replaying to the required breakpoint
++ 4. else
++    - proceeding to the p.1 with the earlier snapshot
++
++Therefore usage of the reverse debugging requires at least one snapshot
++created in advance. This can be done by omitting 'snapshot' option
++for the block drives and adding 'rrsnapshot' for both record and replay
++command lines.
++See the "Snapshotting" section to learn more about running record/replay
++and creating the snapshot in these modes.
++
+ Replay log format
+ -----------------
  
- /* Processing the instructions */
- 
-diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-index f7594a88cd..d02d4e0766 100644
---- a/replay/replay-debugging.c
-+++ b/replay/replay-debugging.c
-@@ -23,6 +23,8 @@
- #include "migration/snapshot.h"
- 
- static bool replay_is_debugging;
-+static int64_t replay_last_breakpoint;
-+static int64_t replay_last_snapshot;
- 
- bool replay_running_debug(void)
- {
-@@ -245,3 +247,72 @@ bool replay_reverse_step(void)
- 
-     return false;
- }
-+
-+static void replay_continue_end(void)
-+{
-+    replay_is_debugging = false;
-+    vm_stop(RUN_STATE_DEBUG);
-+    replay_delete_break();
-+}
-+
-+static void replay_continue_stop(void *opaque)
-+{
-+    Error *err = NULL;
-+    if (replay_last_breakpoint != -1LL) {
-+        replay_seek(replay_last_breakpoint, replay_stop_vm_debug, &err);
-+        if (err) {
-+            error_free(err);
-+            replay_continue_end();
-+        }
-+        return;
-+    }
-+    /*
-+     * No breakpoints since the last snapshot.
-+     * Find previous snapshot and try again.
-+     */
-+    if (replay_last_snapshot != 0) {
-+        replay_seek(replay_last_snapshot - 1, replay_continue_stop, &err);
-+        if (err) {
-+            error_free(err);
-+            replay_continue_end();
-+        }
-+        replay_last_snapshot = replay_get_current_icount();
-+        return;
-+    } else {
-+        /* Seek to the very first step */
-+        replay_seek(0, replay_stop_vm_debug, &err);
-+        if (err) {
-+            error_free(err);
-+            replay_continue_end();
-+        }
-+        return;
-+    }
-+    replay_continue_end();
-+}
-+
-+bool replay_reverse_continue(void)
-+{
-+    Error *err = NULL;
-+
-+    assert(replay_mode == REPLAY_MODE_PLAY);
-+
-+    if (replay_get_current_icount() != 0) {
-+        replay_seek(replay_get_current_icount() - 1, replay_continue_stop, &err);
-+        if (err) {
-+            error_free(err);
-+            return false;
-+        }
-+        replay_last_breakpoint = -1LL;
-+        replay_is_debugging = true;
-+        replay_last_snapshot = replay_get_current_icount();
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+void replay_breakpoint(void)
-+{
-+    assert(replay_mode == REPLAY_MODE_PLAY);
-+    replay_last_breakpoint = replay_get_current_icount();
-+}
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index dc72f93bc0..756f268993 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -1006,6 +1006,11 @@ static void cpu_handle_guest_debug(CPUState *cpu)
- {
-     if (replay_running_debug()) {
-         if (!cpu->singlestep_enabled) {
-+            /*
-+             * Report about the breakpoint and
-+             * make a single step to skip it
-+             */
-+            replay_breakpoint();
-             cpu_single_step(cpu, SSTEP_ENABLE);
-         } else {
-             cpu_single_step(cpu, 0);
-diff --git a/stubs/replay.c b/stubs/replay.c
-index d5b52302e9..45ebe77fb9 100644
---- a/stubs/replay.c
-+++ b/stubs/replay.c
-@@ -98,3 +98,8 @@ bool replay_reverse_step(void)
- {
-     return false;
- }
-+
-+bool replay_reverse_continue(void)
-+{
-+    return false;
-+}
 
 
