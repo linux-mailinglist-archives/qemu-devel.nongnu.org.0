@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3E0274D07
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:03:12 +0200 (CEST)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C771274D0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:04:39 +0200 (CEST)
+Received: from localhost ([::1]:52720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKrJX-0002KW-7O
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:03:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60588)
+	id 1kKrKw-0004lB-2b
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:04:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2o-0002TS-Vr
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39250)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2m-0002NN-KH
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2j-0000SL-Jj
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:54 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2i-0000SD-NW
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600814731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=232eQWeKYWfjYkVfsdM3w9PjzW/Nwek6bkxa9wq53J0=;
- b=Tm+GZu47cxqP6QkEeIKRhGSp4FYlYivc2w5Sg4Ia2vDvkXKQD0ez0rn/uppM7px0BBPWIq
- B9OsusCfG1m/+NYitN7wMGWbnW+C3ERnDLNEVhDgDyil0N87/9BiXLlQc3MZbgticKunw1
- TUJ50D7K8yzEda7281VbKQ1rvVQzC0k=
+ bh=xC9YApRVYdH1maLPFSf2iLjeB6pl0D1w4/NJEgJ7SRk=;
+ b=IyW1pJeRWGCv6nclyPm3DmQGicWKfczWMDCBE3toQgxb8mKOd4oyld2G44lfNd3Uuwfnak
+ puBhRbIBOPPPoGM+taYQwFWdlcKopVa2jY7SQVX5fXBCZKpc81SiHTJpT/bfRxVt3E9+In
+ SjLjIFJUZi7oexcGtHSOHxcNgNjqIWo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-jvJHcrs_MYOiZaX4MkIE7Q-1; Tue, 22 Sep 2020 18:45:28 -0400
-X-MC-Unique: jvJHcrs_MYOiZaX4MkIE7Q-1
+ us-mta-481-dCXCEEm8PEelBIoBmKvJUg-1; Tue, 22 Sep 2020 18:45:29 -0400
+X-MC-Unique: dCXCEEm8PEelBIoBmKvJUg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 128DB81CBE9;
- Tue, 22 Sep 2020 22:45:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10EB1802B49;
+ Tue, 22 Sep 2020 22:45:28 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 378A05C1A3;
- Tue, 22 Sep 2020 22:45:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3FA3C5C1A3;
+ Tue, 22 Sep 2020 22:45:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 17/25] qapi: Disable similarity checks in pylint entirely
-Date: Tue, 22 Sep 2020 18:44:53 -0400
-Message-Id: <20200922224501.4087749-18-jsnow@redhat.com>
+Subject: [PATCH 18/25] qapi/schema.py: Add pylint warning suppressions
+Date: Tue, 22 Sep 2020 18:44:54 -0400
+Message-Id: <20200922224501.4087749-19-jsnow@redhat.com>
 In-Reply-To: <20200922224501.4087749-1-jsnow@redhat.com>
 References: <20200922224501.4087749-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,32 +84,32 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pylint similarity checks cannot distinguish parameter lists from
-other code; with the QAPISchemaVisitor interface having long lists of
-parameters, these similarity checks fire off in a way that's difficult
-to disable in a targeted way without littering the code with pylint
-pragmas.
-
-There is a change request filed to be able to ignore parameter lists,
-see: https://github.com/PyCQA/pylint/issues/3619
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/pylintrc | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qapi/schema.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index 5091a08f12..fb444e93bb 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -18,6 +18,7 @@ ignore-patterns=schema.py,
- # --disable=W".
- disable=fixme,
-         missing-docstring,
-+        similarities, # See https://github.com/PyCQA/pylint/issues/3619
-         too-many-arguments,
-         too-many-branches,
-         too-many-statements,
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 8907bec0b5..61238c0686 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -39,6 +39,8 @@
+ 
+ class Visitable:
+     """Abstract duck that suggests a class is visitable."""
++    # pylint: disable=too-few-public-methods
++
+     def visit(self, visitor: 'QAPISchemaVisitor') -> None:
+         raise NotImplementedError
+ 
+@@ -133,6 +135,7 @@ def visit_module(self, name: Optional[str]) -> None:
+         pass
+ 
+     def visit_needed(self, entity: QAPISchemaEntity) -> bool:
++        # pylint: disable=unused-argument, no-self-use
+         # Default to visiting everything
+         return True
+ 
 -- 
 2.26.2
 
