@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536AE274704
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 18:54:50 +0200 (CEST)
-Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4787727473F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:07:51 +0200 (CEST)
+Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKlZ3-0000i9-EN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 12:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59626)
+	id 1kKlld-0002cs-T7
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKlX5-0007zD-CA
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:52:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43586)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKlGW-0002l2-Gh
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:35:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKlX2-0005Vh-Qn
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:52:46 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKlGT-0002ji-Qa
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:35:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600793560;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1600792536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qc6TZL54s4dJFarQuN3iq4D6GuscyYqHZtW3brPE1IA=;
- b=VFqTqDPKGrBPYd9ubPy25GQfyhqZRVjka7Pesl7Y815eu+cOfloHOTJaoP4RZgKKh1n9eB
- 4xGC6yva1f0Pb1mvlakjDJVF5BjKNdUMPQorY/vov1h/xf+q5EsPqxTHYUOolkqwaxpROk
- d3DRmgV0fgyozl29nQspOYk8Dhz8InA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-USqeik3gNUymft68ZFmWEQ-1; Tue, 22 Sep 2020 12:52:35 -0400
-X-MC-Unique: USqeik3gNUymft68ZFmWEQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3102F57037;
- Tue, 22 Sep 2020 16:52:34 +0000 (UTC)
-Received: from redhat.com (ovpn-114-64.ams2.redhat.com [10.36.114.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58486614F5;
- Tue, 22 Sep 2020 16:52:26 +0000 (UTC)
-Date: Tue, 22 Sep 2020 17:52:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] PoC: Rust binding for QAPI (qemu-ga only, for now)
-Message-ID: <20200922165223.GT1989025@redhat.com>
-References: <20200910174850.716104-1-marcandre.lureau@redhat.com>
- <87mu1j8p7p.fsf@dusky.pond.sub.org>
- <CAMxuvayvRfjUMYDiB5fm5QBD76kfD8-G1wTEucQTBbZUtnwXrA@mail.gmail.com>
- <874knpluez.fsf@dusky.pond.sub.org>
+ bh=wqnZJOEuUcpQsb9WxFVyyP93CsLg6sjqatL0aqqSBQQ=;
+ b=MDtH/Y60HhA+SLBG33BiA0/k5mLGwTztGJ8+vK5EqLOgZOo5eiZUUfm8pQJjQ3gfukBBgu
+ ynhq38pJGBRIR5zlOHYvAIKo5g/u/iRI00UyesyIF/ETrLNSOXT8WPYyqndB86zxSnzL1d
+ kMcEP1Sy5gGDKPfNicnBlS1qZYVJYeQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-DGd_1nlePTeisHNTrtp0MA-1; Tue, 22 Sep 2020 12:35:34 -0400
+X-MC-Unique: DGd_1nlePTeisHNTrtp0MA-1
+Received: by mail-wm1-f69.google.com with SMTP id y18so757226wma.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 09:35:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wqnZJOEuUcpQsb9WxFVyyP93CsLg6sjqatL0aqqSBQQ=;
+ b=bbeRw8a9XsL2IVvbrzo/Gr4pg9suKss0K9X0cP3nktPPlAgFXQT0KcT4U2Mi1LA1xm
+ SHghrpq+wjgeVfcw1pdvAZc6IhLl6DXAyY8mUnTbtkPbAKemgmHuhbXmUErwbzg33sJC
+ +MePypPvoAWS12tE6rXdWJokkjGcWBtcJZTlPuAkODBN/zLmPzRPXbU03cOU1d5HjMtc
+ S9NIrcDyLeH/6n1bZFujFjWYYWRsYm393CAMiDOxQUPAGzSa5zNr3QepKWVx1xu4sJyH
+ y9EEj2ZKvCP998dESR4hZsCk70peRZacKcdTuIYI7k0MiKgFnI2oTTRBC93o/S+1liHn
+ A/aA==
+X-Gm-Message-State: AOAM5303FLny+BSct3whGE9c7f7kKTAhkpqlVwugtJOiaSMaxhxlpiv7
+ C1DETutAWLJSErXUrjEKtokO6viEcgUQMzLz9DIdd/RuqHgkZzzRYoa/PEz2sLP68iq97CuzcPE
+ MVVL63JpX2wwbQqo=
+X-Received: by 2002:adf:f548:: with SMTP id j8mr6612346wrp.114.1600792532879; 
+ Tue, 22 Sep 2020 09:35:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqF4Y+cacSmuxU0BUVFAeI6G0w9kAb357NlYFwmqscXwbJmhgReQfV5cT5ClZjzsBaUQhDJQ==
+X-Received: by 2002:adf:f548:: with SMTP id j8mr6612325wrp.114.1600792532608; 
+ Tue, 22 Sep 2020 09:35:32 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ec2c:90a9:1236:ebc6?
+ ([2001:b07:6468:f312:ec2c:90a9:1236:ebc6])
+ by smtp.gmail.com with ESMTPSA id 189sm5477189wmb.3.2020.09.22.09.35.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Sep 2020 09:35:32 -0700 (PDT)
+Subject: Re: [PATCH] coverity_scan: switch to vpath build
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200922130806.1506324-1-pbonzini@redhat.com>
+ <CAFEAcA8kovt998Ds0jbEAJTqkHmJETcHvfwqCS-JZWWW+=wLrw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a242b133-4e2c-72b4-5739-a51cb3bd59d3@redhat.com>
+Date: Tue, 22 Sep 2020 18:35:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <874knpluez.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAFEAcA8kovt998Ds0jbEAJTqkHmJETcHvfwqCS-JZWWW+=wLrw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -72,8 +87,9 @@ X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,93 +102,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Sergio Lopez Pascual <slp@redhat.com>, "Hajnoczi,
- Stefan" <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>, "Bonzini,
- Paolo" <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:09:56PM +0200, Markus Armbruster wrote:
-> Marc-André Lureau <marcandre.lureau@redhat.com> writes:
-> 
-> > Hi
-> >
-> > On Mon, Sep 21, 2020 at 1:16 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> We've made use of this extensively.  See also
-> >> docs/devel/qapi-code-gen.txt section "Compatibility considerations."
-> >>
-> >> How do such changes affect clients of the proposed D-Bus interface?
-> >
-> > The introspection XML will always reflect the expected signature. You
-> > should bump your interface version whenever you make incompatible
-> > changes.
-> 
-> How do "interface versions" work?  Client's and server's version need to
-> match, or else no go?
+On 22/09/20 15:18, Peter Maydell wrote:
+>> +echo "Nuking build directory..."
+>> +rm -rf +build
+>
+> As Philippe points out, odd name choice.
+> It might also be nice to steal the logic from configure
+> that avoids blowing away the build directory if it
+> wasn't created by this script in the first place.
 
-Yes, both client and server need to support the same "interface" in order
-to talk to each other. If a service makes an incompatible API change, then
-then change the interface name. It is common to include a number in the
-interface name.
+I thought that was a bit overkill for this usage, and just used a
+slightly odd name to limit the chance of doing damage.
 
-Of course some changes can be made in a backwards compatible manner so
-don't require changing the interface. eg adding new methods, adding
-new signals (aka async events), adding new properties.
+> PS: on the subject of component regexes, they seem to have
+> vanished from the Coverity website. I don't suppose you have
+> a backup of them, do you ? (I have a list of what the component
+> names were, but not the associated regexes.)
 
-Adding/changing/removing parameters  in an existing method is what
-causes an interface incompatability.
+I did have a backup and I've now tried to update them again.
+It passed, here they are:
 
-You can potentially mitigate the inability to change parameters by
-modelling parameters in a variety of ways.
+alpha	(/qemu)?((/include)?/hw/alpha/.*|/target/alpha/.*)
+arm     (/qemu)?((/include)?/hw/arm/.*|(/include)?/hw/.*/(arm|allwinner-a10|bcm28|digic|exynos|imx|omap|stellaris|pxa2xx|versatile|zynq|cadence).*|/hw/net/xgmac.c|/hw/ssi/xilinx_spips.c|/target/arm/.*)
+avr     (/qemu)?((/include)?/hw/avr/.*|/target/avr/.*)
+cris    (/qemu)?((/include)?/hw/cris/.*|/target/cris/.*)
+hppa    (/qemu)?(/target/hppa/.*)
+i386    (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^/]*\.c)
+lm32    (/qemu)?((/include)?/hw/lm32/.*|/target/lm32/.*|/hw/.*/(milkymist|lm32).*)
+m68k    (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*)
+microblaze      (/qemu)?((/include)?/hw/microblaze/.*|/target/microblaze/.*)
+mips    (/qemu)?((/include)?/hw/mips/.*|/target/mips/.*)
+nios2   (/qemu)?((/include)?/hw/nios2/.*|/target/nios2/.*)
+ppc     (/qemu)?((/include)?/hw/ppc/.*|/target/ppc/.*|/hw/pci-host/(uninorth.*|dec.*|prep.*|ppc.*)|/hw/misc/macio/.*|(/include)?/hw/.*/(xics|openpic|spapr).*)
+riscv   (/qemu)?((/include)?/hw/riscv/.*|/target/riscv/.*)
+rx      (/qemu)?((/include)?/hw/rx/.*|/target/rx/.*)
+s390    (/qemu)?((/include)?/hw/s390x/.*|/target/s390x/.*|/hw/.*/s390_.*)
+sh4     (/qemu)?((/include)?/hw/sh4/.*|/target/sh4/.*)
+sparc   (/qemu)?((/include)?/hw/sparc(64)?.*|/target/sparc/.*|/hw/.*/grlib.*|/hw/display/cg3.c)
+tilegx  (/qemu)?(/target/tilegx/.*)
+tricore         (/qemu)?((/include)?/hw/tricore/.*|/target/tricore/.*)
+unicore32       (/qemu)?((/include)?/hw/unicore32/.*|/target/unicore32/.*)
+9pfs    (/qemu)?(/hw/9pfs/.*|/fsdev/.*)
+audio   (/qemu)?((/include)?/(audio|hw/audio)/.*)
+block   (/qemu)?(/block.*|(/include?)(/hw)?/(block|storage-daemon)/.*|(/include)?/hw/ide/.*|/qemu-(img|io).*|/util/(aio|async|thread-pool).*)
+char    (/qemu)?(/qemu-char\.c|/include/sysemu/char\.h|(/include)?/hw/char/.*)
+capstone        (/qemu)?(/capstone/.*)
+crypto  (/qemu)?((/include)?/crypto/.*|/hw/.*/crypto.*)
+disas   (/qemu)?((/include)?/disas.*)
+fpu     (/qemu)?((/include)?(/fpu|/libdecnumber)/.*)
+io      (/qemu)?((/include)?/io/.*)
+ipmi    (/qemu)?((/include)?/hw/ipmi/.*)
+libvixl         (/qemu)?(/disas/libvixl/.*)
+migration       (/qemu)?((/include)?/migration/.*)
+monitor         (/qemu)?(/qapi.*|/qobject/.*|/monitor\..*|/[hq]mp\..*)
+nbd     (/qemu)?(/nbd/.*|/include/block/nbd.*|/qemu-nbd\.c)
+net     (/qemu)?((/include)?(/hw)?/(net|rdma)/.*)
+pci     (/qemu)?(/hw/pci.*|/include/hw/pci.*)
+qemu-ga         (/qemu)?(/qga/.*)
+scsi    (/qemu)?(/scsi/.*|/hw/scsi/.*|/include/hw/scsi/.*)
+slirp   (/qemu)?(/.*slirp.*)
+tcg     (/qemu)?(/accel/tcg/.*|/replay/.*|/(.*/)?softmmu.*)
+trace   (/qemu)?(/.*trace.*\.[ch])
+ui      (/qemu)?((/include)?(/ui|/hw/display|/hw/input)/.*)
+usb     (/qemu)?(/hw/usb/.*|/include/hw/usb/.*)
+user    (/qemu)?(/linux-user/.*|/bsd-user/.*|/user-exec\.c|/thunk\.c|/include/exec/user/.*)
+util    (/qemu)?(/util/.*|/include/qemu/.*)
+xen     (/qemu)?(.*/xen.*)
+(headers)       (/qemu)?(/include/.*)
+virtiofsd       (/qemu)?(/tools/virtiofsd/.*)
 
-Many of the tricks common in traditional C libraries for future
-proofing API designs will apply equally well to DBus APIs.
+Adding the "Other" component fails but, this time, it didn't blow up
+and delete everything else.
 
-For example, instead of modelling everything as a distinct positional
-parameter, you can model them as optional named parameters. These would
-be exposed as an array(map(string-variant)) - basically think of it as a
-hash table. This is a half-way house between very strongly typed and very
-weakly typed worlds.  Libvirt takes this approach with some of our C APIs
-that we expect to grow parameters over time.
-
-A variant on this is to expose some data in a custom document format
-as a single parameter. For example if there was an API requesting a
-description of a block backend properties, instead of having a DBus
-API where all the block backend props were explicitly modelled, just
-have a single string parameter that returns a JSON/XML doc. You can
-extend that doc at will without impacting the DBus API. Again libvirt
-takes this approach with our XML doc schema.
-
-A final useful technique is to have a generic "int flags" parameter as
-a way to express new functional behaviour by defining extra flags.
-
-
-The challenge with all these ideas is figuring out whether there's
-a viable way to map them into how we describe the current QMP protocol.
-I don't think there's a especially good answer to do a 100% automated
-mapping from QMP to DBus, while keeping extensibility and also maximising
-strong type checking benefits. There's a tradeoff between extensibility
-and strong typing that needs some intelligent thought on a case by case
-basis IMHO.
-
-For an automated mapping, either we go fully strong typed and accept
-that we'll be breaking DBus interface compatibility continually, or
-we go full weakly typed and accept that clients won't get much type
-validation benefits at build time.
-
-It is the inherant problem with using something weakly typed as the
-master specification and trying to translate it to something strongly
-typed.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Paolo
 
 
