@@ -2,76 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D53427428D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 14:59:57 +0200 (CEST)
-Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC4B27429E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:05:30 +0200 (CEST)
+Received: from localhost ([::1]:46680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKhtk-0004f9-FL
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 08:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51876)
+	id 1kKhz5-0000M0-NH
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:05:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKhsU-0003n4-Mv
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:58:38 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:34505)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKhsS-0003vh-K8
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:58:38 -0400
-Received: by mail-ej1-x643.google.com with SMTP id gr14so22782931ejb.1
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 05:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=N5Z73QvtiNAUArAvX+uxmifGae2fI1/AqJ7D0KhemjE=;
- b=Ohw8RBonCrsudP34g/KmbVl8rjaoYIm/uZAE/rKvBt4RGUhuQ7aHLwqL7KV8sM+VrK
- fX9A70ck6Bvi3wvFW8RqNjAfU/RzNUjxMvEtzabzuLo7VtvdP/fdxwgv7MUFkCGOll/+
- 2zNzglFq9v7bYdIebUXpbUdpFeS5d04pCkbR+yNfWCg2xATJ3StN0+aDwDoipTibgjCA
- Zojixq2sF2iPTqZyu4blGkwvCoAScqPJ59Gpg9xRhEopHFUqiM/kpD4cgvUzr1ui8Kbl
- NoZ+9cl8yYyTkBZzJjrjCi007/+gyhDPSSz1FG5CSqzeJ46pdn5UXZlXQDF70FBnAJYF
- PN4w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKhsl-0004Dh-Vg
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:58:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54564
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKhsk-0003wb-6p
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:58:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600779532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=kPDsO1eyFkdVPDmYwUfg9U/1aBMKStps2jue86hmL4I=;
+ b=J/c3IZUqAY+btoHBMXy3BP2HYx3oMl+hwgdYOnRnITbp/NCOD5lQDenuaEXoGzBHFenvRa
+ ddLDzm/2qwi7ozvidlfIR3OTYZJnlLWqyLtbUlHWrn7VdKl5iLT9KFB2cmrivKDMdtduyF
+ 4uhDad9DiH05++yBBw5+8c+qgqP4pP0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-Yaeu4L9sOTaxK2zellWqGQ-1; Tue, 22 Sep 2020 08:58:51 -0400
+X-MC-Unique: Yaeu4L9sOTaxK2zellWqGQ-1
+Received: by mail-wm1-f70.google.com with SMTP id w3so882943wmg.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 05:58:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=N5Z73QvtiNAUArAvX+uxmifGae2fI1/AqJ7D0KhemjE=;
- b=iroDEYR04bXP2ASNuVHzp2Ha1lDZjIzHO8DzVoIDVKuKm3cpRkWR3xi1cVCNZNh/42
- 98aLwUod0BulPJN+UsXxzzUrZioZ9fJNvSxCq35hbn/wvSD7WE5QZfbGbuRSnObMbkh0
- 7yzRFdtzHVz2nneiayGGxWUMgK7B4AubMNmVJlVSMunveXcSBx8YRtXHfBpsrewHqscO
- r5DLneMXw1ZqzkMtXiCJNhQ7sdlXwZTTA+n+U6URdsCv3GxxJHklLR628oEkuLYcQHui
- 7zzQcU8z4X7vmF3Pqde+aTMYCrG8pQe6fio9QI0AfCe/izYE8DOEBU7riTNgL93h4uO8
- OW7g==
-X-Gm-Message-State: AOAM5332B9Salho3NvXr0amft1RDI3uMXz8N7NT2Yb/ITrVf2MU/KEy2
- RVSwJG2o3bITG6qszj3ugXuF9RROq0IwT5o/r7Hr1Q==
-X-Google-Smtp-Source: ABdhPJxMtwfLAIAUBoCH6LbyrsFfKp2M4m6Sa7MuQbaJ5F4Ol3uzrFjjJtUoPwX1jIMi+W+aVQr+eqabsR4CMnIcweQ=
-X-Received: by 2002:a17:906:71c9:: with SMTP id
- i9mr4694565ejk.250.1600779514951; 
- Tue, 22 Sep 2020 05:58:34 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=kPDsO1eyFkdVPDmYwUfg9U/1aBMKStps2jue86hmL4I=;
+ b=YcCITcq2RW9fEfDNeRbOar3IV7w5z68CAfxtMS6CExkr3bGfhubRTTEqiwC2NELald
+ JgvK0edpkwojVOR2ruQ6nI72Fi14bljRBQ8mhkrpj0N3n6/1dVs2Pk9DR+EDgj9SICVi
+ 9ma63C3r89R1GiwEZK9+5xUZhj5iwO684LJDpGqeFE8FWtPvQdnxXuJz4tm6UEhtgCs2
+ F08C+SNzitRfDGB5Tzi8fS9gJZ0p2ogGoebsjcoSUQX1cFjjtlqefQ4PnwhDAj8B77vZ
+ dSMuBBmIhmRZ+lJ6efDwj4TCz73K44cjY6yQXTk7yaQawRg1KVLTQ76Q60G031clyYVU
+ fqfA==
+X-Gm-Message-State: AOAM531ogndsOf+/PE7tSXdRo9RRs8c2qlU/6/4YKoa2AfuKiT3ZfdaX
+ GIpx9zQ3maH1Wq2DZMA8hezR8Q8AtunuL1R9TAc0r7w4lxTB32w3JutaKZjM3L+1I3FzrLhSMcI
+ tjikCIJI3jyJzOJE=
+X-Received: by 2002:a5d:5307:: with SMTP id e7mr5174628wrv.215.1600779530097; 
+ Tue, 22 Sep 2020 05:58:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyl5DneBg84kZH2QakEAsVj6ETYpORtWCTOvgxY88YSqu9rDrcpdpMrmBau79qs+9lCCpf0Q==
+X-Received: by 2002:a5d:5307:: with SMTP id e7mr5174612wrv.215.1600779529910; 
+ Tue, 22 Sep 2020 05:58:49 -0700 (PDT)
+Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
+ [83.57.170.65])
+ by smtp.gmail.com with ESMTPSA id 2sm4407378wmf.25.2020.09.22.05.58.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Sep 2020 05:58:49 -0700 (PDT)
+Subject: Re: [PATCH v5 02/15] replay: provide an accessor for rr filename
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <160077693745.10249.9707329107813662236.stgit@pasha-ThinkPad-X280>
+ <160077694915.10249.14893037100345813692.stgit@pasha-ThinkPad-X280>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <0ca456d5-6b3e-2eed-46db-1b85fddb3928@redhat.com>
+Date: Tue, 22 Sep 2020 14:58:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200810195019.25427-1-peter.maydell@linaro.org>
- <20200810195019.25427-11-peter.maydell@linaro.org>
- <875z8t7kd0.fsf@dusky.pond.sub.org>
- <CAFEAcA9ZPO32XC1NwH=qa4mNF8c_xZeW8Z6MTrJ0FLmB6kytXQ@mail.gmail.com>
- <87wo0mqavm.fsf@dusky.pond.sub.org>
-In-Reply-To: <87wo0mqavm.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Sep 2020 13:58:22 +0100
-Message-ID: <CAFEAcA8uYhrpsYM5u+0MJKOK3R_NwPefC1jdJMYF3VWohe4mfA@mail.gmail.com>
-Subject: Re: [PATCH v5 10/20] docs/interop: Convert qemu-ga-ref to rST
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <160077694915.10249.14893037100345813692.stgit@pasha-ThinkPad-X280>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 01:57:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,45 +123,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
+ mtosatti@redhat.com, armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org,
+ zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Sep 2020 at 13:01, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > The Sphinx interop manual has the usual footer:
-> > https://www.qemu.org/docs/master/interop/index.html
-> > "=C2=A92020, The QEMU Project Developers."
-> >
-> > The system manual has an explicit "License" section:
-> > https://www.qemu.org/docs/master/system/license.html
-> > but that's documenting the license of the program, not the
-> > manual (it's docs/system/license.rst).
-> >
-> > We could do any or all of:
-> >  * decide that we're happy with the current situation
-> >  * expand the "copyright" footer to something like
-> >    '=C2=A92020, The QEMU Project Developers; this manual is GPLv2'
-> >  * have a docs/foo/license.rst for each manual, and expand
-> >    it to mention the documentation license as well as the
-> >    code license
-> >
-> > Given that the Texinfo generated QMP/QGA references don't
-> > actually present this text to the reader, my inclination
-> > is to say that this is something we should address in
-> > a separate patchseries, not as part of this conversion.
->
-> I think the manual should have a proper copyright notice.
+On 9/22/20 2:15 PM, Pavel Dovgalyuk wrote:
+> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+> 
+> This patch adds an accessor function for the name of the record/replay
+> log file. Adding an accessor instead of making variable global,
+> prevents accidental modification of this variable by other modules.
+> 
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  include/sysemu/replay.h |    2 ++
+>  replay/replay.c         |    5 +++++
+>  2 files changed, 7 insertions(+)
 
-It does -- that's the standard Sphinx footer that reads
-"=C2=A92020, The QEMU Project Developers." What it's missing
-is more precise licensing information.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> If you'd prefer to (re-)add it later, stick in TODO comment.
-
-Where would you want a TODO to be ?
-
-thanks
--- PMM
 
