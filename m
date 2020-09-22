@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5647274AEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:13:38 +0200 (CEST)
-Received: from localhost ([::1]:38916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA933274B01
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:17:28 +0200 (CEST)
+Received: from localhost ([::1]:50688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpbV-0008Qg-Pe
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37148)
+	id 1kKpfD-000560-LW
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ0-000272-7T
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53427)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ1-0002Aq-It
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPu-0004Zn-Nt
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:43 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPx-0004a0-Tl
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600808496;
+ s=mimecast20190719; t=1600808499;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8WtqxaSw1MTImERH4LhuKMMOrFNggPc8qUjTc00nyy0=;
- b=YjNBMnXyDKT44JAEZ369Dp+OfcIA+I6GnIwNRKjeqyOx9ujyUDRN6ZefgyPohfrSMyvfzt
- 7ZS/IbreUWsXNEO3Cy1x2FRp5ERrLkErD5fcpiA8wohloiR1RQPz4gReP5a8OcbQJ2lb2A
- a5QpTU0M8wUd0kR8v9ZrcUAwta6fMY8=
+ bh=Dg7npXVAAO6MKtoTq8yKwcSRTMtaXYno4U8oSZj+4jE=;
+ b=NUM4fLgSZHKEhTYxXhJFLExbRuD+zptcQXDFlLTt8p9Oz2Uo3j70L19fWh2ya6Nyv3OSxc
+ 3UPZGd/6v2Os22oPIr7SIFAHwNQiqBTfmpjEkfb9L7fSVQ5D4+zS60uf5yBJVWJLk9YbnP
+ 8oEuAt8NqlqU+fZYfLmjof1wF/dm5Dg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-k-i3HLS-NlKSBZtTabBmrg-1; Tue, 22 Sep 2020 17:01:34 -0400
-X-MC-Unique: k-i3HLS-NlKSBZtTabBmrg-1
+ us-mta-515-pRPWY3eENj2HdXIQDwuwqw-1; Tue, 22 Sep 2020 17:01:35 -0400
+X-MC-Unique: pRPWY3eENj2HdXIQDwuwqw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6EED83DC20;
- Tue, 22 Sep 2020 21:01:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 614BF1074641;
+ Tue, 22 Sep 2020 21:01:34 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A316955765;
- Tue, 22 Sep 2020 21:01:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 276625577A;
+ Tue, 22 Sep 2020 21:01:33 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 18/38] qapi/events.py: Move comments into docstrings
-Date: Tue, 22 Sep 2020 17:00:41 -0400
-Message-Id: <20200922210101.4081073-19-jsnow@redhat.com>
+Subject: [PATCH v2 19/38] qapi/commands.py: Don't re-bind to variable of
+ different type
+Date: Tue, 22 Sep 2020 17:00:42 -0400
+Message-Id: <20200922210101.4081073-20-jsnow@redhat.com>
 In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
@@ -87,27 +88,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Mypy isn't a fan of rebinding a variable with a new data type.
+It's easy enough to avoid.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/events.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/commands.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 00a9513c16..e859fd7a52 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -52,8 +52,10 @@ def gen_event_send_decl(name: str,
-                  proto=build_event_send_proto(name, arg_type, boxed))
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 9b3f24b8ed..389dd879a6 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -198,14 +198,12 @@ def gen_register_command(name, success_response, allow_oob, allow_preconfig):
+     if not options:
+         options = ['QCO_NO_OPTIONS']
  
- 
--# Declare and initialize an object 'qapi' using parameters from build_params()
- def gen_param_var(typ: QAPISchemaObjectType) -> str:
-+    """
-+    Declare and initialize a qapi object, using parameters from `build_params`.
-+    """
-     assert not typ.variants
+-    options = " | ".join(options)
+-
      ret = mcgen('''
-     %(c_name)s param = {
+     qmp_register_command(cmds, "%(name)s",
+                          qmp_marshal_%(c_name)s, %(opts)s);
+ ''',
+                 name=name, c_name=c_name(name),
+-                opts=options)
++                opts=" | ".join(options))
+     return ret
+ 
+ 
 -- 
 2.26.2
 
