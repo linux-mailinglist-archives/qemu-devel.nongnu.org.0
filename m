@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D76274A0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 22:21:32 +0200 (CEST)
-Received: from localhost ([::1]:56798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82381274A13
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 22:23:04 +0200 (CEST)
+Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKon5-0002zZ-IN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 16:21:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
+	id 1kKooZ-0004lK-JZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 16:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKolF-0001xk-H5
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:19:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39238)
+ id 1kKolM-000247-Bk
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:19:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKolC-00082e-Tv
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:19:37 -0400
+ id 1kKolK-00083N-Qw
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:19:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600805973;
+ s=mimecast20190719; t=1600805982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9x1hlobF7KdJZj9Gxk1LjuIS+slLQ+pwDxPhU6e65XM=;
- b=PTFU2SDdUQQ67SQzGisHHYk75sge+GvSZ8REiUK19OFvlBPdGYBv0RcIMwOae0XaPTEJKl
- IuAL4sCZL1GBDRh7OPTx1UIbSWlr4o5dmN9xk5pj/E854UpBLIv/mBeq0UOy13dpVFY8mI
- PLMELVcD6B2THaCavPqucw+ZicFh5b0=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gYUw7on53U22xygxI96tyg7A07dVivNHpOasjcBU6xE=;
+ b=KLevdMMv9gotw55GmpBW+AIG5r3QtCJ1J4Qxk7ruHOL6Ya0hthlZ1GL0glzppCr8CZ44Z4
+ /M4Squ8jga+i67qxkqJgENMJokaHl3kKSW3rmmgztdgMU3h9XsO+h5AL17M/gli5zXRODk
+ X7tJeQ7OQsZAnF8/RtjKs5+bzUl/hmo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-Bz2zwGMvOnmXRDFrPmH-aw-1; Tue, 22 Sep 2020 16:19:31 -0400
-X-MC-Unique: Bz2zwGMvOnmXRDFrPmH-aw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-490-qWR7WA25Mr63xgyCP0dkpg-1; Tue, 22 Sep 2020 16:19:38 -0400
+X-MC-Unique: qWR7WA25Mr63xgyCP0dkpg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF4C118B9ECB;
- Tue, 22 Sep 2020 20:19:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0283C8B124D;
+ Tue, 22 Sep 2020 20:19:37 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 946A519D6C;
- Tue, 22 Sep 2020 20:19:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E406F5DD99;
+ Tue, 22 Sep 2020 20:19:30 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] i386/kvm: Assume IRQ routing is always available
-Date: Tue, 22 Sep 2020 16:19:19 -0400
-Message-Id: <20200922201922.2153598-1-ehabkost@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH 1/3] i386/kvm: Require KVM_CAP_IRQ_ROUTING
+Date: Tue, 22 Sep 2020 16:19:20 -0400
+Message-Id: <20200922201922.2153598-2-ehabkost@redhat.com>
+In-Reply-To: <20200922201922.2153598-1-ehabkost@redhat.com>
+References: <20200922201922.2153598-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
@@ -80,27 +82,31 @@ Cc: Sergio Lopez <slp@redhat.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM_CAP_IRQ_ROUTING is available since 2019 (Linux v2.6.30), so=0D
-we can safely assume it's always present and remove some runtime=0D
-checks.=0D
-=0D
-Eduardo Habkost (3):=0D
-  i386/kvm: Require KVM_CAP_IRQ_ROUTING=0D
-  i386/kvm: Remove IRQ routing support checks=0D
-  i386/kvm: Delete kvm_allows_irq0_override()=0D
-=0D
- target/i386/kvm_i386.h |  1 -=0D
- hw/i386/fw_cfg.c       |  2 +-=0D
- hw/i386/kvm/apic.c     |  5 ++---=0D
- hw/i386/kvm/ioapic.c   | 33 ++++++++++++++++-----------------=0D
- hw/i386/microvm.c      |  2 +-=0D
- hw/i386/pc.c           |  2 +-=0D
- target/i386/kvm-stub.c |  5 -----=0D
- target/i386/kvm.c      | 17 +++++------------=0D
- 8 files changed, 26 insertions(+), 41 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+KVM_CAP_IRQ_ROUTING is available since 2009 (Linux v2.6.30), so
+it's safe to just make it a requirement on x86.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ target/i386/kvm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 9efb07e7c83..d884ff1b071 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -2129,6 +2129,11 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     int ret;
+     struct utsname utsname;
+ 
++    if (!kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
++        error_report("kvm: KVM_CAP_IRQ_ROUTING not supported by KVM");
++        return -ENOTSUP;
++    }
++
+     has_xsave = kvm_check_extension(s, KVM_CAP_XSAVE);
+     has_xcrs = kvm_check_extension(s, KVM_CAP_XCRS);
+     has_pit_state2 = kvm_check_extension(s, KVM_CAP_PIT_STATE2);
+-- 
+2.26.2
 
 
