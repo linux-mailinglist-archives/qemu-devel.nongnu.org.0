@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2027273D7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 10:40:16 +0200 (CEST)
-Received: from localhost ([::1]:42490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66618273D92
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 10:42:35 +0200 (CEST)
+Received: from localhost ([::1]:48682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKdqR-0007PF-LI
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 04:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53844)
+	id 1kKdsg-0001bS-Dz
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 04:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKdox-0005YN-HV
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 04:38:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40973
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKdp0-0005fd-VA
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 04:38:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKdou-0008Bb-He
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 04:38:43 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKdoz-0008Cn-30
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 04:38:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600763919;
+ s=mimecast20190719; t=1600763924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sZC6xa6hR7fJNx1ScYKH1kNh8OmwESP7iiqvw8pbcT0=;
- b=TikhrPotxM12FeVm13TS2+b7Q3d1lLWeuNHLR9Q9W1z9kW4uDAIU7QEq4E5TkyzAXE0S+E
- 052njGLqmxYsSUDSZmMXyzHtTb+Sleo2XLtAnPET+gNemg4J+b69rxsoYOpaPcw3yAdZtp
- uz1lHB1FtCnnIW/CAaSZveSOAYvQ2ac=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-49SRSuLjMUiryoQE7Zf5mA-1; Tue, 22 Sep 2020 04:38:36 -0400
-X-MC-Unique: 49SRSuLjMUiryoQE7Zf5mA-1
-Received: by mail-wm1-f69.google.com with SMTP id t10so383015wmi.9
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 01:38:35 -0700 (PDT)
+ bh=w3VSohO81qj1Qy9GMUYU8rCdXvyUaEcpLhj6tPxRG5I=;
+ b=EpGpm+SCxxWJzE91pK13CuCAnlojcSK0VSaug29WfeU0VKKpY/WLZc/2StAXK4lz1k/Xls
+ ykduUkTJ1xbSaF0ApYqtG+1NMrqCCGPFg0+iZmQ0y4f2Ht6FtqBbx70whBRx0WImXhUgen
+ CdViaUl/CV9q8khwZIthAhZgYmdhzrQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-ROkgl6s0MIuPsGiCQ54Zxg-1; Tue, 22 Sep 2020 04:38:40 -0400
+X-MC-Unique: ROkgl6s0MIuPsGiCQ54Zxg-1
+Received: by mail-wr1-f72.google.com with SMTP id a12so7106357wrg.13
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 01:38:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sZC6xa6hR7fJNx1ScYKH1kNh8OmwESP7iiqvw8pbcT0=;
- b=lHWIVWlPXrOB/8LYjVDguqjyONsu352gWuhh6OWp0JnhzvG2SUV9NhKzTXZNaqJL34
- Nwsa7EtYQfs9UMVZ4+/jmNbKWdCiG9dob6+lWF37spqFVs6PlAPip66nQL79swnLj3uw
- aJrJj1LeFP9KP7miGEUOcCUYXa8NJ7NUEtb4AgWwaihwdVFnjAH/RcqVQpLWHr36chnl
- ryjHVpJyvtefql6KNwZG6YL9ZUceYTE+biVpVtC0TSTovYm3gsMwMu6SpO/uMlbJp/rv
- lHFRinNna3sm3Aoxdyvo/c+gNoe1tT0Zx3KTymi0C4WztcESbzMlKEEOCDHJ3s6ipjea
- ZYlw==
-X-Gm-Message-State: AOAM532vIF8d5PqYAcO1eElvJXHrU14lZym+a9hMf+AtrTHxHOg4vTxR
- 6kLBSkuwIcN06zHIyyMYzT7DA2xfJNfOj06Zik4/yewlDkx1tsRsxizVvHXsZkg7fSwNVlQYk9s
- wdjU/GzgaUjkv/Rw=
-X-Received: by 2002:adf:c404:: with SMTP id v4mr3945423wrf.17.1600763914462;
- Tue, 22 Sep 2020 01:38:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxF+UhqcZjJhKCOx+Q+BQywL0fXH3wc58iclR4SZ3UwB3K+7NSbyy3ViBSWSzy1/bWyUBH3EA==
-X-Received: by 2002:adf:c404:: with SMTP id v4mr3945400wrf.17.1600763914258;
- Tue, 22 Sep 2020 01:38:34 -0700 (PDT)
+ bh=w3VSohO81qj1Qy9GMUYU8rCdXvyUaEcpLhj6tPxRG5I=;
+ b=SoN0NmRxN73NvuSNBMC20cxhJzcjDxBzDaobLQPw/D8y6bqSrERsJB6CeAcQEHw3w8
+ m4LOZio2II/UDrEgV2zA+EsMM2q86gRR0H/PUgZl4EN2Z6JuZ3twKLeQZmxAtFnajYt3
+ QLQVZEz9aTx+lK0dRh6XK0y+N2UghWjbeLDgYIdZz6h0YpM70A4ng/Q/FfQo1bKYKFDF
+ yO2De8fx61amMUt7KaNGVlF/ga5bHFDg7P1SP/Eh1fJY0EonWcSNbidX6G2D5YKZh3YG
+ A1l2TS3pZMg4zaeQS2hsSXw4V/gio+pyl1x8/2YLDocLz8AwHgdf5VevTRHmbl+52TAJ
+ ebHQ==
+X-Gm-Message-State: AOAM532stKxW2YxFvgckZ9ryNxvH3kLA6ac1wt8CWCl55rgcP1lQ0Ni2
+ TfmE9f1ga99q8z3Q27rRoz799HCng9AsaImkq61CNqf7xd+eYQCTCy+fDkXKpGMCLsyuRiPoRF1
+ ry4mPfzsfYwToCGs=
+X-Received: by 2002:a7b:c1d9:: with SMTP id a25mr3485423wmj.4.1600763919434;
+ Tue, 22 Sep 2020 01:38:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2A4AufQUmQ8oJDjFckC5bFktT4P9aa0D8sACtAvyc6hGPchj31267DKfeserMAUz86zQKPg==
+X-Received: by 2002:a7b:c1d9:: with SMTP id a25mr3485400wmj.4.1600763919174;
+ Tue, 22 Sep 2020 01:38:39 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a81sm3632300wmf.32.2020.09.22.01.38.33
+ by smtp.gmail.com with ESMTPSA id s26sm3574656wmh.44.2020.09.22.01.38.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Sep 2020 01:38:33 -0700 (PDT)
+ Tue, 22 Sep 2020 01:38:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v2 2/6] block/nvme: Map doorbells pages write-only
-Date: Tue, 22 Sep 2020 10:38:17 +0200
-Message-Id: <20200922083821.578519-3-philmd@redhat.com>
+Subject: [PATCH v2 3/6] block/nvme: Reduce I/O registers scope
+Date: Tue, 22 Sep 2020 10:38:18 +0200
+Message-Id: <20200922083821.578519-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200922083821.578519-1-philmd@redhat.com>
 References: <20200922083821.578519-1-philmd@redhat.com>
@@ -75,17 +74,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 01:57:21
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,108 +103,108 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the datasheet sections 3.1.13/3.1.14:
-  "The host should not read the doorbell registers."
-
-As we don't need read access, map the doorbells with write-only
-permission. We keep a reference to this mapped address in the
-BDRVNVMeState structure.
+We only access the I/O register in nvme_init().
+Remove the reference in BDRVNVMeState and reduce its scope.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+ block/nvme.c | 29 ++++++++++++++++-------------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 5a4dc6a722a..3c834da8fec 100644
+index 3c834da8fec..e517c7539ff 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -31,7 +31,7 @@
- #define NVME_SQ_ENTRY_BYTES 64
- #define NVME_CQ_ENTRY_BYTES 16
- #define NVME_QUEUE_SIZE 128
--#define NVME_BAR_SIZE 8192
-+#define NVME_DOORBELL_SIZE 4096
- 
- /*
-  * We have to leave one slot empty as that is the full queue case where
-@@ -84,10 +84,6 @@ typedef struct {
- /* Memory mapped registers */
- typedef volatile struct {
-     NvmeBar ctrl;
--    struct {
--        uint32_t sq_tail;
--        uint32_t cq_head;
--    } doorbells[];
- } NVMeRegs;
- 
- #define INDEX_ADMIN     0
-@@ -103,6 +99,11 @@ struct BDRVNVMeState {
+@@ -98,7 +98,6 @@ enum {
+ struct BDRVNVMeState {
      AioContext *aio_context;
      QEMUVFIOState *vfio;
-     NVMeRegs *regs;
-+    /* Memory mapped registers */
-+    volatile struct {
-+        uint32_t sq_tail;
-+        uint32_t cq_head;
-+    } *doorbells;
-     /* The submission/completion queue pairs.
-      * [0]: admin queue.
-      * [1..]: io queues.
-@@ -247,14 +248,14 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
-         error_propagate(errp, local_err);
-         goto fail;
-     }
--    q->sq.doorbell = &s->regs->doorbells[idx * s->doorbell_scale].sq_tail;
-+    q->sq.doorbell = &s->doorbells[idx * s->doorbell_scale].sq_tail;
+-    NVMeRegs *regs;
+     /* Memory mapped registers */
+     volatile struct {
+         uint32_t sq_tail;
+@@ -695,6 +694,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     uint64_t timeout_ms;
+     uint64_t deadline, now;
+     Error *local_err = NULL;
++    NVMeRegs *regs;
  
-     nvme_init_queue(s, &q->cq, size, NVME_CQ_ENTRY_BYTES, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         goto fail;
-     }
--    q->cq.doorbell = &s->regs->doorbells[idx * s->doorbell_scale].cq_head;
-+    q->cq.doorbell = &s->doorbells[idx * s->doorbell_scale].cq_head;
- 
-     return q;
- fail:
-@@ -712,13 +713,12 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     qemu_co_mutex_init(&s->dma_map_lock);
+     qemu_co_queue_init(&s->dma_flush_queue);
+@@ -713,16 +713,16 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
          goto out;
      }
  
--    s->regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, NVME_BAR_SIZE,
-+    s->regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, sizeof(NvmeBar),
-                                     PROT_READ | PROT_WRITE, errp);
-     if (!s->regs) {
+-    s->regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, sizeof(NvmeBar),
+-                                    PROT_READ | PROT_WRITE, errp);
+-    if (!s->regs) {
++    regs = qemu_vfio_pci_map_bar(s->vfio, 0, 0, sizeof(NvmeBar),
++                                 PROT_READ | PROT_WRITE, errp);
++    if (!regs) {
          ret = -EINVAL;
          goto out;
      }
--
      /* Perform initialize sequence as described in NVMe spec "7.6.1
       * Initialization". */
  
-@@ -748,6 +748,13 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         }
-     }
+-    cap = le64_to_cpu(s->regs->ctrl.cap);
++    cap = le64_to_cpu(regs->ctrl.cap);
+     if (!(cap & (1ULL << 37))) {
+         error_setg(errp, "Device doesn't support NVMe command set");
+         ret = -EINVAL;
+@@ -735,10 +735,10 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     timeout_ms = MIN(500 * ((cap >> 24) & 0xFF), 30000);
  
-+    s->doorbells = qemu_vfio_pci_map_bar(s->vfio, 0, sizeof(NvmeBar),
-+                                         NVME_DOORBELL_SIZE, PROT_WRITE, errp);
-+    if (!s->doorbells) {
-+        ret = -EINVAL;
-+        goto out;
+     /* Reset device to get a clean state. */
+-    s->regs->ctrl.cc = cpu_to_le32(le32_to_cpu(s->regs->ctrl.cc) & 0xFE);
++    regs->ctrl.cc = cpu_to_le32(le32_to_cpu(regs->ctrl.cc) & 0xFE);
+     /* Wait for CSTS.RDY = 0. */
+     deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * SCALE_MS;
+-    while (le32_to_cpu(s->regs->ctrl.csts) & 0x1) {
++    while (le32_to_cpu(regs->ctrl.csts) & 0x1) {
+         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
+             error_setg(errp, "Timeout while waiting for device to reset (%"
+                              PRId64 " ms)",
+@@ -766,18 +766,18 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     }
+     s->nr_queues = 1;
+     QEMU_BUILD_BUG_ON(NVME_QUEUE_SIZE & 0xF000);
+-    s->regs->ctrl.aqa = cpu_to_le32((NVME_QUEUE_SIZE << 16) | NVME_QUEUE_SIZE);
+-    s->regs->ctrl.asq = cpu_to_le64(s->queues[INDEX_ADMIN]->sq.iova);
+-    s->regs->ctrl.acq = cpu_to_le64(s->queues[INDEX_ADMIN]->cq.iova);
++    regs->ctrl.aqa = cpu_to_le32((NVME_QUEUE_SIZE << 16) | NVME_QUEUE_SIZE);
++    regs->ctrl.asq = cpu_to_le64(s->queues[INDEX_ADMIN]->sq.iova);
++    regs->ctrl.acq = cpu_to_le64(s->queues[INDEX_ADMIN]->cq.iova);
+ 
+     /* After setting up all control registers we can enable device now. */
+-    s->regs->ctrl.cc = cpu_to_le32((ctz32(NVME_CQ_ENTRY_BYTES) << 20) |
++    regs->ctrl.cc = cpu_to_le32((ctz32(NVME_CQ_ENTRY_BYTES) << 20) |
+                               (ctz32(NVME_SQ_ENTRY_BYTES) << 16) |
+                               0x1);
+     /* Wait for CSTS.RDY = 1. */
+     now = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
+     deadline = now + timeout_ms * 1000000;
+-    while (!(le32_to_cpu(s->regs->ctrl.csts) & 0x1)) {
++    while (!(le32_to_cpu(regs->ctrl.csts) & 0x1)) {
+         if (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) > deadline) {
+             error_setg(errp, "Timeout while waiting for device to start (%"
+                              PRId64 " ms)",
+@@ -808,6 +808,10 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+         ret = -EIO;
+     }
+ out:
++    if (regs) {
++        qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)regs, 0, sizeof(NvmeBar));
 +    }
 +
-     /* Set up admin queue. */
-     s->queues = g_new(NVMeQueuePair *, 1);
-     s->queues[INDEX_ADMIN] = nvme_create_queue_pair(s, aio_context, 0,
-@@ -873,7 +880,9 @@ static void nvme_close(BlockDriverState *bs)
-                            &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, NULL, NULL);
+     /* Cleaning up is done in nvme_file_open() upon error. */
+     return ret;
+ }
+@@ -882,7 +886,6 @@ static void nvme_close(BlockDriverState *bs)
      event_notifier_cleanup(&s->irq_notifier[MSIX_SHARED_IRQ_IDX]);
--    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, NVME_BAR_SIZE);
-+    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->doorbells,
-+                            sizeof(NvmeBar), NVME_DOORBELL_SIZE);
-+    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, sizeof(NvmeBar));
+     qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->doorbells,
+                             sizeof(NvmeBar), NVME_DOORBELL_SIZE);
+-    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->regs, 0, sizeof(NvmeBar));
      qemu_vfio_close(s->vfio);
  
      g_free(s->device);
