@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183FA274B20
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:26:58 +0200 (CEST)
-Received: from localhost ([::1]:49894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527C6274B30
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:32:23 +0200 (CEST)
+Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpoO-0000IP-TA
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:26:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
+	id 1kKpte-0006o1-7h
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbX-0001ME-4d
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57641)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ8-0002PL-2V
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbV-00064d-4B
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ5-0004dM-8P
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809216;
+ s=mimecast20190719; t=1600808508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Je01v8tianvun5dGhcapKD/fWgdPcSCTuzFS6zyvrOM=;
- b=Hot9pERbAl/29Zt9984dahKmxrx3IOahAiXR3Zg7h7ocDsWaZUQIc9EAlyDZJ157B3gyIV
- aAFQZoNZY92K3e5mls1zkegSb6YySGN1kqbLmpq5lc/0/zZ1MMk37DlrJrldeFxcnuZSsk
- r0m+6nRpl8+8Hsrp8LXQUnmQtl539dc=
+ bh=+Ibo9+RLfwsro0GaTeo9uSseS1EBK0++KO7WNXemOpA=;
+ b=Belm4uJs7eiiAjtd44aPf5dpS3xfvoFBr7CdNId7stubr/rZPEKPE95OIMSmsEUeZeFybb
+ p4uEolId4Agzg8EKHoRXpsXAgYo1PPI0veZWoksSHoBO+0Utmddfdat2ES+KG+emahOfZQ
+ TQ4151yZexw+IMt7CXz7ktvXUY9Mvuc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-tnwVAhegNAic_vT0-kWgmg-1; Tue, 22 Sep 2020 17:13:34 -0400
-X-MC-Unique: tnwVAhegNAic_vT0-kWgmg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-31-peFxE_XVNluv_1B20Vlghg-1; Tue, 22 Sep 2020 17:01:45 -0400
+X-MC-Unique: peFxE_XVNluv_1B20Vlghg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8820310BBEC3;
- Tue, 22 Sep 2020 21:13:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 153088014D9;
+ Tue, 22 Sep 2020 21:01:44 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A89DD73670;
- Tue, 22 Sep 2020 21:13:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 292C55577B;
+ Tue, 22 Sep 2020 21:01:43 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 15/16] qapi/expr.py: move related checks inside check_xxx
- functions
-Date: Tue, 22 Sep 2020 17:13:12 -0400
-Message-Id: <20200922211313.4082880-16-jsnow@redhat.com>
-In-Reply-To: <20200922211313.4082880-1-jsnow@redhat.com>
-References: <20200922211313.4082880-1-jsnow@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 28/38] qapi/gen.py: update write() to be more idiomatic
+Date: Tue, 22 Sep 2020 17:00:51 -0400
+Message-Id: <20200922210101.4081073-29-jsnow@redhat.com>
+In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,142 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's not a big obvious difference between the types of checks that
-happen in the main function versus the kind that happen in the
-functions. Now they're in one place for each of the main types.
+Make the file handling here just a tiny bit more idiomatic.
+(I realize this is heavily subjective.)
 
-As part of the move, spell out the required and optional keywords so
-they're obvious at a glance.
+Use exist_ok=True for os.makedirs and remove the exception,
+use fdopen() to wrap the file descriptor in a File-like object,
+and use a context manager for managing the file pointer.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 55 ++++++++++++++++++++++++++------------------
- 1 file changed, 33 insertions(+), 22 deletions(-)
+ scripts/qapi/gen.py | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 69ee9e3f18..74b2681ef8 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -333,6 +333,10 @@ def check_enum(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'enum',
-+               required=('enum', 'data'),
-+               optional=('if', 'features', 'prefix'))
-+
-     name = expr['enum']
-     members = expr['data']
-     prefix = expr.get('prefix')
-@@ -363,6 +367,11 @@ def check_struct(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'struct',
-+               required=('struct', 'data'),
-+               optional=('base', 'if', 'features'))
-+    normalize_members(expr['data'])
-+
-     name = cast(str, expr['struct'])  # Asserted in check_exprs
-     members = expr['data']
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index ba32f776e6..cf340e66d4 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -14,7 +14,6 @@
+ # See the COPYING file in the top-level directory.
  
-@@ -377,6 +386,13 @@ def check_union(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'union',
-+               required=('union', 'data'),
-+               optional=('base', 'discriminator', 'if', 'features'))
+ from contextlib import contextmanager
+-import errno
+ import os
+ import re
+ from typing import Dict, Generator, List, Optional, Tuple
+@@ -64,21 +63,18 @@ def write(self, output_dir: str) -> None:
+             return
+         pathname = os.path.join(output_dir, self.fname)
+         odir = os.path.dirname(pathname)
 +
-+    normalize_members(expr.get('base'))
-+    normalize_members(expr['data'])
+         if odir:
+-            try:
+-                os.makedirs(odir)
+-            except os.error as e:
+-                if e.errno != errno.EEXIST:
+-                    raise
++            os.makedirs(odir, exist_ok=True)
 +
-     name = cast(str, expr['union'])  # Asserted in check_exprs
-     base = expr.get('base')
-     discriminator = expr.get('discriminator')
-@@ -409,6 +425,11 @@ def check_alternate(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: Expression to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'alternate',
-+               required=('alternate', 'data'),
-+               optional=('if', 'features'))
-+    normalize_members(expr['data'])
-+
-     members = expr['data']
+         fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+-        f = open(fd, 'r+', encoding='utf-8')
+-        text = self.get_content()
+-        oldtext = f.read(len(text) + 1)
+-        if text != oldtext:
+-            f.seek(0)
+-            f.truncate(0)
+-            f.write(text)
+-        f.close()
++        with os.fdopen(fd, 'r+', encoding='utf-8') as fp:
++            text = self.get_content()
++            oldtext = fp.read(len(text) + 1)
++            if text != oldtext:
++                fp.seek(0)
++                fp.truncate(0)
++                fp.write(text)
  
-     if not members:
-@@ -432,6 +453,13 @@ def check_command(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'command',
-+               required=['command'],
-+               optional=('data', 'returns', 'boxed', 'if', 'features',
-+                         'gen', 'success-response', 'allow-oob',
-+                         'allow-preconfig'))
-+    normalize_members(expr.get('data'))
-+
-     args = expr.get('data')
-     rets = expr.get('returns')
-     boxed = expr.get('boxed', False)
-@@ -453,6 +481,11 @@ def check_event(expr: Expression, info: QAPISourceInfo) -> None:
-         if:       `Optional[Ifcond]`
-         features: `Optional[Features]`
-     """
-+    normalize_members(expr.get('data'))
-+    check_keys(expr, info, 'event',
-+               required=['event'],
-+               optional=('data', 'boxed', 'if', 'features'))
-+
-     args = expr.get('data')
-     boxed = expr.get('boxed', False)
  
-@@ -519,38 +552,16 @@ def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
-                                "documentation comment required")
- 
-         if meta == 'enum':
--            check_keys(expr, info, meta,
--                       ['enum', 'data'], ['if', 'features', 'prefix'])
-             check_enum(expr, info)
-         elif meta == 'union':
--            check_keys(expr, info, meta,
--                       ['union', 'data'],
--                       ['base', 'discriminator', 'if', 'features'])
--            normalize_members(expr.get('base'))
--            normalize_members(expr['data'])
-             check_union(expr, info)
-         elif meta == 'alternate':
--            check_keys(expr, info, meta,
--                       ['alternate', 'data'], ['if', 'features'])
--            normalize_members(expr['data'])
-             check_alternate(expr, info)
-         elif meta == 'struct':
--            check_keys(expr, info, meta,
--                       ['struct', 'data'], ['base', 'if', 'features'])
--            normalize_members(expr['data'])
-             check_struct(expr, info)
-         elif meta == 'command':
--            check_keys(expr, info, meta,
--                       ['command'],
--                       ['data', 'returns', 'boxed', 'if', 'features',
--                        'gen', 'success-response', 'allow-oob',
--                        'allow-preconfig'])
--            normalize_members(expr.get('data'))
-             check_command(expr, info)
-         elif meta == 'event':
--            check_keys(expr, info, meta,
--                       ['event'], ['data', 'boxed', 'if', 'features'])
--            normalize_members(expr.get('data'))
-             check_event(expr, info)
-         else:
-             assert False, 'unexpected meta type'
+ def _wrap_ifcond(ifcond: List[str], before: str, after: str) -> str:
 -- 
 2.26.2
 
