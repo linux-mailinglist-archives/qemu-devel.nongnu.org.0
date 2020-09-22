@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A74274AEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:14:17 +0200 (CEST)
-Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5FE274A8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:04:29 +0200 (CEST)
+Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpc8-0001Ab-Bs
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36986)
+	id 1kKpSe-0004ab-Qe
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPi-000207-Bk
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55391)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKpPE-0001an-3u
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:00:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPb-0004YF-VA
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:25 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKpP4-0004PD-IG
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:00:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600808479;
+ s=mimecast20190719; t=1600808444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BYuTFD1tqhO7d1AdTxU4t1KC53WtZomH05jT65ra51A=;
- b=O0yyS+sQgPUEGjA9PMvbyfOyeiTZilGNp8iuAskxTtaWsAevP2l45QhzY0kxurgVTT4fpI
- vukdOyUr+uLs61Liy7h0chz/FIKJUd7sFwjkKP9Ow3msZYbJgM7/kDb4dOaHQzOuY9GKWP
- HV1nWdr7DC+frP7xgnTmRjE6FPNpV50=
+ in-reply-to:in-reply-to; bh=UiE+aY9vAx0Axg9nwumcJoIJZh75JdhLVxufHxOfUik=;
+ b=dxe8hxrMZq/uJK24PFcpDDH8xw745R6ZqVthS30nShwr7z5bveyQcys5uTPrASsPV/LiVV
+ sXd4R5cEfYS6gVGtu9xvHXKtRymcmhkduDjTW86aLAHPN/AwTK7/xG1n221uaoO+zzYaBk
+ PTizqVxPS7gn39RJweMIW+cHo8ayPJk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-AtFsug9tNCy9_q8BYujaJA-1; Tue, 22 Sep 2020 17:01:17 -0400
-X-MC-Unique: AtFsug9tNCy9_q8BYujaJA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-426-gLy-UO9vMBehwvKn3SQ7NQ-1; Tue, 22 Sep 2020 17:00:42 -0400
+X-MC-Unique: gLy-UO9vMBehwvKn3SQ7NQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 643CC1007464;
- Tue, 22 Sep 2020 21:01:16 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BC0055765;
- Tue, 22 Sep 2020 21:01:15 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 06/38] qapi: delint using flake8
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 282658030B8;
+ Tue, 22 Sep 2020 21:00:40 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52548100164C;
+ Tue, 22 Sep 2020 21:00:30 +0000 (UTC)
 Date: Tue, 22 Sep 2020 17:00:29 -0400
-Message-Id: <20200922210101.4081073-7-jsnow@redhat.com>
-In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/24] qom: Convert some properties to class properties
+Message-ID: <20200922210029.GB2044576@habkost.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200921221045.699690-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -80,141 +78,73 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-riscv@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Amit Shah <amit@kernel.org>, Alistair Francis <alistair@alistair23.me>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Alistair Francis <alistair23@gmail.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Petty style guide fixes and line length enforcement.  Not a big win, not
-a big loss, but flake8 passes 100% on the qapi module, which gives us an
-easy baseline to enforce hereafter.
+On Mon, Sep 21, 2020 at 06:10:21PM -0400, Eduardo Habkost wrote:
+> Class properties make QOM introspection simpler and easier, as it
+> doesn't require an object to be instantiated.  This series
+> converts a few existing object_property_add*() calls to register
+> class properties instead.
+> 
+> Eduardo Habkost (24):
+>   cryptodev-vhost-user: Register "chardev" as class property
+>   cryptodev-backend: Register "chardev" as class property
+>   rng-egd: Register "chardev" as class property
+>   rng-random: register "filename" as class property
+>   vhost-user: Register "chardev" as class property
+>   vexpress: Register "secure" as class property
+>   rng: Register "opened" as class property
+>   vexpress-a15: Register "virtualization" as class property
+>   input-linux: Register properties as class properties
+>   input-barrier: Register properties as class properties
+>   tmp421: Register properties as class properties
+>   s390x: Register all CPU properties as class properties
+>   i386: Register most CPU properties as class properties
+>   i386: Register feature bit properties as class properties
+>   arm/virt: Register most properties as class properties
+>   virt: Register "its" as class property
+>   cpu/core: Register core-id and nr-threads as class properties
+>   arm/cpu64: Register "aarch64" as class property
+>   xlnx-zcu102: Register properties as class properties
+>   machine: Register "memory-backend" as class property
+>   vga-pci: Register "big-endian-framebuffer" as class property
+>   i440fx: Register i440FX-pcihost properties as class properties
+>   sifive_e: Register "revb" as class property
+>   sifive_u: Register "start-in-flash" as class property
 
-A note on the flake8 exception: flake8 will warn on *any* bare except,
-but pylint's is context-aware and will suppress the warning if you
-re-raise the exception.
+I'm queueing the following:
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/.flake8     |  2 ++
- scripts/qapi/commands.py |  3 ++-
- scripts/qapi/schema.py   |  8 +++++---
- scripts/qapi/visit.py    | 16 +++++++++++-----
- 4 files changed, 20 insertions(+), 9 deletions(-)
- create mode 100644 scripts/qapi/.flake8
+[PATCH 01/24] cryptodev-vhost-user: Register "chardev" as class property
+[PATCH 02/24] cryptodev-backend: Register "chardev" as class property
+[PATCH 12/24] s390x: Register all CPU properties as class properties
+[PATCH 17/24] cpu/core: Register core-id and nr-threads as class properties
+[PATCH 19/24] xlnx-zcu102: Register properties as class properties
+[PATCH 20/24] machine: Register "memory-backend" as class property
+[PATCH 22/24] i440fx: Register i440FX-pcihost properties as class properties
+[PATCH 23/24] sifive_e: Register "revb" as class property
+[PATCH 24/24] sifive_u: Register "start-in-flash" as class property
 
-diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
-new file mode 100644
-index 0000000000..6b158c68b8
---- /dev/null
-+++ b/scripts/qapi/.flake8
-@@ -0,0 +1,2 @@
-+[flake8]
-+extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index e1df0e341f..d9cda3b209 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -69,7 +69,8 @@ def gen_call(name, arg_type, boxed, ret_type):
- def gen_marshal_output(ret_type):
-     return mcgen('''
- 
--static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
-+static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
-+                                QObject **ret_out, Error **errp)
- {
-     Visitor *v;
- 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index a835ee6fde..b77e0e56b2 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -536,7 +536,7 @@ def set_defined_in(self, name):
-             v.set_defined_in(name)
- 
-     def check(self, schema, seen):
--        if not self.tag_member: # flat union
-+        if not self.tag_member:  # flat union
-             self.tag_member = seen.get(c_name(self._tag_name))
-             base = "'base'"
-             # Pointing to the base type when not implicit would be
-@@ -821,7 +821,7 @@ def __init__(self, fname):
-         self._entity_dict = {}
-         self._module_dict = OrderedDict()
-         self._schema_dir = os.path.dirname(fname)
--        self._make_module(None) # built-ins
-+        self._make_module(None)  # built-ins
-         self._make_module(fname)
-         self._predefining = True
-         self._def_predefineds()
-@@ -965,7 +965,9 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
-             # But it's not tight: the disjunction need not imply it.  We
-             # may end up compiling useless wrapper types.
-             # TODO kill simple unions or implement the disjunction
--            assert (ifcond or []) == typ._ifcond # pylint: disable=protected-access
-+
-+            # pylint: disable=protected-access
-+            assert (ifcond or []) == typ._ifcond
-         else:
-             self._def_entity(QAPISchemaObjectType(
-                 name, info, None, ifcond, None, None, members, None))
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index ea277e7704..808410d6f1 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -31,7 +31,9 @@ def gen_visit_decl(name, scalar=False):
-     if not scalar:
-         c_type += '*'
-     return mcgen('''
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_type)sobj, Error **errp);
-+
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_type)sobj, Error **errp);
- ''',
-                  c_name=c_name(name), c_type=c_type)
- 
-@@ -125,7 +127,8 @@ def gen_visit_object_members(name, base, members, variants):
- def gen_visit_list(name, element_type):
-     return mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_name)s **obj, Error **errp)
- {
-     bool ok = false;
-     %(c_name)s *tail;
-@@ -158,7 +161,8 @@ def gen_visit_list(name, element_type):
- def gen_visit_enum(name):
-     return mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj, Error **errp)
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_name)s *obj, Error **errp)
- {
-     int value = *obj;
-     bool ok = visit_type_enum(v, name, &value, &%(c_name)s_lookup, errp);
-@@ -172,7 +176,8 @@ def gen_visit_enum(name):
- def gen_visit_alternate(name, variants):
-     ret = mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
-+bool visit_type_%(c_name)s
-+    (Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
- {
-     bool ok = false;
- 
-@@ -247,7 +252,8 @@ def gen_visit_alternate(name, variants):
- def gen_visit_object(name, base, members, variants):
-     return mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
-+bool visit_type_%(c_name)s
-+    (Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
- {
-     bool ok = false;
- 
+The remaining patches still need reviews.
+
 -- 
-2.26.2
+Eduardo
 
 
