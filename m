@@ -2,90 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C1127497E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 21:51:17 +0200 (CEST)
-Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA942749D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 22:11:57 +0200 (CEST)
+Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKoJo-0000Wh-5y
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 15:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49026)
+	id 1kKodo-0007NQ-1e
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 16:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKoIj-0008Re-Sv
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 15:50:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKoIi-00045M-6a
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 15:50:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600804207;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SrLuJhdWiNWGfUbdSxayls/11diifNRjILrmyk7c7AM=;
- b=LJeLunh1dgLkqkxdqEdOnNqNa2LPSCJUyxTUaG+BmqMHYfHoW2IyL41fNeyQTUDPycjLZw
- wGLX4B1OH31x2U9RBv3wMJVYY2X+CbzbGTutTy4t6djUM+wdZ+mEA9jV7rlW2zjeGisxXd
- P/YPWJ+/MHGhdfggR9Y5XrDuQBP8JXw=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-Fa1n7ljKN8KQrkwBDOrjbQ-1; Tue, 22 Sep 2020 15:50:03 -0400
-X-MC-Unique: Fa1n7ljKN8KQrkwBDOrjbQ-1
-Received: by mail-ej1-f69.google.com with SMTP id m24so6612679ejx.22
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 12:50:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SrLuJhdWiNWGfUbdSxayls/11diifNRjILrmyk7c7AM=;
- b=cyoLq/rZWCVGbSKptKM2ASt2bf8DyWTIXZdBL5ghr44dSuK3+G/tVI2lQ8iLkcwh2z
- WXhJMxQfc+WRkOjYn5cgZwmLic8/BRfHfyX6hKWqgSbwWgparrnqALsEV7GKVEzJWr9P
- 97bt3Kxhl3WlFB1qyVquCnSHdWDW+FLkN2/9XOyCxWFrNC8t2KZRlTq813pl+4/hVD80
- awJHSYy5HkjWmFrIGTD2mxE9vO25Q/Puu9102JLvOShBW+qsFzXleJADEzdUskA4WxRO
- qexh++CnpwUBu4EmEu32WFdRIU+GVm6mNpmQxEEAPj84vZfOxnZulN1kv7DL1yV5DUF9
- PAtg==
-X-Gm-Message-State: AOAM532qhIfcWissviPwbT2bzRUr9yB//toOwhEt4xSAfcESF48gTRK5
- gg/NmXr2ZXL5MU6yIblXkScJJJBQm9Sa+yr3YL7Kqm827CEmSVK/cmODVnME+hrTSpa1+c+YSY1
- mLTPn7e+15vEgLQtNadEERGhbJSLDrLM=
-X-Received: by 2002:a17:906:868c:: with SMTP id
- g12mr6320750ejx.230.1600804201930; 
- Tue, 22 Sep 2020 12:50:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw66bMeAspDMwVpjo8iSLAeRscANP5935AE9qB+u8kXBqNGXO4OfOu4ja7XivEHu53gPoDYQQVOtRC1/PdksXE=
-X-Received: by 2002:a17:906:868c:: with SMTP id
- g12mr6320725ejx.230.1600804201730; 
- Tue, 22 Sep 2020 12:50:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1kKocY-0006pB-Ce
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:10:38 -0400
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:60816)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1kKocW-0007Az-CR
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:10:38 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 070D5C30;
+ Tue, 22 Sep 2020 22:10:31 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HGplNU9oF2B4; Tue, 22 Sep 2020 22:10:30 +0200 (CEST)
+Received: from function (lfbn-bor-1-56-204.w90-50.abo.wanadoo.fr
+ [90.50.148.204])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 3CDA4BA6;
+ Tue, 22 Sep 2020 22:10:30 +0200 (CEST)
+Received: from samy by function with local (Exim 4.94)
+ (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1kKocO-000AmF-9k; Tue, 22 Sep 2020 22:10:28 +0200
+Date: Tue, 22 Sep 2020 22:10:28 +0200
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] ui: Fix default window_id value
+Message-ID: <20200922201028.uyy2malfqxkqbyxm@function>
+References: <20200914100637.eeommoflirxrgaeh@function>
 MIME-Version: 1.0
-References: <20200922151455.1763896-1-ehabkost@redhat.com>
- <87v9g5es9n.fsf@vitty.brq.redhat.com>
- <20200922161055.GY57321@habkost.net> <87pn6depau.fsf@vitty.brq.redhat.com>
- <20200922172229.GB57321@habkost.net>
- <b22127f4-9a68-99b8-bf55-b6ede236dee0@redhat.com>
- <20200922193903.GA2044576@habkost.net>
-In-Reply-To: <20200922193903.GA2044576@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 22 Sep 2020 21:49:48 +0200
-Message-ID: <CABgObfasJBwoCAKaNPO0D=_USQv32rvBufU=occfOv09ch+odw@mail.gmail.com>
-Subject: Re: [PATCH] i386: Don't try to set MSR_KVM_ASYNC_PF_EN if
- kernel-irqchip=off
-To: Eduardo Habkost <ehabkost@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ccb2f805afec4556"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200914100637.eeommoflirxrgaeh@function>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+Received-SPF: neutral client-ip=2a0c:e300::1;
+ envelope-from=samuel.thibault@ens-lyon.org; helo=hera.aquilenet.fr
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,91 +67,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, 1896263@bugs.launchpad.net,
- kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ccb2f805afec4556
-Content-Type: text/plain; charset="UTF-8"
+./chardev/baum.c expects the default window_id value to be -1, and not 0
+which could be confused with a proper window id (when numbered from 0 by
+the ui backend).
 
-Il mar 22 set 2020, 21:39 Eduardo Habkost <ehabkost@redhat.com> ha scritto:
+This fixes getting Braille output with the curses and gtk frontends.
 
-> On Tue, Sep 22, 2020 at 07:26:42PM +0200, Paolo Bonzini wrote:
-> > On 22/09/20 19:22, Eduardo Habkost wrote:
-> > > If it was possible, did KVM break live migration of
-> > > kernel-irqchip=off guests that enabled APF?  This would mean my
-> > > patch is replacing a crash with a silent migration bug.  Not nice
-> > > either way.
-> >
-> > Let's drop kernel-irqchip=off completely so migration is not broken. :)
-> >
-> > I'm actually serious, I don't think we need a deprecation period even.
->
-> I wasn't sure about this, but then I've noticed the man page says
-> "disabling the in-kernel irqchip completely is not recommended
-> except for debugging purposes."
->
-> Does this note apply to all architectures?
->
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Fixes: f29b3431f62 ("console: move window ID code from baum to sdl")
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-At least on ARM, Raspberry Pi 4 cannot use kernel-irqchip=on at all. But
-remember I am only talking about x86.
+---
+It would be useful to backport this to stable trees.
 
-Paolo
-
-
-> --
-> Eduardo
->
->
-
---000000000000ccb2f805afec4556
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mar 22 set 2020, 21:39 Eduardo Habkost &lt;<a href=
-=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</a>&gt; ha scritto:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">On Tue, Sep 22, 2020 at 07:26:42PM +02=
-00, Paolo Bonzini wrote:<br>
-&gt; On 22/09/20 19:22, Eduardo Habkost wrote:<br>
-&gt; &gt; If it was possible, did KVM break live migration of<br>
-&gt; &gt; kernel-irqchip=3Doff guests that enabled APF?=C2=A0 This would me=
-an my<br>
-&gt; &gt; patch is replacing a crash with a silent migration bug.=C2=A0 Not=
- nice<br>
-&gt; &gt; either way.<br>
-&gt; <br>
-&gt; Let&#39;s drop kernel-irqchip=3Doff completely so migration is not bro=
-ken. :)<br>
-&gt; <br>
-&gt; I&#39;m actually serious, I don&#39;t think we need a deprecation peri=
-od even.<br>
-<br>
-I wasn&#39;t sure about this, but then I&#39;ve noticed the man page says<b=
-r>
-&quot;disabling the in-kernel irqchip completely is not recommended<br>
-except for debugging purposes.&quot;<br>
-<br>
-Does this note apply to all architectures?<br></blockquote></div></div><div=
- dir=3D"auto"><br></div><div dir=3D"auto">At least on ARM, Raspberry Pi 4 c=
-annot use kernel-irqchip=3Don at all. But remember I am only talking about =
-x86.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">
-<br>
--- <br>
-Eduardo<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000ccb2f805afec4556--
-
+diff --git a/ui/console.c b/ui/console.c
+index f8d7643fe4..beb733c833 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1310,6 +1310,7 @@ static QemuConsole *new_console(DisplayState *ds, console_type_t console_type,
+     }
+     s->ds = ds;
+     s->console_type = console_type;
++    s->window_id = -1;
+ 
+     if (QTAILQ_EMPTY(&consoles)) {
+         s->index = 0;
 
