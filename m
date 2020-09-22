@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB50B2747B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:48:35 +0200 (CEST)
-Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDAC2747AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:46:26 +0200 (CEST)
+Received: from localhost ([::1]:42420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKmP4-0007TB-QZ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44510)
+	id 1kKmMz-0005WV-GW
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKmKT-0004dC-Hs
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:43:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30801)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKmKF-0004Hl-Tp
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:43:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKmKR-0003qU-LJ
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:43:49 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKmKD-0003oL-V7
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:43:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600796626;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1600796613;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FwEtph4Nq8zHlHNKyWMvw3GmPB5KnzYkhzXsiQ5btFA=;
- b=VWBdnRlJPRslx3WDFAETWvMVqaKk9BaFLnpotG/CFb0guf8Bj9eU46owEnHthsnlbmNdtN
- xwE+6yGhoZizd7OEiFIAVpnzzs9190i2fDpW5ajv8kmX0c2ZotEMCJbKA+cNgQ2gxfbmgP
- fqqBHlBFsfZRRVIeNKz0Mx2VzlzdXx0=
+ bh=G1GH/JQo7RHlFBngpw8Fg8Gnzl+blDAxAJqYRY8uo64=;
+ b=S9+bDNuLHLsIKJD8YtDpAcXoeZGs4e5V6g18unNQJZ1l+W9H82evb5w3TpQBdFiCjfNEee
+ sHKt9f+TcvfsqSOP2qIVU4D9MRCfZFP8KQonWNFyA3nDqtlh84O/neqmh42hmIuYk06uM/
+ /iJ5tDHDbIjfGND3wkp8Uwwn4z59lkk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-ZUcjdyqxNqa8movHoqdU7g-1; Tue, 22 Sep 2020 13:43:20 -0400
-X-MC-Unique: ZUcjdyqxNqa8movHoqdU7g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-424-vaT7caujOVC0DZFEnPITDQ-1; Tue, 22 Sep 2020 13:43:11 -0400
+X-MC-Unique: vaT7caujOVC0DZFEnPITDQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B60E80EFBF;
- Tue, 22 Sep 2020 17:43:17 +0000 (UTC)
-Received: from redhat.com (ovpn-114-64.ams2.redhat.com [10.36.114.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6F4468432;
- Tue, 22 Sep 2020 17:42:55 +0000 (UTC)
-Date: Tue, 22 Sep 2020 18:42:52 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Neal Gompa <ngompa13@gmail.com>
-Subject: Re: [PATCH v2 0/2] block: deprecate the sheepdog driver
-Message-ID: <20200922174252.GU1989025@redhat.com>
-References: <20200922161611.2049616-1-berrange@redhat.com>
- <CAEg-Je-td5R-pqbzUgpNYo856QnyfVafSh7QNNaWv8qvcRaJ9A@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAF56186DD28;
+ Tue, 22 Sep 2020 17:43:10 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-78.rdu2.redhat.com [10.10.116.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4270A7EEDA;
+ Tue, 22 Sep 2020 17:42:59 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 85842223B13; Tue, 22 Sep 2020 13:42:55 -0400 (EDT)
+Date: Tue, 22 Sep 2020 13:42:55 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Used glib "shared" thread pool
+Message-ID: <20200922174255.GC57620@redhat.com>
+References: <20200921213216.GE13362@redhat.com>
+ <20200922125957.GN1989025@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAEg-Je-td5R-pqbzUgpNYo856QnyfVafSh7QNNaWv8qvcRaJ9A@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200922125957.GN1989025@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -84,62 +82,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- sheepdog@lists.wpkg.org, qemu-block@nongnu.org,
- libvir-list <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Liu Yuan <namei.unix@gmail.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 01:09:06PM -0400, Neal Gompa wrote:
-> On Tue, Sep 22, 2020 at 12:16 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > 2 years back I proposed dropping the sheepdog mailing list from the
-> > MAINTAINERS file, but somehow the patch never got picked up:
-> >
-> >   https://lists.gnu.org/archive/html/qemu-block/2018-03/msg01048.html
-> >
-> > So here I am with the same patch again.
-> >
-> > This time I go further and deprecate the sheepdog driver entirely.
-> > See the rationale in the second patch commit message.
-> >
-> > Daniel P. Berrangé (2):
-> >   block: drop moderated sheepdog mailing list from MAINTAINERS file
-> >   block: deprecate the sheepdog block driver
-> >
-> >  MAINTAINERS                |  1 -
-> >  block/sheepdog.c           | 15 +++++++++++++++
-> >  configure                  |  5 +++--
-> >  docs/system/deprecated.rst |  9 +++++++++
-> >  4 files changed, 27 insertions(+), 3 deletions(-)
-> >
-> > --
-> > 2.26.2
-> >
-> >
+On Tue, Sep 22, 2020 at 01:59:57PM +0100, Daniel P. Berrangé wrote:
+> On Mon, Sep 21, 2020 at 05:32:16PM -0400, Vivek Goyal wrote:
+> > glib offers thread pools and it seems to support "exclusive" and "shared"
+> > thread pools.
+> > 
+> > https://developer.gnome.org/glib/stable/glib-Thread-Pools.html#g-thread-pool-new
+> > 
+> > Currently we use "exlusive" thread pools but its performance seems to be
+> > poor. I tried using "shared" thread pools and performance seems much
+> > better. I posted performance results here.
+> > 
+> > https://www.redhat.com/archives/virtio-fs/2020-September/msg00080.html
+> > 
+> > So lets switch to shared thread pools. We can think of making it optional
+> > once somebody can show in what cases exclusive thread pools offer better
+> > results. For now, my simple performance tests across the board see
+> > better results with shared thread pools.
 > 
-> I don't know of anyone shipping this other than Fedora, and I
-> certainly don't use it there.
+> I'm really curious why  there's any perf difference between shared and
+> exclusive thread pools in the GLib impl.
 > 
-> Upstream looks like it's unmaintained now, with no commits in over two
-> years: https://github.com/sheepdog/sheepdog/commits/master
+> Looking at the code the main difference between the two is appears to
+> be around the way threads are spawned, specifically around the scheduler
+> attributes assigned.
 > 
-> Can we also get a corresponding change to eliminate this from libvirt?
+> In the shared case, the threads in the pool will have their scheduler
+> attributes copied from the very first thread that calls g_thread_pool_new.
+> 
+> In the exclusive case, the threads in the pool will inherit their
+> scheduler attributes from the thread which pushs the job that
+> causes the worker thread to be created.
+> 
+> By schedular attributes, I mean all the items in the 'struct schedattr'
+> filled by sched_getattr()
+> 
+> IOW, if threads in virtiofsd have varying schedular attributes this
+> could possibly explain the difference in performance you see between
+> the two setups.
 
-This is only deprecation in QEMU, the feature still exists and is
-intended to be as fully functional as in previous releases.
+Hi Daniel,
 
-Assuming QEMU actually deletes the feature at end of the deprecation
-cycle, then libvirt would look at removing its own support.
+Few things.
 
+- I think scheduler attributes are same for the thread creating
+  pool as well as for thread pushing the job for virtiofsd.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+- My glib2 is old (2.58.3) and I think that did not have sched_getattr()
+  stuff.
+
+- One difference I noticed is that in case of shared pool, it does not
+  create extra threads if client is doing one request at a time. While
+  exclusive pool seemed to push every request to a new thread in pool
+  in sort of round robin fashion. It feels keeping requests being served
+  from same thread helps in this particilar workload case.
+
+Thanks
+Vivek
+
+> 
+> > 
+> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > ---
+> >  tools/virtiofsd/fuse_virtio.c |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > Index: qemu/tools/virtiofsd/fuse_virtio.c
+> > ===================================================================
+> > --- qemu.orig/tools/virtiofsd/fuse_virtio.c	2020-09-21 17:28:27.444438015 -0400
+> > +++ qemu/tools/virtiofsd/fuse_virtio.c	2020-09-21 17:28:30.584568910 -0400
+> > @@ -695,7 +695,7 @@ static void *fv_queue_thread(void *opaqu
+> >      struct fuse_session *se = qi->virtio_dev->se;
+> >      GThreadPool *pool;
+> >  
+> > -    pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, TRUE,
+> > +    pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, FALSE,
+> >                               NULL);
+> >      if (!pool) {
+> >          fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
+> > 
+> > 
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
