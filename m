@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A03274BF6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:19:20 +0200 (CEST)
-Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E88B274BD6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:05:15 +0200 (CEST)
+Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqd4-0003rk-CY
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
+	id 1kKqPS-0000EG-Lb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKpl5-000652-QP
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:23:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56148)
+ id 1kKpmv-0008R7-7E
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:25:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24424
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKpl3-0007GV-QI
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:23:31 -0400
+ id 1kKpmq-0007cs-P1
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:25:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809808;
+ s=mimecast20190719; t=1600809919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sE5yVc/6dVjkT+RhyvXoRRYr/aG9Vr28Pb6GoJx1yJg=;
- b=HykKMDOcUc0Wj/FPaHCvfbmMdj2/cfcQlG7/j5nnnp44G8K/bVfm5b4At5w/9maiELbFti
- RnHTazRheyHzC92FMZkgBVwTE1AbBDGHKYmxsh3SLI9lf6sH9jNUuzfShR00OvE/rt+aVx
- E8mNohXY7WwflYlciT0Gf71VfzccCn8=
+ bh=kdEU7O/+QEaYgDPBe7cz7fnWLGHTCr1uKs7+U8eAZ8s=;
+ b=QnHFBKH12SU2WMnro+gJlzPAhAjmZTmmBY/9IZR2N61IeLK0vYgCd5acszEwIto4gXBYqb
+ KzdDSFGgeeh53e85UsIIAbJIFg4iKXKf7RJKtF2Va570ViBUsgrijPCFkjM3L7Kl7mDZJ5
+ T5kUd1zfWcrBHibedLWm91ZMu2hVIMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-X9KncfemNGCwxXyslZ23wQ-1; Tue, 22 Sep 2020 17:23:25 -0400
-X-MC-Unique: X9KncfemNGCwxXyslZ23wQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-247-xBmZKD1INHi65Y81klZzvg-1; Tue, 22 Sep 2020 17:25:16 -0400
+X-MC-Unique: xBmZKD1INHi65Y81klZzvg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8F991005E5E;
- Tue, 22 Sep 2020 21:23:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 627D2802B70;
+ Tue, 22 Sep 2020 21:25:15 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BD2A55767;
- Tue, 22 Sep 2020 21:23:23 +0000 (UTC)
-Date: Tue, 22 Sep 2020 17:23:22 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2ABD027BD8;
+ Tue, 22 Sep 2020 21:25:15 +0000 (UTC)
+Date: Tue, 22 Sep 2020 17:25:14 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 03/38] qapi: move generator entrypoint into module
-Message-ID: <20200922212322.GD2044576@habkost.net>
+Subject: Re: [PATCH v2 04/38] qapi: Prefer explicit relative imports
+Message-ID: <20200922212514.GE2044576@habkost.net>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-4-jsnow@redhat.com>
+ <20200922210101.4081073-5-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-4-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200922210101.4081073-5-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 17:01:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,50 +88,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:00:26PM -0400, John Snow wrote:
-> As part of delinting and adding type hints to the QAPI generator, it's
-> helpful for the entrypoint to be part of the package, only leaving a
-> very tiny entrypoint shim outside of the module.
+On Tue, Sep 22, 2020 at 05:00:27PM -0400, John Snow wrote:
+> All of the QAPI include statements are changed to be package-aware, as
+> explicit relative imports.
+> 
+> A quirk of Python packages is that the name of the package exists only
+> *outside* of the package. This means that to a module inside of the qapi
+> folder, there is inherently no such thing as the "qapi" package. The
+> reason these imports work is because the "qapi" package exists in the
+> context of the caller -- the execution shim, where sys.path includes a
+> directory that has a 'qapi' folder in it.
+> 
+> When we write "from qapi import sibling", we are NOT referencing the folder
+> 'qapi', but rather "any package named qapi in sys.path". If you should
+> so happen to have a 'qapi' package in your path, it will use *that*
+> package.
+> 
+> When we write "from .sibling import foo", we always reference explicitly
+> our sibling module; guaranteeing consistency in *where* we are importing
+> these modules from.
+> 
+> This can be useful when working with virtual environments and packages
+> in development mode. In development mode, a package is installed as a
+> series of symlinks that forwards to your same source files. The problem
+> arises because code quality checkers will follow "import qapi.x" to the
+> "installed" version instead of the sibling file and -- even though they
+> are the same file -- they have different module paths, and this causes
+> cyclic import problems, false positive type mismatch errors, and more.
+> 
+> It can also be useful when dealing with hierarchical packages, e.g. if
+> we allow qemu.core.qmp, qemu.qapi.parser, etc.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi-gen.py  | 90 +++----------------------------------------
->  scripts/qapi/main.py | 91 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 97 insertions(+), 84 deletions(-)
->  create mode 100644 scripts/qapi/main.py
->
-[...]
-> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-> new file mode 100644
-> index 0000000000..18c246bbb4
-> --- /dev/null
-> +++ b/scripts/qapi/main.py
-> @@ -0,0 +1,91 @@
-> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
-> +# See the COPYING file in the top-level directory.
-> +
-> +"""
-> +QAPI Generator
-> +
-> +This is the main entry point for generating C code from the QAPI schema.
-> +"""
-> +
-> +import argparse
-> +import re
-> +import sys
-> +
-> +from qapi.commands import gen_commands
-> +from qapi.doc import gen_doc
-> +from qapi.error import QAPIError
-> +from qapi.events import gen_events
-> +from qapi.introspect import gen_introspect
-> +from qapi.schema import QAPISchema
-> +from qapi.types import gen_types
-> +from qapi.visit import gen_visit
 
-Do you plan to change this to use relative imports eventually?
-
-In either case:
+Here's the answer to the question I sent on patch 03/38.  :)
 
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
