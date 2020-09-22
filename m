@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649AF274C4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:40:33 +0200 (CEST)
-Received: from localhost ([::1]:53418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5244A274C2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:36:52 +0200 (CEST)
+Received: from localhost ([::1]:40818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqxc-0002fi-FG
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57994)
+	id 1kKqu3-0005vm-8V
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsr-00048M-5U
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsr-00049K-KP
  for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22325)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqso-0007bI-FI
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqso-0007bR-TS
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814133;
+ s=mimecast20190719; t=1600814134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZMY/wzTC1WX5rSMzZEfkvQygIqZldMtlPzP4tLxY3L4=;
- b=SrCP1h2kq2utpzdO5t0HcRe4cQqyiTShXuOvXoruHakpT+TSGNp8AjwLANZ2GDt4GfTGv+
- EBoe65L8baW4aWUgDgcNSnWDF962E1HLPI/V4xCm3qi+DFoLbUjLsXpqb4mVLRUZajrdxh
- /DuqcBgRbFTP0N99a1IEGk3DdT0sNwE=
+ bh=91Nfs25MUnlz2lbX63MuZ0javddZdJuS/LqgOXEy65A=;
+ b=iST5jX3z/ByDb3C14+/vUIqCb5I520cB/fC2DXRi8n0cbzSlFckV/hZIzAi9dOTf5Xsbsw
+ jl20QfgTf2Pd3xJ/3tfhHOhfX0pLjFR8WLcm38xKlYP80AfI8lopfw4r8QMj4Tp3N9qITu
+ +bnETMVStMtQ+DvhAMcVAvFrMk6Br2A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-VLWWGsa4N92iU4kRc2aWCw-1; Tue, 22 Sep 2020 18:35:29 -0400
-X-MC-Unique: VLWWGsa4N92iU4kRc2aWCw-1
+ us-mta-542-q6WJou7sNkSlvYzPqhNYeQ-1; Tue, 22 Sep 2020 18:35:30 -0400
+X-MC-Unique: q6WJou7sNkSlvYzPqhNYeQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B2731074641;
- Tue, 22 Sep 2020 22:35:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B15A5801AEB;
+ Tue, 22 Sep 2020 22:35:29 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8445460C05;
- Tue, 22 Sep 2020 22:35:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1AA160BF4;
+ Tue, 22 Sep 2020 22:35:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 01/26] qapi/parser.py: refactor parsing routine into method
-Date: Tue, 22 Sep 2020 18:35:00 -0400
-Message-Id: <20200922223525.4085762-2-jsnow@redhat.com>
+Subject: [PATCH 02/26] qapi/parser.py: group variable declarations in __init__
+Date: Tue, 22 Sep 2020 18:35:01 -0400
+Message-Id: <20200922223525.4085762-3-jsnow@redhat.com>
 In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
 References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,78 +84,38 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the sake of keeping __init__ easier to reason about, with fewer
-variables in play.
+Add missing declarations and group them by function so they're easier to
+understand at a distance.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ scripts/qapi/parser.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 8be4570c31..55117f5754 100644
+index 55117f5754..b2984c8ff0 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -46,28 +46,34 @@ class QAPIDocError(QAPIError):
- class QAPISchemaParser:
+@@ -50,12 +50,19 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+         self._included = previously_included or set()
+         self._included.add(os.path.abspath(self._fname))
  
-     def __init__(self, fname, previously_included=None, incl_info=None):
--        previously_included = previously_included or set()
--        previously_included.add(os.path.abspath(fname))
-+        self._fname = fname
-+        self._included = previously_included or set()
-+        self._included.add(os.path.abspath(self._fname))
++        # Lexer state (see `accept` for details):
++        self.tok = None
++        self.pos = 0
+         self.cursor = 0
++        self.val = None
+         self.info = QAPISourceInfo(self._fname, 1, incl_info)
+         self.line_pos = 0
 +
-+        self.cursor = 0
-+        self.info = QAPISourceInfo(self._fname, 1, incl_info)
-+        self.line_pos = 0
-+        self.exprs = []
-+        self.docs = []
++        # Parser output:
+         self.exprs = []
+         self.docs = []
  
++        # Showtime!
          try:
--            fp = open(fname, 'r', encoding='utf-8')
-+            fp = open(self._fname, 'r', encoding='utf-8')
+             fp = open(self._fname, 'r', encoding='utf-8')
              self.src = fp.read()
-         except IOError as e:
-             raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
-                                "can't read %s file '%s': %s"
-                                % ("include" if incl_info else "schema",
--                                  fname,
-+                                  self._fname,
-                                   e.strerror))
-+        self._parse()
- 
-+    def _parse(self):
-+        cur_doc = None
-+
-+        # Prime the lexer:
-         if self.src == '' or self.src[-1] != '\n':
-             self.src += '\n'
--        self.cursor = 0
--        self.info = QAPISourceInfo(fname, 1, incl_info)
--        self.line_pos = 0
--        self.exprs = []
--        self.docs = []
-         self.accept()
--        cur_doc = None
- 
-         while self.tok is not None:
-             info = self.info
-@@ -86,12 +92,12 @@ def __init__(self, fname, previously_included=None, incl_info=None):
-                 if not isinstance(include, str):
-                     raise QAPISemError(info,
-                                        "value of 'include' must be a string")
--                incl_fname = os.path.join(os.path.dirname(fname),
-+                incl_fname = os.path.join(os.path.dirname(self._fname),
-                                           include)
-                 self.exprs.append({'expr': {'include': incl_fname},
-                                    'info': info})
-                 exprs_include = self._include(include, info, incl_fname,
--                                              previously_included)
-+                                              self._included)
-                 if exprs_include:
-                     self.exprs.extend(exprs_include.exprs)
-                     self.docs.extend(exprs_include.docs)
 -- 
 2.26.2
 
