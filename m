@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F904274C64
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:46:45 +0200 (CEST)
-Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DBF274C6C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:49:01 +0200 (CEST)
+Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKr3c-0002WP-Gp
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58106)
+	id 1kKr5o-00061p-62
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsx-0004OI-VD
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48743)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt0-0004W3-EN
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:46 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26498
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsv-0007df-VT
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:43 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsy-0007e0-HA
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814141;
+ s=mimecast20190719; t=1600814143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UK4zDT6zPhLUZkX4SIut7rDgOTI/aCc0iI8mieLBlpQ=;
- b=H4lO1SUilHLnz/p1TtWNNskBEZDynYk9uBGCnfmXBnudSlZI3C5zEfJO5JW8gd7ZDx55Bk
- SgYNGW5yI8MSGkQwcdkTOAVaUqPX2VMtjSylk+ZWXRC4UhaC6e6+tgqMg5WdrGyX5dhBWY
- BTIk6HYiMX5w55GG3Qxqd6ltESSDIIw=
+ bh=4HMxZnigJXfXaR7x/BM++m7Lnpe90f238nIkOFQGWJI=;
+ b=f5Z0/IWv6cfkn79PmpMcEWt9sdL6ULsqqmc/VSoys3EsEds1geiFiVFMXIrER4Hi3XpeuN
+ hl2iLcDHEC8Ke8yrTRn4dSsqWL6Z44IoXmbwgB1SjqVzc7WBUHY70BGMQJkmjWSprm2rRJ
+ cc6/7H6t8AKl+XaFObUO5rDKSUQ7mUc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-_GNqg23MPlWhexVnUdrgSQ-1; Tue, 22 Sep 2020 18:35:39 -0400
-X-MC-Unique: _GNqg23MPlWhexVnUdrgSQ-1
+ us-mta-316-0Tf8tEh_M9mWFIl1M4_rGQ-1; Tue, 22 Sep 2020 18:35:40 -0400
+X-MC-Unique: 0Tf8tEh_M9mWFIl1M4_rGQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BF57801AE8;
- Tue, 22 Sep 2020 22:35:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6230E186DD27;
+ Tue, 22 Sep 2020 22:35:39 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 708CC60BF4;
- Tue, 22 Sep 2020 22:35:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 888A960CCC;
+ Tue, 22 Sep 2020 22:35:38 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 10/26] qapi/parser.py: assert object keys are strings
-Date: Tue, 22 Sep 2020 18:35:09 -0400
-Message-Id: <20200922223525.4085762-11-jsnow@redhat.com>
+Subject: [PATCH 11/26] qapi/parser.py: Convert several methods to @classmethod
+Date: Tue, 22 Sep 2020 18:35:10 -0400
+Message-Id: <20200922223525.4085762-12-jsnow@redhat.com>
 In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
 References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 17:00:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,27 +85,51 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since values can also be other data types, add an assertion to ensure
-we're dealing with strings.
+It's usually nicer to keep static methods as class methods -- this
+allows them to call other class methods, to be subclassed and extended,
+etc.
+
+Meanwhile, any method that doesn't utilize `self` can be a class method.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/qapi/parser.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 1bc33e85ea..756c904257 100644
+index 756c904257..75a693a9d7 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -256,6 +256,8 @@ def get_members(self):
-             raise self._parse_error("expected string or '}'")
-         while True:
-             key = self.val
-+            assert isinstance(key, str), f"expected str, got {type(key)!s}"
-+
-             self.accept()
-             if self.tok != ':':
-                 raise self._parse_error("expected ':'")
+@@ -139,15 +139,16 @@ def _parse(self):
+     def _parse_error(self, msg: str) -> QAPIParseError:
+         return QAPIParseError.make(self, msg)
+ 
+-    @staticmethod
+-    def reject_expr_doc(doc):
++    @classmethod
++    def reject_expr_doc(cls, doc):
+         if doc and doc.symbol:
+             raise QAPISemError(
+                 doc.info,
+                 "documentation for '%s' is not followed by the definition"
+                 % doc.symbol)
+ 
+-    def _include(self, include, info, incl_fname, previously_included):
++    @classmethod
++    def _include(cls, include, info, incl_fname, previously_included):
+         incl_abs_fname = os.path.abspath(incl_fname)
+         # catch inclusion cycle
+         inf = info
+@@ -162,7 +163,8 @@ def _include(self, include, info, incl_fname, previously_included):
+ 
+         return QAPISchemaParser(incl_fname, previously_included, info)
+ 
+-    def _pragma(self, name, value, info):
++    @classmethod
++    def _pragma(cls, name, value, info):
+         if name == 'doc-required':
+             if not isinstance(value, bool):
+                 raise QAPISemError(info,
 -- 
 2.26.2
 
