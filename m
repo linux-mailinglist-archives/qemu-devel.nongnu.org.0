@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D750274B84
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:49:55 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993D9274BC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:58:18 +0200 (CEST)
+Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqAc-0006yW-A8
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39994)
+	id 1kKqIj-0000Hg-Cm
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbR-00018B-5I
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36388)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbT-0001FN-W6
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:36 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37155
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbP-00063c-EM
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbQ-00063r-Tp
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809210;
+ s=mimecast20190719; t=1600809211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FttIVxQ9TFGN8XY/kcxNXdK8d88KH8ay5wgIRnTZmA4=;
- b=DyW7CMXsixBfjPKtb2nVkPH6qT1bjAI3lyAkAP6vvPqv6EWI4pU6eh0PcAx4nCeowvmKRv
- laOIefqh6KA5ojwcv8HXoLdRTZx/gwxG9X6VQPlmew+/F69eGlF2dmdHlFHrqpCRqXyS0a
- rqZu5//NDB+HmFXP+6zrClG1Dwo5Y7I=
+ bh=F8Tlcu0rBgiQmhsrhc7FiuFZcAK0dpv8XpiYSQEPdQI=;
+ b=bv/MLWFCV2VFbd88AZJEyWj3NWq/SKljV/iNvM4e2dMbPsZWQbJkrBw+jAhR9pYGokDHbS
+ Z/PPkHV0lCo+KQJKuKIH+qYoWiMRkSrVqM0Cf3Hmzn1nsgItiR90+0C1ZMS/ovof4k94Ol
+ iX8BY42ng+BAlBjUD5hDtYE+HOnWXs8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-WeaGhjP6Nr2gBshNV6Ye4A-1; Tue, 22 Sep 2020 17:13:28 -0400
-X-MC-Unique: WeaGhjP6Nr2gBshNV6Ye4A-1
+ us-mta-184-9vleCEChPMelxQ12778sRQ-1; Tue, 22 Sep 2020 17:13:29 -0400
+X-MC-Unique: 9vleCEChPMelxQ12778sRQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D40A310BBEC8;
- Tue, 22 Sep 2020 21:13:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFBD0802B70;
+ Tue, 22 Sep 2020 21:13:28 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C26BA614F5;
- Tue, 22 Sep 2020 21:13:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A5CB73682;
+ Tue, 22 Sep 2020 21:13:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 10/16] qapi/expr.py: Remove single-letter variable
-Date: Tue, 22 Sep 2020 17:13:07 -0400
-Message-Id: <20200922211313.4082880-11-jsnow@redhat.com>
+Subject: [PATCH 11/16] qapi/expr.py: enable pylint checks
+Date: Tue, 22 Sep 2020 17:13:08 -0400
+Message-Id: <20200922211313.4082880-12-jsnow@redhat.com>
 In-Reply-To: <20200922211313.4082880-1-jsnow@redhat.com>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 17:00:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,35 +87,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ scripts/qapi/pylintrc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 5d5c3d050d..f244e9648c 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -211,14 +211,14 @@ def check_features(features: Optional[object],
-         raise QAPISemError(info, "'features' must be an array")
-     features[:] = [f if isinstance(f, dict) else {'name': f}
-                    for f in features]
--    for f in features:
-+    for feature in features:
-         source = "'features' member"
--        assert isinstance(f, dict)
--        check_keys(f, info, source, ['name'], ['if'])
--        check_name_is_str(f['name'], info, source)
--        source = "%s '%s'" % (source, f['name'])
--        check_name_str(f['name'], info, source)
--        check_if(f, info, source)
-+        assert isinstance(feature, dict)
-+        check_keys(feature, info, source, ['name'], ['if'])
-+        check_name_is_str(feature['name'], info, source)
-+        source = "%s '%s'" % (source, feature['name'])
-+        check_name_str(feature['name'], info, source)
-+        check_if(feature, info, source)
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 581755351b..d7adb2ba33 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -4,7 +4,6 @@
+ # The regex matches against base names, not paths.
+ ignore-patterns=doc.py,
+                 error.py,
+-                expr.py,
+                 parser.py,
+                 schema.py,
  
- 
- def check_enum(expr: Expression, info: QAPISourceInfo) -> None:
 -- 
 2.26.2
 
