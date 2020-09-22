@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D37274D1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:09:45 +0200 (CEST)
-Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418AD274D05
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:01:52 +0200 (CEST)
+Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKrPs-0003cI-Vp
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60574)
+	id 1kKrID-0008I1-16
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:01:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2n-0002Pi-Kn
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57378)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2k-0002HZ-8K
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2j-0000VA-GD
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:53 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2i-0000Wt-B9
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814735;
+ s=mimecast20190719; t=1600814738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xW55YR5VhfeQzQ2FSeIIvnQ6gI5BA6OfDkWrI/yzKHw=;
- b=M1hgNnL0WoRrJpgPloRTu5Whe9QCxUJ9weNTvUiMofay1cAkCawdudH2gf6TW4a4P5cXTM
- rGNTg6h9g/dTV79Ksr4/M9S+jygDTsBVI2g72rbZS5EvBSAJ1QzDryBCsfyMddoed/YmR3
- 1tVypOMZxDK27j+J+Z07I8/W1XJDV30=
+ bh=K+Jnzfz4yI2IUY1m1/NoSL9Uk+vNkxKYtLiabQy15Ic=;
+ b=ZmDGkcHB9Ag69aDxAG3xq0VZ1JHlujRoTtRr9BwHYLAv6zwbw3yHorda4zkrtK2CmHZ4E1
+ iNqBuCgjI+GUp6ZQfuOrdIHknCW005mHrswWNQAS8atAEfGAMdKB1oXLocKQLgWb2RtH1O
+ 4NxCG7DaDiZHt6XCpM0BJFOzpsvpkYM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-WyrSCoCWOAa1HQSJtI2lDA-1; Tue, 22 Sep 2020 18:45:33 -0400
-X-MC-Unique: WyrSCoCWOAa1HQSJtI2lDA-1
+ us-mta-33-MbLuDRHLNhSsRDc--bSdmg-1; Tue, 22 Sep 2020 18:45:35 -0400
+X-MC-Unique: MbLuDRHLNhSsRDc--bSdmg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF3051005E64;
- Tue, 22 Sep 2020 22:45:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E611005E66;
+ Tue, 22 Sep 2020 22:45:34 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C80815C1A3;
- Tue, 22 Sep 2020 22:45:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07ACF5C1A3;
+ Tue, 22 Sep 2020 22:45:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 22/25] qapi/schema.py: Ignore unused argument for check()
-Date: Tue, 22 Sep 2020 18:44:58 -0400
-Message-Id: <20200922224501.4087749-23-jsnow@redhat.com>
+Subject: [PATCH 23/25] qapi/schema.py: enable pylint checks
+Date: Tue, 22 Sep 2020 18:44:59 -0400
+Message-Id: <20200922224501.4087749-24-jsnow@redhat.com>
 In-Reply-To: <20200922224501.4087749-1-jsnow@redhat.com>
 References: <20200922224501.4087749-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,11 +53,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,26 +84,26 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an interface with a default implementation. Pylint doesn't have
-enough context to be aware of this.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/schema.py | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qapi/pylintrc | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 271befea1c..6ecbc2aa6b 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -86,6 +86,7 @@ def c_name(self) -> str:
-         return c_name(self.name)
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index fb444e93bb..539e5f65a0 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -1,10 +1,5 @@
+ [MASTER]
  
-     def check(self, schema: 'QAPISchema') -> None:
-+        # pylint: disable=unused-argument
-         assert not self._checked
-         seen: Dict[str, 'QAPISchemaMember'] = {}
-         for feature in self.features:
+-# Add files or directories matching the regex patterns to the ignore list.
+-# The regex matches against base names, not paths.
+-ignore-patterns=schema.py,
+-
+-
+ [MESSAGES CONTROL]
+ 
+ # Disable the message, report, category or checker with the given id(s). You
 -- 
 2.26.2
 
