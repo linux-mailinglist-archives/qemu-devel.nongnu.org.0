@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC10274087
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:13:48 +0200 (CEST)
-Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53067274051
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:02:50 +0200 (CEST)
+Received: from localhost ([::1]:43846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKgF1-0002OQ-At
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33290)
+	id 1kKg4P-00062L-CN
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKft1-0001XO-5V
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:51:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48270)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKft8-0001ps-L1
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:51:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfsz-0000oA-4P
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:51:02 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKft5-0000on-Bi
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:51:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600771860;
+ s=mimecast20190719; t=1600771866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hnj3PSRtLOsHp9ec4/iMuR+OvApwM2qEmtwfQx+hol0=;
- b=D8+36IOGX+p4xGhvJrUyyM5k1+IbGqEzMI4kawBz3lZzbNOznWt2VhzrMNSXRgmDozN2tY
- wvyO8wJchPqPKlc+JfrY+9c7IyrizPk08ELQXUq+Wo9ccUv1X2k1uFl5UaQm6dCLzQV8AY
- +OLlqp3ENXFsgbrHdZSpie4TTmfCskc=
+ bh=rGUZsjHgqLj5E8LG5C3k/EV9yuWT8nhX0OrJwrirL4w=;
+ b=i/cs4p0TdnIAtJgAq/EZJzCi6fXtRzL8L52zBotyhF+VliewQJtgU8mApnZwcHYpZ92Gxd
+ 5OKEAL6FvXmsXi6o/tLwkhhVepS7WIO6ZHsNL3ac2iOz/TSEHqx3OMRFmOo//1Ica5R/0K
+ D/UgKawRQlKo2+ZexinspU9xApAi99Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-oQ6tuRm6NHe59JC-tTsvTg-1; Tue, 22 Sep 2020 06:50:56 -0400
-X-MC-Unique: oQ6tuRm6NHe59JC-tTsvTg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-23-Jyb7PmWANuqi1Mo6T3YHiQ-1; Tue, 22 Sep 2020 06:51:02 -0400
+X-MC-Unique: Jyb7PmWANuqi1Mo6T3YHiQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57E2964082;
- Tue, 22 Sep 2020 10:50:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 769401084C80;
+ Tue, 22 Sep 2020 10:51:01 +0000 (UTC)
 Received: from localhost (ovpn-114-26.ams2.redhat.com [10.36.114.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 238CF5C1DC;
- Tue, 22 Sep 2020 10:50:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6052319C4F;
+ Tue, 22 Sep 2020 10:50:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 17/20] iotests: Give access to the qemu-storage-daemon
-Date: Tue, 22 Sep 2020 12:49:29 +0200
-Message-Id: <20200922104932.46384-18-mreitz@redhat.com>
+Subject: [PATCH v2 18/20] iotests: Allow testing FUSE exports
+Date: Tue, 22 Sep 2020 12:49:30 +0200
+Message-Id: <20200922104932.46384-19-mreitz@redhat.com>
 In-Reply-To: <20200922104932.46384-1-mreitz@redhat.com>
 References: <20200922104932.46384-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
@@ -83,76 +83,261 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This pretends FUSE exports are a kind of protocol.  As such, they are
+always tested under the format node.  This is probably the best way to
+test them, actually, because this will generate more I/O load and more
+varied patterns.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/check     | 11 +++++++++++
- tests/qemu-iotests/common.rc | 17 +++++++++++++++++
- 2 files changed, 28 insertions(+)
+ tests/qemu-iotests/check         |   6 ++
+ tests/qemu-iotests/common.filter |   5 +-
+ tests/qemu-iotests/common.rc     | 124 +++++++++++++++++++++++++++++++
+ 3 files changed, 134 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index e14a1f354d..467a7cf1b7 100755
+index 467a7cf1b7..07232138d7 100755
 --- a/tests/qemu-iotests/check
 +++ b/tests/qemu-iotests/check
-@@ -644,6 +644,17 @@ if [ -z $QEMU_NBD_PROG ]; then
- fi
- export QEMU_NBD_PROG="$(type -p "$QEMU_NBD_PROG")"
+@@ -270,6 +270,7 @@ image protocol options
+     -rbd                test rbd
+     -sheepdog           test sheepdog
+     -nbd                test nbd
++    -fuse               test fuse
+     -ssh                test ssh
+     -nfs                test nfs
  
-+if [ -z "$QEMU_STGD_PROG" ]; then
-+    if [ -x "$build_iotests/qemu-storage-daemon" ]; then
-+        export QEMU_STGD_PROG="$build_iotests/qemu-storage-daemon"
-+    elif [ -x "$build_root/storage-daemon/qemu-storage-daemon" ]; then
-+        export QEMU_STGD_PROG="$build_root/storage-daemon/qemu-storage-daemon"
-+    else
-+        _init_error "qemu-storage-daemon not found"
-+    fi
-+fi
-+export QEMU_STGD_PROG="$(type -p "$QEMU_STGD_PROG")"
+@@ -382,6 +383,11 @@ testlist options
+             xpand=false
+             ;;
+ 
++        -fuse)
++            IMGPROTO=fuse
++            xpand=false
++            ;;
 +
- if [ -x "$build_iotests/socket_scm_helper" ]
- then
-     export SOCKET_SCM_HELPER="$build_iotests/socket_scm_helper"
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 23f46da2db..e4751d4985 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -124,6 +124,7 @@ fi
- : ${VALGRIND_QEMU_IMG=$VALGRIND_QEMU}
- : ${VALGRIND_QEMU_IO=$VALGRIND_QEMU}
- : ${VALGRIND_QEMU_NBD=$VALGRIND_QEMU}
-+: ${VALGRIND_QEMU_STGD=$VALGRIND_QEMU}
- 
- # The Valgrind own parameters may be set with
- # its environment variable VALGRIND_OPTS, e.g.
-@@ -211,6 +212,21 @@ _qemu_nbd_wrapper()
-     return $RETVAL
+         -ssh)
+             IMGPROTO=ssh
+             xpand=false
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 838ed15793..172ea5752e 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -44,7 +44,8 @@ _filter_qom_path()
+ _filter_testdir()
+ {
+     $SED -e "s#$TEST_DIR/#TEST_DIR/#g" \
+-         -e "s#$SOCK_DIR/#SOCK_DIR/#g"
++         -e "s#$SOCK_DIR/#SOCK_DIR/#g" \
++         -e "s#SOCK_DIR/fuse-#TEST_DIR/#g"
  }
  
-+_qemu_storage_daemon_wrapper()
-+{
-+    local VALGRIND_LOGFILE="${TEST_DIR}"/$$.valgrind
-+    (
-+        if [ -n "${QEMU_STGD_NEED_PID}" ]; then
-+            echo $BASHPID > "${QEMU_TEST_DIR}/qemu-storage-daemon.pid"
-+        fi
-+        VALGRIND_QEMU="${VALGRIND_QEMU_STGD}" _qemu_proc_exec "${VALGRIND_LOGFILE}" \
-+            "$QEMU_STGD_PROG" $QEMU_STGD_OPTIONS "$@"
-+    )
-+    RETVAL=$?
-+    _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
-+    return $RETVAL
-+}
-+
- # Valgrind bug #409141 https://bugs.kde.org/show_bug.cgi?id=409141
- # Until valgrind 3.16+ is ubiquitous, we must work around a hang in
- # valgrind when issuing sigkill. Disable valgrind for this invocation.
-@@ -223,6 +239,7 @@ export QEMU=_qemu_wrapper
- export QEMU_IMG=_qemu_img_wrapper
- export QEMU_IO=_qemu_io_wrapper
- export QEMU_NBD=_qemu_nbd_wrapper
-+export QEMU_STGD=_qemu_storage_daemon_wrapper
+ # replace occurrences of the actual IMGFMT value with IMGFMT
+@@ -127,6 +128,7 @@ _filter_img_create_filenames()
+         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
+         -e "s#$TEST_DIR#TEST_DIR#g" \
+         -e "s#$SOCK_DIR#SOCK_DIR#g" \
++        -e 's#SOCK_DIR/fuse-#TEST_DIR/#g' \
+         -e "s#$IMGFMT#IMGFMT#g" \
+         -e 's#nbd:127.0.0.1:[0-9]\\+#TEST_DIR/t.IMGFMT#g' \
+         -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g'
+@@ -227,6 +229,7 @@ _filter_img_info()
+         -e "s#$IMGFMT#IMGFMT#g" \
+         -e 's#nbd://127.0.0.1:[0-9]\\+$#TEST_DIR/t.IMGFMT#g' \
+         -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g' \
++        -e 's#SOCK_DIR/fuse-#TEST_DIR/#g' \
+         -e "/encrypted: yes/d" \
+         -e "/cluster_size: [0-9]\\+/d" \
+         -e "/table_size: [0-9]\\+/d" \
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index e4751d4985..e17f813f06 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -257,6 +257,9 @@ if [ "$IMGOPTSSYNTAX" = "true" ]; then
+         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
+         TEST_IMG="$DRIVER,file.driver=nbd,file.type=unix"
+         TEST_IMG="$TEST_IMG,file.path=$SOCK_DIR/nbd"
++    elif [ "$IMGPROTO" = "fuse" ]; then
++        TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
++        TEST_IMG="$DRIVER,file.filename=$SOCK_DIR/fuse-t.$IMGFMT"
+     elif [ "$IMGPROTO" = "ssh" ]; then
+         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
+         TEST_IMG="$DRIVER,file.driver=ssh,file.host=127.0.0.1,file.path=$TEST_IMG_FILE"
+@@ -273,6 +276,9 @@ else
+     elif [ "$IMGPROTO" = "nbd" ]; then
+         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
+         TEST_IMG="nbd+unix:///?socket=$SOCK_DIR/nbd"
++    elif [ "$IMGPROTO" = "fuse" ]; then
++        TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
++        TEST_IMG="$SOCK_DIR/fuse-t.$IMGFMT"
+     elif [ "$IMGPROTO" = "ssh" ]; then
+         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
+         REMOTE_TEST_DIR="ssh://\\($USER@\\)\\?127.0.0.1\\(:[0-9]\\+\\)\\?$TEST_DIR"
+@@ -288,6 +294,9 @@ fi
+ ORIG_TEST_IMG_FILE=$TEST_IMG_FILE
+ ORIG_TEST_IMG="$TEST_IMG"
  
- if [ "$IMGOPTSSYNTAX" = "true" ]; then
-     DRIVER="driver=$IMGFMT"
++FUSE_PIDS=()
++FUSE_EXPORTS=()
++
+ if [ -z "$TEST_DIR" ]; then
+         TEST_DIR=$PWD/scratch
+ fi
+@@ -357,6 +366,10 @@ _test_img_to_test_img_file()
+             echo "$1"
+             ;;
+ 
++        fuse)
++            echo "$1" | sed -e "s#$SOCK_DIR/fuse-#$TEST_DIR/#"
++            ;;
++
+         nfs)
+             echo "$1" | sed -e "s#nfs://127.0.0.1##"
+             ;;
+@@ -385,6 +398,11 @@ _make_test_img()
+     local opts_param=false
+     local misc_params=()
+ 
++    if [[ $IMGPROTO == fuse && $TEST_IMG == $SOCK_DIR/fuse-* ]]; then
++        # The caller may be trying to overwrite an existing image
++        _rm_test_img "$TEST_IMG"
++    fi
++
+     if [ -z "$TEST_IMG_FILE" ]; then
+         img_name=$TEST_IMG
+     elif [ "$IMGOPTSSYNTAX" != "true" -a \
+@@ -469,11 +487,105 @@ _make_test_img()
+         eval "$QEMU_NBD -v -t -k '$SOCK_DIR/nbd' -f $IMGFMT -e 42 -x '' $TEST_IMG_FILE >/dev/null &"
+         sleep 1 # FIXME: qemu-nbd needs to be listening before we continue
+     fi
++
++    if [ $IMGPROTO = "fuse" -a -f "$img_name" ]; then
++        local export_mp
++        local pid
++        local pidfile
++        local timeout
++
++        export_mp=$(echo "$img_name" | sed -e "s#$TEST_DIR/#$SOCK_DIR/fuse-#")
++        if ! echo "$export_mp" | grep -q "^$SOCK_DIR"; then
++            echo 'Cannot use FUSE exports with images outside of TEST_DIR' >&2
++            return 1
++        fi
++
++        touch "$export_mp"
++        rm -f "$SOCK_DIR/fuse-output"
++
++        # Usually, users would export formatted nodes.  But we present fuse as a
++        # protocol-level driver here, so we have to leave the format to the
++        # client.
++        QEMU_STGD_NEED_PID=y $QEMU_STGD \
++              --blockdev file,node-name=export-node,filename=$img_name,discard=unmap \
++              --export fuse,id=fuse-export,node-name=export-node,mountpoint="$export_mp",writable=on,growable=on \
++              &
++
++        pidfile="$QEMU_TEST_DIR/qemu-storage-daemon.pid"
++
++        # Wait for the PID file
++        while [ ! -f "$pidfile" ]; do
++            sleep 0.5
++        done
++
++        pid=$(cat "$pidfile")
++        rm -f "$pidfile"
++
++        FUSE_PIDS+=($pid)
++        FUSE_EXPORTS+=("$export_mp")
++    fi
+ }
+ 
+ _rm_test_img()
+ {
+     local img=$1
++
++    if [[ $IMGPROTO == fuse && $img == $SOCK_DIR/fuse-* ]]; then
++        # Drop a FUSE export
++        local df_output
++        local i
++        local image_file
++        local index=''
++        local timeout
++
++        for i in "${!FUSE_EXPORTS[@]}"; do
++            if [ "${FUSE_EXPORTS[i]}" = "$img" ]; then
++                index=$i
++                break
++            fi
++        done
++
++        if [ -z "$index" ]; then
++            # Probably gone already
++            return 0
++        fi
++
++        kill "${FUSE_PIDS[index]}"
++
++        # Wait until the mount is gone
++        timeout=10 # *0.5 s
++        while true; do
++            # Will show the mount point; if the mount is still there,
++            # it will be $img.
++            df_output=$(df -T "$img" 2>/dev/null)
++
++            # But df may also show an error ("Transpoint endpoint not
++            # connected"), so retry in such cases
++            if [ -n "$df_output" ]; then
++                if ! echo "$df_output" | grep -q "$img"; then
++                    break
++                fi
++            fi
++
++            sleep 0.5
++
++            timeout=$((timeout - 1))
++            if [ "$timeout" = 0 ]; then
++                echo 'Failed to take down FUSE export' >&2
++                return 1
++            fi
++        done
++
++        rm -f "$img"
++
++        unset "FUSE_PIDS[$index]"
++        unset "FUSE_EXPORTS[$index]"
++
++        image_file=$(echo "$img" | sed -e "s#$SOCK_DIR/fuse-#$TEST_DIR/#")
++        _rm_test_img "$image_file"
++        return
++    fi
++
+     if [ "$IMGFMT" = "vmdk" ]; then
+         # Remove all the extents for vmdk
+         "$QEMU_IMG" info "$img" 2>/dev/null | grep 'filename:' | cut -f 2 -d: \
+@@ -496,6 +608,17 @@ _cleanup_test_img()
+             rm -f "$TEST_IMG_FILE"
+             ;;
+ 
++        fuse)
++            local mp
++
++            for mp in "${FUSE_EXPORTS[@]}"; do
++                _rm_test_img "$mp"
++            done
++
++            FUSE_PIDS=()
++            FUSE_EXPORTS=()
++            ;;
++
+         file)
+             _rm_test_img "$TEST_DIR/t.$IMGFMT"
+             _rm_test_img "$TEST_DIR/t.$IMGFMT.orig"
+@@ -562,6 +685,7 @@ _img_info()
+         sed -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
+             -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
+             -e "s#$TEST_DIR#TEST_DIR#g" \
++            -e "s#$SOCK_DIR/fuse-#TEST_DIR/#g" \
+             -e "s#$IMGFMT#IMGFMT#g" \
+             -e "/^disk size:/ D" \
+             -e "/actual-size/ D" | \
 -- 
 2.26.2
 
