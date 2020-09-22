@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF99274C6A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:47:55 +0200 (CEST)
-Received: from localhost ([::1]:48062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39886274C6E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:49:37 +0200 (CEST)
+Received: from localhost ([::1]:56364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKr4k-0003tW-HY
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:47:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60194)
+	id 1kKr6O-0007N1-9z
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2C-0001wj-Rc
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27152)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2G-00021o-5j
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2B-0000KJ-82
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:16 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2E-0000Mk-8Z
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814714;
+ s=mimecast20190719; t=1600814717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PlNM83s6DVVzNRgOd3tBHRT+FdvTT/OuXY5mruJgZU8=;
- b=JTsCFAi1XSd9EUVpdOtipbsUEsP6aaQBFKHu2pdvaz2zXDAfvH+RksMTCX9zcqvPznrSTp
- ckiVPMfkJsUwez45d15WyHnSeTEI8X3NA9by/lgXlHPrdr+3iNUhJ1pPtDm/Rkvh9+IjXf
- +b1OSeq+UYUso96nI9vWMcKWU7keSD8=
+ bh=3hwPPP7ajxXWgMYSvqQEb3O2rXxN2d7kmT45cRPWKTA=;
+ b=Ffv2JlN6oyFwBfFNi4b/FPKQiU+M1cH+h0KeNkkeIeh5tM8nQjOIRoSNfiqxu7T38nr5Pi
+ q/npSrKHtWRY5Ro5WTwfzP3MD+wAJ/lz2QUER9xUIR1b4sTJTWpxG1z2RnRKynX6xv+p9f
+ YHitU9k6/MnBITVR6WCMsm4fXExxwsY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-lL9xakWLMR2VfU6EphOEoQ-1; Tue, 22 Sep 2020 18:45:12 -0400
-X-MC-Unique: lL9xakWLMR2VfU6EphOEoQ-1
+ us-mta-313-kvonn3BgPk6yGgNOGS0p3w-1; Tue, 22 Sep 2020 18:45:13 -0400
+X-MC-Unique: kvonn3BgPk6yGgNOGS0p3w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A20481CBEB;
- Tue, 22 Sep 2020 22:45:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C584425DD;
+ Tue, 22 Sep 2020 22:45:12 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B5D65C1A3;
- Tue, 22 Sep 2020 22:45:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76BAD5C1A3;
+ Tue, 22 Sep 2020 22:45:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 03/25] qapi/schema.py: add assert in stub methods
-Date: Tue, 22 Sep 2020 18:44:39 -0400
-Message-Id: <20200922224501.4087749-4-jsnow@redhat.com>
+Subject: [PATCH 04/25] qapi/schema.py: constrain QAPISchemaObjectType base type
+Date: Tue, 22 Sep 2020 18:44:40 -0400
+Message-Id: <20200922224501.4087749-5-jsnow@redhat.com>
 In-Reply-To: <20200922224501.4087749-1-jsnow@redhat.com>
 References: <20200922224501.4087749-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,41 +84,38 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of pass (an implicit return none), use raise NotImplementedError
-to mark a function as abstract -- one that doesn't return. This allows
-us to correctly type the stub.
+Re-order check slightly so we can provide a stronger guarantee on the
+typing of the base field.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/schema.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/qapi/schema.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 0201b42095..a53631e660 100644
+index a53631e660..3aa842be08 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -176,8 +176,8 @@ def visit(self, visitor):
- class QAPISchemaType(QAPISchemaEntity):
-     # Return the C type for common use.
-     # For the types we commonly box, this is a pointer type.
--    def c_type(self):
--        pass
-+    def c_type(self) -> str:
-+        raise NotImplementedError()
+@@ -378,14 +378,14 @@ def check(self, schema):
  
-     # Return the C type to be used in a parameter list.
-     def c_param_type(self):
-@@ -187,8 +187,8 @@ def c_param_type(self):
-     def c_unboxed_type(self):
-         return self.c_type()
- 
--    def json_type(self):
--        pass
-+    def json_type(self) -> str:
-+        raise NotImplementedError()
- 
-     def alternate_qtype(self):
-         json2qtype = {
+         seen = OrderedDict()
+         if self._base_name:
+-            self.base = schema.resolve_type(self._base_name, self.info,
+-                                            "'base'")
+-            if (not isinstance(self.base, QAPISchemaObjectType)
+-                    or self.base.variants):
++            base = schema.resolve_type(self._base_name, self.info, "'base'")
++            if (not isinstance(base, QAPISchemaObjectType)
++                    or base.variants):
+                 raise QAPISemError(
+                     self.info,
+                     "'base' requires a struct type, %s isn't"
+-                    % self.base.describe())
++                    % base.describe())
++            self.base = base
+             self.base.check(schema)
+             self.base.check_clash(self.info, seen)
+         for m in self.local_members:
 -- 
 2.26.2
 
