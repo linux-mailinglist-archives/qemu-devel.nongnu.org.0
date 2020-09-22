@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69D0274C2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:36:49 +0200 (CEST)
-Received: from localhost ([::1]:40564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649AF274C4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:40:33 +0200 (CEST)
+Received: from localhost ([::1]:53418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqu0-0005pl-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57958)
+	id 1kKqxc-0002fi-FG
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:40:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsp-000462-F1
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59342
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsr-00048M-5U
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsn-0007bB-5L
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:35 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqso-0007bI-FI
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814131;
+ s=mimecast20190719; t=1600814133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5eVpkdcjCkO0x/bhaaCI/lR3dymJdH6x4Nudt5tVF4Q=;
- b=KpuGjE1do0LkHSWMbA3lqtZc8Sx8GhJ2N1TjL46AzQmuDvMzE/fz8QoY9OHtDm1lfoCIgv
- rcEI31pLZkt7hLdZTv3ULg8CZTPtR0pYEr4uNyxDybIaBB3CJUdcPlyK4Q1vMariJ+Eoyj
- +Pv+JkHdIxDWsGDWAFMh86pSWE1D6Kw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZMY/wzTC1WX5rSMzZEfkvQygIqZldMtlPzP4tLxY3L4=;
+ b=SrCP1h2kq2utpzdO5t0HcRe4cQqyiTShXuOvXoruHakpT+TSGNp8AjwLANZ2GDt4GfTGv+
+ EBoe65L8baW4aWUgDgcNSnWDF962E1HLPI/V4xCm3qi+DFoLbUjLsXpqb4mVLRUZajrdxh
+ /DuqcBgRbFTP0N99a1IEGk3DdT0sNwE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-WJrrfG7EODmP_a-ta9x_ag-1; Tue, 22 Sep 2020 18:35:28 -0400
-X-MC-Unique: WJrrfG7EODmP_a-ta9x_ag-1
+ us-mta-490-VLWWGsa4N92iU4kRc2aWCw-1; Tue, 22 Sep 2020 18:35:29 -0400
+X-MC-Unique: VLWWGsa4N92iU4kRc2aWCw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 389D21005E64;
- Tue, 22 Sep 2020 22:35:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B2731074641;
+ Tue, 22 Sep 2020 22:35:28 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68B4460C05;
- Tue, 22 Sep 2020 22:35:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8445460C05;
+ Tue, 22 Sep 2020 22:35:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 00/26] qapi: static typing conversion, pt5
-Date: Tue, 22 Sep 2020 18:34:59 -0400
-Message-Id: <20200922223525.4085762-1-jsnow@redhat.com>
+Subject: [PATCH 01/26] qapi/parser.py: refactor parsing routine into method
+Date: Tue, 22 Sep 2020 18:35:00 -0400
+Message-Id: <20200922223525.4085762-2-jsnow@redhat.com>
+In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
+References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 17:01:22
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,73 +84,79 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-based-on: <20200922210101.4081073-1-jsnow@redhat.com>=0D
-          [PATCH 0/6] qapi: static typing conversion, pt4=0D
-=0D
-Hi, this series adds static type hints to the QAPI module.=0D
-This is part five!=0D
-=0D
-Part 5: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt5=0D
-Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
-=0D
-- Requires Python 3.6+=0D
-- Requires mypy 0.770 or newer (for type analysis only)=0D
-- Requires pylint 2.6.0 or newer (for lint checking only)=0D
-=0D
-This part of the series focuses on just parser.py.=0D
-=0D
-Type hints are added in patches that add *only* type hints and change no=0D
-other behavior. Any necessary changes to behavior to accommodate typing=0D
-are split out into their own tiny patches.=0D
-=0D
-Every commit should pass with:=0D
- - flake8 qapi/=0D
- - pylint --rcfile=3Dqapi/pylintrc qapi/=0D
- - mypy --config-file=3Dqapi/mypy.ini qapi/=0D
-=0D
-John Snow (26):=0D
-  qapi/parser.py: refactor parsing routine into method=0D
-  qapi/parser.py: group variable declarations in __init__=0D
-  qapi/parser.py: use 'with' statement for opening files=0D
-  qapi/source.py: Add default arguments to QAPISourceInfo=0D
-  qapi/parser.py: start source info at line 0=0D
-  qapi/parser.py: raise QAPIParseError during file opening=0D
-  qapi/parser.py: fully remove 'null' constant=0D
-  qapi/parser.py: Assert lexer value is a string=0D
-  qapi/parser.py: assert get_expr returns object in outer loop=0D
-  qapi/parser.py: assert object keys are strings=0D
-  qapi/parser.py: Convert several methods to @classmethod=0D
-  qapi/parser.py: add casts to pragma checks=0D
-  qapi/parser.py: add type hint annotations=0D
-  qapi/parser.py: add docstrings=0D
-  qapi/parser.py: add ParsedExpression type=0D
-  qapi/pragma.py: Move QAPISchemaPragma into its own module=0D
-  qapi/pragma.py: Move pragma parsing out of parser.py=0D
-  qapi/parser.py: Modify _include() to use parser state=0D
-  qapi/parser.py: add parent argument=0D
-  qapi/parser.py: remove unused check_args_section arguments=0D
-  qapi/parser.py: QAPIDoc: convert @staticmethod to @classmethod=0D
-  qapi/parser.py: add type hint annotations (QAPIDoc)=0D
-  qapi/parser.py: enable mypy checks=0D
-  qapi/parser.py: remove one and two-letter variables=0D
-  qapi/parser.py: Silence too-few-public-methods warning=0D
-  qapi/parser.py: enable pylint checks=0D
-=0D
- scripts/qapi/error.py                     |   8 +-=0D
- scripts/qapi/expr.py                      |  56 ++--=0D
- scripts/qapi/mypy.ini                     |   5 -=0D
- scripts/qapi/parser.py                    | 322 +++++++++++++---------=0D
- scripts/qapi/pragma.py                    |  68 +++++=0D
- scripts/qapi/pylintrc                     |   3 +-=0D
- scripts/qapi/schema.py                    |   6 +-=0D
- scripts/qapi/source.py                    |  22 +-=0D
- tests/qapi-schema/leading-comma-list.err  |   2 +-=0D
- tests/qapi-schema/trailing-comma-list.err |   2 +-=0D
- 10 files changed, 301 insertions(+), 193 deletions(-)=0D
- create mode 100644 scripts/qapi/pragma.py=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+For the sake of keeping __init__ easier to reason about, with fewer
+variables in play.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ scripts/qapi/parser.py | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
+
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 8be4570c31..55117f5754 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -46,28 +46,34 @@ class QAPIDocError(QAPIError):
+ class QAPISchemaParser:
+ 
+     def __init__(self, fname, previously_included=None, incl_info=None):
+-        previously_included = previously_included or set()
+-        previously_included.add(os.path.abspath(fname))
++        self._fname = fname
++        self._included = previously_included or set()
++        self._included.add(os.path.abspath(self._fname))
++
++        self.cursor = 0
++        self.info = QAPISourceInfo(self._fname, 1, incl_info)
++        self.line_pos = 0
++        self.exprs = []
++        self.docs = []
+ 
+         try:
+-            fp = open(fname, 'r', encoding='utf-8')
++            fp = open(self._fname, 'r', encoding='utf-8')
+             self.src = fp.read()
+         except IOError as e:
+             raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
+                                "can't read %s file '%s': %s"
+                                % ("include" if incl_info else "schema",
+-                                  fname,
++                                  self._fname,
+                                   e.strerror))
++        self._parse()
+ 
++    def _parse(self):
++        cur_doc = None
++
++        # Prime the lexer:
+         if self.src == '' or self.src[-1] != '\n':
+             self.src += '\n'
+-        self.cursor = 0
+-        self.info = QAPISourceInfo(fname, 1, incl_info)
+-        self.line_pos = 0
+-        self.exprs = []
+-        self.docs = []
+         self.accept()
+-        cur_doc = None
+ 
+         while self.tok is not None:
+             info = self.info
+@@ -86,12 +92,12 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+                 if not isinstance(include, str):
+                     raise QAPISemError(info,
+                                        "value of 'include' must be a string")
+-                incl_fname = os.path.join(os.path.dirname(fname),
++                incl_fname = os.path.join(os.path.dirname(self._fname),
+                                           include)
+                 self.exprs.append({'expr': {'include': incl_fname},
+                                    'info': info})
+                 exprs_include = self._include(include, info, incl_fname,
+-                                              previously_included)
++                                              self._included)
+                 if exprs_include:
+                     self.exprs.extend(exprs_include.exprs)
+                     self.docs.extend(exprs_include.docs)
+-- 
+2.26.2
 
 
