@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6491274B6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:46:47 +0200 (CEST)
-Received: from localhost ([::1]:53596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189F8274B8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:52:05 +0200 (CEST)
+Received: from localhost ([::1]:42076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKq7a-00028w-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
+	id 1kKqCY-0000ex-5J
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbJ-0000n2-3n
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41686)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbK-0000qa-Di
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbG-000610-RV
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:24 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbI-00061d-Fh
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809201;
+ s=mimecast20190719; t=1600809203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+WrFPzsy+W9bhbMiGBrTtDEjGrxRPAX22SwGQfV1s7E=;
- b=eKRutyIRp1ZFZiqL+SRc6gSed+/y7/P8xpek6ylL3IrPsdN9Dyh6As7v9vbJDvBvUNzT8I
- 4COoUwgB1UWgYAfNS6V4LvnyyhgMh250xT/oZWk7YEScIiAspsFTGY9ROi8Iy4y9BAvOwl
- 15rWDF8CO//EiHZy9kexI/GY10k8CuA=
+ bh=OviiS+c/KqyWZoTO/aj83Q64YGN4t3Pv8SUuOosZ94s=;
+ b=gy+l62ArpM+Jw4lCgpm6VoVMUdrHmf40H3i75Mzv3w+dZ2lp3XICy8I2YXoEQxy+iMqFmR
+ c3eFAOL55wwgL+/ixxfdrkp9BvPp/E9QllsUabP67Y/ow39Hvvqu+XTTpm+caEESAzuJuN
+ doxeCf0oDBtyoYhr13GC60dls2nXFa4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-yaT8vAfSPYamZX1BAx-GPw-1; Tue, 22 Sep 2020 17:13:19 -0400
-X-MC-Unique: yaT8vAfSPYamZX1BAx-GPw-1
+ us-mta-465-BLZwyfbjPA2zRgtjmq3AQw-1; Tue, 22 Sep 2020 17:13:19 -0400
+X-MC-Unique: BLZwyfbjPA2zRgtjmq3AQw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 631EE64088;
- Tue, 22 Sep 2020 21:13:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE04919611A0;
+ Tue, 22 Sep 2020 21:13:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D88273682;
- Tue, 22 Sep 2020 21:13:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A13FE73689;
+ Tue, 22 Sep 2020 21:13:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 02/16] qapi/expr.py: Check for dict instead of OrderedDict
-Date: Tue, 22 Sep 2020 17:12:59 -0400
-Message-Id: <20200922211313.4082880-3-jsnow@redhat.com>
+Subject: [PATCH 03/16] qapi/expr.py: constrain incoming expression types
+Date: Tue, 22 Sep 2020 17:13:00 -0400
+Message-Id: <20200922211313.4082880-4-jsnow@redhat.com>
 In-Reply-To: <20200922211313.4082880-1-jsnow@redhat.com>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,44 +84,60 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OrderedDict is a subtype of dict, so we can check for a more general form.
+mypy does not know the types of values stored in Dicts that masquerade
+as objects. Help the type checker out by constraining the type.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/qapi/expr.py | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index de659a54ad..1872a8a3cc 100644
+index 1872a8a3cc..f6b55a87c1 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -15,7 +15,7 @@
+@@ -15,9 +15,17 @@
  # See the COPYING file in the top-level directory.
  
  import re
--from collections import OrderedDict
-+
++from typing import MutableMapping, Optional
+ 
  from .common import c_name
  from .error import QAPISemError
++from .parser import QAPIDoc
++from .source import QAPISourceInfo
++
++
++# Expressions in their raw form are JSON-like structures with arbitrary forms.
++# Minimally, their top-level form must be a mapping of strings to values.
++Expression = MutableMapping[str, object]
  
-@@ -123,7 +123,7 @@ def check_if_str(ifcond):
  
+ # Names must be letters, numbers, -, and _.  They must start with letter,
+@@ -280,9 +288,20 @@ def check_event(expr, info):
  
- def normalize_members(members):
--    if isinstance(members, OrderedDict):
-+    if isinstance(members, dict):
-         for key, arg in members.items():
-             if isinstance(arg, dict):
-                 continue
-@@ -154,7 +154,7 @@ def check_type(value, info, source,
-     if not allow_dict:
-         raise QAPISemError(info, "%s should be a type name" % source)
+ def check_exprs(exprs):
+     for expr_elem in exprs:
+-        expr = expr_elem['expr']
+-        info = expr_elem['info']
+-        doc = expr_elem.get('doc')
++        # Expression
++        assert isinstance(expr_elem['expr'], dict)
++        expr: Expression = expr_elem['expr']
++        for key in expr.keys():
++            assert isinstance(key, str)
++
++        # QAPISourceInfo
++        assert isinstance(expr_elem['info'], QAPISourceInfo)
++        info: QAPISourceInfo = expr_elem['info']
++
++        # Optional[QAPIDoc]
++        tmp = expr_elem.get('doc')
++        assert tmp is None or isinstance(tmp, QAPIDoc)
++        doc: Optional[QAPIDoc] = tmp
  
--    if not isinstance(value, OrderedDict):
-+    if not isinstance(value, dict):
-         raise QAPISemError(info,
-                            "%s should be an object or type name" % source)
- 
+         if 'include' in expr:
+             continue
 -- 
 2.26.2
 
