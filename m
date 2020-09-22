@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14421274977
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 21:48:18 +0200 (CEST)
-Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451EA274999
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 21:57:09 +0200 (CEST)
+Received: from localhost ([::1]:40230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKoGu-0006LN-Sj
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 15:48:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47900)
+	id 1kKoPU-0002H3-3s
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 15:57:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kKoEP-0005JE-K8
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 15:45:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49800)
+ id 1kKoOW-0001qK-Ds
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 15:56:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kKoEM-0003cS-RK
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 15:45:41 -0400
+ id 1kKoOR-0004vK-EE
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 15:56:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kKoEK-0002Un-P6
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 19:45:36 +0000
+ id 1kKoOP-0004B6-Ho
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 19:56:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D5D52E8071
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 19:45:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 71EB12E80EA
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 19:56:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2020 19:39:03 -0000
+Date: Tue, 22 Sep 2020 19:47:32 -0000
 From: Eduardo Habkost <1896263@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,15 +41,15 @@ X-Launchpad-Bug-Commenters: ehabkost laurent-vivier maxco stefanha vkuznets
 X-Launchpad-Bug-Reporter: Apteryx (maxco)
 X-Launchpad-Bug-Modifier: Eduardo Habkost (ehabkost)
 References: <160044888692.1133.11388395637815022535.malonedeb@chaenomeles.canonical.com>
-Message-Id: <20200922193903.GA2044576@habkost.net>
-Subject: [Bug 1896263] Re: [PATCH] i386: Don't try to set MSR_KVM_ASYNC_PF_EN
- if kernel-irqchip=off
+Message-Id: <20200922194732.2100510-1-ehabkost@redhat.com>
+Subject: [Bug 1896263] [PATCH] bios-tables-test: Remove kernel-irqchip=off
+ option
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 0718d79fd872bcafbf407e61d8f8252571f4ff42
+X-Launchpad-Hash: 85915a90629db5c984e3a026f8aaaa96777bd53c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:45:37
@@ -76,28 +76,43 @@ Reply-To: Bug 1896263 <1896263@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 07:26:42PM +0200, Paolo Bonzini wrote:
-> On 22/09/20 19:22, Eduardo Habkost wrote:
-> > If it was possible, did KVM break live migration of
-> > kernel-irqchip=3Doff guests that enabled APF?  This would mean my
-> > patch is replacing a crash with a silent migration bug.  Not nice
-> > either way.
-> =
+We don't need to use kernel-irqchip=3Doff for irq0 override if IRQ
+routing is supported by the host, which is the case since 2009
+(IRQ routing was added to KVM in Linux v2.6.30).
 
-> Let's drop kernel-irqchip=3Doff completely so migration is not broken. :)
-> =
+This is a more straightforward fix for Launchpad bug #1896263, as
+it doesn't require increasing the complexity of the MSR code.
+kernel-irqchip=3Doff is for debugging only and there's no need to
+increase the complexity of the code just to work around an issue
+that was already fixed in the kernel.
 
-> I'm actually serious, I don't think we need a deprecation period even.
+Fixes: https://bugs.launchpad.net/bugs/1896263
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ tests/qtest/bios-tables-test.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-I wasn't sure about this, but then I've noticed the man page says
-"disabling the in-kernel irqchip completely is not recommended
-except for debugging purposes."
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index a9c8d478aee..27e8f0a1cb7 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -663,8 +663,7 @@ static void test_acpi_one(const char *params, test_data=
+ *data)
+             data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : ""=
+);
+ =
 
-Does this note apply to all architectures?
-
+     } else {
+-        /* Disable kernel irqchip to be able to override apic irq0. */
+-        args =3D g_strdup_printf("-machine %s,kernel-irqchip=3Doff %s -acc=
+el tcg "
++        args =3D g_strdup_printf("-machine %s %s -accel tcg "
+             "-net none -display none %s "
+             "-drive id=3Dhd0,if=3Dnone,file=3D%s,format=3Draw "
+             "-device %s,drive=3Dhd0 ",
 -- =
 
-Eduardo
+2.26.2
 
 -- =
 
