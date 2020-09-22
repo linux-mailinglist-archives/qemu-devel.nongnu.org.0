@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FFC274212
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 14:30:33 +0200 (CEST)
-Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B274274219
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 14:31:50 +0200 (CEST)
+Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKhRI-0006J9-J8
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 08:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38874)
+	id 1kKhSX-0007Kk-5E
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 08:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kKhEH-0001XZ-6X
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:17:05 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:47752)
+ id 1kKhDg-0001K8-Ki
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:16:28 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:47614)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kKhED-0006VU-5O
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:17:04 -0400
+ id 1kKhDe-0006S3-ED
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:16:28 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 03B6F40A2071;
- Tue, 22 Sep 2020 12:16:58 +0000 (UTC)
-Subject: [PATCH v5 14/15] replay: create temporary snapshot at debugger
- connection
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5C05B41741D2;
+ Tue, 22 Sep 2020 12:16:24 +0000 (UTC)
+Subject: [PATCH v5 08/15] replay: implement replay-seek command
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Tue, 22 Sep 2020 15:16:58 +0300
-Message-ID: <160077701869.10249.1932448449161159554.stgit@pasha-ThinkPad-X280>
+Date: Tue, 22 Sep 2020 15:16:24 +0300
+Message-ID: <160077698406.10249.477675066689192150.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <160077693745.10249.9707329107813662236.stgit@pasha-ThinkPad-X280>
 References: <160077693745.10249.9707329107813662236.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -62,67 +61,196 @@ Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When record/replay does not uses overlays for storing the snapshots,
-user is not capable of issuing reverse debugging commands.
-This patch adds creation of the VM snapshot on the temporary
-overlay image, when the debugger connects to QEMU.
-Therefore the execution can be rewind to the moment
-of the debugger connection while debugging the virtual machine.
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+
+This patch adds hmp/qmp commands replay_seek/replay-seek that proceed
+the execution to the specified instruction count.
+The command automatically loads nearest snapshot and replays the execution
+to find the desired instruction count.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
----
- gdbstub.c                 |    1 +
- include/sysemu/replay.h   |    2 ++
- replay/replay-debugging.c |   16 ++++++++++++++++
- 3 files changed, 19 insertions(+)
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
-diff --git a/gdbstub.c b/gdbstub.c
-index ac92273018..f19f98ab1a 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3321,6 +3321,7 @@ static void gdb_chr_event(void *opaque, QEMUChrEvent event)
-         s->g_cpu = s->c_cpu;
+--
+
+v4 changes:
+ - fixed HMP command description indent
+ - removed useless error_free call
+---
+ hmp-commands.hx           |   18 +++++++++
+ include/monitor/hmp.h     |    1 +
+ qapi/replay.json          |   20 ++++++++++
+ replay/replay-debugging.c |   87 +++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 126 insertions(+)
+
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index e8ce385879..262bc986b9 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1851,6 +1851,24 @@ SRST
+   The command is ignored when there are no replay breakpoints.
+ ERST
  
-         vm_stop(RUN_STATE_PAUSED);
-+        replay_gdb_attached();
-         gdb_has_xml = false;
-         break;
-     default:
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index b6cac175c4..2aa34b8919 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -94,6 +94,8 @@ bool replay_reverse_continue(void);
- bool replay_running_debug(void);
- /* Called in reverse debugging mode to collect breakpoint information */
- void replay_breakpoint(void);
-+/* Called when gdb is attached to gdbstub */
-+void replay_gdb_attached(void);
++    {
++        .name       = "replay_seek",
++        .args_type  = "icount:i",
++        .params     = "icount",
++        .help       = "replay execution to the specified instruction count",
++        .cmd        = hmp_replay_seek,
++    },
++
++SRST
++``replay_seek`` *icount*
++  Automatically proceed to the instruction count *icount*, when
++  replaying the execution. The command automatically loads nearest
++  snapshot and replays the execution to find the desired instruction.
++  When there is no preceding snapshot or the execution is not replayed,
++  then the command fails.
++  *icount* for the reference may be observed with ``info replay`` command.
++ERST
++
+     {
+         .name       = "info",
+         .args_type  = "item:s?",
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 21849bdda5..655eb81a4c 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -133,5 +133,6 @@ void hmp_info_sev(Monitor *mon, const QDict *qdict);
+ void hmp_info_replay(Monitor *mon, const QDict *qdict);
+ void hmp_replay_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
++void hmp_replay_seek(Monitor *mon, const QDict *qdict);
  
- /* Processing the instructions */
- 
+ #endif
+diff --git a/qapi/replay.json b/qapi/replay.json
+index 173ba76107..bfd83d7591 100644
+--- a/qapi/replay.json
++++ b/qapi/replay.json
+@@ -99,3 +99,23 @@
+ #
+ ##
+ { 'command': 'replay-delete-break' }
++
++##
++# @replay-seek:
++#
++# Automatically proceed to the instruction count @icount, when
++# replaying the execution. The command automatically loads nearest
++# snapshot and replays the execution to find the desired instruction.
++# When there is no preceding snapshot or the execution is not replayed,
++# then the command fails.
++# icount for the reference may be obtained with @query-replay command.
++#
++# @icount: target instruction count
++#
++# Since: 5.2
++#
++# Example:
++#
++# -> { "execute": "replay-seek", "data": { "icount": 220414 } }
++##
++{ 'command': 'replay-seek', 'data': { 'icount': 'int' } }
 diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-index d02d4e0766..bb9110707a 100644
+index 3dc23b84fc..e1fe6b8661 100644
 --- a/replay/replay-debugging.c
 +++ b/replay/replay-debugging.c
-@@ -316,3 +316,19 @@ void replay_breakpoint(void)
-     assert(replay_mode == REPLAY_MODE_PLAY);
-     replay_last_breakpoint = replay_get_current_icount();
+@@ -19,6 +19,8 @@
+ #include "qapi/qapi-commands-replay.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qemu/timer.h"
++#include "block/snapshot.h"
++#include "migration/snapshot.h"
+ 
+ void hmp_info_replay(Monitor *mon, const QDict *qdict)
+ {
+@@ -125,3 +127,88 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
+         return;
+     }
  }
 +
-+void replay_gdb_attached(void)
++static char *replay_find_nearest_snapshot(int64_t icount,
++                                          int64_t *snapshot_icount)
 +{
-+    /*
-+     * Create VM snapshot on temporary overlay to allow reverse
-+     * debugging even if snapshots were not enabled.
-+     */
-+    if (replay_mode == REPLAY_MODE_PLAY
-+        && !replay_snapshot) {
-+        Error *err = NULL;
-+        if (save_snapshot("start_debugging", &err) != 0) {
-+            /* Can't create the snapshot. Continue conventional debugging. */
-+            error_free(err);
++    BlockDriverState *bs;
++    QEMUSnapshotInfo *sn_tab;
++    QEMUSnapshotInfo *nearest = NULL;
++    char *ret = NULL;
++    int nb_sns, i;
++    AioContext *aio_context;
++
++    *snapshot_icount = -1;
++
++    bs = bdrv_all_find_vmstate_bs();
++    if (!bs) {
++        goto fail;
++    }
++    aio_context = bdrv_get_aio_context(bs);
++
++    aio_context_acquire(aio_context);
++    nb_sns = bdrv_snapshot_list(bs, &sn_tab);
++    aio_context_release(aio_context);
++
++    for (i = 0; i < nb_sns; i++) {
++        if (bdrv_all_find_snapshot(sn_tab[i].name, &bs) == 0) {
++            if (sn_tab[i].icount != -1ULL
++                && sn_tab[i].icount <= icount
++                && (!nearest || nearest->icount < sn_tab[i].icount)) {
++                nearest = &sn_tab[i];
++            }
 +        }
++    }
++    if (nearest) {
++        ret = g_strdup(nearest->name);
++        *snapshot_icount = nearest->icount;
++    }
++    g_free(sn_tab);
++
++fail:
++    return ret;
++}
++
++static void replay_seek(int64_t icount, QEMUTimerCB callback, Error **errp)
++{
++    char *snapshot = NULL;
++    int64_t snapshot_icount;
++
++    if (replay_mode != REPLAY_MODE_PLAY) {
++        error_setg(errp, "replay must be enabled to seek");
++        return;
++    }
++
++    snapshot = replay_find_nearest_snapshot(icount, &snapshot_icount);
++    if (snapshot) {
++        if (icount < replay_get_current_icount()
++            || replay_get_current_icount() < snapshot_icount) {
++            vm_stop(RUN_STATE_RESTORE_VM);
++            load_snapshot(snapshot, errp);
++        }
++        g_free(snapshot);
++    }
++    if (replay_get_current_icount() <= icount) {
++        replay_break(icount, callback, NULL);
++        vm_start();
++    } else {
++        error_setg(errp, "cannot seek to the specified instruction count");
++    }
++}
++
++void qmp_replay_seek(int64_t icount, Error **errp)
++{
++    replay_seek(icount, replay_stop_vm, errp);
++}
++
++void hmp_replay_seek(Monitor *mon, const QDict *qdict)
++{
++    int64_t icount = qdict_get_try_int(qdict, "icount", -1LL);
++    Error *err = NULL;
++
++    qmp_replay_seek(icount, &err);
++    if (err) {
++        error_report_err(err);
++        return;
 +    }
 +}
 
