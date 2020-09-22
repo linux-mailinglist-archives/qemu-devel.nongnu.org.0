@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14845274B23
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:29:04 +0200 (CEST)
-Received: from localhost ([::1]:55346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C53274AF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:14:25 +0200 (CEST)
+Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpqR-0002ku-2z
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
+	id 1kKpcG-0001WN-83
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ4-0002H2-BK
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60089)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPy-00024o-Pm
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPy-0004Yx-1t
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:47 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPt-0004Yt-0v
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600808488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YxKa+PBG1Gkw9x/b9aY4+eW6f9wJE00d+CbIL8BiwRM=;
- b=CPVi97Tu6/1URO4qphW12WqUISTnu83oDIclasuVklj/paLNFiKTUirNTyQHC1dXBJC6jW
- TmPs2dYUsnumo9CVWi4LBEdf/u5Bs8B/7O/O60LA38pl92F3ancgPBq375rbmwDTAn+UgY
- 3CmjVE66d42MsgCHRwGtKn7EPKThPeo=
+ bh=iyPjotsofwAivaxb5c15TPQyD6/fpddxsJGH537Fy3M=;
+ b=e6SRm1a9SVaNdKnAF2y20QJ49mRdQcBCwTy4Au4r2o85p+6EIINYk8xdtSNeFUp2sTbd+v
+ Pd0VS+GOYrAfqAbKX2mHaMAKdoWSUisai3kh4fZp88l8eRxqaMk26I7grYjQNaxrN+PvEm
+ ugVxiCQbao8GiFHmQvCSK+3o02VnYoM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-Qclo0GSpMq2BoN5HyRLiKA-1; Tue, 22 Sep 2020 17:01:24 -0400
-X-MC-Unique: Qclo0GSpMq2BoN5HyRLiKA-1
+ us-mta-312-VqwJROFQPSGt40JOmYdatw-1; Tue, 22 Sep 2020 17:01:26 -0400
+X-MC-Unique: VqwJROFQPSGt40JOmYdatw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 792FA1074641;
- Tue, 22 Sep 2020 21:01:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB8A9188C125;
+ Tue, 22 Sep 2020 21:01:24 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 187B85577A;
- Tue, 22 Sep 2020 21:01:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEA3755765;
+ Tue, 22 Sep 2020 21:01:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 11/38] qapi/common.py: Replace one-letter 'c' variable
-Date: Tue, 22 Sep 2020 17:00:34 -0400
-Message-Id: <20200922210101.4081073-12-jsnow@redhat.com>
+Subject: [PATCH v2 12/38] qapi/common.py: check with pylint
+Date: Tue, 22 Sep 2020 17:00:35 -0400
+Message-Id: <20200922210101.4081073-13-jsnow@redhat.com>
 In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,34 +87,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Remove qapi/common.py from the pylintrc ignore list.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/common.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/qapi/pylintrc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index bddfb5a9e5..682e74fe65 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -30,14 +30,14 @@ def camel_to_upper(value):
-     new_name = ''
-     length = len(c_fun_str)
-     for i in range(length):
--        c = c_fun_str[i]
--        # When c is upper and no '_' appears before, do more checks
--        if c.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
-+        char = c_fun_str[i]
-+        # When char is upper case and no '_' appears before, do more checks
-+        if char.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
-             if i < length - 1 and c_fun_str[i + 1].islower():
-                 new_name += '_'
-             elif c_fun_str[i - 1].isdigit():
-                 new_name += '_'
--        new_name += c
-+        new_name += char
-     return new_name.lstrip('_').upper()
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 02dd22c863..6151427a51 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -2,8 +2,7 @@
  
- 
+ # Add files or directories matching the regex patterns to the ignore list.
+ # The regex matches against base names, not paths.
+-ignore-patterns=common.py,
+-                doc.py,
++ignore-patterns=doc.py,
+                 error.py,
+                 expr.py,
+                 gen.py,
 -- 
 2.26.2
 
