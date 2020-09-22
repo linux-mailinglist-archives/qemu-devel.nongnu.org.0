@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2213E274C2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:36:54 +0200 (CEST)
-Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDAE274C34
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:39:24 +0200 (CEST)
+Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqu5-00061k-47
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58042)
+	id 1kKqwV-0000wL-IT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqst-0004CR-6t
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsr-0007cQ-Bt
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqss-0004A5-4y
  for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsq-0007c7-GG
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814136;
+ s=mimecast20190719; t=1600814135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nyuvQY54G53HH6uqI9lGJUDHNNFkR+Pw2q847xGGx5c=;
- b=X1/PZ2Bi64jY1OPWIqDTJyPUu/xAjuTjxo1nlpe09TpBtK7J1yneYiaBWSC5nmbZpTGCZ4
- 5upf/j3iGwIZTzmzSoZZKQQ7DCfrv7mE47EN7N+zbTI3nFm3ED58f2MwSmowhvP9nfO1iI
- lOmDo4myw1/GJ7hSb6DcPCzCRClCheM=
+ bh=78Pk7z0SL79eqX9LpB/A0ZFDcXbAXaC/dqYUGtV0ckg=;
+ b=RFaA7pt8XvhNAZQ6fQJy1CejLou5d+nFlTPvRwmDFsYsKNvJA6yEcKXSG3nlvWYugogKl7
+ JfPTKjI9U/8tSlLmoosfS79bvJf0fYR/PQ9MheHTtVXHy9kVrK8YqhvXKfilmR8wfHVNYM
+ bpUc15+9KFQ0l9tHL2yxr/mTHFpoDTY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-cKbZRuhAOtesMk6PVosQXQ-1; Tue, 22 Sep 2020 18:35:32 -0400
-X-MC-Unique: cKbZRuhAOtesMk6PVosQXQ-1
+ us-mta-43-9Z2S4PshODySUI640UdPWQ-1; Tue, 22 Sep 2020 18:35:33 -0400
+X-MC-Unique: 9Z2S4PshODySUI640UdPWQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9FEC425E0;
- Tue, 22 Sep 2020 22:35:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A92FB186DD28;
+ Tue, 22 Sep 2020 22:35:32 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6E4160BF4;
- Tue, 22 Sep 2020 22:35:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D69F360CCC;
+ Tue, 22 Sep 2020 22:35:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 04/26] qapi/source.py: Add default arguments to QAPISourceInfo
-Date: Tue, 22 Sep 2020 18:35:03 -0400
-Message-Id: <20200922223525.4085762-5-jsnow@redhat.com>
+Subject: [PATCH 05/26] qapi/parser.py: start source info at line 0
+Date: Tue, 22 Sep 2020 18:35:04 -0400
+Message-Id: <20200922223525.4085762-6-jsnow@redhat.com>
 In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
 References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
@@ -84,60 +84,35 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The parser tries to create an object as QAPISourceInfo(None, None,
-None). Add some defaults to QAPISourceInfo such that we don't need to
-pass explicit as many explicit nothings.
-
-Having the defaults nearby the code in source.py also helps remind us
-that they might be unset.
-
-Using a numerical 0 to mean "no line" is nicer to type than using None
-for the same.
+Before we have any actual line context, we still have a file context. We
+can use this to report errors without mentioning a specific line.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 2 +-
- scripts/qapi/source.py | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ scripts/qapi/parser.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index d0f35fe03e..db4e9ae872 100644
+index db4e9ae872..fc0b1516cc 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -67,7 +67,7 @@ def __init__(self, fname, previously_included=None, incl_info=None):
-             with open(self._fname, 'r', encoding='utf-8') as fp:
-                 self.src = fp.read()
-         except IOError as e:
--            raise QAPISemError(incl_info or QAPISourceInfo(None, None, None),
-+            raise QAPISemError(incl_info or QAPISourceInfo(None),
-                                "can't read %s file '%s': %s"
-                                % ("include" if incl_info else "schema",
-                                   self._fname,
-diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-index ba991d798f..d1de9e36b1 100644
---- a/scripts/qapi/source.py
-+++ b/scripts/qapi/source.py
-@@ -30,7 +30,10 @@ def __init__(self) -> None:
- class QAPISourceInfo:
-     T = TypeVar('T', bound='QAPISourceInfo')
+@@ -55,7 +55,7 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+         self.pos = 0
+         self.cursor = 0
+         self.val = None
+-        self.info = QAPISourceInfo(self._fname, 1, incl_info)
++        self.info = QAPISourceInfo(self._fname, parent=incl_info)
+         self.line_pos = 0
  
--    def __init__(self: T, fname: str, line: int, parent: Optional[T]):
-+    def __init__(self: T,
-+                 fname: str,
-+                 line: int = 0,
-+                 parent: Optional[T] = None):
-         self.fname = fname
-         self.line = line
-         self.parent = parent
-@@ -53,7 +56,7 @@ def loc(self) -> str:
-         if self.fname is None:
-             return sys.argv[0]
-         ret = self.fname
--        if self.line is not None:
-+        if self.line:
-             ret += ':%d' % self.line
-         return ret
+         # Parser output:
+@@ -78,6 +78,7 @@ def _parse(self):
+         cur_doc = None
  
+         # Prime the lexer:
++        self.info.line += 1
+         if self.src == '' or self.src[-1] != '\n':
+             self.src += '\n'
+         self.accept()
 -- 
 2.26.2
 
