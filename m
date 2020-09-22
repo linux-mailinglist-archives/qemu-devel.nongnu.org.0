@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451A1273DC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 10:51:23 +0200 (CEST)
-Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344C2273DD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 10:57:32 +0200 (CEST)
+Received: from localhost ([::1]:45354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKe1C-00006c-8F
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 04:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55660)
+	id 1kKe79-0004Fm-1x
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 04:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdvp-0005og-SN; Tue, 22 Sep 2020 04:45:51 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:45921)
+ id 1kKdvn-0005oD-M8; Tue, 22 Sep 2020 04:45:49 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:53515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdvf-0000sg-BC; Tue, 22 Sep 2020 04:45:48 -0400
+ id 1kKdvf-0000sx-SP; Tue, 22 Sep 2020 04:45:47 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7D4D15803C9;
- Tue, 22 Sep 2020 04:45:37 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1B85D5803CD;
+ Tue, 22 Sep 2020 04:45:39 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:37 -0400
+ by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- gp3X/gY01uey3zkC/W7G1dVfSzAISSdZvoBBYxr7njc=; b=gqxyU92/WKK0viz/
- BNfgQJwaMJIVI91y6s2YUTBEf1XCf5q6EFuBMCk7SizxayTP+knJookX7EZE5u7D
- RxVDo3O6akmOqiXR4It/h7/gdKfHvSqWPJ6LNW0lKMIFWnr0XkaVgP/a0fsUV9Xy
- K9i77665z0QFdR9watchvkH/9sA0anU2pU7kFaHf5X9z2L29BVvdxDLlc2gmKb4B
- dSmCxPckewXJCc56DZqzxqDoIqK//SIEEw48r5FCM6Dr3b2W3WOgJqgENBFpSU5j
- CVNr4RLHOisj30TK0rabvsr4o5lfvz8Ccjgrb5+2OoNTeg+Kd/mIqq9KuyGrnhY5
- dWxr+g==
+ gn31c3w5iM1EbPGIq2NOqpzeSr7S+7R7lzk+sfWK6ss=; b=wjhYzvxEUhzoouJt
+ SnAWt8KjLtsRZfFt9jdTeaiWQs2lKkJhi48XZHdTAvJBP3B6y6S/g6tfou8WdnTZ
+ qitVNVjKZLrCbumkiNJkAKZK58RLv5jBkosejCKEucg4W9XzUm5zDctrwtWsuuFZ
+ TdgD6ijDmuNZ+ePm/oye/MayrGjSMMJrMw5kB2OW0K/VjdO14V/timigMQDtGcR3
+ tjUvb0Qxk6BYwVFbXV09efol2DMvr8/QlOB50k1xOLEfNeNGqPpLRuXGyXJIxa2l
+ 7MhTTSioKLQqeBBPTAupfB23NKmDxU3RUIgF/53a3mO7fIVwERR5hY2yjlT85GP+
+ jlLRAg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=gp3X/gY01uey3zkC/W7G1dVfSzAISSdZvoBBYxr7n
- jc=; b=oISDSGaIS8vLZxpT6sKeYC1RM9NUlqaEye4524ArgdT7PWuRxHDy5ClNi
- Ht6wf7PmE8D6pzUdXSEr030OmKI8c776sMEMNzbkgZqudsKa1qF4C2vv7n3tbHjD
- amrMTMjhdXwbT/APmyZQFrqDsc41cGmzl7LZZUd/62ckuVbkqQDTPrS/f9FEBp2E
- OpYy15GGKMdaVF3pIWxpvDBTiSYjSN4PDjqF0GBDExmIMTtNTH5Czfl1K3vQCLfG
- 93iBg/NGn0tVDKPYU2fblMExbVhOuTjVJmZd4oQlsi8bw4KKlXYa3hTIigGDwQ9z
- KEB3IXebqT68Uj1Ir0vBifteg1w3g==
-X-ME-Sender: <xms:sblpXzwBAoSbQWuFpXJblZFlPAzsnUfDlOOPdHG3-etFcYHNhCJuGw>
- <xme:sblpX7SKPHV-twh5YV9RFq3Mu_R-B_O-oNHfeQ9eUJ1uXrZDXRTRUjFarx9kEMcxt
- ZDSoJHd7V81O5En_Lo>
+ :x-sasl-enc; s=fm3; bh=gn31c3w5iM1EbPGIq2NOqpzeSr7S+7R7lzk+sfWK6
+ ss=; b=oN6Dw/2jHN1yCSdeA25U0vj8FPr4aNmQuOzrlAP2M1Dt/H+JqTHvurv0N
+ z4ftqV6uEeZTZtMLIpfehS3VqCNrZyp1VP/X1pQaiWkU5xOS1RjBgnteF7EL4sLe
+ b2UkOL1NIcAchyrCD01lrJ4B3djJ1/iPkb6LTViI2fJMzc8Rd09fZYrXSKHeo3Wq
+ 5rFGORrd5vqhticC2vUgcehKvlxjVPZ2+1kHSOh0YgZrdB+bi0U+zLCPyw/UtfVo
+ 0WEz6J4R6LbqzvtCHaE/1CgxqY3gxPhKAfzO5BzWD78Ep/C4w4itqzzcMclzMqJd
+ nxHmf1AI6zZ10L5dn0zny4JQLkwbA==
+X-ME-Sender: <xms:srlpX1-EzntkDGok_KWeOz425kCbvTsfuXBa2zeIdDmQs7JG84jHGQ>
+ <xme:srlpX5vSZfMIqFgPOiX4_pA-Oz0S1pf7NLUYzmm9KhAiNHZuUQDIsGFtX1FieUsfv
+ lXc7TtA2r-nstYO59U>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggddtkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,19 +54,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggddtkecutefuodetggdote
  gvrhhnpeetveeuudegveeiheegieelueeftedvtdekteefleegheduhfejueelvdfhffdt
  geenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:sblpX9UetTxsQ7h1QCSRkSJFgQHJtu3XttjOZDX75bhUNrlrbsLcqw>
- <xmx:sblpX9jqEPpwkQUqV2AIMtmxWg8U9o6uYw0CxAz6Fsypwr8qrGpptg>
- <xmx:sblpX1DSlbfzPLEUBAZqhVCCio3MZvKULpmuukLAK2uepb0_Rfr5DA>
- <xmx:sblpX51mbeSF-Cka4YAi4nCoFpBnU6LusBIcL6FnrfCmHtRctyaGOewczZ0>
+X-ME-Proxy: <xmx:srlpXzBG1qXHxPiHtZ9Zs7zSMhT5OxOnw22-UA9aZWRnBdfmFsnOUQ>
+ <xmx:srlpX5dubrgJK2iNrTjsscYwL8VEfbhn7E4bEQR525TKqGao7A8Vag>
+ <xmx:srlpX6OE2N8MJ6CB-7lCoc-AyJ24prOyb-TrY5V1eHbIyuPQNNSUdQ>
+ <xmx:srlpX7gaY83aovI9J5BV0zK6Eu4CUDXLhEV5sJkICh05AGe3iuEwjZEuo1Y>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 963053064688;
- Tue, 22 Sep 2020 04:45:35 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3DC743064682;
+ Tue, 22 Sep 2020 04:45:37 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/17] hw/block/nvme: fix typo in trace event
-Date: Tue, 22 Sep 2020 10:45:17 +0200
-Message-Id: <20200922084533.1273962-2-its@irrelevant.dk>
+Subject: [PATCH v3 02/17] pci: pass along the return value of dma_memory_rw
+Date: Tue, 22 Sep 2020 10:45:18 +0200
+Message-Id: <20200922084533.1273962-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200922084533.1273962-1-its@irrelevant.dk>
 References: <20200922084533.1273962-1-its@irrelevant.dk>
@@ -106,28 +106,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Fix a typo in the sq doorbell trace event.
+Some devices might want to know the return value of dma_memory_rw, so
+pass it along instead of ignoring it.
+
+There are no existing users of the return value, so this patch should be
+safe.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/trace-events | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/pci/pci.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index ec94c56a4165..8ff4cbc4932c 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -70,7 +70,7 @@ pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint16_t status) "c
- pci_nvme_mmio_read(uint64_t addr) "addr 0x%"PRIx64""
- pci_nvme_mmio_write(uint64_t addr, uint64_t data) "addr 0x%"PRIx64" data 0x%"PRIx64""
- pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
--pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "cqid %"PRIu16" new_tail %"PRIu16""
-+pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "sqid %"PRIu16" new_tail %"PRIu16""
- pci_nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
- pci_nvme_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
- pci_nvme_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index c13ae1f8580b..0ff3feec1573 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -785,8 +785,7 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir)
+ {
+-    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+-    return 0;
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+ }
+ 
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
 -- 
 2.28.0
 
