@@ -2,92 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F7E2745AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 17:45:09 +0200 (CEST)
-Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324232745BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 17:50:48 +0200 (CEST)
+Received: from localhost ([::1]:51250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKkTb-00058h-RC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 11:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40016)
+	id 1kKkZ5-0008K3-6c
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 11:50:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKkPK-0003Lu-Js
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:40:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKkPI-0000kb-5V
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:40:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600789239;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2IjsVhHixVorb5yZLVGAwjKoDsijQxFNbUhUKgFsf2k=;
- b=TkRTUaFkABuV+JgeL9llCfVdrTLkV/rPge/Htz9p68F9ztLAog8XDOSD0OWT+5+tJ9l6bp
- 2CkrJIOt55c203QBIzawE5mD4dbR9LQxDJVK7K4LmbGZUcWRcBTwjZuupnD3t2XSBg+6Q3
- 5wpev3KBkCM/cThZTkfVI6yDdicbJ6s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-gVihcp9CNfGHzVGwBoSznA-1; Tue, 22 Sep 2020 11:40:37 -0400
-X-MC-Unique: gVihcp9CNfGHzVGwBoSznA-1
-Received: by mail-wm1-f72.google.com with SMTP id m125so1054788wmm.7
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 08:40:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2IjsVhHixVorb5yZLVGAwjKoDsijQxFNbUhUKgFsf2k=;
- b=nl9e6gNDub2wMTtQfA1I8/fHtlKIjKS3EFK0CA78nkcUcf5LdRQ8WJSZgclbbRSni0
- BvwDwsyW+00+yhSnnHTK5QuCXPybGqU5s7H7n0UobVaemWXEXV2UiKFuO7W5wjf5YToK
- JNk10+F7BjFp53okq+Wh0eT+IL1A7ISKi1WXdP/RzM/izft0KHxITMyVvPOI4AboUX9/
- 4EV4Fsi7TuLOc3Ub/Nn0SvFWuoZ41c9eUmxTCI6mqCLjkrHoFhyCEznvy9kra6/a9Ll7
- n72KQXal0+0pylyse5LVM7NTunAfChBMqres4JGbGM1G0ErS0TSHtYlw9mDVTK1uWJmD
- O3SQ==
-X-Gm-Message-State: AOAM5305eJbmNgQ4/H1lBHbtr83v8UPyR/yXFc1+RjekTEAwdJcGrvFl
- 8rbDkamYlnEcPeWrsEosUIXfejo8Wigrv5WUSmlvK3nDnv41t1Y+qpaVK0rI+rMpLscG9h1NIoe
- /5hXwJevy/LYe4Tg=
-X-Received: by 2002:a5d:4a4a:: with SMTP id v10mr6009817wrs.72.1600789235804; 
- Tue, 22 Sep 2020 08:40:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJww3J2Q8NtUrpYhVsmnjdcP6+bOop8IHohZXZUtn1ABYGSgH1eoKI++V4RfknxFKSCZdoeqog==
-X-Received: by 2002:a5d:4a4a:: with SMTP id v10mr6009788wrs.72.1600789235464; 
- Tue, 22 Sep 2020 08:40:35 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ec2c:90a9:1236:ebc6?
- ([2001:b07:6468:f312:ec2c:90a9:1236:ebc6])
- by smtp.gmail.com with ESMTPSA id t15sm4811274wmj.15.2020.09.22.08.40.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 08:40:34 -0700 (PDT)
-Subject: Re: [PATCH v2] target/i386: always create kvmclock device
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-References: <20200922151934.899555-1-vkuznets@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <22f8d2ac-9ffa-3b91-7c97-b2c5a7927de7@redhat.com>
-Date: Tue, 22 Sep 2020 17:40:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKkQd-0004BO-95; Tue, 22 Sep 2020 11:42:03 -0400
+Resent-Date: Tue, 22 Sep 2020 11:42:03 -0400
+Resent-Message-Id: <E1kKkQd-0004BO-95@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKkQb-0000xM-4B; Tue, 22 Sep 2020 11:42:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600789312; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mqB73DnKCRpplCitT+qAs4zqxKOHmXtcepDrn7ODblsw1kgRMkEERCNH69dH3yKSQJkjZsofmKqTXHJvie3S4V4NWSZ6WxRjiDZJqGaq5DBLJoHmv3gya8/rxBlNFBX1CLVde9rsRsM2r3LavFws0Vmh9I/qZVimia618NbpMbc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600789312;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=jasGoHnI5roOZMajOHtEsc58h72ByZSWh5oBwAfNBdo=; 
+ b=jdXillUhLmnoUOrtTOd3Mgsjfxeg5fjjR+c81wPETsH8l8w/YIjViM50W1skstS0QxWvjjyzR4CiP4gpc11uDJpJ3b5n+vrJS+fH2NXYL2VA0chIg6J43qF8jgb8qVaa+y/QzjPvGczop7droLoIFDPzbogKpVJZ0uVKTAdJ8ZU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600789310892500.1750869849311;
+ Tue, 22 Sep 2020 08:41:50 -0700 (PDT)
+Subject: Re: [PATCH v1 0/8] s390x/tcg: Implement some z14 facilities
+Message-ID: <160078930948.1915.7276761242992072728@66eaa9a8a123>
+In-Reply-To: <20200922103129.12824-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922151934.899555-1-vkuznets@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: david@redhat.com
+Date: Tue, 22 Sep 2020 08:41:50 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 11:40:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,208 +67,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Antoine Damhet <antoine.damhet@blade-group.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/09/20 17:19, Vitaly Kuznetsov wrote:
-> QEMU's kvmclock device is only created when KVM PV feature bits for
-> kvmclock (KVM_FEATURE_CLOCKSOURCE/KVM_FEATURE_CLOCKSOURCE2) are
-> exposed to the guest. With 'kvm=off' cpu flag the device is not
-> created and we don't call KVM_GET_CLOCK/KVM_SET_CLOCK upon migration.
-> It was reported that without these call at least Hyper-V TSC page
-> clocksouce (which can be enabled independently) gets broken after
-> migration.
-> 
-> Switch to creating kvmclock QEMU device unconditionally, it seems
-> to always make sense to call KVM_GET_CLOCK/KVM_SET_CLOCK on migration.
-> Use KVM_CAP_ADJUST_CLOCK check instead of CPUID feature bits.
-> 
-> Reported-by: Antoine Damhet <antoine.damhet@blade-group.com>
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  hw/i386/kvm/clock.c    | 7 +++++--
->  hw/i386/microvm.c      | 2 +-
->  hw/i386/pc.c           | 1 +
->  hw/i386/pc_piix.c      | 7 +++++--
->  hw/i386/pc_q35.c       | 5 ++++-
->  include/hw/i386/pc.h   | 3 +++
->  include/hw/kvm/clock.h | 4 ++--
->  target/i386/kvm.c      | 5 +++++
->  target/i386/kvm_i386.h | 1 +
->  9 files changed, 27 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
-> index 64283358f91d..30cf53393ee1 100644
-> --- a/hw/i386/kvm/clock.c
-> +++ b/hw/i386/kvm/clock.c
-> @@ -328,11 +328,14 @@ static const TypeInfo kvmclock_info = {
->  };
->  
->  /* Note: Must be called after VCPU initialization. */
-> -void kvmclock_create(void)
-> +void kvmclock_create(bool create_always)
->  {
->      X86CPU *cpu = X86_CPU(first_cpu);
->  
-> -    if (kvm_enabled() &&
-> +    if (!kvm_enabled() || !kvm_has_adjust_clock())
-> +        return;
-> +
-> +    if (create_always ||
->          cpu->env.features[FEAT_KVM] & ((1ULL << KVM_FEATURE_CLOCKSOURCE) |
->                                         (1ULL << KVM_FEATURE_CLOCKSOURCE2))) {
->          sysbus_create_simple(TYPE_KVM_CLOCK, -1, NULL);
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 81d0888930d1..fd0b84109154 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -119,7 +119,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
->  
->      ioapic_init_gsi(gsi_state, "machine");
->  
-> -    kvmclock_create();
-> +    kvmclock_create(true);
->  
->      for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
->          sysbus_create_simple("virtio-mmio",
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index d11daacc23cf..0e036ef9c15f 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1956,6 +1956,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      pcmc->acpi_data_size = 0x20000 + 0x8000;
->      pcmc->linuxboot_dma_enabled = true;
->      pcmc->pvh_enabled = true;
-> +    pcmc->kvmclock_create_always = true;
->      assert(!mc->get_hotplug_handler);
->      mc->get_hotplug_handler = pc_get_hotplug_handler;
->      mc->hotplug_allowed = pc_hotplug_allowed;
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 32b1453e6a82..1a68338c737b 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -158,8 +158,8 @@ static void pc_init1(MachineState *machine,
->  
->      x86_cpus_init(x86ms, pcmc->default_cpu_version);
->  
-> -    if (kvm_enabled() && pcmc->kvmclock_enabled) {
-> -        kvmclock_create();
-> +    if (pcmc->kvmclock_enabled) {
-> +        kvmclock_create(pcmc->kvmclock_create_always);
->      }
->  
->      if (pcmc->pci_enabled) {
-> @@ -440,11 +440,14 @@ DEFINE_I440FX_MACHINE(v5_2, "pc-i440fx-5.2", NULL,
->  
->  static void pc_i440fx_5_1_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-> +
->      pc_i440fx_5_2_machine_options(m);
->      m->alias = NULL;
->      m->is_default = false;
->      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-> +    pcmc->kvmclock_create_always = false;
->  }
->  
->  DEFINE_I440FX_MACHINE(v5_1, "pc-i440fx-5.1", NULL,
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 0cb9c18cd44d..0dd59bd765b1 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -185,7 +185,7 @@ static void pc_q35_init(MachineState *machine)
->  
->      x86_cpus_init(x86ms, pcmc->default_cpu_version);
->  
-> -    kvmclock_create();
-> +    kvmclock_create(pcmc->kvmclock_create_always);
->  
->      /* pci enabled */
->      if (pcmc->pci_enabled) {
-> @@ -366,10 +366,13 @@ DEFINE_Q35_MACHINE(v5_2, "pc-q35-5.2", NULL,
->  
->  static void pc_q35_5_1_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-> +
->      pc_q35_5_2_machine_options(m);
->      m->alias = NULL;
->      compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
->      compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-> +    pcmc->kvmclock_create_always = false;
->  }
->  
->  DEFINE_Q35_MACHINE(v5_1, "pc-q35-5.1", NULL,
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index fe52e165b27c..6b22671434b9 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -118,6 +118,9 @@ typedef struct PCMachineClass {
->  
->      /* use PVH to load kernels that support this feature */
->      bool pvh_enabled;
-> +
-> +    /* create kvmclock device even when KVM PV features are not exposed */
-> +    bool kvmclock_create_always;
->  } PCMachineClass;
->  
->  #define TYPE_PC_MACHINE "generic-pc-machine"
-> diff --git a/include/hw/kvm/clock.h b/include/hw/kvm/clock.h
-> index 81c66b230207..7994071c4fee 100644
-> --- a/include/hw/kvm/clock.h
-> +++ b/include/hw/kvm/clock.h
-> @@ -15,11 +15,11 @@
->  
->  #ifdef CONFIG_KVM
->  
-> -void kvmclock_create(void);
-> +void kvmclock_create(bool create_always);
->  
->  #else /* CONFIG_KVM */
->  
-> -static inline void kvmclock_create(void)
-> +static inline void kvmclock_create(bool create_always)
->  {
->  }
->  
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 4a8b3a41c1bc..20b31b65307b 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -143,6 +143,11 @@ bool kvm_has_adjust_clock_stable(void)
->      return (ret == KVM_CLOCK_TSC_STABLE);
->  }
->  
-> +bool kvm_has_adjust_clock(void)
-> +{
-> +    return kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
-> +}
-> +
->  bool kvm_has_exception_payload(void)
->  {
->      return has_exception_payload;
-> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-> index 064b8798a26c..0fce4e51d2d6 100644
-> --- a/target/i386/kvm_i386.h
-> +++ b/target/i386/kvm_i386.h
-> @@ -34,6 +34,7 @@
->  
->  bool kvm_allows_irq0_override(void);
->  bool kvm_has_smm(void);
-> +bool kvm_has_adjust_clock(void);
->  bool kvm_has_adjust_clock_stable(void);
->  bool kvm_has_exception_payload(void);
->  void kvm_synchronize_all_tsc(void);
-> 
-
-This was added in 2.6.33, I think we can assume it to be there.  But
-feel free to do it on top of this patch.
-
-Paolo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyMjEwMzEyOS4xMjgy
+NC0xLWRhdmlkQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMDkyMjEwMzEyOS4xMjgyNC0x
+LWRhdmlkQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIHYxIDAvOF0gczM5MHgvdGNnOiBJbXBs
+ZW1lbnQgc29tZSB6MTQgZmFjaWxpdGllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
+aW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
+YW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9z
+Y3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVO
+RCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQK
+U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo0YTcxMGNiIHMzOTB4L3RjZzogSW1wbGVt
+ZW50IENJUEhFUiBNRVNTQUdFIFdJVEggQVVUSEVOVElDQVRJT04gKEtNQSkKNjdjOGU0MCBzMzkw
+eC90Y2c6IFdlIHN1cHBvcnQgTWlzY2VsbGFuZW91cy1JbnN0cnVjdGlvbi1FeHRlbnNpb25zIEZh
+Y2lsaXR5IDIKZTg2N2M3YiBzMzkweC90Y2c6IEltcGxlbWVudCBNVUxUSVBMWSBTSU5HTEUgKE1T
+QywgTVNHQywgTVNHUktDLCBNU1JLQykKMmFmOWI4MyBzMzkweC90Y2c6IEltcGxlbWVudCBCUkFO
+Q0ggSU5ESVJFQ1QgT04gQ09ORElUSU9OIChCSUMpCjY1NmNmODkgczM5MHgvdGNnOiBJbXBsZW1l
+bnQgTVVMVElQTFkgSEFMRldPUkQgKE1HSCkKNjI2MmQyZSBzMzkweC90Y2c6IEltcGxlbWVudCBN
+VUxUSVBMWSAoTUcsIE1HUkspCjNhYmE0ZTIgczM5MHgvdGNnOiBJbXBsZW1lbnQgU1VCVFJBQ1Qg
+SEFMRldPUkQgKFNHSCkKYzY5YTM4NSBzMzkweC90Y2c6IEltcGxlbWVudCBBREQgSEFMRldPUkQg
+KEFHSCkKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOCBDaGVja2luZyBjb21taXQgYzY5YTM4NWQ4
+MzhjIChzMzkweC90Y2c6IEltcGxlbWVudCBBREQgSEFMRldPUkQgKEFHSCkpCkVSUk9SOiBsaW5l
+IG92ZXIgOTAgY2hhcmFjdGVycwojMzI6IEZJTEU6IHRhcmdldC9zMzkweC90cmFuc2xhdGUuYzo2
+MTAxOgorI2RlZmluZSBGQUNfTUlFMiAgICAgICAgUzM5MF9GRUFUX01JU0NfSU5TVFJVQ1RJT05f
+RVhUIC8qIG1pc2NlbGxhbmVvdXMtaW5zdHJ1Y3Rpb24tZXh0ZW5zaW9ucyBmYWNpbGl0eSAyICov
+Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEv
+OCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
+b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
+ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMi84IENoZWNraW5nIGNvbW1pdCAzYWJhNGUy
+NWU0NTYgKHMzOTB4L3RjZzogSW1wbGVtZW50IFNVQlRSQUNUIEhBTEZXT1JEIChTR0gpKQozLzgg
+Q2hlY2tpbmcgY29tbWl0IDYyNjJkMmVkYzc2ZCAoczM5MHgvdGNnOiBJbXBsZW1lbnQgTVVMVElQ
+TFkgKE1HLCBNR1JLKSkKNC84IENoZWNraW5nIGNvbW1pdCA2NTZjZjg5ZDIzNTUgKHMzOTB4L3Rj
+ZzogSW1wbGVtZW50IE1VTFRJUExZIEhBTEZXT1JEIChNR0gpKQo1LzggQ2hlY2tpbmcgY29tbWl0
+IDJhZjliODNiNjFiZSAoczM5MHgvdGNnOiBJbXBsZW1lbnQgQlJBTkNIIElORElSRUNUIE9OIENP
+TkRJVElPTiAoQklDKSkKNi84IENoZWNraW5nIGNvbW1pdCBlODY3YzdiNDI0MDAgKHMzOTB4L3Rj
+ZzogSW1wbGVtZW50IE1VTFRJUExZIFNJTkdMRSAoTVNDLCBNU0dDLCBNU0dSS0MsIE1TUktDKSkK
+Ny84IENoZWNraW5nIGNvbW1pdCA2N2M4ZTQwMjRmZDAgKHMzOTB4L3RjZzogV2Ugc3VwcG9ydCBN
+aXNjZWxsYW5lb3VzLUluc3RydWN0aW9uLUV4dGVuc2lvbnMgRmFjaWxpdHkgMikKOC84IENoZWNr
+aW5nIGNvbW1pdCA0YTcxMGNiNThmNTIgKHMzOTB4L3RjZzogSW1wbGVtZW50IENJUEhFUiBNRVNT
+QUdFIFdJVEggQVVUSEVOVElDQVRJT04gKEtNQSkpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBj
+b21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0
+Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwOTIyMTAzMTI5LjEyODI0LTEtZGF2aWRAcmVk
+aGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
+YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
+YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
