@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC775274071
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:08:53 +0200 (CEST)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F9227407D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:11:09 +0200 (CEST)
+Received: from localhost ([::1]:37310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKgAG-0003RX-Si
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37550)
+	id 1kKgCS-00075s-GV
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKfy0-0008VB-SC
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:56:12 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:40145)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kKg0m-0003C5-4S
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:59:04 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKfxy-00020G-Uq
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:56:12 -0400
-Received: by mail-ej1-x643.google.com with SMTP id z22so22151742ejl.7
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 03:56:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kKg0k-0002EL-7n
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:59:03 -0400
+Received: by mail-wm1-x343.google.com with SMTP id k18so2859246wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 03:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qDzMZsU48zHF46VxTtsuRwuCQ4VxUHJnEhFuFIxmTqQ=;
- b=rQQR9UhkgONp3Ilw4E/qTmGjJJLy83VVTuwdW3ZjII4V3s77uNjTSToMp2x/nFSvKJ
- O7jLHldpbmR2zMPeLfTgu8Wt1YggnNhOf8OivjiI8WQcg2uOSkzb3QTC9HK8ClIwVEPo
- Mr0jxtMAy/ti+5qHyywsTVEX/Nb6d3C8vSzmsJr9bQ4vLb6WegL/4vT0nc5NgKjE2411
- JTIyIuD6mY4OEUeYQG7mEbI+yUq83zkE58FR8+4k6/G5gHm4s26Bw7YNFiQ4Yythd6PH
- fJv7nAITXomKOg0fUdcEawVp+AR8SCYLA+twrOwjetKkJr2GYCcjZj0YZcCvM9uQka59
- Tubg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=V4PKWGxdCikE2cEpazgaaZ5EWO+nPTPifEdAzFNQJ5A=;
+ b=LYAZPFSKS/0nLyh53uTTIKWrh4kGivTrTjxLrOxIj85uc+WzhTRdz9G3BZLFjhpbFM
+ gqkHuven8gxggcGQ5MEw9CNkmKPO+RVrtTM263t+p1e5fC0VsIFel84vP8fBHdjnJO2d
+ pAYjmi9/i9lcSNj78vRLc4D14WSlGkR3pYZcrVZJ7wrkHhJqPWVekzwet2jV6gr+VWhu
+ SY5rPS6K3eEsQKYbdp6h1KsnG+GyvuT0QKMg6E2YX07OzKOraMmcGw1CU1thgHbWQ3Nb
+ w+SqxAkCTcdYnb1BettyKilI0ignmiERitAamTm/c1JIocJaN8fzaEYP6g7yuFwS4fsG
+ +s8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qDzMZsU48zHF46VxTtsuRwuCQ4VxUHJnEhFuFIxmTqQ=;
- b=gRrLJWan+6Yx4bpYHJUtN7GT96k/kLIWU8L/S2PDzOovc+aUHyxWyjXD6c4uoIpJE4
- 6L8mGCE4Bv2GrGmlXOkTcOjGQQj+m7q6YpG0dGvq4Xjcaq7Kw/5qnrgD+7Ut1qcHJdLo
- jeUUGo6yzqtLuLqlf6VZL/zsy5M+q09ROM3R8qg/m5bTwBQ8J1oStX/ydxC9yPmTdbCo
- waVqx/D8DEIEMJODlFnDlq52cFcTNNidBchibXH960os3zHNIix0eHIcKTO/LmFrBe6B
- EE2AfVZ3VKQpo86GZV8j1REGA0Pzl9F1sj/jFeDDubQZ0L/M7LK+C4sQ83VxVIJEkdfU
- Me9A==
-X-Gm-Message-State: AOAM530F6wBRMULPnIgbwbJR1rsricfrD+/JDgKj46VAx9qDdpg/zpDv
- 44eHANRo9X2c2C9KEYz2zJFDiITgobzTZmrYj+t6eQ==
-X-Google-Smtp-Source: ABdhPJy92xzykI0itopUe21t5TPKYnhUBVNkSm/cgMM2ktiTXzsOUOehGBpJBzJB2/BTcE7zFOX96ynn9ya+0cg2bEM=
-X-Received: by 2002:a17:906:d936:: with SMTP id
- rn22mr4338730ejb.4.1600772159051; 
- Tue, 22 Sep 2020 03:55:59 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=V4PKWGxdCikE2cEpazgaaZ5EWO+nPTPifEdAzFNQJ5A=;
+ b=gyMBP/tSy4rdYpPWKweWeidDqU5l5nswgyWMxscsDxjAkChkOI5T2Q2rv9MNvzAM4R
+ 3E2GpFf6XL8bOXaWphdBuIluC7GQqR8UxxPEjxEHKRCLqwsqtS4hkNLSudRafbdIrg+Y
+ nG7Ir3KwkDGvsPZqF1OUJmFdC7q1+zW0yaMVpJ0PHyrHzLOL98apZAmV6oADA/Fpu+Vk
+ OHo66bembWYxKGRCmW3OdM55f0znIoIEWFpLdbA6sNwLWNELmWCOu8jT/Jo2nlfa5QG9
+ rCGRzfB7RM/tG+C1pnBIbKvgY8JiKcC7D0H39vy3ESyQL8UOgB2AmYZQ4NQqwNBG2pX+
+ fCgA==
+X-Gm-Message-State: AOAM530UE4bHV2eH1YTXTW+bSpnfkkcCexcjbvNC5y4kC2pzx4Iomo+h
+ 55FgGEBlutG1bfR7jz7YgHUFEw==
+X-Google-Smtp-Source: ABdhPJxA0GuoxGTh1b2PY+Yc2hMxPvm54GpX/9guuaOMO29eIhT8LeiaBmbNYGOq5mMRHAoVn8+YNA==
+X-Received: by 2002:a05:600c:245:: with SMTP id 5mr379760wmj.33.1600772336805; 
+ Tue, 22 Sep 2020 03:58:56 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l18sm25881200wrp.84.2020.09.22.03.58.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 03:58:55 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 147641FF7E;
+ Tue, 22 Sep 2020 11:58:55 +0100 (BST)
+References: <20200921174118.39352-1-richard.henderson@linaro.org>
+ <20200921174118.39352-11-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 10/11] disas: Enable capstone disassembly for s390x
+In-reply-to: <20200921174118.39352-11-richard.henderson@linaro.org>
+Date: Tue, 22 Sep 2020 11:58:54 +0100
+Message-ID: <87pn6em61d.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200921174320.46062-1-thuth@redhat.com>
- <20200921174320.46062-8-thuth@redhat.com>
- <9bd2d32f-27eb-c32c-0e19-eb16612a9400@redhat.com>
-In-Reply-To: <9bd2d32f-27eb-c32c-0e19-eb16612a9400@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Sep 2020 11:55:47 +0100
-Message-ID: <CAFEAcA-P5gngMXmBUtOGNn=ZUN8C2dmC=5Phxs7C5fYV=Odhjw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] configure: Bump the minimum required Python version
- to 3.6
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,60 +89,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Sep 2020 at 19:20, John Snow <jsnow@redhat.com> wrote:
->
-> On 9/21/20 1:43 PM, Thomas Huth wrote:
-> > All our supported build platforms have Python 3.6 or newer nowadays,
-> > and there are some useful features in Python 3.6 which are not available
-> > in 3.5 yet, so let's bump the minimum Python version to 3.6 now.
-> >
->
-> Just to add in case anyone wonders: This isn't incrementalism for
-> incrementalism's sake, but the type hint annotations added in Python 3.6
-> allow us to statically type the QAPI parser.
->
-> We are already using (and enforcing) these annotations in iotests.py,
-> and I believe adding this to QAPI will be of high value going forward.
->
-> > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > ---
-> >   configure | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/configure b/configure
-> > index 7564479008..a3a643168e 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -1965,8 +1965,8 @@ fi
-> >
-> >   # Note that if the Python conditional here evaluates True we will exit
-> >   # with status 1 which is a shell 'false' value.
-> > -if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
-> > -  error_exit "Cannot use '$python', Python >= 3.5 is required." \
-> > +if ! $python -c 'import sys; sys.exit(sys.version_info < (3,6))'; then
-> > +  error_exit "Cannot use '$python', Python >= 3.6 is required." \
-> >         "Use --python=/path/to/python to specify a supported Python."
-> >   fi
-> >
-> >
->
-> Do we need to bump the minimum version in the Sphinx conf, too?
 
-Yes -- the configure check only applies to python invoked
-directly, not to python code invoked via Sphinx, so we
-should keep both in sync.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-thanks
--- PMM
+> Enable s390x, aka SYSZ, in the git submodule build.
+> Set the capstone parameters for both s390x host and guest.
+>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  disas.c            |  3 +++
+>  target/s390x/cpu.c |  4 ++++
+>  meson.build        | 11 +++++++++++
+>  3 files changed, 18 insertions(+)
+>
+> diff --git a/disas.c b/disas.c
+> index e27dea2c19..c4cd305190 100644
+> --- a/disas.c
+> +++ b/disas.c
+> @@ -201,6 +201,9 @@ static void initialize_debug_host(CPUDebug *s)
+>      s->info.print_insn =3D print_insn_m68k;
+>  #elif defined(__s390__)
+>      s->info.print_insn =3D print_insn_s390;
+> +    s->info.cap_arch =3D CS_ARCH_SYSZ;
+> +    s->info.cap_insn_unit =3D 2;
+> +    s->info.cap_insn_split =3D 6;
+>  #elif defined(__hppa__)
+>      s->info.print_insn =3D print_insn_hppa;
+>  #endif
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 749cd548f0..2a96692691 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -44,6 +44,7 @@
+>  #include "sysemu/tcg.h"
+>  #endif
+>  #include "fpu/softfloat-helpers.h"
+> +#include "disas/capstone.h"
+>=20=20
+>  #define CR0_RESET       0xE0UL
+>  #define CR14_RESET      0xC2000000UL;
+> @@ -182,6 +183,9 @@ static void s390_cpu_disas_set_info(CPUState *cpu, di=
+sassemble_info *info)
+>  {
+>      info->mach =3D bfd_mach_s390_64;
+>      info->print_insn =3D print_insn_s390;
+> +    info->cap_arch =3D CS_ARCH_SYSZ;
+> +    info->cap_insn_unit =3D 2;
+> +    info->cap_insn_split =3D 6;
+>  }
+>=20=20
+>  static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
+> diff --git a/meson.build b/meson.build
+> index f06e3a1b65..d9f021837b 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -670,6 +670,17 @@ if capstone_opt =3D=3D 'internal'
+>      )
+>    endif
+>=20=20
+> +  if 'CONFIG_S390_DIS' in config_all_disas
+> +    capstone_data.set('CAPSTONE_HAS_SYSZ', '1')
+> +    capstone_files +=3D files(
+> +      'capstone/arch/SystemZ/SystemZDisassembler.c',
+> +      'capstone/arch/SystemZ/SystemZInstPrinter.c',
+> +      'capstone/arch/SystemZ/SystemZMapping.c',
+> +      'capstone/arch/SystemZ/SystemZModule.c',
+> +      'capstone/arch/SystemZ/SystemZMCTargetDesc.c'
+> +    )
+> +  endif
+> +
+>    if 'CONFIG_I386_DIS' in config_all_disas
+>      capstone_data.set('CAPSTONE_HAS_X86', 1)
+>      capstone_files +=3D files(
+
+
+--=20
+Alex Benn=C3=A9e
 
