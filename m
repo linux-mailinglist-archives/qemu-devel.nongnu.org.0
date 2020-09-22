@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EF3274BDA
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:07:14 +0200 (CEST)
-Received: from localhost ([::1]:58520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F8B274BDE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:09:44 +0200 (CEST)
+Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqRN-0002XO-FC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
+	id 1kKqTn-0004ok-Ko
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:09:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKpyt-0007Ox-6d
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:37:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50192)
+ id 1kKq4V-0007cZ-9w
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:43:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKpyl-0000U4-Sd
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:37:45 -0400
+ id 1kKq4S-00016B-KZ
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:43:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600810657;
+ s=mimecast20190719; t=1600811011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9PpALyBPw8w0QMA2NMDkUF3v9en/7dGngNIpadgGRX4=;
- b=MOMxzEw/SujZ3jFafbhdn4t4GVcCjWqbmt3R1KeV0kSogNTrdWaxJUc9inaDE/K59KYeBG
- pJMl5QXi3pauT0KD+rgA+uT94H9RZILdxy8Nh3ASGCpWMgJgqbcebBrlkeylGbMtHc9tHx
- uPbPxNpFkfmRkgW+M/knpmGppZsW+JI=
+ bh=WxTMOZ+NVV/9nQ1gNfG6iHhBRsB5fBm+A/j2+zcRqkk=;
+ b=T7eTpgIHVrK+QEVrfPLZbZsXwt/TbOI0PuB/abF3JEPELTESw+3R5KEnFemAVLtbDtm6r/
+ 7GaXbtfNma1tEbVsJQ1yy8PleVzzfFySu67OXdJMjTbiK8R3IGxtHa6AdugpiElggtay0c
+ NHFfAjEZzjk2nToA3y1vyVxmy7j5Y2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-EkrIipBuPA64ymvvuBvNvw-1; Tue, 22 Sep 2020 17:37:36 -0400
-X-MC-Unique: EkrIipBuPA64ymvvuBvNvw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-144-UGP278ISMRK0fjRKfm8qug-1; Tue, 22 Sep 2020 17:43:29 -0400
+X-MC-Unique: UGP278ISMRK0fjRKfm8qug-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C35CC186DD27;
- Tue, 22 Sep 2020 21:37:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8546801FD7;
+ Tue, 22 Sep 2020 21:43:27 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AE3D5C1D0;
- Tue, 22 Sep 2020 21:37:34 +0000 (UTC)
-Date: Tue, 22 Sep 2020 17:37:33 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 800A178808;
+ Tue, 22 Sep 2020 21:43:27 +0000 (UTC)
+Date: Tue, 22 Sep 2020 17:43:26 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 05/38] qapi: Remove wildcard includes
-Message-ID: <20200922213733.GF2044576@habkost.net>
+Subject: Re: [PATCH v2 06/38] qapi: delint using flake8
+Message-ID: <20200922214326.GG2044576@habkost.net>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-6-jsnow@redhat.com>
+ <20200922210101.4081073-7-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-6-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200922210101.4081073-7-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -87,14 +87,14 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:00:28PM -0400, John Snow wrote:
-> Wildcard includes become hard to manage when refactoring and dealing
-> with circular dependencies with strictly typed mypy.
+On Tue, Sep 22, 2020 at 05:00:29PM -0400, John Snow wrote:
+> Petty style guide fixes and line length enforcement.  Not a big win, not
+> a big loss, but flake8 passes 100% on the qapi module, which gives us an
+> easy baseline to enforce hereafter.
 > 
-> flake8 also flags each one as a warning, as it is not smart enough to
-> know which names exist in the imported file.
-> 
-> Remove them and include things explicitly by name instead.
+> A note on the flake8 exception: flake8 will warn on *any* bare except,
+> but pylint's is context-aware and will suppress the warning if you
+> re-raise the exception.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 
