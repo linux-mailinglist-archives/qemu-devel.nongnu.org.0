@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BFB274C22
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:33:19 +0200 (CEST)
-Received: from localhost ([::1]:55412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A7A274C20
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:33:11 +0200 (CEST)
+Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqqc-00008F-NY
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55578)
+	id 1kKqqU-0008JS-Lg
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKqjg-0008VE-Jt
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:26:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42329
+ id 1kKqjo-0000Dq-9I
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:26:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53845
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKqje-0006Lc-Sy
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:26:08 -0400
+ id 1kKqjh-0006Lq-MW
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:26:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600813566;
+ s=mimecast20190719; t=1600813568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I6I56F4bd+wSlySGXI18nj464OmVK4ktLNK4FdKgXXg=;
- b=RjzH6H2OdU8KST9ra0K1ueyRDhxo//nakgkFiRdDQH2gSS7T1iJ/VMXHc38mqiEeG3Gg9V
- wz0YLBl2kjl145TAbD6IoanRZyqFBu7mIV8fO+isb1XQo8bEy7WJq/4OCnU2uOCIWoNNzu
- LCUhXnX53gcjscxaXzrs4Y53BCotc7A=
+ bh=fh7e7Rjmi72oO8UNU1nk0X5y6rGjwRA2sLHT6riiTZs=;
+ b=aTNklds96ZfDxROTs5hOU/4CQlKzQpwVon8Za2RKuAQp7jCOtBSUI+GdKvBb8sxcPWhKwj
+ uV2fr8foJ60eIRtxv2RIq3k+YgDW7hPdoM7G9xQFXfH/XZFW8knHGF/9dfPM1ymdu2SX21
+ 8j9EuAvTZDF+Wwit7FvWsXqp4U0Ckko=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-J-lQBUFBPWCOjmtXMQMaWw-1; Tue, 22 Sep 2020 18:26:04 -0400
-X-MC-Unique: J-lQBUFBPWCOjmtXMQMaWw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-572-ZyrXXXnVN2SbGkR_x0nugA-1; Tue, 22 Sep 2020 18:26:05 -0400
+X-MC-Unique: ZyrXXXnVN2SbGkR_x0nugA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9BEF1868429;
- Tue, 22 Sep 2020 22:26:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C321D801FDD;
+ Tue, 22 Sep 2020 22:26:04 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 819A473670;
- Tue, 22 Sep 2020 22:26:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E6525DD99;
+ Tue, 22 Sep 2020 22:26:04 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/11] sifive_e: Register "revb" as class property
-Date: Tue, 22 Sep 2020 18:25:41 -0400
-Message-Id: <20200922222542.2354748-11-ehabkost@redhat.com>
+Subject: [PULL 11/11] sifive_u: Register "start-in-flash" as class property
+Date: Tue, 22 Sep 2020 18:25:42 -0400
+Message-Id: <20200922222542.2354748-12-ehabkost@redhat.com>
 In-Reply-To: <20200922222542.2354748-1-ehabkost@redhat.com>
 References: <20200922222542.2354748-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,41 +93,46 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200921221045.699690-24-ehabkost@redhat.com>
+Message-Id: <20200921221045.699690-25-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/riscv/sifive_e.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ hw/riscv/sifive_u.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 759059cd7bf..fcfac168161 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -137,11 +137,6 @@ static void sifive_e_machine_instance_init(Object *obj)
-     SiFiveEState *s = RISCV_E_MACHINE(obj);
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index a97637fb333..6ad975d6923 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -568,14 +568,6 @@ static void sifive_u_machine_instance_init(Object *obj)
+     SiFiveUState *s = RISCV_U_MACHINE(obj);
  
-     s->revb = false;
--    object_property_add_bool(obj, "revb", sifive_e_machine_get_revb,
--                             sifive_e_machine_set_revb);
--    object_property_set_description(obj, "revb",
--                                    "Set on to tell QEMU that it should model "
--                                    "the revB HiFive1 board");
- }
- 
- static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
-@@ -152,6 +147,12 @@ static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
-     mc->init = sifive_e_machine_init;
-     mc->max_cpus = 1;
-     mc->default_cpu_type = SIFIVE_E_CPU;
+     s->start_in_flash = false;
+-    object_property_add_bool(obj, "start-in-flash",
+-                             sifive_u_machine_get_start_in_flash,
+-                             sifive_u_machine_set_start_in_flash);
+-    object_property_set_description(obj, "start-in-flash",
+-                                    "Set on to tell QEMU's ROM to jump to "
+-                                    "flash. Otherwise QEMU will jump to DRAM "
+-                                    "or L2LIM depending on the msel value");
+-
+     s->msel = 0;
+     object_property_add(obj, "msel", "uint32",
+                         sifive_u_machine_get_uint32_prop,
+@@ -599,6 +591,14 @@ static void sifive_u_machine_class_init(ObjectClass *oc, void *data)
+     mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
+     mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
+     mc->default_cpus = mc->min_cpus;
 +
-+    object_class_property_add_bool(oc, "revb", sifive_e_machine_get_revb,
-+                                   sifive_e_machine_set_revb);
-+    object_class_property_set_description(oc, "revb",
-+                                          "Set on to tell QEMU that it should model "
-+                                          "the revB HiFive1 board");
++    object_class_property_add_bool(oc, "start-in-flash",
++                                   sifive_u_machine_get_start_in_flash,
++                                   sifive_u_machine_set_start_in_flash);
++    object_class_property_set_description(oc, "start-in-flash",
++                                          "Set on to tell QEMU's ROM to jump to "
++                                          "flash. Otherwise QEMU will jump to DRAM "
++                                          "or L2LIM depending on the msel value");
  }
  
- static const TypeInfo sifive_e_machine_typeinfo = {
+ static const TypeInfo sifive_u_machine_typeinfo = {
 -- 
 2.26.2
 
