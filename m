@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562FC274B15
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:22:50 +0200 (CEST)
-Received: from localhost ([::1]:38682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CA5274AD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:09:53 +0200 (CEST)
+Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpkP-0003hN-8K
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:22:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37236)
+	id 1kKpXs-0002qq-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:09:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ3-0002Eg-8M
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43269)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ5-0002Jt-Mr
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPy-0004aK-C5
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:46 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ1-0004bq-MD
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600808501;
+ s=mimecast20190719; t=1600808504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TfE4iGbq7w22nk05xoMfyoK+hdx/KMvqzG8qGMUIQHw=;
- b=fHwPXFQxaLGcAoI6OB7c6F5FcXz6o9YX0fLT7pzAcLYHX71xRRJIEFLaZ6jLmu76j3uwaq
- pC8ES1RcQh8RNPSdEBaZ96mt9swUSrx2JCgQAkZBbz8093ivF8PMocOKzud4hRiChNYyoA
- rR7n/hE46+gdZNAzvCKhywdDLtHHVM0=
+ bh=39EY1IEoTn95VCB+o4INBS9zDz+TfqD7urT+HBs5QsM=;
+ b=Yj72GTm0H+rypmsYUd++QHBNhq/lRr2K+9TiCSXJu1zJ5KjcwWHO9XswTmcUUWMMPXI+99
+ J9aw7yExm9H7RxGv7RovAsocq5FfbU1CphtkjBwhWwXcG5k/ePpF9JyQbnHi5OluD3qoKS
+ VQvXOn9rN2PR9QkPxLZks/iSExrJUHw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-FgJAURNDO5qVmJnzFdI5Bg-1; Tue, 22 Sep 2020 17:01:39 -0400
-X-MC-Unique: FgJAURNDO5qVmJnzFdI5Bg-1
+ us-mta-96-rvklwwpDMeCIczfvixMwvw-1; Tue, 22 Sep 2020 17:01:40 -0400
+X-MC-Unique: rvklwwpDMeCIczfvixMwvw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B286D1005E6D;
- Tue, 22 Sep 2020 21:01:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C78D81005E5E;
+ Tue, 22 Sep 2020 21:01:39 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA95755767;
- Tue, 22 Sep 2020 21:01:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D981A5577B;
+ Tue, 22 Sep 2020 21:01:38 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 23/38] qapi/source.py: delint with pylint
-Date: Tue, 22 Sep 2020 17:00:46 -0400
-Message-Id: <20200922210101.4081073-24-jsnow@redhat.com>
+Subject: [PATCH v2 24/38] qapi/gen.py: Fix edge-case of _is_user_module
+Date: Tue, 22 Sep 2020 17:00:47 -0400
+Message-Id: <20200922210101.4081073-25-jsnow@redhat.com>
 In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,41 +87,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shush an error and leave a hint for future cleanups when we're allowed
-to use Python 3.7+.
+The edge case is that if the name is '', this expression returns a
+string instead of a bool, which violates our declared type.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/pylintrc  | 1 -
- scripts/qapi/source.py | 3 +++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/gen.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index 6151427a51..7438806096 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -8,7 +8,6 @@ ignore-patterns=doc.py,
-                 gen.py,
-                 parser.py,
-                 schema.py,
--                source.py,
-                 types.py,
-                 visit.py,
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index 9898d513ae..cb2b2655c3 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -251,7 +251,7 @@ def __init__(self, prefix, what, user_blurb, builtin_blurb, pydoc):
  
-diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-index 1cc6a5b82d..ba991d798f 100644
---- a/scripts/qapi/source.py
-+++ b/scripts/qapi/source.py
-@@ -15,6 +15,9 @@
+     @staticmethod
+     def _is_user_module(name):
+-        return name and not name.startswith('./')
++        return name is not None and not name.startswith('./')
  
- 
- class QAPISchemaPragma:
-+    # Replace with @dataclass in Python 3.7+
-+    # pylint: disable=too-few-public-methods
-+
-     def __init__(self) -> None:
-         # Are documentation comments required?
-         self.doc_required = False
+     @staticmethod
+     def _is_builtin_module(name):
 -- 
 2.26.2
 
