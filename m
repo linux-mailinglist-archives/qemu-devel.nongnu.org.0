@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB413274AE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:11:41 +0200 (CEST)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C86274A89
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:03:39 +0200 (CEST)
+Received: from localhost ([::1]:36026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpZc-000605-Oa
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
+	id 1kKpRq-0003Xp-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:03:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPb-0001zk-96
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55655)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPU-0001tA-8t
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPY-0004Xn-Vc
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:18 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPR-0004XA-Co
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600808476;
+ s=mimecast20190719; t=1600808468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=P0vPMY365iP0scQ30oS8TUqlW7pNatr1SSOpqlNr8aY=;
- b=UKMBIL8dVkwEOpTYBT/LmbZDtOFjb9Zas/jFsY+2pZzGZbsR/1bIgFnfQUhmFv0TgHExgm
- kxNSMiGafPSp0E1mpqd+0Bdaxb7+VI7p2tsY3HBM2TgGbzpJ+ej8J7tIILsjLrVxOhkFio
- mmvZUZAJ8180SnmGsq4bVHXen3dyIFw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mZWXq7GO5mx558feE0Kb1/8jgJE3wrTyvSY41kIzuWY=;
+ b=Lkw5YVpfleKaQGP1FWIWle0zTMyxc+HWNaPKebszaF4Y1X+/IGWZcYg/IIqxXfGL/waW4p
+ Mw1AswQrHNgvdNXPlzJlGZh8XAX9B6xMmoHQ07w2BVjj2Kv2GImSN8hujPTlhdkxJGfx2m
+ PUsU5j2i7pVO2NLCzpU7zeS518SjOII=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-gsrFPbeFOYmRwAv7FS9c-g-1; Tue, 22 Sep 2020 17:01:04 -0400
-X-MC-Unique: gsrFPbeFOYmRwAv7FS9c-g-1
+ us-mta-403-R-AA6rvxNWKnodzD_SpNSg-1; Tue, 22 Sep 2020 17:01:06 -0400
+X-MC-Unique: R-AA6rvxNWKnodzD_SpNSg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66C50100746D;
- Tue, 22 Sep 2020 21:01:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 537C21007464;
+ Tue, 22 Sep 2020 21:01:05 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 433C855765;
- Tue, 22 Sep 2020 21:01:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A33FE5577A;
+ Tue, 22 Sep 2020 21:01:03 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 00/38] qapi: static typing conversion, pt1
-Date: Tue, 22 Sep 2020 17:00:23 -0400
-Message-Id: <20200922210101.4081073-1-jsnow@redhat.com>
+Subject: [PATCH v2 01/38] [DO-NOT-MERGE] qapi: add debugging tools
+Date: Tue, 22 Sep 2020 17:00:24 -0400
+Message-Id: <20200922210101.4081073-2-jsnow@redhat.com>
+In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
@@ -84,148 +87,100 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, this series adds static type hints to the QAPI module.=0D
-This is part one!=0D
-=0D
-Part 1: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt1=0D
-Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
-=0D
-- Requires Python 3.6+=0D
-- Requires mypy 0.770 or newer (for type analysis only)=0D
-- Requires pylint 2.6.0 or newer (for lint checking only)=0D
-=0D
-In general, this series tackles the cleanup of one individual QAPI=0D
-module at a time. Once it passes pylint or mypy checks, those checks are=0D
-enabled for that file.=0D
-=0D
-Type hints are added in patches that add *only* type hints and change no=0D
-other behavior. Any necessary changes to behavior to accommodate typing=0D
-are split out into their own tiny patches.=0D
-=0D
-- Patches 1-7: generic, qapi-wide cleanups, flake8 and pylint support=0D
-- Patches 8-16: common.py cleanup (with mypy support added at the end)=0D
-- Patches 17-18: events.py cleanup=0D
-- Patches 19-21: commands.py cleanup=0D
-- Patches 22-23: source.py cleanup=0D
-- Patches 24-29: gen.py cleanup=0D
-- Patches 30-33: introspect.py cleanup=0D
-- Patches 34-35: types.py cleanup=0D
-- Patches 36-37: visit.py cleanup=0D
-=0D
-Notes:=0D
-- After patch 6, `flake8 qapi/` should pass 100% on this and every=0D
-  future commit.=0D
-=0D
-- After patch 7, `pylint --rcfile=3D3Dqapi/pylintrc qapi/` should pass 100%=
-=0D
-  on this and every future commit.=0D
-=0D
-- After patch 16, `mypy --config-file=3D3Dqapi/mypy.ini qapi/` should pass=
-=0D
-  100% on this and every future commit.=0D
-=0D
-V2:=0D
- - Removed Python3.6 patch in favor of Thomas Huth's=0D
- - Addressed (most) feedback from Markus=0D
- - Renamed type hint annotation commits=0D
-=0D
-Changelog:=0D
-=0D
-003/38:[0082] [FC] 'qapi: move generator entrypoint into module'=0D
-004/38:[down] 'qapi: Prefer explicit relative imports'=0D
-006/38:[0027] [FC] 'qapi: delint using flake8'=0D
-007/38:[0006] [FC] 'qapi: add pylintrc'=0D
-008/38:[0002] [FC] 'qapi/common.py: Remove python compatibility workaround'=
-=0D
-009/38:[0037] [FC] 'qapi/common.py: Add indent manager'=0D
-010/38:[0008] [FC] 'qapi/common.py: delint with pylint'=0D
-011/38:[0002] [FC] 'qapi/common.py: Replace one-letter 'c' variable'=0D
-012/38:[----] [-C] 'qapi/common.py: check with pylint'=0D
-013/38:[down] 'qapi/common.py: add type hint annotations'=0D
-014/38:[down] 'qapi/common.py: Convert comments into docstrings, and elabor=
-at=3D=0D
-e'=0D
-015/38:[down] 'qapi/common.py: move build_params into gen.py'=0D
-017/38:[down] 'qapi/events.py: add type hint annotations'=0D
-020/38:[0006] [FC] 'qapi/commands.py: add notational type hints'=0D
-022/38:[down] 'qapi/source.py: add type hint annotations'=0D
-025/38:[down] 'qapi/gen.py: add type hint annotations'=0D
-033/38:[down] 'qapi/introspect.py: add type hint annotations'=0D
-034/38:[down] 'qapi/types.py: add type hint annotations'=0D
-036/38:[down] 'qapi/visit.py: assert tag_member contains a QAPISchemaEnumTy=
-pe'=0D
-037/38:[----] [-C] 'qapi/visit.py: remove unused parameters from gen_visit_=
-ob=3D=0D
-ject'=0D
-038/38:[down] 'qapi/visit.py: add type hint annotations'=0D
-=0D
-John Snow (38):=0D
-  [DO-NOT-MERGE] qapi: add debugging tools=0D
-  qapi-gen: Separate arg-parsing from generation=0D
-  qapi: move generator entrypoint into module=0D
-  qapi: Prefer explicit relative imports=0D
-  qapi: Remove wildcard includes=0D
-  qapi: delint using flake8=0D
-  qapi: add pylintrc=0D
-  qapi/common.py: Remove python compatibility workaround=0D
-  qapi/common.py: Add indent manager=0D
-  qapi/common.py: delint with pylint=0D
-  qapi/common.py: Replace one-letter 'c' variable=0D
-  qapi/common.py: check with pylint=0D
-  qapi/common.py: add type hint annotations=0D
-  qapi/common.py: Convert comments into docstrings, and elaborate=0D
-  qapi/common.py: move build_params into gen.py=0D
-  qapi: establish mypy type-checking baseline=0D
-  qapi/events.py: add type hint annotations=0D
-  qapi/events.py: Move comments into docstrings=0D
-  qapi/commands.py: Don't re-bind to variable of different type=0D
-  qapi/commands.py: add notational type hints=0D
-  qapi/commands.py: enable checking with mypy=0D
-  qapi/source.py: add type hint annotations=0D
-  qapi/source.py: delint with pylint=0D
-  qapi/gen.py: Fix edge-case of _is_user_module=0D
-  qapi/gen.py: add type hint annotations=0D
-  qapi/gen.py: Enable checking with mypy=0D
-  qapi/gen.py: Remove unused parameter=0D
-  qapi/gen.py: update write() to be more idiomatic=0D
-  qapi/gen.py: delint with pylint=0D
-  qapi/introspect.py: Add a typed 'extra' structure=0D
-  qapi/introspect.py: add _gen_features helper=0D
-  qapi/introspect.py: create a typed 'Node' data structure=0D
-  qapi/introspect.py: add type hint annotations=0D
-  qapi/types.py: add type hint annotations=0D
-  qapi/types.py: remove one-letter variables=0D
-  qapi/visit.py: assert tag_member contains a QAPISchemaEnumType=0D
-  qapi/visit.py: remove unused parameters from gen_visit_object=0D
-  qapi/visit.py: add type hint annotations=0D
-=0D
- scripts/qapi-gen.py        |  59 ++---------=0D
- scripts/qapi/.flake8       |   2 +=0D
- scripts/qapi/commands.py   |  85 +++++++++++----=0D
- scripts/qapi/common.py     | 163 +++++++++++++++-------------=0D
- scripts/qapi/debug.py      |  78 ++++++++++++++=0D
- scripts/qapi/doc.py        |   3 +-=0D
- scripts/qapi/events.py     |  64 ++++++++---=0D
- scripts/qapi/expr.py       |   4 +-=0D
- scripts/qapi/gen.py        | 176 ++++++++++++++++++------------=0D
- scripts/qapi/introspect.py | 212 +++++++++++++++++++++++++------------=0D
- scripts/qapi/main.py       |  91 ++++++++++++++++=0D
- scripts/qapi/mypy.ini      |  30 ++++++=0D
- scripts/qapi/parser.py     |   4 +-=0D
- scripts/qapi/pylintrc      |  71 +++++++++++++=0D
- scripts/qapi/schema.py     |  33 +++---=0D
- scripts/qapi/source.py     |  34 +++---=0D
- scripts/qapi/types.py      | 125 +++++++++++++++-------=0D
- scripts/qapi/visit.py      | 116 ++++++++++++++------=0D
- 18 files changed, 952 insertions(+), 398 deletions(-)=0D
- create mode 100644 scripts/qapi/.flake8=0D
- create mode 100644 scripts/qapi/debug.py=0D
- create mode 100644 scripts/qapi/main.py=0D
- create mode 100644 scripts/qapi/mypy.ini=0D
- create mode 100644 scripts/qapi/pylintrc=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+This adds some really childishly simple debugging tools. Maybe they're
+interesting for someone else, too?
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ scripts/qapi/debug.py | 78 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+ create mode 100644 scripts/qapi/debug.py
+
+diff --git a/scripts/qapi/debug.py b/scripts/qapi/debug.py
+new file mode 100644
+index 0000000000..bacf5ee180
+--- /dev/null
++++ b/scripts/qapi/debug.py
+@@ -0,0 +1,78 @@
++"""
++Small debugging facilities for mypy static analysis work.
++(C) 2020 John Snow, for Red Hat, Inc.
++"""
++
++import inspect
++import json
++from typing import Dict, List, Any
++from types import FrameType
++
++
++OBSERVED_TYPES: Dict[str, List[str]] = {}
++
++
++# You have no idea how long it took to find this return type...
++def caller_frame() -> FrameType:
++    """
++    Returns the stack frame of the caller's caller.
++    e.g. foo() -> caller() -> caller_frame() return's foo's stack frame.
++    """
++    stack = inspect.stack()
++    caller = stack[2].frame
++    if caller is None:
++        msg = "Python interpreter does not support stack frame inspection"
++        raise RuntimeError(msg)
++    return caller
++
++
++def _add_type_record(name: str, typestr: str) -> None:
++    seen = OBSERVED_TYPES.setdefault(name, [])
++    if typestr not in seen:
++        seen.append(typestr)
++
++
++def record_type(name: str, value: Any, dict_names: bool = False) -> None:
++    """
++    Record the type of a variable.
++
++    :param name: The name of the variable
++    :param value: The value of the variable
++    """
++    _add_type_record(name, str(type(value)))
++
++    try:
++        for key, subvalue in value.items():
++            subname = f"{name}.{key}" if dict_names else f"{name}.[dict_value]"
++            _add_type_record(subname, str(type(subvalue)))
++        return
++    except AttributeError:
++        # (Wasn't a dict or anything resembling one.)
++        pass
++
++    # str is iterable, but not in the way we want!
++    if isinstance(value, str):
++        return
++
++    try:
++        for elem in value:
++            _add_type_record(f"{name}.[list_elem]", str(type(elem)))
++    except TypeError:
++        # (Wasn't a list or anything else iterable.)
++        pass
++
++
++def show_types() -> None:
++    """
++    Print all of the currently known variable types to stdout.
++    """
++    print(json.dumps(OBSERVED_TYPES, indent=2))
++
++
++def record_locals(show: bool = False, dict_names: bool = False) -> None:
++    caller = caller_frame()
++    name = caller.f_code.co_name
++    for key, value in caller.f_locals.items():
++        record_type(f"{name}.{key}", value, dict_names=dict_names)
++    if show:
++        show_types()
+-- 
+2.26.2
 
 
