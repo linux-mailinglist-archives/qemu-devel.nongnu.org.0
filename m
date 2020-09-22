@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF390274B3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:35:02 +0200 (CEST)
-Received: from localhost ([::1]:44608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9005D274B31
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:32:30 +0200 (CEST)
+Received: from localhost ([::1]:35936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpwD-0002ZH-Ln
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37526)
+	id 1kKptl-00073i-GT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQa-0002qL-LP
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:02:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27057)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQK-0002Xk-AP
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:02:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50813
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQY-0004g5-My
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:02:20 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQH-0004em-6B
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:02:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600808537;
+ s=mimecast20190719; t=1600808519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gjv/1TCr1+x4mJxtRx4j/pu85zh+OSeH8cUFmDsVUqY=;
- b=RShr8lRA2UlEqZSCoxwLHjIyxqufJjADqR9EPtv2c9LZ0d/ejAoGOSUv3TVhx7mC8sdreU
- eR7t7+MJj3It+qFs48FEyiXMJbXzgflZ2gzNmmsyD90uSZFsYLbA3ODljT7NaYRVXacxGc
- O1XgY6Rcoi6iuidWCAHid5kx8SlMhT8=
+ bh=5faI8ElcYvnxKPiHc83uD5yKXb0k2Hk/EbySAFimiQk=;
+ b=ez09atZWKXYlGazAz49QsV/bvYWMisDtCITZqMcAlh7JgkWvm/ARV4X3+miZWHQZbqMfU7
+ s1snnBi5GllkMaeWN3vEzkcfsMUlwYmiLxP5sIa02L8duvUh0j/4ljrpCNTfdWI5zw27lR
+ HiDiJMHNITCPq8Bx0jiNP9B3KW+3RrQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-BsuXlV0WMFGXxqaiQTGs3w-1; Tue, 22 Sep 2020 17:01:56 -0400
-X-MC-Unique: BsuXlV0WMFGXxqaiQTGs3w-1
+ us-mta-590-ifGqNRatOQ6biSVpmdow9w-1; Tue, 22 Sep 2020 17:01:57 -0400
+X-MC-Unique: ifGqNRatOQ6biSVpmdow9w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83B99185A0CA;
- Tue, 22 Sep 2020 21:01:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2D85186841A;
+ Tue, 22 Sep 2020 21:01:56 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 957E855765;
- Tue, 22 Sep 2020 21:01:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C28DA5577A;
+ Tue, 22 Sep 2020 21:01:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 35/38] qapi/types.py: remove one-letter variables
-Date: Tue, 22 Sep 2020 17:00:58 -0400
-Message-Id: <20200922210101.4081073-36-jsnow@redhat.com>
+Subject: [PATCH v2 37/38] qapi/visit.py: remove unused parameters from
+ gen_visit_object
+Date: Tue, 22 Sep 2020 17:01:00 -0400
+Message-Id: <20200922210101.4081073-38-jsnow@redhat.com>
 In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 17:00:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,89 +89,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"John, if pylint told you to jump off a bridge, would you?"
-Hey, if it looked like fun, I might.
-
-Now that this file is clean, enable pylint checks on this file.
+And this fixes the pylint report for this file, so make sure we check
+this in the future, too.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/pylintrc |  1 -
- scripts/qapi/types.py | 29 +++++++++++++++--------------
- 2 files changed, 15 insertions(+), 15 deletions(-)
+ scripts/qapi/pylintrc | 1 -
+ scripts/qapi/visit.py | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index de132d03cf..cebaf600f9 100644
+index cebaf600f9..581755351b 100644
 --- a/scripts/qapi/pylintrc
 +++ b/scripts/qapi/pylintrc
 @@ -7,7 +7,6 @@ ignore-patterns=doc.py,
                  expr.py,
                  parser.py,
                  schema.py,
--                types.py,
-                 visit.py,
+-                visit.py,
  
  
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 5533c5a126..78c2a5a3e9 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -49,14 +49,14 @@ def gen_enum_lookup(name: str,
-     .array = (const char *const[]) {
- ''',
-                 c_name=c_name(name))
--    for m in members:
--        ret += gen_if(m.ifcond)
--        index = c_enum_const(name, m.name, prefix)
-+    for member in members:
-+        ret += gen_if(member.ifcond)
-+        index = c_enum_const(name, member.name, prefix)
-         ret += mcgen('''
-         [%(index)s] = "%(name)s",
- ''',
--                     index=index, name=m.name)
--        ret += gen_endif(m.ifcond)
-+                     index=index, name=member.name)
-+        ret += gen_endif(member.ifcond)
+ [MESSAGES CONTROL]
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 180c140180..ec9d36e72f 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -253,7 +253,7 @@ def gen_visit_alternate(name, variants):
+     return ret
  
-     ret += mcgen('''
-     },
-@@ -79,13 +79,13 @@ def gen_enum(name: str,
- ''',
-                 c_name=c_name(name))
  
--    for m in enum_members:
--        ret += gen_if(m.ifcond)
-+    for member in enum_members:
-+        ret += gen_if(member.ifcond)
-         ret += mcgen('''
-     %(c_enum)s,
- ''',
--                     c_enum=c_enum_const(name, m.name, prefix))
--        ret += gen_endif(m.ifcond)
-+                     c_enum=c_enum_const(name, member.name, prefix))
-+        ret += gen_endif(member.ifcond)
+-def gen_visit_object(name, base, members, variants):
++def gen_visit_object(name):
+     return mcgen('''
  
-     ret += mcgen('''
- } %(c_name)s;
-@@ -148,11 +148,12 @@ def gen_object(name: str, ifcond: List[str],
-     objects_seen.add(name)
+ bool visit_type_%(c_name)s
+@@ -346,7 +346,7 @@ def visit_object_type(self, name, info, ifcond, features,
+             if not name.startswith('q_'):
+                 # only explicit types need an allocating visit
+                 self._genh.add(gen_visit_decl(name))
+-                self._genc.add(gen_visit_object(name, base, members, variants))
++                self._genc.add(gen_visit_object(name))
  
-     ret = ''
--    if variants:
--        for v in variants.variants:
--            if isinstance(v.type, QAPISchemaObjectType):
--                ret += gen_object(v.type.name, v.type.ifcond, v.type.base,
--                                  v.type.local_members, v.type.variants)
-+    for variant in variants.variants if variants else ():
-+        obj = variant.type
-+        if not isinstance(obj, QAPISchemaObjectType):
-+            continue
-+        ret += gen_object(obj.name, obj.ifcond, obj.base,
-+                          obj.local_members, obj.variants)
- 
-     ret += mcgen('''
- 
+     def visit_alternate_type(self, name, info, ifcond, features, variants):
+         with ifcontext(ifcond, self._genh, self._genc):
 -- 
 2.26.2
 
