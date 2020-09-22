@@ -2,105 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4883B273FD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:44:53 +0200 (CEST)
-Received: from localhost ([::1]:56860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1DC273FD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:47:21 +0200 (CEST)
+Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKfn2-0003Xv-9s
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:44:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54808)
+	id 1kKfpQ-00060M-Cb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKfcA-0006cn-K8
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:33:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47245)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kKfcM-0006nL-Fr
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:33:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKfc8-0006at-UL
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:33:38 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kKfcI-0006bQ-R8
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:33:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600770815;
+ s=mimecast20190719; t=1600770825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=LE/yEhQnbn88gLikhRAtSmYUw/zD0uDELRKxLQEVbVw=;
- b=Kby9zyNM68S4/CqhJ6+O55rJRW7VL26Ru3OMSqLoQgy7pU7y6Eo8k2EuxPGhoxvPitS/9A
- 0mI0wb+sZ/PpzS0PHQlMVUQUKkgkd4P3+YxwjfDW44sepqjOArFhZZzWMJSAAlhg5SeWLJ
- awfeD7SyKa+miiTQyjkOsitef3ZEaBc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-0busL6rOOCqo9QLUW_3bHg-1; Tue, 22 Sep 2020 06:33:33 -0400
-X-MC-Unique: 0busL6rOOCqo9QLUW_3bHg-1
-Received: by mail-wr1-f71.google.com with SMTP id f18so7222297wrv.19
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 03:33:32 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=g1rDSBouqSbb1VQz5HQmB8k9rMlmQ1SNxtvbryzlflY=;
+ b=W/PRjnny2XwZxUuI1wGd8kWN9eK1sxWJPK8lLOMesn5Xg1/rSS3zYOoboo212tnjcU4Z/i
+ Xr/iQU+SA7aLDzOwKWPBvVYIJnD2S4bcpk0pLF5eKlVzXSGxULCZDIDOx1t5QQ6BuxaW+s
+ c0LgFWbRQWjEXVIGjOLGVw5seZJfdiY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-3VOJ1yg7OxOqjq9abT2K6w-1; Tue, 22 Sep 2020 06:33:44 -0400
+X-MC-Unique: 3VOJ1yg7OxOqjq9abT2K6w-1
+Received: by mail-ed1-f69.google.com with SMTP id y21so5549376edu.23
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 03:33:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=LE/yEhQnbn88gLikhRAtSmYUw/zD0uDELRKxLQEVbVw=;
- b=HzDjIj/NcQzqBI7C4wv6YbQX7SEoK8ngM2WZO15V2e2JTqmu51un5eDAfMwtMmlSJv
- ojeohIlJgeVAe4Qn/sHn34nDb2JLxs8hQ4b04Uwu5zOsH9ZLgRfITKwHdUBklr70ZcT9
- +EU9MEsObwFwG65kNGU9WJPygsmpreD5jmWt4k30MjbuiD5SvG4+qM2OpwM/WVhD3GWd
- odjQ3wqMrUd/cJhXX/onylCIftvlKwuHkF557VqbZZbYbHHdi06T+w3krB6f6G7xHlZo
- Zuho9rwacFbhUI1loskUUoP6jBAzucv4jiTgU4TvR3E321X7RVB27ZfPFh0oTvn4mdBR
- Q+mw==
-X-Gm-Message-State: AOAM532kTfjeLGTMDKQ0MaWesUb1joY/18XKh06LfgEKogHqIPB+zSOh
- wXDBTBTQ0PQYF8M7JW3QiSaQOk88IYsMM6m8SzA30Q6nqyPw3nQYvWed1uY59O5zTvHXmyiC8X2
- w/GNhnQretgw8OyI=
-X-Received: by 2002:a5d:660d:: with SMTP id n13mr4682366wru.308.1600770811455; 
- Tue, 22 Sep 2020 03:33:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0+rm+I0ltSpmP/iK4UETJ+sptZQInOSXHP/zFMpPFrlfVjhrmb14PSoGsH0KAaOBLvEm2Mg==
-X-Received: by 2002:a5d:660d:: with SMTP id n13mr4682346wru.308.1600770811274; 
- Tue, 22 Sep 2020 03:33:31 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id k15sm26686675wrv.90.2020.09.22.03.33.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 03:33:30 -0700 (PDT)
-Subject: Re: [PATCH v4 03/11] capstone: Require version 4.0 from a system
- library
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200921174118.39352-1-richard.henderson@linaro.org>
- <20200921174118.39352-4-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <6c4a7b2d-896d-5792-bdd1-179a1c186aa6@redhat.com>
-Date: Tue, 22 Sep 2020 12:33:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=g1rDSBouqSbb1VQz5HQmB8k9rMlmQ1SNxtvbryzlflY=;
+ b=KfeQyE9tYPUx1jHxE1R1pvQFUXR7bNCeEtEBxJ08WsopxiAvI/vM4fDoPR990tOizs
+ s33KIOMBGJEcdjoawjq//HYQpUVSs/eepSvNlsyNQE3lQSUOv7iA5Xy1aNQBgQ5phwDD
+ EibIVVPTu2MI+v27K+x77EIPSWSRyId7jR3bulFZHdoOPprbayh8rENfjn3/SjL5Q7s8
+ wTKY+0fAFh8ByCkWkNcOrdfx3z1lMMUwt5f6YPlX7uspp7naCpCyQzk++wxlPVYVlxb9
+ 6VFflBe2aUW6pcMK4IAQjOeiP3bJXolnukbJuWaFdRIiWdCXUeoWP+xoVJqnV0j1Fftz
+ dLYA==
+X-Gm-Message-State: AOAM530JnvyHsVI8kI4jvqafwnioKIOYWnzxMgvtxZwV6cgx6/Cun8xr
+ 6sgVKdpU7hqyPlCZXqKkoQOWkFkl4bJEYokP7aMYKrXmMJZourEZ6hbGNAC2didoeF32wRDA/v5
+ owei7OfFtZeoHXP4=
+X-Received: by 2002:a50:9e6a:: with SMTP id z97mr3350898ede.32.1600770822910; 
+ Tue, 22 Sep 2020 03:33:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3m8fzA7otJH0XyFOvhJ6ah4sRalxY6iTcRcgVUfs26zQ6wjmthC2wGUK2UGdBT8LGLREnsA==
+X-Received: by 2002:a50:9e6a:: with SMTP id z97mr3350871ede.32.1600770822668; 
+ Tue, 22 Sep 2020 03:33:42 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id g16sm10533925edf.20.2020.09.22.03.33.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 03:33:42 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH RFC 22/22] i386: expand Hyper-V features early
+In-Reply-To: <20200918223820.GK57321@habkost.net>
+References: <20200904145431.196885-1-vkuznets@redhat.com>
+ <20200904145431.196885-23-vkuznets@redhat.com>
+ <20200918223820.GK57321@habkost.net>
+Date: Tue, 22 Sep 2020 12:33:41 +0200
+Message-ID: <87blhyf6d6.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200921174118.39352-4-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -109,9 +81,8 @@ X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,35 +95,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/20 7:41 PM, Richard Henderson wrote:
-> We're about to use a portion of the 4.0 API.
-> Reject a system library version prior to that.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> On Fri, Sep 04, 2020 at 04:54:31PM +0200, Vitaly Kuznetsov wrote:
+>> To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
+>> need to expand and set the corresponding CPUID leaves early. Modify
+>> x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
+>> specific kvm_hv_get_supported_cpuid() instead of
+>> kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
+>> as Hyper-V specific CPUID leaves intersect with KVM's.
+>> 
+>> Note, early expansion will only happen when KVM supports system wide
+>> KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
+>
+> Will this implicitly enable hyperv CPUID passthrough when using
+> "-cpu host"?  Do we want it to?
+>
 
-> ---
->  meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 4c92b43fe5..114b136129 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -613,7 +613,7 @@ if capstone_opt == 'no'
->    capstone_opt = false
->  elif capstone_opt in ['yes', 'auto', 'system']
->    have_internal = fs.exists('capstone/Makefile')
-> -  capstone = dependency('capstone', static: enable_static,
-> +  capstone = dependency('capstone', version: '>=4.0', static: enable_static,
->                          required: capstone_opt == 'system' or
->                                    capstone_opt == 'yes' and not have_internal)
->    if capstone.found()
-> 
+I hope it won't. With 'hv_*' features set explicitly we will get just
+them (if the host supports), with 'hv_passthrough' we will get
+everything supported by the host. With no 'hv_*' parameters on the
+command line we should get no Hyper-V features. I'll check this.
+
+Personally, I don't think '-host' mode should enable any Hyper-V
+features as these features have side-effects. E.g. if you enable SynIC
+you won't be able to use vAPIC. Probably not a reasonable default for
+the majority of the guests which (hopefully) are Linux.
+
+>> 
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>>  target/i386/cpu.c      | 15 +++++++++------
+>>  target/i386/kvm.c      | 15 +++++++++++++++
+>>  target/i386/kvm_i386.h |  7 +++++++
+>>  3 files changed, 31 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index 479c4bbbf459..d3c4ecb3535c 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -5147,7 +5147,7 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+>>      return cpu_list;
+>>  }
+>>  
+>> -static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+>> +static uint64_t x86_cpu_get_supported_feature_word(X86CPU *cpu, FeatureWord w,
+>>                                                     bool migratable_only)
+>>  {
+>>      FeatureWordInfo *wi = &feature_word_info[w];
+>> @@ -5156,9 +5156,12 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+>>      if (kvm_enabled()) {
+>>          switch (wi->type) {
+>>          case CPUID_FEATURE_WORD:
+>> -            r = kvm_arch_get_supported_cpuid(kvm_state, wi->cpuid.eax,
+>> -                                                        wi->cpuid.ecx,
+>> -                                                        wi->cpuid.reg);
+>> +            if (hyperv_feature_word(w))
+>> +                r = kvm_hv_get_supported_cpuid(cpu, w);
+>> +            else
+>> +                r = kvm_arch_get_supported_cpuid(kvm_state, wi->cpuid.eax,
+>> +                                                 wi->cpuid.ecx,
+>> +                                                 wi->cpuid.reg);
+>>              break;
+>>          case MSR_FEATURE_WORD:
+>>              r = kvm_arch_get_supported_msr_feature(kvm_state,
+>> @@ -6485,7 +6488,7 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+>>               * by the user.
+>>               */
+>>              env->features[w] |=
+>> -                x86_cpu_get_supported_feature_word(w, cpu->migratable) &
+>> +                x86_cpu_get_supported_feature_word(cpu, w, cpu->migratable) &
+>>                  ~env->user_features[w] &
+>>                  ~feature_word_info[w].no_autoenable_flags;
+>>          }
+>> @@ -6589,7 +6592,7 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+>>  
+>>      for (w = 0; w < FEATURE_WORDS; w++) {
+>>          uint64_t host_feat =
+>> -            x86_cpu_get_supported_feature_word(w, false);
+>> +            x86_cpu_get_supported_feature_word(cpu, w, false);
+>>          uint64_t requested_features = env->features[w];
+>>          uint64_t unavailable_features = requested_features & ~host_feat;
+>>          mark_unavailable_features(cpu, w, unavailable_features, prefix);
+>> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+>> index 961241528a5c..764b96fbbb7d 100644
+>> --- a/target/i386/kvm.c
+>> +++ b/target/i386/kvm.c
+>> @@ -1449,6 +1449,21 @@ static int hyperv_fill_cpuids(CPUState *cs,
+>>      return cpuid_i;
+>>  }
+>>  
+>> +uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w)
+>> +{
+>> +    CPUState *cs = CPU(cpu);
+>> +    CPUX86State *env = &cpu->env;
+>> +    Error *local_err = NULL;
+>> +
+>> +    hyperv_expand_features(cs, &local_err);
+>> +
+>> +    if (local_err) {
+>> +            error_report_err(local_err);
+>> +    }
+>> +
+>> +    return env->features[w];
+>> +}
+>> +
+>>  static Error *hv_passthrough_mig_blocker;
+>>  static Error *hv_no_nonarch_cs_mig_blocker;
+>>  
+>> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+>> index 064b8798a26c..2e7da4f39668 100644
+>> --- a/target/i386/kvm_i386.h
+>> +++ b/target/i386/kvm_i386.h
+>> @@ -48,4 +48,11 @@ bool kvm_has_waitpkg(void);
+>>  
+>>  bool kvm_hv_vpindex_settable(void);
+>>  
+>> +static inline bool hyperv_feature_word(enum FeatureWord w)
+>> +{
+>> +    return w >= FEAT_HYPERV_EAX && w <= FEAT_HV_NESTED_EDX;
+>> +}
+>> +
+>> +uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w);
+>> +
+>>  #endif
+>> -- 
+>> 2.25.4
+>> 
+
+-- 
+Vitaly
 
 
