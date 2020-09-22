@@ -2,91 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326B9273E84
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:27:22 +0200 (CEST)
-Received: from localhost ([::1]:48908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41678273E52
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:16:45 +0200 (CEST)
+Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKea1-00056U-1p
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
+	id 1kKePk-0003BS-9g
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKeE1-000220-03; Tue, 22 Sep 2020 05:04:37 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:33939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKeDv-000300-7T; Tue, 22 Sep 2020 05:04:36 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 146DE5803F7;
- Tue, 22 Sep 2020 05:04:30 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Tue, 22 Sep 2020 05:04:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=TqSENd0b6/MDWDuKtmOg1LK7A+P
- AOD11PQRiUIxmVoo=; b=aBSlszBGYLoIwb771bhABUePMLO7vpISUuSysmdAUXK
- U1IB8lThZKvWsoEACCZl2A7FjhBuKN2dcksClKoJPhgeTGIWhPQX0mD7zbjvWwoR
- lGslcYSP/ijDp9y60/1gSzbWQyVHjasPCvmOKYtahJZzDdMCALWlMWBRxW3XnWsp
- oghAb0I4PrxGwVLAUbDO63k1GdKPU3bOKaluN0PRnAw7Q0x5CuKXafDlxu1ahPN0
- i1ZKqRVEvKYSfl07N46xfBEr4cURsO9V+2IJ/K+UQTDWGfWWiZ/3cR/MIaJO+cxl
- Nxd1tsNAhvpyGAk8LJ3PlwhGcFAdWP03NsNaN5gBN3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TqSENd
- 0b6/MDWDuKtmOg1LK7A+PAOD11PQRiUIxmVoo=; b=FF+wrlxBlxRxKJ/g8wr60y
- iTVO2SOskrognpSFa3tEd2rnLB3CSjT8ESTQDIMBj/Wn/rqp/XVFELC3jpqZy2zT
- 1327/iJGsQlWC9G7RHkT1YPbuVzugfdZi9RP15YwIiTJOj1FDtJe9EUWiDoeRe/Y
- ZtsS76MPGoz1r3f4B9j2E0X5d+KN1FYSDJgi8LQ82ZAOlUdxC+gKrtF3J43bU3wC
- WAGUJXSFx2QUMcslar/CGv7vOck8cAEQfI0ommDsNEZJeF8Ep91p4ifW2/Yh6ZyN
- 1my5BKKYkQ+z2OB4CwrpUGNKz0QMxbYoEw5sxtrL/TYiJv/Gxfxb60hzg2pIYMKg
- ==
-X-ME-Sender: <xms:HL5pX0KkuwEpkYhlcp-EsCNm5NxzTFCqWWna_cwKKKIW0PGSnER_sw>
- <xme:HL5pX0JYRkOg_Key7bxXN16If0MwMqPuiZeMfTdvul1A9I6MZkumyIPyRy4ah60bI
- cksCJ40cwEb6XcI--4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggdduvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:HL5pX0s4d2haSNNK__y4umMtXjA50FwSnQUvtUYqG2bRF31zHhShEQ>
- <xmx:HL5pXxbGXcsaG0B5uhCHrD9GpxC1vFrAxP41fWL5AChY9axdcD9Q6g>
- <xmx:HL5pX7bfcMN0txrf504M8Co8AgsqswEBhw5ON6ItQV047VWiM1fHZw>
- <xmx:Hb5pX6Ul-Wz0b2LT4oMm5IJSlVmujYhtE02QvyhYkbWFpc3gTExQTw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 277F4328005E;
- Tue, 22 Sep 2020 05:04:27 -0400 (EDT)
-Date: Tue, 22 Sep 2020 11:04:25 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Subject: Re: [PATCH v6 2/2] nvme: allow cmb and pmr to be enabled on same
- device
-Message-ID: <20200922090425.GA1236186@apples.localdomain>
-References: <20200729220107.37758-1-andrzej.jakowski@linux.intel.com>
- <20200729220107.37758-3-andrzej.jakowski@linux.intel.com>
- <20200729225019.GA346228@apples.localdomain>
- <20200817062911.GA7412@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKeEP-0002Ez-A7
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:05:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41264)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKeEN-00032s-Sv
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:05:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600765499;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LX5N5V/lUVBPk/yUkNWyKB5FTQfis5ieD3QxOjSAbHc=;
+ b=L+7AensrpjD7HShbGtzj/ae3szahjXXfB+qYd7381Dlfx1q3PboN4V9kmAV3wL5b0/pC1Y
+ oQTSs6n+1Slym+gUcW9wBPIZ9iXe2X6KX4A6qC17ZJvCmwVOmqHWIWzQS9JXMgaDj3UU4T
+ zC+0ZAC9w1b+lHFWwXuuQiaKbNl5f8o=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-XRtVDofuPyi_yO8mR4MmMg-1; Tue, 22 Sep 2020 05:04:55 -0400
+X-MC-Unique: XRtVDofuPyi_yO8mR4MmMg-1
+Received: by mail-wr1-f72.google.com with SMTP id j7so7158129wro.14
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 02:04:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LX5N5V/lUVBPk/yUkNWyKB5FTQfis5ieD3QxOjSAbHc=;
+ b=t76c0O9L5oz9s7UipvsmC5flQ5vUQyaTGeTmVZ+gAnOG0srq17zGVsb3Xdq6LWRCvO
+ iV3cLDt2LUgYwhCzbJOsD7Y+Tto+HglSQh/lOGFvPxO4gVbNNFmlSQzl6eHUsz6mv9KI
+ A1cqNc4cnkW38Xtqvmwdd33dfA6VkQQOnCHUdQc8wRUQExalE0l1iE3pSvfwXCsX4MP7
+ aUYTntmB2vdGjp7dwGpe+WkCxhlVjgpcfbyF/tCT33zAMe3/mRga9mi11Yva2k0DxH1S
+ kkyTaz+ra7PYUkTcRm7qmEiMFc4Bm/xHvz8T6DRg2cslNdBJwRFe2p7I6ZCD4D/RAD39
+ mqRg==
+X-Gm-Message-State: AOAM530cbNR4HloDoIQqAAf6J3HFbQWVCYvRIHF/6DMXapdrMlv+sRwM
+ SWF/bur6SLf2weTnf5Ornsm+jXrSbOwAMLBAgFcSxcR6LCZ3Ef6sD136H4eBhrq6gjrXy9Wqiil
+ gcsahbNHv1l7p7xw=
+X-Received: by 2002:a5d:510d:: with SMTP id s13mr4200679wrt.177.1600765494016; 
+ Tue, 22 Sep 2020 02:04:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuH1Hh2yYadMhgpTkQIGunATkv8RBjIi4+SoeRrxEgxkP+5/meC6/n4NmIIaVMzXnFcci3oA==
+X-Received: by 2002:a5d:510d:: with SMTP id s13mr4200651wrt.177.1600765493746; 
+ Tue, 22 Sep 2020 02:04:53 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ec2c:90a9:1236:ebc6?
+ ([2001:b07:6468:f312:ec2c:90a9:1236:ebc6])
+ by smtp.gmail.com with ESMTPSA id z13sm25261492wro.97.2020.09.22.02.04.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Sep 2020 02:04:53 -0700 (PDT)
+Subject: Re: [PATCH 2/6] block/nvme: Map doorbells pages write-only
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200921162949.553863-1-philmd@redhat.com>
+ <20200921162949.553863-3-philmd@redhat.com>
+ <6ea4b96862a0dac22205592b6c8d9e21ab57189a.camel@euphon.net>
+ <22dab788-06f1-3686-51f3-24ee7ce77fda@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bd7e17f6-95cb-e697-731b-e61ac3a64d30@redhat.com>
+Date: Tue, 22 Sep 2020 11:04:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
-Content-Disposition: inline
-In-Reply-To: <20200817062911.GA7412@apples.localdomain>
-Received-SPF: pass client-ip=66.111.4.230; envelope-from=its@irrelevant.dk;
- helo=new4-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 04:45:36
+In-Reply-To: <22dab788-06f1-3686-51f3-24ee7ce77fda@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,59 +106,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 22/09/20 10:41, Philippe Mathieu-Daudé wrote:
+>> Besides looking more correct in access mode, is there any side effect
+>> of WO mapping?
+> TBH I don't have enough knowledge to answer this question.
+> I tested successfully on X86. I'm writing more tests.
 
---fdj2RfSjLxBAspz7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No problem with doing this, but PROT_WRITE does not work at all on x86.
+:)  PROT_EXEC works if you have a machine with PKRU, but PROT_WRITE
+silently becomes PROT_READ|PROT_WRITE because the processor does not
+support it.
 
-On Aug 17 08:29, Klaus Jensen wrote:
-> On Jul 30 00:50, Klaus Jensen wrote:
-> > On Jul 29 15:01, Andrzej Jakowski wrote:
-> > > So far it was not possible to have CMB and PMR emulated on the same
-> > > device, because BAR2 was used exclusively either of PMR or CMB. This
-> > > patch places CMB at BAR4 offset so it not conflicts with MSI-X vector=
-s.
-> > >=20
-> > > Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-> > > ---
-> >=20
-> > Well, I'm certainly happy now. LGTM!
-> >=20
-> > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> >=20
->=20
-> Are anyone willing to chip in with another review on this?
->=20
+Paolo
 
-I think this patch is ready (and have been for some time) for inclusion,
-but would really like an additional review on this; preferably from
-Keith, since he is the one that originally mentioned that we could do
-something like this.
-
-I've mentioned it before, but I would prefer that the MSI-X stuff was in
-BAR0 instead of mixing it with the CMB, but that's bikeshedding and my
-R-b still holds of course.
-
---fdj2RfSjLxBAspz7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9pvhQACgkQTeGvMW1P
-Dek+OQf+JwP1ZNjVQp3z7ZoBpUmbja0bGHLX4/yKaZvJ6oGK9p0LMXaCAMyqgAIy
-od32BeIBzZJ1lyqspio2gkrQ1Lji4iC2jyA0neVJdS6ye/cvWAoFqkg/FXSSvDO5
-OpCq2WvEndImQkR7r24/HioeqfvY5TmlYPrtiO1JpomVDZWPlDMzb0Mxn2mkR+oW
-cxLVv3ouQE82XflKX/drnCrR8udIMmnM044IU3qf2n4PgeaS22IIsQaKO1A4FzF7
-sd3ZDkOIpi9SgIOef+d415RkrWY4FgNvIdsggGYLap+W9UmNox9JTCJJ2QX5+3bm
-6LX5NcAuMdBJaRcHVr97mfOUpaEcwA==
-=swfn
------END PGP SIGNATURE-----
-
---fdj2RfSjLxBAspz7--
 
