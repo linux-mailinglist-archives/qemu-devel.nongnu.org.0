@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3782227407B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:10:42 +0200 (CEST)
-Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C470274089
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 13:14:46 +0200 (CEST)
+Received: from localhost ([::1]:49464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKgC1-0005nn-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
+	id 1kKgFx-0003hc-5n
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 07:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kKg1X-0004VO-Dc
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:59:51 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kKg1V-0002QB-Sa
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:59:51 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v12so1046538wmh.3
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 03:59:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=6TnwgfQhpcO4OWA9QREr12A7iMkx5skuSv2pNkPOaGE=;
- b=M+7mvfGHJeE4C41MNfNLr2NMiU99/DjNmWvsrnbAt6lPS5CgtJfO7rrx0M7oPt5BG0
- 2OoYQ/lsKeYDGFR+RxOZIJdA3+SqfRJBVWLQ7XunTbznYuVhEZifgYOJYVDbtL1iEkwH
- zLQ0cr51dt/+XZyLFICauVBa5n9m7MlFSwKAR+o8CTskXIL3ACoyzoeoLhhXmjtPRQWw
- 8PAHA9DthYwmjYpdfidU1Ne7aFvoXZFFng9zKB9AeOQ6zcCUwHNfdl8uM825Bx55XaB/
- oz4ueFFA55/itqPBwDpafa7utOOCPqowi7mJa9HVzEZsAMA5zEk0T9HkfWnAJsCB7ixh
- lCug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=6TnwgfQhpcO4OWA9QREr12A7iMkx5skuSv2pNkPOaGE=;
- b=Jn0HR6dXlQUfGuDCGdtI7wUzEf75foF/XSHlHnB0UihvpZIcBH/vG0v3SubZ6OVAxz
- 4BQp3dx9DDm8qzvuW8uKetFqGvMmV4VJkE2ZpHZrQwnZiZyK5XqKUUW2g/EEVA2DtLc1
- 312fNX35U7pwF8MNjzbKjToVSUmz7kB1FUBIe0YHPxQ6YR5z6s/szR1G/VoCHYkiUrSF
- p+v6hTwiQRCyEYMbX/oXZ2+VBfrU+RqR1XcYUbURExUTWGg6JuvTymBARgbv/kOKzxwb
- KbhXqcqJ6ak7d0H2F5Kunhl1RmXglzKez/U22dSuVqViS/gXjomJOYcVRZFhsJtc+PXl
- WVmA==
-X-Gm-Message-State: AOAM531U+guq2KxioNlxD/4bd69JjzoddzENXXp366yNLp2QZpyR3ySE
- 0GuCEwcUshjn+gzsXndCzhw1GQ==
-X-Google-Smtp-Source: ABdhPJwJIxBZbQAMvbxhz1CtzXkAnAPbvaaFY2cUso5rlRib0+ELwXD/Q1yOux5k/RbnMtp0sWcalQ==
-X-Received: by 2002:a05:600c:221a:: with SMTP id
- z26mr372939wml.131.1600772388353; 
- Tue, 22 Sep 2020 03:59:48 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k12sm25866655wrn.39.2020.09.22.03.59.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Sep 2020 03:59:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 937E31FF7E;
- Tue, 22 Sep 2020 11:59:46 +0100 (BST)
-References: <20200921174118.39352-1-richard.henderson@linaro.org>
- <20200921174118.39352-12-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 11/11] disas/capstone: Add skipdata hook for s390x
-In-reply-to: <20200921174118.39352-12-richard.henderson@linaro.org>
-Date: Tue, 22 Sep 2020 11:59:46 +0100
-Message-ID: <87mu1im5zx.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kKgBV-0006W7-Lr
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 07:10:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23377)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kKgBQ-0004Zg-2h
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 07:10:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600773002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XkWikuyky1eMuJdGSwi8bh6a6vUCKCq/fEcWNwQG6E8=;
+ b=QYiaaCMQwmS/lA9DeDHNH92pBYqYQu5aKsjIqi5qx5nS813+8rUmJVItAl66BSxvTlqlzH
+ T+2UVgPa/au6Q2Y5/iEmYyMF3y/0O0kJ60gEpU5y897LkW9MsfXvGf2zQc69IXS7jjSW+7
+ OumcTkG9p5p1k6qMGyoCUhl5uu9LXTQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-nkp10zUvOcSC4Xtp_A_3XQ-1; Tue, 22 Sep 2020 07:09:58 -0400
+X-MC-Unique: nkp10zUvOcSC4Xtp_A_3XQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59E3710082E7;
+ Tue, 22 Sep 2020 11:09:56 +0000 (UTC)
+Received: from work-vm (ovpn-115-25.ams2.redhat.com [10.36.115.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51BC5610AF;
+ Tue, 22 Sep 2020 11:09:49 +0000 (UTC)
+Date: Tue, 22 Sep 2020 12:09:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
+Message-ID: <20200922110946.GB2836@work-vm>
+References: <20200918213436.GA3520@redhat.com>
+ <20200921201641.GD13362@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200921201641.GD13362@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,24 +81,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Fri, Sep 18, 2020 at 05:34:36PM -0400, Vivek Goyal wrote:
+> > Hi All,
+> > 
+> > virtiofsd default thread pool size is 64. To me it feels that in most of
+> > the cases thread pool size 1 performs better than thread pool size 64.
+> > 
+> > I ran virtiofs-tests.
+> > 
+> > https://github.com/rhvgoyal/virtiofs-tests
+> 
+> I spent more time debugging this. First thing I noticed is that we
+> are using "exclusive" glib thread pool.
+> 
+> https://developer.gnome.org/glib/stable/glib-Thread-Pools.html#g-thread-pool-new
+> 
+> This seems to run pre-determined number of threads dedicated to that
+> thread pool. Little instrumentation of code revealed that every new
+> request gets assiged to new thread (despite the fact that previous
+> thread finished its job). So internally there might be some kind of
+> round robin policy to choose next thread for running the job.
+> 
+> I decided to switch to "shared" pool instead where it seemed to spin
+> up new threads only if there is enough work. Also threads can be shared
+> between pools.
+> 
+> And looks like testing results are way better with "shared" pools. So
+> may be we should switch to shared pool by default. (Till somebody shows
+> in what cases exclusive pools are better).
+> 
+> Second thought which came to mind was what's the impact of NUMA. What
+> if qemu and virtiofsd process/threads are running on separate NUMA
+> node. That should increase memory access latency and increased overhead.
+> So I used "numactl --cpubind=0" to bind both qemu and virtiofsd to node
+> 0. My machine seems to have two numa nodes. (Each node is having 32
+> logical processors). Keeping both qemu and virtiofsd on same node
+> improves throughput further.
+> 
+> So here are the results.
+> 
+> vtfs-none-epool --> cache=none, exclusive thread pool.
+> vtfs-none-spool --> cache=none, shared thread pool.
+> vtfs-none-spool-numa --> cache=none, shared thread pool, same numa node
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Do you have the numbers for:
+   epool
+   epool thread-pool-size=1
+   spool
 
-> It is always possible to tell the length of an insn, even if the
-> actual insn is unknown.  Skip the correct number of bytes, so that
-> we stay in sync with the instruction stream.
->
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+?
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Dave
 
---=20
-Alex Benn=C3=A9e
+> 
+> NAME                    WORKLOAD                Bandwidth       IOPS            
+> vtfs-none-epool         seqread-psync           36(MiB/s)       9392            
+> vtfs-none-spool         seqread-psync           68(MiB/s)       17k             
+> vtfs-none-spool-numa    seqread-psync           73(MiB/s)       18k             
+> 
+> vtfs-none-epool         seqread-psync-multi     210(MiB/s)      52k             
+> vtfs-none-spool         seqread-psync-multi     260(MiB/s)      65k             
+> vtfs-none-spool-numa    seqread-psync-multi     309(MiB/s)      77k             
+> 
+> vtfs-none-epool         seqread-libaio          286(MiB/s)      71k             
+> vtfs-none-spool         seqread-libaio          328(MiB/s)      82k             
+> vtfs-none-spool-numa    seqread-libaio          332(MiB/s)      83k             
+> 
+> vtfs-none-epool         seqread-libaio-multi    201(MiB/s)      50k             
+> vtfs-none-spool         seqread-libaio-multi    254(MiB/s)      63k             
+> vtfs-none-spool-numa    seqread-libaio-multi    276(MiB/s)      69k             
+> 
+> vtfs-none-epool         randread-psync          40(MiB/s)       10k             
+> vtfs-none-spool         randread-psync          64(MiB/s)       16k             
+> vtfs-none-spool-numa    randread-psync          72(MiB/s)       18k             
+> 
+> vtfs-none-epool         randread-psync-multi    211(MiB/s)      52k             
+> vtfs-none-spool         randread-psync-multi    252(MiB/s)      63k             
+> vtfs-none-spool-numa    randread-psync-multi    297(MiB/s)      74k             
+> 
+> vtfs-none-epool         randread-libaio         313(MiB/s)      78k             
+> vtfs-none-spool         randread-libaio         320(MiB/s)      80k             
+> vtfs-none-spool-numa    randread-libaio         330(MiB/s)      82k             
+> 
+> vtfs-none-epool         randread-libaio-multi   257(MiB/s)      64k             
+> vtfs-none-spool         randread-libaio-multi   274(MiB/s)      68k             
+> vtfs-none-spool-numa    randread-libaio-multi   319(MiB/s)      79k             
+> 
+> vtfs-none-epool         seqwrite-psync          34(MiB/s)       8926            
+> vtfs-none-spool         seqwrite-psync          55(MiB/s)       13k             
+> vtfs-none-spool-numa    seqwrite-psync          66(MiB/s)       16k             
+> 
+> vtfs-none-epool         seqwrite-psync-multi    196(MiB/s)      49k             
+> vtfs-none-spool         seqwrite-psync-multi    225(MiB/s)      56k             
+> vtfs-none-spool-numa    seqwrite-psync-multi    270(MiB/s)      67k             
+> 
+> vtfs-none-epool         seqwrite-libaio         257(MiB/s)      64k             
+> vtfs-none-spool         seqwrite-libaio         304(MiB/s)      76k             
+> vtfs-none-spool-numa    seqwrite-libaio         267(MiB/s)      66k             
+> 
+> vtfs-none-epool         seqwrite-libaio-multi   312(MiB/s)      78k             
+> vtfs-none-spool         seqwrite-libaio-multi   366(MiB/s)      91k             
+> vtfs-none-spool-numa    seqwrite-libaio-multi   381(MiB/s)      95k             
+> 
+> vtfs-none-epool         randwrite-psync         38(MiB/s)       9745            
+> vtfs-none-spool         randwrite-psync         55(MiB/s)       13k             
+> vtfs-none-spool-numa    randwrite-psync         67(MiB/s)       16k             
+> 
+> vtfs-none-epool         randwrite-psync-multi   186(MiB/s)      46k             
+> vtfs-none-spool         randwrite-psync-multi   240(MiB/s)      60k             
+> vtfs-none-spool-numa    randwrite-psync-multi   271(MiB/s)      67k             
+> 
+> vtfs-none-epool         randwrite-libaio        224(MiB/s)      56k             
+> vtfs-none-spool         randwrite-libaio        296(MiB/s)      74k             
+> vtfs-none-spool-numa    randwrite-libaio        290(MiB/s)      72k             
+> 
+> vtfs-none-epool         randwrite-libaio-multi  300(MiB/s)      75k             
+> vtfs-none-spool         randwrite-libaio-multi  350(MiB/s)      87k             
+> vtfs-none-spool-numa    randwrite-libaio-multi  383(MiB/s)      95k             
+> 
+> Thanks
+> Vivek
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
