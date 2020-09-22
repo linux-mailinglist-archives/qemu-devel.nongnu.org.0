@@ -2,68 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EB5274A16
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 22:23:47 +0200 (CEST)
-Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E815274A7E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 22:59:07 +0200 (CEST)
+Received: from localhost ([::1]:56558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKopH-0005y5-1g
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 16:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56174)
+	id 1kKpNR-0008PH-IK
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 16:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKolT-0002GJ-AU
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:19:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKolR-000852-HI
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:19:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600805988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jiMyrJEnAYgkkVWygOH1TIFk/RLS8Nq9gl/xrF7Oldk=;
- b=ih5Y9jS+2imi9EmR0vnj9XG8lToA1rzahkOyQFgyvkLQYrdxMn3VvqgrIUlpo8PHQ1EkX3
- oqjlWxLnlh5XIbiFvwqQ7QQXZmI2RpzcxP/XcWsjh4JRRvmhpSBOUKIbfdO3vpr6VplElN
- ixioHXBize3kKdGEkeuFzHkE3himPTE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-NJpeCggvNqm9K1aDoFmkpg-1; Tue, 22 Sep 2020 16:19:46 -0400
-X-MC-Unique: NJpeCggvNqm9K1aDoFmkpg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1905E8B1242;
- Tue, 22 Sep 2020 20:19:45 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 085B473689;
- Tue, 22 Sep 2020 20:19:38 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] i386/kvm: Delete kvm_allows_irq0_override()
-Date: Tue, 22 Sep 2020 16:19:22 -0400
-Message-Id: <20200922201922.2153598-4-ehabkost@redhat.com>
-In-Reply-To: <20200922201922.2153598-1-ehabkost@redhat.com>
-References: <20200922201922.2153598-1-ehabkost@redhat.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1kKodV-0007Wv-7m
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:11:38 -0400
+Received: from mail-dm6nam10on2071.outbound.protection.outlook.com
+ ([40.107.93.71]:64577 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1kKodR-0007II-H9
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:11:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IzTAICJaeCa4Zs+qo6ZK+cwfNGpMN1i1WvOA386KUxVPNblhocnXHhOx0hItHGCzdaEK9dyexCK3wI0WyqQ+EwbDFmbph2/Xnvx0jzgDMp5Q2D3x3RwCAy9sb2VEH6bBdYfEgxbcsu9LTJbgkVswh9RaEzILVaAnqO3f2QHrKnBsu2txl73xtaKzsIkqTTykn4YJbylvWoGhcEDXACHH9Psdj3ibRJdC9dd+WWA1rMe8yK+/xrSWTJ0cv27wkMA56viy5gyKGKeq43J07mvWFeCoExC3tQpc9/AfqBVgwiF1K7B/rPAJ2lh97rYT38k7kVpqFUnWH8XORY3paTJjfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A1GNzmZEFUN4gPNc5IXQcdhA+kyQ3d1pwcPlD2OZ2lI=;
+ b=Zzott8pQo/QFvVhElvaZHGVOp/FYeVVutTSuIt6biak9N9JFWsGD1GLSPXOK138bFo6mR/R6t82tblanabtPim7bFPn831yP1PzHXK3ZZU+NaxSbh5zm+OmjuTPZNjFQV9DuFzv9UXhVOB+GCdPNDg/rPWiye7iVczDFbFrfbZe7u/Lfr9ww4RmBU5lEBctxIu9tNULUfg70LlVZU09TUR6EtHDPXPO3/UXA7emK2Apip/QmIK/mzfHqhi6vHm1C017Gr2ER9erfRFSgZzt2IjqIRAydMCz85PGsf/GB1droCodOSw+/Tp10nM0EUmsJuJImpDnNzbHZjp7SgZzsRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A1GNzmZEFUN4gPNc5IXQcdhA+kyQ3d1pwcPlD2OZ2lI=;
+ b=Oi7bX5ranhdXrUjPyhGY2DZRF8t/r2uYYK7ZmChLvy8H9plDOrQD97uC255K94Sb34na1NDQYzOZSo3tdUZWououZPGO5A26qQmiz50m1dtCC2NYRndFSJEX4h6443Wk9dNeoBOdj945UOCECca7O+SEKd9aN+1kyxYJwVi+50c=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SN6PR12MB2829.namprd12.prod.outlook.com (2603:10b6:805:e8::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Tue, 22 Sep
+ 2020 20:11:30 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::1d50:341:16e2:84b1]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::1d50:341:16e2:84b1%6]) with mapi id 15.20.3391.027; Tue, 22 Sep 2020
+ 20:11:30 +0000
+Date: Tue, 22 Sep 2020 20:11:24 +0000
+From: Ashish Kalra <ashish.kalra@amd.com>
+To: dgilbert@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: SEV guest debugging support for Qemu
+Message-ID: <20200922201124.GA6606@ashkalra_ubuntu_server>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: SN6PR08CA0030.namprd08.prod.outlook.com
+ (2603:10b6:805:66::43) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server (165.204.77.1) by
+ SN6PR08CA0030.namprd08.prod.outlook.com (2603:10b6:805:66::43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.19 via Frontend Transport; Tue, 22 Sep 2020 20:11:30 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 12d59425-f37f-4656-d0e4-08d85f33b1d6
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2829:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB282998A048BB647B760122148E3B0@SN6PR12MB2829.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Mr/A4mW/zXlM2txh9fERMh+96V7vEQHHyWMZILg1K/qaJzMNzOQZFmMswCUiZuYRiQijOk++An76xKZP82bSr5tuxgEo1Tvw83DSiGmh6CFmxON0U+j373PtoaAkdtyPI1Ls0K50tqsOkakgxrkawxtmscHC5dQ6Sb60z4m3HImucbKC9aeWbSnCZrHrHzYKmFLUJZxZvNnXfionDwYpTIJe7LOpZTrPofX/HovxFpv+wdZBQiIXVe0vbthmnivvLdobVhXe9NTzBsFAXQth9gESPN+Mt4rEcfdyaTYuNsP4fRvCSYhr6Om7/0aiuUo145bKIuy9HsixuokqP4/N5MlQCUdetN4fo+IyjRcNzlMYCVaoKhxWEA1BYAjtOS5lWv+4AHP3Vb1dpLS0JytJMTYt2+CkmBuv0Pe3yqBfXyc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(366004)(346002)(396003)(376002)(956004)(4326008)(9686003)(966005)(8676002)(33656002)(86362001)(52116002)(55016002)(478600001)(44832011)(2906002)(8936002)(6666004)(5660300002)(26005)(316002)(186003)(66556008)(66476007)(16526019)(6496006)(1076003)(83380400001)(66946007)(33716001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: UCg+7In5bcbzyJjbFFDEEMhEiev3t5uBccbnCkP4PmvsRFHIBVoSKF/xdDlECne4a7uIYkRxmDEVxW6ysldHYZWOhUA4aWXN46UGUBgt42HPk6SgzyBjNW2PMX45V9fFI8Yk8i+eXCLwVgZQOX6M/tMQVEp7bUXnqJqgg9/xLTWQu+QWwOqBbudlzJYZJyWsQ9EVDjrq4eFATmUIeFPNLc9KVd91lPjHrg7RHl+ywjCPlE2vfwNS/3BPq53NyCXi4g9E7MfZ1NbZN6VWD3ksD+dkcdmCnpCIhJBEol+HLZ11F8886VswYHHDxQ/art4PDueVGczq29/RRLXQehsKb4B3GWFSrak01QkMzHbAkHGLYD4h9EcKMIYJNQ/EK3Zx7eS8HKVAV/khl/nDp3CmShPB+Iu37pu2VWerhCFjHOLj0Ptha5JPSQCH93yGo0TkPshFf9yaLpQX/dGAK/h8uL7AjT1RkVL7VnmHp1pRwllAeXuajmLrE8PbqlY47bGrV6k9AnBy6Hq/qCpCG3GB5jAfCx1eM4ekz9G4bZ9/nsIpar8je7iM6bv3KQ4Y/r70AReaI/cPgiBTm6o3HLhfWc2hR1YFvJXtBCDyQqBtk0/ezc+buot0f99Fi5tkTtM75Zwd3P2n4Dl9zWq8BJzx7A==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12d59425-f37f-4656-d0e4-08d85f33b1d6
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2020 20:11:30.7539 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1S8psOsXtB7o1Vt8E5X3bxPEeYSt9J/hjoBLPWHNbC27wNkBCSTXjCaLnDcGT6jWCwcy9aLnXqadcF2hQvqakQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2829
+Received-SPF: none client-ip=40.107.93.71; envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 16:11:31
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 22 Sep 2020 16:57:09 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,111 +114,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: thomas.lendacky@amd.com, jon.grimm@amd.com, brijesh.singh@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As IRQ routing is always available on x86,
-kvm_allows_irq0_override() will always return true, so we don't
-need the function anymore.
+Hello Alan, Paolo,
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- target/i386/kvm_i386.h | 1 -
- hw/i386/fw_cfg.c       | 2 +-
- hw/i386/microvm.c      | 2 +-
- hw/i386/pc.c           | 2 +-
- target/i386/kvm-stub.c | 5 -----
- target/i386/kvm.c      | 5 -----
- 6 files changed, 3 insertions(+), 14 deletions(-)
+I am following up on Brijesh’s patches for SEV guest debugging support for Qemu using gdb and/or qemu monitor.
+I believe that last time, Qemu SEV debug patches were not applied and have attached the link to the email thread and Paolo’s feedback below for reference [1].
+I wanted to re-start a discussion on the same here with the Qemu community and seek the feedback on the approaches which we are considering :
+Looking at Qemu code, I see the following interface is defined, for virtual memory access for debug : cpu_memory_rw_debug(). 
+Both gdbstub (target_memory_rw_debug() ) and QMP/HMP (monitor/misc.c : memory_dump() ) use this standard and well-defined interface to access guest memory for debugging purposes. 
 
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 064b8798a26..b11704cc772 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -32,7 +32,6 @@
- 
- #endif  /* CONFIG_KVM */
- 
--bool kvm_allows_irq0_override(void);
- bool kvm_has_smm(void);
- bool kvm_has_adjust_clock_stable(void);
- bool kvm_has_exception_payload(void);
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index 33441ad4840..e06579490c4 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -123,7 +123,7 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
-                      acpi_tables, acpi_tables_len);
- #endif
--    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
- 
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
-                      &e820_reserve, sizeof(e820_reserve));
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 60d32722301..05fb0536dcc 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -225,7 +225,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
-     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, machine->smp.cpus);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, machine->smp.max_cpus);
-     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
--    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
-                      &e820_reserve, sizeof(e820_reserve));
-     fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index b55369357e5..0bc569d4c6b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -859,7 +859,7 @@ void pc_guest_info_init(PCMachineState *pcms)
-     MachineState *ms = MACHINE(pcms);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
- 
--    x86ms->apic_xrupt_override = kvm_allows_irq0_override();
-+    x86ms->apic_xrupt_override = true;
-     pcms->numa_nodes = ms->numa_state->num_nodes;
-     pcms->node_mem = g_malloc0(pcms->numa_nodes *
-                                     sizeof *pcms->node_mem);
-diff --git a/target/i386/kvm-stub.c b/target/i386/kvm-stub.c
-index 872ef7df4c8..92f49121b8f 100644
---- a/target/i386/kvm-stub.c
-+++ b/target/i386/kvm-stub.c
-@@ -13,11 +13,6 @@
- #include "cpu.h"
- #include "kvm_i386.h"
- 
--bool kvm_allows_irq0_override(void)
--{
--    return 1;
--}
--
- #ifndef __OPTIMIZE__
- bool kvm_has_smm(void)
- {
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index cf6dc90f7c5..c419c52ec58 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -148,11 +148,6 @@ bool kvm_has_exception_payload(void)
-     return has_exception_payload;
- }
- 
--bool kvm_allows_irq0_override(void)
--{
--    return !kvm_irqchip_in_kernel() || kvm_has_gsi_routing();
--}
--
- static bool kvm_x2apic_api_set_flags(uint64_t flags)
- {
-     KVMState *s = KVM_STATE(current_accel());
--- 
-2.26.2
+This internally invokes the address_space_rw() accessor functions which we had  "fixed" internally (as part of the earlier patch) to invoke memory region specific debug ops. 
+In our earlier approach we were adding debug ops/callbacks to memory regions and as per comments on our earlier patches, Paolo was not happy with this debug API for
+MemoryRegions and hence the SEV support for Qemu was merged without the debug support.
+
+Now, we want to reuse this cpu_memory_rw_debug() interface or alternatively introduce a new generic debug interface/object in the Qemu. This 
+debug interface should be controlled through the global machine policy.
+
+For e.g., 
+# $QEMU -machine -debug=<a debug object>
+or
+# $QEMU -machine -debug=sev-guest-debug
+
+The QMP and GDB access will be updated to use the generic debug  interface. The generic debug interface or the cpu_memory_rw_debug() interace will introduce hooks to call a 
+vendor specific debug object to delegate accessing the data. The vendor specific debug object may do a further checks before and after accessing the memory.
+
+Now, looking specifically at cpu_memory_rw_debug() interface, this interface is invoked for all guest memory accesses for debugging purposes and it also does 
+guest VA to GPA translation via cpu_get_phys_page_attrs_debug(), so we can again add a vendor specific callback here to do guest VA to GPA translations specific
+to SEV as SEV guest debugging will also require accessing guest page table entries and decrypting them via the SEV DBG_DECRYPT APIs and additionally clearing
+the C-bit on page table entries (PxEs) before using them further for page table walks.
+
+There is still an issue with the generic cpu_memory_rw_debug() interface, though it is used for all guest memory accesses for debugging and we can also handle
+guest page table walks via it (as mentioned above), there are still other gdb/monitor commands such as tlb_info_xx() and mem_info_xx() which also do guest page
+table walks, but they don’t go through any generic guest memory access/debug interface, so these commands will need to be handled additionally for SEV.
+
+The vendor specific debug object (added as a hook to generic debug object or the generic cpu_memory_rw_debug() interface) will do further checks before and after accessing the memory.
+
+e.g., in the case of SEV,
+
+1. Check the guest policy, if guest policy does not allow debug then return an error.
+
+2. If its an MMIO region then access the data.
+
+3. If its RAM region then call the PSP commands to decrypt the data.
+
+4. If caller asked to read the PTE entry then probably clear the C-bits after reading the PTE entry.
+
+5. many more checks
+
+Looking fwd. to your feedback/comments on the above approach or other any other suggestions.
+
+Thanks,
+Ashish
+
+[1] -> http://next.patchew.org/QEMU/20180308124901.83533-1-brijesh.singh@amd.com/20180308124901.83533-29-brijesh.singh@amd.com/
 
 
