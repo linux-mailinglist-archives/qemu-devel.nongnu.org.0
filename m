@@ -2,97 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1B6273E79
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:24:10 +0200 (CEST)
-Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C515E273E80
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:25:53 +0200 (CEST)
+Received: from localhost ([::1]:49462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKeWv-0002g6-SO
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:24:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36906)
+	id 1kKeYa-0005Jl-Nz
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:25:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKeVF-0001Nq-Gl
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:22:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKeVD-0005Xz-Ku
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:22:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600766542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=48Eoa1127Pec82xNNDopIsw1l4M1nsO0PB5x0FDZMqs=;
- b=WCJg1/Dt83qYU9OFS37Pp7Lb/YDI7/hw+WxJWjKqbCAMiD64VFMCSOz3kPrZ5hI1xBq/aY
- bHPvHRqv75Q1+phCyeJ6Swcd58s6U3DwZ3gSZMD6IXojCI/l7UJmN8j+g2eVnduUirDIbE
- eBjwwoJ6fSODkqduo/76Fm1h4ER+7jQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-PU-7NFdLPeC52cP2_iJ8sA-1; Tue, 22 Sep 2020 05:22:19 -0400
-X-MC-Unique: PU-7NFdLPeC52cP2_iJ8sA-1
-Received: by mail-wr1-f70.google.com with SMTP id a2so7128972wrp.8
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 02:22:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=48Eoa1127Pec82xNNDopIsw1l4M1nsO0PB5x0FDZMqs=;
- b=WbFBkBYiA3KDGbXNsNUW2FGzrWzQgn9t7lyXamCulKf0iRWyZV0uxz9i1IonJ8xTyi
- HPsgOXvuaVZzLEu+DUoOWLtF9fa4ZdccMHlpf0riix0blqpJ5tfQ/Yep70CV+gKUvyTz
- iTuAHhHTWCtW2egIFPsy9V+UzfomFOacwt6jPIbULV6uesVn8vWFilUMaVM53Zpche69
- o9kgXz/VufHrSqtPPxtAkFpPQ7iF+PbxrubQcedVUswDSAD1P2bIEp2KWNe7kF0yoHiQ
- uy/u2/jZDsVzkiRpbMLWs6WC0xaJYb4ujlYpkg0XyHCtQPnvdywveRa5C4HJmIKc1pcG
- DyOg==
-X-Gm-Message-State: AOAM53327RmgO3A9WrCq98lJTRACGO6wa9vX7/O8Dgc+7oAkPJK2yfaR
- +yKtEQnOwYbDleQK1O3g/SJJtHg3kb3zp/DVPMbj7LlQTTSbnlczwGDdi4Roiy2nhdzDsW+/ny8
- ErO+Hzj0efWkhFtU=
-X-Received: by 2002:a1c:e904:: with SMTP id q4mr3676451wmc.151.1600766537848; 
- Tue, 22 Sep 2020 02:22:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4THASh82r7EoBoA0W1fRsHeZbkOq9dk732BvBTLtBXcUW7J62CaNBNmElsH5o5L0CKd3wTA==
-X-Received: by 2002:a1c:e904:: with SMTP id q4mr3676434wmc.151.1600766537612; 
- Tue, 22 Sep 2020 02:22:17 -0700 (PDT)
-Received: from [192.168.10.165] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id q186sm3663982wma.45.2020.09.22.02.22.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 02:22:17 -0700 (PDT)
-Subject: Re: [PATCH] checkpatch: Detect '%#' or '%0#' in printf-style format
- strings
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Dov Murik <dovmurik@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20200914060109.69583-1-dovmurik@linux.vnet.ibm.com>
- <cc5a95d7-4efd-a3de-c1a2-0c77cb60c63a@redhat.com>
- <649cd6c5-7825-9373-4da0-7a28c3c97c8b@linux.vnet.ibm.com>
- <83728898-f305-d6df-f4ed-63580ff87eab@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0d3d01a5-6c3b-7c0f-adce-cc0c452744a0@redhat.com>
-Date: Tue, 22 Sep 2020 11:22:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1kKeVS-0001gN-PS; Tue, 22 Sep 2020 05:22:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44200
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1kKeVQ-0005a4-FC; Tue, 22 Sep 2020 05:22:38 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08M91WlI121761; Tue, 22 Sep 2020 05:22:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : reply-to : references : mime-version : content-type
+ : in-reply-to; s=pp1; bh=5DOg86/wUOdfqcNwy75H8+OuoPT7w0m0T8+K6t4UJdI=;
+ b=SPZstK+PHZNxjkS95QW7XcEwG5pzFOAR7iUVtvNPcPg1CctV39zeC53RZxo+8PGyQDkJ
+ 1DNBYNzUmsfWqpeY6eSr+W8GcTgcvlo51+lG5Qptm4XgbbZItUEp4yOR8rkfVRKU05rJ
+ IsqQQHGWLeiwTBHnXOKWwpTTW3FeVrpyXDnKztD5jc+Q/yOxpW+wgoKFdBIjTPW6yAZx
+ ha8k1eeI27Ahchxd1oaeiNXnjMtMWB+08Sy+eznCDvLJCCCwixgaItImqRn5WuSIAEBH
+ EoZxmkoDD0tZrJohsZnSxYZLjnZJGoYawMG0WfJfe4cOBy7NqFiczNH693crDOVGWrAF zw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33qbk5wh4p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Sep 2020 05:22:29 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08M91gud122701;
+ Tue, 22 Sep 2020 05:22:28 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33qbk5wh47-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Sep 2020 05:22:28 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08M9BvSB014317;
+ Tue, 22 Sep 2020 09:22:27 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 33n98gtx91-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Sep 2020 09:22:26 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08M9MORL27984142
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 22 Sep 2020 09:22:24 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C8FEE4203F;
+ Tue, 22 Sep 2020 09:22:24 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A36E842042;
+ Tue, 22 Sep 2020 09:22:22 +0000 (GMT)
+Received: from in.ibm.com (unknown [9.77.201.43])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 22 Sep 2020 09:22:22 +0000 (GMT)
+Date: Tue, 22 Sep 2020 14:52:20 +0530
+From: Bharata B Rao <bharata@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] target-ppc: Add quad precision muladd
+ instructions
+Message-ID: <20200922092220.GA4843@in.ibm.com>
+References: <46207f02-b133-86f4-0e83-3cf9e8486ef7@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <83728898-f305-d6df-f4ed-63580ff87eab@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <46207f02-b133-86f4-0e83-3cf9e8486ef7@redhat.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-22_06:2020-09-21,
+ 2020-09-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ phishscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=746
+ suspectscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
+ malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009220071
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=bharata@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 05:22:33
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,21 +109,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: bharata@linux.ibm.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>, nikunj.dadhania@gmail.com,
+ qemu-ppc <qemu-ppc@nongnu.org>, Bharata B Rao <bharata@linux.vnet.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/20 15:00, Philippe Mathieu-Daudé wrote:
->> That makes sense, except that 'last' statement which will escape the
->> loop if one of the bad patterns is found.
->>
->> Maybe we can just drop 'last' from both if-then blocks?  We'll get
->> multiple alerts if bad patterns are used more than once in the same
->> line, which sounds OK to me.
-> No objection.
+On Tue, Sep 22, 2020 at 10:04:53AM +0200, David Hildenbrand wrote:
+> Hi guys,
 > 
+> I just stumbled over
+> 
+> https://lore.kernel.org/qemu-devel/1487140636-19955-1-git-send-email-bharata@linux.vnet.ibm.com/
+> 
+> while looking for the state of float128_muladd(), as I need that for
+> s390x as well.
+> 
+> @Bharata, did you manage to implement a prototype? Looking into
+> float128_mul() makes my head spin.
 
-Sounds good.
+I did try but couldn't figure out a way to implement some of the
+dependent functions. Hence we still don't have quad-precision
+multiply-add/sub instructions in ppc.
 
-Paolo
-
+Regards,
+Bharata.
 
