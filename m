@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A41274C99
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:53:35 +0200 (CEST)
-Received: from localhost ([::1]:41338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D24B274C6D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:49:03 +0200 (CEST)
+Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKrAE-0004VF-KY
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
+	id 1kKr5q-00065v-4C
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqtE-00056o-OY
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:36:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60004)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqtG-0005Ag-5j
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:36:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqtC-0007lX-Pb
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:36:00 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqtE-0007mK-D3
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:36:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814158;
+ s=mimecast20190719; t=1600814159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J58kk9KonAS7Kge2Gue/KficmECzeBFNtMpPf9StRKk=;
- b=NYTx7AtLUSCtr6VCUWnM0Flo4hmiJtIY7oeXHdtkToJezBjai94dsVHW7+ZRVQiwI5BWbg
- mZIbwoDk4L9RRmksuLVsVz/qf3rN6Lu0qsdEb1YvRMBJIeRCuwQrjxo4Ewrvy00xX8lKnE
- M9ZkwWjqp7VqSkXetAUAUQrfaju3oNk=
+ bh=lH56PFrv2xupag+D/VVl2XGyz6Fs7ITLTTSckxtpENY=;
+ b=NGpiFrkkIZXBmUrEAg8kjMo74IVHU0OSv+P3u7Q5EEYEQ8pCqOeVl6IYtxL7MDwSD5SuKO
+ 8F8hH7dox4RUSVDRVGGP4natHaCnOKRG0V4j6LAs9jcpNusCqBDJCJLU2oylGPZ2tj1Ol9
+ OjUOy4BzgbSwcWjGEaoTH7g4PgTzijQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-F9Ea86SHNA-hTURJuKKVDg-1; Tue, 22 Sep 2020 18:35:55 -0400
-X-MC-Unique: F9Ea86SHNA-hTURJuKKVDg-1
+ us-mta-527-cEP2jUunMc2u1MOPE76Caw-1; Tue, 22 Sep 2020 18:35:56 -0400
+X-MC-Unique: cEP2jUunMc2u1MOPE76Caw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46FD581CAFB;
- Tue, 22 Sep 2020 22:35:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4438F801AE8;
+ Tue, 22 Sep 2020 22:35:55 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21B9160BF4;
- Tue, 22 Sep 2020 22:35:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 744CA60BF4;
+ Tue, 22 Sep 2020 22:35:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 24/26] qapi/parser.py: remove one and two-letter variables
-Date: Tue, 22 Sep 2020 18:35:23 -0400
-Message-Id: <20200922223525.4085762-25-jsnow@redhat.com>
+Subject: [PATCH 25/26] qapi/parser.py: Silence too-few-public-methods warning
+Date: Tue, 22 Sep 2020 18:35:24 -0400
+Message-Id: <20200922223525.4085762-26-jsnow@redhat.com>
 In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
 References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,83 +84,24 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Standard pylint complaint: use more descriptibe variable names. OK,
-fine.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ scripts/qapi/parser.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index cdb64ffc22..818f8bc580 100644
+index 818f8bc580..e3481b02f2 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -57,8 +57,8 @@ class QAPIParseError(QAPISourceError):
-     @classmethod
-     def make(cls: Type[T], parser: 'QAPISchemaParser', msg: str) -> T:
-         col = 1
--        for ch in parser.src[parser.line_pos:parser.pos]:
--            if ch == '\t':
-+        for char in parser.src[parser.line_pos:parser.pos]:
-+            if char == '\t':
-                 col = (col + 7) % 8 + 1
-             else:
-                 col += 1
-@@ -100,14 +100,16 @@ def __init__(self, fname: str,
-         try:
-             with open(self._fname, 'r', encoding='utf-8') as fp:
-                 self.src = fp.read()
--        except IOError as e:
-+        except IOError as err:
-             msg = "can't read {kind:s} file '{fname:s}': {errmsg:s}".format(
-                 kind='include' if parent else 'schema',
-                 fname=self._fname,
--                errmsg=e.strerror
-+                errmsg=err.strerror
-             )
-             context = parent_info if parent_info else self.info
--            raise QAPIParseError(context, msg) from e
-+            raise QAPIParseError(context, msg) from err
-+
-+        # Showtime!
-         self._parse()
+@@ -412,6 +412,8 @@ class QAPIDoc:
+     """
  
-     def _parse(self) -> None:
-@@ -245,25 +247,25 @@ def accept(self, skip_comment: bool = True) -> None:
-                 string = ''
-                 esc = False
-                 while True:
--                    ch = self.src[self.cursor]
-+                    char = self.src[self.cursor]
-                     self.cursor += 1
--                    if ch == '\n':
-+                    if char == '\n':
-                         raise self._parse_error("missing terminating \"'\"")
-                     if esc:
-                         # Note: we recognize only \\ because we have
-                         # no use for funny characters in strings
--                        if ch != '\\':
--                            raise self._parse_error(f"unknown escape \\{ch}")
-+                        if char != '\\':
-+                            raise self._parse_error(f"unknown escape \\{char}")
-                         esc = False
--                    elif ch == '\\':
-+                    elif char == '\\':
-                         esc = True
-                         continue
--                    elif ch == "'":
-+                    elif char == "'":
-                         self.val = string
-                         return
--                    if ord(ch) < 32 or ord(ch) >= 127:
-+                    if ord(char) < 32 or ord(char) >= 127:
-                         raise self._parse_error("funny character in string")
--                    string += ch
-+                    string += char
-             elif self.src.startswith('true', self.pos):
-                 self.val = True
-                 self.cursor += 3
+     class Section:
++        # pylint: disable=too-few-public-methods
++
+         def __init__(self, name: Optional[str] = None):
+             # optional section name (argument/member or section name)
+             self.name = name
 -- 
 2.26.2
 
