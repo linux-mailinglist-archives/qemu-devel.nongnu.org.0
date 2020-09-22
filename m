@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D55274B79
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:47:40 +0200 (CEST)
-Received: from localhost ([::1]:57034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D750274B84
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:49:55 +0200 (CEST)
+Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKq8R-0003YY-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39974)
+	id 1kKqAc-0006yW-A8
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbP-00014q-QN
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59319)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbR-00018B-5I
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbO-00063U-6k
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:31 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbP-00063c-EM
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809209;
+ s=mimecast20190719; t=1600809210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3t3h9oDxjRXo+hECtZgRnukmRJ9G3Oo8Skvbxpet8Zc=;
- b=enDA81SqhnxAgiqjHXsLVQV+e/aOgVTLgW33A+Gi35HJ40ejtUOgwnIl8TUfcdw1Jbx5as
- AqOJMzOv0aNfsDYqsEeOiv67JeSjynew1bNKpVnSLyUs6x8KS3BLCMQV29aH0xRp+E4NWu
- PixSodHHHweLfTi1z2AcWKtPKzu5MY8=
+ bh=FttIVxQ9TFGN8XY/kcxNXdK8d88KH8ay5wgIRnTZmA4=;
+ b=DyW7CMXsixBfjPKtb2nVkPH6qT1bjAI3lyAkAP6vvPqv6EWI4pU6eh0PcAx4nCeowvmKRv
+ laOIefqh6KA5ojwcv8HXoLdRTZx/gwxG9X6VQPlmew+/F69eGlF2dmdHlFHrqpCRqXyS0a
+ rqZu5//NDB+HmFXP+6zrClG1Dwo5Y7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-dvWLFTBYO9iIO7oiSEvv-w-1; Tue, 22 Sep 2020 17:13:27 -0400
-X-MC-Unique: dvWLFTBYO9iIO7oiSEvv-w-1
+ us-mta-522-WeaGhjP6Nr2gBshNV6Ye4A-1; Tue, 22 Sep 2020 17:13:28 -0400
+X-MC-Unique: WeaGhjP6Nr2gBshNV6Ye4A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E74964088;
- Tue, 22 Sep 2020 21:13:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D40A310BBEC8;
+ Tue, 22 Sep 2020 21:13:27 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 414EF614F5;
- Tue, 22 Sep 2020 21:13:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C26BA614F5;
+ Tue, 22 Sep 2020 21:13:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 09/16] qapi/expr.py: rewrite check_if
-Date: Tue, 22 Sep 2020 17:13:06 -0400
-Message-Id: <20200922211313.4082880-10-jsnow@redhat.com>
+Subject: [PATCH 10/16] qapi/expr.py: Remove single-letter variable
+Date: Tue, 22 Sep 2020 17:13:07 -0400
+Message-Id: <20200922211313.4082880-11-jsnow@redhat.com>
 In-Reply-To: <20200922211313.4082880-1-jsnow@redhat.com>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,45 +84,37 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a only minor rewrite to address some minor style nits.  Don't
-compare against the empty list to check for the empty condition, and
-move the normalization forward to unify the check on the now-normalized
-structure.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ scripts/qapi/expr.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 6b064a2138..5d5c3d050d 100644
+index 5d5c3d050d..f244e9648c 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -136,15 +136,15 @@ def check_if_str(ifcond: object) -> None:
-     ifcond = expr.get('if')
-     if ifcond is None:
-         return
--    if isinstance(ifcond, list):
--        if ifcond == []:
--            raise QAPISemError(
--                info, "'if' condition [] of %s is useless" % source)
--        for elt in ifcond:
--            check_if_str(elt)
--    else:
--        check_if_str(ifcond)
--        expr['if'] = [ifcond]
-+
-+    if not isinstance(ifcond, list):
-+        ifcond = [ifcond]
-+        expr['if'] = ifcond
-+    if not ifcond:
-+        raise QAPISemError(
-+            info, "'if' condition [] of %s is useless" % source)
-+    for elt in ifcond:
-+        check_if_str(elt)
+@@ -211,14 +211,14 @@ def check_features(features: Optional[object],
+         raise QAPISemError(info, "'features' must be an array")
+     features[:] = [f if isinstance(f, dict) else {'name': f}
+                    for f in features]
+-    for f in features:
++    for feature in features:
+         source = "'features' member"
+-        assert isinstance(f, dict)
+-        check_keys(f, info, source, ['name'], ['if'])
+-        check_name_is_str(f['name'], info, source)
+-        source = "%s '%s'" % (source, f['name'])
+-        check_name_str(f['name'], info, source)
+-        check_if(f, info, source)
++        assert isinstance(feature, dict)
++        check_keys(feature, info, source, ['name'], ['if'])
++        check_name_is_str(feature['name'], info, source)
++        source = "%s '%s'" % (source, feature['name'])
++        check_name_str(feature['name'], info, source)
++        check_if(feature, info, source)
  
  
- def normalize_members(members: object) -> None:
+ def check_enum(expr: Expression, info: QAPISourceInfo) -> None:
 -- 
 2.26.2
 
