@@ -2,45 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D78A273E89
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:28:57 +0200 (CEST)
-Received: from localhost ([::1]:60652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1B6273E79
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:24:10 +0200 (CEST)
+Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKebY-0001U2-1X
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37106)
+	id 1kKeWv-0002g6-SO
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1kKeW0-0002Ck-9L; Tue, 22 Sep 2020 05:23:12 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:23413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1kKeVx-0005cY-90; Tue, 22 Sep 2020 05:23:11 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 3EA55454AE;
- Tue, 22 Sep 2020 11:14:33 +0200 (CEST)
-From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH qemu 2/4] drive-mirror: add support for conditional and always
- bitmap sync modes
-Date: Tue, 22 Sep 2020 11:14:16 +0200
-Message-Id: <20200922091418.53562-3-f.gruenbichler@proxmox.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200922091418.53562-1-f.gruenbichler@proxmox.com>
-References: <20200922091418.53562-1-f.gruenbichler@proxmox.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKeVF-0001Nq-Gl
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKeVD-0005Xz-Ku
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:22:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600766542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=48Eoa1127Pec82xNNDopIsw1l4M1nsO0PB5x0FDZMqs=;
+ b=WCJg1/Dt83qYU9OFS37Pp7Lb/YDI7/hw+WxJWjKqbCAMiD64VFMCSOz3kPrZ5hI1xBq/aY
+ bHPvHRqv75Q1+phCyeJ6Swcd58s6U3DwZ3gSZMD6IXojCI/l7UJmN8j+g2eVnduUirDIbE
+ eBjwwoJ6fSODkqduo/76Fm1h4ER+7jQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-PU-7NFdLPeC52cP2_iJ8sA-1; Tue, 22 Sep 2020 05:22:19 -0400
+X-MC-Unique: PU-7NFdLPeC52cP2_iJ8sA-1
+Received: by mail-wr1-f70.google.com with SMTP id a2so7128972wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 02:22:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=48Eoa1127Pec82xNNDopIsw1l4M1nsO0PB5x0FDZMqs=;
+ b=WbFBkBYiA3KDGbXNsNUW2FGzrWzQgn9t7lyXamCulKf0iRWyZV0uxz9i1IonJ8xTyi
+ HPsgOXvuaVZzLEu+DUoOWLtF9fa4ZdccMHlpf0riix0blqpJ5tfQ/Yep70CV+gKUvyTz
+ iTuAHhHTWCtW2egIFPsy9V+UzfomFOacwt6jPIbULV6uesVn8vWFilUMaVM53Zpche69
+ o9kgXz/VufHrSqtPPxtAkFpPQ7iF+PbxrubQcedVUswDSAD1P2bIEp2KWNe7kF0yoHiQ
+ uy/u2/jZDsVzkiRpbMLWs6WC0xaJYb4ujlYpkg0XyHCtQPnvdywveRa5C4HJmIKc1pcG
+ DyOg==
+X-Gm-Message-State: AOAM53327RmgO3A9WrCq98lJTRACGO6wa9vX7/O8Dgc+7oAkPJK2yfaR
+ +yKtEQnOwYbDleQK1O3g/SJJtHg3kb3zp/DVPMbj7LlQTTSbnlczwGDdi4Roiy2nhdzDsW+/ny8
+ ErO+Hzj0efWkhFtU=
+X-Received: by 2002:a1c:e904:: with SMTP id q4mr3676451wmc.151.1600766537848; 
+ Tue, 22 Sep 2020 02:22:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4THASh82r7EoBoA0W1fRsHeZbkOq9dk732BvBTLtBXcUW7J62CaNBNmElsH5o5L0CKd3wTA==
+X-Received: by 2002:a1c:e904:: with SMTP id q4mr3676434wmc.151.1600766537612; 
+ Tue, 22 Sep 2020 02:22:17 -0700 (PDT)
+Received: from [192.168.10.165] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id q186sm3663982wma.45.2020.09.22.02.22.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Sep 2020 02:22:17 -0700 (PDT)
+Subject: Re: [PATCH] checkpatch: Detect '%#' or '%0#' in printf-style format
+ strings
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Dov Murik <dovmurik@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20200914060109.69583-1-dovmurik@linux.vnet.ibm.com>
+ <cc5a95d7-4efd-a3de-c1a2-0c77cb60c63a@redhat.com>
+ <649cd6c5-7825-9373-4da0-7a28c3c97c8b@linux.vnet.ibm.com>
+ <83728898-f305-d6df-f4ed-63580ff87eab@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0d3d01a5-6c3b-7c0f-adce-cc0c452744a0@redhat.com>
+Date: Tue, 22 Sep 2020 11:22:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <83728898-f305-d6df-f4ed-63580ff87eab@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=f.gruenbichler@proxmox.com; helo=proxmox-new.maurer-it.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 05:14:25
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,118 +106,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+On 14/09/20 15:00, Philippe Mathieu-Daudé wrote:
+>> That makes sense, except that 'last' statement which will escape the
+>> loop if one of the bad patterns is found.
+>>
+>> Maybe we can just drop 'last' from both if-then blocks?  We'll get
+>> multiple alerts if bad patterns are used more than once in the same
+>> line, which sounds OK to me.
+> No objection.
+> 
 
-Teach mirror two new tricks for using bitmaps:
+Sounds good.
 
-Always: no matter what, we synchronize the copy_bitmap back to the
-sync_bitmap. In effect, this allows us resume a failed mirror at a later
-date, since the target bdrv should be exactly in the state referenced by
-the bitmap.
-
-Conditional: On success only, we sync the bitmap. This is akin to
-incremental backup modes; we can use this bitmap to later refresh a
-successfully created mirror, or possibly re-try the whole failed mirror
-if we are able to rollback the target to the state before starting the
-mirror.
-
-Based on original work by John Snow.
-
-Signed-off-by: Fabian Grünbichler <f.gruenbichler@proxmox.com>
----
- block/mirror.c | 28 ++++++++++++++++++++--------
- blockdev.c     |  3 +++
- 2 files changed, 23 insertions(+), 8 deletions(-)
-
-diff --git a/block/mirror.c b/block/mirror.c
-index d64c8203ef..bc4f4563d9 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -654,8 +654,6 @@ static int mirror_exit_common(Job *job)
-         bdrv_unfreeze_backing_chain(mirror_top_bs, target_bs);
-     }
- 
--    bdrv_release_dirty_bitmap(s->dirty_bitmap);
--
-     /* Make sure that the source BDS doesn't go away during bdrv_replace_node,
-      * before we can call bdrv_drained_end */
-     bdrv_ref(src);
-@@ -755,6 +753,18 @@ static int mirror_exit_common(Job *job)
-     blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
-     blk_insert_bs(bjob->blk, mirror_top_bs, &error_abort);
- 
-+    if (s->sync_bitmap) {
-+        if (s->bitmap_mode == BITMAP_SYNC_MODE_ALWAYS ||
-+            (s->bitmap_mode == BITMAP_SYNC_MODE_ON_SUCCESS &&
-+             job->ret == 0 && ret == 0)) {
-+            /* Success; synchronize copy back to sync. */
-+            bdrv_clear_dirty_bitmap(s->sync_bitmap, NULL);
-+            bdrv_dirty_bitmap_merge_internal(s->sync_bitmap, s->dirty_bitmap,
-+                                             NULL, true);
-+        }
-+    }
-+    bdrv_release_dirty_bitmap(s->dirty_bitmap);
-+
-     bs_opaque->job = NULL;
- 
-     bdrv_drained_end(src);
-@@ -1592,10 +1602,6 @@ static BlockJob *mirror_start_job(
-                        " sync mode",
-                        MirrorSyncMode_str(sync_mode));
-             return NULL;
--        } else if (bitmap_mode != BITMAP_SYNC_MODE_NEVER) {
--            error_setg(errp,
--                       "Bitmap Sync Mode '%s' is not supported by Mirror",
--                       BitmapSyncMode_str(bitmap_mode));
-         }
-     } else if (bitmap) {
-         error_setg(errp,
-@@ -1612,6 +1618,12 @@ static BlockJob *mirror_start_job(
-             return NULL;
-         }
-         granularity = bdrv_dirty_bitmap_granularity(bitmap);
-+
-+        if (bitmap_mode != BITMAP_SYNC_MODE_NEVER) {
-+            if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT, errp)) {
-+                return NULL;
-+            }
-+        }
-     } else if (granularity == 0) {
-         granularity = bdrv_get_default_bitmap_granularity(target);
-     }
-@@ -1781,8 +1793,8 @@ static BlockJob *mirror_start_job(
-     }
- 
-     if (s->sync_mode == MIRROR_SYNC_MODE_BITMAP) {
--        bdrv_merge_dirty_bitmap(s->dirty_bitmap, s->sync_bitmap,
--                                NULL, &local_err);
-+        bdrv_dirty_bitmap_merge_internal(s->dirty_bitmap, s->sync_bitmap,
-+                                         NULL, true);
-         if (local_err) {
-             goto fail;
-         }
-diff --git a/blockdev.c b/blockdev.c
-index 6baa1a33f5..0fd30a392d 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3019,6 +3019,9 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
-         if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_ALLOW_RO, errp)) {
-             return;
-         }
-+    } else if (has_bitmap_mode) {
-+        error_setg(errp, "Cannot specify bitmap sync mode without a bitmap");
-+        return;
-     }
- 
-     if (!has_replaces) {
--- 
-2.20.1
-
+Paolo
 
 
