@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41E62737E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 03:19:43 +0200 (CEST)
-Received: from localhost ([::1]:50516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCFF273817
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 03:28:56 +0200 (CEST)
+Received: from localhost ([::1]:55648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKWy6-0003xK-9b
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 21:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32984)
+	id 1kKX71-0006Vh-Tz
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 21:28:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kKWwu-0003Su-1Q; Mon, 21 Sep 2020 21:18:28 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kKWws-0005L3-Ca; Mon, 21 Sep 2020 21:18:27 -0400
-Received: by mail-ot1-x341.google.com with SMTP id y5so14162619otg.5;
- Mon, 21 Sep 2020 18:18:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GnCsAYztQqgczgLc++weGUcUC37O51w4WulNLHvkge0=;
- b=rxwJIHQLOE5qxIp8vnC9+EypD5DY1H5zxMamXuP7lWwtNtBQfYdsDAI5M8VF8z51wX
- pa0wXbH3kx4Vwh1ILsN4Et5lx/x4haJ+mpvbBV91H8C7XYTvFzsKBo+xGZ3QWgfKgEGZ
- 4Vz+6Brm2A9ihBRKfUbN4kB8brskhKWJ3jqc4YUxc02OzOqoZKBFU59AxlnjA2fsQUYj
- giNxj+lgz+rH7Wdm9di71acTsBmfv3977n7VcIGCEeWwM7FLYCw2okUK213NuYLDlblz
- TMeVCZVbsrxSRtVRWFti9WLgPlCRgg3mcp/l0CVuO+TVjK/58DD6nDTOgQBJtnYRXJpo
- OI+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GnCsAYztQqgczgLc++weGUcUC37O51w4WulNLHvkge0=;
- b=H9mqP+YB13gNbNdD4+nn5GxPQ5TetZCh0cJdquDoNowGhNtUfsqbvEEhDucg6XIY8+
- H9rLvChKemrfZVbjN8feKWyF8ZOR/zIgRiLuL73CzsGH0uI/7D6ZD+NVP4K5xjLVuGoP
- JjhibP8ab0WFvblT94bFkciX6Us9o4L8Sqw6rJQTOJY/9dzGetPX2AeALAthEMRTyPVb
- F8r3qy54pRhD0UPpuT4QjysFOPb7NcpCHgNFCAdbwfT5tAqfAYvhvVPs3iUCvHAzElab
- wdl2YYNgF6+x4XjFQ7QzskfZGGd2sp8eiUKKHU6JO79/n23DaHKaMqEcN6fFAt7S9jaJ
- Hl8A==
-X-Gm-Message-State: AOAM533ybfHslsmEC8x1QOfk5oyYwOruKyurHoYyqxx3pkD/uSfBbRoG
- BYdexSW/B0Z8N49xXdqk0f+OuLSg9T70DF1MK7c=
-X-Google-Smtp-Source: ABdhPJyNGJXyiG7juIwA2Rtg9VoZBozCrWpc9HUXmn2640IzPvV3KuUYyU4adIr1cislDZLX1DWj1QsP2GUhSZN+sY4=
-X-Received: by 2002:a05:6830:1187:: with SMTP id
- u7mr666951otq.181.1600737504681; 
- Mon, 21 Sep 2020 18:18:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200815072052.73228-1-liq3ea@163.com>
- <CAKXe6SJkqaeDBpDC__N6-RYgOMdTRO8NcJ0jkaFvAheEkfqbbw@mail.gmail.com>
- <CAKXe6S+Qq+GN6JYJa69+s0UHUd=2EKRAwJAjUKVt3+jPqdWeCQ@mail.gmail.com>
- <CAKXe6SJdkgYsenYLKrsWZSBya531dp-+rz2WRZuFLyC+NxR7Zg@mail.gmail.com>
-In-Reply-To: <CAKXe6SJdkgYsenYLKrsWZSBya531dp-+rz2WRZuFLyC+NxR7Zg@mail.gmail.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Tue, 22 Sep 2020 09:17:48 +0800
-Message-ID: <CAKXe6S+SHCYT=iF=6Nsij3AAY7R4H2DFaiAb=tFHj9H+71ReeQ@mail.gmail.com>
-Subject: Re: [PATCH] hw: ide: check the pointer before do dma memory unmap
-To: Li Qiang <liq3ea@163.com>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <arei.gonglei@huawei.com>)
+ id 1kKX68-0005mP-PG
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 21:28:00 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:34570 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <arei.gonglei@huawei.com>)
+ id 1kKX66-0006LZ-B9
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 21:28:00 -0400
+Received: from dggeml406-hub.china.huawei.com (unknown [172.30.72.56])
+ by Forcepoint Email with ESMTP id C7D3F58698649941684C;
+ Tue, 22 Sep 2020 09:27:42 +0800 (CST)
+Received: from DGGEML511-MBX.china.huawei.com ([169.254.1.148]) by
+ dggeml406-hub.china.huawei.com ([10.3.17.50]) with mapi id 14.03.0487.000;
+ Tue, 22 Sep 2020 09:27:32 +0800
+From: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 01/24] cryptodev-vhost-user: Register "chardev" as class
+ property
+Thread-Topic: [PATCH 01/24] cryptodev-vhost-user: Register "chardev" as
+ class property
+Thread-Index: AQHWkGQcbVbhQtzC10imWyaleWssTqlz3dyA
+Date: Tue, 22 Sep 2020 01:27:32 +0000
+Message-ID: <33183CC9F5247A488A2544077AF19020DF7820CF@dggeml511-mbx.china.huawei.com>
+References: <20200921221045.699690-1-ehabkost@redhat.com>
+ <20200921221045.699690-2-ehabkost@redhat.com>
+In-Reply-To: <20200921221045.699690-2-ehabkost@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.149.58]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=arei.gonglei@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 21:27:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,65 +68,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, John Snow <jsnow@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping!!
 
-Li Qiang <liq3ea@gmail.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=8815=E6=97=A5=E5=
-=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=889:38=E5=86=99=E9=81=93=EF=BC=9A
->
-> ping!!
->
-> Li Qiang <liq3ea@gmail.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=887=E6=97=A5=E5=
-=91=A8=E4=B8=80 =E4=B8=8A=E5=8D=889:39=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > Ping!
-> >
-> > Li Qiang <liq3ea@gmail.com> =E4=BA=8E2020=E5=B9=B49=E6=9C=881=E6=97=A5=
-=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:34=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > Ping.
-> > >
-> > > Li Qiang <liq3ea@163.com> =E4=BA=8E2020=E5=B9=B48=E6=9C=8815=E6=97=A5=
-=E5=91=A8=E5=85=AD =E4=B8=8B=E5=8D=883:21=E5=86=99=E9=81=93=EF=BC=9A
-> > > >
-> > > > In 'map_page' we need to check the return value of
-> > > > 'dma_memory_map' to ensure the we actully maped something.
-> > > > Otherwise, we will hit an assert in 'address_space_unmap'.
-> > > > This is because we can't find the MR with the NULL buffer.
-> > > > This is the LP#1884693:
-> > > >
-> > > > -->https://bugs.launchpad.net/qemu/+bug/1884693
-> > > >
-> > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> > > > Signed-off-by: Li Qiang <liq3ea@163.com>
-> > > > ---
-> > > >  hw/ide/ahci.c | 5 +++++
-> > > >  1 file changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-> > > > index 009120f88b..63e9fccdbe 100644
-> > > > --- a/hw/ide/ahci.c
-> > > > +++ b/hw/ide/ahci.c
-> > > > @@ -250,6 +250,11 @@ static void map_page(AddressSpace *as, uint8_t=
- **ptr, uint64_t addr,
-> > > >      }
-> > > >
-> > > >      *ptr =3D dma_memory_map(as, addr, &len, DMA_DIRECTION_FROM_DEV=
-ICE);
-> > > > +
-> > > > +    if (!*ptr) {
-> > > > +        return;
-> > > > +    }
-> > > > +
-> > > >      if (len < wanted) {
-> > > >          dma_memory_unmap(as, *ptr, len, DMA_DIRECTION_FROM_DEVICE,=
- len);
-> > > >          *ptr =3D NULL;
-> > > > --
-> > > > 2.17.1
-> > > >
+
+> -----Original Message-----
+> From: Eduardo Habkost [mailto:ehabkost@redhat.com]
+> Sent: Tuesday, September 22, 2020 6:10 AM
+> To: qemu-devel@nongnu.org
+> Cc: Paolo Bonzini <pbonzini@redhat.com>; Daniel P. Berrange
+> <berrange@redhat.com>; John Snow <jsnow@redhat.com>; Gonglei (Arei)
+> <arei.gonglei@huawei.com>
+> Subject: [PATCH 01/24] cryptodev-vhost-user: Register "chardev" as class
+> property
+>=20
+> Class properties make QOM introspection simpler and easier, as they don't
+> require an object to be instantiated.
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+
+Reviewed-by: Gonglei <arei.gonglei@huawei.com>
+
+Regards,
+-Gonglei
+
+>  backends/cryptodev-vhost-user.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/backends/cryptodev-vhost-user.c
+> b/backends/cryptodev-vhost-user.c index 41089dede15..690738c6c95
+> 100644
+> --- a/backends/cryptodev-vhost-user.c
+> +++ b/backends/cryptodev-vhost-user.c
+> @@ -336,13 +336,6 @@ cryptodev_vhost_user_get_chardev(Object *obj,
+> Error **errp)
+>      return NULL;
+>  }
+>=20
+> -static void cryptodev_vhost_user_instance_int(Object *obj) -{
+> -    object_property_add_str(obj, "chardev",
+> -                            cryptodev_vhost_user_get_chardev,
+> -                            cryptodev_vhost_user_set_chardev);
+> -}
+> -
+>  static void cryptodev_vhost_user_finalize(Object *obj)  {
+>      CryptoDevBackendVhostUser *s =3D
+> @@ -363,13 +356,17 @@ cryptodev_vhost_user_class_init(ObjectClass *oc,
+> void *data)
+>      bc->create_session =3D cryptodev_vhost_user_sym_create_session;
+>      bc->close_session =3D cryptodev_vhost_user_sym_close_session;
+>      bc->do_sym_op =3D NULL;
+> +
+> +    object_class_property_add_str(oc, "chardev",
+> +                                  cryptodev_vhost_user_get_chardev,
+> +                                  cryptodev_vhost_user_set_chardev);
+> +
+>  }
+>=20
+>  static const TypeInfo cryptodev_vhost_user_info =3D {
+>      .name =3D TYPE_CRYPTODEV_BACKEND_VHOST_USER,
+>      .parent =3D TYPE_CRYPTODEV_BACKEND,
+>      .class_init =3D cryptodev_vhost_user_class_init,
+> -    .instance_init =3D cryptodev_vhost_user_instance_int,
+>      .instance_finalize =3D cryptodev_vhost_user_finalize,
+>      .instance_size =3D sizeof(CryptoDevBackendVhostUser),
+>  };
+> --
+> 2.26.2
+
 
