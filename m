@@ -2,74 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28518274334
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:34:30 +0200 (CEST)
-Received: from localhost ([::1]:41860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1012743D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 16:07:30 +0200 (CEST)
+Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKiRA-0007LO-Tl
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33422)
+	id 1kKix6-0000JJ-MD
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 10:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKiPC-0006lO-Dk
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:32:26 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:42419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kKiP0-0008Vz-6i
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:32:19 -0400
-Received: by mail-ed1-x543.google.com with SMTP id j2so16148863eds.9
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 06:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Mh+LNtfUAHDK7CxCAD0PAeotC4VSwWs+TaeU+cM3IA4=;
- b=R1rCfzwXL4XFrJWy0wSYcxTEFfgjrgqxT3HPYCJKXBQ98l5M2NGnjsmrMyOz98CVza
- 0ewOFJk2YXGIdfSp51f961oaWWHjn0UEEdjC2+kTmoEnMkZhJQNtJ+xDbXINoHGyce98
- p7gvuKOrLLMqnHmQdDNZdU03MyYHmk8Znx6HHXAxRVwi0xCdmeS0VTPr1lsiokxSbJ64
- 6vpOusBas++g7q+NIlSac+pQzq8YvhKM2k9lkPa0YT/VbMA1ItpEQbsh6Z6jYbabOmZF
- mLo2p4XqktXxIZVYWByzzQKgNtsYg+YafJuBATzTyyfCpdgYdyofG2054G4TpqRW7T8k
- xHeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Mh+LNtfUAHDK7CxCAD0PAeotC4VSwWs+TaeU+cM3IA4=;
- b=EgrLNqwBht249BMhty7F/RfxXbQlYQEB25uAkSTcopnLaIAH4Bwzs36DEB03FerXYb
- j/WQCcr+5pq98QVP83WL6q232S1mKz1DZJSpXxdME3jG0SbJlqNUgvqsYaienWhKuR2f
- osIZdODCjqnhHIcuDCeUDvdZZWwT/1We1jHuxnsHQ6mGmmnwdUkVwtgLwKHET51eaPFv
- zCYe5g4c1VD2lQrnHbrdf/UIZU5sRaymQb0BYW8bXLlPvUYiWgJswNIz6rDxgMIjL0Z/
- 0Rp0dVWi77Uv+WXsKRd58rA49NJiAEKM5JymigmTPyHV1PeLvTYH0wALCKuEkyj0rgkX
- IGaQ==
-X-Gm-Message-State: AOAM532UCjKZ7Igqdg8W4FUXRyvl5rLGWSdWnngCxNABlvaMuLbV/sTn
- Hiso7N+zBHofuDnHaUnJ1nXPfVoUmNX6ga0jPJIzxA==
-X-Google-Smtp-Source: ABdhPJxKCL6QeclPcOiPoN1Rgnp7ADS2yTnmu7X0Oh9WQflIxFsC4lXF66vKhFdqidm6YU3qlYx3wqbRM7i36u0jfGw=
-X-Received: by 2002:a05:6402:202a:: with SMTP id
- ay10mr4032163edb.36.1600781530050; 
- Tue, 22 Sep 2020 06:32:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kKiuj-0007jV-G2
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 10:05:02 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:35427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kKiug-0004K0-L4
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 10:05:01 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 08ME3ofk030520
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 22 Sep 2020 10:03:53 -0400
+Date: Tue, 22 Sep 2020 10:03:50 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 02/16] fuzz: Add general virtual-device fuzzer
+Message-ID: <20200922140350.slchhw6qw4ia3bmp@mozz.bu.edu>
+References: <20200921022506.873303-1-alxndr@bu.edu>
+ <20200921022506.873303-3-alxndr@bu.edu>
 MIME-Version: 1.0
-References: <20200922130806.1506324-1-pbonzini@redhat.com>
- <CAFEAcA8kovt998Ds0jbEAJTqkHmJETcHvfwqCS-JZWWW+=wLrw@mail.gmail.com>
- <044dc012-1203-e3a8-0758-b0fcb2d932a4@redhat.com>
-In-Reply-To: <044dc012-1203-e3a8-0758-b0fcb2d932a4@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Sep 2020 14:31:58 +0100
-Message-ID: <CAFEAcA8Tssk+9YgsE5MMnar8fq+XjuVjo_u-YW5BnZA57oOt_Q@mail.gmail.com>
-Subject: Re: [PATCH] coverity_scan: switch to vpath build
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200921022506.873303-3-alxndr@bu.edu>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 10:04:55
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,34 +57,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Sep 2020 at 14:27, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 9/22/20 3:18 PM, Peter Maydell wrote:
-> > This comment at the top of the script:
-> >
-> > # This script assumes that you're running it from a QEMU source
-> > # tree, and that tree is a fresh clean one, because we do an in-tree
-> > # build. (This is necessary so that the filenames that the Coverity
-> > # Scan server sees are relative paths that match up with the component
-> > # regular expressions it uses; an out-of-tree build won't work for this=
-.)
-> >
-> > is now out of date and needs rephrasing.
->
-> Or we can keep it as it, since commit dedad027205
-> ("configure: add support for pseudo-"in source tree" builds")
-> already create a 'build/' directory.
+On 200920 2224, Alexander Bulekov wrote:
+[snip]
+> +static int locate_fuzz_memory_regions(Object *child, void *opaque)
+> +{
+> +    const char *name;
+> +    MemoryRegion *mr;
+> +    if (object_dynamic_cast(child, TYPE_MEMORY_REGION)) {
+> +        mr = MEMORY_REGION(child);
+> +        if ((memory_region_is_ram(mr) ||
+> +            memory_region_is_ram_device(mr) ||
+> +            memory_region_is_rom(mr) ||
+> +            memory_region_is_romd(mr)) == false) {
+> +            name = object_get_canonical_path_component(child);
 
-No, because even with the pseudo-in-tree build the paths will
-no longer be the relative ones that the real pre-meson in-tree
-build had, so the comment is no longer correct.
+This isn't a great way to check whether MRs have ops with code that is
+interesting to fuzz (for example the pflash MemoryRegions do not pass
+these checks, so you can't fuzz the pflash device). Need to think of
+some better checks to identify MRs that we are interested in fuzzing.
 
-thanks
--- PMM
+-Alex
+
+> +            /*
+> +             * We don't want duplicate pointers to the same MemoryRegion, so
+> +             * try to remove copies of the pointer, before adding it.
+> +             */
+> +            g_hash_table_insert(fuzzable_memoryregions, mr, (gpointer)true);
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +static int locate_fuzz_objects(Object *child, void *opaque)
+> +{
+> +    char *pattern = opaque;
+> +    if (g_pattern_match_simple(pattern, object_get_typename(child))) {
+> +        /* Find and save ptrs to any child MemoryRegions */
+> +        object_child_foreach_recursive(child, locate_fuzz_memory_regions, NULL);
+> +
+> +    } else if (object_dynamic_cast(OBJECT(child), TYPE_MEMORY_REGION)) {
+> +        if (g_pattern_match_simple(pattern,
+> +            object_get_canonical_path_component(child))) {
+> +            MemoryRegion *mr;
+> +            mr = MEMORY_REGION(child);
+> +            if ((memory_region_is_ram(mr) ||
+> +                 memory_region_is_ram_device(mr) ||
+> +                 memory_region_is_rom(mr) ||
+> +                 memory_region_is_romd(mr)) == false) {
+> +                g_hash_table_insert(fuzzable_memoryregions, mr, (gpointer)true);
+> +            }
+> +        }
+> +    }
+> +    return 0;
+> +}
 
