@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA53E273FAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:33:08 +0200 (CEST)
-Received: from localhost ([::1]:49164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9722273FB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:35:49 +0200 (CEST)
+Received: from localhost ([::1]:57178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKfbf-0005He-Sh
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54248)
+	id 1kKfeG-00008R-RI
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:35:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaH-0003wo-17
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39463)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaK-00040g-9H
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaF-0006QU-9j
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:40 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaI-0006Qo-ML
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600770698;
+ s=mimecast20190719; t=1600770702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SHG/AznOFCMT4rKY3pR9HG4Gd+sq0z+OmGOOHtPpKao=;
- b=G/9uiU2YvcNLguoo1t4txJirfCbX+f2Z7IOR9ullctTxSdmlGG4pqg1ple4+eUErQJHXXB
- ITxA1el8JWDnoCv27Ca19iYLSo5fuK0uJrZcqhWtpxBwlzoSBww8VChpFBHCysZ8quGMsD
- sLhZxJ7a/7LcIgmyPGL+mGIwffeOLFE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BQAGV9ayirlKdWkaYYSjsWdomo5x3/ZQbSVsmd/e4Ug=;
+ b=biqL+Fg+DjYyiR2/ghlYgpTfZyR/SSx/4BaM1961LHc2/0Vqjq4fLuZaPhpfGvJa8gpsmS
+ vJlYqXiCMknGOChvB5anSjItzdmTtZmQtdWLynxQpes6zr5KdgadxHvV9rgVBtQdmdxj03
+ pBY2lmpJU4UbmaDab8FgdXSaeJux6Qc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-r-c3fOl7P16IKCIWLIz3Kg-1; Tue, 22 Sep 2020 06:31:36 -0400
-X-MC-Unique: r-c3fOl7P16IKCIWLIz3Kg-1
+ us-mta-572-DSGADImUMVS7qc4wrRCN-w-1; Tue, 22 Sep 2020 06:31:37 -0400
+X-MC-Unique: DSGADImUMVS7qc4wrRCN-w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17A8710BBEC0;
- Tue, 22 Sep 2020 10:31:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9FD48015F5;
+ Tue, 22 Sep 2020 10:31:36 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-20.ams2.redhat.com [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B87A027BD1;
- Tue, 22 Sep 2020 10:31:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 679BB19C4F;
+ Tue, 22 Sep 2020 10:31:35 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/8] s390x/tcg: Implement some z14 facilities
-Date: Tue, 22 Sep 2020 12:31:21 +0200
-Message-Id: <20200922103129.12824-1-david@redhat.com>
+Subject: [PATCH v1 1/8] s390x/tcg: Implement ADD HALFWORD (AGH)
+Date: Tue, 22 Sep 2020 12:31:22 +0200
+Message-Id: <20200922103129.12824-2-david@redhat.com>
+In-Reply-To: <20200922103129.12824-1-david@redhat.com>
+References: <20200922103129.12824-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -52,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -62,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +84,38 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this patchset, I can boot a kernel compiled for z14 (requiring
-Miscellaneous-Instruction-Extensions Facility 2) (using -cpu max).
+Easy, just like ADD HALFWORD IMMEDIATE (AGHI).
 
-I am currently working on "vector-enhancements facility 1", I have most
-stuff in place except:
-- VECTOR FP (MAXIMUM|MINIMUM): needs some manual work to cover all types of
-                               comparisons.
-- VECTOR FP (NEGATIVE) MULTIPLY AND (ADD|SUBTRACT): needs float128_muladd()
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/insn-data.def | 1 +
+ target/s390x/translate.c   | 1 +
+ 2 files changed, 2 insertions(+)
 
-Once we have that in place, we can convert the QEMU machine to a
-stripped-down z14.
-
-David Hildenbrand (8):
-  s390x/tcg: Implement ADD HALFWORD (AGH)
-  s390x/tcg: Implement SUBTRACT HALFWORD (SGH)
-  s390x/tcg: Implement MULTIPLY (MG, MGRK)
-  s390x/tcg: Implement MULTIPLY HALFWORD (MGH)
-  s390x/tcg: Implement BRANCH INDIRECT ON CONDITION (BIC)
-  s390x/tcg: Implement MULTIPLY SINGLE (MSC, MSGC, MSGRKC, MSRKC)
-  s390x/tcg: We support Miscellaneous-Instruction-Extensions Facility 2
-  s390x/tcg: Implement CIPHER MESSAGE WITH AUTHENTICATION (KMA)
-
- target/s390x/cc_helper.c    | 34 ++++++++++++++++++++++++++++
- target/s390x/gen-features.c |  2 ++
- target/s390x/helper.c       |  2 ++
- target/s390x/insn-data.def  | 12 ++++++++++
- target/s390x/internal.h     |  2 ++
- target/s390x/translate.c    | 45 +++++++++++++++++++++++++++++++++++++
- 6 files changed, 97 insertions(+)
-
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index d79ae9e3f1..8dbeaf8c49 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -52,6 +52,7 @@
+ /* ADD HALFWORD */
+     C(0x4a00, AH,      RX_a,  Z,   r1, m2_16s, new, r1_32, add, adds32)
+     C(0xe37a, AHY,     RXY_a, LD,  r1, m2_16s, new, r1_32, add, adds32)
++    C(0xe338, AGH,     RXY_a, MIE2,r1, m2_16s, r1, 0, add, adds64)
+ /* ADD HALFWORD IMMEDIATE */
+     C(0xa70a, AHI,     RI_a,  Z,   r1, i2, new, r1_32, add, adds32)
+     C(0xa70b, AGHI,    RI_a,  Z,   r1, i2, r1, 0, add, adds64)
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index a777343821..21d77b7e74 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -6098,6 +6098,7 @@ enum DisasInsnEnum {
+ #define FAC_AIS         S390_FEAT_ADAPTER_INT_SUPPRESSION
+ #define FAC_V           S390_FEAT_VECTOR /* vector facility */
+ #define FAC_VE          S390_FEAT_VECTOR_ENH /* vector enhancements facility 1 */
++#define FAC_MIE2        S390_FEAT_MISC_INSTRUCTION_EXT /* miscellaneous-instruction-extensions facility 2 */
+ 
+ static const DisasInsn insn_info[] = {
+ #include "insn-data.def"
 -- 
 2.26.2
 
