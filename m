@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8842747DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:56:46 +0200 (CEST)
-Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5B92747C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:52:39 +0200 (CEST)
+Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKmWz-0000B3-9D
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45440)
+	id 1kKmT0-0003J8-HV
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:52:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKmOK-0007vu-NT
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:47:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKmOI-0004KD-Le
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:47:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600796865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Lj3UbafpoojkTj52+qJnHyCGtSx65I6ftVoJpK00Z5Y=;
- b=B9YgA3ZUCngBRR6ydpAb5aV1JDEDYba54W5dg1pFW3y01bN3GaEZXDz4Itcqs5pKRNJpki
- ScDl0OhVvJpOxsk9Mt20MV0c5kMK/dmb0Q2FWhgSRAAzZpqW7OJZLqRWce8DF7vBEcCbCw
- OB2wXr40ZjzE7tg4spGf7+Vr0lue/ug=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-0sK8dVRHPQGpxi2V4oEbyQ-1; Tue, 22 Sep 2020 13:47:41 -0400
-X-MC-Unique: 0sK8dVRHPQGpxi2V4oEbyQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B71311007278;
- Tue, 22 Sep 2020 17:47:40 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-78.rdu2.redhat.com [10.10.116.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A07F5C1A3;
- Tue, 22 Sep 2020 17:47:34 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 1E96E223B13; Tue, 22 Sep 2020 13:47:33 -0400 (EDT)
-Date: Tue, 22 Sep 2020 13:47:33 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
-Message-ID: <20200922174733.GD57620@redhat.com>
-References: <20200918213436.GA3520@redhat.com> <20200921153243.GK3221@work-vm>
- <20200922102531.GA2837@work-vm>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kKmOf-0007yD-6W
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:48:09 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40152)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kKmOW-0004Ks-7i
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:48:07 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id k133so7810101pgc.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 10:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CzXADkkcwqXZtobMqRgIZ6k008MJ95TKA8X3VHJ5T3U=;
+ b=pXl4JIWdqO+G90JBZGgr51GEsVfBjrIMi/z5bvv4pJ3x8rj6ugGUqnB8/XzawS8NZO
+ r2blOOhMXYLS5FQWjq72k4BCeuhhx9lUL53QWgo598aqBunR6tva+JB356DfpiNlqIIA
+ 3I0eztV0m9frnssLO1z711MDVMSE0S+IW44Ie/7DviAQTFOEPPnspIiIi0Ergw85DYlv
+ d+gkNE4asJfM6mRqcd9c+OoeWLGOvfgU0gsQTKtPBGPOSeSBIGQ2/mONxR1jM4yEBU0N
+ 1473eWmHm7I5h+CX3QbgRRIydi8cijLly8RQF6U3LuL1nFanDMzJb/1Qi2yZeZD9TiMw
+ xzvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CzXADkkcwqXZtobMqRgIZ6k008MJ95TKA8X3VHJ5T3U=;
+ b=bnEBF9vyJY+YUvrqHGWKDynntwzsGiQ6gjmCRIG8j0jABUMPpKg6egHSo6TzJ8igoE
+ R9Ww2VS+CLNkIr8p8qvGbEJluzH8x1jY39cCSIaTWjyv6bkeQhOa5XIIt2Tl36CmKxaZ
+ 9TzR80jyvbderjJQ7MFyfqCC7RrOTya3tErfOwbbh1EQjAdIO6ziQ15UOCnmU2YY+0WB
+ lDku0HHHQ7T7Z5XxWkdAPcxWe1r41BMDc3QoaPTG7Q3ky1vmt++kUmSCgdbPfHnNf+WE
+ WFFC0a3TLO/MHdqMr3BLnJcq7qDd10bkHA7223r4dEvSI/DbkuBFYnocdTDpV/ZR8e1S
+ AgWQ==
+X-Gm-Message-State: AOAM533IBPjqY5bLsmKM6NcV/WEFPJXD6I5Qvr3zCUG6UbcKbLWiqWMv
+ RUu0ez+YpsgfK7JzSb/ph3+cIOttClXHAw==
+X-Google-Smtp-Source: ABdhPJxeOt/K4mKPisiJoAFF2GJFHZCvC457NNe/ITK8x5enway30MPhzQSnODDNeMiVlwQuqrbI6Q==
+X-Received: by 2002:a17:902:b186:b029:d1:cc21:9a7d with SMTP id
+ s6-20020a170902b186b02900d1cc219a7dmr5637042plr.8.1600796870648; 
+ Tue, 22 Sep 2020 10:47:50 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id r1sm14825310pgl.66.2020.09.22.10.47.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 10:47:49 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 04/11] disas: Move host asm annotations to tb_gen_code
+Date: Tue, 22 Sep 2020 10:47:34 -0700
+Message-Id: <20200922174741.475876-5-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200922174741.475876-1-richard.henderson@linaro.org>
+References: <20200922174741.475876-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200922102531.GA2837@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,66 +86,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jose.carlos.venegas.munoz@intel.com, qemu-devel@nongnu.org,
- cdupontd@redhat.com, virtio-fs-list <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, archana.m.shinde@intel.com
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 11:25:31AM +0100, Dr. David Alan Gilbert wrote:
-> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> > Hi,
-> >   I've been doing some of my own perf tests and I think I agree
-> > about the thread pool size;  my test is a kernel build
-> > and I've tried a bunch of different options.
-> > 
-> > My config:
-> >   Host: 16 core AMD EPYC (32 thread), 128G RAM,
-> >      5.9.0-rc4 kernel, rhel 8.2ish userspace.
-> >   5.1.0 qemu/virtiofsd built from git.
-> >   Guest: Fedora 32 from cloud image with just enough extra installed for
-> > a kernel build.
-> > 
-> >   git cloned and checkout v5.8 of Linux into /dev/shm/linux on the host
-> > fresh before each test.  Then log into the guest, make defconfig,
-> > time make -j 16 bzImage,  make clean; time make -j 16 bzImage 
-> > The numbers below are the 'real' time in the guest from the initial make
-> > (the subsequent makes dont vary much)
-> > 
-> > Below are the detauls of what each of these means, but here are the
-> > numbers first
-> > 
-> > virtiofsdefault        4m0.978s
-> > 9pdefault              9m41.660s
-> > virtiofscache=none    10m29.700s
-> > 9pmmappass             9m30.047s
-> > 9pmbigmsize           12m4.208s
-> > 9pmsecnone             9m21.363s
-> > virtiofscache=noneT1   7m17.494s
-> > virtiofsdefaultT1      3m43.326s
-> > 
-> > So the winner there by far is the 'virtiofsdefaultT1' - that's
-> > the default virtiofs settings, but with --thread-pool-size=1 - so
-> > yes it gives a small benefit.
-> > But interestingly the cache=none virtiofs performance is pretty bad,
-> > but thread-pool-size=1 on that makes a BIG improvement.
-> 
-> Here are fio runs that Vivek asked me to run in my same environment
-> (there are some 0's in some of the mmap cases, and I've not investigated
-> why yet).
+Instead of creating GStrings and passing them into log_disas,
+just print the annotations directly in tb_gen_code.
 
-cache=none does not allow mmap in case of virtiofs. That's when you
-are seeing 0.
+Fix the annotations for the slow paths of the TB, after the
+part implementing the final guest instruction.
 
->virtiofs is looking good here in I think all of the cases;
-> there's some division over which cinfig; cache=none
-> seems faster in some cases which surprises me.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/disas/disas.h     |  2 +-
+ include/exec/log.h        |  4 ++--
+ accel/tcg/translate-all.c | 24 +++++++++++++++---------
+ disas.c                   | 29 +++++++++--------------------
+ tcg/tcg.c                 |  4 ++--
+ 5 files changed, 29 insertions(+), 34 deletions(-)
 
-I know cache=none is faster in case of write workloads. It forces
-direct write where we don't call file_remove_privs(). While cache=auto
-goes through file_remove_privs() and that adds a GETXATTR request to
-every WRITE request.
-
-Vivek
+diff --git a/include/disas/disas.h b/include/disas/disas.h
+index 1b6e035e32..36c33f6f19 100644
+--- a/include/disas/disas.h
++++ b/include/disas/disas.h
+@@ -7,7 +7,7 @@
+ #include "cpu.h"
+ 
+ /* Disassemble this for me please... (debugging). */
+-void disas(FILE *out, void *code, unsigned long size, const char *note);
++void disas(FILE *out, void *code, unsigned long size);
+ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+                   target_ulong size);
+ 
+diff --git a/include/exec/log.h b/include/exec/log.h
+index 3ed797c1c8..fcc7b9e00b 100644
+--- a/include/exec/log.h
++++ b/include/exec/log.h
+@@ -56,13 +56,13 @@ static inline void log_target_disas(CPUState *cpu, target_ulong start,
+     rcu_read_unlock();
+ }
+ 
+-static inline void log_disas(void *code, unsigned long size, const char *note)
++static inline void log_disas(void *code, unsigned long size)
+ {
+     QemuLogFile *logfile;
+     rcu_read_lock();
+     logfile = atomic_rcu_read(&qemu_logfile);
+     if (logfile) {
+-        disas(logfile->fd, code, size, note);
++        disas(logfile->fd, code, size);
+     }
+     rcu_read_unlock();
+ }
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 2d83013633..2874104a6a 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1815,10 +1815,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+         qemu_log_in_addr_range(tb->pc)) {
+         FILE *logfile = qemu_log_lock();
+         int code_size, data_size = 0;
+-        g_autoptr(GString) note = g_string_new("[tb header & initial instruction]");
+-        size_t chunk_start = 0;
++        size_t chunk_start;
+         int insn = 0;
+-        qemu_log("OUT: [size=%d]\n", gen_code_size);
++
+         if (tcg_ctx->data_gen_ptr) {
+             code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
+             data_size = gen_code_size - code_size;
+@@ -1827,26 +1826,33 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+         }
+ 
+         /* Dump header and the first instruction */
++        qemu_log("OUT: [size=%d]\n", gen_code_size);
++        qemu_log("  -- guest addr 0x" TARGET_FMT_lx " + tb prologue\n",
++                 tcg_ctx->gen_insn_data[insn][0]);
+         chunk_start = tcg_ctx->gen_insn_end_off[insn];
+-        log_disas(tb->tc.ptr, chunk_start, note->str);
++        log_disas(tb->tc.ptr, chunk_start);
+ 
+         /*
+          * Dump each instruction chunk, wrapping up empty chunks into
+          * the next instruction. The whole array is offset so the
+          * first entry is the beginning of the 2nd instruction.
+          */
+-        while (insn <= tb->icount && chunk_start < code_size) {
++        while (insn < tb->icount) {
+             size_t chunk_end = tcg_ctx->gen_insn_end_off[insn];
+             if (chunk_end > chunk_start) {
+-                g_string_printf(note, "[guest addr: " TARGET_FMT_lx "]",
+-                                tcg_ctx->gen_insn_data[insn][0]);
+-                log_disas(tb->tc.ptr + chunk_start, chunk_end - chunk_start,
+-                          note->str);
++                qemu_log("  -- guest addr 0x" TARGET_FMT_lx "\n",
++                         tcg_ctx->gen_insn_data[insn][0]);
++                log_disas(tb->tc.ptr + chunk_start, chunk_end - chunk_start);
+                 chunk_start = chunk_end;
+             }
+             insn++;
+         }
+ 
++        if (chunk_start < code_size) {
++            qemu_log("  -- tb slow paths + alignment\n");
++            log_disas(tb->tc.ptr + chunk_start, code_size - chunk_start);
++        }
++
+         /* Finally dump any data we may have after the block */
+         if (data_size) {
+             int i;
+diff --git a/disas.c b/disas.c
+index c1397d3933..a4304e8137 100644
+--- a/disas.c
++++ b/disas.c
+@@ -262,8 +262,7 @@ static void cap_dump_insn_units(disassemble_info *info, cs_insn *insn,
+     }
+ }
+ 
+-static void cap_dump_insn(disassemble_info *info, cs_insn *insn,
+-                          const char *note)
++static void cap_dump_insn(disassemble_info *info, cs_insn *insn)
+ {
+     fprintf_function print = info->fprintf_func;
+     int i, n, split;
+@@ -284,11 +283,7 @@ static void cap_dump_insn(disassemble_info *info, cs_insn *insn,
+     }
+ 
+     /* Print the actual instruction.  */
+-    print(info->stream, "  %-8s %s", insn->mnemonic, insn->op_str);
+-    if (note) {
+-        print(info->stream, "\t\t%s", note);
+-    }
+-    print(info->stream, "\n");
++    print(info->stream, "  %-8s %s\n", insn->mnemonic, insn->op_str);
+ 
+     /* Dump any remaining part of the insn on subsequent lines.  */
+     for (i = split; i < n; i += split) {
+@@ -320,7 +315,7 @@ static bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size)
+         size -= tsize;
+ 
+         while (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
+-            cap_dump_insn(info, insn, NULL);
++            cap_dump_insn(info, insn);
+         }
+ 
+         /* If the target memory is not consumed, go back for more... */
+@@ -349,8 +344,7 @@ static bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size)
+ }
+ 
+ /* Disassemble SIZE bytes at CODE for the host.  */
+-static bool cap_disas_host(disassemble_info *info, void *code, size_t size,
+-                           const char *note)
++static bool cap_disas_host(disassemble_info *info, void *code, size_t size)
+ {
+     csh handle;
+     const uint8_t *cbuf;
+@@ -366,8 +360,7 @@ static bool cap_disas_host(disassemble_info *info, void *code, size_t size,
+     pc = (uintptr_t)code;
+ 
+     while (cs_disasm_iter(handle, &cbuf, &size, &pc, insn)) {
+-        cap_dump_insn(info, insn, note);
+-        note = NULL;
++        cap_dump_insn(info, insn);
+     }
+     if (size != 0) {
+         (*info->fprintf_func)(info->stream,
+@@ -411,7 +404,7 @@ static bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+         csize += tsize;
+ 
+         if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
+-            cap_dump_insn(info, insn, NULL);
++            cap_dump_insn(info, insn);
+             if (--count <= 0) {
+                 break;
+             }
+@@ -425,7 +418,7 @@ static bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+ #endif /* !CONFIG_USER_ONLY */
+ #else
+ # define cap_disas_target(i, p, s)  false
+-# define cap_disas_host(i, p, s, n)  false
++# define cap_disas_host(i, p, s)  false
+ # define cap_disas_monitor(i, p, c)  false
+ # define cap_disas_plugin(i, p, c) false
+ #endif /* CONFIG_CAPSTONE */
+@@ -595,7 +588,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
+ }
+ 
+ /* Disassemble this for me please... (debugging). */
+-void disas(FILE *out, void *code, unsigned long size, const char *note)
++void disas(FILE *out, void *code, unsigned long size)
+ {
+     uintptr_t pc;
+     int count;
+@@ -673,7 +666,7 @@ void disas(FILE *out, void *code, unsigned long size, const char *note)
+     print_insn = print_insn_hppa;
+ #endif
+ 
+-    if (s.info.cap_arch >= 0 && cap_disas_host(&s.info, code, size, note)) {
++    if (s.info.cap_arch >= 0 && cap_disas_host(&s.info, code, size)) {
+         return;
+     }
+ 
+@@ -683,10 +676,6 @@ void disas(FILE *out, void *code, unsigned long size, const char *note)
+     for (pc = (uintptr_t)code; size > 0; pc += count, size -= count) {
+         fprintf(out, "0x%08" PRIxPTR ":  ", pc);
+         count = print_insn(pc, &s.info);
+-        if (note) {
+-            fprintf(out, "\t\t%s", note);
+-            note = NULL;
+-        }
+         fprintf(out, "\n");
+         if (count < 0) {
+             break;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 62f299e36e..9a111ce604 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1101,7 +1101,7 @@ void tcg_prologue_init(TCGContext *s)
+             size_t data_size = prologue_size - code_size;
+             size_t i;
+ 
+-            log_disas(buf0, code_size, NULL);
++            log_disas(buf0, code_size);
+ 
+             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
+                 if (sizeof(tcg_target_ulong) == 8) {
+@@ -1115,7 +1115,7 @@ void tcg_prologue_init(TCGContext *s)
+                 }
+             }
+         } else {
+-            log_disas(buf0, prologue_size, NULL);
++            log_disas(buf0, prologue_size);
+         }
+         qemu_log("\n");
+         qemu_log_flush();
+-- 
+2.25.1
 
 
