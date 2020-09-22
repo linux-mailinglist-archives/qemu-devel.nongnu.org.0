@@ -2,92 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356A7273EBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:43:35 +0200 (CEST)
-Received: from localhost ([::1]:39720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2A4273ECE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:48:16 +0200 (CEST)
+Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKepi-0000BQ-7I
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
+	id 1kKeuF-0005DC-W1
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKen4-0006mA-FU
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:40:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60299)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kKen2-0008G5-By
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:40:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600767647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JcZXDbmm8K6dc/e0q/aUuC34Xa0RXIv+ARL8iLaiLKA=;
- b=YdGDKKNDhKlX7S6B9s8SrxdcGDwnV1MsYW4g5tozCClubb7RdZA11wfcpG9WHJuGfO46cA
- 57ie76kpwQabeGpcp0rammg7WwfRomK5tHrE8B/9hZmEe/uqp4ltNNzTgU0nqYKtYq2FCa
- PkxcjIWAXQzu7UT/jkn0rNRDRdYY9g0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-t6ppbCiONRyYRvvvxP_JhA-1; Tue, 22 Sep 2020 05:40:45 -0400
-X-MC-Unique: t6ppbCiONRyYRvvvxP_JhA-1
-Received: by mail-wr1-f72.google.com with SMTP id r16so7141780wrm.18
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 02:40:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JcZXDbmm8K6dc/e0q/aUuC34Xa0RXIv+ARL8iLaiLKA=;
- b=B9cfJ7jYAG2hZnklE8OcS4CVcLfxjOyO+G3dLJ9A/+d3YN6Q7FQQWC3zMVdoCtIegg
- iEgjScjFJmZaNCLbzMeRcsw+cAjjSnUWyKggCgrDBMyoZUUyKod5c41lKsyH1Rv0T+3j
- qY7UKdqpRozm0nshHqhq+MPxyao8ZftAVT1cabkYqur/7nAEDWHR+tQBg3zmU0eWXdRq
- DfBu5bTj1yuwNzTeF/3EGMApjHW2ZkTCIHQkNCxZhR3LsNuhlDEKP7DH3/EEbsiR+qk/
- TaPHe0VDsMRd8Ok8eStKQOwszcuj/D3Y+lPbnXf8NwvEtxlESAz86emNboIl/NR66bCL
- MWPA==
-X-Gm-Message-State: AOAM532OlVPMul0fqcpFMR8PaqL3Kc2Pajx6RPUUMUlOQLzRtyC8UhiH
- v+XIKQL4UQKO07A267RN+Kcf7bK/UgvG+XRU9BHb0157go7VxFOJvkPCc1SGtSdlbmXSUP2Iixq
- l8fdY6qMZFvhKORU=
-X-Received: by 2002:adf:83c3:: with SMTP id 61mr4168374wre.287.1600767644410; 
- Tue, 22 Sep 2020 02:40:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgU+HI/ERoonjI/3fcPuubutXZeWfGi1H0e2BOTW+Gl0d29bP38JyJljoi79ytg5GQHl63CA==
-X-Received: by 2002:adf:83c3:: with SMTP id 61mr4168350wre.287.1600767644144; 
- Tue, 22 Sep 2020 02:40:44 -0700 (PDT)
-Received: from [192.168.10.165] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id s17sm26920605wrr.40.2020.09.22.02.40.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 02:40:43 -0700 (PDT)
-Subject: Re: [PATCH v2 0/6] hw/xen: Housekeeping
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200908155530.249806-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8b4dc535-166d-9377-27ff-5d75f8978191@redhat.com>
-Date: Tue, 22 Sep 2020 11:40:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200908155530.249806-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1kKerv-0003pQ-A0; Tue, 22 Sep 2020 05:45:51 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17607)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1kKerr-0000TT-3e; Tue, 22 Sep 2020 05:45:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600767927; cv=none; d=zoho.com.cn; s=zohoarc; 
+ b=YsuV0/6tvJu0vQYqGPy5cnE7E8OXRSpBKZ8PhWZkM9K2xmhN1HnRPZScspNVx4rBzBwsnxP8e/RHG1YqZ3+ukCK2MguhoYFCSvCy125UWbY9LzWNZ3+lwyU84BVBcEK96quZWukd3cMZI3ZcrzA+JEX939tdqk+/I9dyJbzRdek=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
+ s=zohoarc; t=1600767927;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=EcrY6ophsbBEUHkM/1XrDL/mKiT+jIvBa63QKOkXXyY=; 
+ b=MVlt6MI5HuYo/qHMjycL/waxl5ngD3bVYYX8RQACgQXd5m1Jiv4Nw67oVByWvhXqib7ShDWXMqAgROWFYkyGTQUQBMNLHUakEd7QPl9djbUrJWrJAJckOy3exoj7p+8CcFdBL8HFFOk0Jx0z2w1nkPh+VofLpo89rybwFVsrFzU=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+ dkim=pass  header.i=euphon.net;
+ spf=pass  smtp.mailfrom=fam@euphon.net;
+ dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1600767927; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:Mime-Version:Content-Transfer-Encoding;
+ bh=EcrY6ophsbBEUHkM/1XrDL/mKiT+jIvBa63QKOkXXyY=;
+ b=N0v/b+0li6jXdrEGHfrx+3qTiYeo72POjbZC8n9qg1MHXbQ7MDGUy8pJBJo9YtZQ
+ 6f+hQvTrRM2ttGBqxvl6CZeewLhctYEHGXH7s6s7HEpehcmcKutcMi71TwXw4L27Aef
+ LXBLPOR10IlMMamq1uT5kIui2m+bp3+t9fRIl9rw=
+Received: from vpn-10-85-95-225.fra53.corp.amazon.com (54.239.6.177
+ [54.239.6.177]) by mx.zoho.com.cn
+ with SMTPS id 1600767926351195.99045056638624;
+ Tue, 22 Sep 2020 17:45:26 +0800 (CST)
+Message-ID: <a8e87383339c264bf9d99aebafaf45d7a023f0d8.camel@euphon.net>
+Subject: Re: [PATCH v2 0/6] block/nvme: Map doorbells pages write-only,
+ remove magic from nvme_init
+From: Fam Zheng <fam@euphon.net>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Date: Tue, 22 Sep 2020 10:45:20 +0100
+In-Reply-To: <20200922083821.578519-1-philmd@redhat.com>
+References: <20200922083821.578519-1-philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-ZohoCNMailClient: External
+Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
+ helo=sender2-op-o12.zoho.com.cn
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 04:19:31
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,55 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
- xen-devel@lists.xenproject.org, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/09/20 17:55, Philippe Mathieu-Daudé wrote:
-> Hard to make an exciting cover of this series.
-> 
-> Basically:
-> - Make better separation between Xen accel and Xen hardware,
-> - Move stuff around to restrict PCMachineState to hw/i386/.
-> 
-> Since v1:
-> - added missing include in stubs/xen-hw-stub.c
-> - added missing 'exec/cpu-common.h' for ram_addr_t
-> 
-> (Due to a bug in 'make', while rebasing the archives
->  might not be updated... so I missed this missing
->  hunk as hw/core/libhwcore.fa didn't rebuilt stubs/)
-> 
-> Philippe Mathieu-Daudé (6):
->   hw/i386/q35: Remove unreachable Xen code on Q35 machine
->   hw/i386/xen: Rename X86/PC specific function as xen_hvm_init_pc()
->   sysemu/xen: Add missing 'exec/cpu-common.h' header for ram_addr_t type
->   stubs: Split accelerator / hardware related stubs
->   hw/xen: Split x86-specific declaration from generic hardware ones
->   typedefs: Restrict PCMachineState to 'hw/i386/pc.h'
-> 
->  include/hw/i386/pc.h     |  4 ++--
->  include/hw/xen/xen-x86.h | 15 ++++++++++++
->  include/hw/xen/xen.h     |  2 --
->  include/qemu/typedefs.h  |  1 -
->  include/sysemu/xen.h     |  2 ++
->  accel/stubs/xen-stub.c   | 41 +-------------------------------
->  hw/i386/pc_piix.c        |  8 +++----
->  hw/i386/pc_q35.c         | 13 ++---------
->  hw/i386/xen/xen-hvm.c    |  3 ++-
->  stubs/xen-hw-stub.c      | 50 ++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS              |  1 +
->  stubs/meson.build        |  1 +
->  12 files changed, 80 insertions(+), 61 deletions(-)
->  create mode 100644 include/hw/xen/xen-x86.h
->  create mode 100644 stubs/xen-hw-stub.c
-> 
+On Tue, 2020-09-22 at 10:38 +0200, Philippe Mathieu-Daud=C3=A9 wrote:
+> Instead of mapping 8K of I/O + doorbells as RW during the whole
+> execution, maps I/O temporarly at init, and map doorbells WO.
+>=20
+> Replace various magic values by slighly more explicit macros from
+> "block/nvme.h".
+>=20
+> Since v1: Fix uninitialized regs* (patchew)
+>=20
+> Philippe Mathieu-Daud=C3=A9 (6):
+>   util/vfio-helpers: Pass page protections to qemu_vfio_pci_map_bar()
+>   block/nvme: Map doorbells pages write-only
+>   block/nvme: Reduce I/O registers scope
+>   block/nvme: Drop NVMeRegs structure, directly use NvmeBar
+>   block/nvme: Use register definitions from 'block/nvme.h'
+>   block/nvme: Replace magic value by SCALE_MS definition
+>=20
+>  include/qemu/vfio-helpers.h |  2 +-
+>  block/nvme.c                | 73 +++++++++++++++++++++------------
+> ----
+>  util/vfio-helpers.c         |  4 +-
+>  3 files changed, 44 insertions(+), 35 deletions(-)
+>=20
 
-Queued, thanks.
-
-Paolo
+Reviewed-by: Fam Zheng <fam@euphon.net>
 
 
