@@ -2,99 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD3A27458F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 17:41:08 +0200 (CEST)
-Received: from localhost ([::1]:38956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385802745AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 17:46:47 +0200 (CEST)
+Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKkPj-0002ce-Mx
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 11:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39402)
+	id 1kKkVC-0005rW-8g
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 11:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKkMm-0001Bn-GT
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:38:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKkMk-0000Pm-Nl
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:38:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600789081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=oD6q+oZbY1MnC40Xi9lr/52e+vXI/QBOkhjpwb2rWTY=;
- b=hVoc1TWUtLyTTFO9xX3vOf0qhvD6v29IhDaXVHO1evLUpEp3WyiSQaAVl1iZ7xeTYDz1j8
- ne/0FcJvUiabOAwsMM8YRFRWLHJHmF/Pv7qf4PpxJRm+poJDscRZgy0vzhF8vhDW4rUrVe
- Anpp6hpxWzSX3PtJEwHDKYfySiolpkY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-rmBvL4t4M5aQIdWbALSHmw-1; Tue, 22 Sep 2020 11:37:56 -0400
-X-MC-Unique: rmBvL4t4M5aQIdWbALSHmw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D358030A6;
- Tue, 22 Sep 2020 15:37:55 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-26.ams2.redhat.com
- [10.36.114.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 355B860CCC;
- Tue, 22 Sep 2020 15:37:45 +0000 (UTC)
-Subject: Re: [PATCH v2 01/20] configure: Detect libfuse
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
-References: <20200922104932.46384-1-mreitz@redhat.com>
- <20200922104932.46384-2-mreitz@redhat.com>
- <0360f62c-9074-594d-8e12-b00166380513@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <8b1640ee-2346-6989-046c-865566fcf216@redhat.com>
-Date: Tue, 22 Sep 2020 17:37:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKkPW-0003Uh-2B
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:40:54 -0400
+Resent-Date: Tue, 22 Sep 2020 11:40:54 -0400
+Resent-Message-Id: <E1kKkPW-0003Uh-2B@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kKkPQ-0000lm-Up
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:40:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600789234; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=V5xnkJ/1T4wq91klWWdbKyfezw8VwDNi4UGukvbe8KicPODmBSY7yvfkILNhwNPchlmpMdqvm3ZsMNVKb/oOm5V+XVI0Fo3wY4s3AQb/vBtR5WgoFo7l2iD8OEyRIvw70sDZ90xvpuE8kY7JIhDY7tJWXQyTG4YULWObS/tn8wA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600789234;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=6J9GKEjDTtC/wI/BwCuY5o10OalxlxnH7tjOrIptCJQ=; 
+ b=l7LbMkOvYVpE3W7TNA6yNr4LMxWqCVlx74nUTepbGFcQ/Llpea1Q2zRq+vNAq56+8d4U+5ycPhh7orAjWX627vHpSq31xQlSd6tXA9Uk/47Qdzk3gYFtER2+wk3Rn5wZtJg1Mb1hbFTVsxRP8AgGaetAM+P2dMKTPcJgRWN5UQI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600789232293569.3931515113487;
+ Tue, 22 Sep 2020 08:40:32 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] add MEMORY_FAILURE event
+Message-ID: <160078923063.1915.3825702157279086565@66eaa9a8a123>
+In-Reply-To: <20200922095630.394893-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <0360f62c-9074-594d-8e12-b00166380513@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="GIPHNZsD2DS0AUjaakwhNyohbPlemfjmX"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pizhenwei@bytedance.com
+Date: Tue, 22 Sep 2020 08:40:32 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 11:40:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,59 +69,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ pizhenwei@bytedance.com, armbru@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---GIPHNZsD2DS0AUjaakwhNyohbPlemfjmX
-Content-Type: multipart/mixed; boundary="iUSZ6hifV4xcGTy8ZCFy4zoRMILMhjUwl"
-
---iUSZ6hifV4xcGTy8ZCFy4zoRMILMhjUwl
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 22.09.20 13:14, Thomas Huth wrote:
-
-[...]
-
-> Could you turn this immediately into a meson test instead? See e.g.
-> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg07112.html as
-> an example for how to do this.
-
-Done (I think).  Until I send v3, the updated version lives here:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/fuse-exports-next
-https://github.com/XanClic/qemu/commits/fuse-exports-next
-
-I=E2=80=99ve replaced the compile checks (on test programs) by simpler vers=
-ion
-checks (>=3D3.1 for libfuse itself, >=3D3.8 for fuse-lseek).
-
-Max
-
-
---iUSZ6hifV4xcGTy8ZCFy4zoRMILMhjUwl--
-
---GIPHNZsD2DS0AUjaakwhNyohbPlemfjmX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9qGkcACgkQ9AfbAGHV
-z0DX0gf9GBmQXf/M1zS4s0DVU0xcvvNBuYyIoOwtTZLJbkzz2ao04KTX7J0AYygn
-bEAhoALDCBhLuZkWc3M/hovTEWJKBDqUFMz5wFPvOCzAsdA/BYTE5t9dd4/6PAvW
-dGGObcn2rNkY8FN3FPrn2/Qtx0IT8i7NYx8yRa1GNbSHbh6qGrKStH62uYfBT/DP
-V17DsW4JQ/lva+abjYNfdcXOpiq+1AGnxT4I3LfjeYzYHK+Gt/SqgbUTOzHm6tGo
-LeWdz2HgJreRWzxa0IMpspAmq422UAfTz0JWuSFD1m70YRmb8rAqdeEwQgvZTJ1B
-A/Yed0YXP9xD/kk0EFHJO+ES4qJjyg==
-=NtNT
------END PGP SIGNATURE-----
-
---GIPHNZsD2DS0AUjaakwhNyohbPlemfjmX--
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyMjA5NTYzMC4zOTQ4
+OTMtMS1waXpoZW53ZWlAYnl0ZWRhbmNlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+dGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0
+aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBp
+bnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcg
+Vj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VO
+Vj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpDIGxpbmtlciBmb3Ig
+dGhlIGhvc3QgbWFjaGluZTogY2MgbGQuYmZkIDIuMjctNDMKSG9zdCBtYWNoaW5lIGNwdSBmYW1p
+bHk6IHg4Nl82NApIb3N0IG1hY2hpbmUgY3B1OiB4ODZfNjQKLi4vc3JjL21lc29uLmJ1aWxkOjEw
+OiBXQVJOSU5HOiBNb2R1bGUgdW5zdGFibGUta2V5dmFsIGhhcyBubyBiYWNrd2FyZHMgb3IgZm9y
+d2FyZHMgY29tcGF0aWJpbGl0eSBhbmQgbWlnaHQgbm90IGV4aXN0IGluIGZ1dHVyZSByZWxlYXNl
+cy4KUHJvZ3JhbSBzaCBmb3VuZDogWUVTClByb2dyYW0gcHl0aG9uMyBmb3VuZDogWUVTICgvdXNy
+L2Jpbi9weXRob24zKQpDb25maWd1cmluZyBuaW5qYXRvb2wgdXNpbmcgY29uZmlndXJhdGlvbgot
+LS0KTm90IHJ1bjogMjU5CkZhaWx1cmVzOiAxOTIKRmFpbGVkIDEgb2YgMTIxIGlvdGVzdHMKbWFr
+ZTogKioqIFtjaGVjay1ibG9ja10gRXJyb3IgMQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwg
+bGFzdCk6CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA3MDksIGluIDxt
+b2R1bGU+CiAgICBzeXMuZXhpdChtYWluKCkpCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vy
+cm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQg
+J1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tcm0nLCAnLS1sYWJlbCcsICdjb20u
+cWVtdS5pbnN0YW5jZS51dWlkPWMyYmNlZTcwNTU1NDQxNDRhMDE1NWU5N2QyZjdhMTE4JywgJy11
+JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy1lJywg
+J1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0n
+LCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScs
+ICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNo
+ZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAv
+cGF0Y2hldy10ZXN0ZXItdG1wLXByZnplZ2p3L3NyYy9kb2NrZXItc3JjLjIwMjAtMDktMjItMTEu
+MjIuNTEuMTQ4ODovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdS9jZW50b3M3JywgJy92YXIvdG1w
+L3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMg
+Mi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YzJiY2VlNzA1
+NTU0NDE0NGEwMTU1ZTk3ZDJmN2ExMTgKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAx
+Cm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAt
+cHJmemVnancvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBF
+cnJvciAyCgpyZWFsICAgIDE3bTM5LjMxMHMKdXNlciAgICAwbTIwLjQyOHMKCgpUaGUgZnVsbCBs
+b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwOTIyMDk1NjMw
+LjM5NDg5My0xLXBpemhlbndlaUBieXRlZGFuY2UuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNl
+bnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
+IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
+ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
