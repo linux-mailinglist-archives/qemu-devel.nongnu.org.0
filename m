@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08411274C52
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:42:22 +0200 (CEST)
-Received: from localhost ([::1]:57602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1D7274C5C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:43:59 +0200 (CEST)
+Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqzN-0004N1-14
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58080)
+	id 1kKr0w-0007vx-Qd
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsv-0004Hv-Kh
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35844)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsx-0004Lo-13
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqst-0007d7-Uf
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsu-0007dU-TZ
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814138;
+ s=mimecast20190719; t=1600814140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EFGub7ZhjjnhzVH7ElCNIqLLQL5ff0E2HEr5DzbLLds=;
- b=H8zxzwBo3LUM/hZG9ihb1Lfc+nCRZg4vdJy8MkORRNqcorj+qsM1J0nqt7tnf5ytN2fMzT
- M2IzP+0W3CatmUkT0EMRP0lAbTPWKe7B91zQdkNG/ATxOyZSXcKp6wI3zPI9XB70xIvuoP
- Az9bFitNwml8suUYenoC5bVC2MSLS0s=
+ bh=ZPjT7h9M9onq+vvAMMLwRyCmMJMrAK5tD5k2QAXXKR0=;
+ b=VSJ0P5x9aGPHtOSRwSelpnNVPQTQUvtEQVtLz+B2vvnfx3AmdJVPtKtWKw9PKG7GfK2gFV
+ SEQQnjZ9eWumVSnESJTQK1rsA0tPK+XRy2JpQxPz8VA9ZZ5dHw5UGtmsfqVJeJZA/Xaf5F
+ oeqBWo5HkmZagTADgSEBP2hVleAWN5Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-giPYim8bNeCw0kcI1VU16A-1; Tue, 22 Sep 2020 18:35:36 -0400
-X-MC-Unique: giPYim8bNeCw0kcI1VU16A-1
+ us-mta-154-46tfiXMHPva8GzhuiwT6zA-1; Tue, 22 Sep 2020 18:35:38 -0400
+X-MC-Unique: 46tfiXMHPva8GzhuiwT6zA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01BBF1005E64;
- Tue, 22 Sep 2020 22:35:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42B28186DD27;
+ Tue, 22 Sep 2020 22:35:37 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE026610AF;
- Tue, 22 Sep 2020 22:35:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4561D60BF4;
+ Tue, 22 Sep 2020 22:35:36 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 08/26] qapi/parser.py: Assert lexer value is a string
-Date: Tue, 22 Sep 2020 18:35:07 -0400
-Message-Id: <20200922223525.4085762-9-jsnow@redhat.com>
+Subject: [PATCH 09/26] qapi/parser.py: assert get_expr returns object in outer
+ loop
+Date: Tue, 22 Sep 2020 18:35:08 -0400
+Message-Id: <20200922223525.4085762-10-jsnow@redhat.com>
 In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
 References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,27 +85,28 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The type checker can't constrain the token value to string in this case,
-because it's only loosely correlated with the return token, which is
-"stringly typed".
+get_expr can return many things, depending on where it is used. In the
+outer parsing loop, we expect and require it to return an object.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qapi/parser.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 78355ca93f..6774b6c736 100644
+index 6774b6c736..1bc33e85ea 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -312,6 +312,7 @@ def _get_doc(self, info):
-         cur_doc = QAPIDoc(info)
-         self.accept(False)
-         while self.tok == '#':
-+            assert isinstance(self.val, str), "Expected str value"
-             if self.val.startswith('##'):
-                 # End of doc comment
-                 if self.val != '##':
+@@ -94,6 +94,9 @@ def _parse(self):
+                 continue
+ 
+             expr = self.get_expr(False)
++            if not isinstance(expr, dict):
++                raise QAPISemError(info, "Expecting object statement")
++
+             if 'include' in expr:
+                 self.reject_expr_doc(cur_doc)
+                 if len(expr) != 1:
 -- 
 2.26.2
 
