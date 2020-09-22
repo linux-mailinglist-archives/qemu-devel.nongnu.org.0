@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345CA273815
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 03:26:56 +0200 (CEST)
-Received: from localhost ([::1]:52820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E182737CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 03:06:06 +0200 (CEST)
+Received: from localhost ([::1]:44950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKX55-0005JA-0q
-	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 21:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34160)
+	id 1kKWkv-00010L-OY
+	for lists+qemu-devel@lfdr.de; Mon, 21 Sep 2020 21:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kKX4M-0004sh-1T
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 21:26:10 -0400
-Received: from ozlabs.org ([203.11.71.1]:53867)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kKX4G-0006BF-T0
- for qemu-devel@nongnu.org; Mon, 21 Sep 2020 21:26:09 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4BwNtB4P5dz9sTh; Tue, 22 Sep 2020 11:25:53 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1600737954;
- bh=e4kAdbjFVqxoM3qvCqMxzo/52ElOYuuBhaNFCOCtS64=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I0mcnmrcdqoZs123Fjdu1vUnFkaveL6bYBVuPD7+e71IsUO8a/gCQsnsHmngn4jiZ
- hQBxEQ6XxVYmb8rtYwJQeWgWNDXntzIEx9uDEfYQzkkW1J0tIO+6hsLvM9X8eVwMBu
- pDGW8aqH4vvg8wmcAqR/BofTY2dtfVFjmD0uErP0=
-Date: Tue, 22 Sep 2020 10:46:15 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] migration: increase max-bandwidth to 128 MiB/s (1 Gib/s)
-Message-ID: <20200922004615.GE17169@yekko.fritz.box>
-References: <20200921144957.979989-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kKWii-00008a-Jv
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 21:03:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33293
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kKWif-0003nG-Jn
+ for qemu-devel@nongnu.org; Mon, 21 Sep 2020 21:03:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600736623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=flukJHZuXon26LclHP5w26nvxgUQOmauUNyDf1lcCZs=;
+ b=YQqgA19E8+TC1oZFU4iysOi2yj37wnuZjfuQwlENxUVfmyvl72QFkb7Y3YS61PaZDc8YyD
+ wEP0r8hO0ETYMjgWhBGq2ncUYiMFaV6tvfXeyOrtzFZRX+d6d1/ZAXS7mRHZDfy0UKqjtG
+ frRM7s2Wctr2oImVEVcL+w1ejlZGuhc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-J5OBjVz_PpiKf2gJRbX2OQ-1; Mon, 21 Sep 2020 21:03:38 -0400
+X-MC-Unique: J5OBjVz_PpiKf2gJRbX2OQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A082B107464B
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 01:03:37 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-127.phx2.redhat.com [10.3.113.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E0545DD99
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 01:03:37 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] bitmaps patches for 2020-09-21
+Date: Mon, 21 Sep 2020 20:03:34 -0500
+Message-Id: <20200922010335.1578850-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="M/SuVGWktc5uNpra"
-Content-Disposition: inline
-In-Reply-To: <20200921144957.979989-1-lvivier@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 21:25:57
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/21 21:03:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,78 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Andrea Bolognani <abologna@redhat.com>,
- David Gibson <dgibson@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Frediano Ziglio <fziglio@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 5df6c87e8080e0021e975c8387baa20cfe43c932:
 
---M/SuVGWktc5uNpra
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-request' into staging (2020-09-21 17:41:32 +0100)
 
-On Mon, Sep 21, 2020 at 04:49:57PM +0200, Laurent Vivier wrote:
-> max-bandwidth is set by default to 32 MiB/s (256 Mib/s)
-> since 2008 (5bb7910af031c).
->=20
-> Most of the CPUs can dirty memory faster than that now,
-> and this is clearly a problem with POWER where the page
-> size is 64 kiB and not 4 KiB.
->=20
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+are available in the Git repository at:
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-09-21
 
-> ---
->  migration/migration.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 58a5452471f9..1c4174947181 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -57,7 +57,7 @@
->  #include "qemu/queue.h"
->  #include "multifd.h"
-> =20
-> -#define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed thrott=
-ling */
-> +#define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throt=
-tling */
-> =20
->  /* Amount of time to allocate to each "chunk" of bandwidth-throttled
->   * data. */
+for you to fetch changes up to 14f16bf9474c860ecc127a66a86961942319f7af:
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+  qemu-img: Support bitmap --merge into backing image (2020-09-21 17:01:09 -0500)
 
---M/SuVGWktc5uNpra
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+bitmaps patches for 2020-09-21
 
------BEGIN PGP SIGNATURE-----
+- Eric Blake: Improve 'qemu-img bitmap --merge' by not opening backing images
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9pSVcACgkQbDjKyiDZ
-s5ILQA/+N7u84W+a7grYWHwPo3D+qGXjeBdG7Xq3ZvHlf/3qChvv/l7hsgJHPluf
-GqjuH1fjrbsVjLB2z6fi7rBq7gXufBJPdA0fjWyAFmGywUJ5NCS0GzJPAGYxfi81
-pv253MO+N7VC5p1q42DPjEoqeEzD80q8jmkUE2fvn8lHnHmZToRvvKE4klrndxbO
-yn2tSEASmHly+EA8A/MeRAVqkJNEAEMc0qJMVh/GX5qtXlC6FUFN2sqEYYtu7sP3
-FuCAp1d1Ow4JPTJMutguA1D1NkbYs6jFrvU+FUDv10efPgL8FTmMNBwggij9LO/2
-oMKHGzCyKa0uXMEv2GaieOkhlErqWOfWd/YvYSxU7E2DPsjL++svOXtJ0LxgjQ0s
-HdvCMa1UIxgHIp9/xaJJqniIsRGxIpjAIzrJF8TyQMdZuNTqoCpog/6c15NcqlsJ
-0B3v32HWI5u4tUSxcvnFT2qcuSTY6A7PmktPsUXtU3alILFuMXvouf1hKHmE93+v
-TD3SdZZYTaCPbFMSjjXDiuYBDadGm/4mj3J9Tl9nHTt47dHKkv7RM3+q6GURsbzp
-KXG81ZA3tsAc6mLy40/XFPzJgEMuhCkgCwye6dfUsvhxiiwz6KuXRJvqgkEFXLio
-qLE6qnBJS9/eLEK3ZMw43WXbed5337VYegG+NDl5LzL+YtKEeK8=
-=smhN
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Eric Blake (1):
+      qemu-img: Support bitmap --merge into backing image
 
---M/SuVGWktc5uNpra--
+ qemu-img.c                 | 11 ++++++---
+ tests/qemu-iotests/291     | 12 ++++++++++
+ tests/qemu-iotests/291.out | 56 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 76 insertions(+), 3 deletions(-)
+The following changes since commit 5df6c87e8080e0021e975c8387baa20cfe43c932:
+
+  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-request' into staging (2020-09-21 17:41:32 +0100)
+
+are available in the Git repository at:
+
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-09-21
+
+for you to fetch changes up to 14f16bf9474c860ecc127a66a86961942319f7af:
+
+  qemu-img: Support bitmap --merge into backing image (2020-09-21 17:01:09 -0500)
+
+----------------------------------------------------------------
+bitmaps patches for 2020-09-21
+
+- Eric Blake: Improve 'qemu-img bitmap --merge' by not opening backing images
+
+----------------------------------------------------------------
+Eric Blake (1):
+      qemu-img: Support bitmap --merge into backing image
+
+ qemu-img.c                 | 11 ++++++---
+ tests/qemu-iotests/291     | 12 ++++++++++
+ tests/qemu-iotests/291.out | 56 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 76 insertions(+), 3 deletions(-)
+
+-- 
+2.28.0
+
 
