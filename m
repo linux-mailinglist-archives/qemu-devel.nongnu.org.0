@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBBDF274BE0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:11:35 +0200 (CEST)
-Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46791274BD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:05:12 +0200 (CEST)
+Received: from localhost ([::1]:52906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqVa-0006ea-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
+	id 1kKqPP-00008x-B9
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgK-0007pS-QZ
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28863)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpg8-0007MQ-Te
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgI-0006fN-L3
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpg7-0006dm-5h
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809513;
+ s=mimecast20190719; t=1600809502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=owOd+IHrwp7CTurkjFWXGVSBt7zqxNx6craqYA4lOD0=;
- b=DIAt0TlLw6/qVXE+Zpw9IZGfTJPTMxovB7WmIgVOEIA9sRfjzxb7KXdblr/dASf+U6+CWX
- 4G4Isj/4/CBDn+dp7exoBZFd+82M0ct3mdnYrnZdKQnBzaJN6symubm9LS7wgWjtllY8ON
- nhPBu/UmwcS8MY+ZzzYdvCAe1OioEzM=
+ bh=gFP2CDfnv5mGONcJkgdqHIpJD+65gzkUZZDABDlD0+Y=;
+ b=UMtjxFp63CIak7fRH9Hjs1eTww3rNOLnnURh9nxFrFDB2U5lMlAv0J/Os1zEddAcrubPb2
+ W4MO/HCGAkrTrrWxmo9swrIC/HOensoUeV9YkN7XxV4sW1EpnECOMxrmh4SWkjRHTZxnXl
+ zVcI/vxgiOaoWUu8GZk1lzSe4mmlxiY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-LSDa1xIlPLGoj8MoFKo4LQ-1; Tue, 22 Sep 2020 17:18:17 -0400
-X-MC-Unique: LSDa1xIlPLGoj8MoFKo4LQ-1
+ us-mta-347-8YuupQF7OrSdgfERS7Bfng-1; Tue, 22 Sep 2020 17:18:20 -0400
+X-MC-Unique: 8YuupQF7OrSdgfERS7Bfng-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1A9481CBE9;
- Tue, 22 Sep 2020 21:18:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 884C1186DD27;
+ Tue, 22 Sep 2020 21:18:19 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7D835DE50;
- Tue, 22 Sep 2020 21:18:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99D965DE50;
+ Tue, 22 Sep 2020 21:18:18 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 08/14] qapi/doc.py: Add generic texi_member callback
-Date: Tue, 22 Sep 2020 17:17:56 -0400
-Message-Id: <20200922211802.4083666-9-jsnow@redhat.com>
+Subject: [PATCH 10/14] qapi/gen.py: Add __bool__ dunder method to QAPIGen
+Date: Tue, 22 Sep 2020 17:17:58 -0400
+Message-Id: <20200922211802.4083666-11-jsnow@redhat.com>
 In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,113 +84,29 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can just use the same callback and dispatch based on type, which
-removes the need to type the callback, add downcast assertions, or use
-less-specific types in the specialized generators.
-
----
-
-This patch is optional, it's just demonstrating a different way to
-handle the callback typing -- by eliminating the callback.
+Falseish when there is no body or preamble; Trueish when there is.
+Header and footer are excluded for now, because they are assumed to be
+dynamic and always present.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/doc.py | 37 +++++++++++++++++++------------------
- 1 file changed, 19 insertions(+), 18 deletions(-)
+ scripts/qapi/gen.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 43943575da..74d017f60e 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -5,7 +5,7 @@
- """This script produces the documentation of a qapi schema in texinfo format"""
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index ed498397ad..892d7d772e 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -40,6 +40,9 @@ def __init__(self, fname: Optional[str]):
+         self._preamble = ''
+         self._body = ''
  
- import re
--from typing import Callable, List, Optional
-+from typing import List, Optional
- 
- from .gen import QAPIGenDoc
- from .parser import QAPIDoc
-@@ -150,24 +150,17 @@ def texi_if(ifcond: Optional[List[str]],
-     return '%s@b{If:} @code{%s}%s' % (prefix, ', '.join(ifcond), suffix)
- 
- 
--TexiMemberCallback = Callable[[QAPISchemaMember, str, str], str]
--
--
--def texi_enum_value(value: QAPISchemaMember,
--                    desc: str,
--                    suffix: str) -> str:
-+def texi_enum_value(value: QAPISchemaEnumMember,
-+                    desc: str, suffix: str) -> str:
-     """Format a table of members item for an enumeration value"""
--    assert isinstance(value, QAPISchemaEnumMember)
-     assert suffix == '', "Ignored suffix for texi_enum_value"
-     return '@item @code{%s}\n%s%s' % (
-         value.name, desc, texi_if(value.ifcond, prefix='@*'))
- 
- 
--def texi_member(member: QAPISchemaMember,
--                desc: str,
--                suffix: str) -> str:
-+def texi_object_member(member: QAPISchemaObjectTypeMember,
-+                       desc: str, suffix: str) -> str:
-     """Format a table of members item for an object type member"""
--    assert isinstance(member, QAPISchemaObjectTypeMember)
-     typ = member.type.doc_type()
-     membertype = ': ' + typ if typ else ''
-     return '@item @code{%s%s}%s%s\n%s%s' % (
-@@ -176,11 +169,20 @@ def texi_member(member: QAPISchemaMember,
-         suffix, desc, texi_if(member.ifcond, prefix='@*'))
- 
- 
-+def texi_member(member: QAPISchemaMember, desc: str, suffix: str) -> str:
-+    """Format a table of members item for an arbitrary member type"""
++    def __bool__(self) -> bool:
++        return bool(self._preamble or self._body)
 +
-+    if isinstance(member, QAPISchemaObjectTypeMember):
-+        return texi_object_member(member, desc, suffix)
-+    if isinstance(member, QAPISchemaEnumMember):
-+        return texi_enum_value(member, desc, suffix)
-+    raise Exception(f"Unhandled member type {type(member).__name__}")
-+
-+
- def texi_members(doc: QAPIDoc,
-                  what: str,
-                  base: Optional[QAPISchemaObjectType] = None,
--                 variants: Optional[QAPISchemaVariants] = None,
--                 member_func: TexiMemberCallback = texi_member) -> str:
-+                 variants: Optional[QAPISchemaVariants] = None) -> str:
-     """Format the table of members"""
-     items = ''
-     for section in doc.args.values():
-@@ -198,7 +200,7 @@ def texi_members(doc: QAPIDoc,
-         if desc is None:
-             desc = 'Not documented\n'
+     def preamble_add(self, text: str) -> None:
+         self._preamble += text
  
--        items += member_func(section.member, desc, '')
-+        items += texi_member(section.member, desc, '')
-     if base:
-         items += '@item The members of @code{%s}\n' % base.doc_type()
-     if variants:
-@@ -208,7 +210,7 @@ def texi_members(doc: QAPIDoc,
-             if v.type.is_implicit():
-                 assert not v.type.base and not v.type.variants
-                 for m in v.type.local_members:
--                    items += member_func(m, '', when)
-+                    items += texi_member(m, '', when)
-             else:
-                 items += '@item The members of @code{%s}%s\n' % (
-                     v.type.doc_type(), when)
-@@ -288,8 +290,7 @@ def visit_enum_type(self,
-                         prefix: Optional[str]) -> None:
-         doc = self.cur_doc
-         self._gen.add(texi_type('Enum', doc, ifcond,
--                                texi_members(doc, 'Values',
--                                             member_func=texi_enum_value)))
-+                                texi_members(doc, 'Values')))
- 
-     def visit_object_type(self,
-                           name: str,
 -- 
 2.26.2
 
