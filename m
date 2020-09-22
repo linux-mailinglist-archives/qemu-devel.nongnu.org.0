@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42E8274BB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:55:02 +0200 (CEST)
-Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47F6274BC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:58:23 +0200 (CEST)
+Received: from localhost ([::1]:33842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqFZ-0005Zi-TR
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
+	id 1kKqIo-0000VO-O8
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgC-0007WC-SP
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42146)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgE-0007ZC-5I
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgA-0006eD-OH
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:28 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgC-0006eY-FW
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809506;
+ s=mimecast20190719; t=1600809507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=43bTF9s1dRQvu261U43X/7PVH8f8W3mJYCwEL5RBQDk=;
- b=id3x6+KfPZ16KtOjOkVGGL9I4uGMJkd20NiaMtPJ14rcpNSs2/xnZC+snQ6/zmjCbLOxd5
- 3PKNJmCGTTtUTM+oisZvkfPZfLJ0ynDqUKif0MgRudNRDCo5Rs9KV8+jURKGjoZqwPz3fW
- N+vpQVOh8JYHsbXBDssU0I0GznbMdrs=
+ bh=wLtuOYGmP4PpgM90n9U72U7fhjJLXm76tKv3IJ2+Wvk=;
+ b=KhAOPqydsaOhe05wbDHQyJ8FzVp3OzMulA8k0Elyg5OwnE1jsUExmO8ia2o3oH933eyU++
+ AzmWaALkX9RVIlldDszx/jq0d0L5cKs0n4NyAwL5Tx5c9HyqhwbmSZfahHLs+yaY/1+kHV
+ P+YFdJbg1+ASheYk1fqAXcH3QhtY/gs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-GwQOHXWWOuy_VydmK4BCMw-1; Tue, 22 Sep 2020 17:18:24 -0400
-X-MC-Unique: GwQOHXWWOuy_VydmK4BCMw-1
+ us-mta-296-KQ_hV1SROHWYuX4x3SHL6A-1; Tue, 22 Sep 2020 17:18:25 -0400
+X-MC-Unique: KQ_hV1SROHWYuX4x3SHL6A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16D9357056;
- Tue, 22 Sep 2020 21:18:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9935B84635D;
+ Tue, 22 Sep 2020 21:18:24 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27A7F5DE86;
- Tue, 22 Sep 2020 21:18:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C4385DE50;
+ Tue, 22 Sep 2020 21:18:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 13/14] qapi/doc.py: Assert type of object variant
-Date: Tue, 22 Sep 2020 17:18:01 -0400
-Message-Id: <20200922211802.4083666-14-jsnow@redhat.com>
+Subject: [PATCH 14/14] qapi/doc.py: enable pylint checks
+Date: Tue, 22 Sep 2020 17:18:02 -0400
+Message-Id: <20200922211802.4083666-15-jsnow@redhat.com>
 In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,30 +84,25 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Objects may have variants, but those variants must themselves be
-objects. This is difficult to express with our current type system and
-hierarchy, so instead pepper in an assertion.
-
-Note: These assertions don't appear to be useful yet because schema.py
-is not yet typed. Once it is, these assertions will matter.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/doc.py | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qapi/pylintrc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index b96d9046d3..3de592e220 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -206,6 +206,7 @@ def texi_members(doc: QAPIDoc,
-     if base:
-         items += '@item The members of @code{%s}\n' % base.doc_type()
-     for variant in variants.variants if variants else ():
-+        assert isinstance(variant.type, QAPISchemaObjectType)
-         when = ' when @code{%s} is @t{"%s"}%s' % (
-             variants.tag_member.name, variant.name,
-             texi_if(variant.ifcond, " (", ")"))
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index d7adb2ba33..fb0386d529 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -2,8 +2,7 @@
+ 
+ # Add files or directories matching the regex patterns to the ignore list.
+ # The regex matches against base names, not paths.
+-ignore-patterns=doc.py,
+-                error.py,
++ignore-patterns=error.py,
+                 parser.py,
+                 schema.py,
+ 
 -- 
 2.26.2
 
