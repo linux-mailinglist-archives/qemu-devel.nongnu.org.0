@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB17B274665
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 18:19:56 +0200 (CEST)
-Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E21A274698
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 18:26:28 +0200 (CEST)
+Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKl1H-000292-Qs
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 12:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50280)
+	id 1kKl7b-0001qL-5g
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 12:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKkyE-00007f-6Z
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:16:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48315)
+ id 1kKkxw-0008UV-IZ
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:16:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKky8-0007yt-1K
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:16:45 -0400
+ id 1kKkxs-0007x5-T4
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 12:16:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600791395;
+ s=mimecast20190719; t=1600791383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=806M/jjEM46kANdA6MteTpW8vJ4CyAjesuhqnvJIMlk=;
- b=Lhep2vt52Hwy82KsbsUYRTMBZ2XJDGZTH3wKWmywN/xvDMvU2cngL8055iqlCFDP72GjRI
- aiviiFJKMJLv9CYZ5Uq4bBlygDAPPgSfiw7tCgepCdNUQQ3Uouy1l60FMNbbNIFMgDaEeS
- CjlrcyUOCSi9HlxWpOXmpVXZ+cOf4v8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lqvEqWFLvdt/dk2Iy1EXJEr/nwkIoaFww48chZD0ldU=;
+ b=PFwlC8EbYYkvEuQcbNOl/DsqekwFurxCS+vV4Z5YSIv7HqV4MoKlDi2lReUQbFf4ASeEsh
+ TgnnGHeEok33DChGf/269wO/iLVglGANPSrvoh5sdbaFrH6N3tirFMOW3IS0rBx5Zf95HY
+ WhdmhH2VX+bERX9vvwjHB9q9DfwvLQY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-yMhjd3zROEC3tNOLrh5LyA-1; Tue, 22 Sep 2020 12:16:19 -0400
-X-MC-Unique: yMhjd3zROEC3tNOLrh5LyA-1
+ us-mta-456-o7xTR_3GNa-2I4GnI1wDdg-1; Tue, 22 Sep 2020 12:16:21 -0400
+X-MC-Unique: o7xTR_3GNa-2I4GnI1wDdg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAE0118B9EC1;
- Tue, 22 Sep 2020 16:16:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 986D5801AB3;
+ Tue, 22 Sep 2020 16:16:20 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-64.ams2.redhat.com
  [10.36.114.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4ACB7614F5;
- Tue, 22 Sep 2020 16:16:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C59D614F5;
+ Tue, 22 Sep 2020 16:16:17 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] block: deprecate the sheepdog driver
-Date: Tue, 22 Sep 2020 17:16:09 +0100
-Message-Id: <20200922161611.2049616-1-berrange@redhat.com>
+Subject: [PATCH v2 1/2] block: drop moderated sheepdog mailing list from
+ MAINTAINERS file
+Date: Tue, 22 Sep 2020 17:16:10 +0100
+Message-Id: <20200922161611.2049616-2-berrange@redhat.com>
+In-Reply-To: <20200922161611.2049616-1-berrange@redhat.com>
+References: <20200922161611.2049616-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -82,32 +86,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
  sheepdog@lists.wpkg.org, qemu-block@nongnu.org, libvir-list@redhat.com,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Liu Yuan <namei.unix@gmail.com>
+ Liu Yuan <namei.unix@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2 years back I proposed dropping the sheepdog mailing list from the=0D
-MAINTAINERS file, but somehow the patch never got picked up:=0D
-=0D
-  https://lists.gnu.org/archive/html/qemu-block/2018-03/msg01048.html=0D
-=0D
-So here I am with the same patch again.=0D
-=0D
-This time I go further and deprecate the sheepdog driver entirely.=0D
-See the rationale in the second patch commit message.=0D
-=0D
-Daniel P. Berrang=C3=A9 (2):=0D
-  block: drop moderated sheepdog mailing list from MAINTAINERS file=0D
-  block: deprecate the sheepdog block driver=0D
-=0D
- MAINTAINERS                |  1 -=0D
- block/sheepdog.c           | 15 +++++++++++++++=0D
- configure                  |  5 +++--=0D
- docs/system/deprecated.rst |  9 +++++++++=0D
- 4 files changed, 27 insertions(+), 3 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The sheepdog mailing list is setup to stop and queue messages from
+non-subscribers, pending moderator approval. Unfortunately it seems
+that the moderation queue is not actively dealt with. Even when messages
+are approved, the sender is never added to the whitelist, so every
+future mail from the same sender continues to get stopped for moderation.
+
+MAINTAINERS entries should be responsive and not unneccessarily block
+mails from QEMU contributors, so drop the sheepdog mailing list.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3d17cad19a..8e8a4fb0a8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2852,7 +2852,6 @@ F: block/rbd.c
+ Sheepdog
+ M: Liu Yuan <namei.unix@gmail.com>
+ L: qemu-block@nongnu.org
+-L: sheepdog@lists.wpkg.org
+ S: Odd Fixes
+ F: block/sheepdog.c
+ 
+-- 
+2.26.2
 
 
