@@ -2,117 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12E32742FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:26:49 +0200 (CEST)
-Received: from localhost ([::1]:59610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613772742E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:24:28 +0200 (CEST)
+Received: from localhost ([::1]:52290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKiJk-0002Gw-Ud
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58398)
+	id 1kKiHT-0007V9-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKiCw-0003t0-7y
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:19:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKiCo-0006vE-0W
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:19:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600780777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=h5vbYrTtOG63BO9SZsI4jJaPrOWeXvbw07/1RgE6nqY=;
- b=QQLcyieC6Hh9AKlhO58Wo9S7KpeI+YZBTYB34cJrR49R+ezfej5AWqVxujV5886hIIeZep
- gsvpjTmSezDa2p0uY27cA6D1KRSFFeVkC2uLt2/QP+YMK+mmffxqy9QYCqhBLwKBv1GG6A
- LfXgZn+6kdQikL1wl/XoBVUY5qH3SLk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-Qc-ckOgxPkyyAwmnBKHy5w-1; Tue, 22 Sep 2020 09:19:35 -0400
-X-MC-Unique: Qc-ckOgxPkyyAwmnBKHy5w-1
-Received: by mail-wr1-f69.google.com with SMTP id w7so7443451wrp.2
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 06:19:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=h5vbYrTtOG63BO9SZsI4jJaPrOWeXvbw07/1RgE6nqY=;
- b=JtvdrrhnShfSpXCibmnKQzb0O52Jpad8Q530PxYRNU6FTFV1IxJ/dmhg2+vG3rK/ql
- aGPYco0KWngRSANsp0RdK1SYhbgkT7nTLZS4dt3XxJMZi5smdJ2C+JtH45IPWyGTMB2J
- ApCkhjjDrAY6C93V3VOzqhBTmpzUMp9EEtfPH2jWVgbb+vrkSIuGLVXH4U1RtkleUzp0
- pO12nEmnUNqJEJY8gSyY5UJbO/5TcUmeQbUW8mXGitilk8F3ZMibBzX5JzE3dF/XmEVF
- vdktzbPi2pxTzyQMroUX5XV6uSVEya8gf7pzljeRi63my06tMJBPsso/AwYbPEzQXii4
- GbMw==
-X-Gm-Message-State: AOAM5311Zf/zj6kz0OmA959l7FdnCXjSbHYU6UO/GVyvYrn8Grn6Hux0
- RZmLWubjK0fNzXNOPfufE4Ejie03T6CZaoDusVZ7+SD2bzkNx7NIP26nSjam6TKIz0uakk1NmTC
- 5wXqeaYq6Vt7Xtoc=
-X-Received: by 2002:a7b:cd88:: with SMTP id y8mr1034558wmj.24.1600780773910;
- Tue, 22 Sep 2020 06:19:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYA5lNIM+ekSAA44KPgdz3GbAUGCMwWHVyRmnEIlswsoiPYOaNKwYTAbFnrLos4QUqF7+ehA==
-X-Received: by 2002:a7b:cd88:: with SMTP id y8mr1034542wmj.24.1600780773729;
- Tue, 22 Sep 2020 06:19:33 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id u2sm4592785wre.7.2020.09.22.06.19.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 06:19:32 -0700 (PDT)
-Subject: Re: [PATCH 1/1] block: drop moderated sheepdog mailing list from
- MAINTAINERS file
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200922090147.1993705-1-berrange@redhat.com>
- <20200922090147.1993705-2-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <8045dcba-5613-91ab-89dc-e987b30b5c03@redhat.com>
-Date: Tue, 22 Sep 2020 15:19:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1kKiBJ-00027i-9T
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:18:05 -0400
+Received: from mail-bn8nam12on2056.outbound.protection.outlook.com
+ ([40.107.237.56]:28032 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1kKiBF-0006mb-Fd
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:18:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OOZDuNUUzDKzoSaLbEiZSYj+z6m7pUrhKpfweoo+Oax88st0pmgnUOEu6imRQa5ONrGzGA8/UERRn6j2004W3qCvvitK9hKCuoYh0RLiKjt+/BF1FcpDbYYh7olauEI20wciDO8zNPJM1A5+7GfoB7B/9zJIVsIqtmh3+QhL9KeZQThzFzh/yzNCvYnOpPG3WHYq67+Scw3aUeFpW9X8v+83PBN1fsv6mcGTB/j8Hqh/RE++vcvmPNcgE/KQXE568+IeqzsgFxQr6zS60Lu6zRSk/wnGf48GuHv5kzNB6OvaY0IhNJSynFW5CJoNFUKpgcxTReLhbuDPGaXdNwZDXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O5sWvIL72sfzIoNFcGUQAyD6HfZSjsBEkVeiVGXZ3zg=;
+ b=ka0cmqo+4fKBOrKD0uIq5FhGeXdnF3zk5LadnCYbVJljPPluQswUKzLhKJfoKVhiIlVxesXp3nUDb+NAMfbiH1d+eXIYRrJLa9S64sDdBATPLxYkuebCaq45q0J5J1/lfiExLx7iwG5W9/XyIt+43oYQyazW/WdM92n+pqrpsAjFrBVrBHrUIPZsXwqGbXi7ThjAaRUk9zV+UyoVjtKg6Sd8gjlVI/5xjeB2GyVcfKAzc0WYWirtj7s6eHPNUfySjmLhVxzgL+kzcW5NtvgtxhEGRiiSJmdIvvXSAcGphaQVTfcYkrsqbq/PHECZ+u4Q4elrjp+AykUDs08KkKn2EQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O5sWvIL72sfzIoNFcGUQAyD6HfZSjsBEkVeiVGXZ3zg=;
+ b=gJazto1SreJvFiB+BfYDOuj3qDU97DggFKVeQMtep+rJD9SRDTxclIuGYIKTliPLD7aq0Rl3WfrdmvVKbp36yyBgkyPZl5X7464cSkMZ0tC9wkY5leY/OKYYzyc80HSm6HLwU7OxcgbfUaJ/GkDgyzXb4V3i/HF+dEXmDSf9ZF8=
+Received: from DM6PR02CA0089.namprd02.prod.outlook.com (2603:10b6:5:1f4::30)
+ by SN6PR02MB5087.namprd02.prod.outlook.com (2603:10b6:805:6e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.19; Tue, 22 Sep
+ 2020 13:17:49 +0000
+Received: from CY1NAM02FT064.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:5:1f4:cafe::8c) by DM6PR02CA0089.outlook.office365.com
+ (2603:10b6:5:1f4::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13 via Frontend
+ Transport; Tue, 22 Sep 2020 13:17:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT064.mail.protection.outlook.com (10.152.74.64) with Microsoft SMTP
+ Server id 15.20.3391.15 via Frontend Transport; Tue, 22 Sep 2020 13:17:49
+ +0000
+Received: from [149.199.38.66] (port=37278 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1kKiAo-0000Ow-LK; Tue, 22 Sep 2020 06:17:34 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1kKiB2-00089v-SA; Tue, 22 Sep 2020 06:17:48 -0700
+Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08MDHlF7020846; 
+ Tue, 22 Sep 2020 06:17:47 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1kKiB1-00089X-AK; Tue, 22 Sep 2020 06:17:47 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id 5972113C03E9; Tue, 22 Sep 2020 18:51:14 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Francisco Eduardo Iglesias <figlesia@xilinx.com>
+Subject: [PATCH v8 1/7] usb/hcd-xhci: Make dma read/writes hooks pci free
+Date: Tue, 22 Sep 2020 18:50:31 +0530
+Message-Id: <1600780837-8231-2-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1600780837-8231-1-git-send-email-sai.pavan.boddu@xilinx.com>
+References: <1600780837-8231-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-In-Reply-To: <20200922090147.1993705-2-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: d83198f3-8856-4082-c542-08d85ef9e747
+X-MS-TrafficTypeDiagnostic: SN6PR02MB5087:
+X-Microsoft-Antispam-PRVS: <SN6PR02MB508739B1AF7B0276AA2A1252CA3B0@SN6PR02MB5087.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hWbCU1crpa24c3lhWfIxvMDWXrw2nI7fOomJrM9sfw4nYqauJf7XFZWyOkABlnWtXDfE9XHG6/GBDerOA10K/UDXEf5GUEeLtAIsSUbDIajBsS9oFjK8+LB1lTwLc4FOmgZWS7kzTvt7/9GsZT96fS8HDf+Uwv8kcHMpuWyv4z/3Hz7FKUZtBAEVpU2rUsordzrWstHjcWDSNiz6hUYdHtOTmowB/KlYHw2B0S9TmFbJW1CKqnRKOSs7XA9FlLqcAtdg1Ymv5kvjUEOC3lDtel3WTTzIbZvWun/DfNQwZA97wN+GzWY2wExHUZ1hpp+loMoQJmeIhh4sURQwgmvuYYsKqEAKYjREzGlb8oVC1iZTq7kHReNTdzL9NQO8fFZkJLMv8ehj549pJ0AxTDvzVg==
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(39860400002)(396003)(136003)(376002)(346002)(46966005)(6666004)(8936002)(42186006)(70586007)(70206006)(110136005)(316002)(54906003)(6636002)(5660300002)(6266002)(107886003)(36756003)(8676002)(336012)(4326008)(2616005)(478600001)(82310400003)(7416002)(82740400003)(26005)(83380400001)(426003)(47076004)(186003)(81166007)(356005)(2906002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2020 13:17:49.2743 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d83198f3-8856-4082-c542-08d85ef9e747
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT064.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5087
+Received-SPF: pass client-ip=40.107.237.56; envelope-from=saipava@xilinx.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 09:17:59
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,43 +139,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Yuan <namei.unix@gmail.com>, sheepdog@lists.wpkg.org,
- qemu-block@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ qemu-devel@nongnu.org, Paul Zimmerman <pauldzim@gmail.com>,
+ Sai Pavan Boddu <saipava@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/20 11:01 AM, Daniel P. Berrangé wrote:
-> The sheepdog mailing list is setup to stop and queue messages from
-> non-subscribers, pending moderator approval. Unfortunately it seems
-> that the moderation queue is not actively dealt with. Even when messages
-> are approved, the sender is never added to the whitelist, so every
-> future mail from the same sender continues to get stopped for moderation.
-> 
-> MAINTAINERS entries should be responsive and not uneccessarily block
+This patch starts making the hcd-xhci.c pci free, as part of this
+restructuring dma read/writes are handled without passing pci object.
 
-Typo "unnecessarily".
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+---
+ hw/usb/hcd-xhci.c | 24 +++++++++++-------------
+ hw/usb/hcd-xhci.h |  1 +
+ 2 files changed, 12 insertions(+), 13 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> mails from QEMU contributors, so drop the sheepdog mailing list.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  MAINTAINERS | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3d17cad19a..8e8a4fb0a8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2852,7 +2852,6 @@ F: block/rbd.c
->  Sheepdog
->  M: Liu Yuan <namei.unix@gmail.com>
->  L: qemu-block@nongnu.org
-> -L: sheepdog@lists.wpkg.org
->  S: Odd Fixes
->  F: block/sheepdog.c
->  
-> 
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 46a2186..254cf1e 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -495,7 +495,7 @@ static inline void xhci_dma_read_u32s(XHCIState *xhci, dma_addr_t addr,
+ 
+     assert((len % sizeof(uint32_t)) == 0);
+ 
+-    pci_dma_read(PCI_DEVICE(xhci), addr, buf, len);
++    dma_memory_read(xhci->as, addr, buf, len);
+ 
+     for (i = 0; i < (len / sizeof(uint32_t)); i++) {
+         buf[i] = le32_to_cpu(buf[i]);
+@@ -515,7 +515,7 @@ static inline void xhci_dma_write_u32s(XHCIState *xhci, dma_addr_t addr,
+     for (i = 0; i < n; i++) {
+         tmp[i] = cpu_to_le32(buf[i]);
+     }
+-    pci_dma_write(PCI_DEVICE(xhci), addr, tmp, len);
++    dma_memory_write(xhci->as, addr, tmp, len);
+ }
+ 
+ static XHCIPort *xhci_lookup_port(XHCIState *xhci, struct USBPort *uport)
+@@ -644,7 +644,6 @@ static void xhci_die(XHCIState *xhci)
+ 
+ static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     XHCIInterrupter *intr = &xhci->intr[v];
+     XHCITRB ev_trb;
+     dma_addr_t addr;
+@@ -663,7 +662,7 @@ static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
+                                ev_trb.status, ev_trb.control);
+ 
+     addr = intr->er_start + TRB_SIZE*intr->er_ep_idx;
+-    pci_dma_write(pci_dev, addr, &ev_trb, TRB_SIZE);
++    dma_memory_write(xhci->as, addr, &ev_trb, TRB_SIZE);
+ 
+     intr->er_ep_idx++;
+     if (intr->er_ep_idx >= intr->er_size) {
+@@ -720,12 +719,11 @@ static void xhci_ring_init(XHCIState *xhci, XHCIRing *ring,
+ static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
+                                dma_addr_t *addr)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     uint32_t link_cnt = 0;
+ 
+     while (1) {
+         TRBType type;
+-        pci_dma_read(pci_dev, ring->dequeue, trb, TRB_SIZE);
++        dma_memory_read(xhci->as, ring->dequeue, trb, TRB_SIZE);
+         trb->addr = ring->dequeue;
+         trb->ccs = ring->ccs;
+         le64_to_cpus(&trb->parameter);
+@@ -762,7 +760,6 @@ static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
+ 
+ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     XHCITRB trb;
+     int length = 0;
+     dma_addr_t dequeue = ring->dequeue;
+@@ -773,7 +770,7 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+ 
+     while (1) {
+         TRBType type;
+-        pci_dma_read(pci_dev, dequeue, &trb, TRB_SIZE);
++        dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE);
+         le64_to_cpus(&trb.parameter);
+         le32_to_cpus(&trb.status);
+         le32_to_cpus(&trb.control);
+@@ -828,7 +825,7 @@ static void xhci_er_reset(XHCIState *xhci, int v)
+         xhci_die(xhci);
+         return;
+     }
+-    pci_dma_read(PCI_DEVICE(xhci), erstba, &seg, sizeof(seg));
++    dma_memory_read(xhci->as, erstba, &seg, sizeof(seg));
+     le32_to_cpus(&seg.addr_low);
+     le32_to_cpus(&seg.addr_high);
+     le32_to_cpus(&seg.size);
+@@ -1440,7 +1437,7 @@ static int xhci_xfer_create_sgl(XHCITransfer *xfer, int in_xfer)
+     int i;
+ 
+     xfer->int_req = false;
+-    pci_dma_sglist_init(&xfer->sgl, PCI_DEVICE(xhci), xfer->trb_count);
++    qemu_sglist_init(&xfer->sgl, DEVICE(xhci), xfer->trb_count, xhci->as);
+     for (i = 0; i < xfer->trb_count; i++) {
+         XHCITRB *trb = &xfer->trbs[i];
+         dma_addr_t addr;
+@@ -2104,7 +2101,7 @@ static TRBCCode xhci_address_slot(XHCIState *xhci, unsigned int slotid,
+     assert(slotid >= 1 && slotid <= xhci->numslots);
+ 
+     dcbaap = xhci_addr64(xhci->dcbaap_low, xhci->dcbaap_high);
+-    poctx = ldq_le_pci_dma(PCI_DEVICE(xhci), dcbaap + 8 * slotid);
++    poctx = ldq_le_dma(xhci->as, dcbaap + 8 * slotid);
+     ictx = xhci_mask64(pictx);
+     octx = xhci_mask64(poctx);
+ 
+@@ -2442,7 +2439,7 @@ static TRBCCode xhci_get_port_bandwidth(XHCIState *xhci, uint64_t pctx)
+     /* TODO: actually implement real values here */
+     bw_ctx[0] = 0;
+     memset(&bw_ctx[1], 80, xhci->numports); /* 80% */
+-    pci_dma_write(PCI_DEVICE(xhci), ctx, bw_ctx, sizeof(bw_ctx));
++    dma_memory_write(xhci->as, ctx, bw_ctx, sizeof(bw_ctx));
+ 
+     return CC_SUCCESS;
+ }
+@@ -3434,6 +3431,7 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
+     }
+ 
+     usb_xhci_init(xhci);
++    xhci->as = pci_get_address_space(dev);
+     xhci->mfwrap_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, xhci_mfwrap_timer, xhci);
+ 
+     memory_region_init(&xhci->mem, OBJECT(xhci), "xhci", LEN_REGS);
+@@ -3534,7 +3532,7 @@ static int usb_xhci_post_load(void *opaque, int version_id)
+             continue;
+         }
+         slot->ctx =
+-            xhci_mask64(ldq_le_pci_dma(pci_dev, dcbaap + 8 * slotid));
++            xhci_mask64(ldq_le_dma(xhci->as, dcbaap + 8 * slotid));
+         xhci_dma_read_u32s(xhci, slot->ctx, slot_ctx, sizeof(slot_ctx));
+         slot->uport = xhci_lookup_uport(xhci, slot_ctx);
+         if (!slot->uport) {
+diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
+index c3dfc14..c8a8ae4 100644
+--- a/hw/usb/hcd-xhci.h
++++ b/hw/usb/hcd-xhci.h
+@@ -188,6 +188,7 @@ struct XHCIState {
+ 
+     USBBus bus;
+     MemoryRegion mem;
++    AddressSpace *as;
+     MemoryRegion mem_cap;
+     MemoryRegion mem_oper;
+     MemoryRegion mem_runtime;
+-- 
+2.7.4
 
 
