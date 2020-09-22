@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25CB273E51
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:16:37 +0200 (CEST)
-Received: from localhost ([::1]:47736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD454273DFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:04:14 +0200 (CEST)
+Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKePc-0001CA-GP
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:16:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55918)
+	id 1kKeDd-0000M0-Kh
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdwL-0006Tr-11; Tue, 22 Sep 2020 04:46:21 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:43233)
+ id 1kKdwL-0006UK-98; Tue, 22 Sep 2020 04:46:21 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:48887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdwH-0000vD-OP; Tue, 22 Sep 2020 04:46:20 -0400
+ id 1kKdwJ-0000vb-9V; Tue, 22 Sep 2020 04:46:20 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7F6DB580365;
- Tue, 22 Sep 2020 04:45:56 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0F5DD5803A5;
+ Tue, 22 Sep 2020 04:45:58 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:56 -0400
+ by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=hDDxUxZwn/ah/
- Nkopk7l/Be61TqKuWyIVAS7lFd4F5o=; b=avAA1nnslcaARikRzynf2CxlZlTsR
- 4oeWQVvLauoltbAHyxS36jKrdoN0o/yqV1sTw22bryjFGBJY9gAYUSgwTEPhsuay
- AofPYYAo1T5ZDXayga0NZIAMCpYDWAMshrW/7BCF8wEalOCAg/i/qwQE9z0GBsqj
- Uhi6Nm8MncKqHW1S2rrk4b/+aXmEZpaK3AxdTPnRf3DIEd/TZ/JEmz5R9tC0PDEq
- wHRJ4Vdb9tBV/XYrrVg4l5ObjiMhWwQcbjCJkWfVyN8g1bLxC2CedJwrYwmqSU3S
- aMgdsszFY4egZXdBnMNU7bZMqvMfCr57lnD8QDrAiNe5xSdgl5NtepfaA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=pI74XoY9YTtFV
+ Y8r/NcYdsRNSfRcQvE606qFzlOBRKY=; b=h3vw25pdMfdh/iExP6Dy4wHpyzd/l
+ Vz3/pGDeaUjgc2ExZiqEHgXeEP/5e8USqgw7/vzQFF4NtdBdN81AHKiETWHR7XEo
+ 2vpMpy/Ek/+GsvbIQTH/5ymjLBSIZwf4WhX4+cb6Ne3bQQPvW8IltBfmlzb/Iv5A
+ ziZ0HaL8QDVuWJ3cO16w/jN2RFWN16piCPfVDXEhy5x9Hq9afGV6zZ0wLNZAsS9X
+ Fv2PqJWjaN09lWqTyJb1Kc3QDAveabNfnNRmv7jgngo5e8VsFTDBdrpJRPaL9ayT
+ GiLenKk87xfnSuX/e1SggfyiX4MfR7X2c0r4s5NnXO5ono4eUVTpeS0mA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=hDDxUxZwn/ah/Nkopk7l/Be61TqKuWyIVAS7lFd4F5o=; b=lNiqgPnG
- DpXJiQDjXzYNHHXox+QDk2en3HmWTy3urEAkaFfW7Z89K1m6FTTj+Ty8asMm2eMp
- RfKidLVSZdijTdGu7toMmO1xIitmiZYq9Psel69rXSmn1y2qxp24PJoa+iLGZu/E
- l49qeE02s04uBk2hw2Ufa+ddQRuRdX0F1TmpZQAiL04PGguWIkEKTjq+kUlKLXgG
- Zj0zaj201c1BU34iHsiEpZe7tSk63N48LlzNmyvk4/MvmlmQ561h0uz7UZ4BrTWQ
- a75yLEfLytmVFh5/jEa6y0eggXeVYI4BRFJv9PGnM3F7EP4TYe+KXGhMQrIsyLQ6
- gzN2c+Do+sed8A==
-X-ME-Sender: <xms:xLlpX6qFkfMV_h7R-R4hklhUC0JmUS0KevaPoQNG1u0q-eWtipZzpA>
- <xme:xLlpX4rBul8Z4-KB288BVi8U0iBpryLOf5b73hiKZf8xucljxi-2V4oPgl6ZvR8CU
- Jf-iZpgeNxkTJZ0qig>
+ fm3; bh=pI74XoY9YTtFVY8r/NcYdsRNSfRcQvE606qFzlOBRKY=; b=YN4y2Vue
+ 8X1YR+dotEuvPK5HVjAH6w6kzALvQ1qDRXOibHcMErOrzWUb5AY6qVpjwHZgQkDl
+ uajpjFu1Zd9fzesTi3rS32JLBsCILV/raUgsZfFABHni2SuDBhFden6DmO0MCKo3
+ NG2JJmfk9mG2VY3ND59NYcqrUpMVXmyMuLTJwXLHNQJlkt0BtgJbNrvJHZOqTrlI
+ 2oibKi1lMog8AMlpwGegrwzBoPxg4iY4JT/YQ2BwwyzuEu61ffc+krZpEToKdSXJ
+ jxQi0s60HUlmmD16BLJbhOjFDuEY2aX7uLlID2tkDYyUWCfTNbgWQZENaDlFETC6
+ JIsli+mXKRv33A==
+X-ME-Sender: <xms:xblpXyXa_D5F7Ws5klVpJObmu7LuzezjlQ3gnb1HYl3SLIN4H3g1Vg>
+ <xme:xblpX-k7uHXeyiscBbxnthEJY0-Foth7PXh79qSemkCHVbYqCF7rUZtvCCgMU0AIz
+ wCpSGf73ePbD9ZQ3vI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggddtkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
  lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepledtteefgeekgfeuvddtudffjeeivdejjedujeeileevkefhkedvfeelleduveff
- necuffhomhgrihhnpedvtdduledqtdekrdhorhhgnecukfhppeektddrudeijedrleekrd
- duledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
- ihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:xLlpX_O7_ppS1XViNrsCmS3OUlbmPe-SZ4m7MGnHWYkW63yFT6LxkQ>
- <xmx:xLlpX57EOR5J-exMPqRCOKxFkppwfhgvMnyObR3mjTtL3sLIXsBt7w>
- <xmx:xLlpX55vKkcFHfWVD8BivT1wy0ymO4m_VuijepSiASWIWDmpzf7lYg>
- <xmx:xLlpXzuH8NkMO3eD4SYHZTWBGgKV3MDfZqv0Igmyuh8mX8bQ7cL5OjegOuw>
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepgeenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:xblpX2YwceX4AAgYimzOgrvRJy22gvqxOJYayiywRgMnr_pL5FwgeQ>
+ <xmx:xblpX5WrmLkYhBpXsVssWXLjv6qeWVzAaahMU9r-l0-gqfJYm1B8Hw>
+ <xmx:xblpX8mwyM-d3usDJJCEuiNxFfvh5yIgFhdNKEWFgvU-TasgMcGOtQ>
+ <xmx:xblpX27-BIooRuY-Pjlv9zei9wgf1RtG3u3hVy7ikb1k-z4quD-KAUvcrKM>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8944C306467E;
- Tue, 22 Sep 2020 04:45:54 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 314023064687;
+ Tue, 22 Sep 2020 04:45:56 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/17] hw/block/nvme: add support for sgl bit bucket
- descriptor
-Date: Tue, 22 Sep 2020 10:45:29 +0200
-Message-Id: <20200922084533.1273962-14-its@irrelevant.dk>
+Subject: [PATCH v3 14/17] hw/block/nvme: refactor identify active namespace id
+ list
+Date: Tue, 22 Sep 2020 10:45:30 +0200
+Message-Id: <20200922084533.1273962-15-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200922084533.1273962-1-its@irrelevant.dk>
 References: <20200922084533.1273962-1-its@irrelevant.dk>
@@ -98,120 +97,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This adds support for SGL descriptor type 0x1 (bit bucket descriptor).
-See the NVM Express v1.3d specification, Section 4.4 ("Scatter Gather
-List (SGL)").
+Prepare to support inactive namespaces.
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
+ hw/block/nvme.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c5d09ff1edf5..1fdd5c9c5ab0 100644
+index 1fdd5c9c5ab0..f61076178a6d 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -430,6 +430,10 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-         uint8_t type = NVME_SGL_TYPE(segment[i].type);
+@@ -1473,7 +1473,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+     uint32_t min_nsid = le32_to_cpu(c->nsid);
+     uint32_t *list;
+     uint16_t ret;
+-    int i, j = 0;
++    int j = 0;
  
-         switch (type) {
-+        case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
-+            if (req->cmd.opcode == NVME_CMD_WRITE) {
-+                continue;
-+            }
-         case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
-             break;
-         case NVME_SGL_DESCR_TYPE_SEGMENT:
-@@ -440,6 +444,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-         }
+     trace_pci_nvme_identify_nslist(min_nsid);
  
-         dlen = le32_to_cpu(segment[i].len);
-+
-         if (!dlen) {
-             continue;
-         }
-@@ -460,6 +465,11 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-         }
- 
-         trans_len = MIN(*len, dlen);
-+
-+        if (type == NVME_SGL_DESCR_TYPE_BIT_BUCKET) {
-+            goto next;
-+        }
-+
-         addr = le64_to_cpu(segment[i].addr);
- 
-         if (UINT64_MAX - addr < dlen) {
-@@ -471,6 +481,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-             return status;
-         }
- 
-+next:
-         *len -= trans_len;
+@@ -1488,11 +1488,11 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
      }
  
-@@ -540,7 +551,8 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
-         seg_len = le32_to_cpu(sgld->len);
- 
-         /* check the length of the (Last) Segment descriptor */
--        if (!seg_len || seg_len & 0xf) {
-+        if ((!seg_len || seg_len & 0xf) &&
-+            (NVME_SGL_TYPE(sgld->type) != NVME_SGL_DESCR_TYPE_BIT_BUCKET)) {
-             return NVME_INVALID_SGL_SEG_DESCR | NVME_DNR;
+     list = g_malloc0(data_len);
+-    for (i = 0; i < n->num_namespaces; i++) {
+-        if (i < min_nsid) {
++    for (int i = 1; i <= n->num_namespaces; i++) {
++        if (i <= min_nsid) {
+             continue;
          }
- 
-@@ -577,19 +589,27 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
- 
-         last_sgld = &segment[nsgld - 1];
- 
--        /* if the segment ends with a Data Block, then we are done */
--        if (NVME_SGL_TYPE(last_sgld->type) == NVME_SGL_DESCR_TYPE_DATA_BLOCK) {
-+        /*
-+         * If the segment ends with a Data Block or Bit Bucket Descriptor Type,
-+         * then we are done.
-+         */
-+        switch (NVME_SGL_TYPE(last_sgld->type)) {
-+        case NVME_SGL_DESCR_TYPE_DATA_BLOCK:
-+        case NVME_SGL_DESCR_TYPE_BIT_BUCKET:
-             status = nvme_map_sgl_data(n, qsg, iov, segment, nsgld, &len, req);
-             if (status) {
-                 goto unmap;
-             }
- 
-             goto out;
-+
-+        default:
-+            break;
+-        list[j++] = cpu_to_le32(i + 1);
++        list[j++] = cpu_to_le32(i);
+         if (j == data_len / sizeof(uint32_t)) {
+             break;
          }
- 
-         /*
--         * If the last descriptor was not a Data Block, then the current
--         * segment must not be a Last Segment.
-+         * If the last descriptor was not a Data Block or Bit Bucket, then the
-+         * current segment must not be a Last Segment.
-          */
-         if (NVME_SGL_TYPE(sgld->type) == NVME_SGL_DESCR_TYPE_LAST_SEGMENT) {
-             status = NVME_INVALID_SGL_SEG_DESCR | NVME_DNR;
-@@ -2656,7 +2676,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->nn = cpu_to_le32(n->num_namespaces);
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
-                            NVME_ONCS_FEATURES);
--    id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN);
-+    id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
-+                           NVME_CTRL_SGLS_BITBUCKET);
- 
-     subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
-     strpadcpy((char *)id->subnqn, sizeof(id->subnqn), subnqn, '\0');
 -- 
 2.28.0
 
