@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F46B273DC3
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 10:51:24 +0200 (CEST)
-Received: from localhost ([::1]:36264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E004F273DD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 10:58:06 +0200 (CEST)
+Received: from localhost ([::1]:46778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKe1D-00006x-HL
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 04:51:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55740)
+	id 1kKe7h-0004rj-Sb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 04:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdvw-0005qB-Qt; Tue, 22 Sep 2020 04:45:57 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:60853)
+ id 1kKdvx-0005rC-P4; Tue, 22 Sep 2020 04:45:58 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:36781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdvp-0000u0-TR; Tue, 22 Sep 2020 04:45:56 -0400
+ id 1kKdvt-0000uT-MS; Tue, 22 Sep 2020 04:45:57 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id CAEF35803CD;
- Tue, 22 Sep 2020 04:45:48 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9F6AA5803D2;
+ Tue, 22 Sep 2020 04:45:51 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:48 -0400
+ by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- Ojy83Nfc2GnYW6RcGNKZq2aKjh/wCl/T5NTokRsgWx8=; b=n/HS6x1QspMBCVK7
- Rk55RT0OZrKajajLHyKiWP/9lIn+fussrSdirFYtE6SHWY1m2EsaEdwXfdONSDA9
- llFHp6Yo8Z2KdX37XEXr5Uwh5vI1nrr/1Zao5fMcY52nHG51agkK5PldJERywyNy
- 1zUSOO96BpgCNzuiVL7B3wuYEi/gzE/+0H3AzXvn7NQMbGLoCgQuKeV6CSnpQt+Y
- 7JWd/9cFhnfuG4VblTMFnSBtYhlZvlvYDjjcUf5SWge1fsE2w8NkfGt6NAzkPGBb
- TPf8houNBBaxLoUCIOGr+AeTpoCY82ri+gfjjx3TBgPaQVEAxd302d7nQlcrwyUa
- M4/REg==
+ uZTCOwZBmQJ+vcy34pRVZzDnBEYW3yz7+LNT9Yctx1k=; b=XWtMy1l/ogggAM7b
+ oppF59IPyAh1oS9Xall5n0dF1p5zMbE05qDqGhzi57631gRcxkcFE3Md9UQUJ2/x
+ m+U9xi92d92HFuXNZhDKBl3VypHRZzRm2GtlyLeUe60CbPvbcMVFIcOuD93dAcp8
+ YJda4smy3E7K66fDu/sygpfzbwpqeLGLs0KJlzPE07hamoYf1LtbrFF7TIFHklLv
+ duACp87OcBpoMF+C9wyYiYyev1yt6i6mqOJKYIYGtrt0fd4TbjM7LTo+qsVPU1Zz
+ 3aUxbvDPDBJzbgIJlQQ1//RdfQb1lWXHbF/XFRXftSWMTEElwcWQPxAPzFDi+P13
+ efysNw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=Ojy83Nfc2GnYW6RcGNKZq2aKjh/wCl/T5NTokRsgW
- x8=; b=VxdSCLi7ZOeAuBah2xV8NjoIr/716LqPpzpvys7janY9X+42nQusucXLe
- JCoOj2DiAY9Z3el1LFpzo7xO1DeD5+8C7dXV4HZcvfxe8tFcWbCpO2ORXNuOLE/4
- h+Sv3hdlkN2J8uBfZMz1avnx9tWATT6nr3UZGSOhFFkP7vtIw3s+GkQ99eSwHx/O
- N5zHAgICJzEGTmOXrR0kMMIfe52HAlx8KbkLEXklxMwZQ7cFPLXcZuaCXUVhwV19
- atw/YBAkdbeOTgVVJCqpiNKkSoHLK4Zxybr6TxDWVfh+c4rTtK8jjbe7stwBDiUp
- 3D7b6ziVRaAHtZaYDYO9s9V1bgKmQ==
-X-ME-Sender: <xms:vLlpX9g4mTJNs8FUM90Is-x4It8bIUN1cdssY68fiRBXCUPQZhrxbA>
- <xme:vLlpXyBgZTOQRXEo_UbeSlIkbIVCz2MW0T3N-XgUYaNzu2_GZtCx7-WHXHPWjEmRE
- 1xZ7p-Kz71_dbc5ADY>
+ :x-sasl-enc; s=fm3; bh=uZTCOwZBmQJ+vcy34pRVZzDnBEYW3yz7+LNT9Yctx
+ 1k=; b=g45UtKuje8L655A/3m5AdDDqXcCMot8aMVCfWerFfCC+bHcDet6wDrnhE
+ AU9zAOiBiy09ECOpglkNRJC+9Z+GFGG+mcVDaSf4GFWJpRXjiD40G1TZoroi4dmO
+ Oy7LyLpBwqKgR3uN+/+6P7cDblWDqhkbpzM2KAFK7Qgghfk67p8WnglLBUpgPx2N
+ bKjsnB3qAXsHWtXDZ+EtZyXAhj8H/bJ25ll7SdVVxNLRWbg0ZOy4Ss6iPMD9++X/
+ Fics0cnx/HjK33jgulUm29AuaukJc0msigH+Q+WdyVXRJlsI7PvIqNwYJ1CoxF2c
+ tK0jLhNc9KrQvHrVKASNMNXQ0YqPA==
+X-ME-Sender: <xms:v7lpX_Md-FPEQa4nc-pPAROK4qczXyt_OnqJ8Op7Gxt-ztLLL3LJfA>
+ <xme:v7lpX58uh0kMMAWwMUFMhaWZiOVOVRuu2-YXl1alq28tH2iIm2QHzIpPLBiJuSbGO
+ eBhYCMiDZ7-psgXEq4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggddtkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,20 +54,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggddtkecutefuodetggdote
  gvrhhnpeetveeuudegveeiheegieelueeftedvtdekteefleegheduhfejueelvdfhffdt
  geenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeefne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:vLlpX9EFZ0sO6oJrUmyiURdF-mqQ26RO7Nz63VpQCNbHHQJwaXXB5w>
- <xmx:vLlpXySspokKsyqGWRWqA1INwdJDfIe_-W6vYWvbueJhjS6OsC8Ygw>
- <xmx:vLlpX6xnE4B-CWygPxU46zL2VRhfaaGkGjGD1eJu4XtZXcdp7_hGeQ>
- <xmx:vLlpX5kEly15CLLzcmCbpxoANoEfB2a0STMlmDdXycwmzHrDV7Q-WvV257s>
+X-ME-Proxy: <xmx:v7lpX-QLZpaCrcswLrLkIqYYitfomugt-h75fKV0lxaNnGGSpmk39Q>
+ <xmx:v7lpXztUNatISyKVMILk1-Hz-fi25V9-7nwtFpbz5JAmnDPpmkmZPw>
+ <xmx:v7lpX3ejCdxd_cbY6uF7bugHnP7ilQILWUlsSFpJvzNs2PkipDZ_qA>
+ <xmx:v7lpX2y1_xbhLeZtq5BHZZrEH7pPEcEmKn9KBN8dqhVaTCZSGgVJUREjeZc>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id A561B306467E;
- Tue, 22 Sep 2020 04:45:46 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id C7F07306467E;
+ Tue, 22 Sep 2020 04:45:49 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/17] hw/block/nvme: add symbolic command name to trace
- events
-Date: Tue, 22 Sep 2020 10:45:24 +0200
-Message-Id: <20200922084533.1273962-9-its@irrelevant.dk>
+Subject: [PATCH v3 10/17] hw/block/nvme: default request status to success
+Date: Tue, 22 Sep 2020 10:45:26 +0200
+Message-Id: <20200922084533.1273962-11-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200922084533.1273962-1-its@irrelevant.dk>
 References: <20200922084533.1273962-1-its@irrelevant.dk>
@@ -107,107 +106,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add the symbolic command name to the pci_nvme_{io,admin}_cmd and
-pci_nvme_rw trace events.
+Make the default request status NVME_SUCCESS so only error status codes
+have to be set.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.h       | 28 ++++++++++++++++++++++++++++
- hw/block/nvme.c       |  8 +++++---
- hw/block/trace-events |  6 +++---
- 3 files changed, 36 insertions(+), 6 deletions(-)
+ hw/block/nvme.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 1675c1e0755c..ce9e931420d7 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -32,6 +32,34 @@ typedef struct NvmeRequest {
-     QTAILQ_ENTRY(NvmeRequest)entry;
- } NvmeRequest;
- 
-+static inline const char *nvme_adm_opc_str(uint8_t opc)
-+{
-+    switch (opc) {
-+    case NVME_ADM_CMD_DELETE_SQ:        return "NVME_ADM_CMD_DELETE_SQ";
-+    case NVME_ADM_CMD_CREATE_SQ:        return "NVME_ADM_CMD_CREATE_SQ";
-+    case NVME_ADM_CMD_GET_LOG_PAGE:     return "NVME_ADM_CMD_GET_LOG_PAGE";
-+    case NVME_ADM_CMD_DELETE_CQ:        return "NVME_ADM_CMD_DELETE_CQ";
-+    case NVME_ADM_CMD_CREATE_CQ:        return "NVME_ADM_CMD_CREATE_CQ";
-+    case NVME_ADM_CMD_IDENTIFY:         return "NVME_ADM_CMD_IDENTIFY";
-+    case NVME_ADM_CMD_ABORT:            return "NVME_ADM_CMD_ABORT";
-+    case NVME_ADM_CMD_SET_FEATURES:     return "NVME_ADM_CMD_SET_FEATURES";
-+    case NVME_ADM_CMD_GET_FEATURES:     return "NVME_ADM_CMD_GET_FEATURES";
-+    case NVME_ADM_CMD_ASYNC_EV_REQ:     return "NVME_ADM_CMD_ASYNC_EV_REQ";
-+    default:                            return "NVME_ADM_CMD_UNKNOWN";
-+    }
-+}
-+
-+static inline const char *nvme_io_opc_str(uint8_t opc)
-+{
-+    switch (opc) {
-+    case NVME_CMD_FLUSH:            return "NVME_NVM_CMD_FLUSH";
-+    case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
-+    case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
-+    case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
-+    default:                        return "NVME_NVM_CMD_UNKNOWN";
-+    }
-+}
-+
- typedef struct NvmeSQueue {
-     struct NvmeCtrl *ctrl;
-     uint16_t    sqid;
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 638e3b1ccac8..bae43276bd6f 100644
+index aa13809eaab2..7c9ea792483c 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -678,7 +678,8 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
-     enum BlockAcctType acct = is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
-     uint16_t status;
- 
--    trace_pci_nvme_rw(is_write ? "write" : "read", nlb, data_size, slba);
-+    trace_pci_nvme_rw(nvme_cid(req), nvme_io_opc_str(rw->opcode), nlb,
-+                      data_size, slba);
- 
-     status = nvme_check_mdts(n, data_size);
-     if (status) {
-@@ -727,7 +728,7 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
- 
-     trace_pci_nvme_io_cmd(nvme_cid(req), nsid, nvme_sqid(req),
--                          req->cmd.opcode);
-+                          req->cmd.opcode, nvme_io_opc_str(req->cmd.opcode));
- 
-     if (unlikely(nsid == 0 || nsid > n->num_namespaces)) {
-         trace_pci_nvme_err_invalid_ns(nsid, n->num_namespaces);
-@@ -1584,7 +1585,8 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeRequest *req)
- 
- static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+@@ -230,6 +230,7 @@ static void nvme_req_clear(NvmeRequest *req)
  {
--    trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opcode);
-+    trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opcode,
-+                             nvme_adm_opc_str(req->cmd.opcode));
+     req->ns = NULL;
+     memset(&req->cqe, 0x0, sizeof(req->cqe));
++    req->status = NVME_SUCCESS;
+ }
  
-     switch (req->cmd.opcode) {
-     case NVME_ADM_CMD_DELETE_SQ:
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 5589db4a014f..024786f4833c 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -36,9 +36,9 @@ pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2, int num_prps) "trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
--pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8""
--pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8""
--pci_nvme_rw(const char *verb, uint32_t blk_count, uint64_t byte_count, uint64_t lba) "%s %"PRIu32" blocks (%"PRIu64" bytes) from LBA %"PRIu64""
-+pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
-+pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
-+pci_nvme_rw(uint16_t cid, const char *verb, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" '%s' nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_rw_cb(uint16_t cid) "cid %"PRIu16""
- pci_nvme_write_zeroes(uint16_t cid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" slba %"PRIu64" nlb %"PRIu32""
- pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
+ static void nvme_req_exit(NvmeRequest *req)
+@@ -546,8 +547,6 @@ static void nvme_process_aers(void *opaque)
+         result->log_page = event->result.log_page;
+         g_free(event);
+ 
+-        req->status = NVME_SUCCESS;
+-
+         trace_pci_nvme_aer_post_cqe(result->event_type, result->event_info,
+                                     result->log_page);
+ 
+@@ -626,7 +625,6 @@ static void nvme_rw_cb(void *opaque, int ret)
+ 
+     if (!ret) {
+         block_acct_done(stats, acct);
+-        req->status = NVME_SUCCESS;
+     } else {
+         uint16_t status;
+ 
 -- 
 2.28.0
 
