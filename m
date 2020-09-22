@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80A4273DDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:00:01 +0200 (CEST)
-Received: from localhost ([::1]:49954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13B5273DD2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 10:57:30 +0200 (CEST)
+Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKe9Y-0006Em-G5
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:00:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55694)
+	id 1kKe77-0004H1-Rd
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 04:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdvt-0005pc-LP; Tue, 22 Sep 2020 04:45:55 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:50359)
+ id 1kKdvv-0005q2-Me; Tue, 22 Sep 2020 04:45:57 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:46843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kKdvn-0000ta-LC; Tue, 22 Sep 2020 04:45:53 -0400
+ id 1kKdvo-0000tk-Vu; Tue, 22 Sep 2020 04:45:55 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4C0AB5803D4;
- Tue, 22 Sep 2020 04:45:45 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id E5ED95803C8;
+ Tue, 22 Sep 2020 04:45:46 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:45 -0400
+ by compute7.internal (MEProxy); Tue, 22 Sep 2020 04:45:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=BuVWf7K7r6D5W
- APDM9OnOb8xHbu3nSIobz6Rw3eQCes=; b=RkYpwS6aYBDoyWZXago9d6U87MI5E
- Xqt8Kbartlz8Xj2Ijpg2sjVu/KK1wjRQGZuhBsLtH0WoKEGPW9zmCrn8mSaH2UUG
- TkVbjE5dI7WYJXqd1vvpvt919FdooRJSByxnE9h00uuQWEYY1tlA+1VMVeSDWJ4G
- BMXCzHduDV63A48OdM1C5j+u09ZpF+s7vfKjL9Cwk8FM78lKXhJyQfQvFpHrMNId
- HntD11QVCEwtE4ZNf1GJh92zayhpNWuv4vRZyjNQ/7EZW5DX0oG6CksCDUl1cZoO
- LJM2S+9NmpLzn3ZnJ5+aiDNXWEPF8ru5XmoY4S4pcOUIfG+Th1xfkiNtQ==
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ qVzj+sd8V8qtSgJnTbXuHzdDLCHWmm6nkGXXm+BIZDM=; b=ibNtkrnt1Nz7G0Ma
+ MCal3hwdTmLwoBZ52FfRRd5bjpuSvjStCBV9388Ico8Sfrmc4r28/GPbSZVqn0nx
+ 7GyPeVC4wmifJ3mn4k6v5Xxrn3jPgneEhClAfGpej+P6lV9V/AZGyNplIvUMV8ZN
+ kIriENfWiYyBIp63qJrrntPJTcu+MzxasWFhDroCh9jKlYqoIcB+dNqfZxoUodhk
+ FqgruzCsDNP/hstdFXaO8+KqhWUe8eabn3N0Wx+5ACIcQZoU3M6Sf818VJR23jH3
+ vNjgkpDSKyyJoSDGeT72Dq5nEx8Rm3T+R+9Ha5AGx3AjW/iCTQhoWrKmgKt0XGAi
+ vjm95w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=BuVWf7K7r6D5WAPDM9OnOb8xHbu3nSIobz6Rw3eQCes=; b=f3D7TmMX
- 8niFzhl8BHaF9pfayqjtTg498LoCe1kGLirUN3cig5fKHh/tUDgGDXTmJefECZED
- o47pIUMj1CCwvnBn9sSdc0GJ57gsHIpQsjl3Tm6iThFcoNoOd+Rjmwb1d6t3E5Dx
- UOelv7//g0Dd/lZ/Xtt7EnzzkpXPrZEqxn9r+KCIZYgaGSuHymQrRQyGzK/2epzx
- kX2nhEclasA1YZiiFllY6AWbMpxjrR2BuxzYJXb8d9yTvhHEiu6cARIlw1qTq4dd
- TuSseorw8U2itiXsmi32h6NBnXsGhw4yJziOa7VwTGEbNTqCWA+xo324bbh22hCf
- pPCmpI1pyCkxtA==
-X-ME-Sender: <xms:uLlpX7pfcKjP3Sv8bOKfaNwNEOVhnqrGUCMNQffhFeYvB9eiE9-iHg>
- <xme:uLlpX1r6R4E_QzT4HdAOi9ksKmVe39wo5cZ_OHGdXhfWUCFjzLFqn8JD0MSK0urDo
- if-TVuYaa04_Q2gIGg>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=qVzj+sd8V8qtSgJnTbXuHzdDLCHWmm6nkGXXm+BIZ
+ DM=; b=F07PdAFKH/uh6BE8ew45UdMlqrMpKyMJMXt9z5ouPmzE7tuT+Y3y1r26S
+ wEq5vTE+WNhU+vafw1WIJz2qg2AUqVTYh5IvjR1yCQpb+FYXMRgYNsYffsEOJ5sq
+ y4vwyl+vO05ZPz+KZvJLz+9XQSGD64zEdRXFTir+lwmCrEvGajhqWHZ+8O+glHdG
+ yybdZilCaIgiXDvAFU+UWmX+aVTw3hmYtjvu4t4IBKlAuMhlZVZy/syBrWPXnvyu
+ LC9USQvTTUkQEu/CbJnPSY1SpdGZfmG34OXVCMoJtOVgM2pZG5dIFgLymq8fxPT7
+ Knaqbq5KBInmg93BgGvBFL/qnOJfw==
+X-ME-Sender: <xms:urlpX7CNaLYnCl6VVVUgcpwqtnDLCMQkJMBSGB5xqNHuB75QWyXXzw>
+ <xme:urlpXxiQBiBsSBtqqGofKPvaldRRZDl-P2OVz8YpH9ip-3HplQofX0p-fPFHK2lVa
+ zOQHNJYeUWzzX795Ns>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggddtkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:uLlpX4PM6oQKU8Y879GQtE8h8EDhihHb6hAGViiXhWDYhG7ABdekyQ>
- <xmx:uLlpX-4xXvNUuM2UR9CmWtfV6JERcuIivbU00dKlZiTjFAgRVnND7g>
- <xmx:uLlpX67aouf3y2XJFRdaY2zmLcnXPsMQt4hZwQ5GSDZ_QX2cw2icSw>
- <xmx:ublpXxbPbIYYxuNR-p58qlcYY7cqd_VJiRhUX-lOJ_E5RaQemnY5Mw>
+ fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeetveeuudegveeiheegieelueeftedvtdekteefleegheduhfejueelvdfhffdt
+ geenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeefne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:urlpX2lCwSX0Gi0oc9Dt6JoD6GTQMgz0WHvTET0_IzEgiPF7E_ioQw>
+ <xmx:urlpX9wIo0Az8TBKkZR0MwgKyfB8gNpSqGCndj6eRzhb1pxAqrWjWA>
+ <xmx:urlpXwQydC6ImPXa-HykkLST1e3qEX8bJJDpg83IDOHG8nz13BECcA>
+ <xmx:urlpXzGX2ccg6X6ZTxDyCX3AceXSwjXJTmUWJ0sq3NJPLzIAoPAxQtTWkBA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8293D3064686;
- Tue, 22 Sep 2020 04:45:43 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0E0913064682;
+ Tue, 22 Sep 2020 04:45:44 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/17] hw/block/nvme: add a lba to bytes helper
-Date: Tue, 22 Sep 2020 10:45:22 +0200
-Message-Id: <20200922084533.1273962-7-its@irrelevant.dk>
+Subject: [PATCH v3 07/17] hw/block/nvme: fix endian conversion
+Date: Tue, 22 Sep 2020 10:45:23 +0200
+Message-Id: <20200922084533.1273962-8-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200922084533.1273962-1-its@irrelevant.dk>
 References: <20200922084533.1273962-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.230; envelope-from=its@irrelevant.dk;
  helo=new4-smtp.messagingengine.com
@@ -97,71 +99,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add the nvme_l2b helper and use it for converting NLB and SLBA to byte
-counts and offsets.
+The raw NLB field is a 16 bit value, so use le16_to_cpu instead of
+le32_to_cpu and cast to uint32_t before incrementing the value to not
+wrap around.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/nvme.h |  6 ++++++
- hw/block/nvme.c | 12 ++++--------
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ hw/block/nvme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 52ba794f2e9a..1675c1e0755c 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -77,6 +77,12 @@ static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
-     return nvme_ns_lbaf(ns)->ds;
- }
- 
-+/* convert an LBA to the equivalent in bytes */
-+static inline size_t nvme_l2b(NvmeNamespace *ns, uint64_t lba)
-+{
-+    return lba << nvme_ns_lbads(ns);
-+}
-+
- #define TYPE_NVME "nvme"
- #define NVME(obj) \
-         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index bc8690fa7aaa..25b34b3701db 100644
+index 25b34b3701db..638e3b1ccac8 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -644,12 +644,10 @@ static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
+@@ -645,7 +645,7 @@ static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
+     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
+     NvmeNamespace *ns = req->ns;
+     uint64_t slba = le64_to_cpu(rw->slba);
+-    uint32_t nlb  = le16_to_cpu(rw->nlb) + 1;
++    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
+     uint64_t offset = nvme_l2b(ns, slba);
+     uint32_t count = nvme_l2b(ns, nlb);
+     uint16_t status;
+@@ -669,7 +669,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
  {
      NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
      NvmeNamespace *ns = req->ns;
--    const uint8_t lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
--    const uint8_t data_shift = ns->id_ns.lbaf[lba_index].ds;
-     uint64_t slba = le64_to_cpu(rw->slba);
-     uint32_t nlb  = le16_to_cpu(rw->nlb) + 1;
--    uint64_t offset = slba << data_shift;
--    uint32_t count = nlb << data_shift;
-+    uint64_t offset = nvme_l2b(ns, slba);
-+    uint32_t count = nvme_l2b(ns, nlb);
-     uint16_t status;
- 
-     trace_pci_nvme_write_zeroes(nvme_cid(req), slba, nlb);
-@@ -674,10 +672,8 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
-     uint32_t nlb  = le32_to_cpu(rw->nlb) + 1;
+-    uint32_t nlb  = le32_to_cpu(rw->nlb) + 1;
++    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
      uint64_t slba = le64_to_cpu(rw->slba);
  
--    uint8_t lba_index  = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
--    uint8_t data_shift = ns->id_ns.lbaf[lba_index].ds;
--    uint64_t data_size = (uint64_t)nlb << data_shift;
--    uint64_t data_offset = slba << data_shift;
-+    uint64_t data_size = nvme_l2b(ns, nlb);
-+    uint64_t data_offset = nvme_l2b(ns, slba);
-     int is_write = rw->opcode == NVME_CMD_WRITE ? 1 : 0;
-     enum BlockAcctType acct = is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
-     uint16_t status;
+     uint64_t data_size = nvme_l2b(ns, nlb);
 -- 
 2.28.0
 
