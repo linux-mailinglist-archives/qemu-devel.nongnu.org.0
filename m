@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2EE274B87
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:50:05 +0200 (CEST)
-Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E557274B78
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:47:38 +0200 (CEST)
+Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqAm-00075s-Hx
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:50:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
+	id 1kKq8O-0003Oz-Us
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpj9-0003L8-4R
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30953)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpjO-0003kF-U7
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpj5-000750-JM
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpjL-00076E-RI
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809686;
+ s=mimecast20190719; t=1600809703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d1w7A9tf/5Qzt1yH408ACdCWC7OW5p+S8aaxkJNuoPE=;
- b=ZLqGX4uNnQwFkGCCuOEd2ryka/C/DNnHVQDI0SjdpnKJ+IPwAVmlhd3syXnMPcZM85AxLB
- v+8c/JEn8CwXKy69grz5qihFFTyC29DekGYczcNSmwq+XTekoQFUN7wVIWMHg3yb2ccqz9
- xXc0XSL5Bm6Tku8M83sK5CbmSqbhprE=
+ bh=+2DkJ41FXrYPe/QdNiQI4Frq9BhZCYdbi+2TVHr0zEY=;
+ b=DSqsYwofmjrrMK5MU2MD4SvgOND6UQi4+zW2cnirVAnb5UXNpM24L8EldlsdMYVN201NFF
+ YaQ+DZXK06Ajl/GnzgeMaRa+2sUAPAJVgLb5R467m9HiLDkDBVTHy2nSiBT/l4b/yaMNvJ
+ bluk9LeKM+4QGFPM92IJ1jVV53VoB78=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-g7yzsh0ENwqX1za9HGQXlw-1; Tue, 22 Sep 2020 17:21:22 -0400
-X-MC-Unique: g7yzsh0ENwqX1za9HGQXlw-1
+ us-mta-465-PDM9HDmtOtOMJqa7tSIuSQ-1; Tue, 22 Sep 2020 17:21:24 -0400
+X-MC-Unique: PDM9HDmtOtOMJqa7tSIuSQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1FE01DE09;
- Tue, 22 Sep 2020 21:21:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF0298030B8;
+ Tue, 22 Sep 2020 21:21:23 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FB0D5DE86;
- Tue, 22 Sep 2020 21:21:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B2F65DA7B;
+ Tue, 22 Sep 2020 21:21:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 2/6] qapi/parser.py: remove parser context from QAPIDoc
-Date: Tue, 22 Sep 2020 17:21:11 -0400
-Message-Id: <20200922212115.4084301-3-jsnow@redhat.com>
+Subject: [PATCH 4/6] qapi/parser.py: refactor QAPIParseError
+Date: Tue, 22 Sep 2020 17:21:13 -0400
+Message-Id: <20200922212115.4084301-5-jsnow@redhat.com>
 In-Reply-To: <20200922212115.4084301-1-jsnow@redhat.com>
 References: <20200922212115.4084301-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,169 +84,209 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We only need the parser context for the purpose of raising
-exceptions. What we can do instead is to raise a unique document parsing
-error and affix additional context from the caller. This way, the
-document parsing can be isolated.
+Instead of rewriting the constructor with arguments incompatible to the
+base class we're extending, add a constructor-like class method that
+accepts a QAPISchemaParser as an argument and builds the correct
+Exception type.
+
+Because this is a little extra typing, create a new helper in
+QAPISchemaParser to build these exception objects.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 56 ++++++++++++++++++++++--------------------
- 1 file changed, 30 insertions(+), 26 deletions(-)
+ scripts/qapi/parser.py | 58 ++++++++++++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 27 deletions(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 327cf05736..cb2595ce60 100644
+index 7e7eda9ed9..8be4570c31 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -18,10 +18,14 @@
+@@ -17,6 +17,7 @@
+ import os
  import re
  from collections import OrderedDict
++from typing import Type, TypeVar
  
--from .error import QAPIParseError, QAPISemError
-+from .error import QAPIError, QAPIParseError, QAPISemError
+ from .error import QAPIError, QAPISourceError, QAPISemError
  from .source import QAPISourceInfo
+@@ -24,14 +25,18 @@
  
- 
-+class QAPIDocError(QAPIError):
-+    """Documentation parsing error."""
+ class QAPIParseError(QAPISourceError):
+     """Error class for all QAPI schema parsing errors."""
+-    def __init__(self, parser, msg):
 +
++    T = TypeVar('T', bound='QAPIParseError')
 +
- class QAPISchemaParser:
++    @classmethod
++    def make(cls: Type[T], parser: 'QAPISchemaParser', msg: str) -> T:
+         col = 1
+         for ch in parser.src[parser.line_pos:parser.pos]:
+             if ch == '\t':
+                 col = (col + 7) % 8 + 1
+             else:
+                 col += 1
+-        super().__init__(parser.info, msg, col)
++        return cls(parser.info, msg, col)
  
-     def __init__(self, fname, previously_included=None, incl_info=None):
-@@ -265,13 +269,13 @@ def get_expr(self, nested):
-                 self, "expected '{', '[', string, boolean or 'null'")
+ 
+ class QAPIDocError(QAPIError):
+@@ -112,6 +117,9 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+             cur_doc = None
+         self.reject_expr_doc(cur_doc)
+ 
++    def _parse_error(self, msg: str) -> QAPIParseError:
++        return QAPIParseError.make(self, msg)
++
+     @staticmethod
+     def reject_expr_doc(doc):
+         if doc and doc.symbol:
+@@ -183,13 +191,12 @@ def accept(self, skip_comment=True):
+                     ch = self.src[self.cursor]
+                     self.cursor += 1
+                     if ch == '\n':
+-                        raise QAPIParseError(self, "missing terminating \"'\"")
++                        raise self._parse_error("missing terminating \"'\"")
+                     if esc:
+                         # Note: we recognize only \\ because we have
+                         # no use for funny characters in strings
+                         if ch != '\\':
+-                            raise QAPIParseError(self,
+-                                                 "unknown escape \\%s" % ch)
++                            raise self._parse_error(f"unknown escape \\{ch}")
+                         esc = False
+                     elif ch == '\\':
+                         esc = True
+@@ -198,8 +205,7 @@ def accept(self, skip_comment=True):
+                         self.val = string
+                         return
+                     if ord(ch) < 32 or ord(ch) >= 127:
+-                        raise QAPIParseError(
+-                            self, "funny character in string")
++                        raise self._parse_error("funny character in string")
+                     string += ch
+             elif self.src.startswith('true', self.pos):
+                 self.val = True
+@@ -220,7 +226,7 @@ def accept(self, skip_comment=True):
+                 # character
+                 match = re.match('[^[\\]{}:,\\s\'"]+',
+                                  self.src[self.cursor-1:])
+-                raise QAPIParseError(self, "stray '%s'" % match.group(0))
++                raise self._parse_error("stray '%s'" % match.group(0))
+ 
+     def get_members(self):
+         expr = OrderedDict()
+@@ -228,24 +234,24 @@ def get_members(self):
+             self.accept()
+             return expr
+         if self.tok != "'":
+-            raise QAPIParseError(self, "expected string or '}'")
++            raise self._parse_error("expected string or '}'")
+         while True:
+             key = self.val
+             self.accept()
+             if self.tok != ':':
+-                raise QAPIParseError(self, "expected ':'")
++                raise self._parse_error("expected ':'")
+             self.accept()
+             if key in expr:
+-                raise QAPIParseError(self, "duplicate key '%s'" % key)
++                raise self._parse_error("duplicate key '%s'" % key)
+             expr[key] = self.get_expr(True)
+             if self.tok == '}':
+                 self.accept()
+                 return expr
+             if self.tok != ',':
+-                raise QAPIParseError(self, "expected ',' or '}'")
++                raise self._parse_error("expected ',' or '}'")
+             self.accept()
+             if self.tok != "'":
+-                raise QAPIParseError(self, "expected string")
++                raise self._parse_error("expected string")
+ 
+     def get_values(self):
+         expr = []
+@@ -253,20 +259,20 @@ def get_values(self):
+             self.accept()
+             return expr
+         if self.tok not in "{['tfn":
+-            raise QAPIParseError(
+-                self, "expected '{', '[', ']', string, boolean or 'null'")
++            raise self._parse_error(
++                "expected '{', '[', ']', string, boolean or 'null'")
+         while True:
+             expr.append(self.get_expr(True))
+             if self.tok == ']':
+                 self.accept()
+                 return expr
+             if self.tok != ',':
+-                raise QAPIParseError(self, "expected ',' or ']'")
++                raise self._parse_error("expected ',' or ']'")
+             self.accept()
+ 
+     def get_expr(self, nested):
+         if self.tok != '{' and not nested:
+-            raise QAPIParseError(self, "expected '{'")
++            raise self._parse_error("expected '{'")
+         if self.tok == '{':
+             self.accept()
+             expr = self.get_members()
+@@ -277,14 +283,14 @@ def get_expr(self, nested):
+             expr = self.val
+             self.accept()
+         else:
+-            raise QAPIParseError(
+-                self, "expected '{', '[', string, boolean or 'null'")
++            raise self._parse_error(
++                "expected '{', '[', string, boolean or 'null'")
          return expr
  
--    def get_doc(self, info):
-+    def _get_doc(self, info):
+     def _get_doc(self, info):
          if self.val != '##':
-             raise QAPIParseError(
-                 self, "junk after '##' at start of documentation comment")
+-            raise QAPIParseError(
+-                self, "junk after '##' at start of documentation comment")
++            raise self._parse_error(
++                "junk after '##' at start of documentation comment")
  
          docs = []
--        cur_doc = QAPIDoc(self, info)
-+        cur_doc = QAPIDoc(info)
-         self.accept(False)
-         while self.tok == '#':
+         cur_doc = QAPIDoc(info)
+@@ -293,8 +299,7 @@ def _get_doc(self, info):
              if self.val.startswith('##'):
-@@ -292,12 +296,22 @@ def get_doc(self, info):
+                 # End of doc comment
+                 if self.val != '##':
+-                    raise QAPIParseError(
+-                        self,
++                    raise self._parse_error(
+                         "junk after '##' at end of documentation comment")
+                 cur_doc.end_comment()
+                 docs.append(cur_doc)
+@@ -302,8 +307,7 @@ def _get_doc(self, info):
+                 return docs
+             if self.val.startswith('# ='):
+                 if cur_doc.symbol:
+-                    raise QAPIParseError(
+-                        self,
++                    raise self._parse_error(
+                         "unexpected '=' markup in definition documentation")
                  if cur_doc.body.text:
                      cur_doc.end_comment()
-                     docs.append(cur_doc)
--                    cur_doc = QAPIDoc(self, info)
-+                    cur_doc = QAPIDoc(info)
+@@ -312,7 +316,7 @@ def _get_doc(self, info):
              cur_doc.append(self.val)
              self.accept(False)
  
-         raise QAPIParseError(self, "documentation comment must end with '##'")
+-        raise QAPIParseError(self, "documentation comment must end with '##'")
++        raise self._parse_error("documentation comment must end with '##'")
  
-+    def get_doc(self, info):
-+        try:
-+            return self._get_doc(info)
-+        except QAPIDocError as err:
-+            # Tie the Doc parsing error to our parsing state. The
-+            # resulting error position depends on the state of the
-+            # parser. It happens to be the beginning of the comment.
-+            # More or less servicable, but action at a distance.
-+            raise QAPIParseError(self, str(err)) from err
-+
+     def get_doc(self, info):
+         try:
+@@ -322,7 +326,7 @@ def get_doc(self, info):
+             # resulting error position depends on the state of the
+             # parser. It happens to be the beginning of the comment.
+             # More or less servicable, but action at a distance.
+-            raise QAPIParseError(self, str(err)) from err
++            raise self._parse_error(str(err)) from err
+ 
  
  class QAPIDoc:
-     """
-@@ -335,12 +349,7 @@ def __init__(self, name):
-         def connect(self, member):
-             self.member = member
- 
--    def __init__(self, parser, info):
--        # self._parser is used to report errors with QAPIParseError.  The
--        # resulting error position depends on the state of the parser.
--        # It happens to be the beginning of the comment.  More or less
--        # servicable, but action at a distance.
--        self._parser = parser
-+    def __init__(self, info):
-         self.info = info
-         self.symbol = None
-         self.body = QAPIDoc.Section()
-@@ -377,7 +386,7 @@ def append(self, line):
-             return
- 
-         if line[0] != ' ':
--            raise QAPIParseError(self._parser, "missing space after #")
-+            raise QAPIDocError("missing space after #")
-         line = line[1:]
-         self._append_line(line)
- 
-@@ -411,11 +420,11 @@ def _append_body_line(self, line):
-         # recognized, and get silently treated as ordinary text
-         if not self.symbol and not self.body.text and line.startswith('@'):
-             if not line.endswith(':'):
--                raise QAPIParseError(self._parser, "line should end with ':'")
-+                raise QAPIDocError("line should end with ':'")
-             self.symbol = line[1:-1]
-             # FIXME invalid names other than the empty string aren't flagged
-             if not self.symbol:
--                raise QAPIParseError(self._parser, "invalid name")
-+                raise QAPIDocError("invalid name")
-         elif self.symbol:
-             # This is a definition documentation block
-             if name.startswith('@') and name.endswith(':'):
-@@ -498,9 +507,8 @@ def _append_various_line(self, line):
-         name = line.split(' ', 1)[0]
- 
-         if name.startswith('@') and name.endswith(':'):
--            raise QAPIParseError(self._parser,
--                                 "'%s' can't follow '%s' section"
--                                 % (name, self.sections[0].name))
-+            raise QAPIDocError("'%s' can't follow '%s' section"
-+                               % (name, self.sections[0].name))
-         if self._is_section_tag(name):
-             line = line[len(name)+1:]
-             self._start_section(name[:-1])
-@@ -514,10 +522,9 @@ def _append_various_line(self, line):
-     def _start_symbol_section(self, symbols_dict, name):
-         # FIXME invalid names other than the empty string aren't flagged
-         if not name:
--            raise QAPIParseError(self._parser, "invalid parameter name")
-+            raise QAPIDocError("invalid parameter name")
-         if name in symbols_dict:
--            raise QAPIParseError(self._parser,
--                                 "'%s' parameter name duplicated" % name)
-+            raise QAPIDocError("'%s' parameter name duplicated" % name)
-         assert not self.sections
-         self._end_section()
-         self._section = QAPIDoc.ArgSection(name)
-@@ -531,8 +538,7 @@ def _start_features_section(self, name):
- 
-     def _start_section(self, name=None):
-         if name in ('Returns', 'Since') and self.has_section(name):
--            raise QAPIParseError(self._parser,
--                                 "duplicated '%s' section" % name)
-+            raise QAPIDocError("duplicated '%s' section" % name)
-         self._end_section()
-         self._section = QAPIDoc.Section(name)
-         self.sections.append(self._section)
-@@ -541,17 +547,15 @@ def _end_section(self):
-         if self._section:
-             text = self._section.text = self._section.text.strip()
-             if self._section.name and (not text or text.isspace()):
--                raise QAPIParseError(
--                    self._parser,
-+                raise QAPIDocError(
-                     "empty doc section '%s'" % self._section.name)
-             self._section = None
- 
-     def _append_freeform(self, line):
-         match = re.match(r'(@\S+:)', line)
-         if match:
--            raise QAPIParseError(self._parser,
--                                 "'%s' not allowed in free-form documentation"
--                                 % match.group(1))
-+            raise QAPIDocError("'%s' not allowed in free-form documentation"
-+                               % match.group(1))
-         self._section.append(line)
- 
-     def connect_member(self, member):
 -- 
 2.26.2
 
