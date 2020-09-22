@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C03274025
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:56:37 +0200 (CEST)
-Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1C527403E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:59:40 +0200 (CEST)
+Received: from localhost ([::1]:37124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKfyO-0007nW-4N
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60836)
+	id 1kKg1L-0002u8-LH
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfs3-0000Dy-Nl
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:50:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24695
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfsA-0000Tt-7N
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:50:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55666
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfs1-0000Ti-Ij
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:50:03 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kKfs8-0000Uv-Cf
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:50:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600771800;
+ s=mimecast20190719; t=1600771807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JVZyCNs/Dn0aSo/qEbqYorUsU/1QreNRX/oTOcK5AQk=;
- b=eRE5wpBEKxEDPHuW3LoQ8ByjutWE9KSm5/jpbNCdHiMFdce6zgG6eVZUqyJqw+pcZmcmBh
- dAntEocAZwGnj6Fx4igTa+PSnEVp7dnrQjumm7EwVWKFX8c8hZs/GgD22fhfWZh568nGNo
- f1Qy70UYZihzBgVc5D6SrdS9J/0SGxI=
+ bh=yVqR4YkAYebBr45NHt4mXQykwLwrAbCfW2ZO2xLVLrQ=;
+ b=cDQ6QG5FAMDkfL4TFtlcS3ua9Hu6ZfktPi1m4zE9dz9x0K8D2+l3tbf+UR0VNf1+bBc9Z2
+ ngNnAhQt3JD9l+MwMxLABldncphuI4mFptZc4Ikpi81QEdU5py5wLIKLVHu77k/rGeKmFc
+ VBcM8vGAoFyRG3PI2LJ6mnWhVCyJe50=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-532-sJggnF1eNhqqQOVP0JdP9w-1; Tue, 22 Sep 2020 06:49:58 -0400
-X-MC-Unique: sJggnF1eNhqqQOVP0JdP9w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-511-DveOHsiVN_a8WCIbUByumA-1; Tue, 22 Sep 2020 06:50:03 -0400
+X-MC-Unique: DveOHsiVN_a8WCIbUByumA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADC358030C7;
- Tue, 22 Sep 2020 10:49:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D42B11084C80;
+ Tue, 22 Sep 2020 10:50:02 +0000 (UTC)
 Received: from localhost (ovpn-114-26.ams2.redhat.com [10.36.114.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 552BD73682;
- Tue, 22 Sep 2020 10:49:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A005178803;
+ Tue, 22 Sep 2020 10:49:59 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 05/20] fuse: (Partially) implement fallocate()
-Date: Tue, 22 Sep 2020 12:49:17 +0200
-Message-Id: <20200922104932.46384-6-mreitz@redhat.com>
+Subject: [PATCH v2 06/20] fuse: Implement hole detection through lseek
+Date: Tue, 22 Sep 2020 12:49:18 +0200
+Message-Id: <20200922104932.46384-7-mreitz@redhat.com>
 In-Reply-To: <20200922104932.46384-1-mreitz@redhat.com>
 References: <20200922104932.46384-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:27:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 01:57:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,111 +84,179 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows allocating areas after the (old) EOF as part of a growing
-resize, writing zeroes, and discarding.
+This is a relatively new feature in libfuse (available since 3.8.0,
+which was released in November 2019), so we have to let configure check
+whether it is available before making use of it.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/export/fuse.c | 79 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ configure           | 32 +++++++++++++++++++
+ block/export/fuse.c | 77 +++++++++++++++++++++++++++++++++++++++++++++
+ meson.build         |  1 +
+ 3 files changed, 110 insertions(+)
 
+diff --git a/configure b/configure
+index 21c31e4694..6b9184b62a 100755
+--- a/configure
++++ b/configure
+@@ -6226,11 +6226,39 @@ EOF
+   fuse_libs=$(pkg-config --libs fuse3)
+   if compile_prog "$fuse_cflags" "$fuse_libs"; then
+     fuse=yes
++
++    cat > $TMPC <<EOF
++#define FUSE_USE_VERSION 31
++#include <fuse.h>
++#include <fuse_lowlevel.h>
++#include <errno.h>
++#include <unistd.h>
++#include <sys/types.h>
++static void fuse_lseek(fuse_req_t req, fuse_ino_t inode, off_t offset,
++                       int whence, struct fuse_file_info *fi)
++{
++    if (whence == SEEK_DATA || whence == SEEK_HOLE) {
++        fuse_reply_lseek(req, offset);
++    } else {
++        fuse_reply_err(req, EINVAL);
++    }
++}
++const struct fuse_lowlevel_ops fuse_ops = {
++    .lseek = fuse_lseek,
++};
++int main(void) { return 0; }
++EOF
++    if compile_prog "$fuse_cflags" "$fuse_libs"; then
++      fuse_lseek=yes
++    else
++      fuse_lseek=no
++    fi
+   else
+     if test "$fuse" = "yes"; then
+       feature_not_found "fuse"
+     fi
+     fuse=no
++    fuse_lseek=no
+   fi
+ fi
+ 
+@@ -7425,6 +7453,10 @@ if test "$fuse" = "yes"; then
+   echo "CONFIG_FUSE=y" >> $config_host_mak
+   echo "FUSE_CFLAGS=$fuse_cflags" >> $config_host_mak
+   echo "FUSE_LIBS=$fuse_libs" >> $config_host_mak
++
++  if test "$fuse_lseek" = "yes"; then
++    echo "CONFIG_FUSE_LSEEK=y" >> $config_host_mak
++  fi
+ fi
+ 
+ if test "$tcg_interpreter" = "yes"; then
 diff --git a/block/export/fuse.c b/block/export/fuse.c
-index f3a84579ba..7dfb4eb280 100644
+index 7dfb4eb280..ee90f5a185 100644
 --- a/block/export/fuse.c
 +++ b/block/export/fuse.c
-@@ -457,6 +457,84 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
-     }
+@@ -548,6 +548,80 @@ static void fuse_flush(fuse_req_t req, fuse_ino_t inode,
+     fuse_reply_err(req, ret < 0 ? -ret : 0);
  }
  
++#ifdef CONFIG_FUSE_LSEEK
 +/**
-+ * Let clients perform various fallocate() operations.
++ * Let clients inquire allocation status.
 + */
-+static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
-+                           off_t offset, off_t length,
-+                           struct fuse_file_info *fi)
++static void fuse_lseek(fuse_req_t req, fuse_ino_t inode, off_t offset,
++                       int whence, struct fuse_file_info *fi)
 +{
 +    FuseExport *exp = fuse_req_userdata(req);
-+    int64_t blk_len;
-+    int ret;
 +
-+    if (!exp->writable) {
-+        fuse_reply_err(req, EACCES);
++    if (whence != SEEK_HOLE && whence != SEEK_DATA) {
++        fuse_reply_err(req, EINVAL);
 +        return;
 +    }
 +
-+    blk_len = blk_getlength(exp->common.blk);
-+    if (blk_len < 0) {
-+        fuse_reply_err(req, -blk_len);
-+        return;
-+    }
++    while (true) {
++        int64_t pnum;
++        int ret;
 +
-+    if (mode & FALLOC_FL_KEEP_SIZE) {
-+        length = MIN(length, blk_len - offset);
-+    }
-+
-+    if (mode & FALLOC_FL_PUNCH_HOLE) {
-+        if (!(mode & FALLOC_FL_KEEP_SIZE)) {
-+            fuse_reply_err(req, EINVAL);
++        ret = bdrv_block_status_above(blk_bs(exp->common.blk), NULL,
++                                      offset, INT64_MAX, &pnum, NULL, NULL);
++        if (ret < 0) {
++            fuse_reply_err(req, -ret);
 +            return;
 +        }
 +
-+        do {
-+            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
++        if (!pnum && (ret & BDRV_BLOCK_EOF)) {
++            int64_t blk_len;
 +
-+            ret = blk_pdiscard(exp->common.blk, offset, size);
-+            length -= size;
-+        } while (ret == 0 && length > 0);
-+    } else if (mode & FALLOC_FL_ZERO_RANGE) {
-+        if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
-+            ret = fuse_do_truncate(exp, offset + length, PREALLOC_MODE_OFF);
-+            if (ret < 0) {
-+                fuse_reply_err(req, -ret);
++            /*
++             * If blk_getlength() rounds (e.g. by sectors), then the
++             * export length will be rounded, too.  However,
++             * bdrv_block_status_above() may return EOF at unaligned
++             * offsets.  We must not let this become visible and thus
++             * always simulate a hole between @offset (the real EOF)
++             * and @blk_len (the client-visible EOF).
++             */
++
++            blk_len = blk_getlength(exp->common.blk);
++            if (blk_len < 0) {
++                fuse_reply_err(req, -blk_len);
++                return;
++            }
++
++            if (offset > blk_len || whence == SEEK_DATA) {
++                fuse_reply_err(req, ENXIO);
++            } else {
++                fuse_reply_lseek(req, offset);
++            }
++            return;
++        }
++
++        if (ret & BDRV_BLOCK_DATA) {
++            if (whence == SEEK_DATA) {
++                fuse_reply_lseek(req, offset);
++                return;
++            }
++        } else {
++            if (whence == SEEK_HOLE) {
++                fuse_reply_lseek(req, offset);
 +                return;
 +            }
 +        }
 +
-+        do {
-+            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
-+
-+            ret = blk_pwrite_zeroes(exp->common.blk,
-+                                    offset, size, 0);
-+            length -= size;
-+        } while (ret == 0 && length > 0);
-+    } else if (!mode) {
-+        /* We can only fallocate at the EOF with a truncate */
-+        if (offset < blk_len) {
-+            fuse_reply_err(req, EOPNOTSUPP);
++        /* Safety check against infinite loops */
++        if (!pnum) {
++            fuse_reply_err(req, ENXIO);
 +            return;
 +        }
 +
-+        if (offset > blk_len) {
-+            /* No preallocation needed here */
-+            ret = fuse_do_truncate(exp, offset, PREALLOC_MODE_OFF);
-+            if (ret < 0) {
-+                fuse_reply_err(req, -ret);
-+                return;
-+            }
-+        }
-+
-+        ret = fuse_do_truncate(exp, offset + length, PREALLOC_MODE_FALLOC);
-+    } else {
-+        ret = -EOPNOTSUPP;
++        offset += pnum;
 +    }
-+
-+    fuse_reply_err(req, ret < 0 ? -ret : 0);
 +}
++#endif
 +
- /**
-  * Let clients flush the exported image.
-  */
-@@ -477,6 +555,7 @@ static const struct fuse_lowlevel_ops fuse_ops = {
-     .open       = fuse_open,
-     .read       = fuse_read,
+ static const struct fuse_lowlevel_ops fuse_ops = {
+     .lookup     = fuse_lookup,
+     .getattr    = fuse_getattr,
+@@ -557,6 +631,9 @@ static const struct fuse_lowlevel_ops fuse_ops = {
      .write      = fuse_write,
-+    .fallocate  = fuse_fallocate,
+     .fallocate  = fuse_fallocate,
      .flush      = fuse_flush,
++#ifdef CONFIG_FUSE_LSEEK
++    .lseek      = fuse_lseek,
++#endif
  };
  
+ const BlockExportDriver blk_exp_fuse = {
+diff --git a/meson.build b/meson.build
+index 85addd8562..1db6a46d14 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1537,6 +1537,7 @@ summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
+ summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
+ summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
+ summary_info += {'fuse exports':      config_host.has_key('CONFIG_FUSE')}
++summary_info += {'fuse lseek':        config_host.has_key('CONFIG_FUSE_LSEEK')}
+ summary(summary_info, bool_yn: true)
+ 
+ if not supported_cpus.contains(cpu)
 -- 
 2.26.2
 
