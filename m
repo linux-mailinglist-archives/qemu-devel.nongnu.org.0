@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A96274B8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:51:41 +0200 (CEST)
-Received: from localhost ([::1]:41770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17746274B93
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:53:43 +0200 (CEST)
+Received: from localhost ([::1]:49936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqCJ-0000WM-S2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
+	id 1kKqEI-0003r4-4q
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kKps8-0006ic-DM
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:30:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55024)
+ id 1kKq1y-0003MS-Um
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:40:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kKps6-0008Et-4Z
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:30:48 -0400
+ id 1kKq1u-0000rA-3b
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:40:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kKps4-0002st-Ca
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 21:30:44 +0000
+ id 1kKq1q-0004F2-QC
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 21:40:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5CD0C2E8071
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 21:30:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C287A2E8071
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 21:40:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2020 21:25:06 -0000
+Date: Tue, 22 Sep 2020 21:30:49 -0000
 From: Toolybird <1896096@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier pmaydell
 X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
 X-Launchpad-Bug-Modifier: Toolybird (toolybird)
 References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
-Message-Id: <160080990655.13994.13997780293497049824.malone@gac.canonical.com>
+Message-Id: <160081024954.1762.12834254270986744591.malone@chaenomeles.canonical.com>
 Subject: [Bug 1896096] Re: Git version: Build process is broken in
  block_curl.c.o
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: 2b7bf90f991c6aff028977b25a921acfef78d3f1
+X-Launchpad-Hash: f92f8e4c707290bde485807917d725b0506e601d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:45:37
@@ -78,24 +78,9 @@ Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Posted "[PATCH 0/4] configure: bugfixes and cleanups for CFLAGS".
-
-(sorry for delay)
-
-Thanks for the patches. They seem to fix the Arch case i.e. build
-succeeds without hacks and FLAGS in the build env are being respected.
-
-However, I tested the "unset FLAGS" case and patch 4/4 seems to cause a
-weird failure I don't understand:
-
-../qemu/meson.build:1:0: ERROR: Unable to determine dynamic linker
-
-A full log can be found at /build/qemu-git/src/build-full/meson-logs
-/meson-log.txt
-
-ERROR: meson setup failed
-
-There is nothing in meson-log to indicate the failure reason. Any ideas?
+** Attachment added: "meson-log.txt"
+   https://bugs.launchpad.net/qemu/+bug/1896096/+attachment/5413347/+files/=
+meson-log.txt
 
 -- =
 
