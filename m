@@ -2,117 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889182742C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:18:26 +0200 (CEST)
-Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B20C2742E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:24:59 +0200 (CEST)
+Received: from localhost ([::1]:53518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKiBd-0001jx-GC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:18:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57280)
+	id 1kKiHx-00082X-Lf
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKi9N-0000xK-H9
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:16:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48367)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKi9H-0006Yp-Ku
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:16:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600780558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aCFmfjbJNDoDLK2UOuW0pDQFOviYGlHAmiB+HW4qJpg=;
- b=aO4SzbSw7HBRR8h46Rktnns7Ny0P4qktMvLmquW1TDfE/Nf0/O1kTvqQpq8Z7KMDA9ZQcO
- TKt6SBOmA8vbpZ1kc9gmlZ/50Kf3pTsT1jBnVaJt0OOYzvzFTM0rh+KWzswunlZH4jdKOy
- ikCSn9U/6WfXahIfwwAFHtfX56aQxyE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-tz8tBah3NdmVelT5J2SBOQ-1; Tue, 22 Sep 2020 09:15:57 -0400
-X-MC-Unique: tz8tBah3NdmVelT5J2SBOQ-1
-Received: by mail-wr1-f72.google.com with SMTP id a10so7342171wrw.22
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 06:15:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKiCD-00037L-Qw
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:19:01 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:36009)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kKiC6-0006ro-BM
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:19:01 -0400
+Received: by mail-ed1-x541.google.com with SMTP id w1so16167485edr.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 06:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rVKaaQfdqgnqcB39rX+gHRcKcPho03HmuQBe2EGwK8I=;
+ b=E+i3eUE5CLeZVucxA2g3yw26QEoa5CIQntJoKgBT2RALVeA1BVB3vikaXSltZQBPdY
+ OQd2wLijIBaNePViidbwO7eba9LwZaLI6ToQh4Mqz3iwFsSSw0WraQ7bSE2Kdk02THdG
+ if+7CmfW7Qk1Q/ecBOSyu0JMMdGoLOJpLOCt50ex8D1pz+9RziKtd5/lp45OtDSOC8g4
+ Hgv0TPPcqyBs7aXp/74BRRLJUZwzjtVbf8Fkn7EjuxhjatYvtv+QXH9h6tM6bx8fjWfo
+ hfjBtX7URAnqqAGSefq7BcZ/0jzywC4kZT027bQDKl07VGE8j1B0hscKBMSoPSajnoxq
+ do0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=aCFmfjbJNDoDLK2UOuW0pDQFOviYGlHAmiB+HW4qJpg=;
- b=cors5RaGicuI8kG09hdK7J9MBzcCe5xdR5XKYSP6x3oQGin2eX+aDlp8lkhwtU5Maz
- xDzuua+HdAukTmwCzyfpSqCYM43wSDjUEWCueb7nEaPEFOatxOxLiXlmKvaiB6FKpx+x
- LHFp5VeTe5hTEVclb3YFeuFg4CdMYGEFk1nDNiWFFEfzyZ5UpEbRHt9inx4frHJm1KOD
- Ie28nRshFdXcYSDIqnKrROHqKe/2Sm8u7Yoeq8LDmhXhfsPy6dOCy5gFkGQU2rdmDC3z
- tF978597xAB3Kr25Z1ze/EroWlSDVO8oLgSmu+e6Ol5DFsyLrwk3RdkRSdb5TimdTnP8
- e4Ng==
-X-Gm-Message-State: AOAM532MYRLEq/cC4Le2gUlXNOXWTLXfNY6cyd8qfApkg6DyiAXekOoT
- X7xEnkFui3NrquicwC31R/D4ZqaQpappDh2nUzYqyECF1/bK0fbJHTwmARzRTeU2Ya4h1rFr/Fm
- LsR4boB2PEWrjCwY=
-X-Received: by 2002:a1c:4943:: with SMTP id w64mr989012wma.62.1600780555529;
- Tue, 22 Sep 2020 06:15:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw52l2fvQXD+Uc5iir9larnCUrdCIdRi/3nVNZ52Dgtg1IaQsXNOaZZxpttpNOn+QsGBHh2Xg==
-X-Received: by 2002:a05:600c:2317:: with SMTP id
- 23mr1007567wmo.183.1600780553558; 
- Tue, 22 Sep 2020 06:15:53 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id c14sm27446252wrm.64.2020.09.22.06.15.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 06:15:52 -0700 (PDT)
-Subject: Re: [PATCH v5 14/15] replay: create temporary snapshot at debugger
- connection
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <160077693745.10249.9707329107813662236.stgit@pasha-ThinkPad-X280>
- <160077701869.10249.1932448449161159554.stgit@pasha-ThinkPad-X280>
- <7173ee94-3250-d3cc-5f43-a2435de36902@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <f585ee02-1a41-8b4d-cd0e-04d4263d5fac@redhat.com>
-Date: Tue, 22 Sep 2020 15:15:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rVKaaQfdqgnqcB39rX+gHRcKcPho03HmuQBe2EGwK8I=;
+ b=Axa1NFo0oNpUS3Ioz9U32UvS52sVpGO2CaI5PWHcj6xFDbrL+BR4nAQb0+6Wajrsle
+ FOY45mmSNiwtyW91A+yz3LeHtYXM7BIF2yv2EtRwIN59A51IUvx+JUqrz/de/edPrgeV
+ mzutRkfFfm7naOsSpz3AyVXucJ9E2QVaMFanT7FNarWeuRKsNgR7edfH9m/e220MTPoc
+ rDNpW3Mka1RvzRPVFp88qFiKTtp95HL3+cFR7x/SisdCBYEqgBCJ8v6PMJdXYfsKhF7a
+ dowQVleTQNsWErw2r2PpALpi0SspDvAD4m8i0RHHcbL85WY6Kcd4MWjGQ4SKv7zk5SjJ
+ FbVg==
+X-Gm-Message-State: AOAM532YkRORD9PamhB5KVz5hdinWOYaq/c5pn0haD6PaPCi9M2rt1lL
+ 87TAYdDqQhLd3AyQiUEtZseRhxfi9YILl/kVw6ir1g==
+X-Google-Smtp-Source: ABdhPJx3beQLA6Exa34usZeWGS90LrFIRhJdB6bFa0aoD9WnPvbYQSNgzWCFK78zxakZi46J/AfYpiP05Zuk0luuy8g=
+X-Received: by 2002:aa7:d58e:: with SMTP id r14mr4086753edq.52.1600780732624; 
+ Tue, 22 Sep 2020 06:18:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7173ee94-3250-d3cc-5f43-a2435de36902@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20200922130806.1506324-1-pbonzini@redhat.com>
+In-Reply-To: <20200922130806.1506324-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 22 Sep 2020 14:18:41 +0100
+Message-ID: <CAFEAcA8kovt998Ds0jbEAJTqkHmJETcHvfwqCS-JZWWW+=wLrw@mail.gmail.com>
+Subject: Re: [PATCH] coverity_scan: switch to vpath build
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -126,88 +78,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
- mtosatti@redhat.com, armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org,
- zhiwei_liu@c-sky.com, rth@twiddle.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/20 2:55 PM, Philippe Mathieu-Daudé wrote:
-> Hi Pavel,
-> 
-> On 9/22/20 2:16 PM, Pavel Dovgalyuk wrote:
->> When record/replay does not uses overlays for storing the snapshots,
->> user is not capable of issuing reverse debugging commands.
->> This patch adds creation of the VM snapshot on the temporary
->> overlay image, when the debugger connects to QEMU.
->> Therefore the execution can be rewind to the moment
->> of the debugger connection while debugging the virtual machine.
->>
->> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
->> ---
->>  gdbstub.c                 |    1 +
->>  include/sysemu/replay.h   |    2 ++
->>  replay/replay-debugging.c |   16 ++++++++++++++++
->>  3 files changed, 19 insertions(+)
->>
->> diff --git a/gdbstub.c b/gdbstub.c
->> index ac92273018..f19f98ab1a 100644
->> --- a/gdbstub.c
->> +++ b/gdbstub.c
->> @@ -3321,6 +3321,7 @@ static void gdb_chr_event(void *opaque, QEMUChrEvent event)
->>          s->g_cpu = s->c_cpu;
->>  
->>          vm_stop(RUN_STATE_PAUSED);
->> +        replay_gdb_attached();
->>          gdb_has_xml = false;
->>          break;
->>      default:
->> diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
->> index b6cac175c4..2aa34b8919 100644
->> --- a/include/sysemu/replay.h
->> +++ b/include/sysemu/replay.h
->> @@ -94,6 +94,8 @@ bool replay_reverse_continue(void);
->>  bool replay_running_debug(void);
->>  /* Called in reverse debugging mode to collect breakpoint information */
->>  void replay_breakpoint(void);
->> +/* Called when gdb is attached to gdbstub */
->> +void replay_gdb_attached(void);
->>  
->>  /* Processing the instructions */
->>  
->> diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
->> index d02d4e0766..bb9110707a 100644
->> --- a/replay/replay-debugging.c
->> +++ b/replay/replay-debugging.c
->> @@ -316,3 +316,19 @@ void replay_breakpoint(void)
->>      assert(replay_mode == REPLAY_MODE_PLAY);
->>      replay_last_breakpoint = replay_get_current_icount();
->>  }
->> +
->> +void replay_gdb_attached(void)
->> +{
->> +    /*
->> +     * Create VM snapshot on temporary overlay to allow reverse
->> +     * debugging even if snapshots were not enabled.
->> +     */
->> +    if (replay_mode == REPLAY_MODE_PLAY
->> +        && !replay_snapshot) {
->> +        Error *err = NULL;
->> +        if (save_snapshot("start_debugging", &err) != 0) {
->> +            /* Can't create the snapshot. Continue conventional debugging. */
-> 
-> If you deliberately ignore the error, then use NULL;
-> else display the error.
+On Tue, 22 Sep 2020 at 14:08, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> This is the patch that has been running on the coverity cronjob
+> for a few weeks now.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  scripts/coverity-scan/run-coverity-scan | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
+> index 6eefb4b558..7395bbfad4 100755
+> --- a/scripts/coverity-scan/run-coverity-scan
+> +++ b/scripts/coverity-scan/run-coverity-scan
+> @@ -380,15 +380,17 @@ export PATH="$TOOLBIN:$PATH"
+>
+>  cd "$SRCDIR"
+>
+> -echo "Doing make distclean..."
+> -make distclean
+> +echo "Nuking build directory..."
+> +rm -rf +build
 
-Can be cleaned on top, if Paolo is already OK with this series.
+As Philippe points out, odd name choice.
 
-> 
->> +            error_free(err);
->> +        }
->> +    }
->> +}
->>
-> 
+It might also be nice to steal the logic from configure
+that avoids blowing away the build directory if it
+wasn't created by this script in the first place.
 
+> +mkdir +build
+> +cd +build
+
+I think this 'cd' will break use of the --results-tarball
+option with a relative path (eg "--results-tarball my-tarball.tgz")
+because it will now end up interpreted relative to the build
+subdir rather than relative to the source directory.
+
+>  echo "Configuring..."
+>  # We configure with a fixed set of enables here to ensure that we don't
+>  # accidentally reduce the scope of the analysis by doing the build on
+>  # the system that's missing a dependency that we need to build part of
+>  # the codebase.
+> -./configure --disable-modules --enable-sdl --enable-gtk \
+> +../configure --disable-modules --enable-sdl --enable-gtk \
+>      --enable-opengl --enable-vte --enable-gnutls \
+>      --enable-nettle --enable-curses --enable-curl \
+>      --audio-drv-list=oss,alsa,sdl,pa --enable-virtfs \
+
+This comment at the top of the script:
+
+# This script assumes that you're running it from a QEMU source
+# tree, and that tree is a fresh clean one, because we do an in-tree
+# build. (This is necessary so that the filenames that the Coverity
+# Scan server sees are relative paths that match up with the component
+# regular expressions it uses; an out-of-tree build won't work for this.)
+
+is now out of date and needs rephrasing.
+
+PS: on the subject of component regexes, they seem to have
+vanished from the Coverity website. I don't suppose you have
+a backup of them, do you ? (I have a list of what the component
+names were, but not the associated regexes.)
+
+thanks
+-- PMM
 
