@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3F5274643
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 18:12:28 +0200 (CEST)
-Received: from localhost ([::1]:35720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4751274683
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 18:21:56 +0200 (CEST)
+Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKku3-0002BH-6v
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 12:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60432)
+	id 1kKl3D-0004dx-TD
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 12:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKjvy-0005XW-Tg
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:10:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kKjvw-00056p-45
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 11:10:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600787418;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pr0dmzt+1CiBcbdrMHRQumCQ+FbBYktWWUxt2VotUVA=;
- b=d3k/OaJ/RrDMI/bJkdiqmj+qgjS35sgYKaNLaiRII7WAZwCnxWGWxMU61mPfxjEBbpezYK
- fjUxk+F7NjnB+GTNJTQgpx+SjR/9Sps2LCQsOF67p0CntjKNFaXm5CYnYXcMY1eFsNhPJj
- dvGPxeThqAUbXPTotoF8owLTCK9VMcQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-gUu_9xrOPr2DmP9HvXYL1w-1; Tue, 22 Sep 2020 11:10:13 -0400
-X-MC-Unique: gUu_9xrOPr2DmP9HvXYL1w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kKkGS-0007Xk-J1; Tue, 22 Sep 2020 11:31:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kKkGQ-0008EO-LC; Tue, 22 Sep 2020 11:31:32 -0400
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 869B1801AE3;
- Tue, 22 Sep 2020 15:10:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CF4A78805;
- Tue, 22 Sep 2020 15:09:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A61251132E9A; Tue, 22 Sep 2020 17:09:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH] PoC: Rust binding for QAPI (qemu-ga only, for now)
-References: <20200910174850.716104-1-marcandre.lureau@redhat.com>
- <87mu1j8p7p.fsf@dusky.pond.sub.org>
- <CAMxuvayvRfjUMYDiB5fm5QBD76kfD8-G1wTEucQTBbZUtnwXrA@mail.gmail.com>
-Date: Tue, 22 Sep 2020 17:09:56 +0200
-In-Reply-To: <CAMxuvayvRfjUMYDiB5fm5QBD76kfD8-G1wTEucQTBbZUtnwXrA@mail.gmail.com>
- (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Mon, 21 Sep 2020
- 14:04:31 +0400")
-Message-ID: <874knpluez.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mail.kernel.org (Postfix) with ESMTPSA id C7E0E214F1;
+ Tue, 22 Sep 2020 15:31:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600788688;
+ bh=jm/pC8kEqf++xbkMW3+iA83AHQGyjlOqVaokgGIpK6o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Brjui0aEoi42a2KCpbYOaBYNlZs4vJQltFt/rU8RWRnSGKyCEy5XoBR1UrxzpfOXy
+ xnscWQuIqDCE/2KeEPhbBNqC8Mobo0pKqNoOyfHrZIbEPnrERmISsQx4q7HNmIX1GF
+ uJkwVNC4sCDANiXJAPJHwxKJeuqXjdNoq6tALazk=
+Date: Tue, 22 Sep 2020 08:31:25 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v3 00/17] hw/block/nvme: multiple namespaces support
+Message-ID: <20200922153125.GC4035426@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200922084533.1273962-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200922084533.1273962-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 11:30:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -85
+X-Spam_score: -8.6
+X-Spam_bar: --------
+X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,149 +62,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "P. Berrange, Daniel" <berrange@redhat.com>,
- Sergio Lopez Pascual <slp@redhat.com>, "Hajnoczi, 
- Stefan" <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
+On Tue, Sep 22, 2020 at 10:45:16AM +0200, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> This is the next round of my patches for the nvme device.
+> 
+> This includes a bit of cleanup and two new features:
+> 
+>   * support for scatter/gather lists
+> 
+>   * multiple namespaces support through a new nvme-ns device
+> 
+> Finally, the series wraps up with changing the PCI vendor and device ID to get
+> rid of the internal Intel id and as a side-effect get rid of some Linux kernel
+> quirks that no longer applies.
+> 
+> "pci: pass along the return value of dma_memory_rw" has already been posted by
+> Philippe in another series, but since it is not applied yet, I am including it
+> here.
 
-> Hi
->
-> On Mon, Sep 21, 2020 at 1:16 PM Markus Armbruster <armbru@redhat.com> wro=
-te:
->>
->> marcandre.lureau@redhat.com writes:
->>
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > Hi,
->> >
->> > Among the QEMU developers, there is a desire to use Rust. (see previou=
-s
->> > thread from Stefan "Why QEMU should move from C to Rust", the rust-vmm
->> > related projects and other experiments).
->> >
->> > Thanks to our QAPI type system and the associate code generator, it is
->> > relatively straightforward to create Rust bindings for the generated C
->> > types (also called sys/ffi binding) and functions. (rust-bindgen could
->> > probably do a similar job, but it would probably bring other issues).
->> > This provides an important internal API already.
->> >
->> > Slightly more complicated is to expose a Rust API for those, and provi=
-de
->> > convenient conversions C<->Rust. Taking inspiration from glib-rs
->> > binding, I implemented a simplified version of the FromGlib/ToGlib
->> > traits, with simpler ownership model, sufficient for QAPI needs.
->> >
->> > The usage is relatively simple:
->> >
->> > - from_qemu_none(ptr: *const sys::P) -> T
->> >   Return a Rust type T for a const ffi pointer P.
->> >
->> > - from_qemu_full(ptr: *mut sys::P) -> T
->> >   Return a Rust type T for a ffi pointer P, taking ownership.
->> >
->> > - T::to_qemu_none() -> Stash<P>
->> >   Returns a borrowed ffi pointer P (using a Stash to destroy "glue"
->> >   storage data, if any).
->> >
->> > - T::to_qemu_full() -> P
->> >   Returns a ffi pointer P. (P resources are leaked/passed to C/ffi)
->> >
->> > With those traits, it's relatively easy to implement the QMP callbacks=
-.
->> > With enough interest, we could eventually start rewriting QGA in
->> > Rust, as it is a simple service. See qga/qmp.rs for some examples.
->> > We could also try to tackle qemu itself.
->>
->> Up to here, you're talking about *internal* interfaces.  Correct?
->>
->> Your motivation is enabling use of Rust in QEMU.  Correct?
->
-> That's the first motivation, indeed.
+For the rest of the patches I haven't individually commented:
 
-Sounds useful.
-
->> > Finally, given that the QAPI types are easy to serialize, it was simpl=
-e
->> > to use "serde" on them, and provide a D-Bus interface for QMP with zbu=
-s.
->> > (a similar approach could probably be taken for other protocols, that
->> > could be dynamically loaded... anyone like protobuf better?)
->>
->> QMP is an *external* interface.
->>
->> It supports compatible evolution: we can make certain kinds of changes
->> without affecting clients.  These include:
->>
->> * Adding optional arguments
->
-> This would change the signature of the function, and would need an
-> interface version bump.
->
-> Alternative: pass optional arguments as an extra dictionary. This is a
-> common idiom in D-Bus (the "a{sv}" type that maps strings to generic
-> values)
->
-> Potentially, use gvariant serialization format, which has maybe type.
-> But gvariant isn't implemented by most D-Bus libraries (that was the
-> plan long time ago, but it didn't happen as people lost interest).
->
->> * Adding results
->
-> Also change the signature of the function.
->
-> However, since messages have boundaries, it is easy to ignore return valu=
-es.
-
-I'm not sure I understand this.
-
-The compatible change I have in mind is adding members to the complex
-type returned by a command.
-
->> * Adding values to an enumeration type, branches to a union or
->>   alternate
->>
->
-> As long as the discriminant is represented as a string, it should be fine=
-.
->
->> * Reordering members of enumerations, structs, unions
->
-> Again, if the discriminant is a string, it should be the same as with jso=
-n.
->
-> For the members, the usage of dictionaries is required in this case
-> (else the type signature would change).
->
->> * Turning an argument type into an alternate with the old type as branch
->
-> That would also change the function signature.
->
-> There isn't much solution I can think of, unless we have an implicit
-> tagged enum for every argument, which would be quite nasty.
->
->>
->> We've made use of this extensively.  See also
->> docs/devel/qapi-code-gen.txt section "Compatibility considerations."
->>
->> How do such changes affect clients of the proposed D-Bus interface?
->
-> The introspection XML will always reflect the expected signature. You
-> should bump your interface version whenever you make incompatible
-> changes.
-
-How do "interface versions" work?  Client's and server's version need to
-match, or else no go?
-
-> If this happens too often, we could also introduce a D-Bus override
-> mechanism to do manual translations from external interface to
-> internal.
-
-Greek to me :)
-
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
