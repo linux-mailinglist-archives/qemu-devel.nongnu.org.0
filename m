@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7832D274A8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:04:15 +0200 (CEST)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB413274AE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:11:41 +0200 (CEST)
+Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpSQ-0001jm-2G
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32874)
+	id 1kKpZc-000605-Oa
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robmeinzer11@gmx.de>)
- id 1kKp5w-0004hC-MZ
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:41:00 -0400
-Received: from mout.gmx.net ([212.227.17.20]:52319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robmeinzer11@gmx.de>)
- id 1kKp5u-0002Nl-BC
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 16:41:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1600807252;
- bh=Jhy3uZ3dtIdPN8/sUXwozc9bHVl1qwpwuRthQ4vMc/0=;
- h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=XR2SgajWyjGlLxend07OcOqzIqhFNaPpPcLejUXQKXf8F+5cMBqrSERvVYsIx51Ty
- CDoWxWCnFrdtvqnQiDNpGjschhexzTvQ3hBo/meyiXM0uF1XniIP9p1wDZsi7n+eak
- V7TR6A2ywRCp+gd8PbysCTwt1kJZIlO19r/tJ6f8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [89.247.255.174] ([89.247.255.174]) by web-mail.gmx.net
- (3c-app-gmx-bap70.server.lan [172.19.172.170]) (via HTTP); Tue, 22 Sep 2020
- 22:40:52 +0200
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPb-0001zk-96
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpPY-0004Xn-Vc
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600808476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=P0vPMY365iP0scQ30oS8TUqlW7pNatr1SSOpqlNr8aY=;
+ b=UKMBIL8dVkwEOpTYBT/LmbZDtOFjb9Zas/jFsY+2pZzGZbsR/1bIgFnfQUhmFv0TgHExgm
+ kxNSMiGafPSp0E1mpqd+0Bdaxb7+VI7p2tsY3HBM2TgGbzpJ+ej8J7tIILsjLrVxOhkFio
+ mmvZUZAJ8180SnmGsq4bVHXen3dyIFw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-gsrFPbeFOYmRwAv7FS9c-g-1; Tue, 22 Sep 2020 17:01:04 -0400
+X-MC-Unique: gsrFPbeFOYmRwAv7FS9c-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66C50100746D;
+ Tue, 22 Sep 2020 21:01:03 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 433C855765;
+ Tue, 22 Sep 2020 21:01:02 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 00/38] qapi: static typing conversion, pt1
+Date: Tue, 22 Sep 2020 17:00:23 -0400
+Message-Id: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Message-ID: <trinity-896b2687-1386-4cd4-9ff6-71ac297c19d2-1600807252157@3c-app-gmx-bap70>
-From: Robin Meinzer <robmeinzer11@gmx.de>
-To: sgarzare@redhat.com, stefanha@redhat.com, qemu-devel@nongnu.org
-Subject: Re: Re: questions regarding vsock
-Content-Type: text/html; charset=UTF-8
-Date: Tue, 22 Sep 2020 22:40:52 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20200917112050.GF809514@stefanha-x1.localdomain>
-References: <trinity-1a5274e6-418e-46d1-bc32-f6f4380b8906-1600295102243@3c-app-gmx-bap30>
- <20200917112050.GF809514@stefanha-x1.localdomain>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:4ABoor+kol2bwzE4dFnIy8xNHj3H4pxbOF7d0eiRK+NcT9BdTbJYg/RCUG7t9azIamGG+
- DntZTdcQ9MFfLyP/K+ea1cgKzm5YjzPFd7fTvIOdmtDxMQ1Udgsdp1pZeGh0aRrJGt9C8ngyJi7x
- O10GRmrprJIyDtIOP9BFyQ6oh4ZzXsfvLfdO3vNcSaZ/HHILXyh+3/J6+Gn4B5x2foHgVmNqs5Mc
- U5BVzz1W4oK+q7V6nWdwAtwe+iXxonjNXlDQWtdcW/YUYz0e53wPQiRU7vH9qJZ7vTHIZ0qRpKgW
- H8=
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qlfJGM0NiIc=:dOk3yNekBM27K0rDjt5H0y
- qpUCNoGwe80osduQzDkrW1OzLlhPzKlKu9SyMM+Gq8HP0sYs2Jpoa2wEMhJGDYhBoEXc6k2NZ
- Z7wa2s7sSeVn+JNvs+XYx/sWWhd8IcSdyCA4HTR/Bg23O4ZQg+Wb6nDsAgX6J0J2mYtyhMoj/
- kqPhZDvxrPS4BtE/43pk3/6UagCwQHXYgz/ZYi5m419rkl2L2gpEZdKYzotVfSrHqqC2MgEQE
- GSJI189sswmwPkVfGKUtQJqaM84fniHsh5028TPYh3A0U45nysW/5D9wLHTKgNEx4pvaYg7GM
- lp9LV5H1/SaG+pyHzvVdly3SPCf4mEuwKGwnetZ4wgGfroVL8gj5zI7Xvuw2x63nKMkV6dIPB
- TdbxnLJa2BKG8hzklgOutnd4kTaNMNz/j7UV5w07ilPHw4laoXzvxRHwyt401AGppl0rge09e
- z5lP2YIQkEXPvrUymaQJnHsLDg3e/+7SLgHRgwChCcBCZXuwxD5IZVQpxiSDAaWsdat4XLX2R
- ErQJK039udn0SdBRZjat16LYsoANhIR2ejpOiN90bhj08iIpqr5XwMFbQpKbHq7DWROcPPA5s
- jBAYOIRPmgR5jNOSvBkiFSCd7H4fr9dM5YJVw6sOWtlgHxVXWOjyVPAIeCTHuYDnAwYZ25s1J
- 0fO2ymAQIoCux/HkNhegtpkZdQ20EkyFsL3CtFW/wRMaHa5tMLndqWsADigKcNTTlb4A=
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=robmeinzer11@gmx.de;
- helo=mout.gmx.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 16:40:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 22 Sep 2020 16:57:09 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,54 +76,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-<html><head></head><body><div style="font-family: Verdana;font-size: 12.0px;"><div>&nbsp;
-<div>
-<div name="quote" style="margin:10px 5px 5px 10px; padding: 10px 0 10px 10px; border-left:2px solid #C3D9E5; word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;">
-<div style="margin:0 0 10px 0;"><b>Gesendet:</b>&nbsp;Donnerstag, 17. September 2020 um 13:20 Uhr<br/>
-<b>Von:</b>&nbsp;&quot;Stefan Hajnoczi&quot; &lt;stefanha@redhat.com&gt;<br/>
-<b>An:</b>&nbsp;&quot;Robin Meinzer&quot; &lt;robmeinzer11@gmx.de&gt;<br/>
-<b>Cc:</b>&nbsp;sgarzare@redhat.com<br/>
-<b>Betreff:</b>&nbsp;Re: questions regarding vsock</div>
+Hi, this series adds static type hints to the QAPI module.=0D
+This is part one!=0D
+=0D
+Part 1: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt1=0D
+Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
+=0D
+- Requires Python 3.6+=0D
+- Requires mypy 0.770 or newer (for type analysis only)=0D
+- Requires pylint 2.6.0 or newer (for lint checking only)=0D
+=0D
+In general, this series tackles the cleanup of one individual QAPI=0D
+module at a time. Once it passes pylint or mypy checks, those checks are=0D
+enabled for that file.=0D
+=0D
+Type hints are added in patches that add *only* type hints and change no=0D
+other behavior. Any necessary changes to behavior to accommodate typing=0D
+are split out into their own tiny patches.=0D
+=0D
+- Patches 1-7: generic, qapi-wide cleanups, flake8 and pylint support=0D
+- Patches 8-16: common.py cleanup (with mypy support added at the end)=0D
+- Patches 17-18: events.py cleanup=0D
+- Patches 19-21: commands.py cleanup=0D
+- Patches 22-23: source.py cleanup=0D
+- Patches 24-29: gen.py cleanup=0D
+- Patches 30-33: introspect.py cleanup=0D
+- Patches 34-35: types.py cleanup=0D
+- Patches 36-37: visit.py cleanup=0D
+=0D
+Notes:=0D
+- After patch 6, `flake8 qapi/` should pass 100% on this and every=0D
+  future commit.=0D
+=0D
+- After patch 7, `pylint --rcfile=3D3Dqapi/pylintrc qapi/` should pass 100%=
+=0D
+  on this and every future commit.=0D
+=0D
+- After patch 16, `mypy --config-file=3D3Dqapi/mypy.ini qapi/` should pass=
+=0D
+  100% on this and every future commit.=0D
+=0D
+V2:=0D
+ - Removed Python3.6 patch in favor of Thomas Huth's=0D
+ - Addressed (most) feedback from Markus=0D
+ - Renamed type hint annotation commits=0D
+=0D
+Changelog:=0D
+=0D
+003/38:[0082] [FC] 'qapi: move generator entrypoint into module'=0D
+004/38:[down] 'qapi: Prefer explicit relative imports'=0D
+006/38:[0027] [FC] 'qapi: delint using flake8'=0D
+007/38:[0006] [FC] 'qapi: add pylintrc'=0D
+008/38:[0002] [FC] 'qapi/common.py: Remove python compatibility workaround'=
+=0D
+009/38:[0037] [FC] 'qapi/common.py: Add indent manager'=0D
+010/38:[0008] [FC] 'qapi/common.py: delint with pylint'=0D
+011/38:[0002] [FC] 'qapi/common.py: Replace one-letter 'c' variable'=0D
+012/38:[----] [-C] 'qapi/common.py: check with pylint'=0D
+013/38:[down] 'qapi/common.py: add type hint annotations'=0D
+014/38:[down] 'qapi/common.py: Convert comments into docstrings, and elabor=
+at=3D=0D
+e'=0D
+015/38:[down] 'qapi/common.py: move build_params into gen.py'=0D
+017/38:[down] 'qapi/events.py: add type hint annotations'=0D
+020/38:[0006] [FC] 'qapi/commands.py: add notational type hints'=0D
+022/38:[down] 'qapi/source.py: add type hint annotations'=0D
+025/38:[down] 'qapi/gen.py: add type hint annotations'=0D
+033/38:[down] 'qapi/introspect.py: add type hint annotations'=0D
+034/38:[down] 'qapi/types.py: add type hint annotations'=0D
+036/38:[down] 'qapi/visit.py: assert tag_member contains a QAPISchemaEnumTy=
+pe'=0D
+037/38:[----] [-C] 'qapi/visit.py: remove unused parameters from gen_visit_=
+ob=3D=0D
+ject'=0D
+038/38:[down] 'qapi/visit.py: add type hint annotations'=0D
+=0D
+John Snow (38):=0D
+  [DO-NOT-MERGE] qapi: add debugging tools=0D
+  qapi-gen: Separate arg-parsing from generation=0D
+  qapi: move generator entrypoint into module=0D
+  qapi: Prefer explicit relative imports=0D
+  qapi: Remove wildcard includes=0D
+  qapi: delint using flake8=0D
+  qapi: add pylintrc=0D
+  qapi/common.py: Remove python compatibility workaround=0D
+  qapi/common.py: Add indent manager=0D
+  qapi/common.py: delint with pylint=0D
+  qapi/common.py: Replace one-letter 'c' variable=0D
+  qapi/common.py: check with pylint=0D
+  qapi/common.py: add type hint annotations=0D
+  qapi/common.py: Convert comments into docstrings, and elaborate=0D
+  qapi/common.py: move build_params into gen.py=0D
+  qapi: establish mypy type-checking baseline=0D
+  qapi/events.py: add type hint annotations=0D
+  qapi/events.py: Move comments into docstrings=0D
+  qapi/commands.py: Don't re-bind to variable of different type=0D
+  qapi/commands.py: add notational type hints=0D
+  qapi/commands.py: enable checking with mypy=0D
+  qapi/source.py: add type hint annotations=0D
+  qapi/source.py: delint with pylint=0D
+  qapi/gen.py: Fix edge-case of _is_user_module=0D
+  qapi/gen.py: add type hint annotations=0D
+  qapi/gen.py: Enable checking with mypy=0D
+  qapi/gen.py: Remove unused parameter=0D
+  qapi/gen.py: update write() to be more idiomatic=0D
+  qapi/gen.py: delint with pylint=0D
+  qapi/introspect.py: Add a typed 'extra' structure=0D
+  qapi/introspect.py: add _gen_features helper=0D
+  qapi/introspect.py: create a typed 'Node' data structure=0D
+  qapi/introspect.py: add type hint annotations=0D
+  qapi/types.py: add type hint annotations=0D
+  qapi/types.py: remove one-letter variables=0D
+  qapi/visit.py: assert tag_member contains a QAPISchemaEnumType=0D
+  qapi/visit.py: remove unused parameters from gen_visit_object=0D
+  qapi/visit.py: add type hint annotations=0D
+=0D
+ scripts/qapi-gen.py        |  59 ++---------=0D
+ scripts/qapi/.flake8       |   2 +=0D
+ scripts/qapi/commands.py   |  85 +++++++++++----=0D
+ scripts/qapi/common.py     | 163 +++++++++++++++-------------=0D
+ scripts/qapi/debug.py      |  78 ++++++++++++++=0D
+ scripts/qapi/doc.py        |   3 +-=0D
+ scripts/qapi/events.py     |  64 ++++++++---=0D
+ scripts/qapi/expr.py       |   4 +-=0D
+ scripts/qapi/gen.py        | 176 ++++++++++++++++++------------=0D
+ scripts/qapi/introspect.py | 212 +++++++++++++++++++++++++------------=0D
+ scripts/qapi/main.py       |  91 ++++++++++++++++=0D
+ scripts/qapi/mypy.ini      |  30 ++++++=0D
+ scripts/qapi/parser.py     |   4 +-=0D
+ scripts/qapi/pylintrc      |  71 +++++++++++++=0D
+ scripts/qapi/schema.py     |  33 +++---=0D
+ scripts/qapi/source.py     |  34 +++---=0D
+ scripts/qapi/types.py      | 125 +++++++++++++++-------=0D
+ scripts/qapi/visit.py      | 116 ++++++++++++++------=0D
+ 18 files changed, 952 insertions(+), 398 deletions(-)=0D
+ create mode 100644 scripts/qapi/.flake8=0D
+ create mode 100644 scripts/qapi/debug.py=0D
+ create mode 100644 scripts/qapi/main.py=0D
+ create mode 100644 scripts/qapi/mypy.ini=0D
+ create mode 100644 scripts/qapi/pylintrc=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
-<div name="quoted-content">On Thu, Sep 17, 2020 at 12:25:02AM +0200, Robin Meinzer wrote:<br/>
-<br/>
-Hi,<br/>
-I have CCed Stefano Garzarella, who co-maintains virtio-vsock with me.<br/>
-Please send technical questions to qemu-devel@nongnu.org in the future<br/>
-and CC us. That way others can participate in the discussion and it&#39;s<br/>
-archived in case someone else has the same question in the future.<br/>
-<br/>
-&gt; &lt;div&gt;- If I want to run multiple qemu instances with vsock in each of them, -device ... guest-cid=CID has to be different for every VM. I don&amp;#39;t want to run VMs always manually, so can I assign a random or basically a free-to-take CID?&lt;br/&gt;<br/>
-&gt; This is what I would expect: -device ... guest-cid=ANY_CID&lt;br/&gt;<br/>
-<br/>
-Userspace needs to allocate CIDs. The kernel does not automatically<br/>
-allocate them. With Ethernet you would need to assign each guest a<br/>
-unique MAC address, for example.<br/>
-<br/>
-Is there some unique value associated with your guests that you can use?<br/>
-<br/>
-&gt; - I managed to send data from host to vm and vice versa via SOCK_STREAM. Although whenever I want to use SOCK_DGRAM, I get an error message with &amp;quot;no such device&amp;quot;. Do you maybe know how to fix this to get a UDP-like connection?&lt;br/&gt;<br/>
-<br/>
-virtio-vsock currently only supports SOCK_STREAM.<br/>
-<br/>
-&gt; - I see that from factory vsock is only read-write to root and noone else, so I have to run the VM as root. How does it look in practice, is it just for me or does any distro ship with /dev/vsock set to root only, because it feels like I shouldn&amp;#39;t necessarily run a VM with root privileges.<br/>
-<br/>
-A privileged process can open /dev/vhost-vsock and spawn an unprivileged<br/>
-QEMU process with -device vhost-vsock-pci,guest-cid=CID,vhostfd=FD.<br/>
-<br/>
-Stefan<br/>
-<br/>
-<br/>
---<br/>
-I added Stefano Garzarella and qemu-devel as you asked. I wonder if you don&#39;t support SOCK_DGRAM but only SOCK_STREAM, why having code for it then? There are functions like vsock_dgram_connect and a proto_ops struct specifically for SOCK_DGRAM, but any attempt to create a socket for it ends with -ENODEV (transport_dgram is NULL, I guess it&#39;s on purpose because you don&#39;t support it as you said).<br/>
-<br/>
-Another thing, could you please tell me what I have to set in the kernel .config to have vsockets working out of the box, for now lsmod doesn&#39;t show me vmw_vsock_transport_common or vsock or vsock_host existence in the form of a autoloaded module at all.<br/>
-<br/>
-Greetings</div>
-</div>
-</div>
-</div></div></body></html>
 
