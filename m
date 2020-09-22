@@ -2,72 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECCB2741DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 14:14:27 +0200 (CEST)
-Received: from localhost ([::1]:55392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77E52741FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 14:22:02 +0200 (CEST)
+Received: from localhost ([::1]:42774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKhBi-0007sF-FQ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 08:14:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37536)
+	id 1kKhJ3-00068p-Pv
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 08:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKh9L-0006o3-Tr
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:11:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kKh9F-0005tI-Si
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:11:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600776712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TnsmXgUsIUagWbwuzv1HFJFE5WlQIEnCfhK+UduS9V4=;
- b=gvAlXej8WpU0tpASZju33BuphPigZUp7hGWPv6bVNHh036CwtQvvm8NzMBeBqSQsWp5rS6
- ZFGN8RCaBl7n6kQ84/hWrT5GLAAKLiXErUHY9QF+n3/B/ZDpKnPB/w+Zs2SfyorUCN8tls
- FGJBaHS84Fq2YLhgY52YWIgTvXtkaEU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-CNt4ySJyNzm8qqjYWaxv0A-1; Tue, 22 Sep 2020 08:11:49 -0400
-X-MC-Unique: CNt4ySJyNzm8qqjYWaxv0A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0C32195D561;
- Tue, 22 Sep 2020 12:11:47 +0000 (UTC)
-Received: from work-vm (ovpn-115-25.ams2.redhat.com [10.36.115.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1823F78826;
- Tue, 22 Sep 2020 12:11:45 +0000 (UTC)
-Date: Tue, 22 Sep 2020 13:11:43 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] migration: increase max-bandwidth to 128 MiB/s (1 Gib/s)
-Message-ID: <20200922121143.GG2836@work-vm>
-References: <20200921144957.979989-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kKhD4-0000uQ-Dr
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:15:50 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:47410)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kKhD0-0006JZ-5z
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 08:15:50 -0400
+Received: from [127.0.1.1] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id DAC0F40A2071;
+ Tue, 22 Sep 2020 12:15:37 +0000 (UTC)
+Subject: [PATCH v5 00/15] Reverse debugging
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: qemu-devel@nongnu.org
+Date: Tue, 22 Sep 2020 15:15:37 +0300
+Message-ID: <160077693745.10249.9707329107813662236.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <20200921144957.979989-1-lvivier@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 08:15:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +52,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Andrea Bolognani <abologna@redhat.com>,
- David Gibson <dgibson@redhat.com>, Frediano Ziglio <fziglio@redhat.com>
+Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
+ ehabkost@redhat.com, alex.bennee@linaro.org, mtosatti@redhat.com,
+ armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laurent Vivier (lvivier@redhat.com) wrote:
-> max-bandwidth is set by default to 32 MiB/s (256 Mib/s)
-> since 2008 (5bb7910af031c).
-> 
-> Most of the CPUs can dirty memory faster than that now,
-> and this is clearly a problem with POWER where the page
-> size is 64 kiB and not 4 KiB.
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+GDB remote protocol supports reverse debugging of the targets.
+It includes 'reverse step' and 'reverse continue' operations.
+The first one finds the previous step of the execution,
+and the second one is intended to stop at the last breakpoint that
+would happen when the program is executed normally.
 
-Thanks,
+Reverse debugging is possible in the replay mode, when at least
+one snapshot was created at the record or replay phase.
+QEMU can use these snapshots for travelling back in time with GDB.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Running the execution in replay mode allows using GDB reverse debugging
+commands:
+ - reverse-stepi (or rsi): Steps one instruction to the past.
+   QEMU loads on of the prior snapshots and proceeds to the desired
+   instruction forward. When that step is reaches, execution stops.
+ - reverse-continue (or rc): Runs execution "backwards".
+   QEMU tries to find breakpoint or watchpoint by loaded prior snapshot
+   and replaying the execution. Then QEMU loads snapshots again and
+   replays to the latest breakpoint. When there are no breakpoints in
+   the examined section of the execution, QEMU finds one more snapshot
+   and tries again. After the first snapshot is processed, execution
+   stops at this snapshot.
 
-in another 12 years we can increase it by 8x again!
+The set of patches include the following modifications:
+ - gdbstub update for reverse debugging support
+ - functions that automatically perform reverse step and reverse
+   continue operations
+ - hmp/qmp commands for manipulating the replay process
+ - improvement of the snapshotting for saving the execution step
+   in the snapshot parameters
+ - avocado-based acceptance tests for reverse debugging
 
-> ---
->  migration/migration.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 58a5452471f9..1c4174947181 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -57,7 +57,7 @@
->  #include "qemu/queue.h"
->  #include "multifd.h"
->  
-> -#define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttling */
-> +#define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
->  
->  /* Amount of time to allocate to each "chunk" of bandwidth-throttled
->   * data. */
-> -- 
-> 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+The patches are available in the repository:
+https://github.com/ispras/qemu/tree/rr-200901
 
+v5 changes:
+ - disabled reverse debugging tests for gitlab-based testing
+   due to the unidentified timeout problem
+v4 changes:
+ - added VM snapshot creation on gdb connect (suggested by Alex Bennée)
+ - removed useless calls to error_free
+ - updated poll interrupt processing
+ - minor changes
+v3 changes:
+ - rebased to support the new build system
+ - bumped avocado framework version for using fixed remote gdb client
+v2 changes:
+ - rebased to the latest upstream version
+ - fixed replaying of the POLL interrupts after the latest debug changes
+
+---
+
+Pavel Dovgaluk (11):
+      replay: provide an accessor for rr filename
+      qcow2: introduce icount field for snapshots
+      qapi: introduce replay.json for record/replay-related stuff
+      replay: introduce info hmp/qmp command
+      replay: introduce breakpoint at the specified step
+      replay: implement replay-seek command
+      replay: flush rr queue before loading the vmstate
+      gdbstub: add reverse step support in replay mode
+      gdbstub: add reverse continue support in replay mode
+      replay: describe reverse debugging in docs/replay.txt
+      tests/acceptance: add reverse debugging test
+
+Pavel Dovgalyuk (4):
+      replay: don't record interrupt poll
+      migration: introduce icount field for snapshots
+      docs: convert replay.txt to rst
+      replay: create temporary snapshot at debugger connection
+
+
+ MAINTAINERS                           |    2 
+ accel/tcg/cpu-exec.c                  |   21 +-
+ accel/tcg/translator.c                |    1 
+ block/qapi.c                          |   18 +
+ block/qcow2-snapshot.c                |    9 +
+ block/qcow2.h                         |    3 
+ blockdev.c                            |   10 +
+ docs/interop/qcow2.txt                |    5 
+ docs/replay.txt                       |  364 -----------------------------
+ docs/system/index.rst                 |    1 
+ docs/system/replay.rst                |  410 +++++++++++++++++++++++++++++++++
+ exec.c                                |    8 +
+ gdbstub.c                             |   64 +++++
+ hmp-commands-info.hx                  |   11 +
+ hmp-commands.hx                       |   50 ++++
+ include/block/snapshot.h              |    1 
+ include/monitor/hmp.h                 |    4 
+ include/sysemu/replay.h               |   26 ++
+ migration/savevm.c                    |   17 +
+ qapi/block-core.json                  |   11 +
+ qapi/meson.build                      |    1 
+ qapi/misc.json                        |   18 -
+ qapi/qapi-schema.json                 |    1 
+ qapi/replay.json                      |  121 ++++++++++
+ replay/meson.build                    |    1 
+ replay/replay-debugging.c             |  334 +++++++++++++++++++++++++++
+ replay/replay-events.c                |    4 
+ replay/replay-internal.h              |    6 
+ replay/replay.c                       |   22 ++
+ softmmu/cpus.c                        |   19 +-
+ stubs/replay.c                        |   15 +
+ tests/acceptance/reverse_debugging.py |  208 +++++++++++++++++
+ tests/qemu-iotests/267.out            |   48 ++--
+ 33 files changed, 1406 insertions(+), 428 deletions(-)
+ delete mode 100644 docs/replay.txt
+ create mode 100644 docs/system/replay.rst
+ create mode 100644 qapi/replay.json
+ create mode 100644 replay/replay-debugging.c
+ create mode 100644 tests/acceptance/reverse_debugging.py
+
+--
+Pavel Dovgalyuk
 
