@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076C8274BF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:16:40 +0200 (CEST)
-Received: from localhost ([::1]:49002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A03274BF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:19:20 +0200 (CEST)
+Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqaV-00024Y-3j
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
+	id 1kKqd4-0003rk-CY
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpjA-0003NU-3G
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37993)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKpl5-000652-QP
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:23:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpj7-00075H-Gc
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:31 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kKpl3-0007GV-QI
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:23:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809688;
+ s=mimecast20190719; t=1600809808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0kk2aiwbBpvBqKrIaMAbC3XrkAlYeJd7sDOVP9w+HbQ=;
- b=CHSxb/WobCNu+vBc629D2oXXOVUGKspoYEmfVDncf+9j+3mfCquRNT8kV2WMauFvtu1291
- bgB/OKK4QpieDYsAy33cuSon6/Nr6CMJMPFEEXk+ydjo5vl76wU3wyV4WYaT6M8uInnDqC
- ZvJXEWLw5b1nqB8y5y2EO02p8K21htc=
+ bh=sE5yVc/6dVjkT+RhyvXoRRYr/aG9Vr28Pb6GoJx1yJg=;
+ b=HykKMDOcUc0Wj/FPaHCvfbmMdj2/cfcQlG7/j5nnnp44G8K/bVfm5b4At5w/9maiELbFti
+ RnHTazRheyHzC92FMZkgBVwTE1AbBDGHKYmxsh3SLI9lf6sH9jNUuzfShR00OvE/rt+aVx
+ E8mNohXY7WwflYlciT0Gf71VfzccCn8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-esChXbRRNzW4xXmOB09kNw-1; Tue, 22 Sep 2020 17:21:26 -0400
-X-MC-Unique: esChXbRRNzW4xXmOB09kNw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-488-X9KncfemNGCwxXyslZ23wQ-1; Tue, 22 Sep 2020 17:23:25 -0400
+X-MC-Unique: X9KncfemNGCwxXyslZ23wQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD360186DD28;
- Tue, 22 Sep 2020 21:21:25 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E7375DA7B;
- Tue, 22 Sep 2020 21:21:25 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 6/6] qapi/error.py: enable pylint checks
-Date: Tue, 22 Sep 2020 17:21:15 -0400
-Message-Id: <20200922212115.4084301-7-jsnow@redhat.com>
-In-Reply-To: <20200922212115.4084301-1-jsnow@redhat.com>
-References: <20200922212115.4084301-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8F991005E5E;
+ Tue, 22 Sep 2020 21:23:23 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BD2A55767;
+ Tue, 22 Sep 2020 21:23:23 +0000 (UTC)
+Date: Tue, 22 Sep 2020 17:23:22 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 03/38] qapi: move generator entrypoint into module
+Message-ID: <20200922212322.GD2044576@habkost.net>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-4-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200922210101.4081073-4-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -78,32 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/pylintrc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Tue, Sep 22, 2020 at 05:00:26PM -0400, John Snow wrote:
+> As part of delinting and adding type hints to the QAPI generator, it's
+> helpful for the entrypoint to be part of the package, only leaving a
+> very tiny entrypoint shim outside of the module.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi-gen.py  | 90 +++----------------------------------------
+>  scripts/qapi/main.py | 91 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 97 insertions(+), 84 deletions(-)
+>  create mode 100644 scripts/qapi/main.py
+>
+[...]
+> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+> new file mode 100644
+> index 0000000000..18c246bbb4
+> --- /dev/null
+> +++ b/scripts/qapi/main.py
+> @@ -0,0 +1,91 @@
+> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
+> +# See the COPYING file in the top-level directory.
+> +
+> +"""
+> +QAPI Generator
+> +
+> +This is the main entry point for generating C code from the QAPI schema.
+> +"""
+> +
+> +import argparse
+> +import re
+> +import sys
+> +
+> +from qapi.commands import gen_commands
+> +from qapi.doc import gen_doc
+> +from qapi.error import QAPIError
+> +from qapi.events import gen_events
+> +from qapi.introspect import gen_introspect
+> +from qapi.schema import QAPISchema
+> +from qapi.types import gen_types
+> +from qapi.visit import gen_visit
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index fb0386d529..88efbf71cb 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -2,8 +2,7 @@
- 
- # Add files or directories matching the regex patterns to the ignore list.
- # The regex matches against base names, not paths.
--ignore-patterns=error.py,
--                parser.py,
-+ignore-patterns=parser.py,
-                 schema.py,
- 
- 
+Do you plan to change this to use relative imports eventually?
+
+In either case:
+
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+
 -- 
-2.26.2
+Eduardo
 
 
