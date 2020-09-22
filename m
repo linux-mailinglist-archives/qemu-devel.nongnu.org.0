@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D14274D04
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:01:41 +0200 (CEST)
-Received: from localhost ([::1]:41664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D37274D1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:09:45 +0200 (CEST)
+Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKrI4-0008Ct-RC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60518)
+	id 1kKrPs-0003cI-Vp
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2k-0002Ij-P8
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22839)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2n-0002Pi-Kn
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2g-0000TQ-3P
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:50 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2j-0000VA-GD
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814732;
+ s=mimecast20190719; t=1600814735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BnkRQDBe/lGMVQUX9scHUathhJcZdcy6Q+U6UzBr6QE=;
- b=fJz56H3heg5yf19UgEZn+ZAz3rKNbejDFOIO7vxGE/EqhOc/PmTJreKlu35cOiiRbITFPn
- Vnc2rLrm6Ejy7+ftRxbmwFpHJPygpTeMPhwQimUfKWZAjpqYoEeAYmz+R+6zjNWgRuZlCq
- S1Jzmh1RGunQEHh8oaiyxcfv3unIkh0=
+ bh=xW55YR5VhfeQzQ2FSeIIvnQ6gI5BA6OfDkWrI/yzKHw=;
+ b=M1hgNnL0WoRrJpgPloRTu5Whe9QCxUJ9weNTvUiMofay1cAkCawdudH2gf6TW4a4P5cXTM
+ rGNTg6h9g/dTV79Ksr4/M9S+jygDTsBVI2g72rbZS5EvBSAJ1QzDryBCsfyMddoed/YmR3
+ 1tVypOMZxDK27j+J+Z07I8/W1XJDV30=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520--J-Tmn0JP-a9lFLJnOJ96Q-1; Tue, 22 Sep 2020 18:45:30 -0400
-X-MC-Unique: -J-Tmn0JP-a9lFLJnOJ96Q-1
+ us-mta-586-WyrSCoCWOAa1HQSJtI2lDA-1; Tue, 22 Sep 2020 18:45:33 -0400
+X-MC-Unique: WyrSCoCWOAa1HQSJtI2lDA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D12881CAFC;
- Tue, 22 Sep 2020 22:45:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF3051005E64;
+ Tue, 22 Sep 2020 22:45:32 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D6055C1A3;
- Tue, 22 Sep 2020 22:45:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C80815C1A3;
+ Tue, 22 Sep 2020 22:45:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 19/25] qapi/schema.py: Convert several methods to classmethods
-Date: Tue, 22 Sep 2020 18:44:55 -0400
-Message-Id: <20200922224501.4087749-20-jsnow@redhat.com>
+Subject: [PATCH 22/25] qapi/schema.py: Ignore unused argument for check()
+Date: Tue, 22 Sep 2020 18:44:58 -0400
+Message-Id: <20200922224501.4087749-23-jsnow@redhat.com>
 In-Reply-To: <20200922224501.4087749-1-jsnow@redhat.com>
 References: <20200922224501.4087749-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,48 +84,26 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If they don't use self and nothing that extends them needs self either,
-they can be classmethods.
+This is an interface with a default implementation. Pylint doesn't have
+enough context to be aware of this.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/schema.py | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ scripts/qapi/schema.py | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 61238c0686..2d23ce04eb 100644
+index 271befea1c..6ecbc2aa6b 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -1096,7 +1096,8 @@ def _def_predefineds(self) -> None:
-         self._def_entity(QAPISchemaEnumType('QType', None, None, None, None,
-                                             qtype_values, 'QTYPE'))
+@@ -86,6 +86,7 @@ def c_name(self) -> str:
+         return c_name(self.name)
  
--    def _make_features(self,
-+    @classmethod
-+    def _make_features(cls,
-                        features: Optional[List[Dict[str, Any]]],
-                        info: QAPISourceInfo) -> List[QAPISchemaFeature]:
-         if features is None:
-@@ -1104,7 +1105,8 @@ def _make_features(self,
-         return [QAPISchemaFeature(f['name'], info, f.get('if'))
-                 for f in features]
- 
--    def _make_enum_members(self,
-+    @classmethod
-+    def _make_enum_members(cls,
-                            values: List[Dict[str, Any]],
-                            info: Optional[QAPISourceInfo],
-                            ) -> List[QAPISchemaEnumMember]:
-@@ -1213,7 +1215,8 @@ def _def_struct_type(self,
-             self._make_members(data, info),
-             None))
- 
--    def _make_variant(self,
-+    @classmethod
-+    def _make_variant(cls,
-                       case: str,
-                       typ: str,
-                       ifcond: Optional[List[str]],
+     def check(self, schema: 'QAPISchema') -> None:
++        # pylint: disable=unused-argument
+         assert not self._checked
+         seen: Dict[str, 'QAPISchemaMember'] = {}
+         for feature in self.features:
 -- 
 2.26.2
 
