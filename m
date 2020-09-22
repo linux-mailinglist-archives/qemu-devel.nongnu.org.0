@@ -2,76 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0014C274754
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:18:46 +0200 (CEST)
-Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701DF274742
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:09:25 +0200 (CEST)
+Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKlwD-0002ut-PG
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34776)
+	id 1kKlnA-0004Ru-Gd
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:09:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKliA-0001C9-5g
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:04:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32030)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKlm4-0003SH-Ck
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:08:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKli7-0007Ae-7C
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:04:13 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kKlm1-0007j1-PP
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:08:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600794249;
+ s=mimecast20190719; t=1600794492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4VDi9te5ohfdxOLIJEB1UqL5Fd8ufn6MFb9MaAx4mm4=;
- b=AZFt1KH9LOYjI5V2bYLFisps29nuaVHpcKxTYnno26QsFjn8p+5PEq+Em77JysxnNlVbND
- qV/giv+FK/+RgVy4I0gB/Yb/OvWPDShHU3puiVDnw4pTWWpWb+gIxvis44zmxWVyOuvWXo
- 8lPGuv3JIyQT8+hdwRZ9HBEh7AmQVwM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-fAfjUNfMOCej-EALpk958A-1; Tue, 22 Sep 2020 13:04:05 -0400
-X-MC-Unique: fAfjUNfMOCej-EALpk958A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B12F19611B3;
- Tue, 22 Sep 2020 17:03:54 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CFF578439;
- Tue, 22 Sep 2020 17:03:34 +0000 (UTC)
-Date: Tue, 22 Sep 2020 13:03:33 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH] tests/acpi: speedup acpi tests
-Message-ID: <20200922170333.GA57321@habkost.net>
-References: <1473173750-11761-1-git-send-email-marcel@redhat.com>
- <5362df9c-00f8-adab-ecd2-481a33e84687@redhat.com>
- <20160906184921-mutt-send-email-mst@kernel.org>
- <41dcdc9b-ba44-3dcf-78b2-72cade130766@redhat.com>
- <20160906221822-mutt-send-email-mst@kernel.org>
- <52fc397d-bd03-e8e7-fd82-61ad278db7c3@redhat.com>
+ bh=iDeShg7mtwj3x675zuZhoTSV2Y/W8hI0i33lrasebmQ=;
+ b=U5IaKS4cnQjViDBeGP2/ps2PCU7JVP3IZ8JGN8AvS+2c0fV5hrQPg9SW0iZg16GM7ZgdY9
+ V5DJn/pEiP6N1GarSnDOFfNTRBj7Jt/Q+ovfrrLYqA4a0J0rKDTs6UGm5bQH1/hrrYgZNY
+ PJFK4lKMzkIamxtRUqILgeSAdPgUQtg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-Ifmf36QOPtiFk7NyfzIGDw-1; Tue, 22 Sep 2020 13:08:09 -0400
+X-MC-Unique: Ifmf36QOPtiFk7NyfzIGDw-1
+Received: by mail-wr1-f70.google.com with SMTP id a2so7660427wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 10:08:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iDeShg7mtwj3x675zuZhoTSV2Y/W8hI0i33lrasebmQ=;
+ b=HDVicjclFWQQYWxbzNaIIRroS8D1TCns27fAx8aLyR68Tu3ZDViUL2afB0qmqBPGA3
+ zpJWtT0TE/NveluoP53uRACvYudhBm2v6xnmo6l9mx+De76MRI2c+sH4ussUnw+xke2X
+ V40k08I2EwNgKulIcLbr/RTj+BUes0v4iQdovyN3zQUFZ1gqiKJrJSFC75Ksx1eojz5M
+ +sD+P5hv2poqq8FhyiIklWx1Un0kcMs6lcexgDs0tR7ZDTw4cYc0grvucwpjPuh4kn85
+ p1xr/r8rDynfJ/QVZ/2rNp/0kJcUv45dXDo4EdiK8vveUCjryTLgxOAFvNeBiJ6vFd9I
+ nkDA==
+X-Gm-Message-State: AOAM531KPDb0BIeDzaLdDWa7nL6cxYeeweDrFrzY6YMBtwFODoT+c4vK
+ G6Bg0nzIee+cEzwQTT/2nrGjPmXHgx5DzCgkvgKFHJQaJicyfGOqeHNgG6Tm/tRTaKRAUmDpAOa
+ uOrNmBFFkiIuM4/c=
+X-Received: by 2002:a05:600c:4149:: with SMTP id
+ h9mr2069997wmm.86.1600794487209; 
+ Tue, 22 Sep 2020 10:08:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxyKfPt5PfM3oCaGnHpPdQQ496+dCyGOiZibmXV/fqtdIuxrx1pTqezcsBNfpZkipDmy4ItKw==
+X-Received: by 2002:a05:600c:4149:: with SMTP id
+ h9mr2069971wmm.86.1600794486903; 
+ Tue, 22 Sep 2020 10:08:06 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ec2c:90a9:1236:ebc6?
+ ([2001:b07:6468:f312:ec2c:90a9:1236:ebc6])
+ by smtp.gmail.com with ESMTPSA id q13sm30025912wra.93.2020.09.22.10.08.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Sep 2020 10:08:06 -0700 (PDT)
+Subject: Re: [PATCH] PoC: Rust binding for QAPI (qemu-ga only, for now)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20200910174850.716104-1-marcandre.lureau@redhat.com>
+ <87mu1j8p7p.fsf@dusky.pond.sub.org>
+ <CAMxuvayvRfjUMYDiB5fm5QBD76kfD8-G1wTEucQTBbZUtnwXrA@mail.gmail.com>
+ <874knpluez.fsf@dusky.pond.sub.org>
+ <CAJ+F1CLCT3RpZF8JDYayqkKxFu76vy+q6GUjofZV3JF_YDvxng@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9d6215d4-d0cd-67e4-3048-77127194f7e8@redhat.com>
+Date: Tue, 22 Sep 2020 19:08:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <52fc397d-bd03-e8e7-fd82-61ad278db7c3@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAJ+F1CLCT3RpZF8JDYayqkKxFu76vy+q6GUjofZV3JF_YDvxng@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,44 +108,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, "Hajnoczi, Stefan" <stefanha@gmail.com>,
+ "P. Berrange, Daniel" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Sergio Lopez Pascual <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 06, 2016 at 10:22:26PM +0200, Paolo Bonzini wrote:
-> On 06/09/2016 21:21, Michael S. Tsirkin wrote:
-> > On Tue, Sep 06, 2016 at 09:11:16PM +0200, Paolo Bonzini wrote:
-> >>
-> >>
-> >> On 06/09/2016 17:51, Michael S. Tsirkin wrote:
-> >>>> Just use "-machine accel=kvm:tcg" and let QEMU do the hard work. :)
-> >>>>
-> >>>> Paolo
-> >>>
-> >>> Sounds good, but we really need to skip it when gsi
-> >>> capability is not there (and when using kernel irqchip)
-> >>> (because in that case we can't override apic irq0).
-> >>
-> >> We should just remove support for !kvm_has_gsi_routing on x86.  It's
-> >> been there since November 2008.
-> >>
-> >> Paolo
-> > 
-> > Fine by me. Can you post a patch that does this?
-> > This one can be a follow-up, and we can also
-> > drop the conditional handling from acpi-build.
+On 22/09/20 18:35, Marc-André Lureau wrote:
+> The D-Bus specification doesn't detail versioning much. What is
+> recommended is to have the version number as part of the interface name
+> (kinda like soname):
+> http://0pointer.de/blog/projects/versioning-dbus.html (this is
+> documented in several places iirc)
 > 
-> Go ahead and merge Marcel's patch.  I can remove kernel_irqchip=off once
-> apic irq0 override is assumed.
+> So a QEMU D-Bus interface could have a name like org.qemu.Qemu51,
+> org.qemu.Qemu52.. for example, if we can't provide better API stability...
 
-[4 years later]
+That would be a problem for backports.
 
-Can we remove it now?  I couldn't find out if we can assume
-kvm_has_gsi_routing() is true everywhere, or just on a few
-architectures.
+It seems to me that the bindings issue is only a problem if we insist on
+having positional arguments like we do for C, but if we can avoid
+functions with a zillion arguments we could.  For example in Rust, it's
+idiomatic to use the builder pattern
 
--- 
-Eduardo
+    let thread = thread::Builder::new()
+        .name("foo".into())
+        .stack_size(65536)
+        .spawn(run_thread)?;
+    thread.join()?;
+
+and I think the same would work in Go or even C++.  It would look like
+
+   qapi::qga::commands::GuestShutdown::new()
+       .mode("halt")
+       .invoke_on(qapi_channel)?;
+
+with some kind of double dispatch implementation:
+
+   trait QAPIChannel {
+      ...
+      fn invoke(command: dyn QAPISerialization)
+          -> dyn QAPISerialization;
+   }
+
+   impl GuestShutdown {
+       fn<T: QAPIChannel> invoke_on(t: T) -> () {
+           let args = self.as_qapi_serialization();
+           t.invoke(args);
+           // could "return from_qapi_serialization(result)", likewise
+       }
+   }
+
+In Python, you can use keyword arguments and there are even keyword-only
+arguments ("def f(*, key1, key2)"), like
+
+    qapi.qga.GuestFileOpen(path="/etc/passwd").invoke_on(qapi_channel);
+
+When you do something like this QMP-style APIs are not a problem.
+FlatBuffers is another serialization format that supports this kind of
+extensibility (https://google.github.io/flatbuffers/ explicitly compares
+it to JSON, even).
+
+Paolo
 
 
