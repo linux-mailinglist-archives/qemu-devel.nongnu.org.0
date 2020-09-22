@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E231273EFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:56:08 +0200 (CEST)
-Received: from localhost ([::1]:58952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11422273F05
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:57:09 +0200 (CEST)
+Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKf1r-0000JV-If
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45326)
+	id 1kKf2q-0001lM-4i
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:57:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kKf0T-0008Jc-EN
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:54:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kKf0R-0001Vs-6n
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:54:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600768478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hG1pEW06fI1t6jcVAkIKcj7g/qVLS73waiwL/Y47AIA=;
- b=CtrfjisbH5TIUB3WrbcwC+/pDIh4TMFMQXDnYUF8+OoTKdnLYQPH56aY+p1Qi4CpWqUv7z
- sEC5V1ABbWXO/sz9Om+P3i5BIWPohXTAatCflYU67g4e1f4qw9wZ5GLQxHmFlynRGgmAP0
- TgY5k56aLv4sV3Drt1VEn6F2ahFvgtU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-9ZGHB6fgM_yLtFhstemNHQ-1; Tue, 22 Sep 2020 05:54:34 -0400
-X-MC-Unique: 9ZGHB6fgM_yLtFhstemNHQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7666D802B51;
- Tue, 22 Sep 2020 09:54:33 +0000 (UTC)
-Received: from gondolin (ovpn-112-114.ams2.redhat.com [10.36.112.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 600FE78822;
- Tue, 22 Sep 2020 09:54:28 +0000 (UTC)
-Date: Tue, 22 Sep 2020 11:54:25 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 12/24] s390x: Register all CPU properties as class
- properties
-Message-ID: <20200922115425.343d8234.cohuck@redhat.com>
-In-Reply-To: <20200921221045.699690-13-ehabkost@redhat.com>
-References: <20200921221045.699690-1-ehabkost@redhat.com>
- <20200921221045.699690-13-ehabkost@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <lizhijian@cn.fujitsu.com>)
+ id 1kKf1Z-0000Zs-4R
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:55:49 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:51551
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@cn.fujitsu.com>) id 1kKf1V-0001hD-Tk
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:55:48 -0400
+X-IronPort-AV: E=Sophos;i="5.77,290,1596470400"; d="scan'208";a="99500708"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 22 Sep 2020 17:55:41 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+ by cn.fujitsu.com (Postfix) with ESMTP id F244C48990EF;
+ Tue, 22 Sep 2020 17:55:37 +0800 (CST)
+Received: from G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 22 Sep 2020 17:55:36 +0800
+Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
+ G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Tue, 22 Sep 2020 17:55:36 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: <chen.zhang@intel.com>, <jasowang@redhat.com>
+Subject: [PATCH 0/3] colo-compare: minor fixes
+Date: Tue, 22 Sep 2020 17:55:22 +0800
+Message-ID: <20200922095525.4081603-1-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-yoursite-MailScanner-ID: F244C48990EF.AB6DD
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@cn.fujitsu.com
+Received-SPF: none client-ip=183.91.158.132;
+ envelope-from=lizhijian@cn.fujitsu.com; helo=heian.cn.fujitsu.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 05:55:42
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,40 +63,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P.
- Berrange" <berrange@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Sep 2020 18:10:33 -0400
-Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-> Class properties make QOM introspection simpler and easier, as
-> they don't require an object to be instantiated.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: qemu-s390x@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  target/s390x/internal.h   |  1 -
->  target/s390x/cpu.c        |  1 -
->  target/s390x/cpu_models.c | 35 ++++++++++++++++-------------------
->  3 files changed, 16 insertions(+), 21 deletions(-)
+Li Zhijian (3):
+  colo-compare: return -1 if no packet is enqueued
+  colo-compare: fix missing compare_seq init
+  colo-compare: check mark in mutual exclusion
 
-I presume that this patch is supposed to go with the complete series?
-(Have not looked.)
+ net/colo-compare.c | 7 +++----
+ net/colo.c         | 5 +----
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+-- 
+2.28.0
+
+
 
 
