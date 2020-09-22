@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BE4274B38
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:34:06 +0200 (CEST)
-Received: from localhost ([::1]:40618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA16274B49
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:42:34 +0200 (CEST)
+Received: from localhost ([::1]:39764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpvJ-0000lW-QX
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:34:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41104)
+	id 1kKq3V-0004gS-GM
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpg2-00079d-2U
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53747)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgG-0007eH-3o
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpfx-0006ce-UR
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:17 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgE-0006em-7V
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809493;
+ s=mimecast20190719; t=1600809509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b74oJYdLoSfqHVygXt9kzKk9vHZ6c5Y1WDerG8Zn2u0=;
- b=Oiik6lsA6p6shqs/Ews+8yBQWDpL0ezEpwqLnF1KfZaNWKDywYE4REHLlSeN9h7UgCpm2P
- eD2/bU2LxDqYdeqI8ZhEHeIoYtWiBdMsJ0af9MzT75vmbBk0st8dKHrt2W4B7BtI+vyaSx
- Nu4nU3zGHnw3jK9iWykD1Fqg2UEksS4=
+ bh=+N9SVxzI3ShYNgvFdCqrNQXI9sy069vyoh7g1hqMmJc=;
+ b=I/3KszU1IRdV8NVkccWu8K5ArFDoWFz5RdpfOZ8C1KAfBKTwd+CKcKOOrapBvpZeYkHJxZ
+ WfMKtgtr8au9KaT2zyz31WdmSKNYx+EJDXIoxLO3mrLhXkGHYGRMBzUZj4NH+QF09zIX9f
+ m/FPaQKTnxVYrFL9j55uy6OUkgTcQSs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-PJ5FyfKQNcSybBGAgJwCtw-1; Tue, 22 Sep 2020 17:18:10 -0400
-X-MC-Unique: PJ5FyfKQNcSybBGAgJwCtw-1
+ us-mta-54-_l_knxG5OpS-cFYJ0bTo-w-1; Tue, 22 Sep 2020 17:18:13 -0400
+X-MC-Unique: _l_knxG5OpS-cFYJ0bTo-w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB5C580ED9A;
- Tue, 22 Sep 2020 21:18:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2172880ED9A;
+ Tue, 22 Sep 2020 21:18:12 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A28A95DE50;
- Tue, 22 Sep 2020 21:18:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 683555DE50;
+ Tue, 22 Sep 2020 21:18:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 02/14] qapi/doc.py: avoid unnecessary keyword arguments
-Date: Tue, 22 Sep 2020 17:17:50 -0400
-Message-Id: <20200922211802.4083666-3-jsnow@redhat.com>
+Subject: [PATCH 04/14] qapi/doc.py: assert correct types in member_func
+ callbacks
+Date: Tue, 22 Sep 2020 17:17:52 -0400
+Message-Id: <20200922211802.4083666-5-jsnow@redhat.com>
 In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,11 +54,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,37 +85,46 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keyword Callables are hard to type in Python 3.6, avoid them if there's
-no urgent need to use them.
+These each take a specific subtype; assert that they got that correct
+subtype.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/doc.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/qapi/doc.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 4743beb89a..66333629d6 100644
+index c645876b24..62b8f34707 100644
 --- a/scripts/qapi/doc.py
 +++ b/scripts/qapi/doc.py
-@@ -164,7 +164,8 @@ def texi_members(doc, what, base=None, variants=None,
-             desc = 'One of ' + members_text + '\n'
-         else:
-             desc = 'Not documented\n'
--        items += member_func(section.member, desc, suffix='')
-+
-+        items += member_func(section.member, desc, '')
-     if base:
-         items += '@item The members of @code{%s}\n' % base.doc_type()
-     if variants:
-@@ -174,7 +175,7 @@ def texi_members(doc, what, base=None, variants=None,
-             if v.type.is_implicit():
-                 assert not v.type.base and not v.type.variants
-                 for m in v.type.local_members:
--                    items += member_func(m, desc='', suffix=when)
-+                    items += member_func(m, '', when)
-             else:
-                 items += '@item The members of @code{%s}%s\n' % (
-                     v.type.doc_type(), when)
+@@ -8,7 +8,11 @@
+ from typing import Optional
+ 
+ from .gen import QAPIGenDoc
+-from .schema import QAPISchemaVisitor, QAPISchemaObjectTypeMember
++from .schema import (
++    QAPISchemaEnumMember,
++    QAPISchemaObjectTypeMember,
++    QAPISchemaVisitor,
++)
+ 
+ MSG_FMT = """
+ @deftypefn {type} {{}} {name}
+@@ -136,12 +140,14 @@ def texi_if(ifcond, prefix='\n', suffix='\n'):
+ 
+ def texi_enum_value(value, desc, suffix):
+     """Format a table of members item for an enumeration value"""
++    assert isinstance(value, QAPISchemaEnumMember)
+     return '@item @code{%s}\n%s%s' % (
+         value.name, desc, texi_if(value.ifcond, prefix='@*'))
+ 
+ 
+ def texi_member(member, desc, suffix):
+     """Format a table of members item for an object type member"""
++    assert isinstance(member, QAPISchemaObjectTypeMember)
+     typ = member.type.doc_type()
+     membertype = ': ' + typ if typ else ''
+     return '@item @code{%s%s}%s%s\n%s%s' % (
 -- 
 2.26.2
 
