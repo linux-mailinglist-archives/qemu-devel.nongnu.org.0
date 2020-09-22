@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7238274B90
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:52:43 +0200 (CEST)
-Received: from localhost ([::1]:45562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C18274B2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:30:53 +0200 (CEST)
+Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqDK-00025T-S0
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40088)
+	id 1kKpsC-0005P1-4P
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:30:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpba-0001UM-6v
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60781)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpfy-00077r-GE
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpbY-00064z-7l
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:13:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpfw-0006cU-ED
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809219;
+ s=mimecast20190719; t=1600809491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JgejwXtms9d7shSYi6P2L9OOZ+k6Lw4Sp1jD2446/rY=;
- b=AWxo4zb+sXw9yrSbWdWkF64Gj3O+OTIZt4i0eaRNnaZLEkD1gtGEXq64C/7XAAriWvphNY
- fzZc9hfsYJNKzw4Z1GqviN68G7U33ECphdRS/Ur9czFvtflHy8DmrAiGrPpkNsR0GXnvJC
- 14KbtxAclf+X5SmaOJlES5qBks0GVzQ=
+ bh=RTDJzHDAZhCV6t90+MnWXmSr5yYGkuEX4Vl4khiBUxA=;
+ b=B08ZxXg3POEF+bcZ9piSFvPTVtAkEbP72CuMWWrR5/pNCfpC0Q+iDW1HTkolhpdNT1Q9i7
+ Gr4fUdKnRyBvJCAlcdomvs1Rh2+V3rBTKEO7fJnRC8OvFKtSouIw6qP4W4YU5ZIRPIVW85
+ MoNoeAcEUTA+UbTVroejzHv75IWq67Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-4Sr2AnaXMUmHdfcYWhWeKg-1; Tue, 22 Sep 2020 17:13:35 -0400
-X-MC-Unique: 4Sr2AnaXMUmHdfcYWhWeKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-527-4fTgJ8i7M1SXiLk4lbtqog-1; Tue, 22 Sep 2020 17:18:09 -0400
+X-MC-Unique: 4fTgJ8i7M1SXiLk4lbtqog-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A13FF19611A1;
- Tue, 22 Sep 2020 21:13:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C9D4186DD2D;
+ Tue, 22 Sep 2020 21:18:08 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B458673682;
- Tue, 22 Sep 2020 21:13:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8DDD15DE86;
+ Tue, 22 Sep 2020 21:18:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 16/16] qapi/expr.py: Use an expression checker dispatch table
-Date: Tue, 22 Sep 2020 17:13:13 -0400
-Message-Id: <20200922211313.4082880-17-jsnow@redhat.com>
-In-Reply-To: <20200922211313.4082880-1-jsnow@redhat.com>
-References: <20200922211313.4082880-1-jsnow@redhat.com>
+Subject: [PATCH 01/14] qapi/doc.py: stash long temporary locals in named locals
+Date: Tue, 22 Sep 2020 17:17:49 -0400
+Message-Id: <20200922211802.4083666-2-jsnow@redhat.com>
+In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
+References: <20200922211802.4083666-1-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -78,128 +78,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This enforces a type signature against all of the top-level expression
-check routines without necessarily needing to create some
-overcomplicated class hierarchy for them.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py | 69 ++++++++++++++++++++++----------------------
- 1 file changed, 35 insertions(+), 34 deletions(-)
+ scripts/qapi/doc.py | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 74b2681ef8..cfd342aa04 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -31,8 +31,11 @@
- structures and contextual semantic validation.
- """
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index 70f7cdfaa6..4743beb89a 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -267,15 +267,13 @@ def visit_command(self, name, info, ifcond, features,
+                       arg_type, ret_type, gen, success_response, boxed,
+                       allow_oob, allow_preconfig):
+         doc = self.cur_doc
+-        self._gen.add(texi_msg('Command', doc, ifcond,
+-                               texi_arguments(doc,
+-                                              arg_type if boxed else None)))
++        members = texi_arguments(doc, arg_type if boxed else None)
++        self._gen.add(texi_msg('Command', doc, ifcond, members))
  
-+from enum import Enum
- import re
- from typing import (
-+    Callable,
-+    Dict,
-     Iterable,
-     List,
-     MutableMapping,
-@@ -494,6 +497,26 @@ def check_event(expr: Expression, info: QAPISourceInfo) -> None:
-     check_type(args, info, "'data'", allow_dict=not boxed)
+     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
+         doc = self.cur_doc
+-        self._gen.add(texi_msg('Event', doc, ifcond,
+-                               texi_arguments(doc,
+-                                              arg_type if boxed else None)))
++        members = texi_arguments(doc, arg_type if boxed else None)
++        self._gen.add(texi_msg('Event', doc, ifcond, members))
  
- 
-+class ExpressionType(str, Enum):
-+    INCLUDE = 'include'
-+    ENUM = 'enum'
-+    UNION = 'union'
-+    ALTERNATE = 'alternate'
-+    STRUCT = 'struct'
-+    COMMAND = 'command'
-+    EVENT = 'event'
-+
-+
-+_CHECK_FN: Dict[str, Callable[[Expression, QAPISourceInfo], None]] = {
-+    'enum': check_enum,
-+    'union': check_union,
-+    'alternate': check_alternate,
-+    'struct': check_struct,
-+    'command': check_command,
-+    'event': check_event,
-+}
-+
-+
- def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
-     """
-     Validate and normalize a list of parsed QAPI schema expressions. [RW]
-@@ -519,28 +542,20 @@ def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
-         assert tmp is None or isinstance(tmp, QAPIDoc)
-         doc: Optional[QAPIDoc] = tmp
- 
--        if 'include' in expr:
--            continue
--
--        if 'enum' in expr:
--            meta = 'enum'
--        elif 'union' in expr:
--            meta = 'union'
--        elif 'alternate' in expr:
--            meta = 'alternate'
--        elif 'struct' in expr:
--            meta = 'struct'
--        elif 'command' in expr:
--            meta = 'command'
--        elif 'event' in expr:
--            meta = 'event'
-+        for kind in ExpressionType:
-+            if kind in expr:
-+                meta = kind
-+                break
-         else:
-             raise QAPISemError(info, "expression is missing metatype")
- 
-+        if meta == ExpressionType.INCLUDE:
-+            continue
-+
-         name = cast(str, expr[meta])  # asserted right below:
--        check_name_is_str(name, info, "'%s'" % meta)
--        info.set_defn(meta, name)
--        check_defn_name_str(name, info, meta)
-+        check_name_is_str(name, info, "'%s'" % meta.value)
-+        info.set_defn(meta.value, name)
-+        check_defn_name_str(name, info, meta.value)
- 
-         if doc:
-             if doc.symbol != name:
-@@ -551,22 +566,8 @@ def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
-             raise QAPISemError(info,
-                                "documentation comment required")
- 
--        if meta == 'enum':
--            check_enum(expr, info)
--        elif meta == 'union':
--            check_union(expr, info)
--        elif meta == 'alternate':
--            check_alternate(expr, info)
--        elif meta == 'struct':
--            check_struct(expr, info)
--        elif meta == 'command':
--            check_command(expr, info)
--        elif meta == 'event':
--            check_event(expr, info)
--        else:
--            assert False, 'unexpected meta type'
--
--        check_if(expr, info, meta)
-+        _CHECK_FN[meta](expr, info)
-+        check_if(expr, info, meta.value)
-         check_features(expr.get('features'), info)
-         check_flags(expr, info)
- 
+     def symbol(self, doc, entity):
+         if self._gen._body:
 -- 
 2.26.2
 
