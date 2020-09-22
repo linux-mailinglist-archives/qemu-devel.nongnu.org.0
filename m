@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D050274B41
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:39:17 +0200 (CEST)
-Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42E8274BB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:55:02 +0200 (CEST)
+Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKq0K-0008C3-7X
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
+	id 1kKqFZ-0005Zi-TR
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgB-0007U4-VN
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:27 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24260
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgC-0007WC-SP
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgA-0006e7-7V
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:27 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpgA-0006eD-OH
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809505;
+ s=mimecast20190719; t=1600809506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2qYZeg0WoJ9N1k6SFDK8844HrRAj4Ho5LB+1Ts7rUPA=;
- b=atw3SFaMw8+au7Y5PMqIipCb62OcJkNAVYmwBzLFRUhhmQqfzNOYIbu1APCWPMxF5ac2yB
- O8aIF5ZI2QkdipbVLphFdLs21KhQPWAPoOduibKRyV3o3mrPS/yQWvqzceLhrRgce246Pu
- JIC9qiblq+ndRuBX5u/YwLHwjWKtiPU=
+ bh=43bTF9s1dRQvu261U43X/7PVH8f8W3mJYCwEL5RBQDk=;
+ b=id3x6+KfPZ16KtOjOkVGGL9I4uGMJkd20NiaMtPJ14rcpNSs2/xnZC+snQ6/zmjCbLOxd5
+ 3PKNJmCGTTtUTM+oisZvkfPZfLJ0ynDqUKif0MgRudNRDCo5Rs9KV8+jURKGjoZqwPz3fW
+ N+vpQVOh8JYHsbXBDssU0I0GznbMdrs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569--rau0TbyPBG6caQRIhOeMQ-1; Tue, 22 Sep 2020 17:18:23 -0400
-X-MC-Unique: -rau0TbyPBG6caQRIhOeMQ-1
+ us-mta-591-GwQOHXWWOuy_VydmK4BCMw-1; Tue, 22 Sep 2020 17:18:24 -0400
+X-MC-Unique: GwQOHXWWOuy_VydmK4BCMw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F398A802B70;
- Tue, 22 Sep 2020 21:18:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16D9357056;
+ Tue, 22 Sep 2020 21:18:23 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 434D05DE50;
- Tue, 22 Sep 2020 21:18:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27A7F5DE86;
+ Tue, 22 Sep 2020 21:18:22 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 12/14] qapi/doc.py: Assert tag member is Enum type
-Date: Tue, 22 Sep 2020 17:18:00 -0400
-Message-Id: <20200922211802.4083666-13-jsnow@redhat.com>
+Subject: [PATCH 13/14] qapi/doc.py: Assert type of object variant
+Date: Tue, 22 Sep 2020 17:18:01 -0400
+Message-Id: <20200922211802.4083666-14-jsnow@redhat.com>
 In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 17:01:22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,40 +84,30 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The type system can't quite express this constraint natively: members
-can envelop any type -- but tag_members may only ever envelop an
-enumerated type.
-
-For now, shrug and add an assertion.
+Objects may have variants, but those variants must themselves be
+objects. This is difficult to express with our current type system and
+hierarchy, so instead pepper in an assertion.
 
 Note: These assertions don't appear to be useful yet because schema.py
 is not yet typed. Once it is, these assertions will matter.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/doc.py | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/qapi/doc.py | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 2914e93b1c..b96d9046d3 100644
+index b96d9046d3..3de592e220 100644
 --- a/scripts/qapi/doc.py
 +++ b/scripts/qapi/doc.py
-@@ -13,6 +13,7 @@
-     QAPISchema,
-     QAPISchemaEntity,
-     QAPISchemaEnumMember,
-+    QAPISchemaEnumType,
-     QAPISchemaFeature,
-     QAPISchemaMember,
-     QAPISchemaObjectType,
-@@ -193,6 +194,7 @@ def texi_members(doc: QAPIDoc,
-             desc = texi_format(section.text)
-         elif variants and variants.tag_member == section.member:
-             assert isinstance(section.member, QAPISchemaObjectTypeMember)
-+            assert isinstance(section.member.type, QAPISchemaEnumType)
-             if not section.member.type.doc_type():
-                 values = section.member.type.member_names()
-                 members_text = ', '.join(['@t{"%s"}' % v for v in values])
+@@ -206,6 +206,7 @@ def texi_members(doc: QAPIDoc,
+     if base:
+         items += '@item The members of @code{%s}\n' % base.doc_type()
+     for variant in variants.variants if variants else ():
++        assert isinstance(variant.type, QAPISchemaObjectType)
+         when = ' when @code{%s} is @t{"%s"}%s' % (
+             variants.tag_member.name, variant.name,
+             texi_if(variant.ifcond, " (", ")"))
 -- 
 2.26.2
 
