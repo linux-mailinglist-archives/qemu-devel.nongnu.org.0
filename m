@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D4E273FC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:39:46 +0200 (CEST)
-Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA2C273FD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:44:37 +0200 (CEST)
+Received: from localhost ([::1]:55640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKfi5-0005FK-Hi
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55798)
+	id 1kKfmm-00032H-2u
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:44:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kKffb-0002s3-Q9
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:37:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kKffZ-00074P-24
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:37:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600771028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3H8ADfv5DBFnuBi74rc4l4UGL408Bs2YW9HKb1phSqg=;
- b=MdclZziAg9OJyClAquoVYW9DlV1+9PqHSuSZUWgavM3mYphTqnGIvqQvEByrmFyy6mApjv
- prdmUzvvn8aoo5j2779yU2YVMuHgpKEuGzesYSR/4kqSxY/cjOfrWBFueBzeAIRweeSHzP
- k2gMVjfLvXo/b9JSHelYTPairdGOeuM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-6Ab2EKp8MkqQkw4oTd7XpQ-1; Tue, 22 Sep 2020 06:37:04 -0400
-X-MC-Unique: 6Ab2EKp8MkqQkw4oTd7XpQ-1
-Received: by mail-ed1-f72.google.com with SMTP id d13so5554072edz.18
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 03:37:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kKfgi-00044n-En; Tue, 22 Sep 2020 06:38:20 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:32775)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kKfgg-0007A8-KS; Tue, 22 Sep 2020 06:38:20 -0400
+Received: by mail-ot1-x341.google.com with SMTP id m12so15190930otr.0;
+ Tue, 22 Sep 2020 03:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SQqrWuAXlbyebW/YQIMKZgdLC1umQ4Sb3emjeKMw1zA=;
+ b=GVvUKxE/lX6wS/c3V4d9+vtLu7w/2ncDK7JlPoNk+svCjNurr0yqTLmWA3GSNEuf5c
+ pbm6BWpECGdRbVoRKgzT5n+W9aFqbFmnfwf9WoRfVomIyAY1gX/dFoshIe5PpDMJQ1Yv
+ JeoMXuwNV1bPZtF3E7id2qYovGKxxCqdILhLiXS+kT9R9fY6IRvSYIqq+qu/9Qifx8p+
+ hDTbz8PRGnouCI4Ar1gJJhKp657mddy/CQFjWhKBbkEIp/lJrkZ8L0HsFMHO5dX9oGzk
+ bWThmaJWYoKRNGSeN75mQ9OM8EAXAlNDrkLlrLz+nP5IYxeSbGc6XclUlgQpNRtgJ7j5
+ bIvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=3H8ADfv5DBFnuBi74rc4l4UGL408Bs2YW9HKb1phSqg=;
- b=OjEuTtktVXJJPSQgTUA3QpQRnUFD237z6sj4cgMhYmB5ZAGaiE7bOlnY2IBQB8ZUSQ
- qSY8o1P8QjWkciHLiZ0O4F5sNgfWU73sWh5nBciiT/T0J3xwqsiPFiLPUaEJxQC/9Z1I
- 7QeB23gEyXgerDck05w/L1bdgQ4UWIVWIoib6MxtPxFFgqNRvdAffFma8SJZ/a0pPVqu
- q8mXx63ZpqYKMtCmaiDx0PsrVdthTP4z4lO8vsL2NRKxwqAK2E9jPdM85Yqom0D34gtP
- OmcSssOr3hNaaolLVh3SRr7snzbVK2QBoj8tWKke656kXVGs/E6MvscKdwIHbvgOanFR
- xjUA==
-X-Gm-Message-State: AOAM5303NckWyg4+74pNRG3dnQJY3CVzDjzDE9a2Rw9HxGdcefMC+/i0
- QmZJRZnuZVAyehyMCvCF7/2K9jfXhwqgdhxoT5nqnpDcyrFHrCmYuLWc1JlZwp6Nj/uOFu9jgic
- sYYp2mGPQyb7gq5E=
-X-Received: by 2002:a05:6402:22fc:: with SMTP id
- dn28mr3065156edb.365.1600771023003; 
- Tue, 22 Sep 2020 03:37:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxM9K+9ivFPI+sHBkYf1JpBQzUfsgmKo61e+50+m+UJ7VMACYUfXuRB+Sxz35J9FZfW96UkoA==
-X-Received: by 2002:a05:6402:22fc:: with SMTP id
- dn28mr3065135edb.365.1600771022731; 
- Tue, 22 Sep 2020 03:37:02 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id n26sm10877609ejz.89.2020.09.22.03.37.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Sep 2020 03:37:02 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH RFC 22/22] i386: expand Hyper-V features early
-In-Reply-To: <20200918224721.GL57321@habkost.net>
-References: <20200904145431.196885-1-vkuznets@redhat.com>
- <20200904145431.196885-23-vkuznets@redhat.com>
- <20200918224721.GL57321@habkost.net>
-Date: Tue, 22 Sep 2020 12:37:01 +0200
-Message-ID: <878sd2f67m.fsf@vitty.brq.redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SQqrWuAXlbyebW/YQIMKZgdLC1umQ4Sb3emjeKMw1zA=;
+ b=ThW2dFHuadVSLgqZMeW9x/T/dwmLL9Uy3ddignsbWtC2PPorzJwyg7ZE0Wq6dMDAdg
+ IxoLVwvA1y0XuyGcJHALwnsqHK7E0EhI3GsJEbko6k6C6keWyOWrH8U5K8t5jZPK766o
+ GBMkR6/OQ1xBc399oQM1wchL6HzVABKVwoEi3Os6VYdRxyxXyIrlQi4FpeTYAelcxrMh
+ 4Hr5RtND5j8qk+4Dk+L39gkd8p/5DGWad/nihZ8pdTnkMLT61g9BhcHO5UpMYwz+iwqU
+ pvma7bpWHq3Ro3qZiFAWLxfSPd7UxarR+QJ8NYy1B3EswCx3saQvfsIDfDptyVCEBokd
+ wO8w==
+X-Gm-Message-State: AOAM533YQVsNJkUnUshb+bvRiYqCVpGq6v4Wmt2DbGEhzHIYr6HJdItV
+ 76SpD0M1voJcBCYhdT5WVyHkeOwXy80j/L7DgPg=
+X-Google-Smtp-Source: ABdhPJxuUr40PGhC3dbJm7MJ01J2k6KNRKiogwRJdy+yJYZhzkgtyXoMud0tkyGNf5/xbqVaVjWuvl+jDjZlbmdAMIM=
+X-Received: by 2002:a05:6830:1187:: with SMTP id
+ u7mr1612749otq.181.1600771097043; 
+ Tue, 22 Sep 2020 03:38:17 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200815072052.73228-1-liq3ea@163.com>
+ <20200922013411.auucs5t2hhw4romx@mozz.bu.edu>
+ <8dcc2e29-6bd8-92d5-eaa6-9331aafe752a@redhat.com>
+In-Reply-To: <8dcc2e29-6bd8-92d5-eaa6-9331aafe752a@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Tue, 22 Sep 2020 18:37:41 +0800
+Message-ID: <CAKXe6S+r2W-jM2kp-Rhai_14STkZP2mVEDYDTn3=tVECgE8bAw@mail.gmail.com>
+Subject: Re: [PATCH] hw: ide: check the pointer before do dma memory unmap
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,86 +81,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Li Qiang <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
-
-> On Fri, Sep 04, 2020 at 04:54:31PM +0200, Vitaly Kuznetsov wrote:
->> To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
->> need to expand and set the corresponding CPUID leaves early. Modify
->> x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
->> specific kvm_hv_get_supported_cpuid() instead of
->> kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
->> as Hyper-V specific CPUID leaves intersect with KVM's.
->> 
->> Note, early expansion will only happen when KVM supports system wide
->> KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
->> 
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
-> [...]
->> +uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w)
->> +{
->> +    CPUState *cs = CPU(cpu);
->> +    CPUX86State *env = &cpu->env;
->> +    Error *local_err = NULL;
->> +
->> +    hyperv_expand_features(cs, &local_err);
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2020=E5=B9=B49=E6=
+=9C=8822=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=884:19=E5=86=99=E9=81=
+=93=EF=BC=9A
 >
-> This makes a function that sounds like it doesn't have any side
-> effect ("get supported cpuid") have an unintended side effect
-> (hyperv_expand_features() will change all CPUID data inside the
-> cpu object).
+> On 9/22/20 3:34 AM, Alexander Bulekov wrote:
+> > On 200815 0020, Li Qiang wrote:
+> >> In 'map_page' we need to check the return value of
+> >> 'dma_memory_map' to ensure the we actully maped something.
+> >> Otherwise, we will hit an assert in 'address_space_unmap'.
+> >> This is because we can't find the MR with the NULL buffer.
+> >> This is the LP#1884693:
+> >>
+> >> -->https://bugs.launchpad.net/qemu/+bug/1884693
+> >>
+> >> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> >> Signed-off-by: Li Qiang <liq3ea@163.com>
+> >
+> > I'm not very familiar with the IDE code, but this seems like a simple
+> > null-ptr check, and Li has not received a response in over a month.
 >
-> What about making it more similar to
-> kvm_arch_get_supported_cpuid(), and be just a wrapper to
-> get_supported_hv_cpuid()?
+> Yeah well it is not an easy bug... I spent few hours but at some
+> point it became too AHCI specific. I wanted to understand the bug
+> to answer the "Why do we get there?" "Can we get there with real
+> hardware?" questions, to be able to discern if this patch is OK,
+> or if it is hiding bugs and what we really use here is an assert().
+
+Hi Philippe,
+I think you have complicated this issue. The root cause is that
+'dma_memory_map' maybe fail.
+The gpa is from guest and can be any value so this is expected.
+It can return NULL pointer (no map) or it can be do partially
+mapped(len < wanted).
+Though in most situation the map result is 'ret =3D=3D NULL and len <
+wanted'. It may also has '
+ret !=3D NULL and len < wanted' I think.
+
+The assert is come from that we pass NULL to 'dma_memory_unmap'.
+
+So the standard usage of 'dma_memory_map' I think is first check if
+the return value to ensure it is not NULL.
+Then check whether it mapped the len as the caller expected.
+
+There are several places in the code base that doesn't following this
+usage which I think it is wrong.
+
+Thanks,
+Li Qiang
+
 >
-> I would also make sure get_supported_hv_cpuid() doesn't get
-> CPUState as argument, just to be sure it will never touch the CPU
-> object state.
-
-Sure, I can try. The difference with get_supported_cpuid() is that
-get_supported_hv_cpuid() currently doesn't have cache and we don't
-probably want to call KVM_GET_SUPPORTED_HV_CPUID ioctl for every CPUID
-leaf. I don't see why it can't be introduced though.
-
+> >
+> > Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+> >
+> >> ---
+> >>  hw/ide/ahci.c | 5 +++++
+> >>  1 file changed, 5 insertions(+)
+> >>
+> >> diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+> >> index 009120f88b..63e9fccdbe 100644
+> >> --- a/hw/ide/ahci.c
+> >> +++ b/hw/ide/ahci.c
+> >> @@ -250,6 +250,11 @@ static void map_page(AddressSpace *as, uint8_t **=
+ptr, uint64_t addr,
+> >>      }
+> >>
+> >>      *ptr =3D dma_memory_map(as, addr, &len, DMA_DIRECTION_FROM_DEVICE=
+);
+> >> +
+> >> +    if (!*ptr) {
+> >> +        return;
+> >> +    }
+> >> +
+> >>      if (len < wanted) {
+> >>          dma_memory_unmap(as, *ptr, len, DMA_DIRECTION_FROM_DEVICE, le=
+n);
+> >>          *ptr =3D NULL;
+> >> --
+> >> 2.17.1
+> >>
+> >
 >
->> +
->> +    if (local_err) {
->> +            error_report_err(local_err);
->> +    }
->> +
->> +    return env->features[w];
->> +}
->> +
->>  static Error *hv_passthrough_mig_blocker;
->>  static Error *hv_no_nonarch_cs_mig_blocker;
->>  
->> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
->> index 064b8798a26c..2e7da4f39668 100644
->> --- a/target/i386/kvm_i386.h
->> +++ b/target/i386/kvm_i386.h
->> @@ -48,4 +48,11 @@ bool kvm_has_waitpkg(void);
->>  
->>  bool kvm_hv_vpindex_settable(void);
->>  
->> +static inline bool hyperv_feature_word(enum FeatureWord w)
->> +{
->> +    return w >= FEAT_HYPERV_EAX && w <= FEAT_HV_NESTED_EDX;
->> +}
->> +
->> +uint32_t kvm_hv_get_supported_cpuid(X86CPU *cpu, enum FeatureWord w);
->> +
->>  #endif
->> -- 
->> 2.25.4
->> 
-
--- 
-Vitaly
-
 
