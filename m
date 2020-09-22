@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DA6274C79
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:52:14 +0200 (CEST)
-Received: from localhost ([::1]:36548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BED4274CCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:54:31 +0200 (CEST)
+Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKr8v-0002Wp-4A
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60276)
+	id 1kKrB8-00063A-IK
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2J-00023u-9t
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58130)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2M-00024F-Ju
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2G-0000OE-Si
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:23 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKr2I-0000P9-1N
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:45:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814720;
+ s=mimecast20190719; t=1600814721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vg9UpVpOIFGZP/PFAC6mOMwuyzcjipA1odkHyeJaY84=;
- b=UrE3Y38rnIVBm5ET9KCkJAVf9y7x2IOHfkF33/KkiWj94t6hsI8N+crl5uMmdRVkUPggws
- mPuM+6lUz8tqhrdMlt9XQG0Rrx/reQonog9gwIskQyaOvosChcBVqsuPqF2gnRxqtIrXZY
- 2WxAfypUCkaECq4Y/e70g7HDxXunBIc=
+ bh=RGbEU/7xtBdqfDV616a4d85mdHqc/WPbCfrSzctqo9M=;
+ b=PnaUFblZeWbtb522u/OUHY7JEjNVxq2G6DFnasHYVLo00gjavyPn44f1s33tPWYhsrMy1s
+ 4j8lDRsAW4Rg/2zly4Jm50llArAlUQEV530m2cyxpSoFHHzwuX/L0qPYVOOrBQv+hHLtP3
+ WmQan3LPm3j49txGdaeba68CkbpOp4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-6P_BKxHSPEK1Usp9Sr-9_Q-1; Tue, 22 Sep 2020 18:45:18 -0400
-X-MC-Unique: 6P_BKxHSPEK1Usp9Sr-9_Q-1
+ us-mta-225-its6LuBsP5-elTdm9CsvRw-1; Tue, 22 Sep 2020 18:45:19 -0400
+X-MC-Unique: its6LuBsP5-elTdm9CsvRw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3052B81CAFC;
- Tue, 22 Sep 2020 22:45:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CFF81005E64;
+ Tue, 22 Sep 2020 22:45:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FAA55C1A3;
- Tue, 22 Sep 2020 22:45:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B49A5C1A3;
+ Tue, 22 Sep 2020 22:45:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 09/25] qapi/schema.py: remove superfluous assert
-Date: Tue, 22 Sep 2020 18:44:45 -0400
-Message-Id: <20200922224501.4087749-10-jsnow@redhat.com>
+Subject: [PATCH 10/25] qapi/schema.py: Add assertion to ifcond property
+Date: Tue, 22 Sep 2020 18:44:46 -0400
+Message-Id: <20200922224501.4087749-11-jsnow@redhat.com>
 In-Reply-To: <20200922224501.4087749-1-jsnow@redhat.com>
 References: <20200922224501.4087749-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
@@ -84,26 +84,33 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll actually get a better error message by just letting the dictionary
-lookup fail.
+ifcond's initialization allows a fairly confusing type, but we want to
+assert that after the QAPISchema is built, this always returns a
+List[str]. Add an assertion to allow us to say that.
+
+(Note: Technically, I only assert that it's a list -- but type hints
+that will be added later will make it clear that the only possible list
+we could have here is a list[str], and this assertion is sufficient to
+prove the point to mypy.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/schema.py | 1 -
- 1 file changed, 1 deletion(-)
+ scripts/qapi/schema.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index a84d8549a4..b35f741c6f 100644
+index b35f741c6f..62b1a7e890 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -892,7 +892,6 @@ def _make_module(self, fname):
+@@ -88,7 +88,7 @@ def set_module(self, schema):
  
-     def module_by_fname(self, fname):
-         name = self._module_name(fname)
--        assert name in self._module_dict
-         return self._module_dict[name]
+     @property
+     def ifcond(self):
+-        assert self._checked
++        assert self._checked and isinstance(self._ifcond, list)
+         return self._ifcond
  
-     def _def_include(self, expr, info, doc):
+     def is_implicit(self):
 -- 
 2.26.2
 
