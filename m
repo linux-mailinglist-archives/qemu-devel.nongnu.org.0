@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C18274B2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:30:53 +0200 (CEST)
-Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BE4274B38
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:34:06 +0200 (CEST)
+Received: from localhost ([::1]:40618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpsC-0005P1-4P
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
+	id 1kKpvJ-0000lW-QX
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:34:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpfy-00077r-GE
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44984)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpg2-00079d-2U
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpfw-0006cU-ED
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:13 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpfx-0006ce-UR
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:18:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809491;
+ s=mimecast20190719; t=1600809493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RTDJzHDAZhCV6t90+MnWXmSr5yYGkuEX4Vl4khiBUxA=;
- b=B08ZxXg3POEF+bcZ9piSFvPTVtAkEbP72CuMWWrR5/pNCfpC0Q+iDW1HTkolhpdNT1Q9i7
- Gr4fUdKnRyBvJCAlcdomvs1Rh2+V3rBTKEO7fJnRC8OvFKtSouIw6qP4W4YU5ZIRPIVW85
- MoNoeAcEUTA+UbTVroejzHv75IWq67Q=
+ bh=b74oJYdLoSfqHVygXt9kzKk9vHZ6c5Y1WDerG8Zn2u0=;
+ b=Oiik6lsA6p6shqs/Ews+8yBQWDpL0ezEpwqLnF1KfZaNWKDywYE4REHLlSeN9h7UgCpm2P
+ eD2/bU2LxDqYdeqI8ZhEHeIoYtWiBdMsJ0af9MzT75vmbBk0st8dKHrt2W4B7BtI+vyaSx
+ Nu4nU3zGHnw3jK9iWykD1Fqg2UEksS4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-4fTgJ8i7M1SXiLk4lbtqog-1; Tue, 22 Sep 2020 17:18:09 -0400
-X-MC-Unique: 4fTgJ8i7M1SXiLk4lbtqog-1
+ us-mta-129-PJ5FyfKQNcSybBGAgJwCtw-1; Tue, 22 Sep 2020 17:18:10 -0400
+X-MC-Unique: PJ5FyfKQNcSybBGAgJwCtw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C9D4186DD2D;
- Tue, 22 Sep 2020 21:18:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB5C580ED9A;
+ Tue, 22 Sep 2020 21:18:09 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DDD15DE86;
- Tue, 22 Sep 2020 21:18:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A28A95DE50;
+ Tue, 22 Sep 2020 21:18:08 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 01/14] qapi/doc.py: stash long temporary locals in named locals
-Date: Tue, 22 Sep 2020 17:17:49 -0400
-Message-Id: <20200922211802.4083666-2-jsnow@redhat.com>
+Subject: [PATCH 02/14] qapi/doc.py: avoid unnecessary keyword arguments
+Date: Tue, 22 Sep 2020 17:17:50 -0400
+Message-Id: <20200922211802.4083666-3-jsnow@redhat.com>
 In-Reply-To: <20200922211802.4083666-1-jsnow@redhat.com>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,35 +84,37 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Keyword Callables are hard to type in Python 3.6, avoid them if there's
+no urgent need to use them.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/doc.py | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ scripts/qapi/doc.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 70f7cdfaa6..4743beb89a 100644
+index 4743beb89a..66333629d6 100644
 --- a/scripts/qapi/doc.py
 +++ b/scripts/qapi/doc.py
-@@ -267,15 +267,13 @@ def visit_command(self, name, info, ifcond, features,
-                       arg_type, ret_type, gen, success_response, boxed,
-                       allow_oob, allow_preconfig):
-         doc = self.cur_doc
--        self._gen.add(texi_msg('Command', doc, ifcond,
--                               texi_arguments(doc,
--                                              arg_type if boxed else None)))
-+        members = texi_arguments(doc, arg_type if boxed else None)
-+        self._gen.add(texi_msg('Command', doc, ifcond, members))
- 
-     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-         doc = self.cur_doc
--        self._gen.add(texi_msg('Event', doc, ifcond,
--                               texi_arguments(doc,
--                                              arg_type if boxed else None)))
-+        members = texi_arguments(doc, arg_type if boxed else None)
-+        self._gen.add(texi_msg('Event', doc, ifcond, members))
- 
-     def symbol(self, doc, entity):
-         if self._gen._body:
+@@ -164,7 +164,8 @@ def texi_members(doc, what, base=None, variants=None,
+             desc = 'One of ' + members_text + '\n'
+         else:
+             desc = 'Not documented\n'
+-        items += member_func(section.member, desc, suffix='')
++
++        items += member_func(section.member, desc, '')
+     if base:
+         items += '@item The members of @code{%s}\n' % base.doc_type()
+     if variants:
+@@ -174,7 +175,7 @@ def texi_members(doc, what, base=None, variants=None,
+             if v.type.is_implicit():
+                 assert not v.type.base and not v.type.variants
+                 for m in v.type.local_members:
+-                    items += member_func(m, desc='', suffix=when)
++                    items += member_func(m, '', when)
+             else:
+                 items += '@item The members of @code{%s}%s\n' % (
+                     v.type.doc_type(), when)
 -- 
 2.26.2
 
