@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32006274C5A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:43:15 +0200 (CEST)
-Received: from localhost ([::1]:33556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E488274C75
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:51:24 +0200 (CEST)
+Received: from localhost ([::1]:33406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKr0E-0006A5-8M
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58160)
+	id 1kKr87-00017a-HT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt1-0004Xt-5Z
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt1-0004Zo-T0
  for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35018)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqsy-0007eD-SU
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:46 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKqt0-0007fS-0L
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:35:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600814144;
+ s=mimecast20190719; t=1600814145;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k1e9wsLbffSunTe91GgJ+qycPBufyfpYi6x1TgpznJg=;
- b=HFpqFgk0QHGHLflaxRpIX8h7n2DPIwonsT7PgxuirJ84SN+RfZGSSTLInLL0HvNH+kIGxj
- g1JJUU4mQeynHfHCXGwWy6RoCBA7m6apZ3LYZ+nrXhmljKmrxc2T7JbN67c35lE1mU6cN5
- /CeyCO8p16qy+Qdb1WF1lBmlTEG/c+U=
+ bh=ZaO4qj/yTu41gKQZ04f3gMKYh6PkBbR6GMOvXDRhB7k=;
+ b=FhstZodiiuaxDmIX2N/N10ITdhj5f3QUa0yBS14GeH5uZbLcE3a/vKFxwM4L81rUa+M7L7
+ QqUBJyEF7YsHXohcIfo2n84toRRCAG5MUFqrCRCE9mZgWipr+Yl5840uCoX03rPoCndR+7
+ BfAXNTZIQ469gqAO/3dh427ZjJw3vq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-Gbu67MJLOgiG1-ovuTSCOw-1; Tue, 22 Sep 2020 18:35:42 -0400
-X-MC-Unique: Gbu67MJLOgiG1-ovuTSCOw-1
+ us-mta-406-WSV9awEwPGCz8mjvddRMmQ-1; Tue, 22 Sep 2020 18:35:43 -0400
+X-MC-Unique: WSV9awEwPGCz8mjvddRMmQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 609CB1005E64;
- Tue, 22 Sep 2020 22:35:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70D92107465D;
+ Tue, 22 Sep 2020 22:35:42 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94B6F60BF4;
- Tue, 22 Sep 2020 22:35:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CC2860CCC;
+ Tue, 22 Sep 2020 22:35:41 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 13/26] qapi/parser.py: add type hint annotations
-Date: Tue, 22 Sep 2020 18:35:12 -0400
-Message-Id: <20200922223525.4085762-14-jsnow@redhat.com>
+Subject: [PATCH 14/26] qapi/parser.py: add docstrings
+Date: Tue, 22 Sep 2020 18:35:13 -0400
+Message-Id: <20200922223525.4085762-15-jsnow@redhat.com>
 In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
 References: <20200922223525.4085762-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,193 +84,75 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Annotations do not change runtime behavior.
-This commit *only* adds annotations.
-
-Annotations for QAPIDoc are in a later commit.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 69 ++++++++++++++++++++++++++++++------------
- 1 file changed, 49 insertions(+), 20 deletions(-)
+ scripts/qapi/parser.py | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 9a1007f779..d9aae4ddb7 100644
+index d9aae4ddb7..490436b48a 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -14,18 +14,35 @@
- # This work is licensed under the terms of the GNU GPL, version 2.
- # See the COPYING file in the top-level directory.
+@@ -61,7 +61,15 @@ class QAPIDocError(QAPIError):
  
-+
-+from collections import OrderedDict
- import os
- import re
--from collections import OrderedDict
--from typing import List, Type, TypeVar, cast
-+from typing import (
-+    Any,
-+    Dict,
-+    List,
-+    Optional,
-+    Set,
-+    Type,
-+    TypeVar,
-+    Union,
-+    cast,
-+)
- 
- from .error import QAPIError, QAPISourceError, QAPISemError
- from .source import QAPISourceInfo
- 
- 
-+Expression = Dict[str, Any]
-+_Value = Union[List[object], 'OrderedDict[str, object]', str, bool]
-+# Necessary imprecision: mypy does not (yet?) support recursive types;
-+# so we must stub out that recursion with 'object'.
-+# Note, we do not support numerics or null in this parser.
-+
-+
- class QAPIParseError(QAPISourceError):
-     """Error class for all QAPI schema parsing errors."""
--
-     T = TypeVar('T', bound='QAPIParseError')
- 
-     @classmethod
-@@ -45,22 +62,25 @@ class QAPIDocError(QAPIError):
  
  class QAPISchemaParser:
++    """
++    Performs parsing of a QAPI schema source file.
  
--    def __init__(self, fname, previously_included=None, incl_info=None):
-+    def __init__(self,
-+                 fname: str,
-+                 previously_included: Optional[Set[str]] = None,
-+                 incl_info: Optional[QAPISourceInfo] = None):
-         self._fname = fname
-         self._included = previously_included or set()
-         self._included.add(os.path.abspath(self._fname))
- 
-         # Lexer state (see `accept` for details):
--        self.tok = None
-+        self.tok: Optional[str] = None
-         self.pos = 0
-         self.cursor = 0
--        self.val = None
-+        self.val: Optional[Union[bool, str]] = None
-         self.info = QAPISourceInfo(self._fname, parent=incl_info)
-         self.line_pos = 0
- 
-         # Parser output:
--        self.exprs = []
--        self.docs = []
-+        self.exprs: List[Expression] = []
-+        self.docs: List[QAPIDoc] = []
- 
-         # Showtime!
-         try:
-@@ -76,7 +96,7 @@ def __init__(self, fname, previously_included=None, incl_info=None):
-             raise QAPIParseError(context, msg) from e
++    :param fname: Path to the source file
++    :param previously_included: Set of absolute paths of previously included
++                                source files; these will not be parsed again.
++    :param incl_info: QAPISourceInfo for the parent document;
++                      Can be None for the parent document.
++    """
+     def __init__(self,
+                  fname: str,
+                  previously_included: Optional[Set[str]] = None,
+@@ -97,6 +105,10 @@ def __init__(self,
          self._parse()
  
--    def _parse(self):
-+    def _parse(self) -> None:
+     def _parse(self) -> None:
++        """
++        Parse the QAPI Schema Document.
++        Build self.exprs, self.docs
++        """
          cur_doc = None
  
          # Prime the lexer:
-@@ -140,7 +160,7 @@ def _parse_error(self, msg: str) -> QAPIParseError:
-         return QAPIParseError.make(self, msg)
- 
-     @classmethod
--    def reject_expr_doc(cls, doc):
-+    def reject_expr_doc(cls, doc: Optional['QAPIDoc']) -> None:
-         if doc and doc.symbol:
-             raise QAPISemError(
-                 doc.info,
-@@ -148,7 +168,12 @@ def reject_expr_doc(cls, doc):
-                 % doc.symbol)
- 
-     @classmethod
--    def _include(cls, include, info, incl_fname, previously_included):
-+    def _include(cls,
-+                 include: str,
-+                 info: QAPISourceInfo,
-+                 incl_fname: str,
-+                 previously_included: Set[str]
-+                 ) -> Optional['QAPISchemaParser']:
-         incl_abs_fname = os.path.abspath(incl_fname)
-         # catch inclusion cycle
-         inf = info
-@@ -164,7 +189,10 @@ def _include(cls, include, info, incl_fname, previously_included):
-         return QAPISchemaParser(incl_fname, previously_included, info)
- 
-     @classmethod
--    def _pragma(cls, name, value, info):
-+    def _pragma(cls,
-+                name: str,
-+                value: object,
-+                info: QAPISourceInfo) -> None:
-         if name == 'doc-required':
-             if not isinstance(value, bool):
-                 raise QAPISemError(info,
-@@ -187,7 +215,7 @@ def _pragma(cls, name, value, info):
-         else:
+@@ -216,6 +228,32 @@ def _pragma(cls,
              raise QAPISemError(info, "unknown pragma '%s'" % name)
  
--    def accept(self, skip_comment=True):
-+    def accept(self, skip_comment: bool = True) -> None:
+     def accept(self, skip_comment: bool = True) -> None:
++        """
++        Read the next lexeme.
++
++        - `tok` is the current lexeme/token type.
++          It will always be a single char in `"[]{},:'tf#"`.
++        - `pos` is the position of the first character in the lexeme.
++        - `cursor` is the position of the next character.
++        - `val` is the value of the lexeme.
++
++        Single-char lexemes:
++          LBRACE, RBRACE, COLON, COMMA, LSQB, RSQB:
++            `tok` holds the single-char value of the lexeme.
++
++        Multi-char lexemes:
++          COMMENT - `tok` is `'#'`.
++                    `val` is a string including all chars until end-of-line.
++                          (The '#' is excluded.)
++          STRING  - `tok` is `"'"`.
++                    `val` is the string, excluding the quotes.
++          TRUE    - `tok` is `"t"`. `val` is `True`.
++          FALSE   - `tok` is `"f"`. `val` is `False`.
++
++        NEWLINE and SPACE lexemes are consumed by the lexer directly.
++        `line_pos` and `info` are advanced when NEWLINE is encountered.
++        `tok` is set to `None` upon reaching EOF.
++        """
          while True:
              self.tok = self.src[self.cursor]
              self.pos = self.cursor
-@@ -249,8 +277,8 @@ def accept(self, skip_comment=True):
-                                  self.src[self.cursor-1:])
-                 raise self._parse_error("stray '%s'" % match.group(0))
- 
--    def get_members(self):
--        expr = OrderedDict()
-+    def get_members(self) -> 'OrderedDict[str, object]':
-+        expr: 'OrderedDict[str, object]' = OrderedDict()
-         if self.tok == '}':
-             self.accept()
-             return expr
-@@ -276,8 +304,8 @@ def get_members(self):
-             if self.tok != "'":
-                 raise self._parse_error("expected string")
- 
--    def get_values(self):
--        expr = []
-+    def get_values(self) -> List[object]:
-+        expr: List[object] = []
-         if self.tok == ']':
-             self.accept()
-             return expr
-@@ -293,7 +321,8 @@ def get_values(self):
-                 raise self._parse_error("expected ',' or ']'")
-             self.accept()
- 
--    def get_expr(self, nested):
-+    def get_expr(self, nested: bool = False) -> _Value:
-+        expr: _Value
-         if self.tok != '{' and not nested:
-             raise self._parse_error("expected '{'")
-         if self.tok == '{':
-@@ -310,7 +339,7 @@ def get_expr(self, nested):
-                 "expected '{', '[', string, or boolean")
-         return expr
- 
--    def _get_doc(self, info):
-+    def _get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
-         if self.val != '##':
-             raise self._parse_error(
-                 "junk after '##' at start of documentation comment")
-@@ -342,7 +371,7 @@ def _get_doc(self, info):
- 
-         raise self._parse_error("documentation comment must end with '##'")
- 
--    def get_doc(self, info):
-+    def get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
-         try:
-             return self._get_doc(info)
-         except QAPIDocError as err:
 -- 
 2.26.2
 
