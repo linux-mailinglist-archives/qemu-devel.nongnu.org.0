@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138A5273E4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:15:09 +0200 (CEST)
-Received: from localhost ([::1]:48088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326B9273E84
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 11:27:22 +0200 (CEST)
+Received: from localhost ([::1]:48908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKeOC-0001Kr-21
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:15:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59764)
+	id 1kKea1-00056U-1p
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 05:27:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKeBT-0000Fs-SL
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:02:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kKeBQ-0002q0-7Z
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 05:01:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600765315;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HAu7sKUVAWfS6dwqeNqX0De8VI1nzn5UujD2vHMT7ZI=;
- b=eLV/gIXlkBCn/ZbGjnaYUX9nExkM0gIMcErpKQg2PSnQEPTJSe7ZbccXxLgL6Nqn1jw0CJ
- zg/WzxUVzN8kYvFeTmAjv0KXCAvB2erzSPc0vbSYeNM7X0SdFwglsh8KPNcQnHRinUnF84
- GDvesFgLyg1FD0I/F41a/7xsyaMgBww=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-avGhvL9ENV2ggEMMsN8Jjw-1; Tue, 22 Sep 2020 05:01:53 -0400
-X-MC-Unique: avGhvL9ENV2ggEMMsN8Jjw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 366F910A7AE6;
- Tue, 22 Sep 2020 09:01:52 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-64.ams2.redhat.com
- [10.36.114.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C714A5C1DC;
- Tue, 22 Sep 2020 09:01:50 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] block: drop moderated sheepdog mailing list from
- MAINTAINERS file
-Date: Tue, 22 Sep 2020 10:01:47 +0100
-Message-Id: <20200922090147.1993705-2-berrange@redhat.com>
-In-Reply-To: <20200922090147.1993705-1-berrange@redhat.com>
-References: <20200922090147.1993705-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kKeE1-000220-03; Tue, 22 Sep 2020 05:04:37 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:33939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kKeDv-000300-7T; Tue, 22 Sep 2020 05:04:36 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 146DE5803F7;
+ Tue, 22 Sep 2020 05:04:30 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Tue, 22 Sep 2020 05:04:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=TqSENd0b6/MDWDuKtmOg1LK7A+P
+ AOD11PQRiUIxmVoo=; b=aBSlszBGYLoIwb771bhABUePMLO7vpISUuSysmdAUXK
+ U1IB8lThZKvWsoEACCZl2A7FjhBuKN2dcksClKoJPhgeTGIWhPQX0mD7zbjvWwoR
+ lGslcYSP/ijDp9y60/1gSzbWQyVHjasPCvmOKYtahJZzDdMCALWlMWBRxW3XnWsp
+ oghAb0I4PrxGwVLAUbDO63k1GdKPU3bOKaluN0PRnAw7Q0x5CuKXafDlxu1ahPN0
+ i1ZKqRVEvKYSfl07N46xfBEr4cURsO9V+2IJ/K+UQTDWGfWWiZ/3cR/MIaJO+cxl
+ Nxd1tsNAhvpyGAk8LJ3PlwhGcFAdWP03NsNaN5gBN3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TqSENd
+ 0b6/MDWDuKtmOg1LK7A+PAOD11PQRiUIxmVoo=; b=FF+wrlxBlxRxKJ/g8wr60y
+ iTVO2SOskrognpSFa3tEd2rnLB3CSjT8ESTQDIMBj/Wn/rqp/XVFELC3jpqZy2zT
+ 1327/iJGsQlWC9G7RHkT1YPbuVzugfdZi9RP15YwIiTJOj1FDtJe9EUWiDoeRe/Y
+ ZtsS76MPGoz1r3f4B9j2E0X5d+KN1FYSDJgi8LQ82ZAOlUdxC+gKrtF3J43bU3wC
+ WAGUJXSFx2QUMcslar/CGv7vOck8cAEQfI0ommDsNEZJeF8Ep91p4ifW2/Yh6ZyN
+ 1my5BKKYkQ+z2OB4CwrpUGNKz0QMxbYoEw5sxtrL/TYiJv/Gxfxb60hzg2pIYMKg
+ ==
+X-ME-Sender: <xms:HL5pX0KkuwEpkYhlcp-EsCNm5NxzTFCqWWna_cwKKKIW0PGSnER_sw>
+ <xme:HL5pX0JYRkOg_Key7bxXN16If0MwMqPuiZeMfTdvul1A9I6MZkumyIPyRy4ah60bI
+ cksCJ40cwEb6XcI--4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeggdduvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:HL5pX0s4d2haSNNK__y4umMtXjA50FwSnQUvtUYqG2bRF31zHhShEQ>
+ <xmx:HL5pXxbGXcsaG0B5uhCHrD9GpxC1vFrAxP41fWL5AChY9axdcD9Q6g>
+ <xmx:HL5pX7bfcMN0txrf504M8Co8AgsqswEBhw5ON6ItQV047VWiM1fHZw>
+ <xmx:Hb5pX6Ul-Wz0b2LT4oMm5IJSlVmujYhtE02QvyhYkbWFpc3gTExQTw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 277F4328005E;
+ Tue, 22 Sep 2020 05:04:27 -0400 (EDT)
+Date: Tue, 22 Sep 2020 11:04:25 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+Subject: Re: [PATCH v6 2/2] nvme: allow cmb and pmr to be enabled on same
+ device
+Message-ID: <20200922090425.GA1236186@apples.localdomain>
+References: <20200729220107.37758-1-andrzej.jakowski@linux.intel.com>
+ <20200729220107.37758-3-andrzej.jakowski@linux.intel.com>
+ <20200729225019.GA346228@apples.localdomain>
+ <20200817062911.GA7412@apples.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
+Content-Disposition: inline
+In-Reply-To: <20200817062911.GA7412@apples.localdomain>
+Received-SPF: pass client-ip=66.111.4.230; envelope-from=its@irrelevant.dk;
+ helo=new4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 04:45:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,39 +99,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Yuan <namei.unix@gmail.com>, sheepdog@lists.wpkg.org,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org
+Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sheepdog mailing list is setup to stop and queue messages from
-non-subscribers, pending moderator approval. Unfortunately it seems
-that the moderation queue is not actively dealt with. Even when messages
-are approved, the sender is never added to the whitelist, so every
-future mail from the same sender continues to get stopped for moderation.
 
-MAINTAINERS entries should be responsive and not uneccessarily block
-mails from QEMU contributors, so drop the sheepdog mailing list.
+--fdj2RfSjLxBAspz7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+On Aug 17 08:29, Klaus Jensen wrote:
+> On Jul 30 00:50, Klaus Jensen wrote:
+> > On Jul 29 15:01, Andrzej Jakowski wrote:
+> > > So far it was not possible to have CMB and PMR emulated on the same
+> > > device, because BAR2 was used exclusively either of PMR or CMB. This
+> > > patch places CMB at BAR4 offset so it not conflicts with MSI-X vector=
+s.
+> > >=20
+> > > Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+> > > ---
+> >=20
+> > Well, I'm certainly happy now. LGTM!
+> >=20
+> > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+>=20
+> Are anyone willing to chip in with another review on this?
+>=20
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3d17cad19a..8e8a4fb0a8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2852,7 +2852,6 @@ F: block/rbd.c
- Sheepdog
- M: Liu Yuan <namei.unix@gmail.com>
- L: qemu-block@nongnu.org
--L: sheepdog@lists.wpkg.org
- S: Odd Fixes
- F: block/sheepdog.c
- 
--- 
-2.26.2
+I think this patch is ready (and have been for some time) for inclusion,
+but would really like an additional review on this; preferably from
+Keith, since he is the one that originally mentioned that we could do
+something like this.
 
+I've mentioned it before, but I would prefer that the MSI-X stuff was in
+BAR0 instead of mixing it with the CMB, but that's bikeshedding and my
+R-b still holds of course.
+
+--fdj2RfSjLxBAspz7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9pvhQACgkQTeGvMW1P
+Dek+OQf+JwP1ZNjVQp3z7ZoBpUmbja0bGHLX4/yKaZvJ6oGK9p0LMXaCAMyqgAIy
+od32BeIBzZJ1lyqspio2gkrQ1Lji4iC2jyA0neVJdS6ye/cvWAoFqkg/FXSSvDO5
+OpCq2WvEndImQkR7r24/HioeqfvY5TmlYPrtiO1JpomVDZWPlDMzb0Mxn2mkR+oW
+cxLVv3ouQE82XflKX/drnCrR8udIMmnM044IU3qf2n4PgeaS22IIsQaKO1A4FzF7
+sd3ZDkOIpi9SgIOef+d415RkrWY4FgNvIdsggGYLap+W9UmNox9JTCJJ2QX5+3bm
+6LX5NcAuMdBJaRcHVr97mfOUpaEcwA==
+=swfn
+-----END PGP SIGNATURE-----
+
+--fdj2RfSjLxBAspz7--
 
