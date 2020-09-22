@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E174274AE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:11:51 +0200 (CEST)
-Received: from localhost ([::1]:34240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FCF274B26
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 23:29:20 +0200 (CEST)
+Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKpZm-0006Px-84
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37348)
+	id 1kKpqh-00032K-7U
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 17:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ9-0002SF-Px
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ9-0002Rb-7L
  for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56747)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ5-0004dH-0O
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:53 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpQ7-0004dn-66
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:01:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600808508;
+ s=mimecast20190719; t=1600808510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oPlkWiLUlN6cVGzoFo/5U4ARiTDU1/VuQaG05GnR3aE=;
- b=BM+3a6oJAkI8oezvjJcs7Ni/foTskgoG6XJQo9sU6sMj7T0x2yUDsh27Qi7DxJTaCQPrz/
- eI+Foun1zpE50nrPVfyAQkEygcuhm+8E5yiR6dYIz+/qMpuE6/N1o8HmhN4AoTEXpij/GX
- 4HXWC6sFLMKtZ/y5G91MxKH1u/yhEGQ=
+ bh=p+VT7uJZOGfrmWudoqPbqJmNENOSpifBVctO6t6feII=;
+ b=EvOn/CNgwSbaMXESHC3Zl9UdsDeWtoV3ZFHOR0pO2PSehzeXeLiA2F8IIkVVu6dHYRwZNH
+ Hbd4Yh+j3kioXZJskrn5+994MlsOX/ziz6Tl3dcRmJwIeSUsH6N/mCEscET10W1KE2fbM0
+ 8V0yogmJLzmpQYWtkSae+3rx2j9ToQE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-YJ5VCyc1OYywftO57e4WLQ-1; Tue, 22 Sep 2020 17:01:44 -0400
-X-MC-Unique: YJ5VCyc1OYywftO57e4WLQ-1
+ us-mta-292-baOfa6ckPQmceDJdAf7QQg-1; Tue, 22 Sep 2020 17:01:46 -0400
+X-MC-Unique: baOfa6ckPQmceDJdAf7QQg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 012011005E5E;
- Tue, 22 Sep 2020 21:01:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25F8B85C706;
+ Tue, 22 Sep 2020 21:01:45 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B36D55767;
- Tue, 22 Sep 2020 21:01:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CD7E55767;
+ Tue, 22 Sep 2020 21:01:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 27/38] qapi/gen.py: Remove unused parameter
-Date: Tue, 22 Sep 2020 17:00:50 -0400
-Message-Id: <20200922210101.4081073-28-jsnow@redhat.com>
+Subject: [PATCH v2 29/38] qapi/gen.py: delint with pylint
+Date: Tue, 22 Sep 2020 17:00:52 -0400
+Message-Id: <20200922210101.4081073-30-jsnow@redhat.com>
 In-Reply-To: <20200922210101.4081073-1-jsnow@redhat.com>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,35 +87,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-module_basename doesn't use the 'what' argument, so remove it.
+'fp' and 'fd' are self-evident in context, add them to the list of OK
+names.
+
+_top and _bottom also need to stay class methods because some users
+override the method and need to use `self`. Tell pylint to shush.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/gen.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/gen.py   | 2 ++
+ scripts/qapi/pylintrc | 5 +++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index df8cf8271c..ba32f776e6 100644
+index cf340e66d4..ed498397ad 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -261,7 +261,7 @@ def _is_user_module(name: Optional[str]) -> bool:
-     def _is_builtin_module(name: Optional[str]) -> bool:
-         return not name
+@@ -50,9 +50,11 @@ def get_content(self) -> str:
+         return self._top() + self._preamble + self._body + self._bottom()
  
--    def _module_dirname(self, what: str, name: Optional[str]) -> str:
-+    def _module_dirname(self, name: Optional[str]) -> str:
-         if self._is_user_module(name):
-             return os.path.dirname(name)
+     def _top(self) -> str:
++        # pylint: disable=no-self-use
          return ''
-@@ -279,7 +279,7 @@ def _module_basename(self, what: str, name: Optional[str]) -> str:
-         return ret
  
-     def _module_filename(self, what: str, name: Optional[str]) -> str:
--        return os.path.join(self._module_dirname(what, name),
-+        return os.path.join(self._module_dirname(name),
-                             self._module_basename(what, name))
+     def _bottom(self) -> str:
++        # pylint: disable=no-self-use
+         return ''
  
-     def _add_module(self, name: Optional[str], blurb: str) -> None:
+     def write(self, output_dir: str) -> None:
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 7438806096..de132d03cf 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -5,7 +5,6 @@
+ ignore-patterns=doc.py,
+                 error.py,
+                 expr.py,
+-                gen.py,
+                 parser.py,
+                 schema.py,
+                 types.py,
+@@ -46,7 +45,9 @@ good-names=i,
+            k,
+            ex,
+            Run,
+-           _
++           _,
++           fp,  # fp = open(...)
++           fd,  # fd = os.open(...)
+ 
+ [VARIABLES]
+ 
 -- 
 2.26.2
 
