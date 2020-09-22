@@ -2,64 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F34274BE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:13:08 +0200 (CEST)
-Received: from localhost ([::1]:42574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE56274BCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 00:03:38 +0200 (CEST)
+Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKqX5-0007fi-7K
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41590)
+	id 1kKqNt-0006FH-GR
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 18:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKphW-0001ds-9Y
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:19:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55899)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpj3-00038f-Px
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kKphU-0006ni-8K
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:19:49 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKpj1-00074j-SV
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 17:21:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600809587;
+ s=mimecast20190719; t=1600809683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d9V+xuQlr5cJ6tU6Snq0yeWWINcocWE7ZjT0AGItVTs=;
- b=fqZBhTU2q8pjcCWSp2r2jHhkV0A7HZovjmFeDOU5cy2RqDo4J808BDep622QH/vWo5wbq3
- 5uGeMQ9ReBJ7IhnLPpRSsWv3Pr/fnnJI1BMQU9VJnfAnjYVVAQ2rfslDuuQW41ByYWUc0U
- xi9un26JS/9LR6gAWhMtBT0Ct+Su2UI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=X+Rbeql97Nua52db8mYi11B7/W48z48bdtrk2XfVR7w=;
+ b=H9ilRlPKhpxrRc47dDM+bpAepdfTpnerqkzbWhUJrjk3gcGQPI3jcGBZX1Qqpi7RFv8Fev
+ kngpJ6G7ddW70/ndiiXQfDNj9CLSadegOMt1/llZxNGCz8JCKXop5tpVNIRnHpQyfR22kT
+ nTWrdOPTlZzl0N3Fl3VYaMBOvpYDnak=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-BnU46HygMFazVkYKSZOtVQ-1; Tue, 22 Sep 2020 17:19:43 -0400
-X-MC-Unique: BnU46HygMFazVkYKSZOtVQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-442-nEbkCAXbMLGUx5xPQ1ATPw-1; Tue, 22 Sep 2020 17:21:20 -0400
+X-MC-Unique: nEbkCAXbMLGUx5xPQ1ATPw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88AC51007B01;
- Tue, 22 Sep 2020 21:19:42 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FC5060E1C;
- Tue, 22 Sep 2020 21:19:42 +0000 (UTC)
-Date: Tue, 22 Sep 2020 17:19:41 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 02/38] qapi-gen: Separate arg-parsing from generation
-Message-ID: <20200922211941.GC2044576@habkost.net>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-3-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED559186DD27;
+ Tue, 22 Sep 2020 21:21:19 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C56515DA7B;
+ Tue, 22 Sep 2020 21:21:15 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH 0/6] qapi: static typing conversion, pt4
+Date: Tue, 22 Sep 2020 17:21:09 -0400
+Message-Id: <20200922212115.4084301-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-3-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -80,22 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:00:25PM -0400, John Snow wrote:
-> This is a minor re-work of the entrypoint script. It isolates a
-> generate() method from the actual command-line mechanism.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-
--- 
-Eduardo
+based-on: <20200922211802.4083666-1-jsnow@redhat.com>=0D
+          [PATCH 00/14] qapi: static typing conversion, pt3=0D
+=0D
+Hi, this series adds static type hints to the QAPI module.=0D
+This is part four!=0D
+=0D
+Part 4: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt4=0D
+Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
+=0D
+- Requires Python 3.6+=0D
+- Requires mypy 0.770 or newer (for type analysis only)=0D
+- Requires pylint 2.6.0 or newer (for lint checking only)=0D
+=0D
+This part of the series focuses on error.py.=0D
+=0D
+Type hints are added in patches that add *only* type hints and change no=0D
+other behavior. Any necessary changes to behavior to accommodate typing=0D
+are split out into their own tiny patches.=0D
+=0D
+Every commit should pass with:=0D
+ - flake8 qapi/=0D
+ - pylint --rcfile=3Dqapi/pylintrc qapi/=0D
+ - mypy --config-file=3Dqapi/mypy.ini qapi/=0D
+=0D
+John Snow (6):=0D
+  qapi/error.py: refactor error classes=0D
+  qapi/parser.py: remove parser context from QAPIDoc=0D
+  qapi/error.py: move QAPIParseError to parser.py=0D
+  qapi/parser.py: refactor QAPIParseError=0D
+  qapi/error.py: enable mypy checks=0D
+  qapi/error.py: enable pylint checks=0D
+=0D
+ scripts/qapi/error.py  |  41 +++++++-------=0D
+ scripts/qapi/main.py   |   2 +-=0D
+ scripts/qapi/mypy.ini  |   5 --=0D
+ scripts/qapi/parser.py | 120 ++++++++++++++++++++++++-----------------=0D
+ scripts/qapi/pylintrc  |   3 +-=0D
+ scripts/qapi/schema.py |   4 +-=0D
+ 6 files changed, 94 insertions(+), 81 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
