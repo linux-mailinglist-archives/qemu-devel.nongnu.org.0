@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7688B2747EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 20:04:27 +0200 (CEST)
-Received: from localhost ([::1]:54230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320C32747F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 20:07:55 +0200 (CEST)
+Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKmeQ-0006Py-7Y
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 14:04:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
+	id 1kKmhm-0000L6-8C
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 14:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kKmOW-0007xl-55
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:48:09 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44012)
+ id 1kKmOg-0007zh-CU
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:48:10 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:39747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kKmOL-0004KW-7m
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:47:56 -0400
-Received: by mail-pg1-x532.google.com with SMTP id t14so12557828pgl.10
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 10:47:48 -0700 (PDT)
+ id 1kKmOY-0004L5-C5
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:48:10 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id n14so13132241pff.6
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 10:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RjVvqo8ZN1svnaE4XjyeOaQhSPIhylYmlVezwsCJ1nc=;
- b=fe241jQt1CLM5drVljMaKw7BmUENOHX1OQIzxLY7Lo8knciMmnVGe3D9G9RCfEML6p
- uLKR6SUk1xc+5tmbZPHa6UBvk+68sLYhrwb007RcXobJIKmbj9Lv49o8g2DKoJP+eSJ+
- CiBFHNI2FiiUWiajDMp7/R+1am2WUZVyHrA7OkUlbr/P0m8gPo5dJWWuqOAB1JYI+jLh
- z2EPAJE/Cq3EXmSJLycmJ5W8EVrPZzUax5OGY8BBdGvgW679vfZkGhOFyLAWO9S36/iQ
- FjaEzlfSxztO//Y1rxC9FAjGpQ/7ry5MqSZzrdWxg2hHNjq+XE80xTNwRhN2m3QSX65k
- fEQw==
+ bh=Xl0njD+k9BHK11779kcuePFVTL4w0dzNFEMm1XknPiM=;
+ b=oSzCqkmdKmOyCI86Cn5o33TjoGcj6s+D7UShBli05lgWxHh2Xs1mt+p4cmf2zEY6Og
+ vDHGXC6viKd+ES+NL8vc0KEnlGV4/U7tEy/kvbB49xuK7NeboiLT13Rbl3numJAOAf7R
+ pZIX+zZA5q6SfRt5l7pX3qRrgbsfSXrjdVgq6cbbuPJoTOBKOeydM4lNOynpwT6eTzax
+ I2Z1GVcVt5jvYrOUQIYeLfHPvGgeraEiNtA63sWqrSPL3+thCRxgkn3eDnpIdUxojZae
+ oJ3Zkk71vxWHKiFnOd3DTJDc5Tcu001W9N24Qfz1n4+T5yNkzvo3wXrhltHOQbGt8UEG
+ Ebyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RjVvqo8ZN1svnaE4XjyeOaQhSPIhylYmlVezwsCJ1nc=;
- b=qFSByWRhaDtkcrolJqbaZlr2W4MFKknEOD142Afp5C4/f7smfRcWafwRqH1d+363iw
- 9YnjEU8S9w1CkWJvYNOeZh4Ku55L7LB+00WAf0+x9cYwElseYZgR5tijXxKufCSLNZmU
- 2LaWc8RXAliqCR+keHgGACHMrv3rymaIFaYlJ5e1iczlapuJcCktinEOy1YG5m34/XEP
- yVMqPEPm1AmMK0kp0PHJ7cPnPTwKrZ481kcAUipeGnLSGrbLF3mfwZu+DK2yJbJY7e0v
- v+N7A4gF66tSmuepo8AYWYUtSqly6pLaaRQmbXEoiK0JrFYq1c99HwnE/AnkqcA3RGIq
- pHCQ==
-X-Gm-Message-State: AOAM531cINYp5PXzQcnqE8cwkQ/ntM6YQCpn3F4eSBqVN0OUu8vopH0h
- vikXax7HYFlmfdmiW23jqUHl887VbxItNA==
-X-Google-Smtp-Source: ABdhPJxLgT9SV2tXvE9EG91wrJGb07wqVJtx4cgIL8tUqgRiKbZ/3re9QYmuBbwpTEAaBPdj0F2ilQ==
-X-Received: by 2002:a65:4b86:: with SMTP id t6mr4197575pgq.81.1600796866879;
- Tue, 22 Sep 2020 10:47:46 -0700 (PDT)
+ bh=Xl0njD+k9BHK11779kcuePFVTL4w0dzNFEMm1XknPiM=;
+ b=sZcZPBHkyHWPE+m4Nn0nmsjPnryw6aGNMd9uNd1ha40Ts9Mt3QzROAVJAGcojlQfVV
+ Kjw+Uam8VNA/C+06gUjzFqYnVS6eHgwxdLAWDwcB9JypC+WiVkVSbwwozatmGRcoEj1V
+ At6XQwsK5TWKTO7tbuopF0ElYP3OeH1poJHdpQAfAQ0/WbsBn1BalbNb+Hz5UquEh9E0
+ mElxklCLhS9JGaCWZ2H4SYJ0M02vjuK+TQGKMq8f5TToMmZGfxhy+9/SyAvK8BEfUFp7
+ KPuPHdG9Bp7oE45fpREj6ke+Z+S5J+a8qc5WQYxYYIgqohxi/t/8O6/u7bescuJOA6dA
+ oWoQ==
+X-Gm-Message-State: AOAM532pGpdsNjuUBEllXHJJZOsMYlAXI1bso6/uCi406mbYefz2teDI
+ 3EvlnjX+bmifTOx17qduJiSapghVufhGmw==
+X-Google-Smtp-Source: ABdhPJz8ktM9wqQeSaAWHaDg5sKxOY4h7ka27EP4hLl0BlZBtN14+s7XXhKO6PKEaKW0mMZBgG9U2A==
+X-Received: by 2002:a65:5aca:: with SMTP id d10mr4447952pgt.362.1600796873585; 
+ Tue, 22 Sep 2020 10:47:53 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id r1sm14825310pgl.66.2020.09.22.10.47.45
+ by smtp.gmail.com with ESMTPSA id r1sm14825310pgl.66.2020.09.22.10.47.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Sep 2020 10:47:45 -0700 (PDT)
+ Tue, 22 Sep 2020 10:47:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/11] capstone: Update to upstream "next" branch
-Date: Tue, 22 Sep 2020 10:47:32 -0700
-Message-Id: <20200922174741.475876-3-richard.henderson@linaro.org>
+Subject: [PULL 06/11] disas: Use qemu/bswap.h for bfd endian loads
+Date: Tue, 22 Sep 2020 10:47:36 -0700
+Message-Id: <20200922174741.475876-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200922174741.475876-1-richard.henderson@linaro.org>
 References: <20200922174741.475876-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,48 +91,125 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This branch contains a number of improvements over master,
-including making all of the disassembler data constant.
+Use the routines we have already instead of open-coding.
 
-We are skipping past the 4.0 branchpoint, which changed
-the location of the includes within the source directory.
-
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build | 3 ++-
- capstone    | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ include/disas/dis-asm.h | 32 ++++++++++++++++++++----
+ disas.c                 | 55 -----------------------------------------
+ 2 files changed, 27 insertions(+), 60 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index f23273693d..4c92b43fe5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -677,6 +677,7 @@ if capstone_opt == 'internal'
-       'capstone/arch/X86/X86DisassemblerDecoder.c',
-       'capstone/arch/X86/X86ATTInstPrinter.c',
-       'capstone/arch/X86/X86IntelInstPrinter.c',
-+      'capstone/arch/X86/X86InstPrinterCommon.c',
-       'capstone/arch/X86/X86Mapping.c',
-       'capstone/arch/X86/X86Module.c'
-     )
-@@ -701,7 +702,7 @@ if capstone_opt == 'internal'
-                                c_args: capstone_cargs,
-                                include_directories: 'capstone/include')
-   capstone = declare_dependency(link_with: libcapstone,
--                                include_directories: 'capstone/include')
-+                                include_directories: 'capstone/include/capstone')
- endif
- config_host_data.set('CONFIG_CAPSTONE', capstone.found())
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index dda247eaf2..6b45aa9898 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -466,11 +466,33 @@ int print_insn_rx(bfd_vma, disassemble_info *);
  
-diff --git a/capstone b/capstone
-index 22ead3e0bf..f8b1b83301 160000
---- a/capstone
-+++ b/capstone
-@@ -1 +1 @@
--Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
-+Subproject commit f8b1b833015a4ae47110ed068e0deb7106ced66d
+ /* from libbfd */
+ 
+-bfd_vma bfd_getl64 (const bfd_byte *addr);
+-bfd_vma bfd_getl32 (const bfd_byte *addr);
+-bfd_vma bfd_getb32 (const bfd_byte *addr);
+-bfd_vma bfd_getl16 (const bfd_byte *addr);
+-bfd_vma bfd_getb16 (const bfd_byte *addr);
++#include "qemu/bswap.h"
++
++static inline bfd_vma bfd_getl64(const bfd_byte *addr)
++{
++    return ldq_le_p(addr);
++}
++
++static inline bfd_vma bfd_getl32(const bfd_byte *addr)
++{
++    return (uint32_t)ldl_le_p(addr);
++}
++
++static inline bfd_vma bfd_getl16(const bfd_byte *addr)
++{
++    return lduw_le_p(addr);
++}
++
++static inline bfd_vma bfd_getb32(const bfd_byte *addr)
++{
++    return (uint32_t)ldl_be_p(addr);
++}
++
++static inline bfd_vma bfd_getb16(const bfd_byte *addr)
++{
++    return lduw_be_p(addr);
++}
++
+ typedef bool bfd_boolean;
+ 
+ #endif /* DISAS_DIS_ASM_H */
+diff --git a/disas.c b/disas.c
+index 1f35a4a33b..8d1403dedc 100644
+--- a/disas.c
++++ b/disas.c
+@@ -80,61 +80,6 @@ static int symbol_at_address(bfd_vma addr, struct disassemble_info *info)
+     return 1;
+ }
+ 
+-bfd_vma bfd_getl64 (const bfd_byte *addr)
+-{
+-  unsigned long long v;
+-
+-  v = (unsigned long long) addr[0];
+-  v |= (unsigned long long) addr[1] << 8;
+-  v |= (unsigned long long) addr[2] << 16;
+-  v |= (unsigned long long) addr[3] << 24;
+-  v |= (unsigned long long) addr[4] << 32;
+-  v |= (unsigned long long) addr[5] << 40;
+-  v |= (unsigned long long) addr[6] << 48;
+-  v |= (unsigned long long) addr[7] << 56;
+-  return (bfd_vma) v;
+-}
+-
+-bfd_vma bfd_getl32 (const bfd_byte *addr)
+-{
+-  unsigned long v;
+-
+-  v = (unsigned long) addr[0];
+-  v |= (unsigned long) addr[1] << 8;
+-  v |= (unsigned long) addr[2] << 16;
+-  v |= (unsigned long) addr[3] << 24;
+-  return (bfd_vma) v;
+-}
+-
+-bfd_vma bfd_getb32 (const bfd_byte *addr)
+-{
+-  unsigned long v;
+-
+-  v = (unsigned long) addr[0] << 24;
+-  v |= (unsigned long) addr[1] << 16;
+-  v |= (unsigned long) addr[2] << 8;
+-  v |= (unsigned long) addr[3];
+-  return (bfd_vma) v;
+-}
+-
+-bfd_vma bfd_getl16 (const bfd_byte *addr)
+-{
+-  unsigned long v;
+-
+-  v = (unsigned long) addr[0];
+-  v |= (unsigned long) addr[1] << 8;
+-  return (bfd_vma) v;
+-}
+-
+-bfd_vma bfd_getb16 (const bfd_byte *addr)
+-{
+-  unsigned long v;
+-
+-  v = (unsigned long) addr[0] << 24;
+-  v |= (unsigned long) addr[1] << 16;
+-  return (bfd_vma) v;
+-}
+-
+ static int print_insn_objdump(bfd_vma pc, disassemble_info *info,
+                               const char *prefix)
+ {
 -- 
 2.25.1
 
