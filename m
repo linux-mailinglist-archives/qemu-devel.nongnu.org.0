@@ -2,114 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4812747C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:52:04 +0200 (CEST)
-Received: from localhost ([::1]:54502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F982747CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 19:54:22 +0200 (CEST)
+Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKmSR-0002Qa-I9
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45226)
+	id 1kKmUf-0005uQ-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 13:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kKmNM-0006uO-Q4; Tue, 22 Sep 2020 13:46:48 -0400
-Received: from mail-eopbgr130092.outbound.protection.outlook.com
- ([40.107.13.92]:53219 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kKmNI-0004Eg-RR; Tue, 22 Sep 2020 13:46:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CZeprT6aeYrFaaDSGlPK30ztea8ZA0swNzfH2e3T8G0MHUhtR5B9pLmmgxauy9qiSout8qm2GLlHkRWsoQLuvEy9jSkr3vQSuk+tVa+RYOwJ3qq+nyp12iBHZYaHoZH+6qEFu2nJ11yNl+r0Td1aZCm4FGFEOz2DdGfd1PpUYAkxDc/++S/gni6HW9l6zkkDfTExe4DHyRzTR/xD0ERgvXnlqIXmKkJ2UG/Jq8ScI9e/kb0PpkNnomUA1Lu07bYxYNwRZiiu4qN+E0qr4+GQH84cqQB2XEBejZ/Rv+sAej/Lj+PklaHeWDEAAa5ZIHNS+Ezdu9OEXnH3pGIRKFasqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vfrRlP82xagcMMUoPQvddjJ9v/exV5ed0th0dUnyN/A=;
- b=QdMDHol0BmOHdU1z1fGonn9QLsZLGFW7KNiTRnk2k/ou+JZ8dHXY+lYI/LQspL+2dTSd6VU+IKEkqOKvux1AkhtGg5UPchzO6a8lOo/2XHXKvVFxa74y1Q/77Z/Pa1v7dfmo/Xocrw828T9p8Awd8ni3BnKBJyVlJLH5OS6xLPYk5kYi5ft2s44ZxBpWnbmY1dCsDRXi/yRDW7WezDq3/hFDdOyNlh1r9JFqQ4v/8qfXeg7/aLJwWQRSdg74liJquNWFnkblpl9gWsnO+AByM6ONn2sKvKy1NrOPJDvq++K9yTT6VSKSJLavfKTMi6/ZSKRbTVBUQyxnVQY1CxqLDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vfrRlP82xagcMMUoPQvddjJ9v/exV5ed0th0dUnyN/A=;
- b=e8kY21Qw9qoh19tGkk6O+vm5HnSB0D6o6LwXQEFxVZ/mWTbCyJ3s61Jt2OJJbsZH1wP2bncQNtUErmukLt4lHXTqiMKnTizXocKOtuz4VXksyKywtNAKcx3Sy+yrekpmSsHEsJZ1qCTCM5rQf7VN64lkI7Sz4YdRGzyI4Rw5GBA=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3768.eurprd08.prod.outlook.com (2603:10a6:20b:90::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Tue, 22 Sep
- 2020 17:46:39 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.033; Tue, 22 Sep 2020
- 17:46:39 +0000
-Subject: Re: [PATCH v2 1/2] block: drop moderated sheepdog mailing list from
- MAINTAINERS file
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- sheepdog@lists.wpkg.org, qemu-block@nongnu.org, libvir-list@redhat.com,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Liu Yuan <namei.unix@gmail.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20200922161611.2049616-1-berrange@redhat.com>
- <20200922161611.2049616-2-berrange@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <1fe6bbe0-58e1-1dd8-9795-6a10ee6c136e@virtuozzo.com>
-Date: Tue, 22 Sep 2020 20:46:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
-In-Reply-To: <20200922161611.2049616-2-berrange@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR01CA0126.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kKmOJ-0007v7-J9
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:47:47 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kKmOH-0004Jv-Kv
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 13:47:47 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 7so12551974pgm.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 10:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=76echFVw2ywmxS9ADqK3GamihoGZpJPMGPkXUnxNrY8=;
+ b=ew6/MjppoqnjQkZTeDezFqgQKjFIn1nVqFTFDmoKDZ+1pA8PyA/lTCuEXIpRsubL7X
+ 31WDEzEdTlNmW5XuHIv4MPTBXkDT9Wzboq1VMhwWFyZoUrSGEyUGoV5P2AABWmOsMmd2
+ KanHnaUVXg+7nWgCnTrCWAmt3LMmKtRpLwBasXz9SdJKVs4hMalkkM33JOcObic5JeVE
+ OA5rbbRD6MSs9EG0TszqDv9CxEhTRgvhEmNaZHiqxvYXQCVmwGeDIthbWpTeRu5/5+sj
+ kf4JIHz8WR9t119s3RmwjEYGc68UbWpglE2e3r+enU9zTwLt3/HwNrEygHSq5nSdx2MZ
+ LGpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=76echFVw2ywmxS9ADqK3GamihoGZpJPMGPkXUnxNrY8=;
+ b=e0M2S1V9O5s46UcTIiaE1qyEV2XqOBhdasu77bLJC55P4qZ2PNaNadCn1V/vfiD9lL
+ xs8oFdPDKsJYPkREF1DVQCkig/ilPe4PlwJWKNQLoyl2LaIZBBcFConPEOog0By17qRB
+ ostvjWRW9KKqKP1btlzEOVC3I9Ft6Hu3de7cArHXS/AUZpyvM7njs2jWz6WMP4mjO0I7
+ ocvNq1U2upLu2sm46+Ptcf0o4TEq8m5OGPB+15PtJuzBQKGuEnyaHXEBhfvTmF+NUUg7
+ 8P7J7fLQVUvIMqb1Z7FBifXQJkfHiZgYY9hCyDWndAz2mjcMzru0imJVlCkLVyxguDWJ
+ 2lKg==
+X-Gm-Message-State: AOAM530DojzFomQJ2Hkc2flEtyqliF7E4pXZDmW6Aaflh+tbahLKjYcg
+ O+1tqk4qlDrZpGtsldWEi3KNtFOfWeytmQ==
+X-Google-Smtp-Source: ABdhPJx3R+TnEADMMZA/EnDfHPjmPmIz1gMrCx3Bxxku697JlEUuFu/zaxmJb3ylHiIr7pwFHku7mw==
+X-Received: by 2002:a63:31c5:: with SMTP id x188mr4250940pgx.1.1600796863643; 
+ Tue, 22 Sep 2020 10:47:43 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id r1sm14825310pgl.66.2020.09.22.10.47.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Sep 2020 10:47:42 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/11] capstone + disassembler patch queue
+Date: Tue, 22 Sep 2020 10:47:30 -0700
+Message-Id: <20200922174741.475876-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.94) by
- AM0PR01CA0126.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14 via Frontend
- Transport; Tue, 22 Sep 2020 17:46:38 +0000
-X-Originating-IP: [185.215.60.94]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a339ff48-785e-4217-abdf-08d85f1f7565
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3768:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3768BD7D99C5BF7ADA46F33FC13B0@AM6PR08MB3768.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N5pp52TctZvSXl587tKFnMQqyKxojykBSPYHVdDEh9CCauM70H5TpXNa7hU5mXxouTGB6XtP2qR6+6c3SmFVrK8/LyNr6S/4DJVmTc8E9RnS4xfjyprLhvysTBXzHjH9BjBv/X/bGR8WWC7oxdpnhnNua+USVZrGqYJuNXFijx7F8fB6kFaj+iYuDwRUEjzJsGfM6tbXBrdMU5/1G9zg/JU5Hzsq8vRvvf9Nfgln9M47ES0VIS9ToSWc9I+TjgstSRMQKCnmSn5toujGFdGHB7sgnhw40lzbFI+XQhTgaICcucz6yJdtv3QMjMffANU29TD9x8QlewHMirvnHiP9XJwC+4iy3R4LKK54B74jbqvc/n17ChkWxwoWPP+XcCm8iKoAvA1bAour7iWYoxgMQdkMRdoNSZcLbTXkAz5c1jIY094odMxaSq/aBHdrZs7E
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(346002)(396003)(39830400003)(366004)(31696002)(16526019)(186003)(16576012)(316002)(8936002)(83380400001)(6486002)(26005)(31686004)(8676002)(86362001)(66946007)(2616005)(956004)(5660300002)(7416002)(52116002)(478600001)(54906003)(66556008)(2906002)(66476007)(36756003)(4744005)(4326008)(223123001)(130980200001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: IS7LAUlBAiHcDyG9ShzAsL3pZqJgMgV4mQAcRDiJQCtou6DCA6pFnAQ9kfiy/+MJKVidP27xOB3InOEO62J/BY2IZXED4p3dbssA4AtdtFeRij1zq+1DgKReltTjcIH6OJQnwMHV7eqkOlp7pw+cui5dwRhFh/iuurPN29eeY6GqwytnD3lCIIKBf7KOCS0rA+X/l/33e1EbyNT0f9Bev958TN4jk+klB8/wIA4n6rPU1qAGO/NWWMkiZRKJs7WTvJvPb2Ig0WcmdAO0Ov5mPGorAuzfMoDV6lX7qrCemFzO9bgquRCYIlRAJX3s4UbdK6MHgQQN1IDyFaSy9FiaVXOXx8ZZUL0FyGLvFZFP2TMp4i38foszq+nNhz/du9O+5igTX4eTXXvW1DPUEPsXhbImv86nkghqSMMTQFJPH6CegcTgpyRNaQpPIRwZktcz8RRId38fnYn9o1Rh5rQpvXfhpzg+ApJdgxcvGKOMXCu+mTphHfw6aHAjnIxwcZWPmyRxKfNl8aXLrid1gaBYLgnzdH+wQKyLZEkh/3S4qXcfFsPxnB6c5QBlhEYmvkKHBpNpNE4SW4zdc1z7rn7RZO7elSMl8SnkEAiYu9jteaObzohC9BLizg1taFZx2/PZnelX+QsHdkNt0fXN7bf8Bg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a339ff48-785e-4217-abdf-08d85f1f7565
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2020 17:46:39.4084 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EPjmLFjw7IWtC4Q8bQjVQkLU0i3KeGl4v/YalkuTfWbICxeVmz1JlQk2Td66ZLEWHAYzSsPDIid98zbOwsKl9wRu5nRh2TD/QfmNyevoLMA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3768
-Received-SPF: pass client-ip=40.107.13.92;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 13:46:40
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,25 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.09.2020 19:16, Daniel P. Berrangé wrote:
-> The sheepdog mailing list is setup to stop and queue messages from
-> non-subscribers, pending moderator approval. Unfortunately it seems
-> that the moderation queue is not actively dealt with. Even when messages
-> are approved, the sender is never added to the whitelist, so every
-> future mail from the same sender continues to get stopped for moderation.
-> 
-> MAINTAINERS entries should be responsive and not unneccessarily block
-> mails from QEMU contributors, so drop the sheepdog mailing list.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé<philmd@redhat.com>
-> Signed-off-by: Daniel P. Berrangé<berrange@redhat.com>
+The following changes since commit 834b9273d5cdab68180dc8c84d641aaa4344b057:
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-5.2-pull-request' into staging (2020-09-22 15:42:23 +0100)
 
--- 
-Best regards,
-Vladimir
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-cap-20200922
+
+for you to fetch changes up to fcfea6ced053045beb1dc8d22bdeaacc9c03d0b9:
+
+  disas/capstone: Add skipdata hook for s390x (2020-09-22 08:59:28 -0700)
+
+----------------------------------------------------------------
+Update capstone submodule from v3.0.5 to v5 ("next").
+Convert submodule build to meson.
+Enable capstone disassembly for s390x.
+Code cleanups in disas.c
+
+----------------------------------------------------------------
+Richard Henderson (11):
+      capstone: Convert Makefile bits to meson bits
+      capstone: Update to upstream "next" branch
+      capstone: Require version 4.0 from a system library
+      disas: Move host asm annotations to tb_gen_code
+      disas: Clean up CPUDebug initialization
+      disas: Use qemu/bswap.h for bfd endian loads
+      disas: Cleanup plugin_disas
+      disas: Configure capstone for aarch64 host without libvixl
+      disas: Split out capstone code to disas/capstone.c
+      disas: Enable capstone disassembly for s390x
+      disas/capstone: Add skipdata hook for s390x
+
+ configure                 |  64 +----
+ Makefile                  |  16 --
+ meson.build               | 124 +++++++-
+ include/disas/dis-asm.h   | 104 +++----
+ include/disas/disas.h     |   2 +-
+ include/exec/log.h        |   4 +-
+ accel/tcg/translate-all.c |  24 +-
+ disas.c                   | 707 +++++++++++-----------------------------------
+ disas/capstone.c          | 326 +++++++++++++++++++++
+ target/s390x/cpu.c        |   4 +
+ tcg/tcg.c                 |   4 +-
+ capstone                  |   2 +-
+ disas/meson.build         |   1 +
+ meson_options.txt         |   4 +
+ 14 files changed, 681 insertions(+), 705 deletions(-)
+ create mode 100644 disas/capstone.c
 
