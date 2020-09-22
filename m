@@ -2,116 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3059E274307
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:29:40 +0200 (CEST)
-Received: from localhost ([::1]:36764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F72274339
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 15:35:19 +0200 (CEST)
+Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKiMU-0004ey-WC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:29:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60172)
+	id 1kKiRy-0007xk-A1
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 09:35:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKiKJ-0003Z6-0T
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:27:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37990)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kKiKG-0007qL-8v
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:27:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600781238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QLuPIPVwXsbknpb1X5ymu0XnDJFR9WmeFjDS1XFM7+M=;
- b=EM3qqdO6po5uJpmKvv3l/u7qfkVlejMvzNn7sZMAd6K2Dy5BbCNvRgWdT9vhp+mlYXecRj
- NMMeV8AvvFI9uDms7mWUVHjX2cPoNY/ol8OakJAJIPxDlsT//uxaPGz2WaTpQnRBhBn+C+
- NFPfUbB2HlJa4zhXxb448VI4Bxd2NqM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-IFbVi1gPMP6QRiZVRUzraQ-1; Tue, 22 Sep 2020 09:27:16 -0400
-X-MC-Unique: IFbVi1gPMP6QRiZVRUzraQ-1
-Received: by mail-wr1-f72.google.com with SMTP id o6so7395475wrp.1
- for <qemu-devel@nongnu.org>; Tue, 22 Sep 2020 06:27:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=QLuPIPVwXsbknpb1X5ymu0XnDJFR9WmeFjDS1XFM7+M=;
- b=Cek309DYMYH+qm1wj4RmdsSMW68Ny+bNFyrc+xMWuUIyxRgnGfTR7C/h3STt4wj3eq
- UDpwjvBomW+bvM9aQOdg+SUwltHxxVo34XtqVhl+YGUQBOIJEi2STtkLxUgsAbamuBOS
- ubiIb+wpZFz5py+68K7ASCybEsL5D2JX7UOI/dwkgCz9pSfu6DTI6BWwgKtsdIinXM/Y
- uYqqZljRFVFhqY+JEwCpEXrB+FNK2aKplH71zj0GC4NmA82pvscavhjc+MrkJ0QKUkYF
- Xepxxua5pkpjZYSIwfDoJNC8HIbm3xUqVlA6lNvHkrc6fHmjZU3xPOMdf1LZGZyp7UHC
- y5LA==
-X-Gm-Message-State: AOAM533/UGscFtxjuYXyap0A7E9QbghaMnBe3/HXSOWIhjijdoUe76XX
- BHPAdM07ThV67tDXVMttAx7gcQtPSL+buJ1mIOCZcQ6j4FFN47Ngkbq8jTHLQE/dnvOxY2HlWqj
- LTCZRJVRfCmZo2xg=
-X-Received: by 2002:a7b:cc82:: with SMTP id p2mr1051944wma.46.1600781235005;
- Tue, 22 Sep 2020 06:27:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYO++cHOyWCcxfshkPT++vYusX7ZbB2ePu7+yLg/QsOnWHNKNgjXN526ayF+YByPaA6Nxy5g==
-X-Received: by 2002:a7b:cc82:: with SMTP id p2mr1051915wma.46.1600781234683;
- Tue, 22 Sep 2020 06:27:14 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id d18sm26670984wrm.10.2020.09.22.06.27.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Sep 2020 06:27:13 -0700 (PDT)
-Subject: Re: [PATCH] coverity_scan: switch to vpath build
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1kKiPi-00073P-0x
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:33:01 -0400
+Received: from mail-co1nam11on2053.outbound.protection.outlook.com
+ ([40.107.220.53]:12927 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1kKiPf-0000AN-0n
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 09:32:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gL4evOYr3Ydnur29QN+vMmB8oMj0mOZzcJjFDSK454jjHSqNA39wuUvunTysI42yg8ptbXwKiQAqoxmjMe7yEBoVYVgKJKSeVYvFDGTUCnV+7RbpKVCTlhRkuVldF+H7QEzQsjp7r7NFouUReyZwJKRa9Hgt0y1DimwzrLOBMosHowA2tBoEYtI2M2L7CJGiifBaWOgo1jg4D8+E38agVhVTFdCnAbeG+5oA6qDuLyo7/eSOlUBNaJc0yl6PBh7i/BHCpBQRt+visSFAb1+87MoqEiIHMA5HFKg83StNmdGGcgQJ96NXlhbk9eu3kn0MnzU0vA4UMN40dDG8RhJ04Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qd+hshLPSI9WHD+/ZAibAcO5WOG6G0A3AEY0r1lveuk=;
+ b=QlkzawbJHymCodeIezDqzv+hub0EwMkkSI8+PkkPga4kcmgGg7k+2p0WLihJ/o6lX4XIyudIeb3m8aQCL9CyCxSqOK7M0xX1iiM0w95Jgl7VxQ1qMqkNkCUlnKmxNRr7WTZMu5+LD+iRpH3plSC4bYLLYIN7nCKl8m0NxXZVwTrFgbyk4wgWy1ZVGxC7+RLAlh04cgMCpPvwea6d0P4LOFutgBCLulLgv9JQnvD3MX8cc2MIiWIYKZxvnbU807g4u44z38o2O1nk8s81IynlkqnjwHb2Cekvcq39OV7ymCwrBZhzc9CjuGdSMLhV3aAB6FKXrr7JW0GQpILiK41c2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qd+hshLPSI9WHD+/ZAibAcO5WOG6G0A3AEY0r1lveuk=;
+ b=LZiNBHmcgHZpmOroVrtKh8tVrC3m+FlGdToDD9Cig4G8dg5MpmNXurWeiQX/AJm/345e1GGBywkSjqCEZrk32YS0AgxdbMbaHdrzDyPJ6ubGIuGbSQ1udjl4UstzdRUmRdzvo6v70mmLJWYlOak1hY6ShQTAKjxbsM1rUJbyPJ4=
+Received: from SN4PR0601CA0016.namprd06.prod.outlook.com
+ (2603:10b6:803:2f::26) by DM6PR02MB5993.namprd02.prod.outlook.com
+ (2603:10b6:5:156::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.15; Tue, 22 Sep
+ 2020 13:17:47 +0000
+Received: from SN1NAM02FT017.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:2f:cafe::9d) by SN4PR0601CA0016.outlook.office365.com
+ (2603:10b6:803:2f::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.21 via Frontend
+ Transport; Tue, 22 Sep 2020 13:17:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT017.mail.protection.outlook.com (10.152.72.115) with Microsoft SMTP
+ Server id 15.20.3391.15 via Frontend Transport; Tue, 22 Sep 2020 13:17:46
+ +0000
+Received: from [149.199.38.66] (port=37229 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1kKiAl-0000Or-Q0; Tue, 22 Sep 2020 06:17:31 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1kKiB0-00089Q-4e; Tue, 22 Sep 2020 06:17:46 -0700
+Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08MDHilR030336; 
+ Tue, 22 Sep 2020 06:17:45 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1kKiAy-00089H-Lw; Tue, 22 Sep 2020 06:17:44 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id ACD1213C03E9; Tue, 22 Sep 2020 18:51:11 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20200922130806.1506324-1-pbonzini@redhat.com>
- <CAFEAcA8kovt998Ds0jbEAJTqkHmJETcHvfwqCS-JZWWW+=wLrw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <044dc012-1203-e3a8-0758-b0fcb2d932a4@redhat.com>
-Date: Tue, 22 Sep 2020 15:27:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Francisco Eduardo Iglesias <figlesia@xilinx.com>
+Subject: [PATCH v8 0/7] Make hcd-xhci independent of pci hooks
+Date: Tue, 22 Sep 2020 18:50:30 +0530
+Message-Id: <1600780837-8231-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8kovt998Ds0jbEAJTqkHmJETcHvfwqCS-JZWWW+=wLrw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: a9afe9d5-9677-4e42-d25e-08d85ef9e5d5
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5993:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB599381362752D012F381BE6FCA3B0@DM6PR02MB5993.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XCECXcdMImXNN4caayA8AkwNf+JAFhUJ+zRQ+6hbjK6qn4d+H2Oi5xsaY0G78ARpZg4p/gm7mTtkekiR+pdQVamHBz/MKhpad7+yAOWaLcZtjhBKNYh0WoVzr306HELWfUxwdh3w71H+z3VPxOtAkVDJPAL7lJkbB+OrXdugJM8RBaYKfH++BfBQAuj+avXk1ysEzh93F2X6Elr1y4E0LgPRIB7Q+0f8IsEnVRYfRXquyEbTuluFslofLLNIYuBQ8NBiOmUFAWlsPx9TQnNLw0f3usHTxiWwY/W232EtdWvo3O6UuurTRi89Dc63yNh4lJ8UyjjJihebTMa4HfIibBwkoW/5Q6Pyjah1HGOMpOhRTe+D5nS/MSKZAh5KC2l+L5rL3xRR6xxwSjR+NdnTlQ==
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(136003)(396003)(346002)(39860400002)(376002)(46966005)(7416002)(6266002)(107886003)(2906002)(83380400001)(36756003)(8936002)(6636002)(356005)(81166007)(478600001)(82740400003)(8676002)(6666004)(82310400003)(336012)(186003)(26005)(2616005)(426003)(42186006)(70586007)(70206006)(54906003)(4326008)(110136005)(5660300002)(47076004)(316002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2020 13:17:46.8638 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9afe9d5-9677-4e42-d25e-08d85ef9e5d5
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT017.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5993
+Received-SPF: pass client-ip=40.107.220.53; envelope-from=saipava@xilinx.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 09:32:51
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) AC_FROM_MANY_DOTS=0.866, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,81 +138,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ qemu-devel@nongnu.org, Paul Zimmerman <pauldzim@gmail.com>,
+ Sai Pavan Boddu <saipava@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/20 3:18 PM, Peter Maydell wrote:
-> On Tue, 22 Sep 2020 at 14:08, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> This is the patch that has been running on the coverity cronjob
->> for a few weeks now.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>  scripts/coverity-scan/run-coverity-scan | 8 +++++---
->>  1 file changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
->> index 6eefb4b558..7395bbfad4 100755
->> --- a/scripts/coverity-scan/run-coverity-scan
->> +++ b/scripts/coverity-scan/run-coverity-scan
->> @@ -380,15 +380,17 @@ export PATH="$TOOLBIN:$PATH"
->>
->>  cd "$SRCDIR"
->>
->> -echo "Doing make distclean..."
->> -make distclean
->> +echo "Nuking build directory..."
->> +rm -rf +build
-> 
-> As Philippe points out, odd name choice.
-> 
-> It might also be nice to steal the logic from configure
-> that avoids blowing away the build directory if it
-> wasn't created by this script in the first place.
-> 
->> +mkdir +build
->> +cd +build
-> 
-> I think this 'cd' will break use of the --results-tarball
-> option with a relative path (eg "--results-tarball my-tarball.tgz")
-> because it will now end up interpreted relative to the build
-> subdir rather than relative to the source directory.
-> 
->>  echo "Configuring..."
->>  # We configure with a fixed set of enables here to ensure that we don't
->>  # accidentally reduce the scope of the analysis by doing the build on
->>  # the system that's missing a dependency that we need to build part of
->>  # the codebase.
->> -./configure --disable-modules --enable-sdl --enable-gtk \
->> +../configure --disable-modules --enable-sdl --enable-gtk \
->>      --enable-opengl --enable-vte --enable-gnutls \
->>      --enable-nettle --enable-curses --enable-curl \
->>      --audio-drv-list=oss,alsa,sdl,pa --enable-virtfs \
-> 
-> This comment at the top of the script:
-> 
-> # This script assumes that you're running it from a QEMU source
-> # tree, and that tree is a fresh clean one, because we do an in-tree
-> # build. (This is necessary so that the filenames that the Coverity
-> # Scan server sees are relative paths that match up with the component
-> # regular expressions it uses; an out-of-tree build won't work for this.)
-> 
-> is now out of date and needs rephrasing.
+This patch series attempts to make 'hcd-xhci' an independent model so
+it can be used by both pci and system-bus interface.
 
-Or we can keep it as it, since commit dedad027205
-("configure: add support for pseudo-"in source tree" builds")
-already create a 'build/' directory.
+Changes for V2:
+    Make XHCIState non-qom
+    Use container_of functions for retriving pci device instance
+    Initialize the AddressSpace pointer in PATCH 1/3 itself
+Changes for V3:
+    Convert XHCIState to TYPE_DEVICE and register as a child of XHCIPciState.
+Changes for V4:
+    Add DWC3 usb controller
+    Add versal, usb2-reg module
+    Connect sysbus xhci to versal virt board
+Changes for V5:
+    Add extra info about dwc3 and usb2_regs devices in commit messages
+    Use only one irq for versal usb controller
+    Mark the unimplemented registers in dwc3 controller
+    Rebase the patches over master.
+    Move few mispalced contents from patch 2/7 to 3/7.
+    Fix the author names in the header.
+    Move the inclusion of "sysemu/dma.h" from patch 1/7 to 3/7
+Changes for V6:
+    Fixed style issue in patch 7/7
+    Renamed usb2_reg model to VersalUsb2CtrlReg
+    Fixed author in headers
+Changes for V7:
+    Create a usb structure to keep things clean
+    Remove the repeated patch in the series i.e 5/7
+Changes for V8:
+    Fix vmstate sturcts to support cross version migration.
 
-> 
-> PS: on the subject of component regexes, they seem to have
-> vanished from the Coverity website. I don't suppose you have
-> a backup of them, do you ? (I have a list of what the component
-> names were, but not the associated regexes.)
-> 
-> thanks
-> -- PMM
-> 
+Sai Pavan Boddu (5):
+  usb/hcd-xhci: Make dma read/writes hooks pci free
+  usb/hcd-xhci: Move qemu-xhci device to hcd-xhci-pci.c
+  usb/hcd-xhci: Split pci wrapper for xhci base model
+  usb: hcd-xhci-sysbus: Attach xhci to sysbus device
+  misc: Add versal-usb2-ctrl-regs module
+
+Vikram Garhwal (2):
+  usb: Add DWC3 model
+  Versal: Connect DWC3 controller with virt-versal
+
+ hw/arm/xlnx-versal-virt.c                    |  58 +++
+ hw/arm/xlnx-versal.c                         |  34 ++
+ hw/misc/meson.build                          |   1 +
+ hw/misc/xlnx-versal-usb2-ctrl-regs.c         | 222 +++++++++
+ hw/usb/Kconfig                               |  17 +
+ hw/usb/hcd-dwc3.c                            | 717 +++++++++++++++++++++++++++
+ hw/usb/hcd-xhci-nec.c                        |  18 +-
+ hw/usb/hcd-xhci-pci.c                        | 244 +++++++++
+ hw/usb/hcd-xhci-pci.h                        |  44 ++
+ hw/usb/hcd-xhci-sysbus.c                     | 109 ++++
+ hw/usb/hcd-xhci-sysbus.h                     |  32 ++
+ hw/usb/hcd-xhci.c                            | 264 ++--------
+ hw/usb/hcd-xhci.h                            |  21 +-
+ hw/usb/meson.build                           |   3 +
+ include/hw/arm/xlnx-versal.h                 |  14 +
+ include/hw/misc/xlnx-versal-usb2-ctrl-regs.h |  45 ++
+ include/hw/usb/hcd-dwc3.h                    |  55 ++
+ 17 files changed, 1672 insertions(+), 226 deletions(-)
+ create mode 100644 hw/misc/xlnx-versal-usb2-ctrl-regs.c
+ create mode 100644 hw/usb/hcd-dwc3.c
+ create mode 100644 hw/usb/hcd-xhci-pci.c
+ create mode 100644 hw/usb/hcd-xhci-pci.h
+ create mode 100644 hw/usb/hcd-xhci-sysbus.c
+ create mode 100644 hw/usb/hcd-xhci-sysbus.h
+ create mode 100644 include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
+ create mode 100644 include/hw/usb/hcd-dwc3.h
+
+-- 
+2.7.4
 
 
