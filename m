@@ -2,49 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61D2273B63
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 09:04:55 +0200 (CEST)
-Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1509273B6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 09:06:52 +0200 (CEST)
+Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKcMA-0000cw-J6
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 03:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60968)
+	id 1kKcO3-00035r-V6
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 03:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dtc-ubuntu@scieneer.com>)
- id 1kKZkl-0004jc-Uf
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 00:18:07 -0400
-Received: from gw1.scieneer.com ([2001:470:5:c1c::1]:37982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dtc-ubuntu@scieneer.com>)
- id 1kKZkj-0002I0-8G
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 00:18:07 -0400
-Received: from dtc-pc.scieneer.com (dtc-pc.scieneer.com [192.168.2.100])
- by gw1.scieneer.com (8.14.7/8.14.7) with ESMTP id 08M4HuWm010000
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Tue, 22 Sep 2020 14:17:58 +1000
-From: Douglas Crosher <dtc-ubuntu@scieneer.com>
-Subject: [PATCH] helper_syscall x86_64: clear exception_is_int
-To: qemu-devel@nongnu.org
-Message-ID: <a7dab33e-eda6-f988-52e9-f3d32db7538d@scieneer.com>
-Date: Tue, 22 Sep 2020 14:17:56 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <duanzhenzhong@jd.com>)
+ id 1kKcC9-0001zI-5a
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 02:54:33 -0400
+Received: from smtp4.jd.com ([59.151.64.78]:2049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <duanzhenzhong@jd.com>)
+ id 1kKcC1-0003c9-5J
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 02:54:31 -0400
+Received: from JDCloudMail10.360buyAD.local (172.31.68.43) by
+ JDCloudMail16.360buyAD.local (172.31.68.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1847.3; Tue, 22 Sep 2020 14:47:40 +0800
+Received: from JDCloudMail10.360buyAD.local ([fe80::7489:42a2:4437:c234]) by
+ JDCloudMail10.360buyAD.local ([fe80::7489:42a2:4437:c234%5]) with mapi id
+ 15.01.1847.007; Tue, 22 Sep 2020 14:47:40 +0800
+To: "mst@redhat.com" <mst@redhat.com>, "tiwei.bie@intel.com"
+ <tiwei.bie@intel.com>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Question about guest notification offload
+Thread-Topic: Question about guest notification offload
+Thread-Index: AdaQqRkooEfHrtFKS3u4T/9zU7Lj4A==
+Date: Tue, 22 Sep 2020 06:47:40 +0000
+Message-ID: <a4141e1402b6434896fc5949d33e3b06@jd.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.31.12.238]
+Content-Type: multipart/alternative;
+ boundary="_000_a4141e1402b6434896fc5949d33e3b06jdcom_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:470:5:c1c::1;
- envelope-from=dtc-ubuntu@scieneer.com; helo=gw1.scieneer.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=59.151.64.78; envelope-from=duanzhenzhong@jd.com;
+ helo=smtp4.jd.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:47:41
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: 38
+X-Spam_score: 3.8
+X-Spam_bar: +++
+X-Spam_report: (3.8 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 22 Sep 2020 03:01:54 -0400
+X-Mailman-Approved-At: Tue, 22 Sep 2020 03:01:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,34 +66,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: 段振中 <duanzhenzhong@jd.com>
+From: 段振中 via <qemu-devel@nongnu.org>
 
+--_000_a4141e1402b6434896fc5949d33e3b06jdcom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-The exception_is_int flag may be set on entry to helper_syscall,
-e.g. after a prior interrupt that has returned, and processing
-EXCP_SYSCALL as an interrupt causes it to fail so clear this flag.
+SGkgTWFpbnRhaW5lcnMsDQoNCkkgc2V0dXAgYSB2ZHBhIGRldmljZSBhbmQgd2FudCB0byB1c2Ug
+dGhlIGhvc3QgYW5kIGd1ZXN0IG5vdGlmaWNhdGlvbnMgb2ZmbG9hZCBmb3IgYmV0dGVyIHBlcmZv
+cm1hbmNlLg0KSG9zdCBub3RpZmljYXRpb24gb2ZmbG9hZCB3b3JrcyB3ZWxsIGJ1dCBzZWVtcyBn
+dWVzdCBub3RpZmljYXRpb24gb2ZmbG9hZCBpc26hr3Qgc3VwcG9ydGVkIGluIHFlbXUuDQoNCkkg
+c2VlIHRoZXJlIHdlcmUgZWZmb3J0IHRvIGFkZCB0aGUgc3VwcG9ydCBmb3IgYm90aCBpbiBiZWxv
+dyBsaW5rIHR3byB5ZWFycyBhZ28uDQpodHRwczovL2xpc3RzLm9hc2lzLW9wZW4ub3JnL2FyY2hp
+dmVzL3ZpcnRpby1kZXYvMjAxODAzL21zZzAwMzA4Lmh0bWwNCg0KSG9zdCBub3RpZmljYXRpb24g
+b2ZmbG9hZCBnb3QgaXRzIHdheSBpbiBmaW5hbGx5IGJ1dCBndWVzdCBub3RpZmljYXRpb24gb2Zm
+bG9hZCBub3QsIEmhr20gaW50ZXJlc3RlZCB0byBrbm93IHRoZSByZWFzb24NCmd1ZXN0IG5vdGlm
+aWNhdGlvbiBvZmZsb2FkIG1pc3NlZC4gQXBwcmVjaWF0ZSB5b3VyIHJlcGx5LiBUaGFua3MgdmVy
+eSBtdWNoLg0KDQpaaGVuemhvbmcNCg==
 
-Signed-off-by: Douglas Crosher <dtc-ubuntu@scieneer.com>
----
-  target/i386/seg_helper.c | 1 +
-  1 file changed, 1 insertion(+)
+--_000_a4141e1402b6434896fc5949d33e3b06jdcom_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/i386/seg_helper.c b/target/i386/seg_helper.c
-index b96de068ca..be88938c2a 100644
---- a/target/i386/seg_helper.c
-+++ b/target/i386/seg_helper.c
-@@ -975,6 +975,7 @@ void helper_syscall(CPUX86State *env, int 
-next_eip_addend)
-      CPUState *cs = env_cpu(env);
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:=B5=C8=CF=DF;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"\@=B5=C8=CF=DF";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	font-size:10.5pt;
+	font-family:=B5=C8=CF=DF;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:=B5=C8=CF=DF;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:=B5=C8=CF=DF;}
+/* Page Definitions */
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"text-justi=
+fy-trim:punctuation">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi Maintainers,<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I setup a vdpa device and want =
+to use the host and guest notifications offload for better performance.<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Host notification offload works=
+ well but seems guest notification offload isn=A1=AFt supported in qemu.<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I see there were effort to add =
+the support for both in below link two years ago.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><a href=3D"https://lists.oasis-=
+open.org/archives/virtio-dev/201803/msg00308.html">https://lists.oasis-open=
+.org/archives/virtio-dev/201803/msg00308.html</a><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US">H=
+ost notification offload got its way in finally but guest notification offl=
+oad not, I=A1=AFm interested to know the reason<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US">g=
+uest notification offload missed. Appreciate your reply. Thanks very much.<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US"><=
+o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"text-autospace:none"><span lang=3D"EN-US">Z=
+henzhong<o:p></o:p></span></p>
+</div>
+</body>
+</html>
 
-      cs->exception_index = EXCP_SYSCALL;
-+    env->exception_is_int = 0;
-      env->exception_next_eip = env->eip + next_eip_addend;
-      cpu_loop_exit(cs);
-  }
--- 
-2.25.4
-
+--_000_a4141e1402b6434896fc5949d33e3b06jdcom_--
 
