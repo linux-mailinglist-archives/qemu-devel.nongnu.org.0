@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913AF273FB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:36:02 +0200 (CEST)
-Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4D7273FBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Sep 2020 12:38:13 +0200 (CEST)
+Received: from localhost ([::1]:35566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKfeT-0000bO-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54416)
+	id 1kKfga-00030W-3p
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 06:38:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaQ-0004CJ-IY
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30788)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaP-0004An-CJ
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54733
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaL-0006RZ-Pn
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:50 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kKfaN-0006S5-Nn
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 06:31:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600770705;
+ s=mimecast20190719; t=1600770706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uD4ZZs3AdQVvdNh/+WO04nhUwpbLsvu+jH+EwquHgOI=;
- b=SOWktmOb4vFxo8lDZO6wlGTpPoYH+QLxwbVicZGHBF+82bWd39vYt5OBm1cxct7+x1aDmA
- kbLCv5zD2asdtsD/B6/+Rgl4G77enoNM/0+Sh/alHkq5PhdntABY706ollsf8FNRhztYiR
- 9ycQ2t+hnTltBbimCbrVFQEBys9D49Y=
+ bh=4UDYOUobIS4HPyMO0LM18wbJhIIlX5pigEtZUvhEekE=;
+ b=Yd29PWPW2TH4+83gR39JhRq+ixE/CZCUqngxinRqpPOb+fUl+/CFohHNgCqBCwFUFYCIOF
+ YVV/bauLnXrETtPHc3qF+dUYYs2S9mKkdZh7WmNBsC2SYnO0QmZDNrhE/XX+FADua2yUwZ
+ g60PQwCnOpOWU+ws8Sg3L3IBP+Z5NtQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-Ld3tGWz2Ol-yFFQ3OuCYWg-1; Tue, 22 Sep 2020 06:31:43 -0400
-X-MC-Unique: Ld3tGWz2Ol-yFFQ3OuCYWg-1
+ us-mta-309-MLWwZYn8PzC1XIHVb-3qHA-1; Tue, 22 Sep 2020 06:31:44 -0400
+X-MC-Unique: MLWwZYn8PzC1XIHVb-3qHA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17F731868425;
- Tue, 22 Sep 2020 10:31:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF1151868434;
+ Tue, 22 Sep 2020 10:31:43 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-20.ams2.redhat.com [10.36.113.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DF1719C4F;
- Tue, 22 Sep 2020 10:31:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6542B19C4F;
+ Tue, 22 Sep 2020 10:31:42 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/8] s390x/tcg: Implement MULTIPLY HALFWORD (MGH)
-Date: Tue, 22 Sep 2020 12:31:25 +0200
-Message-Id: <20200922103129.12824-5-david@redhat.com>
+Subject: [PATCH v1 5/8] s390x/tcg: Implement BRANCH INDIRECT ON CONDITION (BIC)
+Date: Tue, 22 Sep 2020 12:31:26 +0200
+Message-Id: <20200922103129.12824-6-david@redhat.com>
 In-Reply-To: <20200922103129.12824-1-david@redhat.com>
 References: <20200922103129.12824-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 00:31:51
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 01:57:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,26 +85,46 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just like MULTIPLY HALFWORD IMMEDIATE (MGHI), only the second operand
-(signed 16 bit) comes from memory.
+Just like BRANCH ON CONDITION - however the address is read from memory
+(always 8 bytes are read), we have to wrap the address manually. The
+address is read using current CPU DAT/address-space controls, just like
+ordinary data.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/insn-data.def | 1 +
- 1 file changed, 1 insertion(+)
+ target/s390x/insn-data.def | 2 ++
+ target/s390x/translate.c   | 5 +++++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 2b4ad1530d..455efe73da 100644
+index 455efe73da..dfb0ec067b 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -666,6 +666,7 @@
- /* MULTIPLY HALFWORD */
-     C(0x4c00, MH,      RX_a,  Z,   r1_o, m2_16s, new, r1_32, mul, 0)
-     C(0xe37c, MHY,     RXY_a, GIE, r1_o, m2_16s, new, r1_32, mul, 0)
-+    C(0xe33c, MGH,     RXY_a, MIE2,r1_o, m2_16s, r1, 0, mul, 0)
- /* MULTIPLY HALFWORD IMMEDIATE */
-     C(0xa70c, MHI,     RI_a,  Z,   r1_o, i2, new, r1_32, mul, 0)
-     C(0xa70d, MGHI,    RI_a,  Z,   r1_o, i2, r1, 0, mul, 0)
+@@ -115,6 +115,8 @@
+ /* BRANCH RELATIVE AND SAVE */
+     C(0xa705, BRAS,    RI_b,  Z,   0, 0, r1, 0, basi, 0)
+     C(0xc005, BRASL,   RIL_b, Z,   0, 0, r1, 0, basi, 0)
++/* BRANCH INDIRECT ON CONDITION */
++    C(0xe347, BIC,     RXY_b, MIE2,0, m2_64, 0, 0, bc, 0)
+ /* BRANCH ON CONDITION */
+     C(0x0700, BCR,     RR_b,  Z,   0, r2_nz, 0, 0, bc, 0)
+     C(0x4700, BC,      RX_b,  Z,   0, a2, 0, 0, bc, 0)
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index b536491892..383edf7419 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -1626,6 +1626,11 @@ static DisasJumpType op_bc(DisasContext *s, DisasOps *o)
+         return DISAS_NEXT;
+     }
+ 
++    /* For BIC the address came from memory, we need to wrap it again. */
++    if (s->fields.op2 == 0x47) {
++        gen_addi_and_wrap_i64(s, o->in2, o->in2, 0);
++    }
++
+     disas_jcc(s, &c, m1);
+     return help_branch(s, &c, is_imm, imm, o->in2);
+ }
 -- 
 2.26.2
 
