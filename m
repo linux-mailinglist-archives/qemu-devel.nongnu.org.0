@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704ED274D1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:10:24 +0200 (CEST)
-Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DED1274D10
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 01:05:15 +0200 (CEST)
+Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKrQV-0004bH-GX
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:10:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34402)
+	id 1kKrLW-0005or-23
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 19:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKrBD-0007QK-Jx
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:54:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43359)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKrCq-0002GX-Es
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:56:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kKrBB-0001VN-Da
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:54:35 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kKrCo-0001tP-5n
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 18:56:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600815272;
+ s=mimecast20190719; t=1600815372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7t0NgnFan1ngd2tpnSwgQqs6d5UMb8Vmj5Jc59NHEqE=;
- b=ZORFppPDI1PcbMJKMI8UhlcZc2xYGqiwgtlzlmZFNmJySHAGZrchkoHpM6ONDop1gHh93h
- 7niHzOwvtianliayfBJaypo/ydb+bbIZqDgM9oRoq8TzYqTQnzJRWiFjoJOz4LirJpY2KP
- tQyJvcAUqERMY4YBr2AbCyaDovCIL9I=
+ bh=EpLwfAs7T6M1kuaa9lynFjNEFq3m3HyvU99buG9bmF0=;
+ b=f7lQSn9O2Bo9qz5OlfUM2FuPl6r9gqLgnuQmZGD9TryGmSnRx17Rf+XbYiCJOpuAL4UvB2
+ mJhMnCelV79y4ijgKFubX7RVi6g+CHZ8QvR1VU7fnM3owbOkGFA2JbEx3DMHQ/PLfThvaj
+ g5NylwANIkBW/baw3fy8lyM3vswXQ8U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-gCy81_3IP2Og_9sSVxdSLQ-1; Tue, 22 Sep 2020 18:54:30 -0400
-X-MC-Unique: gCy81_3IP2Og_9sSVxdSLQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-382-6H6xGArGOaGMnmlUzFfsmg-1; Tue, 22 Sep 2020 18:56:10 -0400
+X-MC-Unique: 6H6xGArGOaGMnmlUzFfsmg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 718F21005E64;
- Tue, 22 Sep 2020 22:54:29 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA33A614F5;
- Tue, 22 Sep 2020 22:54:28 +0000 (UTC)
-Subject: Re: [PATCH 00/26] qapi: static typing conversion, pt5
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200922223525.4085762-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <8091613c-2277-f08a-386c-6bbf3d241382@redhat.com>
-Date: Tue, 22 Sep 2020 18:54:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDE68425CE;
+ Tue, 22 Sep 2020 22:56:09 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-78.rdu2.redhat.com [10.10.116.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AEC6F10021AA;
+ Tue, 22 Sep 2020 22:56:03 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id D4D46223B13; Tue, 22 Sep 2020 18:56:02 -0400 (EDT)
+Date: Tue, 22 Sep 2020 18:56:02 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
+Message-ID: <20200922225602.GJ57620@redhat.com>
+References: <20200918213436.GA3520@redhat.com>
+ <20200921201641.GD13362@redhat.com> <20200922110946.GB2836@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20200922223525.4085762-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200922110946.GB2836@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 15:47:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 02:07:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,82 +80,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/20 6:34 PM, John Snow wrote:
-> based-on: <20200922210101.4081073-1-jsnow@redhat.com>
+On Tue, Sep 22, 2020 at 12:09:46PM +0100, Dr. David Alan Gilbert wrote:
+> 
+> Do you have the numbers for:
+>    epool
+>    epool thread-pool-size=1
+>    spool
 
-^ Copy-paste malfunction
+Hi David,
 
-based-on: <20200922212115.4084301-1-jsnow@redhat.com>
+Ok, I re-ran my numbers again after upgrading to latest qemu and also
+upgraded host kernel to latest upstream. Apart from comparing I epool,
+spool and 1Thread, I also ran their numa variants. That is I launched
+qemu and virtiofsd on node 0 of machine (numactl --cpunodebind=0).
 
->            [PATCH 0/6] qapi: static typing conversion, pt4
-> 
-> Hi, this series adds static type hints to the QAPI module.
-> This is part five!
-> 
-> Part 5: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt5
-> Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6
-> 
-> - Requires Python 3.6+
-> - Requires mypy 0.770 or newer (for type analysis only)
-> - Requires pylint 2.6.0 or newer (for lint checking only)
-> 
-> This part of the series focuses on just parser.py.
-> 
-> Type hints are added in patches that add *only* type hints and change no
-> other behavior. Any necessary changes to behavior to accommodate typing
-> are split out into their own tiny patches.
-> 
-> Every commit should pass with:
->   - flake8 qapi/
->   - pylint --rcfile=qapi/pylintrc qapi/
->   - mypy --config-file=qapi/mypy.ini qapi/
-> 
-> John Snow (26):
->    qapi/parser.py: refactor parsing routine into method
->    qapi/parser.py: group variable declarations in __init__
->    qapi/parser.py: use 'with' statement for opening files
->    qapi/source.py: Add default arguments to QAPISourceInfo
->    qapi/parser.py: start source info at line 0
->    qapi/parser.py: raise QAPIParseError during file opening
->    qapi/parser.py: fully remove 'null' constant
->    qapi/parser.py: Assert lexer value is a string
->    qapi/parser.py: assert get_expr returns object in outer loop
->    qapi/parser.py: assert object keys are strings
->    qapi/parser.py: Convert several methods to @classmethod
->    qapi/parser.py: add casts to pragma checks
->    qapi/parser.py: add type hint annotations
->    qapi/parser.py: add docstrings
->    qapi/parser.py: add ParsedExpression type
->    qapi/pragma.py: Move QAPISchemaPragma into its own module
->    qapi/pragma.py: Move pragma parsing out of parser.py
->    qapi/parser.py: Modify _include() to use parser state
->    qapi/parser.py: add parent argument
->    qapi/parser.py: remove unused check_args_section arguments
->    qapi/parser.py: QAPIDoc: convert @staticmethod to @classmethod
->    qapi/parser.py: add type hint annotations (QAPIDoc)
->    qapi/parser.py: enable mypy checks
->    qapi/parser.py: remove one and two-letter variables
->    qapi/parser.py: Silence too-few-public-methods warning
->    qapi/parser.py: enable pylint checks
-> 
->   scripts/qapi/error.py                     |   8 +-
->   scripts/qapi/expr.py                      |  56 ++--
->   scripts/qapi/mypy.ini                     |   5 -
->   scripts/qapi/parser.py                    | 322 +++++++++++++---------
->   scripts/qapi/pragma.py                    |  68 +++++
->   scripts/qapi/pylintrc                     |   3 +-
->   scripts/qapi/schema.py                    |   6 +-
->   scripts/qapi/source.py                    |  22 +-
->   tests/qapi-schema/leading-comma-list.err  |   2 +-
->   tests/qapi-schema/trailing-comma-list.err |   2 +-
->   10 files changed, 301 insertions(+), 193 deletions(-)
->   create mode 100644 scripts/qapi/pragma.py
-> 
+Results are kind of mixed. Here are my takeaways.
+
+- Running on same numa node improves performance overall for exclusive,
+  shared and exclusive-1T mode.
+
+- In general both shared pool and exclusive-1T mode seem to perform
+  better than exclusive mode, except for the case of randwrite-libaio.
+  In some cases (seqread-libaio, seqwrite-libaio, seqwrite-libaio-multi)
+  exclusive pool performs better than exclusive-1T.
+
+- Looks like in some cases exclusive-1T performs better than shared
+  pool. (randwrite-libaio, randwrite-psync-multi, seqwrite-psync-multi,
+  seqwrite-psync, seqread-libaio-multi, seqread-psync-multi)
+
+
+Overall, I feel that both exlusive-1T and shared perform better than
+exclusive pool. Results between exclusive-1T and shared pool are mixed.
+It seems like in many cases exclusve-1T performs better. I would say
+that moving to "shared" pool seems like a reasonable option.
+
+Thanks
+Vivek
+
+NAME                    WORKLOAD                Bandwidth       IOPS            
+vtfs-none-epool         seqread-psync           38(MiB/s)       9967            
+vtfs-none-epool-1T      seqread-psync           66(MiB/s)       16k             
+vtfs-none-spool         seqread-psync           67(MiB/s)       16k             
+vtfs-none-epool-numa    seqread-psync           48(MiB/s)       12k             
+vtfs-none-epool-1T-numa seqread-psync           74(MiB/s)       18k             
+vtfs-none-spool-numa    seqread-psync           74(MiB/s)       18k             
+
+vtfs-none-epool         seqread-psync-multi     204(MiB/s)      51k             
+vtfs-none-epool-1T      seqread-psync-multi     325(MiB/s)      81k             
+vtfs-none-spool         seqread-psync-multi     271(MiB/s)      67k             
+vtfs-none-epool-numa    seqread-psync-multi     253(MiB/s)      63k             
+vtfs-none-epool-1T-numa seqread-psync-multi     349(MiB/s)      87k             
+vtfs-none-spool-numa    seqread-psync-multi     301(MiB/s)      75k             
+
+vtfs-none-epool         seqread-libaio          301(MiB/s)      75k             
+vtfs-none-epool-1T      seqread-libaio          273(MiB/s)      68k             
+vtfs-none-spool         seqread-libaio          334(MiB/s)      83k             
+vtfs-none-epool-numa    seqread-libaio          315(MiB/s)      78k             
+vtfs-none-epool-1T-numa seqread-libaio          326(MiB/s)      81k             
+vtfs-none-spool-numa    seqread-libaio          335(MiB/s)      83k             
+
+vtfs-none-epool         seqread-libaio-multi    202(MiB/s)      50k             
+vtfs-none-epool-1T      seqread-libaio-multi    308(MiB/s)      77k             
+vtfs-none-spool         seqread-libaio-multi    247(MiB/s)      61k             
+vtfs-none-epool-numa    seqread-libaio-multi    238(MiB/s)      59k             
+vtfs-none-epool-1T-numa seqread-libaio-multi    307(MiB/s)      76k             
+vtfs-none-spool-numa    seqread-libaio-multi    269(MiB/s)      67k             
+
+vtfs-none-epool         randread-psync          41(MiB/s)       10k             
+vtfs-none-epool-1T      randread-psync          67(MiB/s)       16k             
+vtfs-none-spool         randread-psync          64(MiB/s)       16k             
+vtfs-none-epool-numa    randread-psync          48(MiB/s)       12k             
+vtfs-none-epool-1T-numa randread-psync          73(MiB/s)       18k             
+vtfs-none-spool-numa    randread-psync          72(MiB/s)       18k             
+
+vtfs-none-epool         randread-psync-multi    207(MiB/s)      51k             
+vtfs-none-epool-1T      randread-psync-multi    313(MiB/s)      78k             
+vtfs-none-spool         randread-psync-multi    265(MiB/s)      66k             
+vtfs-none-epool-numa    randread-psync-multi    253(MiB/s)      63k             
+vtfs-none-epool-1T-numa randread-psync-multi    340(MiB/s)      85k             
+vtfs-none-spool-numa    randread-psync-multi    305(MiB/s)      76k             
+
+vtfs-none-epool         randread-libaio         305(MiB/s)      76k             
+vtfs-none-epool-1T      randread-libaio         308(MiB/s)      77k             
+vtfs-none-spool         randread-libaio         329(MiB/s)      82k             
+vtfs-none-epool-numa    randread-libaio         310(MiB/s)      77k             
+vtfs-none-epool-1T-numa randread-libaio         328(MiB/s)      82k             
+vtfs-none-spool-numa    randread-libaio         339(MiB/s)      84k             
+
+vtfs-none-epool         randread-libaio-multi   265(MiB/s)      66k             
+vtfs-none-epool-1T      randread-libaio-multi   267(MiB/s)      66k             
+vtfs-none-spool         randread-libaio-multi   269(MiB/s)      67k             
+vtfs-none-epool-numa    randread-libaio-multi   314(MiB/s)      78k             
+vtfs-none-epool-1T-numa randread-libaio-multi   319(MiB/s)      79k             
+vtfs-none-spool-numa    randread-libaio-multi   318(MiB/s)      79k             
+
+vtfs-none-epool         seqwrite-psync          36(MiB/s)       9224            
+vtfs-none-epool-1T      seqwrite-psync          67(MiB/s)       16k             
+vtfs-none-spool         seqwrite-psync          61(MiB/s)       15k             
+vtfs-none-epool-numa    seqwrite-psync          44(MiB/s)       11k             
+vtfs-none-epool-1T-numa seqwrite-psync          69(MiB/s)       17k             
+vtfs-none-spool-numa    seqwrite-psync          68(MiB/s)       17k             
+
+vtfs-none-epool         seqwrite-psync-multi    193(MiB/s)      48k             
+vtfs-none-epool-1T      seqwrite-psync-multi    299(MiB/s)      74k             
+vtfs-none-spool         seqwrite-psync-multi    240(MiB/s)      60k             
+vtfs-none-epool-numa    seqwrite-psync-multi    233(MiB/s)      58k             
+vtfs-none-epool-1T-numa seqwrite-psync-multi    358(MiB/s)      89k             
+vtfs-none-spool-numa    seqwrite-psync-multi    285(MiB/s)      71k             
+
+vtfs-none-epool         seqwrite-libaio         265(MiB/s)      66k             
+vtfs-none-epool-1T      seqwrite-libaio         245(MiB/s)      61k             
+vtfs-none-spool         seqwrite-libaio         312(MiB/s)      78k             
+vtfs-none-epool-numa    seqwrite-libaio         295(MiB/s)      73k             
+vtfs-none-epool-1T-numa seqwrite-libaio         282(MiB/s)      70k             
+vtfs-none-spool-numa    seqwrite-libaio         297(MiB/s)      74k             
+
+vtfs-none-epool         seqwrite-libaio-multi   313(MiB/s)      78k             
+vtfs-none-epool-1T      seqwrite-libaio-multi   299(MiB/s)      74k             
+vtfs-none-spool         seqwrite-libaio-multi   315(MiB/s)      78k             
+vtfs-none-epool-numa    seqwrite-libaio-multi   318(MiB/s)      79k             
+vtfs-none-epool-1T-numa seqwrite-libaio-multi   410(MiB/s)      102k            
+vtfs-none-spool-numa    seqwrite-libaio-multi   378(MiB/s)      94k             
+
+vtfs-none-epool         randwrite-psync         33(MiB/s)       8629            
+vtfs-none-epool-1T      randwrite-psync         61(MiB/s)       15k             
+vtfs-none-spool         randwrite-psync         63(MiB/s)       15k             
+vtfs-none-epool-numa    randwrite-psync         49(MiB/s)       12k             
+vtfs-none-epool-1T-numa randwrite-psync         68(MiB/s)       17k             
+vtfs-none-spool-numa    randwrite-psync         66(MiB/s)       16k             
+
+vtfs-none-epool         randwrite-psync-multi   186(MiB/s)      46k             
+vtfs-none-epool-1T      randwrite-psync-multi   300(MiB/s)      75k             
+vtfs-none-spool         randwrite-psync-multi   233(MiB/s)      58k             
+vtfs-none-epool-numa    randwrite-psync-multi   235(MiB/s)      58k             
+vtfs-none-epool-1T-numa randwrite-psync-multi   355(MiB/s)      88k             
+vtfs-none-spool-numa    randwrite-psync-multi   266(MiB/s)      66k             
+
+vtfs-none-epool         randwrite-libaio        289(MiB/s)      72k             
+vtfs-none-epool-1T      randwrite-libaio        284(MiB/s)      71k             
+vtfs-none-spool         randwrite-libaio        278(MiB/s)      69k             
+vtfs-none-epool-numa    randwrite-libaio        292(MiB/s)      73k             
+vtfs-none-epool-1T-numa randwrite-libaio        294(MiB/s)      73k             
+vtfs-none-spool-numa    randwrite-libaio        290(MiB/s)      72k             
+
+vtfs-none-epool         randwrite-libaio-multi  317(MiB/s)      79k             
+vtfs-none-epool-1T      randwrite-libaio-multi  323(MiB/s)      80k             
+vtfs-none-spool         randwrite-libaio-multi  330(MiB/s)      82k             
+vtfs-none-epool-numa    randwrite-libaio-multi  315(MiB/s)      78k             
+vtfs-none-epool-1T-numa randwrite-libaio-multi  409(MiB/s)      102k            
+vtfs-none-spool-numa    randwrite-libaio-multi  384(MiB/s)      96k             
 
 
