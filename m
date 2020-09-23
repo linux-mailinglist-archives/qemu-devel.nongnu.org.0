@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03E927549E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:38:47 +0200 (CEST)
-Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66C72754A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:42:54 +0200 (CEST)
+Received: from localhost ([::1]:48076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1Ec-00075n-Ce
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57304)
+	id 1kL1Ib-0002Uz-Ob
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kL12m-0002cL-62
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:26:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34368)
+ id 1kL12o-0002ep-Lp
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:26:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kL12e-0004Y1-3A
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:26:31 -0400
+ id 1kL12e-0004YC-NU
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:26:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600853182;
+ s=mimecast20190719; t=1600853183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=07LcNJyvfIgjKm2ZgdgFmj83qm7MX/wQk0q80u2dgNs=;
- b=iWhUDd85ZKcsmJYB8+P2UITxRKchoBU0gFQL04HivPwXH8HQWxXon0DN0lvtPIthWqgCqI
- ulB/yY6zUpJ98YhcfAn8NHv9e0A9JnBVK+zwkfmO90jyb/CGTTu6u61MooreT51eGRWnQh
- CGzoyGtr24c89AiDZh495GHKEqc132U=
+ bh=CiwfAPLEH/qgNI/XSApVX0T/UYuaSpoMjp02DqZ25aE=;
+ b=aN/0boJ2Xw1WQR+Gh25MLxKVUshhyzLnbKbMx2vmxcy0xfPRaipylIw+JeTyMQhe1l96R5
+ sXz4KlC7AKPQ48Eloy5AVe08mXFklqpuUyOgsVpsS6SqnyucfxGicN54oehr/trxLOq0UV
+ mrqeZeD0Z1XWubluzIKUm+VnaoBkOzw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-ocZDr_HuMX-_Fu6KaCHXFw-1; Wed, 23 Sep 2020 05:26:20 -0400
-X-MC-Unique: ocZDr_HuMX-_Fu6KaCHXFw-1
+ us-mta-39-1yKlwQrgNq6m2aTQ9gDZ0w-1; Wed, 23 Sep 2020 05:26:21 -0400
+X-MC-Unique: 1yKlwQrgNq6m2aTQ9gDZ0w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B112FAD680;
- Wed, 23 Sep 2020 09:26:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C404AD685;
+ Wed, 23 Sep 2020 09:26:20 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6ECA560CCC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD10860BF1;
  Wed, 23 Sep 2020 09:26:19 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] configure: cleanup CFLAGS and LDFLAGS for submodules
-Date: Wed, 23 Sep 2020 05:26:15 -0400
-Message-Id: <20200923092617.1593722-3-pbonzini@redhat.com>
+Subject: [PATCH v2 3/4] configure: do not clobber environment
+ CFLAGS/CXXFLAGS/LDFLAGS
+Date: Wed, 23 Sep 2020 05:26:16 -0400
+Message-Id: <20200923092617.1593722-4-pbonzini@redhat.com>
 In-Reply-To: <20200923092617.1593722-1-pbonzini@redhat.com>
 References: <20200923092617.1593722-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,11 +57,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -85,98 +86,125 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -g and -O2 flags that configure adds to CFLAGS are only used by submodules,
-so do not put anymore the confusing CFLAGS variable in config-host.mak and
-replace it with more explicit SUBMODULE_CFLAGS variable.
+If the CFLAGS, CXXFLAGS or LDFLAGS variables are present in the environment,
+any modification made within the configure script is passed down to Meson.
+This is particularly undesirable for the "-pie" option, since it overrides
+"-shared" and thus messes up the linker flags for shared modules.
 
-There was also no equivalent SUBMODULE_LDFLAGS variable, add it.  This would
-theoretically help with LTO if we want -g and -O2 options on the command line.
-I say "theoretically" because submodules should not be linking anything; but
-since we were passing an "LD" variable we might as well get its flags right.
+Using a separate variable therefore fixes the bug, while clarifying that
+the scope of these CFLAGS is just the configure script.
 
-CFLAGS are now synthesized in the configuration summary as a quick way to present
---enable-debug and --enable-debug-info.
-
+Reported-by: Frederic Bezies
+Analyzed-by: Toolybird
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    |  3 +--
- configure   | 20 ++++++++++++++++----
- meson.build |  3 ++-
- 3 files changed, 19 insertions(+), 7 deletions(-)
+ configure | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 57fb63832f..3367ca520c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -137,11 +137,10 @@ configure: ;
- .PHONY: all clean distclean install \
- 	recurse-all dist msi FORCE
- 
--SUBMODULE_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS)
- SUBDIR_MAKEFLAGS = $(if $(V),,--no-print-directory --quiet)		\
- 	PKG_CONFIG="$(PKG_CONFIG)" 					\
- 	CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)"		\
--	CFLAGS="$(SUBMODULE_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)"		\
-+	CFLAGS="$(SUBMODULE_CFLAGS)" LDFLAGS="$(SUBMODULE_LDFLAGS)"	\
- 	ARFLAGS="$(ARFLAGS)"
- 
- include $(SRC_PATH)/tests/Makefile.include
 diff --git a/configure b/configure
-index dfecfd6c16..b04350f7ea 100755
+index b04350f7ea..d68a33e3c7 100755
 --- a/configure
 +++ b/configure
-@@ -6112,12 +6112,23 @@ elif test "$fortify_source" = "yes" ; then
-   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
-   debug=no
- fi
+@@ -155,7 +155,7 @@ update_cxxflags() {
+     # options which some versions of GCC's C++ compiler complain about
+     # because they only make sense for C programs.
+     QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
+-    CXXFLAGS=$(echo "$CFLAGS" | sed s/-std=gnu99/-std=gnu++11/)
++    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu99/-std=gnu++11/)
+     for arg in $QEMU_CFLAGS; do
+         case $arg in
+             -Wstrict-prototypes|-Wmissing-prototypes|-Wnested-externs|\
+@@ -170,13 +170,14 @@ update_cxxflags() {
+ 
+ compile_object() {
+   local_cflags="$1"
+-  do_cc $CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
++  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
+ }
+ 
+ compile_prog() {
+   local_cflags="$1"
+   local_ldflags="$2"
+-  do_cc $CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC $LDFLAGS $QEMU_LDFLAGS $local_ldflags
++  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC \
++      $LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ldflags
+ }
+ 
+ # symbolically link $1 to $2.  Portable version of "ln -sf".
+@@ -639,7 +640,10 @@ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+ QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
+ QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
+-CFLAGS="-std=gnu99 -Wall"
 +
-+SUBMODULE_CFLAGS=-Wall
-+SUBMODULE_LDFLAGS=
-+if test "$pie" = "yes"; then
-+  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -fPIE"
-+  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -pie"
-+else
-+  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS $CFLAGS_NOPIE"
-+  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS $LDFLAGS_NOPIE"
-+fi
- if test "$debug_info" = "yes"; then
--  CFLAGS="-g $CFLAGS"
--  LDFLAGS="-g $LDFLAGS"
-+  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -g"
-+  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -g"
- fi
- if test "$debug" = "no"; then
--  CFLAGS="-O2 $CFLAGS"
-+  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -O2"
-+  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -O2"
++# Flags that are needed during configure but later taken care of by Meson
++CONFIGURE_CFLAGS="-std=gnu99 -Wall"
++CONFIGURE_LDFLAGS=
+ 
+ 
+ check_define() {
+@@ -967,7 +971,7 @@ if test "$mingw32" = "yes" ; then
+   EXESUF=".exe"
+   HOST_DSOSUF=".dll"
+   # MinGW needs -mthreads for TLS and macro _MT.
+-  CFLAGS="-mthreads $CFLAGS"
++  CONFIGURE_CFLAGS="-mthreads $CONFIGURE_CFLAGS"
+   write_c_skeleton;
+   prefix="/qemu"
+   qemu_suffix=""
+@@ -2234,7 +2238,7 @@ fi
+ 
+ if test "$static" = "yes"; then
+   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
+-    CFLAGS="-fPIE -DPIE $CFLAGS"
++    CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+     QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
+     pie="yes"
+   elif test "$pie" = "yes"; then
+@@ -2244,11 +2248,11 @@ if test "$static" = "yes"; then
+     pie="no"
+   fi
+ elif test "$pie" = "no"; then
+-  CFLAGS="$CFLAGS_NOPIE $CFLAGS"
+-  LDFLAGS="$LDFLAGS_NOPIE $LDFLAGS"
++  CONFIGURE_CFLAGS="$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
++  CONFIGURE_LDFLAGS="$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
+ elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+-  CFLAGS="-fPIE -DPIE $CFLAGS"
+-  LDFLAGS="-pie $LDFLAGS"
++  CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
++  CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
+   pie="yes"
+ elif test "$pie" = "yes"; then
+   error_exit "PIE not available due to missing toolchain support"
+@@ -3812,7 +3816,7 @@ EOF
+ if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
+     if cc_has_warning_flag "-Wno-unknown-attributes"; then
+         glib_cflags="-Wno-unknown-attributes $glib_cflags"
+-        CFLAGS="-Wno-unknown-attributes $CFLAGS"
++        CONFIGURE_CFLAGS="-Wno-unknown-attributes $CONFIGURE_CFLAGS"
+     fi
  fi
  
- case "$ARCH" in
-@@ -7292,7 +7303,8 @@ echo "RANLIB=$ranlib" >> $config_host_mak
- echo "NM=$nm" >> $config_host_mak
- echo "PKG_CONFIG=$pkg_config_exe" >> $config_host_mak
- echo "WINDRES=$windres" >> $config_host_mak
--echo "CFLAGS=$CFLAGS" >> $config_host_mak
-+echo "SUBMODULE_CFLAGS=$CFLAGS \$(QEMU_CFLAGS) $SUBMODULE_CFLAGS" >> $config_host_mak
-+echo "SUBMODULE_LDFLAGS=$LDFLAGS \$(QEMU_LDFLAGS) $SUBMODULE_LDFLAGS" >> $config_host_mak
- echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
- echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
- echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 9aeefa60fb..cb0113ee90 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1471,7 +1471,8 @@ if targetos == 'darwin'
-   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
- endif
- summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
--summary_info += {'CFLAGS':            config_host['CFLAGS']}
-+summary_info += {'CFLAGS':            '-O' + get_option('optimization')
-+                                           + (get_option('debug') ? ' -g' : '')}
- summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
- summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
- summary_info += {'make':              config_host['MAKE']}
+@@ -3832,7 +3836,7 @@ EOF
+ if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
+     if cc_has_warning_flag "-Wno-unused-function"; then
+         glib_cflags="$glib_cflags -Wno-unused-function"
+-        CFLAGS="$CFLAGS -Wno-unused-function"
++        CONFIGURE_CFLAGS="$CONFIGURE_CFLAGS -Wno-unused-function"
+     fi
+ fi
+ 
+@@ -6370,7 +6374,7 @@ EOF
+ 
+     update_cxxflags
+ 
+-    if do_cxx $CXXFLAGS $QEMU_CXXFLAGS -o $TMPE $TMPCXX $TMPO $QEMU_LDFLAGS; then
++    if do_cxx $CXXFLAGS $CONFIGURE_CXXFLAGS $QEMU_CXXFLAGS -o $TMPE $TMPCXX $TMPO $QEMU_LDFLAGS; then
+         # C++ compiler $cxx works ok with C compiler $cc
+         :
+     else
 -- 
 2.26.2
 
