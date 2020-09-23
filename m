@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DA9275F1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:49:55 +0200 (CEST)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161B5275F3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:59:04 +0200 (CEST)
+Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL8tu-0000fi-NS
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45224)
+	id 1kL92l-0003T9-2O
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kL8pk-0008Pe-80
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 13:45:36 -0400
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:28874)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kL8ph-0003lH-7y
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 13:45:35 -0400
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 08NHiFQo091877;
- Wed, 23 Sep 2020 19:44:15 +0200 (CEST)
- (envelope-from pisa@cmp.felk.cvut.cz)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 08NHiFki025286; Wed, 23 Sep 2020 19:44:15 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 08NHiFFL025284;
- Wed, 23 Sep 2020 19:44:15 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 7/7] hw/net/can: Correct Kconfig dependencies after
- switch to meson build.
-Date: Wed, 23 Sep 2020 19:44:14 +0200
-User-Agent: KMail/1.9.10
-References: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
- <dd539770e9c182125a9c3d87b9ca329121b11abc.1599168753.git.pisa@cmp.felk.cvut.cz>
- <9bd9046d-9a16-3c23-3044-4446a9a05b55@redhat.com>
-In-Reply-To: <9bd9046d-9a16-3c23-3044-4446a9a05b55@redhat.com>
-X-KMail-QuotePrefix: > 
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kL8s6-00016d-Ts; Wed, 23 Sep 2020 13:48:04 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:42268)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kL8s4-00041V-FK; Wed, 23 Sep 2020 13:48:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=uaj/cq26YHhVXUVVWrAwZeFzMC8INHC65wIDXf8YewA=; 
+ b=mdLm4EUFKGhyO1SmMetF1rZN1MDjmtjlHrhnCn9r8R/oomwaa1v/f5J0AnEPuVegYmhthpBQDRVL8a3im38LDK3hpPgumB5TwC/ARYxfwmS9iE7NhMh/TdBsbKKibjmgdgEgxOR6i1vLM7+4DcZRS4CFb48uAcsHiZt7XfQBwQunfNRomlYBed4aDcpuw7Wt1wES8aiQTI6FY/QMcrBOudyUJiVRveIVDdkxKtRe2aDyMGN6l/nBaDo6y7yGsZloISSMm3Ff6CHZRd27KcRfy0hV519vOnjzHIjWNv+vzfId2/pgjoTU3m82AkNrWEsQJrAlhEfLWR5+DkRUYbWW6A==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kL8ry-0004sR-Rn; Wed, 23 Sep 2020 19:47:54 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kL8ry-0003JO-Hz; Wed, 23 Sep 2020 19:47:54 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v6 2/5] block/io: bdrv_common_block_status_above: support
+ include_base
+In-Reply-To: <6181089a-8910-442e-35ed-e1bca0bde3eb@virtuozzo.com>
+References: <20200916122008.20303-1-vsementsov@virtuozzo.com>
+ <20200916122008.20303-3-vsementsov@virtuozzo.com>
+ <w51tuvoa2l8.fsf@maestria.local.igalia.com>
+ <6181089a-8910-442e-35ed-e1bca0bde3eb@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 23 Sep 2020 19:47:54 +0200
+Message-ID: <w51o8lw9ygl.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202009231944.14734.pisa@cmp.felk.cvut.cz>
-X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 08NHiFQo091877
-X-FELK-MailScanner: Found to be clean
-X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-0.099, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
- NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00, SPF_NONE 0.00,
- URIBL_BLOCKED 0.00)
-X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1601487860.57122@rMSxjLa4huBukhM8qo81fA
-Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
- envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 13:45:26
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 11:59:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,178 +66,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Jiri Novak <jnovak@fel.cvut.cz>, Stefan Hajnoczi <stefanha@gmail.com>,
- Deniz Eren <deniz.eren@icloud.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Konrad Frederic <frederic.konrad@adacore.com>,
- Jan Charvat <charvj10@fel.cvut.cz>, Jan Kiszka <jan.kiszka@siemens.com>,
- Oliver Hartkopp <socketcan@hartkopp.net>, Ondrej Ille <ondrej.ille@gmail.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Paolo,
-
-On Wednesday 23 of September 2020 17:48:09 Paolo Bonzini wrote:
-> On 03/09/20 23:48, Pavel Pisa wrote:
-> > The original CAN_PCI config option enables multiple SJA1000 PCI boards
-> > emulation build. These boards bridge SJA1000 into I/O or memory
-> > address space of the host CPU and depend on SJA1000 emulation.
+On Wed 23 Sep 2020 07:11:57 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+>>     BlockDriverState *last_bs = include_base ? base : backing_bs(base);
 >
-> Can you explain how the mistake is related to the meson switch?
+> hmm, in case when include_base is false, last bs is not
+> backing_bs(base) but the parent of base.
+
+Oops, yes, it should be the other way around %-)
+
+>> But why do we need include_base at all? Can't the caller just pass
+>> backing_bs(base) instead? I'm talking also about the existing case of
+>> bdrv_is_allocated_above().
 >
-> The conversion seems good:
->
-> diff --git a/hw/net/can/Makefile.objs b/hw/net/can/Makefile.objs
-> deleted file mode 100644
-> index 9f0c4ee332..0000000000
-> --- a/hw/net/can/Makefile.objs
-> +++ /dev/null
-> @@ -1,4 +0,0 @@
-> -common-obj-$(CONFIG_CAN_SJA1000) += can_sja1000.o
-> -common-obj-$(CONFIG_CAN_PCI) += can_kvaser_pci.o
-> -common-obj-$(CONFIG_CAN_PCI) += can_pcm3680_pci.o
-> -common-obj-$(CONFIG_CAN_PCI) += can_mioe3680_pci.o
-> diff --git a/hw/net/can/meson.build b/hw/net/can/meson.build
-> new file mode 100644
-> index 0000000000..c9cfeb7954
-> --- /dev/null
-> +++ b/hw/net/can/meson.build
-> @@ -0,0 +1,4 @@
-> +softmmu_ss.add(when: 'CONFIG_CAN_SJA1000', if_true:
-> files('can_sja1000.c')) +softmmu_ss.add(when: 'CONFIG_CAN_PCI', if_true:
-> files('can_kvaser_pci.c')) +softmmu_ss.add(when: 'CONFIG_CAN_PCI', if_true:
-> files('can_pcm3680_pci.c')) +softmmu_ss.add(when: 'CONFIG_CAN_PCI',
-> if_true: files('can_mioe3680_pci.c'))
+> include_base was introduced for the case when caller doesn't own
+> backing_bs(base), and therefore shouldn't do operations that may yield
+> (block_status can) dependent on backing_bs(base). In particular, in
+> block stream, where link to base is not frozen.
 
-I have analyzed history and potential problem source is older
-then the switch to meson build but I did not realized it before
-update to the meson build between v1 and v2 patches submission.
+You're right, thanks!
 
-There has not been described dependencies between options
-in the original QEMU code.
-
-There has been only single list what is compiled in for targets
-supporting PCI
-
-default-configs/pci.mak:
-
- CONFIG_CAN_BUS=y
- CONFIG_CAN_SJA1000=y
- CONFIG_CAN_PCI=y
-
-So good, all enabled together, so no problem with mutual dependencies.
-But when the QEMU switched to Kconfig
-
-  build: convert pci.mak to Kconfig 1/23/19 7:56 AM
-
-then config looks like this
-
-hw/net/Kconfig:
-  config CAN_PCI
-     bool
-      default y if PCI_DEVICES
-      depends on PCI
-      select CAN_BUS
- 
-  config CAN_SJA1000
-      bool
-      default y if PCI_DEVICES
-      depends on PCI
-      select CAN_BUS
-
-There is a problem when some tool (kconfig-fronteds) is used
-to manually tune configuration because if the CAN_PCI
-is enabled but CAN_SJA1000 stays disabled then the build fails.
-That is no problem for default options combinations
-controlled by PCI option.
-
-So the problem existed there even before messon build
-switch but I have noticed it when I experienced clash
-of v1 patches with newer QEMU mainline. So my mistake is
-that I have not identified that switch to Kconfig
-started the problem.
-
-But in the CTU CAN FD v1 submission we (with Jan Charvat)
-have not distinguished between SJA1000 and CTU CAN FD
-emulation enable so I have not checked where option
-i enabled and how
-
-hw/net/can/Makefile.objs:
-
- common-obj-$(CONFIG_CAN_PCI) += can_kvaser_pci.o
- common-obj-$(CONFIG_CAN_PCI) += can_pcm3680_pci.o
- common-obj-$(CONFIG_CAN_PCI) += can_mioe3680_pci.o
-+
-+common-obj-$(CONFIG_CAN_PCI) += ctucan_core.o
-+common-obj-$(CONFIG_CAN_PCI) += ctucan_pci.o
-
-I have decided to separated SJA1000 PCI and CTU CAN FD
-support in the v2 when I have to reflect mainline change
-to meson anyway and I have found that there is potential
-problem with the dependencies. I have updated them.
-
-config CAN_SJA1000
-    bool
-    default y if PCI_DEVICES
-    select CAN_BUS
-
-config CAN_PCI
-    bool
-    default y if PCI_DEVICES
-    depends on PCI && CAN_SJA1000
-    select CAN_BUS
-
-config CAN_CTUCANFD
-    bool
-    default y if PCI_DEVICES
-    select CAN_BUS
-
-config CAN_CTUCANFD_PCI
-    bool
-    default y if PCI_DEVICES
-    depends on PCI && CAN_CTUCANFD
-    select CAN_BUS
-
-The SJA1000 and CAN_CTUCANFD controller sources should
-build even without PCI support because there can be and
-exists hardware options where cores are connected to
-platform-bus. These systems can be emulated even without
-PCI enabled in future if code for connection of these
-controllers to platform-bus/device-tree in implemented
-in future.
-
-By the way, you are replying to CTU CAN FD v2 series from
-2020-09-03. But mainline moved forward and I have
-sent updated v3 at 2020-09-14 to reflect some bulk
-change to DECLARE_INSTANCE_CHECKER etc...
-
-If you have already pushed v2 and it does not cause
-build problems then I will provide update patch
-when code reaches mainline.
-
-If you have not pushed code to the mainline yet,
-consider v3 which should follow better actual
-mainline state. The list of updates to v3 follows.
-
-Thanks much for your time,
-
-Pavel
-
-+Patches v3 updates:
-+
-+ - resend triggered by switch to DECLARE_INSTANCE_CHECKER
-+   in mainline. I try to follow mainline as time allows.
-+
-+ - SJA1000, CTU CAN FD and SocketCAN support retested
-+   with QEMU mainline from 9/12/20 10:17 PM
-+
-+ - Added Reviewed-by: Vikram Garhwal
-+   to reviewed and tested patches which are used as common
-+   CAN FD base at Xilinx
-+
-+ - Added Vikram Garhwal to MAINTAINERS file as the second person
-+   who has interrest in QEMU CAN (FD) support and would
-+   like to be notified about changes and help with reviews.
+Berto
 
