@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EC22754CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:51:37 +0200 (CEST)
-Received: from localhost ([::1]:40846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9A82754E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:57:19 +0200 (CEST)
+Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1R2-0003DH-5c
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35278)
+	id 1kL1WY-0000ym-Kd
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Mn-0006hw-CW
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34040)
+ id 1kL1Mv-0006xA-QJ
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Ml-0007Vv-Kc
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:13 -0400
+ id 1kL1Mu-0007X7-1H
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600854431;
+ s=mimecast20190719; t=1600854439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F8R3RVawSIm8OmJ5LeYmowDznkJl7w8B8Dhm7a4s96c=;
- b=Kvx3fgFLut5AC+kdbMWQ69Xf17ZxnC9WzcICiTX8a6HqrBYDw7MKCijC2hteZvPLcVp2dt
- 4Pw9fhQ4rleihpAHf2NdMw3S7R7Ddaw08J9k8UlJOCn1xGtiypDipQzPuz1ISX3NwXGqy2
- tFmHRKo5W+cgqrfcXbhR6mkWf7yxHA4=
+ bh=aabSme6Lagu3M0YsB1G2o8hHynbhoukArXgvCa/doaU=;
+ b=bGeQMZyP08rd7bZX+8MFqEiu4Xkg8zFM71E5NmiwK+l7/tEkfS1Zwv6Wuk4LlLdvGZpeSk
+ nXKqIYeMudG97GkAugxgxlEFnEm7l+myuJnm23bTIfOmFPjCWZhmxIKECAXaCVwgy6iMp9
+ ydcVAEVo2tenwHKQ49jK6dl/7aD2fEY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-KRh45rnuPTCy5KQjLeRCjw-1; Wed, 23 Sep 2020 05:47:09 -0400
-X-MC-Unique: KRh45rnuPTCy5KQjLeRCjw-1
+ us-mta-547-I62qvfBZN6ekqjRQ8RjPKQ-1; Wed, 23 Sep 2020 05:47:17 -0400
+X-MC-Unique: I62qvfBZN6ekqjRQ8RjPKQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07D98801FDA;
- Wed, 23 Sep 2020 09:47:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0968425E0;
+ Wed, 23 Sep 2020 09:47:16 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D451455778;
- Wed, 23 Sep 2020 09:47:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5215255768;
+ Wed, 23 Sep 2020 09:47:08 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 04/11] acpi: add aml_land() and aml_break() primitives
-Date: Wed, 23 Sep 2020 05:46:43 -0400
-Message-Id: <20200923094650.1301166-5-imammedo@redhat.com>
+Subject: [PATCH v6 05/11] tests: acpi: mark to be changed tables in
+ bios-tables-test-allowed-diff
+Date: Wed, 23 Sep 2020 05:46:44 -0400
+Message-Id: <20200923094650.1301166-6-imammedo@redhat.com>
 In-Reply-To: <20200923094650.1301166-1-imammedo@redhat.com>
 References: <20200923094650.1301166-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +57,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,78 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
+Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Tested-by: Laszlo Ersek <lersek@redhat.com>
----
-v5:
- - fix comment to match spec (Laszlo Ersek <lersek@redhat.com>)
- - reorder aml_lor() and aml_land() in header (Laszlo Ersek <lersek@redhat.com>)
----
- include/hw/acpi/aml-build.h |  2 ++
- hw/acpi/aml-build.c         | 16 ++++++++++++++++
- 2 files changed, 18 insertions(+)
+... to let tests pass until binary blobs are updated with new AML
 
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index d27da03d64..fe0055fffb 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -290,6 +290,7 @@ Aml *aml_to_buffer(Aml *src, Aml *dst);
- Aml *aml_store(Aml *val, Aml *target);
- Aml *aml_and(Aml *arg1, Aml *arg2, Aml *dst);
- Aml *aml_or(Aml *arg1, Aml *arg2, Aml *dst);
-+Aml *aml_land(Aml *arg1, Aml *arg2);
- Aml *aml_lor(Aml *arg1, Aml *arg2);
- Aml *aml_shiftleft(Aml *arg1, Aml *count);
- Aml *aml_shiftright(Aml *arg1, Aml *count, Aml *dst);
-@@ -300,6 +301,7 @@ Aml *aml_increment(Aml *arg);
- Aml *aml_decrement(Aml *arg);
- Aml *aml_index(Aml *arg1, Aml *idx);
- Aml *aml_notify(Aml *arg1, Aml *arg2);
-+Aml *aml_break(void);
- Aml *aml_call0(const char *method);
- Aml *aml_call1(const char *method, Aml *arg1);
- Aml *aml_call2(const char *method, Aml *arg1, Aml *arg2);
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index f6fbc9b95d..3792ba96ce 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -556,6 +556,15 @@ Aml *aml_or(Aml *arg1, Aml *arg2, Aml *dst)
-     return build_opcode_2arg_dst(0x7D /* OrOp */, arg1, arg2, dst);
- }
- 
-+/* ACPI 1.0b: 16.2.5.4 Type 2 Opcodes Encoding: DefLAnd */
-+Aml *aml_land(Aml *arg1, Aml *arg2)
-+{
-+    Aml *var = aml_opcode(0x90 /* LAndOp */);
-+    aml_append(var, arg1);
-+    aml_append(var, arg2);
-+    return var;
-+}
-+
- /* ACPI 1.0b: 16.2.5.4 Type 2 Opcodes Encoding: DefLOr */
- Aml *aml_lor(Aml *arg1, Aml *arg2)
- {
-@@ -629,6 +638,13 @@ Aml *aml_notify(Aml *arg1, Aml *arg2)
-     return var;
- }
- 
-+/* ACPI 1.0b: 16.2.5.3 Type 1 Opcodes Encoding: DefBreak */
-+Aml *aml_break(void)
-+{
-+    Aml *var = aml_opcode(0xa5 /* BreakOp */);
-+    return var;
-+}
-+
- /* helper to call method without argument */
- Aml *aml_call0(const char *method)
- {
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..dba32d5613 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,20 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.tis",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.acpihmat",
 -- 
 2.27.0
 
