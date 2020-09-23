@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412712754DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:54:40 +0200 (CEST)
-Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB402754E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:57:27 +0200 (CEST)
+Received: from localhost ([::1]:55762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1Tz-0006wK-7C
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36098)
+	id 1kL1Wg-0001Go-Lu
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1OZ-0001ZN-Ko
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:49:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38011)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kL1Oj-0001kn-Ot
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:49:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1OW-0007l5-OH
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:49:03 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kL1Oi-0007lY-3r
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:49:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600854540;
+ s=mimecast20190719; t=1600854551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OKT+L/Zr+yIIc+Zakvjh3RfWY9YBrtyINgnWSr0vuRA=;
- b=I09F9yhqRVlUIMV5bnSK1XGfCBahOYeaO4uC+e9thvmaZ9AjRBtZwUxtrOACjHZ6CxH5hi
- DDgFEcFd8eQVmfQoqNFLZZRqciozriet2k2kGFd6pJCYMjIGPybbveFoDgBo6XJTmMuask
- Mf9Ld4zGMqcCGoZl0TFztcv3oZsqiAc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-oXyTgjyAO-KiGR9n3r8HQw-1; Wed, 23 Sep 2020 05:48:58 -0400
-X-MC-Unique: oXyTgjyAO-KiGR9n3r8HQw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5822381F002;
- Wed, 23 Sep 2020 09:48:57 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 317FC60BF1;
- Wed, 23 Sep 2020 09:48:53 +0000 (UTC)
-Date: Wed, 23 Sep 2020 11:48:51 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v5 00/10] x86: fix cpu hotplug with secure boot
-Message-ID: <20200923114851.0df4fc2c@redhat.com>
-In-Reply-To: <20200921083322-mutt-send-email-mst@kernel.org>
-References: <20200907112348.530921-1-imammedo@redhat.com>
- <20200921134601.55d12fdc@redhat.com>
- <20200921083322-mutt-send-email-mst@kernel.org>
+ bh=Ebn6NeaJnx+bbO34z9sV4RPsI7SroO2mduZCvxZIGro=;
+ b=X60J5pjtAXmJsUBzvjpyNrWdM6kTGp5luDUHTj91ZwnK9Ytc4L99Qbm1/MxJIxKAS53JP4
+ f4+T0q4Ksh/O3pF6eZFW/TSdnNVDezfIb97ddlv+H5G/TFT5bVzZ8LH9+K1YMf/Segk87z
+ lmG7ihc0/Re8CGP+IuFmcqD9zOv0OMs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-134-Pyu7j1kON5GA7-9Uyd1FiQ-1; Wed, 23 Sep 2020 05:49:08 -0400
+X-MC-Unique: Pyu7j1kON5GA7-9Uyd1FiQ-1
+Received: by mail-wm1-f72.google.com with SMTP id t8so1164992wmj.6
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 02:49:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ebn6NeaJnx+bbO34z9sV4RPsI7SroO2mduZCvxZIGro=;
+ b=Z2ChfJvktB1znWmJdgaYhNw2tYXtlL/Tpp4DYkGC42ppswyKe9Mua10c0ULrl/vkeO
+ uoHs1fId8ZNwL5UFImHNIGLEKZhDgwqknIpnXZRcjxKeiypxzxBb04a0OsSe3zIXOyLa
+ rLAN0SsiFS7vk96J5jW7eWUVJwCHN+5bjC8oi9vQRoIzBpNh6r4Y0frVp9mF1HPq2Gzf
+ tgDg4Z2oHuE8i7Lbzj9G93g4AO4Ye3U2iY/8oF7xBvrcnyxU6oF550JntUNGOXGecplQ
+ wQFrTEZ//j5+omOVqpO/5ayrITOthgKb9W0HUVBzMYTPhGWCpi1gKPJw+6hgx4VyAtBC
+ Eh3Q==
+X-Gm-Message-State: AOAM531WdNS5lwOZK2xiDhj7LfEt2YBRC9FzmKVzFT3vCgFSVRhv2ZjS
+ YgiM2bGTcTYtD/qx/4cK+2gYFaVUOjbiAYB8oBKgplHRRUfAIM5kEiSWVfpubfOP0j8HAsiZIGT
+ +Z0r/SDEn37/FrsA=
+X-Received: by 2002:adf:f3c4:: with SMTP id g4mr10331821wrp.168.1600854546749; 
+ Wed, 23 Sep 2020 02:49:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwx1nRJtQikKt4zAsEucpxwq/+LnXqtepasexUHBovD5sSrvZF7mBou4bDAdRlYf4ys8sF+TA==
+X-Received: by 2002:adf:f3c4:: with SMTP id g4mr10331798wrp.168.1600854546442; 
+ Wed, 23 Sep 2020 02:49:06 -0700 (PDT)
+Received: from steredhat (host-79-13-204-53.retail.telecomitalia.it.
+ [79.13.204.53])
+ by smtp.gmail.com with ESMTPSA id z83sm8237630wmb.4.2020.09.23.02.49.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Sep 2020 02:49:05 -0700 (PDT)
+Date: Wed, 23 Sep 2020 11:49:03 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Robin Meinzer <robmeinzer11@gmx.de>
+Subject: Re: Re: questions regarding vsock
+Message-ID: <CAGxU2F76macOEQhCVyqNxsNADOcwz2aYGVdj6MtBxd1278Gvbw@mail.gmail.com>
+References: <trinity-1a5274e6-418e-46d1-bc32-f6f4380b8906-1600295102243@3c-app-gmx-bap30>
+ <20200917112050.GF809514@stefanha-x1.localdomain>
+ <trinity-896b2687-1386-4cd4-9ff6-71ac297c19d2-1600807252157@3c-app-gmx-bap70>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <trinity-896b2687-1386-4cd4-9ff6-71ac297c19d2-1600807252157@3c-app-gmx-bap70>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -82,114 +97,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: boris.ostrovsky@oracle.com, lersek@redhat.com, qemu-devel@nongnu.org,
- aaron.young@oracle.com
+Cc: qemu devel list <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Sep 2020 08:34:31 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+Hi Robin,
 
-> On Mon, Sep 21, 2020 at 01:46:01PM +0200, Igor Mammedov wrote:
-> > On Mon,  7 Sep 2020 07:23:38 -0400
-> > Igor Mammedov <imammedo@redhat.com> wrote:
-> >   
-> > > v5:
-> > >   - fix hotplug on Windows when there is more than 256 possible CPUs
-> > >     (Windows isn't able to handle VarPackage over 255 elements
-> > >      so process CPUs in batches)
-> > >   - fix off-by-one in package length (Laszlo)
-> > >   - fix not selecting CPU before clearing insert event (Laszlo)
-> > >   - use aml_lgreater() instead of aml_lnot(aml_equal(num_added_cpus, zero) (Laszlo)
-> > >   - split 'x68: acpi: trigger SMI before sending hotplug Notify event to OSPM'
-> > >     in samller chunks (Laszlo)
-> > >   - fix comment to match spec (Laszlo)
-> > >   - reorder aml_lor() and aml_land() in header (Laszlo)
-> > > v4:
-> > >   - fix 5.2 machine types so they won't apply pc_compat_5_1 (Laszlo)
-> > > v3:
-> > >   - rebase on top of "[PATCH v2] hw: add compat machines for 5.2"
-> > >     so apply that before this patch
-> > > v2:
-> > >   - AML: clean is_inserted flag only after SMI callback
-> > >   - make x-smi-cpu-hotunplug false by default
-> > >   - massage error hint on not supported unplug
-> > > v1:
-> > >   - fix typos and some phrases (Laszlo)
-> > >   - add unplug check (Laszlo)
-> > >   - redo AML scan logic to avoid race when adding multiple CPUs  
-> > 
-> > Michael,
-> > 
-> > just saw your pull request which missed this series.
-> > Is there any plans to queue it for the next pull request?  
-> 
-> Oh.
-> You didn't Cc me on most patches so I assumed this is targeting some other tree.
-> Sorry.
-> Will review and queue, thanks.
-Thanks,
+On Tue, Sep 22, 2020 at 10:46 PM Robin Meinzer <robmeinzer11@gmx.de> wrote:
+> I added Stefano Garzarella and qemu-devel as you asked. I wonder if
+> you don't support SOCK_DGRAM but only SOCK_STREAM, why having code for
+> it then? There are functions like vsock_dgram_connect and a proto_ops
+> struct specifically for SOCK_DGRAM, but any attempt to create a socket
+> for it ends with -ENODEV (transport_dgram is NULL, I guess it's on
+> purpose because you don't support it as you said).
 
-Series doesn't apply anymore,
-I've rebased fixing conflicts and resent it as v6.
+AF_VSOCK supports multiple transports. Some transports (e.g. vmci) implement
+SOCK_DGRAM, this is the reason for the code in the vsock core.
 
-> 
-> > 
-> >   
-> > > CPU hotplug with Secure Boot was not really supported and firmware wasn't aware
-> > > of hotplugged CPUs (which might lead to guest crashes). During 4.2 we introduced
-> > > locked SMI handler RAM arrea to make sure that guest OS wasn't able to inject
-> > > its own SMI handler and OVMF added initial CPU hotplug support.
-> > > 
-> > > This series is QEMU part of that support which lets QMVF tell QEMU that
-> > > CPU hotplug with SMI broadcast enabled is supported so that QEMU would be able
-> > > to prevent hotplug in case it's not supported and trigger SMI on hotplug when
-> > > it's necessary.
-> > > 
-> > > Igor Mammedov (10):
-> > >   x86: lpc9: let firmware negotiate 'CPU hotplug with SMI' features
-> > >   x86: cpuhp: prevent guest crash on CPU hotplug when broadcast SMI is
-> > >     in use
-> > >   x86: cpuhp: refuse cpu hot-unplug request earlier if not supported
-> > >   acpi: add aml_land() and aml_break() primitives
-> > >   tests: acpi: mark to be changed tables in
-> > >     bios-tables-test-allowed-diff
-> > >   x86: ich9: expose "smi_negotiated_features" as a QOM property
-> > >   x86: acpi: introduce AcpiPmInfo::smi_on_cpuhp
-> > >   x86: acpi: introduce the PCI0.SMI0 ACPI device
-> > >   x68: acpi: trigger SMI before sending hotplug Notify event to OSPM
-> > >   tests: acpi: update acpi blobs with new AML
-> > > 
-> > >  include/hw/acpi/aml-build.h       |   2 +
-> > >  include/hw/acpi/cpu.h             |   1 +
-> > >  include/hw/i386/ich9.h            |   4 +
-> > >  hw/acpi/aml-build.c               |  16 +++
-> > >  hw/acpi/cpu.c                     | 156 ++++++++++++++++++++++++------
-> > >  hw/acpi/ich9.c                    |  24 ++++-
-> > >  hw/i386/acpi-build.c              |  35 ++++++-
-> > >  hw/i386/pc.c                      |  15 ++-
-> > >  hw/isa/lpc_ich9.c                 |  16 +++
-> > >  tests/data/acpi/pc/DSDT           | Bin 4934 -> 5060 bytes
-> > >  tests/data/acpi/pc/DSDT.acpihmat  | Bin 6258 -> 6385 bytes
-> > >  tests/data/acpi/pc/DSDT.bridge    | Bin 6793 -> 6919 bytes
-> > >  tests/data/acpi/pc/DSDT.cphp      | Bin 5397 -> 5524 bytes
-> > >  tests/data/acpi/pc/DSDT.dimmpxm   | Bin 6587 -> 6714 bytes
-> > >  tests/data/acpi/pc/DSDT.ipmikcs   | Bin 5006 -> 5132 bytes
-> > >  tests/data/acpi/pc/DSDT.memhp     | Bin 6293 -> 6419 bytes
-> > >  tests/data/acpi/pc/DSDT.numamem   | Bin 4940 -> 5066 bytes
-> > >  tests/data/acpi/q35/DSDT          | Bin 7678 -> 7804 bytes
-> > >  tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 9129 bytes
-> > >  tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 7821 bytes
-> > >  tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8268 bytes
-> > >  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9458 bytes
-> > >  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 7879 bytes
-> > >  tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9163 bytes
-> > >  tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 8934 bytes
-> > >  tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7810 bytes
-> > >  tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8409 bytes
-> > >  27 files changed, 239 insertions(+), 30 deletions(-)
-> > >   
-> 
-> 
+virtio-vsock transport currently supports only SOCK_STREAM.
+Some people were implementing SOCK_SEQPACKET, but no upstream patches has
+been sent yet.
+
+> Another thing, could you please tell me what I have to set in the
+> kernel .config to have vsockets working out of the box, for now lsmod
+> doesn't show me vmw_vsock_transport_common or vsock or vsock_host
+> existence in the form of a autoloaded module at all.
+
+In the guest the vsock modules are loaded when the virtio-vsock device
+is discovered on the PCI bus.
+
+In the host the vhost-vsock module (and other vsock modules) is automatically
+loaded the first time that a process opens /dev/vhost-vsock.
+For testing in the host, you can use the vsock_loopback module that
+should be automatically loaded the first time that a process create an
+AF_VSOCK socket.
+Note: if other vsock modules (e.g. vhost-vsock) are already loaded, you
+must load vsock_loopback by hand.
+
+
+Stefano
 
 
