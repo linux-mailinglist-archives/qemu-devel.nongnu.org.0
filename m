@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFED274DA2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 02:07:19 +0200 (CEST)
-Received: from localhost ([::1]:58610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E074C274D92
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 02:01:53 +0200 (CEST)
+Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kKsJa-0000KI-I2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 20:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1kKsEK-0001mc-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 22 Sep 2020 20:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kKsGu-00058R-34
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 20:04:32 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kKsGr-0001H9-4k
- for qemu-devel@nongnu.org; Tue, 22 Sep 2020 20:04:31 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f6a8fad0000>; Tue, 22 Sep 2020 16:58:37 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 22 Sep
- 2020 23:59:14 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 22 Sep 2020 23:59:06 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v26 17/17] qapi: Add VFIO devices migration stats in Migration
- stats
-Date: Wed, 23 Sep 2020 04:54:19 +0530
-Message-ID: <1600817059-26721-18-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
-References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kKsDC-0001Jf-Me
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 20:00:42 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58665
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kKsDA-0000wb-6T
+ for qemu-devel@nongnu.org; Tue, 22 Sep 2020 20:00:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600819238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s8DP9bAhrbZSD5FZTdfireN6xOyEJJqqcdNgbGOIrB8=;
+ b=ZyFdvfvNaswr0WhQ1QH5akNr6nNhnOP1mGzlB5gtTSI/ikJ7cKAgtKu1LfU2PIrgczwXED
+ ygp9LeGYIZFSW7shK/+wMBu8w5OvF7Wylzk4v1pG09pQlaMjffMvIRymuRRXOBwcdgp3D/
+ QvoiBJehtnLtNfjQvAODHYyn/Qb74Xg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-v9CLwC_zOEiAkxlFlUIHmQ-1; Tue, 22 Sep 2020 20:00:35 -0400
+X-MC-Unique: v9CLwC_zOEiAkxlFlUIHmQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00D511005E64;
+ Wed, 23 Sep 2020 00:00:34 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB20410013DB;
+ Wed, 23 Sep 2020 00:00:32 +0000 (UTC)
+Date: Tue, 22 Sep 2020 20:00:31 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 02/38] qapi-gen: Separate arg-parsing from generation
+Message-ID: <20200923000031.GB191229@localhost.localdomain>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-3-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1600819117; bh=06Dk6GrPxOyP7ELUmZBjCgQ+MM0vUwj1129i0MMRyuM=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
- References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=hwdQWlFucYmUAE0C9bUSDAVn0k8t8txzIAlfE4981QPtL+Hnxi9e0kmAMPJee2MvU
- VeUxOtLCZIDBBnCW9nUF7ha/2JpBz+s8QYi5Yaa10xeL4zIFYfNs+bBWj3WbInzUMS
- edFImCRiza4njiSyfh40+akcYSUA4ecXcgBdUZEtjbokK9nkMpqEA3VvtlEjb0g+4f
- i5yFFDGY5VI32p2NIuEii79K05ZQABZoryPCaYFVkM5shL1Db7vP2K9ThTJwa11F+q
- YifPngjjJj6sjLzGHxvYeI+wKaN2cXHMR7AufvObK8uhn0RCve528Wi++CyCrqknK8
- FYAtANcEioqVg==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 19:57:12
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -85
-X-Spam_score: -8.6
-X-Spam_bar: --------
-X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+In-Reply-To: <20200922210101.4081073-3-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="JP+T4n/bALQSJXh8"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 17:01:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,239 +81,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
- shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, yi.l.liu@intel.com,
- quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
- zhi.a.wang@intel.com, kevin.tian@intel.com, yan.y.zhao@intel.com,
- dgilbert@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
- Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added amount of bytes transferred to the target VM by all VFIO devices
+--JP+T4n/bALQSJXh8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
----
+On Tue, Sep 22, 2020 at 05:00:25PM -0400, John Snow wrote:
+> This is a minor re-work of the entrypoint script. It isolates a
+> generate() method from the actual command-line mechanism.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi-gen.py | 87 ++++++++++++++++++++++++++++++++-------------
+>  1 file changed, 63 insertions(+), 24 deletions(-)
+>=20
+> diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+> index 4b03f7d53b..59becba3e1 100644
+> --- a/scripts/qapi-gen.py
+> +++ b/scripts/qapi-gen.py
+> @@ -1,9 +1,13 @@
+>  #!/usr/bin/env python3
+> -# QAPI generator
+> -#
+> +
+>  # This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+>  # See the COPYING file in the top-level directory.
+> =20
+> +"""
+> +QAPI Generator
+> +
+> +This script is the main entry point for generating C code from the QAPI =
+schema.
+> +"""
+> =20
+>  import argparse
+>  import re
+> @@ -11,21 +15,65 @@
+> =20
+>  from qapi.commands import gen_commands
+>  from qapi.doc import gen_doc
+> +from qapi.error import QAPIError
+>  from qapi.events import gen_events
+>  from qapi.introspect import gen_introspect
+> -from qapi.schema import QAPIError, QAPISchema
+> +from qapi.schema import QAPISchema
+>  from qapi.types import gen_types
+>  from qapi.visit import gen_visit
+> =20
+> =20
+> -def main(argv):
+> +DEFAULT_OUTPUT_DIR =3D ''
+> +DEFAULT_PREFIX =3D ''
 
-Note: Comments from v25 for this patch are not addressed yet.
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg715620.html
+I did not understand the purpose of these.  If they're used only as
+the default value for the command line option parsing, I'd suggest
+dropping them.
 
-Alex, need more pointer on documentation part raised Markus Armbruster.
+> +
+> +
+> +def generate(schema_file: str,
+> +             output_dir: str,
+> +             prefix: str,
+> +             unmask: bool =3D False,
+> +             builtins: bool =3D False) -> None:
+> +    """
+> +    generate uses a given schema to produce C code in the target directo=
+ry.
+> +
+> +    :param schema_file: The primary QAPI schema file.
+> +    :param output_dir: The output directory to store generated code.
+> +    :param prefix: Optional C-code prefix for symbol names.
+> +    :param unmask: Expose non-ABI names through introspection?
+> +    :param builtins: Generate code for built-in types?
+> +
+> +    :raise QAPIError: On failures.
+> +    """
+> +    match =3D re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
+> +    if match and match.end() !=3D len(prefix):
 
+Nice catch with the extra check here.  Maybe worth mentioning and/or
+splitting the change?
 
- hw/vfio/common.c            | 20 ++++++++++++++++++++
- hw/vfio/migration.c         | 10 ++++++++++
- include/qemu/vfio-helpers.h |  3 +++
- migration/migration.c       | 14 ++++++++++++++
- monitor/hmp-cmds.c          |  6 ++++++
- qapi/migration.json         | 17 +++++++++++++++++
- 6 files changed, 70 insertions(+)
+> +        msg =3D "funny character '{:s}' in prefix '{:s}'".format(
+> +            prefix[match.end()], prefix)
+> +        raise QAPIError('', None, msg)
+> +
+> +    schema =3D QAPISchema(schema_file)
+> +    gen_types(schema, output_dir, prefix, builtins)
+> +    gen_visit(schema, output_dir, prefix, builtins)
+> +    gen_commands(schema, output_dir, prefix)
+> +    gen_events(schema, output_dir, prefix)
+> +    gen_introspect(schema, output_dir, prefix, unmask)
+> +    gen_doc(schema, output_dir, prefix)
+> +
+> +
+> +def main() -> int:
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 7eeaa368187a..286cdaac8674 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -39,6 +39,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "migration/migration.h"
-+#include "qemu/vfio-helpers.h"
- 
- VFIOGroupList vfio_group_list =
-     QLIST_HEAD_INITIALIZER(vfio_group_list);
-@@ -292,6 +293,25 @@ const MemoryRegionOps vfio_region_ops = {
-  * Device state interfaces
-  */
- 
-+bool vfio_mig_active(void)
-+{
-+    VFIOGroup *group;
-+    VFIODevice *vbasedev;
-+
-+    if (QLIST_EMPTY(&vfio_group_list)) {
-+        return false;
-+    }
-+
-+    QLIST_FOREACH(group, &vfio_group_list, next) {
-+        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-+            if (vbasedev->migration_blocker) {
-+                return false;
-+            }
-+        }
-+    }
-+    return true;
-+}
-+
- static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
- {
-     VFIOGroup *group;
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 822b68b4e015..c4226fa8b183 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -28,6 +28,7 @@
- #include "pci.h"
- #include "trace.h"
- #include "hw/hw.h"
-+#include "qemu/vfio-helpers.h"
- 
- /*
-  * Flags used as delimiter:
-@@ -40,6 +41,8 @@
- #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
- #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
- 
-+static int64_t bytes_transferred;
-+
- static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
-                                   off_t off, bool iswrite)
- {
-@@ -289,6 +292,7 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
-         *size = data_size;
-     }
- 
-+    bytes_transferred += data_size;
-     return ret;
- }
- 
-@@ -770,6 +774,7 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
-         }
- 
-         vfio_set_dirty_page_tracking(vbasedev, false);
-+        bytes_transferred = 0;
-     }
- }
- 
-@@ -820,6 +825,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
- 
- /* ---------------------------------------------------------------------- */
- 
-+int64_t vfio_mig_bytes_transferred(void)
-+{
-+    return bytes_transferred;
-+}
-+
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
- {
-     VFIOContainer *container = vbasedev->group->container;
-diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
-index 1f057c2b9e40..26a7df0767b1 100644
---- a/include/qemu/vfio-helpers.h
-+++ b/include/qemu/vfio-helpers.h
-@@ -29,4 +29,7 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
- int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
-                            int irq_type, Error **errp);
- 
-+bool vfio_mig_active(void);
-+int64_t vfio_mig_bytes_transferred(void);
-+
- #endif
-diff --git a/migration/migration.c b/migration/migration.c
-index 58a5452471f9..b204bb1f6cd9 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -56,6 +56,7 @@
- #include "net/announce.h"
- #include "qemu/queue.h"
- #include "multifd.h"
-+#include "qemu/vfio-helpers.h"
- 
- #define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttling */
- 
-@@ -996,6 +997,17 @@ static void populate_disk_info(MigrationInfo *info)
-     }
- }
- 
-+static void populate_vfio_info(MigrationInfo *info)
-+{
-+#ifdef CONFIG_LINUX
-+    if (vfio_mig_active()) {
-+        info->has_vfio = true;
-+        info->vfio = g_malloc0(sizeof(*info->vfio));
-+        info->vfio->transferred = vfio_mig_bytes_transferred();
-+    }
-+#endif
-+}
-+
- static void fill_source_migration_info(MigrationInfo *info)
- {
-     MigrationState *s = migrate_get_current();
-@@ -1020,6 +1032,7 @@ static void fill_source_migration_info(MigrationInfo *info)
-         populate_time_info(info, s);
-         populate_ram_info(info, s);
-         populate_disk_info(info);
-+        populate_vfio_info(info);
-         break;
-     case MIGRATION_STATUS_COLO:
-         info->has_status = true;
-@@ -1028,6 +1041,7 @@ static void fill_source_migration_info(MigrationInfo *info)
-     case MIGRATION_STATUS_COMPLETED:
-         populate_time_info(info, s);
-         populate_ram_info(info, s);
-+        populate_vfio_info(info);
-         break;
-     case MIGRATION_STATUS_FAILED:
-         info->has_status = true;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 7711726fd222..40d60d6a6651 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -355,6 +355,12 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-         }
-         monitor_printf(mon, "]\n");
-     }
-+
-+    if (info->has_vfio) {
-+        monitor_printf(mon, "vfio device transferred: %" PRIu64 " kbytes\n",
-+                       info->vfio->transferred >> 10);
-+    }
-+
-     qapi_free_MigrationInfo(info);
- }
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 675f70bb6734..3535977123d3 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -147,6 +147,18 @@
-             'active', 'postcopy-active', 'postcopy-paused',
-             'postcopy-recover', 'completed', 'failed', 'colo',
-             'pre-switchover', 'device', 'wait-unplug' ] }
-+##
-+# @VfioStats:
-+#
-+# Detailed VFIO devices migration statistics
-+#
-+# @transferred: amount of bytes transferred to the target VM by VFIO devices
-+#
-+# Since: 5.1
-+#
-+##
-+{ 'struct': 'VfioStats',
-+  'data': {'transferred': 'int' } }
- 
- ##
- # @MigrationInfo:
-@@ -208,11 +220,16 @@
- #
- # @socket-address: Only used for tcp, to know what the real port is (Since 4.0)
- #
-+# @vfio: @VfioStats containing detailed VFIO devices migration statistics,
-+#        only returned if VFIO device is present, migration is supported by all
-+#         VFIO devices and status is 'active' or 'completed' (since 5.1)
-+#
- # Since: 0.14.0
- ##
- { 'struct': 'MigrationInfo',
-   'data': {'*status': 'MigrationStatus', '*ram': 'MigrationStats',
-            '*disk': 'MigrationStats',
-+           '*vfio': 'VfioStats',
-            '*xbzrle-cache': 'XBZRLECacheStats',
-            '*total-time': 'int',
-            '*expected-downtime': 'int',
--- 
-2.7.0
+One extra Pythonic touch would be to use a bool here, and then:
+
+  sys.exit(0 if main() else 1)
+
+But that's probably overkill.
+
+> +    """
+> +    gapi-gen shell script entrypoint.
+> +    Expects arguments via sys.argv, see --help for details.
+> +
+> +    :return: int, 0 on success, 1 on failure.
+> +    """
+>      parser =3D argparse.ArgumentParser(
+>          description=3D'Generate code from a QAPI schema')
+>      parser.add_argument('-b', '--builtins', action=3D'store_true',
+>                          help=3D"generate code for built-in types")
+> -    parser.add_argument('-o', '--output-dir', action=3D'store', default=
+=3D'',
+> +    parser.add_argument('-o', '--output-dir', action=3D'store',
+> +                        default=3DDEFAULT_OUTPUT_DIR,
+>                          help=3D"write output to directory OUTPUT_DIR")
+> -    parser.add_argument('-p', '--prefix', action=3D'store', default=3D''=
+,
+> +    parser.add_argument('-p', '--prefix', action=3D'store',
+> +                        default=3DDEFAULT_PREFIX,
+>                          help=3D"prefix for symbols")
+>      parser.add_argument('-u', '--unmask-non-abi-names', action=3D'store_=
+true',
+>                          dest=3D'unmask',
+> @@ -33,26 +81,17 @@ def main(argv):
+>      parser.add_argument('schema', action=3D'store')
+>      args =3D parser.parse_args()
+> =20
+> -    match =3D re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', args.prefix)
+> -    if match.end() !=3D len(args.prefix):
+> -        print("%s: 'funny character '%s' in argument of --prefix"
+> -              % (sys.argv[0], args.prefix[match.end()]),
+> -              file=3Dsys.stderr)
+> -        sys.exit(1)
+> -
+>      try:
+> -        schema =3D QAPISchema(args.schema)
+> +        generate(args.schema,
+> +                 output_dir=3Dargs.output_dir,
+> +                 prefix=3Dargs.prefix,
+> +                 unmask=3Dargs.unmask,
+> +                 builtins=3Dargs.builtins)
+>      except QAPIError as err:
+> -        print(err, file=3Dsys.stderr)
+> -        exit(1)
+> -
+
+Glad to see that this "quitter" is gone in favor of one and only
+sys.exit().
+
+- Cleber.
+
+> -    gen_types(schema, args.output_dir, args.prefix, args.builtins)
+> -    gen_visit(schema, args.output_dir, args.prefix, args.builtins)
+> -    gen_commands(schema, args.output_dir, args.prefix)
+> -    gen_events(schema, args.output_dir, args.prefix)
+> -    gen_introspect(schema, args.output_dir, args.prefix, args.unmask)
+> -    gen_doc(schema, args.output_dir, args.prefix)
+> +        print(f"{sys.argv[0]}: {str(err)}", file=3Dsys.stderr)
+> +        return 1
+> +    return 0
+> =20
+> =20
+>  if __name__ =3D=3D '__main__':
+> -    main(sys.argv)
+> +    sys.exit(main())
+> --=20
+> 2.26.2
+>=20
+
+--JP+T4n/bALQSJXh8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9qkBwACgkQZX6NM6Xy
+CfM4ohAAi2SpWizfvgJjovn02r2ngUuH2yJro2BIWhgbtPr9Td/FOZX0orDisc21
+OtjUG+1MdWhRTSsDywZfOdvIWtxiWWnXHvjdcyvErBAILxGzsL+y7aY9Xiz/TXNo
+3LpaXYfZmpfuFlWhKMKJobKdxImdhbLzpeu5Sahi4UjTn+mW030unBhDKvTJKk3u
+9A/Wc2NPhbZMzkjSov+JnAca4zYgvGlC0+3eyHC1QFMbjNKSXYa6Pr9yGiWsj1zd
+6mIBdJnwtJcGsqqYY1o1M6ayllh7/STQlbS4mWq23O9T3RGrJ3OzusLvJ/fLlb9Q
+vTQbFS8B+2QG23SFg84BWeaNuyAiZuudXbZCc6pBBwcPCTdtp1JeQTxmkGSpoaHx
+y0pzdC8p5u3rRq55VQHPKvD/C/uJCkuamRkqLA4SqwSzrI1EQUAtFUz8BlXGp4w3
+sAmNuZHhmi/ABkArFNTo33BW0iHeVjfIfyrqlJiOnVC14jRwbOZxmafhKf3BJyfw
+ZaP01kRzfEK+rjBJ4hvZ/fYVhrqSreP1FvyLaz5w3Ws0XPKrk/oYcd+VFc2uVCGF
+VFGKeHBiecX4kAMga1N5HowntrMWX8Kh2X7IDDOlC2KZYMCfAKaM3KUxLxbdnGKo
+cz8Vw3uNGoQXMicv/Hz7aiae+Phqn6H9cSdQkqa2gM6ZPrNkZ4I=
+=JydZ
+-----END PGP SIGNATURE-----
+
+--JP+T4n/bALQSJXh8--
 
 
