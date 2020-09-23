@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B49276270
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:49:21 +0200 (CEST)
-Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10601276298
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:55:54 +0200 (CEST)
+Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLBhY-0003zu-BR
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54142)
+	id 1kLBnt-0007be-2B
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLBfx-0002lz-NX
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:47:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLBfw-0000fO-7F
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:47:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600894059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=n58LzD/RHgEJwdrm9MNkXXlufKRvQc+pcCfsen7knJM=;
- b=Po+yKdwOilVE56gbOjdvaIrjGMCRHZfOwJBF7Hh5/jdG1DW7ehaRbv2FieLvNhhDkXzNF9
- 1Wb7QlJHX4sl4TFMFCmNu7DEQWxG+PIjTXyE206T7LkunFH6jD7GXr7FHlewXNgnkjLR89
- /yLS+OZ3Gx9HS5Y+7vGbzaAND5+oJlk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-aoncA4VuOlSk7OLqNvBvTg-1; Wed, 23 Sep 2020 16:47:37 -0400
-X-MC-Unique: aoncA4VuOlSk7OLqNvBvTg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 908351005E6D;
- Wed, 23 Sep 2020 20:47:36 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54E0E5D98D;
- Wed, 23 Sep 2020 20:47:36 +0000 (UTC)
-Date: Wed, 23 Sep 2020 16:47:35 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 07/14] qapi/doc.py: enable mypy checks
-Message-ID: <20200923204735.GS3717385@habkost.net>
-References: <20200922211802.4083666-1-jsnow@redhat.com>
- <20200922211802.4083666-8-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <carenas@gmail.com>) id 1kLBlY-0006jp-QT
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:53:28 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <carenas@gmail.com>) id 1kLBlR-0001Es-NX
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:53:28 -0400
+Received: by mail-pg1-x541.google.com with SMTP id p16so448376pgi.9
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 13:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=xRUr7wjRtTS7mPNtoSMKD7vsR1qzI0GIQ70U0OhkUj4=;
+ b=J/B10cBXinbSUdX2d/Tmp+pUQk+k+pkP2b0Dj4gPfSXXAbO2XhaC9DAqAtabCNyPbm
+ 2/1mR9E4LZKZenJsjPo4n+0Bk1iQmVaJUr5dUA2bubwFnFiD6CaeZ/qEeYJozjOSDE8w
+ TmspCP+lNlyHQDSrj61SENXiEd1faEGUW23nv0vOMElWpPVD4TIZIN9wIOPV2f9/xJAh
+ Uh8xOUauxS0KtJNG9uLjPnQwEjfR4nlXBCldFC8Mr+0Vo0WPaJiT2lWxObECO51OBIFl
+ WaHqwSTqv93sypCTVDbUbPNJHTu9DtLkYPAILzVdI8BYMdVRWGCirSz4kpARWBXP8ng7
+ TQLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xRUr7wjRtTS7mPNtoSMKD7vsR1qzI0GIQ70U0OhkUj4=;
+ b=kVLH/7wF559elhCIDyVMlWHe5+qPeaYGVbeoFSUEJvWinSDflLt6bQ8D/tatdziKN2
+ AOg5T7qeWje8Hj54f3Mp3RWAO5qHdWk6n3gLCdQ/vEUXD9JuRVRFLPrpD1tsDAZDgYpy
+ A8GJnhTuofmozRjq8EeeMb8j+NU31TRgRF8ZJSaJDVE6GWS4Of2wClS4lhrjZItRZBzi
+ z4xx8L/mveUiKrjZ/ePUfxHS987NPM/lagbKQ9P7guh2f16jB7p2LukjMTsNh/jLimtO
+ 0yhOUUNm14st/1g46sIWjdPjsG1hnH6PdtEsWVeUO+fc/gNSsqL0tiMisVUjJQCygQ0X
+ R1tg==
+X-Gm-Message-State: AOAM530rMcU745WrxQ+yePRuyUdbxspetxNYnMmWtzDkR44JH1NFbHXN
+ cOlhK0WZq1+npi4XGCH8Ebo=
+X-Google-Smtp-Source: ABdhPJwD4WcpMmmIN+5SCO9OiDZ3aD9D28r+X3M+CygzrV3tV86OxWrW2AMcNBAKC4AVakMvz4oSEQ==
+X-Received: by 2002:a63:1e0c:: with SMTP id e12mr1322867pge.386.1600894399454; 
+ Wed, 23 Sep 2020 13:53:19 -0700 (PDT)
+Received: from Carlos-MBP (c-67-188-192-166.hsd1.ca.comcast.net.
+ [67.188.192.166])
+ by smtp.gmail.com with ESMTPSA id 134sm534686pfa.93.2020.09.23.13.53.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Sep 2020 13:53:19 -0700 (PDT)
+Date: Wed, 23 Sep 2020 13:53:17 -0700
+From: Carlo Marcelo Arenas =?utf-8?B?QmVsw7Nu?= <carenas@gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v4 1/2] qemu/atomic: Update coding style to make
+ checkpatch.pl happier
+Message-ID: <20200923205317.GA85735@Carlos-MBP>
+References: <20200923151901.745277-1-philmd@redhat.com>
+ <20200923151901.745277-2-philmd@redhat.com>
+ <20200923182714.GA70694@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200922211802.4083666-8-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200923182714.GA70694@stefanha-x1.localdomain>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=carenas@gmail.com; helo=mail-pg1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,18 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:17:55PM -0400, John Snow wrote:
-> Signed-off-by: John Snow <jsnow@redhat.com>
+will be also nice to squash the following on top for a complete clean
+checkpatch version, as the original patch introduces at least 1 issue
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Carlo
+--- >8 ---
+Subject: fixup! [PATCH 1/2] qemu/atomic.h: rename atomic_ to qatomic_
 
+fixes:
+
+ERROR: Macros with multiple statements should be enclosed in a do - while loop
++#define qatomic_rcu_read__nocheck(ptr, valptr)           \
++    __atomic_load(ptr, valptr, __ATOMIC_RELAXED);        \
+     smp_read_barrier_depends();
+
+false positive:
+
+ERROR: memory barrier without comment
++#define qatomic_xchg(ptr, i)    (smp_mb(), __sync_lock_test_and_set(ptr, i))
+
+Signed-off-by: Carlo Marcelo Arenas Belón <carenas@gmail.com>
+---
+ include/qemu/atomic.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
+index 87b85f9f6d..be47e083be 100644
+--- a/include/qemu/atomic.h
++++ b/include/qemu/atomic.h
+@@ -149,9 +149,10 @@
+ #define qatomic_rcu_read__nocheck(ptr, valptr)           \
+     __atomic_load(ptr, valptr, __ATOMIC_CONSUME);
+ #else
+-#define qatomic_rcu_read__nocheck(ptr, valptr)           \
++#define qatomic_rcu_read__nocheck(ptr, valptr) do {      \
+     __atomic_load(ptr, valptr, __ATOMIC_RELAXED);        \
+-    smp_read_barrier_depends();
++    smp_read_barrier_depends();                          \
++} while (0)
+ #endif
+ 
+ #define qatomic_rcu_read(ptr)                          \
 -- 
-Eduardo
+2.28.0.681.g6f77f65b4e
 
 
