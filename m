@@ -2,126 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B149C275F30
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:52:11 +0200 (CEST)
-Received: from localhost ([::1]:48528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF4A275F47
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:03:29 +0200 (CEST)
+Received: from localhost ([::1]:43064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL8w6-0004cb-MG
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
+	id 1kL972-0005yh-TT
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kL8rB-0000Zm-Kl
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 13:47:07 -0400
-Received: from mail-eopbgr700072.outbound.protection.outlook.com
- ([40.107.70.72]:12001 helo=NAM04-SN1-obe.outbound.protection.outlook.com)
+ id 1kL94F-0004t2-DX
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:00:35 -0400
+Received: from mail-bn8nam12on2080.outbound.protection.outlook.com
+ ([40.107.237.80]:10081 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kL8r5-0003xJ-Q6
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 13:47:05 -0400
+ id 1kL94C-0005QE-N9
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:00:34 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ft2fusuO5OpvX5kNgXHTqESdFZlsYx5hkg442wXmTGtG0PzX5Hogiod+3OhgBUSmi/V/KxBOkHzTK2FlUohJXsSO4q/g9EEkwvQx4ku3RFvT/BEU7d4/3Ip4cqUB/sP5Fu6H3m3EDwmlFgL1rQVK0Bd3jExH+mTL4KcbEdEZiOL0820ZXmFYGpoq1L7t6RXk1pFvQfazA23AqG4lfP7I3AVJ9sPYYTRLnF/Ewph+UhjDBfgLLD3yGBQza+l+zfsyUH3C0iQKpq/1AnqSoaXrIQgshf/wrG/hVZa9nw8LGhpQWmBubgUxBJOCcJ+zonzLjW+rTJFSfR4F25stXBOoxw==
+ b=LvK6OB+/xlDnWwmBq0zWnLODg9YsRoUQfjnvjfqsHJY8O9/UmSTG/38v0s16mGkw9LgPqaxj/oWbovdZ906udUs8Fn5l3mDl0rpL01pDj5CjRLHNeSdIHH7m7cTXEUuaWrTChW1Z2gwCO1MN5MRTHyOUnz9NHnIHvaGOjJ83MCOFxgEJ0a17nK+IiQnwk8SJWS78/yQ3bzW4NNcxtxaUwmEfpSrkKLbs5WqOcghV1/LznTl2V+t9VpQa5pYvbhq/R7STukK2Xb7NOWkgi77WSbSO5yxbHw9AQDLX2DMMYshHSWGFE53CXaNQMWjgSVtrdZr/z67ZWYgo3JO4rHFInA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EXgZ3mcWf73DDObAbZgZUHIQrwaVdMKcbcGGINWGA78=;
- b=c/sStZSQpDAEbmpMcL4z9UF/s2XtAGYyIw5P3hh44vATm2JCEnFvKAa4YLGXv7ctG1BIdy7UOsvWyQH4M4HyjzI2vpRfJjLnjvhL5Wqm0USFr0Iq3kJ/o9de8mEp4iCSfZbyUrMf16Fh24Ip5Jo1UdfXf0wZ05W2+py/3YGc8q2muTb+IQAjVAEAzA/r6MIOPkL5VuJVPD4qmu9muefTyY4JFWJiLsLJTn+rQLecGSS8QBkfrKgoVBxkKoedmsw7YQLn5paRSvYh5BZeNgCU/bYm1y6vllmNaN0ZUelgPyjqaD28hA+yCD/tAOvGEP283PMxGh0I45QeNs0rdMV2Nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
+ bh=yMoidshf0656gCJsv8BW3Y+VafNsWKc5HDyf1r1jQUY=;
+ b=bYfdVE+dW0apInTGdvEA3+jYgYD6fHDbCdrqSMC0dDDUQVnXRAbHjNsI01TqbGIlIb+/ywTRvlhSFHY+dc4aNdIbzIuRJksf1wREIPV43IiVteh+YP0YzRiU/TLY7Aod6359RWPw04NivrLbglej/0Gr1oP7oJW1MvP1xU9AzHRki2aELieQoTdhxWciTy0sD+k2kVNhWAbRm7EsZ2hcaGo0ekc23lR+2prcm3SAtmLbkNC0IaTApJ0PkaEdMj5mz9cn9NIyirL78a5trrTKyAagvHfQHSyRV0KH/GetfBtKOi0/H9xxrihWZ4UMSpq17+dl/aJ8Kp1hF3z3wdFCEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EXgZ3mcWf73DDObAbZgZUHIQrwaVdMKcbcGGINWGA78=;
- b=VkEQKT0bKe7YAvjNjejBYiVOBi+AbFZBts9PFKhEoCXEnLC6w+tB+tCDfXshRlQz5aSsQF68rW6lT15Kv8JeYxgqS9IiFIHKe1XZydv58Y7rr0gzs5iYuOrBwejMz4MdVbWa2khuM+HWKq7oY6lY7SiQhnBHFhgWXHnh+uuwdWA=
-Received: from CY4PR13CA0047.namprd13.prod.outlook.com (2603:10b6:903:99::33)
- by SN6PR02MB4896.namprd02.prod.outlook.com (2603:10b6:805:99::10)
+ bh=yMoidshf0656gCJsv8BW3Y+VafNsWKc5HDyf1r1jQUY=;
+ b=PoqojON69XMK9e10YzUIDMfclLykuFVIQT419diLq/kYHMsZ2YAjOQcrsQgxxN3OnLzBNgbMtj11oKFsy0/olDKe2o07x9ioBrN8poyYiDUDBe2ZUDmk6vwT6msOh4pS/kKfvvo5rCmWrgYFnzf3gfVCfBdmq0N9Gs8xUI/J3R8=
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BYAPR02MB5895.namprd02.prod.outlook.com (2603:10b6:a03:11d::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.13; Wed, 23 Sep
- 2020 17:46:56 +0000
-Received: from CY1NAM02FT033.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:99:cafe::fa) by CY4PR13CA0047.outlook.office365.com
- (2603:10b6:903:99::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.7 via Frontend
- Transport; Wed, 23 Sep 2020 17:46:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT033.mail.protection.outlook.com (10.152.75.179) with Microsoft SMTP
- Server id 15.20.3412.21 via Frontend Transport; Wed, 23 Sep 2020 17:46:56
- +0000
-Received: from [149.199.38.66] (port=50530 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kL8qm-00063k-1E; Wed, 23 Sep 2020 10:46:40 -0700
-Received: from [127.0.0.1] (helo=xsj-pvapsmtp01)
- by smtp.xilinx.com with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1kL8r1-0003MT-P4; Wed, 23 Sep 2020 10:46:55 -0700
-Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1kL8r1-0003MB-25; Wed, 23 Sep 2020 10:46:55 -0700
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id BDD5A13C08F5; Wed, 23 Sep 2020 23:20:17 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?=27Marc-Andr=C3=A9=20Lureau=27?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Edgar Iglesias <edgari@xilinx.com>,
- Francisco Eduardo Iglesias <figlesia@xilinx.com>
-Subject: [PATCH v9 7/7] Versal: Connect DWC3 controller with virt-versal
-Date: Wed, 23 Sep 2020 23:20:07 +0530
-Message-Id: <1600883407-15147-8-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1600883407-15147-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1600883407-15147-1-git-send-email-sai.pavan.boddu@xilinx.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 425d6bc6-0692-49cb-9b52-08d85fe8a9f9
-X-MS-TrafficTypeDiagnostic: SN6PR02MB4896:
-X-Microsoft-Antispam-PRVS: <SN6PR02MB48965422A9025FC516A2295ECA380@SN6PR02MB4896.namprd02.prod.outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Wed, 23 Sep
+ 2020 17:45:28 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::68a7:8ea6:8731:d69f]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::68a7:8ea6:8731:d69f%6]) with mapi id 15.20.3391.027; Wed, 23 Sep 2020
+ 17:45:26 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: RE: [PATCH v8 3/7] usb/hcd-xhci: Split pci wrapper for xhci base model
+Thread-Topic: [PATCH v8 3/7] usb/hcd-xhci: Split pci wrapper for xhci base
+ model
+Thread-Index: AQHWkOLKk1Cu3IDKWEiZvWkxL9ktaal2At4AgAB25VA=
+Date: Wed, 23 Sep 2020 17:45:26 +0000
+Message-ID: <BY5PR02MB67721C6F6152DBA2AD4E3663CA380@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <1600780837-8231-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1600780837-8231-4-git-send-email-sai.pavan.boddu@xilinx.com>
+ <20200923101428.zilaxig5yi5u45rn@sirius.home.kraxel.org>
+In-Reply-To: <20200923101428.zilaxig5yi5u45rn@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:142;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D/PUIiEqEAuOwfURmqWJaG0DQAcYPkfhmdnMsTrB7hBCshfySt9d3WFBB08m1ahNE0yagS3riy87xMSHlmAVvjuK07guaqnMeJbSb3+nHZHbQyomaQ+LTPnV9VBh6A65garK46Pn/3UOaN0nlA0Y3h4ZIKEp0Y9Wb70MgsTHRnwzsNH6NxLGKp62seJuykulDC1wnoDht4+Ap7L74W+goKHthUMxjTnkWnkMCbxoO0L94fvKBpK9vEq30BSVA6N8LA+dsy3vQovkBVQ8WsZ9miAlHE5yKRNLOK/WVblWHaWK60gtrqxPy1zbpXod+FG4hwyZwKkhOwiGFFRHlMD4LbZvhWQyJ4kxr7+Hbq5Pr5AnzoXV90YlWnQWhM8R8B8ED2s+LhNmjF1onDvfiE3PHQ==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(136003)(346002)(396003)(39860400002)(376002)(46966005)(2616005)(6666004)(336012)(426003)(82310400003)(5660300002)(6266002)(8936002)(478600001)(107886003)(36756003)(26005)(186003)(8676002)(82740400003)(47076004)(83380400001)(4326008)(70586007)(6636002)(54906003)(316002)(70206006)(81166007)(19627235002)(110136005)(7416002)(42186006)(2906002)(356005);
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.128]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: a5f583b2-e44f-438c-f64f-08d85fe874a4
+x-ms-traffictypediagnostic: BYAPR02MB5895:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB58952358D046C13954EF82A8CA380@BYAPR02MB5895.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: c1S3KClY/f/EP2oxT6p41IG3bRIuPnPiDYu/pbW0N/ranmr0Jgoi33d2Cvw3M4mQEmse6sGkkHGZutEgvZLiZQo7W8yitySKDytI1iMQ1XhON0FpIufkomZ1zTLrm077lhh7CrSmz9kr0XrLbatzD7/Ve/RsC2W3xXyGjw71I6/wSeh9SRHHz1/zuRanrnXplTzQ7R1oU2ML0K2vx8B5KTnjm73++hfJAegtPKpIb5IwJBmY6uxDVnGLnabU6kjckxZTgexWBT/wDyWt7QWr32f4NXltaNdHxLec7oAflAbJ5TGEIOV6I0mDTMhP+dtYv6I+c6MDpkp1abeZsEkGQJXsnR/DBsVr7Y3d10o2knHU7d6UmVoLKh91Q//BrayL
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(136003)(366004)(39860400002)(346002)(376002)(8936002)(83380400001)(316002)(52536014)(9686003)(2906002)(186003)(7416002)(55016002)(54906003)(76116006)(5660300002)(86362001)(33656002)(66556008)(66446008)(6506007)(64756008)(7696005)(8676002)(66476007)(71200400001)(4326008)(26005)(53546011)(66946007)(6916009)(478600001);
  DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: 5Cj+YGWQTc8ejD8wnjFKROBV/SZLVcVxeLnmZk48mepmIMKhvWztO0eNHcKtwgbETLtjvNKRuBRf41HaweQ5lV/+v9oU9UfMl1kVGoPOuilqYP4UCwrrVtbrRkEUgadIEZ8tPpW2Zj9OLdP5dwcgTbreznJUwiw0klJZR+usKupI9Bd0YonJb49XZLg89dcW+wzN4Sg/cNxFeX86H+cp/DOYuquh2F6hpgFCIwx3qJcFUB8c+F2FdCMLD1/HwpqyXXSRzmRd6VCIm1t5BdOaA2bfUhskoiO0JElLKNGyMCPc79c9zBvTFZ4Bpg60H22/9OElc87ui1cDicFwEEQqLBxrez2hgGiGM6gvhPTuEp2+6xfjAc6dnccixHglCSgShxD0dZY5mbQT7JfEwuGKfuBJVuPla/MpLBn5/2mV7cMvhSiXAsdsGAd47ocKHRpiePHTOOW6Sal1aFJH+a68hFbSvi1u59xFkKz/E/ynyBVl/SAsdJvRvxnKRNb3CuMqsorYYxQGpKaKDhJkB1YufOA/yUpmLsaYnE5+YPTTAm6oMcMtlc+Jw1fpIoQS8Oqv9O4aiwPkI22Uf8mAYSZyH0ajT3kiy2v027oD+byZ5lFQrk48eU0eQVTmc7q44SudCemC414X/MwuETqei5JGHA==
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2020 17:46:56.1494 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 425d6bc6-0692-49cb-9b52-08d85fe8a9f9
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT033.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4896
-Received-SPF: pass client-ip=40.107.70.72; envelope-from=saipava@xilinx.com;
- helo=NAM04-SN1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 13:46:58
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5f583b2-e44f-438c-f64f-08d85fe874a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2020 17:45:26.6168 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DxA6DVZyA3taZF3FNJfES/FPBrTs2iOkgiEqjyV2FsAjMYyajT7dwEGB4Wal/5HQx8aiqm+Sr4ycWJo8y3hVUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5895
+Received-SPF: pass client-ip=40.107.237.80; envelope-from=saipava@xilinx.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 13:46:56
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -135,217 +114,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- qemu-devel@nongnu.org, Paul Zimmerman <pauldzim@gmail.com>,
- Sai Pavan Boddu <saipava@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>, Ying Fang <fangying1@huawei.com>,
- =?UTF-8?q?=27Philippe=20Mathieu-Daud=C3=A9=27?= <philmd@redhat.com>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?iso-8859-1?Q?=27Marc-Andr=E9_Lureau=27?= <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ =?iso-8859-1?Q?=27Philippe_Mathieu-Daud=E9=27?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
+Hi Gerd,
 
-Connect dwc3 controller and usb2-reg module to xlnx-versal SOC, its placed
-in iou of lpd domain and configure it as dual port host controller. Add the
-respective guest dts nodes for "xlnx-versal-virt" machine.
+> -----Original Message-----
+> From: Gerd Hoffmann <kraxel@redhat.com>
+> Sent: Wednesday, September 23, 2020 3:44 PM
+> To: Sai Pavan Boddu <saipava@xilinx.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>; Markus Armbruster
+> <armbru@redhat.com>; 'Marc-Andr=E9 Lureau'
+> <marcandre.lureau@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>;
+> Edgar Iglesias <edgari@xilinx.com>; Francisco Eduardo Iglesias
+> <figlesia@xilinx.com>; qemu-devel@nongnu.org; Alistair Francis
+> <alistair.francis@wdc.com>; Eduardo Habkost <ehabkost@redhat.com>;
+> Ying Fang <fangying1@huawei.com>; 'Philippe Mathieu-Daud=E9'
+> <philmd@redhat.com>; Vikram Garhwal <fnuv@xilinx.com>; Paul
+> Zimmerman <pauldzim@gmail.com>; Sai Pavan Boddu
+> <saipava@xilinx.com>
+> Subject: Re: [PATCH v8 3/7] usb/hcd-xhci: Split pci wrapper for xhci base
+> model
+>=20
+>   Hi,
+>=20
+> > This patch sets the base to use xhci as sysbus model, for which pci
+> > specific hooks are moved to hcd-xhci-pci.c. As a part of this
+> > requirment msi/msix interrupts handling is moved under XHCIPCIState.
+> > Made required changes for qemu-xhci-nec.
+>=20
+> Progress.  vmstate loads fine ;)
+>=20
+> Does not work though.  usb-tablet stops working after migration :(
+>=20
+> > @@ -3561,11 +3458,7 @@ static int usb_xhci_post_load(void *opaque, int
+> version_id)
+> >      }
+> >
+> >      for (intr =3D 0; intr < xhci->numintrs; intr++) {
+> > -        if (xhci->intr[intr].msix_used) {
+> > -            msix_vector_use(pci_dev, intr);
+> > -        } else {
+> > -            msix_vector_unuse(pci_dev, intr);
+> > -        }
+> > +        xhci_intr_update(xhci, intr);
+> >      }
+> >
+> >      return 0;
+>=20
+> I suspect this is the problem.  I guess we should add usb_xhci_post_load_=
+pci
+> + usb_xhci_post_load_sysbus and move irq handling to these functions.
+[Sai Pavan Boddu] I would create vmstate_post_load callbacks in xhci-core, =
+which could implement post_load functionality in their respective files.
+I will be sending V9 now.
+Can you also provide any steps to test vmstate migration ?
 
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
----
- hw/arm/xlnx-versal-virt.c    | 58 ++++++++++++++++++++++++++++++++++++++++++++
- hw/arm/xlnx-versal.c         | 34 ++++++++++++++++++++++++++
- include/hw/arm/xlnx-versal.h | 14 +++++++++++
- 3 files changed, 106 insertions(+)
-
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 03e2320..f0ac5ba 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -39,6 +39,8 @@ struct VersalVirt {
-         uint32_t ethernet_phy[2];
-         uint32_t clk_125Mhz;
-         uint32_t clk_25Mhz;
-+        uint32_t usb;
-+        uint32_t dwc;
-     } phandle;
-     struct arm_boot_info binfo;
- 
-@@ -66,6 +68,8 @@ static void fdt_create(VersalVirt *s)
-     s->phandle.clk_25Mhz = qemu_fdt_alloc_phandle(s->fdt);
-     s->phandle.clk_125Mhz = qemu_fdt_alloc_phandle(s->fdt);
- 
-+    s->phandle.usb = qemu_fdt_alloc_phandle(s->fdt);
-+    s->phandle.dwc = qemu_fdt_alloc_phandle(s->fdt);
-     /* Create /chosen node for load_dtb.  */
-     qemu_fdt_add_subnode(s->fdt, "/chosen");
- 
-@@ -148,6 +152,59 @@ static void fdt_add_timer_nodes(VersalVirt *s)
-                      compat, sizeof(compat));
- }
- 
-+static void fdt_add_usb_xhci_nodes(VersalVirt *s)
-+{
-+    const char clocknames[] = "bus_clk\0ref_clk";
-+    char *name = g_strdup_printf("/usb@%" PRIx32, MM_USB2_CTRL_REGS);
-+    const char compat[] = "xlnx,versal-dwc3";
-+
-+    qemu_fdt_add_subnode(s->fdt, name);
-+    qemu_fdt_setprop(s->fdt, name, "compatible",
-+                         compat, sizeof(compat));
-+    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-+                                 2, MM_USB2_CTRL_REGS,
-+                                 2, MM_USB2_CTRL_REGS_SIZE);
-+    qemu_fdt_setprop(s->fdt, name, "clock-names",
-+                         clocknames, sizeof(clocknames));
-+    qemu_fdt_setprop_cells(s->fdt, name, "clocks",
-+                               s->phandle.clk_25Mhz, s->phandle.clk_125Mhz);
-+    qemu_fdt_setprop(s->fdt, name, "ranges", NULL, 0);
-+    qemu_fdt_setprop_cell(s->fdt, name, "#address-cells", 2);
-+    qemu_fdt_setprop_cell(s->fdt, name, "#size-cells", 2);
-+    qemu_fdt_setprop_cell(s->fdt, name, "phandle", s->phandle.usb);
-+    g_free(name);
-+
-+    {
-+        const char irq_name[] = "dwc_usb3";
-+        const char compat[] = "snps,dwc3";
-+
-+        name = g_strdup_printf("/usb@%" PRIx32 "/dwc3@%" PRIx32,
-+                               MM_USB2_CTRL_REGS, MM_USB_XHCI_0);
-+        qemu_fdt_add_subnode(s->fdt, name);
-+        qemu_fdt_setprop(s->fdt, name, "compatible",
-+                         compat, sizeof(compat));
-+        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-+                                     2, MM_USB_XHCI_0, 2, MM_USB_XHCI_0_SIZE);
-+        qemu_fdt_setprop(s->fdt, name, "interrupt-names",
-+                         irq_name, sizeof(irq_name));
-+        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-+                                   GIC_FDT_IRQ_TYPE_SPI, VERSAL_USB0_IRQ_0,
-+                                   GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-+        qemu_fdt_setprop_cell(s->fdt, name,
-+                              "snps,quirk-frame-length-adjustment", 0x20);
-+        qemu_fdt_setprop_cells(s->fdt, name, "#stream-id-cells", 1);
-+        qemu_fdt_setprop_string(s->fdt, name, "dr_mode", "host");
-+        qemu_fdt_setprop_string(s->fdt, name, "phy-names", "usb3-phy");
-+        qemu_fdt_setprop(s->fdt, name, "snps,dis_u2_susphy_quirk", NULL, 0);
-+        qemu_fdt_setprop(s->fdt, name, "snps,dis_u3_susphy_quirk", NULL, 0);
-+        qemu_fdt_setprop(s->fdt, name, "snps,refclk_fladj", NULL, 0);
-+        qemu_fdt_setprop(s->fdt, name, "snps,mask_phy_reset", NULL, 0);
-+        qemu_fdt_setprop_cell(s->fdt, name, "phandle", s->phandle.dwc);
-+        qemu_fdt_setprop_string(s->fdt, name, "maximum-speed", "high-speed");
-+        g_free(name);
-+    }
-+}
-+
- static void fdt_add_uart_nodes(VersalVirt *s)
- {
-     uint64_t addrs[] = { MM_UART1, MM_UART0 };
-@@ -515,6 +572,7 @@ static void versal_virt_init(MachineState *machine)
-     fdt_add_gic_nodes(s);
-     fdt_add_timer_nodes(s);
-     fdt_add_zdma_nodes(s);
-+    fdt_add_usb_xhci_nodes(s);
-     fdt_add_sd_nodes(s);
-     fdt_add_rtc_node(s);
-     fdt_add_cpu_nodes(s, psci_conduit);
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 12ba6c4..64b0d0a 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -145,6 +145,39 @@ static void versal_create_uarts(Versal *s, qemu_irq *pic)
-     }
- }
- 
-+static void versal_create_usbs(Versal *s, qemu_irq *pic)
-+{
-+    DeviceState *dev, *xhci_dev;
-+    MemoryRegion *mr;
-+
-+    object_initialize_child(OBJECT(s), "dwc3-0", &s->lpd.iou.usb.dwc3,
-+                            TYPE_USB_DWC3);
-+    dev = DEVICE(&s->lpd.iou.usb.dwc3);
-+    xhci_dev = DEVICE(&s->lpd.iou.usb.dwc3.sysbus_xhci);
-+
-+    object_property_set_link(OBJECT(xhci_dev), "dma", OBJECT(&s->mr_ps),
-+                             &error_abort);
-+    qdev_prop_set_uint32(xhci_dev, "intrs", 1);
-+    qdev_prop_set_uint32(xhci_dev, "slots", 2);
-+
-+    sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-+    memory_region_add_subregion(&s->mr_ps, MM_USB_XHCI_0_DWC3_GLOBAL, mr);
-+    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(xhci_dev), 0);
-+    memory_region_add_subregion(&s->mr_ps, MM_USB_XHCI_0, mr);
-+
-+    sysbus_connect_irq(SYS_BUS_DEVICE(xhci_dev), 0, pic[VERSAL_USB0_IRQ_0]);
-+
-+    object_initialize_child(OBJECT(s), "usb2reg-0", &s->lpd.iou.usb.Usb2Regs,
-+                           TYPE_XILINX_VERSAL_USB2_CTRL_REGS);
-+    dev = DEVICE(&s->lpd.iou.usb.Usb2Regs);
-+    sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-+    memory_region_add_subregion(&s->mr_ps, MM_USB2_CTRL_REGS, mr);
-+}
-+
- static void versal_create_gems(Versal *s, qemu_irq *pic)
- {
-     int i;
-@@ -333,6 +366,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
-     versal_create_apu_cpus(s);
-     versal_create_apu_gic(s, pic);
-     versal_create_uarts(s, pic);
-+    versal_create_usbs(s, pic);
-     versal_create_gems(s, pic);
-     versal_create_admas(s, pic);
-     versal_create_sds(s, pic);
-diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-index 8ce8e63..743e4f7 100644
---- a/include/hw/arm/xlnx-versal.h
-+++ b/include/hw/arm/xlnx-versal.h
-@@ -21,6 +21,8 @@
- #include "hw/net/cadence_gem.h"
- #include "hw/rtc/xlnx-zynqmp-rtc.h"
- #include "qom/object.h"
-+#include "hw/usb/hcd-dwc3.h"
-+#include "hw/misc/xlnx-versal-usb2-ctrl-regs.h"
- 
- #define TYPE_XLNX_VERSAL "xlnx-versal"
- OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
-@@ -59,6 +61,10 @@ struct Versal {
-             PL011State uart[XLNX_VERSAL_NR_UARTS];
-             CadenceGEMState gem[XLNX_VERSAL_NR_GEMS];
-             XlnxZDMA adma[XLNX_VERSAL_NR_ADMAS];
-+            struct {
-+                USBDWC3 dwc3;
-+                VersalUsb2CtrlRegs Usb2Regs;
-+            } usb;
-         } iou;
-     } lpd;
- 
-@@ -88,6 +94,7 @@ struct Versal {
- 
- #define VERSAL_UART0_IRQ_0         18
- #define VERSAL_UART1_IRQ_0         19
-+#define VERSAL_USB0_IRQ_0          22
- #define VERSAL_GEM0_IRQ_0          56
- #define VERSAL_GEM0_WAKE_IRQ_0     57
- #define VERSAL_GEM1_IRQ_0          58
-@@ -125,6 +132,13 @@ struct Versal {
- #define MM_OCM                      0xfffc0000U
- #define MM_OCM_SIZE                 0x40000
- 
-+#define MM_USB2_CTRL_REGS           0xFF9D0000
-+#define MM_USB2_CTRL_REGS_SIZE      0x10000
-+
-+#define MM_USB_XHCI_0               0xFE200000
-+#define MM_USB_XHCI_0_SIZE          0x10000
-+#define MM_USB_XHCI_0_DWC3_GLOBAL   (MM_USB_XHCI_0 + 0xC100)
-+
- #define MM_TOP_DDR                  0x0
- #define MM_TOP_DDR_SIZE             0x80000000U
- #define MM_TOP_DDR_2                0x800000000ULL
--- 
-2.7.4
+Regards,
+Sai Pavan
+>=20
+> take care,
+>   Gerd
 
 
