@@ -2,27 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11797275E54
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:09:19 +0200 (CEST)
-Received: from localhost ([::1]:44244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EF4275E5F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:11:28 +0200 (CEST)
+Received: from localhost ([::1]:48338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL8Gc-0002Y7-3O
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35838)
+	id 1kL8Ih-0004HD-8R
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kL8Ep-0001ZD-Vz; Wed, 23 Sep 2020 13:07:28 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:54141)
+ id 1kL8GT-00035O-2F; Wed, 23 Sep 2020 13:09:09 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:38439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kL8Em-0007Ds-Ov; Wed, 23 Sep 2020 13:07:27 -0400
+ id 1kL8GR-0007LI-8m; Wed, 23 Sep 2020 13:09:08 -0400
 Received: from [192.168.100.1] ([82.252.129.222]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MuDTn-1kbIfz0kbV-00uc7S; Wed, 23 Sep 2020 19:07:18 +0200
-Subject: Re: [PATCH] meson: fix static flag summary
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20200917140700.673171-1-lvivier@redhat.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M4JVv-1kKr962W6T-000Kcd; Wed, 23 Sep 2020 19:08:57 +0200
+Subject: Re: [PATCH] virtio: vdpa: omit check return of g_malloc
+To: Laurent Vivier <lvivier@redhat.com>, Li Qiang <liq3ea@163.com>,
+ mst@redhat.com, jasowang@redhat.com
+References: <20200819144309.67579-1-liq3ea@163.com>
+ <9e4f982e-2bd1-94f9-724e-6eada04d6096@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -66,35 +68,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <9d7cdf34-14e6-6051-8107-947b7f83919b@vivier.eu>
-Date: Wed, 23 Sep 2020 19:07:16 +0200
+Message-ID: <09fd2c30-e086-8f01-aabc-358fde2eb2a7@vivier.eu>
+Date: Wed, 23 Sep 2020 19:08:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200917140700.673171-1-lvivier@redhat.com>
+In-Reply-To: <9e4f982e-2bd1-94f9-724e-6eada04d6096@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:v8Y9ZOj1GfIC4OekHmXaeGzbZqduISZm3EfuCN7jsZRyBVKcv/u
- 4x3+4xXt/uL3OlAvt5Res8NqrgknCLa2EcEJk2yUY2hN+ojkYzkdj4qOmhx2JqZCHo69Tg2
- R4JBxR7B2aF5BblGwEj93X1Z5c491pyQv/1h6J1x79YlJ5uxauWTIR3QDndvfubKdhHYbtI
- jyw/2nktXJqDyw892sx8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EVK9wXmwUpI=:bXkeWI1x0xcXZDOjJwmo3f
- PlFlt6KfrjT99V7+DnYNq61OC4ihtpP5YDqByK9agk1qdyDKi6EVieJ5mcEbfG+f48GB7fveG
- 1Rj1OtOHBDz5gbxSz60JkmZcbiC8ONNQfj/3TukFWsPmCTJUAl3sgvJDR+p4uyuIjdMT7IGtk
- /oe0M8miJtCS0+v7BCUbzsMEFHff1Vp2SaIeCkepmBdr1OIl9H8+lqPPWQyMzP+e+9hoo5XsA
- +RsmN13t2DEHfa3tu7tsUIoh8iTolxpdIvPXfrI+Rz4GYAEx3GWCW65+hUQR2b2AqjUe9vdK5
- A5Wwk0gmd+4G5E8pCe86021mfPn2hvc4jCoxa1VlsxTAKmwQN5RLTHEu5eHG6dIqg4OF7hkgs
- aTPhnYyiC/eRIOs8oJ3UlbfEH7/JANIgYHa7k51MmT8WtPim+7TEl0l9vQuXQqmKIz50JpVpV
- GLbCatO9dMG/TcCnfuyBdBP/hvdx+qHrYGT7D2rfLT18nZshaVIL3ct7DNuyjFjEVGdBNJdiM
- fAoQDL0D9rN5VacduY8tUoiz/ap6e57eFxrQ1WP/iJr8boSy/o4sr1owNHW0i5tlaQYolU1Ic
- yY0vOjHTZsvJFPuq4+BghLe/PuAnLEa0oLtmGGRxwupe7i9ukaDAnCHXF82BXUXU2vZleXoNt
- vx7HuBoWDgH+F4V1pAM+QIjGkWJ2K3tA872s89dIZqeeel8HQcNj8zYOK6XRygc2RpM/Dc6xw
- Du4RMuYzpBohdQ03nk6f1ROAW5aVvcNKS9Zfzi3XcL6TKurUSquJ5zyR/hh2NLazlTyxFoL+G
- NOiAXgHNinoyt3F//euCwlJeBNxk0NpT2myRWdJce8fjRnjzI5dnkgRLMaombf94IBDy9bB
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:hkaF7R+V+t9KKem+qw9yc4ARhEs96QxwKNw3hJVwQ4LnkS0yzpL
+ VMjjalsUstie3mcBynnLj4t8YBtFXLwC8QajayXg41IBxFG7VPmhT7dgKsY5oWWfziCMq1K
+ P3AUvN2wkShd0YktSgjUPBuaSHrxwhdMjiZ0vEAma+DLoZJymwpV3IIS5IJfCK4TN0Ry/ip
+ 9dD2MW8/8B/El+fbp/Asw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3QQUGof5nms=:orjQm51sWSSFSd80m0efVG
+ J04MImp56d+iWt/RgDPO+MD8RlNe7Q0xMDzWomo/7Ws6xYja+dRUNaoAHTosadMGNpKbRZ0L8
+ Rxi7xaJ3pGH4uYNTDfD0WpW9kcv1YsaA5IwbsPsTL0okoz6v+RW8WBfXI2O5Z9a+6R1r3Z1/6
+ Psqd2i3WoI8FyvUIJhv0TEwq8Mup22yDCNvy189FMBaBvkDuFXpJkYNuR7UaosMsVGFU2D5xX
+ dLTL7rfC0x16OVAwFcjmjSZt40IBZCGvWB2JQ43tL86WBKzyTl300QE3fBKc+H9VXmcAdJ58Y
+ EORNP+8DjH9bKX8xSMKGZ/4qs9lpYr6Wk1+TMJP2wY4LOMj+Drm4MMLwNi3N0/F1UA+GI22Rf
+ FZPgwn8csOP9wq/T6/39m4kKUZmEqK5Dt9ktFu0/8ggi9n/M81T+H5LpAOp4DJ6iCRrzcwayA
+ I8pjpCq+afb0v/eSFnAoXMb/87Voa20H/ZUIwNlLYjQG6jZ/sivq9Tckx7Bmf7eTQqdeElMYp
+ oX+/+Bt+kMQefNEOSYh1YsxCNK6twS4e6t164aK6llpraYhjzuRQMeVsmKWBnNT9QKdf8lS16
+ Mqznj7qPanioEvQfRU1OYP+eZ56/N1wvE910WC3IxQTqzOEod8ks/Ope24XRR/FXvML2NK99O
+ WPhn9qdjWDMczVaX0eNd37vQLQepVCZ/1jTTZLA617B6YJwq6ucqXSt1D74vaJB0WyuvQh9GU
+ oMpsEZCUDLLJN1ITu6jM4B5r482NqQB+BJ5rB62eWAnf76XKFeqHWjM6XbC4fSSZPeAN1qf7y
+ jMOUCTW6ToyOmKl6JI5Dw4Ec+4N5iYpz2QKXCiHTmelpxtuQb+8BUsMgM66qVHupDj0OCYN
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 13:07:21
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 13:09:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -114,32 +116,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, liq3ea@gmail.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/09/2020 à 16:07, Laurent Vivier a écrit :
-> 'static build:' must display value of CONFIG_STATIC rather than value of
-> CONFIG_TOOLS.
+Le 18/09/2020 à 14:53, Laurent Vivier a écrit :
+> On 19/08/2020 16:43, Li Qiang wrote:
+>> If g_malloc fails, the application will be terminated.
+>> No need to check the return value of g_malloc.
+>>
+>> Signed-off-by: Li Qiang <liq3ea@163.com>
+>> ---
+>>  hw/virtio/vhost-vdpa.c | 7 +------
+>>  1 file changed, 1 insertion(+), 6 deletions(-)
+>>
+>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>> index 4580f3efd8..403ae3ae07 100644
+>> --- a/hw/virtio/vhost-vdpa.c
+>> +++ b/hw/virtio/vhost-vdpa.c
+>> @@ -320,10 +320,8 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
+>>      struct vhost_vdpa_config *config;
+>>      int ret;
+>>      unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+>> +
+>>      config = g_malloc(size + config_size);
+>> -    if (config == NULL) {
+>> -        return -1;
+>> -    }
+>>      config->off = offset;
+>>      config->len = size;
+>>      memcpy(config->buf, data, size);
+>> @@ -340,9 +338,6 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+>>      int ret;
+>>  
+>>      v_config = g_malloc(config_len + config_size);
+>> -    if (v_config == NULL) {
+>> -        return -1;
+>> -    }
+>>      v_config->len = config_len;
+>>      v_config->off = 0;
+>>      ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
+>>
 > 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 > 
-> diff --git a/meson.build b/meson.build
-> index 5421eca66a02..c174f0ab0948 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1374,7 +1374,7 @@ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
->  summary_info += {'sparse enabled':    meson.get_compiler('c').cmd_array().contains('cgcc')}
->  summary_info += {'strip binaries':    get_option('strip')}
->  summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
-> -summary_info += {'static build':      config_host.has_key('CONFIG_TOOLS')}
-> +summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
->  if targetos == 'darwin'
->    summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
->  endif
 > 
 
 Applied to my trivial-patches branch.
