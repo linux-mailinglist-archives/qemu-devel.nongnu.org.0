@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161B5275F3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:59:04 +0200 (CEST)
-Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C607275F2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:52:10 +0200 (CEST)
+Received: from localhost ([::1]:48516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL92l-0003T9-2O
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45736)
+	id 1kL8w5-0004cG-4P
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kL8s6-00016d-Ts; Wed, 23 Sep 2020 13:48:04 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:42268)
+ id 1kL8tC-0001nj-29; Wed, 23 Sep 2020 13:49:10 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:43678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kL8s4-00041V-FK; Wed, 23 Sep 2020 13:48:02 -0400
+ id 1kL8tA-00045i-Cc; Wed, 23 Sep 2020 13:49:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=uaj/cq26YHhVXUVVWrAwZeFzMC8INHC65wIDXf8YewA=; 
- b=mdLm4EUFKGhyO1SmMetF1rZN1MDjmtjlHrhnCn9r8R/oomwaa1v/f5J0AnEPuVegYmhthpBQDRVL8a3im38LDK3hpPgumB5TwC/ARYxfwmS9iE7NhMh/TdBsbKKibjmgdgEgxOR6i1vLM7+4DcZRS4CFb48uAcsHiZt7XfQBwQunfNRomlYBed4aDcpuw7Wt1wES8aiQTI6FY/QMcrBOudyUJiVRveIVDdkxKtRe2aDyMGN6l/nBaDo6y7yGsZloISSMm3Ff6CHZRd27KcRfy0hV519vOnjzHIjWNv+vzfId2/pgjoTU3m82AkNrWEsQJrAlhEfLWR5+DkRUYbWW6A==;
+ bh=8mLpbvdfRFW1XEG1xpL/W6M9QM5U/a18/RYGssHXNWw=; 
+ b=Ooq+Fcd5A+kLIRueaINe7vUvHUGVb2nmfQKZDXqOD3arjR1zD6FEvUupLaccEK9YxHVS1Hv3p7RPOeOP7wsmTl2xzjR2vsvEvGnpzlT8Y5PSjVZNjrK4Gw8Y4soufcKVJCENH3b3nWnSyQkkMgXMIxKaOBMPXPVGogjzlBw0cXK27A2E8jcvoeKc0gk/T/1NRmzMVkW1UpE/hv3HjEBaKqzjrJVdFsNN7OzYNBWRoCCNiAeNyKOIxDC2NH6UGr26QANf4Ynt/hBD5guhbQ2TrcrNurpJx/cz4zkBtDBkJB1zqGNJY5Oi5mK/0JfhIM0RuDIAH+8ynfDbyM9OivyK3g==;
 Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
  by fanzine.igalia.com with esmtps 
  (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kL8ry-0004sR-Rn; Wed, 23 Sep 2020 19:47:54 +0200
+ id 1kL8t8-00052W-Ay; Wed, 23 Sep 2020 19:49:06 +0200
 Received: from berto by mail.igalia.com with local (Exim)
- id 1kL8ry-0003JO-Hz; Wed, 23 Sep 2020 19:47:54 +0200
+ id 1kL8t8-0003Mr-14; Wed, 23 Sep 2020 19:49:06 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 Subject: Re: [PATCH v6 2/5] block/io: bdrv_common_block_status_above: support
  include_base
-In-Reply-To: <6181089a-8910-442e-35ed-e1bca0bde3eb@virtuozzo.com>
+In-Reply-To: <20200916122008.20303-3-vsementsov@virtuozzo.com>
 References: <20200916122008.20303-1-vsementsov@virtuozzo.com>
  <20200916122008.20303-3-vsementsov@virtuozzo.com>
- <w51tuvoa2l8.fsf@maestria.local.igalia.com>
- <6181089a-8910-442e-35ed-e1bca0bde3eb@virtuozzo.com>
 User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
  (i586-pc-linux-gnu)
-Date: Wed, 23 Sep 2020 19:47:54 +0200
-Message-ID: <w51o8lw9ygl.fsf@maestria.local.igalia.com>
+Date: Wed, 23 Sep 2020 19:49:06 +0200
+Message-ID: <w51lfh09yel.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -66,29 +64,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 23 Sep 2020 07:11:57 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
->>     BlockDriverState *last_bs = include_base ? base : backing_bs(base);
+On Wed 16 Sep 2020 02:20:05 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> In order to reuse bdrv_common_block_status_above in
+> bdrv_is_allocated_above, let's support include_base parameter.
 >
-> hmm, in case when include_base is false, last bs is not
-> backing_bs(base) but the parent of base.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Oops, yes, it should be the other way around %-)
-
->> But why do we need include_base at all? Can't the caller just pass
->> backing_bs(base) instead? I'm talking also about the existing case of
->> bdrv_is_allocated_above().
->
-> include_base was introduced for the case when caller doesn't own
-> backing_bs(base), and therefore shouldn't do operations that may yield
-> (block_status can) dependent on backing_bs(base). In particular, in
-> block stream, where link to base is not frozen.
-
-You're right, thanks!
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
 Berto
 
