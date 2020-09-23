@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDAB27626C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:48:27 +0200 (CEST)
-Received: from localhost ([::1]:58738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3D427627B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:50:28 +0200 (CEST)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLBgg-0002e2-1R
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
+	id 1kLBid-0004X2-1A
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLBej-0001mO-5j
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:46:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47946)
+ id 1kLBf5-00021H-Jg
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:46:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLBeh-0000a1-Je
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:46:24 -0400
+ id 1kLBf3-0000bb-9T
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:46:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600893982;
+ s=mimecast20190719; t=1600894003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BfgC6QkmuI+3ZLVRHmqEmlxxsUXw9MP33RF5eZZ7oGo=;
- b=il++K8JRATWsL7ntuciFgayqUMzJyf83wYQ18JMejDJfx/ck/S4+SDfbYgru9DKQpo7hxP
- HuS66f6lGlvEvdbpzcdkURDH+t6LbLNhKrJEnm9dJhssIv6rIekqOAat3HYbluSAR6IeD8
- GVeEMU/qFiWQ696SzR/QadRHYvcVujM=
+ bh=jdYyj1sb+c7KdxYMaVzFCC6Gw7NTxOTZj8S7ZU8w4wY=;
+ b=DDCktbl1r6Sh7Y5n+vpQPW1iNU0dQzYfOa9qO1VP6RU6do0gXN+I4JGn/1phLF9sm80hoT
+ c/tdOQ1mhIMNsFiVEJ4i1SSCIPMtcFpyrSX/ZJLJP3o/0z57lRO6AUmrQWOQ7X/b5Ukhrh
+ LcGyguLLE9WiNmNeulUhKA+lhe4oVsU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-OvLZQAfYMqWJXDcUqpy4bg-1; Wed, 23 Sep 2020 16:46:20 -0400
-X-MC-Unique: OvLZQAfYMqWJXDcUqpy4bg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-248-Tc6EW03lPdOdaiGSSW5c2Q-1; Wed, 23 Sep 2020 16:46:41 -0400
+X-MC-Unique: Tc6EW03lPdOdaiGSSW5c2Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A484A100746B;
- Wed, 23 Sep 2020 20:46:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E273B800EBB;
+ Wed, 23 Sep 2020 20:46:40 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA6860BF1;
- Wed, 23 Sep 2020 20:46:19 +0000 (UTC)
-Date: Wed, 23 Sep 2020 16:46:18 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9547A55777;
+ Wed, 23 Sep 2020 20:46:40 +0000 (UTC)
+Date: Wed, 23 Sep 2020 16:46:39 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 02/14] qapi/doc.py: avoid unnecessary keyword arguments
-Message-ID: <20200923204618.GN3717385@habkost.net>
+Subject: Re: [PATCH 03/14] qapi/doc.py: Add assertion on section.member
+Message-ID: <20200923204639.GO3717385@habkost.net>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
- <20200922211802.4083666-3-jsnow@redhat.com>
+ <20200922211802.4083666-4-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922211802.4083666-3-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200922211802.4083666-4-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,9 +86,10 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:17:50PM -0400, John Snow wrote:
-> Keyword Callables are hard to type in Python 3.6, avoid them if there's
-> no urgent need to use them.
+On Tue, Sep 22, 2020 at 05:17:51PM -0400, John Snow wrote:
+> Similarly to other cases, we lack the power at the moment to express
+> that a specific member is constrained to a certain containing type. Add
+> an assertion before we use properties specific to that type.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 
