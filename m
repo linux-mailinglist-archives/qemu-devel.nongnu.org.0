@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33EC276039
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:43:49 +0200 (CEST)
-Received: from localhost ([::1]:53028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8AB276062
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:47:28 +0200 (CEST)
+Received: from localhost ([::1]:59426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL9k4-0001uu-NU
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55464)
+	id 1kL9nb-0004o2-88
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kL9WL-0004mC-3u
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:29:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55207)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kL9aK-0000RI-1u
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:33:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kL9WH-0000eD-Dz
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:29:36 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kL9aI-00018x-Fw
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:33:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600885772;
+ s=mimecast20190719; t=1600886020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3hI2DolCwAq/KUvV5KLAcLLJhcLGYC/sUQR4SNU9b4U=;
- b=BAtGP7mAZvXSMnZRYF+zW401IBIro4288SrrF39b6kWVTN4Sy+lmbGn0wtdBzblvp/ri/L
- ogKc75HBZwsZs2O+kXrWBvD00QBoQvt6B1CzDDe771fIuIIi0qBcRLeOGrDqg4nl7KDvyp
- C78lJeMU+tzh7pA10nEoYOmYoPHG9xo=
+ bh=68FkNmfWIFcGXUD5OgLtA0A+efm0wWatunVxxa/z0QU=;
+ b=H2xq8LqQxbrK47OroKL4PFn8zqo8iOVNUPs4J3Tf1BFCxDieWLBX98Fc0TvBvPsdGEjb+Y
+ LLT0QGjZ9jilWQkSxx2d1yUUVgA1xR1zo+2+ymjn1tEzfAwUiNYepbhUp5z/D6XRnK3e/e
+ isZuLwTXbJtUQy+Ppxg0w/SDoBesTmM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-ltEMttZqNLykCcfSZp622A-1; Wed, 23 Sep 2020 14:29:30 -0400
-X-MC-Unique: ltEMttZqNLykCcfSZp622A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-144-c194hjYnNM6MXIXfCuktWQ-1; Wed, 23 Sep 2020 14:33:38 -0400
+X-MC-Unique: c194hjYnNM6MXIXfCuktWQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 855F4800493;
- Wed, 23 Sep 2020 18:29:29 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA43955789;
- Wed, 23 Sep 2020 18:29:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D44BB84E245;
+ Wed, 23 Sep 2020 18:33:36 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 960975D98D;
+ Wed, 23 Sep 2020 18:33:36 +0000 (UTC)
+Date: Wed, 23 Sep 2020 14:33:35 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
 Subject: Re: [PATCH v2 24/38] qapi/gen.py: Fix edge-case of _is_user_module
-To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20200923183335.GU3312949@habkost.net>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
  <20200922210101.4081073-25-jsnow@redhat.com>
  <20200923151743.GK3312949@habkost.net>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <5723714c-e784-ece7-5523-d6d3b5f981a1@redhat.com>
-Date: Wed, 23 Sep 2020 14:29:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ <5723714c-e784-ece7-5523-d6d3b5f981a1@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200923151743.GK3312949@habkost.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <5723714c-e784-ece7-5523-d6d3b5f981a1@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,24 +85,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
  Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/20 11:17 AM, Eduardo Habkost wrote:
-> This changes behavior if name=='', and I guess this is OK, but
-> I'm not sure.  I miss documentation on `visit_module()`,
-> `visit_include()`, and `_is_user_module()`.  I don't know what
-> `name` means here, and what is a "user module".
+On Wed, Sep 23, 2020 at 02:29:28PM -0400, John Snow wrote:
+> On 9/23/20 11:17 AM, Eduardo Habkost wrote:
+> > This changes behavior if name=='', and I guess this is OK, but
+> > I'm not sure.  I miss documentation on `visit_module()`,
+> > `visit_include()`, and `_is_user_module()`.  I don't know what
+> > `name` means here, and what is a "user module".
+> > 
 > 
+> Good spot, I missed that.
+> 
+> I can probably do: bool(name and not name.startswith('./'))
+> 
+> to convert explicitly the empty string to false. I will allow Markus the
+> chance to explain the module stuff.
 
-Good spot, I missed that.
+Sound good to me.  If the current behavior needs to be changed,
+it can be fixed later.
 
-I can probably do: bool(name and not name.startswith('./'))
-
-to convert explicitly the empty string to false. I will allow Markus the 
-chance to explain the module stuff.
-
---js
+-- 
+Eduardo
 
 
