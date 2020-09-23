@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63E42763A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 00:13:04 +0200 (CEST)
-Received: from localhost ([::1]:48150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3AC2763AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 00:15:13 +0200 (CEST)
+Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLD0Z-0004rI-As
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 18:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
+	id 1kLD2e-0005yn-NT
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 18:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLCyj-0004Nq-8x
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 18:11:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50522)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLD18-0005VH-CH
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 18:13:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLCyh-0001vm-Dz
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 18:11:08 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLD16-0002Ad-Pq
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 18:13:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600899066;
+ s=mimecast20190719; t=1600899216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rFk7KZYr16XFiyIGbWTwIidm9se1PpUJzaAE/D6Rycg=;
- b=Fw+7pe335YFC6z2nkyTzekC+LS5Dnyrkz5yRmcDgD6xS+Txmem1gJb9poDwKfOcIcWhoWH
- 9d49VvRuYd7/N6G0lVGek6Jah60TR/KKigDiJQJsVSbnBnfhn1qyRiALDAivybzcc/K3/f
- moon3wHugSRrNnHElTK8tdk3jN/iLn0=
+ bh=w17o7SZ/KvwleJA4ENGIH++CF34ulTjchm1VRNzBHY8=;
+ b=e6nNNwUkffO/CgxYPU06XbJu84WtJ07Mo8jrgdKK8aqTCkakeAC7AU8XdrREtoyWCg3fCN
+ LsMz5fNiumfNGSRx+vicNm0rxfaTjbZPtZBhHmtjGvThaBE+qvBIq2UFYqbHljlX93f2zs
+ beXkLeHm13ij7B88e1HPEhSyu6xqK+c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-iXISCMRmN0GVIOC8LUNd7Q-1; Wed, 23 Sep 2020 18:11:04 -0400
-X-MC-Unique: iXISCMRmN0GVIOC8LUNd7Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-413-u1S67CmjOJ-Zn-CZfn6xJw-1; Wed, 23 Sep 2020 18:13:32 -0400
+X-MC-Unique: u1S67CmjOJ-Zn-CZfn6xJw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73EA71882FA7;
- Wed, 23 Sep 2020 22:11:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F9491084C8A;
+ Wed, 23 Sep 2020 22:13:31 +0000 (UTC)
 Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D52C5C1C7;
- Wed, 23 Sep 2020 22:11:02 +0000 (UTC)
-Subject: Re: [PATCH v2 35/38] qapi/types.py: remove one-letter variables
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EE525576A;
+ Wed, 23 Sep 2020 22:13:30 +0000 (UTC)
+Subject: Re: [PATCH v2 36/38] qapi/visit.py: assert tag_member contains a
+ QAPISchemaEnumType
 To: Eduardo Habkost <ehabkost@redhat.com>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-36-jsnow@redhat.com>
- <20200923191436.GX3312949@habkost.net>
+ <20200922210101.4081073-37-jsnow@redhat.com>
+ <20200923191549.GY3312949@habkost.net>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <8d128d28-1d18-406a-2bf2-5bc64a6b8cff@redhat.com>
-Date: Wed, 23 Sep 2020 18:11:01 -0400
+Message-ID: <c85b68d3-1ca1-9283-6911-664179b1c732@redhat.com>
+Date: Wed, 23 Sep 2020 18:13:30 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200923191436.GX3312949@habkost.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200923191549.GY3312949@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,29 +92,22 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/20 3:14 PM, Eduardo Habkost wrote:
-> I'm not sure I like this weird expression, but I believe asking
-> for a 120-patch cleanup series to be respun because of a tiny
-> style issue would be counterproductive, so:
+On 9/23/20 3:15 PM, Eduardo Habkost wrote:
+> On Tue, Sep 22, 2020 at 05:00:59PM -0400, John Snow wrote:
+>> Signed-off-by: John Snow <jsnow@redhat.com>
 > 
-> Reviewed-by: Eduardo Habkost<ehabkost@redhat.com>
+> This for making mypy happy, correct?  An explanation in the commit
+> message would be nice.
+> 
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> 
 
-I was trying to reduce the indent level to accommodate the longer names, 
-but python ternaries *are* pretty weird.
+Yes, it's for mypy -- but it's a runtime visible change. Technically our 
+type system isn't mature enough to express this constraint natively, so 
+it's being carried around as developer knowledge.
 
-It'd be nice to enforce always having a variants object instead (even if 
-it's empty!) and then add __bool__ and __iter__ methods to 
-QAPISchemaVariants such that you could always do:
+This formalizes that knowledge, albeit in a very crude way.
 
-"if variants"
-
-or
-
-"for variant in variants"
-
-but we're not there just yet... should I just put it back the way it 
-was, with the deep nesting?
-
---js
+I've amended the commit msg.
 
 
