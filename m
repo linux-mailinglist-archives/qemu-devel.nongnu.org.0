@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0AD275FD3
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:28:57 +0200 (CEST)
-Received: from localhost ([::1]:45280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CFA275FC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:25:59 +0200 (CEST)
+Received: from localhost ([::1]:38200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL9Vg-00032i-Nv
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
+	id 1kL9So-0008Cy-No
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:25:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9Nx-0004w8-7i; Wed, 23 Sep 2020 14:20:58 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35018)
+ id 1kL9O2-0004y3-5t; Wed, 23 Sep 2020 14:21:02 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9Nt-00087W-LT; Wed, 23 Sep 2020 14:20:56 -0400
+ id 1kL9Nz-00086G-Dp; Wed, 23 Sep 2020 14:21:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1600886176; x=1632422176;
+ t=1600886185; x=1632422185;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BYQ28XH8Ylx9Dq0KVPfvBpBWZp+s9KZQXJ7UPhfutPQ=;
- b=bT90MOzqUNHAZGkkWF0Xl4HYDE9tQLrAXqvPHUeOyyFCf+Em/jmvgicZ
- lPiWMwNZHxTKOWLsXYPEJdUkJHu+jy3DlUJOFNQq84kxg7KFxc8F5v0ef
- PkVwhXLbdOVC6EfAFnANTVyfVsGXDzcGsScl+9K1MFfv6XzCl1wKKZGgB
- B2ioBzuwMmZ5pH1eaCEATgry3gqSlBnvyp+h0XngegJ3+li6Kk+piMcKa
- 8q04YugtseRJ1lFvERQInVKHQwNdKsVeM9OG5erPUWbUouUyDAGtz0+iv
- HdccHdp42pzNvxT2ZZsyREarbqEp3vUpAoMHsZs3w7ltf+eCoVc6ReCD0 w==;
-IronPort-SDR: TiHUSmltTziy/7j1qOPpkAix79fxamHQUCgQF4kACKxjKT0mlgaBXLJk3b+JXzajEaySOUHTwP
- GhGIOhqKmaWchZs9nKR9HI2Of3X8XiCCF64VaTJj1BHMf46cohUYZk6PHlpG8DXXj+Zk3oZilO
- RK3xmUiL995Yd+9AeRgJGFD3jsP/LbPcd+M2rKdcHfsQ/XROgwRQC63jJeKQh/0QfahuREuZQw
- eZsDD9FFZhXKxgMc8NjqDdCgMHDYPYcWaK4u7WQZnRgWRObnZkmgmBjp4ynvw018Sx4LRMFpAn
- K0k=
-X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496337"
+ bh=IAhlEP13HbhNfj4M5mv95R567EMtXnN0TBb732KkDp4=;
+ b=HuVBFn973p9UlNsETMrXmc4UkNJB5ljcq9z4FBmVfs2Li28BjhNxJlwn
+ HWx/4unUIhqHW+HjMK1LO4s61JaphkxApwR8j0KBfVoeNku5X1jcY+lXR
+ OZMR4t4GULnUgBe7IsRxUmgkdwXLQ1OAuDLmH+KP/mBPdcOBpf2PkpwSu
+ jqF7JbTDP2OEcMmQVxdfpnxwXxPnZ5oGdo85YdpIgyjane122nQpEWpEL
+ z4pbA2YXFwQPf1Hh3oo3q9Rk7B5cawtzoZXCXLWCeKDHvPwU42MiMKe3v
+ IdozRt9i4pJv8v+6TGkIoRivMJiWKjKy4ogcEDHy/Awstt4IYd+ygLwvs Q==;
+IronPort-SDR: s9qCNnQt5oFgbsbEgESLsrgzKt3aeUIZ73u5csvDlLw/RMKm3AJ/OUtcThWdsub5NGH4FiUEty
+ YGj+N2GoCJUHVUoMQ7dQzwbqDygV1kM74fAjHVqwYsydvjQ2m5rXX7jrsh1JrhIDuD0l5ePhHY
+ Kj26XvU/PLl1VVscIBt3TY5iaCNwtLb7wXgzL8VtS7o1iK29lF5U73PiQVQTwsPVECIH22xHyD
+ Vp5WCjDgnOz2mRdT8r+aI0wAzzQrTyyRWwh9jhouY4vu1QE+Bjcx2CaCuVdO7hJsgH2PWBFOil
+ ZMw=
+X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496347"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:11 +0800
-IronPort-SDR: C3iNJLdz73zPLik5kncSLPqdYqBl1uAQn3rzY4++wryxDVv6XMQAO4MedtATsxg/vo6TpXU86H
- WW3MBRqfyXpg==
+ by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:21 +0800
+IronPort-SDR: uMedfqluOMBixqCZ9kd99VKQEnost8vVYn04Lk1pQ71C22sAFNW2O1wBc9gGfaLvxR7qS/EbKf
+ KDoEfgFGEzQA==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2020 11:06:56 -0700
-IronPort-SDR: C98WqivzRrZP8+CiQ9nZMdxF9CZO784NGohbNFFi1Zjh/3QAQfW/U9nFkBvL+8ZjaLrAd8G2di
- 3UcBUV2H1yuQ==
+ 23 Sep 2020 11:07:03 -0700
+IronPort-SDR: 3hmEsuhgtwj6x1nTdEv7Qrg3PXRex/7q2Jp1i2KtPzPoA7nhENvgQyBqJT72aKgSaPZcXLWjSG
+ ksuiUlKiG2cg==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:20:48 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:20:54 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v4 01/14] hw/block/nvme: Report actual LBA data shift in LBAF
-Date: Thu, 24 Sep 2020 03:20:08 +0900
-Message-Id: <20200923182021.3724-2-dmitry.fomichev@wdc.com>
+Subject: [PATCH v4 04/14] hw/block/nvme: Define trace events related to NS
+ Types
+Date: Thu, 24 Sep 2020 03:20:11 +0900
+Message-Id: <20200923182021.3724-5-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
 References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=5287de305=dmitry.fomichev@wdc.com; helo=esa2.hgst.iphmx.com
@@ -94,41 +96,60 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Calculate the data shift value to report based on the set value of
-logical_block_size device property.
-
-In the process, use a local variable to calculate the LBA format
-index instead of the hardcoded value 0. This makes the code more
-readable and it will make it easier to add support for multiple LBA
-formats in the future.
+A few trace events are defined that are relevant to implementing
+Namespace Types (NVMe TP 4056).
 
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/nvme.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/block/trace-events | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 63078f6009..f60e968c4a 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2203,6 +2203,7 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
- {
-     int64_t bs_size;
-     NvmeIdNs *id_ns = &ns->id_ns;
-+    int lba_index;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 79c9da652d..2414dcbc79 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -46,8 +46,12 @@ pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size,
+ pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
+ pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
+ pci_nvme_identify_ctrl(void) "identify controller"
++pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
++pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
++pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
++pci_nvme_identify_cmd_set(void) "identify i/o command set"
+ pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+ pci_nvme_getfeat(uint16_t cid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
+@@ -84,6 +88,8 @@ pci_nvme_mmio_stopped(void) "cleared controller enable bit"
+ pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
+ pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+ pci_nvme_cmd_supp_and_effects_log_read(void) "commands supported and effects log read"
++pci_nvme_css_nvm_cset_selected_by_host(uint32_t cc) "NVM command set selected by host, bar.cc=0x%"PRIx32""
++pci_nvme_css_all_csets_sel_by_host(uint32_t cc) "all supported command sets selected by host, bar.cc=0x%"PRIx32""
  
-     bs_size = blk_getlength(n->conf.blk);
-     if (bs_size < 0) {
-@@ -2212,7 +2213,8 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+ # nvme traces for error conditions
+ pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
+@@ -97,6 +103,9 @@ pci_nvme_err_invalid_opc(uint8_t opc) "invalid opcode 0x%"PRIx8""
+ pci_nvme_err_invalid_admin_opc(uint8_t opc) "invalid admin opcode 0x%"PRIx8""
+ pci_nvme_err_invalid_lba_range(uint64_t start, uint64_t len, uint64_t limit) "Invalid LBA start=%"PRIu64" len=%"PRIu64" limit=%"PRIu64""
+ pci_nvme_err_invalid_effects_log_offset(uint64_t ofs) "commands supported and effects log offset must be 0, got %"PRIu64""
++pci_nvme_err_change_css_when_enabled(void) "changing CC.CSS while controller is enabled"
++pci_nvme_err_only_nvm_cmd_set_avail(void) "setting 110b CC.CSS, but only NVM command set is enabled"
++pci_nvme_err_invalid_iocsci(uint32_t idx) "unsupported command set combination index %"PRIu32""
+ pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
+ pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
+ pci_nvme_err_invalid_create_sq_sqid(uint16_t sqid) "failed creating submission queue, invalid sqid=%"PRIu16""
+@@ -152,6 +161,7 @@ pci_nvme_ub_db_wr_invalid_cq(uint32_t qid) "completion queue doorbell write for
+ pci_nvme_ub_db_wr_invalid_cqhead(uint32_t qid, uint16_t new_head) "completion queue doorbell write value beyond queue size, cqid=%"PRIu32", new_head=%"PRIu16", ignoring"
+ pci_nvme_ub_db_wr_invalid_sq(uint32_t qid) "submission queue doorbell write for nonexistent queue, sqid=%"PRIu32", ignoring"
+ pci_nvme_ub_db_wr_invalid_sqtail(uint32_t qid, uint16_t new_tail) "submission queue doorbell write value beyond queue size, sqid=%"PRIu32", new_head=%"PRIu16", ignoring"
++pci_nvme_ub_unknown_css_value(void) "unknown value in cc.css field"
  
-     n->ns_size = bs_size;
- 
--    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
-+    lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-+    id_ns->lbaf[lba_index].ds = 31 - clz32(n->conf.logical_block_size);
-     id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(n, ns));
- 
-     /* no thin provisioning */
+ # xen-block.c
+ xen_block_realize(const char *type, uint32_t disk, uint32_t partition) "%s d%up%u"
 -- 
 2.21.0
 
