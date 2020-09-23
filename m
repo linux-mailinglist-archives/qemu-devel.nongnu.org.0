@@ -2,27 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34F5275E62
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:12:05 +0200 (CEST)
-Received: from localhost ([::1]:51416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640A0275E75
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:18:31 +0200 (CEST)
+Received: from localhost ([::1]:41666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL8JI-0005bu-M7
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
+	id 1kL8PW-0004vl-BP
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kL8HR-0004DN-DM; Wed, 23 Sep 2020 13:10:09 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:54983)
+ id 1kL8JI-0006Dx-9D; Wed, 23 Sep 2020 13:12:04 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:59147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kL8HP-0007Q9-Hy; Wed, 23 Sep 2020 13:10:09 -0400
+ id 1kL8JF-0007jl-T6; Wed, 23 Sep 2020 13:12:03 -0400
 Received: from [192.168.100.1] ([82.252.129.222]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MGhi0-1kGEiv1LKE-00Dksf; Wed, 23 Sep 2020 19:10:03 +0200
-Subject: Re: [PATCH] Add *.pyc back to the .gitignore file
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20200919101859.28739-1-thuth@redhat.com>
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mq2rM-1kpISs0xNq-00n76b; Wed, 23 Sep 2020 19:11:56 +0200
+Subject: Re: [PATCH] vhost-vdpa: remove useless variable
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20200920152024.860172-1-lvivier@redhat.com>
+ <8793d489-3961-f53a-df69-21a7eda85f22@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -66,32 +68,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <94f65068-7928-afce-0286-21d6a76704e2@vivier.eu>
-Date: Wed, 23 Sep 2020 19:10:02 +0200
+Message-ID: <eef04a11-7c32-45d0-bbc8-ee9eff4c02b1@vivier.eu>
+Date: Wed, 23 Sep 2020 19:11:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200919101859.28739-1-thuth@redhat.com>
+In-Reply-To: <8793d489-3961-f53a-df69-21a7eda85f22@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zC5dXVh8LxWPQfePqRfBDfaqyLn8GXRUtOb++/CJgPpVNg3RX+R
- uW4GeZSXteuh0jWIRaU9fJz4U8tuJOKVeBjtSmBFArz4mTkdkrxw3BwTh9D75KtotioDfKX
- PHpD1588A9FQWlpTWmbNkEtgsRdGFxgrNJdzMOX+2kfPft/VBGenxmpYbH9zTAL1cUqVJwf
- 9VfeuzgnmtOMoLPHdCkUQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7ZYOOlgkRX4=:z2zSzO3KL8szuEUORfrapY
- xwOk5idqMWwU1PbYBxXWPQSCcv9PA2mtcdJlVfdqt/oh1OOsV2mtv6IsaIANJf0SB36sf1Rh1
- InLET7lRIwkllJRulFz4Hn8Lhl3YiqIstl0BvD+7nWVvBy1hZvhMhLuQtqSHY81rOMhWksOas
- iP/PLYI5nncgLOfkEN7X1UBNmy2n0U9DGpPrcZlwj7A16xdK+xfUzxegvz4p7bJ7oKkt5PO41
- 9GURV6PJQmuP+b/0emJZ9yRnKPgFpUMclw1NpdykQIkBOLENrSV+aV2QXwoRO0AmsHTXIQlwc
- s2X//tyza7VNZoyCoWxrcwp1OemHJmOBDnvGTKSY7ydqpGwca4XH1ODhLYq9J7+nRVpSwv8Q2
- O777w/PrUGFANDhvVHeQDGKiaEx65Jbgh/F+nUo8C0CBIoP1hOhEz+AniowQV9XyT7xWsvNJh
- CCm2GDfx8UgOX31aLwLRZV/hvQmBs8T6bNgVMXhgT3jy703V08m2SMChXjtJSBeaqEW4KwywX
- Ftz+tfeg3Ci+muDx35r4t+ZOxvPlAy5RPQ1RwpL2shJ1yBG9LGL+oeA/YxNsXAHf/Aj1BALMr
- zIxJP8sIjmHycWjn6YW+IEwE12kOqYw5zGndk4aSuKz6yUcisgM25NT2+HmIso1E1zEktZRtY
- WdN1RxmZQzBQ5+5vHkptTH0X12x9QdeebGJXty0N2ZilbAwvr2M2lCuZStBk+3cncTP7DkGHD
- ctOZM+PZzeBoeR6uYB51lDw317XBl36MUVzL7E5CHqeQWYEaFl5c4rNhOTMBTaktMhQ1ZAwZe
- IuuiYejJtHIDO7/kUIBxm5Gmq3/ZKv7tBxYcpvKafvaeobTCyg17rxvrNFoXqXxy8fOBlPA
+X-Provags-ID: V03:K1:stFfRJz8uXAOqVndLOwK9Fzm4+KC7e5zLfWEb8U1rbuW0bRAy0b
+ nzAcXL6rW9J+X6UdSHslCoL8MTqttYTl7O+KiEN8iho/PIS7VCHbnmDVeHthM86REBcO90A
+ eUbiEoM5F6vda24L5zzDmNEoZV4CqSog6AJuujhyRVIcYEjHxuK5KhFF3NutEzV/56HhoTR
+ e3L470OKdLwDWD50OE4mg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/Eb1zGyHL10=:0jsE3dFdaOz2A6zjChtcrm
+ FxQKwctxXADq3LGZF3ybvoWFboJb90LNpajaPx//cD2Qqp2nC838pmlzGpihxYa6i1HBMwwqB
+ 5pz83WgbF3qUIDYKd5RcBG02s+vDrff1aEAPPdHNSNiRjCSfs/4c0BFe25tWarBPOLraIeBr3
+ KS2ikKrQnFIRVx1wnQ1/+xXHgHUCSDFyZU8tzXW6pr147B2QQuG1ErZtGyXNyWYJuCQ72nUBV
+ wFnhCuY6fB/vQv9GYo3CDBn+q+py4Jt/xt8YjyxW0bFxfrSxvBWKQv8FDwucNLx5P/rM3GGds
+ cx+1oOKoVnPHgHB21vwOOlUHC7Uu5vohzvcbiDlSz1AD0XtPtkeiu0MGimLjRBkxHolYm5quF
+ o4GIr0EXjNGbb0OSiYElwxKaqgW3XdpZ2IuR5ITOCfNbzNx539Bn7uhzgSIrtetB5BglzBZaT
+ 63eRt4MDtEXHi00VqG0KPA/7oBb/8OBWlSLBVGNAnRYWT986sU8sV2QjNIBYV7f2sI7hmFKa0
+ ZLhh2o8KRafqlBR/h4pk3dBZvosnFbtFOV4mx3WCLGUQn8BVnP+4YiemD4J9/vjUx4rYgaMyy
+ dD17biosMDIu9t1HWsUwHzQ089z2I57pIeYZgLbtKnXVWF0RQouTXUOPs8qjWNuxwjrmgotjf
+ ayV7Gj7wIw+srkvaocLnJ0F0qV6UQ0omfsYYgn8zuWRwiaAX21NJldAybahqyqgLMnnY09K9o
+ a8qN01OsNxhNtGRRAl3v+qc8hmD3JDE3sJG8pqEK2zdcQw0e/aStsMNeyK3C2LMd1UDJnFiW/
+ JbogJVIdlYF+2rrSNxhHbCm8mWWxcPJwjQEItXmtW6njd551uqM6Q+qDH/JHFwdtjjgc0px
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 13:10:06
@@ -114,32 +116,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/09/2020 à 12:18, Thomas Huth a écrit :
-> Python still dumps its bytecode into the source directory, so
-> we should continue to ignore the *.pyc files.
+Le 20/09/2020 à 17:59, Philippe Mathieu-Daudé a écrit :
+> Cc'ing qemu-trivial@
 > 
-> Fixes: 0e72b7df4d ("Simplify the .gitignore file")
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitignore | 1 +
->  1 file changed, 1 insertion(+)
+> On 9/20/20 5:20 PM, Laurent Vivier wrote:
+>> in vhost_vdpa_listener_region_del(), try_unmap is always true and so,
+>> vhost_vdpa_dma_unmap() is always called. We can remove the variable
+>>
+>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 > 
-> diff --git a/.gitignore b/.gitignore
-> index 5515f595e6..b32bca1315 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -1,5 +1,6 @@
->  /GNUmakefile
->  /build/
-> +*.pyc
->  .sdk
->  .stgit-*
->  .git-submodule-status
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+>> ---
+>>  hw/virtio/vhost-vdpa.c | 9 +++------
+>>  1 file changed, 3 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>> index 4580f3efd8a2..c6cae6a6cabf 100644
+>> --- a/hw/virtio/vhost-vdpa.c
+>> +++ b/hw/virtio/vhost-vdpa.c
+>> @@ -153,7 +153,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>>      hwaddr iova;
+>>      Int128 llend, llsize;
+>>      int ret;
+>> -    bool try_unmap = true;
+>>  
+>>      if (vhost_vdpa_listener_skipped_section(section)) {
+>>          return;
+>> @@ -176,11 +175,9 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>>  
+>>      llsize = int128_sub(llend, int128_make64(iova));
+>>  
+>> -    if (try_unmap) {
+>> -        ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+>> -        if (ret) {
+>> -            error_report("vhost_vdpa dma unmap error!");
+>> -        }
+>> +    ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+>> +    if (ret) {
+>> +        error_report("vhost_vdpa dma unmap error!");
+>>      }
+>>  
+>>      memory_region_unref(section->mr);
+>>
+> 
 > 
 
 Applied to my trivial-patches branch.
