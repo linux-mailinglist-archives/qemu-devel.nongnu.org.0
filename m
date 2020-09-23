@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1155275F3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:57:43 +0200 (CEST)
-Received: from localhost ([::1]:33730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4118A275EAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 19:31:10 +0200 (CEST)
+Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL91S-0001sD-PZ
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1kL8bl-0002oa-4r
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 13:31:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <will.senn@gmail.com>)
- id 1kL87p-0007EZ-MD; Wed, 23 Sep 2020 13:00:15 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:38816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <will.senn@gmail.com>)
- id 1kL87i-0006K3-3P; Wed, 23 Sep 2020 13:00:10 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id 26so584655ois.5;
- Wed, 23 Sep 2020 10:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=qHpZzEacpXLsAtZUqq0yFHYGywfXgQksKlr2ULhjjwM=;
- b=mpB1M/25aZIoIF4hpbwZ3wVyB4wX/753wYjfInCQkSUTiJDmUCLWAkravi8aL+fvG4
- RDhMh+7kSsgLli6Rx3hKcgwgCjPiFPcaP0ZRa/NXY5HURik9BvvRoXRqTpvUQngr/otm
- +5A1P96ff3UNBkngpnFEbT2mE7S5cKeFzDsEjSeR5OJI/H1YIKDlO+/tptx3xZnLypWQ
- HXCz2TbwWJg9TWgR0dRPOFF2etlhxcVQV0FueOcNaVMNyfsj6yvzmOIRxiYmbPXBCiUO
- SOPu1OkSM8GrBCbA2qL5Y3v1XxRzpVT84U9VgO63Ssw70m/pRad8VXKX3Y68AK/bjXWJ
- VEsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language;
- bh=qHpZzEacpXLsAtZUqq0yFHYGywfXgQksKlr2ULhjjwM=;
- b=GHLGxM2dQGHoNAcFATE6mneA0Mac10m4r95MQGVYRDMt/Doq8hV/fbbK5wadrX8z9N
- ukxg8GMF1PMN+UerddOx0bNu+XT3ym1znTLjSGh4wtwplPGCc8DA6qN98Hovppra2v0/
- 9yWyfWXM12JWCYnMwkCKvFSAjlhnPrh7x3r1dd/PmwYrvGoOsYH9LNzwIJih6J4J+vAs
- l+T3XLQ9d9sfCNmVqgFQ6J5gjLOeHZQbNWhVdTVxv2x/DSSQcygTyeQk1Bul24do30qi
- uKsu2WuyiWhyreMPjv5jsTwqLB1xkWqBEmXiAb7aqW67jzBAxp869C9YAuHL1zjWN1n/
- LksA==
-X-Gm-Message-State: AOAM533ATjlFnSIRGsAUDF+2427h3rOsZKOONwBeWhTPrUBV6amWmiy+
- 1Gb12x+ooIjtC3e1Ncel+QQ=
-X-Google-Smtp-Source: ABdhPJxnnSabDdaVBkNiLwQaa9mIVNYnzO/SwwXK78OuTM+YDRI7yUq/DBjZzqdUaEX/hlJWMp1DGQ==
-X-Received: by 2002:a05:6808:2d7:: with SMTP id
- a23mr248507oid.51.1600880402508; 
- Wed, 23 Sep 2020 10:00:02 -0700 (PDT)
-Received: from terra.local ([12.154.58.98])
- by smtp.gmail.com with ESMTPSA id y84sm57999oia.10.2020.09.23.10.00.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Sep 2020 10:00:02 -0700 (PDT)
-Subject: Re: Minix 1.1 with QEMU
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-discuss@nongnu.org, qemu-devel <qemu-devel@nongnu.org>
-References: <5e534cc7-2a99-baa5-fc8f-63d0d8e85c97@gmail.com>
- <edc82d55-e5d1-abba-9a8e-7954b1dbe66e@amsat.org>
-From: Will Senn <will.senn@gmail.com>
-Message-ID: <6ab2235a-519b-2079-34eb-2dfe3b774fe4@gmail.com>
-Date: Wed, 23 Sep 2020 12:00:01 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
- Gecko/20100101 Thunderbird/78.2.2
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kL8a6-00022c-50
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 13:29:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kL8a4-0001b9-9b
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 13:29:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600882163;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0umTsGePTo8hjaaFhMjcJDXSJ3JI4DLHuc/+JOWkp5w=;
+ b=Dt0Q9/+DBhsCwgv/SUNT/lJzkvNBeBoFjewkQT4FE/guIML0Ikt7wzTD0GqY0gU/AZSRxP
+ DQJn8pKOD5+8/wcaJno7Lo0HCXuk74mu6oxU0h2iBazLEbvijvpwNTYi2/6yCrkXXUIMHr
+ VuCRQj0TNpUU1c/ingjfbvBHDrk9ICs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-pQM3F_2jMBeM1Bu9mus0Kw-1; Wed, 23 Sep 2020 13:29:19 -0400
+X-MC-Unique: pQM3F_2jMBeM1Bu9mus0Kw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70E9957051;
+ Wed, 23 Sep 2020 17:29:18 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E0AC7368B;
+ Wed, 23 Sep 2020 17:29:17 +0000 (UTC)
+Subject: Re: [PATCH v2 09/38] qapi/common.py: Add indent manager
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-10-jsnow@redhat.com>
+ <20200922222232.GK2044576@habkost.net>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <c57afb75-3db9-abec-dd21-c32f9f918104@redhat.com>
+Date: Wed, 23 Sep 2020 13:29:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <edc82d55-e5d1-abba-9a8e-7954b1dbe66e@amsat.org>
-Content-Type: multipart/alternative;
- boundary="------------5D98E4672419F97F14870E0B"
-Content-Language: en-GB
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=will.senn@gmail.com; helo=mail-oi1-x22a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200922222232.GK2044576@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 23 Sep 2020 13:54:49 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,218 +84,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------5D98E4672419F97F14870E0B
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-On 9/23/20 11:53 AM, Philippe Mathieu-Daudé wrote:
-> Hi Will,
->
-> On 9/23/20 6:45 PM, Will Senn wrote:
->> Long time user, first time poster :)
+On 9/22/20 6:22 PM, Eduardo Habkost wrote:
+> On Tue, Sep 22, 2020 at 05:00:32PM -0400, John Snow wrote:
+>> Code style tools really dislike the use of global keywords, because it
+>> generally involves re-binding the name at runtime which can have strange
+>> effects depending on when and how that global name is referenced in
+>> other modules.
 >>
->> So, I'd like to be able to run Minix 1.1 on my Macbook Pro mid-2012
->> w/16gb RAM (MacOS 10.14.6 Mojave). Qemu will run pretty ancient OS'es
->> such as DOS 2.0, which I use all of the time. However, I'm having some
->> difficulty getting Minix to run. I am able to boot the first floppy, but
->> when I change to the second floppy, the system freezes and I can't tell
->> what is going on. Here's what I did to get this far:
+>> Make a little indent level manager instead.
 >>
->> brew install qemu
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/common.py | 51 +++++++++++++++++++++++++++++-------------
+>>   scripts/qapi/visit.py  |  7 +++---
+>>   2 files changed, 38 insertions(+), 20 deletions(-)
 >>
->> qemu-system-i386 --version
->> QEMU emulator version 5.1.0
->>
->> mkdir ~/workspaces/retro-workspace/minix-1.1
->> cd ~/workspaces/retro-workspace/minix-1.1
->> aria2c
->> http://download.minix3.org/previous-versions/bzipped/Intel-1.1.tar.bz2
->> tar xvjf Intel-1.1.tar.bz2
->> cp Intel-1.1/floppy_disk1 ./Disk01.img
->> cp Intel-1.1/floppy_disk2 ./Disk02.img
->> cp Intel-1.1/floppy_disk3 ./Disk03.img
->> cp Intel-1.1/floppy_disk4 ./Disk04.img
->>
->>
->> qemu-system-i386 -drive
->> file=Disk01.img,format=raw,if=floppy,media=disk,readonly=off,index=0,snapshot=on
->> \
->>    -boot a \
->>    -no-fd-bootchk \
->>    -monitor telnet::2222,server,nowait -serial mon:stdio
->>
->> Qemu boots to the Minix 1.1 Boot screen and says to swap to floppy 2, so
->> in the monitor:
->> change floppy0 Disk02.img raw
->>
->> I press l (el) and it scans the disk, lists the files on the disk and
->> reports no errors, but when I press =, it does a carriage return and
->> just sits there. I'm pretty sure this is the Minix going bye bye and not
->> necessarily QEMU, but I'm wondering if there is a way to see what QEMU
->> thinks it is doing or if it is what's hung? Usually, at this point,
->> Minix reads the disk contents into a Ramdisk and boots Minix.
->>
->> Food for thought... Minix expects to run on an IBM PC (5150), IBM PC XT
->> (5160), or compatible, and therefore the I/O is written for whatever
->> floppy controller was extant at that time (I'm guessing here), so if
->> that's different than modern day floppies, I suppose this could cause
->> the problem I'm experiencing here. Is there a way to see the floppy
->> controller activity in QEMU? Similarly, I gather it expects a CGA
->> compatible monitor (EGA/VGA, etc should be fine).
-> Can you try adding '-machine isapc', which is closer to the 5150?
->
->> I appreciate your help on this.
->>
->> Minix 1.1 works 'ok' in 86Box and other IBM PC emulations, so I know the
->> floppies are fine.
->>
->> Thanks!
->>
->> Will
->>
->>
->>
->> -- 
->> GPG Fingerprint: 68F4 B3BD 1730 555A 4462  7D45 3EAA 5B6D A982 BAAF
->>
-Phillipe,
+>> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+>> index cee63eb95c..e0c5871b10 100644
+>> --- a/scripts/qapi/common.py
+>> +++ b/scripts/qapi/common.py
+>> @@ -93,33 +93,52 @@ def c_name(name, protect=True):
+>>   pointer_suffix = ' *' + eatspace
+>>   
+>>   
+>> -def genindent(count):
+>> -    ret = ''
+>> -    for _ in range(count):
+>> -        ret += ' '
+>> -    return ret
+>> +class Indentation:
+>> +    """
+>> +    Indentation level management.
+>>   
+>> +    :param initial: Initial number of spaces, default 0.
+>> +    """
+>> +    def __init__(self, initial: int = 0) -> None:
+>> +        self._level = initial
+>>   
+>> -indent_level = 0
+>> +    def __int__(self) -> int:
+>> +        return self._level
+>>   
+>> +    def __repr__(self) -> str:
+>> +        return "{}({:d})".format(type(self).__name__, self._level)
+>>   
+>> -def push_indent(indent_amount=4):
+>> -    global indent_level
+>> -    indent_level += indent_amount
+>> +    def __str__(self) -> str:
+>> +        """Return the current indentation as a string of spaces."""
+>> +        return ' ' * self._level
+>>   
+>> +    def __bool__(self) -> bool:
+>> +        """True when there is a non-zero indentation."""
+>> +        return bool(self._level)
+>>   
+>> -def pop_indent(indent_amount=4):
+>> -    global indent_level
+>> -    indent_level -= indent_amount
+>> +    def increase(self, amount: int = 4) -> int:
+>> +        """Increase the indentation level by `amount`, default 4."""
+>> +        self._level += amount
+>> +        return self._level
+>> +
+>> +    def decrease(self, amount: int = 4) -> int:
+>> +        """Decrease the indentation level by `amount`, default 4."""
+>> +        if self._level < amount:
+>> +            raise ArithmeticError(
+>> +                f"Can't remove {amount:d} spaces from {self!r}")
+>> +        self._level -= amount
+>> +        return self._level
+>> +
+>> +
+>> +indent = Indentation()
+> 
+> Personally, I would keep the push_indent(), pop_indent() API, and
+> introduce an indent() function, to follow the existing API style
+> of plain functions.
+> 
+> Something like:
+> 
+>    indent_prefixes = []
+>    def push_indent(amount=4):
+>        """Add `amount` spaces to indentation prefix"""
+>        indent_prefixes.push(' '*amount)
+>    def pop_indent():
+>        """Revert the most recent push_indent() call"""
+>        indent_prefixes.pop()
+>    def indent():
+>        """Return the current indentation prefix"""
+>        return ''.join(indent_prefixes)
+> 
+> What you did is still an improvement, though, so:
+> 
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> 
 
-My new incantation is:
+Yeah, there's only one user right now, so ... I just kinda wanted to get 
+rid of the global usage. Maybe if we make the code generator fancier 
+we'll find out what form is best.
 
-qemu-system-i386 -machine isapc -drive 
-file=Disk01.img,format=raw,if=floppy,media=disk,readonly=off,index=0,snapshot=on 
--boot a   -no-fd-bootchk   -monitor telnet::2222,server,nowait -serial 
-mon:stdio
+--js
 
-with the same outcome :(. Thanks for the suggestion, I'll keep it in 
-mind for other projects.
-
-Will
-
--- 
-GPG Fingerprint: 68F4 B3BD 1730 555A 4462  7D45 3EAA 5B6D A982 BAAF
-
-
---------------5D98E4672419F97F14870E0B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 9/23/20 11:53 AM, Philippe
-      Mathieu-Daudé wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:edc82d55-e5d1-abba-9a8e-7954b1dbe66e@amsat.org">
-      <pre class="moz-quote-pre" wrap="">Hi Will,
-
-On 9/23/20 6:45 PM, Will Senn wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Long time user, first time poster :)
-
-So, I'd like to be able to run Minix 1.1 on my Macbook Pro mid-2012
-w/16gb RAM (MacOS 10.14.6 Mojave). Qemu will run pretty ancient OS'es
-such as DOS 2.0, which I use all of the time. However, I'm having some
-difficulty getting Minix to run. I am able to boot the first floppy, but
-when I change to the second floppy, the system freezes and I can't tell
-what is going on. Here's what I did to get this far:
-
-brew install qemu
-
-qemu-system-i386 --version
-QEMU emulator version 5.1.0
-
-mkdir ~/workspaces/retro-workspace/minix-1.1
-cd ~/workspaces/retro-workspace/minix-1.1
-aria2c
-<a class="moz-txt-link-freetext" href="http://download.minix3.org/previous-versions/bzipped/Intel-1.1.tar.bz2">http://download.minix3.org/previous-versions/bzipped/Intel-1.1.tar.bz2</a>
-tar xvjf Intel-1.1.tar.bz2
-cp Intel-1.1/floppy_disk1 ./Disk01.img
-cp Intel-1.1/floppy_disk2 ./Disk02.img
-cp Intel-1.1/floppy_disk3 ./Disk03.img
-cp Intel-1.1/floppy_disk4 ./Disk04.img
-
-
-qemu-system-i386 -drive
-file=Disk01.img,format=raw,if=floppy,media=disk,readonly=off,index=0,snapshot=on
-\
-  -boot a \
-  -no-fd-bootchk \
-  -monitor <a class="moz-txt-link-freetext" href="telnet::2222,server,nowait">telnet::2222,server,nowait</a> -serial mon:stdio
-
-Qemu boots to the Minix 1.1 Boot screen and says to swap to floppy 2, so
-in the monitor:
-change floppy0 Disk02.img raw
-
-I press l (el) and it scans the disk, lists the files on the disk and
-reports no errors, but when I press =, it does a carriage return and
-just sits there. I'm pretty sure this is the Minix going bye bye and not
-necessarily QEMU, but I'm wondering if there is a way to see what QEMU
-thinks it is doing or if it is what's hung? Usually, at this point,
-Minix reads the disk contents into a Ramdisk and boots Minix.
-
-Food for thought... Minix expects to run on an IBM PC (5150), IBM PC XT
-(5160), or compatible, and therefore the I/O is written for whatever
-floppy controller was extant at that time (I'm guessing here), so if
-that's different than modern day floppies, I suppose this could cause
-the problem I'm experiencing here. Is there a way to see the floppy
-controller activity in QEMU? Similarly, I gather it expects a CGA
-compatible monitor (EGA/VGA, etc should be fine).
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Can you try adding '-machine isapc', which is closer to the 5150?
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-I appreciate your help on this.
-
-Minix 1.1 works 'ok' in 86Box and other IBM PC emulations, so I know the
-floppies are fine.
-
-Thanks!
-
-Will
-
-
-
--- 
-GPG Fingerprint: 68F4 B3BD 1730 555A 4462  7D45 3EAA 5B6D A982 BAAF
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <font face="Helvetica, Arial, sans-serif">Phillipe,<br>
-      <br>
-      My new incantation is:<br>
-      <br>
-      qemu-system-i386 -machine isapc -drive
-file=Disk01.img,format=raw,if=floppy,media=disk,readonly=off,index=0,snapshot=on  
-      -boot a   -no-fd-bootchk   -monitor <a class="moz-txt-link-freetext" href="telnet::2222,server,nowait">telnet::2222,server,nowait</a>
-      -serial mon:stdio<br>
-      <br>
-      with the same outcome :(. Thanks for the suggestion, I'll keep it
-      in mind for other projects.<br>
-      <br>
-      Will<br>
-    </font><br>
-    <pre class="moz-signature" cols="72">-- 
-GPG Fingerprint: 68F4 B3BD 1730 555A 4462  7D45 3EAA 5B6D A982 BAAF</pre>
-  </body>
-</html>
-
---------------5D98E4672419F97F14870E0B--
 
