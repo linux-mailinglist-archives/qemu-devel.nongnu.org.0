@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC40427552E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:09:32 +0200 (CEST)
-Received: from localhost ([::1]:33558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9E0275562
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:16:03 +0200 (CEST)
+Received: from localhost ([::1]:41520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1iN-0007ey-Pg
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39388)
+	id 1kL1od-0002t8-17
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1bs-0008IZ-9d
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:48 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22220
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL1nR-0002SI-6Y
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:14:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1bq-0001Lb-3W
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL1nN-0002jt-Sp
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:14:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600855364;
+ s=mimecast20190719; t=1600856080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iC4V1PEXAFDMxJmiZikknRbb4O4GLLtG0+6GroPagmU=;
- b=FOdFXJbqF0Ddync/tk66cSYAR85g97darBJ/dE+806i197+vZ63BtSqIhqTA4LidWIK9Bj
- W7tXRNt1MR2VSz0wGo++ssaSODGPocCMGhIRVpJ2qzc78l01Vf3r77EZfHz6Zfh0tfl2eV
- wms5u539f1PvtC0HYMLsKguH1lzBAnM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-aaMKGIxzMpK25O8ef3zEfA-1; Wed, 23 Sep 2020 06:02:43 -0400
-X-MC-Unique: aaMKGIxzMpK25O8ef3zEfA-1
-Received: by mail-wr1-f69.google.com with SMTP id d13so2209517wrr.23
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 03:02:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iC4V1PEXAFDMxJmiZikknRbb4O4GLLtG0+6GroPagmU=;
- b=ZhJKFyvPfaX66yZNWCRkTngbSJqimia93oCeKBChX4C/jyS83v+Lrse5dAT1Hqby1V
- 5gCmq9xTDTsR5oUyHiHaWNX7cjtYDxqZ9JStMwMstQgxEl0JHflUZdzpJVDU1OYk/rWw
- xBRmH9OJxmcEgxYigpdfXQnGlQ4PX7dQRWtviUKqfLI9OpzaandDioVPK/qwAnzcXXMj
- L+ryMKvTehJphhptiSEWHeE57wZgPSBxTKso7rYoJ2X5z3Lo3m0g+lLKEelwT8jhqjcF
- uLZlY63FFQlZglsiEs/iy5mu7Le5dbftYnHvMXppXuBdz2FlDI6gh5AEFAQCoFgFfc36
- uU1Q==
-X-Gm-Message-State: AOAM532IeOhWwqKZT6y93UG8m/oYV+gcF5N3tKSN+C0/QK096sqTPY+t
- +zeXVlUPgWF3j46T6MFH4bANe6JUfgViwHokmVyin5xnpUTwFf2uj+nSQ0JVctPROokdtmsySbh
- 6jgFEquT58bSOKv4=
-X-Received: by 2002:adf:f190:: with SMTP id h16mr10400887wro.202.1600855361848; 
- Wed, 23 Sep 2020 03:02:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUIwPj6O+U3sHYM/lPBsqJT2haHD47XIhumTZJ21A6kuR3lVIPUaxsGQGtiVtqI625zQGZqQ==
-X-Received: by 2002:adf:f190:: with SMTP id h16mr10400869wro.202.1600855361707; 
- Wed, 23 Sep 2020 03:02:41 -0700 (PDT)
-Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id d5sm31892640wrb.28.2020.09.23.03.02.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 03:02:41 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] qemu/bswap: Remove <byteswap.h> dependency
-Date: Wed, 23 Sep 2020 12:02:20 +0200
-Message-Id: <20200923100220.674903-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200923100220.674903-1-philmd@redhat.com>
-References: <20200923100220.674903-1-philmd@redhat.com>
+ bh=W1dYmJFa9fDQ/iAEdQDPAGCsaCj66vdd4xQ2PLkFxgs=;
+ b=hbK3WT7IfwvdKRypccTPngn0/brbB+yuEXHHsz7/u/mgvutGPg8a5361JBMuZLrXL9ahUD
+ RYwBHYL0sRjFsbaS2uylu2koGyqTVdIE+vTrDtIOiKH5k3nFQ/DVlHfF5wQSOgQ7qx1ZAH
+ HuWNjn6MXO4IhzR32i1TdwMcMsGzrWY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-rYBA_TNYPTOoi-dL63MOjw-1; Wed, 23 Sep 2020 06:14:36 -0400
+X-MC-Unique: rYBA_TNYPTOoi-dL63MOjw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E6E380EF84;
+ Wed, 23 Sep 2020 10:14:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
+ [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A00A1002388;
+ Wed, 23 Sep 2020 10:14:29 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3BA4F9D5A; Wed, 23 Sep 2020 12:14:28 +0200 (CEST)
+Date: Wed, 23 Sep 2020 12:14:28 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [PATCH v8 3/7] usb/hcd-xhci: Split pci wrapper for xhci base model
+Message-ID: <20200923101428.zilaxig5yi5u45rn@sirius.home.kraxel.org>
+References: <1600780837-8231-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1600780837-8231-4-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
+In-Reply-To: <1600780837-8231-4-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 03:55:48
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,81 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?utf-8?Q?'Marc-Andr=C3=A9?= Lureau' <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ 'Philippe =?utf-8?Q?Mathieu-Daud=C3=A9'?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All our supported compilers provide the __builtin_bswap()
-functions. Drop the <byteswap.h> dependency.
+  Hi,
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- configure            | 13 -------------
- include/qemu/bswap.h | 17 -----------------
- 2 files changed, 30 deletions(-)
+> This patch sets the base to use xhci as sysbus model, for which pci
+> specific hooks are moved to hcd-xhci-pci.c. As a part of this requirment
+> msi/msix interrupts handling is moved under XHCIPCIState. Made required
+> changes for qemu-xhci-nec.
 
-diff --git a/configure b/configure
-index e8e8e984f24..bff787daea7 100755
---- a/configure
-+++ b/configure
-@@ -4886,16 +4886,6 @@ if test "$docs" != "no" ; then
-   fi
- fi
- 
--# Search for bswap_32 function
--byteswap_h=no
--cat > $TMPC << EOF
--#include <byteswap.h>
--int main(void) { return bswap_32(0); }
--EOF
--if compile_prog "" "" ; then
--  byteswap_h=yes
--fi
--
- # Search for bswap32 function
- bswap_h=no
- cat > $TMPC << EOF
-@@ -6789,9 +6779,6 @@ fi
- if test "$st_atim" = "yes" ; then
-   echo "HAVE_STRUCT_STAT_ST_ATIM=y" >> $config_host_mak
- fi
--if test "$byteswap_h" = "yes" ; then
--  echo "CONFIG_BYTESWAP_H=y" >> $config_host_mak
--fi
- if test "$bswap_h" = "yes" ; then
-   echo "CONFIG_MACHINE_BSWAP_H=y" >> $config_host_mak
- fi
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 6875e48d617..c192a6ad3e7 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -10,23 +10,6 @@
- # include <sys/endian.h>
- #elif defined(__HAIKU__)
- # include <endian.h>
--#elif defined(CONFIG_BYTESWAP_H)
--# include <byteswap.h>
--
--static inline uint16_t bswap16(uint16_t x)
--{
--    return bswap_16(x);
--}
--
--static inline uint32_t bswap32(uint32_t x)
--{
--    return bswap_32(x);
--}
--
--static inline uint64_t bswap64(uint64_t x)
--{
--    return bswap_64(x);
--}
- #else
- # define bswap16(_x) __builtin_bswap16(_x)
- # define bswap32(_x) __builtin_bswap32(_x)
--- 
-2.26.2
+Progress.  vmstate loads fine ;)
+
+Does not work though.  usb-tablet stops working after migration :(
+
+> @@ -3561,11 +3458,7 @@ static int usb_xhci_post_load(void *opaque, int version_id)
+>      }
+>  
+>      for (intr = 0; intr < xhci->numintrs; intr++) {
+> -        if (xhci->intr[intr].msix_used) {
+> -            msix_vector_use(pci_dev, intr);
+> -        } else {
+> -            msix_vector_unuse(pci_dev, intr);
+> -        }
+> +        xhci_intr_update(xhci, intr);
+>      }
+>  
+>      return 0;
+
+I suspect this is the problem.  I guess we should add
+usb_xhci_post_load_pci + usb_xhci_post_load_sysbus and move irq handling
+to these functions.
+
+take care,
+  Gerd
 
 
