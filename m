@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638A9275D45
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:24:05 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE3F275D61
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:26:58 +0200 (CEST)
+Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL7Yq-000107-0m
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48768)
+	id 1kL7bc-00045I-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kL7QV-0000Qr-BA
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:15:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kL7QR-0007Fv-UF
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:15:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600877723;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pJuMDU21P/y548s/k0O91QWF1/fQeBlQTIK42sdR0Us=;
- b=fVV7AIXPOWltgPBrqD4Z/XEew+U4KnRGAzGhJ7eUy/lqzdbh/YW6Cynr355HJ25zLTWV1x
- PLmBB/snvD1Y2gm8b9ATZz3uGw0xQER/UeZFnK2VnlhehG6g38tCBZ5ubYH07ZovBPRmZk
- Rb0MOncxQBoZcrJbdP0bgHz/L//A88U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-WodxrsHDOzOQWuKHkNneEQ-1; Wed, 23 Sep 2020 12:15:18 -0400
-X-MC-Unique: WodxrsHDOzOQWuKHkNneEQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79135801AFA;
- Wed, 23 Sep 2020 16:15:17 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2CC35D993;
- Wed, 23 Sep 2020 16:15:16 +0000 (UTC)
-Date: Wed, 23 Sep 2020 12:15:14 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 11/38] qapi/common.py: Replace one-letter 'c' variable
-Message-ID: <20200923161514.GK191229@localhost.localdomain>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-12-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kL7Tp-0004Qm-2J; Wed, 23 Sep 2020 12:18:53 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:38923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kL7Tl-00083W-TE; Wed, 23 Sep 2020 12:18:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=Sg+Sh+IRPQ5ub7D+DLJ/SQyW/FOzogwPpsqq9jchkl0=; 
+ b=KUx7BYA5YW3FWoBm6ZWJcBnvXnzGB+e5MmYSXXgsyYHWZ91VmAcKszENgSML88CigvGB/2mCIt+nuO8WhnaBSe/FxnfhrgKNgiOQL+ggtYVRMzrxKxSHf0FzFXMSig5o7tAi86LN4G3w1+6u5MTE6vG8MxUhndsb5nNWFj8lHvPkmBF76gGLaCNs0mH49DiIzFIiZMD84XWbb+oY3kXrTe7WKeZiSps7kVhxGwOBTPLmHcA+kB6Yo/xd4FW7nf7HEJflzele2LujhHk4s9QXEOmBoFQW/iB0PAsS72BZ/WUXIL93NsP5BCZdoebz25o8WNg7YuTx2xCPzISHlvghaA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kL7Tf-0001Jb-B7; Wed, 23 Sep 2020 18:18:43 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kL7Tf-0005hZ-0n; Wed, 23 Sep 2020 18:18:43 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v6 2/5] block/io: bdrv_common_block_status_above: support
+ include_base
+In-Reply-To: <20200916122008.20303-3-vsementsov@virtuozzo.com>
+References: <20200916122008.20303-1-vsementsov@virtuozzo.com>
+ <20200916122008.20303-3-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 23 Sep 2020 18:18:43 +0200
+Message-ID: <w51tuvoa2l8.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-12-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KjSGHOmKKB2VUiQn"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 11:59:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,43 +64,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---KjSGHOmKKB2VUiQn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed 16 Sep 2020 02:20:05 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
+> -    for (p = backing_bs(bs); p != base; p = backing_bs(p)) {
+> +    for (p = backing_bs(bs); include_base || p != base; p = backing_bs(p)) {
+>          ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
+>                                     file);
+>          if (ret < 0) {
+> @@ -2420,6 +2422,11 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+>              break;
+>          }
+>  
+> +        if (p == base) {
+> +            assert(include_base);
+> +            break;
+> +        }
+> +
 
-On Tue, Sep 22, 2020 at 05:00:34PM -0400, John Snow wrote:
-> Signed-off-by: John Snow <jsnow@redhat.com>
+Another option is something like:
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+   BlockDriverState *last_bs = include_base ? base : backing_bs(base);
 
---KjSGHOmKKB2VUiQn
-Content-Type: application/pgp-signature; name="signature.asc"
+and you get a simpler 'for' loop.
 
------BEGIN PGP SIGNATURE-----
+But why do we need include_base at all? Can't the caller just pass
+backing_bs(base) instead? I'm talking also about the existing case of
+bdrv_is_allocated_above().
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9rdJAACgkQZX6NM6Xy
-CfMNMhAAgOIR6gl1VkFU5tsPrSlEZrIMr7P+21KjrKVR5WDFGxYq0z/AEAc2GoQm
-fOHg2Bh998gH9jHpuKsvbZaxRj2l9Z47ZlNk7ee8WTD2t59jCekVoXs8q8GBgOX1
-ejRF0bqP2whezvg7M9NFIzcEavJSlVmR/LeeOEN+G3ot9pSIEI1YOYvL6yRMkwWb
-szZ2eEgn09NUi0qiCBd9Pu25jh2HKbgnlhXdj8O3SWteI322rKxnkM4O9kzuN9Zp
-fmo5Y4RkQTjBf2GdSiTmxpJY6dNrF7GfUyNQbnTSsEMBBcDjnRpD3HM2kR/McHlI
-BlFeLd85TdCvO2xH996tR6umTo0lCtjm5WY8Wo6k5DLhpZxyr0nfgIokUxXZf/dx
-WcleskKwdQZTGFiITQ36Et8Ap837sDjMYYYgCOpitBxH5RPv12/X4XDG98b9IwpF
-SYbiryO3IuJXbpzpDyGucQaEtd8JXa2efVAA7K+sS95zEfhl42AQqNZMmXKg03Bz
-GZTxkg1F5Y/Z9EGDztRKnKibw5OX/RnGUYzBPc7OTxpueCITW/qNiDrXZIEayiEh
-dAigEJcMQJJnldKl/SoiN55GkBnSGkr8s6JN4f7B9FBIXDdh+8ZskG7mlFyIOtkN
-EfcnnH70VSxqtNw65YHpWCbVb4RVHWlCy9GiE8yKP1fWY2qbuVs=
-=KNx9
------END PGP SIGNATURE-----
-
---KjSGHOmKKB2VUiQn--
-
+Berto
 
