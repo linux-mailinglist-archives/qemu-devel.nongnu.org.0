@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A76275D94
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:37:14 +0200 (CEST)
-Received: from localhost ([::1]:55212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4E2275DC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:47:49 +0200 (CEST)
+Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL7lZ-0007FX-TX
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
+	id 1kL7vn-0004se-Mc
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:47:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kL7kG-00066l-1u
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:35:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39484)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kL7t3-0003vR-W5
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:44:58 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52118
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kL7kE-0002Yt-60
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:35:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kL7t1-0004NQ-Vt
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:44:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600878948;
+ s=mimecast20190719; t=1600879494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yrN1XqWRGQr8wdGWUf8FHKMS/h9V4u6EdZoOKJ8Nzgw=;
- b=ImWQrV0Q2n82Kc+pD3LBPt0q3VaFgkbMrcJGb0sGSNTRIm9eSvnwQg4c2nCMxlgzh+Nzd1
- /Uaw+TS3uhqOiBa8UXv7gzHfSs8LyN3Zcow5muTE874w1tfXgv24LZoXxNTorTYMMITy/D
- xxptdpxboDChmXFty2T+2ULHFeIJ0kg=
+ bh=ro9vaC3ybk5v7z1l7JduSdhwAG6tigh9HuaODsMKltI=;
+ b=Gh7Irv2G3V9FEDBa2q9Sz6L+xaSKyROYqpX9VjC+89ujpVOFpjDlReEjiKNTFfAiPH5dOA
+ rLRwowt1vwkjWgvvxsgllhShqfIXgjYJ8R4lpgIwKqLtpOIq77TRhN8ynd0oLl+n/vKNUz
+ uI/dHnfoiAT6GqyeMZB3ZIeNr+Wzsdk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-TgWjFQH4O5CNKeNHbdkVRQ-1; Wed, 23 Sep 2020 12:35:29 -0400
-X-MC-Unique: TgWjFQH4O5CNKeNHbdkVRQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-586-EIzkPQ5ANBKXLGV0jeKPxA-1; Wed, 23 Sep 2020 12:44:50 -0400
+X-MC-Unique: EIzkPQ5ANBKXLGV0jeKPxA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8950E801ABC;
- Wed, 23 Sep 2020 16:35:28 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CC3460BF1;
- Wed, 23 Sep 2020 16:35:27 +0000 (UTC)
-Date: Wed, 23 Sep 2020 12:35:26 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 31/38] qapi/introspect.py: add _gen_features helper
-Message-ID: <20200923163526.GS3312949@habkost.net>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-32-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CE2C801AFE;
+ Wed, 23 Sep 2020 16:44:49 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5F1C9CBA;
+ Wed, 23 Sep 2020 16:44:47 +0000 (UTC)
+Subject: Re: [PATCH v2 7/7] configure: Bump the minimum required Python
+ version to 3.6
+To: luoyonggang@gmail.com
+References: <CAFEAcA-P5gngMXmBUtOGNn=ZUN8C2dmC=5Phxs7C5fYV=Odhjw@mail.gmail.com>
+ <20200923162908.95372-1-thuth@redhat.com>
+ <CAE2XoE_BiPL7JH+Uz9VVRHKMiJEHjX7a+FCLv_TEDqa5srAaQA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <0a08e595-4ec5-6667-4b38-9acea7874020@redhat.com>
+Date: Wed, 23 Sep 2020 18:44:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-32-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAE2XoE_BiPL7JH+Uz9VVRHKMiJEHjX7a+FCLv_TEDqa5srAaQA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 11:18:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,118 +85,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:00:54PM -0400, John Snow wrote:
-> _make_tree doesn't know if it is receiving an object or some other type;
-> adding features information should arguably be performed by the caller.
-> 
-> This will help us refactor _make_tree more gracefully in the next patch.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/introspect.py | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index 41ca8afc67..e1edd0b179 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -10,7 +10,7 @@
->  See the COPYING file in the top-level directory.
->  """
->  
-> -from typing import (NamedTuple, Optional, Sequence)
-> +from typing import (NamedTuple, List, Optional, Sequence)
->  
->  from .common import (
->      c_name,
-> @@ -20,7 +20,7 @@
->  )
->  from .gen import QAPISchemaMonolithicCVisitor
->  from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
-> -                     QAPISchemaType)
-> +                     QAPISchemaFeature, QAPISchemaType)
->  
->  
->  class Extra(NamedTuple):
-> @@ -31,12 +31,10 @@ class Extra(NamedTuple):
->      ifcond: Sequence[str] = tuple()
->  
->  
-> -def _make_tree(obj, ifcond, features,
-> +def _make_tree(obj, ifcond,
->                 extra: Optional[Extra] = None):
->      comment = extra.comment if extra else None
->      extra = Extra(comment, ifcond)
+On 23/09/2020 18.34, 罗勇刚(Yonggang Luo) wrote:
+> Should we also warning it in meson.build, cause configure finally shoud
+> be removed.
 
-I believe these two lines above should be removed, as suggested
-in patch 30, but let's ignore that for now.
+Sounds like a good idea for a separate patch (let's do one issue at a
+time...).
 
-> -    if features:
-> -        obj['features'] = [(f.name, Extra(None, f.ifcond)) for f in features]
-
-I can't say I understand completely why moving these two lines
-outside _make_tree() is useful, but if it makes the cleanup work
-you did easier, I trust this is the right thing to do.  The
-changes look correct.
-
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-
-
->      return (obj, extra)
->  
->  
-> @@ -169,6 +167,10 @@ def _use_type(self, typ):
->              return '[' + self._use_type(typ.element_type) + ']'
->          return self._name(typ.name)
->  
-> +    @classmethod
-> +    def _gen_features(cls, features: List[QAPISchemaFeature]):
-> +        return [_make_tree(f.name, f.ifcond) for f in features]
-> +
->      def _gen_tree(self, name, mtype, obj, ifcond, features):
->          extra = None
->          if mtype not in ('command', 'event', 'builtin', 'array'):
-> @@ -179,13 +181,17 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
->              name = self._name(name)
->          obj['name'] = name
->          obj['meta-type'] = mtype
-> -        self._trees.append(_make_tree(obj, ifcond, features, extra))
-> +        if features:
-> +            obj['features'] = self._gen_features(features)
-> +        self._trees.append(_make_tree(obj, ifcond, extra))
->  
->      def _gen_member(self, member):
->          obj = {'name': member.name, 'type': self._use_type(member.type)}
->          if member.optional:
->              obj['default'] = None
-> -        return _make_tree(obj, member.ifcond, member.features)
-> +        if member.features:
-> +            obj['features'] = self._gen_features(member.features)
-> +        return _make_tree(obj, member.ifcond)
->  
->      def _gen_variants(self, tag_name, variants):
->          return {'tag': tag_name,
-> @@ -193,7 +199,7 @@ def _gen_variants(self, tag_name, variants):
->  
->      def _gen_variant(self, variant):
->          obj = {'case': variant.name, 'type': self._use_type(variant.type)}
-> -        return _make_tree(obj, variant.ifcond, None)
-> +        return _make_tree(obj, variant.ifcond)
->  
->      def visit_builtin_type(self, name, info, json_type):
->          self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
-> -- 
-> 2.26.2
-> 
-
--- 
-Eduardo
+ Thomas
 
 
