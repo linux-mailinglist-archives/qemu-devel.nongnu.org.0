@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88DF2761CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:16:02 +0200 (CEST)
-Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB982761E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:18:51 +0200 (CEST)
+Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLBBJ-00052F-NY
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47460)
+	id 1kLBE2-00069U-9d
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLB7f-0002PK-FZ
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:12:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20118)
+ id 1kLBBp-0005aS-RX
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:16:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLB7d-0004u0-OR
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:12:15 -0400
+ id 1kLBBo-0005Nl-BI
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:16:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600891933;
+ s=mimecast20190719; t=1600892191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vdu0oKK4Op/ymze2SszFoAU0G6apcheYawLKTvg3sZQ=;
- b=I0rSkwjKOiGsXxRZ9DRZoQNBA5DtO7kftFTDEdiNtaYbvDUKlcK4dRKOCods0BGvLHHzMl
- 9Q6N8SFf/WK543zcLVxvGp5WzzJB8nmmw4pTmgTjfd96m1kJzaco8wzc6RSlWENrWIkEa7
- M57ltZ7pwnzE11oHOPrBgG1gFjIbMs4=
+ bh=TCTNgaZGAU58cSDZZhuyGjbgfKG1GWlQQ04Fxq3b5zI=;
+ b=eZNfCE84FHiRsJhpWM+/Q4yUzIeLNroh4oVUYcXmTqQzHL5p/p7rfZpIdzROV2Pk5JHnpk
+ 2b97gAjSGuCMgNDh6dfu+4CNYTf4Tm3EvPXhJVbmqYzh8Xl3Kkn/BlK5htsYJ1dN9+wNv2
+ jYds6l4MbxTtom+DApvwup0Tg5ya6R8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-5npkg-mLNtuMoQoWxSYRyQ-1; Wed, 23 Sep 2020 16:12:10 -0400
-X-MC-Unique: 5npkg-mLNtuMoQoWxSYRyQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-3-CyKLv1z4NPOADwrA61cMcw-1; Wed, 23 Sep 2020 16:16:29 -0400
+X-MC-Unique: CyKLv1z4NPOADwrA61cMcw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7BD81074652;
- Wed, 23 Sep 2020 20:12:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 796039CC00;
+ Wed, 23 Sep 2020 20:16:28 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF4BD60C04;
- Wed, 23 Sep 2020 20:12:09 +0000 (UTC)
-Date: Wed, 23 Sep 2020 16:12:09 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F1F810023A5;
+ Wed, 23 Sep 2020 20:16:28 +0000 (UTC)
+Date: Wed, 23 Sep 2020 16:16:27 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 11/16] qapi/expr.py: enable pylint checks
-Message-ID: <20200923201209.GG3717385@habkost.net>
+Subject: Re: [PATCH 12/16] qapi/expr.py: Add docstrings
+Message-ID: <20200923201627.GH3717385@habkost.net>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
- <20200922211313.4082880-12-jsnow@redhat.com>
+ <20200922211313.4082880-13-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922211313.4082880-12-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200922211313.4082880-13-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -85,11 +85,28 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:13:08PM -0400, John Snow wrote:
+On Tue, Sep 22, 2020 at 05:13:09PM -0400, John Snow wrote:
 > Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+[...]
+> @@ -160,6 +244,18 @@ def check_type(value: Optional[object],
+>                 source: str,
+>                 allow_array: bool = False,
+>                 allow_dict: Union[bool, str] = False) -> None:
+> +    """
+> +    Check the QAPI type of `value`. [RW]
+> +
+> +    Python types of `str` or `None` are always allowed.
+> +
+> +    :param value:       The value to check.
+> +    :param info:        QAPI Source file information.
+> +    :param source:      Human readable string describing "what" the value is.
+> +    :param allow_array: Allow a `List[str]` of length 1,
+> +                        which indicates an Array<T> type.
+> +    :param allow_dict:  Allow a dict, treated as an anonymous type.
 
-Tested-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+I was hoping the docstring would explain what happens when
+allow_dict is a string.
 
 -- 
 Eduardo
