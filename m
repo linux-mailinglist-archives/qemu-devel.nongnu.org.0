@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEC227583D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 14:52:21 +0200 (CEST)
-Received: from localhost ([::1]:54156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7E427584D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 14:54:27 +0200 (CEST)
+Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL4Fw-0007kL-14
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 08:52:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
+	id 1kL4Hy-0000eB-7f
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 08:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chirantan@google.com>)
- id 1kL4Es-00071X-Lz
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 08:51:14 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:32795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chirantan@google.com>)
- id 1kL4Eq-000882-Mk
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 08:51:14 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id c17so15366882ybe.0
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 05:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yrw24KSUKB5un7ypzoyzMi3gtuBjd4drCZP05BGVyRE=;
- b=mLGbdNuQuUo9/i9Io2a5XDaSipZG1M5EjNQ3i3ZQihTvTEcDGTI4dunkRY2zas7b1n
- 3mN1GwTwS6MONmC9hjS1wol02Zy7s4WPqCaBkXh70pVBBy1Et/sZ+tdYCoiARYdrkogK
- cXfnGucEeAPmI8BehP2PDLQS8Qp4jTEcQXH3c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yrw24KSUKB5un7ypzoyzMi3gtuBjd4drCZP05BGVyRE=;
- b=qyssh95xhMTwpIgCWiGjyVlM9anQLWdnYzMmvGXlHnDf5cVLS57iN83cbhaElJnqiw
- 5uSBJijd2S854DHFB4QREDpAHtPI3VVAfh5uBygsHUf015wyGk+rJILRR7RdEZpG+x7E
- SM3ISFw86yaJSR1S8RAmDskHwkSRD9fgcuBy213ZPwAt5JsDqVY/PQcSvRJpLGFOGpBD
- qdeyJlcMerMsn63Xx499+kKWJeGKRitvr2J1VTfApmzZJGV/DUy13a8LufgpRe3/ivTo
- gHpN1DlJuOtrZLQVVCeXM+0J3r18jtxUUzLn3gWh8Q8gGqQA7BxdXG6CtsfA6T/Ez0eq
- Nerw==
-X-Gm-Message-State: AOAM530CCZvO5lrVrFAmrXTsKbM+vL0urqw4Vw3yE3VtF6N/BfPd0Qoa
- g9OTxTQw9xbib/7SrRpk9zrd69msHxlI4W72oSKs3A==
-X-Google-Smtp-Source: ABdhPJw3ozvdMOJ+kqoR0SZs9QNMq9zfLTo6P6aUSUvbZj+aSJGxo81sKqxKnC8iWkj12INSuXOOaEXVVYBG9usPVb4=
-X-Received: by 2002:a25:16c4:: with SMTP id 187mr14481211ybw.496.1600865470183; 
- Wed, 23 Sep 2020 05:51:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kL4GI-0008JY-9Z
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 08:52:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49030)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kL4GF-0008F1-QT
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 08:52:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600865559;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MY2L6MP8h2q22ZuivqcxPNYJ2lDv9AmRsIXOer2O21A=;
+ b=VhYBy/KxQm+hfpwqP5pUYMnqArZiw02HDaA7Z6knuQICB/HHIz6YllbPKq7UL8SZWTnGH5
+ 86B31wapzcdVhnH6TapmoaP15mz1VuKcUuGrw9szuOMKRCMD1yS83qmYrTGLiQyuWVqRBJ
+ zKQQBe1Du+kqi/0hCfwQE/qhdtfcHkc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-DByW4y0CPR-MYmsZLXnN_w-1; Wed, 23 Sep 2020 08:52:36 -0400
+X-MC-Unique: DByW4y0CPR-MYmsZLXnN_w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F1B91084C80;
+ Wed, 23 Sep 2020 12:52:35 +0000 (UTC)
+Received: from localhost (ovpn-113-77.ams2.redhat.com [10.36.113.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A9E160BEC;
+ Wed, 23 Sep 2020 12:52:35 +0000 (UTC)
+Date: Wed, 23 Sep 2020 13:52:34 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 0/2] fdmon-poll: reset npfd when upgrading to
+ fdmon-epoll
+Message-ID: <20200923125234.GI51019@stefanha-x1.localdomain>
+References: <20200915120339.702938-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20200918213436.GA3520@redhat.com>
-In-Reply-To: <20200918213436.GA3520@redhat.com>
-From: Chirantan Ekbote <chirantan@chromium.org>
-Date: Wed, 23 Sep 2020 21:50:59 +0900
-Message-ID: <CAJFHJroSeg=Zk1VaHBzwurNTkziFzupiiVf_Y-2TDQ7nmdAERg@mail.gmail.com>
-Subject: Re: [Virtio-fs] tools/virtiofs: Multi threading seems to hurt
- performance
-To: Vivek Goyal <vgoyal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=chirantan@google.com; helo=mail-yb1-xb2f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -104
-X-Spam_score: -10.5
-X-Spam_bar: ----------
-X-Spam_report: (-10.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <20200915120339.702938-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VaKJWhUROU/xPxjb"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,30 +81,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-stable@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 19, 2020 at 6:36 AM Vivek Goyal <vgoyal@redhat.com> wrote:
->
-> Hi All,
->
-> virtiofsd default thread pool size is 64. To me it feels that in most of
-> the cases thread pool size 1 performs better than thread pool size 64.
->
-> I ran virtiofs-tests.
->
-> https://github.com/rhvgoyal/virtiofs-tests
->
-> And here are the comparision results. To me it seems that by default
-> we should switch to 1 thread (Till we can figure out how to make
-> multi thread performance better even when single process is doing
-> I/O in client).
->
+--VaKJWhUROU/xPxjb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-FWIW, we've observed the same behavior in crosvm. Using a thread pool
-for the virtiofs server consistently gave us worse performance than
-using a single thread.
+On Tue, Sep 15, 2020 at 01:03:37PM +0100, Stefan Hajnoczi wrote:
+> v2:
+>  * Rebased onto qemu.git/master for meson
+>=20
+> Fix an assertion failure when aio_poll() is called in a aio_disable_exter=
+nal()
+> region. The failure happens when fdmon-poll is first upgraded to fdmon-ep=
+oll
+> and then downgraded again due to aio_disable_external().
+>=20
+> Stefan Hajnoczi (2):
+>   fdmon-poll: reset npfd when upgrading to fdmon-epoll
+>   tests: add test-fdmon-epoll
+>=20
+>  MAINTAINERS              |  1 +
+>  tests/test-fdmon-epoll.c | 73 ++++++++++++++++++++++++++++++++++++++++
+>  util/fdmon-poll.c        |  1 +
+>  tests/meson.build        |  3 ++
+>  4 files changed, 78 insertions(+)
+>  create mode 100644 tests/test-fdmon-epoll.c
+>=20
+> --=20
+> 2.26.2
+>=20
 
-Chirantan
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
+
+Stefan
+
+--VaKJWhUROU/xPxjb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9rRRIACgkQnKSrs4Gr
+c8jJVwf/efEr5Iir3o22Wu1gXwSQs3e8nF9XOj9p6WishaO4ExQCmRFvh3TNQt4C
+XmTHml+P7XfrnTxC2CCcbJcSlBPDHGdmqZ3Gz+I5WEI8jZE/bkExz1jX/9b6Jrp6
+p3eOWNvZ14tfP3gURlREJNE63H/EmWK3CZ/yiTHwF2Fq1zMEhpl5co2Nxi7KiKCP
+HVgCJ3ggPsFAQ2sy3nFBqCc5Zj4mWJKLXpznkFipqs0RUtrys/IUAH/S/2aSKjI4
+g8bzxCtVOOan0amQwK4y9Shiag7XHhnyS+zAcignc/GUETBQWiH4F9QQayhNnDZr
+32oqKQTADGs3V7bIOczH0RlADH42dQ==
+=D5w8
+-----END PGP SIGNATURE-----
+
+--VaKJWhUROU/xPxjb--
+
 
