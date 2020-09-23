@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200F727612E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:38:07 +0200 (CEST)
-Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C248B276132
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:40:39 +0200 (CEST)
+Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLAac-0004Vq-0P
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39654)
+	id 1kLAd4-0007dU-7l
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:40:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLAXz-0002fA-Ua; Wed, 23 Sep 2020 15:35:24 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:33335)
+ id 1kLAY1-0002gV-3Z; Wed, 23 Sep 2020 15:35:25 -0400
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:44441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLAXw-0008Vt-ET; Wed, 23 Sep 2020 15:35:23 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id cy2so629021qvb.0;
- Wed, 23 Sep 2020 12:35:17 -0700 (PDT)
+ id 1kLAXw-0008W3-Nf; Wed, 23 Sep 2020 15:35:24 -0400
+Received: by mail-qv1-xf44.google.com with SMTP id j10so581571qvk.11;
+ Wed, 23 Sep 2020 12:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SwOEQO9kfmA7oDtZYIo2rP0M5TYu31XtL4UeyeKcFpc=;
- b=mmAPIDtkKngGrxtBlFhT2+YqOx45oxRGI1Osh0+Lp5aqJ8e3l3QlI7SE9ozZZuSBIf
- cCk5uca/ZFpEElObLnyeG5gU3zjRn1UoF5fjfWB01/ESia3/JLzGpDVoSS8ESwL/6fcb
- C2QvmAofIIoE5Us/bbleEG3iZTlmOkrnzJcjSqfNmnowXTv8IAgOrcl0DREfGREkwh3W
- 2Uc1YhRUVf2ctYvpGx0IRESgbB9QxJtUJVYTZKod9iXGmrl7mgWDNS3a5pBPAcDtzWrd
- LcH6qY3K6q6yg6E/DhXSHtxEG4AtLpdn8jfZNO/R0bG+EwJ/3mgESNOW8MkddnDyIyJB
- LjYA==
+ bh=2BOBuZbC65SYlx/sk/v7p8L/zpIOl98wNdQzFPXYVBQ=;
+ b=NhBKRbjjDLM2gwpjNEqoDd1laEx7YvLhOjgyaBbmQXoY0yOMrAE+pdt9AE8LGcQE/j
+ GOlz+05ctJRGYCqoJ4PGnb8YnRmFl5+7k25DEbKr2mxjBihc/umSr5vKz4XiSHZFVuvX
+ zOko9m7+sS64POgcCf7zhQWIrqIfuMUspbCeTy1p6ISRReXhQzIFTAgxMu5YG5RxQZzs
+ VM3H7b7tEmTRJVCSadalWAWYenTXOjKllznesjrTa65IE6/lYjJeY7MafHm3hnywD60P
+ b2ZC0+bSQIRwS46LG/tMPtchPyaipgzEv+cl3B3hcMGCRqyMxcW3vI+775CZwebSXUhB
+ vlKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SwOEQO9kfmA7oDtZYIo2rP0M5TYu31XtL4UeyeKcFpc=;
- b=JumQjohF8HRDfNtV6C/kat0LWZDjHbeESzzaFfp3SuKv2KOSNPUA/E0G/+9tA6waNs
- il6q2LmVU3QAbyEGppoT5CJDzgOBQ9jJhO/40+Uq2VwOEcKgWD4TJmXAbxnOh9GIV0HZ
- V0pSb6cEJ80lCGipXj3GWpj/l/ZejZ418gS5UjcJwMb4a79fVyBmuKqym61kB3wm8pqi
- a8pPuRqAoEFn2KZ4/zK8o7Tq8X8L4SWI46Uutj2OXn3jxX6dcoEFVLEv6jV1xhFIuaU7
- xebg//GZ9LUW4LGb3k7Kjz3Y+uNLjaD96hudOj09EGubxCUD59q0A29lYbPlez8oyWBT
- bw5w==
-X-Gm-Message-State: AOAM532vuPGTb3J5JPIqxhktFyUkhaANovYMxXyfo3YHPTX7RX/rO8J+
- TPYewbhZV0Rzv63LXVYL0MKCfbVjvm+5Jw==
-X-Google-Smtp-Source: ABdhPJzTEhh56p2Boz2N56BdY0D+nuWeHd4fC5j/JNAAltllKilcPgYZsaqsJ4/UaHrYs59XnOEJcg==
-X-Received: by 2002:ad4:5387:: with SMTP id i7mr1611045qvv.43.1600889716798;
- Wed, 23 Sep 2020 12:35:16 -0700 (PDT)
+ bh=2BOBuZbC65SYlx/sk/v7p8L/zpIOl98wNdQzFPXYVBQ=;
+ b=C4BJ63TkSxAcU8Wb9wv/UFj3zkRGQRq6Ns03dBZ3D1yHkOAlDPqB1JNDIZD/cOyXXu
+ ntvEBqyKWTOv+VtR+JbNIukJ/0ZJtk6Bmh7PNBI54ypWnNt4bfCxgxVVrVylONnB71HS
+ oskyXHyEOhT3IDc7A8eQT29TUTgpiyLnNUFtySk0pqksPUTl5okGaiHE1JK5ASjG7nT1
+ +SvZ3JweWO6O6aSZ3tEyIhL/Nknqfot3coiz53G5Upk4mM6Tvu5kDapfOruTlPQyk+jV
+ meWDClL/dbcz2A/sHXVirxezFm9sbwnrIJt9duuk4s0/YQYnDXDbar3WB4/2f1/i5zyv
+ CBDA==
+X-Gm-Message-State: AOAM532xOLLk/daSKsLljFDWHBr4Zqtks+9PuewZ038ZQfOkSdISKnO3
+ TfxVqEgf3RM2J+3ddZWgzqkgG25fVBuGGA==
+X-Google-Smtp-Source: ABdhPJxxfucnSFaoOQxOVD26OJSmmXpATxG8dnpE8PS5zcP+3WlChbXbWtlSIkaUWLukzcSuYpgY0w==
+X-Received: by 2002:a0c:ac02:: with SMTP id l2mr1484637qvb.25.1600889719235;
+ Wed, 23 Sep 2020 12:35:19 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:9e50:6b84:53b8:5d9d:d408])
- by smtp.gmail.com with ESMTPSA id u4sm612362qkk.68.2020.09.23.12.35.12
+ by smtp.gmail.com with ESMTPSA id u4sm612362qkk.68.2020.09.23.12.35.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 12:35:13 -0700 (PDT)
+ Wed, 23 Sep 2020 12:35:18 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] spapr_numa: forbid asymmetrical NUMA setups
-Date: Wed, 23 Sep 2020 16:34:54 -0300
-Message-Id: <20200923193458.203186-3-danielhb413@gmail.com>
+Subject: [PATCH 3/6] spapr_numa: translate regular NUMA distance to PAPR
+ distance
+Date: Wed, 23 Sep 2020 16:34:55 -0300
+Message-Id: <20200923193458.203186-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200923193458.203186-1-danielhb413@gmail.com>
 References: <20200923193458.203186-1-danielhb413@gmail.com>
@@ -88,28 +89,65 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pSeries machine does not support asymmetrical NUMA
-configurations. This doesn't make much of a different
-since we're not using user input for pSeries NUMA setup,
-but this will change in the next patches.
+QEMU allows the user to set NUMA distances in the command line.
+For ACPI architectures like x86, this means that user input is
+used to populate the SLIT table, and the guest perceives the
+distances as the user chooses to.
 
-To avoid breaking existing setups, gate this change by
-checking for legacy NUMA support.
+PPC64 does not work that way. In the PAPR concept of NUMA,
+associativity relations between the NUMA nodes are provided by
+the device tree, and the guest kernel is free to calculate the
+distances as it sees fit. Given how ACPI architectures works,
+this puts the pSeries machine in a strange spot - users expect
+to define NUMA distances like in the ACPI case, but QEMU does
+not have control over it. To give pSeries users a similar
+experience, we'll need to bring kernel specifics to QEMU
+to approximate the NUMA distances.
+
+The pSeries kernel works with the NUMA distance range 10,
+20, 40, 80 and 160. The code starts at 10 (local distance) and
+searches for a match in the first NUMA level between the
+resources. If there is no match, the distance is doubled and
+then it proceeds to try to match in the next NUMA level. Rinse
+and repeat for MAX_DISTANCE_REF_POINTS levels.
+
+This patch introduces a spapr_numa_PAPRify_distances() helper
+that translates the user distances to kernel distance, which
+we're going to use to determine the associativity domains for
+the NUMA nodes.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_numa.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ hw/ppc/spapr_numa.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 64fe567f5d..36aaa273ee 100644
+index 36aaa273ee..180800b2f3 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -19,6 +19,24 @@
- /* Moved from hw/ppc/spapr_pci_nvlink2.c */
- #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+@@ -37,6 +37,49 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
+     return true;
+ }
  
-+static bool spapr_numa_is_symmetrical(MachineState *ms)
++/*
++ * This function will translate the user distances into
++ * what the kernel understand as possible values: 10
++ * (local distance), 20, 40, 80 and 160. Current heuristic
++ * is:
++ *
++ *  - distances between 11 and 30 -> rounded to 20
++ *  - distances between 31 and 60 -> rounded to 40
++ *  - distances between 61 and 120 -> rounded to 80
++ *  - everything above 120 -> 160
++ *
++ * This step can also be done in the same time as the NUMA
++ * associativity domains calculation, at the cost of extra
++ * complexity. We chose to keep it simpler.
++ *
++ * Note: this will overwrite the distance values in
++ * ms->numa_state->nodes.
++ */
++static void spapr_numa_PAPRify_distances(MachineState *ms)
 +{
 +    int src, dst;
 +    int nb_numa_nodes = ms->numa_state->num_nodes;
@@ -117,39 +155,31 @@ index 64fe567f5d..36aaa273ee 100644
 +
 +    for (src = 0; src < nb_numa_nodes; src++) {
 +        for (dst = src; dst < nb_numa_nodes; dst++) {
-+            if (numa_info[src].distance[dst] !=
-+                numa_info[dst].distance[src]) {
-+                return false;
++            uint8_t distance = numa_info[src].distance[dst];
++            uint8_t rounded_distance = 160;
++
++            if (distance > 11 && distance < 30) {
++                rounded_distance = 20;
++            } else if (distance > 31 && distance < 60) {
++                rounded_distance = 40;
++            } else if (distance > 61 && distance < 120) {
++                rounded_distance = 80;
 +            }
++
++            numa_info[src].distance[dst] = rounded_distance;
++            numa_info[dst].distance[src] = rounded_distance;
 +        }
 +    }
-+
-+    return true;
 +}
 +
  void spapr_numa_associativity_init(SpaprMachineState *spapr,
                                     MachineState *machine)
  {
-@@ -61,6 +79,22 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
- 
-         spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+@@ -95,6 +138,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+         exit(1);
      }
-+
-+    /*
-+     * Legacy NUMA guests (pseries-5.1 and order, or guests with only
-+     * 1 NUMA node) will not benefit from anything we're going to do
-+     * after this point.
-+     */
-+    if (spapr_machine_using_legacy_numa(spapr)) {
-+        return;
-+    }
-+
-+    if (!spapr_numa_is_symmetrical(machine)) {
-+        error_report("Asymmetrical NUMA topologies aren't supported "
-+                     "in the pSeries machine");
-+        exit(1);
-+    }
-+
+ 
++    spapr_numa_PAPRify_distances(machine);
  }
  
  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
