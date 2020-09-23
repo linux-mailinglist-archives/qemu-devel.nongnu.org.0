@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601DB27574A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:44:15 +0200 (CEST)
-Received: from localhost ([::1]:53482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791DC275742
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:42:28 +0200 (CEST)
+Received: from localhost ([::1]:48780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL3C2-0003Fx-E1
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35306)
+	id 1kL3AJ-00019A-D1
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kL38k-0001Su-9C
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:40:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51148)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kL38i-0007BH-4s
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:40:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kL38g-00054v-8l
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 11:40:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 37E272E80E7
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 11:40:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Sep 2020 11:33:35 -0000
-From: Maskim Bakulin <1896754@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kL37F-0008LO-9u
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:39:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kL37C-0006tc-Fp
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:39:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600861148;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4yfe0X9HVd0pUFQ/9IUloC9Tl/QG80Uh0KlTiLsNF3s=;
+ b=a2fFzyZi05ZwIEmZN+iSwHjcA4qzRlkYbHuiCEGNLB4SORllFXS/p6Ezk1JEU4hen1I1XD
+ CUqAlkeqQrXsMWXWWa05y4YctXb4FKJdJ6FX/KunxSbidL6kBfbRCFiH4w0t2NrWN5Rpvg
+ hc0KfNU7fOVoEkr/n0Y+7d8B6GZ/31Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-TII_JGuLM3u--SyLYg10QQ-1; Wed, 23 Sep 2020 07:39:06 -0400
+X-MC-Unique: TII_JGuLM3u--SyLYg10QQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F411100746D
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 11:39:05 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-112-54.ams2.redhat.com [10.36.112.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBFFD78805;
+ Wed, 23 Sep 2020 11:39:01 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ruspartisan
-X-Launchpad-Bug-Reporter: Maskim Bakulin (ruspartisan)
-X-Launchpad-Bug-Modifier: Maskim Bakulin (ruspartisan)
-Message-Id: <160086081591.406.2004357727821714311.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1896754] [NEW] Performance degradation for WinXP boot time after
- b55f54bc
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83bdf6c8a3a5f87722c8927e54838522f3e57504"; Instance="production"
-X-Launchpad-Hash: bf9a17a64308d8235eb4c921d87d0d333513ad6e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 07:40:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v1 0/5] virtio-mem: block size and address-assignment
+ optimizations
+Date: Wed, 23 Sep 2020 13:38:55 +0200
+Message-Id: <20200923113900.72718-1-david@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,47 +76,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896754 <1896754@bugs.launchpad.net>
+Cc: David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Let's try to detect the actual THP size and use it as default block size
+(unless the page size of the backend is bigger). Handle large block sizes
+better, avoiding a virtio-spec violation and optimizing address
+auto-detection.
 
-Qemu 5.1 loads Windows XP in TCG mode 5-6 times slower (~2 minutes) than
-4.2 (25 seconds), I git bisected it, and it appears that commit
-b55f54bc965607c45b5010a107a792ba333ba654 causes this issue. Probably
-similar to an older fixed bug
-https://bugs.launchpad.net/qemu/+bug/1672383
+David Hildenbrand (5):
+  virtio-mem: Probe THP size to determine default block size
+  virtio-mem: Check that "memaddr" is multiples of the block size
+  memory-device: Support big alignment requirements
+  memory-device: Add get_min_alignment() callback
+  virito-mem: Implement get_min_alignment()
 
-Command line is trivial: qemu-system-x86_64 -nodefaults -vga std -m
-4096M -hda WinXP.qcow2 -monitor stdio -snapshot
+ hw/mem/memory-device.c         | 20 ++++---
+ hw/virtio/virtio-mem-pci.c     | 14 +++++
+ hw/virtio/virtio-mem.c         | 95 ++++++++++++++++++++++++++++++++--
+ include/hw/mem/memory-device.h | 11 ++++
+ 4 files changed, 130 insertions(+), 10 deletions(-)
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+-- 
+2.26.2
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896754
-
-Title:
-  Performance degradation for WinXP boot time after b55f54bc
-
-Status in QEMU:
-  New
-
-Bug description:
-  Qemu 5.1 loads Windows XP in TCG mode 5-6 times slower (~2 minutes)
-  than 4.2 (25 seconds), I git bisected it, and it appears that commit
-  b55f54bc965607c45b5010a107a792ba333ba654 causes this issue. Probably
-  similar to an older fixed bug
-  https://bugs.launchpad.net/qemu/+bug/1672383
-
-  Command line is trivial: qemu-system-x86_64 -nodefaults -vga std -m
-  4096M -hda WinXP.qcow2 -monitor stdio -snapshot
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896754/+subscriptions
 
