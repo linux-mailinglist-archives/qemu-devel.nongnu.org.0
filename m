@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513BC275435
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:17:06 +0200 (CEST)
-Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63211275445
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:21:19 +0200 (CEST)
+Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL0tc-00084G-Sx
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:17:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53026)
+	id 1kL0xi-0004Wg-7N
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kL0oS-00019H-6L
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:11:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59387)
+ id 1kL0oW-0001Bt-Fn
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:11:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kL0oL-0002Mb-FK
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:11:41 -0400
+ id 1kL0oP-0002Ml-DM
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:11:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600852296;
+ s=mimecast20190719; t=1600852297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NmGhtkB1QB5kLHSLDrmo5u7rX3bh1zscfyeedYPRWx4=;
- b=ElHJ+OuE2mfdtm9aqcFwkYOnrO42O/+0x6DNO3r6wwurqYf4ixOclizJnVm6UpsErhd2WO
- I9qiZ2/vdi/IPdn1UyAXAFzp21xd1g7hJz3RHfzjAnYHgf0q4veLScUW1d95ahX7HgPfUY
- xNx9phCc+zFCmLLe1qBg90e3UQEcN2U=
+ bh=csQxNiFZcnC9TBP3b4tvHjusdp7fACDXz4/V7nvvILU=;
+ b=UO8ZcUCrqEqJIMRRlwu+rxf15oPD/c7TS0MdTq7vCEfwXZlk3s+unKpJF4Ymce3rWY2VkX
+ uMm6rQKNNs/cuMuqOrCiprTu3iFJbjc88DR6NUEm7lDPnK0ZGN/oL6kUu93Go4AkARxYhq
+ 9brGTM2BGHW4AGEbBgjslp481cQxIVI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-07791cbYMxSbHCZovwdVtQ-1; Wed, 23 Sep 2020 05:11:35 -0400
-X-MC-Unique: 07791cbYMxSbHCZovwdVtQ-1
+ us-mta-354-7wHGC4N5MKC1zuZ_z7hQhA-1; Wed, 23 Sep 2020 05:11:35 -0400
+X-MC-Unique: 7wHGC4N5MKC1zuZ_z7hQhA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07D6F107464E;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89EBC1005E76;
  Wed, 23 Sep 2020 09:11:34 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0BF75D9CC;
- Wed, 23 Sep 2020 09:11:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F0805D9CC;
+ Wed, 23 Sep 2020 09:11:34 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/12] configure: rewrite accelerator defaults as tests
-Date: Wed, 23 Sep 2020 05:11:22 -0400
-Message-Id: <20200923091131.1591563-4-pbonzini@redhat.com>
+Subject: [PATCH 04/12] configure: move accelerator logic to meson
+Date: Wed, 23 Sep 2020 05:11:23 -0400
+Message-Id: <20200923091131.1591563-5-pbonzini@redhat.com>
 In-Reply-To: <20200923091131.1591563-1-pbonzini@redhat.com>
 References: <20200923091131.1591563-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,137 +85,213 @@ Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prepare to process "auto" in meson rather than configure: standardize the
-shape of the code that changes "auto" to enabled/disabled, to ease the review
-when it will be moved to meson.
+Move to meson the code to detect the presence of accelerators, and
+to define accelerator-specific config-target.h symbols.
+
+The logic for now is duplicated in configure because it is still
+in use to build the list of targets (which is in turn used to
+create the config-target.mak files).  The next patches remove it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure | 58 ++++++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 38 insertions(+), 20 deletions(-)
+ configure   |  19 ---------
+ meson.build | 108 ++++++++++++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 93 insertions(+), 34 deletions(-)
 
 diff --git a/configure b/configure
-index 33bd3c4cb8..04cc25f7c8 100755
+index 04cc25f7c8..5df58c4b89 100755
 --- a/configure
 +++ b/configure
-@@ -429,10 +429,10 @@ vhost_scsi=""
- vhost_vsock=""
- vhost_user=""
- vhost_user_fs=""
--kvm="disabled"
--hax="disabled"
--hvf="disabled"
--whpx="disabled"
-+kvm="auto"
-+hax="auto"
-+hvf="auto"
-+whpx="auto"
- rdma=""
- pvrdma=""
- gprof="no"
-@@ -821,8 +821,6 @@ HOST_VARIANT_DIR=""
- case $targetos in
- MINGW32*)
-   mingw32="yes"
--  hax="enabled"
--  whpx="auto"
-   vhost_user="no"
-   audio_possible_drivers="dsound sdl"
-   if check_include dsound.h; then
-@@ -856,7 +854,6 @@ DragonFly)
- ;;
- NetBSD)
-   bsd="yes"
--  hax="enabled"
-   make="${MAKE-gmake}"
-   audio_drv_list="oss try-sdl"
-   audio_possible_drivers="oss sdl"
-@@ -873,8 +870,6 @@ OpenBSD)
- Darwin)
-   bsd="yes"
-   darwin="yes"
--  hax="enabled"
--  hvf="auto"
-   if [ "$cpu" = "x86_64" ] ; then
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
-@@ -910,7 +905,6 @@ Linux)
-   audio_possible_drivers="oss alsa sdl pa"
-   linux="yes"
-   linux_user="yes"
--  kvm="enabled"
-   QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
- ;;
- esac
-@@ -2668,6 +2662,29 @@ if test "$seccomp" != "no" ; then
-         seccomp="no"
-     fi
+@@ -6863,7 +6863,6 @@ if test "$optreset" = "yes" ; then
+   echo "HAVE_OPTRESET=y" >> $config_host_mak
  fi
-+
-+##########################################
-+# simple accelerator probes
-+
-+if test "$kvm" != "disabled" ; then
-+  if test "$linux" = yes ; then
-+    kvm=enabled
-+  else
-+    if test "$kvm" = "enabled" ; then
-+      feature_not_found "kvm" "KVM is only available on Linux"
-+    fi
-+    kvm=disabled
-+  fi
-+fi
-+
-+if test "$hax" = "auto" ; then
-+  if test "$mingw" = yes || test "$darwin" = yes || test "$targetos" = NetBSD; then
-+    hax=enabled
-+  else
-+    hax=disabled
-+  fi
-+fi
-+
- ##########################################
- # xen probe
- 
-@@ -2988,14 +3005,15 @@ fi
- 
- ##########################################
- # Windows Hypervisor Platform accelerator (WHPX) check
--if test "$whpx" = "enabled" && test "$ARCH" != "x86_64"; then
--  error_exit "WHPX requires 64-bit host"
--fi
--if test "$whpx" != "disabled" && test "$ARCH" = "x86_64"; then
--    if check_include "WinHvPlatform.h" && check_include "WinHvEmulation.h"; then
--        whpx="yes"
-+if test "$whpx" != "disabled"; then
-+    if test "$mingw32" = yes && test "$ARCH" = "x86_64" &&
-+            check_include "WinHvPlatform.h" && check_include "WinHvEmulation.h"; then
-+        whpx="enabled"
-     else
--        if test "$whpx" = "auto"; then
-+        if test "$whpx" = "enabled"; then
-+            if test "$ARCH" != "x86_64"; then
-+                error_exit "WHPX requires 64-bit host"
-+            fi
-             feature_not_found "WinHvPlatform" "WinHvEmulation is not installed"
-         fi
-         whpx="disabled"
-@@ -5831,13 +5849,13 @@ if [ "$hvf" != "disabled" ] ; then
- #include <Hypervisor/hv.h>
- int main() { return 0;}
- EOF
--  if ! compile_object ""; then
-+  if test "$darwin" = yes && compile_object ""; then
-+    hvf='enabled'
-+  else
-     if test "$hvf" = "enabled"; then
- 	error_exit "Hypervisor.framework not available"
-     fi
-     hvf='disabled'
--  else
--    hvf='enabled'
+ if test "$tcg" = "enabled"; then
+-  echo "CONFIG_TCG=y" >> $config_host_mak
+   if test "$tcg_interpreter" = "yes" ; then
+     echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
    fi
+@@ -7645,24 +7644,6 @@ if [ "$TARGET_SYSTBL_ABI" != "" ]; then
+     echo "TARGET_SYSTBL=$TARGET_SYSTBL" >> $config_target_mak
  fi
+ 
+-if supported_xen_target $target; then
+-    echo "CONFIG_XEN=y" >> $config_target_mak
+-    if test "$xen_pci_passthrough" = enabled; then
+-        echo "CONFIG_XEN_PCI_PASSTHROUGH=y" >> "$config_target_mak"
+-    fi
+-fi
+-if supported_kvm_target $target; then
+-    echo "CONFIG_KVM=y" >> $config_target_mak
+-fi
+-if supported_hax_target $target; then
+-    echo "CONFIG_HAX=y" >> $config_target_mak
+-fi
+-if supported_hvf_target $target; then
+-    echo "CONFIG_HVF=y" >> $config_target_mak
+-fi
+-if supported_whpx_target $target; then
+-    echo "CONFIG_WHPX=y" >> $config_target_mak
+-fi
+ if test "$target_aligned_only" = "yes" ; then
+   echo "TARGET_ALIGNED_ONLY=y" >> $config_target_mak
+ fi
+diff --git a/meson.build b/meson.build
+index 02593bc787..641378c1d9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -50,6 +50,28 @@ configure_file(input: files('scripts/ninjatool.py'),
+                output: 'ninjatool',
+                configuration: config_host)
+ 
++if cpu in ['x86', 'x86_64']
++  kvm_targets = ['i386-softmmu', 'x86_64-softmmu']
++elif cpu == 'aarch64'
++  kvm_targets = ['aarch64-softmmu']
++elif cpu == 's390x'
++  kvm_targets = ['s390x-softmmu']
++elif cpu in ['ppc', 'ppc64']
++  kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
++else
++  kvm_targets = []
++endif
++
++accelerator_targets = { 'CONFIG_KVM': kvm_targets }
++if cpu in ['x86', 'x86_64']
++  accelerator_targets += {
++    'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
++    'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
++    'CONFIG_HVF': ['x86_64-softmmu'],
++    'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
++  }
++endif
++
+ ##################
+ # Compiler flags #
+ ##################
+@@ -103,7 +125,7 @@ version_res = []
+ coref = []
+ iokit = []
+ cocoa = not_found
+-hvf = []
++hvf = not_found
+ if targetos == 'windows'
+   socket = cc.find_library('ws2_32')
+   winmm = cc.find_library('winmm')
+@@ -116,7 +138,6 @@ elif targetos == 'darwin'
+   coref = dependency('appleframeworks', modules: 'CoreFoundation')
+   iokit = dependency('appleframeworks', modules: 'IOKit')
+   cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
+-  hvf = dependency('appleframeworks', modules: 'Hypervisor')
+ elif targetos == 'sunos'
+   socket = [cc.find_library('socket'),
+             cc.find_library('nsl'),
+@@ -127,6 +148,63 @@ elif targetos == 'haiku'
+             cc.find_library('bsd')]
+ endif
+ 
++accelerators = []
++if not get_option('kvm').disabled() and targetos == 'linux'
++  accelerators += 'CONFIG_KVM'
++endif
++if not get_option('xen').disabled() and 'CONFIG_XEN_BACKEND' in config_host
++  accelerators += 'CONFIG_XEN'
++  have_xen_pci_passthrough = not get_option('xen_pci_passthrough').disabled() and targetos == 'linux'
++else
++  have_xen_pci_passthrough = false
++endif
++if not get_option('whpx').disabled() and targetos == 'windows'
++  if get_option('whpx').enabled() and cpu != 'x86_64'
++    error('WHPX requires 64-bit host')
++  elif cc.has_header('WinHvPlatform.h', required: get_option('whpx')) and \
++       cc.has_header('WinHvEmulation.h', required: get_option('whpx'))
++    accelerators += 'CONFIG_WHPX'
++  endif
++endif
++if not get_option('hvf').disabled()
++  hvf = dependency('appleframeworks', modules: 'Hypervisor',
++                   required: get_option('hvf'))
++  if hvf.found()
++    accelerators += 'CONFIG_HVF'
++  endif
++endif
++if not get_option('hax').disabled()
++  if get_option('hax').enabled() or targetos in ['windows', 'darwin', 'netbsd']
++    accelerators += 'CONFIG_HAX'
++  endif
++endif
++if not get_option('tcg').disabled()
++  if cpu not in supported_cpus
++    if 'CONFIG_TCG_INTERPRETER' in config_host
++      warning('Unsupported CPU @0@, will use TCG with TCI (experimental)'.format(cpu))
++    else
++      error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
++    endif
++  endif
++  accelerators += 'CONFIG_TCG'
++endif
++
++if 'CONFIG_KVM' not in accelerators and get_option('kvm').enabled()
++  error('KVM not available on this platform')
++endif
++if 'CONFIG_HVF' not in accelerators and get_option('hvf').enabled()
++  error('HVF not available on this platform')
++endif
++if 'CONFIG_WHPX' not in accelerators and get_option('whpx').enabled()
++  error('WHPX not available on this platform')
++endif
++if not have_xen_pci_passthrough and get_option('xen_pci_passthrough').enabled()
++  if 'CONFIG_XEN' in accelerators
++    error('Xen PCI passthrough not available on this platform')
++  else
++    error('Xen PCI passthrough requested but Xen not enabled')
++  endif
++endif
+ if not cocoa.found() and get_option('cocoa').enabled()
+   error('Cocoa not available on this platform')
+ endif
+@@ -640,17 +718,22 @@ kconfig_external_symbols = [
+ ]
+ ignored = ['TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_DIRS']
+ 
+-accel_symbols = [
+-  'CONFIG_KVM',
+-  'CONFIG_HAX',
+-  'CONFIG_HVF',
+-  'CONFIG_TCG',
+-  'CONFIG_WHPX'
+-]
+-
+ foreach target : target_dirs
+   config_target = keyval.load(meson.current_build_dir() / target / 'config-target.mak')
+ 
++  have_accel = false
++  foreach sym: accelerators
++    if sym == 'CONFIG_TCG' or target in accelerator_targets[sym]
++      config_target += { sym: 'y' }
++      config_all += { sym: 'y' }
++      if sym == 'CONFIG_XEN' and have_xen_pci_passthrough
++        config_target += { 'CONFIG_XEN_PCI_PASSTHROUGH': 'y' }
++      endif
++    endif
++    have_accel = true
++  endforeach
++  assert(have_accel)
++
+   foreach k, v: disassemblers
+     if config_host['ARCH'].startswith(k) or config_target['TARGET_BASE_ARCH'].startswith(k)
+       foreach sym: v
+@@ -676,11 +759,6 @@ foreach target : target_dirs
+       config_target_data.set(k, v)
+     endif
+   endforeach
+-  foreach sym: accel_symbols
+-    if config_target.has_key(sym)
+-      config_all += { sym: 'y' }
+-    endif
+-  endforeach
+   config_target_h += {target: configure_file(output: target + '-config-target.h',
+                                                configuration: config_target_data)}
  
 -- 
 2.26.2
