@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687702754B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:46:22 +0200 (CEST)
-Received: from localhost ([::1]:54428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0382754A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:42:10 +0200 (CEST)
+Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1Lx-0005Om-DM
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60224)
+	id 1kL1Ht-0001mg-BQ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kL1CP-0005x2-Dh
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:36:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25574
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kL1CM-00063z-GR
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:36:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600853784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h728GoLixq8UJds+V15FW4ONPpYQ6tZMor/1F82doTw=;
- b=hYs4LjLMbI1x69ZmCdCqMB8Ti/awKECDKPYzP8ZNDNi6B62+lrpagO4x5kA+xGBa+XdfrS
- EWsk+MqWNCsfyD54t3KTWDMEuwbtqF3YclClPPkKywx8lGyroD642lt6UZYQ6dkC3rVgDC
- j21/KWzdc9kBjk+FpIyuKl8vLjGpX74=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-CFZBUJmiN6mzyWkfBG0pug-1; Wed, 23 Sep 2020 05:36:22 -0400
-X-MC-Unique: CFZBUJmiN6mzyWkfBG0pug-1
-Received: by mail-wm1-f70.google.com with SMTP id c200so1999655wmd.5
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 02:36:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kele.hwang@gmail.com>)
+ id 1kL1E7-0007Ep-OV
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:38:16 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kele.hwang@gmail.com>)
+ id 1kL1E6-0006CT-1s
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:38:15 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id s14so2478280pju.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 02:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=GZk30ThLdHALGmw0nh8iMQ4L+TX2pxT4pTob5NEe5gc=;
+ b=BaQspzgnr9JwWaK8ox9MuISQqCHfhS49dpuyfG/Jgft3AN5VVrUL0IOeh6fS4z5VAu
+ /nA7mLyVOPRQEx9X/sorAVfh/D1wbSPjot3WGBKWuKoEZ/dgP18kfQmj2LF+KuyUwZVy
+ n4wsZDiAm75g2XEljQO1oRi4zaio+jFPM3svyIQntSka8FulEFz4jzB+sXS/rlOlg/RR
+ Oxa6ZY5wonYLfeuUydR/6/3lTp5VQZ+kYyrok9krw9na5naMODo2zDCmweWveynpTe4W
+ Z3gUkmArTc+KGivtNOE2wtd4ZmlRhTrequvFLZpJ+VGwy4St1SccURwj3iX+iQKm8gf/
+ KQRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h728GoLixq8UJds+V15FW4ONPpYQ6tZMor/1F82doTw=;
- b=PM9Oj6s4MlMjf8ptxcllPJHwdQKktId9QtdMQEfAY2YVnm4u1aYvrSoBGPoqVWYBs+
- zb1tHklThdnJv3okbIFUb10/qYeFEZ9TNzGLerP+owM16sl1UzpovkP38HUgVcvTZtH2
- Re7CGTYwJEwF8geLDp0WJPB7Xa321lTMOizWEAdJkfgk5Z0m6rulSefTGkki8mE5cfOR
- PqyvIU8XGcyL9h9F584RAdOh5CV6lXmuFtEV6EV6Yz10VwcHqNagykqENbh7xPa1PtVd
- uytZHmA2B6WSX2+ULYR1Jum7jbwYdvnaFErh6XR1NusI1GcDescGl0XSJyVctR98Wosf
- 9kqw==
-X-Gm-Message-State: AOAM531YrjDpdCERC2k1Fy29W0VqPmjVaGVp6qs8UJcY3UhlVRdBc6bf
- Rf/Duv1LFvUB0wMw1yZOvzeJE1GNPIxKZhvayNJN98p5PeoaKHiha85LI7jEBbQOhprNJk7V/kI
- yGS4lq80+NOGsr7Q=
-X-Received: by 2002:a7b:c38f:: with SMTP id s15mr5626140wmj.16.1600853781638; 
- Wed, 23 Sep 2020 02:36:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLPSjZlrqaLjyirCafluNU60SwxSigtUH5K2t3+W8bxvAjmSVCcGw3CLkMCgjAoIchLWFflw==
-X-Received: by 2002:a7b:c38f:: with SMTP id s15mr5626119wmj.16.1600853781391; 
- Wed, 23 Sep 2020 02:36:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:15f1:648d:7de6:bad9?
- ([2001:b07:6468:f312:15f1:648d:7de6:bad9])
- by smtp.gmail.com with ESMTPSA id f6sm30045884wro.5.2020.09.23.02.36.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Sep 2020 02:36:20 -0700 (PDT)
-Subject: Re: [PATCH v2] module: silence errors for module_load_qom_all().
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200923091217.22662-1-kraxel@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fdd8b613-4a49-0dc0-9a82-ad4b2d56380b@redhat.com>
-Date: Wed, 23 Sep 2020 11:36:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200923091217.22662-1-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 05:08:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=GZk30ThLdHALGmw0nh8iMQ4L+TX2pxT4pTob5NEe5gc=;
+ b=k0ryvqadbPJsbpb1nOFYUIWDA5GhxvYyQM3+Jn4g588VfZrzaV/f2ZtYonZooEhcQG
+ WWM8Qak9AvcECWhM9FXi53Vj6LH16mCtjSeFwap114+Hr+5uitbz1LebP84ENGA18z8U
+ aZ24k5YpuhrGpVJ61OZlEnYVxkeWTeFbBb0WiGzkO+orCU1OfrMjc670QcduOeuh+VQH
+ NeQR7NvY5pEAWBTm+zEft2eOEzcv1mbCgxe/CXHvZLy3E0Jyef6CfvSOGj2Ztx4dHjaq
+ MY4ZrV5w23AUIo7eGqZ6l77td+/mcgI42WsriCVm3RHAFFV2rYweFr3CmZDOMvFYWOCg
+ dUcQ==
+X-Gm-Message-State: AOAM531DQ60wtIFR/BjgjMbyXik4vwgVVh+xczG8RCDPHYpAHUhDoGMg
+ ywB22jO/GX9e6cHukSjA2Cak+WTfiMyOXQ==
+X-Google-Smtp-Source: ABdhPJzCgmvcUphKpg/nz9MM31VrFdBa6zvwMbnAKg6FaDrVxP45FMx9WEEsGaYn5LOccueLCyas7g==
+X-Received: by 2002:a17:902:8545:b029:d1:f2e3:8dd4 with SMTP id
+ d5-20020a1709028545b02900d1f2e38dd4mr8825242plo.65.1600853891249; 
+ Wed, 23 Sep 2020 02:38:11 -0700 (PDT)
+Received: from carbon.loongson.cn ([47.91.219.17])
+ by smtp.gmail.com with ESMTPSA id i8sm4431903pjv.43.2020.09.23.02.38.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Sep 2020 02:38:10 -0700 (PDT)
+From: Kele Huang <kele.hwang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/1] accel/tcg: Fix computing of is_write for mips
+Date: Wed, 23 Sep 2020 17:38:00 +0800
+Message-Id: <20200923093800.9845-1-kele.hwang@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <503406>
+References: <503406>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=kele.hwang@gmail.com; helo=mail-pj1-x1035.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,136 +82,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: Xu Zou <iwatchnima@gmail.com>, Kele Huang <kele.hwang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/09/20 11:12, Gerd Hoffmann wrote:
-> Add mayfail bool parameter to module loading functions.  Set it to true
-> for module_load_qom_all() because device modules might not load into all
-> system emulation variants.  qemu-system-s390x for example will not load
-> qxl because it lacks vga support.  Makes "make check" less chatty.
-> 
-> Drop module_loaded_qom_all check in module_load_qom_one to make sure we
-> see errors for explicit load requests, i.e. module_load_qom_one("qxl")
-> failing will log an error no matter whenever module_load_qom_all() was
-> called before or not.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  include/qemu/module.h |  8 ++++----
->  softmmu/qtest.c       |  2 +-
->  util/module.c         | 20 ++++++++++----------
->  3 files changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/include/qemu/module.h b/include/qemu/module.h
-> index 9121a475c1b6..944d403cbd15 100644
-> --- a/include/qemu/module.h
-> +++ b/include/qemu/module.h
-> @@ -61,15 +61,15 @@ typedef enum {
->  #define fuzz_target_init(function) module_init(function, \
->                                                 MODULE_INIT_FUZZ_TARGET)
->  #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
-> -#define block_module_load_one(lib) module_load_one("block-", lib)
-> -#define ui_module_load_one(lib) module_load_one("ui-", lib)
-> -#define audio_module_load_one(lib) module_load_one("audio-", lib)
-> +#define block_module_load_one(lib) module_load_one("block-", lib, false)
-> +#define ui_module_load_one(lib) module_load_one("ui-", lib, false)
-> +#define audio_module_load_one(lib) module_load_one("audio-", lib, false)
->  
->  void register_module_init(void (*fn)(void), module_init_type type);
->  void register_dso_module_init(void (*fn)(void), module_init_type type);
->  
->  void module_call_init(module_init_type type);
-> -bool module_load_one(const char *prefix, const char *lib_name);
-> +bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
->  void module_load_qom_one(const char *type);
->  void module_load_qom_all(void);
->  
-> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-> index 4e439caec7e9..6f697c8a6987 100644
-> --- a/softmmu/qtest.c
-> +++ b/softmmu/qtest.c
-> @@ -670,7 +670,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
->          g_assert(words[1] && words[2]);
->  
->          qtest_send_prefix(chr);
-> -        if (module_load_one(words[1], words[2])) {
-> +        if (module_load_one(words[1], words[2], false)) {
->              qtest_sendf(chr, "OK\n");
->          } else {
->              qtest_sendf(chr, "FAIL\n");
-> diff --git a/util/module.c b/util/module.c
-> index 34772e7d87eb..1535e7da4c06 100644
-> --- a/util/module.c
-> +++ b/util/module.c
-> @@ -109,7 +109,7 @@ void module_call_init(module_init_type type)
->  }
->  
->  #ifdef CONFIG_MODULES
-> -static int module_load_file(const char *fname)
-> +static int module_load_file(const char *fname, bool mayfail)
->  {
->      GModule *g_module;
->      void (*sym)(void);
-> @@ -133,8 +133,10 @@ static int module_load_file(const char *fname)
->  
->      g_module = g_module_open(fname, G_MODULE_BIND_LAZY | G_MODULE_BIND_LOCAL);
->      if (!g_module) {
-> -        fprintf(stderr, "Failed to open module: %s\n",
-> -                g_module_error());
-> +        if (!mayfail) {
-> +            fprintf(stderr, "Failed to open module: %s\n",
-> +                    g_module_error());
-> +        }
->          ret = -EINVAL;
->          goto out;
->      }
-> @@ -166,7 +168,7 @@ out:
->  }
->  #endif
->  
-> -bool module_load_one(const char *prefix, const char *lib_name)
-> +bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
->  {
->      bool success = false;
->  
-> @@ -222,7 +224,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
->      for (i = 0; i < n_dirs; i++) {
->          fname = g_strdup_printf("%s/%s%s",
->                  dirs[i], module_name, CONFIG_HOST_DSOSUF);
-> -        ret = module_load_file(fname);
-> +        ret = module_load_file(fname, mayfail);
->          g_free(fname);
->          fname = NULL;
->          /* Try loading until loaded a module file */
-> @@ -279,13 +281,11 @@ void module_load_qom_one(const char *type)
->      if (!type) {
->          return;
->      }
-> -    if (module_loaded_qom_all) {
-> -        return;
-> -    }
->      for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
->          if (strcmp(qom_modules[i].type, type) == 0) {
->              module_load_one(qom_modules[i].prefix,
-> -                            qom_modules[i].module);
-> +                            qom_modules[i].module,
-> +                            false);
->              return;
->          }
->      }
-> @@ -306,7 +306,7 @@ void module_load_qom_all(void)
->              /* one module implementing multiple types -> load only once */
->              continue;
->          }
-> -        module_load_one(qom_modules[i].prefix, qom_modules[i].module);
-> +        module_load_one(qom_modules[i].prefix, qom_modules[i].module, true);
->      }
->      module_loaded_qom_all = true;
->  }
-> 
+Detect mips store instructions in cpu_signal_handler for all MIPS
+versions, and set is_write if encountering such store instructions.
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+This fixed the error while dealing with self-modifed code for MIPS.
+
+Signed-off-by: Kele Huang <kele.hwang@gmail.com>
+Signed-off-by: Xu Zou <iwatchnima@gmail.com>
+---
+ accel/tcg/user-exec.c | 51 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 50 insertions(+), 1 deletion(-)
+
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index bb039eb32d..18784516e5 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -710,11 +710,60 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+     greg_t pc = uc->uc_mcontext.pc;
+     int is_write;
+ 
+-    /* XXX: compute is_write */
+     is_write = 0;
++
++    /* Detect store by reading the instruction at the program counter. */
++    uint32_t insn = *(uint32_t *)pc;
++    switch(insn>>29) {
++    case 0x5:
++        switch((insn>>26) & 0x7) {
++        case 0x0: /* SB */
++        case 0x1: /* SH */
++        case 0x2: /* SWL */
++        case 0x3: /* SW */
++        case 0x4: /* SDL */
++        case 0x5: /* SDR */
++        case 0x6: /* SWR */
++            is_write = 1;
++        }
++        break;
++    case 0x7:
++        switch((insn>>26) & 0x7) {
++        case 0x0: /* SC */
++        case 0x1: /* SWC1 */
++        case 0x4: /* SCD */
++        case 0x5: /* SDC1 */
++        case 0x7: /* SD */
++#if !defined(__mips_isa_rev) || __mips_isa_rev < 6
++        case 0x2: /* SWC2 */
++        case 0x6: /* SDC2 */
++#endif
++            is_write = 1;
++        }
++        break;
++    }
++
++    /*
++     * Required in all versions of MIPS64 since MIPS64r1. Not available
++     * in MIPS32r1. Required by MIPS32r2 and subsequent versions of MIPS32.
++     */
++    switch ((insn >> 3) & 0x7) {
++    case 0x1:
++        switch (insn & 0x7) {
++        case 0x0: /* SWXC1 */
++        case 0x1: /* SDXC1 */
++            is_write = 1;
++        }
++        break;
++    }
++
+     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+ }
+ 
++#elif defined(__misp16) || defined(__mips_micromips)
++
++#error "Unsupported encoding"
++
+ #elif defined(__riscv)
+ 
+ int cpu_signal_handler(int host_signum, void *pinfo,
+-- 
+2.17.1
 
 
