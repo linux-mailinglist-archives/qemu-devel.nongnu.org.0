@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B478275737
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:37:03 +0200 (CEST)
-Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A0E275735
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:32:52 +0200 (CEST)
+Received: from localhost ([::1]:44614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL2en-0002As-8T
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56692)
+	id 1kL311-0007Nn-R3
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kL2dU-0001em-FS
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:08:32 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kL2dS-0002Q4-NJ
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:08:32 -0400
-Received: by mail-wm1-x341.google.com with SMTP id b79so6654025wmb.4
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 04:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/WiH6uLl2VjwKV4X+/AAV4KnsSY4AgF2NB6XIEOSIms=;
- b=ekhqrqdMdIZgLID4xSK6oiF2Dm0yv7A34FOnJBKN54ALoS2124688PQpJ90K5I05v1
- ivsYMZYOeLQ1Slc4xXgzlRmoIc4F1EIf0DhVBzluvs0WaBdABqZ/Ph0DQy1Xi5p+6h6v
- e+uE7cW1DLa6Xrl1Ktq/2aLVrd4Pcq2OBKwKw6rzjPm9xanQvyKAoIrHAg2RuRely8Xc
- Jqz4AZumEf+gRsN18ERYSVB9ncq/yxIOGqpWnTumpmW6fLNkDNUZbKGX/XlfXx7FC+mn
- BdogSCuecnh/L1vhSqG7dm/F3wNplRH0g4AalF/lMtjbV3E49la0Va39SItEcTFSngvE
- kcYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/WiH6uLl2VjwKV4X+/AAV4KnsSY4AgF2NB6XIEOSIms=;
- b=n/56A5hfoSTzzQ623AnjNr6NKIxQugrLRHO/ET4uRdAR1Wc0XoeNPvLu4Y4Ne5Q53Y
- N7inA97pIlpWZYNC9/cDHqQdn2NnlU8o/YkIRHf2Gnmn4YhdsxXvpu1QXepjMdx51z31
- Muutanm4HogqbFiIt8WcjrYK36rq9j0UQWmYcQfmewP3Od/StCeHgyKOn3t95Ieavqi9
- +3oUYQak8OMILNoEnY7mRSUou64+UyTpSC4iBi3O9xjw/n3eh9PSwkRMp33fU2ezjP8q
- iOVnjmTqJ3RlwEsvMdN+BzZdRfiLk0YUXNgQbM2cbC8glBNEoebmB95DUNL+k/i04gUB
- Sy6A==
-X-Gm-Message-State: AOAM533TvcsXwO4BBWo00Rhrl3GqGz5QOGvFdCPpfjs8eSwEWESGnBa2
- pVMf9mIA4e8IUIda0kSUbTM=
-X-Google-Smtp-Source: ABdhPJxsyuq4UREZ/aEDRM4yceiof/d07y5O64WOSxv9j+qo/HxZfzQTKJvmSrhxh5Z0MQMi0jTvlg==
-X-Received: by 2002:a1c:32c6:: with SMTP id y189mr6166041wmy.51.1600859308294; 
- Wed, 23 Sep 2020 04:08:28 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id l4sm6293922wrc.14.2020.09.23.04.08.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Sep 2020 04:08:27 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] accel/tcg: Fix computing of is_write for mips
-To: Kele Huang <kele.hwang@gmail.com>, qemu-devel@nongnu.org
-References: <503406> <20200923093800.9845-1-kele.hwang@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <25889d77-4de0-6f5a-2b60-ab3e474e7c50@amsat.org>
-Date: Wed, 23 Sep 2020 13:08:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kL2z4-0006sA-89
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:30:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kL2z1-0005ux-4D
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:30:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600860645;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k23k4SXD775v0ONdnrfYjSiVNESSfLi2q514/euwNTY=;
+ b=J61K3EtgqpR/1i/WHeM5W7OrbVFVYvBE/QMdc3uXZ8axFY8Yymguj1Tcq6wxFLhNZFgVCC
+ F/ZX/Vqy6nAIL0QRBnsM9A7MaibfR5+8aBrIWCK4W978gG6ejuWO/R8LfQOz4NRwvkkClG
+ DJYEXEX0mg9h6IzaH8hqbZc+zu3FhT8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-zyUt8LigPTSLwUMdKUexUg-1; Wed, 23 Sep 2020 07:30:38 -0400
+X-MC-Unique: zyUt8LigPTSLwUMdKUexUg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20EFC10BBEC8;
+ Wed, 23 Sep 2020 11:30:37 +0000 (UTC)
+Received: from redhat.com (ovpn-114-73.ams2.redhat.com [10.36.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7D9810021AA;
+ Wed, 23 Sep 2020 11:30:31 +0000 (UTC)
+Date: Wed, 23 Sep 2020 12:30:29 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] Add execute bit back to scripts/tracetool.py
+Message-ID: <20200923113029.GQ2053606@redhat.com>
+References: <20200923103620.1980151-1-anthony.perard@citrix.com>
+ <8cbf1d90-849a-5046-d6f0-756000decaef@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200923093800.9845-1-kele.hwang@gmail.com>
+In-Reply-To: <8cbf1d90-849a-5046-d6f0-756000decaef@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,102 +84,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Xu Zou <iwatchnima@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Anthony PERARD <anthony.perard@citrix.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing the TCG MIPS maintainers, and also
-Cc'ing Richard who made a comment in v1.
-
-On 9/23/20 11:38 AM, Kele Huang wrote:
-> Detect mips store instructions in cpu_signal_handler for all MIPS
-> versions, and set is_write if encountering such store instructions.
+On Wed, Sep 23, 2020 at 01:14:57PM +0200, Paolo Bonzini wrote:
+> On 23/09/20 12:36, Anthony PERARD wrote:
+> > Commit a81df1b68b65 ("libqemuutil, qapi, trace: convert to meson")
+> > removed it without explanation and it is useful to be able to run a
+> > script without having to figure out which interpreter to use.
+> > 
+> > Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+> > ---
+> >  scripts/tracetool.py | 0
+> >  1 file changed, 0 insertions(+), 0 deletions(-)
+> >  mode change 100644 => 100755 scripts/tracetool.py
+> > 
+> > diff --git a/scripts/tracetool.py b/scripts/tracetool.py
+> > old mode 100644
+> > new mode 100755
+> > 
 > 
-> This fixed the error while dealing with self-modifed code for MIPS.
-
-Quoting Eric Blake:
-
-"It's better to post a v2 as a new top-level thread rather
-than buried in-reply-to the v1 thread; among other things,
-burying a reply can cause automated patch tooling to miss
-the updated series."
-
+> The explanation is in docs/devel/build-system.rst
 > 
-> Signed-off-by: Kele Huang <kele.hwang@gmail.com>
-> Signed-off-by: Xu Zou <iwatchnima@gmail.com>
-> ---
->  accel/tcg/user-exec.c | 51 ++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 50 insertions(+), 1 deletion(-)
+> Support scripts
+> ---------------
 > 
-> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index bb039eb32d..18784516e5 100644
-> --- a/accel/tcg/user-exec.c
-> +++ b/accel/tcg/user-exec.c
-> @@ -710,11 +710,60 @@ int cpu_signal_handler(int host_signum, void *pinfo,
->      greg_t pc = uc->uc_mcontext.pc;
->      int is_write;
->  
-> -    /* XXX: compute is_write */
->      is_write = 0;
-> +
-> +    /* Detect store by reading the instruction at the program counter. */
-> +    uint32_t insn = *(uint32_t *)pc;
-> +    switch(insn>>29) {
-> +    case 0x5:
-> +        switch((insn>>26) & 0x7) {
-> +        case 0x0: /* SB */
-> +        case 0x1: /* SH */
-> +        case 0x2: /* SWL */
-> +        case 0x3: /* SW */
-> +        case 0x4: /* SDL */
-> +        case 0x5: /* SDR */
-> +        case 0x6: /* SWR */
-> +            is_write = 1;
-> +        }
-> +        break;
-> +    case 0x7:
-> +        switch((insn>>26) & 0x7) {
-> +        case 0x0: /* SC */
-> +        case 0x1: /* SWC1 */
-> +        case 0x4: /* SCD */
-> +        case 0x5: /* SDC1 */
-> +        case 0x7: /* SD */
-> +#if !defined(__mips_isa_rev) || __mips_isa_rev < 6
-> +        case 0x2: /* SWC2 */
-> +        case 0x6: /* SDC2 */
-> +#endif
-> +            is_write = 1;
-> +        }
-> +        break;
-> +    }
-> +
-> +    /*
-> +     * Required in all versions of MIPS64 since MIPS64r1. Not available
-> +     * in MIPS32r1. Required by MIPS32r2 and subsequent versions of MIPS32.
-> +     */
-> +    switch ((insn >> 3) & 0x7) {
-> +    case 0x1:
-> +        switch (insn & 0x7) {
-> +        case 0x0: /* SWXC1 */
-> +        case 0x1: /* SDXC1 */
-> +            is_write = 1;
-> +        }
-> +        break;
-> +    }
-> +
->      return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
->  }
->  
-> +#elif defined(__misp16) || defined(__mips_micromips)
-> +
-> +#error "Unsupported encoding"
-> +
->  #elif defined(__riscv)
->  
->  int cpu_signal_handler(int host_signum, void *pinfo,
+> Meson has a special convention for invoking Python scripts: if their
+> first line is `#! /usr/bin/env python3` and the file is *not* executable,
+> find_program() arranges to invoke the script under the same Python
+> interpreter that was used to invoke Meson.  This is the most common
+> and preferred way to invoke support scripts from Meson build files,
+> because it automatically uses the value of configure's --python= option.
 > 
+> In case the script is not written in Python, use a `#! /usr/bin/env ...`
+> line and make the script executable.
+> 
+> Scripts written in Python, where it is desirable to make the script
+> executable (for example for test scripts that developers may want to
+> invoke from the command line, such as tests/qapi-schema/test-qapi.py),
+> should be invoked through the `python` variable in meson.build. For
+> example::
+> 
+>   test('QAPI schema regression tests', python,
+>        args: files('test-qapi.py'),
+>        env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
+> 
+> This is needed to obey the --python= option passed to the configure
+> script, which may point to something other than the first python3
+> binary on the path.
+
+The top level meson.build sets
+
+
+  tracetool = [
+    python, files('scripts/tracetool.py'),
+     '--backend=' + config_host['TRACE_BACKENDS']
+  ]
+
+So looks like we're correctly honouring the configured --python
+binary, and thus setting the executable bit will not cause any
+problems with meson.
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
