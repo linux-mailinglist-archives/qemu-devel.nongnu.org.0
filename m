@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFEA2762B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 23:02:26 +0200 (CEST)
-Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB422762D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 23:07:25 +0200 (CEST)
+Received: from localhost ([::1]:50860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLBuD-0002FR-LW
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 17:02:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56392)
+	id 1kLBz2-0003gn-OC
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 17:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLBsc-0001nN-9o
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 17:00:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32856)
+ id 1kLBxb-0003Et-EQ
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 17:05:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLBsa-000270-JH
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 17:00:45 -0400
+ id 1kLBxZ-0002lp-SV
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 17:05:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600894843;
+ s=mimecast20190719; t=1600895152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IdvxKZojc5zVYltTqEQLchZRVBwx3s7NYdw4K9/u1Ao=;
- b=LdS+8SPM3z5KEd+E0UuNZjRuREy4kcCf3Imbm4CDC/z5RTuReUm2BDkZrIZBAJeBDAPsMK
- AkU1r7qiWj+7GX45Vthz0i9IdjMXWbJH46dCnt4EIs23VxqL2/n2xDM+pkQuifn6hLJVuL
- 8SFGtujdPKZc8C9PENsDIioU5X60NqA=
+ bh=Wpff/57wQ5Lb9P0IeeMPbGl9XnYpDRvLTXqOkHkPcDg=;
+ b=RemPdUMQFw7byDi9uukilqVQWa3S8iHiQ9Zv026yp+9Uug3qQloXZRQZ6SnslQQ8knCrQK
+ 3PhMd8pMllnwZPvpA2acVyTgytV+Pwc4VhI4XQQzzHEmxg12X5vDAQqqNiNrWToM5Xy+yY
+ cKmi8Xty1WnQyqbZc+lXvtSYKQ+iZPw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-n1TzNDwlNeaZ76YFJ5Jwbw-1; Wed, 23 Sep 2020 17:00:40 -0400
-X-MC-Unique: n1TzNDwlNeaZ76YFJ5Jwbw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-594-Gg3Bi2AUP4-4WStjHB4Lxw-1; Wed, 23 Sep 2020 17:05:50 -0400
+X-MC-Unique: Gg3Bi2AUP4-4WStjHB4Lxw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A644807351;
- Wed, 23 Sep 2020 21:00:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2385D8064D1;
+ Wed, 23 Sep 2020 21:05:49 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7AE419728;
- Wed, 23 Sep 2020 21:00:38 +0000 (UTC)
-Date: Wed, 23 Sep 2020 17:00:37 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B008A5D990;
+ Wed, 23 Sep 2020 21:05:48 +0000 (UTC)
+Date: Wed, 23 Sep 2020 17:05:46 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 09/14] qapi/doc.py: Remove one-letter variables
-Message-ID: <20200923210037.GT3717385@habkost.net>
+Subject: Re: [PATCH 10/14] qapi/gen.py: Add __bool__ dunder method to QAPIGen
+Message-ID: <20200923210546.GU3717385@habkost.net>
 References: <20200922211802.4083666-1-jsnow@redhat.com>
- <20200922211802.4083666-10-jsnow@redhat.com>
+ <20200922211802.4083666-11-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922211802.4083666-10-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200922211802.4083666-11-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -86,7 +86,11 @@ Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:17:57PM -0400, John Snow wrote:
+On Tue, Sep 22, 2020 at 05:17:58PM -0400, John Snow wrote:
+> Falseish when there is no body or preamble; Trueish when there is.
+> Header and footer are excluded for now, because they are assumed to be
+> dynamic and always present.
+> 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
