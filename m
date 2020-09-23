@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A825427551A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:07:14 +0200 (CEST)
-Received: from localhost ([::1]:55170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E63275519
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:07:13 +0200 (CEST)
+Received: from localhost ([::1]:54958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1g9-0004wU-LO
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
+	id 1kL1g8-0004qx-3L
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kL1b6-0007lk-A4
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34910)
+ id 1kL1bW-00084y-Fk
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kL1b3-0001Gh-NE
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:01:59 -0400
+ id 1kL1bQ-0001IL-Hx
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600855316;
+ s=mimecast20190719; t=1600855339;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRjpVxDsm31MfJqHk/M9np1KOMl/JSyIqxh/otyLY4E=;
- b=Bsy3bP6EKhbcANkmj3yoiC7dZ3Ls97uiWwIe02FFd6qYplfzoLqInhskzwEng1cvGOQ7NY
- UId37M7lUckudjCsITQdFbni0CWP0gNqvau2az0qH1dGziT6QfXNb3bnS9SBWN5IdC1hzs
- xSSDB1GRSV7KRD7JfORUWIpBsTQJt1s=
+ bh=1uIm6IscITWzMj8riJSaUlkkZS0txPRdn/Md5OVBLKk=;
+ b=D5r7HSt/rMR/GOhbEd+6Sc836PqI6N4xFiy0XbvZXyjdLHTSFSNge1/Cdrmhf0TGo5Zu0u
+ LqTn4Fep0fxISqX7pV8ADbhsVDHROOYGCGhGEAEtF0PMPcGSJO4WwdSMun/vgZ3gK4NFUs
+ +U+/WFdZpkfNd739YQQ29qRIotKMZjc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-RSMBG0AxPL6lnv7xrNqCzg-1; Wed, 23 Sep 2020 06:01:54 -0400
-X-MC-Unique: RSMBG0AxPL6lnv7xrNqCzg-1
+ us-mta-275-sX0iQpe9NIuQoZ70azRDcw-1; Wed, 23 Sep 2020 06:02:17 -0400
+X-MC-Unique: sX0iQpe9NIuQoZ70azRDcw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD201801AE9
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 10:01:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64E4981F03E
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 10:02:16 +0000 (UTC)
 Received: from redhat.com (ovpn-114-73.ams2.redhat.com [10.36.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 631077368F;
- Wed, 23 Sep 2020 10:01:49 +0000 (UTC)
-Date: Wed, 23 Sep 2020 11:01:46 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5376973682;
+ Wed, 23 Sep 2020 10:02:12 +0000 (UTC)
+Date: Wed, 23 Sep 2020 11:02:09 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 09/24] input-linux: Register properties as class properties
-Message-ID: <20200923100146.GN2053606@redhat.com>
+Subject: Re: [PATCH 10/24] input-barrier: Register properties as class
+ properties
+Message-ID: <20200923100209.GO2053606@redhat.com>
 References: <20200921221045.699690-1-ehabkost@redhat.com>
- <20200921221045.699690-10-ehabkost@redhat.com>
+ <20200921221045.699690-11-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200921221045.699690-10-ehabkost@redhat.com>
+In-Reply-To: <20200921221045.699690-11-ehabkost@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -61,9 +62,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -90,7 +91,7 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 21, 2020 at 06:10:30PM -0400, Eduardo Habkost wrote:
+On Mon, Sep 21, 2020 at 06:10:31PM -0400, Eduardo Habkost wrote:
 > Class properties make QOM introspection simpler and easier, as
 > they don't require an object to be instantiated.
 > 
@@ -99,10 +100,11 @@ On Mon, Sep 21, 2020 at 06:10:30PM -0400, Eduardo Habkost wrote:
 > Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Cc: qemu-devel@nongnu.org
 > ---
->  ui/input-linux.c | 27 ++++++++++++++-------------
->  1 file changed, 14 insertions(+), 13 deletions(-)
+>  ui/input-barrier.c | 44 ++++++++++++++++++++++----------------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 
 Regards,
 Daniel
