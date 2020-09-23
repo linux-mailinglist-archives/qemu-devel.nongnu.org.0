@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DD8275FA7
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:20:47 +0200 (CEST)
-Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F5D275FBD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:24:57 +0200 (CEST)
+Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL9Nm-0003Du-2s
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
+	id 1kL9Ro-0007bj-OI
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kL9If-0002Gc-Vg
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:15:30 -0400
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:40722)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kL9Ic-0007T5-8B
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:15:28 -0400
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 08NIDru7093299;
- Wed, 23 Sep 2020 20:13:53 +0200 (CEST)
- (envelope-from pisa@cmp.felk.cvut.cz)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 08NIDr9t028676; Wed, 23 Sep 2020 20:13:53 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 08NIDrgV028675;
- Wed, 23 Sep 2020 20:13:53 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 7/7] hw/net/can: Correct Kconfig dependencies after
- switch to meson build.
-Date: Wed, 23 Sep 2020 20:13:52 +0200
-User-Agent: KMail/1.9.10
-References: <cover.1599168753.git.pisa@cmp.felk.cvut.cz>
- <202009231944.14734.pisa@cmp.felk.cvut.cz>
- <57e09d4f-2d93-818c-2930-be6ae559b2c9@redhat.com>
-In-Reply-To: <57e09d4f-2d93-818c-2930-be6ae559b2c9@redhat.com>
-X-KMail-QuotePrefix: > 
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kL9Kp-000316-Id
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:17:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kL9Kn-0007mE-O4
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:17:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600885060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GdeNhs0VCwbHiZF8fhTlJOES9pLyXVsRnjwTEqoOvSU=;
+ b=eAuiugUEUI8x8NRZnkGhX6kAQsabAItXFpcvY4/hwJivkAQMbrBwNIJJxKNK0gK+/da7cU
+ eN88xgcUJJWucIjDbW87pbH75Efm7nqmlnNHctIIBuMqufgOFMbWyyBTtmIfj0/3sRc48u
+ VpvmLv4DTfTF8ceSv2gWz9ycLbCbOso=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-ICEgTRN-O9KYvG-oWMGLdg-1; Wed, 23 Sep 2020 14:17:36 -0400
+X-MC-Unique: ICEgTRN-O9KYvG-oWMGLdg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80894186DD32;
+ Wed, 23 Sep 2020 18:17:34 +0000 (UTC)
+Received: from [10.3.114.2] (ovpn-114-2.phx2.redhat.com [10.3.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D8DDA78823;
+ Wed, 23 Sep 2020 18:17:33 +0000 (UTC)
+Subject: Re: [PATCH v10 11/12] migration/dirtyrate: Implement
+ qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
+To: Chuan Zheng <zhengchuan@huawei.com>, quintela@redhat.com,
+ dgilbert@redhat.com, berrange@redhat.com
+References: <1600237327-33618-1-git-send-email-zhengchuan@huawei.com>
+ <1600237327-33618-12-git-send-email-zhengchuan@huawei.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <1c8647f5-62d4-bda6-df12-a60c6d0fc4db@redhat.com>
+Date: Wed, 23 Sep 2020 13:17:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
+In-Reply-To: <1600237327-33618-12-git-send-email-zhengchuan@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202009232013.52889.pisa@cmp.felk.cvut.cz>
-X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 08NIDru7093299
-X-FELK-MailScanner: Found to be clean
-X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-0.099, required 6, BAYES_00 -0.50, KHOP_HELO_FCRDNS 0.40,
- NICE_REPLY_A -0.00, SPF_HELO_NONE 0.00, SPF_NONE 0.00,
- URIBL_BLOCKED 0.00)
-X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1601489634.57121@0u1E5UKAbFAxQHGMBgdDnQ
-Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
- envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 13:45:26
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,41 +86,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Jiri Novak <jnovak@fel.cvut.cz>, Stefan Hajnoczi <stefanha@gmail.com>,
- Deniz Eren <deniz.eren@icloud.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Konrad Frederic <frederic.konrad@adacore.com>,
- Jan Charvat <charvj10@fel.cvut.cz>, Jan Kiszka <jan.kiszka@siemens.com>,
- Oliver Hartkopp <socketcan@hartkopp.net>, Ondrej Ille <ondrej.ille@gmail.com>
+Cc: alex.chen@huawei.com, liq3ea@gmail.com, zhang.zhanghailiang@huawei.com,
+ xiexiangyou@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Paolo,
+On 9/16/20 1:22 AM, Chuan Zheng wrote:
+> Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function which could be called
+> 
+> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> ---
 
-On Wednesday 23 of September 2020 20:11:08 Paolo Bonzini wrote:
-> On 23/09/20 19:44, Pavel Pisa wrote:
-> > If you have not pushed code to the mainline yet,
-> > consider v3 which should follow better actual
-> > mainline state. The list of updates to v3 follows.
->
-> I actually queued v3 (I just use patchew to queue patches).
+> +++ b/qapi/migration.json
+> @@ -1737,3 +1737,53 @@
+>   ##
+>   { 'enum': 'DirtyRateStatus',
+>     'data': [ 'unstarted', 'measuring', 'measured'] }
+> +
+> +##
+> +# @DirtyRateInfo:
+> +#
+> +# Information about current dirty page rate of vm.
+> +#
+> +# @dirty-rate: @dirtyrate describing the dirty page rate of vm
+> +#          in units of MB/s.
+> +#          If this field return '-1', it means querying is not
+> +#          start or not complete.
 
-That is great.
+Grammar:
 
-Thanks,
+it means querying has not yet started or completed.
 
-Pavel
+Should this field instead be optional, and omitted for those cases?  In 
+which case, I'd suggest:
+
+...in units of MB/s, present only when querying the rate has completed.
+
+> +#
+> +# @status: status containing dirtyrate query status includes
+> +#          'unstarted' or 'measuring' or 'measured'
+> +#
+> +# @start-time: start time in units of second for calculation
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# Since: 5.2
+> +#
+> +##
+> +{ 'struct': 'DirtyRateInfo',
+> +  'data': {'dirty-rate': 'int64',
+> +           'status': 'DirtyRateStatus',
+> +           'start-time': 'int64',
+> +           'calc-time': 'int64'} }
+> +
+> +##
+> +# @calc-dirty-rate:
+> +#
+> +# start calculating dirty page rate for vm
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# Since: 5.2
+> +#
+> +# Example:
+> +#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
+> +#
+> +##
+> +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
+> +
+> +##
+> +# @query-dirty-rate:
+> +#
+> +# query dirty page rate in units of MB/s for vm
+> +#
+> +# Since: 5.2
+> +##
+> +{ 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+> 
 
 -- 
-                Pavel Pisa
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://dce.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
