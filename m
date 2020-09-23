@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C5D275FDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:30:21 +0200 (CEST)
-Received: from localhost ([::1]:48746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0AD275FD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:28:57 +0200 (CEST)
+Received: from localhost ([::1]:45280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL9X1-0004UO-TV
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:30:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53478)
+	id 1kL9Vg-00032i-Nv
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9Ny-0004wL-Cr; Wed, 23 Sep 2020 14:20:58 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35016)
+ id 1kL9Nx-0004w8-7i; Wed, 23 Sep 2020 14:20:58 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9Nt-00086G-K4; Wed, 23 Sep 2020 14:20:58 -0400
+ id 1kL9Nt-00087W-LT; Wed, 23 Sep 2020 14:20:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1600886176; x=1632422176;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fm9+MeoRQei6iKdOH10o9REs2JjBeW238Jvme+6xKAA=;
- b=B66okX9f4y4XeUaZ+r4rlCbGtoCjgbeBgGRzvzbbWmUdu/vJmIei91D3
- K5KKiCNIXqTXUe3SU1uqsPBb22rozPxZygTrftNvu4+VmJgYnmdPsYAZv
- o4L+o4r4pCTXO5g45+kVJxBhTDo5pqfqkcWSU6wVYBaqJVRABwUlsGIBb
- VsoZxBo4fTnOkIHG1/YuVVTP0IM9BdLvBO/wNqykVRJD4jTE61692L+W3
- c2/RMhKXIfF3wrGYyufygmw7/IMT/kpxxbRM+DvENkIjzMNH5/bOoVO17
- c/7RDnsUjVX+AlN4VpY71ozVHJgU61bajzTFZtc9vhDbO65Y9k3DMNOsR Q==;
-IronPort-SDR: j8RMzUTGevj5tyv8TXa/946PauIvZi3RUNZNuB5f/DOnxcyYjLZ8hCH0FX6HagamePX/C++icr
- gIisbMmdRqcsn7h0FMwgM11b2LnVHVO61Z+5rQnEdGHquqLGHxVozhkroq2h91RMId/BPuxRDr
- pYLi2bQbfc5oUSxD4aCCD0Eh8NPOznKW/U1mJfIs/f0Fj8QXAQtl6z958JPfX0ZzfWYI0UTEg6
- GZs31JqsWH75zTSvCECLXyaYBMzD0K4ELSbgGNWqLXW8Ae7Y1scJEB49gD8YJ6wJYL5imC+QTI
- NPI=
-X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496333"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=BYQ28XH8Ylx9Dq0KVPfvBpBWZp+s9KZQXJ7UPhfutPQ=;
+ b=bT90MOzqUNHAZGkkWF0Xl4HYDE9tQLrAXqvPHUeOyyFCf+Em/jmvgicZ
+ lPiWMwNZHxTKOWLsXYPEJdUkJHu+jy3DlUJOFNQq84kxg7KFxc8F5v0ef
+ PkVwhXLbdOVC6EfAFnANTVyfVsGXDzcGsScl+9K1MFfv6XzCl1wKKZGgB
+ B2ioBzuwMmZ5pH1eaCEATgry3gqSlBnvyp+h0XngegJ3+li6Kk+piMcKa
+ 8q04YugtseRJ1lFvERQInVKHQwNdKsVeM9OG5erPUWbUouUyDAGtz0+iv
+ HdccHdp42pzNvxT2ZZsyREarbqEp3vUpAoMHsZs3w7ltf+eCoVc6ReCD0 w==;
+IronPort-SDR: TiHUSmltTziy/7j1qOPpkAix79fxamHQUCgQF4kACKxjKT0mlgaBXLJk3b+JXzajEaySOUHTwP
+ GhGIOhqKmaWchZs9nKR9HI2Of3X8XiCCF64VaTJj1BHMf46cohUYZk6PHlpG8DXXj+Zk3oZilO
+ RK3xmUiL995Yd+9AeRgJGFD3jsP/LbPcd+M2rKdcHfsQ/XROgwRQC63jJeKQh/0QfahuREuZQw
+ eZsDD9FFZhXKxgMc8NjqDdCgMHDYPYcWaK4u7WQZnRgWRObnZkmgmBjp4ynvw018Sx4LRMFpAn
+ K0k=
+X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496337"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:08 +0800
-IronPort-SDR: a9D1zmkKfuVkyEc+nVYqwQ2oVzUBF3pW4t+p6ts9xm9tCdl9PAoXMfuvRckksWsCkmAsl8ycub
- Hr8mIveyeBFw==
+ by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:11 +0800
+IronPort-SDR: C3iNJLdz73zPLik5kncSLPqdYqBl1uAQn3rzY4++wryxDVv6XMQAO4MedtATsxg/vo6TpXU86H
+ WW3MBRqfyXpg==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2020 11:06:54 -0700
-IronPort-SDR: AkQNjiUJYRMhTjJPuu4dMPAeIYI3JMYpkKUnSxHlLdk9o5A0puL1ktItLShNjMeDhZsmzLBk2n
- Htkmj6z16Q/w==
+ 23 Sep 2020 11:06:56 -0700
+IronPort-SDR: C98WqivzRrZP8+CiQ9nZMdxF9CZO784NGohbNFFi1Zjh/3QAQfW/U9nFkBvL+8ZjaLrAd8G2di
+ 3UcBUV2H1yuQ==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:20:45 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:20:48 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and Zoned
- Namespace Command Set
-Date: Thu, 24 Sep 2020 03:20:07 +0900
-Message-Id: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+Subject: [PATCH v4 01/14] hw/block/nvme: Report actual LBA data shift in LBAF
+Date: Thu, 24 Sep 2020 03:20:08 +0900
+Message-Id: <20200923182021.3724-2-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=5287de305=dmitry.fomichev@wdc.com; helo=esa2.hgst.iphmx.com
@@ -94,149 +94,41 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3 -> v4
+Calculate the data shift value to report based on the set value of
+logical_block_size device property.
 
- - Fix bugs introduced in v2/v3 for QD > 1 operation. Now, all writes
-   to a zone happen at the new write pointer variable, zone->w_ptr,
-   that is advanced right after submitting the backend i/o. The existing
-   zone->d.wp variable is updated upon the successful write completion
-   and it is used for zone reporting. Some code has been split from
-   nvme_finalize_zoned_write() function to a new function,
-   nvme_advance_zone_wp().
+In the process, use a local variable to calculate the LBA format
+index instead of the hardcoded value 0. This makes the code more
+readable and it will make it easier to add support for multiple LBA
+formats in the future.
 
- - Make the code compile under mingw. Switch to using QEMU API for
-   mmap/msync, i.e. memory_region...(). Since mmap is not available in
-   mingw (even though there is mman-win32 library available on Github),
-   conditional compilation is added around these calls to avoid
-   undefined symbols under mingw. A better fix would be to add stub
-   functions to softmmu/memory.c for the case when CONFIG_POSIX is not
-   defined, but such change is beyond the scope of this patchset and it
-   can be made in a separate patch.
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+---
+ hw/block/nvme.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- - Correct permission mask used to open zone metadata file.
-
- - Fold "Define 64 bit cqe.result" patch into ZNS commit.
-
- - Use clz64/clz32 instead of defining nvme_ilog2() function.
-
- - Simplify rpt_empty_id_struct() code, move nvme_fill_data() back
-   to ZNS patch.
-
- - Fix a power-on processing bug.
-
- - Rename NVME_CMD_ZONE_APND to NVME_CMD_ZONE_APPEND.
-
- - Make the list of review comments addressed in v2 of the series
-   (see below).
-
-v2 -> v3:
-
- - Moved nvme_fill_data() function to the NSTypes patch as it is
-   now used there to output empty namespace identify structs.
- - Fixed typo in Maxim's email address.
-
-v1 -> v2:
-
- - Rebased on top of qemu-nvme/next branch.
- - Incorporated feedback from Klaus and Alistair.
-    * Allow a subset of CSE log to be read, not the entire log
-    * Assign admin command entries in CSE log to ACS fields
-    * Set LPA bit 1 to indicate support of CSE log page
-    * Rename CC.CSS value CSS_ALL_NSTYPES (110b) to CSS_CSI
-    * Move the code to assign lbaf.ds to a separate patch
-    * Remove the change in firmware revision
-    * Change "driver" to "device" in comments and annotations
-    * Rename ZAMDS to ZASL
-    * Correct a few format expressions and some wording in
-      trace event definitions
-    * Remove validation code to return NVME_CAP_EXCEEDED error
-    * Make ZASL to be equal to MDTS if "zone_append_size_limit"
-      module parameter is not set
-    * Clean up nvme_zoned_init_ctrl() to make size calculations
-      less confusing
-    * Avoid changing module parameters, use separate n/s variables
-      if additional calculations are necessary to convert parameters
-      to running values
-    * Use NVME_DEFAULT_ZONE_SIZE to assign the default zone size value
-    * Use default 0 for zone capacity meaning that zone capacity will
-      be equal to zone size by default
-    * Issue warnings if user MAR/MOR values are too large and have
-      to be adjusted
-    * Use unsigned values for MAR/MOR
- - Dropped "Simulate Zone Active excursions" patch.
-   Excursion behavior may depend on the internal controller
-   architecture and therefore be vendor-specific.
- - Dropped support for Zone Attributes and zoned AENs for now.
-   These features can be added in a future series.
- - NS Types support is extended to handle active/inactive namespaces.
- - Update the write pointer after backing storage I/O completion, not
-   before. This makes the emulation to run correctly in case of
-   backing device failures.
- - Avoid division in the I/O path if the device zone size is
-   a power of two (the most common case). Zone index then can be
-   calculated by using bit shift.
- - A few reported bugs have been fixed.
- - Indentation in function definitions has been changed to make it
-   the same as the rest of the code.
-
-
-Zoned Namespace (ZNS) Command Set is a newly introduced command set
-published by the NVM Express, Inc. organization as TP 4053. The main
-design goals of ZNS are to provide hardware designers the means to
-reduce NVMe controller complexity and to allow achieving a better I/O
-latency and throughput. SSDs that implement this interface are
-commonly known as ZNS SSDs.
-
-This command set is implementing a zoned storage model, similarly to
-ZAC/ZBC. As such, there is already support in Linux, allowing one to
-perform the majority of tasks needed for managing ZNS SSDs.
-
-The Zoned Namespace Command Set relies on another TP, known as
-Namespace Types (NVMe TP 4056), which introduces support for having
-multiple command sets per namespace.
-
-Both ZNS and Namespace Types specifications can be downloaded by
-visiting the following link -
-
-https://nvmexpress.org/wp-content/uploads/NVM-Express-1.4-Ratified-TPs.zip
-
-This patch series adds Namespace Types support and zoned namespace
-emulation capability to the existing NVMe PCI device.
-
-The patchset is organized as follows -
-
-The first several patches are preparatory and are added to allow for
-an easier review of the subsequent commits. The group of patches that
-follows adds NS Types support with only NVM Command Set being
-available. Finally, the last group of commits makes definitions and
-adds new code to support Zoned Namespace Command Set.
-
-Based-on: Message-ID: <20200729220638.344477-17-its@irrelevant.dk>
-Dmitry Fomichev (11):
-  hw/block/nvme: Report actual LBA data shift in LBAF
-  hw/block/nvme: Add Commands Supported and Effects log
-  hw/block/nvme: Define trace events related to NS Types
-  hw/block/nvme: Make Zoned NS Command Set definitions
-  hw/block/nvme: Define Zoned NS Command Set trace events
-  hw/block/nvme: Support Zoned Namespace Command Set
-  hw/block/nvme: Introduce max active and open zone limits
-  hw/block/nvme: Support Zone Descriptor Extensions
-  hw/block/nvme: Add injection of Offline/Read-Only zones
-  hw/block/nvme: Use zone metadata file for persistence
-  hw/block/nvme: Document zoned parameters in usage text
-
-Niklas Cassel (3):
-  hw/block/nvme: Introduce the Namespace Types definitions
-  hw/block/nvme: Add support for Namespace Types
-  hw/block/nvme: Add support for active/inactive namespaces
-
- block/nvme.c          |    2 +-
- hw/block/nvme.c       | 1987 +++++++++++++++++++++++++++++++++++++++--
- hw/block/nvme.h       |  180 ++++
- hw/block/trace-events |   39 +
- include/block/nvme.h  |  210 ++++-
- 5 files changed, 2351 insertions(+), 67 deletions(-)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 63078f6009..f60e968c4a 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2203,6 +2203,7 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+ {
+     int64_t bs_size;
+     NvmeIdNs *id_ns = &ns->id_ns;
++    int lba_index;
+ 
+     bs_size = blk_getlength(n->conf.blk);
+     if (bs_size < 0) {
+@@ -2212,7 +2213,8 @@ static void nvme_init_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+ 
+     n->ns_size = bs_size;
+ 
+-    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
++    lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
++    id_ns->lbaf[lba_index].ds = 31 - clz32(n->conf.logical_block_size);
+     id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(n, ns));
+ 
+     /* no thin provisioning */
 -- 
 2.21.0
 
