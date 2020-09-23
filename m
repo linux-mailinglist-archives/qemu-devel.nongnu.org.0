@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5962754D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:52:40 +0200 (CEST)
-Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B646C2754C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:48:54 +0200 (CEST)
+Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1S3-0004LB-SB
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:52:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35512)
+	id 1kL1OP-0008PR-Gu
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:48:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1N6-0007HD-5w
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1N2-0007Yg-64
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600854447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oo3FyNnbdE1oNfEAiuyaQMsztgoSnO7oGPNBLGVebbs=;
- b=ic3mRhibOHbyGlXzR0l8BIHnV6gZrJ59Yem/XLvw94/Pei4yNZL3NxRYloN84x+h3i+zze
- w0By5ntslYyCVJoY9nH3ppMnEXowiNrmKQR80WHy543vqWhsNUFXkSQiYBg36hh/LbvKQt
- DcVanx8q8fUbha+df7D1ho2ZVeo8qvw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-3wznwnk3Poe_zpEBCKFHeg-1; Wed, 23 Sep 2020 05:47:25 -0400
-X-MC-Unique: 3wznwnk3Poe_zpEBCKFHeg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B37C4186DD35;
- Wed, 23 Sep 2020 09:47:24 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B457F55778;
- Wed, 23 Sep 2020 09:47:23 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 11/11] smp: drop support for deprecated (invalid topologies)
-Date: Wed, 23 Sep 2020 05:46:50 -0400
-Message-Id: <20200923094650.1301166-12-imammedo@redhat.com>
-In-Reply-To: <20200923094650.1301166-1-imammedo@redhat.com>
-References: <20200923094650.1301166-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kL1Mq-0006nG-Gj
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:16 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:43873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kL1Mo-0007WQ-2V
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:16 -0400
+Received: by mail-ej1-x644.google.com with SMTP id o8so26842262ejb.10
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 02:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8zBVHQ658sQFRqbSWvv5mS8gJaDut0pFnzYX/oWVWaQ=;
+ b=ILVWfaU5MTYPQmohVn4damaWJKUdm/bfLRxAXsKtEg0HC44625GSawxgx3gqUNN1Sw
+ HU66hIJ7+27A5XGbz3S+QhhsD4nuV4mfTsvOBskfNbEmb9ozoyDDJHZVN2ARsP7gXcwl
+ 3jAMNMZQlpGvbHKuXv/kg7sg3jvlcd6/8IdwHx/V7n5hSnk34xnPUnCKFHtfnir3z9sJ
+ /wCKXHje2lFQgeeQGDIr5goBsqcLhLanRCFrmfiM/MZws2xj0Eh1WSbCQlMuUagfsifl
+ 4LKYPN3Sdl/Y67cl9Tw4yTFtwq1KDeF3tuGHgtlfHHaXnOOgDYgiPlYeIvfIMfrHgek6
+ ZtzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8zBVHQ658sQFRqbSWvv5mS8gJaDut0pFnzYX/oWVWaQ=;
+ b=OW/WopayvsVHt6x/tRH1oUDNfQKyEqtCKJHobTlJqpDY7IBBY7hj2a55EuXiGZvmSE
+ 0y8bCq3XWH8KezowFKXWFb24VTv6uHruonyfa/2rmPAunoKtNqsFBjIFf113R7VjFku9
+ bpXEjkZRaiyYiUBZ0Myc46Jy+uYBcsZ1ZO7A6SxvLt/jsc6uZTqQrzcYN/KiV0j8ZF7D
+ hC03WNsLnFrMWz32ZWGt3YS78DYji+gU5E0MBYZn8KYnS8gtEnnvHsXdCI1n+cfEMcmq
+ OFcBRKZLi1i5S8FnfJy5FIJYzbuYxcUfeUEDoT/5id5C0YztC0kd787tFu7Ico6hCBuv
+ wpBg==
+X-Gm-Message-State: AOAM531xXNb8ec5he7R5I7KGpwuGSxUrkBsFYRvMbBcHGeiTEytP5YMw
+ nZ0gs4+MxIPpfp95wdUcrypLH+2K/ODWmF5dDm3s4w==
+X-Google-Smtp-Source: ABdhPJwqEUTTKC38+PgCKAJL9AsJ+M4h3PQvPOT34D2IPncJ2sAOAd2T4HwN4B13LCuSeB/bM9SHJZ39vajoooW7h9o=
+X-Received: by 2002:a17:906:1f42:: with SMTP id
+ d2mr9112382ejk.407.1600854432477; 
+ Wed, 23 Sep 2020 02:47:12 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200827113259.25064-1-peter.maydell@linaro.org>
+ <a1dda44f-e521-ef82-f5bc-7435c81fe888@redhat.com>
+In-Reply-To: <a1dda44f-e521-ef82-f5bc-7435c81fe888@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 23 Sep 2020 10:47:01 +0100
+Message-ID: <CAFEAcA_zg123DgnyDzeQXe3eXGPOTrybhaL__qu+mAQqSgEr=w@mail.gmail.com>
+Subject: Re: [PATCH] Deprecate lm32 port
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,133 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Michael Walle <michael@walle.cc>, "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it's was deprecated since 3.1
+On Wed, 23 Sep 2020 at 08:55, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 27/08/2020 13.32, Peter Maydell wrote:
+> > @@ -416,6 +416,14 @@ The above, converted to the current supported format::
+> >  linux-user mode CPUs
+> >  --------------------
+> >
+> > +``lm32`` CPUs (since 5.2.0)
+> > +'''''''''''''''''''''''''''
+> > +
+> > +The ``lm32`` guest CPU support is deprecated and will be removed in
+> > +a future version of QEMU. The only public user of this architecture
+> > +was the milkymist project, which has been dead for years; there was
+> > +never an upstream Linux port.
+>
+> I was just looking at the current version of deprecated.rst (which has
+> this patch included), and could it be that it ended up in the wrong
+> section here? "lm32" is rather a softmmu target, not a linux-user mode CPU?
 
-Support for invalid topologies is removed, the user must ensure
-that topologies described with -smp include all possible cpus,
-i.e. (sockets * cores * threads) == maxcpus or QEMU will
-exit with error.
+Yes, I think I just put it in the wrong place by mistake (ie next
+to the other target deprecation notices), not noticing the top-level
+section it was in.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- docs/system/deprecated.rst | 26 +++++++++++++-------------
- hw/core/machine.c          | 16 ++++------------
- hw/i386/pc.c               | 16 ++++------------
- 3 files changed, 21 insertions(+), 37 deletions(-)
-
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 808c334fe7..fb95d2ecc4 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -47,19 +47,6 @@ The 'file' driver for drives is no longer appropriate for character or host
- devices and will only accept regular files (S_IFREG). The correct driver
- for these file types is 'host_cdrom' or 'host_device' as appropriate.
- 
--``-smp`` (invalid topologies) (since 3.1)
--'''''''''''''''''''''''''''''''''''''''''
--
--CPU topology properties should describe whole machine topology including
--possible CPUs.
--
--However, historically it was possible to start QEMU with an incorrect topology
--where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
--which could lead to an incorrect topology enumeration by the guest.
--Support for invalid topologies will be removed, the user must ensure
--topologies described with -smp include all possible cpus, i.e.
--*sockets* * *cores* * *threads* = *maxcpus*.
--
- ``-vnc acl`` (since 4.0.0)
- ''''''''''''''''''''''''''
- 
-@@ -642,6 +629,19 @@ New machine versions (since 5.1) will not accept the option but it will still
- work with old machine types. User can check the QAPI schema to see if the legacy
- option is supported by looking at MachineInfo::numa-mem-supported property.
- 
-+``-smp`` (invalid topologies) (removed 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+CPU topology properties should describe whole machine topology including
-+possible CPUs.
-+
-+However, historically it was possible to start QEMU with an incorrect topology
-+where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-+which could lead to an incorrect topology enumeration by the guest.
-+Support for invalid topologies is removed, the user must ensure
-+topologies described with -smp include all possible cpus, i.e.
-+*sockets* * *cores* * *threads* = *maxcpus*.
-+
- Block devices
- -------------
- 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index ea26d61237..09aee4ea52 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -754,23 +754,15 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
-             exit(1);
-         }
- 
--        if (sockets * cores * threads > ms->smp.max_cpus) {
--            error_report("cpu topology: "
--                         "sockets (%u) * cores (%u) * threads (%u) > "
--                         "maxcpus (%u)",
-+        if (sockets * cores * threads != ms->smp.max_cpus) {
-+            error_report("Invalid CPU topology: "
-+                         "sockets (%u) * cores (%u) * threads (%u) "
-+                         "!= maxcpus (%u)",
-                          sockets, cores, threads,
-                          ms->smp.max_cpus);
-             exit(1);
-         }
- 
--        if (sockets * cores * threads != ms->smp.max_cpus) {
--            warn_report("Invalid CPU topology deprecated: "
--                        "sockets (%u) * cores (%u) * threads (%u) "
--                        "!= maxcpus (%u)",
--                        sockets, cores, threads,
--                        ms->smp.max_cpus);
--        }
--
-         ms->smp.cpus = cpus;
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2af660c55e..53e21a186d 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -748,23 +748,15 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-             exit(1);
-         }
- 
--        if (sockets * dies * cores * threads > ms->smp.max_cpus) {
--            error_report("cpu topology: "
--                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
--                         "maxcpus (%u)",
-+        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
-+            error_report("Invalid CPU topology deprecated: "
-+                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-+                         "!= maxcpus (%u)",
-                          sockets, dies, cores, threads,
-                          ms->smp.max_cpus);
-             exit(1);
-         }
- 
--        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
--            warn_report("Invalid CPU topology deprecated: "
--                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
--                        "!= maxcpus (%u)",
--                        sockets, dies, cores, threads,
--                        ms->smp.max_cpus);
--        }
--
-         ms->smp.cpus = cpus;
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
--- 
-2.27.0
-
+thanks
+-- PMM
 
