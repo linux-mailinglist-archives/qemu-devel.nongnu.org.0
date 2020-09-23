@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884F0275D5A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:26:14 +0200 (CEST)
-Received: from localhost ([::1]:55470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638A9275D45
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:24:05 +0200 (CEST)
+Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL7av-0003WT-Gg
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47876)
+	id 1kL7Yq-000107-0m
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:24:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kL7Oj-0006cD-Sr
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:13:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45831)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kL7QV-0000Qr-BA
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:15:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kL7Oh-0006ol-WB
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:13:37 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kL7QR-0007Fv-UF
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:15:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600877615;
+ s=mimecast20190719; t=1600877723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=M9Im8loTRqLDhDj0v5PJwfhSxrrv52LMDuGzeP62qKQ=;
- b=TZKs0sFEj7pcegoZ6wtaNZxB1Eqbbg1YWFc7FRJVwGRWBhLJBFDgIfcXMDqcCp7QWDqW/D
- 8jvaHc7Z2uexhZ7TKWewvoLxYtRi5HzRVioebHxVrbQO4YFL8GnW4GSfW0hR9VbdzhpOT9
- AKcMCOdmU9y6PGGBDJMtQkDRr5cnir4=
+ bh=pJuMDU21P/y548s/k0O91QWF1/fQeBlQTIK42sdR0Us=;
+ b=fVV7AIXPOWltgPBrqD4Z/XEew+U4KnRGAzGhJ7eUy/lqzdbh/YW6Cynr355HJ25zLTWV1x
+ PLmBB/snvD1Y2gm8b9ATZz3uGw0xQER/UeZFnK2VnlhehG6g38tCBZ5ubYH07ZovBPRmZk
+ Rb0MOncxQBoZcrJbdP0bgHz/L//A88U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-BHi_x72QN4COnJk8FuvPrA-1; Wed, 23 Sep 2020 12:13:08 -0400
-X-MC-Unique: BHi_x72QN4COnJk8FuvPrA-1
+ us-mta-25-WodxrsHDOzOQWuKHkNneEQ-1; Wed, 23 Sep 2020 12:15:18 -0400
+X-MC-Unique: WodxrsHDOzOQWuKHkNneEQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2D1585B66C;
- Wed, 23 Sep 2020 16:13:07 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F5405D990;
- Wed, 23 Sep 2020 16:13:07 +0000 (UTC)
-Date: Wed, 23 Sep 2020 12:13:06 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79135801AFA;
+ Wed, 23 Sep 2020 16:15:17 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2CC35D993;
+ Wed, 23 Sep 2020 16:15:16 +0000 (UTC)
+Date: Wed, 23 Sep 2020 12:15:14 -0400
+From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 30/38] qapi/introspect.py: Add a typed 'extra' structure
-Message-ID: <20200923161306.GR3312949@habkost.net>
+Subject: Re: [PATCH v2 11/38] qapi/common.py: Replace one-letter 'c' variable
+Message-ID: <20200923161514.GK191229@localhost.localdomain>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-31-jsnow@redhat.com>
+ <20200922210101.4081073-12-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-31-jsnow@redhat.com>
+In-Reply-To: <20200922210101.4081073-12-jsnow@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KjSGHOmKKB2VUiQn"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -80,150 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
  Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Markus Armbruster <armbru@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:00:53PM -0400, John Snow wrote:
-> Typing arbitrarily shaped dicts with mypy is difficult prior to Python
-> 3.8; using explicit structures is nicer.
-> 
-> Since we always define an Extra type now, the return type of _make_tree
-> simplifies and always returns the tuple.
-> 
+--KjSGHOmKKB2VUiQn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Sep 22, 2020 at 05:00:34PM -0400, John Snow wrote:
 > Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/introspect.py | 31 +++++++++++++++++++------------
->  1 file changed, 19 insertions(+), 12 deletions(-)
-> 
 
-Here I'm confused by both the original code and the new code.
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
-I will try to review as a refactoring of existing code, but I'll
-have suggestions for follow ups:
+--KjSGHOmKKB2VUiQn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index b036fcf9ce..41ca8afc67 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -10,6 +10,8 @@
->  See the COPYING file in the top-level directory.
->  """
->  
-> +from typing import (NamedTuple, Optional, Sequence)
-> +
->  from .common import (
->      c_name,
->      gen_endif,
-> @@ -21,16 +23,21 @@
->                       QAPISchemaType)
->  
->  
-> -def _make_tree(obj, ifcond, features, extra=None):
-> -    if extra is None:
-> -        extra = {}
-> -    if ifcond:
-> -        extra['if'] = ifcond
-> +class Extra(NamedTuple):
-> +    """
-> +    Extra contains data that isn't intended for output by introspection.
-> +    """
-> +    comment: Optional[str] = None
-> +    ifcond: Sequence[str] = tuple()
-> +
-> +
-> +def _make_tree(obj, ifcond, features,
-> +               extra: Optional[Extra] = None):
-> +    comment = extra.comment if extra else None
-> +    extra = Extra(comment, ifcond)
+-----BEGIN PGP SIGNATURE-----
 
-Here we have one big difference: now `extra` is being recreated,
-and all fields except `extra.comment` are being ignored.  On the
-original version, all fields in `extra` were being kept.  This
-makes the existence of the `extra` argument pointless.
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9rdJAACgkQZX6NM6Xy
+CfMNMhAAgOIR6gl1VkFU5tsPrSlEZrIMr7P+21KjrKVR5WDFGxYq0z/AEAc2GoQm
+fOHg2Bh998gH9jHpuKsvbZaxRj2l9Z47ZlNk7ee8WTD2t59jCekVoXs8q8GBgOX1
+ejRF0bqP2whezvg7M9NFIzcEavJSlVmR/LeeOEN+G3ot9pSIEI1YOYvL6yRMkwWb
+szZ2eEgn09NUi0qiCBd9Pu25jh2HKbgnlhXdj8O3SWteI322rKxnkM4O9kzuN9Zp
+fmo5Y4RkQTjBf2GdSiTmxpJY6dNrF7GfUyNQbnTSsEMBBcDjnRpD3HM2kR/McHlI
+BlFeLd85TdCvO2xH996tR6umTo0lCtjm5WY8Wo6k5DLhpZxyr0nfgIokUxXZf/dx
+WcleskKwdQZTGFiITQ36Et8Ap837sDjMYYYgCOpitBxH5RPv12/X4XDG98b9IwpF
+SYbiryO3IuJXbpzpDyGucQaEtd8JXa2efVAA7K+sS95zEfhl42AQqNZMmXKg03Bz
+GZTxkg1F5Y/Z9EGDztRKnKibw5OX/RnGUYzBPc7OTxpueCITW/qNiDrXZIEayiEh
+dAigEJcMQJJnldKl/SoiN55GkBnSGkr8s6JN4f7B9FBIXDdh+8ZskG7mlFyIOtkN
+EfcnnH70VSxqtNw65YHpWCbVb4RVHWlCy9GiE8yKP1fWY2qbuVs=
+=KNx9
+-----END PGP SIGNATURE-----
 
-If you are going through the trouble of changing the type of the
-4rd argument to _make_tree(), this seems more obvious:
-
-  diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-  index 41ca8afc672..c62af94c9ad 100644
-  --- a/scripts/qapi/introspect.py
-  +++ b/scripts/qapi/introspect.py
-  @@ -32,8 +32,7 @@ class Extra(NamedTuple):
-   
-   
-   def _make_tree(obj, ifcond, features,
-  -               extra: Optional[Extra] = None):
-  -    comment = extra.comment if extra else None
-  +               comment: Optional[str] = None):
-       extra = Extra(comment, ifcond)
-       if features:
-           obj['features'] = [(f.name, Extra(None, f.ifcond)) for f in features]
-  @@ -170,16 +169,16 @@ const QLitObject %(c_name)s = %(c_string)s;
-           return self._name(typ.name)
-   
-       def _gen_tree(self, name, mtype, obj, ifcond, features):
-  -        extra = None
-  +        comment = None
-           if mtype not in ('command', 'event', 'builtin', 'array'):
-               if not self._unmask:
-                   # Output a comment to make it easy to map masked names
-                   # back to the source when reading the generated output.
-  -                extra = Extra(comment=f'"{self._name(name)}" = {name}')
-  +                comment = f'"{self._name(name)}" = {name}'
-               name = self._name(name)
-           obj['name'] = name
-           obj['meta-type'] = mtype
-  -        self._trees.append(_make_tree(obj, ifcond, features, extra))
-  +        self._trees.append(_make_tree(obj, ifcond, features, comment))
-   
-       def _gen_member(self, member):
-           obj = {'name': member.name, 'type': self._use_type(member.type)}
-
-I understand you're trying to just make minimal refactoring, and I
-don't think this should block your cleanup series.  So:
-
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-
-
->      if features:
-> -        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
-> -    if extra:
-> -        return (obj, extra)
-> -    return obj
-> +        obj['features'] = [(f.name, Extra(None, f.ifcond)) for f in features]
-> +    return (obj, extra)
->  
->  
->  def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
-> @@ -40,8 +47,8 @@ def indent(level):
->  
->      if isinstance(obj, tuple):
->          ifobj, extra = obj
-> -        ifcond = extra.get('if')
-> -        comment = extra.get('comment')
-> +        ifcond = extra.ifcond
-> +        comment = extra.comment
->          ret = ''
->          if comment:
->              ret += indent(level) + '/* %s */\n' % comment
-> @@ -168,7 +175,7 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
->              if not self._unmask:
->                  # Output a comment to make it easy to map masked names
->                  # back to the source when reading the generated output.
-> -                extra = {'comment': '"%s" = %s' % (self._name(name), name)}
-> +                extra = Extra(comment=f'"{self._name(name)}" = {name}')
->              name = self._name(name)
->          obj['name'] = name
->          obj['meta-type'] = mtype
-> -- 
-> 2.26.2
-> 
-
--- 
-Eduardo
+--KjSGHOmKKB2VUiQn--
 
 
