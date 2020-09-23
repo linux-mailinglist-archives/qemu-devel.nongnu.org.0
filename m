@@ -2,62 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2334275D4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:25:22 +0200 (CEST)
-Received: from localhost ([::1]:53800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B10275D68
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 18:29:05 +0200 (CEST)
+Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL7a5-0002qn-Tc
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50708)
+	id 1kL7dg-0007Uh-En
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 12:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kL7VG-0006AY-MH
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:20:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35153)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kL7bm-0005ZR-W5
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:27:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kL7VE-0008D8-Ct
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:20:22 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kL7bk-0000um-AF
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 12:27:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600878019;
+ s=mimecast20190719; t=1600878423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yV2hkv6zIFYXwPQDiePSggboH9Feq9gOx0h1oYvaOUo=;
- b=V4F30raX1qcA8Od/aBze/C5eAr4No+PwfX54GgbyIl3iJYGFdZ3lt4dpLUxrFb4c6HfGB3
- a2JlQULzpgD16JS8LIszYhGCKTw1e4ISLK2OU2Aj9EL9Kz601oRbxHPHRNtcFySgw4i29N
- dnqT2bhzzc9fxK/jnefQeLMCC7sVhzE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-GinRIwkgNSCem4a5ALnDKg-1; Wed, 23 Sep 2020 12:20:16 -0400
-X-MC-Unique: GinRIwkgNSCem4a5ALnDKg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67B71188C159;
- Wed, 23 Sep 2020 16:20:01 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-239.ams2.redhat.com [10.36.112.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B54977DC7;
- Wed, 23 Sep 2020 16:20:00 +0000 (UTC)
-Date: Wed, 23 Sep 2020 18:19:58 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 27/29] nbd: Deprecate nbd-server-add/remove
-Message-ID: <20200923161958.GG6912@linux.fritz.box>
-References: <20200907182011.521007-1-kwolf@redhat.com>
- <20200907182011.521007-28-kwolf@redhat.com>
- <0b20d22d-7c68-a4af-e0c5-471d5ba61cd4@redhat.com>
+ bh=wJlnyCDymov13Jk60v/CUr4C1zQamRhaj6udcCqNQiM=;
+ b=QilC6aCxnF7i2on9rKojJbsR4PQ5Mjm9ft1+PDGJuYcecJ++x0DrQeJ4mq/ZPva8nTEKL5
+ mPG3P1JKvw4qG+VZYbr0ylGbLtIhcvG9AS2lMOmuL7Pc0sjZ8/LgfRc+c90RFOpgtLYcsE
+ 1obDkq61+yv909TfuBJTAPxbDp0MYy0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-vz18FP23MFqnBSt1zAhMsQ-1; Wed, 23 Sep 2020 12:27:01 -0400
+X-MC-Unique: vz18FP23MFqnBSt1zAhMsQ-1
+Received: by mail-wr1-f72.google.com with SMTP id a12so36048wrg.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 09:27:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wJlnyCDymov13Jk60v/CUr4C1zQamRhaj6udcCqNQiM=;
+ b=savP/b1PZtkwujI3yB1UrFmGwZVkAySvx5FdctMsAebVNB3XqkHQ3TqKIMdTzIVL5d
+ 5tVAyHBRgp9YXCPXPN5IujvigG6z9XpeyIRili/XazGx4kD+s9zyc4qy5h03O0Sq+gID
+ DAWVdRvS2tywgE3Q23ljiZOPB2IPx3fUK4WFiZU4/dKfA310dOwZI2AFqKtUoI2mdDgI
+ 7DF93AFpH5fkaA3vjA85/tF9NlV1QaAz+cedPq6g1zAsPo4xXDmO+by/3LCUsQXDP3+R
+ 83+3lHlAFIDxS80756n2cKn6uvCNpH3OCN4rD7Mewo73qBwj8Ko1qCyxLS1Gyzdo2vvi
+ vE1Q==
+X-Gm-Message-State: AOAM5318cGDV+8qz6Gwwi23UFMUhIZlUPX0WbeOIUTltxJHMfQb4fKAz
+ Uqa9F3WTf8i1ZTXtYjFmZqb9hA4neNJw3ms7TkOTO6CGJgMoaIzsgTNKZF7g3ptjYli79EmM6KR
+ 4RM22baha4vV78X4=
+X-Received: by 2002:a1c:6254:: with SMTP id w81mr387531wmb.94.1600878420118;
+ Wed, 23 Sep 2020 09:27:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwINpjG9075gyFKLhzV6fjuUwuKGcgQRIcExXkX8jmCWcPYRcMA8VoLx1RMI7EbY5Gyj1G6Eg==
+X-Received: by 2002:a1c:6254:: with SMTP id w81mr387511wmb.94.1600878419822;
+ Wed, 23 Sep 2020 09:26:59 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:15f1:648d:7de6:bad9?
+ ([2001:b07:6468:f312:15f1:648d:7de6:bad9])
+ by smtp.gmail.com with ESMTPSA id m13sm307191wrr.74.2020.09.23.09.26.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Sep 2020 09:26:58 -0700 (PDT)
+Subject: Re: [PATCH] travis: remove TCI test
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200923151030.1613449-1-pbonzini@redhat.com>
+ <9f33653a-30bc-ca38-cec6-c0fbe17cbea0@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <fe045d2d-022b-0a7e-8330-a2def315c16f@redhat.com>
+Date: Wed, 23 Sep 2020 18:26:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <0b20d22d-7c68-a4af-e0c5-471d5ba61cd4@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <9f33653a-30bc-ca38-cec6-c0fbe17cbea0@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -66,8 +87,9 @@ X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,72 +102,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---FCuugMFkClbJLl1L
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 23/09/20 18:04, Thomas Huth wrote:
+> On 23/09/2020 17.10, Paolo Bonzini wrote:
+>> The TCI test is already performed on gitlab CI, and it fails because
+>> Travis tests (generally) disable tools and therefore do not have
+>> "make check-qtest".  Just remove it.
+> Huh? Where is it failing? It currently seems to work fine:
+> 
+>  https://travis-ci.org/github/qemu/qemu/jobs/729440748
+> 
+> Anyway, since we already have similar job in the Gitlab-CI, I think it's
+> ok to remove it from Travis, so with the commit message tweaked:
+> 
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> 
+> 
 
-Am 10.09.2020 um 17:34 hat Max Reitz geschrieben:
-> On 07.09.20 20:20, Kevin Wolf wrote:
-> > These QMP commands are replaced by block-export-add/del.
-> >=20
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  qapi/block-export.json     | 11 +++++++++--
-> >  docs/system/deprecated.rst |  8 ++++++++
-> >  2 files changed, 17 insertions(+), 2 deletions(-)
->=20
-> OK, but:
->=20
-> > diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> > index 851dbdeb8a..9a2e083f00 100644
-> > --- a/docs/system/deprecated.rst
-> > +++ b/docs/system/deprecated.rst
-> > @@ -303,6 +303,14 @@ chardev client socket with ``wait`` option (since =
-4.0)
-> >  Character devices creating sockets in client mode should not specify
-> >  the 'wait' field, which is only applicable to sockets in server mode
-> > =20
-> > +``nbd-server-add`` and ``nbd-server-remove`` (since 5.2)
-> > +''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> > +
-> > +Use the more generic commands ``block-export-add`` and ``block-export-=
-del``
-> > +instead.
-> > +
-> > +Use argument value ``null`` instead.
->=20
-> I don=E2=80=99t understand this sentence.
+You're right, it's only broken on my own branch (due to "meson: qtest:
+set "depends" correctly").  Currently we're running all qtests with a
+QTEST_QEMU_IMG pointing to a nonexistent executable, and I'd rather
+avoid that.  In that patch I took the big hammer, but we can also decide
+not to remove qtests for --disable-tools and add a little bit of
+complication to tests/qtest/meson.build.
 
-Me neither, it's wrong. Looks like a copy from a few lines further up...
-I'll just remove this sentence.
-
-Kevin
-
---FCuugMFkClbJLl1L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl9rda4ACgkQfwmycsiP
-L9Y7exAAj0xidbplVoE4//RfmHnKWJtjfCHzMQZoOvlnsBwFdb1wH6gIHstIvZ7V
-b5KmzqVPZfbNEHBQB81CV1z5Ox9N7Mc/UIaRFoJHX6WIi9ffprF0FUzg5NIrumsk
-7lP+5F4zWAb0BTXTFpfJftTBFM1AC3eS4Z7UNBckP3GsRDY7j8raYge16ZMXPI5X
-OQLoxVKqh5lL/p+Xs/tMD1z2MpL0CaA9gJz1xYD3qEgjgLJGD1a7A3p7tCRoVmWl
-xlHRUD2+blSZJcdYcDyFO++6zMMzfx6WN9DgSxScVaXS5EyNL2SypOry9o1RZZDP
-VQavrz5rmaHRVl1hvt8nDgTu4XLCamVajDA0iynLhmuAU2xXWWK4jSDez0tnqCxG
-15ylfiNY62CED7/7Hf2JvO4RMUpKnD5rcAOUDy6MUCcmhPpYl/PALlMXUk1YYb7x
-+VgN3l0LXWCwOBjayxW+221QIMj32gbtu5zYx6v+TFZlN+E3OREKcs1riAKheHTH
-AiuuT8u9cwx0m8NzzE5moGRtwavOSVyrSxun8LN66DRL4oIsk3zvJ9fYHXysdgRR
-+KRaRy7dw+qXcMAEfqYdpQab7wUyQ1sUViCkcHw7oBaLh7bjNOwvaCAKkvDDLazg
-zAVT0lIDYYriamWD0VU9e71d+jwq3TB6CqTAG07liYusqxLv2oo=
-=MRTN
------END PGP SIGNATURE-----
-
---FCuugMFkClbJLl1L--
+Paolo
 
 
