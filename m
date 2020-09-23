@@ -2,73 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0382754A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:42:10 +0200 (CEST)
-Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900722754BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:47:00 +0200 (CEST)
+Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1Ht-0001mg-BQ
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:42:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
+	id 1kL1MZ-0005f3-GQ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kele.hwang@gmail.com>)
- id 1kL1E7-0007Ep-OV
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:38:16 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kele.hwang@gmail.com>)
- id 1kL1E6-0006CT-1s
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:38:15 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id s14so2478280pju.1
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 02:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GZk30ThLdHALGmw0nh8iMQ4L+TX2pxT4pTob5NEe5gc=;
- b=BaQspzgnr9JwWaK8ox9MuISQqCHfhS49dpuyfG/Jgft3AN5VVrUL0IOeh6fS4z5VAu
- /nA7mLyVOPRQEx9X/sorAVfh/D1wbSPjot3WGBKWuKoEZ/dgP18kfQmj2LF+KuyUwZVy
- n4wsZDiAm75g2XEljQO1oRi4zaio+jFPM3svyIQntSka8FulEFz4jzB+sXS/rlOlg/RR
- Oxa6ZY5wonYLfeuUydR/6/3lTp5VQZ+kYyrok9krw9na5naMODo2zDCmweWveynpTe4W
- Z3gUkmArTc+KGivtNOE2wtd4ZmlRhTrequvFLZpJ+VGwy4St1SccURwj3iX+iQKm8gf/
- KQRA==
+ (Exim 4.90_1) (envelope-from <amorenoz@redhat.com>)
+ id 1kL1KV-0004as-LH
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:44:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <amorenoz@redhat.com>)
+ id 1kL1KT-00074o-F7
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:44:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600854286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=P/7T/4JxjbU4RM4QDLjtRIVhPgsawxmcFdZoMNDAIis=;
+ b=N3BuqkECfw9j7gV5K5ehTig9OzVDxxXQ/F9Lq9ry5seCah1iHympPZYYd3QYKemRFgUZyb
+ qYvSb5ItPDARAiWAIliv46aMbY3BXCIEb2Cc+Vb0YvMYg8BF4i66+NQxG0FiX2hh2q8GGF
+ J5nDTb4Z5GgHn7LH1fEeo8195GnCjZI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-569-AZEeIg-NN26xCtB_q5dbMg-1; Wed, 23 Sep 2020 05:44:44 -0400
+X-MC-Unique: AZEeIg-NN26xCtB_q5dbMg-1
+Received: by mail-wm1-f71.google.com with SMTP id b14so1166191wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 02:44:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=GZk30ThLdHALGmw0nh8iMQ4L+TX2pxT4pTob5NEe5gc=;
- b=k0ryvqadbPJsbpb1nOFYUIWDA5GhxvYyQM3+Jn4g588VfZrzaV/f2ZtYonZooEhcQG
- WWM8Qak9AvcECWhM9FXi53Vj6LH16mCtjSeFwap114+Hr+5uitbz1LebP84ENGA18z8U
- aZ24k5YpuhrGpVJ61OZlEnYVxkeWTeFbBb0WiGzkO+orCU1OfrMjc670QcduOeuh+VQH
- NeQR7NvY5pEAWBTm+zEft2eOEzcv1mbCgxe/CXHvZLy3E0Jyef6CfvSOGj2Ztx4dHjaq
- MY4ZrV5w23AUIo7eGqZ6l77td+/mcgI42WsriCVm3RHAFFV2rYweFr3CmZDOMvFYWOCg
- dUcQ==
-X-Gm-Message-State: AOAM531DQ60wtIFR/BjgjMbyXik4vwgVVh+xczG8RCDPHYpAHUhDoGMg
- ywB22jO/GX9e6cHukSjA2Cak+WTfiMyOXQ==
-X-Google-Smtp-Source: ABdhPJzCgmvcUphKpg/nz9MM31VrFdBa6zvwMbnAKg6FaDrVxP45FMx9WEEsGaYn5LOccueLCyas7g==
-X-Received: by 2002:a17:902:8545:b029:d1:f2e3:8dd4 with SMTP id
- d5-20020a1709028545b02900d1f2e38dd4mr8825242plo.65.1600853891249; 
- Wed, 23 Sep 2020 02:38:11 -0700 (PDT)
-Received: from carbon.loongson.cn ([47.91.219.17])
- by smtp.gmail.com with ESMTPSA id i8sm4431903pjv.43.2020.09.23.02.38.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 02:38:10 -0700 (PDT)
-From: Kele Huang <kele.hwang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] accel/tcg: Fix computing of is_write for mips
-Date: Wed, 23 Sep 2020 17:38:00 +0800
-Message-Id: <20200923093800.9845-1-kele.hwang@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <503406>
-References: <503406>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=kele.hwang@gmail.com; helo=mail-pj1-x1035.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=P/7T/4JxjbU4RM4QDLjtRIVhPgsawxmcFdZoMNDAIis=;
+ b=jLUgksKkObM9iXJCkUMzamet0EAudouVvXs/OgKL4cZmkS1IbQkoFqUApTo0xo8DEs
+ T6j6Z68OhX77WxNRiuP94fcdcr+LViJOxzduYA/R12gJFmr/QY0gK8HgviP9EVzFzeXD
+ nTQ07y65QYuEPDO3c96UP3bDVhQU0xWNoTRGXBd0SETV9/fV96brvAwqv1oJFZqHK7w0
+ 9ta93UDy31S5W24YayqqCBz8jd98nCPMmNQUTY5YlsTPakLtsNmXKRjoG+Vg3kaOi/vE
+ djSkKy+pA1zEfa6vApfCnzDS67HiRO29FGLuAdiyFT8+t4YZ2uDNXGz/VQk/Q2TUFX/i
+ JZXg==
+X-Gm-Message-State: AOAM533k+upFklPqdD4xPD8ugRqWqpyi+E7WQ8WJraIO0KQTD3QuHBuR
+ /FjiPe693F0GC3g8UK5GhFWUbsIhBpbBwQfyRreAZAEYY2Xx/gTVrxLeT6dV5wclPXJxFQFFUhJ
+ ifgR/5cJeCfEqc+A=
+X-Received: by 2002:a7b:c8cc:: with SMTP id f12mr5310939wml.169.1600854282760; 
+ Wed, 23 Sep 2020 02:44:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwV4Qr5WfEoMe1WvH5ynWfG5h2z0FKEiE3rPGFi1MKuG5ZSyJoCy/5uhvOi721L4kvtlIbm5Q==
+X-Received: by 2002:a7b:c8cc:: with SMTP id f12mr5310919wml.169.1600854282552; 
+ Wed, 23 Sep 2020 02:44:42 -0700 (PDT)
+Received: from amorenoz.users.ipa.redhat.com ([94.73.56.18])
+ by smtp.gmail.com with ESMTPSA id e13sm34011399wre.60.2020.09.23.02.44.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Sep 2020 02:44:41 -0700 (PDT)
+Subject: Re: [PATCH] vhost-user: save features of multiqueues if chardev is
+ closed
+To: =?UTF-8?B?aGFpYmluemhhbmco5byg5rW35paMKQ==?= <haibinzhang@tencent.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
+References: <46CBC206-E0CA-4249-81CD-10F75DA30441@tencent.com>
+From: Adrian Moreno <amorenoz@redhat.com>
+Autocrypt: addr=amorenoz@redhat.com; prefer-encrypt=mutual; keydata=
+ mDMEX1iJRRYJKwYBBAHaRw8BAQdA9XK4r7431HtX+egvecRuaWTqF3VdWszR6pK3IyLHFW20
+ I0FkcmlhbiBNb3Jlbm8gPGFtb3Jlbm96QHJlZGhhdC5jb20+iJYEExYIAD4WIQTCvo3bo2x3
+ f+vPxWuVGptW5xa95gUCX1iJRQIbAwUJCWYBgAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAK
+ CRCVGptW5xa95hNyAQDGrMiGEiW/RgXzO+UgmZeuGOhl2Jo0m7XKCyM4E281eQEAlJ/5Nr16
+ IdnEqtoYGbKE2WknEEAAx2oOGldEm5N+/Qi4OARfWIlFEgorBgEEAZdVAQUBAQdAkc5hZG7i
+ IpK4cjpZYqrw7W5UbePUuaFbf+1oyDGofncDAQgHiH4EGBYIACYWIQTCvo3bo2x3f+vPxWuV
+ GptW5xa95gUCX1iJRQIbDAUJCWYBgAAKCRCVGptW5xa95t7NAQDQ45Y5xAbZ/X6W05G0VeCA
+ xDRcmRnbPXbrfuXSdBI57gEA9pDtbcYXFEXvZaNc4JSwYC6sIa51ohTRuAfoJ26Amgc=
+Message-ID: <31d9f70a-f4b8-bc83-aa5d-c71e2b31e3f5@redhat.com>
+Date: Wed, 23 Sep 2020 11:44:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <46CBC206-E0CA-4249-81CD-10F75DA30441@tencent.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=amorenoz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=amorenoz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,88 +111,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xu Zou <iwatchnima@gmail.com>, Kele Huang <kele.hwang@gmail.com>
+Cc: "xtay.haibin@gmail.com" <xtay.haibin@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Detect mips store instructions in cpu_signal_handler for all MIPS
-versions, and set is_write if encountering such store instructions.
+Thanks Haibin,
 
-This fixed the error while dealing with self-modifed code for MIPS.
 
-Signed-off-by: Kele Huang <kele.hwang@gmail.com>
-Signed-off-by: Xu Zou <iwatchnima@gmail.com>
+On 9/22/20 5:27 AM, haibinzhang(张海斌) wrote:
+> Fore-commit(c6beefd674) only saves features of queue0,
+> this makes wrong features of other queues in multiqueues
+> situation.
+> For examples:
+>   qemu-system-aarch64 ... \
+>   -chardev socket,id=charnet0,path=/var/run/vhost_sock \
+>   -netdev vhost-user,chardev=charnet0,queues=2,id=hostnet0 \
+>   ...
+> There are two queues in nic assocated with one chardev.
+> When chardev is reconnected, it is necessary to save and
+> restore features of all queues.
+> 
+> Signed-of-by: Haibin Zhang <haibinzhang@tencent.com>
+> 
+
+
+Indeed, this fixes the issue of vhost-user reconnection on multiqueue that I've
+also reproduced, thanks for posting it.
+
+However, I'd like to ask some questions to the experts:
+- Why do we need a feature negotiation per queue-pair on vhost-user?
+- Maybe I'm missing something but, isn't the problem that vhost-user device is
+reusing vhost_net layer (which forces nqueues = 2)?
+- Won't we have the same issue with vdpa?
+
 ---
- accel/tcg/user-exec.c | 51 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 50 insertions(+), 1 deletion(-)
+>  net/vhost-user.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/net/vhost-user.c b/net/vhost-user.c
+> index 17532daaf3..ffbd94d944 100644
+> --- a/net/vhost-user.c
+> +++ b/net/vhost-user.c
+> @@ -226,7 +226,7 @@ static void chr_closed_bh(void *opaque)
+>      NetClientState *ncs[MAX_QUEUE_NUM];
+>      NetVhostUserState *s;
+>      Error *err = NULL;
+> -    int queues;
+> +    int queues, i;
+>  
+>      queues = qemu_find_net_clients_except(name, ncs,
+>                                            NET_CLIENT_DRIVER_NIC,
+> @@ -235,8 +235,12 @@ static void chr_closed_bh(void *opaque)
+>  
+>      s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
+>  
+> -    if (s->vhost_net) {
+> -        s->acked_features = vhost_net_get_acked_features(s->vhost_net);
+> +    for (i = queues -1; i >= 0; i--) {
+> +        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
+> +
+> +        if (s->vhost_net) {
+> +            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
+> +        }
+>      }
+>  
+>      qmp_set_link(name, false, &err);
+> 
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index bb039eb32d..18784516e5 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -710,11 +710,60 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-     greg_t pc = uc->uc_mcontext.pc;
-     int is_write;
- 
--    /* XXX: compute is_write */
-     is_write = 0;
-+
-+    /* Detect store by reading the instruction at the program counter. */
-+    uint32_t insn = *(uint32_t *)pc;
-+    switch(insn>>29) {
-+    case 0x5:
-+        switch((insn>>26) & 0x7) {
-+        case 0x0: /* SB */
-+        case 0x1: /* SH */
-+        case 0x2: /* SWL */
-+        case 0x3: /* SW */
-+        case 0x4: /* SDL */
-+        case 0x5: /* SDR */
-+        case 0x6: /* SWR */
-+            is_write = 1;
-+        }
-+        break;
-+    case 0x7:
-+        switch((insn>>26) & 0x7) {
-+        case 0x0: /* SC */
-+        case 0x1: /* SWC1 */
-+        case 0x4: /* SCD */
-+        case 0x5: /* SDC1 */
-+        case 0x7: /* SD */
-+#if !defined(__mips_isa_rev) || __mips_isa_rev < 6
-+        case 0x2: /* SWC2 */
-+        case 0x6: /* SDC2 */
-+#endif
-+            is_write = 1;
-+        }
-+        break;
-+    }
-+
-+    /*
-+     * Required in all versions of MIPS64 since MIPS64r1. Not available
-+     * in MIPS32r1. Required by MIPS32r2 and subsequent versions of MIPS32.
-+     */
-+    switch ((insn >> 3) & 0x7) {
-+    case 0x1:
-+        switch (insn & 0x7) {
-+        case 0x0: /* SWXC1 */
-+        case 0x1: /* SDXC1 */
-+            is_write = 1;
-+        }
-+        break;
-+    }
-+
-     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
- }
- 
-+#elif defined(__misp16) || defined(__mips_micromips)
-+
-+#error "Unsupported encoding"
-+
- #elif defined(__riscv)
- 
- int cpu_signal_handler(int host_signum, void *pinfo,
+Thanks
 -- 
-2.17.1
+Adrián Moreno
 
 
