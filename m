@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDEF275569
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:19:26 +0200 (CEST)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA3D275652
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:28:32 +0200 (CEST)
+Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1ry-0005hk-15
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43898)
+	id 1kL20j-0000lv-Cm
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1qv-0005GM-Tu
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:18:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37954)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1yU-0007wh-9f
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:26:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1qu-0003ON-AY
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:18:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1yK-0004ul-O7
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:26:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600856299;
+ s=mimecast20190719; t=1600856755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Wr2I8uH1/ILRHaLobc8IE3nnBw7Dz899BmIShYduPNU=;
- b=hYuUkKvHZ01rtgwVUdGaN70/crlfbsPN8RIOiQb3FJxULhuLf41hZtLd57s8JSRM0Btksz
- WwqGbeuH8LvWvHrXOVFXFqwiYATwToVciKK2AvzaVNWEGU5bEAfik7joNnQdfagbLEQ7MD
- qB2qxFU7QxZ0907YKJCSQDZeM8q5OvU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-Fts7BJlNPESrJAfCSvsuKA-1; Wed, 23 Sep 2020 06:18:18 -0400
-X-MC-Unique: Fts7BJlNPESrJAfCSvsuKA-1
-Received: by mail-wm1-f70.google.com with SMTP id b14so1197403wmj.3
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 03:18:17 -0700 (PDT)
+ bh=fyxj1WNzaJ2yaVpoGWvLTvrDc8l86IlZSVcaCb1DgEA=;
+ b=hWa9o3Cw1h1vXvXS+oD0LYI/5Vx+9tLDtXln75OTIyNoy21f4fwKl4UU8kc6Z4N48Gc5rp
+ ajr40umI8KzHEUg6u7W9G7WaCrIjAjo+SgFk3I3vO0tY90y0+uSgZ+da2R4TWQjsMlUJd8
+ Aedx4wmgzblwEcCfAcGK77rEBmdpTnM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-tByIhuB9O8avOU3WeSfdsw-1; Wed, 23 Sep 2020 06:25:51 -0400
+X-MC-Unique: tByIhuB9O8avOU3WeSfdsw-1
+Received: by mail-wm1-f71.google.com with SMTP id b14so1203304wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 03:25:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Wr2I8uH1/ILRHaLobc8IE3nnBw7Dz899BmIShYduPNU=;
- b=YcJXRN7vqgY2dEJPnQlfix0oZ+TAHRAEPvbdvlBSQiy6/0SRGxS/zR/Xc9N9RkI1VC
- 7felAyHCUkehC/yD8Zt4pM0xXmZMzLvGP13Dt/8E10+3YxsyHnCChkG6T09IvKV3PSvI
- PZazyMUpEvpw7CViNInehR7Ljo+1sMexM562vVOZfPu1FRL2y+PBhdQuKmEoyxC+7tvM
- XoTS2DOjzH34SrYsJexH08hBR/Wmci23WGtGK1MYEYdDHMKo4AkpSM0rLDu37KC3nm5g
- UCfbTtIx8MNXmsENeS3ZUOaGcx84ba2froBSmTVurBOkom/eRsTGJM5OMHqaRpFN8GjJ
- Q6sw==
-X-Gm-Message-State: AOAM531ThSmGcIpa8BWBh6UuM4L5+MeH5AoPTlDyEDMdrThHeG9r9unq
- ihWZPKHEKRPXOd37IlHLaosIjGEL7mW7/OilZeY8PygTfydjhsYcIsL8FxVwze9/Nf5LK+/6lX+
- HF9qd+4vXYdKEBgE=
-X-Received: by 2002:a1c:8f:: with SMTP id 137mr5715185wma.158.1600856296416;
- Wed, 23 Sep 2020 03:18:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOly7u8jMez+ppuQWe9YXJlg9hQ6juKs1auqCYlt1fLvvYO9e6ZLAwkh7tSsdcpJptE93Lqg==
-X-Received: by 2002:a1c:8f:: with SMTP id 137mr5715167wma.158.1600856296220;
- Wed, 23 Sep 2020 03:18:16 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=fyxj1WNzaJ2yaVpoGWvLTvrDc8l86IlZSVcaCb1DgEA=;
+ b=fPkQhQHv0eheK5hGppgaK/ryRsDURYMddB6N1AaDrWMOjWXwu+uXDM+fAVkiJpsZdF
+ T2DmD2Ta6NdFSTJkCMOBKLjiWvziER/KV0fjEe37R3tK5gRyxPQs8j2o5uBZQ8x4MBVo
+ aeD+SCaraN8NVBnfumJhOJryFbH4hpgsBW6mM85MFEtbe1zvA/hBsnipYenqBZOoGatw
+ vJdw/B1xtByaRjbeiNhxLP7cobtbN5ruJSujsuQqvRzCJuOt6R8j+IZKZJmFQl9FMzRj
+ 1czrJ//XNIaPvxgPU5x3d3Qr0NbnzwkDQrtIgfZKi8rHeDF70rDYM3Tmufde09V41eLj
+ FWPw==
+X-Gm-Message-State: AOAM532k5il5c2epyzFP1DkCkEDR3JKB5tpaQnBkyVI1T08205GjjH1F
+ T8B0iEZ2a3l6TM7YA8L1mypgZUmcThG21rpIlnXDi/5lXAtxMstSfFGCGKaDF8Q0t1yNXRHDnh2
+ 75z5VwbNmGB+fBos=
+X-Received: by 2002:adf:df87:: with SMTP id z7mr10620254wrl.239.1600856750264; 
+ Wed, 23 Sep 2020 03:25:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3BiOrwMNMN4tkbWGPAwRh6lp9KWyYUBXLKmxZHGWLdqwor70as5nwfyHmSG6bmCve+dCP9w==
+X-Received: by 2002:adf:df87:: with SMTP id z7mr10620230wrl.239.1600856750016; 
+ Wed, 23 Sep 2020 03:25:50 -0700 (PDT)
 Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id a17sm32699552wra.24.2020.09.23.03.18.15
+ by smtp.gmail.com with ESMTPSA id k4sm30888991wrx.51.2020.09.23.03.25.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Sep 2020 03:18:15 -0700 (PDT)
-Subject: Re: [PATCH] kvm: remove now unnecessary stubs
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Claudio Fontana <cfontana@suse.de>
-References: <20200923091743.1593109-1-pbonzini@redhat.com>
+ Wed, 23 Sep 2020 03:25:48 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] block: deprecate the sheepdog block driver
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200922161611.2049616-1-berrange@redhat.com>
+ <20200922161611.2049616-3-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -86,12 +87,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <3a9e4076-1088-ff70-5158-6f32ffbfa8c7@redhat.com>
-Date: Wed, 23 Sep 2020 12:18:14 +0200
+Message-ID: <1d391aab-db3d-a134-9657-d81c7c2d9130@redhat.com>
+Date: Wed, 23 Sep 2020 12:25:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200923091743.1593109-1-pbonzini@redhat.com>
+In-Reply-To: <20200922161611.2049616-3-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,9 +100,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -110,7 +111,7 @@ X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,48 +124,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ sheepdog@lists.wpkg.org, qemu-block@nongnu.org, libvir-list@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Liu Yuan <namei.unix@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/20 11:17 AM, Paolo Bonzini wrote:
-> These two stubs are now used only in accel/kvm/kvm-all.c
-> and accel/kvm/kvm-cpus.c.
+On 9/22/20 6:16 PM, Daniel P. Berrangé wrote:
+> This thread from a little over a year ago:
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>   http://lists.wpkg.org/pipermail/sheepdog/2019-March/thread.html
+> 
+> states that sheepdog is no longer actively developed. The only mentioned
+> users are some companies who are said to have it for legacy reasons with
+> plans to replace it by Ceph. There is talk about cutting out existing
+> features to turn it into a simple demo of how to write a distributed
+> block service. There is no evidence of anyone working on that idea:
+> 
+>   https://github.com/sheepdog/sheepdog/commits/master
+> 
+> No real commits to git since Jan 2018, and before then just some minor
+> technical debt cleanup..
+> 
+> There is essentially no activity on the mailing list aside from
+> patches to QEMU that get CC'd due to our MAINTAINERS entry.
+> 
+> Fedora packages for sheepdog failed to build from upstream source
+> because of the more strict linker that no longer merges duplicate
+> global symbols. Fedora patches it to add the missing "extern"
+> annotations and presumably other distros do to, but upstream source
+> remains broken.
+> 
+> There is only basic compile testing, no functional testing of the
+> driver.
+> 
+> Since there are no build pre-requisites the sheepdog driver is currently
+> enabled unconditionally. This would result in configure issuing a
+> deprecation warning by default for all users. Thus the configure default
+> is changed to disable it, requiring users to pass --enable-sheepdog to
+> build the driver.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  block/sheepdog.c           | 15 +++++++++++++++
+>  configure                  |  5 +++--
+>  docs/system/deprecated.rst |  9 +++++++++
+>  3 files changed, 27 insertions(+), 2 deletions(-)
+> 
+> diff --git a/block/sheepdog.c b/block/sheepdog.c
+> index cbbebc1aaf..7f68bd6a1a 100644
+> --- a/block/sheepdog.c
+> +++ b/block/sheepdog.c
+> @@ -242,6 +242,17 @@ typedef struct SheepdogInode {
+>   */
+>  #define FNV1A_64_INIT ((uint64_t)0xcbf29ce484222325ULL)
+>  
+> +static void deprecation_warning(void)
+> +{
+> +    static bool warned = false;
+
+Checkpatch warns there is no need to initialize static bool to false,
+otherwise:
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> ---
->  accel/stubs/kvm-stub.c | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-> index 680e099463..d3874526f5 100644
-> --- a/accel/stubs/kvm-stub.c
-> +++ b/accel/stubs/kvm-stub.c
-> @@ -36,10 +36,6 @@ void kvm_flush_coalesced_mmio_buffer(void)
->  {
->  }
->  
-> -void kvm_cpu_synchronize_state(CPUState *cpu)
-> -{
-> -}
-> -
->  bool kvm_has_sync_mmu(void)
->  {
->      return false;
-> @@ -149,11 +145,6 @@ bool kvm_has_free_slot(MachineState *ms)
->      return false;
->  }
->  
-> -void kvm_init_cpu_signals(CPUState *cpu)
-> -{
-> -    abort();
-> -}
-> -
->  bool kvm_arm_supports_user_irq(void)
->  {
->      return false;
-> 
+> +
+> +    if (!warned) {
+> +        warn_report("the sheepdog block driver is deprecated and will be "
+> +                    "removed in a future release");
+> +        warned = true;
+> +    }
+> +}
+[...]
 
 
