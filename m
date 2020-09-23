@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F30275B2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 17:08:55 +0200 (CEST)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC0A275B34
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 17:12:49 +0200 (CEST)
+Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL6O6-0001pt-Hw
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 11:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60542)
+	id 1kL6Rs-0004pv-0S
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 11:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kL6MY-000158-5I
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 11:07:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25559)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kL6OY-0002Yw-M9
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 11:09:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kL6MW-00026B-H9
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 11:07:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kL6OW-0002Ir-6r
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 11:09:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600873635;
+ s=mimecast20190719; t=1600873758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L0jMKIIjF445Yjod0LYMVqQybzKhTnLuW85ePt8IJm4=;
- b=Az0t4Fvn77dIs6Z685cDqQFSr2u/CbQQhR256Ja3Ys1hfvrEKQzVTthrhwzDkIEFCV0lEw
- YTcSWhCiTON495MPnoR8VPiKxbnou08zrC6FbguwfHlqHbWEHh7GAXflxU0ZQ7MmWHZ3SA
- huyb7TrtW72RQ4fd9MvdRrv2yRPp8Xk=
+ bh=IIabpoMccSipJ8urmAuA4Lm1P9DTlGaPEzUc/0Sn4R0=;
+ b=cFu6m6H3gdNoA1Gz9gVov8q3jnrrKIWY8C9ejGW3l9BIMJ/Nk83SI3BVBAXJsskUOZSLeG
+ +VrOrM4x8RqOCRZhCDn+RpHZQQx2IciMS5J40sAhavgY3rlb+A923Ck5vj6CQi7hN04tim
+ szeU6y+QkIAGsR67/LJlHCB4ktfYDq0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-M4oiuCptPcqAOtR25HfesA-1; Wed, 23 Sep 2020 11:07:09 -0400
-X-MC-Unique: M4oiuCptPcqAOtR25HfesA-1
+ us-mta-153-_AfZtzyQPKe_DRb1sdIUaw-1; Wed, 23 Sep 2020 11:09:00 -0400
+X-MC-Unique: _AfZtzyQPKe_DRb1sdIUaw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33D0D3FD1;
- Wed, 23 Sep 2020 15:07:06 +0000 (UTC)
-Received: from localhost (ovpn-113-77.ams2.redhat.com [10.36.113.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B89973668;
- Wed, 23 Sep 2020 15:06:56 +0000 (UTC)
-Date: Wed, 23 Sep 2020 16:06:55 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v9 11/20] multi-process: introduce proxy object
-Message-ID: <20200923150655.GF62770@stefanha-x1.localdomain>
-References: <20200827181231.22778-1-elena.ufimtseva@oracle.com>
- <20200827181231.22778-12-elena.ufimtseva@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A70D6188C125;
+ Wed, 23 Sep 2020 15:08:58 +0000 (UTC)
+Received: from [10.3.114.2] (ovpn-114-2.phx2.redhat.com [10.3.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2846273668;
+ Wed, 23 Sep 2020 15:08:57 +0000 (UTC)
+Subject: Re: [PATCH 1/4] block/nbd: fix drain dead-lock because of nbd
+ reconnect-delay
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200903190301.367620-1-vsementsov@virtuozzo.com>
+ <20200903190301.367620-2-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <487c992c-806e-9947-eb0e-85d8d5b39224@redhat.com>
+Date: Wed, 23 Sep 2020 10:08:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200827181231.22778-12-elena.ufimtseva@oracle.com>
+In-Reply-To: <20200903190301.367620-2-vsementsov@virtuozzo.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iBwuxWUsK/REspAd"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,8 +71,9 @@ X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,55 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, thanos.makatos@nutanix.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---iBwuxWUsK/REspAd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/3/20 2:02 PM, Vladimir Sementsov-Ogievskiy wrote:
+> We pause reconnect process during drained section. So, if we have some
+> requests, waiting for reconnect we should cancel them, otherwise they
+> deadlock the drained section.
+> 
+> How to reproduce:
+> 
 
-On Thu, Aug 27, 2020 at 11:12:22AM -0700, elena.ufimtseva@oracle.com wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->=20
-> Defines a PCI Device proxy object as a child of TYPE_PCI_DEVICE.
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Now Qemu is trying to reconnect, and dd-generated requests are waiting
+> for the connection (they will wait up to 60 seconds (see
+> reconnect-delay option above) and than fail). But suddenly, vm may
+> totally hang in the deadlock. You may need to increase reconnect-delay
+> period to catch the dead-lock.
+> 
+> VM doesn't respond because drain dead-lock happens in cpu thread with
+> global mutex taken. That's not good thing by itself and is not fixed
+> by this commit (true way is using iothreads). Still this commit fixes
+> drain dead-lock itself.
+> 
+> Note: probably, we can instead continue to reconnect during drained
+> section. To achieve this, we may move negotiation to the connect thread
+> to make it independent of bs aio context. But expanding drained section
+> doesn't seem good anyway. So, let's now fix the bug the simplest way.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  MAINTAINERS            |  2 +
->  hw/pci/meson.build     |  1 +
->  hw/pci/proxy.c         | 84 ++++++++++++++++++++++++++++++++++++++++++
->  include/hw/pci/proxy.h | 34 +++++++++++++++++
->  4 files changed, 121 insertions(+)
->  create mode 100644 hw/pci/proxy.c
->  create mode 100644 include/hw/pci/proxy.h
+>   block/nbd.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 9daf003bea..912ea27be7 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -242,6 +242,11 @@ static void coroutine_fn nbd_client_co_drain_begin(BlockDriverState *bs)
+>       }
+>   
+>       nbd_co_establish_connection_cancel(bs, false);
+> +
+> +    if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
+> +        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
+> +        qemu_co_queue_restart_all(&s->free_sema);
+> +    }
+>   }
+>   
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
---iBwuxWUsK/REspAd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9rZI8ACgkQnKSrs4Gr
-c8hhQQf+IlBwr8wKyj/iTBYxY7nzJwwHp8UrWLP6fhJyxm+RGbGZvxG9+Ee4+gDL
-dcgeykFQk/XtMSvX+NcgIJTk+twL3C7AMO46nakRhtjF5tCAE1bChyInL/kbYHSU
-ba7Uu0tQzBA+9Jrhj5v/d7/g6rMXbpDL40B+aboiPoWw7e3P2xcVmBk83ijt6RnT
-g2KagDiadQdmFKpgpxpao7pLKgVBBHDqDb/ATrMJ+l6Qi2VssSCOOYDbtHc9fRBE
-ZbZCHqJb5H5MImKl9A+pDvUbAT0xVno+/xrqwBgtq8a7eJ4vKh6WskgQ+1uJUui5
-bRX0vGTpogyLHC47oeLb3xWZKiruYg==
-=k+ao
------END PGP SIGNATURE-----
-
---iBwuxWUsK/REspAd--
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
