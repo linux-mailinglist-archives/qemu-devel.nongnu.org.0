@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E240027541F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:12:21 +0200 (CEST)
-Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950D827541D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:12:20 +0200 (CEST)
+Received: from localhost ([::1]:51674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL0p2-00011W-R7
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52484)
+	id 1kL0p1-0000zy-Hg
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:12:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0mz-0007jE-WD
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:10:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36790)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0mz-0007j8-M5
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:10:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0my-00021B-Aa
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0my-000218-2t
  for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:10:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600852211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tu7N8vipvmMMSaDi7LomFjMupsbCS2xNYXi9daD77Lc=;
- b=CxLHIeXkRvIXbXt1KSFOvIABa2cjEiQocKyR24wwqoEhJyelJUlczCmHuX6jrfpuC8dpLU
- W/ZVx0WJO1JnqidofmenEDtE5g5yJe5M1jm5UL+xE7gansVyVCrNWClwgsE2IYLJh7ThoB
- YCrAmzk8+nUvltnZkAfDP35mJG/eeiw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zPmHNn4vW8iu/khSTnDPXOa3pRSorw5LCCVbF7XMAIc=;
+ b=U4xe1nsQztS1+biIPdWAa+EeAlBe4gMxFFa1S8CwtSH/S1ooDCwRTas8e6BNIXkUF6bNR2
+ u5vsj2wpTpPMRy47t9YDR3mq9VFFngwpmValg4UA/R3riVMruS9F4SJ8qHOHUcSmdetSEg
+ 9RVq5xcHNAcS9so7Wo4OjCX1T+reQjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-DKtfycOoNh6lBtAWWNSE6A-1; Wed, 23 Sep 2020 05:10:09 -0400
-X-MC-Unique: DKtfycOoNh6lBtAWWNSE6A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-332-FWvEMWfjMuSTsYO557vC4Q-1; Wed, 23 Sep 2020 05:10:08 -0400
+X-MC-Unique: FWvEMWfjMuSTsYO557vC4Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09CF784635D
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 09:10:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56F2081CBE7;
+ Wed, 23 Sep 2020 09:10:07 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7AEBE73690;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 803F0702E7;
  Wed, 23 Sep 2020 09:10:02 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B69C11750A; Wed, 23 Sep 2020 11:10:01 +0200 (CEST)
+ id BF1101FCEE; Wed, 23 Sep 2020 11:10:01 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] Audio 20200923 patches
-Date: Wed, 23 Sep 2020 11:09:52 +0200
-Message-Id: <20200923091001.20814-1-kraxel@redhat.com>
+Subject: [PULL 1/9] audio: handle buf == NULL in put_buffer_out()
+Date: Wed, 23 Sep 2020 11:09:53 +0200
+Message-Id: <20200923091001.20814-2-kraxel@redhat.com>
+In-Reply-To: <20200923091001.20814-1-kraxel@redhat.com>
+References: <20200923091001.20814-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
@@ -78,53 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0fc0142828b5bc965790a1c5c6e241897d3387cb=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/input-20200921-pull-req=
-ue=3D=0D
-st' into staging (2020-09-22 21:11:10 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/audio-20200923-pull-request=0D
-=0D
-for you to fetch changes up to 5e626fa7364bc2d7db5f6c8e59150dee1689b98a:=0D
-=0D
-  audio: build spiceaudio as module (2020-09-23 08:36:50 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-audio: various buffering fixes.=0D
-audio: build spiceaudio as module.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gerd Hoffmann (2):=0D
-  audio: remove qemu_spice_audio_init()=0D
-  audio: build spiceaudio as module=0D
-=0D
-Volker R=3DC3=3DBCmelin (7):=0D
-  audio: handle buf =3D3D=3D3D NULL in put_buffer_out()=0D
-  audio/audio: fix video playback slowdown with spiceaudio=0D
-  audio/spiceaudio: always rate limit playback stream=0D
-  audio: align audio_generic_read with audio_pcm_hw_run_in=0D
-  audio: remove unnecessary calls to put_buffer_in=0D
-  audio: align audio_generic_write with audio_pcm_hw_run_out=0D
-  audio: run downstream playback queue unconditionally=0D
-=0D
- include/ui/qemu-spice.h |  1 -=0D
- audio/audio.c           | 80 ++++++++++++++++++++++++++++++++++-------=0D
- audio/spiceaudio.c      | 26 ++++++--------=0D
- ui/spice-core.c         |  1 -=0D
- audio/meson.build       |  4 +--=0D
- 5 files changed, 80 insertions(+), 32 deletions(-)=0D
-=0D
---=3D20=0D
-2.27.0=0D
-=0D
+From: Volker Rümelin <vr_qemu@t-online.de>
+
+With the next patch all audio backends put_buffer_out() functions
+have to handle the buf == NULL case, provided the get_buffer_out()
+function may return buf = NULL and size > 0.
+
+It turns out that all audio backends get_buffer_out() functions
+either can't return buf = NULL or return buf = NULL and size = 0
+at the same time. The only exception is the spiceaudio backend
+where size may be uninitialized.
+
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Message-id: 20200920171729.15861-1-vr_qemu@t-online.de
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ audio/spiceaudio.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
+index b6b5da4812f2..c8d81ba44290 100644
+--- a/audio/spiceaudio.c
++++ b/audio/spiceaudio.c
+@@ -135,6 +135,7 @@ static void *line_out_get_buffer(HWVoiceOut *hw, size_t *size)
+             (out->fsize - out->fpos) * hw->info.bytes_per_frame);
+     } else {
+         audio_rate_start(&out->rate);
++        *size = LINE_OUT_SAMPLES << 2;
+     }
+     return out->frame + out->fpos;
+ }
+@@ -143,12 +144,14 @@ static size_t line_out_put_buffer(HWVoiceOut *hw, void *buf, size_t size)
+ {
+     SpiceVoiceOut *out = container_of(hw, SpiceVoiceOut, hw);
+ 
+-    assert(buf == out->frame + out->fpos && out->fpos <= out->fsize);
+-    out->fpos += size >> 2;
++    if (buf) {
++        assert(buf == out->frame + out->fpos && out->fpos <= out->fsize);
++        out->fpos += size >> 2;
+ 
+-    if (out->fpos == out->fsize) { /* buffer full */
+-        spice_server_playback_put_samples(&out->sin, out->frame);
+-        out->frame = NULL;
++        if (out->fpos == out->fsize) { /* buffer full */
++            spice_server_playback_put_samples(&out->sin, out->frame);
++            out->frame = NULL;
++        }
+     }
+ 
+     return size;
+-- 
+2.27.0
 
 
