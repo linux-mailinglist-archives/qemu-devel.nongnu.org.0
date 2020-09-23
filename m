@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49FA2754CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:52:05 +0200 (CEST)
-Received: from localhost ([::1]:41622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 432152754F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:57:55 +0200 (CEST)
+Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1RU-0003Y0-GP
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:52:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35378)
+	id 1kL1X8-0001mt-67
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Mx-00070R-Hr
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28749)
+ id 1kL1N2-0007Av-Qn
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Mv-0007XI-Ry
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:23 -0400
+ id 1kL1Mw-0007XW-UD
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600854441;
+ s=mimecast20190719; t=1600854442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W+u0K2zsKjxWFiQyWffMFjyVYBSqF19i98LFi7MUtkE=;
- b=ZsSLuxXURqgk8+tlHYbfuhPVj9E68YK/01nStTdX2Dw/LattXHxuCiXVdiZGX1Fu16aCk/
- A7hPjS/WRsHAu8jcBfg28xx9Bw5KZgGZ80oe89GQn2lP+Qir8dGAxTF1IQyX9MQ0aPgVkv
- aJnuUR61+147f3EXRIpgtXX/YAUbHgM=
+ bh=mqPp2UbFhHw5V0bsorcCcxAuZO9QipCw+rAumQmyMGU=;
+ b=eaXmh3Kmp3WsIqYI2Mh/2h2qTKEaaHUDw7wnWQGeO3OgXeksjbfQh5DCK1JyVk5NFGKMM+
+ sdsGTQm6ct8xetih7Ng/qlSfH7f1rAVupTI1U4OxshXwPk6+9NcZcEnM+ExFEWUS//+OC/
+ xUXgD5Pllx6Y/t7I4z5Xk7htttcMX7Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-N6zA6ggnOr2ZmdbhkRhr6Q-1; Wed, 23 Sep 2020 05:47:19 -0400
-X-MC-Unique: N6zA6ggnOr2ZmdbhkRhr6Q-1
+ us-mta-142-iaFTF_tcMviQTZjbPSfXew-1; Wed, 23 Sep 2020 05:47:20 -0400
+X-MC-Unique: iaFTF_tcMviQTZjbPSfXew-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0931C81F004;
- Wed, 23 Sep 2020 09:47:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 531A6801AE9;
+ Wed, 23 Sep 2020 09:47:19 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 082A95576A;
- Wed, 23 Sep 2020 09:47:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 540615576A;
+ Wed, 23 Sep 2020 09:47:18 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 06/11] x86: ich9: expose "smi_negotiated_features" as a QOM
- property
-Date: Wed, 23 Sep 2020 05:46:45 -0400
-Message-Id: <20200923094650.1301166-7-imammedo@redhat.com>
+Subject: [PATCH v6 07/11] x86: acpi: introduce AcpiPmInfo::smi_on_cpuhp
+Date: Wed, 23 Sep 2020 05:46:46 -0400
+Message-Id: <20200923094650.1301166-8-imammedo@redhat.com>
 In-Reply-To: <20200923094650.1301166-1-imammedo@redhat.com>
 References: <20200923094650.1301166-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -86,44 +85,53 @@ Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expose the "smi_negotiated_features" field of ICH9LPCState as
-a QOM property.
+Translate the "CPU hotplug with SMI" feature bit, from the property
+added in the last patch, to a dedicated boolean in AcpiPmInfo.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Tested-by: Laszlo Ersek <lersek@redhat.com>
 ---
- include/hw/i386/ich9.h | 2 ++
- hw/isa/lpc_ich9.c      | 3 +++
- 2 files changed, 5 insertions(+)
+ hw/i386/acpi-build.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index 703d56036a..294024be5f 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -245,6 +245,8 @@ struct ICH9LPCState {
- #define ICH9_SMB_HST_D1                         0x06
- #define ICH9_SMB_HOST_BLOCK_DB                  0x07
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 0e0535d2e3..b408d62560 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
+     bool s3_disabled;
+     bool s4_disabled;
+     bool pcihp_bridge_en;
++    bool smi_on_cpuhp;
+     uint8_t s4_val;
+     AcpiFadtData fadt;
+     uint16_t cpu_hp_io_base;
+@@ -194,6 +195,7 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+     pm->cpu_hp_io_base = 0;
+     pm->pcihp_io_base = 0;
+     pm->pcihp_io_len = 0;
++    pm->smi_on_cpuhp = false;
  
-+#define ICH9_LPC_SMI_NEGOTIATED_FEAT_PROP "x-smi-negotiated-features"
-+
- /* bit positions used in fw_cfg SMI feature negotiation */
- #define ICH9_LPC_SMI_F_BROADCAST_BIT            0
- #define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index a54b3ec8bd..04e5323140 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -647,6 +647,9 @@ static void ich9_lpc_initfn(Object *obj)
-                                   &acpi_enable_cmd, OBJ_PROP_FLAG_READ);
-     object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_DISABLE_CMD,
-                                   &acpi_disable_cmd, OBJ_PROP_FLAG_READ);
-+    object_property_add_uint64_ptr(obj, ICH9_LPC_SMI_NEGOTIATED_FEAT_PROP,
-+                                   &lpc->smi_negotiated_features,
-+                                   OBJ_PROP_FLAG_READ);
+     assert(obj);
+     init_common_fadt_data(machine, obj, &pm->fadt);
+@@ -207,12 +209,16 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+             object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
+     }
+     if (lpc) {
++        uint64_t smi_features = object_property_get_uint(lpc,
++            ICH9_LPC_SMI_NEGOTIATED_FEAT_PROP, NULL);
+         struct AcpiGenericAddress r = { .space_id = AML_AS_SYSTEM_IO,
+             .bit_width = 8, .address = ICH9_RST_CNT_IOPORT };
+         pm->fadt.reset_reg = r;
+         pm->fadt.reset_val = 0xf;
+         pm->fadt.flags |= 1 << ACPI_FADT_F_RESET_REG_SUP;
+         pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
++        pm->smi_on_cpuhp =
++            !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT));
+     }
  
-     ich9_pm_add_properties(obj, &lpc->pm);
- }
+     /* The above need not be conditional on machine type because the reset port
 -- 
 2.27.0
 
