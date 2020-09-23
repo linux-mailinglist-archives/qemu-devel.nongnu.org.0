@@ -2,81 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2795275762
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:46:19 +0200 (CEST)
-Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637A6275786
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:53:33 +0200 (CEST)
+Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL3E2-0006PD-VE
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:46:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35708)
+	id 1kL3L2-0003iM-DF
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhi.a.wang@intel.com>)
- id 1kL3Aq-00033I-Hg
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:43:00 -0400
-Received: from mga03.intel.com ([134.134.136.65]:6617)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1kL3H0-0000nG-9j
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:49:22 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:44194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhi.a.wang@intel.com>)
- id 1kL3An-0007Qq-4s
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:43:00 -0400
-IronPort-SDR: Zc4apLHxEFCu78rQ8HlCw+JMkx/atTyxaJehQ2OchCGQ3VWAfWiDj7onLXjXkJ/Kewp73PAzlk
- nk3OKiykFWgw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="160940404"
-X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="160940404"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2020 04:42:53 -0700
-IronPort-SDR: /T9yCkQOg5i70cPJz/oeQQpN16mCbWcO3lEohLIwb4djmYybMxZUsgzHjHYtnCSiNtGBlF6oyG
- lltdoZzjvPMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; d="scan'208";a="510960594"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga006.fm.intel.com with ESMTP; 23 Sep 2020 04:42:53 -0700
-Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 23 Sep 2020 04:42:52 -0700
-Received: from irsmsx606.ger.corp.intel.com (163.33.146.139) by
- SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 23 Sep 2020 19:42:49 +0800
-Received: from irsmsx606.ger.corp.intel.com ([163.33.146.139]) by
- IRSMSX606.ger.corp.intel.com ([163.33.146.139]) with mapi id 15.01.1713.004;
- Wed, 23 Sep 2020 12:42:47 +0100
-From: "Wang, Zhi A" <zhi.a.wang@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>, "cjia@nvidia.com" <cjia@nvidia.com>
-Subject: RE: [PATCH v26 08/17] vfio: Add save state functions to SaveVMHandlers
-Thread-Topic: [PATCH v26 08/17] vfio: Add save state functions to
- SaveVMHandlers
-Thread-Index: AQHWkTw5lj/xtNYyRk6KT9tsRipZqql2AqCw
-Date: Wed, 23 Sep 2020 11:42:47 +0000
-Message-ID: <e0000720693f401d83159047101efcb4@intel.com>
-References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
- <1600817059-26721-9-git-send-email-kwankhede@nvidia.com>
-In-Reply-To: <1600817059-26721-9-git-send-email-kwankhede@nvidia.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-x-originating-ip: [163.33.253.164]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1kL3Gv-0008FU-Vq
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:49:22 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436283|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_system_inform|0.33157-5.4566e-05-0.668376;
+ FP=5070877581392817289|1|1|2|0|-1|-1|-1; HT=e02c03267; MF=zhiwei_liu@c-sky.com;
+ NM=1; PH=DS; RN=4; RT=4; SR=0; TI=SMTPD_---.IbAz.vq_1600861747; 
+Received: from 30.225.208.89(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.IbAz.vq_1600861747)
+ by smtp.aliyun-inc.com(10.147.42.22); Wed, 23 Sep 2020 19:49:07 +0800
+Subject: Re: [PATCH v3 51/81] target/arm: Pass separate addend to {U, S}DOT
+ helpers
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200918183751.2787647-1-richard.henderson@linaro.org>
+ <20200918183751.2787647-52-richard.henderson@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <f7b50204-0f53-5275-32c9-fdc9900142dc@c-sky.com>
+Date: Wed, 23 Sep 2020 19:48:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=zhi.a.wang@intel.com;
- helo=mga03.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 07:42:53
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200918183751.2787647-52-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 06:01:54
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,454 +63,450 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "cohuck@redhat.com" <cohuck@redhat.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "quintela@redhat.com" <quintela@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
- "Tian, Kevin" <kevin.tian@intel.com>, "Zhao, 
- Yan Y" <yan.y.zhao@intel.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "Liu, Changpeng" <changpeng.liu@intel.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I met a problem when trying this patch. Mostly the problem happens if a dev=
-ice doesn't set any pending bytes in the iteration stage, which shows this =
-device doesn't have a stage of iteration. The QEMU in the destination machi=
-ne will complain out-of-memory. After some investigation, it seems the vend=
-or-specific bit stream is not complete and the QEMU in the destination mach=
-ine will wrongly take a signature as the size of the section and failed to =
-allocate the memory. Not sure if others meet the same problem.
 
-I solved this problem by the following fix and the qemu version I am using =
-is v5.0.0.0.
 
-commit 13a80adc2cdddd48d76acf6a5dd715bcbf42b577
-Author: Zhi Wang <zhi.wang.linux@gmail.com>
-Date:   Tue Sep 15 15:58:45 2020 +0300
+On 2020/9/19 2:37, Richard Henderson wrote:
+> For SVE, we potentially have a 4th argument coming from the
+> movprfx instruction.  Currently we do not optimize movprfx,
+> so the problem is not visible.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/helper.h             |  20 +++---
+>   target/arm/sve.decode           |   7 +-
+>   target/arm/translate-a64.c      |  15 ++++-
+>   target/arm/translate-sve.c      |  13 ++--
+>   target/arm/vec_helper.c         | 112 ++++++++++++++++++--------------
+>   target/arm/translate-neon.c.inc |  10 +--
+>   6 files changed, 105 insertions(+), 72 deletions(-)
+>
+> diff --git a/target/arm/helper.h b/target/arm/helper.h
+> index 8294055cab..97222bd256 100644
+> --- a/target/arm/helper.h
+> +++ b/target/arm/helper.h
+> @@ -595,15 +595,19 @@ DEF_HELPER_FLAGS_5(sve2_sqrdmlah_d, TCG_CALL_NO_RWG,
+>   DEF_HELPER_FLAGS_5(sve2_sqrdmlsh_d, TCG_CALL_NO_RWG,
+>                      void, ptr, ptr, ptr, ptr, i32)
+>   
+> -DEF_HELPER_FLAGS_4(gvec_sdot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> -DEF_HELPER_FLAGS_4(gvec_udot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> -DEF_HELPER_FLAGS_4(gvec_sdot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> -DEF_HELPER_FLAGS_4(gvec_udot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_sdot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_udot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_sdot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_udot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+>   
+> -DEF_HELPER_FLAGS_4(gvec_sdot_idx_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> -DEF_HELPER_FLAGS_4(gvec_udot_idx_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> -DEF_HELPER_FLAGS_4(gvec_sdot_idx_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> -DEF_HELPER_FLAGS_4(gvec_udot_idx_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_sdot_idx_b, TCG_CALL_NO_RWG,
+> +                   void, ptr, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_udot_idx_b, TCG_CALL_NO_RWG,
+> +                   void, ptr, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_sdot_idx_h, TCG_CALL_NO_RWG,
+> +                   void, ptr, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_udot_idx_h, TCG_CALL_NO_RWG,
+> +                   void, ptr, ptr, ptr, ptr, i32)
+>   
+>   DEF_HELPER_FLAGS_5(gvec_fcaddh, TCG_CALL_NO_RWG,
+>                      void, ptr, ptr, ptr, ptr, i32)
+> diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+> index 0688dae450..5815ba9b1c 100644
+> --- a/target/arm/sve.decode
+> +++ b/target/arm/sve.decode
+> @@ -756,12 +756,13 @@ UMIN_zzi        00100101 .. 101 011 110 ........ .....          @rdn_i8u
+>   MUL_zzi         00100101 .. 110 000 110 ........ .....          @rdn_i8s
+>   
+>   # SVE integer dot product (unpredicated)
+> -DOT_zzz         01000100 1 sz:1 0 rm:5 00000 u:1 rn:5 rd:5      ra=%reg_movprfx
+> +DOT_zzzz        01000100 1 sz:1 0 rm:5 00000 u:1 rn:5 rd:5 \
+> +                ra=%reg_movprfx
+>   
+>   # SVE integer dot product (indexed)
+> -DOT_zzx         01000100 101 index:2 rm:3 00000 u:1 rn:5 rd:5 \
+> +DOT_zzxw        01000100 101 index:2 rm:3 00000 u:1 rn:5 rd:5 \
+>                   sz=0 ra=%reg_movprfx
+> -DOT_zzx         01000100 111 index:1 rm:4 00000 u:1 rn:5 rd:5 \
+> +DOT_zzxw        01000100 111 index:1 rm:4 00000 u:1 rn:5 rd:5 \
+>                   sz=1 ra=%reg_movprfx
+>   
+>   # SVE floating-point complex add (predicated)
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index 76e54c1a4e..1a9251db67 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -692,6 +692,17 @@ static void gen_gvec_op3_qc(DisasContext *s, bool is_q, int rd, int rn,
+>       tcg_temp_free_ptr(qc_ptr);
+>   }
+>   
+> +/* Expand a 4-operand operation using an out-of-line helper.  */
+> +static void gen_gvec_op4_ool(DisasContext *s, bool is_q, int rd, int rn,
+> +                             int rm, int ra, int data, gen_helper_gvec_4 *fn)
+> +{
+> +    tcg_gen_gvec_4_ool(vec_full_reg_offset(s, rd),
+> +                       vec_full_reg_offset(s, rn),
+> +                       vec_full_reg_offset(s, rm),
+> +                       vec_full_reg_offset(s, ra),
+> +                       is_q ? 16 : 8, vec_full_reg_size(s), data, fn);
+> +}
+> +
+>   /* Set ZF and NF based on a 64 bit result. This is alas fiddlier
+>    * than the 32 bit equivalent.
+>    */
+> @@ -12202,7 +12213,7 @@ static void disas_simd_three_reg_same_extra(DisasContext *s, uint32_t insn)
+>           return;
+>   
+>       case 0x2: /* SDOT / UDOT */
+> -        gen_gvec_op3_ool(s, is_q, rd, rn, rm, 0,
+> +        gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, 0,
+>                            u ? gen_helper_gvec_udot_b : gen_helper_gvec_sdot_b);
+>           return;
+>   
+> @@ -13461,7 +13472,7 @@ static void disas_simd_indexed(DisasContext *s, uint32_t insn)
+>       switch (16 * u + opcode) {
+>       case 0x0e: /* SDOT */
+>       case 0x1e: /* UDOT */
+> -        gen_gvec_op3_ool(s, is_q, rd, rn, rm, index,
+> +        gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
+>                            u ? gen_helper_gvec_udot_idx_b
+>                            : gen_helper_gvec_sdot_idx_b);
+>           return;
+> diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+> index 5e8291e44b..66303dac54 100644
+> --- a/target/arm/translate-sve.c
+> +++ b/target/arm/translate-sve.c
+> @@ -3804,28 +3804,29 @@ DO_ZZI(UMIN, umin)
+>   
+>   #undef DO_ZZI
+>   
+> -static bool trans_DOT_zzz(DisasContext *s, arg_DOT_zzz *a)
+> +static bool trans_DOT_zzzz(DisasContext *s, arg_DOT_zzzz *a)
+>   {
+> -    static gen_helper_gvec_3 * const fns[2][2] = {
+> +    static gen_helper_gvec_4 * const fns[2][2] = {
+>           { gen_helper_gvec_sdot_b, gen_helper_gvec_sdot_h },
+>           { gen_helper_gvec_udot_b, gen_helper_gvec_udot_h }
+>       };
+>   
+>       if (sve_access_check(s)) {
+> -        gen_gvec_ool_zzz(s, fns[a->u][a->sz], a->rd, a->rn, a->rm, 0);
+> +        gen_gvec_ool_zzzz(s, fns[a->u][a->sz], a->rd, a->rn, a->rm, a->ra, 0);
+>       }
+>       return true;
+>   }
+>   
+> -static bool trans_DOT_zzx(DisasContext *s, arg_DOT_zzx *a)
+> +static bool trans_DOT_zzxw(DisasContext *s, arg_DOT_zzxw *a)
+>   {
+> -    static gen_helper_gvec_3 * const fns[2][2] = {
+> +    static gen_helper_gvec_4 * const fns[2][2] = {
+>           { gen_helper_gvec_sdot_idx_b, gen_helper_gvec_sdot_idx_h },
+>           { gen_helper_gvec_udot_idx_b, gen_helper_gvec_udot_idx_h }
+>       };
+>   
+>       if (sve_access_check(s)) {
+> -        gen_gvec_ool_zzz(s, fns[a->u][a->sz], a->rd, a->rn, a->rm, a->index);
+> +        gen_gvec_ool_zzzz(s, fns[a->u][a->sz], a->rd, a->rn, a->rm,
+> +                          a->ra, a->index);
+>       }
+>       return true;
+>   }
+> diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+> index 32a4403256..d7ef31915b 100644
+> --- a/target/arm/vec_helper.c
+> +++ b/target/arm/vec_helper.c
+> @@ -375,71 +375,76 @@ void HELPER(sve2_sqrdmlsh_d)(void *vd, void *vn, void *vm,
+>    * All elements are treated equally, no matter where they are.
+>    */
+>   
+> -void HELPER(gvec_sdot_b)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_b)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+>   {
+>       intptr_t i, opr_sz = simd_oprsz(desc);
+> -    uint32_t *d = vd;
+> +    int32_t *d = vd, *a = va;
+>       int8_t *n = vn, *m = vm;
+>   
+>       for (i = 0; i < opr_sz / 4; ++i) {
+> -        d[i] += n[i * 4 + 0] * m[i * 4 + 0]
+> -              + n[i * 4 + 1] * m[i * 4 + 1]
+> -              + n[i * 4 + 2] * m[i * 4 + 2]
+> -              + n[i * 4 + 3] * m[i * 4 + 3];
+> +        d[i] = (a[i] +
+> +                n[i * 4 + 0] * m[i * 4 + 0] +
+> +                n[i * 4 + 1] * m[i * 4 + 1] +
+> +                n[i * 4 + 2] * m[i * 4 + 2] +
+> +                n[i * 4 + 3] * m[i * 4 + 3]);
+>       }
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> -void HELPER(gvec_udot_b)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_udot_b)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+>   {
+>       intptr_t i, opr_sz = simd_oprsz(desc);
+> -    uint32_t *d = vd;
+> +    uint32_t *d = vd, *a = va;
+>       uint8_t *n = vn, *m = vm;
+>   
+>       for (i = 0; i < opr_sz / 4; ++i) {
+> -        d[i] += n[i * 4 + 0] * m[i * 4 + 0]
+> -              + n[i * 4 + 1] * m[i * 4 + 1]
+> -              + n[i * 4 + 2] * m[i * 4 + 2]
+> -              + n[i * 4 + 3] * m[i * 4 + 3];
+> +        d[i] = (a[i] +
+> +                n[i * 4 + 0] * m[i * 4 + 0] +
+> +                n[i * 4 + 1] * m[i * 4 + 1] +
+> +                n[i * 4 + 2] * m[i * 4 + 2] +
+> +                n[i * 4 + 3] * m[i * 4 + 3]);
+>       }
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> -void HELPER(gvec_sdot_h)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_h)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+>   {
+>       intptr_t i, opr_sz = simd_oprsz(desc);
+> -    uint64_t *d = vd;
+> +    int64_t *d = vd, *a = va;
+>       int16_t *n = vn, *m = vm;
+>   
+>       for (i = 0; i < opr_sz / 8; ++i) {
+> -        d[i] += (int64_t)n[i * 4 + 0] * m[i * 4 + 0]
+> -              + (int64_t)n[i * 4 + 1] * m[i * 4 + 1]
+> -              + (int64_t)n[i * 4 + 2] * m[i * 4 + 2]
+> -              + (int64_t)n[i * 4 + 3] * m[i * 4 + 3];
+> +        d[i] = (a[i] +
+> +                (int64_t)n[i * 4 + 0] * m[i * 4 + 0] +
+> +                (int64_t)n[i * 4 + 1] * m[i * 4 + 1] +
+> +                (int64_t)n[i * 4 + 2] * m[i * 4 + 2] +
+> +                (int64_t)n[i * 4 + 3] * m[i * 4 + 3]);
+>       }
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> -void HELPER(gvec_udot_h)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_udot_h)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+>   {
+>       intptr_t i, opr_sz = simd_oprsz(desc);
+> -    uint64_t *d = vd;
+> +    uint64_t *d = vd, *a = va;
+>       uint16_t *n = vn, *m = vm;
+>   
+>       for (i = 0; i < opr_sz / 8; ++i) {
+> -        d[i] += (uint64_t)n[i * 4 + 0] * m[i * 4 + 0]
+> -              + (uint64_t)n[i * 4 + 1] * m[i * 4 + 1]
+> -              + (uint64_t)n[i * 4 + 2] * m[i * 4 + 2]
+> -              + (uint64_t)n[i * 4 + 3] * m[i * 4 + 3];
+> +        d[i] = (a[i] +
+> +                (uint64_t)n[i * 4 + 0] * m[i * 4 + 0] +
+> +                (uint64_t)n[i * 4 + 1] * m[i * 4 + 1] +
+> +                (uint64_t)n[i * 4 + 2] * m[i * 4 + 2] +
+> +                (uint64_t)n[i * 4 + 3] * m[i * 4 + 3]);
+>       }
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> -void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm,
+> +                             void *va, uint32_t desc)
+>   {
+>       intptr_t i, segend, opr_sz = simd_oprsz(desc), opr_sz_4 = opr_sz / 4;
+>       intptr_t index = simd_data(desc);
+> -    uint32_t *d = vd;
+> +    int32_t *d = vd, *a = va;
+>       int8_t *n = vn;
+>       int8_t *m_indexed = (int8_t *)vm + index * 4;
+>   
+> @@ -455,10 +460,11 @@ void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+>           int8_t m3 = m_indexed[i * 4 + 3];
+>   
+>           do {
+> -            d[i] += n[i * 4 + 0] * m0
+> -                  + n[i * 4 + 1] * m1
+> -                  + n[i * 4 + 2] * m2
+> -                  + n[i * 4 + 3] * m3;
+> +            d[i] = (a[i] +
+> +                    n[i * 4 + 0] * m0 +
+> +                    n[i * 4 + 1] * m1 +
+> +                    n[i * 4 + 2] * m2 +
+> +                    n[i * 4 + 3] * m3);
+>           } while (++i < segend);
+>           segend = i + 4;
+>       } while (i < opr_sz_4);
+> @@ -466,11 +472,12 @@ void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> -void HELPER(gvec_udot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_udot_idx_b)(void *vd, void *vn, void *vm,
+> +                             void *va, uint32_t desc)
+>   {
+>       intptr_t i, segend, opr_sz = simd_oprsz(desc), opr_sz_4 = opr_sz / 4;
+>       intptr_t index = simd_data(desc);
+> -    uint32_t *d = vd;
+> +    uint32_t *d = vd, *a = va;
+>       uint8_t *n = vn;
+>       uint8_t *m_indexed = (uint8_t *)vm + index * 4;
+>   
+> @@ -486,10 +493,11 @@ void HELPER(gvec_udot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+>           uint8_t m3 = m_indexed[i * 4 + 3];
+>   
+>           do {
+> -            d[i] += n[i * 4 + 0] * m0
+> -                  + n[i * 4 + 1] * m1
+> -                  + n[i * 4 + 2] * m2
+> -                  + n[i * 4 + 3] * m3;
+> +            d[i] = (a[i] +
+> +                    n[i * 4 + 0] * m0 +
+> +                    n[i * 4 + 1] * m1 +
+> +                    n[i * 4 + 2] * m2 +
+> +                    n[i * 4 + 3] * m3);
+>           } while (++i < segend);
+>           segend = i + 4;
+>       } while (i < opr_sz_4);
+> @@ -497,11 +505,12 @@ void HELPER(gvec_udot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> -void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm,
+> +                             void *va, uint32_t desc)
+>   {
+>       intptr_t i, opr_sz = simd_oprsz(desc), opr_sz_8 = opr_sz / 8;
+>       intptr_t index = simd_data(desc);
+> -    uint64_t *d = vd;
+> +    int64_t *d = vd, *a = va;
+>       int16_t *n = vn;
+>       int16_t *m_indexed = (int16_t *)vm + index * 4;
+>   
+> @@ -509,14 +518,17 @@ void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+>        * Process the entire segment all at once, writing back the results
+>        * only after we've consumed all of the inputs.
+>        */
+> -    for (i = 0; i < opr_sz_8 ; i += 2) {
+> -        uint64_t d0, d1;
+> +    for (i = 0; i < opr_sz_8; i += 2) {
+> +        int64_t d0, d1;
+>   
+> -        d0  = n[i * 4 + 0] * (int64_t)m_indexed[i * 4 + 0];
+> +        d0  = a[i + 0];
+> +        d0 += n[i * 4 + 0] * (int64_t)m_indexed[i * 4 + 0];
+>           d0 += n[i * 4 + 1] * (int64_t)m_indexed[i * 4 + 1];
+>           d0 += n[i * 4 + 2] * (int64_t)m_indexed[i * 4 + 2];
+>           d0 += n[i * 4 + 3] * (int64_t)m_indexed[i * 4 + 3];
+> -        d1  = n[i * 4 + 4] * (int64_t)m_indexed[i * 4 + 0];
+> +
+> +        d1  = a[i + 1];
+> +        d1 += n[i * 4 + 4] * (int64_t)m_indexed[i * 4 + 0];
+>           d1 += n[i * 4 + 5] * (int64_t)m_indexed[i * 4 + 1];
+>           d1 += n[i * 4 + 6] * (int64_t)m_indexed[i * 4 + 2];
+>           d1 += n[i * 4 + 7] * (int64_t)m_indexed[i * 4 + 3];
+> @@ -524,15 +536,15 @@ void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+>           d[i + 0] += d0;
+>           d[i + 1] += d1;
+>       }
+> -
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> -void HELPER(gvec_udot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_udot_idx_h)(void *vd, void *vn, void *vm,
+> +                             void *va, uint32_t desc)
+>   {
+>       intptr_t i, opr_sz = simd_oprsz(desc), opr_sz_8 = opr_sz / 8;
+>       intptr_t index = simd_data(desc);
+> -    uint64_t *d = vd;
+> +    uint64_t *d = vd, *a = va;
+>       uint16_t *n = vn;
+>       uint16_t *m_indexed = (uint16_t *)vm + index * 4;
+>   
+> @@ -540,14 +552,17 @@ void HELPER(gvec_udot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+>        * Process the entire segment all at once, writing back the results
+>        * only after we've consumed all of the inputs.
+>        */
+> -    for (i = 0; i < opr_sz_8 ; i += 2) {
+> +    for (i = 0; i < opr_sz_8; i += 2) {
+>           uint64_t d0, d1;
+>   
+> -        d0  = n[i * 4 + 0] * (uint64_t)m_indexed[i * 4 + 0];
+> +        d0  = a[i + 0];
+Add once.
+> +        d0 += n[i * 4 + 0] * (uint64_t)m_indexed[i * 4 + 0];
+>           d0 += n[i * 4 + 1] * (uint64_t)m_indexed[i * 4 + 1];
+>           d0 += n[i * 4 + 2] * (uint64_t)m_indexed[i * 4 + 2];
+>           d0 += n[i * 4 + 3] * (uint64_t)m_indexed[i * 4 + 3];
+> -        d1  = n[i * 4 + 4] * (uint64_t)m_indexed[i * 4 + 0];
+> +
+> +        d1  = a[i + 1];
+> +        d1 += n[i * 4 + 4] * (uint64_t)m_indexed[i * 4 + 0];
+>           d1 += n[i * 4 + 5] * (uint64_t)m_indexed[i * 4 + 1];
+>           d1 += n[i * 4 + 6] * (uint64_t)m_indexed[i * 4 + 2];
+>           d1 += n[i * 4 + 7] * (uint64_t)m_indexed[i * 4 + 3];
+> @@ -555,7 +570,6 @@ void HELPER(gvec_udot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+>           d[i + 0] += d0;
+Add twice.
 
-    fix
-   =20
-    Signed-off-by: Zhi Wang <zhi.wang.linux@gmail.com>
+I think it is wrong here. Do you thinks so?
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 09eec9c..e741319 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -453,10 +458,12 @@ static int vfio_save_iterate(QEMUFile *f, void *opaqu=
-e)
-             return ret;
-         }
-=20
--        if (migration->pending_bytes =3D=3D 0) {
--            /* indicates data finished, goto complete phase */
--            return 1;
--        }
-+	if (migration->pending_bytes =3D=3D 0) {
-+		/* indicates data finished, goto complete phase */
-+		qemu_put_be64(f, 0);
-+		qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-+		return 1;
-+	}
-     }
-=20
-     data_size =3D vfio_save_buffer(f, vbasedev);=20
-
------Original Message-----
-From: Kirti Wankhede <kwankhede@nvidia.com>=20
-Sent: Wednesday, September 23, 2020 2:24 AM
-To: alex.williamson@redhat.com; cjia@nvidia.com
-Cc: Tian, Kevin <kevin.tian@intel.com>; Yang, Ziye <ziye.yang@intel.com>; L=
-iu, Changpeng <changpeng.liu@intel.com>; Liu, Yi L <yi.l.liu@intel.com>; ml=
-evitsk@redhat.com; eskultet@redhat.com; cohuck@redhat.com; dgilbert@redhat.=
-com; jonathan.davies@nutanix.com; eauger@redhat.com; aik@ozlabs.ru; pasic@l=
-inux.ibm.com; felipe@nutanix.com; Zhengxiao.zx@Alibaba-inc.com; shuangtai.t=
-st@alibaba-inc.com; Ken.Xue@amd.com; Wang, Zhi A <zhi.a.wang@intel.com>; Zh=
-ao, Yan Y <yan.y.zhao@intel.com>; pbonzini@redhat.com; quintela@redhat.com;=
- eblake@redhat.com; armbru@redhat.com; peterx@redhat.com; qemu-devel@nongnu=
-.org; Kirti Wankhede <kwankhede@nvidia.com>
-Subject: [PATCH v26 08/17] vfio: Add save state functions to SaveVMHandlers
-
-Added .save_live_pending, .save_live_iterate and .save_live_complete_precop=
-y functions. These functions handles pre-copy and stop-and-copy phase.
-
-In _SAVING|_RUNNING device state or pre-copy phase:
-- read pending_bytes. If pending_bytes > 0, go through below steps.
-- read data_offset - indicates kernel driver to write data to staging
-  buffer.
-- read data_size - amount of data in bytes written by vendor driver in
-  migration region.
-- read data_size bytes of data from data_offset in the migration region.
-- Write data packet to file stream as below:
-{VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data, VFIO_MIG_FLAG_END_OF=
-_STATE }
-
-In _SAVING device state or stop-and-copy phase a. read config space of devi=
-ce and save to migration file stream. This
-   doesn't need to be from vendor driver. Any other special config state
-   from driver can be saved as data in following iteration.
-b. read pending_bytes. If pending_bytes > 0, go through below steps.
-c. read data_offset - indicates kernel driver to write data to staging
-   buffer.
-d. read data_size - amount of data in bytes written by vendor driver in
-   migration region.
-e. read data_size bytes of data from data_offset in the migration region.
-f. Write data packet as below:
-   {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data} g. iterate throug=
-h steps b to f while (pending_bytes > 0) h. Write {VFIO_MIG_FLAG_END_OF_STA=
-TE}
-
-When data region is mapped, its user's responsibility to read data from dat=
-a_offset of data_size before moving to next steps.
-
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- hw/vfio/migration.c           | 273 ++++++++++++++++++++++++++++++++++++++=
-++++
- hw/vfio/trace-events          |   6 +
- include/hw/vfio/vfio-common.h |   1 +
- 3 files changed, 280 insertions(+)
-
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c index 8e8adaa25779..=
-4611bb972228 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -180,6 +180,154 @@ static int vfio_migration_set_state(VFIODevice *vbase=
-dev, uint32_t mask,
-     return 0;
- }
-=20
-+static void *get_data_section_size(VFIORegion *region, uint64_t data_offse=
-t,
-+                                   uint64_t data_size, uint64_t *size)=20
-+{
-+    void *ptr =3D NULL;
-+    uint64_t limit =3D 0;
-+    int i;
-+
-+    if (!region->mmaps) {
-+        if (size) {
-+            *size =3D data_size;
-+        }
-+        return ptr;
-+    }
-+
-+    for (i =3D 0; i < region->nr_mmaps; i++) {
-+        VFIOMmap *map =3D region->mmaps + i;
-+
-+        if ((data_offset >=3D map->offset) &&
-+            (data_offset < map->offset + map->size)) {
-+
-+            /* check if data_offset is within sparse mmap areas */
-+            ptr =3D map->mmap + data_offset - map->offset;
-+            if (size) {
-+                *size =3D MIN(data_size, map->offset + map->size - data_of=
-fset);
-+            }
-+            break;
-+        } else if ((data_offset < map->offset) &&
-+                   (!limit || limit > map->offset)) {
-+            /*
-+             * data_offset is not within sparse mmap areas, find size of
-+             * non-mapped area. Check through all list since region->mmaps=
- list
-+             * is not sorted.
-+             */
-+            limit =3D map->offset;
-+        }
-+    }
-+
-+    if (!ptr && size) {
-+        *size =3D limit ? limit - data_offset : data_size;
-+    }
-+    return ptr;
-+}
-+
-+static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t=20
-+*size) {
-+    VFIOMigration *migration =3D vbasedev->migration;
-+    VFIORegion *region =3D &migration->region;
-+    uint64_t data_offset =3D 0, data_size =3D 0, sz;
-+    int ret;
-+
-+    ret =3D vfio_mig_read(vbasedev, &data_offset, sizeof(data_offset),
-+                region->fd_offset + offsetof(struct vfio_device_migration_=
-info,
-+                                             data_offset));
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    ret =3D vfio_mig_read(vbasedev, &data_size, sizeof(data_size),
-+                region->fd_offset + offsetof(struct vfio_device_migration_=
-info,
-+                                             data_size));
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    trace_vfio_save_buffer(vbasedev->name, data_offset, data_size,
-+                           migration->pending_bytes);
-+
-+    qemu_put_be64(f, data_size);
-+    sz =3D data_size;
-+
-+    while (sz) {
-+        void *buf =3D NULL;
-+        uint64_t sec_size;
-+        bool buf_allocated =3D false;
-+
-+        buf =3D get_data_section_size(region, data_offset, sz,=20
-+ &sec_size);
-+
-+        if (!buf) {
-+            buf =3D g_try_malloc(sec_size);
-+            if (!buf) {
-+                error_report("%s: Error allocating buffer ", __func__);
-+                return -ENOMEM;
-+            }
-+            buf_allocated =3D true;
-+
-+            ret =3D vfio_mig_read(vbasedev, buf, sec_size,
-+                                region->fd_offset + data_offset);
-+            if (ret < 0) {
-+                g_free(buf);
-+                return ret;
-+            }
-+        }
-+
-+        qemu_put_buffer(f, buf, sec_size);
-+
-+        if (buf_allocated) {
-+            g_free(buf);
-+        }
-+        sz -=3D sec_size;
-+        data_offset +=3D sec_size;
-+    }
-+
-+    ret =3D qemu_file_get_error(f);
-+
-+    if (!ret && size) {
-+        *size =3D data_size;
-+    }
-+
-+    return ret;
-+}
-+
-+static int vfio_update_pending(VFIODevice *vbasedev) {
-+    VFIOMigration *migration =3D vbasedev->migration;
-+    VFIORegion *region =3D &migration->region;
-+    uint64_t pending_bytes =3D 0;
-+    int ret;
-+
-+    ret =3D vfio_mig_read(vbasedev, &pending_bytes, sizeof(pending_bytes),
-+                region->fd_offset + offsetof(struct vfio_device_migration_=
-info,
-+                                             pending_bytes));
-+    if (ret < 0) {
-+        migration->pending_bytes =3D 0;
-+        return ret;
-+    }
-+
-+    migration->pending_bytes =3D pending_bytes;
-+    trace_vfio_update_pending(vbasedev->name, pending_bytes);
-+    return 0;
-+}
-+
-+static int vfio_save_device_config_state(QEMUFile *f, void *opaque) {
-+    VFIODevice *vbasedev =3D opaque;
-+
-+    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_CONFIG_STATE);
-+
-+    if (vbasedev->ops && vbasedev->ops->vfio_save_config) {
-+        vbasedev->ops->vfio_save_config(vbasedev, f);
-+    }
-+
-+    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-+
-+    trace_vfio_save_device_config_state(vbasedev->name);
-+
-+    return qemu_file_get_error(f);
-+}
-+
- /* ---------------------------------------------------------------------- =
-*/
-=20
- static int vfio_save_setup(QEMUFile *f, void *opaque) @@ -232,9 +380,134 @=
-@ static void vfio_save_cleanup(void *opaque)
-     trace_vfio_save_cleanup(vbasedev->name);
- }
-=20
-+static void vfio_save_pending(QEMUFile *f, void *opaque,
-+                              uint64_t threshold_size,
-+                              uint64_t *res_precopy_only,
-+                              uint64_t *res_compatible,
-+                              uint64_t *res_postcopy_only) {
-+    VFIODevice *vbasedev =3D opaque;
-+    VFIOMigration *migration =3D vbasedev->migration;
-+    int ret;
-+
-+    ret =3D vfio_update_pending(vbasedev);
-+    if (ret) {
-+        return;
-+    }
-+
-+    *res_precopy_only +=3D migration->pending_bytes;
-+
-+    trace_vfio_save_pending(vbasedev->name, *res_precopy_only,
-+                            *res_postcopy_only, *res_compatible); }
-+
-+static int vfio_save_iterate(QEMUFile *f, void *opaque) {
-+    VFIODevice *vbasedev =3D opaque;
-+    VFIOMigration *migration =3D vbasedev->migration;
-+    uint64_t data_size;
-+    int ret;
-+
-+    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-+
-+    if (migration->pending_bytes =3D=3D 0) {
-+        ret =3D vfio_update_pending(vbasedev);
-+        if (ret) {
-+            return ret;
-+        }
-+
-+        if (migration->pending_bytes =3D=3D 0) {
-+            /* indicates data finished, goto complete phase */
-+            return 1;
-+        }
-+    }
-+
-+    ret =3D vfio_save_buffer(f, vbasedev, &data_size);
-+
-+    if (ret) {
-+        error_report("%s: vfio_save_buffer failed %s", vbasedev->name,
-+                     strerror(errno));
-+        return ret;
-+    }
-+
-+    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-+
-+    ret =3D qemu_file_get_error(f);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    trace_vfio_save_iterate(vbasedev->name, data_size);
-+
-+    return 0;
-+}
-+
-+static int vfio_save_complete_precopy(QEMUFile *f, void *opaque) {
-+    VFIODevice *vbasedev =3D opaque;
-+    VFIOMigration *migration =3D vbasedev->migration;
-+    uint64_t data_size;
-+    int ret;
-+
-+    ret =3D vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_RUNNING,
-+                                   VFIO_DEVICE_STATE_SAVING);
-+    if (ret) {
-+        error_report("%s: Failed to set state STOP and SAVING",
-+                     vbasedev->name);
-+        return ret;
-+    }
-+
-+    ret =3D vfio_save_device_config_state(f, opaque);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    ret =3D vfio_update_pending(vbasedev);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    while (migration->pending_bytes > 0) {
-+        qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-+        ret =3D vfio_save_buffer(f, vbasedev, &data_size);
-+        if (ret < 0) {
-+            error_report("%s: Failed to save buffer", vbasedev->name);
-+            return ret;
-+        }
-+
-+        if (data_size =3D=3D 0) {
-+            break;
-+        }
-+
-+        ret =3D vfio_update_pending(vbasedev);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-+
-+    ret =3D qemu_file_get_error(f);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    ret =3D vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_SAVING, =
-0);
-+    if (ret) {
-+        error_report("%s: Failed to set state STOPPED", vbasedev->name);
-+        return ret;
-+    }
-+
-+    trace_vfio_save_complete_precopy(vbasedev->name);
-+    return ret;
-+}
-+
- static SaveVMHandlers savevm_vfio_handlers =3D {
-     .save_setup =3D vfio_save_setup,
-     .save_cleanup =3D vfio_save_cleanup,
-+    .save_live_pending =3D vfio_save_pending,
-+    .save_live_iterate =3D vfio_save_iterate,
-+    .save_live_complete_precopy =3D vfio_save_complete_precopy,
- };
-=20
- /* ---------------------------------------------------------------------- =
-*/ diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events index 982d8dccb=
-219..118b5547c921 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -154,3 +154,9 @@ vfio_vmstate_change(const char *name, int running, cons=
-t char *reason, uint32_t  vfio_migration_state_notifier(const char *name, c=
-onst char *state) " (%s) state %s"
- vfio_save_setup(const char *name) " (%s)"
- vfio_save_cleanup(const char *name) " (%s)"
-+vfio_save_buffer(const char *name, uint64_t data_offset, uint64_t=20
-+data_size, uint64_t pending) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64"=20
-+pending 0x%"PRIx64 vfio_update_pending(const char *name, uint64_t pending)=
- " (%s) pending 0x%"PRIx64 vfio_save_device_config_state(const char *name) =
-" (%s)"
-+vfio_save_pending(const char *name, uint64_t precopy, uint64_t=20
-+postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRI=
-x64" compatible 0x%"PRIx64 vfio_save_iterate(const char *name, int data_siz=
-e) " (%s) data_size %d"
-+vfio_save_complete_precopy(const char *name) " (%s)"
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h =
-index 49c7c7a0e29a..471e444a364c 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -60,6 +60,7 @@ typedef struct VFIORegion {
-=20
- typedef struct VFIOMigration {
-     VFIORegion region;
-+    uint64_t pending_bytes;
- } VFIOMigration;
-=20
- typedef struct VFIOAddressSpace {
---
-2.7.0
+Zhiwei
+>           d[i + 1] += d1;
+>       }
+> -
+>       clear_tail(d, opr_sz, simd_maxsz(desc));
+>   }
+>   
+> diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+> index 4d1a292981..7efe3d9556 100644
+> --- a/target/arm/translate-neon.c.inc
+> +++ b/target/arm/translate-neon.c.inc
+> @@ -240,7 +240,7 @@ static bool trans_VCADD(DisasContext *s, arg_VCADD *a)
+>   static bool trans_VDOT(DisasContext *s, arg_VDOT *a)
+>   {
+>       int opr_sz;
+> -    gen_helper_gvec_3 *fn_gvec;
+> +    gen_helper_gvec_4 *fn_gvec;
+>   
+>       if (!dc_isar_feature(aa32_dp, s)) {
+>           return false;
+> @@ -262,9 +262,10 @@ static bool trans_VDOT(DisasContext *s, arg_VDOT *a)
+>   
+>       opr_sz = (1 + a->q) * 8;
+>       fn_gvec = a->u ? gen_helper_gvec_udot_b : gen_helper_gvec_sdot_b;
+> -    tcg_gen_gvec_3_ool(vfp_reg_offset(1, a->vd),
+> +    tcg_gen_gvec_4_ool(vfp_reg_offset(1, a->vd),
+>                          vfp_reg_offset(1, a->vn),
+>                          vfp_reg_offset(1, a->vm),
+> +                       vfp_reg_offset(1, a->vd),
+>                          opr_sz, opr_sz, 0, fn_gvec);
+>       return true;
+>   }
+> @@ -342,7 +343,7 @@ static bool trans_VCMLA_scalar(DisasContext *s, arg_VCMLA_scalar *a)
+>   
+>   static bool trans_VDOT_scalar(DisasContext *s, arg_VDOT_scalar *a)
+>   {
+> -    gen_helper_gvec_3 *fn_gvec;
+> +    gen_helper_gvec_4 *fn_gvec;
+>       int opr_sz;
+>       TCGv_ptr fpst;
+>   
+> @@ -367,9 +368,10 @@ static bool trans_VDOT_scalar(DisasContext *s, arg_VDOT_scalar *a)
+>       fn_gvec = a->u ? gen_helper_gvec_udot_idx_b : gen_helper_gvec_sdot_idx_b;
+>       opr_sz = (1 + a->q) * 8;
+>       fpst = fpstatus_ptr(FPST_STD);
+> -    tcg_gen_gvec_3_ool(vfp_reg_offset(1, a->vd),
+> +    tcg_gen_gvec_4_ool(vfp_reg_offset(1, a->vd),
+>                          vfp_reg_offset(1, a->vn),
+>                          vfp_reg_offset(1, a->rm),
+> +                       vfp_reg_offset(1, a->vd),
+>                          opr_sz, opr_sz, a->index, fn_gvec);
+>       tcg_temp_free_ptr(fpst);
+>       return true;
 
 
