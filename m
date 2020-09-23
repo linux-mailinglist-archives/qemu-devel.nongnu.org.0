@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12640275FAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:21:58 +0200 (CEST)
-Received: from localhost ([::1]:58432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F0B275FBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:24:14 +0200 (CEST)
+Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL9Ou-0004ky-VR
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52974)
+	id 1kL9R1-00079w-3h
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kL9M6-0003cc-0n
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:19:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35906)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kL9MN-0003rL-Vl
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:19:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kL9M4-0007sQ-BN
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:19:01 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kL9MM-0007tu-DF
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 14:19:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600885139;
+ s=mimecast20190719; t=1600885156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CXJ4dv3XlRQb7Hr2ij33d9VtmTMNcFZtnl90r3GE1yE=;
- b=ae0oH7G9YBe1muiZZg2Wrv/79YjcRqYWyruVxSYafwraUvtsFGHoTbbAdmwPhdMXNBy1QA
- x5xNHds06p1W4DJOTqpInEfk96QxLZBVLA3MQoC9PUglrbiPnfJFSnSc5UZVH8A+L9lOr/
- t4T8yQMaNPXDEgMH5nafFv4qw+4v36M=
+ bh=K7v5yTxWvWtRBoKyqOvfrJprmg5IYOqjnsgnTnrpxEg=;
+ b=a7XmzXkSCRHx2BT3XX1tbaf5HRPasuCQrDHPQvmtIuLQnfD8f0hLzJI9cS+JxeaN/petFY
+ CYSRusYoZiQKywprmJV37N9tmKlS4ooEciDQsBxECuS0HSp1m6zh9SN77hYPP0LADw3YBW
+ R0GiwAyem6NEjGQe9bczdNyR+RBu7Ws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-uO_cpDzrOuiFpsgeb9fnFA-1; Wed, 23 Sep 2020 14:18:57 -0400
-X-MC-Unique: uO_cpDzrOuiFpsgeb9fnFA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-378-nLoGmoQPNd2cXBnad2Rh1A-1; Wed, 23 Sep 2020 14:19:15 -0400
+X-MC-Unique: nLoGmoQPNd2cXBnad2Rh1A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C40A800135;
- Wed, 23 Sep 2020 18:18:56 +0000 (UTC)
-Received: from [10.3.114.2] (ovpn-114-2.phx2.redhat.com [10.3.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD11B1972B;
- Wed, 23 Sep 2020 18:18:55 +0000 (UTC)
-Subject: Re: [PATCH v10 00/12] *** A Method for evaluating dirty page rate ***
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>
-References: <1600237327-33618-1-git-send-email-zhengchuan@huawei.com>
- <20200923180403.GB124840@work-vm>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b72b2f5e-e448-e867-280d-c233db884bd6@redhat.com>
-Date: Wed, 23 Sep 2020 13:18:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB6A801AF7;
+ Wed, 23 Sep 2020 18:19:13 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A915860BF1;
+ Wed, 23 Sep 2020 18:19:13 +0000 (UTC)
+Date: Wed, 23 Sep 2020 14:19:12 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 13/38] qapi/common.py: add type hint annotations
+Message-ID: <20200923181912.GT3312949@habkost.net>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-14-jsnow@redhat.com>
+ <20200922224428.GN2044576@habkost.net>
+ <66a42a9a-d330-c4a9-e4b9-55b78668704b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200923180403.GB124840@work-vm>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <66a42a9a-d330-c4a9-e4b9-55b78668704b@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,9 +68,8 @@ X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,26 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- liq3ea@gmail.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/20 1:04 PM, Dr. David Alan Gilbert wrote:
-> Queued
+On Wed, Sep 23, 2020 at 01:57:25PM -0400, John Snow wrote:
+> On 9/22/20 6:44 PM, Eduardo Habkost wrote:
+> > Does this need to require a Sequence?  It looks like it could be
+> > Iterable.
+> > 
+> > I don't think this should block the patch, though, so:
+> > 
+> > Reviewed-by: Eduardo Habkost<ehabkost@redhat.com>
 > 
-> * Chuan Zheng (zhengchuan@huawei.com) wrote:
->> v9 -> v10:
->>      rename find_page_matched as find_block_matched
->>      fix wrong termination condition in find_block_matched
->>      add review-by for patches
+> gen_if can take an Iterator, gen_endif needs a Sequence because it uses
+> reversed().
+> 
+> I have not been very fastidious about choosing the MOST possibly abstracted
+> type, but you are right that we SHOULD. I was hoping to find all occurrences
+> of List and try slackening them to Collection/Sequence/Iterable etc, but as
+> a follow-up.
+> 
+> In this case, since gen_endif actually does want the stricter type, I'm
+> deciding to leave them as Sequence for signature parity.
 
-Sorry for a late review, but I suggested a QAPI tweak to 11/12.
+I hadn't noticed reversed() requires a Sequence.  I agree using
+the same type on both is better.  Thanks!
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Eduardo
 
 
