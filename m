@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AE32760CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:12:15 +0200 (CEST)
-Received: from localhost ([::1]:56508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336162760D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:15:52 +0200 (CEST)
+Received: from localhost ([::1]:59352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLABa-00007r-PE
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
+	id 1kLAF4-0001QC-T6
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:15:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLAAY-00089q-6V
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 15:11:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55544)
+ id 1kLAE0-0000zi-MF
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 15:14:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLAAW-0005uR-K9
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 15:11:09 -0400
+ id 1kLADz-000698-4u
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 15:14:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600888267;
+ s=mimecast20190719; t=1600888482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aV1VY6PUAE+xOSwBKjEFFykSnemBqZQRI6V0EMgnppI=;
- b=P96/JdE7luFsm3WiGhe0OtAN4C+Ijrd/tRLdvedy+yTYHfHvRhNkcTHjFULdr0hpdOMKao
- DlAzc2GD3jLN9LRO5KQ8AcpwJATWaW6YgjpHACm29E8EVIrzelBaSKTSOU6iR9Q2WkJAbH
- pOixKUm4WCvZvSshHZS/vvbvA9iL1vc=
+ bh=HrFQxLFKN+xhNX4fDGeA0mDgysAqqRjT+cKROj9eyyQ=;
+ b=eftTfU6FD2RSWvVZFMuvH/6xiaWYr8AEQhh37vGo/YIgFbUbUqWv74qCLr5+hpbNgJWY63
+ vgMIv0TgMhW1jkPrQSoQwUGGK/OvnslcGO1R3gF/t6HyYEY80RQme3076nYwBQfKmLqZmn
+ bjd1MTd9vTLJE1ko0uDZbIcR37voUIg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-WkCmZCpePSav-0iEWk54DA-1; Wed, 23 Sep 2020 15:11:05 -0400
-X-MC-Unique: WkCmZCpePSav-0iEWk54DA-1
+ us-mta-579-TG0bFKxtOo6HK8L1fpLDBA-1; Wed, 23 Sep 2020 15:14:38 -0400
+X-MC-Unique: TG0bFKxtOo6HK8L1fpLDBA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE385802B67;
- Wed, 23 Sep 2020 19:11:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2553D802B67;
+ Wed, 23 Sep 2020 19:14:37 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89C835D98D;
- Wed, 23 Sep 2020 19:11:03 +0000 (UTC)
-Date: Wed, 23 Sep 2020 15:11:02 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB5EF5D990;
+ Wed, 23 Sep 2020 19:14:36 +0000 (UTC)
+Date: Wed, 23 Sep 2020 15:14:36 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 34/38] qapi/types.py: add type hint annotations
-Message-ID: <20200923191102.GW3312949@habkost.net>
+Subject: Re: [PATCH v2 35/38] qapi/types.py: remove one-letter variables
+Message-ID: <20200923191436.GX3312949@habkost.net>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-35-jsnow@redhat.com>
+ <20200922210101.4081073-36-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-35-jsnow@redhat.com>
+In-Reply-To: <20200922210101.4081073-36-jsnow@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
@@ -57,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -87,13 +87,43 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 22, 2020 at 05:00:57PM -0400, John Snow wrote:
-> Annotations do not change runtime behavior.
-> This commit *only* adds annotations.
+On Tue, Sep 22, 2020 at 05:00:58PM -0400, John Snow wrote:
+> "John, if pylint told you to jump off a bridge, would you?"
+> Hey, if it looked like fun, I might.
+> 
+> Now that this file is clean, enable pylint checks on this file.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+[...]
+> @@ -148,11 +148,12 @@ def gen_object(name: str, ifcond: List[str],
+>      objects_seen.add(name)
+>  
+>      ret = ''
+> -    if variants:
+> -        for v in variants.variants:
+> -            if isinstance(v.type, QAPISchemaObjectType):
+> -                ret += gen_object(v.type.name, v.type.ifcond, v.type.base,
+> -                                  v.type.local_members, v.type.variants)
+> +    for variant in variants.variants if variants else ():
+
+I'm not sure I like this weird expression, but I believe asking
+for a 120-patch cleanup series to be respun because of a tiny
+style issue would be counterproductive, so:
 
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+
+> +        obj = variant.type
+> +        if not isinstance(obj, QAPISchemaObjectType):
+> +            continue
+> +        ret += gen_object(obj.name, obj.ifcond, obj.base,
+> +                          obj.local_members, obj.variants)
+>  
+>      ret += mcgen('''
+>  
+> -- 
+> 2.26.2
+> 
 
 -- 
 Eduardo
