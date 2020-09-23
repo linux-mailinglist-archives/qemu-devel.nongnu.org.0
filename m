@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB402754E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:57:27 +0200 (CEST)
-Received: from localhost ([::1]:55762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D841C2754FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:59:26 +0200 (CEST)
+Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1Wg-0001Go-Lu
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
+	id 1kL1Yb-0003yl-S4
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kL1Oj-0001kn-Ot
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:49:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20805)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kL1Ul-0000gc-TG
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:55:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kL1Oi-0007lY-3r
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:49:13 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kL1Uj-0000Do-NQ
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:55:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600854551;
+ s=mimecast20190719; t=1600854924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ebn6NeaJnx+bbO34z9sV4RPsI7SroO2mduZCvxZIGro=;
- b=X60J5pjtAXmJsUBzvjpyNrWdM6kTGp5luDUHTj91ZwnK9Ytc4L99Qbm1/MxJIxKAS53JP4
- f4+T0q4Ksh/O3pF6eZFW/TSdnNVDezfIb97ddlv+H5G/TFT5bVzZ8LH9+K1YMf/Segk87z
- lmG7ihc0/Re8CGP+IuFmcqD9zOv0OMs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-Pyu7j1kON5GA7-9Uyd1FiQ-1; Wed, 23 Sep 2020 05:49:08 -0400
-X-MC-Unique: Pyu7j1kON5GA7-9Uyd1FiQ-1
-Received: by mail-wm1-f72.google.com with SMTP id t8so1164992wmj.6
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 02:49:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ebn6NeaJnx+bbO34z9sV4RPsI7SroO2mduZCvxZIGro=;
- b=Z2ChfJvktB1znWmJdgaYhNw2tYXtlL/Tpp4DYkGC42ppswyKe9Mua10c0ULrl/vkeO
- uoHs1fId8ZNwL5UFImHNIGLEKZhDgwqknIpnXZRcjxKeiypxzxBb04a0OsSe3zIXOyLa
- rLAN0SsiFS7vk96J5jW7eWUVJwCHN+5bjC8oi9vQRoIzBpNh6r4Y0frVp9mF1HPq2Gzf
- tgDg4Z2oHuE8i7Lbzj9G93g4AO4Ye3U2iY/8oF7xBvrcnyxU6oF550JntUNGOXGecplQ
- wQFrTEZ//j5+omOVqpO/5ayrITOthgKb9W0HUVBzMYTPhGWCpi1gKPJw+6hgx4VyAtBC
- Eh3Q==
-X-Gm-Message-State: AOAM531WdNS5lwOZK2xiDhj7LfEt2YBRC9FzmKVzFT3vCgFSVRhv2ZjS
- YgiM2bGTcTYtD/qx/4cK+2gYFaVUOjbiAYB8oBKgplHRRUfAIM5kEiSWVfpubfOP0j8HAsiZIGT
- +Z0r/SDEn37/FrsA=
-X-Received: by 2002:adf:f3c4:: with SMTP id g4mr10331821wrp.168.1600854546749; 
- Wed, 23 Sep 2020 02:49:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwx1nRJtQikKt4zAsEucpxwq/+LnXqtepasexUHBovD5sSrvZF7mBou4bDAdRlYf4ys8sF+TA==
-X-Received: by 2002:adf:f3c4:: with SMTP id g4mr10331798wrp.168.1600854546442; 
- Wed, 23 Sep 2020 02:49:06 -0700 (PDT)
-Received: from steredhat (host-79-13-204-53.retail.telecomitalia.it.
- [79.13.204.53])
- by smtp.gmail.com with ESMTPSA id z83sm8237630wmb.4.2020.09.23.02.49.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 02:49:05 -0700 (PDT)
-Date: Wed, 23 Sep 2020 11:49:03 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Robin Meinzer <robmeinzer11@gmx.de>
-Subject: Re: Re: questions regarding vsock
-Message-ID: <CAGxU2F76macOEQhCVyqNxsNADOcwz2aYGVdj6MtBxd1278Gvbw@mail.gmail.com>
-References: <trinity-1a5274e6-418e-46d1-bc32-f6f4380b8906-1600295102243@3c-app-gmx-bap30>
- <20200917112050.GF809514@stefanha-x1.localdomain>
- <trinity-896b2687-1386-4cd4-9ff6-71ac297c19d2-1600807252157@3c-app-gmx-bap70>
+ bh=5DeZ7opFeA53u28Lo2SXTMtLy3Dc7rSyC/jKBMrI4S8=;
+ b=AVeVeGi59h5+YMnIVNylMPpU32T752qG9NkZhuiH7lrvhtAp7O5OzBFGOdGzchiSmSl/lg
+ 2r4cL5kTAuMiQ0fLGH85cLU50Lelfwp3gLvBgBDhkukCQm8pk4oRhUIV+lOb9R10Mnn7Mp
+ dWGtdHXk6PjEH+RqiIeeMy/sZ13JSkY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-lWTxHF3pNJC2RQwv_3HRxA-1; Wed, 23 Sep 2020 05:55:22 -0400
+X-MC-Unique: lWTxHF3pNJC2RQwv_3HRxA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0B488030D2;
+ Wed, 23 Sep 2020 09:55:21 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F282D7881E;
+ Wed, 23 Sep 2020 09:55:13 +0000 (UTC)
+Date: Wed, 23 Sep 2020 11:55:12 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 11/11] smp: drop support for deprecated (invalid
+ topologies)
+Message-ID: <20200923115512.1644cd94@redhat.com>
+In-Reply-To: <20200923094650.1301166-12-imammedo@redhat.com>
+References: <20200923094650.1301166-1-imammedo@redhat.com>
+ <20200923094650.1301166-12-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <trinity-896b2687-1386-4cd4-9ff6-71ac297c19d2-1600807252157@3c-app-gmx-bap70>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -97,45 +82,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu devel list <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Robin,
+On Wed, 23 Sep 2020 05:46:50 -0400
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-On Tue, Sep 22, 2020 at 10:46 PM Robin Meinzer <robmeinzer11@gmx.de> wrote:
-> I added Stefano Garzarella and qemu-devel as you asked. I wonder if
-> you don't support SOCK_DGRAM but only SOCK_STREAM, why having code for
-> it then? There are functions like vsock_dgram_connect and a proto_ops
-> struct specifically for SOCK_DGRAM, but any attempt to create a socket
-> for it ends with -ENODEV (transport_dgram is NULL, I guess it's on
-> purpose because you don't support it as you said).
+> it's was deprecated since 3.1
+> 
+> Support for invalid topologies is removed, the user must ensure
+> that topologies described with -smp include all possible cpus,
+> i.e. (sockets * cores * threads) == maxcpus or QEMU will
+> exit with error.
 
-AF_VSOCK supports multiple transports. Some transports (e.g. vmci) implement
-SOCK_DGRAM, this is the reason for the code in the vsock core.
-
-virtio-vsock transport currently supports only SOCK_STREAM.
-Some people were implementing SOCK_SEQPACKET, but no upstream patches has
-been sent yet.
-
-> Another thing, could you please tell me what I have to set in the
-> kernel .config to have vsockets working out of the box, for now lsmod
-> doesn't show me vmw_vsock_transport_common or vsock or vsock_host
-> existence in the form of a autoloaded module at all.
-
-In the guest the vsock modules are loaded when the virtio-vsock device
-is discovered on the PCI bus.
-
-In the host the vhost-vsock module (and other vsock modules) is automatically
-loaded the first time that a process opens /dev/vhost-vsock.
-For testing in the host, you can use the vsock_loopback module that
-should be automatically loaded the first time that a process create an
-AF_VSOCK socket.
-Note: if other vsock modules (e.g. vhost-vsock) are already loaded, you
-must load vsock_loopback by hand.
+ignore this stowaway, it's not part of the series 
 
 
-Stefano
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  docs/system/deprecated.rst | 26 +++++++++++++-------------
+>  hw/core/machine.c          | 16 ++++------------
+>  hw/i386/pc.c               | 16 ++++------------
+>  3 files changed, 21 insertions(+), 37 deletions(-)
+> 
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 808c334fe7..fb95d2ecc4 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -47,19 +47,6 @@ The 'file' driver for drives is no longer appropriate for character or host
+>  devices and will only accept regular files (S_IFREG). The correct driver
+>  for these file types is 'host_cdrom' or 'host_device' as appropriate.
+>  
+> -``-smp`` (invalid topologies) (since 3.1)
+> -'''''''''''''''''''''''''''''''''''''''''
+> -
+> -CPU topology properties should describe whole machine topology including
+> -possible CPUs.
+> -
+> -However, historically it was possible to start QEMU with an incorrect topology
+> -where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+> -which could lead to an incorrect topology enumeration by the guest.
+> -Support for invalid topologies will be removed, the user must ensure
+> -topologies described with -smp include all possible cpus, i.e.
+> -*sockets* * *cores* * *threads* = *maxcpus*.
+> -
+>  ``-vnc acl`` (since 4.0.0)
+>  ''''''''''''''''''''''''''
+>  
+> @@ -642,6 +629,19 @@ New machine versions (since 5.1) will not accept the option but it will still
+>  work with old machine types. User can check the QAPI schema to see if the legacy
+>  option is supported by looking at MachineInfo::numa-mem-supported property.
+>  
+> +``-smp`` (invalid topologies) (removed 5.2)
+> +'''''''''''''''''''''''''''''''''''''''''''
+> +
+> +CPU topology properties should describe whole machine topology including
+> +possible CPUs.
+> +
+> +However, historically it was possible to start QEMU with an incorrect topology
+> +where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+> +which could lead to an incorrect topology enumeration by the guest.
+> +Support for invalid topologies is removed, the user must ensure
+> +topologies described with -smp include all possible cpus, i.e.
+> +*sockets* * *cores* * *threads* = *maxcpus*.
+> +
+>  Block devices
+>  -------------
+>  
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index ea26d61237..09aee4ea52 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -754,23 +754,15 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
+>              exit(1);
+>          }
+>  
+> -        if (sockets * cores * threads > ms->smp.max_cpus) {
+> -            error_report("cpu topology: "
+> -                         "sockets (%u) * cores (%u) * threads (%u) > "
+> -                         "maxcpus (%u)",
+> +        if (sockets * cores * threads != ms->smp.max_cpus) {
+> +            error_report("Invalid CPU topology: "
+> +                         "sockets (%u) * cores (%u) * threads (%u) "
+> +                         "!= maxcpus (%u)",
+>                           sockets, cores, threads,
+>                           ms->smp.max_cpus);
+>              exit(1);
+>          }
+>  
+> -        if (sockets * cores * threads != ms->smp.max_cpus) {
+> -            warn_report("Invalid CPU topology deprecated: "
+> -                        "sockets (%u) * cores (%u) * threads (%u) "
+> -                        "!= maxcpus (%u)",
+> -                        sockets, cores, threads,
+> -                        ms->smp.max_cpus);
+> -        }
+> -
+>          ms->smp.cpus = cpus;
+>          ms->smp.cores = cores;
+>          ms->smp.threads = threads;
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 2af660c55e..53e21a186d 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -748,23 +748,15 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+>              exit(1);
+>          }
+>  
+> -        if (sockets * dies * cores * threads > ms->smp.max_cpus) {
+> -            error_report("cpu topology: "
+> -                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
+> -                         "maxcpus (%u)",
+> +        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
+> +            error_report("Invalid CPU topology deprecated: "
+> +                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+> +                         "!= maxcpus (%u)",
+>                           sockets, dies, cores, threads,
+>                           ms->smp.max_cpus);
+>              exit(1);
+>          }
+>  
+> -        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
+> -            warn_report("Invalid CPU topology deprecated: "
+> -                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+> -                        "!= maxcpus (%u)",
+> -                        sockets, dies, cores, threads,
+> -                        ms->smp.max_cpus);
+> -        }
+> -
+>          ms->smp.cpus = cpus;
+>          ms->smp.cores = cores;
+>          ms->smp.threads = threads;
 
 
