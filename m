@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366D9275428
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:15:11 +0200 (CEST)
-Received: from localhost ([::1]:35246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D7A275436
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:17:10 +0200 (CEST)
+Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL0rm-0005qf-2S
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
+	id 1kL0tf-00083s-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0n6-0007w6-PO
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:10:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56598)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0n3-0007mi-00
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:10:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56306
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0n4-00025d-RJ
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:10:20 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kL0mz-00021O-IV
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:10:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600852218;
+ s=mimecast20190719; t=1600852213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FG21qE8YNskzRko4iVhalgjzjLwYCBN9eIUPuR9V2Z0=;
- b=RkhDnHRNoGS9fPwu6o8Y3rAY39jT2iRDBp54OLI1TY8laGH+YvqeUcyEUukUaOYAi/Xosc
- fSzGfhSKXkbQVmpQ+tCl+wGbN/Nj5HKU12NfBQutmnPzQV0/ymLutE79nrJ9PKUzv8FfWn
- CBb6QTE+khJmpdmyW8V/r8/yXQi6kfc=
+ bh=7Rpgfk3s9p62fTEsPWdSnHkf4EXgJbNyQ4c7ZwpEErE=;
+ b=MHgDfbdcOlxzBgB8dysvk/DH8gB/TGxn6Jaf7xD5y79ozx7RApjrzzoPOKujJqwZCuFVIb
+ 6bDt+pBbuEvB7XMs5Wky9gSAJV+UIoMjlq8FYAFuqti7tMp8FWFK9uyM1fp3R8/Do3qVsN
+ PZD0l0iTHEWsqYoKDhzXMSbxlAIw0Fc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-Oq6133UmM4WdReGw-B-1qQ-1; Wed, 23 Sep 2020 05:10:15 -0400
-X-MC-Unique: Oq6133UmM4WdReGw-B-1qQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-369-i3Fs6NB1PRWbY5vQPWL5Ow-1; Wed, 23 Sep 2020 05:10:11 -0400
+X-MC-Unique: i3Fs6NB1PRWbY5vQPWL5Ow-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 053EE10BBEC3
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 09:10:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1260887309E
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 09:10:10 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
  [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2E2E5577D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C82B35C230;
  Wed, 23 Sep 2020 09:10:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 18F5E31E7F; Wed, 23 Sep 2020 11:10:02 +0200 (CEST)
+ id 226F531E88; Wed, 23 Sep 2020 11:10:02 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 8/9] audio: remove qemu_spice_audio_init()
-Date: Wed, 23 Sep 2020 11:10:00 +0200
-Message-Id: <20200923091001.20814-9-kraxel@redhat.com>
+Subject: [PULL 9/9] audio: build spiceaudio as module
+Date: Wed, 23 Sep 2020 11:10:01 +0200
+Message-Id: <20200923091001.20814-10-kraxel@redhat.com>
 In-Reply-To: <20200923091001.20814-1-kraxel@redhat.com>
 References: <20200923091001.20814-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 05:08:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,94 +86,34 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle the spice special case in audio_init instead.
-
-With the qemu_spice_audio_init() symbol dependency being
-gone we can build spiceaudio as module.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200916084117.21828-2-kraxel@redhat.com
+Message-id: 20200916084117.21828-3-kraxel@redhat.com
 ---
- include/ui/qemu-spice.h |  1 -
- audio/audio.c           | 16 ++++++++++++++++
- audio/spiceaudio.c      |  5 -----
- ui/spice-core.c         |  1 -
- 4 files changed, 16 insertions(+), 7 deletions(-)
+ audio/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index 8c23dfe71797..12474d88f40e 100644
---- a/include/ui/qemu-spice.h
-+++ b/include/ui/qemu-spice.h
-@@ -29,7 +29,6 @@ extern int using_spice;
+diff --git a/audio/meson.build b/audio/meson.build
+index 15c06ba0453b..18a831129ed0 100644
+--- a/audio/meson.build
++++ b/audio/meson.build
+@@ -7,7 +7,6 @@ softmmu_ss.add(files(
+   'wavcapture.c',
+ ))
  
- void qemu_spice_init(void);
- void qemu_spice_input_init(void);
--void qemu_spice_audio_init(void);
- void qemu_spice_display_init(void);
- int qemu_spice_display_add_client(int csock, int skipauth, int tls);
- int qemu_spice_add_interface(SpiceBaseInstance *sin);
-diff --git a/audio/audio.c b/audio/audio.c
-index 6ff3f168d7b7..46578e4a583b 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -34,6 +34,7 @@
- #include "qemu/module.h"
- #include "sysemu/replay.h"
- #include "sysemu/runstate.h"
-+#include "ui/qemu-spice.h"
- #include "trace.h"
- 
- #define AUDIO_CAP "audio"
-@@ -1696,6 +1697,21 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
-     /* silence gcc warning about uninitialized variable */
-     AudiodevListHead head = QSIMPLEQ_HEAD_INITIALIZER(head);
- 
-+    if (using_spice) {
-+        /*
-+         * When using spice allow the spice audio driver being picked
-+         * as default.
-+         *
-+         * Temporary hack.  Using audio devices without explicit
-+         * audiodev= property is already deprecated.  Same goes for
-+         * the -soundhw switch.  Once this support gets finally
-+         * removed we can also drop the concept of a default audio
-+         * backend and this can go away.
-+         */
-+        driver = audio_driver_lookup("spice");
-+        driver->can_be_default = 1;
-+    }
-+
-     if (dev) {
-         /* -audiodev option */
-         legacy_config = false;
-diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-index c062742622e4..ed6dff1dcc41 100644
---- a/audio/spiceaudio.c
-+++ b/audio/spiceaudio.c
-@@ -311,11 +311,6 @@ static struct audio_driver spice_audio_driver = {
-     .voice_size_in  = sizeof (SpiceVoiceIn),
- };
- 
--void qemu_spice_audio_init (void)
--{
--    spice_audio_driver.can_be_default = 1;
--}
--
- static void register_audio_spice(void)
- {
-     audio_driver_register(&spice_audio_driver);
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index ecc2ec2c55c2..10aa309f78f7 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -804,7 +804,6 @@ void qemu_spice_init(void)
-     qemu_spice_add_interface(&spice_migrate.base);
- 
-     qemu_spice_input_init();
--    qemu_spice_audio_init();
- 
-     qemu_add_vm_change_state_handler(vm_change_state_handler, NULL);
-     qemu_spice_display_stop();
+-softmmu_ss.add(when: [spice, 'CONFIG_SPICE'], if_true: files('spiceaudio.c'))
+ softmmu_ss.add(when: [coreaudio, 'CONFIG_AUDIO_COREAUDIO'], if_true: files('coreaudio.c'))
+ softmmu_ss.add(when: [dsound, 'CONFIG_AUDIO_DSOUND'], if_true: files('dsoundaudio.c'))
+ softmmu_ss.add(when: ['CONFIG_AUDIO_WIN_INT'], if_true: files('audio_win_int.c'))
+@@ -18,7 +17,8 @@ foreach m : [
+   ['CONFIG_AUDIO_OSS', 'oss', oss, 'ossaudio.c'],
+   ['CONFIG_AUDIO_PA', 'pa', pulse, 'paaudio.c'],
+   ['CONFIG_AUDIO_SDL', 'sdl', sdl, 'sdlaudio.c'],
+-  ['CONFIG_AUDIO_JACK', 'jack', jack, 'jackaudio.c']
++  ['CONFIG_AUDIO_JACK', 'jack', jack, 'jackaudio.c'],
++  ['CONFIG_SPICE', 'spice', spice, 'spiceaudio.c']
+ ]
+   if config_host.has_key(m[0])
+     module_ss = ss.source_set()
 -- 
 2.27.0
 
