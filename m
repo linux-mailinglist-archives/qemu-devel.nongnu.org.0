@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CFA275FC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:25:59 +0200 (CEST)
-Received: from localhost ([::1]:38200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2CF275FD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:29:40 +0200 (CEST)
+Received: from localhost ([::1]:46580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL9So-0008Cy-No
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53512)
+	id 1kL9WN-0003ZF-7S
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:29:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9O2-0004y3-5t; Wed, 23 Sep 2020 14:21:02 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35016)
+ id 1kL9O8-00056w-4e; Wed, 23 Sep 2020 14:21:08 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9Nz-00086G-Dp; Wed, 23 Sep 2020 14:21:01 -0400
+ id 1kL9O5-0008Do-8z; Wed, 23 Sep 2020 14:21:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1600886185; x=1632422185;
+ t=1600886194; x=1632422194;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=IAhlEP13HbhNfj4M5mv95R567EMtXnN0TBb732KkDp4=;
- b=HuVBFn973p9UlNsETMrXmc4UkNJB5ljcq9z4FBmVfs2Li28BjhNxJlwn
- HWx/4unUIhqHW+HjMK1LO4s61JaphkxApwR8j0KBfVoeNku5X1jcY+lXR
- OZMR4t4GULnUgBe7IsRxUmgkdwXLQ1OAuDLmH+KP/mBPdcOBpf2PkpwSu
- jqF7JbTDP2OEcMmQVxdfpnxwXxPnZ5oGdo85YdpIgyjane122nQpEWpEL
- z4pbA2YXFwQPf1Hh3oo3q9Rk7B5cawtzoZXCXLWCeKDHvPwU42MiMKe3v
- IdozRt9i4pJv8v+6TGkIoRivMJiWKjKy4ogcEDHy/Awstt4IYd+ygLwvs Q==;
-IronPort-SDR: s9qCNnQt5oFgbsbEgESLsrgzKt3aeUIZ73u5csvDlLw/RMKm3AJ/OUtcThWdsub5NGH4FiUEty
- YGj+N2GoCJUHVUoMQ7dQzwbqDygV1kM74fAjHVqwYsydvjQ2m5rXX7jrsh1JrhIDuD0l5ePhHY
- Kj26XvU/PLl1VVscIBt3TY5iaCNwtLb7wXgzL8VtS7o1iK29lF5U73PiQVQTwsPVECIH22xHyD
- Vp5WCjDgnOz2mRdT8r+aI0wAzzQrTyyRWwh9jhouY4vu1QE+Bjcx2CaCuVdO7hJsgH2PWBFOil
- ZMw=
-X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496347"
+ bh=199sUUh5EtHQdVjH8Or0sO4K4O1nxN4iy26w+M1SiZ0=;
+ b=gPoxDwaDcYhpCo8eHg3jkNKucLf6YjQQf83znxY5RtQZmCERVQFBbRHR
+ To5xNrq/nIqEFs0NUDEtare55D9yXQ70dSa4gv7NBf0yHhHYyViiQfRO1
+ +2pUeDH68eIyGfE5LUcZFImcD63uXbHAJzl0hKWDiOky6pUBt8cEyGay5
+ SyUmv8v+tAcJfFLd+1Xfz051xRQcgrnQF2nNYebpiUu9jndcF0hfw+hVn
+ lGXxA4aQG5AAUYuER1Dgk+9Jriro9Xt07VWhw65kG6jElQsy+hY+Le9kO
+ KMiITIWHV0Pwgyr8HHyBxFxxNVShShE48Wd9QUIBsJA9ts7XnyQfLP1xC g==;
+IronPort-SDR: 44dJnRgu+OL66B9x52H5vZrdiIGcZenkiPtxuEohH8cg65J+YGpSzqXsU8T2FmpgDSJevjfbA8
+ XavxncfKK6SaZQpkXjJ/0e+feM3sQh4aFl1y8riRR9k09E1nbnRTsiVvIIFntXTs5ZP+A1Gpdh
+ urKnVC0MoR+6uRybnPPHZeeO0mtZuvxgRwId6v2Z/nbzd2q1wV0sFtD4RDYd/XZ1LbVD33DIV+
+ lC7pxHTobL4yemMA26K30srcwS20G0Z4pBC3menzn1d/e9+PYiWP2m28YxnQBRHqVn6mmPw5Wo
+ fVQ=
+X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496361"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:21 +0800
-IronPort-SDR: uMedfqluOMBixqCZ9kd99VKQEnost8vVYn04Lk1pQ71C22sAFNW2O1wBc9gGfaLvxR7qS/EbKf
- KDoEfgFGEzQA==
+ by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:32 +0800
+IronPort-SDR: GoSXorgayj2/WCi+Yvb2EIE/y4lnY6h33iUYu5KRqfclWXm1o+ZunEntC03SDJXxnBsjH/KkVN
+ 4bsgTOsw4PUQ==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2020 11:07:03 -0700
-IronPort-SDR: 3hmEsuhgtwj6x1nTdEv7Qrg3PXRex/7q2Jp1i2KtPzPoA7nhENvgQyBqJT72aKgSaPZcXLWjSG
- ksuiUlKiG2cg==
+ 23 Sep 2020 11:07:10 -0700
+IronPort-SDR: ZXKbp67ea3UVhraalE0Ixgj92IdwWMJjhaM7Sy0f374xenJniNYNDW5kPtj81HGowDP+JPfQCA
+ rn0kSIHVFYIg==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:20:54 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:21:01 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v4 04/14] hw/block/nvme: Define trace events related to NS
- Types
-Date: Thu, 24 Sep 2020 03:20:11 +0900
-Message-Id: <20200923182021.3724-5-dmitry.fomichev@wdc.com>
+Subject: [PATCH v4 07/14] hw/block/nvme: Make Zoned NS Command Set definitions
+Date: Thu, 24 Sep 2020 03:20:14 +0900
+Message-Id: <20200923182021.3724-8-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
 References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=5287de305=dmitry.fomichev@wdc.com; helo=esa2.hgst.iphmx.com
@@ -96,60 +94,386 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A few trace events are defined that are relevant to implementing
-Namespace Types (NVMe TP 4056).
+Define values and structures that are needed to support Zoned
+Namespace Command Set (NVMe TP 4053) in PCI NVMe controller emulator.
 
+All new protocol definitions are located in include/block/nvme.h
+and everything added that is specific to this implementation is kept
+in hw/block/nvme.h.
+
+In order to improve scalability, all open, closed and full zones
+are organized in separate linked lists. Consequently, almost all
+zone operations don't require scanning of the entire zone array
+(which potentially can be quite large) - it is only necessary to
+enumerate one or more zone lists. Zone lists are designed to be
+position-independent as they can be persisted to the backing file
+as a part of zone metadata. NvmeZoneList struct defined in this patch
+serves as a head of every zone list.
+
+NvmeZone structure encapsulates NvmeZoneDescriptor defined in Zoned
+Command Set specification and adds a few more fields that are
+internal to this implementation.
+
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+Signed-off-by: Hans Holmberg <hans.holmberg@wdc.com>
+Signed-off-by: Ajay Joshi <ajay.joshi@wdc.com>
+Signed-off-by: Matias Bjorling <matias.bjorling@wdc.com>
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: Alexey Bogoslavsky <alexey.bogoslavsky@wdc.com>
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/trace-events | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/block/nvme.h      | 124 +++++++++++++++++++++++++++++++++++++++++++
+ include/block/nvme.h | 107 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 231 insertions(+)
 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 79c9da652d..2414dcbc79 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -46,8 +46,12 @@ pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size,
- pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
- pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
- pci_nvme_identify_ctrl(void) "identify controller"
-+pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
- pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
-+pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
- pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
-+pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
-+pci_nvme_identify_cmd_set(void) "identify i/o command set"
- pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
- pci_nvme_getfeat(uint16_t cid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
-@@ -84,6 +88,8 @@ pci_nvme_mmio_stopped(void) "cleared controller enable bit"
- pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
- pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
- pci_nvme_cmd_supp_and_effects_log_read(void) "commands supported and effects log read"
-+pci_nvme_css_nvm_cset_selected_by_host(uint32_t cc) "NVM command set selected by host, bar.cc=0x%"PRIx32""
-+pci_nvme_css_all_csets_sel_by_host(uint32_t cc) "all supported command sets selected by host, bar.cc=0x%"PRIx32""
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 71e4344471..d9f307f0ed 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -3,6 +3,9 @@
  
- # nvme traces for error conditions
- pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
-@@ -97,6 +103,9 @@ pci_nvme_err_invalid_opc(uint8_t opc) "invalid opcode 0x%"PRIx8""
- pci_nvme_err_invalid_admin_opc(uint8_t opc) "invalid admin opcode 0x%"PRIx8""
- pci_nvme_err_invalid_lba_range(uint64_t start, uint64_t len, uint64_t limit) "Invalid LBA start=%"PRIu64" len=%"PRIu64" limit=%"PRIu64""
- pci_nvme_err_invalid_effects_log_offset(uint64_t ofs) "commands supported and effects log offset must be 0, got %"PRIu64""
-+pci_nvme_err_change_css_when_enabled(void) "changing CC.CSS while controller is enabled"
-+pci_nvme_err_only_nvm_cmd_set_avail(void) "setting 110b CC.CSS, but only NVM command set is enabled"
-+pci_nvme_err_invalid_iocsci(uint32_t idx) "unsupported command set combination index %"PRIu32""
- pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
- pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
- pci_nvme_err_invalid_create_sq_sqid(uint16_t sqid) "failed creating submission queue, invalid sqid=%"PRIu16""
-@@ -152,6 +161,7 @@ pci_nvme_ub_db_wr_invalid_cq(uint32_t qid) "completion queue doorbell write for
- pci_nvme_ub_db_wr_invalid_cqhead(uint32_t qid, uint16_t new_head) "completion queue doorbell write value beyond queue size, cqid=%"PRIu32", new_head=%"PRIu16", ignoring"
- pci_nvme_ub_db_wr_invalid_sq(uint32_t qid) "submission queue doorbell write for nonexistent queue, sqid=%"PRIu32", ignoring"
- pci_nvme_ub_db_wr_invalid_sqtail(uint32_t qid, uint16_t new_tail) "submission queue doorbell write value beyond queue size, sqid=%"PRIu32", new_head=%"PRIu16", ignoring"
-+pci_nvme_ub_unknown_css_value(void) "unknown value in cc.css field"
+ #include "block/nvme.h"
  
- # xen-block.c
- xen_block_realize(const char *type, uint32_t disk, uint32_t partition) "%s d%up%u"
++#define NVME_DEFAULT_ZONE_SIZE   128 /* MiB */
++#define NVME_DEFAULT_MAX_ZA_SIZE 128 /* KiB */
++
+ typedef struct NvmeParams {
+     char     *serial;
+     uint32_t num_queues; /* deprecated since 5.1 */
+@@ -12,6 +15,13 @@ typedef struct NvmeParams {
+     uint8_t  aerl;
+     uint32_t aer_max_queued;
+     uint8_t  mdts;
++
++    bool        zoned;
++    bool        cross_zone_read;
++    uint8_t     fill_pattern;
++    uint32_t    zasl_kb;
++    uint64_t    zone_size_mb;
++    uint64_t    zone_capacity_mb;
+ } NvmeParams;
+ 
+ typedef struct NvmeAsyncEvent {
+@@ -24,6 +34,7 @@ typedef struct NvmeRequest {
+     struct NvmeNamespace    *ns;
+     BlockAIOCB              *aiocb;
+     uint16_t                status;
++    int64_t                 fill_ofs;
+     NvmeCqe                 cqe;
+     NvmeCmd                 cmd;
+     BlockAcctCookie         acct;
+@@ -62,12 +73,36 @@ typedef struct NvmeCQueue {
+     QTAILQ_HEAD(, NvmeRequest) req_list;
+ } NvmeCQueue;
+ 
++typedef struct NvmeZone {
++    NvmeZoneDescr   d;
++    uint64_t        w_ptr;
++    uint32_t        next;
++    uint32_t        prev;
++    uint8_t         rsvd80[8];
++} NvmeZone;
++
++#define NVME_ZONE_LIST_NIL    UINT_MAX
++
++typedef struct NvmeZoneList {
++    uint32_t        head;
++    uint32_t        tail;
++    uint32_t        size;
++    uint8_t         rsvd12[4];
++} NvmeZoneList;
++
+ typedef struct NvmeNamespace {
+     NvmeIdNs        id_ns;
+     uint32_t        nsid;
+     uint8_t         csi;
+     bool            attached;
+     QemuUUID        uuid;
++
++    NvmeIdNsZoned   *id_ns_zoned;
++    NvmeZone        *zone_array;
++    NvmeZoneList    *exp_open_zones;
++    NvmeZoneList    *imp_open_zones;
++    NvmeZoneList    *closed_zones;
++    NvmeZoneList    *full_zones;
+ } NvmeNamespace;
+ 
+ static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
+@@ -126,6 +161,15 @@ typedef struct NvmeCtrl {
+     QTAILQ_HEAD(, NvmeAsyncEvent) aer_queue;
+     int         aer_queued;
+ 
++    int             zone_file_fd;
++    uint32_t        num_zones;
++    uint64_t        zone_size;
++    uint64_t        zone_capacity;
++    uint64_t        zone_array_size;
++    uint32_t        zone_size_log2;
++    uint32_t        zasl_bs;
++    uint8_t         zasl;
++
+     NvmeNamespace   *namespaces;
+     NvmeSQueue      **sq;
+     NvmeCQueue      **cq;
+@@ -141,4 +185,84 @@ static inline uint64_t nvme_ns_nlbas(NvmeCtrl *n, NvmeNamespace *ns)
+     return n->ns_size >> nvme_ns_lbads(ns);
+ }
+ 
++static inline uint8_t nvme_get_zone_state(NvmeZone *zone)
++{
++    return zone->d.zs >> 4;
++}
++
++static inline void nvme_set_zone_state(NvmeZone *zone, enum NvmeZoneState state)
++{
++    zone->d.zs = state << 4;
++}
++
++static inline uint64_t nvme_zone_rd_boundary(NvmeCtrl *n, NvmeZone *zone)
++{
++    return zone->d.zslba + n->zone_size;
++}
++
++static inline uint64_t nvme_zone_wr_boundary(NvmeZone *zone)
++{
++    return zone->d.zslba + zone->d.zcap;
++}
++
++static inline bool nvme_wp_is_valid(NvmeZone *zone)
++{
++    uint8_t st = nvme_get_zone_state(zone);
++
++    return st != NVME_ZONE_STATE_FULL &&
++           st != NVME_ZONE_STATE_READ_ONLY &&
++           st != NVME_ZONE_STATE_OFFLINE;
++}
++
++/*
++ * Initialize a zone list head.
++ */
++static inline void nvme_init_zone_list(NvmeZoneList *zl)
++{
++    zl->head = NVME_ZONE_LIST_NIL;
++    zl->tail = NVME_ZONE_LIST_NIL;
++    zl->size = 0;
++}
++
++/*
++ * Initialize the number of entries contained in a zone list.
++ */
++static inline uint32_t nvme_zone_list_size(NvmeZoneList *zl)
++{
++    return zl->size;
++}
++
++/*
++ * Check if the zone is not currently included into any zone list.
++ */
++static inline bool nvme_zone_not_in_list(NvmeZone *zone)
++{
++    return (bool)(zone->prev == 0 && zone->next == 0);
++}
++
++/*
++ * Return the zone at the head of zone list or NULL if the list is empty.
++ */
++static inline NvmeZone *nvme_peek_zone_head(NvmeNamespace *ns, NvmeZoneList *zl)
++{
++    if (zl->head == NVME_ZONE_LIST_NIL) {
++        return NULL;
++    }
++    return &ns->zone_array[zl->head];
++}
++
++/*
++ * Return the next zone in the list.
++ */
++static inline NvmeZone *nvme_next_zone_in_list(NvmeNamespace *ns, NvmeZone *z,
++                                               NvmeZoneList *zl)
++{
++    assert(!nvme_zone_not_in_list(z));
++
++    if (z->next == NVME_ZONE_LIST_NIL) {
++        return NULL;
++    }
++    return &ns->zone_array[z->next];
++}
++
+ #endif /* HW_NVME_H */
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index f8356394f5..ced66cf4eb 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -488,6 +488,9 @@ enum NvmeIoCommands {
+     NVME_CMD_COMPARE            = 0x05,
+     NVME_CMD_WRITE_ZEROES       = 0x08,
+     NVME_CMD_DSM                = 0x09,
++    NVME_CMD_ZONE_MGMT_SEND     = 0x79,
++    NVME_CMD_ZONE_MGMT_RECV     = 0x7a,
++    NVME_CMD_ZONE_APPEND        = 0x7d,
+ };
+ 
+ typedef struct QEMU_PACKED NvmeDeleteQ {
+@@ -677,6 +680,7 @@ enum NvmeStatusCodes {
+     NVME_SGL_DESCR_TYPE_INVALID = 0x0011,
+     NVME_INVALID_USE_OF_CMB     = 0x0012,
+     NVME_CMD_SET_CMB_REJECTED   = 0x002b,
++    NVME_INVALID_CMD_SET        = 0x002c,
+     NVME_LBA_RANGE              = 0x0080,
+     NVME_CAP_EXCEEDED           = 0x0081,
+     NVME_NS_NOT_READY           = 0x0082,
+@@ -701,6 +705,14 @@ enum NvmeStatusCodes {
+     NVME_CONFLICTING_ATTRS      = 0x0180,
+     NVME_INVALID_PROT_INFO      = 0x0181,
+     NVME_WRITE_TO_RO            = 0x0182,
++    NVME_ZONE_BOUNDARY_ERROR    = 0x01b8,
++    NVME_ZONE_FULL              = 0x01b9,
++    NVME_ZONE_READ_ONLY         = 0x01ba,
++    NVME_ZONE_OFFLINE           = 0x01bb,
++    NVME_ZONE_INVALID_WRITE     = 0x01bc,
++    NVME_ZONE_TOO_MANY_ACTIVE   = 0x01bd,
++    NVME_ZONE_TOO_MANY_OPEN     = 0x01be,
++    NVME_ZONE_INVAL_TRANSITION  = 0x01bf,
+     NVME_WRITE_FAULT            = 0x0280,
+     NVME_UNRECOVERED_READ       = 0x0281,
+     NVME_E2E_GUARD_ERROR        = 0x0282,
+@@ -885,6 +897,11 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
+     uint8_t     vs[1024];
+ } NvmeIdCtrl;
+ 
++typedef struct NvmeIdCtrlZoned {
++    uint8_t     zasl;
++    uint8_t     rsvd1[4095];
++} NvmeIdCtrlZoned;
++
+ enum NvmeIdCtrlOacs {
+     NVME_OACS_SECURITY  = 1 << 0,
+     NVME_OACS_FORMAT    = 1 << 1,
+@@ -1009,6 +1026,12 @@ typedef struct QEMU_PACKED NvmeLBAF {
+     uint8_t     rp;
+ } NvmeLBAF;
+ 
++typedef struct QEMU_PACKED NvmeLBAFE {
++    uint64_t    zsze;
++    uint8_t     zdes;
++    uint8_t     rsvd9[7];
++} NvmeLBAFE;
++
+ #define NVME_NSID_BROADCAST 0xffffffff
+ 
+ typedef struct QEMU_PACKED NvmeIdNs {
+@@ -1063,10 +1086,24 @@ enum NvmeNsIdentifierType {
+ 
+ enum NvmeCsi {
+     NVME_CSI_NVM                = 0x00,
++    NVME_CSI_ZONED              = 0x02,
+ };
+ 
+ #define NVME_SET_CSI(vec, csi) (vec |= (uint8_t)(1 << (csi)))
+ 
++typedef struct QEMU_PACKED NvmeIdNsZoned {
++    uint16_t    zoc;
++    uint16_t    ozcs;
++    uint32_t    mar;
++    uint32_t    mor;
++    uint32_t    rrl;
++    uint32_t    frl;
++    uint8_t     rsvd20[2796];
++    NvmeLBAFE   lbafe[16];
++    uint8_t     rsvd3072[768];
++    uint8_t     vs[256];
++} NvmeIdNsZoned;
++
+ /*Deallocate Logical Block Features*/
+ #define NVME_ID_NS_DLFEAT_GUARD_CRC(dlfeat)       ((dlfeat) & 0x10)
+ #define NVME_ID_NS_DLFEAT_WRITE_ZEROES(dlfeat)    ((dlfeat) & 0x08)
+@@ -1098,6 +1135,71 @@ enum NvmeIdNsDps {
+     DPS_FIRST_EIGHT = 8,
+ };
+ 
++enum NvmeZoneAttr {
++    NVME_ZA_FINISHED_BY_CTLR         = 1 << 0,
++    NVME_ZA_FINISH_RECOMMENDED       = 1 << 1,
++    NVME_ZA_RESET_RECOMMENDED        = 1 << 2,
++    NVME_ZA_ZD_EXT_VALID             = 1 << 7,
++};
++
++typedef struct QEMU_PACKED NvmeZoneReportHeader {
++    uint64_t    nr_zones;
++    uint8_t     rsvd[56];
++} NvmeZoneReportHeader;
++
++enum NvmeZoneReceiveAction {
++    NVME_ZONE_REPORT                 = 0,
++    NVME_ZONE_REPORT_EXTENDED        = 1,
++};
++
++enum NvmeZoneReportType {
++    NVME_ZONE_REPORT_ALL             = 0,
++    NVME_ZONE_REPORT_EMPTY           = 1,
++    NVME_ZONE_REPORT_IMPLICITLY_OPEN = 2,
++    NVME_ZONE_REPORT_EXPLICITLY_OPEN = 3,
++    NVME_ZONE_REPORT_CLOSED          = 4,
++    NVME_ZONE_REPORT_FULL            = 5,
++    NVME_ZONE_REPORT_READ_ONLY       = 6,
++    NVME_ZONE_REPORT_OFFLINE         = 7,
++};
++
++enum NvmeZoneType {
++    NVME_ZONE_TYPE_RESERVED          = 0x00,
++    NVME_ZONE_TYPE_SEQ_WRITE         = 0x02,
++};
++
++enum NvmeZoneSendAction {
++    NVME_ZONE_ACTION_RSD             = 0x00,
++    NVME_ZONE_ACTION_CLOSE           = 0x01,
++    NVME_ZONE_ACTION_FINISH          = 0x02,
++    NVME_ZONE_ACTION_OPEN            = 0x03,
++    NVME_ZONE_ACTION_RESET           = 0x04,
++    NVME_ZONE_ACTION_OFFLINE         = 0x05,
++    NVME_ZONE_ACTION_SET_ZD_EXT      = 0x10,
++};
++
++typedef struct QEMU_PACKED NvmeZoneDescr {
++    uint8_t     zt;
++    uint8_t     zs;
++    uint8_t     za;
++    uint8_t     rsvd3[5];
++    uint64_t    zcap;
++    uint64_t    zslba;
++    uint64_t    wp;
++    uint8_t     rsvd32[32];
++} NvmeZoneDescr;
++
++enum NvmeZoneState {
++    NVME_ZONE_STATE_RESERVED         = 0x00,
++    NVME_ZONE_STATE_EMPTY            = 0x01,
++    NVME_ZONE_STATE_IMPLICITLY_OPEN  = 0x02,
++    NVME_ZONE_STATE_EXPLICITLY_OPEN  = 0x03,
++    NVME_ZONE_STATE_CLOSED           = 0x04,
++    NVME_ZONE_STATE_READ_ONLY        = 0x0D,
++    NVME_ZONE_STATE_FULL             = 0x0E,
++    NVME_ZONE_STATE_OFFLINE          = 0x0F,
++};
++
+ static inline void _nvme_check_size(void)
+ {
+     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+@@ -1117,9 +1219,14 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSmartLog) != 512);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrl) != 4096);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrlZoned) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeLBAF) != 4);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeLBAFE) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsZoned) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeZoneDescr) != 64);
+ }
+ #endif
 -- 
 2.21.0
 
