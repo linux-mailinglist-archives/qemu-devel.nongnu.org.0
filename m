@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5A027612A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:37:31 +0200 (CEST)
-Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D536276133
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:40:40 +0200 (CEST)
+Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLAa2-00044d-Q0
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
+	id 1kLAd5-0007f5-HW
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLAXn-0002X0-Cr; Wed, 23 Sep 2020 15:35:11 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:43340)
+ id 1kLAXs-0002bD-0W; Wed, 23 Sep 2020 15:35:16 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:40527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLAXl-0008UQ-I3; Wed, 23 Sep 2020 15:35:11 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id cr8so589344qvb.10;
- Wed, 23 Sep 2020 12:35:08 -0700 (PDT)
+ id 1kLAXq-0008VG-2f; Wed, 23 Sep 2020 15:35:15 -0400
+Received: by mail-qk1-x729.google.com with SMTP id w16so902578qkj.7;
+ Wed, 23 Sep 2020 12:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t5KFR6tivFfBv67ze4q62VptCBp6KR6G1kHGNM1ZOwE=;
- b=O/KMYdptFJeMX7oGh+A0KPSUaUlBj58Rn732/nGGUD1Ht6xPzu9o4z8QRi1+GwWSbc
- tiI68+/22CnRkkV8Sh6J0nSBcoIDs37tP97v8g8vLF+LfByxN79FkptxoZ5fOKKa3S3Y
- If0MI0sM8ldAd/XmldoQ9Q9PWMC1BUxXeITCgsKmwiZIFBr40YAVfZMQiAU34Kzp9Dwt
- fOl8TladeRcCT+6WLDUjX713+OKLe+7jHyJ2vQZ6RoCf2Oqa+EEX2NLTh958WMlv0Nij
- tw1arbRN/ouE3IAaljWuNKJKi48DjOWeV3bJQlCrMm7CADQQJCe/d/iRGf/Pjjt4Sr1l
- WN1Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3Pb2Hls/e8P7amLmEaCt/vqVuaxBFgGmr0SvcjklXJA=;
+ b=hnFr3GD/OeaKVVZLyNDoUlj1EdQsYKWBbUI+IdYO8JYr+uqCwDHMMTwqb3DyBREul7
+ OY7Knu+II9UvXQwVI5t1JRs2CPs5IrQy1VQ5x5njTRvFJZYrLzCNxWdj2yP9msEO+y9o
+ 8DBZSvYN0qIl+TDoDwBPCPPFxaRpkKX1TC5KLhJMXXb2stEsiUGAikDYIQvGqc4VSyXS
+ WOqxGiL6tpy9twM6Jcu5TNE6NrawYlZi06Hkl2ZeFiSZjJ/dQom6SN5BMsDV3pldJfQd
+ F/0lDMez6CrTiaxt+GV4YNq9QQBO1zgdbHgyK87ksG0Son2GvKqA8i6zSs8qLP8SqHzH
+ 71PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t5KFR6tivFfBv67ze4q62VptCBp6KR6G1kHGNM1ZOwE=;
- b=TTx2t/MjW7q7GBt6wJK/hB+boodwkFBaq2w+hk4XJ5PhFxOJjIghTu71JRmU5jje1i
- W2ZGxiy6TNXLt20kToncmqkOI9M1fD4FOQ9Qj9ZIYw90S0VK/WXAB4u6b8Y0mH4W1VRb
- CWnCy/snMjW5aknBu3bijH+5/QRPyYdvryMQnexqmWL3GIUKcGjSzKERnF1awxz/JDEO
- RDiOdjOfn0omeVRqsbCqUuTGZysI78+uDcKgPouKJnwUkN7jcmNGCoH14Qgx6BnCYyjD
- hUryZbjx6m/UNujwah7EbXhYBPjEoDTlFHy1oxxZkKXTQnVuyDrrpmXVXBg83n1/xAbe
- grEQ==
-X-Gm-Message-State: AOAM532MIvr6nzTRB72XeA/PIt33IujZnqighRMq6AOpfvE8pN5un0aA
- vajW9wHSJ0Gr+gs11LOHRThryXIf9De4Rg==
-X-Google-Smtp-Source: ABdhPJxkxeOhIuQdAscoIcYGEMYjeRFsM8yRUvBMm68oPnOHJY7P7LKxK2C6wIEOvpZzOcgGQviBFQ==
-X-Received: by 2002:a0c:f194:: with SMTP id m20mr1680819qvl.9.1600889707285;
- Wed, 23 Sep 2020 12:35:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3Pb2Hls/e8P7amLmEaCt/vqVuaxBFgGmr0SvcjklXJA=;
+ b=sETwo8Jy5oPzuIFhsp1yRvVuTXqO7VSK1gFf3CLdQjJH74SUJguChkdlk+zkDMZTQG
+ Ykv6an7Lp4516rQjTZIkU4UPOnkT3Uc4B/XsOJZryou7WouVSFfhmk/+9Mc0sNS2H4J3
+ Pt3G5soOPihFmqnUd9rP6R3BJRmHTuPzesNnHthRbUOinR1yzkeTd0oq6G1BKYMjOJ+O
+ VsNirM1wmUUxijO/BS43/qlBkxBCvpH45NDn6PbDinOUApILkXUFf/FKRNt4JIg4OcF8
+ y0cM38iX82Y6Bl5elDShtqHllDynhfB2l5EHgDh7O6hcjuooVrUKHwIbAlqbdb0P49WA
+ BAKA==
+X-Gm-Message-State: AOAM531oz2d5d9IChZM7jJQe0AOXxUSj6/sWZSfzJgYsOojhytFUbzmR
+ rHDD0FO/IDquJIQsxr1U0THIxdnzXcmjGw==
+X-Google-Smtp-Source: ABdhPJwnuzciQgbf8B0kvcdSAsie8Po5lBusFMYMFuc4hZMa3M42i3xsg4/LpNGaIIrGnJCVjZyqhg==
+X-Received: by 2002:a37:d207:: with SMTP id f7mr1476639qkj.302.1600889712031; 
+ Wed, 23 Sep 2020 12:35:12 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:9e50:6b84:53b8:5d9d:d408])
- by smtp.gmail.com with ESMTPSA id u4sm612362qkk.68.2020.09.23.12.35.05
+ by smtp.gmail.com with ESMTPSA id u4sm612362qkk.68.2020.09.23.12.35.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 12:35:06 -0700 (PDT)
+ Wed, 23 Sep 2020 12:35:08 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] pseries NUMA distance calculation
-Date: Wed, 23 Sep 2020 16:34:52 -0300
-Message-Id: <20200923193458.203186-1-danielhb413@gmail.com>
+Subject: [PATCH 1/6] spapr: add spapr_machine_using_legacy_numa() helper
+Date: Wed, 23 Sep 2020 16:34:53 -0300
+Message-Id: <20200923193458.203186-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200923193458.203186-1-danielhb413@gmail.com>
+References: <20200923193458.203186-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x729.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -86,58 +88,80 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The changes to come to NUMA support are all guest visible. In
+theory we could just create a new 5_1 class option flag to
+avoid the changes to cascade to 5.1 and under. The reality is that
+these changes are only relevant if the machine has more than one
+NUMA node. There is no need to change guest behavior that has
+been around for years needlesly.
 
-This series is a follow-up of the reworked pSeries NUMA
-code that is already merged upstream. It contains some of
-the patches that were presented in the first version of this
-work [1], some of them changed based on the reviews made
-back there. 
+This new helper will be used by the next patches to determine
+whether we should retain the (soon to be) legacy NUMA behavior
+in the pSeries machine. The new behavior will only be exposed
+if:
 
-With this series, we're able to take user input into consideration
-when setting up the NUMA topology of the guest. It is still an
-approximation, but at least user input is not completely ignored.
+- machine is pseries-5.2 and newer;
+- more than one NUMA node is declared in NUMA state.
 
-The changes will only be effective with pseries-5.2 and newer
-machines, and if more than one NUMA node is declared by the user.
-The idea is that we don't want to tamper with legacy guest behavior.
-Patch 6 has examples of how we are approximating NUMA distance
-via user input.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr.c         | 12 ++++++++++++
+ include/hw/ppc/spapr.h |  2 ++
+ 2 files changed, 14 insertions(+)
 
-The series was rebased using David's ppc-for-5.2 at
-4cca31df828.
-
-
-Changes carried over from [1]:
-- patch 1 (former 4): same patch, added David's r-b
-- patch 2 (former 2): the check for asymetrical NUMA was moved
-to spapr code as requested in the review
-- patch 4 is a merge of former patches 5 and 6
-- patch 5 (former 9): reworked
-- patch 6 (former 10): same patch
-
-Patch 3 is new in the series.
-
-
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg03169.html
-
-
-
-Daniel Henrique Barboza (6):
-  spapr: add spapr_machine_using_legacy_numa() helper
-  spapr_numa: forbid asymmetrical NUMA setups
-  spapr_numa: translate regular NUMA distance to PAPR distance
-  spapr_numa: change reference-points and maxdomain settings
-  spapr_numa: consider user input when defining associativity
-  specs/ppc-spapr-numa: update with new NUMA support
-
- docs/specs/ppc-spapr-numa.rst | 213 ++++++++++++++++++++++++++++++++++
- hw/ppc/spapr.c                |  12 ++
- hw/ppc/spapr_numa.c           | 184 +++++++++++++++++++++++++++--
- include/hw/ppc/spapr.h        |   2 +
- 4 files changed, 402 insertions(+), 9 deletions(-)
-
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index e813c7cfb9..c5d8910a74 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -294,6 +294,15 @@ static hwaddr spapr_node0_size(MachineState *machine)
+     return machine->ram_size;
+ }
+ 
++bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
++{
++    MachineState *machine = MACHINE(spapr);
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
++
++    return smc->pre_5_2_numa_associativity ||
++           machine->numa_state->num_nodes <= 1;
++}
++
+ static void add_str(GString *s, const gchar *s1)
+ {
+     g_string_append_len(s, s1, strlen(s1) + 1);
+@@ -4522,8 +4531,11 @@ DEFINE_SPAPR_MACHINE(5_2, "5.2", true);
+  */
+ static void spapr_machine_5_1_class_options(MachineClass *mc)
+ {
++    SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
++
+     spapr_machine_5_2_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_5_1, hw_compat_5_1_len);
++    smc->pre_5_2_numa_associativity = true;
+ }
+ 
+ DEFINE_SPAPR_MACHINE(5_1, "5.1", false);
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 114e819969..d1aae03b97 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -143,6 +143,7 @@ struct SpaprMachineClass {
+     bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
+     hwaddr rma_limit;          /* clamp the RMA to this size */
+     bool pre_5_1_assoc_refpoints;
++    bool pre_5_2_numa_associativity;
+ 
+     void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+                           uint64_t *buid, hwaddr *pio, 
+@@ -860,6 +861,7 @@ int spapr_max_server_number(SpaprMachineState *spapr);
+ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+                       uint64_t pte0, uint64_t pte1);
+ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
++bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr);
+ 
+ /* DRC callbacks. */
+ void spapr_core_release(DeviceState *dev);
 -- 
 2.26.2
 
