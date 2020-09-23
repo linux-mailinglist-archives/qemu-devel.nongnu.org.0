@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4A727612D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:38:02 +0200 (CEST)
-Received: from localhost ([::1]:55680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14A5276145
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 21:45:17 +0200 (CEST)
+Received: from localhost ([::1]:43126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLAaX-0004NW-B0
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
+	id 1kLAhY-0002oC-IN
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 15:45:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLAY0-0002fm-Nb; Wed, 23 Sep 2020 15:35:24 -0400
-Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:43341)
+ id 1kLAY3-0002lB-SD; Wed, 23 Sep 2020 15:35:27 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:44071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLAXy-0008WP-Ki; Wed, 23 Sep 2020 15:35:24 -0400
-Received: by mail-qv1-xf42.google.com with SMTP id cr8so589691qvb.10;
- Wed, 23 Sep 2020 12:35:21 -0700 (PDT)
+ id 1kLAY0-000058-Of; Wed, 23 Sep 2020 15:35:27 -0400
+Received: by mail-qt1-x844.google.com with SMTP id e7so894263qtj.11;
+ Wed, 23 Sep 2020 12:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XcKpR+WmJ49fFEjtlAWzJFbmoZJR2cMvUq//la+WRc4=;
- b=tEix+9XXmwcpRRdu9Cu3TRTSjDPYJHM7Vp/gnGVPW3uYx1oGeRcsjsziwy8Hk0zwZg
- N+fR+3GQhpRQmkN2d83EpWE2tthMgLn9YdHlJ3cjRvupjPrSTqrrz+u2CiS7CGFPEBZw
- P3GVTlFrKinUeeAXRMxytcj48tk27Zg0E1PK+zws0rjZxeniRUZkIoQ2S0y6poS3KHtO
- wbm0j2NeMh6XM+1L6tqARvLyS9jUsjXN4Ci8PXs6JO8da/T/Jc19MScFYQr4oEBVfJs4
- mk95WDYZ3JnAILHWGMLLjvZuLQKcGIeuaItLqIBwRYn4S16Yu7dk2I+YDFOjzb3Z9KJy
- Ivyw==
+ bh=U8iLQ4CK3SSipSwps1buB7OCIE9Aj5GfsslZoNsZ8xc=;
+ b=ED7BBIc3H5GwQLVW5PJVLWBCT6GeKF2IDV6qL2twyFHLYj/o1nKaDoC0FnVbczWTRu
+ JARr5gucDb6f8OGSgRmDHfn3Tfy18ziyXE9AnHRnoyJ/zKU9ofjonuSE4d5pKkrdeP1x
+ NqYGS0ww9Za3LdQsuzSa9vh6Hn6zCbROsjSPd2hyspB2Y4iJeEst2BeAcff0w8hbicDu
+ xIqU5jRf2Bf7vWU/omSP1Rmd2WgwQ4qbO8hdwQb47O/n3xcX/hVlQ3XH7aE0XXc7xBWw
+ v68h0FpqvnWYS1iJBxQDJ/gldsEVvn+EFmVQd3uLO+wO6KW2Wlkliib9UZUtwbDAdHsc
+ 8O1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XcKpR+WmJ49fFEjtlAWzJFbmoZJR2cMvUq//la+WRc4=;
- b=uXLPzLz9y4kpmxuVc4iFeNDtW1j0++/76+l91kiEWN1/lPFOuWfYCif0AOvgp4BDQC
- v8rW6GwplJNiyvYhhTywbT27wbWwLNmg6Axgoe4GBP1EuaRVBbVsi/aDIheaI9XdrnUR
- bUpyD6FAdiLMecWfTMAbwp0sAVASzGIstdfSuEutL6F7txuITZTtczikESaksIuU4vSs
- 93EM7JF0YVsg/VT3vnchjpAnCGs4J9e7BLz041mmh6naccQeawjW501wjwShEcknZrf/
- vVC5P3gG6amHN33dT6zgcv2OgySZDyq37tk3XrlT7Z15zWM/HHDO3dyP1ONOSgwI0REC
- mfjQ==
-X-Gm-Message-State: AOAM5316Yv0hO2y13rHy3lXSrJi4EOR+m2sPRhDgh/qIDaPEzRG0uiD7
- glIqyesFL8V1lwb/8DxeIYDmicFQqbwg1g==
-X-Google-Smtp-Source: ABdhPJxio3jZS59c8Ja6iOc8PY8nPFQgJDbWTykpw00TYkVXFJxOP5BtUbj1E1kSme+sjTRIhDQ8sw==
-X-Received: by 2002:a0c:e294:: with SMTP id r20mr1518845qvl.60.1600889720932; 
- Wed, 23 Sep 2020 12:35:20 -0700 (PDT)
+ bh=U8iLQ4CK3SSipSwps1buB7OCIE9Aj5GfsslZoNsZ8xc=;
+ b=KDxTKk1JSoW8xNB2BQyU5Ze/RcMq+ZobJgWqomX52OH2AWEorbya1gNyOxAlmqooxn
+ Pyc6w2T87bWXa5pSFJ+FcGuAxn0AChOFb+PlyoyEedFyl52NlIRdNbY4OnkyfV0wh2yb
+ JzwQ41ipR8U63JptoVHSkQ6AQSuL4qAjSMZ7yS7NyvkkPF3drAJlGex8gNqqIiVYFcIP
+ JlcKORYoWf9sTSDuaZaa1ENAyo+cpToed6sA7HZMhthBT37EwrAvJOFpkWIAPKXPU2V9
+ /obbF5Ydp12z5zQ8miY2X0vKpSaElL8sLTStWjS/GCmM2OVi3KHHDSOcw2qV70+BUU2H
+ IgXg==
+X-Gm-Message-State: AOAM5306Kg2b1RCycY8ZFZTe22jisaECcpSddqV5g96jOFJ/EYZrsWoI
+ UgrQX8CiWHEEhtZTXzwT0IVmChNl63r8WQ==
+X-Google-Smtp-Source: ABdhPJwbWOTMbsCG9zW4bUMj+HuV4NZyBs7REvAeDe1XuZ2O3P8o0ksNnqULIztAOErLKUVNlrrlsw==
+X-Received: by 2002:ac8:5650:: with SMTP id 16mr1847379qtt.120.1600889722731; 
+ Wed, 23 Sep 2020 12:35:22 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:9e50:6b84:53b8:5d9d:d408])
- by smtp.gmail.com with ESMTPSA id u4sm612362qkk.68.2020.09.23.12.35.19
+ by smtp.gmail.com with ESMTPSA id u4sm612362qkk.68.2020.09.23.12.35.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 12:35:20 -0700 (PDT)
+ Wed, 23 Sep 2020 12:35:22 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] spapr_numa: change reference-points and maxdomain settings
-Date: Wed, 23 Sep 2020 16:34:56 -0300
-Message-Id: <20200923193458.203186-5-danielhb413@gmail.com>
+Subject: [PATCH 5/6] spapr_numa: consider user input when defining
+ associativity
+Date: Wed, 23 Sep 2020 16:34:57 -0300
+Message-Id: <20200923193458.203186-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200923193458.203186-1-danielhb413@gmail.com>
 References: <20200923193458.203186-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f42;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf42.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x844.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -88,69 +89,164 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the first guest visible change introduced in
-spapr_numa.c. The previous settings of both reference-points
-and maxdomains were too restrictive, but enough for the
-existing associativity we're setting in the resources.
+This patch puts all the pieces together to finally allow user
+input when defining the NUMA topology of the spapr guest.
 
-We'll change that in the following patches, populating the
-associativity arrays based on user input. For those changes
-to be effective, reference-points and maxdomains must be
-more flexible. After this patch, we'll have 4 distinct
-levels of NUMA (0x4, 0x3, 0x2, 0x1) and maxdomains will
-allow for any type of configuration the user intends to
-do - under the scope and limitations of PAPR itself, of
-course.
+We have one more kernel restriction to handle in this patch:
+the associativity array of node 0 must be filled with zeroes
+[1]. The strategy below ensures that this will happen.
+
+spapr_numa_define_associativity_domains() will read the distance
+(already PAPRified) between the nodes from numa_state and determine
+the appropriate NUMA level. The NUMA domains, processed in ascending
+order, are going to be matched via NUMA levels, and the lowest
+associativity domain value is assigned to that specific level for
+both.
+
+This will create an heuristic where the associativities of the first
+nodes have higher priority and are re-used in new matches, instead of
+overwriting them with a new associativity match. This is necessary
+because neither QEMU, nor the pSeries kernel, supports multiple
+associativity domains for each resource, meaning that we have to
+decide which associativity relation is relevant.
+
+Ultimately, all of this results in a best effort approximation for
+the actual NUMA distances the user input in the command line. Given
+the nature of how PAPR itself interprets NUMA distances versus the
+expectations risen by how ACPI SLIT works, there might be better
+algorithms but, in the end, it'll also result in another way to
+approximate what the user really wanted.
+
+To keep this commit message no longer than it already is, the next
+patch will update the existing documentation in ppc-spapr-numa.rst
+with more in depth details and design considerations/drawbacks.
+
+[1] https://lore.kernel.org/linuxppc-dev/5e8fbea3-8faf-0951-172a-b41a2138fbcf@gmail.com/
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_numa.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ hw/ppc/spapr_numa.c | 81 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 80 insertions(+), 1 deletion(-)
 
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 180800b2f3..688391278e 100644
+index 688391278e..c84f77cda7 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -222,21 +222,30 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
-  */
- void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
- {
-+    MachineState *ms = MACHINE(spapr);
-     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-     uint32_t refpoints[] = {
-         cpu_to_be32(0x4),
--        cpu_to_be32(0x4),
-+        cpu_to_be32(0x3),
-         cpu_to_be32(0x2),
-+        cpu_to_be32(0x1),
-     };
-     uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
--    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
--    uint32_t maxdomains[] = {
--        cpu_to_be32(4),
--        maxdomain,
--        maxdomain,
--        maxdomain,
--        cpu_to_be32(spapr->gpu_numa_id),
--    };
-+    uint32_t maxdomain = cpu_to_be32(ms->numa_state->num_nodes +
-+                                     spapr->gpu_numa_id);
-+    uint32_t maxdomains[] = {0x4, maxdomain, maxdomain, maxdomain, maxdomain};
-+
-+    if (spapr_machine_using_legacy_numa(spapr)) {
-+        refpoints[1] =  cpu_to_be32(0x4);
-+        refpoints[2] =  cpu_to_be32(0x2);
-+        nr_refpoints = 3;
-+
-+        maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-+        maxdomains[1] = maxdomain;
-+        maxdomains[2] = maxdomain;
-+        maxdomains[3] = maxdomain;
-+        maxdomains[4] = cpu_to_be32(spapr->gpu_numa_id);
-+    }
+@@ -80,12 +80,79 @@ static void spapr_numa_PAPRify_distances(MachineState *ms)
+     }
+ }
  
-     if (smc->pre_5_1_assoc_refpoints) {
-         nr_refpoints = 2;
++static uint8_t spapr_numa_get_NUMA_level(uint8_t distance)
++{
++    uint8_t numa_level;
++
++    switch (distance) {
++    case 20:
++        numa_level = 0x3;
++        break;
++    case 40:
++        numa_level = 0x2;
++        break;
++    case 80:
++        numa_level = 0x1;
++        break;
++    default:
++        numa_level = 0;
++    }
++
++    return numa_level;
++}
++
++static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr,
++                                                    MachineState *ms)
++{
++    int src, dst;
++    int nb_numa_nodes = ms->numa_state->num_nodes;
++    NodeInfo *numa_info = ms->numa_state->nodes;
++
++    for (src = 0; src < nb_numa_nodes; src++) {
++        for (dst = src; dst < nb_numa_nodes; dst++) {
++            /*
++             * This is how the associativity domain between A and B
++             * is calculated:
++             *
++             * - get the distance between them
++             * - get the correspondent NUMA level for this distance
++             * - the arrays were initialized with their own numa_ids,
++             * and we're calculating the distance in node_id ascending order,
++             * starting from node 0. This will have a cascade effect in the
++             * algorithm because the associativity domains that node 0 defines
++             * will be carried over to the other nodes, and node 1
++             * associativities will be carried over unless there's already a
++             * node 0 associativity assigned, and so on. This happens because
++             * we'll assign the lowest value of assoc_src and assoc_dst to be
++             * the associativity domain of both, for the given NUMA level.
++             *
++             * The PPC kernel expects the associativity domains of node 0 to
++             * be always 0, and this algorithm will grant that by default.
++             */
++            uint8_t distance = numa_info[src].distance[dst];
++            uint8_t n_level = spapr_numa_get_NUMA_level(distance);
++            uint32_t assoc_src, assoc_dst;
++
++            assoc_src = be32_to_cpu(spapr->numa_assoc_array[src][n_level]);
++            assoc_dst = be32_to_cpu(spapr->numa_assoc_array[dst][n_level]);
++
++            if (assoc_src < assoc_dst) {
++                spapr->numa_assoc_array[dst][n_level] = cpu_to_be32(assoc_src);
++            } else {
++                spapr->numa_assoc_array[src][n_level] = cpu_to_be32(assoc_dst);
++            }
++        }
++    }
++
++}
++
+ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+                                    MachineState *machine)
+ {
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+     int nb_numa_nodes = machine->numa_state->num_nodes;
+     int i, j, max_nodes_with_gpus;
++    bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
+ 
+     /*
+      * For all associativity arrays: first position is the size,
+@@ -99,6 +166,17 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+     for (i = 0; i < nb_numa_nodes; i++) {
+         spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+         spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
++
++        /*
++         * Fill all associativity domains of the node with node_id.
++         * This is required because the kernel makes valid associativity
++         * matches with the zeroes if we leave the matrix unitialized.
++         */
++        if (!using_legacy_numa) {
++            for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
++                spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
++            }
++        }
+     }
+ 
+     /*
+@@ -128,7 +206,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+      * 1 NUMA node) will not benefit from anything we're going to do
+      * after this point.
+      */
+-    if (spapr_machine_using_legacy_numa(spapr)) {
++    if (using_legacy_numa) {
+         return;
+     }
+ 
+@@ -139,6 +217,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+     }
+ 
+     spapr_numa_PAPRify_distances(machine);
++    spapr_numa_define_associativity_domains(spapr, machine);
+ }
+ 
+ void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
 -- 
 2.26.2
 
