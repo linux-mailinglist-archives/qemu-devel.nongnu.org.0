@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A949B275FF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:34:34 +0200 (CEST)
-Received: from localhost ([::1]:57180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D84276014
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 20:37:40 +0200 (CEST)
+Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL9b7-0008JZ-Ja
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53480)
+	id 1kL9e5-0003Qs-Oc
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 14:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9Ny-0004wM-RH; Wed, 23 Sep 2020 14:20:58 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35024)
+ id 1kL9O1-0004xk-9j; Wed, 23 Sep 2020 14:21:02 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5287de305=dmitry.fomichev@wdc.com>)
- id 1kL9Nv-00087h-JM; Wed, 23 Sep 2020 14:20:58 -0400
+ id 1kL9Ny-00087W-Gh; Wed, 23 Sep 2020 14:21:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1600886179; x=1632422179;
+ t=1600886184; x=1632422184;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3L1xJrdrnoIaUBLZiVws5W3GT63gHksGAR+Pnb5390Y=;
- b=UBUW1ZBIR6dh9f/eeYcP0aLCfTi0xxRbxSJXiErYNjgUpotXhUsZd0lS
- uODDkIBf/xiDDd/Iiw+epnil9fkfNCKlA6SmhaT43vA+A2rXDDmb7Ro0j
- cSd3x+KiXJwd+pkpSIUuLZ1uuLFFwy4Nw7FOA28s3dhalk7d3mbGY7C7d
- /qAcHut0LVbKo35qmk6GhXkBkXtY9d+ovB87IiqOl4/nsKLJWaSvhQWya
- r9HothsxZbmN7KTy1d3/vMxfkFiXcvumGVEr+pzIrQ+4nEP9otvNgp1cz
- ihUJDCct7KVV+Tgn5i3ctqngHwg7NdwBO7ZHSxPLvv4wAV66tBLoROf2s Q==;
-IronPort-SDR: Q/SIMtSniVSpnA8PQnqUXBPl1821hZSOzsf+W8L9MCNAuLBcdDmZQJi0XiUchmcjmXmUdaBVJS
- sgeKFeon37DQoW9uT1vnD8F6XMlQIsYE1MuseNCb2BLUBVNVBALvCgTyiiXL81p+pep/VVEO5T
- 3TfyIV4ndanQHncvfAjHycNzVtWd/Y1K3KR/wiSYnusi71OIbnd7f8AOd/yV56HkyHgSShh+rn
- auJZrSEgY0pLjXDqB5LdU+4ff6bF428vQQNs9ab5wTw/f5HQNci3qzWuT7jTsc3cFSyHOxj7aJ
- bfg=
-X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496340"
+ bh=xdpXusWybkFA9Rs2pAr0H5eIRfH4rvQ8cawqr2z0APg=;
+ b=YA0tYJpgoqDQP/9yg3N+VLCstVAeDTyJMxN26S0LGZZuCfDZAwmQxD8v
+ P4TWHHXHjTN/zHj+DCM8zM7qeuzN3kOVS6WAhh74AbFOQABoSRpS2Szd9
+ WfugraCDBL1QqTQe40KXdPLGHI8C7kTOgxFHsXmjvYRW5EN3Pp88EaAZ0
+ 5S1JtCiSD3DKEJFUJ1Q05VCH0Fhz2ojs+DtoTYKCnlMO3bPDNM5weX4pT
+ JsvPVVKTnvndTZRYGjfc7BQdUGQ+1l9bGi+sPUAQYYKCS5E1r1mUDzP8L
+ 4jq5RiRZs+ZNsd+pywXNq2fmMCrUhSI2vcMcwaNBQQBKEw2YP86qhbO3p A==;
+IronPort-SDR: Tb5UpFutWoOLVk58sMUaY4fWVHvq9ZLdmamcDOjcTryWuECtPbB2+yjPauRC+8SxqJXcWaGoNI
+ Pn2suUtWZgGhyadgF3JPjm9zP1EB0tqdVhedD+0HVoKQgcjR/HNIG+1L5A7qsNGM9e8dsImJrN
+ l+aFhTsJ9bzkDnDNkJrAEMKSTyyIF0SSomhv7n9c7/7jeuhG2cjBURVs/cgsbVPb7eN5xpR0GC
+ XE/32gpA4peZaiatcKHq1jqmpnRf+kW0ab6QLzOTcqp1IBxNaX8WpwJCusJ/cA2ZPyED6MbFba
+ hmw=
+X-IronPort-AV: E=Sophos;i="5.77,293,1596470400"; d="scan'208";a="251496343"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:15 +0800
-IronPort-SDR: RPj6njuSFkbl/3OJPL44czUW08DQDx5BYQGrI+4kpoZ7wEYPHS+/ZghSAJ8lWS94GiD9nF4uKo
- IOWCJz36LNyg==
+ by ob1.hgst.iphmx.com with ESMTP; 24 Sep 2020 02:36:18 +0800
+IronPort-SDR: A53e7vhDOdMU0ZB8ACiu9S71PJr/EdtdvJQtUcuYoVU3xul4OHsqBeaxQ4gfkkk2RkkTYopIzc
+ 21Q9NwRksUsg==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2020 11:06:58 -0700
-IronPort-SDR: OkEkcxQGLK9kVBOgQxRamOz6AuYkhMsom8Sjeenp+axT/KX6hmBc1RwJK5JfrMRqU3fgFGB/vi
- Dme+5LroF6jw==
+ 23 Sep 2020 11:07:01 -0700
+IronPort-SDR: q6ZWsI8gXxGsKy7C783rzTgwK84Yf0iJu2I43vgl0RVHKxJm01VpkTgiH32g/bfDLcWEMEKTuB
+ oDopo5bDRXyw==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:20:50 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Sep 2020 11:20:52 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v4 02/14] hw/block/nvme: Add Commands Supported and Effects log
-Date: Thu, 24 Sep 2020 03:20:09 +0900
-Message-Id: <20200923182021.3724-3-dmitry.fomichev@wdc.com>
+Subject: [PATCH v4 03/14] hw/block/nvme: Introduce the Namespace Types
+ definitions
+Date: Thu, 24 Sep 2020 03:20:10 +0900
+Message-Id: <20200923182021.3724-4-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
 References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
@@ -94,157 +95,192 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This log page becomes necessary to implement to allow checking for
-Zone Append command support in Zoned Namespace Command Set.
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-This commit adds the code to report this log page for NVM Command
-Set only. The parts that are specific to zoned operation will be
-added later in the series.
+Define the structures and constants required to implement
+Namespace Types support.
 
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c       | 44 ++++++++++++++++++++++++++++++++++++++++++-
- hw/block/trace-events |  2 ++
- include/block/nvme.h  | 19 +++++++++++++++++++
- 3 files changed, 64 insertions(+), 1 deletion(-)
+ hw/block/nvme.c      |  2 +-
+ hw/block/nvme.h      |  3 ++
+ include/block/nvme.h | 74 +++++++++++++++++++++++++++++++++++---------
+ 3 files changed, 64 insertions(+), 15 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f60e968c4a..7807f296d3 100644
+index 7807f296d3..96cd520feb 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -957,6 +957,46 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-                         DMA_DIRECTION_FROM_DEVICE, req);
- }
+@@ -1259,7 +1259,7 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
+      * here.
+      */
+     ns_descrs->uuid.hdr.nidt = NVME_NIDT_UUID;
+-    ns_descrs->uuid.hdr.nidl = NVME_NIDT_UUID_LEN;
++    ns_descrs->uuid.hdr.nidl = NVME_NIDL_UUID;
+     stl_be_p(&ns_descrs->uuid.v, nsid);
  
-+static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint32_t buf_len,
-+                                 uint64_t off, NvmeRequest *req)
-+{
-+    NvmeCmd *cmd = &req->cmd;
-+    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
-+    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
-+    NvmeEffectsLog cmd_eff_log = {};
-+    uint32_t *iocs = cmd_eff_log.iocs;
-+    uint32_t *acs = cmd_eff_log.acs;
-+    uint32_t trans_len;
-+
-+    trace_pci_nvme_cmd_supp_and_effects_log_read();
-+
-+    if (off >= sizeof(cmd_eff_log)) {
-+        trace_pci_nvme_err_invalid_effects_log_offset(off);
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
-+
-+    acs[NVME_ADM_CMD_DELETE_SQ] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_CREATE_SQ] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_DELETE_CQ] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_CREATE_CQ] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_IDENTIFY] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_SET_FEATURES] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_GET_FEATURES] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_GET_LOG_PAGE] = NVME_CMD_EFFECTS_CSUPP;
-+    acs[NVME_ADM_CMD_ASYNC_EV_REQ] = NVME_CMD_EFFECTS_CSUPP;
-+
-+    iocs[NVME_CMD_FLUSH] = NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC;
-+    iocs[NVME_CMD_WRITE_ZEROES] = NVME_CMD_EFFECTS_CSUPP |
-+                                  NVME_CMD_EFFECTS_LBCC;
-+    iocs[NVME_CMD_WRITE] = NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC;
-+    iocs[NVME_CMD_READ] = NVME_CMD_EFFECTS_CSUPP;
-+
-+    trans_len = MIN(sizeof(cmd_eff_log) - off, buf_len);
-+
-+    return nvme_dma_prp(n, ((uint8_t *)&cmd_eff_log) + off, trans_len,
-+                        prp1, prp2, DMA_DIRECTION_FROM_DEVICE, req);
-+}
-+
- static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeCmd *cmd = &req->cmd;
-@@ -1000,6 +1040,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_smart_info(n, rae, len, off, req);
-     case NVME_LOG_FW_SLOT_INFO:
-         return nvme_fw_log_info(n, len, off, req);
-+    case NVME_LOG_CMD_EFFECTS:
-+        return nvme_cmd_effects(n, len, off, req);
-     default:
-         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
-         return NVME_INVALID_FIELD | NVME_DNR;
-@@ -2350,7 +2392,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->acl = 3;
-     id->aerl = n->params.aerl;
-     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
--    id->lpa = NVME_LPA_EXTENDED;
-+    id->lpa = NVME_LPA_CSE | NVME_LPA_EXTENDED;
+     return nvme_dma_prp(n, list, NVME_IDENTIFY_DATA_SIZE, prp1, prp2,
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 52ba794f2e..c1deac9667 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -64,6 +64,9 @@ typedef struct NvmeCQueue {
  
-     /* recommended default value (~70 C) */
-     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 72cf2d15cb..79c9da652d 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -83,6 +83,7 @@ pci_nvme_mmio_start_success(void) "setting controller enable bit succeeded"
- pci_nvme_mmio_stopped(void) "cleared controller enable bit"
- pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
- pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
-+pci_nvme_cmd_supp_and_effects_log_read(void) "commands supported and effects log read"
+ typedef struct NvmeNamespace {
+     NvmeIdNs        id_ns;
++    uint32_t        nsid;
++    uint8_t         csi;
++    QemuUUID        uuid;
+ } NvmeNamespace;
  
- # nvme traces for error conditions
- pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
-@@ -95,6 +96,7 @@ pci_nvme_err_invalid_ns(uint32_t ns, uint32_t limit) "invalid namespace %u not w
- pci_nvme_err_invalid_opc(uint8_t opc) "invalid opcode 0x%"PRIx8""
- pci_nvme_err_invalid_admin_opc(uint8_t opc) "invalid admin opcode 0x%"PRIx8""
- pci_nvme_err_invalid_lba_range(uint64_t start, uint64_t len, uint64_t limit) "Invalid LBA start=%"PRIu64" len=%"PRIu64" limit=%"PRIu64""
-+pci_nvme_err_invalid_effects_log_offset(uint64_t ofs) "commands supported and effects log offset must be 0, got %"PRIu64""
- pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
- pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
- pci_nvme_err_invalid_create_sq_sqid(uint16_t sqid) "failed creating submission queue, invalid sqid=%"PRIu16""
+ static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 65e68a82c8..71126ae1ff 100644
+index 71126ae1ff..74cc11782e 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -734,10 +734,27 @@ enum NvmeSmartWarn {
-     NVME_SMART_FAILED_VOLATILE_MEDIA  = 1 << 4,
+@@ -51,6 +51,11 @@ enum NvmeCapMask {
+     CAP_PMR_MASK       = 0x1,
  };
  
-+typedef struct NvmeEffectsLog {
-+    uint32_t    acs[256];
-+    uint32_t    iocs[256];
-+    uint8_t     resv[2048];
-+} NvmeEffectsLog;
-+
-+enum {
-+    NVME_CMD_EFFECTS_CSUPP             = 1 << 0,
-+    NVME_CMD_EFFECTS_LBCC              = 1 << 1,
-+    NVME_CMD_EFFECTS_NCC               = 1 << 2,
-+    NVME_CMD_EFFECTS_NIC               = 1 << 3,
-+    NVME_CMD_EFFECTS_CCC               = 1 << 4,
-+    NVME_CMD_EFFECTS_CSE_MASK          = 3 << 16,
-+    NVME_CMD_EFFECTS_UUID_SEL          = 1 << 19,
++enum NvmeCapCssBits {
++    CAP_CSS_NVM        = 0x01,
++    CAP_CSS_CSI_SUPP   = 0x40,
 +};
 +
- enum NvmeLogIdentifier {
-     NVME_LOG_ERROR_INFO     = 0x01,
-     NVME_LOG_SMART_INFO     = 0x02,
-     NVME_LOG_FW_SLOT_INFO   = 0x03,
-+    NVME_LOG_CMD_EFFECTS    = 0x05,
+ #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
+ #define NVME_CAP_CQR(cap)   (((cap) >> CAP_CQR_SHIFT)    & CAP_CQR_MASK)
+ #define NVME_CAP_AMS(cap)   (((cap) >> CAP_AMS_SHIFT)    & CAP_AMS_MASK)
+@@ -102,6 +107,12 @@ enum NvmeCcMask {
+     CC_IOCQES_MASK  = 0xf,
  };
  
- typedef struct QEMU_PACKED NvmePSD {
-@@ -849,6 +866,7 @@ enum NvmeIdCtrlFrmw {
++enum NvmeCcCss {
++    CSS_NVM_ONLY        = 0,
++    CSS_CSI             = 6,
++    CSS_ADMIN_ONLY      = 7,
++};
++
+ #define NVME_CC_EN(cc)     ((cc >> CC_EN_SHIFT)     & CC_EN_MASK)
+ #define NVME_CC_CSS(cc)    ((cc >> CC_CSS_SHIFT)    & CC_CSS_MASK)
+ #define NVME_CC_MPS(cc)    ((cc >> CC_MPS_SHIFT)    & CC_MPS_MASK)
+@@ -110,6 +121,21 @@ enum NvmeCcMask {
+ #define NVME_CC_IOSQES(cc) ((cc >> CC_IOSQES_SHIFT) & CC_IOSQES_MASK)
+ #define NVME_CC_IOCQES(cc) ((cc >> CC_IOCQES_SHIFT) & CC_IOCQES_MASK)
+ 
++#define NVME_SET_CC_EN(cc, val)     \
++    (cc |= (uint32_t)((val) & CC_EN_MASK) << CC_EN_SHIFT)
++#define NVME_SET_CC_CSS(cc, val)    \
++    (cc |= (uint32_t)((val) & CC_CSS_MASK) << CC_CSS_SHIFT)
++#define NVME_SET_CC_MPS(cc, val)    \
++    (cc |= (uint32_t)((val) & CC_MPS_MASK) << CC_MPS_SHIFT)
++#define NVME_SET_CC_AMS(cc, val)    \
++    (cc |= (uint32_t)((val) & CC_AMS_MASK) << CC_AMS_SHIFT)
++#define NVME_SET_CC_SHN(cc, val)    \
++    (cc |= (uint32_t)((val) & CC_SHN_MASK) << CC_SHN_SHIFT)
++#define NVME_SET_CC_IOSQES(cc, val) \
++    (cc |= (uint32_t)((val) & CC_IOSQES_MASK) << CC_IOSQES_SHIFT)
++#define NVME_SET_CC_IOCQES(cc, val) \
++    (cc |= (uint32_t)((val) & CC_IOCQES_MASK) << CC_IOCQES_SHIFT)
++
+ enum NvmeCstsShift {
+     CSTS_RDY_SHIFT      = 0,
+     CSTS_CFS_SHIFT      = 1,
+@@ -524,8 +550,13 @@ typedef struct QEMU_PACKED NvmeIdentify {
+     uint64_t    rsvd2[2];
+     uint64_t    prp1;
+     uint64_t    prp2;
+-    uint32_t    cns;
+-    uint32_t    rsvd11[5];
++    uint8_t     cns;
++    uint8_t     rsvd10;
++    uint16_t    ctrlid;
++    uint16_t    nvmsetid;
++    uint8_t     rsvd11;
++    uint8_t     csi;
++    uint32_t    rsvd12[4];
+ } NvmeIdentify;
+ 
+ typedef struct QEMU_PACKED NvmeRwCmd {
+@@ -645,6 +676,7 @@ enum NvmeStatusCodes {
+     NVME_MD_SGL_LEN_INVALID     = 0x0010,
+     NVME_SGL_DESCR_TYPE_INVALID = 0x0011,
+     NVME_INVALID_USE_OF_CMB     = 0x0012,
++    NVME_CMD_SET_CMB_REJECTED   = 0x002b,
+     NVME_LBA_RANGE              = 0x0080,
+     NVME_CAP_EXCEEDED           = 0x0081,
+     NVME_NS_NOT_READY           = 0x0082,
+@@ -771,11 +803,15 @@ typedef struct QEMU_PACKED NvmePSD {
+ 
+ #define NVME_IDENTIFY_DATA_SIZE 4096
+ 
+-enum {
+-    NVME_ID_CNS_NS             = 0x0,
+-    NVME_ID_CNS_CTRL           = 0x1,
+-    NVME_ID_CNS_NS_ACTIVE_LIST = 0x2,
+-    NVME_ID_CNS_NS_DESCR_LIST  = 0x3,
++enum NvmeIdCns {
++    NVME_ID_CNS_NS                = 0x00,
++    NVME_ID_CNS_CTRL              = 0x01,
++    NVME_ID_CNS_NS_ACTIVE_LIST    = 0x02,
++    NVME_ID_CNS_NS_DESCR_LIST     = 0x03,
++    NVME_ID_CNS_CS_NS             = 0x05,
++    NVME_ID_CNS_CS_CTRL           = 0x06,
++    NVME_ID_CNS_CS_NS_ACTIVE_LIST = 0x07,
++    NVME_ID_CNS_IO_COMMAND_SET    = 0x1c,
  };
  
- enum NvmeIdCtrlLpa {
-+    NVME_LPA_CSE      = 1 << 1,
-     NVME_LPA_EXTENDED = 1 << 2,
+ typedef struct QEMU_PACKED NvmeIdCtrl {
+@@ -922,6 +958,7 @@ enum NvmeFeatureIds {
+     NVME_WRITE_ATOMICITY            = 0xa,
+     NVME_ASYNCHRONOUS_EVENT_CONF    = 0xb,
+     NVME_TIMESTAMP                  = 0xe,
++    NVME_COMMAND_SET_PROFILE        = 0x19,
+     NVME_SOFTWARE_PROGRESS_MARKER   = 0x80,
+     NVME_FID_MAX                    = 0x100,
+ };
+@@ -1006,18 +1043,26 @@ typedef struct QEMU_PACKED NvmeIdNsDescr {
+     uint8_t rsvd2[2];
+ } NvmeIdNsDescr;
+ 
+-enum {
+-    NVME_NIDT_EUI64_LEN =  8,
+-    NVME_NIDT_NGUID_LEN = 16,
+-    NVME_NIDT_UUID_LEN  = 16,
++enum NvmeNsIdentifierLength {
++    NVME_NIDL_EUI64             = 8,
++    NVME_NIDL_NGUID             = 16,
++    NVME_NIDL_UUID              = 16,
++    NVME_NIDL_CSI               = 1,
  };
  
-@@ -1048,6 +1066,7 @@ static inline void _nvme_check_size(void)
-     QEMU_BUILD_BUG_ON(sizeof(NvmeErrorLog) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeFwSlotInfoLog) != 512);
+ enum NvmeNsIdentifierType {
+-    NVME_NIDT_EUI64 = 0x1,
+-    NVME_NIDT_NGUID = 0x2,
+-    NVME_NIDT_UUID  = 0x3,
++    NVME_NIDT_EUI64             = 0x01,
++    NVME_NIDT_NGUID             = 0x02,
++    NVME_NIDT_UUID              = 0x03,
++    NVME_NIDT_CSI               = 0x04,
+ };
+ 
++enum NvmeCsi {
++    NVME_CSI_NVM                = 0x00,
++};
++
++#define NVME_SET_CSI(vec, csi) (vec |= (uint8_t)(1 << (csi)))
++
+ /*Deallocate Logical Block Features*/
+ #define NVME_ID_NS_DLFEAT_GUARD_CRC(dlfeat)       ((dlfeat) & 0x10)
+ #define NVME_ID_NS_DLFEAT_WRITE_ZEROES(dlfeat)    ((dlfeat) & 0x08)
+@@ -1068,6 +1113,7 @@ static inline void _nvme_check_size(void)
      QEMU_BUILD_BUG_ON(sizeof(NvmeSmartLog) != 512);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
      QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrl) != 4096);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
      QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
      QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
 -- 
 2.21.0
 
