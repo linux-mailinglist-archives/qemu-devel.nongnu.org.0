@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D841C2754FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:59:26 +0200 (CEST)
-Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B285275501
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:00:28 +0200 (CEST)
+Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1Yb-0003yl-S4
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
+	id 1kL1Zb-00060p-IN
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:00:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Ul-0000gc-TG
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:55:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31250)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kL1YP-0004V7-Oh
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:59:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Uj-0000Do-NQ
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:55:27 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kL1YN-0000iE-UL
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:59:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600854924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1600855150;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5DeZ7opFeA53u28Lo2SXTMtLy3Dc7rSyC/jKBMrI4S8=;
- b=AVeVeGi59h5+YMnIVNylMPpU32T752qG9NkZhuiH7lrvhtAp7O5OzBFGOdGzchiSmSl/lg
- 2r4cL5kTAuMiQ0fLGH85cLU50Lelfwp3gLvBgBDhkukCQm8pk4oRhUIV+lOb9R10Mnn7Mp
- dWGtdHXk6PjEH+RqiIeeMy/sZ13JSkY=
+ bh=Un/E+SIoS3nPwO0dmhX4EZ5qAEO9LLrXX4KK8U6KTDc=;
+ b=anuI8x8SShjwdZWFCyHG5f/Czl+0fdn8QaqEmHHv3fx+hPOVn8jrReoz1qotSaw8kEoBU6
+ FBAEuB0DsDZc6pGmYzIO63DKORXaOtS5vtfJ166SqjXbwKFX5fv+ar9VXSUcKFTZCLe5ak
+ IgUWhp7m+ZSA2cDH/MdOWOrzur/rZlY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-lWTxHF3pNJC2RQwv_3HRxA-1; Wed, 23 Sep 2020 05:55:22 -0400
-X-MC-Unique: lWTxHF3pNJC2RQwv_3HRxA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-593-QyirY-51OjSCronfx4IG4A-1; Wed, 23 Sep 2020 05:59:09 -0400
+X-MC-Unique: QyirY-51OjSCronfx4IG4A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0B488030D2;
- Wed, 23 Sep 2020 09:55:21 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F282D7881E;
- Wed, 23 Sep 2020 09:55:13 +0000 (UTC)
-Date: Wed, 23 Sep 2020 11:55:12 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 11/11] smp: drop support for deprecated (invalid
- topologies)
-Message-ID: <20200923115512.1644cd94@redhat.com>
-In-Reply-To: <20200923094650.1301166-12-imammedo@redhat.com>
-References: <20200923094650.1301166-1-imammedo@redhat.com>
- <20200923094650.1301166-12-imammedo@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F332C186841D;
+ Wed, 23 Sep 2020 09:59:07 +0000 (UTC)
+Received: from redhat.com (ovpn-114-73.ams2.redhat.com [10.36.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AE5B19D6C;
+ Wed, 23 Sep 2020 09:59:06 +0000 (UTC)
+Date: Wed, 23 Sep 2020 10:59:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 03/24] rng-egd: Register "chardev" as class property
+Message-ID: <20200923095903.GK2053606@redhat.com>
+References: <20200921221045.699690-1-ehabkost@redhat.com>
+ <20200921221045.699690-4-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200921221045.699690-4-ehabkost@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -82,137 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Amit Shah <amit@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Sep 2020 05:46:50 -0400
-Igor Mammedov <imammedo@redhat.com> wrote:
-
-> it's was deprecated since 3.1
+On Mon, Sep 21, 2020 at 06:10:24PM -0400, Eduardo Habkost wrote:
+> Class properties make QOM introspection simpler and easier, as
+> they don't require an object to be instantiated.
 > 
-> Support for invalid topologies is removed, the user must ensure
-> that topologies described with -smp include all possible cpus,
-> i.e. (sockets * cores * threads) == maxcpus or QEMU will
-> exit with error.
-
-ignore this stowaway, it's not part of the series 
-
-
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  docs/system/deprecated.rst | 26 +++++++++++++-------------
->  hw/core/machine.c          | 16 ++++------------
->  hw/i386/pc.c               | 16 ++++------------
->  3 files changed, 21 insertions(+), 37 deletions(-)
-> 
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 808c334fe7..fb95d2ecc4 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -47,19 +47,6 @@ The 'file' driver for drives is no longer appropriate for character or host
->  devices and will only accept regular files (S_IFREG). The correct driver
->  for these file types is 'host_cdrom' or 'host_device' as appropriate.
->  
-> -``-smp`` (invalid topologies) (since 3.1)
-> -'''''''''''''''''''''''''''''''''''''''''
-> -
-> -CPU topology properties should describe whole machine topology including
-> -possible CPUs.
-> -
-> -However, historically it was possible to start QEMU with an incorrect topology
-> -where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-> -which could lead to an incorrect topology enumeration by the guest.
-> -Support for invalid topologies will be removed, the user must ensure
-> -topologies described with -smp include all possible cpus, i.e.
-> -*sockets* * *cores* * *threads* = *maxcpus*.
-> -
->  ``-vnc acl`` (since 4.0.0)
->  ''''''''''''''''''''''''''
->  
-> @@ -642,6 +629,19 @@ New machine versions (since 5.1) will not accept the option but it will still
->  work with old machine types. User can check the QAPI schema to see if the legacy
->  option is supported by looking at MachineInfo::numa-mem-supported property.
->  
-> +``-smp`` (invalid topologies) (removed 5.2)
-> +'''''''''''''''''''''''''''''''''''''''''''
-> +
-> +CPU topology properties should describe whole machine topology including
-> +possible CPUs.
-> +
-> +However, historically it was possible to start QEMU with an incorrect topology
-> +where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-> +which could lead to an incorrect topology enumeration by the guest.
-> +Support for invalid topologies is removed, the user must ensure
-> +topologies described with -smp include all possible cpus, i.e.
-> +*sockets* * *cores* * *threads* = *maxcpus*.
-> +
->  Block devices
->  -------------
->  
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index ea26d61237..09aee4ea52 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -754,23 +754,15 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
->              exit(1);
->          }
->  
-> -        if (sockets * cores * threads > ms->smp.max_cpus) {
-> -            error_report("cpu topology: "
-> -                         "sockets (%u) * cores (%u) * threads (%u) > "
-> -                         "maxcpus (%u)",
-> +        if (sockets * cores * threads != ms->smp.max_cpus) {
-> +            error_report("Invalid CPU topology: "
-> +                         "sockets (%u) * cores (%u) * threads (%u) "
-> +                         "!= maxcpus (%u)",
->                           sockets, cores, threads,
->                           ms->smp.max_cpus);
->              exit(1);
->          }
->  
-> -        if (sockets * cores * threads != ms->smp.max_cpus) {
-> -            warn_report("Invalid CPU topology deprecated: "
-> -                        "sockets (%u) * cores (%u) * threads (%u) "
-> -                        "!= maxcpus (%u)",
-> -                        sockets, cores, threads,
-> -                        ms->smp.max_cpus);
-> -        }
-> -
->          ms->smp.cpus = cpus;
->          ms->smp.cores = cores;
->          ms->smp.threads = threads;
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 2af660c55e..53e21a186d 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -748,23 +748,15 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
->              exit(1);
->          }
->  
-> -        if (sockets * dies * cores * threads > ms->smp.max_cpus) {
-> -            error_report("cpu topology: "
-> -                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
-> -                         "maxcpus (%u)",
-> +        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
-> +            error_report("Invalid CPU topology deprecated: "
-> +                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-> +                         "!= maxcpus (%u)",
->                           sockets, dies, cores, threads,
->                           ms->smp.max_cpus);
->              exit(1);
->          }
->  
-> -        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
-> -            warn_report("Invalid CPU topology deprecated: "
-> -                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-> -                        "!= maxcpus (%u)",
-> -                        sockets, dies, cores, threads,
-> -                        ms->smp.max_cpus);
-> -        }
-> -
->          ms->smp.cpus = cpus;
->          ms->smp.cores = cores;
->          ms->smp.threads = threads;
+> Cc: Laurent Vivier <lvivier@redhat.com>
+> Cc: Amit Shah <amit@kernel.org>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  backends/rng-egd.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
