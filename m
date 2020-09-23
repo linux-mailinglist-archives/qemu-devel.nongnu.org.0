@@ -2,110 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4941927571B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:28:05 +0200 (CEST)
-Received: from localhost ([::1]:32784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A844627571E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 13:28:09 +0200 (CEST)
+Received: from localhost ([::1]:39222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL2YR-000054-HL
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54688)
+	id 1kL2lB-0003ta-3X
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 07:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL2Wd-0007eK-Af
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:01:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58093)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kL2jt-00038F-Jk
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:15:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL2WZ-0001Et-8K
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:01:26 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kL2jq-0003PM-SY
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 07:15:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600858880;
+ s=mimecast20190719; t=1600859704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pthRUDkzuGBEaIuzGDJOz5c6Y8syb2XoGbsYV9g5YnI=;
- b=IAyJXKDkIj0j9r7gBFWLI0AAkn+sKh7p8VKoX/8EAIIuTRY1gyPD3zZ52AT8405WClHrRn
- L3w3t1LWSQoB4SXRtjpvF4gws2HRINC4aAzlEXVqOuyx3QbGWKk+eSQ8vvSWX5Ek/iMQkZ
- 3ws5Lao6HYmhVVguGiRft0UkOy0Af+o=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-soIjIhDjNmCEl_HYp_KkmA-1; Wed, 23 Sep 2020 07:01:18 -0400
-X-MC-Unique: soIjIhDjNmCEl_HYp_KkmA-1
-Received: by mail-wr1-f70.google.com with SMTP id b2so2504673wrs.7
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 04:01:18 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=vJhmqTlpYQ/LzmfaHIuam8D9fkxCstDt9d4EsQUsj48=;
+ b=ivodc3VnF2wdNj7kZmbBJiBbsNMA2S6szZhJTNTIu4wm8cQHPbB4Tlo2dNZyv+nbtlMgN9
+ UG0sG5LdG390WoMtj4OXEH2B7TKPpuuysBxRPH6jT0Cb2yvjkvY26WzFbQ2I/20faLbEjo
+ I6ZKuT2GNzPdkK7IPK5uiF1wtyREwfA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-Rvfm_YsGPVGa-DPBa_ljxw-1; Wed, 23 Sep 2020 07:15:00 -0400
+X-MC-Unique: Rvfm_YsGPVGa-DPBa_ljxw-1
+Received: by mail-wm1-f69.google.com with SMTP id m125so2088900wmm.7
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 04:15:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=pthRUDkzuGBEaIuzGDJOz5c6Y8syb2XoGbsYV9g5YnI=;
- b=bWaFbQdxNmOW1pW5NxwI83n4MD2leZe9ZCvBta/hyNTIBnPtYC+1Voh8pi4B6ayxws
- nSD5/f4PEYWfmu/8y7YGsw6lkSXuYAKEP950RPV1jWzANti5ESjcJoMvEf4heO1cEg5m
- rwwRrtDhd1ThyOp42oyGoxq5rlijbZZ5pfw4uClLGnrEzvu+z+/HWhr/J1+7zd71mRSN
- wAcLwmxbvHXI+vnP9PiHyxxexy0fvwPmFBE2YlvI89RgTBmXZwtghGvIwoEqIaD+tnNY
- UQVmp56+UbYSpHWtPDpWFlzN7zpIbaB/OtfkLSf7xEvNrdwOathg55PgEBmPxfbO3ZO1
- enWQ==
-X-Gm-Message-State: AOAM530cgV5Lf7X3lk2d06QTpOWzGGpKu0YI9/LW1o7rMx0ThsTu6QZx
- JUjOCwn0bJ4cGhjKzFzxRqnRH/vAX/kMl5OIIQBpcdai8mgPqGFG8dcjKz9Mg0ae3s6RHYYaTa/
- MLspyBdd7Ate28/E=
-X-Received: by 2002:a1c:4c06:: with SMTP id z6mr5776625wmf.40.1600858877593;
- Wed, 23 Sep 2020 04:01:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVALvHCW8q2bJ5gjXxIGq2NrFzTp6mnnMnJr/94FWoKF12yoq1Xo1VB981+KruxWs/UdfjNg==
-X-Received: by 2002:a1c:4c06:: with SMTP id z6mr5776615wmf.40.1600858877441;
- Wed, 23 Sep 2020 04:01:17 -0700 (PDT)
-Received: from [192.168.1.36] (65.red-83-57-170.dynamicip.rima-tde.net.
- [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id h76sm8675825wme.10.2020.09.23.04.01.16
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vJhmqTlpYQ/LzmfaHIuam8D9fkxCstDt9d4EsQUsj48=;
+ b=MPz6Aup9pWjq84tKkwLEA4CU8CQbn5C6eciQmZx6c+gDpVxbc70XwvhWWulom/UmfO
+ EWeO7eo35ndnvJQKFP/NEmY0aqV2I3b4AiWM9AXMJrSbCTdYvpak7seKlGySu9eCWC03
+ t6NLEGQI5fbN/Yylj6Y5rBjOmwI2HIYyz6DjIi3snkddp9KEAZIhTSM68YeK6XKe+tME
+ OZ6P6NXuAJwhCb4APEIuS6C5cXC/Juwt10jHLAfLUM0DPeZnqGl/ccsJ8QJB363/9ut2
+ D8a5cqpEy1NM9b1nEFz86wwNCJRAzK+oMwKSDXeXX2x/2wKCgHVwcl6vNDloDpJfC44F
+ dKKA==
+X-Gm-Message-State: AOAM530sNXBe7Nj7pOoY3yl6RRMQKlK8YMTIh8x6oZCjdJpQbQqxQIOU
+ 0fhQzoriA14tyUthar7B15TolrsZ9avQli9XxKPxrmUcBQCLjbTLtzlf/3R2w26w9/8/KkQy8Uy
+ rRRGh/yAEuo6pu8U=
+X-Received: by 2002:a5d:56c1:: with SMTP id m1mr230707wrw.87.1600859699422;
+ Wed, 23 Sep 2020 04:14:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZlUKHnQI3ML4qEIFJgZ6FiarqkJt9DwqeACE01WS+o37SW6vh7TVsBeNx+uvIYvo+86ImVQ==
+X-Received: by 2002:a5d:56c1:: with SMTP id m1mr230683wrw.87.1600859699200;
+ Wed, 23 Sep 2020 04:14:59 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:15f1:648d:7de6:bad9?
+ ([2001:b07:6468:f312:15f1:648d:7de6:bad9])
+ by smtp.gmail.com with ESMTPSA id u126sm9734481wmu.9.2020.09.23.04.14.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Sep 2020 04:01:16 -0700 (PDT)
+ Wed, 23 Sep 2020 04:14:58 -0700 (PDT)
 Subject: Re: [PATCH] Add execute bit back to scripts/tracetool.py
 To: Anthony PERARD <anthony.perard@citrix.com>, qemu-devel@nongnu.org
 References: <20200923103620.1980151-1-anthony.perard@citrix.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <e886154a-6abf-457c-f728-7857953440d3@redhat.com>
-Date: Wed, 23 Sep 2020 13:01:15 +0200
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8cbf1d90-849a-5046-d6f0-756000decaef@redhat.com>
+Date: Wed, 23 Sep 2020 13:14:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
 In-Reply-To: <20200923103620.1980151-1-anthony.perard@citrix.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/23 00:53:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.455,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
@@ -122,12 +101,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/20 12:36 PM, Anthony PERARD via wrote:
+On 23/09/20 12:36, Anthony PERARD wrote:
 > Commit a81df1b68b65 ("libqemuutil, qapi, trace: convert to meson")
 > removed it without explanation and it is useful to be able to run a
 > script without having to figure out which interpreter to use.
@@ -143,6 +122,33 @@ On 9/23/20 12:36 PM, Anthony PERARD via wrote:
 > new mode 100755
 > 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+The explanation is in docs/devel/build-system.rst
+
+Support scripts
+---------------
+
+Meson has a special convention for invoking Python scripts: if their
+first line is `#! /usr/bin/env python3` and the file is *not* executable,
+find_program() arranges to invoke the script under the same Python
+interpreter that was used to invoke Meson.  This is the most common
+and preferred way to invoke support scripts from Meson build files,
+because it automatically uses the value of configure's --python= option.
+
+In case the script is not written in Python, use a `#! /usr/bin/env ...`
+line and make the script executable.
+
+Scripts written in Python, where it is desirable to make the script
+executable (for example for test scripts that developers may want to
+invoke from the command line, such as tests/qapi-schema/test-qapi.py),
+should be invoked through the `python` variable in meson.build. For
+example::
+
+  test('QAPI schema regression tests', python,
+       args: files('test-qapi.py'),
+       env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
+
+This is needed to obey the --python= option passed to the configure
+script, which may point to something other than the first python3
+binary on the path.
 
 
