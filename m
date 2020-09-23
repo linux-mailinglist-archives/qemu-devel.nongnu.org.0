@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1866E2754CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:51:30 +0200 (CEST)
-Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C9E2754C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 11:48:47 +0200 (CEST)
+Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1Qv-0002yL-0q
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35222)
+	id 1kL1OI-00089H-Ke
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 05:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Mg-0006XP-N1
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47349)
+ id 1kL1Ml-0006e0-1M
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kL1Me-0007UC-Va
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:06 -0400
+ id 1kL1Mj-0007VR-Af
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 05:47:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600854424;
+ s=mimecast20190719; t=1600854428;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GoW/qE+i0LwwkHjanLNRpSZyIljNlGdSZOSjJtcnZfM=;
- b=GHMUifD22xsmRLACQ2M12diHxoyjK22yWcqvZ0eGpCc2yR5RFZ88xo4TZ0rzqMCKnhEeLI
- 8ss62YGU8vqhd5XV8gEuTg1+0TNqRgBLLjQ48DNuFj8zzW3n+zFmXe4F/6fN8/XJQCS+D3
- obg4V2BoykmkkXzXtdy5pdhcHfcPw/s=
+ bh=NHtq1ZlVg94Kf+6wpeThJeaxQyTxlv+PX6zeAnjEKIs=;
+ b=AWjuLq/nJmFq1ihDRTT3xGJzHzuveGfZaMbLyqQDjPW8BXoK+dipnILfCkIrBd/IS7liru
+ 6kCRccHSjVnwGOJOs3uXzvho/KKcgXfoYvkxWOQjScX3PzJdrZ04bGyV80+Mb/6RY9HK98
+ rCC4C0SAm+cK4DpyaxWeQLYJfGT4X1k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-z5P6GzvZOOuV9G4fUbT9_A-1; Wed, 23 Sep 2020 05:47:02 -0400
-X-MC-Unique: z5P6GzvZOOuV9G4fUbT9_A-1
+ us-mta-215-n61frQ6VNrezlZqimImCXQ-1; Wed, 23 Sep 2020 05:47:06 -0400
+X-MC-Unique: n61frQ6VNrezlZqimImCXQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89C571074645;
- Wed, 23 Sep 2020 09:47:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ED20186DD29;
+ Wed, 23 Sep 2020 09:47:05 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77C5455778;
- Wed, 23 Sep 2020 09:47:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D535155778;
+ Wed, 23 Sep 2020 09:47:01 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/11] x86: lpc9: let firmware negotiate 'CPU hotplug with
- SMI' features
-Date: Wed, 23 Sep 2020 05:46:40 -0400
-Message-Id: <20200923094650.1301166-2-imammedo@redhat.com>
+Subject: [PATCH v6 02/11] x86: cpuhp: prevent guest crash on CPU hotplug when
+ broadcast SMI is in use
+Date: Wed, 23 Sep 2020 05:46:41 -0400
+Message-Id: <20200923094650.1301166-3-imammedo@redhat.com>
 In-Reply-To: <20200923094650.1301166-1-imammedo@redhat.com>
 References: <20200923094650.1301166-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -86,94 +86,78 @@ Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It will allow firmware to notify QEMU that firmware requires SMI
-being triggered on CPU hot[un]plug, so that it would be able to account
-for hotplugged CPU and relocate it to new SMM base and/or safely remove
-CPU on unplug.
+There were reports of guest crash on CPU hotplug, when using q35 machine
+type and OVMF with SMM, due to hotplugged CPU trying to process SMI at
+default SMI handler location without it being relocated by firmware first.
 
-Using negotiated features, follow up patches will insert SMI upcall
-into AML code, to make sure that firmware processes hotplug before
-guest OS would attempt to use new CPU.
+Fix it by refusing hotplug if firmware hasn't negotiated CPU hotplug with
+SMI support while SMI broadcast is in use.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Tested-by: Laszlo Ersek <lersek@redhat.com>
 ---
-v4:
-  - fix 5.2 machine types so they won't apply pc_compat_5_1
-     (Laszlo Ersek <lersek@redhat.com>)
-v3:
-  - rebase on top of "[PATCH v2] hw: add compat machines for 5.2"
-    so apply that before this patch
-v2:
-  - rebase on top of 5.1 (move compat values to 5.1 machine)
-  - make "x-smi-cpu-hotunplug" false by default (Laszlo Ersek <lersek@redhat.com>)
-
-fixup
+v6:
+  - rebase on top of current master, due to non trivial conflicts
+    caused by microvm series, which moved/renamed pc_cpu_pre_plug()
+    (Ankur Arora <ankur.a.arora@oracle.com>)
+v1:
+   fix typos an use suggested wording in commit and error msg
+   s/secure boot/smm/; s/hotplug SMI/hotplug with SMI/
+      (Laszlo Ersek <lersek@redhat.com>)
 ---
- include/hw/i386/ich9.h |  2 ++
- hw/i386/pc.c           |  4 +++-
- hw/isa/lpc_ich9.c      | 13 +++++++++++++
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ hw/acpi/ich9.c | 12 +++++++++++-
+ hw/i386/x86.c  | 11 +++++++++++
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index 48b442bc0b..703d56036a 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -247,5 +247,7 @@ struct ICH9LPCState {
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index 6a19070cec..0acc9a3107 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -408,10 +408,20 @@ void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+     ICH9LPCState *lpc = ICH9_LPC_DEVICE(hotplug_dev);
  
- /* bit positions used in fw_cfg SMI feature negotiation */
- #define ICH9_LPC_SMI_F_BROADCAST_BIT            0
-+#define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
-+#define ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT       2
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
+-        !lpc->pm.acpi_memory_hotplug.is_enabled)
++        !lpc->pm.acpi_memory_hotplug.is_enabled) {
+         error_setg(errp,
+                    "memory hotplug is not enabled: %s.memory-hotplug-support "
+                    "is not set", object_get_typename(OBJECT(lpc)));
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
++        uint64_t negotiated = lpc->smi_negotiated_features;
++
++        if (negotiated & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT) &&
++            !(negotiated & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT))) {
++            error_setg(errp, "cpu hotplug with SMI wasn't enabled by firmware");
++            error_append_hint(errp, "update machine type to newer than 5.1 "
++                "and firmware that suppors CPU hotplug with SMM");
++        }
++    }
+ }
  
- #endif /* HW_ICH9_H */
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index b55369357e..2af660c55e 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -97,7 +97,9 @@
- #include "trace.h"
- #include CONFIG_DEVICES
- 
--GlobalProperty pc_compat_5_1[] = {};
-+GlobalProperty pc_compat_5_1[] = {
-+    { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
-+};
- const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
- 
- GlobalProperty pc_compat_5_0[] = {
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 3303d2eab6..a54b3ec8bd 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -373,6 +373,15 @@ static void smi_features_ok_callback(void *opaque)
-         /* guest requests invalid features, leave @features_ok at zero */
+ void ich9_pm_device_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index c2ea989579..403c2b1dad 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -279,6 +279,17 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
          return;
      }
-+    if (!(guest_features & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT)) &&
-+        guest_features & (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
-+                          BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
-+        /*
-+         * cpu hot-[un]plug with SMI requires SMI broadcast,
-+         * leave @features_ok at zero
-+         */
-+        return;
+ 
++    if (x86ms->acpi_dev) {
++        Error *local_err = NULL;
++
++        hotplug_handler_pre_plug(HOTPLUG_HANDLER(x86ms->acpi_dev), dev,
++                                 &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            return;
++        }
 +    }
++
+     init_topo_info(&topo_info, x86ms);
  
-     /* valid feature subset requested, lock it down, report success */
-     lpc->smi_negotiated_features = guest_features;
-@@ -747,6 +756,10 @@ static Property ich9_lpc_properties[] = {
-     DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
-     DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
-                       ICH9_LPC_SMI_F_BROADCAST_BIT, true),
-+    DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
-+                      ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
-+    DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState, smi_host_features,
-+                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+     env->nr_dies = x86ms->smp_dies;
 -- 
 2.27.0
 
