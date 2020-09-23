@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9808D2761EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:21:34 +0200 (CEST)
-Received: from localhost ([::1]:37186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C9D2761F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 22:22:35 +0200 (CEST)
+Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLBGf-0000pF-Jg
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48766)
+	id 1kLBHe-0002MX-Ih
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 16:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLBEW-0007am-9d
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:19:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27855)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLBGL-0001GH-Vy
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:21:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLBEU-0005a3-I1
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:19:19 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLBGK-0005uL-4D
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 16:21:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600892357;
+ s=mimecast20190719; t=1600892471;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=a6JoLnN6EWPNACW7Z0Z6vFayXQ62g4flX5l9JN5s2u8=;
- b=K32VlNYZCs+wVQP2QJH02iE0o1pFCf0uvUhbOhPjkb/RaOpEzixsNkX3YaBnr/trzPkqMI
- E/0OxSZOxbIdLM9KOzrwFT6Q5PCVSULYUVn3QIYszBZkXBxTUr/EvZPvgPDUzZ3amLT0ax
- mGjxzeZd0M4D+SnHBHtESBO5aydPLvk=
+ bh=UATYJiv1u1A3qAnHW1JL3aiJ1xJ/Doe1puarUlIqFbQ=;
+ b=UzGdLx89YJTRBitFXd0P8PH0LdyIB5f6tsjCC41bDaLQrsj+RicxPsj7okPPsZ8bUFwVQZ
+ NSJl6+frfu/D9DjeARR+7tVlOpX9KtNOJhCID9n5O30HyhGytMfbupoVmk9QVH/TCy9e4L
+ 4jsOEidIYRLLqH79B+DgytQ4/zjnJII=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-Yp7tDq3hO8ebg2YN6ifHMg-1; Wed, 23 Sep 2020 16:19:15 -0400
-X-MC-Unique: Yp7tDq3hO8ebg2YN6ifHMg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-38-qrSTF8YoNUeDlQMpaFad6w-1; Wed, 23 Sep 2020 16:21:06 -0400
+X-MC-Unique: qrSTF8YoNUeDlQMpaFad6w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71ABD420F0;
- Wed, 23 Sep 2020 20:19:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA3F7801AF7;
+ Wed, 23 Sep 2020 20:21:05 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AD031002C03;
- Wed, 23 Sep 2020 20:19:13 +0000 (UTC)
-Date: Wed, 23 Sep 2020 16:19:11 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05C35702E7;
+ Wed, 23 Sep 2020 20:21:04 +0000 (UTC)
+Date: Wed, 23 Sep 2020 16:21:03 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 18/38] qapi/events.py: Move comments into docstrings
-Message-ID: <20200923201911.GR191229@localhost.localdomain>
+Subject: Re: [PATCH v2 19/38] qapi/commands.py: Don't re-bind to variable of
+ different type
+Message-ID: <20200923202103.GS191229@localhost.localdomain>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-19-jsnow@redhat.com>
+ <20200922210101.4081073-20-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-19-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200922210101.4081073-20-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dFvuq/4WPi1dbS7Q"
+ protocol="application/pgp-signature"; boundary="l4+/aJnPlhOv5JVj"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -88,35 +89,39 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---dFvuq/4WPi1dbS7Q
+--l4+/aJnPlhOv5JVj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2020 at 05:00:41PM -0400, John Snow wrote:
+On Tue, Sep 22, 2020 at 05:00:42PM -0400, John Snow wrote:
+> Mypy isn't a fan of rebinding a variable with a new data type.
+> It's easy enough to avoid.
+>=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
 
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
---dFvuq/4WPi1dbS7Q
+--l4+/aJnPlhOv5JVj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9rrb8ACgkQZX6NM6Xy
-CfNqUg//V+0p4TMXXHH1xQLtPYkJBrdoprxfd+YZ1tNkpMovwyUiwqWCqOmtV0EH
-rA2ck+imLcyaYxnai4rT1+iJxFPqfNsiqSpy75HlUtFxNjZcpDFcD4OtvSQBOZY/
-Kv1ztT/rK2+26XEr7uOzCpnZ3l6j2spJ0te8f9WWV1By83Ty9bp+RwtGISshGgD9
-fUGCdmi5dy+eCiH+MsAbXMV0Lr3KLs1xwnahCnnJkQL7g+1C15UsAY0+uFP/Voms
-uIN/VjSeRssSBtx3XaKY/IbPjS4+l7vPx444CFcKCBnlqryF0lRIBTwXgZbfbQrv
-UWqZ7J5dHnkG3U+2Odqgu/fK+l/0+P0ma1MENoDYyhkxRK1BeakMUoXr5R5C1cKp
-SuuKPw/Md3LHqtmf60prFUDP9kXjvBF+cQ40lFOuwFqM/3weJPdaQcgTbABqzHGE
-JBDIOcrlWgzpeViUwmf9ItWHwK4AhGlSGQl1qZMP9zvM0xJNBRzQfJQQOPi0Zm5b
-aUoyrka1by40fo6DLzPmOSwKe3/tZm0E1yE+l2WuLp4fNqwIcVQu6naONFin8bpa
-u1/5V85sHL13L8MY5YrwKhPCeIJFY+9n5/PnholLRKpLAXifVgZ3amFBX2hdAKjC
-GH6u5najTJOI2I5qjZterrd5xzZ50mXJNB0jMGL+wHdTITx9wUQ=
-=m/mf
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9rri8ACgkQZX6NM6Xy
+CfPC7g//YCgT56+h9XF/zqjTkMBOaxVCS8TA7bAS90JKk9ta6+EKwQQn4qQxwp78
+shktkQIgtApdvOVdHKkQ28YXZnBVOkaJfBR0F6EeD3xpmqim2lA9qbT1V8HHyvb6
+LW31POdho0LaJqOVbcaaj/stmJGDokqntvaTfoz2ZUkyHKelMKgUR9YL5EhQIoFt
+uuaOkZRRNQkDnZI1uMR/KopayuEolpLt4ByAcANFl44VTNO1P7T10BpqzOmFG+ZY
+jBddsxAFSBsoBbpOr43FFK7z15Cjs+pe9eHJGZ4IpM7CiM8XjO+wpfuYaICl4/v5
+qk+6xCRLXXctzaXZ2mYc7ilOPAcyA4PU4EWIhx9vfAFZbfecko5Kf2PhhIH9t7oq
+bWsQKGiLSG48ERMXRxWVH4fQCcsG0kXx45xpyqiSAGPiLsQfGi8VwZoX/PaNpGkH
+zbR6JdglzePCMqoMsoUGKpMlFCdBPhSgz1ZHXEOlrp2yfRMtE1F8tchjS1s/5vQJ
+TXytrRPDOqupBK/qsQRRn5nfWiWkfvQiVfegxRAMnl/o0SIYTRPaf+O6cKWmBjY1
+YEFSzhKsrvQBojZgcl8fdoSjwVHpjKdhlJVTcutzZYIh6NK4Hs1f9Nnd52PCRteS
+975EXa8WTQtj7wVWS/Q+0KtuZ/sxjhor3kIjfSWpGgTJToxizK0=
+=PIRP
 -----END PGP SIGNATURE-----
 
---dFvuq/4WPi1dbS7Q--
+--l4+/aJnPlhOv5JVj--
 
 
