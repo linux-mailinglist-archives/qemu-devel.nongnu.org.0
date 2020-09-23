@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D68127551B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:07:15 +0200 (CEST)
-Received: from localhost ([::1]:55184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3350C27552D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Sep 2020 12:09:32 +0200 (CEST)
+Received: from localhost ([::1]:33482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kL1gA-0004wy-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39288)
+	id 1kL1iN-0007d9-6g
+	for lists+qemu-devel@lfdr.de; Wed, 23 Sep 2020 06:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1bj-0008ED-Dg
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56793)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1bm-0008Eb-2d
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1be-0001JR-Ae
- for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kL1bj-0001Jn-Bh
+ for qemu-devel@nongnu.org; Wed, 23 Sep 2020 06:02:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600855352;
+ s=mimecast20190719; t=1600855355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VaJU4qce4d8kLY5vBvpzDPXaE03+xeWvm32Nm0kkdv0=;
- b=DpTAc5Oyg9czhwXv645EcE2ji3nrwz0Dq8mkmxvC0QYUWGGlAOzRYPWn2FX6J7SYIkUr/s
- z4l/jREtVGcteSUAr8PZpgHR5htXPhdQPQK61BxWJpxEpoBejhvYVAyAZdlv8QFLDV1tVr
- 1cE6pKDogyUhNCF+OV4kQNKWkPBGSgQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-83peldihNlCRObXJPAK-AA-1; Wed, 23 Sep 2020 06:02:29 -0400
-X-MC-Unique: 83peldihNlCRObXJPAK-AA-1
-Received: by mail-wr1-f69.google.com with SMTP id 33so8594733wrk.12
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 03:02:28 -0700 (PDT)
+ bh=/e6JgH5beo3D4jWhUD/I0gOipenUtz7n5NS7zMmoHHk=;
+ b=OBK5gDSjMR71kt3G04EJPC8mm/WQ1NVZxDaGOsKqp99njtXcHw8Mvoa3XeOpi3grG7L5s/
+ Q4orLxaoIkWbHjV0vdsLTbU+vDZ2D0Zwo1YGR2m2zHfiXjlaAPxMG85RkN7QB2LpoQ87OV
+ DMEOq7GhSOhO4XAPu8rvWsMKizrT37Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-eIZFTD_4OR2N3uLDAOOe9A-1; Wed, 23 Sep 2020 06:02:34 -0400
+X-MC-Unique: eIZFTD_4OR2N3uLDAOOe9A-1
+Received: by mail-wm1-f72.google.com with SMTP id c200so2031232wmd.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 03:02:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VaJU4qce4d8kLY5vBvpzDPXaE03+xeWvm32Nm0kkdv0=;
- b=ZfBPNERAEQCVd7L1HjggmNDjvJgkblBkNfjqEMxewzB9obnX+uE8sOiqNyHr3VbCsS
- G7oI5wQ/eUfHiLOL2Ow5x0iOhdYEuuFPcqCJoDNODtg6k6yEhMgf+6flSFrdmm9VZqDt
- anM+3DAHhceCTZ8RpfP49ezat968qoILDOfMKPlpWrD2E9s3AVXjpGH8JYI1NsokSmnZ
- N+zfYUgvybIm4+OU4RAmFCezyk46x8BUhmI2FSU6dI4yEOa8FMEFtEiJLfPgjkS5M0I5
- PAOATFc8v9Hz8+YevwFfMciQvXW2O+cCGJG7a29IZ9ODhdmE9+KKqIGX2yTeS34o6Zz2
- qDpQ==
-X-Gm-Message-State: AOAM532BFhZau0ql2hW/86Kivnr59YZOeq26eaRItHdaMW78XRnEkUfX
- N+pmyGHJbEACqo4lwjwg0jUOE0G0I0hvoU7eKqffqwPO1ikdrj6YFVYAY+Oaj5wTUIor2g8UIkq
- QnVAyXMPLX6zqaII=
-X-Received: by 2002:a5d:5307:: with SMTP id e7mr10083455wrv.215.1600855347525; 
- Wed, 23 Sep 2020 03:02:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyErCwKgS8P5jJGkmT3fVvMkXsnbfsZMC3MQP86hUlkn2JWmNiVPlc8a9KPYjiOzhfMoa6EIA==
-X-Received: by 2002:a5d:5307:: with SMTP id e7mr10083433wrv.215.1600855347379; 
- Wed, 23 Sep 2020 03:02:27 -0700 (PDT)
+ bh=/e6JgH5beo3D4jWhUD/I0gOipenUtz7n5NS7zMmoHHk=;
+ b=r8ht9wrQH21KWFWsxMCTM7bEPbF6xBxkOOUEJgsKOPQBeRzylrjK7ipF/pXAI4UdMz
+ wdWVhT3zqPTMXIUpgnOKHWIMEbPTyNlj9aJEq3Y+uaIKwf03naL+r35lmamjdO7dLsWi
+ ht38k92/UnqFoyWqpiAVfpvz3NNzy9dmIxfoMXmvi/naDTd4k+10dyM2zeSnTjV/Kg0n
+ +ewITsPO/0zM+OPZL0rIH5kkPSX9m5ZoNrHihewunu/eBRXD+n8OdL/qSO0gY9a6LNJJ
+ h3NPZ1oPPT9XSgisAtViS/vKyefyAFX9RrgNwu2VKZqCZMiODyN6tibJxqyYwz+34YIl
+ bDmg==
+X-Gm-Message-State: AOAM532CfPZN5TpRm8jhcynqGbl1tM+pKnQ5pWwm5JRg18QNUqZKweUx
+ oTBAgvdVkG+159XGA3DCrOF15jB8vaEpdaVfat4o+scKVwfyvbmjrWR7MEA77DnHWZ8aay5/TPz
+ azr/q9N+QbUhURV8=
+X-Received: by 2002:a7b:c151:: with SMTP id z17mr5888041wmi.53.1600855352231; 
+ Wed, 23 Sep 2020 03:02:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw6O0Qjf8oO9lpF3SbviWLdvjTkbe0E561qxviPht1e1wza+nbmlYbMMN1VHTGZHVXBxIqnsg==
+X-Received: by 2002:a7b:c151:: with SMTP id z17mr5888021wmi.53.1600855352023; 
+ Wed, 23 Sep 2020 03:02:32 -0700 (PDT)
 Received: from localhost.localdomain (65.red-83-57-170.dynamicip.rima-tde.net.
  [83.57.170.65])
- by smtp.gmail.com with ESMTPSA id t188sm8029162wmf.41.2020.09.23.03.02.26
+ by smtp.gmail.com with ESMTPSA id v9sm31863826wrv.35.2020.09.23.03.02.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 03:02:26 -0700 (PDT)
+ Wed, 23 Sep 2020 03:02:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] qemu/bswap: Remove unused qemu_bswap_len()
-Date: Wed, 23 Sep 2020 12:02:17 +0200
-Message-Id: <20200923100220.674903-2-philmd@redhat.com>
+Subject: [PATCH 2/4] qemu/bswap: Replace bswapXX() by compiler
+ __builtin_bswap()
+Date: Wed, 23 Sep 2020 12:02:18 +0200
+Message-Id: <20200923100220.674903-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200923100220.674903-1-philmd@redhat.com>
 References: <20200923100220.674903-1-philmd@redhat.com>
@@ -101,31 +102,56 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Last use of qemu_bswap_len() has been removed in commit
-e5fd1eb05ec ("apb: add busA qdev property to PBM PCI bridge").
+Use the compiler built-in function to byte swap values,
+as the compiler is clever and will fold constants.
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qemu/bswap.h | 6 ------
- 1 file changed, 6 deletions(-)
+ include/qemu/bswap.h | 30 ++++--------------------------
+ 1 file changed, 4 insertions(+), 26 deletions(-)
 
 diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 1d3e4c24e41..8b01c38040c 100644
+index 8b01c38040c..d1a2f700f2a 100644
 --- a/include/qemu/bswap.h
 +++ b/include/qemu/bswap.h
-@@ -169,12 +169,6 @@ CPU_CONVERT(le, 16, uint16_t)
- CPU_CONVERT(le, 32, uint32_t)
- CPU_CONVERT(le, 64, uint64_t)
- 
--/* len must be one of 1, 2, 4 */
--static inline uint32_t qemu_bswap_len(uint32_t value, int len)
+@@ -27,32 +27,10 @@ static inline uint64_t bswap64(uint64_t x)
+ {
+     return bswap_64(x);
+ }
+-# else
+-static inline uint16_t bswap16(uint16_t x)
 -{
--    return bswap32(value) >> (32 - 8 * len);
+-    return (((x & 0x00ff) << 8) |
+-            ((x & 0xff00) >> 8));
 -}
 -
- /*
-  * Same as cpu_to_le{16,32}, except that gcc will figure the result is
-  * a compile-time constant if you pass in a constant.  So this can be
+-static inline uint32_t bswap32(uint32_t x)
+-{
+-    return (((x & 0x000000ffU) << 24) |
+-            ((x & 0x0000ff00U) <<  8) |
+-            ((x & 0x00ff0000U) >>  8) |
+-            ((x & 0xff000000U) >> 24));
+-}
+-
+-static inline uint64_t bswap64(uint64_t x)
+-{
+-    return (((x & 0x00000000000000ffULL) << 56) |
+-            ((x & 0x000000000000ff00ULL) << 40) |
+-            ((x & 0x0000000000ff0000ULL) << 24) |
+-            ((x & 0x00000000ff000000ULL) <<  8) |
+-            ((x & 0x000000ff00000000ULL) >>  8) |
+-            ((x & 0x0000ff0000000000ULL) >> 24) |
+-            ((x & 0x00ff000000000000ULL) >> 40) |
+-            ((x & 0xff00000000000000ULL) >> 56));
+-}
++#else
++# define bswap16(_x) __builtin_bswap16(_x)
++# define bswap32(_x) __builtin_bswap32(_x)
++# define bswap64(_x) __builtin_bswap64(_x)
+ #endif /* ! CONFIG_MACHINE_BSWAP_H */
+ 
+ static inline void bswap16s(uint16_t *s)
 -- 
 2.26.2
 
