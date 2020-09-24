@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7616A277977
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:37:16 +0200 (CEST)
-Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA0527797D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:38:29 +0200 (CEST)
+Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLX3L-0008Et-Hv
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51662)
+	id 1kLX4X-00012u-2F
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:38:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLX04-0005yc-LS
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:33:52 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:37587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLX00-0007HY-JE
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:33:52 -0400
-Received: by mail-ed1-x543.google.com with SMTP id n22so116473edt.4
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 12:33:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6Btl4FPZQgdO78dzpd+d4Ko721XLDPeypchuq83fgFw=;
- b=MK1V/27u+7+RUV3t+oObtYiBFS1mO+Nxsc1bJff4XX8eqPrjo1aFQtu5IBrM5jBIY5
- mQUvdsyHjVtufgYBLPBJy7tA5CwDnTh0SsFn2l6erEQ+LmxRTLrn8xQzcZmt5U4c68AB
- 5JiHUaDalYcF+SDf9RVudFL00nNAf1le1rfsnY8Y1bfGfR7mN5k1qYhWH1ZX/pjPgEPl
- /ef3EUxvjARpfmdfn+CPY0Oj/8Mk/YaH0lLfOj00a9QA2TcrwAriK2YOBGkKQoh/2JSO
- +w9yC70wKXScY24Zy4Te/HYC+xb3hwEIE0B21vECy2XidXAW8b6PjhTEgWL7w7Q4rzfu
- SxHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6Btl4FPZQgdO78dzpd+d4Ko721XLDPeypchuq83fgFw=;
- b=heRbfXWIQEvonxHAVCKX/Bq5W7O32i/UsatobNJGz8MrJqzhzNmtG4fwbY8oA9F6Zh
- 22pzB5q0ONLVc7jvDVPMipsZ7IpKmVeItYD2FF8XYxxpqJ3U9LewMnU9t1kPdi35lyUX
- AfHshn6RcmDYXAfcd72clKlwm8bcJzZldg/J8RS8+IYKMkQR7UBFOl+Jg+gNh0xxrurd
- RzzD1OiEJJMsNldAHR+iB9jSOgckoFkLOV8Jo8o2o1Bcs75uRtHgXbbkz1++20TkeSMl
- BWqQBY8YSt2YY+ggxIaCKD/9Mwnaex0JO1WlfcjJutS/LOzXCHKEtylOMwvrh/beR8z6
- SzXw==
-X-Gm-Message-State: AOAM53252liJEvpfSr1t7uOEghavceK0jPpsoy4u9iZWokJnhpjzskiR
- 8nTr/j4HpI266vR6FpOp1CGx0F9AoW2B48VAyLF1rg==
-X-Google-Smtp-Source: ABdhPJzAzq2CZ6V0oWRSDqhDyMTkUxMwZrFQMmw/XnMylbzSUK7zldWVYjvlxY5bB2OD2KeGjic+vzonTEZ3GX9TQcs=
-X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr347616edw.251.1600976026577; 
- Thu, 24 Sep 2020 12:33:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLX2g-0008A8-SU
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:36:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLX2e-0007fa-Vw
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:36:34 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600976192;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wFTuP+sfBTvJkmgJ2lJKaKE4RExWcMG2EtFJlw580AU=;
+ b=T1tr62Yug+nCTOhOiakY5kV02yvco/vY77culzVysnyxIs4/ySlH0DnWHVe6CE0aTXXm6U
+ /WYNU86vadUk1Mx2aEWYOiRvP4qGXHMmq5nHrPEpLyTdrE2KM6bSlFxcztVPpdAq30a9ES
+ BWWFJymH6CmNeHIvGdPSyPoxO/NRWGI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-MTYu1zCqP2adG0-cqeRCig-1; Thu, 24 Sep 2020 15:36:26 -0400
+X-MC-Unique: MTYu1zCqP2adG0-cqeRCig-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F09D57051;
+ Thu, 24 Sep 2020 19:36:25 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37C3B1002C01;
+ Thu, 24 Sep 2020 19:36:24 +0000 (UTC)
+Subject: Re: [PATCH v2 36/38] qapi/visit.py: assert tag_member contains a
+ QAPISchemaEnumType
+To: Cleber Rosa <crosa@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-37-jsnow@redhat.com>
+ <20200924191047.GH191229@localhost.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <3f37ab45-fd5b-ad8b-f033-d7887d1d6d93@redhat.com>
+Date: Thu, 24 Sep 2020 15:36:23 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200923100220.674903-1-philmd@redhat.com>
- <20200923100220.674903-5-philmd@redhat.com>
- <CAFEAcA9XOpCyWr0QXn6T_y9nh4ZX5Op2ztonefr-pV2oQfU3iw@mail.gmail.com>
- <fd8a9c3e-45f2-caae-25ab-5e1365fd9298@redhat.com>
- <2a2cc60d-2d30-eb38-369e-0a26f0eac9bd@linaro.org>
-In-Reply-To: <2a2cc60d-2d30-eb38-369e-0a26f0eac9bd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Sep 2020 20:33:35 +0100
-Message-ID: <CAFEAcA-+ssh05EdeYLSoF=m8Yvg_ENoChrV6vT6H=NVSPUPFAw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] qemu/bswap: Remove <byteswap.h> dependency
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200924191047.GH191229@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,37 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Sep 2020 at 20:30, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/23/20 3:30 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 9/23/20 12:16 PM, Peter Maydell wrote:
-> >> I suppose if we wanted to just use the __builtin_bswap*
-> >> implementation on all hosts (ie drop the special casing
-> >> of CONFIG_MACHINE_BSWAP_H/FreeBSD/Haiku) we'd need to
-> >> rename our macros to avoid potential conflicts with the
-> >> versions in the system headers there in case they were
-> >> pulled in via some other path ?
-> >
-> > Yes, this is why I couldn't get ride of everything
-> >
-> > After reading Paolo's suggestion to use qatomic*, I
-> > am tempted to suggest qbswap* but I am still looking
-> > for better alternatives...
->
-> Hum, maybe.  It's pretty ugly.  We could just leave those alone and hope =
-the
-> system version is decent enough.
+On 9/24/20 3:10 PM, Cleber Rosa wrote:
+> On Tue, Sep 22, 2020 at 05:00:59PM -0400, John Snow wrote:
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/visit.py | 15 ++++++++++-----
+>>   1 file changed, 10 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+>> index 4edaee33e3..180c140180 100644
+>> --- a/scripts/qapi/visit.py
+>> +++ b/scripts/qapi/visit.py
+>> @@ -22,7 +22,10 @@
+>>       indent,
+>>   )
+>>   from .gen import QAPISchemaModularCVisitor, ifcontext
+>> -from .schema import QAPISchemaObjectType
+>> +from .schema import (
+>> +    QAPISchemaEnumType,
+>> +    QAPISchemaObjectType,
+>> +)
+>>   
+>>   
+>>   def gen_visit_decl(name, scalar=False):
+>> @@ -84,15 +87,17 @@ def gen_visit_object_members(name, base, members, variants):
+>>           ret += gen_endif(memb.ifcond)
+>>   
+>>       if variants:
+>> +        tag_member = variants.tag_member
+>> +        assert isinstance(tag_member.type, QAPISchemaEnumType)
+>> +
+> 
+> I'd be interested in knowing why this wasn't left to be handled by the
+> type checking only.  Anyway,
+> 
 
-Mostly what I would like is to be able to be rid of the
-configure machinery so we could just use a single
-portable implementation.
+QAPISchemaVariants is a container type that is used to house a number of 
+QAPISchemaVariant types; but it (can) also take a tag_member to identify 
+one of the fields in the variants that can be used to differentiate them.
 
-thanks
--- PMM
+Now, we assert that tag_member must be a QAPISchemaObjectTypeMember. 
+QAPISchemaVariant is also a QAPISchemaObjectTypeMember.
+
+a QAPISchemaObjectTypeMember is a QAPISchemaMember. a QAPISchemaMember 
+describes one 'member' of either an enum, a features list, or an object 
+member.
+
+Now, the QAPISchemaObjectTypeMember (and not the QAPISchemaMember!) 
+serves as a container for a QAPISchemaType -- this is a wrapper type, 
+effectively. That contained type can be *anything*, because object 
+members can be *anything*.
+
+Oops, but if we zoom back out, we are only able to constrain tag_member 
+to being a QAPISchemaObjectTypeMember, we have no expressive power over 
+its contained type.
+
+That's why you need the assertion here; because of a loss of specificity 
+when we declare tag_member.
+
+
+"Wow, John, it sounds like you should use a Generic type to be able to 
+describe the inner type of a QAPISchemaObjectTypeMember?"
+
+Uh, yup, you're right! I should. But it's complicated, because 
+QAPISchemaMember does not have a contained type. Further, the contained 
+type of a Member may or may not be known at construction time right now.
+
+It's fixable, and probably involves adding something like a "string 
+constant" dummy type to allow QAPISchemaMember to have a contained type.
+
+"Hey, all of that sounds very messy. What if we just added in a few 
+assertions for right now while we get the preliminary types in, and then 
+we can make adjustments based on what makes the code prettier?"
+
+Sounds like a plan, hypothetical quote person.
+
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> 
+
 
