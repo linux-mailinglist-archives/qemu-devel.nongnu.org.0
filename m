@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D398B276D3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:27:11 +0200 (CEST)
-Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D0B276CFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:25:02 +0200 (CEST)
+Received: from localhost ([::1]:35570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNWw-0005Vk-Ok
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:27:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
+	id 1kLNUq-000244-8E
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTK-0000CA-NU
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21205)
+ id 1kLNTJ-00008s-1N
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTJ-0005yj-1W
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:26 -0400
+ id 1kLNTH-0005yT-Ff
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939404;
+ s=mimecast20190719; t=1600939402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JvAHEXTUBzeIY8mtVJqgNnwDgQ8RGKYkHR8gkOm0/zo=;
- b=cXzYUjDZlUPpslkP8kdQPhKWknb0Kb9WGHO6fCrshBEY0pQA9+CKpYZXkT5/zAr0IdZTpC
- 59ATp1kxHDG6+8WEzU7OfvfFZE85sp/jG4J6niBCCez4+YVRSVQHenpJIg7RpLpmwvHnRi
- 5h4vCguMO3JDhrJcgo3teubmX1dR4ao=
+ bh=GcauFaemeix4oE/UKsl8UzzjJdUgdLoxJNI3pepI0v8=;
+ b=WyLB0Oz1N6XoWMTxlOvJz63G513hjI6pH3BW2MhyAMPZzuf6Ku5jFsAb95+QrH0ilnPO5Y
+ leTPTDwqaUWROAldn1nCLg0JrqvK/tq5Lld/4uOZHyIaLKeRpj7dEGNi0DSH32M9f6Huvh
+ hMMjvKV7Y3l1YyI1WTPOcs7GVNelhNU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-i9sR1I_eO6WGUgXs0KzYWA-1; Thu, 24 Sep 2020 05:23:20 -0400
-X-MC-Unique: i9sR1I_eO6WGUgXs0KzYWA-1
+ us-mta-552-hMlpvpRJMjSDqf9DssV7gw-1; Thu, 24 Sep 2020 05:23:21 -0400
+X-MC-Unique: hMlpvpRJMjSDqf9DssV7gw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF8B764142
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AC0081F028
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:20 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4A2173684;
- Thu, 24 Sep 2020 09:23:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB25A73672;
+ Thu, 24 Sep 2020 09:23:19 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/92] meson: fix MSI rule
-Date: Thu, 24 Sep 2020 05:21:46 -0400
-Message-Id: <20200924092314.1722645-5-pbonzini@redhat.com>
+Subject: [PULL 05/92] meson: error out if qemu_suffix starts with /
+Date: Thu, 24 Sep 2020 05:21:47 -0400
+Message-Id: <20200924092314.1722645-6-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -87,28 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The environment variables can't be passed through an env: argument
-yet (meson#2723), use 'env' as suggested in:
-https://github.com/mesonbuild/meson/issues/2723#issuecomment-348630957
+Since the variable is used for path concatenation, the result would
+ignore the prefix directory altogether.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qga/meson.build | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/qga/meson.build b/qga/meson.build
-index e5c5778a3e..c10a0526b2 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -70,6 +70,7 @@ if targetos == 'windows'
-                             output: 'qemu-ga-@0@.msi'.format(config_host['ARCH']),
-                             depends: deps,
-                             command: [
-+                              find_program('env'),
-                               'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
-                               'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
-                               'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
+diff --git a/meson.build b/meson.build
+index f4d1ab1096..bb4259e7f0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -17,6 +17,11 @@ config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
+ enable_modules = 'CONFIG_MODULES' in config_host
+ enable_static = 'CONFIG_STATIC' in config_host
+ build_docs = 'BUILD_DOCS' in config_host
++
++if get_option('qemu_suffix').startswith('/')
++  error('qemu_suffix cannot start with a /')
++endif
++
+ qemu_datadir = get_option('datadir') / get_option('qemu_suffix')
+ qemu_docdir = get_option('docdir') / get_option('qemu_suffix')
+ config_host_data = configuration_data()
 -- 
 2.26.2
 
