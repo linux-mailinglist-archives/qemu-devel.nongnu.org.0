@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDF8276E05
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:57:05 +0200 (CEST)
-Received: from localhost ([::1]:58440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233A0276DF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:54:47 +0200 (CEST)
+Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNzs-00060T-8Q
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39132)
+	id 1kLNxe-0002TV-3r
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTt-0001M3-Uj
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20354)
+ id 1kLNTz-0001aC-Ap
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTq-00066s-BZ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:01 -0400
+ id 1kLNTw-000682-T6
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939437;
+ s=mimecast20190719; t=1600939444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rEIReYmQcgdw8jBCiFVetApG9AVjEvFU/hT+rphRXpQ=;
- b=LzIXXX0As/W7ujJZ91w0YyeBVqUGyTlKN7SWXdFAbmNSdMsU4+xIXAzHrpCZVCJA4VkhSf
- ObLihIIgwEFeusVVv0pfJ+9+oIQCr5cf1U4UxL+x+CdaTNhwE0CQ1C1bLzWV/uGZ3Y3Rkz
- 0zmBvsW6QVm+TDD/+09O65TT8SvRZUI=
+ bh=ilyjHoIWSmr+buo0m6gK2fqFJ7bn7M0gcIXCHz8WO7A=;
+ b=Usg2TkNEozE4xkwz6TO0TSaJUMT5ji+Mcw43dNnXo6Ginvr4QQjd5pe68tFwD/NeY/6/Le
+ EdyPCLrdaGLgxvOhDJeuoCee/8tX4H6adXlH4QjpTWy4JANVbg175AxgoaAG+kuilDfihN
+ +BZEtyb4t0uUYC3KiVmCrBfsXo1xvEE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-kUQ8ADvUMMmC61IsUpRBAw-1; Thu, 24 Sep 2020 05:23:55 -0400
-X-MC-Unique: kUQ8ADvUMMmC61IsUpRBAw-1
+ us-mta-588-_pMMb7ehPXOa9N6ZR0KBXQ-1; Thu, 24 Sep 2020 05:24:01 -0400
+X-MC-Unique: _pMMb7ehPXOa9N6ZR0KBXQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAA9681F00F;
- Thu, 24 Sep 2020 09:23:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 875EF81F00F
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:00 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BAF05C22B;
- Thu, 24 Sep 2020 09:23:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 361CD5C1DC;
+ Thu, 24 Sep 2020 09:24:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 52/92] hw/i386/q35: Remove unreachable Xen code on Q35 machine
-Date: Thu, 24 Sep 2020 05:22:34 -0400
-Message-Id: <20200924092314.1722645-53-pbonzini@redhat.com>
+Subject: [PULL 54/92] checkpatch: avoid error on cover letter files
+Date: Thu, 24 Sep 2020 05:22:36 -0400
+Message-Id: <20200924092314.1722645-55-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -81,75 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-Xen accelerator requires specific changes to a machine to be able
-to use it. See for example the 'Xen PC' machine configure its PCI
-bus calling pc_xen_hvm_init_pci(). There is no 'Xen Q35' machine
-declared. This code was probably added while introducing the Q35
-machine, based on the existing PC machine (see commit df2d8b3ed4
-"Introduce q35 pc based chipset emulator"). Remove the unreachable
-code to simplify this file.
+Running checkpatch on a directory that contains a cover letter reports
+this error:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20200722082517.18708-1-philmd@redhat.com>
+    Checking /tmp/tmpbnngauy3/0000-cover-letter.patch...
+    ERROR: Does not appear to be a unified-diff format patch
+
+    total: 1 errors, 0 warnings, 0 lines checked
+
+Let's skip cover letter as it is already done in the Linux kernel
+commits 06330fc40e3f ("checkpatch: avoid NOT_UNIFIED_DIFF errors
+on cover-letter.patch files") and a08ffbef4ab7 ("checkpatch: fix
+ignoring cover-letter logic").
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20200917170212.92672-1-sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc_q35.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ scripts/checkpatch.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 11ab5bd7be..a4a37b26c5 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -34,9 +34,7 @@
- #include "sysemu/arch_init.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/rtc/mc146818rtc.h"
--#include "hw/xen/xen.h"
- #include "sysemu/kvm.h"
--#include "sysemu/xen.h"
- #include "hw/kvm/clock.h"
- #include "hw/pci-host/q35.h"
- #include "hw/qdev-properties.h"
-@@ -179,10 +177,6 @@ static void pc_q35_init(MachineState *machine)
-         x86ms->below_4g_mem_size = machine->ram_size;
-     }
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 50910899f2..22bb634c8e 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3005,7 +3005,7 @@ sub process {
+ 		return 1;
+ 	}
  
--    if (xen_enabled()) {
--        xen_hvm_init(pcms, &ram_memory);
--    }
--
-     x86_cpus_init(x86ms, pcmc->default_cpu_version);
+-	if (!$is_patch) {
++	if (!$is_patch && $filename !~ /cover-letter\.patch$/) {
+ 		ERROR("Does not appear to be a unified-diff format patch\n");
+ 	}
  
-     kvmclock_create();
-@@ -208,10 +202,7 @@ static void pc_q35_init(MachineState *machine)
-     }
- 
-     /* allocate ram and load rom/bios */
--    if (!xen_enabled()) {
--        pc_memory_init(pcms, get_system_memory(),
--                       rom_memory, &ram_memory);
--    }
-+    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
- 
-     /* create pci host bus */
-     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
-@@ -271,7 +262,7 @@ static void pc_q35_init(MachineState *machine)
- 
-     assert(pcms->vmport != ON_OFF_AUTO__MAX);
-     if (pcms->vmport == ON_OFF_AUTO_AUTO) {
--        pcms->vmport = xen_enabled() ? ON_OFF_AUTO_OFF : ON_OFF_AUTO_ON;
-+        pcms->vmport = ON_OFF_AUTO_ON;
-     }
- 
-     /* init basic PC hardware */
 -- 
 2.26.2
 
