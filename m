@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E622770DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:24:06 +0200 (CEST)
-Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252C82770B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:15:09 +0200 (CEST)
+Received: from localhost ([::1]:47832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLQI9-0004A7-68
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
+	id 1kLQ9T-0007Ty-O3
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLQ7K-0006PO-Cg; Thu, 24 Sep 2020 08:12:54 -0400
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:34749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLQ7I-0002Eu-Gv; Thu, 24 Sep 2020 08:12:54 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id 99218885;
- Thu, 24 Sep 2020 08:12:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Thu, 24 Sep 2020 08:12:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=DTu556TEsVfXLKjIb7mT+dYnt0l
- Svscok18FSs8rzaA=; b=e6Q8NJyICxkbeNa64FKz1hQCRiyQSzAklJUgzeKQtP9
- dhToXhs6nbRB+jIyKdK32SF+5Czxyq94VqkqLesDF+pF9U24SAqyHcq4ymCvcW8k
- N3+gfX3bCBahDw/QkmhOvNZe8V9C4cSixBy5pY65qZGRqqtGhzRmUa6rBQm6wLoL
- tOEgNNQyQVrdTtIp+NtRUHiIZcWKf1PxoyxaP8lKs8PxypMUiSYuJh6MnQKmjhu+
- Z3PuQNsDn3I2jDGrasOGxyz76la2vP4N7/MW5TnJ9JPjSm9uMTe9tUqgQhK/Zr7i
- uUkcIG5xLhHpAxdRiq1FLsQy/CKefDrky/BjytTcWMQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=DTu556
- TEsVfXLKjIb7mT+dYnt0lSvscok18FSs8rzaA=; b=S5V0Om2ysmcfDe/eV8ChSL
- WLskqUVJ0hwoB9ozgNrpTC3JVoGEsPVcHpFZNpUNb2VcXMLRRP0QSomR5bDeoiNq
- o+elTBn7+20FXPw11s78js7EwJCq6bsf9dwhFK9AV82syKVD7Bl7qEiboHJYdthc
- LJlyie8AewgvVM0touyyEJ/kN5b7FyvdesFcGiIaQPt8HD5mML5jcskSn5sKO9ZO
- nbXQCaepaGD+TMkTi8aqXKKxqo42oL1isUQak1RmukXnKmWqZorpH9w3PlNhPVyt
- I0pTQGctXz8tF88UpdyAh6avAlVA/CndLVcbGjqXOy9j2DDBNpeGCQE+9XmSzyUg
- ==
-X-ME-Sender: <xms:QI1sX0TsyiEGPdaYH1TKxu9x5ciPUJXo6p5T00DoGWR2B_8S8HhJUg>
- <xme:QI1sXxzNUcLI0Q6HjQo6t6bvKaY4ZgZmpJcFGxQcX14raCc_i378BWP1OBbepo774
- xMdGRHUMHOWL3FcJdw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdehudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:QI1sXx3VS5C_nF0TcbLi2ZdGeMIrPQbyrglfdEBWPxQQ_gjTpOMqtg>
- <xmx:QI1sX4A3YXOg5XpM0BCL8VKJlWp8fUtG-i1Nf8LQ1RHsOA7BJusUAQ>
- <xmx:QI1sX9hlhd5UltZi_C1VtpHarC9Umo1-UGUlE-mlGu_lNLM_8rmYlg>
- <xmx:QI1sX4oCRjtdefuMFOGKGK8zULdqqQiTu-VhcZzyWZPyUmm0ymo9yivIYxb1U4JT>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 002A7328005D;
- Thu, 24 Sep 2020 08:12:46 -0400 (EDT)
-Date: Thu, 24 Sep 2020 14:12:45 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v4 01/14] hw/block/nvme: Report actual LBA data shift in
- LBAF
-Message-ID: <20200924121245.GB1738917@apples.localdomain>
-References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
- <20200923182021.3724-2-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kLQ8X-0006oY-Aw
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:14:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kLQ8V-0002OQ-Dt
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:14:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600949646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1DuwRiiDD6FKlwMUp1JEva/SPhkPCebn4fJiMfY5feI=;
+ b=ZPvHc1X/n23UO+4poSqUpeZLN17jZajvNfFoyhyMKNEnfBN0+5S17KuOEGHJYrs9TUMX0H
+ 5MiFy9Bw0yqPgIQ6NSAb8Qy5SXJUqW/bRMzNGhM1Uo4NkJhQAarg59FXzELWpfh5jSTk1A
+ 54ieQb/71Uos3DMK2qhFIz0oAhjev0o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-g3s_FbwoMyOA_aeZf3z4ew-1; Thu, 24 Sep 2020 08:14:03 -0400
+X-MC-Unique: g3s_FbwoMyOA_aeZf3z4ew-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 856EF1008550;
+ Thu, 24 Sep 2020 12:14:02 +0000 (UTC)
+Received: from localhost (ovpn-114-5.ams2.redhat.com [10.36.114.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E97661002C0B;
+ Thu, 24 Sep 2020 12:14:01 +0000 (UTC)
+Date: Thu, 24 Sep 2020 13:14:00 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v8 5/7] block: generate coroutine-wrapper code
+Message-ID: <20200924121400.GX62770@stefanha-x1.localdomain>
+References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
+ <20200915164411.20590-6-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
+In-Reply-To: <20200915164411.20590-6-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QKdGvSO+nmPlgiQ/"
+ protocol="application/pgp-signature"; boundary="zuE2pCA56U4I9Fhk"
 Content-Disposition: inline
-In-Reply-To: <20200923182021.3724-2-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
- helo=wnew4-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 08:12:11
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,52 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ crosa@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---QKdGvSO+nmPlgiQ/
-Content-Type: text/plain; charset=utf-8
+--zuE2pCA56U4I9Fhk
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sep 24 03:20, Dmitry Fomichev wrote:
-> Calculate the data shift value to report based on the set value of
-> logical_block_size device property.
+On Tue, Sep 15, 2020 at 07:44:09PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> Use code generation implemented in previous commit to generated
+> coroutine wrappers in block.c and block/io.c
 >=20
-> In the process, use a local variable to calculate the LBA format
-> index instead of the hardcoded value 0. This makes the code more
-> readable and it will make it easier to add support for multiple LBA
-> formats in the future.
->=20
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/coroutines.h    |   6 +-
+>  include/block/block.h |  16 ++--
+>  block.c               |  73 ---------------
+>  block/io.c            | 212 ------------------------------------------
+>  4 files changed, 13 insertions(+), 294 deletions(-)
 
-Yeah, using the standard approach of the logical_block_size parameter is
-probably preferable to an 'lbads' parameter as I've been doing.
+Nice
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---QKdGvSO+nmPlgiQ/
+--zuE2pCA56U4I9Fhk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9sjTsACgkQTeGvMW1P
-Dek6iwf+NzRtMYCDSfVtDHo/MDjps8kV9eVTeaaWA5mpgEkGd0HCcfUf8R7EL56G
-Hw07UHnPFmCcaNRMw35MNI+W0GUH4PTu92DGZg1qeXlE/x2YdH6XxDgnyKqfyvjD
-7GuQMxRQRpSHldSBCxSBSS9vI1UpU3UtlwWIZesalzBqoEiCFNNoGD1WEftQWKkZ
-F91Yr0zo6HWjB11b9LwpDW+fFxUVbl9tdPd3gMAqLIC4bugxlUxod8/AXwH3fXZN
-HIIDQBmCoF0Gb52UxRTxK64/eL5La9oyIua2Mos4VzervwuuSiw1RI7IYt9KQARk
-oxBq+ea2ha49HXLctVz8i9V1KzLyZw==
-=tcCY
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sjYgACgkQnKSrs4Gr
+c8ghmQf+IBBCHcX8c+2cR3WiY5pmHzk3xWdXkiO0Jc5+wmm5YlzwaV0NwQKmFoW0
+vqxX+cvvrGzenE/jSLv66FslGyXTqw+qu+c9fGabIbX7+f1hWILo5/aY0RqT1xJJ
+qSN24Kug+mWyiMlCBbHeYnBij1s9MjZF01x/TMfNswtO+UtJqxgs4vq1sCYaXsro
+6X0Yi9H9SI8a+h6esTIxN/mKPr6hMXPZP2ji3+gbVnMFGB+TGc10PyqGRdgJMAPN
+jcUdAWQRE4TLO86EoMfYDTMj/zKqR1L3Dh5mP0MFszmLt/EXihS3U8wpUxCzDbDP
+aAWSdFuiJJQPugUvjobfO5GPSF0AfA==
+=jVh2
 -----END PGP SIGNATURE-----
 
---QKdGvSO+nmPlgiQ/--
+--zuE2pCA56U4I9Fhk--
+
 
