@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873D8276B13
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:45:11 +0200 (CEST)
-Received: from localhost ([::1]:34376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77678276B21
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:48:14 +0200 (CEST)
+Received: from localhost ([::1]:42274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLLwE-0007Yc-It
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:45:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42746)
+	id 1kLLzB-0002Wx-HP
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLLs2-0002S6-3g
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:40:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36522)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLLtz-0005QU-Su
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:42:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLLrz-0001Ld-K3
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:40:49 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLLtx-0001ZW-44
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:42:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600933247;
+ s=mimecast20190719; t=1600933368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yv4pNmWwM6jkG8XlA2D+2eBmR/P5QIYOx0zuQhy4EuI=;
- b=UYa/L3PFonfX9fN0boqwaqdUY0GHJDT8XcoalRXq5prpEEEPeELvU82mus2So9QRfbsksa
- LmfOigoezxzC4l+SxKJHTozt4FVznB1+VXdhbzLa6W+H9Wx5TNuVtSn/FSYiZg2M7sq+DD
- RulTwom5wul2TVYJY5lzsOIRB8P/qaI=
+ bh=7QY63p3KnxMKXWrqLsF+U9HgSX0+VbykYuyEoUfzOFw=;
+ b=LyTycKbppTb0FInfwKwGYxtUn275pcEC8t+c+y4zad60pwFkbVN3f6a3BbMLiQ5fnIZWn5
+ qraihdcsAvJnk2i0y9q+VaSjB4Xl9eL8AH7OdqSi7ltaQsiP5cW8EMXE+U1YuUtpiidCws
+ ZAFRC9OG9LJuPXQryX4nf4/g8XAcqyk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-iVoOqBrHM3yjLA2knOnS0w-1; Thu, 24 Sep 2020 03:40:43 -0400
-X-MC-Unique: iVoOqBrHM3yjLA2knOnS0w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-294-yDj4eFtsPR2O1Q1QgHel9A-1; Thu, 24 Sep 2020 03:42:46 -0400
+X-MC-Unique: yDj4eFtsPR2O1Q1QgHel9A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0386364153;
- Thu, 24 Sep 2020 07:40:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C68D801E53;
+ Thu, 24 Sep 2020 07:42:45 +0000 (UTC)
 Received: from [10.36.114.4] (ovpn-114-4.ams2.redhat.com [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EFD229CBA;
- Thu, 24 Sep 2020 07:40:40 +0000 (UTC)
-Subject: Re: [PATCH 4/8] softfloat: Add float_cmask and constants
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68DA555788;
+ Thu, 24 Sep 2020 07:42:44 +0000 (UTC)
+Subject: Re: [PATCH 5/8] softfloat: Inline pick_nan_muladd into its caller
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200924012453.659757-1-richard.henderson@linaro.org>
- <20200924012453.659757-5-richard.henderson@linaro.org>
+ <20200924012453.659757-6-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -90,13 +90,13 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat GmbH
-Message-ID: <bee4024b-84c3-ec01-d49c-4d40064a13ca@redhat.com>
-Date: Thu, 24 Sep 2020 09:40:40 +0200
+Message-ID: <9f382d1d-800f-43c8-7dca-ddd961b527e2@redhat.com>
+Date: Thu, 24 Sep 2020 09:42:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200924012453.659757-5-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200924012453.659757-6-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -104,9 +104,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -133,85 +133,114 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 24.09.20 03:24, Richard Henderson wrote:
-> Testing more than one class at a time is better done with masks.
-> This reduces the static branch count.
+> Because of FloatParts, there will only ever be one caller.
+> Inlining allows us to re-use abc_mask for the snan test.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  fpu/softfloat.c | 31 ++++++++++++++++++++++++-------
->  1 file changed, 24 insertions(+), 7 deletions(-)
+>  fpu/softfloat.c | 75 +++++++++++++++++++++++--------------------------
+>  1 file changed, 35 insertions(+), 40 deletions(-)
 > 
 > diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-> index 9db55d2b11..3e625c47cd 100644
+> index 3e625c47cd..e038434a07 100644
 > --- a/fpu/softfloat.c
 > +++ b/fpu/softfloat.c
-> @@ -469,6 +469,20 @@ typedef enum __attribute__ ((__packed__)) {
->      float_class_snan,
->  } FloatClass;
+> @@ -929,45 +929,6 @@ static FloatParts pick_nan(FloatParts a, FloatParts b, float_status *s)
+>      return a;
+>  }
 >  
-> +#define float_cmask(bit)  (1u << (bit))
-> +
-> +enum {
-> +    float_cmask_zero    = float_cmask(float_class_zero),
-> +    float_cmask_normal  = float_cmask(float_class_normal),
-> +    float_cmask_inf     = float_cmask(float_class_inf),
-> +    float_cmask_qnan    = float_cmask(float_class_qnan),
-> +    float_cmask_snan    = float_cmask(float_class_snan),
-> +
-> +    float_cmask_infzero = float_cmask_zero | float_cmask_inf,
-> +    float_cmask_anynan  = float_cmask_qnan | float_cmask_snan,
-> +};
-> +
-> +
->  /* Simple helpers for checking if, or what kind of, NaN we have */
->  static inline __attribute__((unused)) bool is_nan(FloatClass c)
->  {
-> @@ -1335,24 +1349,27 @@ bfloat16 QEMU_FLATTEN bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
->  static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
->                                  int flags, float_status *s)
->  {
-> -    bool inf_zero = ((1 << a.cls) | (1 << b.cls)) ==
-> -                    ((1 << float_class_inf) | (1 << float_class_zero));
-> -    bool p_sign;
-> +    bool inf_zero, p_sign;
->      bool sign_flip = flags & float_muladd_negate_result;
->      FloatClass p_class;
->      uint64_t hi, lo;
->      int p_exp;
-> +    int ab_mask, abc_mask;
-> +
-> +    ab_mask = float_cmask(a.cls) | float_cmask(b.cls);
-> +    abc_mask = float_cmask(c.cls) | ab_mask;
-> +    inf_zero = ab_mask == float_cmask_infzero;
->  
->      /* It is implementation-defined whether the cases of (0,inf,qnan)
->       * and (inf,0,qnan) raise InvalidOperation or not (and what QNaN
->       * they return if they do), so we have to hand this information
+> -static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
+> -                                  bool inf_zero, float_status *s)
+> -{
+> -    int which;
+> -
+> -    if (is_snan(a.cls) || is_snan(b.cls) || is_snan(c.cls)) {
+> -        s->float_exception_flags |= float_flag_invalid;
+> -    }
+> -
+> -    which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
+> -
+> -    if (s->default_nan_mode) {
+> -        /* Note that this check is after pickNaNMulAdd so that function
+> -         * has an opportunity to set the Invalid flag.
+> -         */
+> -        which = 3;
+> -    }
+> -
+> -    switch (which) {
+> -    case 0:
+> -        break;
+> -    case 1:
+> -        a = b;
+> -        break;
+> -    case 2:
+> -        a = c;
+> -        break;
+> -    case 3:
+> -        return parts_default_nan(s);
+> -    default:
+> -        g_assert_not_reached();
+> -    }
+> -
+> -    if (is_snan(a.cls)) {
+> -        return parts_silence_nan(a, s);
+> -    }
+> -    return a;
+> -}
+> -
+>  /*
+>   * Returns the result of adding or subtracting the values of the
+>   * floating-point values `a' and `b'. The operation is performed
+> @@ -1366,7 +1327,41 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
 >       * off to the target-specific pick-a-NaN routine.
 >       */
-> -    if (is_nan(a.cls) || is_nan(b.cls) || is_nan(c.cls)) {
-> +    if (unlikely(abc_mask & float_cmask_anynan)) {
->          return pick_nan_muladd(a, b, c, inf_zero, s);
+>      if (unlikely(abc_mask & float_cmask_anynan)) {
+> -        return pick_nan_muladd(a, b, c, inf_zero, s);
+> +        int which;
+> +
+> +        if (unlikely(abc_mask & float_cmask_snan)) {
+> +            float_raise(float_flag_invalid, s);
+> +        }
+> +
+> +        which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
+> +
+> +        if (s->default_nan_mode) {
+> +            /*
+> +             * Note that this check is after pickNaNMulAdd so that function
+> +             * has an opportunity to set the Invalid flag for inf_zero.
+> +             */
+> +            which = 3;
+> +        }
+> +
+> +        switch (which) {
+> +        case 0:
+> +            break;
+> +        case 1:
+> +            a = b;
+> +            break;
+> +        case 2:
+> +            a = c;
+> +            break;
+> +        case 3:
+> +            return parts_default_nan(s);
+> +        default:
+> +            g_assert_not_reached();
+> +        }
+> +
+> +        if (is_snan(a.cls)) {
+> +            return parts_silence_nan(a, s);
+> +        }
+> +        return a;
 >      }
 >  
-> -    if (inf_zero) {
-> +    if (unlikely(inf_zero)) {
->          s->float_exception_flags |= float_flag_invalid;
->          return parts_default_nan(s);
->      }
-> @@ -1367,9 +1384,9 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
->          p_sign ^= 1;
->      }
->  
-> -    if (a.cls == float_class_inf || b.cls == float_class_inf) {
-> +    if (ab_mask & float_cmask_inf) {
->          p_class = float_class_inf;
-> -    } else if (a.cls == float_class_zero || b.cls == float_class_zero) {
-> +    } else if (ab_mask & float_cmask_zero) {
->          p_class = float_class_zero;
->      } else {
->          p_class = float_class_normal;
+>      if (unlikely(inf_zero)) {
 > 
+
+Not sure if that increases readability of muladd_floats() ... sometimes
+there is good reason to factor out stuff into subfunctions to improve
+readability.
+
+But the change itself looks good to me
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
