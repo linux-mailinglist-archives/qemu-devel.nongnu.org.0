@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C74277B4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:53:34 +0200 (CEST)
-Received: from localhost ([::1]:42590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7504D277B5C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:55:16 +0200 (CEST)
+Received: from localhost ([::1]:49904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLZBF-0000VF-8z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51860)
+	id 1kLZCt-0003V8-Hb
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:55:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZ9T-0008GX-EQ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:51:43 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:41098)
+ id 1kLZBa-0002E4-Nw
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:54 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:55364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZ9R-0007Nx-M4
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:51:43 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLnTeD086561;
- Thu, 24 Sep 2020 21:51:39 GMT
+ id 1kLZBY-0007Z9-Sv
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:54 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoPc4154795;
+ Thu, 24 Sep 2020 21:53:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=FQGfiuaepectu+CIoUSJvXuOOlAqYeYqgVd0DEcZYuQ=;
- b=aBouQVcA39p/7+oNz2hRdZCWaE3K7/WCaPMv22jYZyXXFn5ztw+POFpooMbhnUbqMASx
- VpCPfbSfb1KuoK++mLC7HxyFAk+erC4WnJQnE3RmOoUt3HcBLGC6s3MynCy/VoAYGL7r
- WKqMaWtpyb4nn3j2O8A0ewJNutLqDNtgZXvRJjg6l8ooR1uT2DZ0jbg7zfFLWC7HCaOg
- VCZ88bngB37ZfkUulTe5Bd82IgzEP3M3QNxkxLUhJQ+h0brbIRrj0oGfqsrpbKvSaj2Q
- V0alS+F68DNxD4PGhCM/KX8B3L2E3f32Klhl9RPISl/3kBS6pzrdc8C/mjt+WfKK9cau Bg== 
+ bh=B+7p1ec6eOXjsctlyNFkiV7VpoeUHraxRUYBIEAtB+Q=;
+ b=CMvqGan6qellP15SYHn96eVZR/N0la8aMzA+bx7G8GnNdJz+1/ss9vZCLUWFkmnj2KLE
+ B7GDSjE2fFej5V+RlPDYzM/OmURifvSFTCU6UmPWqkQIsPLy8O8xOlXZ0EkBa+z+53Th
+ LOTkPecPdiDxWeKzF09/Qov5B/fOLBsaDglKFg4YkSjw2XT6Y1vjTbHeAo2v5vkVzkgU
+ anVyPDASphf5cgt+PLjMMYa1uhMDLN1CRKjbNRsWo0U0MA2S+g5VdIvQaRNMohUv4gmL
+ 5uEIbnxZQRudU8IyH8qwFvk3ZkrIpanZJuPN7i5xQwKhixIM4QFyYFwjMJMu4BqqcESG oA== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 33q5rgs2qr-1
+ by aserp2130.oracle.com with ESMTP id 33qcpu7nrj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 21:51:39 +0000
+ Thu, 24 Sep 2020 21:53:50 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoBrC050370;
- Thu, 24 Sep 2020 21:51:38 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 33r28xj898-1
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoBrI050370;
+ Thu, 24 Sep 2020 21:51:50 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 33r28xj8du-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 21:51:38 +0000
+ Thu, 24 Sep 2020 21:51:50 +0000
 Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OLpahl009263;
- Thu, 24 Sep 2020 21:51:36 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OLpnru020497;
+ Thu, 24 Sep 2020 21:51:49 GMT
 Received: from [10.39.244.100] (/10.39.244.100)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 14:51:36 -0700
-Subject: Re: [PATCH V1 09/32] savevm: prevent cprsave if memory is volatile
+ with ESMTP ; Thu, 24 Sep 2020 14:51:49 -0700
+Subject: Re: [PATCH V1 12/32] vl: pause option
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-10-git-send-email-steven.sistare@oracle.com>
- <20200911173512.GO3310@work-vm>
+ <1596122076-341293-13-git-send-email-steven.sistare@oracle.com>
+ <87r1stdjes.fsf@linaro.org> <b18f2181-902b-a091-9711-93d49ab8aec8@oracle.com>
+ <20200911175934.GR3310@work-vm>
 From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <76393627-51be-e0b5-d7b3-bb7ae4aab9ca@oracle.com>
-Date: Thu, 24 Sep 2020 17:51:34 -0400
+Message-ID: <0c4c4e76-f869-b70f-83b2-11381890972c@oracle.com>
+Date: Thu, 24 Sep 2020 17:51:46 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200911173512.GO3310@work-vm>
+In-Reply-To: <20200911175934.GR3310@work-vm>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
  signatures=668680
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
@@ -74,23 +75,24 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  engine=8.12.0-2006250000 definitions=main-2009240156
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- impostorscore=0
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240156
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 16:42:31
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 spamscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009240156
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 17:43:55
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,117 +118,110 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/2020 1:35 PM, Dr. David Alan Gilbert wrote:
-> * Steve Sistare (steven.sistare@oracle.com) wrote:
->> cprsave and cprload require that guest ram be backed by an externally
->> visible shared file.  Check that in cprsave.
+On 9/11/2020 1:59 PM, Dr. David Alan Gilbert wrote:
+> * Steven Sistare (steven.sistare@oracle.com) wrote:
+>> On 7/30/2020 1:03 PM, Alex BennÃ©e wrote:
+>>>
+>>> Steve Sistare <steven.sistare@oracle.com> writes:
+>>>
+>>>> Provide the -pause command-line parameter and the QEMU_PAUSE environment
+>>>> variable to briefly pause QEMU in main and allow a developer to attach gdb.
+>>>> Useful when the developer does not invoke QEMU directly, such as when using
+>>>> libvirt.
+>>>
+>>> How does this differ from -S?
 >>
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->> ---
->>  exec.c                | 32 ++++++++++++++++++++++++++++++++
->>  include/exec/memory.h |  2 ++
->>  migration/savevm.c    |  4 ++++
->>  3 files changed, 38 insertions(+)
->>
->> diff --git a/exec.c b/exec.c
->> index 6f381f9..02160e0 100644
->> --- a/exec.c
->> +++ b/exec.c
->> @@ -2726,6 +2726,38 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
->>      return block->offset + offset;
->>  }
->>  
->> +/*
->> + * Return true if any memory regions are writable and not backed by shared
->> + * memory.  Exclude x86 option rom shadow "pc.rom" by name, even though it is
->> + * writable.
+>> The -S flag runs qemu to the main loop but does not start the guest.  Lots of code
+>> that you may need to debug runs before you get there.
 > 
-> Tell me about 'pc.rom' - this is a very odd hack.
-> Again note the trick done by the existing migration capability
-> x-ignore-shared ; it doesn't special case, it just doesn't migrate
-> the 'shared' blocks.
+> You might try the '--preconfig' option - that's pretty early on.
+> The other one is adding a chardev and telling it to wait for a server;
+> that'll wait until you telnet to the port.
+> 
+> (Either way, this patch shouldn't really be part of this series, it's a
+> separate discussion)
 
-pc.rom is indeed a rom.  Its contents do not change, and it can be recreated
-from scratch after a restart.  However, the x86 arch code does not mark it
-readonly, so there is no proper way to tell it is not volatile, and its
-presence blocks cprsave reboot.  Checking for the name "pc.rom" was the only
-way to recognize this anomaly, short of modifying the x86 code.
-
-However, I initially developed the above using an old version of qemu, and
-a more recent version has fixed it:
-
-pc_memory_init()
-    memory_region_init_ram(option_rom_mr, NULL, "pc.rom", PC_ROM_SIZE,
-                           &error_fatal);
-    if (pcmc->pci_enabled) {
-        memory_region_set_readonly(option_rom_mr, true);
-    }
-
-Now memory_region_is_rom() will correctly classify this segment, and I will
-happily delete the hack.
+Sure, I will pull it from the series.
 
 - Steve
 
->> + */
->> +bool qemu_ram_volatile(Error **errp)
->> +{
->> +    RAMBlock *block;
->> +    MemoryRegion *mr;
->> +    bool ret = false;
->> +
->> +    rcu_read_lock();
->> +    QLIST_FOREACH_RCU(block, &ram_list.blocks, next) {
->> +        mr = block->mr;
->> +        if (mr &&
->> +            memory_region_is_ram(mr) &&
->> +            !memory_region_is_ram_device(mr) &&
->> +            !memory_region_is_rom(mr) &&
->> +            (!mr->name || strcmp(mr->name, "pc.rom")) &&
->> +            (block->fd == -1 || !qemu_ram_is_shared(block))) {
->> +
->> +            error_setg(errp, "Memory region %s is volatile",
->> +                       memory_region_name(mr));
->> +            ret = true;
->> +            break;
->> +        }
->> +    }
->> +
->> +    rcu_read_unlock();
->> +    return ret;
->> +}
->> +
->>  /* Generate a debug exception if a watchpoint has been hit.  */
->>  void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
->>                            MemTxAttrs attrs, int flags, uintptr_t ra)
->> diff --git a/include/exec/memory.h b/include/exec/memory.h
->> index 307e527..6aafbb0 100644
->> --- a/include/exec/memory.h
->> +++ b/include/exec/memory.h
->> @@ -2519,6 +2519,8 @@ bool ram_block_discard_is_disabled(void);
->>   */
->>  bool ram_block_discard_is_required(void);
->>  
->> +bool qemu_ram_volatile(Error **errp);
->> +
->>  #endif
->>  
->>  #endif
->> diff --git a/migration/savevm.c b/migration/savevm.c
->> index 1509173..f101039 100644
->> --- a/migration/savevm.c
->> +++ b/migration/savevm.c
->> @@ -2713,6 +2713,10 @@ void save_cpr_snapshot(const char *file, const char *mode, Error **errp)
->>          return;
->>      }
->>  
->> +    if (op == VMS_REBOOT && qemu_ram_volatile(errp)) {
->> +        return;
->> +    }
->> +
->>      f = qf_file_open(file, O_CREAT | O_WRONLY | O_TRUNC, 0600, errp);
->>      if (!f) {
->>          return;
->> -- 
->> 1.8.3.1
+>> - Steve
+>>>> Usage:
+>>>>   qemu -pause <seconds>
+>>>>   or
+>>>>   export QEMU_PAUSE=<seconds>
+>>>>
+>>>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>>>> ---
+>>>>  qemu-options.hx |  9 +++++++++
+>>>>  softmmu/vl.c    | 15 ++++++++++++++-
+>>>>  2 files changed, 23 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/qemu-options.hx b/qemu-options.hx
+>>>> index 708583b..8505cf2 100644
+>>>> --- a/qemu-options.hx
+>>>> +++ b/qemu-options.hx
+>>>> @@ -3668,6 +3668,15 @@ SRST
+>>>>      option is experimental.
+>>>>  ERST
+>>>>  
+>>>> +DEF("pause", HAS_ARG, QEMU_OPTION_pause, \
+>>>> +    "-pause secs    Pause for secs seconds on entry to main.\n", QEMU_ARCH_ALL)
+>>>> +
+>>>> +SRST
+>>>> +``--pause secs``
+>>>> +    Pause for a number of seconds on entry to main.  Useful for attaching
+>>>> +    a debugger after QEMU has been launched by some other entity.
+>>>> +ERST
+>>>> +
+>>>
+>>> It seems like having an option to race with the debugger is just asking
+>>> for trouble.
+>>>
+>>>>  DEF("S", 0, QEMU_OPTION_S, \
+>>>>      "-S              freeze CPU at startup (use 'c' to start execution)\n",
+>>>>      QEMU_ARCH_ALL)
+>>>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>>>> index 8478778..951994f 100644
+>>>> --- a/softmmu/vl.c
+>>>> +++ b/softmmu/vl.c
+>>>> @@ -2844,7 +2844,7 @@ static void create_default_memdev(MachineState *ms, const char *path)
+>>>>  
+>>>>  void qemu_init(int argc, char **argv, char **envp)
+>>>>  {
+>>>> -    int i;
+>>>> +    int i, seconds;
+>>>>      int snapshot, linux_boot;
+>>>>      const char *initrd_filename;
+>>>>      const char *kernel_filename, *kernel_cmdline;
+>>>> @@ -2882,6 +2882,13 @@ void qemu_init(int argc, char **argv, char **envp)
+>>>>      QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+>>>>      int mem_prealloc = 0; /* force preallocation of physical target memory */
+>>>>  
+>>>> +    if (getenv("QEMU_PAUSE")) {
+>>>> +        seconds = atoi(getenv("QEMU_PAUSE"));
+>>>> +        printf("Pausing %d seconds for debugger. QEMU PID is %d\n",
+>>>> +               seconds, getpid());
+>>>> +        sleep(seconds);
+>>>> +    }
+>>>> +
+>>>>      os_set_line_buffering();
+>>>>  
+>>>>      error_init(argv[0]);
+>>>> @@ -3204,6 +3211,12 @@ void qemu_init(int argc, char **argv, char **envp)
+>>>>              case QEMU_OPTION_gdb:
+>>>>                  add_device_config(DEV_GDB, optarg);
+>>>>                  break;
+>>>> +            case QEMU_OPTION_pause:
+>>>> +                seconds = atoi(optarg);
+>>>> +                printf("Pausing %d seconds for debugger. QEMU PID is %d\n",
+>>>> +                            seconds, getpid());
+>>>> +                sleep(seconds);
+>>>> +                break;
+>>>>              case QEMU_OPTION_L:
+>>>>                  if (is_help_option(optarg)) {
+>>>>                      list_data_dirs = true;
+>>>
+>>>
 >>
 
