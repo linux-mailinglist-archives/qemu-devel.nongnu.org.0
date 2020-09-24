@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A6D276E40
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:09:54 +0200 (CEST)
-Received: from localhost ([::1]:44862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57813276EB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:26:29 +0200 (CEST)
+Received: from localhost ([::1]:42262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOCH-0008Od-7R
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39682)
+	id 1kLOSK-0006EX-ET
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUj-0003GQ-D5
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37218)
+ id 1kLNUq-0003Le-Cg
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUf-0006Dj-1O
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:52 -0400
+ id 1kLNUh-0006Dq-4I
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939488;
+ s=mimecast20190719; t=1600939489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2HvvtwzpHTGOzwzadI1RwIMbDs7UrGgpyDO7sMz7WK0=;
- b=Dxf5gb6sBzf/E6dS6HTRNS03UbyEim9uoozFaJHnUiVJ5fa1yFSxe69W7IHNAd651lu46p
- YHTIEwsM1QSdHPF0BIJoaEOdR2j11IrSFXfcqekPYqxai+384Sd+w6RfNUtMafjnFt44it
- gvlvwZBcG/+dBKaIU6rnEmSu+AbwPMo=
+ bh=d7RPn/3ZahkSmBmiIune9UP+DrkZTWoN9Va0y+S87Hg=;
+ b=OL0u1kao1AUCLMzNVMKM4arXnz2twTFEZYk4rTw6xDgLnddmSD47Gx7xcMj+VJJvGW8ym1
+ /MODBKFoRWRE4OTvi8z55a4qrv9SoBILNc1x2p4+HEsdzuKIJ+I/wC9bpqinUv84kCPn+g
+ I2Enrat8myOn5/IJaHLhpxJzg2f9DZc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-Kcoju48jOu6ir8mxElibHw-1; Thu, 24 Sep 2020 05:24:46 -0400
-X-MC-Unique: Kcoju48jOu6ir8mxElibHw-1
+ us-mta-360-C1FDytsyPlCIZ7yskSDojA-1; Thu, 24 Sep 2020 05:24:47 -0400
+X-MC-Unique: C1FDytsyPlCIZ7yskSDojA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F0E61009456
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87B901868438
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D1775C1C7;
- Thu, 24 Sep 2020 09:24:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 399B35C1C7;
+ Thu, 24 Sep 2020 09:24:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 75/92] hw/i386/xen: Rename X86/PC specific function as
- xen_hvm_init_pc()
-Date: Thu, 24 Sep 2020 05:22:57 -0400
-Message-Id: <20200924092314.1722645-76-pbonzini@redhat.com>
+Subject: [PULL 77/92] stubs: Split accelerator / hardware related stubs
+Date: Thu, 24 Sep 2020 05:22:59 -0400
+Message-Id: <20200924092314.1722645-78-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -88,82 +87,152 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-xen_hvm_init() is only meanful to initialize a X86/PC machine,
-rename it as xen_hvm_init_pc().
+Move hardware stubs unrelated from the accelerator to xen-hw-stub.c.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200908155530.249806-3-philmd@redhat.com>
+Message-Id: <20200908155530.249806-5-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/stubs/xen-stub.c | 2 +-
- hw/i386/pc_piix.c      | 6 +++---
- hw/i386/xen/xen-hvm.c  | 2 +-
- include/hw/xen/xen.h   | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ MAINTAINERS            |  1 +
+ accel/stubs/xen-stub.c | 41 +----------------------------------
+ stubs/meson.build      |  1 +
+ stubs/xen-hw-stub.c    | 49 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 52 insertions(+), 40 deletions(-)
+ create mode 100644 stubs/xen-hw-stub.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b01385484..40e6133022 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -480,6 +480,7 @@ F: include/hw/block/dataplane/xen*
+ F: include/hw/xen/
+ F: include/sysemu/xen.h
+ F: include/sysemu/xen-mapcache.h
++F: stubs/xen-hw-stub.c
+ 
+ Guest CPU Cores (HAXM)
+ ---------------------
 diff --git a/accel/stubs/xen-stub.c b/accel/stubs/xen-stub.c
-index 8ae658acff..fa3dddbce5 100644
+index fa3dddbce5..7ba0b697f4 100644
 --- a/accel/stubs/xen-stub.c
 +++ b/accel/stubs/xen-stub.c
-@@ -46,7 +46,7 @@ void xen_register_framebuffer(MemoryRegion *mr)
+@@ -6,50 +6,11 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/xen/xen.h"
++#include "sysemu/xen.h"
+ #include "qapi/qapi-commands-misc.h"
+ 
+ bool xen_allowed;
+ 
+-void xenstore_store_pv_console_info(int i, Chardev *chr)
+-{
+-}
+-
+-int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+-{
+-    return -1;
+-}
+-
+-void xen_piix3_set_irq(void *opaque, int irq_num, int level)
+-{
+-}
+-
+-void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
+-{
+-}
+-
+-void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
+-{
+-}
+-
+-int xen_is_pirq_msi(uint32_t msi_data)
+-{
+-    return 0;
+-}
+-
+-qemu_irq *xen_interrupt_controller_init(void)
+-{
+-    return NULL;
+-}
+-
+-void xen_register_framebuffer(MemoryRegion *mr)
+-{
+-}
+-
+-void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+-{
+-}
+-
+ void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
  {
  }
- 
--void xen_hvm_init(PCMachineState *pcms, MemoryRegion **ram_memory)
+diff --git a/stubs/meson.build b/stubs/meson.build
+index e0b322bc28..5730f1d967 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -46,4 +46,5 @@ stub_ss.add(files('vm-stop.c'))
+ stub_ss.add(files('win32-kbd-hook.c'))
+ if have_system
+   stub_ss.add(files('semihost.c'))
++  stub_ss.add(files('xen-hw-stub.c'))
+ endif
+diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
+new file mode 100644
+index 0000000000..d14efef49e
+--- /dev/null
++++ b/stubs/xen-hw-stub.c
+@@ -0,0 +1,49 @@
++/*
++ * Copyright (C) 2014       Citrix Systems UK Ltd.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/xen/xen.h"
++
++void xenstore_store_pv_console_info(int i, Chardev *chr)
++{
++}
++
++int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
++{
++    return -1;
++}
++
++void xen_piix3_set_irq(void *opaque, int irq_num, int level)
++{
++}
++
++void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
++{
++}
++
++void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
++{
++}
++
++int xen_is_pirq_msi(uint32_t msi_data)
++{
++    return 0;
++}
++
++qemu_irq *xen_interrupt_controller_init(void)
++{
++    return NULL;
++}
++
++void xen_register_framebuffer(MemoryRegion *mr)
++{
++}
++
 +void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
- {
- }
- 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 32c5d95762..9eaf8d6e0d 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -117,8 +117,8 @@ static void pc_init1(MachineState *machine,
-      *    so legacy non-PAE guests can get as much memory as possible in
-      *    the 32bit address space below 4G.
-      *
--     *  - Note that Xen has its own ram setp code in xen_ram_init(),
--     *    called via xen_hvm_init().
-+     *  - Note that Xen has its own ram setup code in xen_ram_init(),
-+     *    called via xen_hvm_init_pc().
-      *
-      * Examples:
-      *    qemu -M pc-1.7 -m 4G    (old default)    -> 3584M low,  512M high
-@@ -127,7 +127,7 @@ static void pc_init1(MachineState *machine,
-      *    qemu -M pc,max-ram-below-4g=4G -m 3968M  -> 3968M low (=4G-128M)
-      */
-     if (xen_enabled()) {
--        xen_hvm_init(pcms, &ram_memory);
-+        xen_hvm_init_pc(pcms, &ram_memory);
-     } else {
-         if (!pcms->max_ram_below_4g) {
-             pcms->max_ram_below_4g = 0xe0000000; /* default: 3.5G */
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index cde981bad6..49748cda3f 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -1395,7 +1395,7 @@ static int xen_map_ioreq_server(XenIOState *state)
-     return 0;
- }
- 
--void xen_hvm_init(PCMachineState *pcms, MemoryRegion **ram_memory)
-+void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
- {
-     MachineState *ms = MACHINE(pcms);
-     unsigned int max_cpus = ms->smp.max_cpus;
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index 771dd447f2..b2b459964c 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -30,7 +30,7 @@ qemu_irq *xen_interrupt_controller_init(void);
- 
- void xenstore_store_pv_console_info(int i, struct Chardev *chr);
- 
--void xen_hvm_init(PCMachineState *pcms, MemoryRegion **ram_memory);
-+void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory);
- 
- void xen_register_framebuffer(struct MemoryRegion *mr);
- 
++{
++}
 -- 
 2.26.2
 
