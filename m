@@ -2,52 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7B3277078
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:58:50 +0200 (CEST)
-Received: from localhost ([::1]:41064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623672770BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:16:28 +0200 (CEST)
+Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLPth-0003h5-4p
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:58:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47316)
+	id 1kLQAl-00079C-8M
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLPsh-00035C-Qm
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:57:47 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:57653)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLQ6i-0006Ar-Dp; Thu, 24 Sep 2020 08:12:16 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:58049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLPsf-0000Pk-Oa
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:57:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:Message-ID:Date:Subject:Cc:To:From:References:In-Reply-To:
- Content-ID:Content-Description;
- bh=L9nt56S3nkYwbd86NN7QtAnheg9UvozPZIsKRiYCOb8=; b=Djtddp+zHBkhBmlPUBbGFW752P
- 40Q2ZW5pHJHcGj5+EL99RBFHKXmueZPGPeWRrCm1d1vei4alwp5oYAzCSbz/am/+54g58Jl4A6DpT
- oyBsUKBMprlLjG3CftrXMe3MOZY6+C5DT7uFDG3aBBGr1veTcrbI6OQJAuLYalqVl2QxpzhE0mByM
- GocgD2TsRDPViMLkVRauJxDqPY33YLuuWqrM6GNFNElBGosUEFcxJii+9UN46udze3qZouMrNiGnu
- u152zkUfsYwotIj9AH75A1KqnhGUNnMjLTPeRSr1cYqZMuFLvBar3ubZNc3o5S2xRPKr2FdWUBKMs
- c8Vs697g==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Greg Kurz <groug@kaod.org>
-Subject: qtest with multiple driver instances
-Date: Thu, 24 Sep 2020 13:57:40 +0200
-Message-ID: <4696583.mNQJtTt8NE@silver>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLQ6f-0002CX-WE; Thu, 24 Sep 2020 08:12:16 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id E78AA871;
+ Thu, 24 Sep 2020 08:12:09 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Thu, 24 Sep 2020 08:12:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=6IK7TzQXElnByGPtTxW84d34Hwf
+ xTEA7wiw3tbKOkTY=; b=qQ0GbubkjbhyAEaFufrOoX1RVBcJYr4vwGx0XihY6KM
+ 9Ognhi9YB24gLYTdGqK1VzD9YNOixfKfKehGJooM7jOo0LGd01FfAWqU0nDHezyy
+ DVNgD0qPzHODWAlH9gPI8gCaw9wm9NeZY2ILCadjuURNKqrykUTUgWL7UloQhbwD
+ VDVPpmK2DvnCESQ1iSVxv2NBbMDX/8aLe49XtlarH03ntNbk07mhFJZx5Kl6QQMy
+ +8YKcZbFaa0qpb4tvhmnjq394cvz/lRi8knK5JDdMtju/DWpO9gS4bowCedUFsH5
+ MB1rBIvFQOZd8ZNHvtPuAmaAxySdiGIN/bzcpZPXUTg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=6IK7Tz
+ QXElnByGPtTxW84d34HwfxTEA7wiw3tbKOkTY=; b=jNqdiRODgojbdNqu5x1EDw
+ 5eP3dGmjWOrkgcIfmU31SUYa8mG5NswpSkOdcVmKS8bdNnLr07sTnvySH9UjNhJQ
+ zq9ZOKuYdlbj6wT0V1d6eDlOb+7nrNNQaC3O8XNhhYKrENenkDkvimydnkJiK+nN
+ QlzPTkXgGe4bv1JibXEqBrzu+55qGxwmf+uPlUDbNMjHltIQMTELH5mi3wIIJVkh
+ aCL9sPHpLNZuH78tpYZJVyvj+yLwOPbz4wT0VCd1QEKBEV6dnO2gjJv5Kxb/fSbJ
+ I/88nqZNBhTodnQ8qmqPZ2XASP+m2CNz2Ub7gefqlZGMbcV/9mJZX3LFKjKScCgQ
+ ==
+X-ME-Sender: <xms:F41sX2apODXyvbisYxr-fClpH5RHnUBep6ka6FUgOjV2IaZQcyfR4w>
+ <xme:F41sX5bgT3e7BQ4WyLm4se_JYhr6UaQ-QKfeHNHaYDx3hZlzM5pgJHjZHWy3gfbRA
+ TMGfkQPjdHwWZ5Re9M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdehudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnheptdeggeevleevffevtdeuffehgeevhfeiudetheeuvdegueejkeelueekgedvieeh
+ necuffhomhgrihhnpehophgtohguvgdrmhihnecukfhppeektddrudeijedrleekrddule
+ dtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihht
+ shesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:F41sXw-8caYoe_kdb2p3AAG_kQAq8U5kUYuq2vtEUmqDxqiYWnrERA>
+ <xmx:F41sX4r4GbKHd6DBhSwp3jzGWkheBnIq7dLcgHZFyr0PTwSrWvX3xg>
+ <xmx:F41sXxqT1jEmQWbOiMkU9_QVX1i5T07ep8pSn2iV9JIQFOiElc3Ccw>
+ <xmx:GY1sXyQOpn_u_yZeXzw3gngsJPhFJPGyRwuguKN1BPyf29iPvN6sb7oAomzLvTlb>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B17A33064680;
+ Thu, 24 Sep 2020 08:12:05 -0400 (EDT)
+Date: Thu, 24 Sep 2020 14:12:03 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v4 06/14] hw/block/nvme: Add support for active/inactive
+ namespaces
+Message-ID: <20200924121203.GA1738917@apples.localdomain>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+ <20200923182021.3724-7-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 07:57:42
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7JfCtLOvnd9MIVvH"
+Content-Disposition: inline
+In-Reply-To: <20200923182021.3724-7-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
+ helo=wnew4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 08:12:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,33 +98,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-I'm currently puzzled with what looks like a limitation of the qtest 
-infrastructure: am I right that it's not possible to use multiple instances of 
-the same driver with qtests?
+--7JfCtLOvnd9MIVvH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Purpose: I need to add test cases for the 9p 'local' fs driver. So far we only 
-have 9p qtests using the 'synth' fs driver. The problem is, both driver 
-instances would pop up with the same QEMU driver name ("virtio-9p-pci"), and 
-AFAICS qtests in general reference their driver instance by driver name only, 
-which must be a) a unique driver name and b) must match the official QEMU 
-driver name and c) all qtest driver instances are in a global space for all 
-qtests.
+On Sep 24 03:20, Dmitry Fomichev wrote:
+> From: Niklas Cassel <niklas.cassel@wdc.com>
+>=20
+> In NVMe, a namespace is active if it exists and is attached to the
+> controller.
+>=20
+> CAP.CSS (together with the I/O Command Set data structure) defines what
+> command sets are supported by the controller.
+>=20
+> CC.CSS (together with Set Profile) can be set to enable a subset of the
+> available command sets. The namespaces belonging to a disabled command set
+> will not be able to attach to the controller, and will thus be inactive.
+>=20
+> E.g., if the user sets CC.CSS to Admin Only, NVM namespaces should be
+> marked as inactive.
+>=20
 
-Is there any workaround or something that I didn't see? Like letting qtests 
-reference a driver instance by PCI address or something?
+Hmm. I'm not convinced that this is correct. Can you reference the spec?
 
-Right now the only option that I see is a hack: forcing one driver instance to 
-use a different bus system like e.g. -> "virtio-9p-ccw" vs. "virtio-9p-pci".
+On the specific case you mention the spec is actually pretty clear:
 
-Any hint appreciated!
+  "When only the Admin Command Set is supported, any command submitted
+  on an I/O Submission Queue and any I/O Command Set Specific Admin
+  command submitted on the Admin Submission Queue is completed with
+  status Invalid Command Opcode."
 
-Best regards,
-Christian Schoenebeck
+My /interpretation/ (because the spec is vague on this point) is that
+with TP 4056, if the host writes 0x0 to CC.CSS, you will (should) just
+see Invalid Command Opcode for namespaces not supporting the NVM command
+set since we are operating in a backward compatible way.
 
+Now, if the host sets CC.CSS to 0x6, then it is obviously aware of
+namespaces and other rules apply. For instance, it may set the I/O
+Command Set Combination Index through a Set Features command, but TP
+4056 is clear that the host will not be allowed to choose a combination
+that leaves an attached namespace unsupported.
 
+For this device, that does not implement namespace management and thus
+has no notion of attaching/detaching namespaces, the controller should
+by default choose an I/O Command Set Combination that indicates support
+for all I/O command sets that are required to support the namespaces
+configured.
+
+--7JfCtLOvnd9MIVvH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9sjREACgkQTeGvMW1P
+DenvHgf+J/Ao3Ir2iWKvH7JFI02/cKsaSuamIpmF6UlXwKFtdc9QzXZTOscnmsh5
+vmnLRA1NpTOk0bFZShlUP3zCJyMf1goT6CCMEkVLA3g1dIDpul/tWnahXG0agj7l
+57bvhfhJBKFaThAAMKJyIYygI1SZgFvBmLn/7dxUKmD10FrLL+mptZ0Urh5VxNKg
+b3V6WEdhj7Vm+LjXEkOnV/RS8PxaCpgCmS3ay1cL/4Rp5vwICFypFXc2Y6obCAvq
+d/KUYF5/JRrclsYFqNOZ7h1M9SzGwrVd3YoJgetF9Zx8Yse/D0LTr5vOxCpnZokS
+uUfExFm2TpKUYWpaSfFXlvHT89xf7Q==
+=rePr
+-----END PGP SIGNATURE-----
+
+--7JfCtLOvnd9MIVvH--
 
