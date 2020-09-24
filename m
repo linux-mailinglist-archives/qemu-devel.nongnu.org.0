@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E8D276DB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:46:22 +0200 (CEST)
-Received: from localhost ([::1]:46062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE0D276DCB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:48:21 +0200 (CEST)
+Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNpV-0005Kg-HS
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
+	id 1kLNrQ-0000Tv-2t
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTn-00013L-1r
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50063)
+ id 1kLNTm-00012R-NL
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTk-00063k-By
+ id 1kLNTk-00063m-Bx
  for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600939431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TDz7rvUfqEw9N2lF4clALKh5sIsbFpsUABaYQ29sh/A=;
- b=W8rfklcfJNlU6lPR1wS8q9qwxX8JAu4YH64wcgXsuIEoM5B0DoPsEcuDPvUcCH2Lj4GRVo
- 4Mum8V9wEZ3u0WBogeIPRZypwEPH/KLs7n9jgfxhwSuN7oMO2hKM+PfLNZ+iWH5pPLlMuc
- 5m3VtMCOcc8K27qnvNbZ5aTSw3xf9NU=
+ bh=y/53xVh7G30Os6e+dT38eFz5BUFYErz+wYhkiPlCSDY=;
+ b=Ucd/h9+6JBayEgy8v6Z8QhEvdVODezTr/LWgmc+fGrHMKu8fOe1WvvBFwlMWcGn/G08LFm
+ Y8gUc5M3uV3U3z6k4AzySqZruL3+3/r5ikNxC3OuYPDEsZaPsQS5vah5NNUuMcsQazHVjr
+ crFYyxINKUQXlUW3Ke0P+D7k1eduzG0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-22RBhs4KNPqMKEIPbmVfHA-1; Thu, 24 Sep 2020 05:23:49 -0400
-X-MC-Unique: 22RBhs4KNPqMKEIPbmVfHA-1
+ us-mta-567-stz3QAvqN_GPhM47Hh-MdQ-1; Thu, 24 Sep 2020 05:23:49 -0400
+X-MC-Unique: stz3QAvqN_GPhM47Hh-MdQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 500EC800471
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD726393BE
  for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:48 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0299755764;
- Thu, 24 Sep 2020 09:23:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70FB755764
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/92] meson: report accelerator support
-Date: Thu, 24 Sep 2020 05:22:20 -0400
-Message-Id: <20200924092314.1722645-39-pbonzini@redhat.com>
+Subject: [PULL 39/92] oslib: do not call g_strdup from qemu_get_exec_dir
+Date: Thu, 24 Sep 2020 05:22:21 -0400
+Message-Id: <20200924092314.1722645-40-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -81,94 +81,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that the "real" support is reported.  A configuration like
---disable-system --enable-kvm will report "no" for "KVM support" because
-no KVM-supported target is being compiled.
+Just return the directory without requiring the caller to free it.
+This also removes a bogus check for NULL in os_find_datadir and
+module_load_one; g_strdup of a static variable cannot return NULL.
 
-Reported-by: Andrew Jones <drjones@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 35 ++++++++++++++++++++++++-----------
- 1 file changed, 24 insertions(+), 11 deletions(-)
+ include/qemu/osdep.h    |  8 ++------
+ os-posix.c              |  6 +-----
+ os-win32.c              |  2 +-
+ tests/qtest/fuzz/fuzz.c |  4 ++--
+ util/module.c           |  7 +------
+ util/oslib-posix.c      |  8 +++++---
+ util/oslib-win32.c      | 12 ++++++++----
+ 7 files changed, 20 insertions(+), 27 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 6abb8bbcb1..fedf44ed79 100644
---- a/meson.build
-+++ b/meson.build
-@@ -583,6 +583,7 @@ endforeach
- genh += configure_file(output: 'config-host.h', configuration: config_host_data)
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index dad44be043..f9ec8c84e9 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -597,12 +597,8 @@ char *qemu_get_local_state_pathname(const char *relative_pathname);
+  * Try OS specific API first, if not working, parse from argv0. */
+ void qemu_init_exec_dir(const char *argv0);
  
- minikconf = find_program('scripts/minikconf.py')
-+config_all = {}
- config_all_devices = {}
- config_all_disas = {}
- config_devices_mak_list = []
-@@ -638,6 +639,14 @@ kconfig_external_symbols = [
- ]
- ignored = ['TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_DIRS']
+-/* Get the saved exec dir.
+- *
+- * The caller is responsible for releasing the value returned with g_free()
+- * after use.
+- */
+-char *qemu_get_exec_dir(void);
++/* Get the saved exec dir.  */
++const char *qemu_get_exec_dir(void);
  
-+accel_symbols = [
-+  'CONFIG_KVM',
-+  'CONFIG_HAX',
-+  'CONFIG_HVF',
-+  'CONFIG_TCG',
-+  'CONFIG_WHPX'
-+]
+ /**
+  * qemu_getauxval:
+diff --git a/os-posix.c b/os-posix.c
+index 0bfd8e2d3c..36e344c544 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -90,13 +90,9 @@ void os_setup_signal_handling(void)
+  */
+ char *os_find_datadir(void)
+ {
+-    g_autofree char *exec_dir = NULL;
+     g_autofree char *dir = NULL;
+ 
+-    exec_dir = qemu_get_exec_dir();
+-    g_return_val_if_fail(exec_dir != NULL, NULL);
+-
+-    dir = g_build_filename(exec_dir, "pc-bios", NULL);
++    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
+     if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
+         return g_steal_pointer(&dir);
+     }
+diff --git a/os-win32.c b/os-win32.c
+index c9c3afe648..eb8501b9e5 100644
+--- a/os-win32.c
++++ b/os-win32.c
+@@ -65,7 +65,7 @@ void os_setup_early_signal_handling(void)
+  */
+ char *os_find_datadir(void)
+ {
+-    return qemu_get_exec_dir();
++    return g_strdup(qemu_get_exec_dir());
+ }
+ 
+ void os_set_line_buffering(void)
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 7f266ffc63..d3a3ccdec9 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -143,7 +143,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+ {
+ 
+     char *target_name;
+-    char *bindir, *datadir;
++    const char *bindir;
++    char *datadir;
+     bool serialize = false;
+ 
+     /* Initialize qgraph and modules */
+@@ -166,7 +167,6 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+          */
+         bindir = g_path_get_dirname(**argv);
+         datadir = g_build_filename(bindir, "pc-bios", NULL);
+-        g_free(bindir);
+         if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
+             qemu_add_data_dir(datadir);
+         }
+diff --git a/util/module.c b/util/module.c
+index 34772e7d87..9ffe83bb32 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -172,7 +172,6 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ 
+ #ifdef CONFIG_MODULES
+     char *fname = NULL;
+-    char *exec_dir;
+ #ifdef CONFIG_MODULE_UPGRADES
+     char *version_dir;
+ #endif
+@@ -199,13 +198,12 @@ bool module_load_one(const char *prefix, const char *lib_name)
+         return true;
+     }
+ 
+-    exec_dir = qemu_get_exec_dir();
+     search_dir = getenv("QEMU_MODULE_DIR");
+     if (search_dir != NULL) {
+         dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
+     }
+     dirs[n_dirs++] = g_strdup_printf("%s", CONFIG_QEMU_MODDIR);
+-    dirs[n_dirs++] = g_strdup_printf("%s", exec_dir ? : "");
++    dirs[n_dirs++] = g_strdup(qemu_get_exec_dir());
+ 
+ #ifdef CONFIG_MODULE_UPGRADES
+     version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
+@@ -216,9 +214,6 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ 
+     assert(n_dirs <= ARRAY_SIZE(dirs));
+ 
+-    g_free(exec_dir);
+-    exec_dir = NULL;
+-
+     for (i = 0; i < n_dirs; i++) {
+         fname = g_strdup_printf("%s/%s%s",
+                 dirs[i], module_name, CONFIG_HOST_DSOSUF);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index f5f676f079..18531fc859 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -366,7 +366,9 @@ void qemu_init_exec_dir(const char *argv0)
+     char *p = NULL;
+     char buf[PATH_MAX];
+ 
+-    assert(!exec_dir[0]);
++    if (exec_dir[0]) {
++        return;
++    }
+ 
+ #if defined(__linux__)
+     {
+@@ -439,9 +441,9 @@ void qemu_init_exec_dir(const char *argv0)
+     g_free(dir);
+ }
+ 
+-char *qemu_get_exec_dir(void)
++const char *qemu_get_exec_dir(void)
+ {
+-    return g_strdup(exec_dir);
++    return exec_dir;
+ }
+ 
+ static void sigbus_handler(int signal)
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index c654dafd93..1a33912944 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -315,7 +315,7 @@ void qemu_set_tty_echo(int fd, bool echo)
+     }
+ }
+ 
+-static char exec_dir[PATH_MAX];
++static char *exec_dir;
+ 
+ void qemu_init_exec_dir(const char *argv0)
+ {
+@@ -324,6 +324,10 @@ void qemu_init_exec_dir(const char *argv0)
+     char buf[MAX_PATH];
+     DWORD len;
+ 
++    if (exec_dir) {
++        return;
++    }
 +
- foreach target : target_dirs
-   config_target = keyval.load(meson.current_build_dir() / target / 'config-target.mak')
+     len = GetModuleFileName(NULL, buf, sizeof(buf) - 1);
+     if (len == 0) {
+         return;
+@@ -336,13 +340,13 @@ void qemu_init_exec_dir(const char *argv0)
+     }
+     *p = 0;
+     if (access(buf, R_OK) == 0) {
+-        pstrcpy(exec_dir, sizeof(exec_dir), buf);
++        exec_dir = g_strdup(buf);
+     }
+ }
  
-@@ -666,6 +675,11 @@ foreach target : target_dirs
-       config_target_data.set(k, v)
-     endif
-   endforeach
-+  foreach sym: accel_symbols
-+    if config_target.has_key(sym)
-+      config_all += { sym: 'y' }
-+    endif
-+  endforeach
-   config_target_h += {target: configure_file(output: target + '-config-target.h',
-                                                configuration: config_target_data)}
+-char *qemu_get_exec_dir(void)
++const char *qemu_get_exec_dir(void)
+ {
+-    return g_strdup(exec_dir);
++    return exec_dir;
+ }
  
-@@ -710,7 +724,7 @@ endforeach
- # targets that are not built for this compilation.  The CONFIG_ALL
- # pseudo symbol replaces it.
- 
--config_all = config_all_devices
-+config_all += config_all_devices
- config_all += config_host
- config_all += config_all_disas
- config_all += {
-@@ -1537,16 +1551,15 @@ summary_info += {'Linux AIO support': config_host.has_key('CONFIG_LINUX_AIO')}
- summary_info += {'Linux io_uring support': config_host.has_key('CONFIG_LINUX_IO_URING')}
- summary_info += {'ATTR/XATTR support': config_host.has_key('CONFIG_ATTR')}
- summary_info += {'Install blobs':     config_host.has_key('INSTALL_BLOBS')}
--# TODO: add back KVM/HAX/HVF/WHPX/TCG
--#summary_info += {'KVM support':       have_kvm'}
--#summary_info += {'HAX support':       have_hax'}
--#summary_info += {'HVF support':       have_hvf'}
--#summary_info += {'WHPX support':      have_whpx'}
--#summary_info += {'TCG support':       have_tcg'}
--#if get_option('tcg')
--#  summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
--#  summary_info += {'TCG interpreter':   config_host.has_key('CONFIG_TCG_INTERPRETER')}
--#endif
-+summary_info += {'KVM support':       config_all.has_key('CONFIG_KVM')}
-+summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
-+summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
-+summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
-+summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
-+if config_all.has_key('CONFIG_TCG')
-+  summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
-+  summary_info += {'TCG interpreter':   config_host.has_key('CONFIG_TCG_INTERPRETER')}
-+endif
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
- summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
+ #if !GLIB_CHECK_VERSION(2, 50, 0)
 -- 
 2.26.2
 
