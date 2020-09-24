@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BDE276E27
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:06:58 +0200 (CEST)
-Received: from localhost ([::1]:33182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D987276E6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:16:02 +0200 (CEST)
+Received: from localhost ([::1]:40820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLO9R-0003YJ-RU
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
+	id 1kLOID-0001Oc-Ls
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:16:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLNV2-0003Rw-Pp
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLNUs-0006IV-5o
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WOj0UoCbyhYx+K0KBG0mqBosqIEqtatBdEFIdAs4yCY=;
- b=CPZdJiSODJXyHL9inbJ9cf+D7lzKeXJWfPd9U0kYwH7pXUSMJfv+J4o5EKID8iDwoxeCFh
- 6Q+suKuOhp9frpsUURtMzqDHaAX9i41T938SDvoa8e9OuO+VRtBv16QrSNfL01l9+vr/LX
- 5WiEYqQ0GYvreYjFmQMBv4HudFZs2gU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-PQ2GF-dROyGvItMjbA4i6g-1; Thu, 24 Sep 2020 05:24:59 -0400
-X-MC-Unique: PQ2GF-dROyGvItMjbA4i6g-1
-Received: by mail-wm1-f70.google.com with SMTP id a7so1011331wmc.2
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 02:24:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=WOj0UoCbyhYx+K0KBG0mqBosqIEqtatBdEFIdAs4yCY=;
- b=qpKvnnzlJQv6v3Ebsk79s+ZOcHx6flO2cZx0poLTXza1vtZMska80ZY1UG5VMYkVcU
- e3Bav8LqhhoLMZ6fMqnYr/M5H8YlZhLPQJbaXaBMm/yKm+Z4NnuXSgMKDFgtPGdIGyRJ
- MVEsPEGgAzHVYCFOwCQvm/KNA0trlI+KvFM+k8k8JrYVNFnPyMv7nFwW9fh0bOMxDRJ/
- CeV5za6Nx8Irf8n8PjLV608u1+m3fnXM6ltAn2eArVine5Gd4kgV/bvLwIVp4BArfjAR
- hEruyhJ+6ugPHd2B6Mbfgd8LkObf5gojpTO/CaaeyOt17bQLWIgdL7TCIHUv0AJ3YjYw
- xtvA==
-X-Gm-Message-State: AOAM531YE38b8YAMBnpt+P0ca8T+HwQEJW8J34LwaKXy9nRcU39cBeOs
- Qth+N/WYZ2fEZE4TDIrZwGFsp9PrxRqDEV3qpSI9T8yLK6AJGlg7s2rT+tGkI5h1zqR7M+9YfHL
- EqawO5p0C6b52xIE=
-X-Received: by 2002:a7b:c359:: with SMTP id l25mr3586019wmj.125.1600939498247; 
- Thu, 24 Sep 2020 02:24:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvn5veaSLw8HLXeovR9GN1g/+kpEDCZsU6VXY8NuXNKZ2fiY2PxMjogmq175AySoHH/WFIFw==
-X-Received: by 2002:a7b:c359:: with SMTP id l25mr3585984wmj.125.1600939498044; 
- Thu, 24 Sep 2020 02:24:58 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id t202sm2899634wmt.14.2020.09.24.02.24.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 02:24:57 -0700 (PDT)
-Date: Thu, 24 Sep 2020 05:24:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v4] introduce vfio-user protocol specification
-Message-ID: <20200924052051-mutt-send-email-mst@kernel.org>
-References: <1594984851-59327-1-git-send-email-thanos.makatos@nutanix.com>
- <1600180157-74760-1-git-send-email-thanos.makatos@nutanix.com>
- <20200924082132.GJ62770@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kLNfZ-0001aJ-1o
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:36:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36192)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kLNfR-0007q3-3m
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:35:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kLNfM-0005gO-VV
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:35:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9B29A2E8127
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:35:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200924082132.GJ62770@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 24 Sep 2020 09:25:53 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1849644@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange laurent-vivier npes87184 paelzer samuel-t
+X-Launchpad-Bug-Reporter: Samuel (samuel-t)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
+Message-Id: <160093955389.9422.6785366858960077735.malone@chaenomeles.canonical.com>
+Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
+ 'binary' subprotocol
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a314d157ca9be8d00eae0214fc0d7dff1cd406e4"; Instance="production"
+X-Launchpad-Hash: 272a243fe8cb4276038e232a9823c2d48ba05346
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 05:35:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,71 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: benjamin.walker@intel.com, elena.ufimtseva@oracle.com,
- tomassetti.andrea@gmail.com, John G Johnson <john.g.johnson@oracle.com>,
- jag.raman@oracle.com, james.r.harris@intel.com, swapnil.ingle@nutanix.com,
- konrad.wilk@oracle.com, yuvalkashtan@gmail.com, felipe@nutanix.com,
- qemu-devel@nongnu.org, raphael.norwitz@nutanix.com, ismael@linux.com,
- alex.williamson@redhat.com, Kanth.Ghatraju@oracle.com,
- marcandre.lureau@redhat.com, xiuchun.lu@intel.com,
- Thanos Makatos <thanos.makatos@nutanix.com>, tina.zhang@intel.com,
- changpeng.liu@intel.com, dgilbert@redhat.com
+Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 24, 2020 at 09:21:32AM +0100, Stefan Hajnoczi wrote:
-> On Tue, Sep 15, 2020 at 07:29:17AM -0700, Thanos Makatos wrote:
-> > This patch introduces the vfio-user protocol specification (formerly
-> > known as VFIO-over-socket), which is designed to allow devices to be
-> > emulated outside QEMU, in a separate process. vfio-user reuses the
-> > existing VFIO defines, structs and concepts.
-> > 
-> > It has been earlier discussed as an RFC in:
-> > "RFC: use VFIO over a UNIX domain socket to implement device offloading"
-> > 
-> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > Signed-off-by: Thanos Makatos <thanos.makatos@nutanix.com>
-> 
-> The approach looks promising. It's hard to know what changes will be
-> required when this is implemented, so let's not worry about getting
-> every detail of the spec right.
-> 
-> Now that there is a spec to start from, the next step is patches
-> implementing --device vfio-user-pci,chardev=<chardev> in
-> hw/vfio-user/pci.c (mirroring hw/vfio/).
-> 
-> It should be accompanied by a test in tests/. PCI-level testing APIS for
-> BARs, configuration space, interrupts, etc are available in
-> tests/qtest/libqos/pci.h. The test case needs to include a vfio-user
-> device backend interact with QEMU's vfio-user-pci implementation.
-> 
-> I think this spec can be merged in docs/devel/ now and marked as
-> "subject to change (not a stable public interface)".
-> 
-> After the details have been proven and any necessary changes have been
-> made the spec can be promoted to docs/interop/ as a stable public
-> interface. This gives the freedom to make changes discovered when
-> figuring out issues like disconnect/reconnect, live migration, etc that
-> can be hard to get right without a working implementation.
-> 
-> Does this approach sound good?
-> 
-> Also please let us know who is working on what so additional people can
-> get involved in areas that need work!
-> 
-> Stefan
+This is in v5.0.0 so fixed in Groovy.
+The related noVNC change is in upstream version >=3Dv1.0.0 which correlates=
+ with Ubuntu >=3D20.04, threfore fixing this in Focals Qemu seems good.
 
-Problem we discovered with e.g. vhost is once you ship a management
-interface, people start using it immediately and it does not matter
-that you never promised stability.
+** Also affects: qemu (Ubuntu)
+   Importance: Undecided
+       Status: New
 
-So I feel a good first step would be to limit this to only allow known
-in-tree devices, started/destroyed automatically by qemu when device is
-created.  This way lots of reconnect etc issues go away, and we don't
-commit to a stable protocol until we have a decent handle on how things
-will work in production.
+** Also affects: qemu (Ubuntu Focal)
+   Importance: Undecided
+       Status: New
 
--- 
-MST
+** Changed in: qemu (Ubuntu)
+       Status: New =3D> Fix Released
 
+** Changed in: qemu (Ubuntu Focal)
+       Status: New =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1849644
+
+Title:
+  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Confirmed
+
+Bug description:
+  When running a machine using "-vnc" and the "websocket" option QEMU
+  seems to require the subprotocol called 'binary'. This subprotocol
+  does not exist in the WebSocket specification. In fact it has never
+  existed in the spec, in one of the very early drafts of WebSockets it
+  was briefly mentioned but it never made it to a final version.
+
+  When the WebSocket server requires a non-standard subprotocol any
+  WebSocket client that works correctly won't be able to connect.
+
+  One example of such a client is noVNC, it tells the server that it
+  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
+  let noVNC connect. If noVNC is modified to ask for 'binary' it will
+  work, this is, however, incorrect behavior.
+
+  Looking at the code in "io/channel-websock.c" it seems it's quite
+  hard-coded to binary:
+
+  Look at line 58 and 433 here:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
+
+  This code has to be made more dynamic, and shouldn't require binary.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
 
