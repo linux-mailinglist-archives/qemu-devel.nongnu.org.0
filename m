@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623672770BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:16:28 +0200 (CEST)
-Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E622770DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:24:06 +0200 (CEST)
+Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLQAl-00079C-8M
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:16:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50840)
+	id 1kLQI9-0004A7-68
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLQ6i-0006Ar-Dp; Thu, 24 Sep 2020 08:12:16 -0400
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:58049)
+ id 1kLQ7K-0006PO-Cg; Thu, 24 Sep 2020 08:12:54 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:34749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLQ6f-0002CX-WE; Thu, 24 Sep 2020 08:12:16 -0400
+ id 1kLQ7I-0002Eu-Gv; Thu, 24 Sep 2020 08:12:54 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id E78AA871;
- Thu, 24 Sep 2020 08:12:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Thu, 24 Sep 2020 08:12:10 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id 99218885;
+ Thu, 24 Sep 2020 08:12:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Thu, 24 Sep 2020 08:12:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=6IK7TzQXElnByGPtTxW84d34Hwf
- xTEA7wiw3tbKOkTY=; b=qQ0GbubkjbhyAEaFufrOoX1RVBcJYr4vwGx0XihY6KM
- 9Ognhi9YB24gLYTdGqK1VzD9YNOixfKfKehGJooM7jOo0LGd01FfAWqU0nDHezyy
- DVNgD0qPzHODWAlH9gPI8gCaw9wm9NeZY2ILCadjuURNKqrykUTUgWL7UloQhbwD
- VDVPpmK2DvnCESQ1iSVxv2NBbMDX/8aLe49XtlarH03ntNbk07mhFJZx5Kl6QQMy
- +8YKcZbFaa0qpb4tvhmnjq394cvz/lRi8knK5JDdMtju/DWpO9gS4bowCedUFsH5
- MB1rBIvFQOZd8ZNHvtPuAmaAxySdiGIN/bzcpZPXUTg==
+ :content-type:in-reply-to; s=fm1; bh=DTu556TEsVfXLKjIb7mT+dYnt0l
+ Svscok18FSs8rzaA=; b=e6Q8NJyICxkbeNa64FKz1hQCRiyQSzAklJUgzeKQtP9
+ dhToXhs6nbRB+jIyKdK32SF+5Czxyq94VqkqLesDF+pF9U24SAqyHcq4ymCvcW8k
+ N3+gfX3bCBahDw/QkmhOvNZe8V9C4cSixBy5pY65qZGRqqtGhzRmUa6rBQm6wLoL
+ tOEgNNQyQVrdTtIp+NtRUHiIZcWKf1PxoyxaP8lKs8PxypMUiSYuJh6MnQKmjhu+
+ Z3PuQNsDn3I2jDGrasOGxyz76la2vP4N7/MW5TnJ9JPjSm9uMTe9tUqgQhK/Zr7i
+ uUkcIG5xLhHpAxdRiq1FLsQy/CKefDrky/BjytTcWMQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=6IK7Tz
- QXElnByGPtTxW84d34HwfxTEA7wiw3tbKOkTY=; b=jNqdiRODgojbdNqu5x1EDw
- 5eP3dGmjWOrkgcIfmU31SUYa8mG5NswpSkOdcVmKS8bdNnLr07sTnvySH9UjNhJQ
- zq9ZOKuYdlbj6wT0V1d6eDlOb+7nrNNQaC3O8XNhhYKrENenkDkvimydnkJiK+nN
- QlzPTkXgGe4bv1JibXEqBrzu+55qGxwmf+uPlUDbNMjHltIQMTELH5mi3wIIJVkh
- aCL9sPHpLNZuH78tpYZJVyvj+yLwOPbz4wT0VCd1QEKBEV6dnO2gjJv5Kxb/fSbJ
- I/88nqZNBhTodnQ8qmqPZ2XASP+m2CNz2Ub7gefqlZGMbcV/9mJZX3LFKjKScCgQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=DTu556
+ TEsVfXLKjIb7mT+dYnt0lSvscok18FSs8rzaA=; b=S5V0Om2ysmcfDe/eV8ChSL
+ WLskqUVJ0hwoB9ozgNrpTC3JVoGEsPVcHpFZNpUNb2VcXMLRRP0QSomR5bDeoiNq
+ o+elTBn7+20FXPw11s78js7EwJCq6bsf9dwhFK9AV82syKVD7Bl7qEiboHJYdthc
+ LJlyie8AewgvVM0touyyEJ/kN5b7FyvdesFcGiIaQPt8HD5mML5jcskSn5sKO9ZO
+ nbXQCaepaGD+TMkTi8aqXKKxqo42oL1isUQak1RmukXnKmWqZorpH9w3PlNhPVyt
+ I0pTQGctXz8tF88UpdyAh6avAlVA/CndLVcbGjqXOy9j2DDBNpeGCQE+9XmSzyUg
  ==
-X-ME-Sender: <xms:F41sX2apODXyvbisYxr-fClpH5RHnUBep6ka6FUgOjV2IaZQcyfR4w>
- <xme:F41sX5bgT3e7BQ4WyLm4se_JYhr6UaQ-QKfeHNHaYDx3hZlzM5pgJHjZHWy3gfbRA
- TMGfkQPjdHwWZ5Re9M>
+X-ME-Sender: <xms:QI1sX0TsyiEGPdaYH1TKxu9x5ciPUJXo6p5T00DoGWR2B_8S8HhJUg>
+ <xme:QI1sXxzNUcLI0Q6HjQo6t6bvKaY4ZgZmpJcFGxQcX14raCc_i378BWP1OBbepo774
+ xMdGRHUMHOWL3FcJdw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdehudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
  lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnheptdeggeevleevffevtdeuffehgeevhfeiudetheeuvdegueejkeelueekgedvieeh
- necuffhomhgrihhnpehophgtohguvgdrmhihnecukfhppeektddrudeijedrleekrddule
- dtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihht
- shesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:F41sXw-8caYoe_kdb2p3AAG_kQAq8U5kUYuq2vtEUmqDxqiYWnrERA>
- <xmx:F41sX4r4GbKHd6DBhSwp3jzGWkheBnIq7dLcgHZFyr0PTwSrWvX3xg>
- <xmx:F41sXxqT1jEmQWbOiMkU9_QVX1i5T07ep8pSn2iV9JIQFOiElc3Ccw>
- <xmx:GY1sXyQOpn_u_yZeXzw3gngsJPhFJPGyRwuguKN1BPyf29iPvN6sb7oAomzLvTlb>
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:QI1sXx3VS5C_nF0TcbLi2ZdGeMIrPQbyrglfdEBWPxQQ_gjTpOMqtg>
+ <xmx:QI1sX4A3YXOg5XpM0BCL8VKJlWp8fUtG-i1Nf8LQ1RHsOA7BJusUAQ>
+ <xmx:QI1sX9hlhd5UltZi_C1VtpHarC9Umo1-UGUlE-mlGu_lNLM_8rmYlg>
+ <xmx:QI1sX4oCRjtdefuMFOGKGK8zULdqqQiTu-VhcZzyWZPyUmm0ymo9yivIYxb1U4JT>
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B17A33064680;
- Thu, 24 Sep 2020 08:12:05 -0400 (EDT)
-Date: Thu, 24 Sep 2020 14:12:03 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 002A7328005D;
+ Thu, 24 Sep 2020 08:12:46 -0400 (EDT)
+Date: Thu, 24 Sep 2020 14:12:45 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v4 06/14] hw/block/nvme: Add support for active/inactive
- namespaces
-Message-ID: <20200924121203.GA1738917@apples.localdomain>
+Subject: Re: [PATCH v4 01/14] hw/block/nvme: Report actual LBA data shift in
+ LBAF
+Message-ID: <20200924121245.GB1738917@apples.localdomain>
 References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
- <20200923182021.3724-7-dmitry.fomichev@wdc.com>
+ <20200923182021.3724-2-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7JfCtLOvnd9MIVvH"
+ protocol="application/pgp-signature"; boundary="QKdGvSO+nmPlgiQ/"
 Content-Disposition: inline
-In-Reply-To: <20200923182021.3724-7-dmitry.fomichev@wdc.com>
+In-Reply-To: <20200923182021.3724-2-dmitry.fomichev@wdc.com>
 Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
  helo=wnew4-smtp.messagingengine.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 08:12:11
@@ -109,68 +108,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---7JfCtLOvnd9MIVvH
+--QKdGvSO+nmPlgiQ/
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Sep 24 03:20, Dmitry Fomichev wrote:
-> From: Niklas Cassel <niklas.cassel@wdc.com>
+> Calculate the data shift value to report based on the set value of
+> logical_block_size device property.
 >=20
-> In NVMe, a namespace is active if it exists and is attached to the
-> controller.
+> In the process, use a local variable to calculate the LBA format
+> index instead of the hardcoded value 0. This makes the code more
+> readable and it will make it easier to add support for multiple LBA
+> formats in the future.
 >=20
-> CAP.CSS (together with the I/O Command Set data structure) defines what
-> command sets are supported by the controller.
->=20
-> CC.CSS (together with Set Profile) can be set to enable a subset of the
-> available command sets. The namespaces belonging to a disabled command set
-> will not be able to attach to the controller, and will thus be inactive.
->=20
-> E.g., if the user sets CC.CSS to Admin Only, NVM namespaces should be
-> marked as inactive.
->=20
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-Hmm. I'm not convinced that this is correct. Can you reference the spec?
+Yeah, using the standard approach of the logical_block_size parameter is
+probably preferable to an 'lbads' parameter as I've been doing.
 
-On the specific case you mention the spec is actually pretty clear:
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
-  "When only the Admin Command Set is supported, any command submitted
-  on an I/O Submission Queue and any I/O Command Set Specific Admin
-  command submitted on the Admin Submission Queue is completed with
-  status Invalid Command Opcode."
-
-My /interpretation/ (because the spec is vague on this point) is that
-with TP 4056, if the host writes 0x0 to CC.CSS, you will (should) just
-see Invalid Command Opcode for namespaces not supporting the NVM command
-set since we are operating in a backward compatible way.
-
-Now, if the host sets CC.CSS to 0x6, then it is obviously aware of
-namespaces and other rules apply. For instance, it may set the I/O
-Command Set Combination Index through a Set Features command, but TP
-4056 is clear that the host will not be allowed to choose a combination
-that leaves an attached namespace unsupported.
-
-For this device, that does not implement namespace management and thus
-has no notion of attaching/detaching namespaces, the controller should
-by default choose an I/O Command Set Combination that indicates support
-for all I/O command sets that are required to support the namespaces
-configured.
-
---7JfCtLOvnd9MIVvH
+--QKdGvSO+nmPlgiQ/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9sjREACgkQTeGvMW1P
-DenvHgf+J/Ao3Ir2iWKvH7JFI02/cKsaSuamIpmF6UlXwKFtdc9QzXZTOscnmsh5
-vmnLRA1NpTOk0bFZShlUP3zCJyMf1goT6CCMEkVLA3g1dIDpul/tWnahXG0agj7l
-57bvhfhJBKFaThAAMKJyIYygI1SZgFvBmLn/7dxUKmD10FrLL+mptZ0Urh5VxNKg
-b3V6WEdhj7Vm+LjXEkOnV/RS8PxaCpgCmS3ay1cL/4Rp5vwICFypFXc2Y6obCAvq
-d/KUYF5/JRrclsYFqNOZ7h1M9SzGwrVd3YoJgetF9Zx8Yse/D0LTr5vOxCpnZokS
-uUfExFm2TpKUYWpaSfFXlvHT89xf7Q==
-=rePr
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9sjTsACgkQTeGvMW1P
+Dek6iwf+NzRtMYCDSfVtDHo/MDjps8kV9eVTeaaWA5mpgEkGd0HCcfUf8R7EL56G
+Hw07UHnPFmCcaNRMw35MNI+W0GUH4PTu92DGZg1qeXlE/x2YdH6XxDgnyKqfyvjD
+7GuQMxRQRpSHldSBCxSBSS9vI1UpU3UtlwWIZesalzBqoEiCFNNoGD1WEftQWKkZ
+F91Yr0zo6HWjB11b9LwpDW+fFxUVbl9tdPd3gMAqLIC4bugxlUxod8/AXwH3fXZN
+HIIDQBmCoF0Gb52UxRTxK64/eL5La9oyIua2Mos4VzervwuuSiw1RI7IYt9KQARk
+oxBq+ea2ha49HXLctVz8i9V1KzLyZw==
+=tcCY
 -----END PGP SIGNATURE-----
 
---7JfCtLOvnd9MIVvH--
+--QKdGvSO+nmPlgiQ/--
 
