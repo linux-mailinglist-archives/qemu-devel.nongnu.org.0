@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7A5276CB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:02:57 +0200 (CEST)
-Received: from localhost ([::1]:58226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAF3276CB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:05:27 +0200 (CEST)
+Received: from localhost ([::1]:37102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLN9V-0003TJ-18
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60580)
+	id 1kLNBu-0006OK-JS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:05:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kele.hwang@gmail.com>)
- id 1kLN6U-0001kT-Rl
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 04:59:50 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kele.hwang@gmail.com>)
- id 1kLN6Q-0002fB-Kv
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 04:59:50 -0400
-Received: by mail-ej1-x641.google.com with SMTP id nw23so3404860ejb.4
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 01:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=RBUWQ+nmzPdo6eHK2VvDs7mQuY8ddbjG671cWQOldJM=;
- b=cv2gVVQk/ieym6LxjaEN4F9WT6TTxnQaW3wC007UG4ldFJ2ZooFEFu1fWJC3Z805mN
- Egj8r2RZaqgQuJuHVlMQ3674TFQjx9RPKyhfCex3ShCDYPeCwxgXjbebmvF1nVHkZZ3w
- EKO4PZPvtIAvq9XCPaTgH6ZPXkIQz7GCA5XpqFe/CbsPc5sRxQ/prL/JcmP0Uj6EQTcF
- b50WHJHYsXDpeQ62o7lJx4aX/MnDtsdAMRRahSMYCDJz/f+jslbU/NtmY8b9g34IfuSh
- N4XeXQLy0Vnz4yuhFARzgutDVMV2B2euICI1JVFhytyzX9Wk40w9kt3AIYF4sLAfZsZy
- BPsQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLN9A-0004F6-D6
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:02:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLN98-00039O-By
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:02:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600938153;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lMdk596S4ITjzOz7XeP9L+AjtGfJQgCBU7cJi/MIIws=;
+ b=MOFNXpGXYeCFEKNRyFdtK9YMgyGzca1jKtzat4okGtRuzaGky9DU7D5gCHM6X6dPJOe7hZ
+ Re5vEFCD4IWPkiinLhT6/8dqh8j1G4c0e/1DsjJGzUrVWcpO9TykNiUWiWH+mKfybubW+C
+ JqkS4TC/NpJJfRObcIOfhz92v8Ev9fs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-513-tSbkg0XVOliF1ZtkEYozqA-1; Thu, 24 Sep 2020 05:02:31 -0400
+X-MC-Unique: tSbkg0XVOliF1ZtkEYozqA-1
+Received: by mail-wr1-f72.google.com with SMTP id b7so980748wrn.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 02:02:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=RBUWQ+nmzPdo6eHK2VvDs7mQuY8ddbjG671cWQOldJM=;
- b=pZJSWMJbiqP4GPWd4qvvHeJlmYRIT6mFydpeMfdYcWqmaBbd7cm4Ai2j4W0AC7crpV
- DxuUxy/+iqwpM74xdMyXmvLLFWcGB0boDjlHI+2XNLUhMS9VFWN+4uQUkcMHwLjmcMJv
- eeDyvhzuMLsQK4RjRhRQtOd+meNOxwkh5pUA5E3t2c74X3txiKgT3fa04lZi4PanpIrH
- URbCqVoPa4l89vCrvI7vrEprP5cmUkftJ+p6/fPA5UsLG3SeV3dJj1vPcu0J8HXdg4J1
- ZZw5wSZJP8b2DES1xQh4O3alQWWPMEscF/AvYdanccRDolKcguHh5wfpF5UV3LnOduV0
- tWeg==
-X-Gm-Message-State: AOAM530zvnniO5aVLo8vbdWY7VTx39gpzpFRCgLSXujLR2Ch219eWzAw
- bg1HZg3Yc2d79YSFlNIIRMbcV/QiSE+fHBZ7TcI=
-X-Google-Smtp-Source: ABdhPJy6mjpNbZoiPUHV4+Opgfe1qURYg327BlbuR2pkOMwvovd/gnGPNxFeeKttHuxFjexg9dVrOTFojz3VP6hEhIU=
-X-Received: by 2002:a17:907:374:: with SMTP id
- rs20mr3668855ejb.135.1600937982779; 
- Thu, 24 Sep 2020 01:59:42 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lMdk596S4ITjzOz7XeP9L+AjtGfJQgCBU7cJi/MIIws=;
+ b=MWMRJdjHLW7qRuRJ9RFOA5nM+7UVq4qLRUSROlIELUTAF+oMuQrE/BFEOk0KTx9HdD
+ k9XuWmhMBTUaZUtcjgszrvNgGUS4E/Oe1DZwrpJGhTLLSwpn7q6DfMCsfaOtbipqbFat
+ oqU+Tp+HT6njguwQgHukZcmthJlaOs0FDyq7c8M2P9WoVB6G3pt7CNXHNHEG3NvagHm0
+ JsTZT6tbKgSV74Va9kdrmwQhCh2yOmLu1U8Gmuw1VdKRfW8+SBsXpi1m9RCgLkmoEWo+
+ Co9lRWaAteG9cv87O8il8Sj149tjMJ3wIFkqzSvgd2WT9SKAK8VycKogpRO6OMYrniOw
+ OueA==
+X-Gm-Message-State: AOAM531nc16naLCRZ6d4HhzNepLFEzxz7eblUjN4LMb3kzPh6InlGBC3
+ unW+zlJAMe38SVNcwwt1uDJN+swlC1C2t5enqd32dKHUL/UeoQP5CRDaFoYSkIIpTiq1POiV+o+
+ 9fQBb9BaEDVUWgI8=
+X-Received: by 2002:adf:a29a:: with SMTP id s26mr3944089wra.197.1600938150657; 
+ Thu, 24 Sep 2020 02:02:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydopXE8yMRyJZ6C+KJQeUcOiluHVWpnpJ+GkKeDB3klg2jOsBWLCVagzXhhQLlcUQ943SuAw==
+X-Received: by 2002:adf:a29a:: with SMTP id s26mr3944062wra.197.1600938150401; 
+ Thu, 24 Sep 2020 02:02:30 -0700 (PDT)
+Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
+ by smtp.gmail.com with ESMTPSA id q12sm2866979wrp.17.2020.09.24.02.02.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Sep 2020 02:02:29 -0700 (PDT)
+Date: Thu, 24 Sep 2020 05:02:27 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [RFC PATCH v3 3/7] hw/pci/pcie: Do not initialize slot
+ capability if acpihp is used
+Message-ID: <20200924050147-mutt-send-email-mst@kernel.org>
+References: <20200924070013.165026-1-jusual@redhat.com>
+ <20200924070013.165026-4-jusual@redhat.com>
+ <20200924033305-mutt-send-email-mst@kernel.org>
+ <CAMDeoFXobPuNnKB3bQB=20SPbvTCgNiE_UWJrtsT6d5aAS5sTQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200910074342.20421-1-kele.hwang@gmail.com>
- <20200910074342.20421-2-kele.hwang@gmail.com>
- <7da49458-f8d7-d05a-457a-450ccda28040@linaro.org>
-In-Reply-To: <7da49458-f8d7-d05a-457a-450ccda28040@linaro.org>
-From: Kele Huang <kele.hwang@gmail.com>
-Date: Thu, 24 Sep 2020 16:59:31 +0800
-Message-ID: <CA+FBGNdAqzyj5dW8yQEitJerKRQEy1S5UW3weqKqs40zYbGWCg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] accel/tcg: Fix computing is_write for mips
-To: Richard Henderson <richard.henderson@linaro.org>, peter.maydell@linaro.org,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Xu Zou <iwatchnima@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000c5850705b00b6b73"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=kele.hwang@gmail.com; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAMDeoFXobPuNnKB3bQB=20SPbvTCgNiE_UWJrtsT6d5aAS5sTQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,259 +96,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c5850705b00b6b73
-Content-Type: text/plain; charset="UTF-8"
-
-Sorry for the late reply. We make a new version submit as below.
-
-Subject: [PATCH v2 1/1] accel/tcg: Fix computing of is_write for mips
-
-Detect mips store instructions in cpu_signal_handler for all MIPS
-versions, and set is_write if encountering such store instructions.
-
-This fixed the error while dealing with self-modified code for MIPS.
-
-Signed-off-by: Kele Huang <kele.hwang@gmail.com>
-Signed-off-by: Xu Zou <iwatchnima@gmail.com>
----
- accel/tcg/user-exec.c | 51 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 50 insertions(+), 1 deletion(-)
-
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index bb039eb32d..18784516e5 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -710,11 +710,60 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-     greg_t pc = uc->uc_mcontext.pc;
-     int is_write;
-
--    /* XXX: compute is_write */
-     is_write = 0;
-+
-+    /* Detect store by reading the instruction at the program counter. */
-+    uint32_t insn = *(uint32_t *)pc;
-+    switch(insn>>29) {
-+    case 0x5:
-+        switch((insn>>26) & 0x7) {
-+        case 0x0: /* SB */
-+        case 0x1: /* SH */
-+        case 0x2: /* SWL */
-+        case 0x3: /* SW */
-+        case 0x4: /* SDL */
-+        case 0x5: /* SDR */
-+        case 0x6: /* SWR */
-+            is_write = 1;
-+        }
-+        break;
-+    case 0x7:
-+        switch((insn>>26) & 0x7) {
-+        case 0x0: /* SC */
-+        case 0x1: /* SWC1 */
-+        case 0x4: /* SCD */
-+        case 0x5: /* SDC1 */
-+        case 0x7: /* SD */
-+#if !defined(__mips_isa_rev) || __mips_isa_rev < 6
-+        case 0x2: /* SWC2 */
-+        case 0x6: /* SDC2 */
-+#endif
-+            is_write = 1;
-+        }
-+        break;
-+    }
-+
-+    /*
-+     * Required in all versions of MIPS64 since MIPS64r1. Not available
-+     * in MIPS32r1. Required by MIPS32r2 and subsequent versions of MIPS32.
-+     */
-+    switch ((insn >> 3) & 0x7) {
-+    case 0x1:
-+        switch (insn & 0x7) {
-+        case 0x0: /* SWXC1 */
-+        case 0x1: /* SDXC1 */
-+            is_write = 1;
-+        }
-+        break;
-+    }
-+
-     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
- }
-
-+#elif defined(__misp16) || defined(__mips_micromips)
-+
-+#error "Unsupported encoding"
-+
- #elif defined(__riscv)
-
- int cpu_signal_handler(int host_signum, void *pinfo,
--- 
-2.17.1
-
-On Fri, 11 Sep 2020 at 01:18, Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 9/10/20 12:43 AM, Kele Huang wrote:
-> > Detect mips store instructions SWXC1 and SDXC1 for MIPS64 since
-> > MIPS64r1, and MIPS32 since MIPS32r2.
+On Thu, Sep 24, 2020 at 10:23:13AM +0200, Julia Suvorova wrote:
+> On Thu, Sep 24, 2020 at 9:36 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 > >
-> > Signed-off-by: Kele Huang <kele.hwang@gmail.com>
-> > ---
-> >  accel/tcg/user-exec.c | 21 +++++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
+> > On Thu, Sep 24, 2020 at 09:00:09AM +0200, Julia Suvorova wrote:
+> > > Instead of changing the hot-plug type in _OSC register, do not
+> > > initialize the slot capability or set the 'Slot Implemented' flag.
+> > > This way guest will choose ACPI hot-plug if it is preferred and leave
+> > > the option to use SHPC with pcie-pci-bridge.
+> > >
+> > > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > > ---
+> > >  hw/i386/acpi-build.h |  2 ++
+> > >  hw/i386/acpi-build.c |  2 +-
+> > >  hw/pci/pcie.c        | 16 ++++++++++++++++
+> > >  3 files changed, 19 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
+> > > index 487ec7710f..4c5bfb3d0b 100644
+> > > --- a/hw/i386/acpi-build.h
+> > > +++ b/hw/i386/acpi-build.h
+> > > @@ -11,4 +11,6 @@ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
+> > >
+> > >  void acpi_setup(void);
+> > >
+> > > +Object *object_resolve_type_unambiguous(const char *typename);
+> > > +
+> > >  #endif
+> > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > index cf503b16af..b7811a8912 100644
+> > > --- a/hw/i386/acpi-build.c
+> > > +++ b/hw/i386/acpi-build.c
+> > > @@ -174,7 +174,7 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+> > >      *data = fadt;
+> > >  }
+> > >
+> > > -static Object *object_resolve_type_unambiguous(const char *typename)
+> > > +Object *object_resolve_type_unambiguous(const char *typename)
+> > >  {
+> > >      bool ambig;
+> > >      Object *o = object_resolve_path_type("", typename, &ambig);
+> > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > > index 5b48bae0f6..c1a082e8b9 100644
+> > > --- a/hw/pci/pcie.c
+> > > +++ b/hw/pci/pcie.c
+> > > @@ -27,6 +27,8 @@
+> > >  #include "hw/pci/pci_bus.h"
+> > >  #include "hw/pci/pcie_regs.h"
+> > >  #include "hw/pci/pcie_port.h"
+> > > +#include "hw/i386/ich9.h"
+> > > +#include "hw/i386/acpi-build.h"
+> > >  #include "qemu/range.h"
+> > >
+> > >  //#define DEBUG_PCIE
 > >
-> > diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> > index bb039eb32d..e69b4d8780 100644
-> > --- a/accel/tcg/user-exec.c
-> > +++ b/accel/tcg/user-exec.c
-> > @@ -712,6 +712,27 @@ int cpu_signal_handler(int host_signum, void *pinfo,
 > >
-> >      /* XXX: compute is_write */
-> >      is_write = 0;
-> > +
-> > +    /*
-> > +     * Detect store instructions. Required in all versions of MIPS64
-> > +     * since MIPS64r1. Not available in MIPS32r1. Required by MIPS32r2
-> > +     * and subsequent versions of MIPS32.
-> > +     */
-> > +    switch ((insn >> 3) & 0x7) {
-> > +        case 0x1:
-> > +            switch (insn & 0x7) {
-> > +            case 0x0: /* SWXC1 */
-> > +            case 0x1: /* SDXC1 */
-> > +                is_write = 1;
-> > +                break;
-> > +            default:
-> > +                break;
-> > +            }
-> > +            break;
-> > +        default:
-> > +            break;
->
->
-> You should detect all of the store instructions, not just the coprocessor
-> ones.
->  Compare, for example, the Sparc version around line 485.
->
-> Once done, you can also remove that /* XXX */ comment just above, which
-> indicates that there is work that needs doing.
->
->
-> r~
->
+> > Not really happy with pcie.c getting an i386 dependency.
+> >
+> >
+> >
+> > > @@ -515,12 +517,26 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+> > >      pcie_cap_slot_push_attention_button(hotplug_pdev);
+> > >  }
+> > >
+> > > +static bool acpi_pcihp_enabled(void)
+> > > +{
+> > > +    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+> > > +
+> > > +    return lpc &&
+> > > +           object_property_get_bool(lpc, "acpi-pci-hotplug-with-bridge-support",
+> > > +                                    NULL);
+> > > +
+> > > +}
+> > > +
+> >
+> > Why not just check the property unconditionally?
+> 
+> Ok.
+> 
+> > >  /* pci express slot for pci express root/downstream port
+> > >     PCI express capability slot registers */
+> > >  void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+> > >  {
+> > >      uint32_t pos = dev->exp.exp_cap;
+> > >
+> > > +    if (acpi_pcihp_enabled()) {
+> > > +        return;
+> > > +    }
+> > > +
+> >
+> > I think I would rather not teach pcie about acpi. How about we
+> > change the polarity, name the property
+> > "pci-native-hotplug" or whatever makes sense.
+> 
+> I'd prefer not to change the property name since the common code in
+> hw/i386/acpi-build.c depends on it, but I can add a new one if it
+> makes any sense.
 
---000000000000c5850705b00b6b73
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+And maybe prefix with "x-" so we don't commit to it as an
+external API.
 
-<div dir=3D"ltr"><div>Sorry for the late reply. We make a new version submi=
-t as below.</div><div><br></div>Subject: [PATCH v2 1/1] accel/tcg: Fix comp=
-uting of is_write for mips<br><br>Detect mips store instructions in cpu_sig=
-nal_handler for all MIPS<br>versions, and set is_write if encountering such=
- store instructions.<br><br>This fixed the error while dealing with self-mo=
-dified code for MIPS.<br><br>Signed-off-by: Kele Huang &lt;<a href=3D"mailt=
-o:kele.hwang@gmail.com">kele.hwang@gmail.com</a>&gt;<br>Signed-off-by: Xu Z=
-ou &lt;<a href=3D"mailto:iwatchnima@gmail.com">iwatchnima@gmail.com</a>&gt;=
-<br>---<br>=C2=A0accel/tcg/user-exec.c | 51 +++++++++++++++++++++++++++++++=
-+++++++++++-<br>=C2=A01 file changed, 50 insertions(+), 1 deletion(-)<br><b=
-r>diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c<br>index bb039=
-eb32d..18784516e5 100644<br>--- a/accel/tcg/user-exec.c<br>+++ b/accel/tcg/=
-user-exec.c<br>@@ -710,11 +710,60 @@ int cpu_signal_handler(int host_signum=
-, void *pinfo,<br>=C2=A0 =C2=A0 =C2=A0greg_t pc =3D uc-&gt;uc_mcontext.pc;<=
-br>=C2=A0 =C2=A0 =C2=A0int is_write;<br>=C2=A0<br>- =C2=A0 =C2=A0/* XXX: co=
-mpute is_write */<br>=C2=A0 =C2=A0 =C2=A0is_write =3D 0;<br>+<br>+ =C2=A0 =
-=C2=A0/* Detect store by reading the instruction at the program counter. */=
-<br>+ =C2=A0 =C2=A0uint32_t insn =3D *(uint32_t *)pc;<br>+ =C2=A0 =C2=A0swi=
-tch(insn&gt;&gt;29) {<br>+ =C2=A0 =C2=A0case 0x5:<br>+ =C2=A0 =C2=A0 =C2=A0=
- =C2=A0switch((insn&gt;&gt;26) &amp; 0x7) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0case 0x0: /* SB */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x1: /* SH */<br=
->+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x2: /* SWL */<br>+ =C2=A0 =C2=A0 =C2=A0=
- =C2=A0case 0x3: /* SW */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x4: /* SDL =
-*/<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x5: /* SDR */<br>+ =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0case 0x6: /* SWR */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0is_write =3D 1;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0break;<br>+ =C2=A0 =C2=A0case 0x7:<br>+ =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0switch((insn&gt;&gt;26) &amp; 0x7) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-case 0x0: /* SC */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x1: /* SWC1 */<br>=
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x4: /* SCD */<br>+ =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0case 0x5: /* SDC1 */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x7: /* SD =
-*/<br>+#if !defined(__mips_isa_rev) || __mips_isa_rev &lt; 6<br>+ =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0case 0x2: /* SWC2 */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0ca=
-se 0x6: /* SDC2 */<br>+#endif<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0is_write =3D 1;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0break;<br>+ =C2=A0 =C2=A0}<br>+<br>+ =C2=A0 =C2=A0/*<br>+ =C2=A0 =
-=C2=A0 * Required in all versions of MIPS64 since MIPS64r1. Not available<b=
-r>+ =C2=A0 =C2=A0 * in MIPS32r1. Required by MIPS32r2 and subsequent versio=
-ns of MIPS32.<br>+ =C2=A0 =C2=A0 */<br>+ =C2=A0 =C2=A0switch ((insn &gt;&gt=
-; 3) &amp; 0x7) {<br>+ =C2=A0 =C2=A0case 0x1:<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0switch (insn &amp; 0x7) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x0: /* S=
-WXC1 */<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0case 0x1: /* SDXC1 */<br>+ =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0is_write =3D 1;<br>+ =C2=A0 =C2=A0 =C2=A0=
- =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>+ =C2=A0 =C2=A0}<br>+<br=
->=C2=A0 =C2=A0 =C2=A0return handle_cpu_signal(pc, info, is_write, &amp;uc-&=
-gt;uc_sigmask);<br>=C2=A0}<br>=C2=A0<br>+#elif defined(__misp16) || defined=
-(__mips_micromips)<br>+<br>+#error &quot;Unsupported encoding&quot;<br>+<br=
->=C2=A0#elif defined(__riscv)<br>=C2=A0<br>=C2=A0int cpu_signal_handler(int=
- host_signum, void *pinfo,<br>-- <br>2.17.1<br></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 11 Sep 2020 at 01:18=
-, Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">ric=
-hard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On 9/10/20 12:43 AM, Kele Huang wrote:<br>
-&gt; Detect mips store instructions SWXC1 and SDXC1 for MIPS64 since<br>
-&gt; MIPS64r1, and MIPS32 since MIPS32r2.<br>
-&gt; <br>
-&gt; Signed-off-by: Kele Huang &lt;<a href=3D"mailto:kele.hwang@gmail.com" =
-target=3D"_blank">kele.hwang@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 accel/tcg/user-exec.c | 21 +++++++++++++++++++++<br>
-&gt;=C2=A0 1 file changed, 21 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c<br>
-&gt; index bb039eb32d..e69b4d8780 100644<br>
-&gt; --- a/accel/tcg/user-exec.c<br>
-&gt; +++ b/accel/tcg/user-exec.c<br>
-&gt; @@ -712,6 +712,27 @@ int cpu_signal_handler(int host_signum, void *pin=
-fo,<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 /* XXX: compute is_write */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 is_write =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Detect store instructions. Required in all vers=
-ions of MIPS64<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* since MIPS64r1. Not available in MIPS32r1. Requ=
-ired by MIPS32r2<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* and subsequent versions of MIPS32.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 switch ((insn &gt;&gt; 3) &amp; 0x7) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x1:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (insn &amp; 0x7) {<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x0: /* SWXC1 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0x1: /* SDXC1 */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 is_write =3D =
-1;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-<br>
-<br>
-You should detect all of the store instructions, not just the coprocessor o=
-nes.<br>
-=C2=A0Compare, for example, the Sparc version around line 485.<br>
-<br>
-Once done, you can also remove that /* XXX */ comment just above, which<br>
-indicates that there is work that needs doing.<br>
-<br>
-<br>
-r~<br>
-</blockquote></div>
 
---000000000000c5850705b00b6b73--
+> > >      pci_word_test_and_set_mask(dev->config + pos + PCI_EXP_FLAGS,
+> > >                                 PCI_EXP_FLAGS_SLOT);
+> > >
+> > > --
+> > > 2.25.4
+> >
+
 
