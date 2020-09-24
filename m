@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F93276E56
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:12:27 +0200 (CEST)
-Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01B7276E46
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:10:44 +0200 (CEST)
+Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOEk-0004Zl-MB
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
+	id 1kLOD5-00013Z-N8
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:10:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNU3-0001l7-Kf
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34930)
+ id 1kLNU2-0001i5-Fj
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNU1-000699-9o
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:11 -0400
+ id 1kLNTz-00068i-K6
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939448;
+ s=mimecast20190719; t=1600939447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q2AJlwPzlHAHc5RsDj5qA7CU5AZhQhYfeftEkYhqf0k=;
- b=D+f5F5bvVRSU6B4aXaNAHapAz/srD2oUCwSISXZeLg2zVYOWXXsdY+gVYfCz8h1uxyXA95
- fshJtrFNPyKMRF6WRrRyscSZqRt2iKoOw70xjQjww1SEHcL28OMOJAoM/mwpGYjNqP4rWp
- trpc82mvAFVSIwduoj8l3HjUGYvA/1w=
+ bh=SNkXRfzI2m9zu5mdND3zfbCZifO5DM42yhn0HW0HIF0=;
+ b=P8/Gt2Mr8Z5jbuw1p7tO0cSwcJGKGYUSESvFCGMIQ1cURXcPD7qhXrGFRKjH30O/wv06F/
+ 44n5hFw1o7HSQeCBUTuQ+cHBJWeA0CZxI5zfJ4Bcu7yYh9qKwNfTmryEuBPLoQtfPw/txo
+ vugMX+vjPLRtX7WIn5LCph2oSdjagCw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-bel4siUPNWC_ta2A5ga3TQ-1; Thu, 24 Sep 2020 05:24:04 -0400
-X-MC-Unique: bel4siUPNWC_ta2A5ga3TQ-1
+ us-mta-497-8VVAG9TPMkmT5R4IOBco2Q-1; Thu, 24 Sep 2020 05:24:05 -0400
+X-MC-Unique: 8VVAG9TPMkmT5R4IOBco2Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA8F6425DD;
- Thu, 24 Sep 2020 09:24:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20FAB1891E83
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B2D860C15;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D564260E1C;
  Thu, 24 Sep 2020 09:24:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 62/92] configure: consistently pass CFLAGS/CXXFLAGS/LDFLAGS to
- meson
-Date: Thu, 24 Sep 2020 05:22:44 -0400
-Message-Id: <20200924092314.1722645-63-pbonzini@redhat.com>
+Subject: [PULL 63/92] smp: drop support for deprecated (invalid topologies)
+Date: Thu, 24 Sep 2020 05:22:45 -0400
+Message-Id: <20200924092314.1722645-64-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +56,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -82,98 +81,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Environment variables like CFLAGS are easy to accidentally change.  Meson
-warns if that happens, but in a project with a lot of configuration that
-is easy to lose.  It is also surprising behavior since meson caches -D
-options and remembers those on reconfiguration (which we rely on,
-since configure options become -D options).
+From: Igor Mammedov <imammedo@redhat.com>
 
-By placing the user-provided CFLAGS, CXXFLAGS and LDFLAGS in the
-cross file, we at least get consistent behavior.  These environment
-variables are still ugly and not really recommended, but there are
-distros that rely on them.  For the gory details, refer to
-https://github.com/mesonbuild/meson/issues/4664.
+it's was deprecated since 3.1
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Support for invalid topologies is removed, the user must ensure
+that topologies described with -smp include all possible cpus,
+i.e. (sockets * cores * threads) == maxcpus or QEMU will
+exit with error.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by:
+Message-Id: <20200911133202.938754-1-imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 25 +++++++++++++++----------
- meson.build | 14 ++++++++++++--
- 2 files changed, 27 insertions(+), 12 deletions(-)
+ docs/system/deprecated.rst | 26 +++++++++++++-------------
+ hw/core/machine.c          | 16 ++++------------
+ hw/i386/pc.c               | 16 ++++------------
+ 3 files changed, 21 insertions(+), 37 deletions(-)
 
-diff --git a/configure b/configure
-index a0575f1db1..1129ddb8a1 100755
---- a/configure
-+++ b/configure
-@@ -7798,24 +7798,29 @@ echo "export PYTHON='$python'" >> "$iotests_common_env"
- if test "$skip_meson" = no; then
- cross="config-meson.cross.new"
- meson_quote() {
--    echo "['$(echo $* | sed "s/ /','/g")']"
-+    echo "'$(echo $* | sed "s/ /','/g")'"
- }
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index e78d03038f..17703d18fd 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -47,19 +47,6 @@ The 'file' driver for drives is no longer appropriate for character or host
+ devices and will only accept regular files (S_IFREG). The correct driver
+ for these file types is 'host_cdrom' or 'host_device' as appropriate.
  
- echo "# Automatically generated by configure - do not modify" > $cross
- echo "[properties]" >> $cross
- test -z "$cxx" && echo "link_language = 'c'" >> $cross
-+echo "[built-in options]" >> $cross
-+echo "c_args = [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
-+echo "cpp_args = [${CXXFLAGS:+$(meson_quote $CXXFLAGS)}]" >> $cross
-+echo "c_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
-+echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
- echo "[binaries]" >> $cross
--echo "c = $(meson_quote $cc)" >> $cross
--test -n "$cxx" && echo "cpp = $(meson_quote $cxx)" >> $cross
--echo "ar = $(meson_quote $ar)" >> $cross
--echo "nm = $(meson_quote $nm)" >> $cross
--echo "pkgconfig = $(meson_quote $pkg_config_exe)" >> $cross
--echo "ranlib = $(meson_quote $ranlib)" >> $cross
-+echo "c = [$(meson_quote $cc)]" >> $cross
-+test -n "$cxx" && echo "cpp = [$(meson_quote $cxx)]" >> $cross
-+echo "ar = [$(meson_quote $ar)]" >> $cross
-+echo "nm = [$(meson_quote $nm)]" >> $cross
-+echo "pkgconfig = [$(meson_quote $pkg_config_exe)]" >> $cross
-+echo "ranlib = [$(meson_quote $ranlib)]" >> $cross
- if has $sdl2_config; then
--  echo "sdl2-config = $(meson_quote $sdl2_config)" >> $cross
-+  echo "sdl2-config = [$(meson_quote $sdl2_config)]" >> $cross
- fi
--echo "strip = $(meson_quote $strip)" >> $cross
--echo "windres = $(meson_quote $windres)" >> $cross
-+echo "strip = [$(meson_quote $strip)]" >> $cross
-+echo "windres = [$(meson_quote $windres)]" >> $cross
- if test -n "$cross_prefix"; then
-     cross_arg="--cross-file config-meson.cross"
-     echo "[host_machine]" >> $cross
-diff --git a/meson.build b/meson.build
-index cb0113ee90..4c73f4093a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1471,8 +1471,18 @@ if targetos == 'darwin'
-   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
- endif
- summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
--summary_info += {'CFLAGS':            '-O' + get_option('optimization')
--                                           + (get_option('debug') ? ' -g' : '')}
-+summary_info += {'CFLAGS':            ' '.join(get_option('c_args')
-+                                               + ['-O' + get_option('optimization')]
-+                                               + (get_option('debug') ? ['-g'] : []))}
-+if link_language == 'cpp'
-+  summary_info += {'CXXFLAGS':        ' '.join(get_option('cpp_args')
-+                                               + ['-O' + get_option('optimization')]
-+                                               + (get_option('debug') ? ['-g'] : []))}
-+endif
-+link_args = get_option(link_language + '_link_args')
-+if link_args.length() > 0
-+  summary_info += {'LDFLAGS':         ' '.join(link_args)}
-+endif
- summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
- summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
- summary_info += {'make':              config_host['MAKE']}
+-``-smp`` (invalid topologies) (since 3.1)
+-'''''''''''''''''''''''''''''''''''''''''
+-
+-CPU topology properties should describe whole machine topology including
+-possible CPUs.
+-
+-However, historically it was possible to start QEMU with an incorrect topology
+-where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+-which could lead to an incorrect topology enumeration by the guest.
+-Support for invalid topologies will be removed, the user must ensure
+-topologies described with -smp include all possible cpus, i.e.
+-*sockets* * *cores* * *threads* = *maxcpus*.
+-
+ ``-vnc acl`` (since 4.0.0)
+ ''''''''''''''''''''''''''
+ 
+@@ -646,6 +633,19 @@ as ignored. Currently, users are responsible for making sure the backing storage
+ specified with ``-mem-path`` can actually provide the guest RAM configured with
+ ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
+ 
++``-smp`` (invalid topologies) (removed 5.2)
++'''''''''''''''''''''''''''''''''''''''''''
++
++CPU topology properties should describe whole machine topology including
++possible CPUs.
++
++However, historically it was possible to start QEMU with an incorrect topology
++where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
++which could lead to an incorrect topology enumeration by the guest.
++Support for invalid topologies is removed, the user must ensure
++topologies described with -smp include all possible cpus, i.e.
++*sockets* * *cores* * *threads* = *maxcpus*.
++
+ Block devices
+ -------------
+ 
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index f70d388e86..d25149685e 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -754,23 +754,15 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
+             exit(1);
+         }
+ 
+-        if (sockets * cores * threads > ms->smp.max_cpus) {
+-            error_report("cpu topology: "
+-                         "sockets (%u) * cores (%u) * threads (%u) > "
+-                         "maxcpus (%u)",
++        if (sockets * cores * threads != ms->smp.max_cpus) {
++            error_report("Invalid CPU topology: "
++                         "sockets (%u) * cores (%u) * threads (%u) "
++                         "!= maxcpus (%u)",
+                          sockets, cores, threads,
+                          ms->smp.max_cpus);
+             exit(1);
+         }
+ 
+-        if (sockets * cores * threads != ms->smp.max_cpus) {
+-            warn_report("Invalid CPU topology deprecated: "
+-                        "sockets (%u) * cores (%u) * threads (%u) "
+-                        "!= maxcpus (%u)",
+-                        sockets, cores, threads,
+-                        ms->smp.max_cpus);
+-        }
+-
+         ms->smp.cpus = cpus;
+         ms->smp.cores = cores;
+         ms->smp.threads = threads;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index b55369357e..1e2ab5ebe7 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -746,23 +746,15 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+             exit(1);
+         }
+ 
+-        if (sockets * dies * cores * threads > ms->smp.max_cpus) {
+-            error_report("cpu topology: "
+-                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
+-                         "maxcpus (%u)",
++        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
++            error_report("Invalid CPU topology deprecated: "
++                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
++                         "!= maxcpus (%u)",
+                          sockets, dies, cores, threads,
+                          ms->smp.max_cpus);
+             exit(1);
+         }
+ 
+-        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
+-            warn_report("Invalid CPU topology deprecated: "
+-                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+-                        "!= maxcpus (%u)",
+-                        sockets, dies, cores, threads,
+-                        ms->smp.max_cpus);
+-        }
+-
+         ms->smp.cpus = cpus;
+         ms->smp.cores = cores;
+         ms->smp.threads = threads;
 -- 
 2.26.2
 
