@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4675276E2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:08:05 +0200 (CEST)
-Received: from localhost ([::1]:37096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A3C276E43
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:09:58 +0200 (CEST)
+Received: from localhost ([::1]:45276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOAW-0005CX-L1
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42006)
+	id 1kLOCL-00007r-R0
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:09:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLNcj-0006S2-Nj; Thu, 24 Sep 2020 05:33:09 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:57951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLNch-0007Ta-2V; Thu, 24 Sep 2020 05:33:09 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.177])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C72955E59E11;
- Thu, 24 Sep 2020 11:33:02 +0200 (CEST)
-Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 24 Sep
- 2020 11:33:02 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0052bbdd5fb-d45e-46a2-b63d-1d06a2b499a8,
- 85AEC8A2294FDACAA0F214F2A1981C2CEEF9973D) smtp.auth=groug@kaod.org
-Date: Thu, 24 Sep 2020 11:33:00 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 4/6] spapr_numa: change reference-points and maxdomain
- settings
-Message-ID: <20200924113300.7db23699@bahia.lan>
-In-Reply-To: <20200923193458.203186-5-danielhb413@gmail.com>
-References: <20200923193458.203186-1-danielhb413@gmail.com>
- <20200923193458.203186-5-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kLNdX-000788-MK
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:33:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kLNdV-0007Wz-Sf
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:33:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600940037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wew+sGo2TuH7TibO12fv/ngEo2tTMD6APPxVssLrjQM=;
+ b=XmZtsCVONo4t+dQl7h7u2vvD5M0ZtpM1ywAu+37bVppv3MAX+qgibFCEzyJBIOpWLQM6ds
+ 5n7ijmfx9/JWLOW5yVikiS/FAGyKgJh3oiX2hr6yFDfVAxhjmS3qlVFCd69/B9dDH/yI5u
+ BNfsHKOjLp/vndV/GTpQ+ALtLvUzhEw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-VLhakY_tPLePSYvMSd2Atw-1; Thu, 24 Sep 2020 05:33:55 -0400
+X-MC-Unique: VLhakY_tPLePSYvMSd2Atw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51C9A10BBECA;
+ Thu, 24 Sep 2020 09:33:54 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0901E100238C;
+ Thu, 24 Sep 2020 09:33:46 +0000 (UTC)
+Date: Thu, 24 Sep 2020 11:33:45 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [RFC PATCH v3 6/7] hw/acpi/ich9: Set ACPI PCI hot-plug as default
+Message-ID: <20200924113345.21c8749e@redhat.com>
+In-Reply-To: <20200924070013.165026-7-jusual@redhat.com>
+References: <20200924070013.165026-1-jusual@redhat.com>
+ <20200924070013.165026-7-jusual@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 59077d15-cf1d-4c54-9844-c24c42558716
-X-Ovh-Tracer-Id: 7479916031906716128
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudekgddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 05:33:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,122 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Sep 2020 16:34:56 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Thu, 24 Sep 2020 09:00:12 +0200
+Julia Suvorova <jusual@redhat.com> wrote:
 
-> This is the first guest visible change introduced in
-> spapr_numa.c. The previous settings of both reference-points
-> and maxdomains were too restrictive, but enough for the
-> existing associativity we're setting in the resources.
-> 
-> We'll change that in the following patches, populating the
-> associativity arrays based on user input. For those changes
-> to be effective, reference-points and maxdomains must be
-> more flexible. After this patch, we'll have 4 distinct
-> levels of NUMA (0x4, 0x3, 0x2, 0x1) and maxdomains will
-> allow for any type of configuration the user intends to
-> do - under the scope and limitations of PAPR itself, of
-> course.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+
+I'd drop this patch for now.
+mgmt can turn it on for Windows guests to workaround
+its native hotplug issues.
+
 > ---
->  hw/ppc/spapr_numa.c | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
+>  hw/acpi/ich9.c | 2 +-
+>  hw/i386/pc.c   | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 180800b2f3..688391278e 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -222,21 +222,30 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
->   */
->  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
->  {
-> +    MachineState *ms = MACHINE(spapr);
->      SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
->      uint32_t refpoints[] = {
->          cpu_to_be32(0x4),
-> -        cpu_to_be32(0x4),
-> +        cpu_to_be32(0x3),
->          cpu_to_be32(0x2),
-> +        cpu_to_be32(0x1),
->      };
->      uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-> -    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-> -    uint32_t maxdomains[] = {
-> -        cpu_to_be32(4),
-> -        maxdomain,
-> -        maxdomain,
-> -        maxdomain,
-> -        cpu_to_be32(spapr->gpu_numa_id),
-> -    };
-> +    uint32_t maxdomain = cpu_to_be32(ms->numa_state->num_nodes +
-> +                                     spapr->gpu_numa_id);
-> +    uint32_t maxdomains[] = {0x4, maxdomain, maxdomain, maxdomain, maxdomain};
-> +
-
-It seems maxdomains[0] should be cpu_to_be32(0x4) and spaces are missing.
-
-Maybe keep the previous multi-line declaration style ? This seems to produce
-a nicer diff for the reviewer:
-
-     uint32_t maxdomains[] = {
-         cpu_to_be32(4),
-         maxdomain,
-         maxdomain,
-         maxdomain,
--        cpu_to_be32(spapr->gpu_numa_id),
-+        maxdomain,
-     };
-
-> +    if (spapr_machine_using_legacy_numa(spapr)) {
-> +        refpoints[1] =  cpu_to_be32(0x4);
-> +        refpoints[2] =  cpu_to_be32(0x2);
-
-I'd rather have an explicit view of the legacy layouts for clarity...
-
-> +        nr_refpoints = 3;
-> +
-> +        maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-> +        maxdomains[1] = maxdomain;
-> +        maxdomains[2] = maxdomain;
-> +        maxdomains[3] = maxdomain;
-> +        maxdomains[4] = cpu_to_be32(spapr->gpu_numa_id);
-
-... and here.
-
-eg.
-
-    if (spapr_machine_using_legacy_numa(spapr)) {
-        uint32_t legacy_refpoints[] = {
-            cpu_to_be32(0x4),
-            cpu_to_be32(0x4),
-            cpu_to_be32(0x2),
-        };
-        uint32_t legacy_maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-        uint32_t legacy_maxdomains[] = {
-            cpu_to_be32(4),
-            legacy_maxdomain,
-            legacy_maxdomain,
-            legacy_maxdomain,
-            cpu_to_be32(spapr->gpu_numa_id),
-        };
-
-        nr_refpoints = 3;
-        memcpy(refpoints, legacy_refpoints, sizeof(legacy_refpoints));
-        memcpy(maxdomains, legacy_maxdomains, sizeof(legacy_maxdomains));
-    }
-
-This allows to instantly see how things are expected to appear
-in the FDT, without having to mentally patch the refpoints[] and
-maxdomains[] arrays. This also makes the diff easier to review.
-
-> +    }
+> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> index 987f23e388..c67c20de4e 100644
+> --- a/hw/acpi/ich9.c
+> +++ b/hw/acpi/ich9.c
+> @@ -425,7 +425,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+>      pm->disable_s3 = 0;
+>      pm->disable_s4 = 0;
+>      pm->s4_val = 2;
+> -    pm->use_acpi_hotplug_bridge = false;
+> +    pm->use_acpi_hotplug_bridge = true;
 >  
->      if (smc->pre_5_1_assoc_refpoints) {
->          nr_refpoints = 2;
+>      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+>                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index b55369357e..5de4475570 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -101,6 +101,7 @@ GlobalProperty pc_compat_5_1[] = {};
+>  const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
+>  
+>  GlobalProperty pc_compat_5_0[] = {
+> +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
+>  };
+>  const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
+>  
 
 
