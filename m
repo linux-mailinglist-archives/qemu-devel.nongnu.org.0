@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A34277AF3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:13:48 +0200 (CEST)
-Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CAE277B01
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:21:10 +0200 (CEST)
+Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLYYl-0003nA-Du
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43208)
+	id 1kLYft-00073R-Fl
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLYTA-0001GQ-4H; Thu, 24 Sep 2020 17:08:00 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:57069)
+ id 1kLYYK-0004l8-TZ; Thu, 24 Sep 2020 17:13:22 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:51923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLYT7-00025N-VZ; Thu, 24 Sep 2020 17:07:59 -0400
+ id 1kLYYI-0002r7-KG; Thu, 24 Sep 2020 17:13:20 -0400
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id C5DD158049A;
- Thu, 24 Sep 2020 17:07:56 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Thu, 24 Sep 2020 17:07:56 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 902575803D1;
+ Thu, 24 Sep 2020 17:13:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Thu, 24 Sep 2020 17:13:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=/GLl5N9ZXFy+GjT7ACdgXbtL440
- A3Ecm8GuvlXJ5Q34=; b=XwvaDGgEMnnU7JuQ6znCY/UOzYJOaHDbW3rtW6WzAF4
- o/gBqY4aUhV4kZapI4A3j6ZYRrKN2X1vr7TbR6HKSeaqBFWBuE1IHSWJcknP1mtn
- 6X9KIIvjnMNkjo0ll/GkWx/nLQrfVF3WRUz1P743kxbYizy1uYUUPpzQHNKGz5JH
- FsMiSOdyLkJx0cr+HQVw1EAZdvyfLRlaV1Gydg7iTpaxjghpNQkJDurFpK/syzYI
- qqp3EQSbR/OMhgs4suHXAOFeSbNzqpZ8WZp3Jj+gXl8xcN2HaUgu/h0MLks68Mno
- X82EiokJmuNsGlLe1vaMXUFHM2IZQJtZcLn5SnzxD+Q==
+ :content-type:in-reply-to; s=fm1; bh=kVIicvHNw6WeBgRS+aZbSjnxie6
+ kGBE/c7aiZMgEX7Y=; b=Pnakh8RJLTYJUbnBfeQZ6AlidyM4vuL6bAMzRpI2A7n
+ DRbjYm1ePaLHjDTtuFlqJ8Z6v5eyrBcG72Ym68w7TIiivnOf0yqPa2AwJOIdxC+6
+ g3r+r36xMfi7LlwgvgeCQ4CxHgEhfskYQnappEYhbdraEIC7JNttzs8LScIODVHS
+ iOOLw+ghc0CLMwguCRoDi/wiWtWacv7Ijd8Ii4iTFx26o6m8K30NmNHH7Pagl5E6
+ vjufv72XXH4PQ9B1QblWN7lrUBtt9hSFOLjwlpfL1zFMiW5LXYo2u+vBlODhMJB5
+ ec7oW9Upv2tcPPavksXfeWr8PySuthqtXo0WvLsp18w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=/GLl5N
- 9ZXFy+GjT7ACdgXbtL440A3Ecm8GuvlXJ5Q34=; b=GgZfZ9Pk9yMWQSWkQqigYF
- reGdVBjSNQtH5zagmtZ4Ok/HodlnOL2GZmzxecnc8P8ra5BviKbqrz0oJWHtCaHh
- gTekaf2BXIMQ6SEUdP/adGk4JbkkRQz5+Gn3HijTXWNlDTyoyfFlwICgJjZDQ85S
- BRyhy2wy53Obp7lf0ifmvjKqt75+6HcP/eD7tm/bOiVzW0XE86tlnXzN/C55vPqQ
- fW8aku++psbipRyEm5CWHGpLUlOdFqtI6o5KMKdHZxl5IKPzNlfcMKP4JPpRttvf
- aSsGX+PKtdfRSZuUOs5lRJMywqpT8en0iMFARaYYFACNOpku3JtGLvmYOoPrdnWQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=kVIicv
+ HNw6WeBgRS+aZbSjnxie6kGBE/c7aiZMgEX7Y=; b=nA40jh+rvZYasZywuewUCY
+ lnXBa2uA9/fHW243XvIqXvIYtYzWZc8ZtKLqSLRLmketcVjJ9kTtkfIqTFTpSESz
+ Sfc9adMcrs1XTHpSAd8T2K3DM4nT0pg5kV7BLuBJ+6I+wqOjBfRGiFNzMTCOUNVv
+ k+RLmRpaKCxTZuaS8oFSI0Ya++F+cdtL5M4bl+Jn91H/3yEALKXagXA5sTZSlioX
+ nj5QVM4fSWGT6BLZ1VGcaZitWFcARchlGyRfe3NHltHmOBbqucX9TPhK1g4EoBbj
+ WCE+eFBNbBMinxHyl7dUoJ3m7qKNr2ZY2rDEt6grMHcFzSbLtIFg+UyiMF7XmkTQ
  ==
-X-ME-Sender: <xms:qwptXz704txH1hjuvpwKqrolN6sdzwQqVHTUD47PpuSYdId-RfYXyQ>
- <xme:qwptX47OLynu04g1HpoqkLXEOGGNP4wFvbD9Gu-dJXOgttbpdhaMNte6pC9hXZ6Fo
- FfSZLiP-RJPUHiy0Hk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdduheeiucetufdoteggodetrfdotf
+X-ME-Sender: <xms:6gttX_rFBiVFRbJEysIgUMqNgkLhBWvqfku7pNzObJ_jvtt0YrhJxQ>
+ <xme:6gttX5oDL3ANG6uVKDCKrqeX7L78QgxeIoUJx2_T-Pr9Yl8X0maYUgAmWq0wWAKc4
+ dzmAQW-dPSsFR95qcI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdduheejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
@@ -53,29 +53,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdduheeiucetufdoteggod
  gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:qwptX6feNgPbPlGRhUS6mlo3jppx-49jOUYqcM9SkeHySZp-MJENZQ>
- <xmx:qwptX0JDPgNwFkRMrvSwnuCdYeGNDE-HtWEE1udOFLELj7Y4g3Oq8A>
- <xmx:qwptX3KzC8sYBYFycoIjaAu6dDKKtmdBtw7_gMQrP11hZJsuybsNsQ>
- <xmx:rAptX5wx9OBh7JKMt2QZDFh7BhpksHreVzWt9Q4kTwiHuDPOxyoV9Ae5eSI>
+X-ME-Proxy: <xmx:6gttX8M8mdZAT8W_4Wxot3i1DAth7tH7EEd1fOYKMomLFQKLvrq2pw>
+ <xmx:6gttXy59fW54P8sw1XDdctDlSU4EL5lGM0yBwAFjd_1CBDiYjZ51BQ>
+ <xmx:6gttX-5kkVCJHefnUkEhTHOoQJptZkm2Q0YO0pX8UlwBazWp7vgPtQ>
+ <xmx:6wttX7ud-ZQbO7McmZScQh_LVF_h-3m9Tt3Wa-7rLD1Ark95dJ1LDg>
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id AE0E63064610;
- Thu, 24 Sep 2020 17:07:53 -0400 (EDT)
-Date: Thu, 24 Sep 2020 23:07:51 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 933CA328005D;
+ Thu, 24 Sep 2020 17:13:13 -0400 (EDT)
+Date: Thu, 24 Sep 2020 23:13:11 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
- Zoned Namespace Command Set
-Message-ID: <20200924210751.GD1738917@apples.localdomain>
-References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 03/16] hw/block/nvme: make lba data size configurable
+Message-ID: <20200924211311.GA1884142@apples.localdomain>
+References: <20200924204516.1881843-1-its@irrelevant.dk>
+ <20200924204516.1881843-4-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="osDK9TLjxFScVI/L"
+ protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
 Content-Disposition: inline
-In-Reply-To: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 14:55:29
+In-Reply-To: <20200924204516.1881843-4-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.230; envelope-from=its@irrelevant.dk;
+ helo=new4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 17:13:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,85 +97,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---osDK9TLjxFScVI/L
+--HlL+5n6rz5pIUxbD
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sep 24 03:20, Dmitry Fomichev wrote:
-> v3 -> v4
+On Sep 24 22:45, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 >=20
->  - Fix bugs introduced in v2/v3 for QD > 1 operation. Now, all writes
->    to a zone happen at the new write pointer variable, zone->w_ptr,
->    that is advanced right after submitting the backend i/o. The existing
->    zone->d.wp variable is updated upon the successful write completion
->    and it is used for zone reporting. Some code has been split from
->    nvme_finalize_zoned_write() function to a new function,
->    nvme_advance_zone_wp().
+> Allos the LBA data size (lbads) to be set between 9 and 12.
 >=20
 
-Same approach that I've used, +1.
+The patch from Dmitry that uses the common logical_block_size BlockConf
+parameter is probably better than this.
 
->  - Make the code compile under mingw. Switch to using QEMU API for
->    mmap/msync, i.e. memory_region...(). Since mmap is not available in
->    mingw (even though there is mman-win32 library available on Github),
->    conditional compilation is added around these calls to avoid
->    undefined symbols under mingw. A better fix would be to add stub
->    functions to softmmu/memory.c for the case when CONFIG_POSIX is not
->    defined, but such change is beyond the scope of this patchset and it
->    can be made in a separate patch.
->=20
-
-Ewwww.
-
-This feels like a hack or at the very least an abuse of the physical
-memory management API.
-
-If it really needs to be memory mapped, then I think a hostmem-based
-approach similar to what Andrzej did for PMR is needed (I think that
-will get rid of the CONFIG_POSIX ifdef at least, but still leave it
-slightly tricky to get it to work on all platforms AFAIK). But really,
-since we do not require memory semantics for this, then I think the
-abstraction is fundamentally wrong.
-
-I am, of course, blowing my own horn, since my implementation uses a
-portable blockdev for this.
-
-Another issue is the complete lack of endian conversions. Does it
-matter? It depends. Will anyone ever use this on a big endian host and
-move the meta data backing file to a little endian host? Probably not.
-So does it really matter? Probably not, but it is cutting corners.
-
->  - Make the list of review comments addressed in v2 of the series
->    (see below).
->=20
-
-Very detailed! Thanks!
-
---osDK9TLjxFScVI/L
+--HlL+5n6rz5pIUxbD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9tCqYACgkQTeGvMW1P
-Den9Ywf9F2Lj9NLWESmAG+VWsNngZjDwNsTZWuvfFHlbTPbELV4CfiefE4XM35CV
-WYzGM9d1dnomtUAviTT43DCkGoLTHXvRgCBTHq7iVJUbGApyieHi350754Qw46x3
-p6KgGCBxPTmAuK5QjaoEUwHomYiWvd7i5YwfFetY30zbe00XjCQ/9g8ZQI9+dRWa
-BxA76QZA8IC9H9UfAL65FPdRcnih+PUsAQz+JrWPJC7fEqrQFqpJa9MBFEKr5sg0
-Ec9JuvQvN0ahEotNp1XiUw2cKVXLM7qVBNZcqwCwmt2nk44aszx8Bj41cymMPmpn
-hWjhdaKnx8DEq+I6KXRgJoEb4FKLjg==
-=zc1d
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9tC+UACgkQTeGvMW1P
+DellwwgArvWhs7tykFDzZhJFisF/RBjbcylH3uijyzYfTukqmATEMojrWnex1ynr
+ry5AntB/pliIin05uv5uIJfuKpWNYuo5TvSy0NYDZ4MPJ+Mk83vODj/T6ba4tllQ
+TLIfM4q2HMkKyl9GE2cyvwTrkwEiFPPykA4j59d9v7PGoD6xJPxFZDKeENlHaJgS
+IGHO2Y22jwXAnnwMnKs2M0C2vwE43bQnppb/lQeSazgo1uvP3YP/QoauWyovcOtH
+W95vhcyKR3T3kRpbVyejuurVqYAemXqEubI/LCtNVoJkD93Rmi4fCZWv7T94bNl8
+0lYC41p+8JGlJ8zENOfvuetFshYftA==
+=U//k
 -----END PGP SIGNATURE-----
 
---osDK9TLjxFScVI/L--
+--HlL+5n6rz5pIUxbD--
 
