@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE91F277004
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:34:21 +0200 (CEST)
-Received: from localhost ([::1]:44040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2A9277019
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:39:04 +0200 (CEST)
+Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLPW1-0000CM-1e
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
+	id 1kLPaZ-0003KP-Fg
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLPUW-0007lP-Pl; Thu, 24 Sep 2020 07:32:48 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:42771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLPUT-0005fq-Hl; Thu, 24 Sep 2020 07:32:48 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8B86B5E66250;
- Thu, 24 Sep 2020 13:32:41 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 24 Sep
- 2020 13:32:40 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0011c48e0f0-548e-4346-b6af-dd70f2abe35b,
- 85AEC8A2294FDACAA0F214F2A1981C2CEEF9973D) smtp.auth=groug@kaod.org
-Date: Thu, 24 Sep 2020 13:32:39 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 5/6] spapr_numa: consider user input when defining
- associativity
-Message-ID: <20200924133239.11bed8da@bahia.lan>
-In-Reply-To: <311ef932-7527-fc9a-99e8-269e946d7eb5@gmail.com>
-References: <20200923193458.203186-1-danielhb413@gmail.com>
- <20200923193458.203186-6-danielhb413@gmail.com>
- <20200924122251.1edc5113@bahia.lan>
- <311ef932-7527-fc9a-99e8-269e946d7eb5@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kLPZ4-0002sX-7Q
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:37:30 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:32768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kLPZ2-0006GY-CY
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:37:29 -0400
+Received: by mail-pg1-x542.google.com with SMTP id o25so1760337pgm.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 04:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=H9GxJMYPdtSEDnc4MOgbutjnjWkuSABG+McJyFbCDTU=;
+ b=avdxlDUizBkEUb0fgdhztVjbxZpJ60yhjT3Tz4SkPZKc4d+z7Aqjn3lEC6YiyQJzm+
+ 8iSKxU12uRKVyq/W8r/QhYWYv8ltUNgm9NwwkwZsh0HP+RSygaXrg1r9cIGLU8cR/E4Y
+ ygSzHbHoH73EQcrc/uizW1CMPrdXbyVML61mNNFpvJW0e4jUji+RsNkhRbm9IRDcJQb9
+ ZceTrKuW7VzifUVdiYQ/yEkv5fJ7Eka7MlSkbTYR7qC1w4i8oFdTpSOt1hWyYBcXI0sS
+ kHA93T8fRnrUkq9th/xAwXUptnjIlO5aHv0FsdQuFdpkii+t356vAccNRRzbKsWDEHPe
+ pLHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=H9GxJMYPdtSEDnc4MOgbutjnjWkuSABG+McJyFbCDTU=;
+ b=PMy4iAAQdi7zK+k1bfVDz4EWegPBU3CoZxZfGvQczj9TSI0RKig53cWCes9PyTXuSX
+ Pl/xn9T/0SpEmeS9gf1Qgzi/bg9p5hpXSkG3QzueJaygWXigCrOv6Nvw3BZTCzNpZ9IA
+ dWf79UsYFBtalZozn2dQ8YE8NyFj5Nk/LBXRcbbomVwA/dhWJSE2ibJe0XxrjZXXQL/I
+ 1yqhg27wDg6InrYNgmxhK+OoL13oy13zOaRqK9Il30kpjq8JcoH6DAzIzz2Ubhz7GNgP
+ COAFvy+SMyhWzmLRV8wUOwbAZHciRw1Zh0n5/CU6dAbEmZneH726RdKNol0VH6qBh8Xg
+ sdUA==
+X-Gm-Message-State: AOAM530hEJkUl1wIsuHAn9/Wc4gt3irU64LKNVZnzi93aOLHFw1meSXv
+ NTJokfg1Yt5A03lePdYpzt9v8g==
+X-Google-Smtp-Source: ABdhPJzrHKF1P3S02aJhpF2Q+pY2UokDDw8udIUDuBfdOVPVekKcmDqDdyHWzp1oxasL7Mfr4MxEkg==
+X-Received: by 2002:a63:ce17:: with SMTP id y23mr3750075pgf.447.1600947444400; 
+ Thu, 24 Sep 2020 04:37:24 -0700 (PDT)
+Received: from ani-ubuntu ([115.96.139.162])
+ by smtp.googlemail.com with ESMTPSA id 64sm2957176pgi.90.2020.09.24.04.37.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Sep 2020 04:37:23 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <ani@ani-ubuntu>
+Date: Thu, 24 Sep 2020 17:07:17 +0530 (IST)
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [RFC PATCH v3 3/7] hw/pci/pcie: Do not initialize slot capability
+ if acpihp is used
+In-Reply-To: <20200924131440.49432dfc@redhat.com>
+Message-ID: <alpine.DEB.2.21.2009241707010.17687@ani-ubuntu>
+References: <20200924070013.165026-1-jusual@redhat.com>
+ <20200924070013.165026-4-jusual@redhat.com>
+ <20200924131440.49432dfc@redhat.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 40b27f3c-b996-4ea5-b3d3-26cea10b119c
-X-Ovh-Tracer-Id: 9500624889374087648
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdegfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeegffehgeejgedvjeeuveelieffkeehgefhieejteevudekheduteelhfetfefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 05:33:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+Received-SPF: none client-ip=2607:f8b0:4864:20::542;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,212 +86,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Ani Sinha <ani@anisinha.ca>, Julia Suvorova <jusual@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Sep 2020 08:21:47 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-> 
-> 
-> On 9/24/20 7:22 AM, Greg Kurz wrote:
-> > On Wed, 23 Sep 2020 16:34:57 -0300
-> > Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> > 
-> >> This patch puts all the pieces together to finally allow user
-> >> input when defining the NUMA topology of the spapr guest.
-> >>
-> >> We have one more kernel restriction to handle in this patch:
-> >> the associativity array of node 0 must be filled with zeroes
-> >> [1]. The strategy below ensures that this will happen.
-> >>
-> >> spapr_numa_define_associativity_domains() will read the distance
-> >> (already PAPRified) between the nodes from numa_state and determine
-> >> the appropriate NUMA level. The NUMA domains, processed in ascending
-> >> order, are going to be matched via NUMA levels, and the lowest
-> >> associativity domain value is assigned to that specific level for
-> >> both.
-> >>
-> >> This will create an heuristic where the associativities of the first
-> >> nodes have higher priority and are re-used in new matches, instead of
-> >> overwriting them with a new associativity match. This is necessary
-> >> because neither QEMU, nor the pSeries kernel, supports multiple
-> >> associativity domains for each resource, meaning that we have to
-> >> decide which associativity relation is relevant.
-> >>
-> >> Ultimately, all of this results in a best effort approximation for
-> >> the actual NUMA distances the user input in the command line. Given
-> >> the nature of how PAPR itself interprets NUMA distances versus the
-> >> expectations risen by how ACPI SLIT works, there might be better
-> >> algorithms but, in the end, it'll also result in another way to
-> >> approximate what the user really wanted.
-> >>
-> >> To keep this commit message no longer than it already is, the next
-> >> patch will update the existing documentation in ppc-spapr-numa.rst
-> >> with more in depth details and design considerations/drawbacks.
-> >>
-> >> [1] https://lore.kernel.org/linuxppc-dev/5e8fbea3-8faf-0951-172a-b41a2138fbcf@gmail.com/
-> >>
-> >> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> >> ---
-> >>   hw/ppc/spapr_numa.c | 81 ++++++++++++++++++++++++++++++++++++++++++++-
-> >>   1 file changed, 80 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> >> index 688391278e..c84f77cda7 100644
-> >> --- a/hw/ppc/spapr_numa.c
-> >> +++ b/hw/ppc/spapr_numa.c
-> >> @@ -80,12 +80,79 @@ static void spapr_numa_PAPRify_distances(MachineState *ms)
-> >>       }
-> >>   }
-> >>   
-> >> +static uint8_t spapr_numa_get_NUMA_level(uint8_t distance)
-> > 
-> > The funky naming doesn't improve clarity IMHO. I'd rather make
-> > it lowercase only.
-> > 
-> >> +{
-> >> +    uint8_t numa_level;
-> >> +
-> >> +    switch (distance) {
-> >> +    case 20:
-> >> +        numa_level = 0x3;
-> >> +        break;
-> >> +    case 40:
-> >> +        numa_level = 0x2;
-> >> +        break;
-> >> +    case 80:
-> >> +        numa_level = 0x1;
-> >> +        break;
-> >> +    default:
-> >> +        numa_level = 0;
-> > 
-> > Hmm... same level for distances 10 and 160 ? Is this correct ?
-> 
-> 
-> This will never be called with distance = 10 because we won't
-> evaluate distance between the node to itself. But I'll put a
-> 'case 10:' clause there that does nothing to make it clearer.
-> 
 
-You should make it g_assert_not_reached() in this case.
+On Thu, 24 Sep 2020, Igor Mammedov wrote:
 
-> 
-> 
-> DHB
-> 
-> > 
-> >> +    }
-> >> +
-> >> +    return numa_level;
-> >> +}
-> >> +
-> >> +static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr,
-> >> +                                                    MachineState *ms)
-> > 
-> > Passing ms seems to indicate that it could have a different value than spapr,
-> > which is certainly no true.
-> > 
-> > I'd rather make it a local variable:
-> > 
-> >      MachineState *ms = MACHINE(spapr);
-> > 
-> > This is an slow path : we don't really care to do dynamic type checking
-> > multiple times.
-> > 
-> >> +{
-> >> +    int src, dst;
-> >> +    int nb_numa_nodes = ms->numa_state->num_nodes;
-> >> +    NodeInfo *numa_info = ms->numa_state->nodes;
-> >> +
-> >> +    for (src = 0; src < nb_numa_nodes; src++) {
-> >> +        for (dst = src; dst < nb_numa_nodes; dst++) {
-> >> +            /*
-> >> +             * This is how the associativity domain between A and B
-> >> +             * is calculated:
-> >> +             *
-> >> +             * - get the distance between them
-> >> +             * - get the correspondent NUMA level for this distance
-> >> +             * - the arrays were initialized with their own numa_ids,
-> >> +             * and we're calculating the distance in node_id ascending order,
-> >> +             * starting from node 0. This will have a cascade effect in the
-> >> +             * algorithm because the associativity domains that node 0 defines
-> >> +             * will be carried over to the other nodes, and node 1
-> >> +             * associativities will be carried over unless there's already a
-> >> +             * node 0 associativity assigned, and so on. This happens because
-> >> +             * we'll assign the lowest value of assoc_src and assoc_dst to be
-> >> +             * the associativity domain of both, for the given NUMA level.
-> >> +             *
-> >> +             * The PPC kernel expects the associativity domains of node 0 to
-> >> +             * be always 0, and this algorithm will grant that by default.
-> >> +             */
-> >> +            uint8_t distance = numa_info[src].distance[dst];
-> >> +            uint8_t n_level = spapr_numa_get_NUMA_level(distance);
-> >> +            uint32_t assoc_src, assoc_dst;
-> >> +
-> >> +            assoc_src = be32_to_cpu(spapr->numa_assoc_array[src][n_level]);
-> >> +            assoc_dst = be32_to_cpu(spapr->numa_assoc_array[dst][n_level]);
-> >> +
-> >> +            if (assoc_src < assoc_dst) {
-> >> +                spapr->numa_assoc_array[dst][n_level] = cpu_to_be32(assoc_src);
-> >> +            } else {
-> >> +                spapr->numa_assoc_array[src][n_level] = cpu_to_be32(assoc_dst);
-> >> +            }
-> >> +        }
-> >> +    }
-> >> +
-> >> +}
-> >> +
-> >>   void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> >>                                      MachineState *machine)
-> >>   {
-> >>       SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-> >>       int nb_numa_nodes = machine->numa_state->num_nodes;
-> >>       int i, j, max_nodes_with_gpus;
-> >> +    bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
-> >>   
-> >>       /*
-> >>        * For all associativity arrays: first position is the size,
-> >> @@ -99,6 +166,17 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> >>       for (i = 0; i < nb_numa_nodes; i++) {
-> >>           spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-> >>           spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
-> >> +
-> >> +        /*
-> >> +         * Fill all associativity domains of the node with node_id.
-> >> +         * This is required because the kernel makes valid associativity
-> > 
-> > It would be appreciated to have an URL to the corresponding code in the
-> > changelog.
-> > 
-> >> +         * matches with the zeroes if we leave the matrix unitialized.
-> >> +         */
-> >> +        if (!using_legacy_numa) {
-> >> +            for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
-> >> +                spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
-> >> +            }
-> >> +        }
-> >>       }
-> >>   
-> >>       /*
-> >> @@ -128,7 +206,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> >>        * 1 NUMA node) will not benefit from anything we're going to do
-> >>        * after this point.
-> >>        */
-> >> -    if (spapr_machine_using_legacy_numa(spapr)) {
-> >> +    if (using_legacy_numa) {
-> >>           return;
-> >>       }
-> >>   
-> >> @@ -139,6 +217,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> >>       }
-> >>   
-> >>       spapr_numa_PAPRify_distances(machine);
-> >> +    spapr_numa_define_associativity_domains(spapr, machine);
-> >>   }
-> >>   
-> >>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
-> > 
+> On Thu, 24 Sep 2020 09:00:09 +0200
+> Julia Suvorova <jusual@redhat.com> wrote:
+>
+>> Instead of changing the hot-plug type in _OSC register, do not
+>> initialize the slot capability or set the 'Slot Implemented' flag.
+>> This way guest will choose ACPI hot-plug if it is preferred and leave
+>> the option to use SHPC with pcie-pci-bridge.
+>>
+>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+>> ---
+>>  hw/i386/acpi-build.h |  2 ++
+>>  hw/i386/acpi-build.c |  2 +-
+>>  hw/pci/pcie.c        | 16 ++++++++++++++++
+>>  3 files changed, 19 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
+>> index 487ec7710f..4c5bfb3d0b 100644
+>> --- a/hw/i386/acpi-build.h
+>> +++ b/hw/i386/acpi-build.h
+>> @@ -11,4 +11,6 @@ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
+>>
+>>  void acpi_setup(void);
+>>
+>> +Object *object_resolve_type_unambiguous(const char *typename);
+>> +
+>>  #endif
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index cf503b16af..b7811a8912 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -174,7 +174,7 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+>>      *data = fadt;
+>>  }
+>>
+>> -static Object *object_resolve_type_unambiguous(const char *typename)
+>> +Object *object_resolve_type_unambiguous(const char *typename)
+>>  {
+>>      bool ambig;
+>>      Object *o = object_resolve_path_type("", typename, &ambig);
+>> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+>> index 5b48bae0f6..c1a082e8b9 100644
+>> --- a/hw/pci/pcie.c
+>> +++ b/hw/pci/pcie.c
+>> @@ -27,6 +27,8 @@
+>>  #include "hw/pci/pci_bus.h"
+>>  #include "hw/pci/pcie_regs.h"
+>>  #include "hw/pci/pcie_port.h"
+>> +#include "hw/i386/ich9.h"
+>> +#include "hw/i386/acpi-build.h"
+>>  #include "qemu/range.h"
+>>
+>>  //#define DEBUG_PCIE
+>> @@ -515,12 +517,26 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+>>      pcie_cap_slot_push_attention_button(hotplug_pdev);
+>>  }
+>>
+>> +static bool acpi_pcihp_enabled(void)
+>> +{
+>> +    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+>> +
+>> +    return lpc &&
+>> +           object_property_get_bool(lpc, "acpi-pci-hotplug-with-bridge-support",
+>> +                                    NULL);
+>> +
+>> +}
+>> +
+>>  /* pci express slot for pci express root/downstream port
+>>     PCI express capability slot registers */
+>>  void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+>>  {
+>>      uint32_t pos = dev->exp.exp_cap;
+>>
+>> +    if (acpi_pcihp_enabled()) {
+>> +        return;
+>> +    }
+>> +
+>>      pci_word_test_and_set_mask(dev->config + pos + PCI_EXP_FLAGS,
+>>                                 PCI_EXP_FLAGS_SLOT);
+>>
+> why do you drop all slot caps instead of disabling just "if (s->hotplug) {" branch?
 
++1 to Igor's suggestion.
+
+
+>
+>
 
