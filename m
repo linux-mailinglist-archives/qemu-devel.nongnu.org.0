@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED7F2776A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:23:56 +0200 (CEST)
-Received: from localhost ([::1]:46980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E92B2776BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:28:04 +0200 (CEST)
+Received: from localhost ([::1]:55516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLU2F-0001F0-AD
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:23:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57554)
+	id 1kLU6F-0004s7-F4
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkp-00036e-FN
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21279)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTlB-0003PY-8Y
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:06:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkn-00043A-Ik
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:55 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTl1-00046t-RK
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:06:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600963552;
+ s=mimecast20190719; t=1600963567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v6IefpecqGL3XgdT1oT6U0apZGd5TzKbwUBmHtxx5Ps=;
- b=TPlSCqu3YejMpTspCx2GvrcnzZ5y7zxJC2qcQgAiNZz5KE0EG/hwsK5ZSf053hqPxAIH5f
- tCIl+pcO6cZHYiL211tjnbqyjumAxBCh9HU1eQqsSSynKg4cr03NIH0WYfwi7aBdIL5+Fr
- jhFQoNilbPElWBxMrAMq6e2ClZs3BV8=
+ bh=AH8IYQbb3ay9Cjv/MkGhbM86WcU24pssD37+05te6Zg=;
+ b=axxWIf89I2Z2dPI+ZoAtfNdjckBFPfHntBJdqVI2Oio+D+KeNcIQi/0wV5R80E+++3/Bw5
+ m9tKkDHpXog+/tm/wjGMopGJJ2JU5V6Zy7Ekk31u3QKIYUeUnpcfnuOB1B9ERW7s6iqqEu
+ cPyFgb2c5UlI5eAfxb0UBifNrGSG3ok=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-QVowD1Z_NfCRO4e7H1nxcw-1; Thu, 24 Sep 2020 12:05:51 -0400
-X-MC-Unique: QVowD1Z_NfCRO4e7H1nxcw-1
+ us-mta-21-ydXYsntHOt-q1VhWHPH5Kw-1; Thu, 24 Sep 2020 12:06:00 -0400
+X-MC-Unique: ydXYsntHOt-q1VhWHPH5Kw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DE26AD687;
- Thu, 24 Sep 2020 16:05:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C7DB801E53;
+ Thu, 24 Sep 2020 16:05:59 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-4.ams2.redhat.com [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADDD619C66;
- Thu, 24 Sep 2020 16:05:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70EF61A4D7;
+ Thu, 24 Sep 2020 16:05:50 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH PROTOTYPE 5/6] virtio-mem: Require only
- RAM_BLOCK_DISCARD_T_COORDINATED discards
-Date: Thu, 24 Sep 2020 18:04:22 +0200
-Message-Id: <20200924160423.106747-6-david@redhat.com>
+Subject: [PATCH PROTOTYPE 6/6] vfio: Disable only
+ RAM_BLOCK_DISCARD_T_UNCOORDINATED discards
+Date: Thu, 24 Sep 2020 18:04:23 +0200
+Message-Id: <20200924160423.106747-7-david@redhat.com>
 In-Reply-To: <20200924160423.106747-1-david@redhat.com>
 References: <20200924160423.106747-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -89,10 +89,25 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We implement the SparseRamHandler interface and properly communicate
-changes by notifying listeners - especially in all scenarios
-- when memory becomes usable by the guest
-- when memory becomes unusable by the guest (and we discard memory)
+This unlocks virtio-mem with vfio. A virtio-mem device properly notifies
+about all accessible/mapped blocks inside a managed memory region -
+whenever blocks become accessible and whenever blocks become inaccessible.
+
+Note: The block size of a virtio-mem device has to be set to sane sizes,
+depending on the maximum hotplug size - to not run out of vfio mappings.
+The default virtio-mem block size is usually in the range of a couple of
+MBs. Linux kernels (x86-64) don't support block sizes > 128MB
+with an initial memory size of < 64 MB - and above that only in some
+cases 2GB. The larger the blocks, the less likely that a lot of
+memory can get unplugged again. The smaller the blocks, the slower
+memory hot(un)plug will be.
+
+Assume you want to hotplug 256GB - the block size would have to be at
+least 8 MB (resulting in 32768 distinct mappings).
+
+It's expected that the block size will be comparatively large when
+virtio-mem is used with vfio in the future (e.g., 128MB, 1G, 2G) -
+something Linux guests will have to be optimized for.
 
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -104,40 +119,56 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/vfio/common.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index e23969eaed..efeff7c64c 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -531,7 +531,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    if (ram_block_discard_require(true)) {
-+    if (ram_block_discard_type_require(RAM_BLOCK_DISCARD_T_COORDINATED, true)) {
-         error_setg(errp, "Discarding RAM is disabled");
-         return;
-     }
-@@ -539,7 +539,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-     ret = ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb));
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index a3aaf70dd8..4d82296967 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1392,8 +1392,12 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+      * new memory, it will not yet set ram_block_discard_set_required() and
+      * therefore, neither stops us here or deals with the sudden memory
+      * consumption of inflated memory.
++     *
++     * We do support discarding for memory regions where accessible pieces
++     * are coordinated via the SparseRAMNotifier.
+      */
+-    ret = ram_block_discard_disable(true);
++    ret = ram_block_discard_type_disable(RAM_BLOCK_DISCARD_T_UNCOORDINATED,
++                                         true);
      if (ret) {
-         error_setg_errno(errp, -ret, "Unexpected error discarding RAM");
--        ram_block_discard_require(false);
-+        ram_block_discard_type_require(RAM_BLOCK_DISCARD_T_COORDINATED, false);
-         return;
+         error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
+         return ret;
+@@ -1564,7 +1568,7 @@ close_fd_exit:
+     close(fd);
+ 
+ put_space_exit:
+-    ram_block_discard_disable(false);
++    ram_block_discard_type_disable(RAM_BLOCK_DISCARD_T_UNCOORDINATED, false);
+     vfio_put_address_space(space);
+ 
+     return ret;
+@@ -1686,7 +1690,8 @@ void vfio_put_group(VFIOGroup *group)
      }
  
-@@ -579,7 +579,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
-     virtio_del_queue(vdev, 0);
-     virtio_cleanup(vdev);
-     g_free(vmem->bitmap);
--    ram_block_discard_require(false);
-+    ram_block_discard_type_require(RAM_BLOCK_DISCARD_T_COORDINATED, false);
- }
+     if (!group->ram_block_discard_allowed) {
+-        ram_block_discard_disable(false);
++        ram_block_discard_type_disable(RAM_BLOCK_DISCARD_T_UNCOORDINATED,
++                                       false);
+     }
+     vfio_kvm_device_del_group(group);
+     vfio_disconnect_container(group);
+@@ -1740,7 +1745,8 @@ int vfio_get_device(VFIOGroup *group, const char *name,
  
- static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
+         if (!group->ram_block_discard_allowed) {
+             group->ram_block_discard_allowed = true;
+-            ram_block_discard_disable(false);
++            ram_block_discard_type_disable(RAM_BLOCK_DISCARD_T_UNCOORDINATED,
++                                           false);
+         }
+     }
+ 
 -- 
 2.26.2
 
