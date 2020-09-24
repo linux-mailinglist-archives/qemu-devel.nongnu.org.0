@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEB9277912
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:19:40 +0200 (CEST)
-Received: from localhost ([::1]:44216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043F8277931
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:25:40 +0200 (CEST)
+Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLWmJ-0002w0-S4
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48254)
+	id 1kLWs7-0006bT-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWiR-0000OY-Rs
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:15:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49214)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWqp-00068A-DD
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:24:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWiP-0005Gk-06
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:15:39 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600974935;
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWqn-00066x-0y
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:24:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600975455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sFQ5yngiEp/yI+ad11W7jfTwFjVnYeu43dTS0RMq/8M=;
- b=crDiTJRoXzixsuuuRXipFo31OrsbyvL8RaISjPBFN1lT2qIkrCYsmMxreh2JF48MfJVgpe
- iTSB7iHu8XPepp1HOHVHwGeH5v78KfIyJQ76A1KUjIfhuPa2x+ZEfO0dftN9BmvW7qZShS
- /bpumtvTKzCGriCsEYsTlsT2aovDheA=
+ bh=0CQ/dz5WfuuIv731DvM5gHhK+Rs5mXbX8GWISC3eNQo=;
+ b=W+AzgMyPdVJi4Nv9BWuqzF6h9NB2mcOOuwRFJ14QH23JSPC2CunsHfhBDMD8V99RXUX707
+ cHmsjPHtcqLJXIW/j/VLAtbG63moqMkPK7lTKf4Iv2XAD9PQdB2DcEEBQZuCr/Ihzv9kSh
+ OhtzlpX9zlop39/+lobZKs0p9+qwJvg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-A7PwVUGeO6Od9iZvDh2BkQ-1; Thu, 24 Sep 2020 15:15:33 -0400
-X-MC-Unique: A7PwVUGeO6Od9iZvDh2BkQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-592-fkAZ6-YFN0Kt2JTGBDM80A-1; Thu, 24 Sep 2020 15:24:11 -0400
+X-MC-Unique: fkAZ6-YFN0Kt2JTGBDM80A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 257C1802EA5;
- Thu, 24 Sep 2020 19:15:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9055E10066FE;
+ Thu, 24 Sep 2020 19:24:10 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 92EF55D9D2;
- Thu, 24 Sep 2020 19:15:28 +0000 (UTC)
-Date: Thu, 24 Sep 2020 15:15:26 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B545319D7C;
+ Thu, 24 Sep 2020 19:24:09 +0000 (UTC)
+Date: Thu, 24 Sep 2020 15:24:07 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 38/38] qapi/visit.py: add type hint annotations
-Message-ID: <20200924191526.GC346482@localhost.localdomain>
+Subject: Re: [PATCH v2 02/38] qapi-gen: Separate arg-parsing from generation
+Message-ID: <20200924192407.GA347036@localhost.localdomain>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-39-jsnow@redhat.com>
+ <20200922210101.4081073-3-jsnow@redhat.com>
+ <20200923000031.GB191229@localhost.localdomain>
+ <7920bff4-dd4b-4ef6-ce85-90e693efc749@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-39-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <7920bff4-dd4b-4ef6-ce85-90e693efc749@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gr/z0/N6AeWAPJVB"
+ protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -88,40 +90,101 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---gr/z0/N6AeWAPJVB
+--qMm9M+Fa2AknHoGS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2020 at 05:01:01PM -0400, John Snow wrote:
-> Annotations do not change runtime behavior.
-> This commit *only* adds annotations.
+On Wed, Sep 23, 2020 at 01:05:47PM -0400, John Snow wrote:
+> On 9/22/20 8:00 PM, Cleber Rosa wrote:
+> > On Tue, Sep 22, 2020 at 05:00:25PM -0400, John Snow wrote:
+> > > This is a minor re-work of the entrypoint script. It isolates a
+> > > generate() method from the actual command-line mechanism.
+> > >=20
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > ---
+> > >   scripts/qapi-gen.py | 87 ++++++++++++++++++++++++++++++++----------=
+---
+> > >   1 file changed, 63 insertions(+), 24 deletions(-)
+> > >=20
+> > > diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+> > > index 4b03f7d53b..59becba3e1 100644
+> > > --- a/scripts/qapi-gen.py
+> > > +++ b/scripts/qapi-gen.py
+> > > @@ -1,9 +1,13 @@
+> > >   #!/usr/bin/env python3
+> > > -# QAPI generator
+> > > -#
+> > > +
+> > >   # This work is licensed under the terms of the GNU GPL, version 2 o=
+r later.
+> > >   # See the COPYING file in the top-level directory.
+> > > +"""
+> > > +QAPI Generator
+> > > +
+> > > +This script is the main entry point for generating C code from the Q=
+API schema.
+> > > +"""
+> > >   import argparse
+> > >   import re
+> > > @@ -11,21 +15,65 @@
+> > >   from qapi.commands import gen_commands
+> > >   from qapi.doc import gen_doc
+> > > +from qapi.error import QAPIError
+> > >   from qapi.events import gen_events
+> > >   from qapi.introspect import gen_introspect
+> > > -from qapi.schema import QAPIError, QAPISchema
+> > > +from qapi.schema import QAPISchema
+> > >   from qapi.types import gen_types
+> > >   from qapi.visit import gen_visit
+> > > -def main(argv):
+> > > +DEFAULT_OUTPUT_DIR =3D ''
+> > > +DEFAULT_PREFIX =3D ''
+> >=20
+> > I did not understand the purpose of these.  If they're used only as
+> > the default value for the command line option parsing, I'd suggest
+> > dropping them.
+> >=20
 >=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> The alternative is setting default=3D'' inline below, which is fine, but =
+found
+> them kind of buried; and looking a bit too much like a weird magic consta=
+nt.
+> Aesthetically, I liked making them obvious.
+>
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+I differ in opinion and style, and I don't think you should adopt
+mine.  Just for the record, though, consider if would do the same for
+dozens of command line options... IMO it'd be fine to declare them for
+extra explicitness, but I see no reason for them to be module globals.
 
---gr/z0/N6AeWAPJVB
+> You found them! My plan worked.
+>
+
+:)
+
+- Cleber.
+
+--qMm9M+Fa2AknHoGS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s8E4ACgkQZX6NM6Xy
-CfM2ng//WN32IQWCJcdUti3CmN86i0r9UBVtIquC3FxlvZQbiUPwEIkP7GE8Ta0R
-6C8WWxzmaXrquR7psHffZ4FQ+xZYa6OtDUYsaAfXcHqoP3qAAG09NyuZ5BAH1Sjh
-Sft5ylstTNyRoBeUd4ATWiHFEupmMmw/jBuDEXEN/uBD9QKkFPHU+5YhlASBWi6Z
-1jdodMwZyycpql4m33sK/MpxsIESapFeQCRwERtAowuLd7fGuiFcrciN5l9l5+Hg
-G7/A0/hN7S+6bfNYFQwfIlPl1tN6ES4Ge+WpPRmLt0uzfMprYWo7r8YPSW3QoSWh
-Q56dEUOE40wIEWph7omMB4bxcpKWbyClKS6pEBY0OXPGp7D5OCRN7XefeLGIk8ZA
-sBB6mOuWlrL40RaKdJhxDBX3L4Y1Ia2pMls41Qbe/04LI7wqAei4A4WFFxuzSctq
-mxbgB5okeD7YoZJt+lwL29Yu3Xvj/ESm0XG4RTILAxphyMvSaElXtTUfi8Em8JtG
-BwWNXc4JojHLESmTfGr2plOWZ3195wXBw1CrqlQ6GsY4lOeRm/PDco5tubjkBSob
-Tc3cDAxpWfw6sxw5M6znItMDohEVsLutlt8LFQyDAenhchrEeapjWtx5DQSkdKqV
-fuphfq7L2jl8tl+KnH+p1RHVGpKTojs832crB9Di1YjqfyJYxQo=
-=8mbu
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s8lMACgkQZX6NM6Xy
+CfPx4w/+MDgPLeiQ75hGmjgdRKqsmKrkJMJ8WEIgTd2VT5UHO4DHQbgg1hvAq0Xk
+JflcykcqQro5l/ErHpb8YG2yF6+x3Nm3RKqC5VR8AXKjyPrKxZ6o4ayK4wkWdMVB
+dSll2yet2hMX0czK0kygkYHhzlGJGNk7sOZH7oEeZ/k7slhKLyjHUFLGzdO/66pD
+FSh9fQIECsoUolyuk3J06U7DjhvL/sG8W0zjF4QZ9WePbhx+3ojGR0UNF/T4don6
+NqMZf+YuCPBaTLW2EZuu/aeFRe4e01TdAs0Oo7nw51eiqngtfXaKzogJ0uirC6cT
+rqLlQAujkDfHBAMuPFobhLD/Jn8JywSJbyBUD5f0pe5uag8FBVfHZOG4Nuo/FPqt
+CZgm2w5bRGbnDjPheZavjr1RbrOcii7cDcPP3MfJZG2GkA9MN4nC8ezcLl4mP4Ee
+YpynMlNxK15snj1O0ZjHS1m2MXPF5DMi0Y/ygLlQWLuNqZnYGvHjU3kUGukQflBA
+l+lVQdBm1jJ0REvh5WpGfsZB1T/sqy+cQHYMaE2KOBfU339d0ggHq31NT6GNhTJY
+pmko5rZxchwYmE1wLLfDXdBFkcjiXuUTXCgh/JUbfeLszOijjDk4GbnUSm4CXbZG
++QceowTLuoFuUILGsWXYyYYi1n9ZAqSyPFBYMGA9ze3zA7sISOo=
+=FOzl
 -----END PGP SIGNATURE-----
 
---gr/z0/N6AeWAPJVB--
+--qMm9M+Fa2AknHoGS--
 
 
