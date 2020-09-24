@@ -2,109 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34792778E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:03:19 +0200 (CEST)
-Received: from localhost ([::1]:44134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF792778FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:11:07 +0200 (CEST)
+Received: from localhost ([::1]:57812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLWWU-0007Mc-VQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43820)
+	id 1kLWe2-0004vZ-K1
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kLWOL-0001GM-36; Thu, 24 Sep 2020 14:54:53 -0400
-Received: from mail-eopbgr80115.outbound.protection.outlook.com
- ([40.107.8.115]:8199 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLWP2-0001zT-48; Thu, 24 Sep 2020 14:55:36 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:34203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kLWOA-0002OV-IY; Thu, 24 Sep 2020 14:54:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XjnaKG99EMpdVUOnwEbDq7SmCDg3/tY86KdwbRNnkQFzXGzG/CH/lHluXlx8K6eOTF1pvyOLlFQR1+ndzS9SR//fjjDD8sTwzkRLzxNBLaNjF2Ax8i9x0qUjvmZ0og/Tqn760vltrMNqzDr9sv9iEpye8NU81Vm49ALBncHTtQD4Yl2hFdt5wu4FswLLkbLBFwybVXadEeAEAzmVBEX7INzBCf24JzrpWunzt7aFKKTIhzdeMAwmfMl46KMASa/hp7gJ3dAmSvTrZoqSYg8/mIVmeI+n6aL1UQ0pr6/C0+qzc9MAO51qWCZQU5gm31vxYKzfZK51uf9acVgsVlWtGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HiHebYqNrRrCRFM5FZXBKZhy6PdvbjnSnTkFrQlzjC4=;
- b=Sz3TJaUNFciJLpqvZAw/SNXTtSDNdR1YhMO82jLV38NObpC3UeJdwqxXvGBCJYY0QhSf1j2q0P/AUAebkCdRwtDzYyk7NZHkzyg6M0Ua4tZ1FQs4u6BWsISF4sgrDXW+Gu2dXeItzx8PRk43RNtmy6QUJSygvAHHgOtGqOaaIsCAW00qP265/aYu0RfuAgSOMjyfwF2LY7Pm8FhHrw/efWMbQ666W+6R+3AGDsVP9NN+s3mzLlTZAKpoEGVMoU7tzHGrksAGT2XYDdPBQtm8yV9deDbdQdm4AmT/q787OO8mMlzZuo415hUy9BZVsLs01jlMNzAjLhhW2f1QNJnv7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HiHebYqNrRrCRFM5FZXBKZhy6PdvbjnSnTkFrQlzjC4=;
- b=og8ZMLeGnPggnSOMGoewURM8+ir/PqjmOYOjQBsvF96b5Qsm9EgHU1IghzQf19gNWX2PPLEYhUhcwBueA+BVEe8sFNmiKArWQRuMYPu9pWMzsEu1CPc4DGUFqNwJdiWTvmjVsGMjAn5XQNXQXw549ngttQqBmqSTGh73HzXKB/E=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3159.eurprd08.prod.outlook.com (2603:10a6:209:46::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Thu, 24 Sep
- 2020 18:54:39 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.033; Thu, 24 Sep 2020
- 18:54:39 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
- fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com,
- den@openvz.org, vsementsov@virtuozzo.com, eblake@redhat.com
-Subject: [PATCH v9 7/7] block/io: refactor save/load vmstate
-Date: Thu, 24 Sep 2020 21:54:14 +0300
-Message-Id: <20200924185414.28642-8-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200924185414.28642-1-vsementsov@virtuozzo.com>
-References: <20200924185414.28642-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR05CA0082.eurprd05.prod.outlook.com
- (2603:10a6:208:136::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLWOx-0002Z1-00; Thu, 24 Sep 2020 14:55:35 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 94A685804C1;
+ Thu, 24 Sep 2020 14:55:29 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Thu, 24 Sep 2020 14:55:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=qCIoQrisYKxm01fcEvXZIhRX9GD
+ 2Ro8BlPv6NVRbYMk=; b=PZhe+6IWgx36lM9/A+a0syyPJGX/DAdAjv4ZwaAt/SE
+ o0N0FL00a57aT8CeJX32tGGprOErSSXh2X1XJQHo2dqMdGq8KWVFl7n6QSCNNqHa
+ +Jo4foBUlD15dj4oheIxff6Nlr8QxV1hDnbUtp/ii2re4doq/RXcUP0iRtHXX7Jc
+ vHzQL5c3RA12dlcHbU4BmSEdlkiYP7MEy1DxlL8Kxawz/41h66rHuS6OzQZK2V9+
+ Jbh7el9jEUziraoBa9ShCmDXbFTcWxqPKNkio4H/4QomfNo7m4bynmsfGKE9UlVH
+ h9xc6pS4AKrWOKcq0aruOAEBKFb8ZXuBTbdWbVCRE9w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qCIoQr
+ isYKxm01fcEvXZIhRX9GD2Ro8BlPv6NVRbYMk=; b=FIQm6XEdTN23iymksg+U6g
+ lfcMhvZ6EwEyLm9/ZYfORB+3mHcgulDy1S/VivOQwQFqXClPtzNctDGqM3krcnNj
+ Q14EMekqaCqMbq/C2EUpWnc9ivAMXHk3icXyhl98uDOVd3UvVQ3Zkja3D4JC6tXv
+ W3hVNYh9gzroTH65hnvia05Os4s3nh2cR2WHYm05Dj2DXi+XakkLXj5fOfliiQVV
+ 44KkDkQYJoGw0MNDdPO9zfVEzh+ZqnPWuzzQpMOilHf6ZxgUbjf4wEoEvM4WtnyI
+ ITHHkUycTXgBAvqh1rq3oLFS/niiExBH/L75VFi2P1ItkXkoaSYTTW2ovklZZE7Q
+ ==
+X-ME-Sender: <xms:oOtsX3vwXUBgQAM2nw4a821_n1S1ArKd9fh_BP8N8LfvoKZzxpkIIA>
+ <xme:oOtsX4cCaHFqD_pmNmrhuGP_AmRHXwfVVZGIU3gfxAbM1YfnAGSQ7vw8cgaA084Gh
+ Gf_qDUW919JFcF4DyE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdduvdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:oOtsX6y1YhlZrss8QCu9HNvL3wDNffoQkRhdDNlEg2_bhCGFR2A5Hg>
+ <xmx:oOtsX2NOs2XOhUnURrTNoq6lrPpNwd9n4XnqqR56Shte5h7KqBW-pA>
+ <xmx:oOtsX38WTb87lbM3D62cMvCgJoUm0Cz1_B4tRuCUzqFZGdbyMFuckA>
+ <xmx:oetsX-bNFPsnQ3dnNo-s_ipQMlAJIuBEcgK-eQhFlg36vVEFqFv5HPutjQ4>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6EE9A3064610;
+ Thu, 24 Sep 2020 14:55:26 -0400 (EDT)
+Date: Thu, 24 Sep 2020 20:55:24 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCH v4 06/14] hw/block/nvme: Add support for active/inactive
+ namespaces
+Message-ID: <20200924185524.GC1738917@apples.localdomain>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+ <20200923182021.3724-7-dmitry.fomichev@wdc.com>
+ <20200924121203.GA1738917@apples.localdomain>
+ <20200924181721.GA5376@localhost.localdomain>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.94) by
- AM0PR05CA0082.eurprd05.prod.outlook.com (2603:10a6:208:136::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
- Transport; Thu, 24 Sep 2020 18:54:39 +0000
-X-Mailer: git-send-email 2.21.3
-X-Originating-IP: [185.215.60.94]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e114505-b03f-402c-c271-08d860bb4a77
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3159:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB31590386EBFDF9F3F63C7BECC1390@AM6PR08MB3159.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:153;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lhMMUmRQObUsY79OaP/4s98N5toVOPOwX5kpCBOUvRO75kkyYC9g7MueJWXAXs5l3nh59sZ9twCm+TUt88AZ+5RDs3Q8peRrBusFKi6zf2QSDgOHhbH/Tz0nXpztk4Y7Qdktp2qPz0F2BxP9xW1PQJ7VdZX56VwDui+rvM0ynhpYlbp2l6/eGNENujisQpcBKPmmhWoznGdxKiHCGw6lvU+wyCbVBlgmadt5nR4BZOS9TDlwnEZf2WnLmrinH+sbsQ28/VwPwmW3UHoHUiCSj5d4ZpQpPX/txvLWzI/C88l3WKeo7P/IV6jbOl9wESe7oBEIMzZXQlT21ijOKmuDxAbAdSn0DRsoEaceIapceAiqvNpROfRt+w4z/3s3CkFa
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(396003)(39850400004)(346002)(376002)(8676002)(186003)(86362001)(6916009)(66556008)(8936002)(478600001)(36756003)(83380400001)(956004)(6512007)(4326008)(16526019)(66476007)(5660300002)(66946007)(2906002)(6486002)(6666004)(6506007)(52116002)(26005)(1076003)(2616005)(316002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: IL28E+BINdBW8pXf5CGkXicf/5x3VFOCmTkdUcEuJjMupCXJwFMVPpFCcsV4TOx7abXDcVSm7rXnHQ5GUZG1l8qxdXxMA68LHL6UAAu69nT+EJrhTZ9h7WFh3HrsNltEiMVwnOJskxqBeXFReHr/eBtgaFScRQXPYn2CQTGfXAfveE0QVU5bScebOeXcLxwUivj9wP7FpbjtfM5HEuptw/weA1YS2xrqRTFCWrNxs50jw45wnRUTYVKgNqLitsjL70+tIl8hnJoDJlUTWYDB4Ea/RZNKwiravxpb4E+ih0w1ehuHmAj5u+HuW3UgE2KtRAIMgKU3abUxLV5F6N9ojpWJAL8RhLulnJuavmJ6YnwNXbRuAawyjgGkeXFbqv5N0e//DH08lupB0pOBrG99rzA4mWWXWd6Fc5O8BScmt+SA/FtHihudV26euNpVzMsuYpLFees6fPuJoNgijrKXPi+XsYNNkI/zBYfWcl4u5cyRiPMc5rHIsBokwvuhu3tpOEU9UgUB9U6l3Mq/B9WFwAD8XbpGfLCjaama1CV6z2Upr+yj8P7yPpiUOgKf769l18nxSFyTDrYViHzx5SDiJsT0JBC5yL2mrf0ORw5pgddCpXe0e3MklSc1xDWBETC/CXRfGywVBqgZPe9bC7hRsQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e114505-b03f-402c-c271-08d860bb4a77
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 18:54:39.8573 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q4T3pjo66Y0AjvsUwUTwrwATiWqVdSNQsI4Wfj/bp79fmczF4GILKbWAjodnHmLcYBc4Mac7VbHvHWIvU8vlyr+ZrhrSzyEhcmv4JW7SE10=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3159
-Received-SPF: pass client-ip=40.107.8.115;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 14:54:40
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IpbVkmxF4tDyP/Kb"
+Content-Disposition: inline
+In-Reply-To: <20200924181721.GA5376@localhost.localdomain>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 14:55:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,166 +99,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like for read/write in a previous commit, drop extra indirection layer,
-generate directly bdrv_readv_vmstate() and bdrv_writev_vmstate().
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/coroutines.h    | 10 +++----
- include/block/block.h |  6 ++--
- block/io.c            | 68 ++++++++++++++++++++++---------------------
- 3 files changed, 43 insertions(+), 41 deletions(-)
+--IpbVkmxF4tDyP/Kb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/block/coroutines.h b/block/coroutines.h
-index 6c63a819c9..f69179f5ef 100644
---- a/block/coroutines.h
-+++ b/block/coroutines.h
-@@ -57,11 +57,9 @@ bdrv_common_block_status_above(BlockDriverState *bs,
-                                int64_t *map,
-                                BlockDriverState **file);
- 
--int coroutine_fn
--bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
--                   bool is_read);
--int generated_co_wrapper
--bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
--                bool is_read);
-+int coroutine_fn bdrv_co_readv_vmstate(BlockDriverState *bs,
-+                                       QEMUIOVector *qiov, int64_t pos);
-+int coroutine_fn bdrv_co_writev_vmstate(BlockDriverState *bs,
-+                                        QEMUIOVector *qiov, int64_t pos);
- 
- #endif /* BLOCK_COROUTINES_INT_H */
-diff --git a/include/block/block.h b/include/block/block.h
-index eef4cceaf0..8b87df69a1 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -572,8 +572,10 @@ int path_has_protocol(const char *path);
- int path_is_absolute(const char *path);
- char *path_combine(const char *base_path, const char *filename);
- 
--int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
--int bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
-+int generated_co_wrapper
-+bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
-+int generated_co_wrapper
-+bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
-                       int64_t pos, int size);
- 
-diff --git a/block/io.c b/block/io.c
-index cd5b689473..449b99b92c 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2475,67 +2475,69 @@ int bdrv_is_allocated_above(BlockDriverState *top,
- }
- 
- int coroutine_fn
--bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
--                   bool is_read)
-+bdrv_co_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
- {
-     BlockDriver *drv = bs->drv;
-     BlockDriverState *child_bs = bdrv_primary_bs(bs);
-     int ret = -ENOTSUP;
- 
-+    if (!drv) {
-+        return -ENOMEDIUM;
-+    }
-+
-     bdrv_inc_in_flight(bs);
- 
--    if (!drv) {
--        ret = -ENOMEDIUM;
--    } else if (drv->bdrv_load_vmstate) {
--        if (is_read) {
--            ret = drv->bdrv_load_vmstate(bs, qiov, pos);
--        } else {
--            ret = drv->bdrv_save_vmstate(bs, qiov, pos);
--        }
-+    if (drv->bdrv_load_vmstate) {
-+        ret = drv->bdrv_load_vmstate(bs, qiov, pos);
-     } else if (child_bs) {
--        ret = bdrv_co_rw_vmstate(child_bs, qiov, pos, is_read);
-+        ret = bdrv_co_readv_vmstate(child_bs, qiov, pos);
-     }
- 
-     bdrv_dec_in_flight(bs);
-+
-     return ret;
- }
- 
--int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
--                      int64_t pos, int size)
-+int coroutine_fn
-+bdrv_co_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
- {
--    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, size);
--    int ret;
-+    BlockDriver *drv = bs->drv;
-+    BlockDriverState *child_bs = bdrv_primary_bs(bs);
-+    int ret = -ENOTSUP;
- 
--    ret = bdrv_writev_vmstate(bs, &qiov, pos);
--    if (ret < 0) {
--        return ret;
-+    if (!drv) {
-+        return -ENOMEDIUM;
-     }
- 
--    return size;
--}
-+    bdrv_inc_in_flight(bs);
- 
--int bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
--{
--    return bdrv_rw_vmstate(bs, qiov, pos, false);
-+    if (drv->bdrv_save_vmstate) {
-+        ret = drv->bdrv_save_vmstate(bs, qiov, pos);
-+    } else if (child_bs) {
-+        ret = bdrv_co_writev_vmstate(child_bs, qiov, pos);
-+    }
-+
-+    bdrv_dec_in_flight(bs);
-+
-+    return ret;
- }
- 
--int bdrv_load_vmstate(BlockDriverState *bs, uint8_t *buf,
-+int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
-                       int64_t pos, int size)
- {
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, size);
--    int ret;
--
--    ret = bdrv_readv_vmstate(bs, &qiov, pos);
--    if (ret < 0) {
--        return ret;
--    }
-+    int ret = bdrv_writev_vmstate(bs, &qiov, pos);
- 
--    return size;
-+    return ret < 0 ? ret : size;
- }
- 
--int bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
-+int bdrv_load_vmstate(BlockDriverState *bs, uint8_t *buf,
-+                      int64_t pos, int size)
- {
--    return bdrv_rw_vmstate(bs, qiov, pos, true);
-+    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, size);
-+    int ret = bdrv_readv_vmstate(bs, &qiov, pos);
-+
-+    return ret < 0 ? ret : size;
- }
- 
- /**************************************************************/
--- 
-2.21.3
+On Sep 24 18:17, Niklas Cassel wrote:
+> On Thu, Sep 24, 2020 at 02:12:03PM +0200, Klaus Jensen wrote:
+> > On Sep 24 03:20, Dmitry Fomichev wrote:
+> > > From: Niklas Cassel <niklas.cassel@wdc.com>
+> > >=20
+> > > E.g., if the user sets CC.CSS to Admin Only, NVM namespaces should be
+> > > marked as inactive.
+> > >=20
+> >=20
+> > Hmm. I'm not convinced that this is correct. Can you reference the spec?
+> >=20
+>=20
+> CC.CSS can only be changed when the controller is disabled.
 
+Right. I think I see you point. While the controller is disabled, the
+host obviously cannot even see what namespaces are available, so the
+controller is free to only expose (aka, attach) the namespaces that
+makes sense for the value of CC.CSS.
+
+OK then, the patch is good :)
+
+--IpbVkmxF4tDyP/Kb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9s65oACgkQTeGvMW1P
+DemLxQf/R/+CIhci8+iL8bUaZ4h5p4d5Z1gC0YosOqDP3sKdDxqWCZSnN7LSLrkg
+zGAoZzaHW02NC02bDn4ZsLK3149ZYx9d7rxqLeLYksOEYzqeGPJP4yC2HNmwDOg6
+prpIhR/aDova70dZCAcIX48uHsrZz5ZzAzbL1pW8V6W5C7vNP3XRYfhDp1E5ADZr
+LP/jrAi7WEk2OdEFaKeB7a1i40n00sWpueopxoH9suT3iCCZHA/em0wydyge3q1A
+ZjNGvlUzrmattGgMZUULjinurs3pbSFKUNwHkGKz6rZLsrCMMrEg+1ERvdVu6CeL
+U5GOVYHH8E03N4fHwjS+0PqE8S5Ttw==
+=Eces
+-----END PGP SIGNATURE-----
+
+--IpbVkmxF4tDyP/Kb--
 
