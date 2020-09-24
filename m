@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C019276B19
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:47:00 +0200 (CEST)
-Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D53276AED
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:38:18 +0200 (CEST)
+Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLLxz-0000ou-8C
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
+	id 1kLLpZ-0006e6-0k
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:38:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kLLsl-0003Oy-6M
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:41:35 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:38548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kLLsi-0001UW-Tl
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:41:34 -0400
-Received: by mail-pf1-x429.google.com with SMTP id l126so1377933pfd.5
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 00:41:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=VaLsq131cxSFLLb9dWpm2TOUowIQwdWIbjnurwZZe5I=;
- b=T1DjzpkWvRKUUlzRIAvj4S4WeTOfRaFENcQaIE4uKJYflwz8fLcA0c/iI0A7tNjFRO
- qcTEFp7XtcruFQJbCq1TX9suVSNyYOXaXdzr3Wkbxz57cZHKHD9maAVdbjyJs1GEeVn7
- wRqXpMIPwVCX+0QUtPN35m2P9Jx7RE+yDpPZnG5MhbHFMsImZo8Hi8kmc1kw0mU4IV56
- cmX7Mc4177LM+rKwFGelsbu2nSZxNzw5WW2KT/nE+fvXM6qn+NOcK9mBKrQD5H/EoV2F
- yHpWvwvdhonTSE2nzt2GuL05qKtlBiRm4RuyqXEwrmxpBJfIeUtjr34oIrHeWg/eMPNe
- n2RQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLLoE-0005Tk-47
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:36:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLLoC-0000zJ-CH
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:36:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600933011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=r9GtGVoTQ0/MY6cgdfeB49vf0VeY+yejuyU1vVF4xEs=;
+ b=CNjnpnVVcUh/ebXW4hdSoVQZAp+ciLw6Qh+7hZvLIUYE8bGLwmWWTDv5vMyj+twAVpWDRh
+ tHYmtAFrpgE74NbNn2sLOGpx31fxR6bF30rj1SCbFHofHFA+dtpEzqj16hYFzULm9kp3MR
+ iYDrYug+VLT88pQGtXd6YsmCbGd3g8g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-eLl6CnyyOjOGRw1R27HUtQ-1; Thu, 24 Sep 2020 03:36:49 -0400
+X-MC-Unique: eLl6CnyyOjOGRw1R27HUtQ-1
+Received: by mail-wm1-f69.google.com with SMTP id b20so3232887wmj.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 00:36:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=VaLsq131cxSFLLb9dWpm2TOUowIQwdWIbjnurwZZe5I=;
- b=fmFQsQ5sSMqQKa+0aAM8DeKKhvEXLTyr1uTVPfe4hSchgK5TS93vxsyv1fHFmt8wj+
- PkAiwPsJaks0gHwZNDD9yaKyEqhF3chwCxqA2W0D1eBvMnfGGsVPJTxigW3JOc4hItdP
- Zvy1FAkYgHHyzintNaCxRsE5tC7qVtWnkHnwlsRfVO69RDDSJw7VCbNygaXfAPUqsfDU
- aV11g39XPuRU1pnIznbF29v3nA7UtHlRxiM5NMtNHNs+w8cyC/S189tLQZ5GaYc98npZ
- Xd25JAKrjkmvq9jTEoMXppqkYRrZ6X03x4+LD0GikORsjUZBdHebi5U1EYPRte7i14SS
- /j1w==
-X-Gm-Message-State: AOAM530w002W56bsnreo+HieAYY3Pz3rqfgIAY4fL1OMIvxZE2SILs7t
- uM1tk1ldYK32D/xbrRXRXA4=
-X-Google-Smtp-Source: ABdhPJyDzt9YJZZqAnIIYIlxrko2epbmZ8XZ7capl3pFVUXKvQxCK4cUyA+i0WruihxwRIAfJLdVXg==
-X-Received: by 2002:a63:d56:: with SMTP id 22mr3005387pgn.286.1600933291570;
- Thu, 24 Sep 2020 00:41:31 -0700 (PDT)
-Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id x13sm1777864pfj.199.2020.09.24.00.41.27
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 24 Sep 2020 00:41:31 -0700 (PDT)
-From: Huacai Chen <zltjiangshi@gmail.com>
-X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V11 8/8] docs/system: Update MIPS machine documentation
-Date: Thu, 24 Sep 2020 15:35:56 +0800
-Message-Id: <1600932956-11642-9-git-send-email-chenhc@lemote.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1600932956-11642-1-git-send-email-chenhc@lemote.com>
-References: <1600932956-11642-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x429.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=r9GtGVoTQ0/MY6cgdfeB49vf0VeY+yejuyU1vVF4xEs=;
+ b=cO8E6vlXqTqdPSQw2ZvgIMnXZKApAySUEJ1p6LhsVlbeerhzDtm9HlY8zHFAqfWog6
+ QiZASnsSobz6T4PIRKgeH0xP2GSBNVL5lnhBrHTwuW7H7+IBSn7mK/atxi76OsWHHgbc
+ 5zBGXP3vvRnFKaL/vexCcuSABK/TDxnLRG2acTKfwvmjz3UFD7Kw7g2cOn+vFUEcHGyl
+ rtDTSERkhkwVPrH7qQkRLlXw5Ly/09DCTyNfly/LgXNAU+AUuC0y8To4afYY8n/6A7g5
+ rKRP76m/tJ8ifjaXnzRhOjV/+W1mHBv9HzaQNgp3AIT0nLMjcJyOzNzr5RMMIczcz/Sv
+ VHwg==
+X-Gm-Message-State: AOAM533382HtuRnaxY5mzkbxbovKuj/BTVQ2vQTcGWteCfJT+LKq0xMe
+ zPqXFa/qlL8LkWQieOslbYsVgIT0HmRz661KQuqnfiCon64x4g6zTKT2ytOz1ed1/FnEnjz6+hn
+ 7S04Lrw60nwdJQYA=
+X-Received: by 2002:a1c:2905:: with SMTP id p5mr3360205wmp.187.1600933008417; 
+ Thu, 24 Sep 2020 00:36:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJynf7tJE45KY7VafKekmTY/EI1tIhWGNMOBjgl/oT3gij9RQt9e0Kf0Xk+kY864V5UpBb302g==
+X-Received: by 2002:a1c:2905:: with SMTP id p5mr3360184wmp.187.1600933008142; 
+ Thu, 24 Sep 2020 00:36:48 -0700 (PDT)
+Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
+ by smtp.gmail.com with ESMTPSA id o4sm2418668wrv.86.2020.09.24.00.36.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Sep 2020 00:36:47 -0700 (PDT)
+Date: Thu, 24 Sep 2020 03:36:45 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [RFC PATCH v3 3/7] hw/pci/pcie: Do not initialize slot
+ capability if acpihp is used
+Message-ID: <20200924033305-mutt-send-email-mst@kernel.org>
+References: <20200924070013.165026-1-jusual@redhat.com>
+ <20200924070013.165026-4-jusual@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200924070013.165026-4-jusual@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +94,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add Loongson-3A CPU models and Loongson-3 based machine description.
+On Thu, Sep 24, 2020 at 09:00:09AM +0200, Julia Suvorova wrote:
+> Instead of changing the hot-plug type in _OSC register, do not
+> initialize the slot capability or set the 'Slot Implemented' flag.
+> This way guest will choose ACPI hot-plug if it is preferred and leave
+> the option to use SHPC with pcie-pci-bridge.
+> 
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> ---
+>  hw/i386/acpi-build.h |  2 ++
+>  hw/i386/acpi-build.c |  2 +-
+>  hw/pci/pcie.c        | 16 ++++++++++++++++
+>  3 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
+> index 487ec7710f..4c5bfb3d0b 100644
+> --- a/hw/i386/acpi-build.h
+> +++ b/hw/i386/acpi-build.h
+> @@ -11,4 +11,6 @@ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
+>  
+>  void acpi_setup(void);
+>  
+> +Object *object_resolve_type_unambiguous(const char *typename);
+> +
+>  #endif
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index cf503b16af..b7811a8912 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -174,7 +174,7 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+>      *data = fadt;
+>  }
+>  
+> -static Object *object_resolve_type_unambiguous(const char *typename)
+> +Object *object_resolve_type_unambiguous(const char *typename)
+>  {
+>      bool ambig;
+>      Object *o = object_resolve_path_type("", typename, &ambig);
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 5b48bae0f6..c1a082e8b9 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -27,6 +27,8 @@
+>  #include "hw/pci/pci_bus.h"
+>  #include "hw/pci/pcie_regs.h"
+>  #include "hw/pci/pcie_port.h"
+> +#include "hw/i386/ich9.h"
+> +#include "hw/i386/acpi-build.h"
+>  #include "qemu/range.h"
+>  
+>  //#define DEBUG_PCIE
 
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
----
- docs/system/cpu-models-mips.rst.inc | 10 ++++++++--
- docs/system/target-mips.rst         | 10 ++++++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/docs/system/cpu-models-mips.rst.inc b/docs/system/cpu-models-mips.rst.inc
-index 499b5b6fed..02cc4bb884 100644
---- a/docs/system/cpu-models-mips.rst.inc
-+++ b/docs/system/cpu-models-mips.rst.inc
-@@ -48,11 +48,17 @@ across all desired hosts.
- ``I6400``
-     MIPS64 Processor (Release 6, 2014)
- 
-+``Loongson-2E``
-+    MIPS64 Processor (Loongson 2, 2006)
-+
- ``Loongson-2F``
-     MIPS64 Processor (Loongson 2, 2008)
- 
--``Loongson-2E``
--    MIPS64 Processor (Loongson 2, 2006)
-+``Loongson-3A1000``
-+    MIPS64 Processor (Loongson 3, 2010)
-+
-+``Loongson-3A4000``
-+    MIPS64 Processor (Loongson 3, 2018)
- 
- ``mips64dspr2``
-     MIPS64 Processor (Release 2, 2006)
-diff --git a/docs/system/target-mips.rst b/docs/system/target-mips.rst
-index cd2a931edf..1f86ccb697 100644
---- a/docs/system/target-mips.rst
-+++ b/docs/system/target-mips.rst
-@@ -84,6 +84,16 @@ The Fuloong 2E emulation supports:
- 
- -  RTL8139D as a network card chipset
- 
-+The Loongson-3 virtual platform emulation supports:
-+
-+-  Loongson 3A CPU
-+
-+-  LIOINTC as interrupt controller
-+
-+-  GPEX and virtio as variable devices
-+
-+-  Both KVM and TCG supported
-+
- The mipssim pseudo board emulation provides an environment similar to
- what the proprietary MIPS emulator uses for running Linux. It supports:
- 
--- 
-2.17.2
+Not really happy with pcie.c getting an i386 dependency.
+
+
+
+> @@ -515,12 +517,26 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+>      pcie_cap_slot_push_attention_button(hotplug_pdev);
+>  }
+>  
+> +static bool acpi_pcihp_enabled(void)
+> +{
+> +    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+> +
+> +    return lpc &&
+> +           object_property_get_bool(lpc, "acpi-pci-hotplug-with-bridge-support",
+> +                                    NULL);
+> +
+> +}
+> +
+
+Why not just check the property unconditionally?
+
+
+>  /* pci express slot for pci express root/downstream port
+>     PCI express capability slot registers */
+>  void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+>  {
+>      uint32_t pos = dev->exp.exp_cap;
+>  
+> +    if (acpi_pcihp_enabled()) {
+> +        return;
+> +    }
+> +
+
+I think I would rather not teach pcie about acpi. How about we
+change the polarity, name the property
+"pci-native-hotplug" or whatever makes sense.
+
+>      pci_word_test_and_set_mask(dev->config + pos + PCI_EXP_FLAGS,
+>                                 PCI_EXP_FLAGS_SLOT);
+>  
+> -- 
+> 2.25.4
 
 
