@@ -2,109 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E73C2779A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:46:30 +0200 (CEST)
-Received: from localhost ([::1]:33820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDAAE2779B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:50:56 +0200 (CEST)
+Received: from localhost ([::1]:38076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLXCH-0007Hm-93
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
+	id 1kLXGZ-0000pP-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kLX6T-0002I1-4X; Thu, 24 Sep 2020 15:40:29 -0400
-Received: from mail-eopbgr30093.outbound.protection.outlook.com
- ([40.107.3.93]:8707 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <prvs=5292f8049=Niklas.Cassel@wdc.com>)
+ id 1kLX6u-0002qj-8y; Thu, 24 Sep 2020 15:40:56 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:63307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kLX6R-00085Q-2o; Thu, 24 Sep 2020 15:40:28 -0400
+ (Exim 4.90_1) (envelope-from <prvs=5292f8049=Niklas.Cassel@wdc.com>)
+ id 1kLX6r-0008FR-6q; Thu, 24 Sep 2020 15:40:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1600976452; x=1632512452;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=yu6+K1g4UCu4UgY/5t30k77OIt92S2qS7CrJ1kVNJxA=;
+ b=RWSu/Oj6Fgm6Puzua4eSHEMsoUETVP6rMtEcVmyldsYePwTw1NCVjt65
+ h6/w9W+t2G70IJWo1T8HqwlOoK0ZZhGxuzNaaHHj+OSoSnxcdgG6lc7rt
+ bIVWroBSOnSsYO1chD+pByo8MuVnuISqNvnqyVx78n6ebXSVgwYJK0KTT
+ 1MtBIHvAJ9eJCU0q7slR0vBPpUQIOJwiWbjjjtVrTr6z3TgCzjxJx29VC
+ KmR6bCP+w6umYoC4A1IcsXWPehfO59XAOlnBph7rH1FwqDxH8Ikk6BBzl
+ NA0fXeUDv+6otaXjnIPfXRFDWMKDmXaCYG5N8tbqWkp1/6OULt3G4Yozo Q==;
+IronPort-SDR: /DCRFr14j5T9Zfb+ZDaAMVlzWZHalcgY9vmcLI7vBppc7JJ6jVWD9rVTUN1W71B8rdREyJwf9S
+ t+e6kbRRFT3tLJs1xEx8Pk4PpbW7meyXoYBxCQFUlUtoelliJv893UQEIeYIIzBZl916ROTBEk
+ oWoq+4kpOvvtdQDTa6TGJ0Vo1/0iS+0V5H99hGIbHLjV+5J04Z2NWAVqFozjf4Jdf7bDGQ8fa1
+ 1BSnRhdjv0y2sIdJFtufBjaEXHCho7+or0A8kUnxl7dhZXgqpNI9/+fq9piXUoQqviJmau7si9
+ EeI=
+X-IronPort-AV: E=Sophos;i="5.77,299,1596470400"; d="scan'208";a="257921598"
+Received: from mail-cys01nam02lp2050.outbound.protection.outlook.com (HELO
+ NAM02-CY1-obe.outbound.protection.outlook.com) ([104.47.37.50])
+ by ob1.hgst.iphmx.com with ESMTP; 25 Sep 2020 03:40:49 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VZFKUdR1tAEzx6EEf5EQyunvu8YFQSqOKDXi4uBgqe6vZAVKmxVWg/2MLdfnHgpQL/YcRllQOpEa/+SRzSPKqOmXLjiVMpd/QWSjlfv04rl2ccXVYjG08xHgUbW+D9ndg0OIP2UKVuzs/HrqaSuN1+VtVL0IenbbaXn1/eJz/V+EJluqVXltAvU57ohVtZJW+GwkYY9fApZ3ITWw6i+tkMN6CRGjgGjtoxdkMPNgYhDb6sH3xqAgZzL7eXDn6bMi6oGh5+qWzr0Rx+yOjRR/+jRNG7DVbXW41tVEjEMCsEOt9lfl8i5g6mU9ruzVLtonZAiZuf10sbjSXrVwnZIDaw==
+ b=ec5B27zqzGK8BTyuI6diewNiH5E4ayqrwJm5ha12aFBkcYbkFHrtn3Mw4VSIT3eM1JhDxIOOMBHCKBpYzC5+tmkTvwvycJlioO2kbh1+DLWEIXTBUPsB3kW1ksANBSUU3n9ydeAgE5g66QBBZoMy/8K0PT/k1h/pKIsbHDAkaJorqxCM4Kqp+J0OK5AIW7C8+s0QL9BBUD8GYRWBkW5/W8MindyehYtP3cCreqd8lBZ0oRwpyS9TaDnTDpk4+Vmhun/o4oJ7Y25dyYecXsV+Ksw/uMcdxUMFNJngeMJcBcDdRcTDpmx0djT9ywvzB+Vhe2Y+jDWliA2USrxXpvTp3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gSWohvEYEA6sNkgXMZ64QkYiN7/w0mIqfTZzmn9ZZww=;
- b=fSaqyFR4HZpHwruO+usTh1/hRrskzXZzVi2UFUzVe3HzO1mGw3TIFe3aMg5W+9pvjXlzE8Cf780TTCVKSc0gaXJsK3xIOz3Fbmmn9+nvSz3USlN/WfWanICixxz5cfQgW8Ccne0pBfsr2NP8u6N3/0PA71s+q1iirLrfeA1PfzLbV5tH3NER22Pg2PxZsteXO1TwOfPQ1rwLtC5vgUMi1eMswZsLsBcd2iuMKPtmMgkv6UHOVFzXAgfswgBLsyXDAqw2msW9lA0p9klUpTXH+YY+HtaEWg+Wvinwxw/FJRHZVI0KKi1D0WfV5MFJlCKQZLk9QKEjoJZS8iQUq6eKXA==
+ bh=yu6+K1g4UCu4UgY/5t30k77OIt92S2qS7CrJ1kVNJxA=;
+ b=CUVE9IFNbK8sCHx1NqumvAVVDJLBwWJ34ec7+nLqWwTE4qfz5N6LOS3iLHbNzABrU0l1E1LqWhPhvxOxz+whvy5/TGGXwSdlo5CkHKd48B2KoBc/qFU3ao6jHtXHDQTaSBrV7unG3rVV03LPrLc/XKL/wdXGQ34uJWUYr0Y7ePNBp2htiDgDQa2wfIWJH1sArahg4X7mCuCImWGvAjVSgVAI0x67Nw6I0/1zfFdN6BssogbgnczRwwPV16mO6SHwGxU2ukzvkrbWd3QwnKPSadyC8UhxFOlIC+buZ86zUA12QazJtk8gKjfum8kwZJoNg6FZXu7HlLSB2muDTKi9Dw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gSWohvEYEA6sNkgXMZ64QkYiN7/w0mIqfTZzmn9ZZww=;
- b=nMcx5gZp73M2Yw2ENLwO8XoGKhgm62Pxr7N5xKdHye0dCAJS769Xf61fJY0T7lg8cRKPq8onfTDH/uDarMTTrSMIoj20HhqDhqcdW4nMtP2eTuLRa2IyzJMnhDlDTs4Ljjr4LD854G/TURriMaRd/BOcTLuDCnR96PjLLW8/qdc=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3288.eurprd08.prod.outlook.com (2603:10a6:209:47::29)
+ bh=yu6+K1g4UCu4UgY/5t30k77OIt92S2qS7CrJ1kVNJxA=;
+ b=O/Uz8djyZWeh8qQChRdQ36rpIMy8peYoQETuX7kN5DzitJO2rRkZu6wqjVPRvWD8U9qnJmzH6PAE/RMIT9ZS8/YKVfXxE7/0W0rirEWG0XD4KokJGz/YbiIrw7dnh25cXaZdbBp+TCBPpxVcIyszqSSVULGOj1DRLLT31swFHBY=
+Received: from BN6PR04MB0724.namprd04.prod.outlook.com (2603:10b6:404:ce::23)
+ by BN7PR04MB3970.namprd04.prod.outlook.com (2603:10b6:406:c2::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Thu, 24 Sep
- 2020 19:40:19 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.033; Thu, 24 Sep 2020
- 19:40:19 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
- vsementsov@virtuozzo.com, eblake@redhat.com,
- Alberto Garcia <berto@igalia.com>
-Subject: [PATCH v7 5/5] iotests: add commit top->base cases to 274
-Date: Thu, 24 Sep 2020 22:40:03 +0300
-Message-Id: <20200924194003.22080-6-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200924194003.22080-1-vsementsov@virtuozzo.com>
-References: <20200924194003.22080-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM3PR07CA0112.eurprd07.prod.outlook.com
- (2603:10a6:207:7::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.94) by
- AM3PR07CA0112.eurprd07.prod.outlook.com (2603:10a6:207:7::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.14 via Frontend Transport; Thu, 24 Sep 2020 19:40:18 +0000
-X-Mailer: git-send-email 2.21.3
-X-Originating-IP: [185.215.60.94]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6c6c487d-284a-4492-f1ad-08d860c1ab0d
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3288:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB32887F6C208375C5DCE1D3FAC1390@AM6PR08MB3288.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:61;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Nza7c07hrc/nboFg+gcuHJNSkAM6jqBr2Nm8uN3PfrPRf4QtYwlp8zx8x8b+xd0N2MivrKIg/HJWGHr0oewD0TEhFD+Wubtve5RU8CVCgCodK0Dlpb8EP20brCQc9pVqmcVwkW3hw8w/Y4inO4qN3k80TJJjOkm6SAjgTakMZ/jJthURGyVcPdyBtYgZ+r32IsXyZvfrR1QlEjqWSM9BYzYz69QkvDsCVU5tVJCqiNDDynqLc0ZQsjkBpqTjYXMgNV3NKuAiMxFfFPLC/7kQT2ZYPkgvWqiK9h/YJAcL3CWxk66kxEhymKn/Megzg36d6dh9OqNsF9tx0udS5fktB10rxEaZZXvYKBhwR1ZJ0oOtIovb6ysfYrJDWU0PWyth
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(376002)(366004)(396003)(346002)(136003)(8676002)(66946007)(5660300002)(6916009)(8936002)(1076003)(26005)(66476007)(52116002)(478600001)(66556008)(4326008)(6666004)(186003)(6506007)(16526019)(6486002)(2616005)(6512007)(2906002)(36756003)(956004)(86362001)(83380400001)(316002)(21314003);
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Thu, 24 Sep
+ 2020 19:40:48 +0000
+Received: from BN6PR04MB0724.namprd04.prod.outlook.com
+ ([fe80::acb1:47a4:73ba:69a7]) by BN6PR04MB0724.namprd04.prod.outlook.com
+ ([fe80::acb1:47a4:73ba:69a7%9]) with mapi id 15.20.3412.020; Thu, 24 Sep 2020
+ 19:40:48 +0000
+From: Niklas Cassel <Niklas.Cassel@wdc.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v4 06/14] hw/block/nvme: Add support for active/inactive
+ namespaces
+Thread-Topic: [PATCH v4 06/14] hw/block/nvme: Add support for active/inactive
+ namespaces
+Thread-Index: AQHWkdZQA+v6X0FIe0SRVZTk+KHqRKl3tCaAgABmEICAAAqiAIAADK0A
+Date: Thu, 24 Sep 2020 19:40:48 +0000
+Message-ID: <20200924194046.GA26391@localhost.localdomain>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+ <20200923182021.3724-7-dmitry.fomichev@wdc.com>
+ <20200924121203.GA1738917@apples.localdomain>
+ <20200924181721.GA5376@localhost.localdomain>
+ <20200924185524.GC1738917@apples.localdomain>
+In-Reply-To: <20200924185524.GC1738917@apples.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: irrelevant.dk; dkim=none (message not signed)
+ header.d=none;irrelevant.dk; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [85.226.244.4]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: fe01f1c0-fad8-446f-04f5-08d860c1bc9c
+x-ms-traffictypediagnostic: BN7PR04MB3970:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BN7PR04MB39707B3C94D73058934D88DAF2390@BN7PR04MB3970.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2RnUFaduhamMgorB6S3P8mdVgJbD/IXfcpw3LmoKYndiGvc7Cs3OUZaUlvWtiFrmBytMQDs+FMGYPnex1xPKydOCX8svK2s/6Sz+diunBwGCav7hZE8qWAIUcor6Ms7WbUuTSSOXc4SokceZgOhfpYM7jOlszmuSPLo8zZE/+jmSAvoFJG9sCNgGKjxoxLm6DnfIP9W7ri/GCfG5WF0FFRghpUo/AyqezCVcSmPSYh2IxAxMPZ4oX9ibCIZ6cny5714d2sJfDFnZnHBWcgAbCnusJGKnUP6j18wOEqtE+69BaF7TBk+D8NfGUuVMkCQWEyjZxjZcrTmxkbrHLXSbdqLCE1Tkl81aLTDdQNtP8/Z0mWHaGmM7cDGSdoRRzt04
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR04MB0724.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(376002)(346002)(366004)(136003)(66946007)(186003)(1076003)(83380400001)(4326008)(66556008)(26005)(6486002)(71200400001)(66476007)(86362001)(8676002)(33656002)(478600001)(54906003)(2906002)(6916009)(66446008)(64756008)(9686003)(8936002)(5660300002)(91956017)(76116006)(6506007)(316002)(6512007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rceNmgZTg5Wjmxt8b/VVAKfF+n+scpYrYP/BQvBQx9q74EQdpVlK4YwRUnmTxV3eimPBRM5Rgf90BxwEdx7l8XhZ7fq1u4PVzWfRgnP72wk0ePPyhvEySIfl7UbAVHns9oWLKDExgfZflsNOiD31ch7WbGb+B9WV2BM6P+iiT4w5d97IIh4hYYMGZ4HY/BemEJp/3gZJ0cXahZSCYFgFttj9oX9U7l7Fk3XaYQbQ62/seJigPWP9jMdv0NkWRj8bDqG34+mLAjK6Yv22+bv/QrxBMLXKZFZiSCTNBf834unb1iHIY3PH5fziI/kLZOdwdEp7Pz4D9O+9ar1dp1yOiR+mz3hAAknZs5m/LzqpgZm8ftldgScKKHwrRgsgsdPEXkkBPwgwofF1xdNBGz/RnclumqO0AicZNWxawIq08kunTqXXcChvhgowql2g8sdV4EEohXPa7o2ZB/SxvUSvgpWVGb0CFasNdjgNr1PGNjrJqDaapT6KPpo+KpBpbDP6KUACMRZArM+y37vYYDoqKXa7G74dKkW/YA0ZXvHQOVwSuXirzVUvVnF7MYboAKuvbFU+SFvZ50Yr0O45ewppkllGG7KMgDfaT+amJs84lXvdVaKiZB2LkVA3jj+rwXp39NPNYjegWw6fE1UxRKdvwA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c6c487d-284a-4492-f1ad-08d860c1ab0d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+x-ms-exchange-antispam-messagedata: 9XU61RcBsqRuhRt+z6ldJ1ayzAI+XAVU3DRSEWzvjpP2MBqgWc+gjqsllrx/Jp4RVXT5jrf5K/J8r6NB5h4zEdHMEMx+IrXOw2tIR403jD6yb6mYpcONUCm7ys7SI8xFW0fUIAAppEQ186Th1x+t+y0r9w/cGjG0BclhPf3We2nZSlOIBhzG7dvWgevxRPneZDHQG4shlXG7FdJZwp6W9DuT6niU3RIHLxUM2JI5O1D2ZllQMDFRLG9PZjFJtKChCC6S1Ne577VoizQDmNEJGOhpSanPDoEkoeZyljOa+v7q+NSuF41DpUGfsurvKKNKtk8gEwouIxg9uoBbIqaJhBE5kaot7V+q+mbmNd17jOMvGig1Q8Bhf2Cf8fQK1uEBwwiK4XTw79h+o0vqXLmKy+vV58vE3EkiaLnttYuwHnCiAyZppjBf5JX06149gUYy0Nqt56NoaQnfsxw/U6uDgtFHn3VscH/0ABI0E1hIOpXPIn51nyK/FUOv8sgMtSykfsTzDjZDoMg6Uq1702vZAkgiGpyAp5UFECcMPsAaLE4ezEpQZP66I8fiivwN/8ARDtbMqwdqzWex+H9VrmKnlCobqmUNqaPjitU2MJdoalz8BTI5ghW7HjQTdFlcUlKn67VLJpXZcKFFiMISIkqBbQ==
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <9B1957B0D852664B86F272960DDA537B@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 19:40:18.9210 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kalUZ97UYfcCkATSSzOUEt4vKMAhxOUIFQrqjLCzhxGg7yWucQHegJ5OwIeKrcp9Ryr7ksDe/jQ5RZl1lmA3O1iMNlRunW8uyLYcex3oeOk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3288
-Received-SPF: pass client-ip=40.107.3.93;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 15:40:15
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR04MB0724.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe01f1c0-fad8-446f-04f5-08d860c1bc9c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2020 19:40:48.1081 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fXcmGM/YnKaABQENuX4H8RAqeFM3E4tYn2C3PO2bdbmb+Lca7x3TtX/qOgVV9ZAz34bI9MDv093shpk3FppWhA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR04MB3970
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=5292f8049=Niklas.Cassel@wdc.com; helo=esa1.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 15:40:50
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,131 +137,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These cases are fixed by previous patches around block_status and
-is_allocated.
+On Thu, Sep 24, 2020 at 08:55:24PM +0200, Klaus Jensen wrote:
+> On Sep 24 18:17, Niklas Cassel wrote:
+> > On Thu, Sep 24, 2020 at 02:12:03PM +0200, Klaus Jensen wrote:
+> > > On Sep 24 03:20, Dmitry Fomichev wrote:
+> > > > From: Niklas Cassel <niklas.cassel@wdc.com>
+> > > >=20
+> > > > E.g., if the user sets CC.CSS to Admin Only, NVM namespaces should =
+be
+> > > > marked as inactive.
+> > > >=20
+> > >=20
+> > > Hmm. I'm not convinced that this is correct. Can you reference the sp=
+ec?
+> > >=20
+> >=20
+> > CC.CSS can only be changed when the controller is disabled.
+>=20
+> Right. I think I see you point. While the controller is disabled, the
+> host obviously cannot even see what namespaces are available, so the
+> controller is free to only expose (aka, attach) the namespaces that
+> makes sense for the value of CC.CSS.
+>=20
+> OK then, the patch is good :)
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
----
- tests/qemu-iotests/274     | 20 +++++++++++
- tests/qemu-iotests/274.out | 68 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 88 insertions(+)
+That was my thought, that the controller internally would
+detach unsupported namespaces (even if the controller didn't
+expose namespace management capabilities to the user).
 
-diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
-index d4571c5465..76b1ba6a52 100755
---- a/tests/qemu-iotests/274
-+++ b/tests/qemu-iotests/274
-@@ -115,6 +115,26 @@ with iotests.FilePath('base') as base, \
-     iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
-     iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
- 
-+    iotests.log('=== Testing qemu-img commit (top -> base) ===')
-+
-+    create_chain()
-+    iotests.qemu_img_log('commit', '-b', base, top)
-+    iotests.img_info_log(base)
-+    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
-+    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
-+
-+    iotests.log('=== Testing QMP active commit (top -> base) ===')
-+
-+    create_chain()
-+    with create_vm() as vm:
-+        vm.launch()
-+        vm.qmp_log('block-commit', device='top', base_node='base',
-+                   job_id='job0', auto_dismiss=False)
-+        vm.run_job('job0', wait=5)
-+
-+    iotests.img_info_log(mid)
-+    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
-+    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
- 
-     iotests.log('== Resize tests ==')
- 
-diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
-index bf5abd4c10..cfe17a8659 100644
---- a/tests/qemu-iotests/274.out
-+++ b/tests/qemu-iotests/274.out
-@@ -135,6 +135,74 @@ read 1048576/1048576 bytes at offset 0
- read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-+=== Testing qemu-img commit (top -> base) ===
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 backing_file=TEST_DIR/PID-mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
-+
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+Image committed.
-+
-+image: TEST_IMG
-+file format: IMGFMT
-+virtual size: 2 MiB (2097152 bytes)
-+cluster_size: 65536
-+Format specific information:
-+    compat: 1.1
-+    compression type: zlib
-+    lazy refcounts: false
-+    refcount bits: 16
-+    corrupt: false
-+    extended l2: false
-+
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing QMP active commit (top -> base) ===
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=1048576 backing_file=TEST_DIR/PID-base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=2097152 backing_file=TEST_DIR/PID-mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
-+
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+{"execute": "block-commit", "arguments": {"auto-dismiss": false, "base-node": "base", "device": "top", "job-id": "job0"}}
-+{"return": {}}
-+{"execute": "job-complete", "arguments": {"id": "job0"}}
-+{"return": {}}
-+{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+image: TEST_IMG
-+file format: IMGFMT
-+virtual size: 1 MiB (1048576 bytes)
-+cluster_size: 65536
-+backing file: TEST_DIR/PID-base
-+backing file format: IMGFMT
-+Format specific information:
-+    compat: 1.1
-+    compression type: zlib
-+    lazy refcounts: false
-+    refcount bits: 16
-+    corrupt: false
-+    extended l2: false
-+
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
- == Resize tests ==
- === preallocation=off ===
- Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=6442450944 lazy_refcounts=off refcount_bits=16
--- 
-2.21.3
+This was how I assumed that things worked, but if we should
+follow the spec strictly, we should do like you suggested
+and keep them attached, and return the proper error code,
+on non-admin commands.
 
+Thank you for improving my understanding.
+Considering that CC.CSS can only be changed when the controller
+is disabled, I still kind of wished that the spec said that
+unsupported namespaces would be automatically detached.
+
+
+Kind regards,
+Niklas=
 
