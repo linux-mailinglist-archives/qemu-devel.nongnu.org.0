@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824D277638
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:06:35 +0200 (CEST)
-Received: from [::1] (port=38622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6F42776BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:28:27 +0200 (CEST)
+Received: from localhost ([::1]:56332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLTlP-0001lY-8u
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49496)
+	id 1kLU6c-0005FL-BC
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTB3-000282-6Z
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTB2-00027x-TH
  for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:28:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31914)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTAl-0005cs-GA
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:28:56 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTAj-0005eD-HQ
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:28:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600961306;
+ s=mimecast20190719; t=1600961312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cFRRiDWAtrVAgcDdjyzK1wV37h5mwxiZTlXZqCd+6ec=;
- b=M5fflALvQVXvfc8UF9Ut7HOuF/7mgw5dPYatR42YgcgFM1OhYqioYhuEn28++dU18dBt9z
- LKjfjyk8xjFf4nFbrfJI+DLA4BCSdTu+pihHWzs6FONjbQ7J0GGlJg0cbPZ9d5WBm0M2Bv
- 6NPW8vmbYqfQnDvbq7jScgW5JsdQq0w=
+ bh=DLfEDvCKGAOk4K1yIKiqBHQKaDoiLeGqdEbMxMIH9zg=;
+ b=ESeRdSGGBwlSAaKsgapqfFPBIRTicv/+1ZcHWzKFNZV9YjEI5cQUmNiAp5abCRjbZuuK8j
+ U1oQ2qzoqaQjpPBhEo/JWeQ7Uqv/QhIoqGbw5FwzMf0ATb3o9dc6wIHz1EtMQiZD/N8UZQ
+ KtOTL6EHBK4Iyo4tj4N8J7dWd0fNsF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-5VB9lzqkPgCRCMq5GUUHkg-1; Thu, 24 Sep 2020 11:28:22 -0400
-X-MC-Unique: 5VB9lzqkPgCRCMq5GUUHkg-1
+ us-mta-576-6mzyvUTiNj6mdf4fASUh6Q-1; Thu, 24 Sep 2020 11:28:24 -0400
+X-MC-Unique: 6mzyvUTiNj6mdf4fASUh6Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EB72884E49;
- Thu, 24 Sep 2020 15:28:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11C4156B38;
+ Thu, 24 Sep 2020 15:28:18 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-72.ams2.redhat.com [10.36.114.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F60660C04;
- Thu, 24 Sep 2020 15:28:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C693960C04;
+ Thu, 24 Sep 2020 15:28:16 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 27/31] nbd: Deprecate nbd-server-add/remove
-Date: Thu, 24 Sep 2020 17:27:13 +0200
-Message-Id: <20200924152717.287415-28-kwolf@redhat.com>
+Subject: [PATCH v2 28/31] iotests: Factor out qemu_tool_pipe_and_status()
+Date: Thu, 24 Sep 2020 17:27:14 +0200
+Message-Id: <20200924152717.287415-29-kwolf@redhat.com>
 In-Reply-To: <20200924152717.287415-1-kwolf@redhat.com>
 References: <20200924152717.287415-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,73 +83,105 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These QMP commands are replaced by block-export-add/del.
+We have three almost identical functions that call an external process
+and return its output and return code. Refactor them into small wrappers
+around a common function.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-export.json     | 11 +++++++++--
- docs/system/deprecated.rst |  6 ++++++
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/iotests.py | 49 ++++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 26 deletions(-)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index ad01e9f8aa..2291d6cb0c 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -108,13 +108,16 @@
- #
- # The export name will be used as the id for the resulting block export.
- #
-+# Features:
-+# @deprecated: This command is deprecated. Use @block-export-add instead.
-+#
- # Returns: error if the server is not running, or export with the same name
- #          already exists.
- #
- # Since: 1.3.0
- ##
- { 'command': 'nbd-server-add',
--  'data': 'NbdServerAddOptions', 'boxed': true }
-+  'data': 'NbdServerAddOptions', 'boxed': true, 'features': ['deprecated'] }
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 91e4a57126..81edf8adbf 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -90,21 +90,30 @@ luks_default_secret_object = 'secret,id=keysec0,data=' + \
+ luks_default_key_secret_opt = 'key-secret=keysec0'
  
- ##
- # @BlockExportRemoveMode:
-@@ -147,6 +150,9 @@
- # @mode: Mode of command operation. See @BlockExportRemoveMode description.
- #        Default is 'safe'.
- #
-+# Features:
-+# @deprecated: This command is deprecated. Use @block-export-del instead.
-+#
- # Returns: error if
- #            - the server is not running
- #            - export is not found
-@@ -155,7 +161,8 @@
- # Since: 2.12
- ##
- { 'command': 'nbd-server-remove',
--  'data': {'name': 'str', '*mode': 'BlockExportRemoveMode'} }
-+  'data': {'name': 'str', '*mode': 'BlockExportRemoveMode'},
-+  'features': ['deprecated'] }
  
- ##
- # @nbd-server-stop:
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 808c334fe7..71276c08f3 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -303,6 +303,12 @@ chardev client socket with ``wait`` option (since 4.0)
- Character devices creating sockets in client mode should not specify
- the 'wait' field, which is only applicable to sockets in server mode
+-def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
++def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
++                              connect_stderr: bool = True) -> Tuple[str, int]:
+     """
+-    Run qemu-img and return both its output and its exit code
++    Run a tool and return both its output and its exit code
+     """
+-    subp = subprocess.Popen(qemu_img_args + list(args),
++    stderr = subprocess.STDOUT if connect_stderr else None
++    subp = subprocess.Popen(args,
+                             stdout=subprocess.PIPE,
+-                            stderr=subprocess.STDOUT,
++                            stderr=stderr,
+                             universal_newlines=True)
+     output = subp.communicate()[0]
+     if subp.returncode < 0:
+-        sys.stderr.write('qemu-img received signal %i: %s\n'
+-                         % (-subp.returncode,
++        sys.stderr.write('%s received signal %i: %s\n'
++                         % (tool, -subp.returncode,
+                             ' '.join(qemu_img_args + list(args))))
+     return (output, subp.returncode)
  
-+``nbd-server-add`` and ``nbd-server-remove`` (since 5.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
++    """
++    Run qemu-img and return both its output and its exit code
++    """
++    full_args = qemu_img_args + list(args)
++    return qemu_tool_pipe_and_status('qemu-img', full_args)
 +
-+Use the more generic commands ``block-export-add`` and ``block-export-del``
-+instead.
-+
- Human Monitor Protocol (HMP) commands
- -------------------------------------
+ def qemu_img(*args: str) -> int:
+     '''Run qemu-img and return the exit code'''
+     return qemu_img_pipe_and_status(*args)[1]
+@@ -265,19 +274,13 @@ def qemu_nbd(*args):
+     '''Run qemu-nbd in daemon mode and return the parent's exit code'''
+     return subprocess.call(qemu_nbd_args + ['--fork'] + list(args))
  
+-def qemu_nbd_early_pipe(*args):
++def qemu_nbd_early_pipe(*args: str) -> Tuple[int, str]:
+     '''Run qemu-nbd in daemon mode and return both the parent's exit code
+        and its output in case of an error'''
+-    subp = subprocess.Popen(qemu_nbd_args + ['--fork'] + list(args),
+-                            stdout=subprocess.PIPE,
+-                            universal_newlines=True)
+-    output = subp.communicate()[0]
+-    if subp.returncode < 0:
+-        sys.stderr.write('qemu-nbd received signal %i: %s\n' %
+-                         (-subp.returncode,
+-                          ' '.join(qemu_nbd_args + ['--fork'] + list(args))))
+-
+-    return subp.returncode, output if subp.returncode else ''
++    full_args = qemu_nbd_args + ['--fork'] + list(args)
++    output, returncode = qemu_tool_pipe_and_status('qemu-nbd', full_args,
++                                                   connect_stderr=False)
++    return returncode, output if returncode else ''
+ 
+ @contextmanager
+ def qemu_nbd_popen(*args):
+@@ -1143,20 +1146,14 @@ def verify_working_luks():
+     if not working:
+         notrun(reason)
+ 
+-def qemu_pipe(*args):
++def qemu_pipe(*args: str) -> str:
+     """
+     Run qemu with an option to print something and exit (e.g. a help option).
+ 
+     :return: QEMU's stdout output.
+     """
+-    args = [qemu_prog] + qemu_opts + list(args)
+-    subp = subprocess.Popen(args, stdout=subprocess.PIPE,
+-                            stderr=subprocess.STDOUT,
+-                            universal_newlines=True)
+-    output = subp.communicate()[0]
+-    if subp.returncode < 0:
+-        sys.stderr.write('qemu received signal %i: %s\n' %
+-                         (-subp.returncode, ' '.join(args)))
++    full_args = [qemu_prog] + qemu_opts + list(args)
++    output, _ = qemu_tool_pipe_and_status('qemu', full_args)
+     return output
+ 
+ def supported_formats(read_only=False):
 -- 
 2.25.4
 
