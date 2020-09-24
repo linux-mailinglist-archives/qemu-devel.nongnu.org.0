@@ -2,108 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254442773AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 16:10:37 +0200 (CEST)
-Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5412773AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 16:12:35 +0200 (CEST)
+Received: from localhost ([::1]:49326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLRxE-0006bH-7h
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 10:10:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53646)
+	id 1kLRz8-00005e-96
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 10:12:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kLRvq-0005qj-8x
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:09:10 -0400
-Received: from mail-bn7nam10on2054.outbound.protection.outlook.com
- ([40.107.92.54]:19553 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1kLRwq-0006kT-At; Thu, 24 Sep 2020 10:10:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kLRvn-0001Fd-HI
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:09:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AYzB7aKtBQC+jQ2Av9GE8kin9utDir3KqWyhhTK+K1+he82hwuy4m+oO6fGJHpn98eOogBYNP8sw3/HOu+UjQjOe9JHDjEIZnadb4JRL/J7iWw8Qj39e2hDj2YZlsC+zaQAY1aN9hdZc8RqWOZOhbosvGawYfGpyXlNV5Ib5IaSpd1s5s2qY9aZKuZISDb0oA+p7lMJJmVc3ZvbpS1g7rKYQT4IVxhMdY2qWhPRRpTOIr0j5afW/AHXCMGlTmYTLfa/fYL0hyu+sbZETAgf+gzyIXnhdrJwbBLPKqfSdr0ZdyYN3a9OVYwsaB48wUz79jPa8jhgquvtiUq8Gvzb3ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x8heo25Rls01Tfc5MpG1lJjsEzLcODH6YJrP76oJZcA=;
- b=iYk5OwYeALsy+8/UCE1nxKUXuYN01gsiKH8me8IOlee/6Bzoppp6rXRShYTGJrJEai2UgEkcsTZ+ZfngaaOjIjUpDxoDDbrocX+5gJJRVpjjHe8FcdNOMsNB4jreZzQkKiKwsv/X7KEkiZM6RrPRL79JTulaIfiVN1+RRd4OVJq7V2E7g4WA/03mpa2B0Oyba619cM+/8FUOHnfMRqfTRqTZD76w1jMatkC76UIU3i1dcE+nZJ7shrbEid008btcYdxjSP2Hbr5ZjSR+Kkt7jL5GMlOsPxnLh5E9BEYuVI6QSALv5bkceGWCxSgUSMQN1KckEeahRXI1d+zbUhK0qQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x8heo25Rls01Tfc5MpG1lJjsEzLcODH6YJrP76oJZcA=;
- b=b0Dfuh1Fg5nCSQOEibCiMJG/9U55no5XO5ywug1LfJuu/qffiDE2PRnuccmRJtoXknny2MUQvRZfEKrIEFSE78A8YGAEWHsCMa64kGwbjeOczz4VoMgtW/Cw491AJoYLWcVUBghbfhDj8A2TokUNekZe2THKi24ADZe+cmHL0uE=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB6438.namprd02.prod.outlook.com (2603:10b6:a03:11d::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21; Thu, 24 Sep
- 2020 14:09:04 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::68a7:8ea6:8731:d69f]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::68a7:8ea6:8731:d69f%6]) with mapi id 15.20.3391.027; Thu, 24 Sep 2020
- 14:09:04 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH v8 3/7] usb/hcd-xhci: Split pci wrapper for xhci base model
-Thread-Topic: [PATCH v8 3/7] usb/hcd-xhci: Split pci wrapper for xhci base
- model
-Thread-Index: AQHWkOLKk1Cu3IDKWEiZvWkxL9ktaal2At4AgAB25VCAAMhMAIAAlIsw
-Date: Thu, 24 Sep 2020 14:09:04 +0000
-Message-ID: <BY5PR02MB6772F84D6E3E6B3ADC719544CA390@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <1600780837-8231-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1600780837-8231-4-git-send-email-sai.pavan.boddu@xilinx.com>
- <20200923101428.zilaxig5yi5u45rn@sirius.home.kraxel.org>
- <BY5PR02MB67721C6F6152DBA2AD4E3663CA380@BY5PR02MB6772.namprd02.prod.outlook.com>
- <20200924051654.phuk3bmqjz3v3lxu@sirius.home.kraxel.org>
-In-Reply-To: <20200924051654.phuk3bmqjz3v3lxu@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [49.205.235.17]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1ce81f45-3818-48ec-e641-08d86093650a
-x-ms-traffictypediagnostic: BYAPR02MB6438:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB64389FA80CEECD55B856436CCA390@BYAPR02MB6438.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1091;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: J8/KIFXprEMbDn09ZhZkW048ezy1uFx7w+sh890WCV+PBdE7FvYKvXo+DKX91z4T5u/GxpJ8zTTcWXo+yGoAott92Ozxh1agxduE4L8PNv6fEMVAdEYfyh75e+fARhyU16JvOnOzqIFrHgbHpX+qYYj6LcrSvIKL+8JvQ6RLtg06gxu8KQ1ybbB5g/aUg6hd5ymzaxZEx3PYyeyToxOHNUMe2RezxvZ5dzvYrRkpt2PMJLvawIngE6I3EYJ27QBvvOAaUNwxr+6OJytKlC9j2gvJNavxjo58d6SqrVGUdfDM1tpdoA5tEmaFVYFMaEhQchnZYjVZJzFYpnGy0sozQQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(366004)(346002)(376002)(136003)(316002)(8936002)(54906003)(66556008)(86362001)(19627235002)(71200400001)(8676002)(6916009)(66476007)(66946007)(478600001)(5660300002)(52536014)(83380400001)(64756008)(66446008)(76116006)(33656002)(55016002)(7416002)(26005)(4326008)(9686003)(6506007)(7696005)(53546011)(2906002)(186003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: EZdrRecTgF3dTmL2f6IdKKHJhKpsMLxXCff9kbNvfPDUwSRhYgRMVvyF+A7EczjDpdKofgL8MFJOdhBr52ACEplPJLVFX/fmqXe/enhKRK9dkzCPupJT6uKiYNSbeUe8IRb6nKXEYZDI9cWacj2AZEnnSvi2XgkUr5e4QtUnmn5ltqFjdLS88Jq+mRgTG3NoEc9FujOugE3uS2QbayD/6X5tF8oRCzS4BAbrpW7iie6YHaAYK1/LVGOHKWAFIfVMewjsctCb6IIpKRDhjdc4dEgv82/0xn6Yav1FtiGfjmdRZ/O2yEKUD+B84CqoN1xeyf3jooHJqAVf/zKkn/8oyXqmL8vCATZ3efdX7QEOSKjG4DeBU1s01odeuOruxPVsVHZSSdyw6cLfLtkRDTuKrsmCvF+tYigD5+GGq3E2oH2P9F6819TynX5dUHxXdjDVcZ3q8TF6FiSG9NLU2FxpLWEBWiC9+0VDxxXT4BB+n3dQF2oXipetwlbg7bKb3CxBAxFAnEOt4WkwpyEXbAVfYdIa9o/5R/MexkLXaAgjaEjAaViGtmp5o7wU2JoKd9vUp4vj7embkDiWYajo/IIk2pH1X+9Gx5kkh4bs2lKb6mqq4UAKZKWigwZOWykDcGTR1RU+RT4wYK4yN/lhB1dKxA==
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1kLRwn-0001L7-VR; Thu, 24 Sep 2020 10:10:12 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08OE2POb021727; Thu, 24 Sep 2020 10:10:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=CdVjKfKvUT64WRt79Q8UFmeZpAXQnilOuwjpHg/OGAw=;
+ b=msoKs9mMSsJRy0DFh3ZZBuLb2l9/De1+pY1xXEeMv7wLHeskAFJgbXjkbGV7/xjrcZxX
+ RxJyWpugifv3Rc22BoycUm2icD4hk05bsLpecVqpAFgTqyVi4bfrpui5EIFjpwxuSz7H
+ /2I1hsBs5Ss6yisGLxUG5H3Qu8lKKaEJXEPfsadDIM5UuwlMsm2hXb9uSJi9JaErJOCW
+ w1M6bxWzsgKG9Wk3NAJo/9th12vaLBvMmNk6vYObMNpyM+2M6uLbsjTvfXwHj81CZX2Z
+ pQffdbdmjLLXwid9mWPeUmYAOWt2Epmz2ClKFcgI8oIbHJlFBoaA4tkWtocYfaFNfB2k lg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33rvur8cc4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Sep 2020 10:10:07 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08OE3Ywh026980;
+ Thu, 24 Sep 2020 10:10:06 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33rvur8cae-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Sep 2020 10:10:06 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08OE9AAd011009;
+ Thu, 24 Sep 2020 14:10:04 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03fra.de.ibm.com with ESMTP id 33p1f3ta12-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Sep 2020 14:10:04 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08OEA1oF32113070
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Sep 2020 14:10:01 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 21D58AE056;
+ Thu, 24 Sep 2020 14:10:01 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A9593AE051;
+ Thu, 24 Sep 2020 14:10:00 +0000 (GMT)
+Received: from marcibm (unknown [9.145.161.105])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 24 Sep 2020 14:10:00 +0000 (GMT)
+From: Marc Hartmayer <mhartmay@linux.ibm.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>, Marc Hartmayer
+ <mhartmay@linux.ibm.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/3] pc-bios/s390-ccw: fix off-by-one error
+In-Reply-To: <1382e6fb-4af4-00ff-958a-c109cadfad43@redhat.com>
+References: <20200924085926.21709-1-mhartmay@linux.ibm.com>
+ <20200924085926.21709-2-mhartmay@linux.ibm.com>
+ <1382e6fb-4af4-00ff-958a-c109cadfad43@redhat.com>
+Date: Thu, 24 Sep 2020 16:09:59 +0200
+Message-ID: <87o8lvnu4o.fsf@linux.ibm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ce81f45-3818-48ec-e641-08d86093650a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2020 14:09:04.3103 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OuI0R/GuLfIl1o34wYcz90scnPPbNTnr5ocDkUva/rfzTtEa/bvvvtkf098b36p32vJzzLwgAQlENDyWAOPM2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB6438
-Received-SPF: pass client-ip=40.107.92.54; envelope-from=saipava@xilinx.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 10:09:06
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-24_08:2020-09-24,
+ 2020-09-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 phishscore=0 clxscore=1015 impostorscore=0
+ spamscore=0 adultscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009240102
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 10:10:08
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,101 +111,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Edgar Iglesias <edgari@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?iso-8859-1?Q?=27Marc-Andr=E9_Lureau=27?= <marcandre.lureau@redhat.com>,
- Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- =?iso-8859-1?Q?=27Philippe_Mathieu-Daud=E9=27?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Janosch Frank <frankja@linux.ibm.com>, "Collin L.
+ Walling" <walling@linux.ibm.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Gerd.
+On Thu, Sep 24, 2020 at 12:02 PM +0200, Philippe Mathieu-Daud=C3=A9 <philmd=
+@redhat.com> wrote:
+> Hi Marc,
+>
+> On 9/24/20 10:59 AM, Marc Hartmayer wrote:
+>> This error takes effect when the magic value "zIPL" is located at the
+>> end of a block. For example if s2_cur_blk =3D 0x7fe18000 and the magic
+>> value "zIPL" is located at 0x7fe18ffc - 0x7fe18fff.
+>>=20
+>> Fixes: ba831b25262a ("s390-ccw: read stage2 boot loader data to find men=
+u")
+>> Reviewed-by: Collin Walling <walling@linux.ibm.com>
+>> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+>> ---
+>>  pc-bios/s390-ccw/bootmap.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
+>> index 97205674e59a..0d29dceaa3cc 100644
+>> --- a/pc-bios/s390-ccw/bootmap.c
+>> +++ b/pc-bios/s390-ccw/bootmap.c
+>> @@ -163,7 +163,7 @@ static bool find_zipl_boot_menu_banner(int *offset)
+>>      int i;
+>>=20=20
+>>      /* Menu banner starts with "zIPL" */
+>> -    for (i =3D 0; i < virtio_get_block_size() - 4; i++) {
+>> +    for (i =3D 0; i < virtio_get_block_size() - 3; i++) {
+>
+> Easier to review as:
+>
+>        for (i =3D 0; i <=3D virtio_get_block_size() - 4; i++) {
 
-I would test this over V10.
+Yep.
 
-Regards,
-Sai Pavan
+>
+> Even easier defining ZIPL_MAGIC_SIZE instead of the magic '4'.
 
-> -----Original Message-----
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> Sent: Thursday, September 24, 2020 10:47 AM
-> To: Sai Pavan Boddu <saipava@xilinx.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>; Markus Armbruster
-> <armbru@redhat.com>; 'Marc-Andr=E9 Lureau'
-> <marcandre.lureau@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>;
-> Edgar Iglesias <edgari@xilinx.com>; Francisco Eduardo Iglesias
-> <figlesia@xilinx.com>; qemu-devel@nongnu.org; Alistair Francis
-> <alistair.francis@wdc.com>; Eduardo Habkost <ehabkost@redhat.com>;
-> Ying Fang <fangying1@huawei.com>; 'Philippe Mathieu-Daud=E9'
-> <philmd@redhat.com>; Vikram Garhwal <fnuv@xilinx.com>; Paul
-> Zimmerman <pauldzim@gmail.com>
-> Subject: Re: [PATCH v8 3/7] usb/hcd-xhci: Split pci wrapper for xhci base
-> model
->=20
->   Hi,
->=20
-> > Can you also provide any steps to test vmstate migration ?
->=20
-> Helper script below, run it with something like:
->=20
-> $script -m 4G -vga std \
->   -cdrom Fedora-Workstation-Live-x86_64-32-1.6.iso \
->   -device qemu-xhci -device usb-tablet
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D cut here
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D #!/bin/bash
->=20
-> # most recent release
-> src=3D"/usr/local/bin/qemu-system-x86_64"
->=20
-> # master branch / devel branch
-> dst=3D"/home/kraxel/projects/qemu/build/default/x86_64-softmmu/qemu-
-> system-x86_64"
->=20
-> # time to wait before migration
-> sec=3D60
->=20
-> # vmstate storage
-> tmp=3D"$(mktemp ${TMPDIR-/var/tmp}/vmstate-XXXXXXXXXXXXXX)"
-> trap "rm -f $tmp" EXIT
->=20
-> # figure machine type to use
-> machine=3D$($src -M help | awk '/default/ { print $1 }')
-> machine=3D"${machine},vmport=3Doff"
-> machine=3D"${machine},accel=3Dkvm"
->=20
-> ################################################################
-> ########
->=20
-> echo "#"
-> echo "# vmsave (after $sec seconds)"
-> echo "#"
-> (
->     sleep $sec
->     echo "migrate_set_speed 100M"
->     echo "migrate exec:cat>$tmp"
->     echo "quit"
-> ) |\
-> $src -nodefaults \
->     -monitor stdio \
->     -M $machine \
->     "$@"
->=20
-> echo "#"
-> echo "# vmload"
-> echo "#"
-> $dst -nodefaults \
->     -monitor stdio \
->     -incoming "exec:cat $tmp" \
->     -M $machine \
->     "$@"
+I thought about adding such a macro as well. Makes even more sense with
+your proposed change.
 
+>
+>>          if (magic_match(s2_cur_blk + i, ZIPL_MAGIC_EBCDIC)) {
+>>              *offset =3D i;
+>>              return true;
+>>=20
+>
+--=20
+Kind regards / Beste Gr=C3=BC=C3=9Fe
+   Marc Hartmayer
+
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Gregor Pillen=20
+Gesch=C3=A4ftsf=C3=BChrung: Dirk Wittkopp
+Sitz der Gesellschaft: B=C3=B6blingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
 
