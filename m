@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E7427790D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:18:42 +0200 (CEST)
-Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03CD277915
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:20:58 +0200 (CEST)
+Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLWlN-0001vX-Be
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:18:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47428)
+	id 1kLWnZ-00040N-Oi
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:20:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLWdk-0005Ds-1i
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:10:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53490)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWdu-0005L7-Ke
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:10:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLWdg-0004bB-2V
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:10:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600974642;
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWds-0004dn-V8
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:10:58 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600974656;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4z0A7EMcviNKUGxP8mlTfQPnRBVv33kdl1gcD44oSc8=;
- b=dUmnD0d8aLPiuHANKrkMwIE4J8HN49itZQ/abMztBYMnorRaCvG8yt0q30SrSMXN8tvZ+9
- CEa8pJa9P/zkDh4x2s+6ZBTiDkaNdiWAvBXyxpfQz8GlvxGcXWNn27LFLhnsBlXj4TMPmY
- VxLDMerqPxlPVtQzRs4WEQUNxSuVhWg=
+ bh=hHmqMQxfZbi331nK7t2+GBJb5sQnYkDrc+8VoKpFrQs=;
+ b=PMkqbJf0OjP/D+PprGpfxuSKrwkjSNjKXbNCJoiDzgpyyEIG+lNbskb+vKXBiJikA6RyJ5
+ gV75qSsGD61ooKMggc3LjkvlMdPY00AbMFfyRHtocNueIvJ9jvWX0ZQwQy8NZ+onV0fHJJ
+ zKwqonwVsgIukLGEkyzqwYBNR13AQxc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-UM5rInt_M6aY6GY_e783Ng-1; Thu, 24 Sep 2020 15:10:35 -0400
-X-MC-Unique: UM5rInt_M6aY6GY_e783Ng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-195-mKrKzXQvOJ2RdQnoKUFF1g-1; Thu, 24 Sep 2020 15:10:51 -0400
+X-MC-Unique: mKrKzXQvOJ2RdQnoKUFF1g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C9CD807356;
- Thu, 24 Sep 2020 19:10:34 +0000 (UTC)
-Received: from [10.3.114.148] (ovpn-114-148.phx2.redhat.com [10.3.114.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD06B5C1C7;
- Thu, 24 Sep 2020 19:10:30 +0000 (UTC)
-Subject: Re: [PATCH v9 4/7] scripts: add block-coroutine-wrapper.py
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200924185414.28642-1-vsementsov@virtuozzo.com>
- <20200924185414.28642-5-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <20235fa1-b269-7f49-0a0b-9f7c6f06eca8@redhat.com>
-Date: Thu, 24 Sep 2020 14:10:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F22F1084C9D;
+ Thu, 24 Sep 2020 19:10:50 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BFF39CBA;
+ Thu, 24 Sep 2020 19:10:49 +0000 (UTC)
+Date: Thu, 24 Sep 2020 15:10:47 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 36/38] qapi/visit.py: assert tag_member contains a
+ QAPISchemaEnumType
+Message-ID: <20200924191047.GH191229@localhost.localdomain>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-37-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200924185414.28642-5-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200922210101.4081073-37-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="796bG6sDp7z5YuPV"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,87 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, den@openvz.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/20 1:54 PM, Vladimir Sementsov-Ogievskiy wrote:
-> We have a very frequent pattern of creating a coroutine from a function
-> with several arguments:
-> 
->    - create a structure to pack parameters
->    - create _entry function to call original function taking parameters
->      from struct
->    - do different magic to handle completion: set ret to NOT_DONE or
->      EINPROGRESS or use separate bool field
->    - fill the struct and create coroutine from _entry function with this
->      struct as a parameter
->    - do coroutine enter and BDRV_POLL_WHILE loop
-> 
-> Let's reduce code duplication by generating coroutine wrappers.
-> 
-> This patch adds scripts/block-coroutine-wrapper.py together with some
-> friends, which will generate functions with declared prototypes marked
-> by the 'generated_co_wrapper' specifier.
-> 
-> The usage of new code generation is as follows:
-> 
->      1. define the coroutine function somewhere
-> 
->          int coroutine_fn bdrv_co_NAME(...) {...}
-> 
->      2. declare in some header file
-> 
->          int generated_co_wrapper bdrv_NAME(...);
-> 
->         with same list of parameters (generated_co_wrapper is
->         defined in "include/block/block.h").
-> 
->      3. Make sure the block_gen_c delaration in block/meson.build
+--796bG6sDp7z5YuPV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-declaration
-
->         mentions the file with your marker function.
-> 
-> Still, no function is now marked, this work is for the following
-> commit.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Tue, Sep 22, 2020 at 05:00:59PM -0400, John Snow wrote:
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
-
-> +++ b/docs/devel/block-coroutine-wrapper.rst
-> @@ -0,0 +1,54 @@
-> +=======================
-> +block-coroutine-wrapper
-> +=======================
+>  scripts/qapi/visit.py | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> index 4edaee33e3..180c140180 100644
+> --- a/scripts/qapi/visit.py
+> +++ b/scripts/qapi/visit.py
+> @@ -22,7 +22,10 @@
+>      indent,
+>  )
+>  from .gen import QAPISchemaModularCVisitor, ifcontext
+> -from .schema import QAPISchemaObjectType
+> +from .schema import (
+> +    QAPISchemaEnumType,
+> +    QAPISchemaObjectType,
+> +)
+> =20
+> =20
+>  def gen_visit_decl(name, scalar=3DFalse):
+> @@ -84,15 +87,17 @@ def gen_visit_object_members(name, base, members, var=
+iants):
+>          ret +=3D gen_endif(memb.ifcond)
+> =20
+>      if variants:
+> +        tag_member =3D variants.tag_member
+> +        assert isinstance(tag_member.type, QAPISchemaEnumType)
 > +
-> +A lot of functions in QEMU block layer (see ``block/*``) can only be
-> +called in coroutine context. Such functions are normally marked by the
-> +coroutine_fn specifier. Still, sometimes we need to call them from
-> +non-coroutine context; for this we need to start a coroutine, run the
-> +needed function from it and wait for coroutine finish in
 
-to finish in a
+I'd be interested in knowing why this wasn't left to be handled by the
+type checking only.  Anyway,
 
-> +BDRV_POLL_WHILE() loop. To run a coroutine we need a function with one
-> +void* argument. So for each coroutine_fn function which needs a
-> +non-coroutine interface, we should define a structure to pack the
-> +parameters, define a separate function to unpack the parameters and
-> +call the original function and finally define a new interface function
-> +with same list of arguments as original one, which will pack the
-> +parameters into a struct, create a coroutine, run it and wait in
-> +BDRV_POLL_WHILE() loop. It's boring to create such wrappers by hand,
-> +so we have a script to generate them.
-> +
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
-> +++ b/scripts/block-coroutine-wrapper.py
-Reviewed-by: Eric Blake <eblake@redhat.com>
+--796bG6sDp7z5YuPV
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s7zUACgkQZX6NM6Xy
+CfMLCA//QurFS0HxA3j6rx2JHbQfHgsot8fkbF/LJFbdHaaFhUXmog+3NFzct19T
+jri6WfXojlmYEJmbwlRyKS60CYtiDPPv2imVcKAQks31lVYXyMj/QgpsvGFDqa5r
+N/Gr6aNDFBSQBFuLj4JNUSKOZOUimSJkalluETQp+3W3BFptDS/CyY4DlQZtmt7m
+LTWBYtD2oBSu4pJvRnjrAc6YbIDU2NjGj03h/PJG3BYtfacZw4GuAoHANXkBTCh0
+Y5i+ZV6PpzSj67l3IRK6W0E4n/Dotgul4By+L2OT/mUG7XC43UseckggaA3WfYNr
+r1MHxRYDUZg5q1/HfWH9mzX/3VxVCGGJY2sIjN/v7juguStUnlAaRwP8GSLnaX3X
+HqusMA+LR8sQTZxU/faw3k95QXrPSI3yVp/Dt7Het85cYKEAFk8jwFR2tlPnsMe6
+sjaGrZixQQVOzEbOtXxfVehmSOqst58edbzEbzXG5Qqfnfoler31/r+lOeCTprGi
+RrOZr4oGjE6zk9Jn+55fGwRDLIfNyGlLj/mKYFaI1OZCYac/mk/IeRvooRJzlCvE
+ea2y67xV6pVRg4nZdlklbpXCi9Go3zewy02f98NvkYtdbENFByGEE7mtYB3AtlBU
+ig/yPrjE5VzWazKYz9W+4dMAo9jpC/V2oY84W37Tt2j+p4L9YiQ=
+=09En
+-----END PGP SIGNATURE-----
+
+--796bG6sDp7z5YuPV--
 
 
