@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA70276E9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:24:01 +0200 (CEST)
-Received: from localhost ([::1]:35188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4675276E2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:08:05 +0200 (CEST)
+Received: from localhost ([::1]:37096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOPw-0002zo-6x
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41150)
+	id 1kLOAW-0005CX-L1
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLNZj-0002RY-KW
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:30:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLNZh-00070v-LB
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:30:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=li97aJVog3jEPGKhQHb+TFzLPraaKtwKqK96TVdANYU=;
- b=Ny5s01DUUUZVCJunFbw6+OcDHZtNznxZ1XeIPVnMWE7Z0gOuYH7Btfw8Of90sL4+8CjRm2
- 8paat8VapEqfFw46s0juykM2lVrz9evzR8Gqyybjg2HrzJ4k66I3x8GiT84L9g2GvgWXw0
- +e6VRmQNyktl42+TkHziX/hrJBWAX5c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-erQpARUzNl6UTTAo2mMA4Q-1; Thu, 24 Sep 2020 05:29:46 -0400
-X-MC-Unique: erQpARUzNl6UTTAo2mMA4Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84B431007476;
- Thu, 24 Sep 2020 09:29:45 +0000 (UTC)
-Received: from work-vm (ovpn-114-250.ams2.redhat.com [10.36.114.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFDA55C1C7;
- Thu, 24 Sep 2020 09:29:37 +0000 (UTC)
-Date: Thu, 24 Sep 2020 10:29:35 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH] virtiofsd: Used glib "shared" thread pool
-Message-ID: <20200924092935.GC2792@work-vm>
-References: <20200921213216.GE13362@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kLNcj-0006S2-Nj; Thu, 24 Sep 2020 05:33:09 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:57951)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kLNch-0007Ta-2V; Thu, 24 Sep 2020 05:33:09 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.177])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C72955E59E11;
+ Thu, 24 Sep 2020 11:33:02 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 24 Sep
+ 2020 11:33:02 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0052bbdd5fb-d45e-46a2-b63d-1d06a2b499a8,
+ 85AEC8A2294FDACAA0F214F2A1981C2CEEF9973D) smtp.auth=groug@kaod.org
+Date: Thu, 24 Sep 2020 11:33:00 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 4/6] spapr_numa: change reference-points and maxdomain
+ settings
+Message-ID: <20200924113300.7db23699@bahia.lan>
+In-Reply-To: <20200923193458.203186-5-danielhb413@gmail.com>
+References: <20200923193458.203186-1-danielhb413@gmail.com>
+ <20200923193458.203186-5-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200921213216.GE13362@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 59077d15-cf1d-4c54-9844-c24c42558716
+X-Ovh-Tracer-Id: 7479916031906716128
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudekgddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 05:33:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,53 +70,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> glib offers thread pools and it seems to support "exclusive" and "shared"
-> thread pools.
-> 
-> https://developer.gnome.org/glib/stable/glib-Thread-Pools.html#g-thread-pool-new
-> 
-> Currently we use "exlusive" thread pools but its performance seems to be
-> poor. I tried using "shared" thread pools and performance seems much
-> better. I posted performance results here.
-> 
-> https://www.redhat.com/archives/virtio-fs/2020-September/msg00080.html
-> 
-> So lets switch to shared thread pools. We can think of making it optional
-> once somebody can show in what cases exclusive thread pools offer better
-> results. For now, my simple performance tests across the board see
-> better results with shared thread pools.
-> 
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+On Wed, 23 Sep 2020 16:34:56 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-Queued (with Miklos's seccomp fix); although my gut feeling is we'll be
-coming back to this again to understand how the threading should work.
-
-Dave
-
+> This is the first guest visible change introduced in
+> spapr_numa.c. The previous settings of both reference-points
+> and maxdomains were too restrictive, but enough for the
+> existing associativity we're setting in the resources.
+> 
+> We'll change that in the following patches, populating the
+> associativity arrays based on user input. For those changes
+> to be effective, reference-points and maxdomains must be
+> more flexible. After this patch, we'll have 4 distinct
+> levels of NUMA (0x4, 0x3, 0x2, 0x1) and maxdomains will
+> allow for any type of configuration the user intends to
+> do - under the scope and limitations of PAPR itself, of
+> course.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  tools/virtiofsd/fuse_virtio.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/ppc/spapr_numa.c | 27 ++++++++++++++++++---------
+>  1 file changed, 18 insertions(+), 9 deletions(-)
 > 
-> Index: qemu/tools/virtiofsd/fuse_virtio.c
-> ===================================================================
-> --- qemu.orig/tools/virtiofsd/fuse_virtio.c	2020-09-21 17:28:27.444438015 -0400
-> +++ qemu/tools/virtiofsd/fuse_virtio.c	2020-09-21 17:28:30.584568910 -0400
-> @@ -695,7 +695,7 @@ static void *fv_queue_thread(void *opaqu
->      struct fuse_session *se = qi->virtio_dev->se;
->      GThreadPool *pool;
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index 180800b2f3..688391278e 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -222,21 +222,30 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
+>   */
+>  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
+>  {
+> +    MachineState *ms = MACHINE(spapr);
+>      SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+>      uint32_t refpoints[] = {
+>          cpu_to_be32(0x4),
+> -        cpu_to_be32(0x4),
+> +        cpu_to_be32(0x3),
+>          cpu_to_be32(0x2),
+> +        cpu_to_be32(0x1),
+>      };
+>      uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
+> -    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
+> -    uint32_t maxdomains[] = {
+> -        cpu_to_be32(4),
+> -        maxdomain,
+> -        maxdomain,
+> -        maxdomain,
+> -        cpu_to_be32(spapr->gpu_numa_id),
+> -    };
+> +    uint32_t maxdomain = cpu_to_be32(ms->numa_state->num_nodes +
+> +                                     spapr->gpu_numa_id);
+> +    uint32_t maxdomains[] = {0x4, maxdomain, maxdomain, maxdomain, maxdomain};
+> +
+
+It seems maxdomains[0] should be cpu_to_be32(0x4) and spaces are missing.
+
+Maybe keep the previous multi-line declaration style ? This seems to produce
+a nicer diff for the reviewer:
+
+     uint32_t maxdomains[] = {
+         cpu_to_be32(4),
+         maxdomain,
+         maxdomain,
+         maxdomain,
+-        cpu_to_be32(spapr->gpu_numa_id),
++        maxdomain,
+     };
+
+> +    if (spapr_machine_using_legacy_numa(spapr)) {
+> +        refpoints[1] =  cpu_to_be32(0x4);
+> +        refpoints[2] =  cpu_to_be32(0x2);
+
+I'd rather have an explicit view of the legacy layouts for clarity...
+
+> +        nr_refpoints = 3;
+> +
+> +        maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
+> +        maxdomains[1] = maxdomain;
+> +        maxdomains[2] = maxdomain;
+> +        maxdomains[3] = maxdomain;
+> +        maxdomains[4] = cpu_to_be32(spapr->gpu_numa_id);
+
+... and here.
+
+eg.
+
+    if (spapr_machine_using_legacy_numa(spapr)) {
+        uint32_t legacy_refpoints[] = {
+            cpu_to_be32(0x4),
+            cpu_to_be32(0x4),
+            cpu_to_be32(0x2),
+        };
+        uint32_t legacy_maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
+        uint32_t legacy_maxdomains[] = {
+            cpu_to_be32(4),
+            legacy_maxdomain,
+            legacy_maxdomain,
+            legacy_maxdomain,
+            cpu_to_be32(spapr->gpu_numa_id),
+        };
+
+        nr_refpoints = 3;
+        memcpy(refpoints, legacy_refpoints, sizeof(legacy_refpoints));
+        memcpy(maxdomains, legacy_maxdomains, sizeof(legacy_maxdomains));
+    }
+
+This allows to instantly see how things are expected to appear
+in the FDT, without having to mentally patch the refpoints[] and
+maxdomains[] arrays. This also makes the diff easier to review.
+
+> +    }
 >  
-> -    pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, TRUE,
-> +    pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, FALSE,
->                               NULL);
->      if (!pool) {
->          fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>      if (smc->pre_5_1_assoc_refpoints) {
+>          nr_refpoints = 2;
 
 
