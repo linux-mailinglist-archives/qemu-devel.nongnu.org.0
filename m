@@ -2,28 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C6C2774AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:00:06 +0200 (CEST)
-Received: from localhost ([::1]:47008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654152774CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:06:29 +0200 (CEST)
+Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLSj7-0003QQ-51
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39200)
+	id 1kLSpI-00070g-Ct
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kLSiJ-0002wa-Uq; Thu, 24 Sep 2020 10:59:15 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:51215)
+ id 1kLSjg-00043L-7z; Thu, 24 Sep 2020 11:00:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:34129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kLSiH-0008SZ-Uz; Thu, 24 Sep 2020 10:59:15 -0400
+ id 1kLSjY-0000ER-2Y; Thu, 24 Sep 2020 11:00:39 -0400
 Received: from [192.168.100.1] ([82.252.129.222]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Myevl-1keM8l1UYn-00yuN4; Thu, 24 Sep 2020 16:58:50 +0200
-Subject: Re: [PATCH] hw/scsi/lsi53c895a: Sanitize some trace events format
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200915174639.1366226-1-philmd@redhat.com>
+ 1MOm9H-1k5qcy2RSx-00Q7g5; Thu, 24 Sep 2020 17:00:23 +0200
+Subject: Re: [PATCH] hw/rtc/m48t59: Simplify m48t59_init()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20200914102425.1152962-1-f4bug@amsat.org>
+ <20200916025022.GE5258@yekko.fritz.box>
+ <de2b5d0c-fcc4-a26c-5fda-610b7fa75862@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,36 +69,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <b48d3b12-db1b-4ecd-456c-fdd05cecd1e5@vivier.eu>
-Date: Thu, 24 Sep 2020 16:58:48 +0200
+Message-ID: <cc4d5239-636c-f01a-d822-97ea60ee303c@vivier.eu>
+Date: Thu, 24 Sep 2020 17:00:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200915174639.1366226-1-philmd@redhat.com>
+In-Reply-To: <de2b5d0c-fcc4-a26c-5fda-610b7fa75862@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gpDFn9uPOzVPWy0IiNSltCSebbss8aLYXb6+NoPE+ZxA2jAWaVE
- 44irBTwbwHf+/we31FnWzwTwOoynwfJ60cI4uAFJ9zI0LHJ5psswbbcmomUhBNh3v8wPpWp
- bidxD0ZY7NWaCFcGwWm3niuWH6kMSX0TSdGhkcpD7Ytu88Z/RCNo52PrktKZsKPBfgIWZdt
- q5BVh4zEtYl4hzno/O1Ug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6TWuZ/j3YEM=:hlcprH7YKetxAcIOzeLF3w
- Wkr1Yas23Eek91FfvTxgBicc5PuOLhwyKPwvA6r19knnKO3pA186z2ujexBcmtESMIQhEtXrb
- N9MjHAj4s9tAY0vUyBilkPkzq63fzk4ttn0tUBidlYHLcLWujiHaUFd5NS38h48CamHM1M5vd
- KZ4zVQ6IoJ4I4Yos0E7xCAIoGvu2bt5PfMtowN0NsA+t5/fpzcQFD9iBU852l3zJK/i//33nm
- tvHxfDfpVXctMKMuMWL5Y4SOBfdEsxhQ98lRqsRj1SzmHhQKS7UOCPvx6YUKomOggvHWJznE1
- g8/JUOPZvREYhq/4QyKV6rdH3hjPcm9oBepIDGD7RiBqeC4x6E3R7a/j60OjAsl2igt4k+OJ5
- wbEQ6bV+ewpZBK1fpt2hJQnuqzKs6fUUU5ShRa8RemFe5dT3HHpl+D047TVd8S57i3d/fxzqC
- 37xkFUFYVW8LVjl0A7Kr6u8/VsqClIdGsoHz0cDOSU2A1RXO+hqy4DmsyqDPA/DEmhhZ7Bevd
- JIBvwfOHihxlBwlfez2ODozucG9NN+UuvUQbb9t4MRnXaIiZAQz2T/zg449nwX42LPNs8pOnw
- GrJFJEZdVv4HHEWPO07etQM6+iOoFdpkLFeCzSF4ZEwRlvaUOezM8B+o0rydse8Be0rtfzJEc
- N4Ps5TUevlffnIVPUTl3HHyF0Ue69Ar4uOi16bGDgDCL2b2EHVXouhqnyo+UZPVjpJ0zAn2ZT
- 5EYVqR9oLZyEV7hcUcBWGH7tv7G2VCn5yoQbQlxryTd4DAJrmVEc0nTjbQSdQ/mko6ZUDahrw
- SRsmCefhIO008sDN8TEbrhesTUrcIZHRaqZ9Czryl+JwZMMVytycT7oa1Upl1r5emQv3uNG
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9zJuQhn6H7oQw0U9SikNz4jDJpJ0BANaJVgl8LuRKTAumsS0ckI
+ 6jfB3HmnyCgwnRb1DsJxC8Qltu/Y6pWD8lotMh6v5FgxLWbrGn/NwpkxiybsNND+XRPK0nq
+ ZwLTiE2cPtoyLJ3P0fnoO0A0q705ABdiBSxhorSrymm/UQKPAsRMLQugsPrYYwSoN7JA2i4
+ 74EPuWf+B4wWvc65x1zDA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GA4agRNCotg=:CPG6Sud00E+VNv4/8bpqMs
+ dhb/MWlC12TyXkFbA1ovS62glahfIYp8i1HOP5zEDBdXodhyeooIZ7MA/LAIZ4kAMT/0v8N4r
+ 4RVBf/HFRwI5BBoBIVHzuj2b05UCbB2PjqdxG1I//bm5brxSY7OWzk3rKh5S0bL/XYHxJPXOq
+ JDY5Gw2mskUMx8bsAs2ieSQ7VPUK6m95/DPtORa8lc2CCeqeT4/6SZBa4JKrlG90gbd2rZUCl
+ EHojFzkeJl0W7mxogOxknKWgAterYX2ugzkB9TYaLHeKou7Cw6ka4nBGYZgltgyBb4tOJTOoz
+ Put94dUqA7Obzv8j1eCqJeUUYCiXdH9ayk11f9a6iL2yR+fys6gFNoJLh4q8HwpQa8gcBX0x3
+ h9JLFVZy1wn1xDq3GQHShlhBy6FA3wiWeWhLSaONMxfcKLxsOeZmbQW0TPugM4inWp70CfoHl
+ 96LBLuB8ndWCqm+WAlV4nEFQkeuel2eCMX1741Q/VhqYWOVm8jzDfz3P9Gq6/yXZOk8JY6CVr
+ MQF6ZZPVpfVBWHTMw1QL6r8SO0c3Kj+BLkHvbW43N03lmkIr27oQO0q690iu9i7ATsIcdtHDu
+ 2EjkqrM5M9YGmGAkN+A0S/Q1Oya8M4JQwpjGFP5y4CpHIObwRz29kD40RGKzwooxikZA+/Atj
+ PTB19gjOgfIEqnvWW6J6NTptaVNu6me5ri5PEV7ygrKDT7uy0emv0OGoZAvFZkxk3RoJHOADE
+ DkwqSTvOVZatuJp+Qw33oflfe8ih8K+xmrCcJIbE1fugkHtoXNKche2XQ6b0HtqhNlIlh+WMN
+ PDl8ADADix00mPR91BDxVOCH3YZgJza6Rzn05KsvaKLPDub/uL+IjFqoeU6uJCKHRO9tBT4
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 10:59:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 11:00:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -115,40 +117,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/09/2020 à 19:46, Philippe Mathieu-Daudé a écrit :
-> Make some lsi53c895a trace events more understandable.
+Le 24/09/2020 à 16:53, Philippe Mathieu-Daudé a écrit :
+> On 9/16/20 4:50 AM, David Gibson wrote:
+>> On Mon, Sep 14, 2020 at 12:24:25PM +0200, Philippe Mathieu-Daudé wrote:
+>>> As the 'io_base' argument of m48t59_init() is unused (set to 0),
+>>> remove it to simplify.
+>>> To create a device on the ISA bus, m48t59_init_isa() is the
+>>> preferred function to use.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>  include/hw/rtc/m48t59.h |  2 +-
+>>>  hw/ppc/ppc405_boards.c  |  2 +-
+>>>  hw/rtc/m48t59.c         | 10 ++--------
+>>>  hw/sparc/sun4m.c        |  2 +-
+>>>  hw/sparc64/sun4u.c      |  2 +-
+>>>  5 files changed, 6 insertions(+), 12 deletions(-)
+>>
+>> ppc part
+>> Acked-by: David Gibson <david@gibson.dropbear.id.au>
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/scsi/trace-events | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Thanks!
 > 
-> diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
-> index 9a4a60ca635..ac4209f361e 100644
-> --- a/hw/scsi/trace-events
-> +++ b/hw/scsi/trace-events
-> @@ -234,9 +234,9 @@ spapr_vscsi_do_crq(unsigned c0, unsigned c1) "crq: %02x %02x ..."
->  
->  # lsi53c895a.c
->  lsi_reset(void) "Reset"
-> -lsi_update_irq(int level, uint8_t dstat, uint8_t sist1, uint8_t sist0) "Update IRQ level %d dstat 0x%02x sist 0x%02x0x%02x"
-> +lsi_update_irq(int level, uint8_t dstat, uint8_t sist1, uint8_t sist0) "Update IRQ level %d dstat 0x%02x sist 1:0x%02x 0:0x%02x"
->  lsi_update_irq_disconnected(void) "Handled IRQs & disconnected, looking for pending processes"
-> -lsi_script_scsi_interrupt(uint8_t stat1, uint8_t stat0, uint8_t sist1, uint8_t sist0) "SCSI Interrupt 0x%02x0x%02x prev 0x%02x0x%02x"
-> +lsi_script_scsi_interrupt(uint8_t stat1, uint8_t stat0, uint8_t sist1, uint8_t sist0) "SCSI Interrupt stat 1:0x%02x 0:0x%02x sist 1:0x%02x 0:0x%02x"
->  lsi_script_dma_interrupt(uint8_t stat, uint8_t dstat) "DMA Interrupt 0x%x prev 0x%x"
->  lsi_bad_phase_jump(uint32_t dsp) "Data phase mismatch jump to 0x%"PRIX32
->  lsi_bad_phase_interrupt(void) "Phase mismatch interrupt"
-> 
+> Can this go via qemu-trivial@?
 
-Applied to my trivial-patches branch.
+Yes, but more reviewers would help. Mark?
 
 Thanks,
 Laurent
-
 
