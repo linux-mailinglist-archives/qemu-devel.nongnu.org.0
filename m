@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A87276DE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:53:02 +0200 (CEST)
-Received: from localhost ([::1]:42696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792C0276DCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:48:24 +0200 (CEST)
+Received: from localhost ([::1]:54732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNvx-0007Sl-U5
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
+	id 1kLNrT-0000cc-Ib
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTq-0001ED-V9
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23303)
+ id 1kLNTr-0001GS-TM
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTn-00065z-CS
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:58 -0400
+ id 1kLNTn-00066E-To
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939434;
+ s=mimecast20190719; t=1600939435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FudltPM8rf6jphJZRpA3qlGS4lL865ouE2G0+dnv3Q8=;
- b=WCLaavT89WnH3iVKkVltkWh10f0gUKuV5aIGOO8lnVHOrggpB8BfmFrmJMQ9ycKLArKJG+
- YdgLw5WgSjydv1Z9PlSul7KTYqU/YLJ84Eirxo3nxLG0/hL9YDbaISv0QAjeEiTwM/NnNC
- EpMKBtRffvLVWQVnHRHaYl/nkvsqdv8=
+ bh=pq35pprjY9O0C9/iJtey6JbSoVcKHmRAr2UADQ5C67Q=;
+ b=G0bibakUsISx+PnQxNM6lM3fk7NvNIOEsHUGlOmGdrVu6vt5OQlPjAye8xLsuX/li/9UjP
+ 0PwGCTJsnLBrcKF+RKEfSmScgp5hjnRl2qrWeJWrcwho29PUKXkXAAatNkY6UlkGdzzRDV
+ zgSwy75FWtCf08a1JU3ysNbRMM2o+4U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-zBbe_TjaNFOS576Bx1gwHw-1; Thu, 24 Sep 2020 05:23:52 -0400
-X-MC-Unique: zBbe_TjaNFOS576Bx1gwHw-1
+ us-mta-37-vK5cOywWMiO47aX_orQL8Q-1; Thu, 24 Sep 2020 05:23:53 -0400
+X-MC-Unique: vK5cOywWMiO47aX_orQL8Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E64A51007464
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E58A800475
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2C0460C15;
- Thu, 24 Sep 2020 09:23:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B00860E1C
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 47/92] vl: relocate path to configuration file
-Date: Thu, 24 Sep 2020 05:22:29 -0400
-Message-Id: <20200924092314.1722645-48-pbonzini@redhat.com>
+Subject: [PULL 49/92] qga: relocate path to default configuration and hook
+Date: Thu, 24 Sep 2020 05:22:31 -0400
+Message-Id: <20200924092314.1722645-50-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
@@ -81,31 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ qga/main.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index c872657e60..c4f9671c48 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2676,8 +2676,9 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
- static int qemu_read_default_config_file(void)
+diff --git a/qga/main.c b/qga/main.c
+index 3febf3b0fd..740f5f7303 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -29,6 +29,7 @@
+ #include "qapi/error.h"
+ #include "channel.h"
+ #include "qemu/bswap.h"
++#include "qemu/cutils.h"
+ #include "qemu/help_option.h"
+ #include "qemu/sockets.h"
+ #include "qemu/systemd.h"
+@@ -968,7 +969,7 @@ static void config_load(GAConfig *config)
  {
-     int ret;
-+    g_autofree char *file = get_relocated_path(CONFIG_QEMU_CONFDIR "/qemu.conf");
+     GError *gerr = NULL;
+     GKeyFile *keyfile;
+-    const char *conf = g_getenv("QGA_CONF") ?: QGA_CONF_DEFAULT;
++    g_autofree char *conf = g_strdup(g_getenv("QGA_CONF")) ?: get_relocated_path(QGA_CONF_DEFAULT);
  
--    ret = qemu_read_config_file(CONFIG_QEMU_CONFDIR "/qemu.conf");
-+    ret = qemu_read_config_file(file);
-     if (ret < 0 && ret != -ENOENT) {
-         return ret;
+     /* read system config */
+     keyfile = g_key_file_new();
+@@ -1027,7 +1028,7 @@ end:
+     if (gerr &&
+         !(gerr->domain == G_FILE_ERROR && gerr->code == G_FILE_ERROR_NOENT)) {
+         g_critical("error loading configuration from path: %s, %s",
+-                   QGA_CONF_DEFAULT, gerr->message);
++                   conf, gerr->message);
+         exit(EXIT_FAILURE);
      }
+     g_clear_error(&gerr);
+@@ -1141,7 +1142,7 @@ static void config_parse(GAConfig *config, int argc, char **argv)
+ #ifdef CONFIG_FSFREEZE
+         case 'F':
+             g_free(config->fsfreeze_hook);
+-            config->fsfreeze_hook = g_strdup(optarg ?: QGA_FSFREEZE_HOOK_DEFAULT);
++            config->fsfreeze_hook = optarg ? g_strdup(optarg) : get_relocated_path(QGA_FSFREEZE_HOOK_DEFAULT);
+             break;
+ #endif
+         case 't':
+@@ -1463,6 +1464,7 @@ int main(int argc, char **argv)
+ 
+     config->log_level = G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL;
+ 
++    qemu_init_exec_dir(argv[0]);
+     qga_qmp_init_marshal(&ga_commands);
+ 
+     init_dfl_pathnames();
 -- 
 2.26.2
 
