@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7504D277B5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:55:16 +0200 (CEST)
-Received: from localhost ([::1]:49904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA2F277B50
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:54:03 +0200 (CEST)
+Received: from localhost ([::1]:45394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLZCt-0003V8-Hb
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
+	id 1kLZBi-0001ey-TO
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:54:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZBa-0002E4-Nw
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:54 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:55364)
+ id 1kLZ9r-0000Ey-Q2
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:52:07 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:53800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZBY-0007Z9-Sv
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:54 -0400
+ id 1kLZ9q-0007QW-0A
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:52:07 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoPc4154795;
- Thu, 24 Sep 2020 21:53:50 GMT
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLnmGA154113;
+ Thu, 24 Sep 2020 21:52:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=B+7p1ec6eOXjsctlyNFkiV7VpoeUHraxRUYBIEAtB+Q=;
- b=CMvqGan6qellP15SYHn96eVZR/N0la8aMzA+bx7G8GnNdJz+1/ss9vZCLUWFkmnj2KLE
- B7GDSjE2fFej5V+RlPDYzM/OmURifvSFTCU6UmPWqkQIsPLy8O8xOlXZ0EkBa+z+53Th
- LOTkPecPdiDxWeKzF09/Qov5B/fOLBsaDglKFg4YkSjw2XT6Y1vjTbHeAo2v5vkVzkgU
- anVyPDASphf5cgt+PLjMMYa1uhMDLN1CRKjbNRsWo0U0MA2S+g5VdIvQaRNMohUv4gmL
- 5uEIbnxZQRudU8IyH8qwFvk3ZkrIpanZJuPN7i5xQwKhixIM4QFyYFwjMJMu4BqqcESG oA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 33qcpu7nrj-1
+ bh=NbjZmyrtbz1QL62ZclUQdx0IqNOrya1/nx3hUxCVGw0=;
+ b=WQvA7xYwpJeDaCLBqofuy0POo1fvJumqxCEdVbRhsDBBzXe35MQ8/ZlS8yi6enlevU4b
+ jY+BsKymPkCoAiZX0W0f91j+5stTBVrwP67J+mDs0nwJPNOD3XIrP3AJ+PaQxhY1z2T+
+ bboAE7Wo/BJizSu4Mg+CLnD+GR7V5tFxQLjNErX3FOouZdJ+OHbUwzcxd+7WFiOwb2QV
+ 9KHeUqKJvQYsG+NwlaDcta1PEd+KiTkc7wtQ/8VRe8+H/H7MpIH+Yy13sZIUlUCBPR1C
+ oCIjs3+uo0P3KPDaXvveYLTzngyU2WSxreoBwhIbtEb+00qEEJg5WnU8vrkXR9lhzZa2 7g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 33qcpu7nga-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 21:53:50 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoBrI050370;
- Thu, 24 Sep 2020 21:51:50 GMT
+ Thu, 24 Sep 2020 21:52:03 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLpTBs131105;
+ Thu, 24 Sep 2020 21:52:02 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 33r28xj8du-1
+ by userp3030.oracle.com with ESMTP id 33nux3fk0e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 21:51:50 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OLpnru020497;
- Thu, 24 Sep 2020 21:51:49 GMT
+ Thu, 24 Sep 2020 21:52:02 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OLq1Go020624;
+ Thu, 24 Sep 2020 21:52:01 GMT
 Received: from [10.39.244.100] (/10.39.244.100)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 14:51:49 -0700
-Subject: Re: [PATCH V1 12/32] vl: pause option
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ with ESMTP ; Thu, 24 Sep 2020 14:52:01 -0700
+Subject: Re: [PATCH V1 13/32] gdbstub: gdb support for suspended state
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, alex.bennee@linaro.org,
+ philmd@redhat.com
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-13-git-send-email-steven.sistare@oracle.com>
- <87r1stdjes.fsf@linaro.org> <b18f2181-902b-a091-9711-93d49ab8aec8@oracle.com>
- <20200911175934.GR3310@work-vm>
+ <1596122076-341293-14-git-send-email-steven.sistare@oracle.com>
+ <20200911184118.GS3310@work-vm>
 From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <0c4c4e76-f869-b70f-83b2-11381890972c@oracle.com>
-Date: Thu, 24 Sep 2020 17:51:46 -0400
+Message-ID: <2ffc8aae-5787-0109-91ef-6d834a611f14@oracle.com>
+Date: Thu, 24 Sep 2020 17:51:58 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200911175934.GR3310@work-vm>
+In-Reply-To: <20200911184118.GS3310@work-vm>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999
- suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240156
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009240156
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
  signatures=668680
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -106,122 +106,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
  Markus Armbruster <armbru@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/2020 1:59 PM, Dr. David Alan Gilbert wrote:
-> * Steven Sistare (steven.sistare@oracle.com) wrote:
->> On 7/30/2020 1:03 PM, Alex BennÃ©e wrote:
->>>
->>> Steve Sistare <steven.sistare@oracle.com> writes:
->>>
->>>> Provide the -pause command-line parameter and the QEMU_PAUSE environment
->>>> variable to briefly pause QEMU in main and allow a developer to attach gdb.
->>>> Useful when the developer does not invoke QEMU directly, such as when using
->>>> libvirt.
->>>
->>> How does this differ from -S?
+On 9/11/2020 2:41 PM, Dr. David Alan Gilbert wrote:
+> * Steve Sistare (steven.sistare@oracle.com) wrote:
+>> Modify the gdb server so a continue command appears to resume execution
+>> when in RUN_STATE_SUSPENDED.  Do not print the next gdb prompt, but do not
+>> actually resume instruction fetch.  While in this "fake" running mode, a
+>> ctrl-C returns the user to the gdb prompt.
 >>
->> The -S flag runs qemu to the main loop but does not start the guest.  Lots of code
->> that you may need to debug runs before you get there.
+>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > 
-> You might try the '--preconfig' option - that's pretty early on.
-> The other one is adding a chardev and telling it to wait for a server;
-> that'll wait until you telnet to the port.
-> 
-> (Either way, this patch shouldn't really be part of this series, it's a
-> separate discussion)
+> This patch doesn't feel like it lives here; it seems to be a separate
+> gdbstub patch and it'll get noticed/merged quicker just sent on it's
+> own.
 
-Sure, I will pull it from the series.
+OK, I will submit it separately.
 
 - Steve
 
->> - Steve
->>>> Usage:
->>>>   qemu -pause <seconds>
->>>>   or
->>>>   export QEMU_PAUSE=<seconds>
->>>>
->>>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->>>> ---
->>>>  qemu-options.hx |  9 +++++++++
->>>>  softmmu/vl.c    | 15 ++++++++++++++-
->>>>  2 files changed, 23 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/qemu-options.hx b/qemu-options.hx
->>>> index 708583b..8505cf2 100644
->>>> --- a/qemu-options.hx
->>>> +++ b/qemu-options.hx
->>>> @@ -3668,6 +3668,15 @@ SRST
->>>>      option is experimental.
->>>>  ERST
->>>>  
->>>> +DEF("pause", HAS_ARG, QEMU_OPTION_pause, \
->>>> +    "-pause secs    Pause for secs seconds on entry to main.\n", QEMU_ARCH_ALL)
->>>> +
->>>> +SRST
->>>> +``--pause secs``
->>>> +    Pause for a number of seconds on entry to main.  Useful for attaching
->>>> +    a debugger after QEMU has been launched by some other entity.
->>>> +ERST
->>>> +
->>>
->>> It seems like having an option to race with the debugger is just asking
->>> for trouble.
->>>
->>>>  DEF("S", 0, QEMU_OPTION_S, \
->>>>      "-S              freeze CPU at startup (use 'c' to start execution)\n",
->>>>      QEMU_ARCH_ALL)
->>>> diff --git a/softmmu/vl.c b/softmmu/vl.c
->>>> index 8478778..951994f 100644
->>>> --- a/softmmu/vl.c
->>>> +++ b/softmmu/vl.c
->>>> @@ -2844,7 +2844,7 @@ static void create_default_memdev(MachineState *ms, const char *path)
->>>>  
->>>>  void qemu_init(int argc, char **argv, char **envp)
->>>>  {
->>>> -    int i;
->>>> +    int i, seconds;
->>>>      int snapshot, linux_boot;
->>>>      const char *initrd_filename;
->>>>      const char *kernel_filename, *kernel_cmdline;
->>>> @@ -2882,6 +2882,13 @@ void qemu_init(int argc, char **argv, char **envp)
->>>>      QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
->>>>      int mem_prealloc = 0; /* force preallocation of physical target memory */
->>>>  
->>>> +    if (getenv("QEMU_PAUSE")) {
->>>> +        seconds = atoi(getenv("QEMU_PAUSE"));
->>>> +        printf("Pausing %d seconds for debugger. QEMU PID is %d\n",
->>>> +               seconds, getpid());
->>>> +        sleep(seconds);
->>>> +    }
->>>> +
->>>>      os_set_line_buffering();
->>>>  
->>>>      error_init(argv[0]);
->>>> @@ -3204,6 +3211,12 @@ void qemu_init(int argc, char **argv, char **envp)
->>>>              case QEMU_OPTION_gdb:
->>>>                  add_device_config(DEV_GDB, optarg);
->>>>                  break;
->>>> +            case QEMU_OPTION_pause:
->>>> +                seconds = atoi(optarg);
->>>> +                printf("Pausing %d seconds for debugger. QEMU PID is %d\n",
->>>> +                            seconds, getpid());
->>>> +                sleep(seconds);
->>>> +                break;
->>>>              case QEMU_OPTION_L:
->>>>                  if (is_help_option(optarg)) {
->>>>                      list_data_dirs = true;
->>>
->>>
+>>  gdbstub.c | 11 +++++++++--
+>>  1 file changed, 9 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/gdbstub.c b/gdbstub.c
+>> index f3a318c..2f0d9ff 100644
+>> --- a/gdbstub.c
+>> +++ b/gdbstub.c
+>> @@ -461,7 +461,9 @@ static inline void gdb_continue(void)
+>>  #else
+>>      if (!runstate_needs_reset()) {
+>>          trace_gdbstub_op_continue();
+>> -        vm_start();
+>> +        if (!runstate_check(RUN_STATE_SUSPENDED)) {
+>> +            vm_start();
+>> +        }
+>>      }
+>>  #endif
+>>  }
+>> @@ -490,7 +492,7 @@ static int gdb_continue_partial(char *newstates)
+>>      int flag = 0;
+>>  
+>>      if (!runstate_needs_reset()) {
+>> -        if (vm_prepare_start()) {
+>> +        if (!runstate_check(RUN_STATE_SUSPENDED) && vm_prepare_start()) {
+>>              return 0;
+>>          }
+>>  
+>> @@ -2835,6 +2837,9 @@ static void gdb_read_byte(uint8_t ch)
+>>          /* when the CPU is running, we cannot do anything except stop
+>>             it when receiving a char */
+>>          vm_stop(RUN_STATE_PAUSED);
+>> +    } else if (runstate_check(RUN_STATE_SUSPENDED) && ch == 3) {
+>> +        /* Received ctrl-c from gdb */
+>> +        gdb_vm_state_change(0, 0, RUN_STATE_PAUSED);
+>>      } else
+>>  #endif
+>>      {
+>> @@ -3282,6 +3287,8 @@ static void gdb_sigterm_handler(int signal)
+>>  {
+>>      if (runstate_is_running()) {
+>>          vm_stop(RUN_STATE_PAUSED);
+>> +    } else if (runstate_check(RUN_STATE_SUSPENDED)) {
+>> +        gdb_vm_state_change(0, 0, RUN_STATE_PAUSED);
+>>      }
+>>  }
+>>  #endif
+>> -- 
+>> 1.8.3.1
 >>
 
