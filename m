@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59933276DDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:50:42 +0200 (CEST)
-Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E52B276DF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:54:47 +0200 (CEST)
+Received: from localhost ([::1]:50502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNth-00044j-Ci
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39120)
+	id 1kLNxe-0002Ut-JU
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTt-0001Jx-85
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59297)
+ id 1kLNTs-0001I2-IP
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTo-00066P-Mz
+ id 1kLNTp-00066g-R3
  for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939435;
+ s=mimecast20190719; t=1600939437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a0HGQw1MXerVeCfVWbsho895pJdZfvez29NetutVjys=;
- b=Z+IPDLCBvQYMd643lhXErb5Q2Iz2c3TKqCXYiEbxtDnjzqsMe6SLGILTQcROZWLy83VIpw
- SS3rTG5bTeiU+8t7EfIUzhK4clN+octYQyAvnNn/LuleGDvUW9OATQVfRqq2DB8g7Xa1FZ
- TYBZ4bENYJZ6C/1rJr10UeP/9XfLIDQ=
+ bh=tHKjbusthXD3rtEvGDNcQcsWVkEAA+X2aPa+9QCB1N8=;
+ b=TAYPO/V8FuNmu0EEF+YNltTJ/T3WnHiBJv6V08/L5TVheNxjqfC0BM+kIq+GoMM70vSlik
+ rULHmX8cJVVx3VfIDy7/rVXp61QDEN2DwllpFNPjnWCMo7F8PbAbfNd5owO561nPCazzWf
+ fC1b2mzSoptI7w/RS+IATkVqEWYOvYc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-KmrRWpcZP6SG2EJD78fEqQ-1; Thu, 24 Sep 2020 05:23:54 -0400
-X-MC-Unique: KmrRWpcZP6SG2EJD78fEqQ-1
+ us-mta-226-7g1wqgNJP_iGjwF8S7qDEQ-1; Thu, 24 Sep 2020 05:23:54 -0400
+X-MC-Unique: 7g1wqgNJP_iGjwF8S7qDEQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36CA2104D3E8
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8162C81F00B
  for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:53 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9FE15C22B;
- Thu, 24 Sep 2020 09:23:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50AA75C22B
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:53 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 50/92] ui: relocate paths to icons and translations
-Date: Thu, 24 Sep 2020 05:22:32 -0400
-Message-Id: <20200924092314.1722645-51-pbonzini@redhat.com>
+Subject: [PULL 51/92] configure: use a platform-neutral prefix
+Date: Thu, 24 Sep 2020 05:22:33 -0400
+Message-Id: <20200924092314.1722645-52-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,100 +81,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Now that the installation is relocatable, there is no need to compile a
+Windows-format prefix into Win32 binaries.  Instead, the prefix will
+only be used to compute installation-relative paths, and it can be
+any string.
+
+Drop the "Program Files" path completely: it is only usable on English
+versions of Windows; therefore, using the NSIS installer to get the
+"correct" path to the Program Files folder is recommended, and NSIS
+works just as well with any prefix.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/gtk.c  | 10 ++++++++--
- ui/sdl2.c |  9 +++++++--
- 2 files changed, 15 insertions(+), 4 deletions(-)
+ configure | 30 +++++++++++-------------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 1c59de2af4..b11594d817 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -51,6 +51,7 @@
- #include <math.h>
+diff --git a/configure b/configure
+index 161d0604bb..fee5faa054 100755
+--- a/configure
++++ b/configure
+@@ -969,7 +969,7 @@ if test "$mingw32" = "yes" ; then
+   # MinGW needs -mthreads for TLS and macro _MT.
+   CFLAGS="-mthreads $CFLAGS"
+   write_c_skeleton;
+-  prefix="c:/Program Files/QEMU"
++  prefix="/qemu"
+   qemu_suffix=""
+   libs_qga="-lws2_32 -lwinmm -lpowrprof -lwtsapi32 -lwininet -liphlpapi -lnetapi32 $libs_qga"
+ fi
+@@ -7802,17 +7802,9 @@ echo "strip = $(meson_quote $strip)" >> $cross
+ echo "windres = $(meson_quote $windres)" >> $cross
+ if test -n "$cross_prefix"; then
+     cross_arg="--cross-file config-meson.cross"
+-    # Hack: Meson expects an absolute path for the *build* machine
+-    # for the prefix, so add a slash in front of a Windows path that
+-    # includes a drive letter.
+-    #
+-    # See https://github.com/mesonbuild/meson/issues/7577.
+     echo "[host_machine]" >> $cross
+     if test "$mingw32" = "yes" ; then
+         echo "system = 'windows'" >> $cross
+-        case $prefix in
+-            ?:*) pre_prefix=/ ;;
+-        esac
+     fi
+     if test "$linux" = "yes" ; then
+         echo "system = 'linux'" >> $cross
+@@ -7841,16 +7833,16 @@ mv $cross config-meson.cross
  
- #include "trace.h"
-+#include "qemu/cutils.h"
- #include "ui/input.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-@@ -2202,6 +2203,7 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     GtkDisplayState *s = g_malloc0(sizeof(*s));
-     GdkDisplay *window_display;
-     GtkIconTheme *theme;
-+    char *dir;
- 
-     if (!gtkinit) {
-         fprintf(stderr, "gtk initialization failed\n");
-@@ -2211,7 +2213,9 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     s->opts = opts;
- 
-     theme = gtk_icon_theme_get_default();
--    gtk_icon_theme_prepend_search_path(theme, CONFIG_QEMU_ICONDIR);
-+    dir = get_relocated_path(CONFIG_QEMU_ICONDIR);
-+    gtk_icon_theme_prepend_search_path(theme, dir);
-+    g_free(dir);
-     g_set_prgname("qemu");
- 
-     s->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-@@ -2227,7 +2231,9 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-      * sure that we don't accidentally break implicit assumptions.  */
-     setlocale(LC_MESSAGES, "");
-     setlocale(LC_CTYPE, "C.UTF-8");
--    bindtextdomain("qemu", CONFIG_QEMU_LOCALEDIR);
-+    dir = get_relocated_path(CONFIG_QEMU_LOCALEDIR);
-+    bindtextdomain("qemu", dir);
-+    g_free(dir);
-     bind_textdomain_codeset("qemu", "UTF-8");
-     textdomain("qemu");
- 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index b23a8f0a8e..abad7f981e 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -25,6 +25,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-+#include "qemu/cutils.h"
- #include "ui/console.h"
- #include "ui/input.h"
- #include "ui/sdl2.h"
-@@ -795,6 +796,7 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
-     int i;
-     SDL_SysWMinfo info;
-     SDL_Surface *icon = NULL;
-+    char *dir;
- 
-     assert(o->type == DISPLAY_TYPE_SDL);
- 
-@@ -868,15 +870,18 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
-     }
- 
- #ifdef CONFIG_SDL_IMAGE
--    icon = IMG_Load(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
-+    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
-+    icon = IMG_Load(dir);
- #else
-     /* Load a 32x32x4 image. White pixels are transparent. */
--    icon = SDL_LoadBMP(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
-+    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
-+    icon = SDL_LoadBMP(dir);
-     if (icon) {
-         uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
-         SDL_SetColorKey(icon, SDL_TRUE, colorkey);
-     }
- #endif
-+    g_free(dir);
-     if (icon) {
-         SDL_SetWindowIcon(sdl2_console[0].real_window, icon);
-     }
+ rm -rf meson-private meson-info meson-logs
+ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+-        --prefix "${pre_prefix}$prefix" \
+-        --libdir "${pre_prefix}$libdir" \
+-        --libexecdir "${pre_prefix}$libexecdir" \
+-        --bindir "${pre_prefix}$bindir" \
+-        --includedir "${pre_prefix}$includedir" \
+-        --datadir "${pre_prefix}$datadir" \
+-        --mandir "${pre_prefix}$mandir" \
+-        --sysconfdir "${pre_prefix}$sysconfdir" \
+-        --localstatedir "${pre_prefix}$local_statedir" \
+-        -Ddocdir="${pre_prefix}$docdir" \
++        --prefix "$prefix" \
++        --libdir "$libdir" \
++        --libexecdir "$libexecdir" \
++        --bindir "$bindir" \
++        --includedir "$includedir" \
++        --datadir "$datadir" \
++        --mandir "$mandir" \
++        --sysconfdir "$sysconfdir" \
++        --localstatedir "$local_statedir" \
++        -Ddocdir="$docdir" \
+         -Dqemu_suffix="$qemu_suffix" \
+         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
+         -Ddebug=$(if test "$debug_info" = yes; then echo true; else echo false; fi) \
 -- 
 2.26.2
 
