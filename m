@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3B627772A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:49:02 +0200 (CEST)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912B5277734
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:51:09 +0200 (CEST)
+Received: from localhost ([::1]:50870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLUQX-0007q3-N6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34434)
+	id 1kLUSa-0002I2-JH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kLU3I-0002z5-92; Thu, 24 Sep 2020 12:25:00 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:51166)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLU98-0000UO-59
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:31:02 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:35059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kLU38-0006rO-1V; Thu, 24 Sep 2020 12:24:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=i6gwJIsQ/qIqV5Nk+VlCa3t4ilv9iZ3+C3tdTbYAGgw=; 
- b=NhiXyCeEy1uptr1ACP04oj35fw3xA8FmEmbATTn/n1i6i7ld8ZuoMgR7r1eYdylUt4bGKAfqIarAdJQ6fTO5Cvny2Eq9rhBsoBCbQueLTvUyErBrW+nKlrA6JkpqXYCrbw1b9uShmY4q/aMFA7pbL4DBHnOvtrM0GwzKsrI56wyYwMxzmf+iWquC+NPa/KeA2q5geLuPhRJnb1/S3MpTzTpwXEGJpNnwW1YSuxuuWwD04g3AfeP14Ll7UXOuleDfSYOx71TAhw9PNdKi0p11HgG/R7ONFGAov+Mojdsb7oA5zO/p0H5uhZ4RaumJFvQc9GkJ5i6ZspFyXdLG8h3FCw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kLU33-0000Aj-Er; Thu, 24 Sep 2020 18:24:45 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kLU33-0004g4-56; Thu, 24 Sep 2020 18:24:45 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH v6 5/5] iotests: add commit top->base cases to 274
-In-Reply-To: <20200916122008.20303-6-vsementsov@virtuozzo.com>
-References: <20200916122008.20303-1-vsementsov@virtuozzo.com>
- <20200916122008.20303-6-vsementsov@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 24 Sep 2020 18:24:45 +0200
-Message-ID: <w51y2kzp2gi.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLU8x-0007yg-HL
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:31:01 -0400
+Received: by mail-ed1-x543.google.com with SMTP id i1so4038962edv.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IRNkYVVdTJqkW+fzx2E7a2yoazXAtLwAc86CU6vEGFs=;
+ b=MGPyQTuaiXAursdR6NGhnruLTGZuEUY7Qt5lOZgQ9HqGGKLdYxI7hcRudjXb/4rboQ
+ W4XfRn6bF3o+KlhPDsleaLV61pClVZ5UoLkRNqGVTrkrAV37x6gFLNbAzC/Vgz0dgXEm
+ 4FXghu1nC2s0KP6LXAsPB2We7ix+db9Yi4yjVBk7PvEdoXdn2Akc0jWKVJj0DJHAc/Rt
+ Ns98vNBl8P+1vBTJ2HZVfWt9NrVKiKAI72BLN0pVbpJMQKDRlG/fSp0dZVVdGrlbOtjK
+ HKeNlLhZE9iA0j7Kn6dyeTmwhNA/CQc2c5sXueH3jiFMcLE+lVmpvZq3HASLcMTuRoxD
+ E5Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IRNkYVVdTJqkW+fzx2E7a2yoazXAtLwAc86CU6vEGFs=;
+ b=lpQ5mtPpasBuahK9LvLUhNK2cAVPWdpzoUmf8+GOC4VUvls4pLQyoaXk1YTYFBrEys
+ UGhHwkHdU1fVaXXQhHkr+JH+1tn1ME45k4HJuyQPZMhYQ/mNoMGCs+hNhm9p7JkF0YL4
+ 6wyCQJ7DqlxAhe2XYpiTput1edtEqaO22b/zynffj2ArIfnUc8oNENm8T+3LnnKRSzNP
+ jESeA+eH+klT/8q5tsONInvrxSW+K69cK5e/zOI7rCM7M6hCoA6MDo13dVLxPKbmfJSb
+ RH3FFxG2cs6pUvQIuo/HeYP6Ak5a/1JaE01OT/6ckR177nqJkLtxLLUO0e/ACDoH03VL
+ KdnA==
+X-Gm-Message-State: AOAM531Sv5OdxhAXzs6BIo40L5Eldd2GXfJ6yv0pA7+XhNtaJ6Rxx/vs
+ ZZcZPYbI2Oj/3p2lQR9klTHPBh1+EZN9Je2yjGGvLg==
+X-Google-Smtp-Source: ABdhPJzI2VDaf9EHh2dDsXwX7zu0ZWAKavLPwUekQEZqcabQ/ov0v0F46RwRmeXSGD++Ruk4KGAKLUt17pfZ72JEbDI=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr817833edm.100.1600965048820; 
+ Thu, 24 Sep 2020 09:30:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 12:20:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+References: <20200810195019.25427-1-peter.maydell@linaro.org>
+ <20200810195019.25427-10-peter.maydell@linaro.org>
+ <875z8t913t.fsf@dusky.pond.sub.org>
+ <CAFEAcA_X6gA7XTAXwcCLa-08UWpwg_AhBVKyTfsDrq53R4rH0A@mail.gmail.com>
+In-Reply-To: <CAFEAcA_X6gA7XTAXwcCLa-08UWpwg_AhBVKyTfsDrq53R4rH0A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Sep 2020 17:30:37 +0100
+Message-ID: <CAFEAcA-7BW-FabdC4YmnKbG0D9yUfbBcxOeFeKHac05qkUn9cQ@mail.gmail.com>
+Subject: Re: [PATCH v5 09/20] docs/sphinx: Add new qapi-doc Sphinx extension
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,19 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 16 Sep 2020 02:20:08 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
-> These cases are fixed by previous patches around block_status and
-> is_allocated.
+On Mon, 21 Sep 2020 at 19:06, Peter Maydell <peter.maydell@linaro.org> wrote:
+> (I've just noticed that with Sphinx 1.6, which we still have
+> to support, the file/line info isn't passed through, so you get:
 >
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Warning, treated as error:
+> /home/petmay01/linaro/qemu-from-laptop/qemu/docs/interop/qemu-qmp-ref.rst:7:Bullet
+> list ends without a blank line; unexpected unindent.
+>
+> The plugin has code borrowed from kerneldoc.py which is
+> *supposed* to handle the older API Sphinx 1.6 used, but it
+> looks like it's broken. I'll have a look and see if it
+> is fixable, but possibly we may have to live with people
+> developing on old distros getting suboptimal errors.)
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+Tracked down the cause of this -- it turns out that if you
+feed nested_parse_with_titles() bogus rST then in some
+cases it will detect the error with a line number that's
+one off the end of the input text, eg on the 2 lines:
+0: * a bulleted list
+1: a misindented line
 
-Berto
+there's a syntax error here where line 1 is misindented,
+but at least Sphinx 1.6 wants to attribute the error to a
+nonexistent line 2, which then doesn't match in the
+input-lines-to-source-info mapping for the fragment
+and so gets reported for the next level out (the .rst file).
+It just happened that the syntax error I used to test the
+file/line reporting this time around was one of this kind.
+I assume Sphinx 3 either gets the line attribution more
+accurate or is not using the same mechanism for finding
+the input line in the source mapping.
+
+The fix is just to always add a blank line at the end of
+every .rst fragment we hand to the Sphinx parser, which
+doesn't affect the generated output and does sidestep this
+issue.
+
+thanks
+-- PMM
 
