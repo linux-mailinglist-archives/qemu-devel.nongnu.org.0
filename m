@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEDE276EA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:24:34 +0200 (CEST)
-Received: from localhost ([::1]:38096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F192F276ECF
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:33:47 +0200 (CEST)
+Received: from localhost ([::1]:55122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOQU-0004Ez-1b
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
+	id 1kLOZO-0003tW-ST
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:33:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLOOy-0002o9-Mi; Thu, 24 Sep 2020 06:23:00 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:41761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLOOv-00056T-Jw; Thu, 24 Sep 2020 06:23:00 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.2])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id B9C656503021;
- Thu, 24 Sep 2020 12:22:53 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 24 Sep
- 2020 12:22:53 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005e7bd09cb-e0f7-4379-bf6f-592e728fbe44,
- 85AEC8A2294FDACAA0F214F2A1981C2CEEF9973D) smtp.auth=groug@kaod.org
-Date: Thu, 24 Sep 2020 12:22:51 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 5/6] spapr_numa: consider user input when defining
- associativity
-Message-ID: <20200924122251.1edc5113@bahia.lan>
-In-Reply-To: <20200923193458.203186-6-danielhb413@gmail.com>
-References: <20200923193458.203186-1-danielhb413@gmail.com>
- <20200923193458.203186-6-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLNVB-0003n1-0j
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52449)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLNV8-0006NK-EY
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600939517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Wtn0zs2Bvt9Ou/bX6IswD+k7Mmv08NFq+4EixhnIrIA=;
+ b=SpJD1WnVQihd4pgYUmNroe5MApBzdMnTOaS9gKHfAfbmlz4dWAaVDIftVdN8mRVathpaCg
+ dqPiDQdv0VI0QLhPp/Yl5LgA0AR//823pYFM7s7xCAIqsCrUQd0lOHcH7KxAgnmYIrt/+0
+ bqks8S5xuRojF5f7Tm+DqSRbOKsoZz8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-ldLpfjghOUm3UGrUtr-SKg-1; Thu, 24 Sep 2020 05:24:57 -0400
+X-MC-Unique: ldLpfjghOUm3UGrUtr-SKg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40EB61882FA7;
+ Thu, 24 Sep 2020 09:24:56 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E781955764;
+ Thu, 24 Sep 2020 09:24:55 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 91/92] hw/net/can: Documentation for CTU CAN FD IP open
+ hardware core emulation.
+Date: Thu, 24 Sep 2020 05:23:13 -0400
+Message-Id: <20200924092314.1722645-92-pbonzini@redhat.com>
+In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
+References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: e512c780-381a-45a8-80e3-b539f6a394a6
-X-Ovh-Tracer-Id: 8321807687948409312
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudekgddvlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeegffehgeejgedvjeeuveelieffkeehgefhieejteevudekheduteelhfetfefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 06:22:54
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,192 +82,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Sep 2020 16:34:57 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 
-> This patch puts all the pieces together to finally allow user
-> input when defining the NUMA topology of the spapr guest.
-> 
-> We have one more kernel restriction to handle in this patch:
-> the associativity array of node 0 must be filled with zeroes
-> [1]. The strategy below ensures that this will happen.
-> 
-> spapr_numa_define_associativity_domains() will read the distance
-> (already PAPRified) between the nodes from numa_state and determine
-> the appropriate NUMA level. The NUMA domains, processed in ascending
-> order, are going to be matched via NUMA levels, and the lowest
-> associativity domain value is assigned to that specific level for
-> both.
-> 
-> This will create an heuristic where the associativities of the first
-> nodes have higher priority and are re-used in new matches, instead of
-> overwriting them with a new associativity match. This is necessary
-> because neither QEMU, nor the pSeries kernel, supports multiple
-> associativity domains for each resource, meaning that we have to
-> decide which associativity relation is relevant.
-> 
-> Ultimately, all of this results in a best effort approximation for
-> the actual NUMA distances the user input in the command line. Given
-> the nature of how PAPR itself interprets NUMA distances versus the
-> expectations risen by how ACPI SLIT works, there might be better
-> algorithms but, in the end, it'll also result in another way to
-> approximate what the user really wanted.
-> 
-> To keep this commit message no longer than it already is, the next
-> patch will update the existing documentation in ppc-spapr-numa.rst
-> with more in depth details and design considerations/drawbacks.
-> 
-> [1] https://lore.kernel.org/linuxppc-dev/5e8fbea3-8faf-0951-172a-b41a2138fbcf@gmail.com/
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr_numa.c | 81 ++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 80 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 688391278e..c84f77cda7 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -80,12 +80,79 @@ static void spapr_numa_PAPRify_distances(MachineState *ms)
->      }
->  }
->  
-> +static uint8_t spapr_numa_get_NUMA_level(uint8_t distance)
+Updated MAINTAINERS for CAN bus related emulation as well.
 
-The funky naming doesn't improve clarity IMHO. I'd rather make
-it lowercase only.
+Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Message-Id: <6d1b8db69efc4e5cfad702d2150e1960e8f63572.1600069689.git.pisa@cmp.felk.cvut.cz>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ MAINTAINERS  |   9 ++++
+ docs/can.txt | 113 ++++++++++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 111 insertions(+), 11 deletions(-)
 
-> +{
-> +    uint8_t numa_level;
-> +
-> +    switch (distance) {
-> +    case 20:
-> +        numa_level = 0x3;
-> +        break;
-> +    case 40:
-> +        numa_level = 0x2;
-> +        break;
-> +    case 80:
-> +        numa_level = 0x1;
-> +        break;
-> +    default:
-> +        numa_level = 0;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 40e6133022..3d32d82cab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2089,6 +2089,15 @@ F: hw/rx/
+ F: include/hw/intc/rx_icu.h
+ F: include/hw/rx/
+ 
++CAN bus subsystem and hardware
++M: Pavel Pisa <pisa@cmp.felk.cvut.cz>
++M: Vikram Garhwal <fnu.vikram@xilinx.com>
++S: Maintained
++W: https://canbus.pages.fel.cvut.cz/
++F: net/can/*
++F: hw/net/can/*
++F: include/net/can_*.h
++
+ Subsystems
+ ----------
+ Audio
+diff --git a/docs/can.txt b/docs/can.txt
+index 11ed8f2d68..5838f6620c 100644
+--- a/docs/can.txt
++++ b/docs/can.txt
+@@ -8,13 +8,22 @@ can be connected to host system CAN API (at this time only Linux
+ SocketCAN is supported).
+ 
+ The concept of busses is generic and different CAN controllers
+-can be implemented for it but at this time only SJA1000 chip
+-controller is implemented.
++can be implemented.
++
++The initial submission implemented SJA1000 controller which
++is common and well supported by by drivers for the most operating
++systems.
+ 
+ The PCI addon card hardware has been selected as the first CAN
+ interface to implement because such device can be easily connected
+ to systems with different CPU architectures (x86, PowerPC, Arm, etc.).
+ 
++In 2020, CTU CAN FD controller model has been added as part
++of the bachelor theses of Jan Charvat. This controller is complete
++open-source/design/hardware solution. The core designer
++of the project is Ondrej Ille, the financial support has been
++provided by CTU, and more companies including Volkswagen subsidiaries.
++
+ The project has been initially started in frame of RTEMS GSoC 2013
+ slot by Jin Yang under our mentoring  The initial idea was to provide generic
+ CAN subsystem for RTEMS. But lack of common environment for code and RTEMS
+@@ -22,8 +31,8 @@ testing lead to goal change to provide environment which provides complete
+ emulated environment for testing and RTEMS GSoC slot has been donated
+ to work on CAN hardware emulation on QEMU.
+ 
+-Examples how to use CAN emulation
+-=================================
++Examples how to use CAN emulation for SJA1000 based borads
++==========================================================
+ 
+ When QEMU with CAN PCI support is compiled then one of the next
+ CAN boards can be selected
+@@ -90,18 +99,100 @@ traffic with "candump" command which is included in "can-utils".
+ 
+   candump can0
+ 
++CTU CAN FD support examples
++===========================
++
++This open-source core provides CAN FD support. CAN FD drames are
++delivered even to the host systems when SocketCAN interface is found
++CAN FD capable.
++
++The PCIe borad emulation is provided for now (the device identifier is
++ctucan_pci). The defauld build defines two CTU CAN FD cores
++on the board.
++
++Example how to connect the canbus0-bus (virtual wire) to the host
++Linux system (SocketCAN used) and to both CTU CAN FD cores emulated
++on the corresponding PCI card expects that host system CAN bus
++is setup according to the previous SJA1000 section.
++
++  qemu-system-x86_64 -enable-kvm -kernel /boot/vmlinuz-4.19.52+ \
++      -initrd ramdisk.cpio \
++      -virtfs local,path=shareddir,security_model=none,mount_tag=shareddir \
++      -vga cirrus \
++      -append "console=ttyS0" \
++      -object can-bus,id=canbus0-bus \
++      -object can-host-socketcan,if=can0,canbus=canbus0-bus,id=canbus0-socketcan \
++      -device ctucan_pci,canbus0=canbus0-bus,canbus1=canbus0-bus \
++      -nographic
++
++Setup of CTU CAN FD controller in a guest Linux system
++
++  insmod ctucanfd.ko || modprobe ctucanfd
++  insmod ctucanfd_pci.ko || modprobe ctucanfd_pci
++
++  for ifc in /sys/class/net/can* ; do
++    if [ -e  $ifc/device/vendor ] ; then
++      if ! grep -q 0x1760 $ifc/device/vendor ; then
++        continue;
++      fi
++    else
++      continue;
++    fi
++    if [ -e  $ifc/device/device ] ; then
++       if ! grep -q 0xff00 $ifc/device/device ; then
++         continue;
++       fi
++    else
++      continue;
++    fi
++    ifc=$(basename $ifc)
++    /bin/ip link set $ifc type can bitrate 1000000 dbitrate 10000000 fd on
++    /bin/ip link set $ifc up
++  done
++
++The test can run for example
++
++  candump can1
++
++in the guest system and next commands in the host system for basic CAN
++
++  cangen can0
++
++for CAN FD without bitrate switch
++
++  cangen can0 -f
++
++and with bitrate switch
++
++  cangen can0 -b
++
++The test can be run viceversa, generate messages in the guest system and capture them
++in the host one and much more combinations.
++
+ Links to other resources
+ ========================
+ 
+- (1) Repository with development branch can-pci at Czech Technical University
+-     https://gitlab.fel.cvut.cz/canbus/qemu-canbus
+- (2) GitHub repository with can-pci and our other changes included
++ (1) CAN related projects at Czech Technical University, Faculty of Electrical Engineering
++     http://canbus.pages.fel.cvut.cz/
++ (2) Repository with development can-pci branch at Czech Technical University
+      https://gitlab.fel.cvut.cz/canbus/qemu-canbus
+  (3) RTEMS page describing project
+      https://devel.rtems.org/wiki/Developer/Simulators/QEMU/CANEmulation
+  (4) RTLWS 2015 article about the project and its use with CANopen emulation
+-     http://rtime.felk.cvut.cz/publications/public/rtlws2015-qemu-can.pdf
+-     Slides
+-     http://rtime.felk.cvut.cz/publications/public/rtlws2015-qemu-can-slides.pdf
+- (5) Linux SocketCAN utilities
++     http://cmp.felk.cvut.cz/~pisa/can/doc/rtlws-17-pisa-qemu-can.pdf
++ (5) GNU/Linux, CAN and CANopen in Real-time Control Applications
++     Slides from LinuxDays 2017 (include updated RTLWS 2015 content)
++     https://www.linuxdays.cz/2017/video/Pavel_Pisa-CAN_canopen.pdf
++ (6) Linux SocketCAN utilities
+      https://github.com/linux-can/can-utils/
++ (7) CTU CAN FD project including core VHDL design, Linux driver,
++     test utilities etc.
++     https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core
++ (8) CTU CAN FD Core Datasheet Documentation
++     http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/Progdokum.pdf
++ (9) CTU CAN FD Core System Architecture Documentation
++     http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/ctu_can_fd_architecture.pdf
++ (10) CTU CAN FD Driver Documentation
++     http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/driver_doc/ctucanfd-driver.html
++ (11) Integration with PCIe interfacing for Intel/Altera Cyclone IV based board
++     https://gitlab.fel.cvut.cz/canbus/pcie-ctu_can_fd
+-- 
+2.26.2
 
-Hmm... same level for distances 10 and 160 ? Is this correct ?
-
-> +    }
-> +
-> +    return numa_level;
-> +}
-> +
-> +static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr,
-> +                                                    MachineState *ms)
-
-Passing ms seems to indicate that it could have a different value than spapr,
-which is certainly no true.
-
-I'd rather make it a local variable:
-
-    MachineState *ms = MACHINE(spapr);
-
-This is an slow path : we don't really care to do dynamic type checking
-multiple times.
-
-> +{
-> +    int src, dst;
-> +    int nb_numa_nodes = ms->numa_state->num_nodes;
-> +    NodeInfo *numa_info = ms->numa_state->nodes;
-> +
-> +    for (src = 0; src < nb_numa_nodes; src++) {
-> +        for (dst = src; dst < nb_numa_nodes; dst++) {
-> +            /*
-> +             * This is how the associativity domain between A and B
-> +             * is calculated:
-> +             *
-> +             * - get the distance between them
-> +             * - get the correspondent NUMA level for this distance
-> +             * - the arrays were initialized with their own numa_ids,
-> +             * and we're calculating the distance in node_id ascending order,
-> +             * starting from node 0. This will have a cascade effect in the
-> +             * algorithm because the associativity domains that node 0 defines
-> +             * will be carried over to the other nodes, and node 1
-> +             * associativities will be carried over unless there's already a
-> +             * node 0 associativity assigned, and so on. This happens because
-> +             * we'll assign the lowest value of assoc_src and assoc_dst to be
-> +             * the associativity domain of both, for the given NUMA level.
-> +             *
-> +             * The PPC kernel expects the associativity domains of node 0 to
-> +             * be always 0, and this algorithm will grant that by default.
-> +             */
-> +            uint8_t distance = numa_info[src].distance[dst];
-> +            uint8_t n_level = spapr_numa_get_NUMA_level(distance);
-> +            uint32_t assoc_src, assoc_dst;
-> +
-> +            assoc_src = be32_to_cpu(spapr->numa_assoc_array[src][n_level]);
-> +            assoc_dst = be32_to_cpu(spapr->numa_assoc_array[dst][n_level]);
-> +
-> +            if (assoc_src < assoc_dst) {
-> +                spapr->numa_assoc_array[dst][n_level] = cpu_to_be32(assoc_src);
-> +            } else {
-> +                spapr->numa_assoc_array[src][n_level] = cpu_to_be32(assoc_dst);
-> +            }
-> +        }
-> +    }
-> +
-> +}
-> +
->  void spapr_numa_associativity_init(SpaprMachineState *spapr,
->                                     MachineState *machine)
->  {
->      SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
->      int nb_numa_nodes = machine->numa_state->num_nodes;
->      int i, j, max_nodes_with_gpus;
-> +    bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
->  
->      /*
->       * For all associativity arrays: first position is the size,
-> @@ -99,6 +166,17 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
->      for (i = 0; i < nb_numa_nodes; i++) {
->          spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
->          spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
-> +
-> +        /*
-> +         * Fill all associativity domains of the node with node_id.
-> +         * This is required because the kernel makes valid associativity
-
-It would be appreciated to have an URL to the corresponding code in the
-changelog.
-
-> +         * matches with the zeroes if we leave the matrix unitialized.
-> +         */
-> +        if (!using_legacy_numa) {
-> +            for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
-> +                spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
-> +            }
-> +        }
->      }
->  
->      /*
-> @@ -128,7 +206,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
->       * 1 NUMA node) will not benefit from anything we're going to do
->       * after this point.
->       */
-> -    if (spapr_machine_using_legacy_numa(spapr)) {
-> +    if (using_legacy_numa) {
->          return;
->      }
->  
-> @@ -139,6 +217,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
->      }
->  
->      spapr_numa_PAPRify_distances(machine);
-> +    spapr_numa_define_associativity_domains(spapr, machine);
->  }
->  
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
 
 
