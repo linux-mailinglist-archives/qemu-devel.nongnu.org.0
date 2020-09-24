@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B208C276D40
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:27:28 +0200 (CEST)
-Received: from localhost ([::1]:44516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98EE276D79
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:29:38 +0200 (CEST)
+Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNXD-0005tS-PT
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38560)
+	id 1kLNZJ-0000vp-PC
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTQ-0000OG-0G
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35660)
+ id 1kLNTR-0000Sj-IV
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTN-0005zQ-VO
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:31 -0400
+ id 1kLNTO-0005zc-R3
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939409;
+ s=mimecast20190719; t=1600939410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dzjmF35dlyFzOb15QqMcVz9sDserx2bYpWxQksCTNGQ=;
- b=MkMNBCoMZlFre48Oz8PD7KteHelD67I/kLuCOMBfzFnzYz3momUSxaelhmARI4YQ6v7xV5
- kI071h0C8qH9EViSHOv/Q9srqKNpYJNfZznOWkphcZdSce9ut7L9QnJ3I8J+7TfIraDrfG
- vOX1v9vo6PUKez5mRpkcAeccXRaS19w=
+ bh=BVUtANjjJAOUj+sApXU7EHfxl0s2tDWXVLBvDDF3Az8=;
+ b=NZqeWw1K2aNsbZKb3OYcm5lUDg4THp2MuZkign/ACR4xV8W1OuQ9VLGTI0dneGiHZXUc9T
+ IdpofUdO8tKZIGCxPbL5eFqeEI7xemjAe8AZdTwg+bYSYvpbdnjFXNE33z/QoTCp/9OHBG
+ nVInAwqBF+v+WbMB2JPqKfZnOmBekd4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-vxQmr6SOP92n7re3OWkWoQ-1; Thu, 24 Sep 2020 05:23:26 -0400
-X-MC-Unique: vxQmr6SOP92n7re3OWkWoQ-1
+ us-mta-446-Wvku3orlPCWAHcZ-EycUbA-1; Thu, 24 Sep 2020 05:23:27 -0400
+X-MC-Unique: Wvku3orlPCWAHcZ-EycUbA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8F68800475;
- Thu, 24 Sep 2020 09:23:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1AD31891E80;
+ Thu, 24 Sep 2020 09:23:26 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 671EB9CBA;
- Thu, 24 Sep 2020 09:23:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 919D69CBA;
+ Thu, 24 Sep 2020 09:23:26 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/92] memory: Convert IOMMUMemoryRegionClass doc comment to
- kernel-doc
-Date: Thu, 24 Sep 2020 05:21:52 -0400
-Message-Id: <20200924092314.1722645-11-pbonzini@redhat.com>
+Subject: [PULL 12/92] acpi: i386: Move VMBus DSDT entry to SB
+Date: Thu, 24 Sep 2020 05:21:54 -0400
+Message-Id: <20200924092314.1722645-13-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +56,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -82,157 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+From: Jon Doron <arilou@gmail.com>
 
-Convert the existing documentation comments of
-IOMMUMemoryRegionClass to kernel-doc format so their contents
-will appear in the API reference at docs/devel/memory.html.
-
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200908201129.3407568-1-ehabkost@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Jon Doron <arilou@gmail.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20200715084326.678715-2-arilou@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/exec/memory.h | 50 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 41 insertions(+), 9 deletions(-)
+ hw/i386/acpi-build.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index f1bb2a7df5..ec9edee742 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -228,8 +228,11 @@ enum IOMMUMemoryRegionAttr {
-  * attributes and the output TLB entry depends on the transaction
-  * attributes, we represent this using IOMMU indexes. Each index
-  * selects a particular translation table that the IOMMU has:
-+ *
-  *   @attrs_to_index returns the IOMMU index for a set of transaction attributes
-+ *
-  *   @translate takes an input address and an IOMMU index
-+ *
-  * and the mapping returned can only depend on the input address and the
-  * IOMMU index.
-  *
-@@ -238,10 +241,13 @@ enum IOMMUMemoryRegionAttr {
-  * for secure transactions and one for non-secure transactions.
-  */
- struct IOMMUMemoryRegionClass {
--    /* private */
-+    /* private: */
-     MemoryRegionClass parent_class;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 0e0535d2e3..60722fb8b0 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -975,7 +975,6 @@ static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
  
--    /*
-+    /* public: */
-+    /**
-+     * @translate:
-+     *
-      * Return a TLB entry that contains a given address.
-      *
-      * The IOMMUAccessFlags indicated via @flag are optional and may
-@@ -262,26 +268,38 @@ struct IOMMUMemoryRegionClass {
-      * information when the IOMMU mapping changes.
-      *
-      * @iommu: the IOMMUMemoryRegion
-+     *
-      * @hwaddr: address to be translated within the memory region
--     * @flag: requested access permissions
-+     *
-+     * @flag: requested access permission
-+     *
-      * @iommu_idx: IOMMU index for the translation
-      */
-     IOMMUTLBEntry (*translate)(IOMMUMemoryRegion *iommu, hwaddr addr,
-                                IOMMUAccessFlags flag, int iommu_idx);
--    /* Returns minimum supported page size in bytes.
-+    /**
-+     * @get_min_page_size:
-+     *
-+     * Returns minimum supported page size in bytes.
-+     *
-      * If this method is not provided then the minimum is assumed to
-      * be TARGET_PAGE_SIZE.
-      *
-      * @iommu: the IOMMUMemoryRegion
-      */
-     uint64_t (*get_min_page_size)(IOMMUMemoryRegion *iommu);
--    /* Called when IOMMU Notifier flag changes (ie when the set of
-+    /**
-+     * @notify_flag_changed:
-+     *
-+     * Called when IOMMU Notifier flag changes (ie when the set of
-      * events which IOMMU users are requesting notification for changes).
-      * Optional method -- need not be provided if the IOMMU does not
-      * need to know exactly which events must be notified.
-      *
-      * @iommu: the IOMMUMemoryRegion
-+     *
-      * @old_flags: events which previously needed to be notified
-+     *
-      * @new_flags: events which now need to be notified
-      *
-      * Returns 0 on success, or a negative errno; in particular
-@@ -293,7 +311,10 @@ struct IOMMUMemoryRegionClass {
-                                IOMMUNotifierFlag old_flags,
-                                IOMMUNotifierFlag new_flags,
-                                Error **errp);
--    /* Called to handle memory_region_iommu_replay().
-+    /**
-+     * @replay:
-+     *
-+     * Called to handle memory_region_iommu_replay().
-      *
-      * The default implementation of memory_region_iommu_replay() is to
-      * call the IOMMU translate method for every page in the address space
-@@ -310,7 +331,10 @@ struct IOMMUMemoryRegionClass {
-      */
-     void (*replay)(IOMMUMemoryRegion *iommu, IOMMUNotifier *notifier);
+ static void build_isa_devices_aml(Aml *table)
+ {
+-    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+     bool ambiguous;
+     Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
+     Aml *scope;
+@@ -986,10 +985,6 @@ static void build_isa_devices_aml(Aml *table)
+     build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
+     isa_build_aml(ISA_BUS(obj), scope);
  
--    /* Get IOMMU misc attributes. This is an optional method that
-+    /**
-+     * @get_attr:
-+     *
-+     * Get IOMMU misc attributes. This is an optional method that
-      * can be used to allow users of the IOMMU to get implementation-specific
-      * information. The IOMMU implements this method to handle calls
-      * by IOMMU users to memory_region_iommu_get_attr() by filling in
-@@ -319,7 +343,9 @@ struct IOMMUMemoryRegionClass {
-      * memory_region_iommu_get_attr() will always return -EINVAL.
-      *
-      * @iommu: the IOMMUMemoryRegion
-+     *
-      * @attr: attribute being queried
-+     *
-      * @data: memory to fill in with the attribute data
-      *
-      * Returns 0 on success, or a negative errno; in particular
-@@ -328,7 +354,10 @@ struct IOMMUMemoryRegionClass {
-     int (*get_attr)(IOMMUMemoryRegion *iommu, enum IOMMUMemoryRegionAttr attr,
-                     void *data);
+-    if (vmbus_bridge) {
+-        aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
+-    }
+-
+     aml_append(table, scope);
+ }
  
--    /* Return the IOMMU index to use for a given set of transaction attributes.
-+    /**
-+     * @attrs_to_index:
-+     *
-+     * Return the IOMMU index to use for a given set of transaction attributes.
-      *
-      * Optional method: if an IOMMU only supports a single IOMMU index then
-      * the default implementation of memory_region_iommu_attrs_to_index()
-@@ -341,7 +370,10 @@ struct IOMMUMemoryRegionClass {
-      */
-     int (*attrs_to_index)(IOMMUMemoryRegion *iommu, MemTxAttrs attrs);
+@@ -1485,6 +1480,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     PCIBus *bus = NULL;
+     TPMIf *tpm = tpm_find();
+     int i;
++    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
  
--    /* Return the number of IOMMU indexes this IOMMU supports.
-+    /**
-+     * @num_indexes:
-+     *
-+     * Return the number of IOMMU indexes this IOMMU supports.
-      *
-      * Optional method: if this method is not provided, then
-      * memory_region_iommu_num_indexes() will return 1, indicating that
+     dsdt = init_aml_allocator();
+ 
+@@ -1526,6 +1522,12 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         }
+     }
+ 
++    if (vmbus_bridge) {
++        sb_scope = aml_scope("_SB");
++        aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
++        aml_append(dsdt, sb_scope);
++    }
++
+     if (pcmc->legacy_cpu_hotplug) {
+         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
+     } else {
 -- 
 2.26.2
 
