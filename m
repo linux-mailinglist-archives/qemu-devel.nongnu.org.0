@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E64C277AA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 22:44:29 +0200 (CEST)
-Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F84B277AD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 22:57:30 +0200 (CEST)
+Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLY6N-0003VS-UK
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 16:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37890)
+	id 1kLYIz-0002Gy-2l
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 16:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLY4c-0002WB-UJ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 16:42:40 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:40816)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLY7M-0004Pq-Up; Thu, 24 Sep 2020 16:45:28 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:34723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLY4a-0007Sn-7g
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 16:42:38 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OKdMso141605;
- Thu, 24 Sep 2020 20:42:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=PRfuYakB0fWApPGo/AgAWPmvBPJQyHklWcGUA/0lSIo=;
- b=CLKWv3lZ78MRG2N48Id/W90q8AzhhmMOvvBUoeXveStsBbs8BPTWejf/CVBqB+ycOOxl
- 1hi2gRCPJ9HgDidyQvIA3egy80U/RJkdBmvBCII7rLbBwKbOE18GiTaONpe3JIyd5Rao
- 0jWjwwmbO/75iwprJJzYdIu6wA8ApmXxcKtoJrYYZS3YTKL+kbsWV/fxGWcbyj7RPyfG
- wBJza0sdbIkoVB9uJyIoNt4x7Vg8yV61SgmvY9px16n9Qkw/9MyRMTFe9OLxgwR3BbNb
- piOoFyMEpXxd+MKFXrOcjGOij0qQoKW2klIs6wZ/L0AV8gopV0cDUloTpQh7PmsPoKEt ew== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 33q5rgrt4f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 20:42:30 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OKfUJi047070;
- Thu, 24 Sep 2020 20:42:29 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 33nux3djuc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 20:42:29 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08OKgRoF015092;
- Thu, 24 Sep 2020 20:42:27 GMT
-Received: from [10.39.244.100] (/10.39.244.100)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 13:42:27 -0700
-Subject: Re: [PATCH V1 11/32] cpu: disable ticks when suspended
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-12-git-send-email-steven.sistare@oracle.com>
- <20200911175318.GQ3310@work-vm>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <9b3fa2f8-2457-6c67-dd6e-c861cbd6f309@oracle.com>
-Date: Thu, 24 Sep 2020 16:42:25 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLY7J-0007gP-BF; Thu, 24 Sep 2020 16:45:28 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id A055058050A;
+ Thu, 24 Sep 2020 16:45:22 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Thu, 24 Sep 2020 16:45:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=1QikJUcbsmo2U
+ P6Df439yCuIR8yF+wYrAAq6TthCldM=; b=RBxRamU4/6xEzn9ZzUj4g0mkBznFG
+ MI30IndJOKgA3UeSjoo1w1hC8VhHpKhurbHUK4d2TTaLoWtph0+xut/8Y4WkHU5A
+ 0bI9ckGOAOjqj8wA+6ySsbKf8D/eUPvgTMSRp8c1gGqby2epw1lAMpTDjzAXpTbO
+ OqkBFMJDioYx6Ny58c2QgeAIoYIsTIfKgflP3/dLntuhbL2Rjj2nEFbjQTj8HNP7
+ XIodnANutTEO9efrZ5q8xbgnJnYSfhtAIxjNlijXQRScPYxzQ9jEytJ19P2LioXO
+ D179O1ocgeVj5sk759u+1v9LSAYYi7pmA0ifvWEGUX+bdoqjFXeN7JnHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=1QikJUcbsmo2UP6Df439yCuIR8yF+wYrAAq6TthCldM=; b=VNGqAy04
+ n2J6TDcgqBurMHtkvWxJN7bS/6pLst96EJZaAKZQAbMwUOePP1ieC1Dab9gD37TN
+ JbBaZG9rG6jLoh47NZcee7wenpWvB5YgnayWN2hMemVDP9AH3LTRjIb+dp+Orl/P
+ GqFdBaoZJwtJ56Dv48aSGCH1Tqec/g2UI9EkdoDLVDOCyv7SRmfPDbp4nfkSsN+N
+ H1jXNqR+yDpRpJ2B/Aujyf1SIkHFK4EFUzdF/QsFbX4IrI3cCRBJnusJyke5uwlV
+ THk86IW5zT5JOooka65ARCZCGfbVTXdJZUXIjQzkJ7PHZnPeWfl7YxsOqJ6a6iJa
+ Uuu6VwKrGa+U6w==
+X-ME-Sender: <xms:YAVtX-hbLtMmk3kUUGON1iV6wv8sD9ksOudCPRvnFgVCXY5IrrYGbg>
+ <xme:YAVtX_CtJcN7XILR3ZPELtC1C55Wlb5JUy3-DED3U_N5hqSWVDyXs2_44Y5nBhBwQ
+ X30oJhmAFXECaRLy-g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdduheduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:YAVtX2EH8WHZWk5RAULkiU_oMKr_Phyzz5aCzBXHsCaf9DxdhQLtSw>
+ <xmx:YAVtX3S2kHBYrlKW8FieLh7PRUWmYrHCkem0t8bK8F-0yvUyX1Q47A>
+ <xmx:YAVtX7yrvfiQKpebNhOQvRTEPVH00x2XXc_Les9sWcXCDZO1XI3GFg>
+ <xmx:YgVtX2qd6GJIPjLmEm2HYySm6kYeGw8qIgcEGSZD4eN1M2nd572SuQ>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 49A663064685;
+ Thu, 24 Sep 2020 16:45:19 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 01/16] hw/block/nvme: add nsid to get/setfeat trace events
+Date: Thu, 24 Sep 2020 22:45:01 +0200
+Message-Id: <20200924204516.1881843-2-its@irrelevant.dk>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200924204516.1881843-1-its@irrelevant.dk>
+References: <20200924204516.1881843-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20200911175318.GQ3310@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 adultscore=0
- bulkscore=0 mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009240151
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- impostorscore=0
- clxscore=1011 suspectscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240151
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 16:42:31
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 14:55:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,70 +94,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/2020 1:53 PM, Dr. David Alan Gilbert wrote:
-> * Steve Sistare (steven.sistare@oracle.com) wrote:
->> After cprload, the guest console misbehaves.  You must type 8 characters
->> before any are echoed to the terminal.  Qemu was not sending interrupts
->> to the guest because the QEMU_CLOCK_VIRTUAL timers_state.cpu_clock_offset
->> was bad.  The offset is usually updated at cprsave time by the path
->>
->>   save_cpr_snapshot()
->>     vm_stop()
->>       do_vm_stop()
->>         if (runstate_is_running())
->>           cpu_disable_ticks();
->>             timers_state.cpu_clock_offset = cpu_get_clock_locked();
->>
->> However, if the guest is in RUN_STATE_SUSPENDED, then cpu_disable_ticks is
->> not called.  Further, the earlier transition to suspended in
->> qemu_system_suspend did not disable ticks.  To fix, call cpu_disable_ticks
->> from save_cpr_snapshot.
->>
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> 
-> Are you saying this is really a more generic bug with migrating when
-> suspended and we should fix this anyway?
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Yes.  Or when suspended and calling save_vmstate(), or qmp_xen_save_devices_state().
-Each of those functions needs the same fix unless someone identifies a more
-centralized way in the state transition logic to disable ticks.
+Include the namespace id in the pci_nvme_{get,set}feat trace events.
 
-- Steve
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c       | 4 ++--
+ hw/block/trace-events | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
->> ---
->>  migration/savevm.c | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/migration/savevm.c b/migration/savevm.c
->> index f101039..00f493b 100644
->> --- a/migration/savevm.c
->> +++ b/migration/savevm.c
->> @@ -2729,6 +2729,11 @@ void save_cpr_snapshot(const char *file, const char *mode, Error **errp)
->>          return;
->>      }
->>  
->> +    /* Update timers_state before saving.  Suspend did not so do. */
->> +    if (runstate_check(RUN_STATE_SUSPENDED)) {
->> +        cpu_disable_ticks();
->> +    }
->> +
->>      vm_stop(RUN_STATE_SAVE_VM);
->>  
->>      ret = qemu_savevm_state(f, op, errp);
->> -- 
->> 1.8.3.1
->>
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index da8344f196a8..84b6b516fa7b 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1660,7 +1660,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+         [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
+     };
+ 
+-    trace_pci_nvme_getfeat(nvme_cid(req), fid, sel, dw11);
++    trace_pci_nvme_getfeat(nvme_cid(req), nsid, fid, sel, dw11);
+ 
+     if (!nvme_feature_support[fid]) {
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -1798,7 +1798,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+     uint8_t fid = NVME_GETSETFEAT_FID(dw10);
+     uint8_t save = NVME_SETFEAT_SAVE(dw10);
+ 
+-    trace_pci_nvme_setfeat(nvme_cid(req), fid, save, dw11);
++    trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
+ 
+     if (save) {
+         return NVME_FID_NOT_SAVEABLE | NVME_DNR;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 446cca08e9ab..5a239b80bf36 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -53,8 +53,8 @@ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+-pci_nvme_getfeat(uint16_t cid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
+-pci_nvme_setfeat(uint16_t cid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
++pci_nvme_getfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
++pci_nvme_setfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
+ pci_nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
+ pci_nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
+ pci_nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+-- 
+2.28.0
+
 
