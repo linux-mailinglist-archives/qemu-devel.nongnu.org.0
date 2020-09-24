@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEEA9277396
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 16:07:52 +0200 (CEST)
-Received: from localhost ([::1]:41692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612B02773AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 16:10:41 +0200 (CEST)
+Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLRuZ-0005CL-PW
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 10:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53158)
+	id 1kLRxI-0006l9-FE
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 10:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLRto-0004i3-Tj
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:07:05 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:33171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLRtl-00011w-VX
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:07:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Q0z63cNycRVrI9SgyDW16JMCMZVyifh0w06xrrB5Mjc=; b=TetO14YNLiIkx3EZHhiw+f6mBS
- Pxfe7LQLZ0SZOCdxbPPeax68i47ezJktUR7+McSYS6Vv8jkETrhx0510KdfpbE69utyQJN0FBgI91
- eM7eaGyE5CXVQC7hgue+4431PPvN8e01a/VClfvS1f/2RIUdCQsKibyijFMOLhZZVUS9HwMf9e6en
- T4f5KvaahbK1sZUwEShExcRTxnyOlfvISkdA+pCyShiMKKgQ15C74jgRdwnuAwC7RRt8FjxY1/Grz
- h2h8//uTE8lCT5UNJxRUy8A9Ci1WctICfBLOJjypTtTa5a8SJaG9Da0YadT7ComIENnWjlsJ++xvN
- +OOJZAgg==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: qtest with multiple driver instances
-Date: Thu, 24 Sep 2020 16:06:54 +0200
-Message-ID: <1695852.LfDqFqZZbD@silver>
-In-Reply-To: <7ae8f0cc-021e-d982-4d1d-a46afc37bf28@redhat.com>
-References: <4696583.mNQJtTt8NE@silver>
- <7ae8f0cc-021e-d982-4d1d-a46afc37bf28@redhat.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLRw1-0005um-0J
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:09:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLRvy-0001Ge-JY
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:09:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600956556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sJQtHgOyLWYK80fTmZRzuLxHaHw+KZcYJByzDKwyuBk=;
+ b=BmPj/ibg+Jz9xIm+Mzr8dMoF8WDBNlRkKHqtLfCnNcFLIhZUftyK2MBJAZHZDX9jpFLWQd
+ 9blvWVQ+vncX7yAm8i0bsTZsCs2Nu3Rkr3q4NjM/oPRkoyF7DzUgbgZCZPjPtbuq+MJmQy
+ JmPf7MMHvZnUOj/kTGEZ5654P8EtR4o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410--ylz-KWBODGLN5ERA4bwGQ-1; Thu, 24 Sep 2020 10:09:14 -0400
+X-MC-Unique: -ylz-KWBODGLN5ERA4bwGQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10059188C128;
+ Thu, 24 Sep 2020 14:09:12 +0000 (UTC)
+Received: from gondolin (ovpn-112-247.ams2.redhat.com [10.36.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E342B1002C06;
+ Thu, 24 Sep 2020 14:08:58 +0000 (UTC)
+Date: Thu, 24 Sep 2020 16:08:56 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v26 04/17] vfio: Add migration region initialization and
+ finalize function
+Message-ID: <20200924160856.1308e6f5.cohuck@redhat.com>
+In-Reply-To: <1600817059-26721-5-git-send-email-kwankhede@nvidia.com>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-5-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 10:06:55
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,50 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 24. September 2020 15:50:43 CEST Thomas Huth wrote:
-> On 24/09/2020 13.57, Christian Schoenebeck wrote:
-> > Hi,
-> > 
-> > I'm currently puzzled with what looks like a limitation of the qtest
-> > infrastructure: am I right that it's not possible to use multiple
-> > instances of the same driver with qtests?
-> > 
-> > Purpose: I need to add test cases for the 9p 'local' fs driver. So far we
-> > only have 9p qtests using the 'synth' fs driver. The problem is, both
-> > driver instances would pop up with the same QEMU driver name
-> > ("virtio-9p-pci"), and AFAICS qtests in general reference their driver
-> > instance by driver name only, which must be a) a unique driver name and
-> > b) must match the official QEMU driver name and c) all qtest driver
-> > instances are in a global space for all qtests.
-> > 
-> > Is there any workaround or something that I didn't see? Like letting
-> > qtests
-> > reference a driver instance by PCI address or something?
-> > 
-> > Right now the only option that I see is a hack: forcing one driver
-> > instance to use a different bus system like e.g. -> "virtio-9p-ccw" vs.
-> > "virtio-9p-pci".
-> > 
-> > Any hint appreciated!
+On Wed, 23 Sep 2020 04:54:06 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
+
+> Whether the VFIO device supports migration or not is decided based of
+> migration region query. If migration region query is successful and migration
+> region initialization is successful then migration is supported else
+> migration is blocked.
 > 
-> I assume you are referring to the "qos" framework within the qtests? I
-> hope Laurent, Paolo or Emanuele can help with that question (now all on
-> CC:)...
-> 
->  Thomas
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/vfio/meson.build           |   1 +
+>  hw/vfio/migration.c           | 142 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |   5 ++
+>  include/hw/vfio/vfio-common.h |   9 +++
+>  4 files changed, 157 insertions(+)
+>  create mode 100644 hw/vfio/migration.c
 
-Yes, it looks like it is based on the qos subsystem underneath, i.e.:
-tests/qtest/libqos/qgraph.h
+(...)
 
-Maybe I can use qos_node_contains() to make 2 "virtio-9p-pci" driver instances 
-accessible for different qtests? It just seems there is no existing code doing 
-that already, otherwise I could just copy & paste.
+> +static int vfio_migration_region_init(VFIODevice *vbasedev, int index)
+> +{
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    Object *obj = NULL;
+> +    int ret = -EINVAL;
+> +
+> +    obj = vbasedev->ops->vfio_get_object(vbasedev);
+> +    if (!obj) {
+> +        return ret;
+> +    }
+> +
+> +    ret = vfio_region_setup(obj, vbasedev, &migration->region, index,
+> +                            "migration");
+> +    if (ret) {
+> +        error_report("%s: Failed to setup VFIO migration region %d: %s",
+> +                     vbasedev->name, index, strerror(-ret));
+> +        goto err;
+> +    }
+> +
+> +    if (!migration->region.size) {
+> +        ret = -EINVAL;
+> +        error_report("%s: Invalid region size of VFIO migration region %d: %s",
+> +                     vbasedev->name, index, strerror(-ret));
 
-Best regards,
-Christian Schoenebeck
+Using strerror on a hardcoded error value is probably not terribly
+helpful. I think printing either region.size (if you plan to extend
+this check later) or something like "Invalid zero-sized VFIO migration
+region" would make more sense.
 
+> +        goto err;
+> +    }
+> +
+> +    return 0;
+> +
+> +err:
+> +    vfio_migration_region_exit(vbasedev);
+> +    return ret;
+> +}
+
+(...)
+
+Apart from that, looks good to me.
 
 
