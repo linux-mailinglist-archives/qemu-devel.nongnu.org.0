@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B3D276E4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:11:28 +0200 (CEST)
-Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F4C276E1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:03:34 +0200 (CEST)
+Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLODn-00029Z-9R
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39928)
+	id 1kLO69-0006Xb-0u
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNV3-0003Ug-Po
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42957)
+ id 1kLNUv-0003Nh-4S
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUo-0006Hn-1p
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:13 -0400
+ id 1kLNUm-0006HW-Bv
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939496;
+ s=mimecast20190719; t=1600939494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fCbXzKbX+672u5C2RfeVeIhHaht7A+MYCvhZQ6XVKkM=;
- b=EgxAeZhtJUZ4twGaMUSKp6F9EjYcP6j0QvHwlu6iOjGiwcFPZUSnR+w3VfaneuQjfB2HNE
- vhYymJEPpKCb1THXOHifTqKUqPPxUO67Y9aVCGDsBpLfNS2dBAiKCW74VL4aJBOP24amLH
- tdmVZHt9UPs5nnhBg/EfvMawp4jtDLw=
+ bh=gUhoTZ0x3F+69mKQh+X9V4uzzg/R6UFDfUeQRh/ugYg=;
+ b=DknfTQrnJQTKsZ0uaHb/Gy0fPAWCMmuR1uCTlV/t+puVVKa9QTJO+ZD1g1nCvDZHUKQeak
+ nM0m4p4PNy9bYn0TE6y+00CsCYTAXvaMwAzmD3NRI6sSV48CCZ75A4WvZsFK7jXvFtqxNK
+ 4ktZ4+oxaAAj2gQ5jbImhEtnQAOETQw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-Pz3WvosBN6W19VLTrkbeWg-1; Thu, 24 Sep 2020 05:24:51 -0400
-X-MC-Unique: Pz3WvosBN6W19VLTrkbeWg-1
+ us-mta-232-YknI5lcXPn6Z87h938HYaQ-1; Thu, 24 Sep 2020 05:24:52 -0400
+X-MC-Unique: YknI5lcXPn6Z87h938HYaQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAEA8104D3E3
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 225DB81F00F
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:51 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DBC855764;
- Thu, 24 Sep 2020 09:24:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBD6B55764
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:50 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 84/92] bios-tables-test: Remove kernel-irqchip=off option
-Date: Thu, 24 Sep 2020 05:23:06 -0400
-Message-Id: <20200924092314.1722645-85-pbonzini@redhat.com>
+Subject: [PULL 85/92] target/i386: kvm: do not use kvm_check_extension to find
+ paravirtual capabilities
+Date: Thu, 24 Sep 2020 05:23:07 -0400
+Message-Id: <20200924092314.1722645-86-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +59,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -81,44 +82,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+Paravirtualized features have been listed in KVM_GET_SUPPORTED_CPUID since
+Linux 2.6.35 (commit 84478c829d0f, "KVM: x86: export paravirtual cpuid flags
+in KVM_GET_SUPPORTED_CPUID", 2010-05-19).  It has been more than 10 years,
+so remove the fallback code.
 
-We don't need to use kernel-irqchip=off for irq0 override if IRQ
-routing is supported by the host, which is the case since 2009
-(IRQ routing was added to KVM in Linux v2.6.30).
-
-This is a more straightforward fix for Launchpad bug #1896263, as
-it doesn't require increasing the complexity of the MSR code.
-kernel-irqchip=off is for debugging only and there's no need to
-increase the complexity of the code just to work around an issue
-that was already fixed in the kernel.
-
-Fixes: https://bugs.launchpad.net/bugs/1896263
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200922194732.2100510-1-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/i386/kvm.c | 32 --------------------------------
+ 1 file changed, 32 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index a9c8d478ae..27e8f0a1cb 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -663,8 +663,7 @@ static void test_acpi_one(const char *params, test_data *data)
-             data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 4fc6e8b9d5..f6dae4cfb6 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -284,30 +284,6 @@ static struct kvm_cpuid2 *get_supported_cpuid(KVMState *s)
+     return cpuid;
+ }
  
-     } else {
--        /* Disable kernel irqchip to be able to override apic irq0. */
--        args = g_strdup_printf("-machine %s,kernel-irqchip=off %s -accel tcg "
-+        args = g_strdup_printf("-machine %s %s -accel tcg "
-             "-net none -display none %s "
-             "-drive id=hd0,if=none,file=%s,format=raw "
-             "-device %s,drive=hd0 ",
+-static const struct kvm_para_features {
+-    int cap;
+-    int feature;
+-} para_features[] = {
+-    { KVM_CAP_CLOCKSOURCE, KVM_FEATURE_CLOCKSOURCE },
+-    { KVM_CAP_NOP_IO_DELAY, KVM_FEATURE_NOP_IO_DELAY },
+-    { KVM_CAP_PV_MMU, KVM_FEATURE_MMU_OP },
+-    { KVM_CAP_ASYNC_PF, KVM_FEATURE_ASYNC_PF },
+-    { KVM_CAP_ASYNC_PF_INT, KVM_FEATURE_ASYNC_PF_INT },
+-};
+-
+-static int get_para_features(KVMState *s)
+-{
+-    int i, features = 0;
+-
+-    for (i = 0; i < ARRAY_SIZE(para_features); i++) {
+-        if (kvm_check_extension(s, para_features[i].cap)) {
+-            features |= (1 << para_features[i].feature);
+-        }
+-    }
+-
+-    return features;
+-}
+-
+ static bool host_tsx_broken(void)
+ {
+     int family, model, stepping;\
+@@ -367,13 +343,11 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+     struct kvm_cpuid2 *cpuid;
+     uint32_t ret = 0;
+     uint32_t cpuid_1_edx;
+-    bool found = false;
+ 
+     cpuid = get_supported_cpuid(s);
+ 
+     struct kvm_cpuid_entry2 *entry = cpuid_find_entry(cpuid, function, index);
+     if (entry) {
+-        found = true;
+         ret = cpuid_entry_get_reg(entry, reg);
+     }
+ 
+@@ -448,12 +422,6 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         }
+     } else if (function == KVM_CPUID_FEATURES && reg == R_EDX) {
+         ret |= 1U << KVM_HINTS_REALTIME;
+-        found = 1;
+-    }
+-
+-    /* fallback for older kernels */
+-    if ((function == KVM_CPUID_FEATURES) && !found) {
+-        ret = get_para_features(s);
+     }
+ 
+     return ret;
 -- 
 2.26.2
 
