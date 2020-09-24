@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEF8277B03
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:24:39 +0200 (CEST)
-Received: from localhost ([::1]:38638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A34277AF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:13:48 +0200 (CEST)
+Received: from localhost ([::1]:51700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLYjG-0002Uj-Hr
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:24:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
+	id 1kLYYl-0003nA-Du
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1kLYM7-0005TV-5f
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:00:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1kLYM5-0001Gh-5d
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:00:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600981238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ufFgUQNsm1SMYsivUN4mRC41fMvuY01sP8Gku0iLFQQ=;
- b=JU4xkN4k4EtWEAbIIE4RsFt4GejptSrW8TtUncYX3bx/lLD+cFVJbdi9+XfcBB1jll8VQi
- Z6mSNIns3J0stKVecvtkr6lo0XtPvQJiIghSbFNfjn2kWbXhIZqTc8zR3/BPth3Wp6I82g
- OM6S4aAdekGeBulLqaaFaBazAGTzR20=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-RreSihutN6yxV_YuSAWsOA-1; Thu, 24 Sep 2020 17:00:33 -0400
-X-MC-Unique: RreSihutN6yxV_YuSAWsOA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21D7810A7AE5
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 21:00:32 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-112-16.ams2.redhat.com [10.36.112.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94F7F78828;
- Thu, 24 Sep 2020 21:00:24 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: Fix build dependencies with vhost-vdpa.
-Date: Thu, 24 Sep 2020 23:00:23 +0200
-Message-Id: <20200924210023.160679-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLYTA-0001GQ-4H; Thu, 24 Sep 2020 17:08:00 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:57069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLYT7-00025N-VZ; Thu, 24 Sep 2020 17:07:59 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C5DD158049A;
+ Thu, 24 Sep 2020 17:07:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Thu, 24 Sep 2020 17:07:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=/GLl5N9ZXFy+GjT7ACdgXbtL440
+ A3Ecm8GuvlXJ5Q34=; b=XwvaDGgEMnnU7JuQ6znCY/UOzYJOaHDbW3rtW6WzAF4
+ o/gBqY4aUhV4kZapI4A3j6ZYRrKN2X1vr7TbR6HKSeaqBFWBuE1IHSWJcknP1mtn
+ 6X9KIIvjnMNkjo0ll/GkWx/nLQrfVF3WRUz1P743kxbYizy1uYUUPpzQHNKGz5JH
+ FsMiSOdyLkJx0cr+HQVw1EAZdvyfLRlaV1Gydg7iTpaxjghpNQkJDurFpK/syzYI
+ qqp3EQSbR/OMhgs4suHXAOFeSbNzqpZ8WZp3Jj+gXl8xcN2HaUgu/h0MLks68Mno
+ X82EiokJmuNsGlLe1vaMXUFHM2IZQJtZcLn5SnzxD+Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=/GLl5N
+ 9ZXFy+GjT7ACdgXbtL440A3Ecm8GuvlXJ5Q34=; b=GgZfZ9Pk9yMWQSWkQqigYF
+ reGdVBjSNQtH5zagmtZ4Ok/HodlnOL2GZmzxecnc8P8ra5BviKbqrz0oJWHtCaHh
+ gTekaf2BXIMQ6SEUdP/adGk4JbkkRQz5+Gn3HijTXWNlDTyoyfFlwICgJjZDQ85S
+ BRyhy2wy53Obp7lf0ifmvjKqt75+6HcP/eD7tm/bOiVzW0XE86tlnXzN/C55vPqQ
+ fW8aku++psbipRyEm5CWHGpLUlOdFqtI6o5KMKdHZxl5IKPzNlfcMKP4JPpRttvf
+ aSsGX+PKtdfRSZuUOs5lRJMywqpT8en0iMFARaYYFACNOpku3JtGLvmYOoPrdnWQ
+ ==
+X-ME-Sender: <xms:qwptXz704txH1hjuvpwKqrolN6sdzwQqVHTUD47PpuSYdId-RfYXyQ>
+ <xme:qwptX47OLynu04g1HpoqkLXEOGGNP4wFvbD9Gu-dJXOgttbpdhaMNte6pC9hXZ6Fo
+ FfSZLiP-RJPUHiy0Hk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdduheeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:qwptX6feNgPbPlGRhUS6mlo3jppx-49jOUYqcM9SkeHySZp-MJENZQ>
+ <xmx:qwptX0JDPgNwFkRMrvSwnuCdYeGNDE-HtWEE1udOFLELj7Y4g3Oq8A>
+ <xmx:qwptX3KzC8sYBYFycoIjaAu6dDKKtmdBtw7_gMQrP11hZJsuybsNsQ>
+ <xmx:rAptX5wx9OBh7JKMt2QZDFh7BhpksHreVzWt9Q4kTwiHuDPOxyoV9Ae5eSI>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id AE0E63064610;
+ Thu, 24 Sep 2020 17:07:53 -0400 (EDT)
+Date: Thu, 24 Sep 2020 23:07:51 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
+ Zoned Namespace Command Set
+Message-ID: <20200924210751.GD1738917@apples.localdomain>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0.002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="osDK9TLjxFScVI/L"
+Content-Disposition: inline
+In-Reply-To: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 14:55:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,79 +96,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, lulu@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- marcandre.lureau@redhat.com, pbonzini@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the same logic as for vhost-net-user and vhost-kernel,
-enable vhost-net if vhost-net-vdpa is enabled and vhost-net is not
-explicitly disabled.
-See 299e6f19b3e2 ("vhost-net: revamp configure logic")
 
-Autoselect VHOST if VHOST_VDPA is set
-See 21c6b0c87e85 ("configure: simplify vhost condition with Kconfig")
-See 2becc36a3e53 ("meson: infrastructure for building emulators"
+--osDK9TLjxFScVI/L
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Problems can be triggered using;
-... --enable-vhost-vdpa --disable-vhost-user --disable-vhost-kernel ...
+On Sep 24 03:20, Dmitry Fomichev wrote:
+> v3 -> v4
+>=20
+>  - Fix bugs introduced in v2/v3 for QD > 1 operation. Now, all writes
+>    to a zone happen at the new write pointer variable, zone->w_ptr,
+>    that is advanced right after submitting the backend i/o. The existing
+>    zone->d.wp variable is updated upon the successful write completion
+>    and it is used for zone reporting. Some code has been split from
+>    nvme_finalize_zoned_write() function to a new function,
+>    nvme_advance_zone_wp().
+>=20
 
-Fixes: 108a64818e69 ("vhost-vdpa: introduce vhost-vdpa backend")
-Cc: lulu@redhat.com
-Cc: pbonzini@redhat.com
-Cc: marcandre.lureau@redhat.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- Kconfig.host | 4 ++++
- configure    | 3 ++-
- meson.build  | 1 +
- 3 files changed, 7 insertions(+), 1 deletion(-)
+Same approach that I've used, +1.
 
-diff --git a/Kconfig.host b/Kconfig.host
-index 4af19bf70ef9..a9a55a9c315c 100644
---- a/Kconfig.host
-+++ b/Kconfig.host
-@@ -24,6 +24,10 @@ config VHOST_USER
-     bool
-     select VHOST
- 
-+config VHOST_VDPA
-+    bool
-+    select VHOST
-+
- config VHOST_KERNEL
-     bool
-     select VHOST
-diff --git a/configure b/configure
-index e8e8e984f245..8ee15810c882 100755
---- a/configure
-+++ b/configure
-@@ -2494,9 +2494,10 @@ if test "$vhost_net_vdpa" = "yes" && test "$vhost_vdpa" = "no"; then
-   error_exit "--enable-vhost-net-vdpa requires --enable-vhost-vdpa"
- fi
- 
--# OR the vhost-kernel and vhost-user values for simplicity
-+# OR the vhost-kernel, vhost-vdpa and vhost-user values for simplicity
- if test "$vhost_net" = ""; then
-   test "$vhost_net_user" = "yes" && vhost_net=yes
-+  test "$vhost_net_vdpa" = "yes" && vhost_net=yes
-   test "$vhost_kernel" = "yes" && vhost_net=yes
- fi
- 
-diff --git a/meson.build b/meson.build
-index f4d1ab109680..488ca205fad2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -521,6 +521,7 @@ kconfig_external_symbols = [
-   'CONFIG_OPENGL',
-   'CONFIG_X11',
-   'CONFIG_VHOST_USER',
-+  'CONFIG_VHOST_VDPA',
-   'CONFIG_VHOST_KERNEL',
-   'CONFIG_VIRTFS',
-   'CONFIG_LINUX',
--- 
-2.26.2
+>  - Make the code compile under mingw. Switch to using QEMU API for
+>    mmap/msync, i.e. memory_region...(). Since mmap is not available in
+>    mingw (even though there is mman-win32 library available on Github),
+>    conditional compilation is added around these calls to avoid
+>    undefined symbols under mingw. A better fix would be to add stub
+>    functions to softmmu/memory.c for the case when CONFIG_POSIX is not
+>    defined, but such change is beyond the scope of this patchset and it
+>    can be made in a separate patch.
+>=20
 
+Ewwww.
+
+This feels like a hack or at the very least an abuse of the physical
+memory management API.
+
+If it really needs to be memory mapped, then I think a hostmem-based
+approach similar to what Andrzej did for PMR is needed (I think that
+will get rid of the CONFIG_POSIX ifdef at least, but still leave it
+slightly tricky to get it to work on all platforms AFAIK). But really,
+since we do not require memory semantics for this, then I think the
+abstraction is fundamentally wrong.
+
+I am, of course, blowing my own horn, since my implementation uses a
+portable blockdev for this.
+
+Another issue is the complete lack of endian conversions. Does it
+matter? It depends. Will anyone ever use this on a big endian host and
+move the meta data backing file to a little endian host? Probably not.
+So does it really matter? Probably not, but it is cutting corners.
+
+>  - Make the list of review comments addressed in v2 of the series
+>    (see below).
+>=20
+
+Very detailed! Thanks!
+
+--osDK9TLjxFScVI/L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9tCqYACgkQTeGvMW1P
+Den9Ywf9F2Lj9NLWESmAG+VWsNngZjDwNsTZWuvfFHlbTPbELV4CfiefE4XM35CV
+WYzGM9d1dnomtUAviTT43DCkGoLTHXvRgCBTHq7iVJUbGApyieHi350754Qw46x3
+p6KgGCBxPTmAuK5QjaoEUwHomYiWvd7i5YwfFetY30zbe00XjCQ/9g8ZQI9+dRWa
+BxA76QZA8IC9H9UfAL65FPdRcnih+PUsAQz+JrWPJC7fEqrQFqpJa9MBFEKr5sg0
+Ec9JuvQvN0ahEotNp1XiUw2cKVXLM7qVBNZcqwCwmt2nk44aszx8Bj41cymMPmpn
+hWjhdaKnx8DEq+I6KXRgJoEb4FKLjg==
+=zc1d
+-----END PGP SIGNATURE-----
+
+--osDK9TLjxFScVI/L--
 
