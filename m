@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B85C2776C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:30:29 +0200 (CEST)
-Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED7F2776A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:23:56 +0200 (CEST)
+Received: from localhost ([::1]:46980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLU8a-0007ms-CG
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56782)
+	id 1kLU2F-0001F0-AD
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLTh3-00086S-9a
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:02:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49992)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkp-00036e-FN
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLTh0-0002W0-RC
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:02:00 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkn-00043A-Ik
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600963317;
+ s=mimecast20190719; t=1600963552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sDQUzjh5Yc+JPg6KNY+7EEeWccIRk34fc+LmiDLBG/0=;
- b=Y+KAMOV0Ef0kjCMum3GgOiHGCmCg1vxWNDGoy2IbHz0AV6L49J4lr/rLJGkG/S0ghxGKKk
- S5Nf5LDU/nDIgdXw8SvePrJBvKXYPBmwWq1H/w02OAmQpJCF8TQL2bGLv5wf9znd+8psNM
- 9T8s8amX7KV0ZzGKPR1qiSFLRPIXGog=
+ bh=v6IefpecqGL3XgdT1oT6U0apZGd5TzKbwUBmHtxx5Ps=;
+ b=TPlSCqu3YejMpTspCx2GvrcnzZ5y7zxJC2qcQgAiNZz5KE0EG/hwsK5ZSf053hqPxAIH5f
+ tCIl+pcO6cZHYiL211tjnbqyjumAxBCh9HU1eQqsSSynKg4cr03NIH0WYfwi7aBdIL5+Fr
+ jhFQoNilbPElWBxMrAMq6e2ClZs3BV8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-dnpm36A-ODqCDQYDBxzLUA-1; Thu, 24 Sep 2020 12:01:55 -0400
-X-MC-Unique: dnpm36A-ODqCDQYDBxzLUA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-64-QVowD1Z_NfCRO4e7H1nxcw-1; Thu, 24 Sep 2020 12:05:51 -0400
+X-MC-Unique: QVowD1Z_NfCRO4e7H1nxcw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7507100747C;
- Thu, 24 Sep 2020 16:01:53 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CFFC31002D41;
- Thu, 24 Sep 2020 16:01:52 +0000 (UTC)
-Date: Thu, 24 Sep 2020 12:01:51 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 28/38] qapi/gen.py: update write() to be more idiomatic
-Message-ID: <20200924160151.GD191229@localhost.localdomain>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-29-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DE26AD687;
+ Thu, 24 Sep 2020 16:05:50 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-4.ams2.redhat.com [10.36.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADDD619C66;
+ Thu, 24 Sep 2020 16:05:35 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH PROTOTYPE 5/6] virtio-mem: Require only
+ RAM_BLOCK_DISCARD_T_COORDINATED discards
+Date: Thu, 24 Sep 2020 18:04:22 +0200
+Message-Id: <20200924160423.106747-6-david@redhat.com>
+In-Reply-To: <20200924160423.106747-1-david@redhat.com>
+References: <20200924160423.106747-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-29-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pmKUVAsxJ35RhmJn"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -80,51 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Luiz Capitulino <lcapitulino@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---pmKUVAsxJ35RhmJn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We implement the SparseRamHandler interface and properly communicate
+changes by notifying listeners - especially in all scenarios
+- when memory becomes usable by the guest
+- when memory becomes unusable by the guest (and we discard memory)
 
-On Tue, Sep 22, 2020 at 05:00:51PM -0400, John Snow wrote:
-> Make the file handling here just a tiny bit more idiomatic.
-> (I realize this is heavily subjective.)
->=20
-> Use exist_ok=3DTrue for os.makedirs and remove the exception,
-> use fdopen() to wrap the file descriptor in a File-like object,
-> and use a context manager for managing the file pointer.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Peter Xu <peterx@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/virtio/virtio-mem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-
---pmKUVAsxJ35RhmJn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9swu4ACgkQZX6NM6Xy
-CfNgsg//TkEi5p6A9Fmrtl5PINfgdpc+SWOWrsBDTCVi9OhpAjSkgszYlUZKO2rf
-MyFzKEYMkreFhv2TGFC4Ag38Fy2svOP8X0nsISajJ2rN7ScaPUtdn1hiyO4X3xza
-FejP+MWCp0CzZ6nVtJ6PDLq7mh3BWTGH5XrS6m4f6fVPIr5wDE1qC3obNI0rZ1vK
-PT7aSdgBvRU8qCSjdfq9QHxl0tPqbwbA2kMBXvbdo/V7kZODOBbDBiWCxtV/Nyz1
-w8ZjWlOaejJLaJ5IZvqAakDjCwiPbKmwAcjzbwZt0rKRA87Q21vUkJ4si2+yveh6
-+21M7M6fUIlW2/BPCNMjcSIp8t1Gn/O3dhxMUkCXpuaYESZl5MxJHDb+fourEeyB
-NSCKKlXUmeKATZGxQ3iB2WH7ohaUjdVQknq5fS1cm8SewqaGJe9hJFTvjGvPn8vm
-ihXLH8HLKZmgTVJcHx/7NNZ4s/Is9M9narPjdGAdq8lTpfnX1Eg7+bc756GxhC39
-le4P22Nu46RldX4F6IGJB7KVhjTP35YfKgimWF0naaXFGhwPESks2V6XHFRAFzsV
-EiGeDORrKdCKgxVxU5/tAG7nMJG/PwTAAHeY/pxqjizGRwLb6znjD7PK8UQUuzFq
-/iZg2DKc7xmkpb6A4jUhXKmnimpARbGA6bAxB+OtL/012SK8R4E=
-=3TCv
------END PGP SIGNATURE-----
-
---pmKUVAsxJ35RhmJn--
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index e23969eaed..efeff7c64c 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -531,7 +531,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    if (ram_block_discard_require(true)) {
++    if (ram_block_discard_type_require(RAM_BLOCK_DISCARD_T_COORDINATED, true)) {
+         error_setg(errp, "Discarding RAM is disabled");
+         return;
+     }
+@@ -539,7 +539,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+     ret = ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb));
+     if (ret) {
+         error_setg_errno(errp, -ret, "Unexpected error discarding RAM");
+-        ram_block_discard_require(false);
++        ram_block_discard_type_require(RAM_BLOCK_DISCARD_T_COORDINATED, false);
+         return;
+     }
+ 
+@@ -579,7 +579,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
+     virtio_del_queue(vdev, 0);
+     virtio_cleanup(vdev);
+     g_free(vmem->bitmap);
+-    ram_block_discard_require(false);
++    ram_block_discard_type_require(RAM_BLOCK_DISCARD_T_COORDINATED, false);
+ }
+ 
+ static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
+-- 
+2.26.2
 
 
