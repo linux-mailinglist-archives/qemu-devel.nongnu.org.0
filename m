@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11EDC277961
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:32:00 +0200 (CEST)
-Received: from localhost ([::1]:36408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE3527796C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:35:44 +0200 (CEST)
+Received: from localhost ([::1]:44246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLWy6-0003QG-2U
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:31:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50926)
+	id 1kLX1p-0006wO-GZ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kLWvm-00020J-ID
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:29:26 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43029)
+ id 1kLWw7-0002FO-3X
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:29:48 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kLWvk-0006jF-5P
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:29:26 -0400
-Received: by mail-pf1-x441.google.com with SMTP id f18so346665pfa.10
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 12:29:23 -0700 (PDT)
+ id 1kLWw5-0006kc-9E
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:29:46 -0400
+Received: by mail-pf1-x444.google.com with SMTP id k8so378330pfk.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 12:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=UcCJmxxFEEgGDImcmNd8r+OcI9xOi1TmHq/v5lZLZU8=;
- b=K74eGAMp9zJqGlhnvjG5+QeLddVSH5tWE3/1bWo4zdAdjXnYilsDwfrtCrGXjV53BG
- Bjo43k8ktiNfQOlA8Ty+qylydUOiRsNOEVUT5dG5EFdvzQrN5yt3vHWSwMnUguxi7E6T
- s/FYkMj5P911A1fjLvRP63fe7Ql5n/8Pc/eY75/HNazdDMj68UoWPCyROhlAIEAscvVc
- arf3iajLfBS/8NUzc18d+v0k90vIfmEjk4+64mitd6uJDi9jYZ1SEmr+CGdOMeDOs/Rk
- f08ApzzuT7SSAHtTtZQ/e3oNx5E+rocUtj9zmJk7gQoJS2Zm+ioJmS2SZArhnCJuXdXU
- x0WQ==
+ bh=NCytGQGmjWFcOdd3bWSEdLErliyS4JMKDrthtWMFdzo=;
+ b=Edln/4ljlxro7T6tIBhfCKjcnoyd4C+kBmFYEWhKRtPWROaJyUgAI3NbLQPgiTHfkZ
+ WNd36hhliiFk0FCyq59V/iAVOCY3ZdPZw3LXfVzCWdMm58auWcIqyAREHlt2W+plAa9S
+ kqZ3U1Ik+1TscNzZtm80ke1LLr9+wOpVsPHszSspgaYFwk3VONDh+oZHA+iqetlDbY58
+ 0zlyu3zxPUhgYzrNWEcHL1u7aeOLjxZ2hSNbKaUMlc36dP6xonbN42SQRfmz8KkgHDHK
+ WFVRwm3Hda8N4ZIJJ49Fk2aqF4B9E9vqNCEBsJEDTWkaQ0AZSGKU6Qr3ycdSubBa7wr1
+ aUzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=UcCJmxxFEEgGDImcmNd8r+OcI9xOi1TmHq/v5lZLZU8=;
- b=rLrF6Dhc1CG0oEOc0ryR2c3v9nIjvc19SFJP+bfJltrbH6Y62OMkTK6SklgA2uC+/L
- ouvGNpdt/oX3jWRDFGN327ccP0tlG2EaLqf0i+mD29JWjbSROgAvrP50r8GlWS2Xt/C9
- oMz73oUV/Q6DBX8qyOofLuOEWatzR/1Kh2vFuAOWl9WXO7+9KCrrAiNsAWSajGkILOp8
- agSnb54Q68rz2gfc+VReZLyhNR53Ti3QW/zu/gldmdCjYFFnYfNM5rAXeYY8AigAa9HJ
- C1Rk0h5otYHV3DB+vume4KpNvcTUcwvfWe3dV64A1W9zNo6OlFw9H2VUzLpf1On260f9
- jZKA==
-X-Gm-Message-State: AOAM530wDXB1yK+arI1FVpR5QJDaD15kqgCcfL1qE/HWzBGC6fqBZVOZ
- M/0kZgLEPDQaE9k484S7yK3MBy2Qg+VPmA==
-X-Google-Smtp-Source: ABdhPJyFg6V7eYKwaoWSNyaCydGsdBSjvo3RSO4AwD9C3x4T7YG+yw+cDrLZkEpKx7NYQkX17Mz9mw==
-X-Received: by 2002:a63:5966:: with SMTP id j38mr489294pgm.187.1600975762604; 
- Thu, 24 Sep 2020 12:29:22 -0700 (PDT)
+ bh=NCytGQGmjWFcOdd3bWSEdLErliyS4JMKDrthtWMFdzo=;
+ b=CfH5AZcFARUp5ej4LWcJCCVeTlphHOSwADEZ1yo9sjfujYDKgCljnS8bwh6N8yoBnZ
+ UmeTDH10d8BLEqWwOUrkH5d3/wi4eVp4JygBMvfzM2c+br+BSf8ygyVEbPxL/VfKV0op
+ D0qsDzshiIfSY0Fbcq5h5GKaCiS9akTUrBW5JW+ozDO5rbViQ7Sk/pvRqXSizvsT4Akq
+ KdHeD8UERyzxHWHXfJRCk7hTbNCNKEES065BE2AcLi7Rg1XhN08cgjSOS+/JwVNoZ01O
+ 9YEM7QlGVJOjHW5KBHcftiUgeE4MYlGpBGcBR32XS+ayWBHjuT2+9FgNGb0bs4ljDTIo
+ zApg==
+X-Gm-Message-State: AOAM530/VjWn0RfRQp9/RxcmWja9c+0q29XvmxJXevH1UD8wRVzwEU33
+ 4O+6ora1OZd7BSNJcHjsyjUCLFj1gJfhjA==
+X-Google-Smtp-Source: ABdhPJzN5iOEjn5v1iJ1kpObxx3toAgTp1wY1zDBij7eb/SwMN9mLVGsiKgcG3ctR2cMwxdTScNePQ==
+X-Received: by 2002:a17:902:267:b029:d2:6180:4a46 with SMTP id
+ 94-20020a1709020267b02900d261804a46mr703053plc.26.1600975783137; 
+ Thu, 24 Sep 2020 12:29:43 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id i2sm261853pfq.89.2020.09.24.12.29.21
+ by smtp.gmail.com with ESMTPSA id y25sm259790pfn.71.2020.09.24.12.29.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Sep 2020 12:29:21 -0700 (PDT)
-Subject: Re: [PATCH 3/4] qemu/bswap: Replace bswapXXs() by compiler
- __builtin_bswap()
+ Thu, 24 Sep 2020 12:29:42 -0700 (PDT)
+Subject: Re: [PATCH 4/4] qemu/bswap: Remove <byteswap.h> dependency
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200923100220.674903-1-philmd@redhat.com>
- <20200923100220.674903-4-philmd@redhat.com>
+ <20200923100220.674903-5-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7365d69b-3437-18df-cd6d-70032708e7ab@linaro.org>
-Date: Thu, 24 Sep 2020 12:29:20 -0700
+Message-ID: <8e5a49ca-bf95-078f-5a28-e7682297ce43@linaro.org>
+Date: Thu, 24 Sep 2020 12:29:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200923100220.674903-4-philmd@redhat.com>
+In-Reply-To: <20200923100220.674903-5-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -22
@@ -95,10 +95,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/23/20 3:02 AM, Philippe Mathieu-Daudé wrote:
+> All our supported compilers provide the __builtin_bswap()
+> functions. Drop the <byteswap.h> dependency.
+> 
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  include/qemu/bswap.h | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+>  configure            | 13 -------------
+>  include/qemu/bswap.h | 17 -----------------
+>  2 files changed, 30 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
