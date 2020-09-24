@@ -2,119 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E35276AE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:37:04 +0200 (CEST)
-Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C79276AF9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:38:57 +0200 (CEST)
+Received: from localhost ([::1]:41960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLLoN-0005H6-Hg
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41666)
+	id 1kLLqC-0007Qz-Ek
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLLnI-0004gZ-8N
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:35:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60470)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLLnG-0000pY-IN
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:35:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600932953;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TBfoO4a/BibRwhs6HvcOqjn/6dg0UNcYAbdNY+loaAA=;
- b=CWTXSj6k5CwmfoDmg27FYAfbzeHMKR5wuNmp8ZvG1uSgeS5rqADuY5IgqtHGHTuJ9pxQS3
- WVrMSq4Lgy85M20ZE20IRBT0z3jG2NjGcyzLF1YpJFNxNVpP3Q+39usjsqx3lU4+r9JfCv
- 2t0ctZVmciiwGVwAnZpGnhtRQ/Y/01k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-v7Jstv67Mt2yNlGcgkzXoQ-1; Thu, 24 Sep 2020 03:35:51 -0400
-X-MC-Unique: v7Jstv67Mt2yNlGcgkzXoQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 575D7800400;
- Thu, 24 Sep 2020 07:35:50 +0000 (UTC)
-Received: from [10.36.114.4] (ovpn-114-4.ams2.redhat.com [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4891A1002C01;
- Thu, 24 Sep 2020 07:35:49 +0000 (UTC)
-Subject: Re: [PATCH 2/8] softfloat: Use int128.h for some operations
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200924012453.659757-1-richard.henderson@linaro.org>
- <20200924012453.659757-3-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <736e0808-615a-f522-6f4e-43c6d540e0ca@redhat.com>
-Date: Thu, 24 Sep 2020 09:35:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1kLLnk-0004ud-JU
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:36:24 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:36601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1kLLni-0000xC-FD
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:36:24 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id b17so1161058pji.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 00:36:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NdM00oKj6v1iUHina4J++nhhFOPrVkOktvMB8oCBsgA=;
+ b=TrtGzUpwXTSyLVtGiFPO8KJXb7ACqnsvJfOlFCDo58QwBfVERoGetaEKb3W/JEU98i
+ FaFjss8LEKTY50y6mRqRqxZJ79wN3Nuq+6H59wdzTn2O/nD1GbphHyrrTMMn83iXX4eO
+ 5xcfecRfXPHomoL06zOx7Som+4nqou0xviSeXTzRGGLWr7q8nDWJlzY2HJipnkbVlwBa
+ 60GFEFrFUPKGYzdKV7iC1tG/OL1qK23tLZvPIbWqvxGKMzlh/HWnOA5vhXHksUpaJQ22
+ 3XVCcj4xv20w+EBirSXYCffw8LiKd/6ExyJLnLFIbPtUw5sNeIWpJzqrRx07royV0jlA
+ TIFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NdM00oKj6v1iUHina4J++nhhFOPrVkOktvMB8oCBsgA=;
+ b=lZS0kJinBWFdlXA0XzC9ErGjXSFYlCRMv7WusLHFfe1OiQgz/jtscNgdLI8/Bw8Hwy
+ tYLpMFoYkfFO/x+JsVTny7v5v5mgaDbZAl+2qQl4TmHnWB4HwupKmNLSacHX6OfNnRm1
+ DHZ+jx0ZJnWr7iaJupM3rpxZHoQuaum53guZR/9vL+Llyr6bqx5feQU0yoAeh3jbWh1G
+ kdL1+8mNArpON4OepzRyadD/GYgfGljPAU9UY1iFIxKdIeGQV1O/y/4pOSdFYtOx8qMh
+ JoUE+SLrkzVRs3AwniLRwSmaopLC5PPwKOqSTFKGeuB+RDc0Y2TEVNKUkrtfcLMmm1UX
+ ApUQ==
+X-Gm-Message-State: AOAM533YhlHr1UF7Xbf/Tk3UNALCcdYb2jkfm3iOVDqczjSLwrSr8vUD
+ QrceArtOvtKgDb8TQMUcQ6U=
+X-Google-Smtp-Source: ABdhPJzCsEaMrfisL9Lo/Tso2+fbMCBIbhyYuCbUwXURX1WrvTHggbTJIEy75Vjd97z7ZOjIbrEzNQ==
+X-Received: by 2002:a17:90a:9f8e:: with SMTP id
+ o14mr2793636pjp.103.1600932980455; 
+ Thu, 24 Sep 2020 00:36:20 -0700 (PDT)
+Received: from software.domain.org ([45.77.13.216])
+ by smtp.gmail.com with ESMTPSA id x13sm1777864pfj.199.2020.09.24.00.36.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 24 Sep 2020 00:36:19 -0700 (PDT)
+From: Huacai Chen <zltjiangshi@gmail.com>
+X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH V11 0/8] mips: Add Loongson-3 machine support
+Date: Thu, 24 Sep 2020 15:35:48 +0800
+Message-Id: <1600932956-11642-1-git-send-email-chenhc@lemote.com>
+X-Mailer: git-send-email 2.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200924012453.659757-3-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pj1-x1042.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,103 +86,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, bharata@linux.ibm.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.09.20 03:24, Richard Henderson wrote:
-> Use our Int128, which wraps the compiler's __int128_t,
-> instead of open-coding left shifts and arithmetic.
-> We'd need to extend Int128 to have unsigned operations
-> to replace more than these three.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/fpu/softfloat-macros.h | 39 +++++++++++++++++-----------------
->  1 file changed, 20 insertions(+), 19 deletions(-)
-> 
-> diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
-> index 57845f8af0..95d88d05b8 100644
-> --- a/include/fpu/softfloat-macros.h
-> +++ b/include/fpu/softfloat-macros.h
-> @@ -84,6 +84,7 @@ this code that are retained.
->  
->  #include "fpu/softfloat-types.h"
->  #include "qemu/host-utils.h"
-> +#include "qemu/int128.h"
->  
->  /*----------------------------------------------------------------------------
->  | Shifts `a' right by the number of bits given in `count'.  If any nonzero
-> @@ -352,13 +353,11 @@ static inline void shortShift128Left(uint64_t a0, uint64_t a1, int count,
->  static inline void shift128Left(uint64_t a0, uint64_t a1, int count,
->                                  uint64_t *z0Ptr, uint64_t *z1Ptr)
->  {
-> -    if (count < 64) {
-> -        *z1Ptr = a1 << count;
-> -        *z0Ptr = count == 0 ? a0 : (a0 << count) | (a1 >> (-count & 63));
-> -    } else {
-> -        *z1Ptr = 0;
-> -        *z0Ptr = a1 << (count - 64);
-> -    }
-> +    Int128 a = int128_make128(a1, a0);
-> +    Int128 z = int128_lshift(a, count);
-> +
-> +    *z0Ptr = int128_gethi(z);
-> +    *z1Ptr = int128_getlo(z);
->  }
->  
->  /*----------------------------------------------------------------------------
-> @@ -405,15 +404,15 @@ static inline void
->  *----------------------------------------------------------------------------*/
->  
->  static inline void
-> - add128(
-> -     uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1, uint64_t *z0Ptr, uint64_t *z1Ptr )
-> +add128(uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1,
-> +       uint64_t *z0Ptr, uint64_t *z1Ptr)
->  {
-> -    uint64_t z1;
-> -
-> -    z1 = a1 + b1;
-> -    *z1Ptr = z1;
-> -    *z0Ptr = a0 + b0 + ( z1 < a1 );
-> +    Int128 a = int128_make128(a1, a0);
-> +    Int128 b = int128_make128(b1, b0);
-> +    Int128 z = int128_add(a, b);
->  
-> +    *z0Ptr = int128_gethi(z);
-> +    *z1Ptr = int128_getlo(z);
->  }
->  
->  /*----------------------------------------------------------------------------
-> @@ -463,13 +462,15 @@ static inline void
->  *----------------------------------------------------------------------------*/
->  
->  static inline void
-> - sub128(
-> -     uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1, uint64_t *z0Ptr, uint64_t *z1Ptr )
-> +sub128(uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1,
-> +       uint64_t *z0Ptr, uint64_t *z1Ptr)
->  {
-> +    Int128 a = int128_make128(a1, a0);
-> +    Int128 b = int128_make128(b1, b0);
-> +    Int128 z = int128_sub(a, b);
->  
-> -    *z1Ptr = a1 - b1;
-> -    *z0Ptr = a0 - b0 - ( a1 < b1 );
-> -
-> +    *z0Ptr = int128_gethi(z);
-> +    *z1Ptr = int128_getlo(z);
->  }
->  
->  /*----------------------------------------------------------------------------
-> 
+Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
+R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
+Loongson-3A R4 is the newest and its ISA is almost the superset of all
+others. To reduce complexity, in QEMU we just define two CPU types:
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
+   suitable for TCG because Loongson-3A R1 has fewest ASE.
+2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
+   suitable for KVM because Loongson-3A R4 has the VZ ASE.
 
--- 
-Thanks,
+Loongson-3 lacks English documents. I've tried to translated them with
+translate.google.com, and the machine translated documents (together
+with their original Chinese versions) are available here.
 
-David / dhildenb
+Loongson-3A R1 (Loongson-3A1000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P2.pdf (Chinese Version)
 
+Loongson-3A R2 (Loongson-3A2000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese Version)
+
+Loongson-3A R3 (Loongson-3A3000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.pdf (Chinese Version)
+
+Loongson-3A R4 (Loongson-3A4000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
+http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
+User Manual Part 2:
+I'm sorry that it is unavailable now.
+
+And human-translated documents (W.I.P) are available here now:
+https://github.com/loongson-community/docs/tree/master/English-translation-of-Loongson-manual
+
+Both KVM and TCG are available now!
+
+We now already have a full functional Linux kernel (based on Linux-5.4.x
+LTS, the kvm host side and guest side have both been upstream for Linux-
+5.9, but Linux-5.9 has not been released yet) here:
+
+https://github.com/chenhuacai/linux
+
+Of course the upstream kernel is also usable (though it is "unstable"
+now):
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+
+How to use QEMU/Loongson-3?
+1, Download kernel source from the above URL;
+2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
+3, Boot a Loongson-3A4000 host with this kernel (for KVM mode);
+4, Build QEMU-master with this patchset;
+5, modprobe kvm (only necessary for KVM mode);
+6, Use QEMU with TCG:
+       qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
+   Use QEMU with KVM:
+       qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
+
+   The "-cpu" parameter is optional here and QEMU will use the correct type for TCG/KVM automatically.
+
+V1 -> V2:
+1, Add a cover letter;
+2, Improve CPU definitions;
+3, Remove LS7A-related things (Use GPEX instead);
+4, Add a description of how to run QEMU/Loongson-3.
+
+V2 -> V3:
+1, Fix all possible checkpatch.pl errors and warnings.
+
+V3 -> V4:
+1, Sync code with upstream;
+2, Remove merged patches;
+3, Fix build failure without CONFIG_KVM;
+4, Add Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>.
+
+V4 -> V5:
+1, Improve coding style;
+2, Remove merged patches;
+3, Rename machine name from "loongson3" to "loongson3-virt";
+4, Rework the "loongson3-virt" machine to drop any ISA things;
+5, Rework "hw/mips: Implement the kvm_type() hook in MachineClass";
+6, Add Jiaxun Yang as a reviewer of Loongson-3.
+
+V5 -> V6:
+1, Fix license preamble;
+2, Improve commit messages;
+3, Add hw/intc/loongson_liointc.c to MAINTAINERS;
+4, Fix all possible checkpatch.pl errors and warnings.
+
+V7 and V8 have only one patch (machine definition) with some minor improvements.
+
+V8 -> V9:
+1, Update KVM type definition from kernel;
+2, Fix PageMask with variable page size for TCG;
+3, Add TCG support (add Loongson-EXT instructions).
+
+V9 -> V10:
+1, Split fw_cfg to a separate patch;
+2, Split boot parameters definition to a local header;
+3, Update MIPS machine documentation;
+4, Many other improvements suggested by Philippe Mathieu-Daudé.
+
+V10 -> V11:
+1, Fix some typos;
+2, Add Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>.
+
+Huacai Chen and Jiaxun Yang (8):
+ linux-headers: Update MIPS KVM type defintition
+ target/mips: Fix PageMask with variable page size
+ target/mips: Add loongson-ext lswc2 group of instructions (Part 1)
+ target/mips: Add loongson-ext lswc2 group of instructions (Part 2)
+ target/mips: Add loongson-ext lsdc2 group of instructions
+ hw/mips: Implement fw_cfg_arch_key_name()
+ hw/mips: Add Loongson-3 machine support
+ docs/system: Update MIPS machine documentation
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+---
+ default-configs/mips64el-softmmu.mak |   1 +
+ docs/system/cpu-models-mips.rst.inc  |  10 +-
+ docs/system/target-mips.rst          |  10 +
+ hw/mips/Kconfig                      |  11 +
+ hw/mips/fw_cfg.c                     |  35 ++
+ hw/mips/fw_cfg.h                     |  19 +
+ hw/mips/loongson3_virt.c             | 775 +++++++++++++++++++++++++++++++++++
+ hw/mips/loongson_bootp.h             | 187 +++++++++
+ hw/mips/meson.build                  |   3 +-
+ linux-headers/linux/kvm.h            |   5 +-
+ target/mips/cp0_helper.c             |  36 +-
+ target/mips/cpu.h                    |   1 +
+ target/mips/translate.c              | 443 ++++++++++++++++++++
+ 13 files changed, 1524 insertions(+), 12 deletions(-)
+ create mode 100644 hw/mips/fw_cfg.c
+ create mode 100644 hw/mips/fw_cfg.h
+ create mode 100644 hw/mips/loongson3_virt.c
+ create mode 100644 hw/mips/loongson_bootp.h
+--
+2.7.0
 
