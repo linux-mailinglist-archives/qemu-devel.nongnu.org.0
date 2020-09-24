@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252C82770B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:15:09 +0200 (CEST)
-Received: from localhost ([::1]:47832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D092770BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:17:28 +0200 (CEST)
+Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLQ9T-0007Ty-O3
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
+	id 1kLQBj-0000TZ-FA
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLQ8X-0006oY-Aw
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:14:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42594)
+ id 1kLQ9e-00087H-IR
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:15:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLQ8V-0002OQ-Dt
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:14:08 -0400
+ id 1kLQ9d-0002WD-1H
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:15:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600949646;
+ s=mimecast20190719; t=1600949716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1DuwRiiDD6FKlwMUp1JEva/SPhkPCebn4fJiMfY5feI=;
- b=ZPvHc1X/n23UO+4poSqUpeZLN17jZajvNfFoyhyMKNEnfBN0+5S17KuOEGHJYrs9TUMX0H
- 5MiFy9Bw0yqPgIQ6NSAb8Qy5SXJUqW/bRMzNGhM1Uo4NkJhQAarg59FXzELWpfh5jSTk1A
- 54ieQb/71Uos3DMK2qhFIz0oAhjev0o=
+ bh=xfwJqohAOhJmkJlu+/cTjense/pDE/p2nZ4sHKPHKFs=;
+ b=iBWYpBEBLgLCrZZQ5D0ctAzpHbIDs2rDUvi6G3lCz5PTvhTeVkEIOq6oALCbriCsAaDccu
+ 5gs6CORLZ4KKM/58jpP6sUQhim8K1I6ZsbzAbgApbuZUGBdRp42cjyZHP6Pw8VpBtkq4Kb
+ mJ9lidtA1GTgXBds26s6I9CNEf2BXGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-g3s_FbwoMyOA_aeZf3z4ew-1; Thu, 24 Sep 2020 08:14:03 -0400
-X-MC-Unique: g3s_FbwoMyOA_aeZf3z4ew-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-123-TvvOZfHuM0SRT6JFvrxxVg-1; Thu, 24 Sep 2020 08:15:12 -0400
+X-MC-Unique: TvvOZfHuM0SRT6JFvrxxVg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 856EF1008550;
- Thu, 24 Sep 2020 12:14:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF83581CAFB;
+ Thu, 24 Sep 2020 12:15:10 +0000 (UTC)
 Received: from localhost (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E97661002C0B;
- Thu, 24 Sep 2020 12:14:01 +0000 (UTC)
-Date: Thu, 24 Sep 2020 13:14:00 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7531155785;
+ Thu, 24 Sep 2020 12:15:10 +0000 (UTC)
+Date: Thu, 24 Sep 2020 13:15:09 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8 5/7] block: generate coroutine-wrapper code
-Message-ID: <20200924121400.GX62770@stefanha-x1.localdomain>
+Subject: Re: [PATCH v8 6/7] block: drop bdrv_prwv
+Message-ID: <20200924121509.GY62770@stefanha-x1.localdomain>
 References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
- <20200915164411.20590-6-vsementsov@virtuozzo.com>
+ <20200915164411.20590-7-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915164411.20590-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200915164411.20590-7-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zuE2pCA56U4I9Fhk"
+ protocol="application/pgp-signature"; boundary="/q/BUR4W+hUV5fU1"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -68,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,44 +87,58 @@ Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---zuE2pCA56U4I9Fhk
+--/q/BUR4W+hUV5fU1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 15, 2020 at 07:44:09PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+On Tue, Sep 15, 2020 at 07:44:10PM +0300, Vladimir Sementsov-Ogievskiy wrot=
 e:
-> Use code generation implemented in previous commit to generated
-> coroutine wrappers in block.c and block/io.c
+> Now that we are not maintaining boilerplate code for coroutine
+> wrappers, there is no more sense in keeping the extra indirection layer
+> of bdrv_prwv().  Let's drop it and instead generate pure bdrv_preadv()
+> and bdrv_pwritev().
+>=20
+> Currently, bdrv_pwritev() and bdrv_preadv() are returning bytes on
+> success, auto generated functions will instead return zero, as their
+> _co_ prototype. Still, it's simple to make the conversion safe: the
+> only external user of bdrv_pwritev() is test-bdrv-drain, and it is
+> comfortable enough with bdrv_co_pwritev() instead. So prototypes are
+> moved to local block/coroutines.h. Next, the only internal use is
+> bdrv_pread() and bdrv_pwrite(), which are modified to return bytes on
+> success.
+>=20
+> Of course, it would be great to convert bdrv_pread() and bdrv_pwrite()
+> to return 0 on success. But this requires audit (and probably
+> conversion) of all their users, let's leave it for another day
+> refactoring.
 >=20
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->  block/coroutines.h    |   6 +-
->  include/block/block.h |  16 ++--
->  block.c               |  73 ---------------
->  block/io.c            | 212 ------------------------------------------
->  4 files changed, 13 insertions(+), 294 deletions(-)
-
-Nice
+>  block/coroutines.h      | 10 ++++-----
+>  include/block/block.h   |  2 --
+>  block/io.c              | 49 ++++++++---------------------------------
+>  tests/test-bdrv-drain.c |  2 +-
+>  4 files changed, 15 insertions(+), 48 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---zuE2pCA56U4I9Fhk
+--/q/BUR4W+hUV5fU1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sjYgACgkQnKSrs4Gr
-c8ghmQf+IBBCHcX8c+2cR3WiY5pmHzk3xWdXkiO0Jc5+wmm5YlzwaV0NwQKmFoW0
-vqxX+cvvrGzenE/jSLv66FslGyXTqw+qu+c9fGabIbX7+f1hWILo5/aY0RqT1xJJ
-qSN24Kug+mWyiMlCBbHeYnBij1s9MjZF01x/TMfNswtO+UtJqxgs4vq1sCYaXsro
-6X0Yi9H9SI8a+h6esTIxN/mKPr6hMXPZP2ji3+gbVnMFGB+TGc10PyqGRdgJMAPN
-jcUdAWQRE4TLO86EoMfYDTMj/zKqR1L3Dh5mP0MFszmLt/EXihS3U8wpUxCzDbDP
-aAWSdFuiJJQPugUvjobfO5GPSF0AfA==
-=jVh2
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sjc0ACgkQnKSrs4Gr
+c8gDRAgAxO1bdxysdOYk1hQS4/fbghkNxThBAetPPVWFuo2ln3b+oi5uGON1tQ5d
+IG0RUiDuxUdZxwKrJ9dQEq4+38jaV4ZTI+wC7j4sin+3CAGs+SOXByV8Ovw/uHq/
+5WBZzkdwcE76sIxNPpWgVjsOzDFxZgeq1sdqYvDGTEXkInD3/8Gj5C/mR+SMrahI
+JUHeA4XErqnnTqu1DuuRMuKC9gaNe1GVdNtqtvmTw3YUenza+u9dcKGL8Y9Y4dVL
+ko8u1dZcGfI4lbZ2I/9ttalmXJcLyEWkjUB4AyTaGupktVNGOT5vnWMyp6GwtZUk
+n4/5gGqbkWF2kMXMEsjXo/FFiW1s3w==
+=IDBo
 -----END PGP SIGNATURE-----
 
---zuE2pCA56U4I9Fhk--
+--/q/BUR4W+hUV5fU1--
 
 
