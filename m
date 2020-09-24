@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AB327767C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:19:38 +0200 (CEST)
-Received: from localhost ([::1]:36592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B85C2776C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:30:29 +0200 (CEST)
+Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLTy5-0005GI-GA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
+	id 1kLU8a-0007ms-CG
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLTfI-0007Uz-I5
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:00:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47040)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLTh3-00086S-9a
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:02:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLTfF-00022I-62
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:00:12 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLTh0-0002W0-RC
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:02:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600963208;
+ s=mimecast20190719; t=1600963317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bAMK/dB8jZthQoTWM/mw6JbrxdBvg45iuh/fuNz1PYI=;
- b=HLWdGIEl+j24M3VntThozK+D8E5zaFV9aY6ml30QYvlnUHWghuPaFkjjW+A34vSWW6ZUQW
- anhcZwc4wd75r0LmNwEGIp7FefCECfs1vLbUlAHDRBj5SSKlqObVZSl5m7LbPTH8pipy66
- WMUuM7+eOCvQ5U24owJoUjX6vwmdsO4=
+ bh=sDQUzjh5Yc+JPg6KNY+7EEeWccIRk34fc+LmiDLBG/0=;
+ b=Y+KAMOV0Ef0kjCMum3GgOiHGCmCg1vxWNDGoy2IbHz0AV6L49J4lr/rLJGkG/S0ghxGKKk
+ S5Nf5LDU/nDIgdXw8SvePrJBvKXYPBmwWq1H/w02OAmQpJCF8TQL2bGLv5wf9znd+8psNM
+ 9T8s8amX7KV0ZzGKPR1qiSFLRPIXGog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-lHjE8xA4M3Gv9c0_5ZQGSw-1; Thu, 24 Sep 2020 12:00:04 -0400
-X-MC-Unique: lHjE8xA4M3Gv9c0_5ZQGSw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-525-dnpm36A-ODqCDQYDBxzLUA-1; Thu, 24 Sep 2020 12:01:55 -0400
+X-MC-Unique: dnpm36A-ODqCDQYDBxzLUA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 884981021209;
- Thu, 24 Sep 2020 16:00:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7507100747C;
+ Thu, 24 Sep 2020 16:01:53 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8FBA55771;
- Thu, 24 Sep 2020 16:00:01 +0000 (UTC)
-Date: Thu, 24 Sep 2020 11:59:59 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFFC31002D41;
+ Thu, 24 Sep 2020 16:01:52 +0000 (UTC)
+Date: Thu, 24 Sep 2020 12:01:51 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
 Subject: Re: [PATCH v2 28/38] qapi/gen.py: update write() to be more idiomatic
-Message-ID: <20200924155959.GC191229@localhost.localdomain>
+Message-ID: <20200924160151.GD191229@localhost.localdomain>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
  <20200922210101.4081073-29-jsnow@redhat.com>
- <20200923152624.GO3312949@habkost.net>
- <c0b8ed9e-c66a-a6fa-43e1-c3c61581d928@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c0b8ed9e-c66a-a6fa-43e1-c3c61581d928@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200922210101.4081073-29-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IdQYvU5iz1n5pUC3"
+ protocol="application/pgp-signature"; boundary="pmKUVAsxJ35RhmJn"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -83,69 +81,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---IdQYvU5iz1n5pUC3
+--pmKUVAsxJ35RhmJn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2020 at 02:37:27PM -0400, John Snow wrote:
-> On 9/23/20 11:26 AM, Eduardo Habkost wrote:
-> > On Tue, Sep 22, 2020 at 05:00:51PM -0400, John Snow wrote:
-> > > Make the file handling here just a tiny bit more idiomatic.
-> > > (I realize this is heavily subjective.)
-> > >=20
-> > > Use exist_ok=3DTrue for os.makedirs and remove the exception,
-> > > use fdopen() to wrap the file descriptor in a File-like object,
-> > > and use a context manager for managing the file pointer.
-> > >=20
-> > > Signed-off-by: John Snow <jsnow@redhat.com>
-> >=20
-> > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> >=20
-> > I really miss a comment below explaining why we use
-> > open(os.open(pathname, ...), ...) instead of open(pathname, ...).
-> >=20
+On Tue, Sep 22, 2020 at 05:00:51PM -0400, John Snow wrote:
+> Make the file handling here just a tiny bit more idiomatic.
+> (I realize this is heavily subjective.)
 >=20
-> Not known to me. It was introduced in 907b846653 as part of an effort to
-> reduce rebuild times. Maybe this avoids a modification time change if the
-> file already exists?
+> Use exist_ok=3DTrue for os.makedirs and remove the exception,
+> use fdopen() to wrap the file descriptor in a File-like object,
+> and use a context manager for managing the file pointer.
 >=20
-> Markus?
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-AFACIT the change on 907b846653 is effective because of the "is new
-text different from old text?" conditional.  I can not see how the
-separate/duplicate open/fdopen would contribute to that.
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
-But, let's hear from Markus.
-
-- Cleber.
-
---IdQYvU5iz1n5pUC3
+--pmKUVAsxJ35RhmJn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9swn0ACgkQZX6NM6Xy
-CfPHeQ//VDqVs1/tGbNS6xgRfNFBSXp85lh3WadXpt0BSeoDpn7vHW+7aU0eY7jA
-oJQQ0eAIQ38cP+3bwUNO9BDbNCrZnc7Ldw/1ndBiMvjrpp6r3AgYp3XUXZeyeppl
-8kcY5FuM92K9br1JtwPukoLuWgegCje130dAY2z3Qx2ea3MVmYc5mPWn6AjvRQFQ
-La3w8f9PptiC4VnuP+zPMMyE5NY6qbM3pahI7dpXX8JVCYOskK9NnhNTDdtmEixw
-6nbIVClEJ9G6cs5qNEFf/yXt6YBARL0Mo3UpYFONtr7pWmpFVfBb1p7syVhBvMX7
-pQ5lrUQweHWPLcv0Ig5Bm8V/S8ZNiyfD8VrbNdfgjWzkD8oLBd/EyiexlgkvAB+a
-CqjQBV8gFp90U8ht7gtomG9yzPUcvJOqJcHiUrrej56t6H77ekh2RUAf/N4f6h2Z
-Ys0P7HHsx5coDcmxdY/WKB8R1CicaURsVZLMsmJURIYRAvNcaSxivzStAMumvWUU
-lkZgVqRdkKz/Z7koWUe8tGxvWiWf0oRHvqBVzv0scO2PENn5579fu78zoHdPddXE
-M5xO9p65TBK6+4+PHIO44FxlPvD78U39yiLwN0W8sguxWUZpqtQL5BR2CeHoHRmg
-S6dZ96Bn1gNFNVOMTL2JksAF7aU/+oiP53QBgfmqc+vCFhFCZng=
-=53aw
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9swu4ACgkQZX6NM6Xy
+CfNgsg//TkEi5p6A9Fmrtl5PINfgdpc+SWOWrsBDTCVi9OhpAjSkgszYlUZKO2rf
+MyFzKEYMkreFhv2TGFC4Ag38Fy2svOP8X0nsISajJ2rN7ScaPUtdn1hiyO4X3xza
+FejP+MWCp0CzZ6nVtJ6PDLq7mh3BWTGH5XrS6m4f6fVPIr5wDE1qC3obNI0rZ1vK
+PT7aSdgBvRU8qCSjdfq9QHxl0tPqbwbA2kMBXvbdo/V7kZODOBbDBiWCxtV/Nyz1
+w8ZjWlOaejJLaJ5IZvqAakDjCwiPbKmwAcjzbwZt0rKRA87Q21vUkJ4si2+yveh6
++21M7M6fUIlW2/BPCNMjcSIp8t1Gn/O3dhxMUkCXpuaYESZl5MxJHDb+fourEeyB
+NSCKKlXUmeKATZGxQ3iB2WH7ohaUjdVQknq5fS1cm8SewqaGJe9hJFTvjGvPn8vm
+ihXLH8HLKZmgTVJcHx/7NNZ4s/Is9M9narPjdGAdq8lTpfnX1Eg7+bc756GxhC39
+le4P22Nu46RldX4F6IGJB7KVhjTP35YfKgimWF0naaXFGhwPESks2V6XHFRAFzsV
+EiGeDORrKdCKgxVxU5/tAG7nMJG/PwTAAHeY/pxqjizGRwLb6znjD7PK8UQUuzFq
+/iZg2DKc7xmkpb6A4jUhXKmnimpARbGA6bAxB+OtL/012SK8R4E=
+=3TCv
 -----END PGP SIGNATURE-----
 
---IdQYvU5iz1n5pUC3--
+--pmKUVAsxJ35RhmJn--
 
 
