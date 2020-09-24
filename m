@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412E9276DD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:49:06 +0200 (CEST)
-Received: from localhost ([::1]:56974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7013276DB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:46:22 +0200 (CEST)
+Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNs9-0001Y3-A0
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
+	id 1kLNpV-0005Kl-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:46:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTk-0000vb-KV
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54690)
+ id 1kLNTh-0000rA-6e
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTb-00061u-3M
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:52 -0400
+ id 1kLNTb-000621-FN
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600939422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SMbLWkx++SRjJTxVHc7OGdAT7b6LdYR09l6M084Hgjs=;
- b=eqGU+nS6buxnKbT7RXMLE1jlSa1ds2C6w/tB8mmFbmHHp2kYKPwouk4a/f1/ngUOYg3Ggh
- jGvxHZwxK9hsxJuVUC3fajKtBuXq/QbciEXrHeunhoQqrkRuFFeJHWuu4UPB9ZtsXGfHA5
- hTtgwkfyPVMNelNiWqIUwgkxcstTtFw=
+ bh=Tkn5x3SmRtENeyRythGpocLhfNHWHtH02D7imFP+YWY=;
+ b=aJKDaCn1uHKT+h4B0MKIWkJo9k2oArzQaTP3iF80+9k3NmRU+KCIvHxgNZbVAx4/NP+Bli
+ NJbVhsNXv7UFzOpJ3TONU8V7tFGKengmbNqDN+IDEFz+bpdxbJkb6yyfU7GSABod3m/A10
+ yniAAF/QmZOvtD1ivLiduhjB9+8aoM8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-rX2aqHD_OfSYtTrq8hsZhA-1; Thu, 24 Sep 2020 05:23:38 -0400
-X-MC-Unique: rX2aqHD_OfSYtTrq8hsZhA-1
+ us-mta-155-m-odfh08NKyljNAixjn31g-1; Thu, 24 Sep 2020 05:23:38 -0400
+X-MC-Unique: m-odfh08NKyljNAixjn31g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10645104D3E3;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E257800475;
  Thu, 24 Sep 2020 09:23:37 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0B1473662;
- Thu, 24 Sep 2020 09:23:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B17473662;
+ Thu, 24 Sep 2020 09:23:37 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/92] hw: megasas: return -1 when 'megasas_map_sgl' fails
-Date: Thu, 24 Sep 2020 05:22:08 -0400
-Message-Id: <20200924092314.1722645-27-pbonzini@redhat.com>
+Subject: [PULL 27/92] hw: megasas: consider 'iov_count=0' is an error in
+ megasas_map_sgl
+Date: Thu, 24 Sep 2020 05:22:09 -0400
+Message-Id: <20200924092314.1722645-28-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
@@ -81,46 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@163.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Li Qiang <liq3ea@163.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Li Qiang <liq3ea@163.com>
 
-The caller of 'megasas_map_sgl' will only check if the return
-is zero or not. If it return 0 it means success, as in the next
-patch we will consider 'iov_count=0' is an error, so let's
-return -1 to indicate a failure.
+Currently in 'megasas_map_sgl' when 'iov_count=0' will just return
+success however the 'cmd' doens't contain any iov. This will cause
+the assert in 'scsi_dma_complete' failed. This is because in
+'dma_blk_cb' the 'dbs->sg_cur_index == dbs->sg->nsg' will be true
+and just call 'dma_complete'. However now there is no aiocb returned.
 
+This fixes the LP#1878263:
+
+-->https://bugs.launchpad.net/qemu/+bug/1878263
+
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Li Qiang <liq3ea@163.com>
-Message-Id: <20200815141940.44025-2-liq3ea@163.com>
+Message-Id: <20200815141940.44025-3-liq3ea@163.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/megasas.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/scsi/megasas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index e90c00823a..4cc709d2c6 100644
+index 4cc709d2c6..e24c12d7ee 100644
 --- a/hw/scsi/megasas.c
 +++ b/hw/scsi/megasas.c
-@@ -280,7 +280,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
-     if (iov_count > MEGASAS_MAX_SGE) {
+@@ -277,7 +277,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+ 
+     cmd->flags = le16_to_cpu(cmd->frame->header.flags);
+     iov_count = cmd->frame->header.sge_count;
+-    if (iov_count > MEGASAS_MAX_SGE) {
++    if (!iov_count || iov_count > MEGASAS_MAX_SGE) {
          trace_megasas_iovec_sgl_overflow(cmd->index, iov_count,
                                           MEGASAS_MAX_SGE);
--        return iov_count;
-+        return -1;
-     }
-     pci_dma_sglist_init(&cmd->qsg, PCI_DEVICE(s), iov_count);
-     for (i = 0; i < iov_count; i++) {
-@@ -310,7 +310,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
-     return 0;
- unmap:
-     qemu_sglist_destroy(&cmd->qsg);
--    return iov_count - i;
-+    return -1;
- }
- 
- /*
+         return -1;
 -- 
 2.26.2
 
