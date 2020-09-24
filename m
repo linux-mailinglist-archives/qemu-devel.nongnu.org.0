@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2099A2777FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 19:46:17 +0200 (CEST)
-Received: from localhost ([::1]:36992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1ED277803
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 19:49:55 +0200 (CEST)
+Received: from localhost ([::1]:39334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLVJw-0001aS-6r
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 13:46:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
+	id 1kLVNT-0002h5-0d
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 13:49:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1kLVGX-0008K4-1o
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 13:42:47 -0400
-Received: from mailout08.t-online.de ([194.25.134.20]:33922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1kLVGU-00017w-JI
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 13:42:44 -0400
-Received: from fwd28.aul.t-online.de (fwd28.aul.t-online.de [172.20.26.133])
- by mailout08.t-online.de (Postfix) with SMTP id BE0D34117A5D;
- Thu, 24 Sep 2020 19:42:36 +0200 (CEST)
-Received: from [192.168.211.200]
- (bLfARiZOQhIQBCgu-k9o7IbTPZBTBAL2PcRaTwKMdbNITiiBrmw8mI5q9et9ulsgdG@[46.86.52.225])
- by fwd28.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1kLVGO-23ncGW0; Thu, 24 Sep 2020 19:42:36 +0200
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH 8/9] audio: restore mixing-engine playback buffer size
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <84f1c61a-8399-c75e-96c2-febfc2dd5fab@t-online.de>
- <20200920171729.15861-8-vr_qemu@t-online.de>
- <20200923063605.hatwdgbnvaxcgmn7@sirius.home.kraxel.org>
-Message-ID: <e1cc9b2b-c53c-9195-73ae-fcbec7049c5f@t-online.de>
-Date: Thu, 24 Sep 2020 19:42:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLVML-0002CH-Vc
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 13:48:45 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:39813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLVMK-0001pf-1G
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 13:48:45 -0400
+Received: by mail-ed1-x544.google.com with SMTP id e22so4252403edq.6
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 10:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=psza+Y3KxhE/irY2VaRtLZaKU7cQwHniVSfgWaSLivU=;
+ b=bRBPTER2nyphBNOPGp1/Nx0JN0R5bsNdOnA3F9bzw7V9M2kZSRhF5quvUtDv7nfsQO
+ wpA0DOYjgC7dkwughbOwBMx4iX5pVvArE+m16XtotMggL2TiL9PHBzbqEnnXTcjnTfCP
+ rQGP0u3/1+JR0GC/fr7MneUG2MApcwcvJORBN077skTTU9hKMoFzwGDoK/nyfmuGOGvU
+ xqfCeWJhgPlk007JVxnnNKZ79NecJ00+e6f/be1Op4XEtXRdrbkuSK34mq3Gat/pxZnK
+ QJTcL4d6ZqgFfqmb30B1IpPvEVXRmgLpVCHqbbgJCeKt3fK+G1tW0DJxE+QV+mSvyPlc
+ WOnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=psza+Y3KxhE/irY2VaRtLZaKU7cQwHniVSfgWaSLivU=;
+ b=hY2K3fj/8yKzAAgComifMdzjULM3VG6qQGUCEhvczphJ2RwpFGvDIQOu2/uvTNb+x3
+ 4FhHto1uAD1psOa3VgNCe8h4L1IMO2YbU1KFdXAPMpeHayTxo4MWZqAYT6e/PUoav0kY
+ +nGZTCrsbnARwu2yIsL4BArLFzynbZ6TcB8A2Ugms804bAL7cUd9H8U4qtQpeJEX3WLW
+ kiTxJaaDxlMjkFosvSUtAI7eK6z3fleclB258XIyjU/lKzJT4FyOlDBtIMPSF/Btv2dq
+ 0F0tccFyyKlkjgCmOmizUNPjElkeU8zsRomvzTZEMPGTvIW5K544mcn+ctQjxXpOYLXd
+ S0Qw==
+X-Gm-Message-State: AOAM532MzCJIFlfQuoGXAcrMXOCvgt6TSWrd2CRVUORqVcO1gcPoCTgM
+ jOMGe6UWT+09nS8rm3ztrpZfmwxSAGMn7YUS0Ij0Hw==
+X-Google-Smtp-Source: ABdhPJxF9HbBAtGdzknSn8M9X8qo7Rr3aX7d3UCHwuBNP79KHw1vzUdrqGePUUGisH33VMz0vsmAHMWffi9pKKrbJuw=
+X-Received: by 2002:a05:6402:202a:: with SMTP id
+ ay10mr1218137edb.36.1600969722591; 
+ Thu, 24 Sep 2020 10:48:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200923063605.hatwdgbnvaxcgmn7@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ID: bLfARiZOQhIQBCgu-k9o7IbTPZBTBAL2PcRaTwKMdbNITiiBrmw8mI5q9et9ulsgdG
-X-TOI-EXPURGATEID: 150726::1600969356-00000C65-B36B5F90/0/0 CLEAN NORMAL
-X-TOI-MSGID: 373b45c2-4b45-4564-beba-694c9a807189
-Received-SPF: none client-ip=194.25.134.20; envelope-from=vr_qemu@t-online.de;
- helo=mailout08.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 13:42:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+References: <20200923091001.20814-1-kraxel@redhat.com>
+In-Reply-To: <20200923091001.20814-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Sep 2020 18:48:31 +0100
+Message-ID: <CAFEAcA8zN23ocCZkJG9mKT5y-qnYcGPiqCJv+kwDBnBU3g7M6A@mail.gmail.com>
+Subject: Re: [PULL 0/9] Audio 20200923 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,47 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
->> index 21b7a0484b..cb931d0fda 100644
->> --- a/audio/sdlaudio.c
->> +++ b/audio/sdlaudio.c
->> @@ -253,6 +253,7 @@ static void sdl_callback (void *opaque, Uint8 *buf, int len)
->>          return ret;                                                     \
->>      }
->>  
->> +SDL_WRAPPER_FUNC(buffer_get_free, size_t, (HWVoiceOut *hw), (hw))
->>  SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
->>                   (hw, size), *size = 0, sdl_unlock)
->>  SDL_WRAPPER_FUNC(put_buffer_out, size_t,
-> Compiling C object libcommon.fa.p/audio_sdlaudio.c.o
-> ../../audio/sdlaudio.c:256:65: error: macro "SDL_WRAPPER_FUNC" requires 6 arguments, but only 4 given
->   256 | SDL_WRAPPER_FUNC(buffer_get_free, size_t, (HWVoiceOut *hw), (hw))
->       |                                                                 ^
-> ../../audio/sdlaudio.c:243: note: macro "SDL_WRAPPER_FUNC" defined here
->   243 | #define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args, fail, unlock) \
->       | 
-> ../../audio/sdlaudio.c:256:17: error: expected ‘;’ before ‘static’
->   256 | SDL_WRAPPER_FUNC(buffer_get_free, size_t, (HWVoiceOut *hw), (hw))
->       |                 ^
->       |                 ;
-> ../../audio/sdlaudio.c:355:24: error: ‘sdl_buffer_get_free’ undeclared here (not in a function)
->   355 |     .buffer_get_free = sdl_buffer_get_free,
->       |                        ^~~~~~~~~~~~~~~~~~~
-> make: *** [Makefile.ninja:1113: libcommon.fa.p/audio_sdlaudio.c.o] Error 1
+On Wed, 23 Sep 2020 at 10:12, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> (I think coreaudio has the same problem ...).
+> The following changes since commit 0fc0142828b5bc965790a1c5c6e241897d3387cb:
 >
-> take care,
->   Gerd
+>   Merge remote-tracking branch 'remotes/kraxel/tags/input-20200921-pull-reque=
+> st' into staging (2020-09-22 21:11:10 +0100)
 >
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/audio-20200923-pull-request
+>
+> for you to fetch changes up to 5e626fa7364bc2d7db5f6c8e59150dee1689b98a:
+>
+>   audio: build spiceaudio as module (2020-09-23 08:36:50 +0200)
+>
+> ----------------------------------------------------------------
+> audio: various buffering fixes.
+> audio: build spiceaudio as module.
+>
+> ----------------------------------------------------------------
+>
+> Gerd Hoffmann (2):
+>   audio: remove qemu_spice_audio_init()
+>   audio: build spiceaudio as module
+>
+> Volker R=C3=BCmelin (7):
+>   audio: handle buf =3D=3D NULL in put_buffer_out()
 
-Sorry. This was caused by a bad rebase and my tests were insufficient. I guess I'll send my sdlaudio patches next. This patch has to wait.
+UTF-8 damage in your workflow somewhere. Commits in the
+actual pullreq seem OK, though.
 
-With best regards,
-Volker
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
