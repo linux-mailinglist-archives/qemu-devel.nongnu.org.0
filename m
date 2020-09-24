@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564F62773E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 16:27:03 +0200 (CEST)
-Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859FE2773F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 16:29:33 +0200 (CEST)
+Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLSD8-0003Jq-43
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 10:27:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
+	id 1kLSFY-0005gB-Iv
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 10:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kLSAc-0001VQ-TO
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:24:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kLSAa-0003Qy-2v
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:24:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600957462;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vnUGIOfCzH8dQsGwL9KYk3jPuL+fdtwPch7NM3noSjs=;
- b=SQ93VT0eosN+f6cGFFYy/aKpuQERn/HQ6L9om7w0CGb5m0E8R4VfPUOm5/clPaWJ6ZN1ZA
- 2HZesdsDIgwH8x2lHJjd2b8xYAPYbxN6SVNkyEQ5iiL5LYsK9qCKzgiqYQ16NyRSPrKSOW
- 87ur9XMP+dUfA5uLjpXdsDg5fTrIKj8=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-lS_jYhRhNxGeCSyl9X0Cbw-1; Thu, 24 Sep 2020 10:24:13 -0400
-X-MC-Unique: lS_jYhRhNxGeCSyl9X0Cbw-1
-Received: by mail-yb1-f199.google.com with SMTP id v106so3055834ybi.6
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 07:24:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ameynarkhede03@gmail.com>)
+ id 1kLSC3-0003DI-Q8
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:25:55 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:56146)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ameynarkhede03@gmail.com>)
+ id 1kLSC1-0003mj-3F
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 10:25:55 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id q4so1782019pjh.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 07:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=+TVbVligqIvCciqg82ZCSp9nGXwv5sbAem1jDybjYhk=;
+ b=uffrfN8d1lGVeXepPjS34059Mue3gkZsb/JSQq0Rkd9fAPkBdsjA+rJlHRFCAE5p3p
+ CzKPEi3EM85COnelMMIWknIQaYh0QZsJRRUAYMUOGdXt03dFI/1EYoagY86T62SKSuia
+ 6mNzBn411qieFLqeXwL5xgEhfNLi0WFxRA3l1Vi5bDD/72zM08C7R5GpJ43l7DKlJGcz
+ H0OjnS2sU4yJJSOXu+RXye995KerLVlnjbGVWBCqfgt17QyvrpHQC4j2oC3t2hjVd6Q4
+ EIzLY1Pyt4ewneg2GgYbvyYprJu2azM2OD46j1HZ3Vj5l0tjcjJNxegCjIfG/ZEid3xg
+ EjuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vnUGIOfCzH8dQsGwL9KYk3jPuL+fdtwPch7NM3noSjs=;
- b=hA15jlxk9eddKbgVgTKCeNcSUZG2wOcBZaGnFS/J7yi9xOBlDVAD4fPMrSwUeeY7RU
- biid2d03Qb3Mp+jj8O8g/GROqvXyVxsGlEzqPLJjwQPRtmfE3agZAo+WFaal9o1DP8L7
- P/hUJ2Rlu0yqiQX0virJMwNeSk7hrynENI4YTOUJnjGT+wlvyd3gEMEq+0TwHBRI/BQr
- 3tLGpuSoa++U0rfzntnftNnNIbUr4/tSgttBfnIJaObI8+Z0US9hmcD+0Qu9t5OvDWnK
- KW1AdKNKufMGl+39JYXfUmwnY7Bsq0q4z1s5UZX9Ol6Viq0TjUP4txgB0dNm8Ubzxvj5
- EUyw==
-X-Gm-Message-State: AOAM531R6EOTqbLcxEzCrwxr2UxKV7dQffO47DWuE8cvvGIUqm2q+elG
- Koytoj4QJ8ZeCtSW2LmrKLo93JIZhzz8ZxkKTw+2LgMZsc2A4JE0kKu/ZEBwR6rE5ufYLVc6xC7
- hERU1ozdp/x013VgsfLyseKCdXSOP3gI=
-X-Received: by 2002:a25:5907:: with SMTP id n7mr7441259ybb.324.1600957453348; 
- Thu, 24 Sep 2020 07:24:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYqMT3mbEmgGKoPYEyxKQeMStrC5xy1zDFnNNOHfLZr6oQBQdBMPJCqe2mXZ+AHPIsLrJaTjBN8hW/xBFipN4=
-X-Received: by 2002:a25:5907:: with SMTP id n7mr7441218ybb.324.1600957453003; 
- Thu, 24 Sep 2020 07:24:13 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=+TVbVligqIvCciqg82ZCSp9nGXwv5sbAem1jDybjYhk=;
+ b=LuSFPybtkBUeUKAZra3lC6a1h7eFV9TVTefb6yxo6f83XdL1WC8VmBC/Y/ej+7cCyG
+ yMDvHPFj47pC1iTVcBhAvf1cpFV+7QgQGzY/VYReLOZtqEEo2a6xrNw7qPDNfQ+9FhnH
+ Yot3qoEm43I6rxUMzKC6T+/v9IZg/weR3By3KLwZKlfXU2LO+Ad3fOtG9IhnYqCf7Ae0
+ Y4tt1IQVmjOChF2pEyuAGeUDjxaF8GROq3D/tPxVRk/HJT4YYIVf9oWjaWALIlrVrRSk
+ qf4Rdk7HpZrIw40Z2K7bW66dPtJEIxTZtLts4DmtwnIUeHSJMcYMNETSUGNFPYI7Vw6n
+ 0COw==
+X-Gm-Message-State: AOAM5311XSqAYLxYb1BcYYLE9N3dZoNEIHbHRSeXdEWpCRDcghZ2K12O
+ o2//jmsajJ6tJP6X6ZY22EhP8U8CnTM=
+X-Google-Smtp-Source: ABdhPJycTAAUXjJi6MaxcqpjF6udd0Ol/2Hq/SIwB0505wEfepcHToydjzLZewaTe0E/XaaPt+H9yQ==
+X-Received: by 2002:a17:90a:fb4d:: with SMTP id
+ iq13mr4143197pjb.179.1600957551110; 
+ Thu, 24 Sep 2020 07:25:51 -0700 (PDT)
+Received: from localhost ([103.248.31.175])
+ by smtp.gmail.com with ESMTPSA id u4sm2733541pfk.166.2020.09.24.07.25.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Sep 2020 07:25:50 -0700 (PDT)
+Date: Thu, 24 Sep 2020 19:55:37 +0530
+From: Amey Narkhede <ameynarkhede03@gmail.com>
+To: its@irrelevant.dk
+Subject: About TODO in nvme emulation
+Message-ID: <20200924142537.xctoxv7xdr2nab7o@archlinux>
 MIME-Version: 1.0
-References: <20200924070013.165026-1-jusual@redhat.com>
- <20200924070013.165026-7-jusual@redhat.com>
- <20200924103631.GC2097005@redhat.com>
-In-Reply-To: <20200924103631.GC2097005@redhat.com>
-From: Julia Suvorova <jusual@redhat.com>
-Date: Thu, 24 Sep 2020 16:24:02 +0200
-Message-ID: <CAMDeoFWYC3aB1M7VwpR0W4YymLr3VF=b3iZot9v_vpKDPBK0aw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 6/7] hw/acpi/ich9: Set ACPI PCI hot-plug as default
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsuvorov@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsuvorov@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yesmsjrvbdyyqqjz"
+Content-Disposition: inline
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=ameynarkhede03@gmail.com; helo=mail-pj1-x102b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,72 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 24, 2020 at 12:36 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
->
-> On Thu, Sep 24, 2020 at 09:00:12AM +0200, Julia Suvorova wrote:
->
-> There needs to be a commit message to explain / justify why this change
-> is a benefit. You have a nice list of pros/cons in the cover letter
-> which could serve as a good commit message here.
->
-> The cover letter gets discarded, only the commit message is in git
-> history, so its beneficial to capture that info here.
 
-Sure, I'll add it.
+--yesmsjrvbdyyqqjz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > ---
-> >  hw/acpi/ich9.c | 2 +-
-> >  hw/i386/pc.c   | 1 +
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 987f23e388..c67c20de4e 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -425,7 +425,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMR=
-egs *pm)
-> >      pm->disable_s3 =3D 0;
-> >      pm->disable_s4 =3D 0;
-> >      pm->s4_val =3D 2;
-> > -    pm->use_acpi_hotplug_bridge =3D false;
-> > +    pm->use_acpi_hotplug_bridge =3D true;
-> >
-> >      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
-> >                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ=
-);
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index b55369357e..5de4475570 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -101,6 +101,7 @@ GlobalProperty pc_compat_5_1[] =3D {};
-> >  const size_t pc_compat_5_1_len =3D G_N_ELEMENTS(pc_compat_5_1);
-> >
-> >  GlobalProperty pc_compat_5_0[] =3D {
-> > +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
-> >  };
-> >  const size_t pc_compat_5_0_len =3D G_N_ELEMENTS(pc_compat_5_0);
-> >
-> > --
-> > 2.25.4
-> >
-> >
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+Is there any TODO file/wiki for nvme emulation code?
+I'm a beginner who is interested in getting into
+nvme emulation. I have read nvme v1.4a specification
+and some code in hw/block/nvme.
 
+Regards,
+Amey
+
+--yesmsjrvbdyyqqjz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEb5tNK+B4oWmn+0Z9BBTsy/Z3yzYFAl9srFwACgkQBBTsy/Z3
+yzZ1SAgAggVfv37+e/Yz58FRnom3skf/8xadopAIP5+12+RKNZYJW2SV3a5yl7EQ
+4nJfwtPIBZj2DAVRyFWz4LxU1LNoD14fI2x/eODQe5GdZLELcF6vLlI0jyvMDifp
+tFSlhD//cCfbmjBmchIQRB9IxcuXnSXpzoqWYWBlzkymzIoxDAridSUXYVg17Gnr
+B005wE+R6TypZz/hxkKaeqYW41t0ps9NN/hc2XXoOxHcIZsQHQUT0Q4FLpQ9wCZu
+o+UJEnucNDZXcWP+sbRoh+jYvj5qQFUV23aPUj0VK+gj9g5v9yZCCZkgy1JOjD0C
+wtJxrOMt8QanznvaEo1e4WruYpjhrg==
+=wOop
+-----END PGP SIGNATURE-----
+
+--yesmsjrvbdyyqqjz--
 
