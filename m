@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C63276E26
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:06:32 +0200 (CEST)
-Received: from localhost ([::1]:58890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3825276E35
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:08:26 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLO91-0002W4-TI
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39188)
+	id 1kLOAr-0005xD-MO
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTx-0001Wo-W6
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24318)
+ id 1kLNTz-0001Zz-7y
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTw-00067o-27
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:05 -0400
+ id 1kLNTw-00067z-Hn
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600939443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0oqdwKIol3TeyBC9JBnbi8HPeCxqWfu6IT9P7TbZoq0=;
- b=A3Xp9N1K0C5XAbOtvroixgkf+JUSVnmDExxpScqofm4+zAcDOPlf7HwQCZO7bx29PpHBDf
- OEoyFrcq6nCnC0uoxOaJqVLeLjXE7pp53fq81XZ5GFJdOtD2HREzE+Hj1YB0DK9ba5ew4u
- Pp0aizgvuXKFvVkjBBZsbK18chnWq3w=
+ bh=xP6WqepeP8xglmi4j/uOwwV7vPCvBXJqTO/ebv4iXdk=;
+ b=cXh41CWlYx2ghbpEVdZZZN+WmWb2t/2weyXCbf+MeWaK5pRp542yUUSjCS4y62dZsKRGdY
+ iN5v0aRtfTBMLArs4tjAVAjRAv5aqTZYVxqLdm21uEGrX2wZXsZJQ8IVR6HFZBSu2q7Tc3
+ hDyEKETOwh8gZocLbU98SBkqW7ScgBQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-pBiIW4bVN2WJY6-9mV_49g-1; Thu, 24 Sep 2020 05:24:01 -0400
-X-MC-Unique: pBiIW4bVN2WJY6-9mV_49g-1
+ us-mta-373-EK-FN6roMuy4fVUbwEEc_Q-1; Thu, 24 Sep 2020 05:24:01 -0400
+X-MC-Unique: EK-FN6roMuy4fVUbwEEc_Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BD2581F00B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2192104D3E5;
  Thu, 24 Sep 2020 09:24:00 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 111775C269;
- Thu, 24 Sep 2020 09:23:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A19185C1DC;
+ Thu, 24 Sep 2020 09:24:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 53/92] exec: Remove MemoryRegion::global_locking field
-Date: Thu, 24 Sep 2020 05:22:35 -0400
-Message-Id: <20200924092314.1722645-54-pbonzini@redhat.com>
+Subject: [PULL 55/92] meson: fix installation of keymaps
+Date: Thu, 24 Sep 2020 05:22:37 -0400
+Message-Id: <20200924092314.1722645-56-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,125 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Anthony PERARD <anthony.perard@citrix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Anthony PERARD <anthony.perard@citrix.com>
 
-Last uses of memory_region_clear_global_locking() have been
-removed in commit 7070e085d4 ("acpi: mark PMTIMER as unlocked")
-and commit 08565552f7 ("cputlb: Move NOTDIRTY handling from I/O
-path to TLB path").
-Remove memory_region_clear_global_locking() and the now unused
-'global_locking' field in MemoryRegion.
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200806150726.962-1-philmd@redhat.com>
+Message-Id: <20200918130354.1879275-1-anthony.perard@citrix.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/cputlb.c    |  4 ++--
- exec.c                |  2 +-
- include/exec/memory.h | 14 --------------
- softmmu/memory.c      |  6 ------
- 4 files changed, 3 insertions(+), 23 deletions(-)
+ pc-bios/keymaps/meson.build | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 6489abbf8c..4657a3b8a6 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1053,7 +1053,7 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         cpu_io_recompile(cpu, retaddr);
-     }
- 
--    if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-+    if (!qemu_mutex_iothread_locked()) {
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
-@@ -1114,7 +1114,7 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-      */
-     save_iotlb_data(cpu, iotlbentry->addr, section, mr_offset);
- 
--    if (mr->global_locking && !qemu_mutex_iothread_locked()) {
-+    if (!qemu_mutex_iothread_locked()) {
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
-diff --git a/exec.c b/exec.c
-index e34b602bdf..bc55a92292 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3136,7 +3136,7 @@ static bool prepare_mmio_access(MemoryRegion *mr)
-     bool unlocked = !qemu_mutex_iothread_locked();
-     bool release_lock = false;
- 
--    if (unlocked && mr->global_locking) {
-+    if (unlocked) {
-         qemu_mutex_lock_iothread();
-         unlocked = false;
-         release_lock = true;
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index ec9edee742..9f6468f346 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -404,7 +404,6 @@ struct MemoryRegion {
-     bool nonvolatile;
-     bool rom_device;
-     bool flush_coalesced_mmio;
--    bool global_locking;
-     uint8_t dirty_log_mask;
-     bool is_iommu;
-     RAMBlock *ram_block;
-@@ -1738,19 +1737,6 @@ void memory_region_set_flush_coalesced(MemoryRegion *mr);
-  */
- void memory_region_clear_flush_coalesced(MemoryRegion *mr);
- 
--/**
-- * memory_region_clear_global_locking: Declares that access processing does
-- *                                     not depend on the QEMU global lock.
-- *
-- * By clearing this property, accesses to the memory region will be processed
-- * outside of QEMU's global lock (unless the lock is held on when issuing the
-- * access request). In this case, the device model implementing the access
-- * handlers is responsible for synchronization of concurrency.
-- *
-- * @mr: the memory region to be updated.
-- */
--void memory_region_clear_global_locking(MemoryRegion *mr);
--
- /**
-  * memory_region_add_eventfd: Request an eventfd to be triggered when a word
-  *                            is written to a location.
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index d030eb6f7c..31b0c5250e 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1221,7 +1221,6 @@ static void memory_region_initfn(Object *obj)
-     mr->ops = &unassigned_mem_ops;
-     mr->enabled = true;
-     mr->romd_mode = true;
--    mr->global_locking = true;
-     mr->destructor = memory_region_destructor_none;
-     QTAILQ_INIT(&mr->subregions);
-     QTAILQ_INIT(&mr->coalesced);
-@@ -2277,11 +2276,6 @@ void memory_region_clear_flush_coalesced(MemoryRegion *mr)
-     }
- }
- 
--void memory_region_clear_global_locking(MemoryRegion *mr)
--{
--    mr->global_locking = false;
--}
--
- static bool userspace_eventfd_warning;
- 
- void memory_region_add_eventfd(MemoryRegion *mr,
+diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+index 2e2e0dfa3b..05eda6c0d2 100644
+--- a/pc-bios/keymaps/meson.build
++++ b/pc-bios/keymaps/meson.build
+@@ -47,6 +47,7 @@ foreach km, args: keymaps
+                        build_by_default: true,
+                        output: km,
+                        command: [native_qemu_keymap, '-f', '@OUTPUT@', args.split()],
++                       install: true,
+                        install_dir: qemu_datadir / 'keymaps')
+   else
+     # copy from source tree
+@@ -55,6 +56,7 @@ foreach km, args: keymaps
+                        input: km,
+                        output: km,
+                        command: ['cp', '@INPUT@', '@OUTPUT@'],
++                       install: true,
+                        install_dir: qemu_datadir / 'keymaps')
+   endif
+ endforeach
 -- 
 2.26.2
 
