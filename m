@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212E9277700
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:40:24 +0200 (CEST)
-Received: from localhost ([::1]:50804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFFC27770C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:43:27 +0200 (CEST)
+Received: from localhost ([::1]:59076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLUIB-00074L-5o
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:40:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57424)
+	id 1kLUL8-0002F7-8e
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkN-0002Ds-MF
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31094)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkU-0002S9-K5
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkF-0003bq-LH
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:27 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkS-0003oV-DZ
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600963514;
+ s=mimecast20190719; t=1600963531;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T/ZKOQNJcI2maVD2pHtRKj9D8ra+xSOLD0oKJHjr4E4=;
- b=OSigXw2CqvQFQh1XQHIBzCPab6fEzhDUMR9C8WdC8thlGVdbO8XV5e/Pr7gwolXq2UbPXX
- X2CL3Up5SJHdB5WkZl3yOcTjGUyQIZKP3FHfS1WlFp/Sh7zDq5LeJKTrIepON72IGH9bBE
- h6CWd1JUux+a5MwdCuhUtUXTq3feNqs=
+ bh=3N5IgJYqkCr1hw868wwfOZv+LThV2WpVpRBD9vwnCeQ=;
+ b=EI5hfHcjpPi++V+6SR8yvLH8VXYV7mBGnuOfLmBD+7Kl1j81+h2tShz40crKKnXXGYj3Q9
+ mfL41fZewoLBLYVgVkMsbbjWbhpo18EIntXSuUPb0qxnAeLKeTCNJW/UUMPb+t1LKBbaMo
+ oAIRVLk3WqXgice4mgbNmfWjfgtSbDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-t5RGKrAvOdmNOHXtgOY4HA-1; Thu, 24 Sep 2020 12:05:12 -0400
-X-MC-Unique: t5RGKrAvOdmNOHXtgOY4HA-1
+ us-mta-243-KPUqA1oKPsiww6_mqYbP7w-1; Thu, 24 Sep 2020 12:05:27 -0400
+X-MC-Unique: KPUqA1oKPsiww6_mqYbP7w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D29AA18BA284;
- Thu, 24 Sep 2020 16:05:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F72B8010C7;
+ Thu, 24 Sep 2020 16:05:26 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-4.ams2.redhat.com [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A058F19C66;
- Thu, 24 Sep 2020 16:05:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 323E119C66;
+ Thu, 24 Sep 2020 16:05:12 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH PROTOTYPE 2/6] virtio-mem: Impelement SparseRAMHandler
- interface
-Date: Thu, 24 Sep 2020 18:04:19 +0200
-Message-Id: <20200924160423.106747-3-david@redhat.com>
+Subject: [PATCH PROTOTYPE 3/6] vfio: Implement support for sparse RAM memory
+ regions
+Date: Thu, 24 Sep 2020 18:04:20 +0200
+Message-Id: <20200924160423.106747-4-david@redhat.com>
 In-Reply-To: <20200924160423.106747-1-david@redhat.com>
 References: <20200924160423.106747-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -89,9 +89,12 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's properly notify when (un)plugging blocks. Handle errors from
-notifiers gracefully when mapping, rolling back the change and telling
-the guest that the VM is busy.
+Implement support for sparse RAM, to be used by virtio-mem. Handling
+is somewhat-similar to memory_region_is_iommu() handling, which also
+notifies on changes.
+
+Instead of mapping the whole region, we only map selected pieces (and
+unmap previously selected pieces) when notified by the SparseRAMHandler.
 
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -103,261 +106,234 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-mem.c         | 158 ++++++++++++++++++++++++++++++++-
- include/hw/virtio/virtio-mem.h |   3 +
- 2 files changed, 160 insertions(+), 1 deletion(-)
+ hw/vfio/common.c              | 155 ++++++++++++++++++++++++++++++++++
+ include/hw/vfio/vfio-common.h |  12 +++
+ 2 files changed, 167 insertions(+)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 8fbec77ccc..e23969eaed 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -72,6 +72,64 @@ static bool virtio_mem_is_busy(void)
-     return migration_in_incoming_postcopy() || !migration_is_idle();
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 13471ae294..a3aaf70dd8 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -37,6 +37,7 @@
+ #include "sysemu/reset.h"
+ #include "trace.h"
+ #include "qapi/error.h"
++#include "qemu/units.h"
+ 
+ VFIOGroupList vfio_group_list =
+     QLIST_HEAD_INITIALIZER(vfio_group_list);
+@@ -498,6 +499,143 @@ out:
+     rcu_read_unlock();
  }
  
-+static void virtio_mem_srh_notify_unmap(VirtIOMEM *vmem, uint64_t offset,
-+                                        uint64_t size)
++static int vfio_sparse_ram_notify(SparseRAMNotifier *n, const MemoryRegion *mr,
++                                  uint64_t mr_offset, uint64_t size,
++                                  bool map)
 +{
-+    SparseRAMNotifier *notifier;
-+
-+    QLIST_FOREACH(notifier, &vmem->sram_notify, next) {
-+        notifier->notify_unmap(notifier, &vmem->memdev->mr, offset, size);
-+    }
-+}
-+
-+static int virtio_mem_srh_notify_map(VirtIOMEM *vmem, uint64_t offset,
-+                                     uint64_t size)
-+{
-+    SparseRAMNotifier *notifier, *notifier2;
-+    int ret = 0;
-+
-+    QLIST_FOREACH(notifier, &vmem->sram_notify, next) {
-+        ret = notifier->notify_map(notifier, &vmem->memdev->mr, offset, size);
-+        if (ret) {
-+            break;
-+        }
-+    }
-+
-+    /* In case any notifier failed, undo the whole operation. */
-+    if (ret) {
-+        QLIST_FOREACH(notifier2, &vmem->sram_notify, next) {
-+            if (notifier2 == notifier) {
-+                break;
-+            }
-+            notifier2->notify_unmap(notifier2, &vmem->memdev->mr, offset, size);
-+        }
-+    }
-+    return ret;
-+}
-+
-+/*
-+ * TODO: Maybe we could notify directly that everything is unmapped/discarded.
-+ * at least vfio should be able to deal with that.
-+ */
-+static void virtio_mem_srh_notify_unplug_all(VirtIOMEM *vmem)
-+{
-+    unsigned long first_zero_bit, last_zero_bit;
-+    uint64_t offset, length;
-+
-+    /* Find consecutive unplugged blocks and notify */
-+    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
-+    while (first_zero_bit < vmem->bitmap_size) {
-+        offset = first_zero_bit * vmem->block_size;
-+        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-+                                      first_zero_bit + 1) - 1;
-+        length = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
-+
-+        virtio_mem_srh_notify_unmap(vmem, offset, length);
-+        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-+                                            last_zero_bit + 2);
-+    }
-+}
-+
- static bool virtio_mem_test_bitmap(VirtIOMEM *vmem, uint64_t start_gpa,
-                                    uint64_t size, bool plugged)
- {
-@@ -146,7 +204,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
-                                       uint64_t size, bool plug)
- {
-     const uint64_t offset = start_gpa - vmem->addr;
--    int ret;
++    VFIOSparseRAM *sram = container_of(n, VFIOSparseRAM, notifier);
++    const hwaddr mr_start = MAX(mr_offset, sram->offset_within_region);
++    const hwaddr mr_end = MIN(mr_offset + size,
++                              sram->offset_within_region + sram->size);
++    const hwaddr iova_start = mr_start + sram->offset_within_address_space;
++    const hwaddr iova_end = mr_end + sram->offset_within_address_space;
++    hwaddr mr_cur, iova_cur, mr_next;
++    void *vaddr;
 +    int ret, ret2;
- 
-     if (virtio_mem_is_busy()) {
-         return -EBUSY;
-@@ -159,6 +217,23 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
-                          strerror(-ret));
-             return -EBUSY;
-         }
-+        /*
-+         * We'll notify *after* discarding succeeded, because we might not be
-+         * able to map again ...
-+         */
-+        virtio_mem_srh_notify_unmap(vmem, offset, size);
-+    } else if (virtio_mem_srh_notify_map(vmem, offset, size)) {
-+        /*
-+         * Could be a mapping attempt already already resulted in memory
-+         * getting populated.
-+         */
-+        ret2 = ram_block_discard_range(vmem->memdev->mr.ram_block, offset,
-+                                       size);
-+        if (ret2) {
-+            error_report("Unexpected error discarding RAM: %s",
-+                         strerror(-ret2));
-+        }
-+        return -EBUSY;
-     }
-     virtio_mem_set_bitmap(vmem, start_gpa, size, plug);
-     return 0;
-@@ -253,6 +328,8 @@ static int virtio_mem_unplug_all(VirtIOMEM *vmem)
-         error_report("Unexpected error discarding RAM: %s", strerror(-ret));
-         return -EBUSY;
-     }
-+    virtio_mem_srh_notify_unplug_all(vmem);
 +
-     bitmap_clear(vmem->bitmap, 0, vmem->bitmap_size);
-     if (vmem->size) {
-         vmem->size = 0;
-@@ -480,6 +557,13 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-     vmstate_register_ram(&vmem->memdev->mr, DEVICE(vmem));
-     qemu_register_reset(virtio_mem_system_reset, vmem);
-     precopy_add_notifier(&vmem->precopy_notifier);
++    g_assert(mr == sram->mr);
++
++    /* We get notified about everything, ignore range we don't care about. */
++    if (mr_start >= mr_end) {
++        return 0;
++    }
++
++    /* Unmap everything with a single call. */
++    if (!map) {
++        ret = vfio_dma_unmap(sram->container, iova_start,
++                             iova_end - iova_start);
++        if (ret) {
++            error_report("%s: vfio_dma_unmap() failed: %s", __func__,
++                         strerror(-ret));
++        }
++        return 0;
++    }
++
++    /* TODO: fail early if we would exceed a specified number of mappings. */
++
++    /* Map in (aligned within MR) granularity, so we can unmap later. */
++    for (mr_cur = mr_start; mr_cur < mr_end; mr_cur = mr_next) {
++        iova_cur = mr_cur + sram->offset_within_address_space;
++        mr_next = QEMU_ALIGN_UP(mr_cur + 1, sram->granularity);
++        mr_next = MIN(mr_next, mr_end);
++
++        vaddr = memory_region_get_ram_ptr(sram->mr) + mr_cur;
++        ret = vfio_dma_map(sram->container, iova_cur, mr_next - mr_cur,
++                           vaddr, mr->readonly);
++        if (ret) {
++            /* Rollback in case of error. */
++            if (mr_cur != mr_start) {
++                ret2 = vfio_dma_unmap(sram->container, iova_start,
++                                      iova_end - iova_start);
++                if (ret2) {
++                    error_report("%s: vfio_dma_unmap() failed: %s", __func__,
++                                  strerror(-ret));
++                }
++            }
++            return ret;
++        }
++    }
++    return 0;
++}
++
++static int vfio_sparse_ram_notify_map(SparseRAMNotifier *n,
++                                      const MemoryRegion *mr,
++                                      uint64_t mr_offset, uint64_t size)
++{
++    return vfio_sparse_ram_notify(n, mr, mr_offset, size, true);
++}
++
++static void vfio_sparse_ram_notify_unmap(SparseRAMNotifier *n,
++                                         const MemoryRegion *mr,
++                                         uint64_t mr_offset, uint64_t size)
++{
++    vfio_sparse_ram_notify(n, mr, mr_offset, size, false);
++}
++
++static void vfio_register_sparse_ram(VFIOContainer *container,
++                                     MemoryRegionSection *section)
++{
++    VFIOSparseRAM *sram;
++    int ret;
++
++    sram = g_new0(VFIOSparseRAM, 1);
++    sram->container = container;
++    sram->mr = section->mr;
++    sram->offset_within_region = section->offset_within_region;
++    sram->offset_within_address_space = section->offset_within_address_space;
++    sram->size = int128_get64(section->size);
++    sram->granularity = memory_region_sparse_ram_get_granularity(section->mr);
 +
 +    /*
-+     * Set it to sparse, so everybody is aware of it before the plug handler
-+     * exposes the region to the system.
++     * TODO: We usually want a bigger granularity (for a lot of addded memory,
++     * as we need quite a lot of mappings) - however, this has to be configured
++     * by the user.
 +     */
-+    memory_region_set_sparse_ram_handler(&vmem->memdev->mr,
-+                                         SPARSE_RAM_HANDLER(vmem));
- }
- 
- static void virtio_mem_device_unrealize(DeviceState *dev)
-@@ -487,6 +571,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOMEM *vmem = VIRTIO_MEM(dev);
- 
-+    memory_region_set_sparse_ram_handler(&vmem->memdev->mr, NULL);
-     precopy_remove_notifier(&vmem->precopy_notifier);
-     qemu_unregister_reset(virtio_mem_system_reset, vmem);
-     vmstate_unregister_ram(&vmem->memdev->mr, DEVICE(vmem));
-@@ -813,6 +898,7 @@ static void virtio_mem_instance_init(Object *obj)
-     vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
-     notifier_list_init(&vmem->size_change_notifiers);
-     vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
-+    QLIST_INIT(&vmem->sram_notify);
- 
-     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
-                         NULL, NULL, NULL);
-@@ -832,11 +918,72 @@ static Property virtio_mem_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+static uint64_t virtio_mem_srh_get_granularity(const SparseRAMHandler *srh,
-+                                               const MemoryRegion *mr)
-+{
-+    const VirtIOMEM *vmem = VIRTIO_MEM(srh);
++    g_assert(sram->granularity >= 1 * MiB &&
++             is_power_of_2(sram->granularity));
 +
-+    g_assert(mr == &vmem->memdev->mr);
-+    return vmem->block_size;
++    /* Register the notifier */
++    sparse_ram_notifier_init(&sram->notifier, vfio_sparse_ram_notify_map,
++                             vfio_sparse_ram_notify_unmap);
++    memory_region_register_sparse_ram_notifier(section->mr, &sram->notifier);
++    QLIST_INSERT_HEAD(&container->sram_list, sram, next);
++    /*
++     * Replay mapped blocks - if anything goes wrong (only when hotplugging
++     * vfio devices), report the error for now.
++     *
++     * TODO: Can we catch this earlier?
++     */
++    ret = memory_region_sparse_ram_replay_mapped(section->mr, &sram->notifier);
++    if (ret) {
++        error_report("%s: failed to replay mappings: %s", __func__,
++                     strerror(-ret));
++    }
 +}
 +
-+static void virtio_mem_srh_register_listener(SparseRAMHandler *srh,
-+                                             const MemoryRegion *mr,
-+                                             SparseRAMNotifier *notifier)
++static void vfio_unregister_sparse_ram(VFIOContainer *container,
++                                       MemoryRegionSection *section)
 +{
-+    VirtIOMEM *vmem = VIRTIO_MEM(srh);
++    VFIOSparseRAM *sram = NULL;
 +
-+    g_assert(mr == &vmem->memdev->mr);
-+    QLIST_INSERT_HEAD(&vmem->sram_notify, notifier, next);
-+}
-+
-+static void virtio_mem_srh_unregister_listener(SparseRAMHandler *srh,
-+                                               const MemoryRegion *mr,
-+                                               SparseRAMNotifier *notifier)
-+{
-+    VirtIOMEM *vmem = VIRTIO_MEM(srh);
-+
-+    g_assert(mr == &vmem->memdev->mr);
-+    QLIST_REMOVE(notifier, next);
-+}
-+
-+static int virtio_mem_srh_replay_mapped(SparseRAMHandler *srh,
-+                                        const MemoryRegion *mr,
-+                                        SparseRAMNotifier *notifier)
-+{
-+    VirtIOMEM *vmem = VIRTIO_MEM(srh);
-+    unsigned long first_bit, last_bit;
-+    uint64_t offset, length;
-+    int ret = 0;
-+
-+    g_assert(mr == &vmem->memdev->mr);
-+
-+    /* Find consecutive plugged blocks and notify */
-+    first_bit = find_first_bit(vmem->bitmap, vmem->bitmap_size);
-+    while (first_bit < vmem->bitmap_size) {
-+        offset = first_bit * vmem->block_size;
-+        last_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-+                                      first_bit + 1) - 1;
-+        length = (last_bit - first_bit + 1) * vmem->block_size;
-+
-+        ret = notifier->notify_map(notifier, mr, offset, length);
-+        if (ret) {
++    QLIST_FOREACH(sram, &container->sram_list, next) {
++        if (sram->mr == section->mr &&
++            sram->offset_within_region == section->offset_within_region &&
++            sram->offset_within_address_space ==
++            section->offset_within_address_space) {
 +            break;
 +        }
-+        first_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-+                                  last_bit + 2);
 +    }
 +
-+    /* TODO: cleanup on error if necessary. */
-+    return ret;
++    if (!sram) {
++        hw_error("vfio: Trying to unregister non-existant sparse RAM");
++    }
++
++    memory_region_unregister_sparse_ram_notifier(section->mr, &sram->notifier);
++    QLIST_REMOVE(sram, next);
++    g_free(sram);
++    /* The caller is expected to vfio_dma_unmap(). */
 +}
 +
- static void virtio_mem_class_init(ObjectClass *klass, void *data)
+ static void vfio_listener_region_add(MemoryListener *listener,
+                                      MemoryRegionSection *section)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
-     VirtIOMEMClass *vmc = VIRTIO_MEM_CLASS(klass);
-+    SparseRAMHandlerClass *srhc = SPARSE_RAM_HANDLER_CLASS(klass);
+@@ -650,6 +788,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
  
-     device_class_set_props(dc, virtio_mem_properties);
-     dc->vmsd = &vmstate_virtio_mem;
-@@ -852,6 +999,11 @@ static void virtio_mem_class_init(ObjectClass *klass, void *data)
-     vmc->get_memory_region = virtio_mem_get_memory_region;
-     vmc->add_size_change_notifier = virtio_mem_add_size_change_notifier;
-     vmc->remove_size_change_notifier = virtio_mem_remove_size_change_notifier;
+     /* Here we assume that memory_region_is_ram(section->mr)==true */
+ 
++    /*
++     * For sparse RAM, we only want to register the actually mapped
++     * pieces - and update the mapping whenever we're notified about changes.
++     */
++    if (memory_region_is_sparse_ram(section->mr)) {
++        vfio_register_sparse_ram(container, section);
++        return;
++    }
 +
-+    srhc->get_granularity = virtio_mem_srh_get_granularity;
-+    srhc->register_listener = virtio_mem_srh_register_listener;
-+    srhc->unregister_listener = virtio_mem_srh_unregister_listener;
-+    srhc->replay_mapped = virtio_mem_srh_replay_mapped;
- }
+     vaddr = memory_region_get_ram_ptr(section->mr) +
+             section->offset_within_region +
+             (iova - section->offset_within_address_space);
+@@ -786,6 +933,13 @@ static void vfio_listener_region_del(MemoryListener *listener,
  
- static const TypeInfo virtio_mem_info = {
-@@ -861,6 +1013,10 @@ static const TypeInfo virtio_mem_info = {
-     .instance_init = virtio_mem_instance_init,
-     .class_init = virtio_mem_class_init,
-     .class_size = sizeof(VirtIOMEMClass),
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_SPARSE_RAM_HANDLER },
-+        { }
-+    },
- };
+         pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+         try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
++    } else if (memory_region_is_sparse_ram(section->mr)) {
++        vfio_unregister_sparse_ram(container, section);
++        /*
++         * We rely on a single vfio_dma_unmap() call below to clean the whole
++         * region.
++         */
++        try_unmap = true;
+     }
  
- static void virtio_register_types(void)
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index 4eeb82d5dd..91d9b48ba0 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -67,6 +67,9 @@ struct VirtIOMEM {
+     if (try_unmap) {
+@@ -1275,6 +1429,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     container->error = NULL;
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
++    QLIST_INIT(&container->sram_list);
  
-     /* don't migrate unplugged memory */
-     NotifierWithReturn precopy_notifier;
+     ret = vfio_init_container(container, group->fd, errp);
+     if (ret) {
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index c78f3ff559..dfa18dbd8e 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -77,6 +77,7 @@ typedef struct VFIOContainer {
+     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+     QLIST_HEAD(, VFIOGroup) group_list;
++    QLIST_HEAD(, VFIOSparseRAM) sram_list;
+     QLIST_ENTRY(VFIOContainer) next;
+ } VFIOContainer;
+ 
+@@ -88,6 +89,17 @@ typedef struct VFIOGuestIOMMU {
+     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
+ } VFIOGuestIOMMU;
+ 
++typedef struct VFIOSparseRAM {
++    VFIOContainer *container;
++    MemoryRegion *mr;
++    hwaddr offset_within_region;
++    hwaddr offset_within_address_space;
++    hwaddr size;
++    uint64_t granularity;
++    SparseRAMNotifier notifier;
++    QLIST_ENTRY(VFIOSparseRAM) next;
++} VFIOSparseRAM;
 +
-+    /* SparseRAMNotifier list to be notified on plug/unplug events. */
-+    QLIST_HEAD(, SparseRAMNotifier) sram_notify;
- };
- 
- struct VirtIOMEMClass {
+ typedef struct VFIOHostDMAWindow {
+     hwaddr min_iova;
+     hwaddr max_iova;
 -- 
 2.26.2
 
