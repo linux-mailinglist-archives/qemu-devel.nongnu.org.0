@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30EBA2769F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:03:10 +0200 (CEST)
-Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7995F276A11
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:06:59 +0200 (CEST)
+Received: from localhost ([::1]:59588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLLHZ-0002EO-8Z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34626)
+	id 1kLLLG-0006sH-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1kLLFS-0000xM-1w
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1kLLFS-0000xY-9h
  for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:00:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25359)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1kLLFQ-0005Je-8v
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1kLLFQ-0005Jh-HI
  for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:00:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600930855;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ymlR3AzWDukUaAx+Ufl+5dNMAPyM0Z+N8lzBqbv7xvE=;
- b=S3LIt5HXxCcY1X+dYdh5ZYs7Lx/6aZCnWVmraPwdiUVW1t5cEAc5UoCVADaDc4RNu2sGq3
- z9XP5c5bX/GbM6ccKbtErzIyjWyDUB8dsFveTyCRLcRiT817gKp66JARArRYYx968NgQsv
- 0yyfQNjrcCD6WnUSDadqpKDLqDoJOMY=
+ bh=E4HfwY0bkFQVLDlWgoz8rpqz2t6xSvRYuOYgLeL6gok=;
+ b=N5KI4xSDsZrpl46bRGXEjqlhES3RB5xDwrmUVb9hQ+xjG04YQLab0FG/au7/B1Niv8BOS4
+ xlFnhb0f08ergUBlJu52KtSjvYRPLK8rFcv9g/jbzBezpTHETxRcrdStVgt5hdMJgzPgYD
+ d9JqyPJneLgbUcgfXNGMuezJXw5deF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-vIO8BAEIOvmTxKtI3qx0iQ-1; Thu, 24 Sep 2020 03:00:51 -0400
-X-MC-Unique: vIO8BAEIOvmTxKtI3qx0iQ-1
+ us-mta-394-MtHIpekwN0i2VdLVndycMg-1; Thu, 24 Sep 2020 03:00:53 -0400
+X-MC-Unique: MtHIpekwN0i2VdLVndycMg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12091800462;
- Thu, 24 Sep 2020 07:00:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2A8E8030A6;
+ Thu, 24 Sep 2020 07:00:52 +0000 (UTC)
 Received: from pc-72.home.com (unknown [10.40.194.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 535D273668;
- Thu, 24 Sep 2020 07:00:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FBA773662;
+ Thu, 24 Sep 2020 07:00:50 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 5/7] bios-tables-test: Allow changes in DSDT ACPI tables
-Date: Thu, 24 Sep 2020 09:00:11 +0200
-Message-Id: <20200924070013.165026-6-jusual@redhat.com>
+Subject: [RFC PATCH v3 6/7] hw/acpi/ich9: Set ACPI PCI hot-plug as default
+Date: Thu, 24 Sep 2020 09:00:12 +0200
+Message-Id: <20200924070013.165026-7-jusual@redhat.com>
 In-Reply-To: <20200924070013.165026-1-jusual@redhat.com>
 References: <20200924070013.165026-1-jusual@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jusual@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jusual@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -83,30 +83,37 @@ Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All DSDT Q35 tables will be modified because ACPI hot-plug is enabled
-by default.
-
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/acpi/ich9.c | 2 +-
+ hw/i386/pc.c   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..84f56b14db 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,11 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.tis",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index 987f23e388..c67c20de4e 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -425,7 +425,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+     pm->disable_s3 = 0;
+     pm->disable_s4 = 0;
+     pm->s4_val = 2;
+-    pm->use_acpi_hotplug_bridge = false;
++    pm->use_acpi_hotplug_bridge = true;
+ 
+     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+                                    &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index b55369357e..5de4475570 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -101,6 +101,7 @@ GlobalProperty pc_compat_5_1[] = {};
+ const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
+ 
+ GlobalProperty pc_compat_5_0[] = {
++    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
+ };
+ const size_t pc_compat_5_0_len = G_N_ELEMENTS(pc_compat_5_0);
+ 
 -- 
 2.25.4
 
