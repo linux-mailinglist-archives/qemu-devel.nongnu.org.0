@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFFC27770C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:43:27 +0200 (CEST)
-Received: from localhost ([::1]:59076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16FA277720
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:47:03 +0200 (CEST)
+Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLUL8-0002F7-8e
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57464)
+	id 1kLUOd-0005ji-0m
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkU-0002S9-K5
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35151)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTke-0002jE-C6
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkS-0003oV-DZ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:34 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTkc-0003vR-A9
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:05:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600963531;
+ s=mimecast20190719; t=1600963541;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3N5IgJYqkCr1hw868wwfOZv+LThV2WpVpRBD9vwnCeQ=;
- b=EI5hfHcjpPi++V+6SR8yvLH8VXYV7mBGnuOfLmBD+7Kl1j81+h2tShz40crKKnXXGYj3Q9
- mfL41fZewoLBLYVgVkMsbbjWbhpo18EIntXSuUPb0qxnAeLKeTCNJW/UUMPb+t1LKBbaMo
- oAIRVLk3WqXgice4mgbNmfWjfgtSbDA=
+ bh=wJrqradJRkoK4uTfcB0Mh5atTSDfbUU1dmDu1yYFJuQ=;
+ b=dckT8UZMMzUam3TNAQKkC/zNfvRPJuJniSWi+8SLkEVVh55Rt/roycpzb7vL63OrR2Pl/m
+ OauCqmlixdWsxj/e192Z7hXXvuDWfei3ZehdQToiQRyDGQapLhdZ0CfPmNYZDSp3AICi5X
+ x7TFK6/V+5rEYZyNkm0Ut8G8GkWNvlY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-KPUqA1oKPsiww6_mqYbP7w-1; Thu, 24 Sep 2020 12:05:27 -0400
-X-MC-Unique: KPUqA1oKPsiww6_mqYbP7w-1
+ us-mta-358-pF05UGVmMRm_LEOhtMMDhQ-1; Thu, 24 Sep 2020 12:05:36 -0400
+X-MC-Unique: pF05UGVmMRm_LEOhtMMDhQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F72B8010C7;
- Thu, 24 Sep 2020 16:05:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 545E918BA284;
+ Thu, 24 Sep 2020 16:05:35 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-4.ams2.redhat.com [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 323E119C66;
- Thu, 24 Sep 2020 16:05:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B732F19C66;
+ Thu, 24 Sep 2020 16:05:26 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH PROTOTYPE 3/6] vfio: Implement support for sparse RAM memory
- regions
-Date: Thu, 24 Sep 2020 18:04:20 +0200
-Message-Id: <20200924160423.106747-4-david@redhat.com>
+Subject: [PATCH PROTOTYPE 4/6] memory: Extend
+ ram_block_discard_(require|disable) by two discard types
+Date: Thu, 24 Sep 2020 18:04:21 +0200
+Message-Id: <20200924160423.106747-5-david@redhat.com>
 In-Reply-To: <20200924160423.106747-1-david@redhat.com>
 References: <20200924160423.106747-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -89,12 +89,15 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement support for sparse RAM, to be used by virtio-mem. Handling
-is somewhat-similar to memory_region_is_iommu() handling, which also
-notifies on changes.
+We want to separate the two cases whereby
+- balloning drivers do random discards on random guest memory (e.g.,
+  virtio-balloon) - uncoordinated discards
+- paravirtualized memory devices do discards in well-known granularity,
+  and always know which block is currently accessible or inaccessible by
+  a guest. - coordinated discards
 
-Instead of mapping the whole region, we only map selected pieces (and
-unmap previously selected pieces) when notified by the SparseRAMHandler.
+This will be required to get virtio_mem + vfio running - vfio still
+wants to block random memory ballooning.
 
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -106,234 +109,225 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/vfio/common.c              | 155 ++++++++++++++++++++++++++++++++++
- include/hw/vfio/vfio-common.h |  12 +++
- 2 files changed, 167 insertions(+)
+ exec.c                | 109 ++++++++++++++++++++++++++++++++++--------
+ include/exec/memory.h |  36 ++++++++++++--
+ 2 files changed, 121 insertions(+), 24 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 13471ae294..a3aaf70dd8 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -37,6 +37,7 @@
- #include "sysemu/reset.h"
- #include "trace.h"
- #include "qapi/error.h"
-+#include "qemu/units.h"
+diff --git a/exec.c b/exec.c
+index e34b602bdf..83098e9230 100644
+--- a/exec.c
++++ b/exec.c
+@@ -4098,52 +4098,121 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
+  * If positive, discarding RAM is disabled. If negative, discarding RAM is
+  * required to work and cannot be disabled.
+  */
+-static int ram_block_discard_disabled;
++static int uncoordinated_discard_disabled;
++static int coordinated_discard_disabled;
  
- VFIOGroupList vfio_group_list =
-     QLIST_HEAD_INITIALIZER(vfio_group_list);
-@@ -498,6 +499,143 @@ out:
-     rcu_read_unlock();
+-int ram_block_discard_disable(bool state)
++static int __ram_block_discard_disable(int *counter)
+ {
+     int old;
+ 
+-    if (!state) {
+-        atomic_dec(&ram_block_discard_disabled);
+-        return 0;
+-    }
+-
+     do {
+-        old = atomic_read(&ram_block_discard_disabled);
++        old = atomic_read(counter);
+         if (old < 0) {
+             return -EBUSY;
+         }
+-    } while (atomic_cmpxchg(&ram_block_discard_disabled, old, old + 1) != old);
++    } while (atomic_cmpxchg(counter, old, old + 1) != old);
++
+     return 0;
  }
  
-+static int vfio_sparse_ram_notify(SparseRAMNotifier *n, const MemoryRegion *mr,
-+                                  uint64_t mr_offset, uint64_t size,
-+                                  bool map)
-+{
-+    VFIOSparseRAM *sram = container_of(n, VFIOSparseRAM, notifier);
-+    const hwaddr mr_start = MAX(mr_offset, sram->offset_within_region);
-+    const hwaddr mr_end = MIN(mr_offset + size,
-+                              sram->offset_within_region + sram->size);
-+    const hwaddr iova_start = mr_start + sram->offset_within_address_space;
-+    const hwaddr iova_end = mr_end + sram->offset_within_address_space;
-+    hwaddr mr_cur, iova_cur, mr_next;
-+    void *vaddr;
-+    int ret, ret2;
-+
-+    g_assert(mr == sram->mr);
-+
-+    /* We get notified about everything, ignore range we don't care about. */
-+    if (mr_start >= mr_end) {
-+        return 0;
-+    }
-+
-+    /* Unmap everything with a single call. */
-+    if (!map) {
-+        ret = vfio_dma_unmap(sram->container, iova_start,
-+                             iova_end - iova_start);
-+        if (ret) {
-+            error_report("%s: vfio_dma_unmap() failed: %s", __func__,
-+                         strerror(-ret));
-+        }
-+        return 0;
-+    }
-+
-+    /* TODO: fail early if we would exceed a specified number of mappings. */
-+
-+    /* Map in (aligned within MR) granularity, so we can unmap later. */
-+    for (mr_cur = mr_start; mr_cur < mr_end; mr_cur = mr_next) {
-+        iova_cur = mr_cur + sram->offset_within_address_space;
-+        mr_next = QEMU_ALIGN_UP(mr_cur + 1, sram->granularity);
-+        mr_next = MIN(mr_next, mr_end);
-+
-+        vaddr = memory_region_get_ram_ptr(sram->mr) + mr_cur;
-+        ret = vfio_dma_map(sram->container, iova_cur, mr_next - mr_cur,
-+                           vaddr, mr->readonly);
-+        if (ret) {
-+            /* Rollback in case of error. */
-+            if (mr_cur != mr_start) {
-+                ret2 = vfio_dma_unmap(sram->container, iova_start,
-+                                      iova_end - iova_start);
-+                if (ret2) {
-+                    error_report("%s: vfio_dma_unmap() failed: %s", __func__,
-+                                  strerror(-ret));
-+                }
+-int ram_block_discard_require(bool state)
++int ram_block_discard_type_disable(RamBlockDiscardType type, bool state)
+ {
+-    int old;
++    int ret;
+ 
+-    if (!state) {
+-        atomic_inc(&ram_block_discard_disabled);
+-        return 0;
++    if (type & RAM_BLOCK_DISCARD_T_UNCOORDINATED) {
++        if (!state) {
++            atomic_dec(&uncoordinated_discard_disabled);
++        } else {
++            ret = __ram_block_discard_disable(&uncoordinated_discard_disabled);
++            if (ret) {
++                return ret;
 +            }
-+            return ret;
++        }
+     }
++    if (type & RAM_BLOCK_DISCARD_T_COORDINATED) {
++        if (!state) {
++            atomic_dec(&coordinated_discard_disabled);
++        } else {
++            ret = __ram_block_discard_disable(&coordinated_discard_disabled);
++            if (ret) {
++                /* Rollback the previous change. */
++                if (type & RAM_BLOCK_DISCARD_T_UNCOORDINATED) {
++                    atomic_dec(&uncoordinated_discard_disabled);
++                }
++                return ret;
++            }
 +        }
 +    }
 +    return 0;
 +}
 +
-+static int vfio_sparse_ram_notify_map(SparseRAMNotifier *n,
-+                                      const MemoryRegion *mr,
-+                                      uint64_t mr_offset, uint64_t size)
++static int __ram_block_discard_require(int *counter)
 +{
-+    return vfio_sparse_ram_notify(n, mr, mr_offset, size, true);
++    int old;
+ 
+     do {
+-        old = atomic_read(&ram_block_discard_disabled);
++        old = atomic_read(counter);
+         if (old > 0) {
+             return -EBUSY;
+         }
+-    } while (atomic_cmpxchg(&ram_block_discard_disabled, old, old - 1) != old);
++    } while (atomic_cmpxchg(counter, old, old - 1) != old);
++
++    return 0;
 +}
 +
-+static void vfio_sparse_ram_notify_unmap(SparseRAMNotifier *n,
-+                                         const MemoryRegion *mr,
-+                                         uint64_t mr_offset, uint64_t size)
++int ram_block_discard_type_require(RamBlockDiscardType type, bool state)
 +{
-+    vfio_sparse_ram_notify(n, mr, mr_offset, size, false);
-+}
-+
-+static void vfio_register_sparse_ram(VFIOContainer *container,
-+                                     MemoryRegionSection *section)
-+{
-+    VFIOSparseRAM *sram;
 +    int ret;
 +
-+    sram = g_new0(VFIOSparseRAM, 1);
-+    sram->container = container;
-+    sram->mr = section->mr;
-+    sram->offset_within_region = section->offset_within_region;
-+    sram->offset_within_address_space = section->offset_within_address_space;
-+    sram->size = int128_get64(section->size);
-+    sram->granularity = memory_region_sparse_ram_get_granularity(section->mr);
-+
-+    /*
-+     * TODO: We usually want a bigger granularity (for a lot of addded memory,
-+     * as we need quite a lot of mappings) - however, this has to be configured
-+     * by the user.
-+     */
-+    g_assert(sram->granularity >= 1 * MiB &&
-+             is_power_of_2(sram->granularity));
-+
-+    /* Register the notifier */
-+    sparse_ram_notifier_init(&sram->notifier, vfio_sparse_ram_notify_map,
-+                             vfio_sparse_ram_notify_unmap);
-+    memory_region_register_sparse_ram_notifier(section->mr, &sram->notifier);
-+    QLIST_INSERT_HEAD(&container->sram_list, sram, next);
-+    /*
-+     * Replay mapped blocks - if anything goes wrong (only when hotplugging
-+     * vfio devices), report the error for now.
-+     *
-+     * TODO: Can we catch this earlier?
-+     */
-+    ret = memory_region_sparse_ram_replay_mapped(section->mr, &sram->notifier);
-+    if (ret) {
-+        error_report("%s: failed to replay mappings: %s", __func__,
-+                     strerror(-ret));
-+    }
-+}
-+
-+static void vfio_unregister_sparse_ram(VFIOContainer *container,
-+                                       MemoryRegionSection *section)
-+{
-+    VFIOSparseRAM *sram = NULL;
-+
-+    QLIST_FOREACH(sram, &container->sram_list, next) {
-+        if (sram->mr == section->mr &&
-+            sram->offset_within_region == section->offset_within_region &&
-+            sram->offset_within_address_space ==
-+            section->offset_within_address_space) {
-+            break;
++    if (type & RAM_BLOCK_DISCARD_T_UNCOORDINATED) {
++        if (!state) {
++            atomic_inc(&uncoordinated_discard_disabled);
++        } else {
++            ret = __ram_block_discard_require(&uncoordinated_discard_disabled);
++            if (ret) {
++                return ret;
++            }
 +        }
 +    }
-+
-+    if (!sram) {
-+        hw_error("vfio: Trying to unregister non-existant sparse RAM");
++    if (type & RAM_BLOCK_DISCARD_T_COORDINATED) {
++        if (!state) {
++            atomic_inc(&coordinated_discard_disabled);
++        } else {
++            ret = __ram_block_discard_require(&coordinated_discard_disabled);
++            if (ret) {
++                /* Rollback the previous change. */
++                if (type & RAM_BLOCK_DISCARD_T_UNCOORDINATED) {
++                    atomic_inc(&uncoordinated_discard_disabled);
++                }
++                return ret;
++            }
++        }
 +    }
-+
-+    memory_region_unregister_sparse_ram_notifier(section->mr, &sram->notifier);
-+    QLIST_REMOVE(sram, next);
-+    g_free(sram);
-+    /* The caller is expected to vfio_dma_unmap(). */
-+}
-+
- static void vfio_listener_region_add(MemoryListener *listener,
-                                      MemoryRegionSection *section)
+     return 0;
+ }
+ 
+-bool ram_block_discard_is_disabled(void)
++bool ram_block_discard_type_is_disabled(RamBlockDiscardType type)
  {
-@@ -650,6 +788,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
- 
-     /* Here we assume that memory_region_is_ram(section->mr)==true */
- 
-+    /*
-+     * For sparse RAM, we only want to register the actually mapped
-+     * pieces - and update the mapping whenever we're notified about changes.
-+     */
-+    if (memory_region_is_sparse_ram(section->mr)) {
-+        vfio_register_sparse_ram(container, section);
-+        return;
+-    return atomic_read(&ram_block_discard_disabled) > 0;
++    if (type & RAM_BLOCK_DISCARD_T_UNCOORDINATED &&
++        atomic_read(&uncoordinated_discard_disabled) > 0) {
++        return true;
++    } else if (type & RAM_BLOCK_DISCARD_T_COORDINATED &&
++               atomic_read(&coordinated_discard_disabled) > 0) {
++        return true;
 +    }
++    return false;
+ }
+ 
+-bool ram_block_discard_is_required(void)
++bool ram_block_discard_type_is_required(RamBlockDiscardType type)
+ {
+-    return atomic_read(&ram_block_discard_disabled) < 0;
++    if (type & RAM_BLOCK_DISCARD_T_UNCOORDINATED &&
++        atomic_read(&uncoordinated_discard_disabled) < 0) {
++        return true;
++    } else if (type & RAM_BLOCK_DISCARD_T_COORDINATED &&
++               atomic_read(&coordinated_discard_disabled) < 0) {
++        return true;
++    }
++    return false;
+ }
+ 
+ #endif
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 2931ead730..3169ebc3d9 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2588,6 +2588,18 @@ static inline MemOp devend_memop(enum device_endian end)
+ }
+ #endif
+ 
++typedef enum RamBlockDiscardType {
++    /* Uncorrdinated discards (e.g., virtio-balloon */
++    RAM_BLOCK_DISCARD_T_UNCOORDINATED = 1,
++    /*
++     * Coordinated discards on selected memory regions (e.g., virtio-mem via
++     * SparseRamNotifier).
++     */
++    RAM_BLOCK_DISCARD_T_COORDINATED =   2,
++    /* Any type of discards */
++    RAM_BLOCK_DISCARD_T_ANY =           3,
++} RamBlockDiscardType;
 +
-     vaddr = memory_region_get_ram_ptr(section->mr) +
-             section->offset_within_region +
-             (iova - section->offset_within_address_space);
-@@ -786,6 +933,13 @@ static void vfio_listener_region_del(MemoryListener *listener,
+ /*
+  * Inhibit technologies that require discarding of pages in RAM blocks, e.g.,
+  * to manage the actual amount of memory consumed by the VM (then, the memory
+@@ -2609,7 +2621,11 @@ static inline MemOp devend_memop(enum device_endian end)
+  * Returns 0 if successful. Returns -EBUSY if a technology that relies on
+  * discards to work reliably is active.
+  */
+-int ram_block_discard_disable(bool state);
++int ram_block_discard_type_disable(RamBlockDiscardType type, bool state);
++static inline int ram_block_discard_disable(bool state)
++{
++    return ram_block_discard_type_disable(RAM_BLOCK_DISCARD_T_ANY, state);
++}
  
-         pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
-         try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
-+    } else if (memory_region_is_sparse_ram(section->mr)) {
-+        vfio_unregister_sparse_ram(container, section);
-+        /*
-+         * We rely on a single vfio_dma_unmap() call below to clean the whole
-+         * region.
-+         */
-+        try_unmap = true;
-     }
+ /*
+  * Inhibit technologies that disable discarding of pages in RAM blocks.
+@@ -2617,17 +2633,29 @@ int ram_block_discard_disable(bool state);
+  * Returns 0 if successful. Returns -EBUSY if discards are already set to
+  * broken.
+  */
+-int ram_block_discard_require(bool state);
++int ram_block_discard_type_require(RamBlockDiscardType type, bool state);
++static inline int ram_block_discard_require(bool state)
++{
++    return ram_block_discard_type_require(RAM_BLOCK_DISCARD_T_ANY, state);
++}
  
-     if (try_unmap) {
-@@ -1275,6 +1429,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     container->error = NULL;
-     QLIST_INIT(&container->giommu_list);
-     QLIST_INIT(&container->hostwin_list);
-+    QLIST_INIT(&container->sram_list);
+ /*
+  * Test if discarding of memory in ram blocks is disabled.
+  */
+-bool ram_block_discard_is_disabled(void);
++bool ram_block_discard_type_is_disabled(RamBlockDiscardType type);
++static inline bool ram_block_discard_is_disabled(void)
++{
++    return ram_block_discard_type_is_disabled(RAM_BLOCK_DISCARD_T_ANY);
++}
  
-     ret = vfio_init_container(container, group->fd, errp);
-     if (ret) {
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index c78f3ff559..dfa18dbd8e 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -77,6 +77,7 @@ typedef struct VFIOContainer {
-     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
-     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
-     QLIST_HEAD(, VFIOGroup) group_list;
-+    QLIST_HEAD(, VFIOSparseRAM) sram_list;
-     QLIST_ENTRY(VFIOContainer) next;
- } VFIOContainer;
+ /*
+  * Test if discarding of memory in ram blocks is required to work reliably.
+  */
+-bool ram_block_discard_is_required(void);
++bool ram_block_discard_type_is_required(RamBlockDiscardType type);
++static inline bool ram_block_discard_is_required(void)
++{
++    return ram_block_discard_type_is_required(RAM_BLOCK_DISCARD_T_ANY);
++}
  
-@@ -88,6 +89,17 @@ typedef struct VFIOGuestIOMMU {
-     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
- } VFIOGuestIOMMU;
+ #endif
  
-+typedef struct VFIOSparseRAM {
-+    VFIOContainer *container;
-+    MemoryRegion *mr;
-+    hwaddr offset_within_region;
-+    hwaddr offset_within_address_space;
-+    hwaddr size;
-+    uint64_t granularity;
-+    SparseRAMNotifier notifier;
-+    QLIST_ENTRY(VFIOSparseRAM) next;
-+} VFIOSparseRAM;
-+
- typedef struct VFIOHostDMAWindow {
-     hwaddr min_iova;
-     hwaddr max_iova;
 -- 
 2.26.2
 
