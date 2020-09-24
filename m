@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58672779E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 22:04:57 +0200 (CEST)
-Received: from localhost ([::1]:34834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383C52779F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 22:13:13 +0200 (CEST)
+Received: from localhost ([::1]:45010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLXU8-0003h5-Ru
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 16:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58078)
+	id 1kLXc8-00005D-Ag
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 16:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLXRO-0002aQ-LH
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 16:02:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33198)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLXU6-0004Pj-Dn
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 16:04:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLXRM-0002bY-83
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 16:02:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLXU4-0002pU-Ad
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 16:04:54 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600977723;
+ s=mimecast20190719; t=1600977891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y85ZHlPSu0LbWcyK0kASihR4L/4cljs70hwchn0FjHc=;
- b=FAtcbRuXi1JdzMGXbxl9aOYnGejMFziZK/aHjCzSMLvV+LuyIZ8rGFnSGV44pqTVRWAlPa
- DxxyBPbeYOvZbQ+YyEQn0nQvyIOLoZTXn6P5Q8rLmrFXdJa1ICZwsKB7HY2BTqC+ZZUaLY
- ygab7byaUmmGIzfP69oi3qO83vy5uG8=
+ bh=WBklpBnSLDJ11psorG8UH8oRTpPyGWqn6KutHJydULA=;
+ b=awcdXy6Hr6YbO6a19cchn1PNb70ycXnfQ94oVN2pKMbHhgIBEEcXomJZ+GDg8CcrcWR8vV
+ 28hM9wYivaboVGhcQ4l8VeadDO4jAKlp+UYRSa14uFlKvgnJjxjsP1ywi8zYAfG2R6da1S
+ 5+H/hD+N0XyLqK2zNH3ZaL4BwZC8p00=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-voM5z1hWN1CaFfCZ6R9eEA-1; Thu, 24 Sep 2020 16:01:58 -0400
-X-MC-Unique: voM5z1hWN1CaFfCZ6R9eEA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-14-Pu2MUWnGNYaMiD80zl0SpA-1; Thu, 24 Sep 2020 16:04:47 -0400
+X-MC-Unique: Pu2MUWnGNYaMiD80zl0SpA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14A42801002;
- Thu, 24 Sep 2020 20:01:57 +0000 (UTC)
-Received: from [10.3.114.148] (ovpn-114-148.phx2.redhat.com [10.3.114.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B3487368C;
- Thu, 24 Sep 2020 20:01:52 +0000 (UTC)
-Subject: Re: [PATCH v7 1/5] block/io: fix bdrv_co_block_status_above
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200924194003.22080-1-vsementsov@virtuozzo.com>
- <20200924194003.22080-2-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5dc62204-a1fe-1a94-144d-86c89a5f2bc8@redhat.com>
-Date: Thu, 24 Sep 2020 15:01:51 -0500
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45021801002;
+ Thu, 24 Sep 2020 20:04:46 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6676C5D9D2;
+ Thu, 24 Sep 2020 20:04:45 +0000 (UTC)
+Subject: Re: [PATCH v2 05/38] qapi: Remove wildcard includes
+From: John Snow <jsnow@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-6-jsnow@redhat.com>
+ <20200923132735.GE191229@localhost.localdomain>
+ <fcf633f4-c0f9-984b-ba84-acc14851ee72@redhat.com>
+Message-ID: <7c4fa58a-220c-c253-a98c-1eeeecf95d28@redhat.com>
+Date: Thu, 24 Sep 2020 16:04:44 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200924194003.22080-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <fcf633f4-c0f9-984b-ba84-acc14851ee72@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,95 +85,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, Alberto Garcia <berto@igalia.com>,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/20 2:39 PM, Vladimir Sementsov-Ogievskiy wrote:
-> bdrv_co_block_status_above has several design problems with handling
-> short backing files:
+On 9/23/20 1:21 PM, John Snow wrote:
+> On 9/23/20 9:27 AM, Cleber Rosa wrote:
+>> On Tue, Sep 22, 2020 at 05:00:28PM -0400, John Snow wrote:
+>>> Wildcard includes become hard to manage when refactoring and dealing
+>>> with circular dependencies with strictly typed mypy.
+>>>
+>>> flake8 also flags each one as a warning, as it is not smart enough to
+>>> know which names exist in the imported file.
+>>>
+>>> Remove them and include things explicitly by name instead.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/commands.py   |  6 +++++-
+>>>   scripts/qapi/events.py     |  7 ++++++-
+>>>   scripts/qapi/gen.py        | 12 +++++++++---
+>>>   scripts/qapi/introspect.py |  7 ++++++-
+>>>   scripts/qapi/types.py      |  8 +++++++-
+>>>   scripts/qapi/visit.py      | 10 +++++++++-
+>>>   6 files changed, 42 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+>>> index ce5926146a..e1df0e341f 100644
+>>> --- a/scripts/qapi/commands.py
+>>> +++ b/scripts/qapi/commands.py
+>>> @@ -13,7 +13,11 @@
+>>>   See the COPYING file in the top-level directory.
+>>>   """
+>>> -from .common import *
+>>> +from .common import (
+>>> +    build_params,
+>>> +    c_name,
+>>> +    mcgen,
+>>> +)
+>>>   from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
+>>
+>> Is this import style being suggested or enforced by any tool?  I've
+>> been using isort with very good results (both as a check tool, and as
+>> an emacs extension).  For instance, the block about would look like:
+>>
+>>     from .common import build_params, c_name, mcgen
+>>     from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
+>>
 > 
-> 1. With want_zeros=true, it may return ret with BDRV_BLOCK_ZERO but
-> without BDRV_BLOCK_ALLOCATED flag, when actually short backing file
-> which produces these after-EOF zeros is inside requested backing
-> sequence.
+> Not enforced by any tool, no. Just subjective preference for 
+> git-friendly import lines. They conflict on rebase a lot less.
 > 
-> 2. With want_zero=false, it may return pnum=0 prior to actual EOF,
-> because of EOF of short backing file.
+> I have been using emacs sort-lines to order the names in a group.
 > 
-> Fix these things, making logic about short backing files clearer.
+>>> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+>>> index 0467272438..6b3afa14d7 100644
+>>> --- a/scripts/qapi/events.py
+>>> +++ b/scripts/qapi/events.py
+>>> @@ -12,7 +12,12 @@
+>>>   See the COPYING file in the top-level directory.
+>>>   """
+>>> -from .common import *
+>>> +from .common import (
+>>> +    build_params,
+>>> +    c_enum_const,
+>>> +    c_name,
+>>> +    mcgen,
+>>> +)
+>>>   from .gen import QAPISchemaModularCVisitor, ifcontext
+>>>   from .schema import QAPISchemaEnumMember
+>>>   from .types import gen_enum, gen_enum_lookup
+>>> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+>>> index 8df19a0df0..11472ba043 100644
+>>> --- a/scripts/qapi/gen.py
+>>> +++ b/scripts/qapi/gen.py
+>>> @@ -11,13 +11,19 @@
+>>>   # This work is licensed under the terms of the GNU GPL, version 2.
+>>>   # See the COPYING file in the top-level directory.
+>>> -
+>>> +from contextlib import contextmanager
+>>>   import errno
+>>>   import os
+>>>   import re
+>>> -from contextlib import contextmanager
+>>> -from .common import *
+>>> +from .common import (
+>>> +    c_fname,
+>>> +    gen_endif,
+>>> +    gen_if,
+>>> +    guardend,
+>>> +    guardstart,
+>>> +    mcgen,
+>>> +)
+>>>   from .schema import QAPISchemaVisitor
+>>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>>> index 2a34cd1e8e..b036fcf9ce 100644
+>>> --- a/scripts/qapi/introspect.py
+>>> +++ b/scripts/qapi/introspect.py
+>>> @@ -10,7 +10,12 @@
+>>>   See the COPYING file in the top-level directory.
+>>>   """
+>>> -from .common import *
+>>> +from .common import (
+>>> +    c_name,
+>>> +    gen_endif,
+>>> +    gen_if,
+>>> +    mcgen,
+>>> +)
+>>>   from .gen import QAPISchemaMonolithicCVisitor
+>>>   from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
+>>>                        QAPISchemaType)
+>>> diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+>>> index ca9a5aacb3..53b47f9e58 100644
+>>> --- a/scripts/qapi/types.py
+>>> +++ b/scripts/qapi/types.py
+>>> @@ -13,7 +13,13 @@
+>>>   # See the COPYING file in the top-level directory.
+>>>   """
+>>> -from .common import *
+>>> +from .common import (
+>>> +    c_enum_const,
+>>> +    c_name,
+>>> +    gen_endif,
+>>> +    gen_if,
+>>> +    mcgen,
+>>> +)
+>>>   from .gen import QAPISchemaModularCVisitor, ifcontext
+>>>   from .schema import QAPISchemaEnumMember, QAPISchemaObjectType
+>>> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+>>> index 7850f6e848..ea277e7704 100644
+>>> --- a/scripts/qapi/visit.py
+>>> +++ b/scripts/qapi/visit.py
+>>> @@ -13,7 +13,15 @@
+>>>   See the COPYING file in the top-level directory.
+>>>   """
+>>> -from .common import *
+>>> +from .common import (
+>>> +    c_enum_const,
+>>> +    c_name,
+>>> +    gen_endif,
+>>> +    gen_if,
+>>> +    mcgen,
+>>> +    pop_indent,
+>>> +    push_indent,
+>>> +)
+>>
+>> And here, isort will add the paranthesis (it does so based on space 
+>> demands):
+>>
+>>     from .common import (c_enum_const, c_name, gen_endif, gen_if, mcgen,
+>>                          pop_indent, push_indent)
+>>     from .gen import QAPISchemaModularCVisitor, ifcontext
+>>     from .schema import QAPISchemaObjectType
+>>
+>> Other than those suggestions, it LGTM.
+>>
 > 
-> With fixed bdrv_block_status_above we also have to improve is_zero in
-> qcow2 code, otherwise iotest 154 will fail, because with this patch we
-> stop to merge zeros of different types (produced by fully unallocated
-> in the whole backing chain regions vs produced by short backing files).
+> OK. We can add a check that asserts that isort(file) == file to keep our 
+> include regimes consistent. I'll look into the tool, but it will be 
+> after this marathon of a series.
 > 
-> Note also, that this patch leaves for another day the general problem
-> around block-status: misuse of BDRV_BLOCK_ALLOCATED as is-fs-allocated
-> vs go-to-backing.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Alberto Garcia <berto@igalia.com>
-> ---
->   block/io.c    | 68 ++++++++++++++++++++++++++++++++++++++++-----------
->   block/qcow2.c | 16 ++++++++++--
->   2 files changed, 68 insertions(+), 16 deletions(-)
-> 
-> diff --git a/block/io.c b/block/io.c
-> index 449b99b92c..4697e67a85 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -2350,34 +2350,74 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
->                                     int64_t *map,
->                                     BlockDriverState **file)
->   {
-> +    int ret;
->       BlockDriverState *p;
-> -    int ret = 0;
-
-The shuffle of these lines is odd, but not a show-stopper.
-
-The new flow is definitely easier to read.  Thanks for doing this!
-
-> +++ b/block/qcow2.c
-> @@ -3860,8 +3860,20 @@ static bool is_zero(BlockDriverState *bs, int64_t offset, int64_t bytes)
->       if (!bytes) {
->           return true;
->       }
-> -    res = bdrv_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
-> -    return res >= 0 && (res & BDRV_BLOCK_ZERO) && nr == bytes;
-> +
-> +    /*
-> +     * bdrv_block_status_above doesn't merge different types of zeros, for
-
-We're inconsistent on whether we spell the noun 'zeros' or 'zeroes'; but 
-I don't care enough to make you change this.
-
-> +     * example, zeros which come from the region which is unallocated in
-> +     * the whole backing chain, and zeros which comes because of a short
-
-s/comes/come/
-
-> +     * backing file. So, we need a loop.
-> +     */
-> +    do {
-> +        res = bdrv_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
-> +        offset += nr;
-> +        bytes -= nr;
-> +    } while (res >= 0 && (res & BDRV_BLOCK_ZERO) && nr && bytes);
-> +
-> +    return res >= 0 && (res & BDRV_BLOCK_ZERO) && bytes == 0;
->   }
->   
->   static coroutine_fn int qcow2_co_pwrite_zeroes(BlockDriverState *bs,
+> Here's a gitlab issue I made on my QEMU fork to help me keep track of 
+> Python-related issues that I intend to use: 
+> https://gitlab.com/jsnow/qemu/-/issues/6
 > 
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+I've found that
+`isort --force-sort-within-sections --force-grid-wrap 4 --multi-line 3 
+--trailing-comma`
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+is pretty close to what I was already doing, so I'll adopt this for the 
+respin on good faith that nobody will retract an R-B for new import 
+orderings.
+
+force sort: I prefer to sort by module, so I intersperse "from x" and 
+"import x" style in one section. This keeps the module reference 
+absolutely consistent regardless of HOW we import from it.
+
+force grid: 4 or more imports from a module will get wrapped using the 
+one-per-line style.
+
+multi-line: '3' just refers to the one-per-line style of imports that I 
+already use.
+
+trailing comma: A little buddy that hangs out with you.
+
+
+>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+>>
+> 
+> Thanks!
+> 
+> --js
 
 
