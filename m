@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A604276D8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:35:12 +0200 (CEST)
-Received: from localhost ([::1]:40894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12CC276DD8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:50:38 +0200 (CEST)
+Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNeh-0007gg-3w
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38724)
+	id 1kLNtd-0003td-U8
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:50:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTb-0000jO-4D
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54917)
+ id 1kLNTn-00015e-Qu
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTY-000612-AI
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:42 -0400
+ id 1kLNTi-00063H-KA
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939418;
+ s=mimecast20190719; t=1600939429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ngR/YrV5cwyzxc101lPrKi/sIaxZytM2vfoGntLFwMA=;
- b=OkL9SheLxg05js4Briobqwq5THAQLz2uSJS2WMVJ/7WQrlutZ3KmLMmNSbkzet8fcUEMGR
- saXgbxmYGLFL2xWTXMzQ34+pgglM/JyvWJgaNnRdy3/YSXeJlj2bSKM7AJp5N29V6cO4/9
- aLszNNiNahp07+SZR/Ea0atJLtJ9usY=
+ bh=HzrBGtJp5HYgKEGPS65H9c5wxTSREV/KWJ3YU9/vw+0=;
+ b=EOLLIzc+uP/sgdtdl8WAwqRqt8CxTBZ4bEmPtduSXhlPcq3gHFS10TKrNs8raKE1jAkXBl
+ cCMWPc+u3f5AyTa67XrKkF2Anq9dZ3RaIJBUDb14o8FZMwDoLjVOzpOdhQrkUHm3FLt/Jm
+ Ru67acOdBF6KTLC1X6NJPGMUZlTeIv8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-R4uTjIEFMam4XA0Ysurmyw-1; Thu, 24 Sep 2020 05:23:36 -0400
-X-MC-Unique: R4uTjIEFMam4XA0Ysurmyw-1
+ us-mta-4-819HxMAUPT6ioalw6aT21g-1; Thu, 24 Sep 2020 05:23:37 -0400
+X-MC-Unique: 819HxMAUPT6ioalw6aT21g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A72E81891E88;
- Thu, 24 Sep 2020 09:23:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FE421891E89;
+ Thu, 24 Sep 2020 09:23:36 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5376F73662;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1E3873662;
  Thu, 24 Sep 2020 09:23:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/92] hw/char/serial: Make 'wakeup' property boolean
-Date: Thu, 24 Sep 2020 05:22:05 -0400
-Message-Id: <20200924092314.1722645-24-pbonzini@redhat.com>
+Subject: [PULL 24/92] hw/char/serial-{isa,
+ pci}: Alias QDEV properties from generic serial object
+Date: Thu, 24 Sep 2020 05:22:06 -0400
+Message-Id: <20200924092314.1722645-25-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -88,60 +89,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Make the "wakeup" property introduced in commit 9826fd597df
-("suspend: make serial ports wakeup the guest") a boolean.
-
-As we want to reuse the generic serial properties in the
-ISA model (next commit), expose this property.
+Instead of overwritting the properties of the generic 'state'
+object, alias them.
+Note we can now propagate the "baudbase" property.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200907015535.827885-6-f4bug@amsat.org>
+Message-Id: <20200907015535.827885-7-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/char/serial-isa.c     | 2 +-
- hw/char/serial.c         | 1 +
- include/hw/char/serial.h | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ hw/char/serial-isa.c | 4 ++--
+ hw/char/serial-pci.c | 3 ++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
-index 32c2fc0ebe..fc8ff7823a 100644
+index fc8ff7823a..1b8b303079 100644
 --- a/hw/char/serial-isa.c
 +++ b/hw/char/serial-isa.c
-@@ -117,7 +117,7 @@ static Property serial_isa_properties[] = {
+@@ -116,8 +116,6 @@ static Property serial_isa_properties[] = {
+     DEFINE_PROP_UINT32("index",  ISASerialState, index,   -1),
      DEFINE_PROP_UINT32("iobase",  ISASerialState, iobase,  -1),
      DEFINE_PROP_UINT32("irq",    ISASerialState, isairq,  -1),
-     DEFINE_PROP_CHR("chardev",   ISASerialState, state.chr),
--    DEFINE_PROP_UINT32("wakeup", ISASerialState, state.wakeup, 0),
-+    DEFINE_PROP_BOOL("wakeup",   ISASerialState, state.wakeup, false),
+-    DEFINE_PROP_CHR("chardev",   ISASerialState, state.chr),
+-    DEFINE_PROP_BOOL("wakeup",   ISASerialState, state.wakeup, false),
      DEFINE_PROP_END_OF_LIST(),
  };
  
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 7b5ef872bd..4386adabd4 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -975,6 +975,7 @@ const MemoryRegionOps serial_io_ops = {
- static Property serial_properties[] = {
-     DEFINE_PROP_CHR("chardev", SerialState, chr),
-     DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
-+    DEFINE_PROP_BOOL("wakeup", SerialState, wakeup, false),
-     DEFINE_PROP_END_OF_LIST(),
+@@ -138,6 +136,8 @@ static void serial_isa_initfn(Object *o)
+     ISASerialState *self = ISA_SERIAL(o);
+ 
+     object_initialize_child(o, "serial", &self->state, TYPE_SERIAL);
++
++    qdev_alias_all_properties(DEVICE(&self->state), o);
+ }
+ 
+ static const TypeInfo serial_isa_info = {
+diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
+index b0520a5a09..93d6f99244 100644
+--- a/hw/char/serial-pci.c
++++ b/hw/char/serial-pci.c
+@@ -82,7 +82,6 @@ static const VMStateDescription vmstate_pci_serial = {
  };
  
-diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index 23bd7d3dde..8ba7eca3d6 100644
---- a/include/hw/char/serial.h
-+++ b/include/hw/char/serial.h
-@@ -61,7 +61,7 @@ struct SerialState {
-     uint32_t baudbase;
-     uint32_t tsr_retry;
-     guint watch_tag;
--    uint32_t wakeup;
-+    bool wakeup;
+ static Property serial_pci_properties[] = {
+-    DEFINE_PROP_CHR("chardev",  PCISerialState, state.chr),
+     DEFINE_PROP_UINT8("prog_if",  PCISerialState, prog_if, 0x02),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+@@ -107,6 +106,8 @@ static void serial_pci_init(Object *o)
+     PCISerialState *ps = PCI_SERIAL(o);
  
-     /* Time when the last byte was successfully sent out of the tsr */
-     uint64_t last_xmit_ts;
+     object_initialize_child(o, "serial", &ps->state, TYPE_SERIAL);
++
++    qdev_alias_all_properties(DEVICE(&ps->state), o);
+ }
+ 
+ static const TypeInfo serial_pci_info = {
 -- 
 2.26.2
 
