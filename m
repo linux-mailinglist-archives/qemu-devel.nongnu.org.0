@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1E1277905
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:17:14 +0200 (CEST)
-Received: from localhost ([::1]:39438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAEB9277912
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:19:40 +0200 (CEST)
+Received: from localhost ([::1]:44216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLWjt-0000t6-IQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:17:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
+	id 1kLWmJ-0002w0-S4
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWgp-000797-Tp
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:13:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36006)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWiR-0000OY-Rs
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:15:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWgo-0004vy-83
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:13:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600974837;
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWiP-0005Gk-06
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:15:39 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600974935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CNiUDrdB5D3qrcDyauFEItUNr3cwdP1UFje6GOHws1w=;
- b=GRKXInpG6PDOOLc5jOx+xq3NUKI0Flle4esRQyd6cuaWnGh/ainLiMDTCgwHY+ROI6h4OL
- mPc/zyAQWrzRo4GgpSU8DT9T7E7gy0mou/UaoPYdupM70xYKUuUvbba2yabm3jNB3ZQDyg
- ltOqsxcvEYs5xlu8EO3lj0CEZGsRAWg=
+ bh=sFQ5yngiEp/yI+ad11W7jfTwFjVnYeu43dTS0RMq/8M=;
+ b=crDiTJRoXzixsuuuRXipFo31OrsbyvL8RaISjPBFN1lT2qIkrCYsmMxreh2JF48MfJVgpe
+ iTSB7iHu8XPepp1HOHVHwGeH5v78KfIyJQ76A1KUjIfhuPa2x+ZEfO0dftN9BmvW7qZShS
+ /bpumtvTKzCGriCsEYsTlsT2aovDheA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-VW_unlwcO1O_cso4dbNsbw-1; Thu, 24 Sep 2020 15:13:53 -0400
-X-MC-Unique: VW_unlwcO1O_cso4dbNsbw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-218-A7PwVUGeO6Od9iZvDh2BkQ-1; Thu, 24 Sep 2020 15:15:33 -0400
+X-MC-Unique: A7PwVUGeO6Od9iZvDh2BkQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA49D9CC32;
- Thu, 24 Sep 2020 19:13:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 257C1802EA5;
+ Thu, 24 Sep 2020 19:15:32 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA5C83782;
- Thu, 24 Sep 2020 19:13:33 +0000 (UTC)
-Date: Thu, 24 Sep 2020 15:13:31 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 92EF55D9D2;
+ Thu, 24 Sep 2020 19:15:28 +0000 (UTC)
+Date: Thu, 24 Sep 2020 15:15:26 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 37/38] qapi/visit.py: remove unused parameters from
- gen_visit_object
-Message-ID: <20200924191331.GB346482@localhost.localdomain>
+Subject: Re: [PATCH v2 38/38] qapi/visit.py: add type hint annotations
+Message-ID: <20200924191526.GC346482@localhost.localdomain>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-38-jsnow@redhat.com>
+ <20200922210101.4081073-39-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922210101.4081073-38-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200922210101.4081073-39-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IrhDeMKUP4DT/M7F"
+ protocol="application/pgp-signature"; boundary="gr/z0/N6AeWAPJVB"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -89,42 +88,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---IrhDeMKUP4DT/M7F
+--gr/z0/N6AeWAPJVB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2020 at 05:01:00PM -0400, John Snow wrote:
-> And this fixes the pylint report for this file, so make sure we check
-> this in the future, too.
+On Tue, Sep 22, 2020 at 05:01:01PM -0400, John Snow wrote:
+> Annotations do not change runtime behavior.
+> This commit *only* adds annotations.
 >=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
-
-LGTM, and pylint is happy.
 
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
 
---IrhDeMKUP4DT/M7F
+--gr/z0/N6AeWAPJVB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s79sACgkQZX6NM6Xy
-CfN9xBAAwSA2xscK/mgvX17RMfy89ghwvMze5GoMB8DIv4tKoYrEn6RRomkCej1z
-bqNQO8KUySmxfwdMUhvNBviLCwy61akfDoky3yqJcTl6WeXSUgxWMgeZHw/WGZeH
-2iFKsxBlLIwZZMjB+UhKrUsrCwJnvBCrWA59q+Air/amNV8a0SBANBHEMeyG7t32
-RtOHpLacfG//47XvUd9AfSDrfmBOLMvYNfMAAP8WS3USN29zsfls/E4oYl7G5wKz
-Uo6lQ7e5Xrrny2brZrakcQCbyIsxSJMXPCh9Ocr5ScZntoV9L+GuqWCky1+J5PYb
-wwmy3zX66TlVpD2d6V+bMI6eBQZ0ehV3bmcqkz4AF5toKSANWUn1vuksTCa8c1q9
-yVHoauvPjAiBIIhsp/NXq5tmeUfSh05sokcCqIFAvryF1IDdf3jD0zVHoZGrGkJJ
-PJWsuL4OIV1hH+bv/C5fodBj4EOpTCK7H5E63cpTy8AfYJ5nfJsRgySjugfLtMMB
-LJt4RRvwfMYeuAm075sqEEoy2RlpcislA//dSD/qX74BCGxkLxdvjBPdLFUHN+5y
-FnbrvCt/9x9p1flmK5+N9tR2rJ39nuPkbR30xVxx+a48uNhacni79pKWnk5W7xje
-H7FPTmfSiBKW7ULCrGX4s96bMrapwHmxAFw+e5D3pfB1IexDy8w=
-=OYLF
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s8E4ACgkQZX6NM6Xy
+CfM2ng//WN32IQWCJcdUti3CmN86i0r9UBVtIquC3FxlvZQbiUPwEIkP7GE8Ta0R
+6C8WWxzmaXrquR7psHffZ4FQ+xZYa6OtDUYsaAfXcHqoP3qAAG09NyuZ5BAH1Sjh
+Sft5ylstTNyRoBeUd4ATWiHFEupmMmw/jBuDEXEN/uBD9QKkFPHU+5YhlASBWi6Z
+1jdodMwZyycpql4m33sK/MpxsIESapFeQCRwERtAowuLd7fGuiFcrciN5l9l5+Hg
+G7/A0/hN7S+6bfNYFQwfIlPl1tN6ES4Ge+WpPRmLt0uzfMprYWo7r8YPSW3QoSWh
+Q56dEUOE40wIEWph7omMB4bxcpKWbyClKS6pEBY0OXPGp7D5OCRN7XefeLGIk8ZA
+sBB6mOuWlrL40RaKdJhxDBX3L4Y1Ia2pMls41Qbe/04LI7wqAei4A4WFFxuzSctq
+mxbgB5okeD7YoZJt+lwL29Yu3Xvj/ESm0XG4RTILAxphyMvSaElXtTUfi8Em8JtG
+BwWNXc4JojHLESmTfGr2plOWZ3195wXBw1CrqlQ6GsY4lOeRm/PDco5tubjkBSob
+Tc3cDAxpWfw6sxw5M6znItMDohEVsLutlt8LFQyDAenhchrEeapjWtx5DQSkdKqV
+fuphfq7L2jl8tl+KnH+p1RHVGpKTojs832crB9Di1YjqfyJYxQo=
+=8mbu
 -----END PGP SIGNATURE-----
 
---IrhDeMKUP4DT/M7F--
+--gr/z0/N6AeWAPJVB--
 
 
