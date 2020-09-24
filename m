@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC083276C10
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 10:34:33 +0200 (CEST)
-Received: from localhost ([::1]:56646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2A4276C1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 10:37:41 +0200 (CEST)
+Received: from localhost ([::1]:35628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLMi0-0005sC-RQ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 04:34:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53878)
+	id 1kLMl2-00013E-40
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 04:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLMgD-0004Xf-5L
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 04:32:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48092)
+ id 1kLMgU-0004q1-Ed
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 04:33:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLMgB-0007iC-Gu
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 04:32:40 -0400
+ id 1kLMgR-0007kD-Mr
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 04:32:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600936358;
+ s=mimecast20190719; t=1600936374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NuGEJsCViEpJI2x3eLIklGvRjykj2QZKX/r+xIH8zTw=;
- b=CLKupl3Ae8YsmX1VSv1xNnzaoqyb1CMQMBNHOrI74JcAN4VrO8NdPKnviErTpK0PvNXOHe
- Y9K4tMZOfqOjjD6tfJ2XzrUKBIwWDva5q8JrjT6GXrh/qIxrbgmDjE516nWx5IoRGpVFLJ
- kjd0BwGmh62tP+m+p2idnoO9ApKKBZ0=
+ bh=27BdpAHCEwbi3+lj+YLtwQPW3pPzxcdC0KQzdL3Sx4Y=;
+ b=guUZctLhrcyXv8IW62+kYNgRBynDt5d5uWkL0qYKTx4eROtvZCjxs0NnrqcPaoetDI1Lip
+ BCA7yXxQTUB//1t+8yDlmOlycRUrB3uVSJGIwkvouZDSxNaY1jwQcKos5siyywpyj7VQ9l
+ +13qvvuT2J1KwyAKm7yu5Pei56BI54g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-5HwdzUn2PO6eDPrUQN87eg-1; Thu, 24 Sep 2020 04:32:34 -0400
-X-MC-Unique: 5HwdzUn2PO6eDPrUQN87eg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-96-XY2g6B_TMtOAETcIfhjh5A-1; Thu, 24 Sep 2020 04:32:50 -0400
+X-MC-Unique: XY2g6B_TMtOAETcIfhjh5A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7B416408A;
- Thu, 24 Sep 2020 08:32:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B66771084D76;
+ Thu, 24 Sep 2020 08:32:48 +0000 (UTC)
 Received: from localhost (ovpn-114-133.ams2.redhat.com [10.36.114.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE99C60C15;
- Thu, 24 Sep 2020 08:32:24 +0000 (UTC)
-Date: Thu, 24 Sep 2020 09:32:23 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 408609CBA;
+ Thu, 24 Sep 2020 08:32:42 +0000 (UTC)
+Date: Thu, 24 Sep 2020 09:32:41 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v9 19/20] multi-process: add the concept description to
- docs/devel/qemu-multiprocess
-Message-ID: <20200924083223.GO62770@stefanha-x1.localdomain>
+Subject: Re: [PATCH v9 20/20] multi-process: add configure and usage
+ information
+Message-ID: <20200924083241.GP62770@stefanha-x1.localdomain>
 References: <20200827181231.22778-1-elena.ufimtseva@oracle.com>
- <20200827181231.22778-20-elena.ufimtseva@oracle.com>
+ <20200827181231.22778-21-elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200827181231.22778-20-elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200827181231.22778-21-elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0u4QAjBqqw4+MLTw"
+ protocol="application/pgp-signature"; boundary="SavPGzlo48F1Gxyz"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -92,41 +92,42 @@ Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0u4QAjBqqw4+MLTw
+--SavPGzlo48F1Gxyz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 27, 2020 at 11:12:30AM -0700, elena.ufimtseva@oracle.com wrote:
-> From: John G Johnson <john.g.johnson@oracle.com>
+On Thu, Aug 27, 2020 at 11:12:31AM -0700, elena.ufimtseva@oracle.com wrote:
+> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 >=20
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > ---
->  MAINTAINERS                  |   1 +
->  docs/devel/index.rst         |   1 +
->  docs/devel/multi-process.rst | 966 +++++++++++++++++++++++++++++++++++
->  3 files changed, 968 insertions(+)
->  create mode 100644 docs/devel/multi-process.rst
+>  MAINTAINERS                |  2 ++
+>  docs/multi-process.rst     | 67 ++++++++++++++++++++++++++++++++++++++
+>  scripts/mpqemu-launcher.py | 49 ++++++++++++++++++++++++++++
+>  3 files changed, 118 insertions(+)
+>  create mode 100644 docs/multi-process.rst
+>  create mode 100755 scripts/mpqemu-launcher.py
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---0u4QAjBqqw4+MLTw
+--SavPGzlo48F1Gxyz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sWZcACgkQnKSrs4Gr
-c8gtTggAxMeObRMWRqERpRp0Io7SA4wj0KtjbMhTXXRmmonuBNErl7nuN8gbT7kY
-/XLqRVhi3kDNgnz6BFAdDKicp1gEWJtOv7WU8nl6zjeJ9f5+Q1CzMGBLTIiL+/oN
-MoGmZS/SlTplGu8U3jRmCZS6k8AcOxC9MQHNr9VpP9tO3RWCAa71RTaZ5pWBu/HJ
-qxDAPOWy5FOdDgY6a55fKADSAEe7r0GKL4nBHg5upoIxrOFcUEA87w7agLJOO1t0
-/wyCPcsNNNdedyANDh7sHXcQmn4JETgEG6qLDCZY2E/W/H5M1KeEDxRHiecqAtV1
-urgUfDp1mUADjKy8ei3bL2pYkN5UTQ==
-=qGRO
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sWakACgkQnKSrs4Gr
+c8hQ/wf7B+NwwQ+oz4LJN/iazwV56sEUi4zJnf63WJElU12yVKijOcO4g2uf63j1
+3/brEbCDXX8VN5vBlMSzgrdtTRWbQzSLmyIsclXDiwaXIQ85Nu2w5uzJMLq57Has
+Ni0EMZXc154Hh0Qi0eazhJLM+s6VTeB1G+cNDOYXtoc8jWP6ZiN375jz82LPRYjo
+iuflmuFIcK015lswe3G8ZdRWKAZSmLCHkWKeJp6HDGMDRBQvwM2XrQuK+/h/NDW8
+p1EkOkeM5AEglbOL+cGfhHOWq9yrZ+PIJn1xb35UFbqjid0y7PZswCcjEAOwy+0G
+Gv2d5js/iWA9Hq3C5urtGfm/+KGsEw==
+=tW/+
 -----END PGP SIGNATURE-----
 
---0u4QAjBqqw4+MLTw--
+--SavPGzlo48F1Gxyz--
 
 
