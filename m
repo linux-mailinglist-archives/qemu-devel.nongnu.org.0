@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88746277B62
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:57:20 +0200 (CEST)
-Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E65BF277B52
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:54:43 +0200 (CEST)
+Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLZEt-000657-J5
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:57:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52104)
+	id 1kLZCM-0002Rb-Uo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:54:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZAY-00014b-Q1
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:52:50 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:44336)
+ id 1kLZAr-00019U-0i
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:09 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:42412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZAW-0007Tr-J0
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:52:50 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLmwxJ103150;
- Thu, 24 Sep 2020 21:52:45 GMT
+ id 1kLZAj-0007UI-Tj
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:05 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLnLvb086520;
+ Thu, 24 Sep 2020 21:52:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=Jh7JSdrVX4oeneOO2S5qNi+Gxwkny2qnQR1mx16lPkQ=;
- b=IT1xqegJlD01UsRjlY10Q+Z3uO73fBbbU5Zg7uKpMSj/ek8tthkfk1lPXJfrYO0NVk30
- 1l9Zz5/NdbIulqVIPg1vlC8kPWaKffTQbDa8rTxd+hKcROdNy4L1px7k8UAS8IuMxtoB
- Qglg9lfxug+HYvLW2gLlCJL8d5JW9BSkOnfnvw6aAJt9mrIqZxQGFijkrrfUATEjD6MB
- 1KsyxQUeJlmncNa7Ku956AB5sCdMu+NbJR4SgfnmMns79/i/z5KjaaRLszAgXwSTj+fr
- EcazgTjPH3uZVXLiaxjf103bVcS8aLYb8+ePNId2GjW4E8KtoNIOFnd6qyVR4u73Gzcf iQ== 
+ bh=OuOS4RvLqoYkxSVUhkCCyLdPa9i0J9kjuhPjbDdZDbk=;
+ b=M0uEYksgRs2njPlcvXsu0P/CHLWd3w5NDQfOklcbYHXWQeeehjQHWZMOnBrR0VeEhNln
+ qMw4Qm2m6KHR1RsThhrRvlb6/ZcOOabnnn/rC1K1zsigKuDpMwLYtGfKKE4C9bBweRZH
+ jsBAlALQbnth2fAJUzRAFLz9y7JAzrkGiQ8kobN0UduHmsAfb1Kh7IPGRRETkTxbGvmC
+ iAFDHtt+mJKznLQRt6nNezQEC0kNCmkPw9Iz8+TBItw80bnrqRPIh8ZHoko5XDwu59fY
+ fo4HNq8mjBzlDeqmwl8RBhzpG5x/n8JsF1mfdc4MesbbntpN3lWgMSQ9iH4f9RHQexcH wA== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 33ndnutssp-1
+ by aserp2120.oracle.com with ESMTP id 33q5rgs2ye-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 21:52:45 +0000
+ Thu, 24 Sep 2020 21:52:58 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoSPc037911;
- Thu, 24 Sep 2020 21:52:44 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 33nujrf11t-1
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoSQB037956;
+ Thu, 24 Sep 2020 21:52:58 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 33nujrf19m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 21:52:44 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OLqgU6010519;
- Thu, 24 Sep 2020 21:52:43 GMT
+ Thu, 24 Sep 2020 21:52:57 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08OLqvo0018379;
+ Thu, 24 Sep 2020 21:52:57 GMT
 Received: from [10.39.244.100] (/10.39.244.100)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 14:52:42 -0700
-Subject: Re: [PATCH V1 17/32] util: env var helpers
+ with ESMTP ; Thu, 24 Sep 2020 14:52:56 -0700
+Subject: Re: [PATCH V1 32/32] vfio-pci: improved tracing
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-18-git-send-email-steven.sistare@oracle.com>
- <20200911190009.GC3311@work-vm>
+ <1596122076-341293-33-git-send-email-steven.sistare@oracle.com>
+ <20200915184925.GE2922@work-vm>
 From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <cbffaea9-52dd-7e0c-796d-3b0913ca3bf9@oracle.com>
-Date: Thu, 24 Sep 2020 17:52:38 -0400
+Message-ID: <270c900f-fd3e-c5a6-e18f-b270a170cc45@oracle.com>
+Date: Thu, 24 Sep 2020 17:52:54 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200911190009.GC3311@work-vm>
+In-Reply-To: <20200915184925.GE2922@work-vm>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -74,15 +74,15 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  engine=8.12.0-2006250000 definitions=main-2009240156
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 impostorscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009240156
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 17:49:33
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ impostorscore=0
+ clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009240156
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 16:42:31
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -57
 X-Spam_score: -5.8
@@ -116,254 +116,309 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/2020 3:00 PM, Dr. David Alan Gilbert wrote:
+On 9/15/2020 2:49 PM, Dr. David Alan Gilbert wrote:
 > * Steve Sistare (steven.sistare@oracle.com) wrote:
->> Add functions for saving fd's and ram extents in the environment via
->> setenv, and for reading them back via getenv.
+>> Print more info for existing trace points:
+>>   trace_kvm_irqchip_add_msi_route.
+>>   trace_pci_update_mappings_del
+>>   trace_pci_update_mappings_add
+>>
+>> Add new trace points:
+>>   trace_kvm_irqchip_assign_irqfd
+>>   trace_msix_table_mmio_write
+>>   trace_vfio_dma_unmap
+>>   trace_vfio_dma_map
+>>   trace_vfio_region
+>>   trace_vfio_descriptors
+>>   trace_ram_block_add
 >>
 >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 > 
-> This is an awful lot of env stuff - how about dumping
-> all this stuff into a file and reloading it?
+> Why don't you split this out into a separate patch by itself; if they're
+> general extra useful tracing they can just go in.
 
-I don't think there will be significantly fewer lines if this is
-re-written to use a file, and the existing code is very simple -- a few
-easy to understand lines for each accessor.  Please skim env.c, you will
-grok it in less time than it took to write our emails.  A file-based
-version may be even  longer because the code would need to check for
-malformed input, since the file contents could be changed outside qemu,
-and we would need to provide an option for where the file is stored.
+OK, will submit separately.
 
-The env is nice because it eliminates a failure point -- the variables always 
-get carried through to the post-exec process.  No lost or stale files.
+> Note that you've also added a new warning in vfio_dma_unmap
+
+I'll move that elsewhere.
 
 - Steve
 
 >> ---
->>  MAINTAINERS           |   7 +++
->>  include/qemu/cutils.h |   1 +
->>  include/qemu/env.h    |  31 ++++++++++++
->>  util/Makefile.objs    |   2 +-
->>  util/env.c            | 132 ++++++++++++++++++++++++++++++++++++++++++++++++++
->>  5 files changed, 172 insertions(+), 1 deletion(-)
->>  create mode 100644 include/qemu/env.h
->>  create mode 100644 util/env.c
+>>  accel/kvm/kvm-all.c    |  8 ++++++--
+>>  accel/kvm/trace-events |  3 ++-
+>>  exec.c                 |  3 +++
+>>  hw/pci/msix.c          |  1 +
+>>  hw/pci/pci.c           | 10 ++++++----
+>>  hw/pci/trace-events    |  5 +++--
+>>  hw/vfio/common.c       | 16 +++++++++++++++-
+>>  hw/vfio/pci.c          |  1 +
+>>  hw/vfio/trace-events   |  9 ++++++---
+>>  trace-events           |  2 ++
+>>  10 files changed, 45 insertions(+), 13 deletions(-)
 >>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 3395abd..8d377a7 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -3115,3 +3115,10 @@ Performance Tools and Tests
->>  M: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
->>  S: Maintained
->>  F: scripts/performance/
->> +
->> +Environment variable helpers
->> +M: Steve Sistare <steven.sistare@oracle.com>
->> +M: Mark Kanda <mark.kanda@oracle.com>
->> +S: Maintained
->> +F: include/qemu/env.h
->> +F: util/env.c
->> diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
->> index eb59852..d4c7d70 100644
->> --- a/include/qemu/cutils.h
->> +++ b/include/qemu/cutils.h
->> @@ -1,6 +1,7 @@
->>  #ifndef QEMU_CUTILS_H
->>  #define QEMU_CUTILS_H
+>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+>> index 63ef6af..5511ea7 100644
+>> --- a/accel/kvm/kvm-all.c
+>> +++ b/accel/kvm/kvm-all.c
+>> @@ -46,6 +46,7 @@
+>>  #include "sysemu/reset.h"
 >>  
->> +#include "qemu/env.h"
->>  /**
->>   * pstrcpy:
->>   * @buf: buffer to copy string into
->> diff --git a/include/qemu/env.h b/include/qemu/env.h
->> new file mode 100644
->> index 0000000..53cc121
->> --- /dev/null
->> +++ b/include/qemu/env.h
->> @@ -0,0 +1,31 @@
->> +/*
->> + * Copyright (c) 2020 Oracle and/or its affiliates.
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2.
->> + * See the COPYING file in the top-level directory.
->> + *
->> + */
+>>  #include "hw/boards.h"
+>> +#include "trace-root.h"
+>>  
+>>  /* This check must be after config-host.h is included */
+>>  #ifdef CONFIG_EVENTFD
+>> @@ -1670,7 +1671,7 @@ int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+>>      }
+>>  
+>>      trace_kvm_irqchip_add_msi_route(dev ? dev->name : (char *)"N/A",
+>> -                                    vector, virq);
+>> +                                    vector, virq, msg.address, msg.data);
+>>  
+>>      kvm_add_routing_entry(s, &kroute);
+>>      kvm_arch_add_msi_route_post(&kroute, vector, dev);
+>> @@ -1717,6 +1718,7 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
+>>  {
+>>      int fd = event_notifier_get_fd(event);
+>>      int rfd = resample ? event_notifier_get_fd(resample) : -1;
+>> +    int ret;
+>>  
+>>      struct kvm_irqfd irqfd = {
+>>          .fd = fd,
+>> @@ -1758,7 +1760,9 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
+>>          return -ENOSYS;
+>>      }
+>>  
+>> -    return kvm_vm_ioctl(s, KVM_IRQFD, &irqfd);
+>> +    ret = kvm_vm_ioctl(s, KVM_IRQFD, &irqfd);
+>> +    trace_kvm_irqchip_assign_irqfd(fd, virq, rfd, ret);
+>> +    return ret;
+>>  }
+>>  
+>>  int kvm_irqchip_add_adapter_route(KVMState *s, AdapterInfo *adapter)
+>> diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
+>> index a68eb66..67a01e6 100644
+>> --- a/accel/kvm/trace-events
+>> +++ b/accel/kvm/trace-events
+>> @@ -9,7 +9,8 @@ kvm_device_ioctl(int fd, int type, void *arg) "dev fd %d, type 0x%x, arg %p"
+>>  kvm_failed_reg_get(uint64_t id, const char *msg) "Warning: Unable to retrieve ONEREG %" PRIu64 " from KVM: %s"
+>>  kvm_failed_reg_set(uint64_t id, const char *msg) "Warning: Unable to set ONEREG %" PRIu64 " to KVM: %s"
+>>  kvm_irqchip_commit_routes(void) ""
+>> -kvm_irqchip_add_msi_route(char *name, int vector, int virq) "dev %s vector %d virq %d"
+>> +kvm_irqchip_add_msi_route(char *name, int vector, int virq, uint64_t addr, uint32_t data) "%s, vector %d, virq %d, msg {addr 0x%"PRIx64", data 0x%x}"
+>> +kvm_irqchip_assign_irqfd(int fd, int virq, int rfd, int status) "(fd=%d, virq=%d, rfd=%d) KVM_IRQFD returns %d"
+>>  kvm_irqchip_update_msi_route(int virq) "Updating MSI route virq=%d"
+>>  kvm_irqchip_release_virq(int virq) "virq %d"
+>>  kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
+>> diff --git a/exec.c b/exec.c
+>> index 5473c09..dd99ee0 100644
+>> --- a/exec.c
+>> +++ b/exec.c
+>> @@ -2319,6 +2319,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+>>          }
+>>          ram_block_notify_add(new_block->host, new_block->max_length);
+>>      }
+>> +    trace_ram_block_add(new_block->host, new_block->max_length,
+>> +                        memory_region_name(new_block->mr),
+>> +                        new_block->mr->readonly ? "ro" : "rw");
+>>  }
+>>  
+>>  #ifdef CONFIG_POSIX
+>> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+>> index 67e34f3..65a2882 100644
+>> --- a/hw/pci/msix.c
+>> +++ b/hw/pci/msix.c
+>> @@ -189,6 +189,7 @@ static void msix_table_mmio_write(void *opaque, hwaddr addr,
+>>      int vector = addr / PCI_MSIX_ENTRY_SIZE;
+>>      bool was_masked;
+>>  
+>> +    trace_msix_table_mmio_write(dev->name, addr, val, size);
+>>      was_masked = msix_is_masked(dev, vector);
+>>      pci_set_long(dev->msix_table + addr, val);
+>>      msix_handle_mask_update(dev, vector, was_masked);
+>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>> index c2e1509..6142411 100644
+>> --- a/hw/pci/pci.c
+>> +++ b/hw/pci/pci.c
+>> @@ -1324,9 +1324,11 @@ void pci_update_mappings(PCIDevice *d)
+>>      PCIIORegion *r;
+>>      int i;
+>>      pcibus_t new_addr;
+>> +    const char *name;
+>>  
+>>      for(i = 0; i < PCI_NUM_REGIONS; i++) {
+>>          r = &d->io_regions[i];
+>> +        name = r->memory ? r->memory->name : "";
+>>  
+>>          /* this region isn't registered */
+>>          if (!r->size)
+>> @@ -1340,18 +1342,18 @@ void pci_update_mappings(PCIDevice *d)
+>>  
+>>          /* now do the real mapping */
+>>          if (r->addr != PCI_BAR_UNMAPPED) {
+>> -            trace_pci_update_mappings_del(d, pci_dev_bus_num(d),
+>> +            trace_pci_update_mappings_del(d->name, pci_dev_bus_num(d),
+>>                                            PCI_SLOT(d->devfn),
+>>                                            PCI_FUNC(d->devfn),
+>> -                                          i, r->addr, r->size);
+>> +                                          i, r->addr, r->size, name);
+>>              memory_region_del_subregion(r->address_space, r->memory);
+>>          }
+>>          r->addr = new_addr;
+>>          if (r->addr != PCI_BAR_UNMAPPED) {
+>> -            trace_pci_update_mappings_add(d, pci_dev_bus_num(d),
+>> +            trace_pci_update_mappings_add(d->name, pci_dev_bus_num(d),
+>>                                            PCI_SLOT(d->devfn),
+>>                                            PCI_FUNC(d->devfn),
+>> -                                          i, r->addr, r->size);
+>> +                                          i, r->addr, r->size, name);
+>>              memory_region_add_subregion_overlap(r->address_space,
+>>                                                  r->addr, r->memory, 1);
+>>          }
+>> diff --git a/hw/pci/trace-events b/hw/pci/trace-events
+>> index def4b39..6dd7015 100644
+>> --- a/hw/pci/trace-events
+>> +++ b/hw/pci/trace-events
+>> @@ -1,8 +1,8 @@
+>>  # See docs/devel/tracing.txt for syntax documentation.
+>>  
+>>  # pci.c
+>> -pci_update_mappings_del(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
+>> -pci_update_mappings_add(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
+>> +pci_update_mappings_del(const char *dname, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size, const char *name) "%s %02x:%02x.%x [%d] 0x%"PRIx64", 0x%"PRIx64"B \"%s\""
+>> +pci_update_mappings_add(const char *dname, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size, const char *name) "%s %02x:%02x.%x [%d] 0x%"PRIx64", 0x%"PRIx64"B \"%s\""
+>>  
+>>  # pci_host.c
+>>  pci_cfg_read(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x -> 0x%x"
+>> @@ -10,3 +10,4 @@ pci_cfg_write(const char *dev, unsigned devid, unsigned fnid, unsigned offs, uns
+>>  
+>>  # msix.c
+>>  msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d masked %d"
+>> +msix_table_mmio_write(char *name, uint64_t addr, uint64_t val, unsigned size)  "(%s, @%"PRId64", 0x%"PRIx64", %dB)"
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index a51a093..23c8bf3 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -304,6 +304,8 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>>          return 0;
+>>      }
+>>  
+>> +    trace_vfio_dma_unmap(container->fd, iova, size);
 >> +
->> +#ifndef QEMU_ENV_H
->> +#define QEMU_ENV_H
->> +
->> +#define FD_PREFIX "QEMU_FD_"
->> +#define ADDR_PREFIX "QEMU_ADDR_"
->> +#define LEN_PREFIX "QEMU_LEN_"
->> +#define BOOL_PREFIX "QEMU_BOOL_"
->> +
->> +typedef int (*walkenv_cb)(const char *name, const char *val, void *handle);
->> +
->> +bool getenv_ram(const char *name, void **addrp, size_t *lenp);
->> +void setenv_ram(const char *name, void *addr, size_t len);
->> +void unsetenv_ram(const char *name);
->> +int getenv_fd(const char *name);
->> +void setenv_fd(const char *name, int fd);
->> +void unsetenv_fd(const char *name);
->> +bool getenv_bool(const char *name);
->> +void setenv_bool(const char *name, bool val);
->> +void unsetenv_bool(const char *name);
->> +int walkenv(const char *prefix, walkenv_cb cb, void *handle);
->> +void printenv(void);
->> +
->> +#endif
->> diff --git a/util/Makefile.objs b/util/Makefile.objs
->> index cc5e371..d357932 100644
->> --- a/util/Makefile.objs
->> +++ b/util/Makefile.objs
->> @@ -1,4 +1,4 @@
->> -util-obj-y = osdep.o cutils.o unicode.o qemu-timer-common.o
->> +util-obj-y = osdep.o cutils.o unicode.o qemu-timer-common.o env.o
->>  util-obj-$(call lnot,$(CONFIG_ATOMIC64)) += atomic64.o
->>  util-obj-$(CONFIG_POSIX) += aio-posix.o
->>  util-obj-$(CONFIG_POSIX) += fdmon-poll.o
->> diff --git a/util/env.c b/util/env.c
->> new file mode 100644
->> index 0000000..0cc4a9f
->> --- /dev/null
->> +++ b/util/env.c
->> @@ -0,0 +1,132 @@
->> +/*
->> + * Copyright (c) 2020 Oracle and/or its affiliates.
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2.
->> + * See the COPYING file in the top-level directory.
->> + *
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qemu/env.h"
->> +
->> +static uint64_t getenv_ulong(const char *prefix, const char *name, bool *found)
->> +{
->> +    char var[80], *val;
->> +    uint64_t res;
->> +
->> +    snprintf(var, sizeof(var), "%s%s", prefix, name);
->> +    val = getenv(var);
->> +    if (val) {
->> +        *found = true;
->> +        res = strtol(val, 0, 10);
->> +    } else {
->> +        *found = false;
->> +        res = 0;
+>>      while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+>>          /*
+>>           * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
+>> @@ -327,6 +329,11 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>>          return -errno;
+>>      }
+>>  
+>> +    if (unmap.size != size) {
+>> +        error_printf("warn: VFIO_UNMAP_DMA(0x%lx, 0x%lx) only unmaps 0x%llx",
+>> +                     iova, size, unmap.size);
 >> +    }
->> +    return res;
->> +}
 >> +
->> +static void setenv_ulong(const char *prefix, const char *name, uint64_t val)
->> +{
->> +    char var[80], val_str[80];
->> +    snprintf(var, sizeof(var), "%s%s", prefix, name);
->> +    snprintf(val_str, sizeof(val_str), "%"PRIu64, val);
->> +    setenv(var, val_str, 1);
->> +}
+>>      return 0;
+>>  }
+>>  
+>> @@ -345,6 +352,9 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+>>          return 0;
+>>      }
+>>  
+>> +    trace_vfio_dma_map(container->fd, iova, size, vaddr,
+>> +                       (readonly ? "r" : "rw"));
 >> +
->> +static void unsetenv_ulong(const char *prefix, const char *name)
->> +{
->> +    char var[80];
->> +    snprintf(var, sizeof(var), "%s%s", prefix, name);
->> +    unsetenv(var);
->> +}
+>>      if (!readonly) {
+>>          map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
+>>      }
+>> @@ -985,7 +995,8 @@ int vfio_region_mmap(VFIORegion *region)
+>>          trace_vfio_region_mmap(memory_region_name(&region->mmaps[i].mem),
+>>                                 region->mmaps[i].offset,
+>>                                 region->mmaps[i].offset +
+>> -                               region->mmaps[i].size - 1);
+>> +                               region->mmaps[i].size - 1,
+>> +                               region->mmaps[i].mmap);
+>>      }
+>>  
+>>      return 0;
+>> @@ -1696,6 +1707,9 @@ retry:
+>>          goto retry;
+>>      }
+>>  
+>> +    trace_vfio_region(vbasedev->name, index, (*info)->offset, (*info)->size,
+>> +                      (*info)->cap_offset, (*info)->flags);
 >> +
->> +bool getenv_ram(const char *name, void **addrp, size_t *lenp)
->> +{
->> +    bool found1, found2;
->> +    *addrp = (void *) getenv_ulong(ADDR_PREFIX, name, &found1);
->> +    *lenp = getenv_ulong(LEN_PREFIX, name, &found2);
->> +    assert(found1 == found2);
->> +    return found1;
->> +}
->> +
->> +void setenv_ram(const char *name, void *addr, size_t len)
->> +{
->> +    setenv_ulong(ADDR_PREFIX, name, (uint64_t)addr);
->> +    setenv_ulong(LEN_PREFIX, name, len);
->> +}
->> +
->> +void unsetenv_ram(const char *name)
->> +{
->> +    unsetenv_ulong(ADDR_PREFIX, name);
->> +    unsetenv_ulong(LEN_PREFIX, name);
->> +}
->> +
->> +int getenv_fd(const char *name)
->> +{
->> +    bool found;
->> +    int fd = getenv_ulong(FD_PREFIX, name, &found);
->> +    if (!found) {
->> +        fd = -1;
->> +    }
->> +    return fd;
->> +}
->> +
->> +void setenv_fd(const char *name, int fd)
->> +{
->> +    setenv_ulong(FD_PREFIX, name, fd);
->> +}
->> +
->> +void unsetenv_fd(const char *name)
->> +{
->> +    unsetenv_ulong(FD_PREFIX, name);
->> +}
->> +
->> +bool getenv_bool(const char *name)
->> +{
->> +    bool found;
->> +    bool val = getenv_ulong(BOOL_PREFIX, name, &found);
->> +    if (!found) {
->> +        val = -1;
->> +    }
->> +    return val;
->> +}
->> +
->> +void setenv_bool(const char *name, bool val)
->> +{
->> +    setenv_ulong(BOOL_PREFIX, name, val);
->> +}
->> +
->> +void unsetenv_bool(const char *name)
->> +{
->> +    unsetenv_ulong(BOOL_PREFIX, name);
->> +}
->> +
->> +int walkenv(const char *prefix, walkenv_cb cb, void *handle)
->> +{
->> +    char *str, name[128];
->> +    char **envp = environ;
->> +    size_t prefix_len = strlen(prefix);
->> +
->> +    while (*envp) {
->> +        str = *envp++;
->> +        if (!strncmp(str, prefix, prefix_len)) {
->> +            char *val = strchr(str, '=');
->> +            str += prefix_len;
->> +            strncpy(name, str, val - str);
->> +            name[val - str] = 0;
->> +            if (cb(name, val + 1, handle)) {
->> +                return 1;
->> +            }
->> +        }
->> +    }
->> +    return 0;
->> +}
->> +
->> +void printenv(void)
->> +{
->> +    char **ptr = environ;
->> +    while (*ptr) {
->> +        puts(*ptr++);
->> +    }
->> +}
+>>      return 0;
+>>  }
+>>  
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index f72e277..d74e078 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -41,6 +41,7 @@
+>>  #include "trace.h"
+>>  #include "qapi/error.h"
+>>  #include "migration/blocker.h"
+>> +#include "trace-root.h"
+>>  
+>>  #define TYPE_VFIO_PCI "vfio-pci"
+>>  #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
+>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>> index 10d899c..83cd0a6 100644
+>> --- a/hw/vfio/trace-events
+>> +++ b/hw/vfio/trace-events
+>> @@ -25,7 +25,7 @@ vfio_pci_size_rom(const char *name, int size) "%s ROM size 0x%x"
+>>  vfio_vga_write(uint64_t addr, uint64_t data, int size) " (0x%"PRIx64", 0x%"PRIx64", %d)"
+>>  vfio_vga_read(uint64_t addr, int size, uint64_t data) " (0x%"PRIx64", %d) = 0x%"PRIx64
+>>  vfio_pci_read_config(const char *name, int addr, int len, int val) " (%s, @0x%x, len=0x%x) 0x%x"
+>> -vfio_pci_write_config(const char *name, int addr, int val, int len) " (%s, @0x%x, 0x%x, len=0x%x)"
+>> +vfio_pci_write_config(const char *name, int addr, int val, int len) "(%s, @0x%x, 0x%x, 0x%xB)"
+>>  vfio_msi_setup(const char *name, int pos) "%s PCI MSI CAP @0x%x"
+>>  vfio_msix_early_setup(const char *name, int pos, int table_bar, int offset, int entries) "%s PCI MSI-X CAP @0x%x, BAR %d, offset 0x%x, entries %d"
+>>  vfio_check_pcie_flr(const char *name) "%s Supports FLR via PCIe cap"
+>> @@ -37,7 +37,7 @@ vfio_pci_hot_reset_dep_devices(int domain, int bus, int slot, int function, int
+>>  vfio_pci_hot_reset_result(const char *name, const char *result) "%s hot reset: %s"
+>>  vfio_populate_device_config(const char *name, unsigned long size, unsigned long offset, unsigned long flags) "Device %s config:\n  size: 0x%lx, offset: 0x%lx, flags: 0x%lx"
+>>  vfio_populate_device_get_irq_info_failure(const char *errstr) "VFIO_DEVICE_GET_IRQ_INFO failure: %s"
+>> -vfio_realize(const char *name, int group_id) " (%s) group %d"
+>> +vfio_realize(const char *name, int group_id) "(%s) group %d"
+>>  vfio_mdev(const char *name, bool is_mdev) " (%s) is_mdev %d"
+>>  vfio_add_ext_cap_dropped(const char *name, uint16_t cap, uint16_t offset) "%s 0x%x@0x%x"
+>>  vfio_pci_reset(const char *name) " (%s)"
+>> @@ -109,7 +109,7 @@ vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions,
+>>  vfio_put_base_device(int fd) "close vdev->fd=%d"
+>>  vfio_region_setup(const char *dev, int index, const char *name, unsigned long flags, unsigned long offset, unsigned long size) "Device %s, region %d \"%s\", flags: 0x%lx, offset: 0x%lx, size: 0x%lx"
+>>  vfio_region_mmap_fault(const char *name, int index, unsigned long offset, unsigned long size, int fault) "Region %s mmaps[%d], [0x%lx - 0x%lx], fault: %d"
+>> -vfio_region_mmap(const char *name, unsigned long offset, unsigned long end) "Region %s [0x%lx - 0x%lx]"
+>> +vfio_region_mmap(const char *name, unsigned long offset, unsigned long end, void *addr) "%s [0x%lx - 0x%lx] maps to %p"
+>>  vfio_region_exit(const char *name, int index) "Device %s, region %d"
+>>  vfio_region_finalize(const char *name, int index) "Device %s, region %d"
+>>  vfio_region_mmaps_set_enabled(const char *name, bool enabled) "Region %s mmaps enabled: %d"
+>> @@ -117,6 +117,9 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
+>>  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
+>>  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+>>  vfio_dma_unmap_overflow_workaround(void) ""
+>> +vfio_dma_unmap(int fd, uint64_t iova, uint64_t size) "fd %d, iova 0x%"PRIx64", len 0x%"PRIx64
+>> +vfio_dma_map(int fd, uint64_t iova, uint64_t size, void *addr, const char *access) "fd %d, iova 0x%"PRIx64", len 0x%"PRIx64", va %p, %s"
+>> +vfio_region(const char *name, int index, uint64_t offset, uint64_t size, int cap_offset, int flags) "%s [%d]: +0x%"PRIx64", 0x%"PRIx64"B, cap +0x%x, flags 0x%x"
+>>  
+>>  # platform.c
+>>  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
+>> diff --git a/trace-events b/trace-events
+>> index 42107eb..98589a4 100644
+>> --- a/trace-events
+>> +++ b/trace-events
+>> @@ -107,6 +107,8 @@ qmp_job_complete(void *job) "job %p"
+>>  qmp_job_finalize(void *job) "job %p"
+>>  qmp_job_dismiss(void *job) "job %p"
+>>  
+>> +# exec.c
+>> +ram_block_add(void *host, uint64_t maxlen, const char *name, const char *mode) "host=%p, maxlen=0x%"PRIx64", mr = {name=%s, %s}"
+>>  
+>>  ### Guest events, keep at bottom
+>>  
 >> -- 
 >> 1.8.3.1
->>
 >>
 
