@@ -2,95 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65BF277B52
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:54:43 +0200 (CEST)
-Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DA7277B60
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:56:40 +0200 (CEST)
+Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLZCM-0002Rb-Uo
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52120)
+	id 1kLZEF-000565-3a
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZAr-00019U-0i
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:09 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:42412)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1kLZAv-0001BD-Jo
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:14 -0400
+Received: from mail-dm6nam12on2054.outbound.protection.outlook.com
+ ([40.107.243.54]:32225 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZAj-0007UI-Tj
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:05 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLnLvb086520;
- Thu, 24 Sep 2020 21:52:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=OuOS4RvLqoYkxSVUhkCCyLdPa9i0J9kjuhPjbDdZDbk=;
- b=M0uEYksgRs2njPlcvXsu0P/CHLWd3w5NDQfOklcbYHXWQeeehjQHWZMOnBrR0VeEhNln
- qMw4Qm2m6KHR1RsThhrRvlb6/ZcOOabnnn/rC1K1zsigKuDpMwLYtGfKKE4C9bBweRZH
- jsBAlALQbnth2fAJUzRAFLz9y7JAzrkGiQ8kobN0UduHmsAfb1Kh7IPGRRETkTxbGvmC
- iAFDHtt+mJKznLQRt6nNezQEC0kNCmkPw9Iz8+TBItw80bnrqRPIh8ZHoko5XDwu59fY
- fo4HNq8mjBzlDeqmwl8RBhzpG5x/n8JsF1mfdc4MesbbntpN3lWgMSQ9iH4f9RHQexcH wA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 33q5rgs2ye-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 21:52:58 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoSQB037956;
- Thu, 24 Sep 2020 21:52:58 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 33nujrf19m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 21:52:57 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08OLqvo0018379;
- Thu, 24 Sep 2020 21:52:57 GMT
-Received: from [10.39.244.100] (/10.39.244.100)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 14:52:56 -0700
-Subject: Re: [PATCH V1 32/32] vfio-pci: improved tracing
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-33-git-send-email-steven.sistare@oracle.com>
- <20200915184925.GE2922@work-vm>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <270c900f-fd3e-c5a6-e18f-b270a170cc45@oracle.com>
-Date: Thu, 24 Sep 2020 17:52:54 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20200915184925.GE2922@work-vm>
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1kLZAr-0007Vc-AL
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YLI9bOLc01kpH+hP8K73qmZMH1e53t4oeLD36MNO0NLdhI3M7wGoBlBriIDL/d1QC8KvW3RMuJt0IQ3NiN9JsIn24SAsuzshlv0WoD4IUKkyUuD9TrWEoQ8QQzKIAGwt7yxJRebuJoarGm9ecLzbbz4gHaQ/L99xw7xxzZ9R3zbspx749EFFCycQtLOzgQuw5f40L0c7NOYu3FnQkv1yupS381KPEqP54XAxgZ8J4wp8tsI+APFYFHxdsifMDxXz5S1o5Hthe/3hmn0zUowgJ0i98m0HGbLNzd8We2jCCvxT6aPPoZeKPbDMKrFzts5REmejMdJcRhCkH3C8aFjKHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WNym5ZKQr7RNJ9mpvNWLRccvGNs0SwJO2FRVBoMOUBQ=;
+ b=HMYUDCvTqLpBNH6YSsaJJao+o7GpLfn++4m5ZLuz3mopmLNUUPSv5IBBi+IaVawcIRTxYUV4evJYIwLD5VUp+FZZvQWCdH1yi9Q45eFNZC1U19Yh1zOoZuoriXEFJRZdSykFsuT8D4UCp/GIdGCEhPPaYNw/c+KF8BNDQ66jfWfO0cDBYkCpIHp5vaXVvdADCQXRc64goAbBFH7rtETg14TOu93JJWvGTb4lbhOTOfn3JMXh3gXwzgOuCyQi9tNFjwgzEebRA5UKutJ3XCOenqwM5F0OLIUysOClJjxkXiWnjxb3MleJ3lsvQmVTtunTqjK7lSW4by049OkDKNtDRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WNym5ZKQr7RNJ9mpvNWLRccvGNs0SwJO2FRVBoMOUBQ=;
+ b=kna5fLx0Ax7/XUwRzGFnANuo5RpNiGv6P02ZVOEyPK3ejMiQjSc/L3M/MZGBJ2P42JCaVlrdxuOlulfsT3IPoUgbrBq2SoySlfzeLGfF7tQ3onnH+fv4QF12xfxe49EjUB9cLi/3olhVwPZuAqzhoqiN5y0/q9Xi03AI1pvC/Eo=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SA0PR12MB4590.namprd12.prod.outlook.com (2603:10b6:806:93::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Thu, 24 Sep
+ 2020 21:53:03 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::1d50:341:16e2:84b1]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::1d50:341:16e2:84b1%6]) with mapi id 15.20.3391.027; Thu, 24 Sep 2020
+ 21:53:03 +0000
+Date: Thu, 24 Sep 2020 21:52:56 +0000
+From: Ashish Kalra <ashish.kalra@amd.com>
+To: Brijesh Singh <brijesh.singh@amd.com>
+Subject: Re: SEV guest debugging support for Qemu
+Message-ID: <20200924215256.GA8562@ashkalra_ubuntu_server>
+References: <20200922201124.GA6606@ashkalra_ubuntu_server>
+ <20200924135342.GE2792@work-vm>
+ <20200924190653.GA8180@ashkalra_ubuntu_server>
+ <a35415c9-6e50-5260-e0e6-e36b9f16f2b2@amd.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- malwarescore=0
- mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240156
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- impostorscore=0
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240156
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 16:42:31
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a35415c9-6e50-5260-e0e6-e36b9f16f2b2@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: SN6PR04CA0080.namprd04.prod.outlook.com
+ (2603:10b6:805:f2::21) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server (165.204.77.1) by
+ SN6PR04CA0080.namprd04.prod.outlook.com (2603:10b6:805:f2::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3412.20 via Frontend Transport; Thu, 24 Sep 2020 21:53:02 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 13ddc930-e114-4784-baf8-08d860d435eb
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4590:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB45907E9B880E6914D4B107FF8E390@SA0PR12MB4590.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: W43zKmKB6A1XiQHQez8R4DRwykgodcxU/fMoceAthEkEzPOgrt9Fot07pGzgaMd9uH12Rlxha0jKlenh2H3w4zIIX1cJoTs5GTznUtTNoFidc18wJQ9qsXRBg3A6JGaZZtwo+4bCX/hfGnMqbuG6+5i4RX4wh392LZbchXIVTUqsrwiplyjCs61vLrtvn82IjBuJe534YR+WxpCU7Dys+hwxuV7zr1PJiLjvsF3H/nn8CS6Bjlc/7LkPdSHbmAXYT6XgV+hGlXYex9yVulwO2OIMdXzpJISBIG3WkY9zEFx3Xm8i0POXL9NJphde4BZ2iBJ9yyrSCMZsIGQkt9yfTLZxYrQBN92N+PL44SQA2CQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(39860400002)(376002)(346002)(396003)(6862004)(45080400002)(956004)(52116002)(186003)(1076003)(16526019)(966005)(2906002)(8676002)(316002)(6636002)(478600001)(5660300002)(4326008)(26005)(66946007)(86362001)(6666004)(44832011)(53546011)(66476007)(66556008)(6496006)(8936002)(33656002)(9686003)(83380400001)(55016002)(33716001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: skZZjyi7kSo5ImLGiJOeD4gxYlUSP938Mc3sInOuXSjr8JWmhF9AsBHbuBEyUI4sdAt+9LiKbIMsgph63ztDPVdbbg2eDqdzIJx7ML4E5Lix6yFTPGbXn1J8dXFm0gqG3y1VVLJ+rkK1LUzZvlndskSnsXwg7DtY9En9SWhsTMcqIiXTDpvpmYzdvtcTL+AYrWB0om1ZnrGExJXWPoJfXY/uF9FOChu/Karx75bk3hcUwt2fesaxnxykU4JdUG11bIUXVF07IDXiSkq0ldpECG12xLn+N/oxu/4WdbrJP7RQwgRMeKrpVZBVxp3itIFdJA/+HRG/QwTcO+XMZU2GnrvCdctdiMG5UtY4I3qnG7x9pg5/OlU4DopWxELalsGwy9xgLWGUzzJi6R4RbeMJxfjzU9ZZzxuXCpYoobeuCMRV6kFler1anyA5V1Z4UHKGGiYQe0GXWw3hdXFPm094hYNZxZbEguzv+xTztn4QDgvIIVCzTb0K9ODBVJdTQQk5xIs9hwWteM2YAUAXoegsGu8WeslTiMNmFAo7Wxt28gKNgJZO6qkVS45r0j6JtqmTGaD/gkB9NAnBc8wdWf0lP+7PhvbvZKh3r2JoxayA9p3vFUTfIaG0iImuCYHoV5ys/7q7lz4ZGqZclgwZW/NLvQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13ddc930-e114-4784-baf8-08d860d435eb
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 21:53:02.9498 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kkkfEJl24UDk8HN6wcu00dV+pCobFjooHPY6z+mukuUSLjEGSyKa73S5gxAbIJqbE6uhRObRZWcbMdVAvazRLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4590
+Received-SPF: none client-ip=40.107.243.54; envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 17:53:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,322 +118,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: pbonzini@redhat.com, thomas.lendacky@amd.com, jon.grimm@amd.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/15/2020 2:49 PM, Dr. David Alan Gilbert wrote:
-> * Steve Sistare (steven.sistare@oracle.com) wrote:
->> Print more info for existing trace points:
->>   trace_kvm_irqchip_add_msi_route.
->>   trace_pci_update_mappings_del
->>   trace_pci_update_mappings_add
->>
->> Add new trace points:
->>   trace_kvm_irqchip_assign_irqfd
->>   trace_msix_table_mmio_write
->>   trace_vfio_dma_unmap
->>   trace_vfio_dma_map
->>   trace_vfio_region
->>   trace_vfio_descriptors
->>   trace_ram_block_add
->>
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+On Thu, Sep 24, 2020 at 02:37:33PM -0500, Brijesh Singh wrote:
 > 
-> Why don't you split this out into a separate patch by itself; if they're
-> general extra useful tracing they can just go in.
+> On 9/24/20 2:06 PM, Ashish Kalra wrote:
+> > Hello Dave,
+> >
+> > Thanks for your response, please see my replies inline :
+> >
+> > On Thu, Sep 24, 2020 at 02:53:42PM +0100, Dr. David Alan Gilbert wrote:
+> >> * Ashish Kalra (ashish.kalra@amd.com) wrote:
+> >>> Hello Alan, Paolo,
+> >>>
+> >>> I am following up on Brijesh’s patches for SEV guest debugging support for Qemu using gdb and/or qemu monitor.
+> >>> I believe that last time, Qemu SEV debug patches were not applied and have attached the link to the email thread and Paolo’s feedback below for reference [1].
+> >>> I wanted to re-start a discussion on the same here with the Qemu community and seek the feedback on the approaches which we are considering :
+> >>> Looking at Qemu code, I see the following interface is defined, for virtual memory access for debug : cpu_memory_rw_debug(). 
+> >>> Both gdbstub (target_memory_rw_debug() ) and QMP/HMP (monitor/misc.c : memory_dump() ) use this standard and well-defined interface to access guest memory for debugging purposes. 
+> >>>
+> >>> This internally invokes the address_space_rw() accessor functions which we had  "fixed" internally (as part of the earlier patch) to invoke memory region specific debug ops. 
+> >>> In our earlier approach we were adding debug ops/callbacks to memory regions and as per comments on our earlier patches, Paolo was not happy with this debug API for
+> >>> MemoryRegions and hence the SEV support for Qemu was merged without the debug support.
+> >>>
+> >>> Now, we want to reuse this cpu_memory_rw_debug() interface or alternatively introduce a new generic debug interface/object in the Qemu. This 
+> >>> debug interface should be controlled through the global machine policy.
+> >> Let me leave the question of how the memory_rw_debug interface should
+> >> work to Paolo.
+> >>
+> >>> For e.g., 
+> >>> # $QEMU -machine -debug=<a debug object>
+> >>> or
+> >>> # $QEMU -machine -debug=sev-guest-debug
+> >>>
+> >>> The QMP and GDB access will be updated to use the generic debug  interface. The generic debug interface or the cpu_memory_rw_debug() interace will introduce hooks to call a 
+> >>> vendor specific debug object to delegate accessing the data. The vendor specific debug object may do a further checks before and after accessing the memory.
+> >> I'm not sure that needs a commandline switch for it; since you can
+> >> already get it from the guest policy in the sev object and I can't think
+> >> of any other cases that would need something similar.
+> > Yes, i agree with that, so i am now considering abstracting this vendor
+> > specific debug interface via CPUClass object instead of doing it via
+> > MemoryRegions. 
+> >
+> >>> Now, looking specifically at cpu_memory_rw_debug() interface, this interface is invoked for all guest memory accesses for debugging purposes and it also does 
+> >>> guest VA to GPA translation via cpu_get_phys_page_attrs_debug(), so we can again add a vendor specific callback here to do guest VA to GPA translations specific
+> >>> to SEV as SEV guest debugging will also require accessing guest page table entries and decrypting them via the SEV DBG_DECRYPT APIs and additionally clearing
+> >>> the C-bit on page table entries (PxEs) before using them further for page table walks.
+> >>>
+> >>> There is still an issue with the generic cpu_memory_rw_debug() interface, though it is used for all guest memory accesses for debugging and we can also handle
+> >>> guest page table walks via it (as mentioned above), there are still other gdb/monitor commands such as tlb_info_xx() and mem_info_xx() which also do guest page
+> >>> table walks, but they don’t go through any generic guest memory access/debug interface, so these commands will need to be handled additionally for SEV.
+> >> If some of those should be using the debug interface and aren't then
+> >> please fix them anyway.
+> >>
+> >>> The vendor specific debug object (added as a hook to generic debug object or the generic cpu_memory_rw_debug() interface) will do further checks before and after accessing the memory.
+> >>>
+> >>> e.g., in the case of SEV,
+> >>>
+> >>> 1. Check the guest policy, if guest policy does not allow debug then return an error.
+> >>>
+> >>> 2. If its an MMIO region then access the data.
+> >>>
+> >>> 3. If its RAM region then call the PSP commands to decrypt the data.
+> >>>
+> >>> 4. If caller asked to read the PTE entry then probably clear the C-bits after reading the PTE entry.
+> >> Does that work if the guest is currently running?
+> >>
+> > I assume you are asking that is this done when guest is being debugged,
+> > the above steps are only done when the guest is paused and being debugged.
+> 
+> 
+> I don't why we need to pause the guest. Ideally we should be able to
+> connect to Qemu monitor and run the "x" command to dump memory. IIRC, if
+> paging is enabled then monitor will walk the guest page table to reach
+> to gpa. Something like this in the Qemu monitor console should work:
+> 
+> x /10i $eip
+> 
+> 
 
-OK, will submit separately.
+Yes that works, what i basically meant that monitor will invoke a set of debugging
+interfaces to get gpa and then dump guest memory even while guest is
+running.
 
-> Note that you've also added a new warning in vfio_dma_unmap
+Thanks,
+Ashish
 
-I'll move that elsewhere.
-
-- Steve
-
->> ---
->>  accel/kvm/kvm-all.c    |  8 ++++++--
->>  accel/kvm/trace-events |  3 ++-
->>  exec.c                 |  3 +++
->>  hw/pci/msix.c          |  1 +
->>  hw/pci/pci.c           | 10 ++++++----
->>  hw/pci/trace-events    |  5 +++--
->>  hw/vfio/common.c       | 16 +++++++++++++++-
->>  hw/vfio/pci.c          |  1 +
->>  hw/vfio/trace-events   |  9 ++++++---
->>  trace-events           |  2 ++
->>  10 files changed, 45 insertions(+), 13 deletions(-)
->>
->> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->> index 63ef6af..5511ea7 100644
->> --- a/accel/kvm/kvm-all.c
->> +++ b/accel/kvm/kvm-all.c
->> @@ -46,6 +46,7 @@
->>  #include "sysemu/reset.h"
->>  
->>  #include "hw/boards.h"
->> +#include "trace-root.h"
->>  
->>  /* This check must be after config-host.h is included */
->>  #ifdef CONFIG_EVENTFD
->> @@ -1670,7 +1671,7 @@ int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
->>      }
->>  
->>      trace_kvm_irqchip_add_msi_route(dev ? dev->name : (char *)"N/A",
->> -                                    vector, virq);
->> +                                    vector, virq, msg.address, msg.data);
->>  
->>      kvm_add_routing_entry(s, &kroute);
->>      kvm_arch_add_msi_route_post(&kroute, vector, dev);
->> @@ -1717,6 +1718,7 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
->>  {
->>      int fd = event_notifier_get_fd(event);
->>      int rfd = resample ? event_notifier_get_fd(resample) : -1;
->> +    int ret;
->>  
->>      struct kvm_irqfd irqfd = {
->>          .fd = fd,
->> @@ -1758,7 +1760,9 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
->>          return -ENOSYS;
->>      }
->>  
->> -    return kvm_vm_ioctl(s, KVM_IRQFD, &irqfd);
->> +    ret = kvm_vm_ioctl(s, KVM_IRQFD, &irqfd);
->> +    trace_kvm_irqchip_assign_irqfd(fd, virq, rfd, ret);
->> +    return ret;
->>  }
->>  
->>  int kvm_irqchip_add_adapter_route(KVMState *s, AdapterInfo *adapter)
->> diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
->> index a68eb66..67a01e6 100644
->> --- a/accel/kvm/trace-events
->> +++ b/accel/kvm/trace-events
->> @@ -9,7 +9,8 @@ kvm_device_ioctl(int fd, int type, void *arg) "dev fd %d, type 0x%x, arg %p"
->>  kvm_failed_reg_get(uint64_t id, const char *msg) "Warning: Unable to retrieve ONEREG %" PRIu64 " from KVM: %s"
->>  kvm_failed_reg_set(uint64_t id, const char *msg) "Warning: Unable to set ONEREG %" PRIu64 " to KVM: %s"
->>  kvm_irqchip_commit_routes(void) ""
->> -kvm_irqchip_add_msi_route(char *name, int vector, int virq) "dev %s vector %d virq %d"
->> +kvm_irqchip_add_msi_route(char *name, int vector, int virq, uint64_t addr, uint32_t data) "%s, vector %d, virq %d, msg {addr 0x%"PRIx64", data 0x%x}"
->> +kvm_irqchip_assign_irqfd(int fd, int virq, int rfd, int status) "(fd=%d, virq=%d, rfd=%d) KVM_IRQFD returns %d"
->>  kvm_irqchip_update_msi_route(int virq) "Updating MSI route virq=%d"
->>  kvm_irqchip_release_virq(int virq) "virq %d"
->>  kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
->> diff --git a/exec.c b/exec.c
->> index 5473c09..dd99ee0 100644
->> --- a/exec.c
->> +++ b/exec.c
->> @@ -2319,6 +2319,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
->>          }
->>          ram_block_notify_add(new_block->host, new_block->max_length);
->>      }
->> +    trace_ram_block_add(new_block->host, new_block->max_length,
->> +                        memory_region_name(new_block->mr),
->> +                        new_block->mr->readonly ? "ro" : "rw");
->>  }
->>  
->>  #ifdef CONFIG_POSIX
->> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
->> index 67e34f3..65a2882 100644
->> --- a/hw/pci/msix.c
->> +++ b/hw/pci/msix.c
->> @@ -189,6 +189,7 @@ static void msix_table_mmio_write(void *opaque, hwaddr addr,
->>      int vector = addr / PCI_MSIX_ENTRY_SIZE;
->>      bool was_masked;
->>  
->> +    trace_msix_table_mmio_write(dev->name, addr, val, size);
->>      was_masked = msix_is_masked(dev, vector);
->>      pci_set_long(dev->msix_table + addr, val);
->>      msix_handle_mask_update(dev, vector, was_masked);
->> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->> index c2e1509..6142411 100644
->> --- a/hw/pci/pci.c
->> +++ b/hw/pci/pci.c
->> @@ -1324,9 +1324,11 @@ void pci_update_mappings(PCIDevice *d)
->>      PCIIORegion *r;
->>      int i;
->>      pcibus_t new_addr;
->> +    const char *name;
->>  
->>      for(i = 0; i < PCI_NUM_REGIONS; i++) {
->>          r = &d->io_regions[i];
->> +        name = r->memory ? r->memory->name : "";
->>  
->>          /* this region isn't registered */
->>          if (!r->size)
->> @@ -1340,18 +1342,18 @@ void pci_update_mappings(PCIDevice *d)
->>  
->>          /* now do the real mapping */
->>          if (r->addr != PCI_BAR_UNMAPPED) {
->> -            trace_pci_update_mappings_del(d, pci_dev_bus_num(d),
->> +            trace_pci_update_mappings_del(d->name, pci_dev_bus_num(d),
->>                                            PCI_SLOT(d->devfn),
->>                                            PCI_FUNC(d->devfn),
->> -                                          i, r->addr, r->size);
->> +                                          i, r->addr, r->size, name);
->>              memory_region_del_subregion(r->address_space, r->memory);
->>          }
->>          r->addr = new_addr;
->>          if (r->addr != PCI_BAR_UNMAPPED) {
->> -            trace_pci_update_mappings_add(d, pci_dev_bus_num(d),
->> +            trace_pci_update_mappings_add(d->name, pci_dev_bus_num(d),
->>                                            PCI_SLOT(d->devfn),
->>                                            PCI_FUNC(d->devfn),
->> -                                          i, r->addr, r->size);
->> +                                          i, r->addr, r->size, name);
->>              memory_region_add_subregion_overlap(r->address_space,
->>                                                  r->addr, r->memory, 1);
->>          }
->> diff --git a/hw/pci/trace-events b/hw/pci/trace-events
->> index def4b39..6dd7015 100644
->> --- a/hw/pci/trace-events
->> +++ b/hw/pci/trace-events
->> @@ -1,8 +1,8 @@
->>  # See docs/devel/tracing.txt for syntax documentation.
->>  
->>  # pci.c
->> -pci_update_mappings_del(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
->> -pci_update_mappings_add(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
->> +pci_update_mappings_del(const char *dname, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size, const char *name) "%s %02x:%02x.%x [%d] 0x%"PRIx64", 0x%"PRIx64"B \"%s\""
->> +pci_update_mappings_add(const char *dname, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size, const char *name) "%s %02x:%02x.%x [%d] 0x%"PRIx64", 0x%"PRIx64"B \"%s\""
->>  
->>  # pci_host.c
->>  pci_cfg_read(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x -> 0x%x"
->> @@ -10,3 +10,4 @@ pci_cfg_write(const char *dev, unsigned devid, unsigned fnid, unsigned offs, uns
->>  
->>  # msix.c
->>  msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d masked %d"
->> +msix_table_mmio_write(char *name, uint64_t addr, uint64_t val, unsigned size)  "(%s, @%"PRId64", 0x%"PRIx64", %dB)"
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index a51a093..23c8bf3 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -304,6 +304,8 @@ static int vfio_dma_unmap(VFIOContainer *container,
->>          return 0;
->>      }
->>  
->> +    trace_vfio_dma_unmap(container->fd, iova, size);
->> +
->>      while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
->>          /*
->>           * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
->> @@ -327,6 +329,11 @@ static int vfio_dma_unmap(VFIOContainer *container,
->>          return -errno;
->>      }
->>  
->> +    if (unmap.size != size) {
->> +        error_printf("warn: VFIO_UNMAP_DMA(0x%lx, 0x%lx) only unmaps 0x%llx",
->> +                     iova, size, unmap.size);
->> +    }
->> +
->>      return 0;
->>  }
->>  
->> @@ -345,6 +352,9 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
->>          return 0;
->>      }
->>  
->> +    trace_vfio_dma_map(container->fd, iova, size, vaddr,
->> +                       (readonly ? "r" : "rw"));
->> +
->>      if (!readonly) {
->>          map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
->>      }
->> @@ -985,7 +995,8 @@ int vfio_region_mmap(VFIORegion *region)
->>          trace_vfio_region_mmap(memory_region_name(&region->mmaps[i].mem),
->>                                 region->mmaps[i].offset,
->>                                 region->mmaps[i].offset +
->> -                               region->mmaps[i].size - 1);
->> +                               region->mmaps[i].size - 1,
->> +                               region->mmaps[i].mmap);
->>      }
->>  
->>      return 0;
->> @@ -1696,6 +1707,9 @@ retry:
->>          goto retry;
->>      }
->>  
->> +    trace_vfio_region(vbasedev->name, index, (*info)->offset, (*info)->size,
->> +                      (*info)->cap_offset, (*info)->flags);
->> +
->>      return 0;
->>  }
->>  
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index f72e277..d74e078 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -41,6 +41,7 @@
->>  #include "trace.h"
->>  #include "qapi/error.h"
->>  #include "migration/blocker.h"
->> +#include "trace-root.h"
->>  
->>  #define TYPE_VFIO_PCI "vfio-pci"
->>  #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
->> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->> index 10d899c..83cd0a6 100644
->> --- a/hw/vfio/trace-events
->> +++ b/hw/vfio/trace-events
->> @@ -25,7 +25,7 @@ vfio_pci_size_rom(const char *name, int size) "%s ROM size 0x%x"
->>  vfio_vga_write(uint64_t addr, uint64_t data, int size) " (0x%"PRIx64", 0x%"PRIx64", %d)"
->>  vfio_vga_read(uint64_t addr, int size, uint64_t data) " (0x%"PRIx64", %d) = 0x%"PRIx64
->>  vfio_pci_read_config(const char *name, int addr, int len, int val) " (%s, @0x%x, len=0x%x) 0x%x"
->> -vfio_pci_write_config(const char *name, int addr, int val, int len) " (%s, @0x%x, 0x%x, len=0x%x)"
->> +vfio_pci_write_config(const char *name, int addr, int val, int len) "(%s, @0x%x, 0x%x, 0x%xB)"
->>  vfio_msi_setup(const char *name, int pos) "%s PCI MSI CAP @0x%x"
->>  vfio_msix_early_setup(const char *name, int pos, int table_bar, int offset, int entries) "%s PCI MSI-X CAP @0x%x, BAR %d, offset 0x%x, entries %d"
->>  vfio_check_pcie_flr(const char *name) "%s Supports FLR via PCIe cap"
->> @@ -37,7 +37,7 @@ vfio_pci_hot_reset_dep_devices(int domain, int bus, int slot, int function, int
->>  vfio_pci_hot_reset_result(const char *name, const char *result) "%s hot reset: %s"
->>  vfio_populate_device_config(const char *name, unsigned long size, unsigned long offset, unsigned long flags) "Device %s config:\n  size: 0x%lx, offset: 0x%lx, flags: 0x%lx"
->>  vfio_populate_device_get_irq_info_failure(const char *errstr) "VFIO_DEVICE_GET_IRQ_INFO failure: %s"
->> -vfio_realize(const char *name, int group_id) " (%s) group %d"
->> +vfio_realize(const char *name, int group_id) "(%s) group %d"
->>  vfio_mdev(const char *name, bool is_mdev) " (%s) is_mdev %d"
->>  vfio_add_ext_cap_dropped(const char *name, uint16_t cap, uint16_t offset) "%s 0x%x@0x%x"
->>  vfio_pci_reset(const char *name) " (%s)"
->> @@ -109,7 +109,7 @@ vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions,
->>  vfio_put_base_device(int fd) "close vdev->fd=%d"
->>  vfio_region_setup(const char *dev, int index, const char *name, unsigned long flags, unsigned long offset, unsigned long size) "Device %s, region %d \"%s\", flags: 0x%lx, offset: 0x%lx, size: 0x%lx"
->>  vfio_region_mmap_fault(const char *name, int index, unsigned long offset, unsigned long size, int fault) "Region %s mmaps[%d], [0x%lx - 0x%lx], fault: %d"
->> -vfio_region_mmap(const char *name, unsigned long offset, unsigned long end) "Region %s [0x%lx - 0x%lx]"
->> +vfio_region_mmap(const char *name, unsigned long offset, unsigned long end, void *addr) "%s [0x%lx - 0x%lx] maps to %p"
->>  vfio_region_exit(const char *name, int index) "Device %s, region %d"
->>  vfio_region_finalize(const char *name, int index) "Device %s, region %d"
->>  vfio_region_mmaps_set_enabled(const char *name, bool enabled) "Region %s mmaps enabled: %d"
->> @@ -117,6 +117,9 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
->>  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
->>  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
->>  vfio_dma_unmap_overflow_workaround(void) ""
->> +vfio_dma_unmap(int fd, uint64_t iova, uint64_t size) "fd %d, iova 0x%"PRIx64", len 0x%"PRIx64
->> +vfio_dma_map(int fd, uint64_t iova, uint64_t size, void *addr, const char *access) "fd %d, iova 0x%"PRIx64", len 0x%"PRIx64", va %p, %s"
->> +vfio_region(const char *name, int index, uint64_t offset, uint64_t size, int cap_offset, int flags) "%s [%d]: +0x%"PRIx64", 0x%"PRIx64"B, cap +0x%x, flags 0x%x"
->>  
->>  # platform.c
->>  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
->> diff --git a/trace-events b/trace-events
->> index 42107eb..98589a4 100644
->> --- a/trace-events
->> +++ b/trace-events
->> @@ -107,6 +107,8 @@ qmp_job_complete(void *job) "job %p"
->>  qmp_job_finalize(void *job) "job %p"
->>  qmp_job_dismiss(void *job) "job %p"
->>  
->> +# exec.c
->> +ram_block_add(void *host, uint64_t maxlen, const char *name, const char *mode) "host=%p, maxlen=0x%"PRIx64", mr = {name=%s, %s}"
->>  
->>  ### Guest events, keep at bottom
->>  
->> -- 
->> 1.8.3.1
->>
+> >
+> >>> 5. many more checks
+> >>>
+> >>> Looking fwd. to your feedback/comments on the above approach or other any other suggestions.
+> >>>
+> >>> Thanks,
+> >>> Ashish
+> >>>
+> >>> [1] -> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fnext.patchew.org%2FQEMU%2F20180308124901.83533-1-brijesh.singh%40amd.com%2F20180308124901.83533-29-brijesh.singh%40amd.com%2F&amp;data=02%7C01%7Cashish.kalra%40amd.com%7Cd21e40d3527d4dba609c08d86091490e%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637365524404435805&amp;sdata=P%2F6DqPQmUObJipkbbeXcrUdCqulePiqxSU6OB8xUEWo%3D&amp;reserved=0
+> >>>
+> >> -- 
+> >> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >>
 
