@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F4C276E1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:03:34 +0200 (CEST)
-Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7718D276E36
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:08:51 +0200 (CEST)
+Received: from localhost ([::1]:41474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLO69-0006Xb-0u
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:03:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
+	id 1kLOBG-00070n-Fj
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUv-0003Nh-4S
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53738)
+ id 1kLNV3-0003TT-AP
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUm-0006HW-Bv
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:04 -0400
+ id 1kLNUq-0006IB-0i
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939494;
+ s=mimecast20190719; t=1600939498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gUhoTZ0x3F+69mKQh+X9V4uzzg/R6UFDfUeQRh/ugYg=;
- b=DknfTQrnJQTKsZ0uaHb/Gy0fPAWCMmuR1uCTlV/t+puVVKa9QTJO+ZD1g1nCvDZHUKQeak
- nM0m4p4PNy9bYn0TE6y+00CsCYTAXvaMwAzmD3NRI6sSV48CCZ75A4WvZsFK7jXvFtqxNK
- 4ktZ4+oxaAAj2gQ5jbImhEtnQAOETQw=
+ bh=NRtSUrgKNL0humN1k1HMbtEq084M5PqemfggdKfe0jg=;
+ b=EzEgqbmNTRCQLg0QORpea36zaVyb1a6ApvOv8H1T9Ub0bjUDuX8oIqBPF0ZqGZPTfX21h9
+ sgDf3XQ2hml5o1Sm+k37NQU7XjHnP1Vtj7tv/VxKQHO8faRznJpGOdgElaKIyt5vFhr7t4
+ vT66kMcwvhSuQQGiXNYW9sTnGZojUIc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-YknI5lcXPn6Z87h938HYaQ-1; Thu, 24 Sep 2020 05:24:52 -0400
-X-MC-Unique: YknI5lcXPn6Z87h938HYaQ-1
+ us-mta-150-V3k9HwW2Nv6Qo21CaotsiA-1; Thu, 24 Sep 2020 05:24:54 -0400
+X-MC-Unique: V3k9HwW2Nv6Qo21CaotsiA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 225DB81F00F
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 657A1104D3E4;
+ Thu, 24 Sep 2020 09:24:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBD6B55764
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 443AD55764;
+ Thu, 24 Sep 2020 09:24:51 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 85/92] target/i386: kvm: do not use kvm_check_extension to find
- paravirtual capabilities
-Date: Thu, 24 Sep 2020 05:23:07 -0400
-Message-Id: <20200924092314.1722645-86-pbonzini@redhat.com>
+Subject: [PULL 86/92] net/can: Initial host SocketCan support for CAN FD.
+Date: Thu, 24 Sep 2020 05:23:08 -0400
+Message-Id: <20200924092314.1722645-87-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,81 +81,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vikram Garhwal <fnu.vikram@xilinx.com>, Jan Charvat <charvj10@fel.cvut.cz>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paravirtualized features have been listed in KVM_GET_SUPPORTED_CPUID since
-Linux 2.6.35 (commit 84478c829d0f, "KVM: x86: export paravirtual cpuid flags
-in KVM_GET_SUPPORTED_CPUID", 2010-05-19).  It has been more than 10 years,
-so remove the fallback code.
+From: Jan Charvat <charvj10@fel.cvut.cz>
 
+Signed-off-by: Jan Charvat <charvj10@fel.cvut.cz>
+Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Reviewed-by: Vikram Garhwal <fnu.vikram@xilinx.com>
+Message-Id: <41383d4eb3f35586c696a8e29c4dff4031a81338.1600069689.git.pisa@cmp.felk.cvut.cz>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 32 --------------------------------
- 1 file changed, 32 deletions(-)
+ hw/net/can/can_sja1000.c |  2 ++
+ include/net/can_emu.h    |  8 ++++++-
+ net/can/can_socketcan.c  | 47 +++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 53 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 4fc6e8b9d5..f6dae4cfb6 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -284,30 +284,6 @@ static struct kvm_cpuid2 *get_supported_cpuid(KVMState *s)
-     return cpuid;
+diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+index 299932998a..ec66d4232d 100644
+--- a/hw/net/can/can_sja1000.c
++++ b/hw/net/can/can_sja1000.c
+@@ -268,6 +268,7 @@ static void buff2frame_pel(const uint8_t *buff, qemu_can_frame *frame)
+ {
+     uint8_t i;
+ 
++    frame->flags = 0;
+     frame->can_id = 0;
+     if (buff[0] & 0x40) { /* RTR */
+         frame->can_id = QEMU_CAN_RTR_FLAG;
+@@ -303,6 +304,7 @@ static void buff2frame_bas(const uint8_t *buff, qemu_can_frame *frame)
+ {
+     uint8_t i;
+ 
++    frame->flags = 0;
+     frame->can_id = ((buff[0] << 3) & (0xff << 3)) + ((buff[1] >> 5) & 0x07);
+     if (buff[1] & 0x10) { /* RTR */
+         frame->can_id = QEMU_CAN_RTR_FLAG;
+diff --git a/include/net/can_emu.h b/include/net/can_emu.h
+index 743c6647c1..cab98ee8ec 100644
+--- a/include/net/can_emu.h
++++ b/include/net/can_emu.h
+@@ -46,7 +46,8 @@ typedef uint32_t qemu_canid_t;
+ typedef struct qemu_can_frame {
+     qemu_canid_t    can_id;  /* 32 bit CAN_ID + EFF/RTR/ERR flags */
+     uint8_t         can_dlc; /* data length code: 0 .. 8 */
+-    uint8_t         data[8] QEMU_ALIGNED(8);
++    uint8_t         flags;
++    uint8_t         data[64] QEMU_ALIGNED(8);
+ } qemu_can_frame;
+ 
+ /* Keep defines for QEMU separate from Linux ones for now */
+@@ -58,6 +59,10 @@ typedef struct qemu_can_frame {
+ #define QEMU_CAN_SFF_MASK 0x000007FFU /* standard frame format (SFF) */
+ #define QEMU_CAN_EFF_MASK 0x1FFFFFFFU /* extended frame format (EFF) */
+ 
++#define QEMU_CAN_FRMF_BRS     0x01 /* bit rate switch (2nd bitrate for data) */
++#define QEMU_CAN_FRMF_ESI     0x02 /* error state ind. of transmitting node */
++#define QEMU_CAN_FRMF_TYPE_FD 0x10 /* internal bit ind. of CAN FD frame */
++
+ /**
+  * struct qemu_can_filter - CAN ID based filter in can_register().
+  * @can_id:   relevant bits of CAN ID which are not masked out.
+@@ -97,6 +102,7 @@ struct CanBusClientState {
+     char *model;
+     char *name;
+     void (*destructor)(CanBusClientState *);
++    bool fd_mode;
+ };
+ 
+ #define TYPE_CAN_BUS "can-bus"
+diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
+index ce8c2549ed..92b1f79385 100644
+--- a/net/can/can_socketcan.c
++++ b/net/can/can_socketcan.c
+@@ -103,6 +103,14 @@ static void can_host_socketcan_read(void *opaque)
+         return;
+     }
+ 
++    if (!ch->bus_client.fd_mode) {
++        c->buf[0].flags = 0;
++    } else {
++        if (c->bufcnt > CAN_MTU) {
++            c->buf[0].flags |= QEMU_CAN_FRMF_TYPE_FD;
++        }
++    }
++
+     can_bus_client_send(&ch->bus_client, c->buf, 1);
+ 
+     if (DEBUG_CAN) {
+@@ -121,12 +129,21 @@ static ssize_t can_host_socketcan_receive(CanBusClientState *client,
+     CanHostState *ch = container_of(client, CanHostState, bus_client);
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(ch);
+ 
+-    size_t len = sizeof(qemu_can_frame);
++    size_t len;
+     int res;
+ 
+     if (c->fd < 0) {
+         return -1;
+     }
++    if (frames->flags & QEMU_CAN_FRMF_TYPE_FD) {
++        if (!ch->bus_client.fd_mode) {
++            return 0;
++        }
++        len = CANFD_MTU;
++    } else {
++        len = CAN_MTU;
++
++    }
+ 
+     res = write(c->fd, frames, len);
+ 
+@@ -172,6 +189,8 @@ static void can_host_socketcan_connect(CanHostState *ch, Error **errp)
+ {
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(ch);
+     int s; /* can raw socket */
++    int mtu;
++    int enable_canfd = 1;
+     struct sockaddr_can addr;
+     struct ifreq ifr;
+ 
+@@ -185,13 +204,34 @@ static void can_host_socketcan_connect(CanHostState *ch, Error **errp)
+     addr.can_family = AF_CAN;
+     memset(&ifr.ifr_name, 0, sizeof(ifr.ifr_name));
+     strcpy(ifr.ifr_name, c->ifname);
++    /* check if the frame fits into the CAN netdevice */
+     if (ioctl(s, SIOCGIFINDEX, &ifr) < 0) {
+         error_setg_errno(errp, errno,
+-                         "SocketCAN host interface %s not available", c->ifname);
++                         "SocketCAN host interface %s not available",
++                         c->ifname);
+         goto fail;
+     }
+     addr.can_ifindex = ifr.ifr_ifindex;
+ 
++    if (ioctl(s, SIOCGIFMTU, &ifr) < 0) {
++        error_setg_errno(errp, errno,
++                         "SocketCAN host interface %s SIOCGIFMTU failed",
++                         c->ifname);
++        goto fail;
++    }
++    mtu = ifr.ifr_mtu;
++
++    if (mtu >= CANFD_MTU) {
++        /* interface is ok - try to switch the socket into CAN FD mode */
++        if (setsockopt(s, SOL_CAN_RAW, CAN_RAW_FD_FRAMES,
++                        &enable_canfd, sizeof(enable_canfd))) {
++            warn_report("SocketCAN host interface %s enabling CAN FD failed",
++                        c->ifname);
++        } else {
++            c->parent.bus_client.fd_mode = true;
++        }
++    }
++
+     c->err_mask = 0xffffffff; /* Receive error frame. */
+     setsockopt(s, SOL_CAN_RAW, CAN_RAW_ERR_FILTER,
+                    &c->err_mask, sizeof(c->err_mask));
+@@ -232,7 +272,8 @@ static char *can_host_socketcan_get_if(Object *obj, Error **errp)
+     return g_strdup(c->ifname);
  }
  
--static const struct kvm_para_features {
--    int cap;
--    int feature;
--} para_features[] = {
--    { KVM_CAP_CLOCKSOURCE, KVM_FEATURE_CLOCKSOURCE },
--    { KVM_CAP_NOP_IO_DELAY, KVM_FEATURE_NOP_IO_DELAY },
--    { KVM_CAP_PV_MMU, KVM_FEATURE_MMU_OP },
--    { KVM_CAP_ASYNC_PF, KVM_FEATURE_ASYNC_PF },
--    { KVM_CAP_ASYNC_PF_INT, KVM_FEATURE_ASYNC_PF_INT },
--};
--
--static int get_para_features(KVMState *s)
--{
--    int i, features = 0;
--
--    for (i = 0; i < ARRAY_SIZE(para_features); i++) {
--        if (kvm_check_extension(s, para_features[i].cap)) {
--            features |= (1 << para_features[i].feature);
--        }
--    }
--
--    return features;
--}
--
- static bool host_tsx_broken(void)
+-static void can_host_socketcan_set_if(Object *obj, const char *value, Error **errp)
++static void can_host_socketcan_set_if(Object *obj, const char *value,
++                                      Error **errp)
  {
-     int family, model, stepping;\
-@@ -367,13 +343,11 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-     struct kvm_cpuid2 *cpuid;
-     uint32_t ret = 0;
-     uint32_t cpuid_1_edx;
--    bool found = false;
- 
-     cpuid = get_supported_cpuid(s);
- 
-     struct kvm_cpuid_entry2 *entry = cpuid_find_entry(cpuid, function, index);
-     if (entry) {
--        found = true;
-         ret = cpuid_entry_get_reg(entry, reg);
-     }
- 
-@@ -448,12 +422,6 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-         }
-     } else if (function == KVM_CPUID_FEATURES && reg == R_EDX) {
-         ret |= 1U << KVM_HINTS_REALTIME;
--        found = 1;
--    }
--
--    /* fallback for older kernels */
--    if ((function == KVM_CPUID_FEATURES) && !found) {
--        ret = get_para_features(s);
-     }
- 
-     return ret;
+     CanHostSocketCAN *c = CAN_HOST_SOCKETCAN(obj);
+     struct ifreq ifr;
 -- 
 2.26.2
 
