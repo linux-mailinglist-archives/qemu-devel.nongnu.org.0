@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF792778FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:11:07 +0200 (CEST)
-Received: from localhost ([::1]:57812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25FB277901
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:15:11 +0200 (CEST)
+Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLWe2-0004vZ-K1
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:11:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44034)
+	id 1kLWhy-00081A-S5
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:15:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLWP2-0001zT-48; Thu, 24 Sep 2020 14:55:36 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:34203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLWOx-0002Z1-00; Thu, 24 Sep 2020 14:55:35 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 94A685804C1;
- Thu, 24 Sep 2020 14:55:29 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Thu, 24 Sep 2020 14:55:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=qCIoQrisYKxm01fcEvXZIhRX9GD
- 2Ro8BlPv6NVRbYMk=; b=PZhe+6IWgx36lM9/A+a0syyPJGX/DAdAjv4ZwaAt/SE
- o0N0FL00a57aT8CeJX32tGGprOErSSXh2X1XJQHo2dqMdGq8KWVFl7n6QSCNNqHa
- +Jo4foBUlD15dj4oheIxff6Nlr8QxV1hDnbUtp/ii2re4doq/RXcUP0iRtHXX7Jc
- vHzQL5c3RA12dlcHbU4BmSEdlkiYP7MEy1DxlL8Kxawz/41h66rHuS6OzQZK2V9+
- Jbh7el9jEUziraoBa9ShCmDXbFTcWxqPKNkio4H/4QomfNo7m4bynmsfGKE9UlVH
- h9xc6pS4AKrWOKcq0aruOAEBKFb8ZXuBTbdWbVCRE9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qCIoQr
- isYKxm01fcEvXZIhRX9GD2Ro8BlPv6NVRbYMk=; b=FIQm6XEdTN23iymksg+U6g
- lfcMhvZ6EwEyLm9/ZYfORB+3mHcgulDy1S/VivOQwQFqXClPtzNctDGqM3krcnNj
- Q14EMekqaCqMbq/C2EUpWnc9ivAMXHk3icXyhl98uDOVd3UvVQ3Zkja3D4JC6tXv
- W3hVNYh9gzroTH65hnvia05Os4s3nh2cR2WHYm05Dj2DXi+XakkLXj5fOfliiQVV
- 44KkDkQYJoGw0MNDdPO9zfVEzh+ZqnPWuzzQpMOilHf6ZxgUbjf4wEoEvM4WtnyI
- ITHHkUycTXgBAvqh1rq3oLFS/niiExBH/L75VFi2P1ItkXkoaSYTTW2ovklZZE7Q
- ==
-X-ME-Sender: <xms:oOtsX3vwXUBgQAM2nw4a821_n1S1ArKd9fh_BP8N8LfvoKZzxpkIIA>
- <xme:oOtsX4cCaHFqD_pmNmrhuGP_AmRHXwfVVZGIU3gfxAbM1YfnAGSQ7vw8cgaA084Gh
- Gf_qDUW919JFcF4DyE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekgdduvdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:oOtsX6y1YhlZrss8QCu9HNvL3wDNffoQkRhdDNlEg2_bhCGFR2A5Hg>
- <xmx:oOtsX2NOs2XOhUnURrTNoq6lrPpNwd9n4XnqqR56Shte5h7KqBW-pA>
- <xmx:oOtsX38WTb87lbM3D62cMvCgJoUm0Cz1_B4tRuCUzqFZGdbyMFuckA>
- <xmx:oetsX-bNFPsnQ3dnNo-s_ipQMlAJIuBEcgK-eQhFlg36vVEFqFv5HPutjQ4>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6EE9A3064610;
- Thu, 24 Sep 2020 14:55:26 -0400 (EDT)
-Date: Thu, 24 Sep 2020 20:55:24 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Niklas Cassel <Niklas.Cassel@wdc.com>
-Subject: Re: [PATCH v4 06/14] hw/block/nvme: Add support for active/inactive
- namespaces
-Message-ID: <20200924185524.GC1738917@apples.localdomain>
-References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
- <20200923182021.3724-7-dmitry.fomichev@wdc.com>
- <20200924121203.GA1738917@apples.localdomain>
- <20200924181721.GA5376@localhost.localdomain>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLWUF-00074b-LT
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:01:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60033)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLWU9-0003LW-7B
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:00:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600974050;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b8lRyGSd4ce+BgLHcxK9M6WJAysgoZskzX+NwKtSREA=;
+ b=SPJaIN3GC0pwrZMXHjAYZZOEY+1k67ezn4DUg4TgdfBBxpRTsoRlPng+uNvM3Duoz6KhWk
+ HZObQlEbeI3KKMu+ACZpwckRGyrjbCKXm03Vpqt9TSEDr/snebRxZS2vKCikAxymNoTvpL
+ lzo1YMk68WlZ/e8rZ/ZKaqBDh4LukYM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-dIUeZkXFNOSmsdD4bttH0g-1; Thu, 24 Sep 2020 15:00:39 -0400
+X-MC-Unique: dIUeZkXFNOSmsdD4bttH0g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A389E1084D76;
+ Thu, 24 Sep 2020 19:00:38 +0000 (UTC)
+Received: from [10.3.114.148] (ovpn-114-148.phx2.redhat.com [10.3.114.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3E6A60C15;
+ Thu, 24 Sep 2020 19:00:34 +0000 (UTC)
+Subject: Re: [PATCH v9 0/7] coroutines: generate wrapper code
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200924185414.28642-1-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <450e10eb-e7b0-2640-4855-c0cdb21d97a4@redhat.com>
+Date: Thu, 24 Sep 2020 14:00:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IpbVkmxF4tDyP/Kb"
-Content-Disposition: inline
-In-Reply-To: <20200924181721.GA5376@localhost.localdomain>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 14:55:29
+In-Reply-To: <20200924185414.28642-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,58 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Klaus Jensen <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <Matias.Bjorling@wdc.com>
+Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 9/24/20 1:54 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+> 
+> The aim of the series is to reduce code-duplication and writing
+> parameters structure-packing by hand around coroutine function wrappers.
+> 
+> Benefits:
+>   - no code duplication
+>   - less indirection
+> 
+> v9: Thanks to Eric, I used commit message tweaks and rebase-conflict solving from his git.
+> 01: add Philippe's, Stefan's r-bs
+> 02: - add Philippe's, Stefan's r-bs
+>      - commit message tweaks stolen from Eric's git :)
 
---IpbVkmxF4tDyP/Kb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+LOL: "stolen" makes it sound like a crime was committed ;)  I find it to 
+be one of the joys of open source when my ideas show up in someone 
+else's work when properly attributed, as you did here.  [Maybe the 
+recent push towards a conscious language initiative has let me hone in 
+on something that turned out humorous to me, but might not be as obvious 
+to someone less fluent in English idioms]
 
-On Sep 24 18:17, Niklas Cassel wrote:
-> On Thu, Sep 24, 2020 at 02:12:03PM +0200, Klaus Jensen wrote:
-> > On Sep 24 03:20, Dmitry Fomichev wrote:
-> > > From: Niklas Cassel <niklas.cassel@wdc.com>
-> > >=20
-> > > E.g., if the user sets CC.CSS to Admin Only, NVM namespaces should be
-> > > marked as inactive.
-> > >=20
-> >=20
-> > Hmm. I'm not convinced that this is correct. Can you reference the spec?
-> >=20
->=20
-> CC.CSS can only be changed when the controller is disabled.
+At any rate, I'm glad my rebase efforts helped.
 
-Right. I think I see you point. While the controller is disabled, the
-host obviously cannot even see what namespaces are available, so the
-controller is free to only expose (aka, attach) the namespaces that
-makes sense for the value of CC.CSS.
+> 03: add Philippe's, Stefan's r-bs
+> 04: - wording/grammar by Eric (partly, stolen from repo)
+>      - ref new file in docs/devel/index.rst
+>      - use 644 rights and recommended header for python script
+>      - call gen_header() once
+>      - rename gen_wrappers_file to gen_wrappers
+> 05: add Stefan's r-b
+> 06: add Philippe's, Stefan's r-bs
+> 07: Stefan's r-b
+> 
 
-OK then, the patch is good :)
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
---IpbVkmxF4tDyP/Kb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9s65oACgkQTeGvMW1P
-DemLxQf/R/+CIhci8+iL8bUaZ4h5p4d5Z1gC0YosOqDP3sKdDxqWCZSnN7LSLrkg
-zGAoZzaHW02NC02bDn4ZsLK3149ZYx9d7rxqLeLYksOEYzqeGPJP4yC2HNmwDOg6
-prpIhR/aDova70dZCAcIX48uHsrZz5ZzAzbL1pW8V6W5C7vNP3XRYfhDp1E5ADZr
-LP/jrAi7WEk2OdEFaKeB7a1i40n00sWpueopxoH9suT3iCCZHA/em0wydyge3q1A
-ZjNGvlUzrmattGgMZUULjinurs3pbSFKUNwHkGKz6rZLsrCMMrEg+1ERvdVu6CeL
-U5GOVYHH8E03N4fHwjS+0PqE8S5Ttw==
-=Eces
------END PGP SIGNATURE-----
-
---IpbVkmxF4tDyP/Kb--
 
