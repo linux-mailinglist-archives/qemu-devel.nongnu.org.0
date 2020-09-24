@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BAA276E1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:04:56 +0200 (CEST)
-Received: from localhost ([::1]:53132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52FD276E6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:16:15 +0200 (CEST)
+Received: from localhost ([::1]:41874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLO7T-0008Qj-6V
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39302)
+	id 1kLOIQ-0001tc-PN
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNU1-0001gn-VH
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24425)
+ id 1kLNU4-0001p5-VT
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTz-00068X-3a
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:09 -0400
+ id 1kLNU0-00068s-JY
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939446;
+ s=mimecast20190719; t=1600939447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zpSbVzl3acQ2bkk+yM/us7BGZDZKLKzv1rEDakyBM8k=;
- b=RxVGRu8gXbhUtd0Z4Jb/T0Yfq1JWwQfvJf/O4ZR1ymuYIDsZtz/BqitG94tMYKcTKi5loo
- pBFyKIl1vULbVVBOT249lrSqIZomeZgwCUpvgQTfIvPOU0z9ASvwuNi/Ri1CLqalg5J0hH
- LrQhENXGfH7FcSQ/ulqhEwqIBj3Z0bY=
+ bh=ePBDsxuwy2/CAn6zK7MxY8WVOmUABshE8nLPlwXqj18=;
+ b=DhxP+TNh6ZkDR7rb3gH2h/NF1yx/bCW6hsRtZl7KMaRypbZ/c2j37rjejkZJaqiWU4O4h5
+ kDs0ULakwCT6L2nmsbhQmFriTefOe36rgCRZKBBxPSfogt1xCg5WvhdAyaX6adiSG67M0g
+ /9xIXIl0VqzzhoKfebhlTKDpH3GIC9Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-gDI7B_H5MXSPmr7wyvUSRA-1; Thu, 24 Sep 2020 05:24:02 -0400
-X-MC-Unique: gDI7B_H5MXSPmr7wyvUSRA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-437-oaK21n4PN_2Mn0amIK-7vQ-1; Thu, 24 Sep 2020 05:24:04 -0400
+X-MC-Unique: oaK21n4PN_2Mn0amIK-7vQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47A90425E6;
- Thu, 24 Sep 2020 09:24:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 069F11891E80;
+ Thu, 24 Sep 2020 09:24:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0827A5C1DC;
- Thu, 24 Sep 2020 09:24:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B96CC60CCC;
+ Thu, 24 Sep 2020 09:24:02 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 56/92] configure: fix performance regression due to PIC objects
-Date: Thu, 24 Sep 2020 05:22:38 -0400
-Message-Id: <20200924092314.1722645-57-pbonzini@redhat.com>
+Subject: [PULL 60/92] configure: cleanup CFLAGS and LDFLAGS for submodules
+Date: Thu, 24 Sep 2020 05:22:42 -0400
+Message-Id: <20200924092314.1722645-61-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,38 +81,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Karaman <ahmedkrmn@outlook.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because most files in QEMU are grouped into static libraries, Meson conservatively
-compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
-some TCG tests.
+The -g and -O2 flags that configure adds to CFLAGS are only used by submodules,
+so do not put anymore the confusing CFLAGS variable in config-host.mak and
+replace it with more explicit SUBMODULE_CFLAGS variable.
 
-As a stopgap measure, use the b_staticpic option to limit the slowdown to
---enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
-us to use b_staticpic=false and let Meson do the right thing.
+There was also no equivalent SUBMODULE_LDFLAGS variable, add it.  This would
+theoretically help with LTO if we want -g and -O2 options on the command line.
+I say "theoretically" because submodules should not be linking anything; but
+since we were passing an "LD" variable we might as well get its flags right.
 
-Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200919155639.1045857-1-pbonzini@redhat.com>
+CFLAGS are now synthesized in the configuration summary as a quick way to present
+--enable-debug and --enable-debug-info.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ Makefile    |  1 -
+ configure   | 20 ++++++++++++++++----
+ meson.build |  3 ++-
+ 3 files changed, 18 insertions(+), 6 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index f83226e0e1..61ab93f05a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -137,7 +137,6 @@ configure: ;
+ .PHONY: all clean distclean install \
+ 	recurse-all dist msi FORCE
+ 
+-SUBMODULE_CFLAGS = $(QEMU_CFLAGS) $(CFLAGS)
+ SUBDIR_MAKEFLAGS = $(if $(V),,--no-print-directory --quiet)
+ SUBDIR_HOST_VARS = 							\
+ 	PKG_CONFIG="$(PKG_CONFIG)" 					\
 diff --git a/configure b/configure
-index fee5faa054..ac0dfdfac5 100755
+index ac0dfdfac5..9b7232f9d2 100755
 --- a/configure
 +++ b/configure
-@@ -7849,6 +7849,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-+        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
- 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim \
- 	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+@@ -6112,12 +6112,23 @@ elif test "$fortify_source" = "yes" ; then
+   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
+   debug=no
+ fi
++
++SUBMODULE_CFLAGS=-Wall
++SUBMODULE_LDFLAGS=
++if test "$pie" = "yes"; then
++  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -fPIE"
++  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -pie"
++else
++  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS $CFLAGS_NOPIE"
++  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS $LDFLAGS_NOPIE"
++fi
+ if test "$debug_info" = "yes"; then
+-  CFLAGS="-g $CFLAGS"
+-  LDFLAGS="-g $LDFLAGS"
++  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -g"
++  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -g"
+ fi
+ if test "$debug" = "no"; then
+-  CFLAGS="-O2 $CFLAGS"
++  SUBMODULE_CFLAGS="$SUBMODULE_CFLAGS -O2"
++  SUBMODULE_LDFLAGS="$SUBMODULE_LDFLAGS -O2"
+ fi
+ 
+ case "$ARCH" in
+@@ -7292,7 +7303,8 @@ echo "RANLIB=$ranlib" >> $config_host_mak
+ echo "NM=$nm" >> $config_host_mak
+ echo "PKG_CONFIG=$pkg_config_exe" >> $config_host_mak
+ echo "WINDRES=$windres" >> $config_host_mak
+-echo "CFLAGS=$CFLAGS" >> $config_host_mak
++echo "SUBMODULE_CFLAGS=$CFLAGS \$(QEMU_CFLAGS) $SUBMODULE_CFLAGS" >> $config_host_mak
++echo "SUBMODULE_LDFLAGS=$LDFLAGS \$(QEMU_LDFLAGS) $SUBMODULE_LDFLAGS" >> $config_host_mak
+ echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
+ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 9aeefa60fb..cb0113ee90 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1471,7 +1471,8 @@ if targetos == 'darwin'
+   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
+ endif
+ summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
+-summary_info += {'CFLAGS':            config_host['CFLAGS']}
++summary_info += {'CFLAGS':            '-O' + get_option('optimization')
++                                           + (get_option('debug') ? ' -g' : '')}
+ summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
+ summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+ summary_info += {'make':              config_host['MAKE']}
 -- 
 2.26.2
 
