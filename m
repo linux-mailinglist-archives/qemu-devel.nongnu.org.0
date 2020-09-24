@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2A4276DA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:38:49 +0200 (CEST)
-Received: from localhost ([::1]:52160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412E9276DD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:49:06 +0200 (CEST)
+Received: from localhost ([::1]:56974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNiC-0003xs-SW
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:38:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38754)
+	id 1kLNs9-0001Y3-A0
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTc-0000mE-HW
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29717)
+ id 1kLNTk-0000vb-KV
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTY-00061D-Cw
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:44 -0400
+ id 1kLNTb-00061u-3M
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939419;
+ s=mimecast20190719; t=1600939422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=od6JXIY1fcP2j39Qow/9a/can0bTK6XDiYgmSrU6a9s=;
- b=egnW5wrkxBmdKKu1yM33FybpVPi8U5WprgUMS66sbNnW4USDNGq4jpbi2PxK+sLoXYLgzY
- 49rHWPNZmEgBKkhwRRkQRUswF/ehYpJ+Fv1iz6+VE9D68St8tJdXXQ6ekt8kmk4McHL9u1
- a3I3nDlzPL5mCVLqoitJqz3Vu7oItHE=
+ bh=SMbLWkx++SRjJTxVHc7OGdAT7b6LdYR09l6M084Hgjs=;
+ b=eqGU+nS6buxnKbT7RXMLE1jlSa1ds2C6w/tB8mmFbmHHp2kYKPwouk4a/f1/ngUOYg3Ggh
+ jGvxHZwxK9hsxJuVUC3fajKtBuXq/QbciEXrHeunhoQqrkRuFFeJHWuu4UPB9ZtsXGfHA5
+ hTtgwkfyPVMNelNiWqIUwgkxcstTtFw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-qJDoMuWmNU672fwyO8xODg-1; Thu, 24 Sep 2020 05:23:37 -0400
-X-MC-Unique: qJDoMuWmNU672fwyO8xODg-1
+ us-mta-383-rX2aqHD_OfSYtTrq8hsZhA-1; Thu, 24 Sep 2020 05:23:38 -0400
+X-MC-Unique: rX2aqHD_OfSYtTrq8hsZhA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A468C1DE19;
- Thu, 24 Sep 2020 09:23:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10645104D3E3;
+ Thu, 24 Sep 2020 09:23:37 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B52873672;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0B1473662;
  Thu, 24 Sep 2020 09:23:36 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/92] scsi-generic: Fix HM-zoned device scan
-Date: Thu, 24 Sep 2020 05:22:07 -0400
-Message-Id: <20200924092314.1722645-26-pbonzini@redhat.com>
+Subject: [PULL 26/92] hw: megasas: return -1 when 'megasas_map_sgl' fails
+Date: Thu, 24 Sep 2020 05:22:08 -0400
+Message-Id: <20200924092314.1722645-27-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.001
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -81,86 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Cc: Li Qiang <liq3ea@163.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+From: Li Qiang <liq3ea@163.com>
 
-Several important steps during device scan depend on SCSI type of the
-device. For example, max_transfer property is only determined and
-assigned if the device has the type of TYPE_DISK.
+The caller of 'megasas_map_sgl' will only check if the return
+is zero or not. If it return 0 it means success, as in the next
+patch we will consider 'iov_count=0' is an error, so let's
+return -1 to indicate a failure.
 
-Host-managed ZBC disks retain most of the properties of regular SCSI
-drives, but they have their own SCSI device type, 0x14. This prevents
-the proper assignment of max_transfer property for HM-zoned devices in
-scsi-generic driver leading to I/O errors if the maximum i/o size
-calculated at the guest exceeds the host value.
-
-To fix this, define TYPE_ZBC to have the standard value from SCSI ZBC
-standard spec. Several scan steps that were previously done only for
-TYPE_DISK devices, are now performed for the SCSI devices having
-TYPE_ZBC too.
-
-Reported-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Message-Id: <20200811225122.17342-3-dmitry.fomichev@wdc.com>
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Message-Id: <20200815141940.44025-2-liq3ea@163.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-generic.c   | 10 ++++++----
- include/scsi/constants.h |  1 +
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ hw/scsi/megasas.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index 86ed0a3822..2cb23ca891 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -162,7 +162,8 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
-         }
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index e90c00823a..4cc709d2c6 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -280,7 +280,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+     if (iov_count > MEGASAS_MAX_SGE) {
+         trace_megasas_iovec_sgl_overflow(cmd->index, iov_count,
+                                          MEGASAS_MAX_SGE);
+-        return iov_count;
++        return -1;
      }
+     pci_dma_sglist_init(&cmd->qsg, PCI_DEVICE(s), iov_count);
+     for (i = 0; i < iov_count; i++) {
+@@ -310,7 +310,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+     return 0;
+ unmap:
+     qemu_sglist_destroy(&cmd->qsg);
+-    return iov_count - i;
++    return -1;
+ }
  
--    if (s->type == TYPE_DISK && (r->req.cmd.buf[1] & 0x01)) {
-+    if ((s->type == TYPE_DISK || s->type == TYPE_ZBC) &&
-+        (r->req.cmd.buf[1] & 0x01)) {
-         page = r->req.cmd.buf[2];
-         if (page == 0xb0) {
-             uint32_t max_transfer =
-@@ -299,10 +300,11 @@ static void scsi_read_complete(void * opaque, int ret)
-     }
-     blk_set_guest_block_size(s->conf.blk, s->blocksize);
- 
--    /* Patch MODE SENSE device specific parameters if the BDS is opened
-+    /*
-+     * Patch MODE SENSE device specific parameters if the BDS is opened
-      * readonly.
-      */
--    if ((s->type == TYPE_DISK || s->type == TYPE_TAPE) &&
-+    if ((s->type == TYPE_DISK || s->type == TYPE_TAPE || s->type == TYPE_ZBC) &&
-         blk_is_read_only(s->conf.blk) &&
-         (r->req.cmd.buf[0] == MODE_SENSE ||
-          r->req.cmd.buf[0] == MODE_SENSE_10) &&
-@@ -617,7 +619,7 @@ static void scsi_generic_read_device_identification(SCSIDevice *s)
- void scsi_generic_read_device_inquiry(SCSIDevice *s)
- {
-     scsi_generic_read_device_identification(s);
--    if (s->type == TYPE_DISK) {
-+    if (s->type == TYPE_DISK || s->type == TYPE_ZBC) {
-         scsi_generic_set_vpd_bl_emulation(s);
-     } else {
-         s->needs_vpd_bl_emulation = false;
-diff --git a/include/scsi/constants.h b/include/scsi/constants.h
-index 874176019e..2a32c08b5e 100644
---- a/include/scsi/constants.h
-+++ b/include/scsi/constants.h
-@@ -218,6 +218,7 @@
- #define TYPE_ENCLOSURE      0x0d    /* Enclosure Services Device */
- #define TYPE_RBC            0x0e    /* Simplified Direct-Access Device */
- #define TYPE_OSD            0x11    /* Object-storage Device */
-+#define TYPE_ZBC            0x14    /* Host-managed Zoned SCSI Device */
- #define TYPE_WLUN           0x1e    /* Well known LUN */
- #define TYPE_NOT_PRESENT    0x1f
- #define TYPE_INACTIVE       0x20
+ /*
 -- 
 2.26.2
 
