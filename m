@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F374C2775D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:51:20 +0200 (CEST)
-Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8DF2775E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:53:28 +0200 (CEST)
+Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLTWi-0006Iz-0B
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48992)
+	id 1kLTYk-0007v2-OE
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTAE-0001VX-Hb
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:28:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26033)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTAD-0001Sw-Fw
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:28:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTAC-0005XI-DR
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:28:06 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTA9-0005WX-Rr
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:28:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600961283;
+ s=mimecast20190719; t=1600961281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2gaxK56EDk7VojWTHKe7ayJitnEPvrQaYpIkJcOy7i0=;
- b=gjZ8vSkPcAhrPr+k4X5qM1d5jzfd0SB265XujHKdCLc7eveVTf6laOhPimm/8FkeNe/+qZ
- W3cxQv94ZDumOOVrkdHiSeGp30MuOa9y8IXFSpQmElH4m1blHVVDRizKjEVw/3JpsbjxQ7
- PFQu//mhKdO82LxOb+fbl2SqbFjUmYE=
+ bh=fKzT3UeYJ9sc1hti4D1wy89SYfS6DINx/n9breZw6iE=;
+ b=g58E0PUTLgjo6ySzh+KoqZb3lfTpLfobwTT7YzUY3i1KyDjKschYnDxsgPF8WP2d2oLgEE
+ QtbTDlo9TEjPjTs5BfrZoVHp6GDvio3c68KzxRqEZ5yi0JzID0guZv+/HFyEATEWoMixC3
+ YDAlL0p3W2SogCwa8P073xmvWgp7Kh4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-W3sw12glMgGgYhV-VRHPFg-1; Thu, 24 Sep 2020 11:27:56 -0400
-X-MC-Unique: W3sw12glMgGgYhV-VRHPFg-1
+ us-mta-566-jkl4owRiPfCQhV8guItMeQ-1; Thu, 24 Sep 2020 11:27:59 -0400
+X-MC-Unique: jkl4owRiPfCQhV8guItMeQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23BCE100CECF;
- Thu, 24 Sep 2020 15:27:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40571195D578;
+ Thu, 24 Sep 2020 15:27:56 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-72.ams2.redhat.com [10.36.114.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D869460C04;
- Thu, 24 Sep 2020 15:27:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0114760C04;
+ Thu, 24 Sep 2020 15:27:54 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 12/31] nbd/server: Simplify export shutdown
-Date: Thu, 24 Sep 2020 17:26:58 +0200
-Message-Id: <20200924152717.287415-13-kwolf@redhat.com>
+Subject: [PATCH v2 14/31] block/export: Move AioContext from NBDExport to
+ BlockExport
+Date: Thu, 24 Sep 2020 17:27:00 +0200
+Message-Id: <20200924152717.287415-15-kwolf@redhat.com>
 In-Reply-To: <20200924152717.287415-1-kwolf@redhat.com>
 References: <20200924152717.287415-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,73 +84,163 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Closing export is somewhat convoluted because nbd_export_close() and
-nbd_export_put() call each other and the ways they actually end up being
-nested is not necessarily obvious.
-
-However, it is not really necessary to call nbd_export_close() from
-nbd_export_put() when putting the last reference because it only does
-three things:
-
-1. Close all clients. We're going to refcount 0 and all clients hold a
-   reference, so we know there is no active client any more.
-
-2. Close the user reference (represented by exp->name being non-NULL).
-   The same argument applies: If the export were still named, we would
-   still have a reference.
-
-3. Freeing exp->description. This is really cleanup work to be done when
-   the export is finally freed. There is no reason to already clear it
-   while clients are still in the process of shutting down.
-
-So after moving the cleanup of exp->description, the code can be
-simplified so that only nbd_export_close() calls nbd_export_put(), but
-never the other way around.
-
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- nbd/server.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ include/block/export.h |  3 +++
+ block/export/export.c  |  2 ++
+ nbd/server.c           | 26 +++++++++++++-------------
+ 3 files changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index 1cc915f01d..fb70374df5 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1678,8 +1678,6 @@ void nbd_export_close(NBDExport *exp)
-         QTAILQ_REMOVE(&exports, exp, next);
-         QTAILQ_INSERT_TAIL(&closed_exports, exp, next);
-     }
--    g_free(exp->description);
--    exp->description = NULL;
-     nbd_export_put(exp);
+diff --git a/include/block/export.h b/include/block/export.h
+index 5236a35e12..e6f96f4e1e 100644
+--- a/include/block/export.h
++++ b/include/block/export.h
+@@ -41,6 +41,9 @@ struct BlockExport {
+      * the export.
+      */
+     int refcount;
++
++    /* The AioContext whose lock protects this BlockExport object. */
++    AioContext *ctx;
+ };
+ 
+ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp);
+diff --git a/block/export/export.c b/block/export/export.c
+index baba4e94ff..8635318ef1 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -49,12 +49,14 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     return drv->create(export, errp);
  }
  
-@@ -1706,19 +1704,12 @@ void nbd_export_get(NBDExport *exp)
- void nbd_export_put(NBDExport *exp)
++/* Callers must hold exp->ctx lock */
+ void blk_exp_ref(BlockExport *exp)
  {
      assert(exp->refcount > 0);
--    if (exp->refcount == 1) {
--        nbd_export_close(exp);
--    }
--
--    /* nbd_export_close() may theoretically reduce refcount to 0. It may happen
--     * if someone calls nbd_export_put() on named export not through
--     * nbd_export_set_name() when refcount is 1. So, let's assert that
--     * it is > 0.
--     */
--    assert(exp->refcount > 0);
-     if (--exp->refcount == 0) {
-         assert(exp->name == NULL);
--        assert(exp->description == NULL);
-+        assert(QTAILQ_EMPTY(&exp->clients));
-+
-+        g_free(exp->description);
-+        exp->description = NULL;
+     exp->refcount++;
+ }
  
-         if (exp->blk) {
-             if (exp->eject_notifier_blk) {
++/* Callers must hold exp->ctx lock */
+ void blk_exp_unref(BlockExport *exp)
+ {
+     assert(exp->refcount > 0);
+diff --git a/nbd/server.c b/nbd/server.c
+index 7be81c7bda..7cf81646fc 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -92,8 +92,6 @@ struct NBDExport {
+     QTAILQ_HEAD(, NBDClient) clients;
+     QTAILQ_ENTRY(NBDExport) next;
+ 
+-    AioContext *ctx;
+-
+     BlockBackend *eject_notifier_blk;
+     Notifier eject_notifier;
+ 
+@@ -1333,8 +1331,8 @@ static coroutine_fn int nbd_negotiate(NBDClient *client, Error **errp)
+     }
+ 
+     /* Attach the channel to the same AioContext as the export */
+-    if (client->exp && client->exp->ctx) {
+-        qio_channel_attach_aio_context(client->ioc, client->exp->ctx);
++    if (client->exp && client->exp->common.ctx) {
++        qio_channel_attach_aio_context(client->ioc, client->exp->common.ctx);
+     }
+ 
+     assert(!client->optlen);
+@@ -1466,7 +1464,7 @@ static void blk_aio_attached(AioContext *ctx, void *opaque)
+ 
+     trace_nbd_blk_aio_attached(exp->name, ctx);
+ 
+-    exp->ctx = ctx;
++    exp->common.ctx = ctx;
+ 
+     QTAILQ_FOREACH(client, &exp->clients, next) {
+         qio_channel_attach_aio_context(client->ioc, ctx);
+@@ -1484,13 +1482,13 @@ static void blk_aio_detach(void *opaque)
+     NBDExport *exp = opaque;
+     NBDClient *client;
+ 
+-    trace_nbd_blk_aio_detach(exp->name, exp->ctx);
++    trace_nbd_blk_aio_detach(exp->name, exp->common.ctx);
+ 
+     QTAILQ_FOREACH(client, &exp->clients, next) {
+         qio_channel_detach_aio_context(client->ioc);
+     }
+ 
+-    exp->ctx = NULL;
++    exp->common.ctx = NULL;
+ }
+ 
+ static void nbd_eject_notifier(Notifier *n, void *data)
+@@ -1498,7 +1496,7 @@ static void nbd_eject_notifier(Notifier *n, void *data)
+     NBDExport *exp = container_of(n, NBDExport, eject_notifier);
+     AioContext *aio_context;
+ 
+-    aio_context = exp->ctx;
++    aio_context = exp->common.ctx;
+     aio_context_acquire(aio_context);
+     nbd_export_close(exp);
+     aio_context_release(aio_context);
+@@ -1535,10 +1533,13 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+         return NULL;
+     }
+ 
++    ctx = bdrv_get_aio_context(bs);
++
+     exp = g_new0(NBDExport, 1);
+     exp->common = (BlockExport) {
+         .drv        = &blk_exp_nbd,
+         .refcount   = 1,
++        .ctx        = ctx,
+     };
+ 
+     /*
+@@ -1548,7 +1549,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+      * ctx was acquired in the caller.
+      */
+     assert(name && strlen(name) <= NBD_MAX_STRING_SIZE);
+-    ctx = bdrv_get_aio_context(bs);
++
+     bdrv_invalidate_cache(bs, NULL);
+ 
+     /* Don't allow resize while the NBD server is running, otherwise we don't
+@@ -1622,7 +1623,6 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+         assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SIZE);
+     }
+ 
+-    exp->ctx = ctx;
+     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
+ 
+     blk_exp_ref(&exp->common);
+@@ -1653,7 +1653,7 @@ NBDExport *nbd_export_find(const char *name)
+ AioContext *
+ nbd_export_aio_context(NBDExport *exp)
+ {
+-    return exp->ctx;
++    return exp->common.ctx;
+ }
+ 
+ void nbd_export_close(NBDExport *exp)
+@@ -1738,7 +1738,7 @@ void nbd_export_close_all(void)
+     AioContext *aio_context;
+ 
+     QTAILQ_FOREACH_SAFE(exp, &exports, next, next) {
+-        aio_context = exp->ctx;
++        aio_context = exp->common.ctx;
+         aio_context_acquire(aio_context);
+         nbd_export_close(exp);
+         aio_context_release(aio_context);
+@@ -2537,7 +2537,7 @@ static void nbd_client_receive_next_request(NBDClient *client)
+     if (!client->recv_coroutine && client->nb_requests < MAX_NBD_REQUESTS) {
+         nbd_client_get(client);
+         client->recv_coroutine = qemu_coroutine_create(nbd_trip, client);
+-        aio_co_schedule(client->exp->ctx, client->recv_coroutine);
++        aio_co_schedule(client->exp->common.ctx, client->recv_coroutine);
+     }
+ }
+ 
 -- 
 2.25.4
 
