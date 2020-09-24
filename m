@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63657277B33
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:45:49 +0200 (CEST)
-Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85883277B3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:48:58 +0200 (CEST)
+Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLZ3i-0003IW-Mp
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:45:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49992)
+	id 1kLZ6n-0005ff-KS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZ1z-0002dJ-F9
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:43:59 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:46966)
+ id 1kLZ4E-0004dY-Lx
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:46:18 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:48990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kLZ1w-0006P5-VO
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:43:58 -0400
+ id 1kLZ49-0006lQ-4s
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:46:18 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLTvix120150;
- Thu, 24 Sep 2020 21:43:49 GMT
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLTXSo119996;
+ Thu, 24 Sep 2020 21:46:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=DaXCwH5/z1d0WeDJgUg+xx4kUQkoUZuQu+lLOfwtsm0=;
- b=mClRdSzUdRYHS+7jtnWJlimNsTjguF7+vGpK/zzC1uV6XYTAwAOF/Ll8vKat7US2Fiu2
- 6xe/w4ZOTKOBmkAPhHLZqqjk4lCrjIGzq0viliW19Wr+keMm5Lh+5s4FWmaFsp3oi8Oh
- EhO7xdgCxN0rp4OizbOIWT3UYX8QgYfrJv9O6RcE4AtlSskbzoteaE8AFr6U2dNf0Ngl
- LXa7kTF/smVpzFECg56fL5L7BfseUF325gpPiYzLZWXmzQoNbOryvlvS6APcITT/gVEI
- Q6XbW5NRLNA9e5G2Ai+oKgWYm3DR03gJMENnTnZeOjxsiiVzufMI8wP/XEI2qshO2mAb /A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 33qcpu7m94-1
+ bh=wTXDraqtejfCZc8l+KT1RzlmyLfWal0dId/IB/EiSIQ=;
+ b=UW0uowW41qVFETPwnzuAE67zEB1TtK4H9693ceqv42JdbIo3E27NHiVQujoPg7eH08il
+ n3VoD4bGZrfuFHeHZ14VswnzTLeDXlf55Aq5d7SJ9+oXInEotgjuxJ2ded0rpBWfTMMj
+ JrBKS4f/mIp4Cr+xpohZGjMJ9Z2i0JERAvClzlE41/rgdHOfPY0KjEfYr8SkJOKRy3bC
+ tJlsejh03/jyRKeXoOJChYSaNQ8aXtsSykH4aRmFstnltV/WGjxtO9QF7g99GCku1DDc
+ f3JyquGsdLSEGwrpYqDHQ1NYG4QOZMS+VfcRISYbx5H3+/O80YY+CNZrN0fxldxhh8AL Xg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 33qcpu7mra-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 21:43:49 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLUYA4160540;
- Thu, 24 Sep 2020 21:43:49 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 33nujreqh3-1
+ Thu, 24 Sep 2020 21:46:10 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLVX6s056789;
+ Thu, 24 Sep 2020 21:44:10 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 33nux3fbcq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 21:43:49 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08OLhmjR014202;
- Thu, 24 Sep 2020 21:43:48 GMT
+ Thu, 24 Sep 2020 21:44:09 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OLi8dg016803;
+ Thu, 24 Sep 2020 21:44:08 GMT
 Received: from [10.39.244.100] (/10.39.244.100)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 14:43:48 -0700
-Subject: Re: [PATCH V1 01/32] savevm: add vmstate handler iterators
+ with ESMTP ; Thu, 24 Sep 2020 14:44:07 -0700
+Subject: Re: [PATCH V1 04/32] savevm: HMP Command for cprsave
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
- <1596122076-341293-2-git-send-email-steven.sistare@oracle.com>
- <20200911162441.GJ3310@work-vm>
+ <1596122076-341293-5-git-send-email-steven.sistare@oracle.com>
+ <20200911165716.GL3310@work-vm>
 From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <9d029ce0-0e07-e81b-4fb0-a2b934c0dc11@oracle.com>
-Date: Thu, 24 Sep 2020 17:43:45 -0400
+Message-ID: <ae5bf659-c25e-8af4-ba14-a5a21476758f@oracle.com>
+Date: Thu, 24 Sep 2020 17:44:05 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200911162441.GJ3310@work-vm>
+In-Reply-To: <20200911165716.GL3310@work-vm>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- malwarescore=0
- mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0 suspectscore=2
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240155
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=999 phishscore=0 suspectscore=2 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009240155
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
  signatures=668680
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
@@ -117,254 +117,93 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/2020 12:24 PM, Dr. David Alan Gilbert wrote:
-> Apologies for taking a while to get around to this, 
-> 
+On 9/11/2020 12:57 PM, Dr. David Alan Gilbert wrote:
 > * Steve Sistare (steven.sistare@oracle.com) wrote:
->> Provide the SAVEVM_FOREACH and SAVEVM_FORALL macros to loop over all save
->> VM state handlers.  The former will filter handlers based on the operation
->> in the later patch "savevm: VM handlers mode mask".  The latter loops over
->> all handlers.
+>> Enable HMP access to the cprsave QMP command.
 >>
->> No functional change.
+>> Usage: cprsave <filename> <mode>
 >>
+>> Signed-off-by: Maran Wilson <maran.wilson@oracle.com>
 >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->> ---
->>  migration/savevm.c | 57 ++++++++++++++++++++++++++++++++++++------------------
->>  1 file changed, 38 insertions(+), 19 deletions(-)
->>
->> diff --git a/migration/savevm.c b/migration/savevm.c
->> index 45c9dd9..a07fcad 100644
->> --- a/migration/savevm.c
->> +++ b/migration/savevm.c
->> @@ -266,6 +266,25 @@ static SaveState savevm_state = {
->>      .global_section_id = 0,
->>  };
->>  
->> +/*
->> + * The FOREACH macros will filter handlers based on the current operation when
->> + * additional conditions are added in a subsequent patch.
->> + */
->> +
->> +#define SAVEVM_FOREACH(se, entry)                                    \
->> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry)                \
->> +
->> +#define SAVEVM_FOREACH_SAFE(se, entry, new_se)                       \
->> +    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se)   \
->> +
->> +/* The FORALL macros unconditionally loop over all handlers. */
->> +
->> +#define SAVEVM_FORALL(se, entry)                                     \
->> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry)
->> +
->> +#define SAVEVM_FORALL_SAFE(se, entry, new_se)                        \
->> +    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se)
->> +
 > 
-> OK, can I ask you to merge this with the next patch but to spin it the
-> other way, so that we have:
-> 
->   SAVEVM_FOR(se, entry, mask)
-> 
-> and the places you use SAVEVM_FORALL_SAFE would become
-> 
->   SAVEVM_FOR(se, entry, VMS_MODE_ALL)
-> 
-> I'm thinking at some point in the future we could merge a bunch of the
-> other flag checks in there.
+> I realise that the current mode is currently only 'reboot' - can you
+> please give us a clue as to why you've got a mode argument that's
+> currently only got one mode?
 
-Sure.  Is this what you have in mind?
-
-#define SAVEVM_FOR(se, entry, mask)                    \
-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry)  \
-        if (savevm_state.mode & mask)
-
-#define SAVEVM_FOR_SAFE(se, entry, new_se, mask)                    \
-    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se)  \
-        if (savevm_state.mode & mask)
-
-Callers:
-  SAVEVM_FOR(se, entry, mode_mask(se))
-  SAVEVM_FOR(se, entry, VMS_MODE_ALL)
-  SAVEVM_FOR_SAFE(se, entry, mode_mask(se))
-  SAVEVM_FOR_SAFE(se, entry, VMS_MODE_ALL)
+Patch 14 adds the restart mode.
+I factored the patches by capability to make the review easier, first
+presenting the reboot patches, then the restart patches.
 
 - Steve
 
->>  static bool should_validate_capability(int capability)
+>> ---
+>>  hmp-commands.hx       | 18 ++++++++++++++++++
+>>  include/monitor/hmp.h |  1 +
+>>  monitor/hmp-cmds.c    | 10 ++++++++++
+>>  3 files changed, 29 insertions(+)
+>>
+>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>> index 60f395c..c8defd9 100644
+>> --- a/hmp-commands.hx
+>> +++ b/hmp-commands.hx
+>> @@ -354,6 +354,24 @@ SRST
+>>  ERST
+>>  
+>>      {
+>> +        .name       = "cprsave",
+>> +        .args_type  = "file:s,mode:s",
+>> +        .params     = "file 'reboot'",
+>> +        .help       = "create a checkpoint of the VM in file",
+>> +        .cmd        = hmp_cprsave,
+>> +    },
+>> +
+>> +SRST
+>> +``cprsave`` *tag*
+>> +  Stop VCPUs, create a checkpoint of the whole virtual machine and save it
+>> +  in *file*.
+>> +  If *mode* is 'reboot', the checkpoint can be cprload'ed after a host kexec
+>> +  reboot.
+>> +  exec() /usr/bin/qemu-exec if it exists, else exec /usr/bin/qemu-system-x86_64,
+>> +  passing all the original command line arguments.  The VCPUs remain paused.
+>> +ERST
+>> +
+>> +    {
+>>          .name       = "delvm",
+>>          .args_type  = "name:s",
+>>          .params     = "tag",
+>> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+>> index c986cfd..af8ee23 100644
+>> --- a/include/monitor/hmp.h
+>> +++ b/include/monitor/hmp.h
+>> @@ -59,6 +59,7 @@ void hmp_balloon(Monitor *mon, const QDict *qdict);
+>>  void hmp_loadvm(Monitor *mon, const QDict *qdict);
+>>  void hmp_savevm(Monitor *mon, const QDict *qdict);
+>>  void hmp_delvm(Monitor *mon, const QDict *qdict);
+>> +void hmp_cprsave(Monitor *mon, const QDict *qdict);
+>>  void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
+>>  void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
+>>  void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
+>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+>> index ae4b6a4..59196ed 100644
+>> --- a/monitor/hmp-cmds.c
+>> +++ b/monitor/hmp-cmds.c
+>> @@ -1139,6 +1139,16 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
+>>      qapi_free_AnnounceParameters(params);
+>>  }
+>>  
+>> +void hmp_cprsave(Monitor *mon, const QDict *qdict)
+>> +{
+>> +    Error *err = NULL;
+>> +
+>> +    qmp_cprsave(qdict_get_try_str(qdict, "file"),
+>> +                qdict_get_try_str(qdict, "mode"),
+>> +                &err);
+>> +    hmp_handle_error(mon, err);
+>> +}
+>> +
+>>  void hmp_migrate_cancel(Monitor *mon, const QDict *qdict)
 >>  {
->>      assert(capability >= 0 && capability < MIGRATION_CAPABILITY__MAX);
->> @@ -673,7 +692,7 @@ static uint32_t calculate_new_instance_id(const char *idstr)
->>      SaveStateEntry *se;
->>      uint32_t instance_id = 0;
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FORALL(se, entry) {
->>          if (strcmp(idstr, se->idstr) == 0
->>              && instance_id <= se->instance_id) {
->>              instance_id = se->instance_id + 1;
->> @@ -689,7 +708,7 @@ static int calculate_compat_instance_id(const char *idstr)
->>      SaveStateEntry *se;
->>      int instance_id = 0;
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FORALL(se, entry) {
->>          if (!se->compat) {
->>              continue;
->>          }
->> @@ -803,7 +822,7 @@ void unregister_savevm(VMStateIf *obj, const char *idstr, void *opaque)
->>      }
->>      pstrcat(id, sizeof(id), idstr);
->>  
->> -    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
->> +    SAVEVM_FORALL_SAFE(se, entry, new_se) {
->>          if (strcmp(se->idstr, id) == 0 && se->opaque == opaque) {
->>              savevm_state_handler_remove(se);
->>              g_free(se->compat);
->> @@ -867,7 +886,7 @@ void vmstate_unregister(VMStateIf *obj, const VMStateDescription *vmsd,
->>  {
->>      SaveStateEntry *se, *new_se;
->>  
->> -    QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
->> +    SAVEVM_FORALL_SAFE(se, entry, new_se) {
->>          if (se->vmsd == vmsd && se->opaque == opaque) {
->>              savevm_state_handler_remove(se);
->>              g_free(se->compat);
->> @@ -1119,7 +1138,7 @@ bool qemu_savevm_state_blocked(Error **errp)
->>  {
->>      SaveStateEntry *se;
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FORALL(se, entry) {
->>          if (se->vmsd && se->vmsd->unmigratable) {
->>              error_setg(errp, "State blocked by non-migratable device '%s'",
->>                         se->idstr);
->> @@ -1145,7 +1164,7 @@ bool qemu_savevm_state_guest_unplug_pending(void)
->>  {
->>      SaveStateEntry *se;
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (se->vmsd && se->vmsd->dev_unplug_pending &&
->>              se->vmsd->dev_unplug_pending(se->opaque)) {
->>              return true;
->> @@ -1162,7 +1181,7 @@ void qemu_savevm_state_setup(QEMUFile *f)
->>      int ret;
->>  
->>      trace_savevm_state_setup();
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (!se->ops || !se->ops->save_setup) {
->>              continue;
->>          }
->> @@ -1193,7 +1212,7 @@ int qemu_savevm_state_resume_prepare(MigrationState *s)
->>  
->>      trace_savevm_state_resume_prepare();
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (!se->ops || !se->ops->resume_prepare) {
->>              continue;
->>          }
->> @@ -1223,7 +1242,7 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
->>      int ret = 1;
->>  
->>      trace_savevm_state_iterate();
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (!se->ops || !se->ops->save_live_iterate) {
->>              continue;
->>          }
->> @@ -1291,7 +1310,7 @@ void qemu_savevm_state_complete_postcopy(QEMUFile *f)
->>      SaveStateEntry *se;
->>      int ret;
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (!se->ops || !se->ops->save_live_complete_postcopy) {
->>              continue;
->>          }
->> @@ -1324,7 +1343,7 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
->>      SaveStateEntry *se;
->>      int ret;
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (!se->ops ||
->>              (in_postcopy && se->ops->has_postcopy &&
->>               se->ops->has_postcopy(se->opaque)) ||
->> @@ -1366,7 +1385,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->>      vmdesc = qjson_new();
->>      json_prop_int(vmdesc, "page_size", qemu_target_page_size());
->>      json_start_array(vmdesc, "devices");
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>  
->>          if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
->>              continue;
->> @@ -1476,7 +1495,7 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
->>      *res_postcopy_only = 0;
->>  
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (!se->ops || !se->ops->save_live_pending) {
->>              continue;
->>          }
->> @@ -1501,7 +1520,7 @@ void qemu_savevm_state_cleanup(void)
->>      }
->>  
->>      trace_savevm_state_cleanup();
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (se->ops && se->ops->save_cleanup) {
->>              se->ops->save_cleanup(se->opaque);
->>          }
->> @@ -1580,7 +1599,7 @@ int qemu_save_device_state(QEMUFile *f)
->>      }
->>      cpu_synchronize_all_states();
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          int ret;
->>  
->>          if (se->is_ram) {
->> @@ -1612,7 +1631,7 @@ static SaveStateEntry *find_se(const char *idstr, uint32_t instance_id)
->>  {
->>      SaveStateEntry *se;
->>  
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FORALL(se, entry) {
->>          if (!strcmp(se->idstr, idstr) &&
->>              (instance_id == se->instance_id ||
->>               instance_id == se->alias_id))
->> @@ -2334,7 +2353,7 @@ qemu_loadvm_section_part_end(QEMUFile *f, MigrationIncomingState *mis)
->>      }
->>  
->>      trace_qemu_loadvm_state_section_partend(section_id);
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (se->load_section_id == section_id) {
->>              break;
->>          }
->> @@ -2400,7 +2419,7 @@ static int qemu_loadvm_state_setup(QEMUFile *f)
->>      int ret;
->>  
->>      trace_loadvm_state_setup();
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (!se->ops || !se->ops->load_setup) {
->>              continue;
->>          }
->> @@ -2425,7 +2444,7 @@ void qemu_loadvm_state_cleanup(void)
->>      SaveStateEntry *se;
->>  
->>      trace_loadvm_state_cleanup();
->> -    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->> +    SAVEVM_FOREACH(se, entry) {
->>          if (se->ops && se->ops->load_cleanup) {
->>              se->ops->load_cleanup(se->opaque);
->>          }
+>>      qmp_migrate_cancel(NULL);
 >> -- 
 >> 1.8.3.1
 >>
