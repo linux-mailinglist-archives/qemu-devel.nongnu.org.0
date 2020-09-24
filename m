@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98ABD2770C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:19:36 +0200 (CEST)
-Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1172770DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 14:24:09 +0200 (CEST)
+Received: from localhost ([::1]:60480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLQDn-0001rG-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52082)
+	id 1kLQIC-0005CV-AA
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 08:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLQAp-0000ea-Rv
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:16:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26674)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kLQGt-0004J6-JF
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:22:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLQAm-0002rU-2M
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:16:31 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kLQGr-0003bP-0S
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 08:22:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600949787;
+ s=mimecast20190719; t=1600950164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c3yQOSy20D3+Vj0HNlPpWGrn7dwc5VLbZs/rDwDOoFw=;
- b=Q/sF4eXUfv4t7+ME/gk4ezoFo09eF5T+XGI6ykjhP4BILsEMZdxQSuKopIContpmqQu6JW
- tXmfbtrebkDCfyrMw8E96M5UoLeIuo10B0uviEaeVBkl16QKTD4tzpFaHqRf4fa0M1Sxs8
- CHLo1gEVNu3+cGJqvHUDQ/iKNbUijOo=
+ bh=1GUBgbnCJxt9kS+b6UkytuscPP1YtoZ25ibGXDeO9No=;
+ b=RDOJUfMVjovr7xqeTrqQY/JatSKop8HgoUq4T9EGg73g9mzV4zZkmT/sZ/cIASWq4CyqUn
+ WHBRG0VnypAzJgiF1/qzf1UoFMZB0Iyh0zBEgn1en4hKAaQ0VC2CJap+xx8ITXJECMvbgp
+ mKOQ3TDCrTPkToU/4maVZEAzxOBe61M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-EgCiAlqPNa6GngnHhfeZTg-1; Thu, 24 Sep 2020 08:16:23 -0400
-X-MC-Unique: EgCiAlqPNa6GngnHhfeZTg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-387-NI8nva2sN-KLX36fxBdcjg-1; Thu, 24 Sep 2020 08:22:42 -0400
+X-MC-Unique: NI8nva2sN-KLX36fxBdcjg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 357FE871805;
- Thu, 24 Sep 2020 12:16:22 +0000 (UTC)
-Received: from localhost (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9FD478834;
- Thu, 24 Sep 2020 12:16:21 +0000 (UTC)
-Date: Thu, 24 Sep 2020 13:16:20 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8 0/7] coroutines: generate wrapper code
-Message-ID: <20200924121620.GA62770@stefanha-x1.localdomain>
-References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E335ACE22;
+ Thu, 24 Sep 2020 12:22:41 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-35.ams2.redhat.com
+ [10.36.114.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77A9F5C1C7;
+ Thu, 24 Sep 2020 12:22:32 +0000 (UTC)
+Subject: Re: [PATCH v4] hw/i386/pc: add max combined fw size as machine
+ configuration option
+To: Erich Mcmillan <erich.mcmillan@hp.com>, qemu-devel@nongnu.org
+References: <20200923131829.3849-1-erich.mcmillan@hp.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <de343c71-f446-c68b-d0bc-5f9db97b5a00@redhat.com>
+Date: Thu, 24 Sep 2020 14:22:32 +0200
 MIME-Version: 1.0
-In-Reply-To: <20200915164411.20590-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200923131829.3849-1-erich.mcmillan@hp.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="C7Us/CiahOveQMyD"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -80,77 +81,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- crosa@redhat.com, den@openvz.org
+Cc: imammedo@redhat.com, Gerd Hoffmann <kraxel@redhat.com>, dgilbert@redhat.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---C7Us/CiahOveQMyD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 09/23/20 15:18, Erich Mcmillan wrote:
+> From: Erich McMillan <erich.mcmillan@hp.com>
+> 
+> At HPi we have a need for increased fw size to enable testing of our custom fw.
+> 
+> Signed-off-by: Erich McMillan <erich.mcmillan@hp.com>
+> ---
+>  hw/i386/pc.c         | 50 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/i386/pc_sysfw.c   | 13 ++----------
+>  include/hw/i386/pc.h |  2 ++
+>  3 files changed, 54 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index d11daacc23..89775e7d5b 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1869,6 +1869,49 @@ static void pc_machine_set_max_ram_below_4g(Object *obj, Visitor *v,
+>      pcms->max_ram_below_4g = value;
+>  }
+>  
+> +static void pc_machine_get_max_fw_size(Object *obj, Visitor *v,
+> +                                       const char *name, void *opaque,
+> +                                       Error **errp)
+> +{
+> +    PCMachineState *pcms = PC_MACHINE(obj);
+> +    uint64_t value = pcms->max_fw_size;
+> +
+> +    visit_type_size(v, name, &value, errp);
+> +}
+> +
+> +static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
+> +                                       const char *name, void *opaque,
+> +                                       Error **errp)
+> +{
+> +    PCMachineState *pcms = PC_MACHINE(obj);
+> +    Error *error = NULL;
+> +    uint64_t value;
+> +
+> +    visit_type_size(v, name, &value, &error);
+> +    if (error) {
+> +        error_propagate(errp, error);
+> +        return;
+> +    }
+> +
+> +    /*
+> +    * We don't have a theoretically justifiable exact lower bound on the base
+> +    * address of any flash mapping. In practice, the IO-APIC MMIO range is
+> +    * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving free
+> +    * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB in
+> +    * size.
+> +    */
+> +    if (value > 16 * MiB) {
+> +        error_setg(errp,
+> +                   "User specified max allowed firmware size %" PRIu64 " is "
+> +                   "greater than 16MiB. If combined firwmare size exceeds "
+> +                   "16MiB the system may not boot, or experience intermittent"
+> +                   "stability issues.",
+> +                   value);
 
-On Tue, Sep 15, 2020 at 07:44:04PM +0300, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> Hi all!
->=20
-> The aim of the series is to reduce code-duplication and writing
-> parameters structure-packing by hand around coroutine function wrappers.
->=20
-> Benefits:
->  - no code duplication
->  - less indirection
->=20
-> v8:
-> 04: - rebase on meson build
->         - script interface is changed to satisfy meson custom_target
->     - rename script s/coroutine-wrapper.py/block-coroutine-wrapper.py/
->     - add docs/devel/block-coroutine-wrapper.rst
->=20
-> Vladimir Sementsov-Ogievskiy (7):
->   block: return error-code from bdrv_invalidate_cache
->   block/io: refactor coroutine wrappers
->   block: declare some coroutine functions in block/coroutines.h
->   scripts: add block-coroutine-wrapper.py
->   block: generate coroutine-wrapper code
->   block: drop bdrv_prwv
->   block/io: refactor save/load vmstate
->=20
->  docs/devel/block-coroutine-wrapper.rst |  54 ++++
->  block/block-gen.h                      |  49 ++++
->  block/coroutines.h                     |  65 +++++
->  include/block/block.h                  |  34 ++-
->  block.c                                |  97 ++-----
->  block/io.c                             | 336 ++++---------------------
->  tests/test-bdrv-drain.c                |   2 +-
->  block/meson.build                      |   8 +
->  scripts/block-coroutine-wrapper.py     | 187 ++++++++++++++
->  9 files changed, 451 insertions(+), 381 deletions(-)
->  create mode 100644 docs/devel/block-coroutine-wrapper.rst
->  create mode 100644 block/block-gen.h
->  create mode 100644 block/coroutines.h
->  create mode 100755 scripts/block-coroutine-wrapper.py
+(1) Please put a "return" statement here.
 
-Please send a v9 and I'll merge it.
+> +    }
+> +
+> +    pcms->max_fw_size = value;
+> +}
+> +
+>  static void pc_machine_initfn(Object *obj)
+>  {
+>      PCMachineState *pcms = PC_MACHINE(obj);
+> @@ -1884,6 +1927,7 @@ static void pc_machine_initfn(Object *obj)
+>      pcms->smbus_enabled = true;
+>      pcms->sata_enabled = true;
+>      pcms->pit_enabled = true;
+> +    pcms->max_fw_size = 8 * MiB; /* use default */
 
-Stefan
+(2) While I'm not 100% certain, I suspect that the /* use default */
+comment is not justified here.
 
---C7Us/CiahOveQMyD
-Content-Type: application/pgp-signature; name="signature.asc"
+The model is of course
 
------BEGIN PGP SIGNATURE-----
+    pcms->max_ram_below_4g = 0; /* use default */
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sjhQACgkQnKSrs4Gr
-c8gELAgAhUc/q9Wv88oETDLTGF/DbMekDjK3sFX3IIztpCEEd0A7AOFCQ0uk0lJ9
-GkMSaXz7LZkL24h28/uJINZCP4t9KJcy56jW7y8g9vQPAUe7WcfKEcs2dwpSonLA
-OR9u2FoLJnzflqG93jFLwnMoBWO7GZ02JrmDuCrD+eZ3DG4hiRPe40LM9m4k5uD3
-Cvx0+mj34GMa+PSZSRxrJMrhE6Y7knTY02aHjiVqkkptTxNyaYpk2g3y4ca4fhxi
-/vdMko1MuBzESnI6XHx9sUNIxb+XntxSmhmI/MHF3SnCR3yHRfWIfXTKq0C76yUu
-+AU0NPxBB/zX68+8efa4OMas9ihiuw==
-=SBTE
------END PGP SIGNATURE-----
+but there, the value we set in pc_machine_initfn() has a different
+meaning -- zero is stored deliberately so that the machine type specific
+logic in "hw/i386/pc_piix.c" and "hw/i386/pc_q35.c" *overwrite* it.
 
---C7Us/CiahOveQMyD--
+"hw/i386/pc_piix.c":
+
+        if (!pcms->max_ram_below_4g) {
+            pcms->max_ram_below_4g = 0xe0000000; /* default: 3.5G */
+        }
+
+"hw/i386/pc_q35.c":
+
+    if (!pcms->max_ram_below_4g) {
+        pcms->max_ram_below_4g = 4 * GiB;
+    }
+
+In other words, the comment "use default" in pc_machine_initfn()
+actually means "defer to the i440fx/q35-specific default".
+
+And that's not what we're doing with "max_fw_size".
+
+All I'm saying is that the "/* use default */" comment should not be
+copied from "max_ram_below_4g" to "max_fw_size", because the (assumed)
+meaning of the original comment does not apply to the new field.
+
+CC'ing Gerd wrt. (2).
+
+
+With (1) fixed, and with (2) optionally fixed:
+
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+
+Thanks
+Laszlo
+
+>  
+>      pc_system_flash_create(pcms);
+>      pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
+> @@ -2004,6 +2048,12 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>  
+>      object_class_property_add_bool(oc, PC_MACHINE_PIT,
+>          pc_machine_get_pit, pc_machine_set_pit);
+> +
+> +    object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
+> +        pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
+> +        NULL, NULL);
+> +    object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
+> +        "Maximum combined firmware size");
+>  }
+>  
+>  static const TypeInfo pc_machine_info = {
+> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+> index b6c0822fe3..22450ba0ef 100644
+> --- a/hw/i386/pc_sysfw.c
+> +++ b/hw/i386/pc_sysfw.c
+> @@ -39,15 +39,6 @@
+>  #include "hw/block/flash.h"
+>  #include "sysemu/kvm.h"
+>  
+> -/*
+> - * We don't have a theoretically justifiable exact lower bound on the base
+> - * address of any flash mapping. In practice, the IO-APIC MMIO range is
+> - * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving free
+> - * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB in
+> - * size.
+> - */
+> -#define FLASH_SIZE_LIMIT (8 * MiB)
+> -
+>  #define FLASH_SECTOR_SIZE 4096
+>  
+>  static void pc_isa_bios_init(MemoryRegion *rom_memory,
+> @@ -182,10 +173,10 @@ static void pc_system_flash_map(PCMachineState *pcms,
+>          }
+>          if ((hwaddr)size != size
+>              || total_size > HWADDR_MAX - size
+> -            || total_size + size > FLASH_SIZE_LIMIT) {
+> +            || total_size + size > pcms->max_fw_size) {
+>              error_report("combined size of system firmware exceeds "
+>                           "%" PRIu64 " bytes",
+> -                         FLASH_SIZE_LIMIT);
+> +                         pcms->max_fw_size);
+>              exit(1);
+>          }
+>  
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index fe52e165b2..f7c8e7cbfe 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -43,6 +43,7 @@ struct PCMachineState {
+>      bool smbus_enabled;
+>      bool sata_enabled;
+>      bool pit_enabled;
+> +    uint64_t max_fw_size;
+>  
+>      /* NUMA information: */
+>      uint64_t numa_nodes;
+> @@ -59,6 +60,7 @@ struct PCMachineState {
+>  #define PC_MACHINE_SMBUS            "smbus"
+>  #define PC_MACHINE_SATA             "sata"
+>  #define PC_MACHINE_PIT              "pit"
+> +#define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
+>  
+>  /**
+>   * PCMachineClass:
+> 
 
 
