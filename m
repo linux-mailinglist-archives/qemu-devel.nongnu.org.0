@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86988277749
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:58:21 +0200 (CEST)
-Received: from localhost ([::1]:35540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE452277716
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:45:54 +0200 (CEST)
+Received: from localhost ([::1]:37152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLUZY-00088g-A6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
+	id 1kLUNV-0004nH-PZ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:45:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kLTzp-00080D-GE; Thu, 24 Sep 2020 12:21:26 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:46657)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLU0g-0000Au-8d
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:22:18 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kLTzm-0006aD-6e; Thu, 24 Sep 2020 12:21:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=Ncw662vfBnkwx6wOcZ5D2+dWkPPkzLDSgWd0BlzKJgE=; 
- b=oBiVdqHB5kiqN9e957F/ggWDO+jG+H+Z5/uCJOfFFqy+qiJ7tBGNXvfmDzJ2HooJdl3h9GmCs4O0zEoTri4ZmNpgs+zIKe+54c3SaWXHqhZ98gL/1jV10ILYrDCFRN5SwDUgzkLUNUtIUC7RSqFw9symfbli7jrFlb3HIbcc6sl4A1hpD7D/Avgy2Rxn5LsJO4n8odmmEmlHDrH/+LnDw89Yat+72ID4i8LpkAVIdKMtOusb12fJSSIO2C5OmP0z/nktoxVeRZBxL627WUnlD/WReNr8waKS5A4nDZhUgK7XbLqaajs+wKZr6TNFPUv40/va5TUHp6vPCbTOyUJIMw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kLTzk-0008Fp-19; Thu, 24 Sep 2020 18:21:20 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kLTzj-0004Ac-N7; Thu, 24 Sep 2020 18:21:19 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH v6 4/5] block/io: fix bdrv_is_allocated_above
-In-Reply-To: <20200916122008.20303-5-vsementsov@virtuozzo.com>
-References: <20200916122008.20303-1-vsementsov@virtuozzo.com>
- <20200916122008.20303-5-vsementsov@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 24 Sep 2020 18:21:19 +0200
-Message-ID: <w511rirqh6o.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLU0e-0006eT-0H
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:22:17 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id z23so5251067ejr.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=slPG/S0MtQpwq1K+pNBL57CNsqF+eiWE7QulASXCjhs=;
+ b=Mpw3dBJWrEgaqXw6gpVt3iONa9kZZY9vI6y3XL9B6hQZHeWqksW83516JwEThnv4Ek
+ HjGSPclv5/0uEgUrCl37ezKbQs4SS5RQQH9HEFYf5VcFkzpr761s/FN7z3XXo7WsDNVe
+ YXR5z6l2/wpc1w+MieJJQqfx2MHqpbvWMK1dvfZwfgE68rnCN9ulu4htJqARAmpEU8Vf
+ 5XYgcvIm/ee0Q+DGxivsFzF2u5udeTnxhjWQ7fETsMlNgF/C+eZbRfC0oD8YQjf65P4a
+ 7KNHUCkxFh4k5jxnNPq7gUx67QSYW/DsoKLhn37LDed52wkgnbWSXhLNkSgzgJ8UNtbZ
+ kxCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=slPG/S0MtQpwq1K+pNBL57CNsqF+eiWE7QulASXCjhs=;
+ b=PUMlmdd472I6MLPrJV1ap+ggY8q0OfgD62XxrItYudyY7j2O6OxW81O9FUgb9xHdFW
+ 9A9uSlIsGAFxC0m8mCfQbRJtn4BbYeqFsON0mPg8Mn5v4OAcwK5Xc4xffEBTkfdPo45K
+ zN3ERW5DNbAFeaUU+pUMReTMBKh1xNI+mExcGcFQ/ExSI49jokopMy2AqLcTqnoQFYgo
+ SjL3HcTUnuJ6o8pAMNhB5/Khn28Iitjp9SLGZWI+9l/5ih+8Ul6IvMmn3OIH8TJRwsre
+ HKwc3Exh/vcQ/NdPgypNYRKiMwWaicu+QYQfhjmjrgf2Ni/EtCt2BESPIy8Yz6tyhLZj
+ Miaw==
+X-Gm-Message-State: AOAM531IoWTvaCNLb3hTCVttlj4t1KFjfaJwbjQ8gTmkYt/qxQ/3BVs8
+ GDD8/OJXY+5VaYHFGhZXNI45aBbLCXYP1wsGDRPpeg==
+X-Google-Smtp-Source: ABdhPJyCRzUHcFV31dGPj8rk2j/K6jQFCtmAX9MTTC9glRkI6rzlikrt8SKW1zMSSWZR+2KcaUXfMrWqL+t086xEU28=
+X-Received: by 2002:a17:906:d936:: with SMTP id
+ rn22mr742249ejb.4.1600964533615; 
+ Thu, 24 Sep 2020 09:22:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 12:20:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+References: <20200922222542.2354748-1-ehabkost@redhat.com>
+In-Reply-To: <20200922222542.2354748-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Sep 2020 17:22:02 +0100
+Message-ID: <CAFEAcA-n7Wk_je_WQVnE3RR+V1xfAujyCzjZq6JxBUg2OTZBQQ@mail.gmail.com>
+Subject: Re: [PULL 00/11] machine + QOM queue, 2020-09-22
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,24 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 16 Sep 2020 02:20:07 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
-> bdrv_is_allocated_above wrongly handles short backing files: it reports
-> after-EOF space as UNALLOCATED which is wrong, as on read the data is
-> generated on the level of short backing file (if all overlays has
-> unallocated area at that place).
+On Tue, 22 Sep 2020 at 23:25, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> Reusing bdrv_common_block_status_above fixes the issue and unifies code
-> path.
+> The following changes since commit 834b9273d5cdab68180dc8c84d641aaa4344b0=
+57:
 >
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-5=
+.2-pull-request' into staging (2020-09-22 15:42:23 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+>
+> for you to fetch changes up to 418b473e8f586247475e8adc5d048598e5721361:
+>
+>   sifive_u: Register "start-in-flash" as class property (2020-09-22 16:48=
+:29 -0400)
+>
+> ----------------------------------------------------------------
+> machine + QOM queue, 2020-09-22
+>
+> QOM cleanups:
+> * Convert instance properties to class properties
+>   (Eduardo Habkost)
+> * simplify object_find_property / object_class_find_property
+>   (Daniel P. Berrang=C3=A9)
+>
+> Deprecated feature removal:
+> * Drop support for invalid topologies (Igor Mammedov)
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
 
-Berto
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
