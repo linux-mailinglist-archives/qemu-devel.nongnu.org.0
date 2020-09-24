@@ -2,105 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562042774CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:06:03 +0200 (CEST)
-Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6300D2774CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:07:34 +0200 (CEST)
+Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLSos-00060x-3Z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:06:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39674)
+	id 1kLSqL-0007dU-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLSjh-000453-JP
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:00:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47001)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLSlu-0005M8-3x
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:02:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLSjZ-0000Ei-RB
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:00:41 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLSlf-0000ta-Nf
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:02:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600959630;
+ s=mimecast20190719; t=1600959762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=krHLMBdgkP/3x2F6pkGtXU39EY7lVR/hRc2rTeQp/6I=;
- b=QETB+9RAUElpbs6+2ZkQGeocwhLm0K7A/S7ZOgu6VY3EG7IF5xOaQsZ+iRrrWqTquaasM1
- CYTEQ9xaunPDtEs35DqL4q9hUbTZEI9D6vOVBt5v6QbiMNWIagQuuE2xn2Zc7zeVkvptaK
- xPX+ApRIUeh3VVyNfm0VzQp/Dx33+xQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e11hdfMAsAbqthJjnlCkunOgeb+RzNMnNwXR8nO0SPE=;
+ b=eqCBhgE+yYulorcvrBssorQG7LYlSpSf3SbaQr0gxsSTOoq4TWLqq6ML+Y/5HylMr/WifZ
+ o5bQKI3Jh++aoppaV02t0ofqbnWTDbGplJA1tCjnL3nPgsbwuUpOgh7Nn5+6CmmkUxXnwd
+ d37IcWTB8JWdtXhpCdj7ihdiCuUVbHY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-Dwv-uEUUOMqTySQhQDcAJg-1; Thu, 24 Sep 2020 11:00:28 -0400
-X-MC-Unique: Dwv-uEUUOMqTySQhQDcAJg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-152-NZ6kUGCXNiKZ9Szb4vs4Og-1; Thu, 24 Sep 2020 11:02:39 -0400
+X-MC-Unique: NZ6kUGCXNiKZ9Szb4vs4Og-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEA86109106D;
- Thu, 24 Sep 2020 15:00:26 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-153.ams2.redhat.com
- [10.36.114.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA99A73672;
- Thu, 24 Sep 2020 15:00:24 +0000 (UTC)
-Subject: Re: [PATCH v8 2/7] copy-on-read: add filter append/drop functions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1598633579-221780-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1598633579-221780-3-git-send-email-andrey.shinkevich@virtuozzo.com>
- <9733a257-b864-e8db-7379-f94fbd21045a@redhat.com>
- <25a087d0-0306-574d-432b-0b5635ee7873@virtuozzo.com>
- <1508198c-d52b-08b3-602f-97ff3e83eaef@virtuozzo.com>
- <9fd6c10b-0d37-30fe-5aad-bc50a0bbdc55@redhat.com>
- <b0481dc9-ff26-25ca-ecb0-ea5c0fb4dc06@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f06a1ce5-4ae1-2af3-ab19-61061b8091ec@redhat.com>
-Date: Thu, 24 Sep 2020 17:00:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A11C2801E53;
+ Thu, 24 Sep 2020 15:02:37 +0000 (UTC)
+Received: from gondolin (ovpn-112-247.ams2.redhat.com [10.36.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 897C75D9D2;
+ Thu, 24 Sep 2020 15:02:22 +0000 (UTC)
+Date: Thu, 24 Sep 2020 17:02:19 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v26 05/17] vfio: Add VM state change handler to know
+ state of VM
+Message-ID: <20200924170220.0a9836fe.cohuck@redhat.com>
+In-Reply-To: <1600817059-26721-6-git-send-email-kwankhede@nvidia.com>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-6-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <b0481dc9-ff26-25ca-ecb0-ea5c0fb4dc06@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="CWt0o41bjBHAuCdWacSdD5n83BmINjSUO"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,150 +81,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, den@openvz.org
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CWt0o41bjBHAuCdWacSdD5n83BmINjSUO
-Content-Type: multipart/mixed; boundary="WMCdZVCcP6S3MfasCRbDBh113sfEBhm1A"
+On Wed, 23 Sep 2020 04:54:07 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
---WMCdZVCcP6S3MfasCRbDBh113sfEBhm1A
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> VM state change handler gets called on change in VM's state. This is used to set
+> VFIO device state to _RUNNING.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/vfio/migration.c           | 136 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |   3 +-
+>  include/hw/vfio/vfio-common.h |   4 ++
+>  3 files changed, 142 insertions(+), 1 deletion(-)
+> 
 
-On 24.09.20 16:51, Vladimir Sementsov-Ogievskiy wrote:
-> 24.09.2020 16:25, Max Reitz wrote:
->> On 23.09.20 16:38, Vladimir Sementsov-Ogievskiy wrote:
->>> 17.09.2020 19:09, Andrey Shinkevich wrote:
->>>> On 04.09.2020 14:22, Max Reitz wrote:
->>>>> On 28.08.20 18:52, Andrey Shinkevich wrote:
->>>>>> Provide API for the COR-filter insertion/removal.
->>>> ...
->>>>>> Also, drop the filter child permissions for an inactive state when
->>>>>> the
->>>>>> filter node is being removed.
->>>>> Do we need .active for that?=C2=A0 Shouldn=E2=80=99t it be sufficient=
- to just not
->>>>> require BLK_PERM_WRITE_UNCHANGED when no permissions are taken on the
->>>>> node (i.e. perm =3D=3D 0 in cor_child_perm())?
->>>>>
->>>>> Of course, using an .active field works, too.=C2=A0 But Vladimir want=
-ed a
->>>>> similar field in the preallocate filter, and there already is in
->>>>> backup-top.=C2=A0 I feel like there shouldn=E2=80=99t be a need for t=
-his.
->>>>>
->>>>> .bdrv_child_perm() should generally be able to decide what permission=
-s
->>>>> it needs based on the information it gets.=C2=A0 If every driver need=
-s to
->>>>> keep track of whether it has any parents and feed that information
->>>>> into
->>>>> .bdrv_child_perm() as external state, then something feels wrong.
->>>>>
->>>>> If perm =3D=3D 0 is not sufficient to rule out any parents, we should=
- just
->>>>> explicitly add a boolean that tells .bdrv_child_perm() whether
->>>>> there are
->>>>> any parents or not =E2=80=93 shouldn=E2=80=99t be too difficult.
->>>>
->>>>
->>>> The issue is that we fail in the bdrv_check_update_perm() with
->>>> ""Conflicts with use by..." if the *nperm =3D 0 and the *nshared =3D
->>>> BLK_PERM_ALL are not set before the call to the bdrv_replace_node().
->>>> The filter is still in the backing chain by that moment and has a
->>>> parent with child->perm !=3D 0.
->>>>
->>>> The implementation of=C2=A0 the .bdrv_child_perm()in the given patch i=
-s
->>>> similar to one in the block/mirror.c.
->>>>
->>>> How could we resolve the issue at the generic layer?
->>>>
->>>>
->>>
->>> The problem is that when we update permissions in bdrv_replace_node, we
->>> consider new placement for "to" node, but old placement for "from" node=
-.
->>> So, during update, we may consider stricter permission requirements for
->>> "from" than needed and they conflict with new "to" permissions.
->>>
->>> We should consider all graph changes for permission update
->>> simultaneously, in same transaction. For this, we need refactor
->>> permission update system to work on queue of nodes instead of simple DF=
-S
->>> recursion. And in the queue all the nodes to update should=C2=A0 be
->>> toplogically sorted. In this way, when we update node N, all its parent=
-s
->>> are already updated. And of course, we should make no-perm graph update
->>> before permission update, and rollback no-perm movement if permission
->>> update failed.
->>
->> OK, you=E2=80=99ve convinced me, .active is good enough for now. O:)
->>
->>> And we need topological sort anyway. Consider the following example:
->>>
->>> A -
->>> |=C2=A0 \
->>> |=C2=A0 v
->>> |=C2=A0 B
->>> |=C2=A0 |
->>> v=C2=A0 /
->>> C<-
->>>
->>> A is parent for B and C, B is parent for C.
->>>
->>> Obviously, to update permissions, we should go in order A B C, so, when
->>> we update C, all it's parents permission already updated. But with
->>> current approach (simple recursion) we can update in sequence A C B C (=
-C
->>> is updated twice). On first update of C, we consider old B permissions,
->>> so doing wrong thing. If it succeed, all is OK, on second C update we
->>> will finish with correct graph. But if the wrong thing failed, we break
->>> the whole process for no reason (it's possible that updated B permissio=
-n
->>> will be less strict, but we will never check it).
->>
->> True.
->>
->>> I'll work on a patch for it.
->>
->> Sounds great, though I fear for the complexity.=C2=A0 I=E2=80=99ll just =
-wait and see
->> for now.
->>
->=20
-> If you are OK with .active for now, then I think, Andrey can resend with
-> .active and I'll dig into permissions in parallel. If Andrey's series
-> go first, I'll just drop .active later if my idea works.
+(...)
 
-Sure, that works for me.
+> +static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+> +                                    uint32_t value)
 
-Max
+I think I've mentioned that before, but this function could really
+benefit from a comment what mask and value mean. 
+
+> +{
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    VFIORegion *region = &migration->region;
+> +    off_t dev_state_off = region->fd_offset +
+> +                      offsetof(struct vfio_device_migration_info, device_state);
+> +    uint32_t device_state;
+> +    int ret;
+> +
+> +    ret = vfio_mig_read(vbasedev, &device_state, sizeof(device_state),
+> +                        dev_state_off);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    device_state = (device_state & mask) | value;
+> +
+> +    if (!VFIO_DEVICE_STATE_VALID(device_state)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    ret = vfio_mig_write(vbasedev, &device_state, sizeof(device_state),
+> +                         dev_state_off);
+> +    if (ret < 0) {
+> +        ret = vfio_mig_read(vbasedev, &device_state, sizeof(device_state),
+> +                          dev_state_off);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +
+> +        if (VFIO_DEVICE_STATE_IS_ERROR(device_state)) {
+> +            hw_error("%s: Device is in error state 0x%x",
+> +                     vbasedev->name, device_state);
+> +            return -EFAULT;
+
+Is -EFAULT a good return value here? Maybe -EIO?
+
+> +        }
+> +    }
+> +
+> +    vbasedev->device_state = device_state;
+> +    trace_vfio_migration_set_state(vbasedev->name, device_state);
+> +    return 0;
+> +}
+> +
+> +static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +
+> +    if ((vbasedev->vm_running != running)) {
+> +        int ret;
+> +        uint32_t value = 0, mask = 0;
+> +
+> +        if (running) {
+> +            value = VFIO_DEVICE_STATE_RUNNING;
+> +            if (vbasedev->device_state & VFIO_DEVICE_STATE_RESUMING) {
+> +                mask = ~VFIO_DEVICE_STATE_RESUMING;
+
+I've been staring at this for some time and I think that the desired
+result is
+- set _RUNNING
+- if _RESUMING was set, clear it, but leave the other bits intact
+- if _RESUMING was not set, clear everything previously set
+This would really benefit from a comment (or am I the only one
+struggling here?)
+
+> +            }
+> +        } else {
+> +            mask = ~VFIO_DEVICE_STATE_RUNNING;
+> +        }
+> +
+> +        ret = vfio_migration_set_state(vbasedev, mask, value);
+> +        if (ret) {
+> +            /*
+> +             * vm_state_notify() doesn't support reporting failure. If such
+> +             * error reporting support added in furure, migration should be
+> +             * aborted.
 
 
---WMCdZVCcP6S3MfasCRbDBh113sfEBhm1A--
+"We should abort the migration in this case, but vm_state_notify()
+currently does not support reporting failures."
 
---CWt0o41bjBHAuCdWacSdD5n83BmINjSUO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+?
 
------BEGIN PGP SIGNATURE-----
+Can/should we mark the failing device in some way?
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9stIcACgkQ9AfbAGHV
-z0A4KQf/UZfwfcYGio6WitKtYZt6Ji62ICxp72ndAkdj5MsPCJNySaxQo9Zsqwbx
-mtbEAOeBlR9HsEjnL0+TxgHoGlU4F5blT4nA+OfzgoBEG4r8JK2pzQsm2FxU4iD8
-BDa0E4Os5Es7ySoJNv+FlTOWlxemwP/YL31XAHCTLVznxsthVKp6EC8R7/PcT7i9
-TNT0+AnQt2cotEoAYWnfiXkHPo/L76O/D6kJWvK85Ri1wLPSPapO2Kkgwb29/BnV
-mbTZ/XbefR/0Jn1CIAq+7an11T++lBnVeqManx/230O9zM/YpbcTzxPB+ubZkzho
-wjqgSc0OdwnMs+/HeMrQKrYX2PF+Ew==
-=Flnu
------END PGP SIGNATURE-----
+> +             */
+> +            error_report("%s: Failed to set device state 0x%x",
+> +                         vbasedev->name, value & mask);
+> +        }
+> +        vbasedev->vm_running = running;
+> +        trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
+> +                                  value & mask);
+> +    }
+> +}
+> +
+>  static int vfio_migration_init(VFIODevice *vbasedev,
+>                                 struct vfio_region_info *info)
+>  {
 
---CWt0o41bjBHAuCdWacSdD5n83BmINjSUO--
+(...)
 
 
