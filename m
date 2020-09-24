@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6FF276E15
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:01:22 +0200 (CEST)
-Received: from localhost ([::1]:42888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BE4276E1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:04:21 +0200 (CEST)
+Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLO41-0003Y7-Fz
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:01:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39076)
+	id 1kLO6u-0007Nk-39
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTr-0001Eo-6e
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58748)
+ id 1kLNTs-0001HQ-8h
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTm-00065k-K6
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:58 -0400
+ id 1kLNTn-000664-Ke
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939433;
+ s=mimecast20190719; t=1600939434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zRK53+pDYcDLjVOE+RyVzoB7xkv++WHHTKynkaeNFbI=;
- b=Fd6cSe/fej64UASh9U2uskmYye61LR+Mt7wvJjUz7i0kv6vFKTG4e6Se5apQWxPvIawznR
- ZwjUsnugnfc4ljTwhcWo5XIeYa6WEtqtBr99OTNY9gAf7iDMtcAJ+kgIllqqhEKOjrO/lV
- hdIc1zXp20o9/8SiMjQHe9KotvHyv/w=
+ bh=VPwMOZku7UBRQhHSdhV1lO2uk4iu6y/xIf7/rYHqH0c=;
+ b=X3Us8ewsH8Um9sGBecEB+6lEjrGR8kIWxFQY8/2AB5BpWHGxs88LrSjIyNnWB4vMKyxUp/
+ CpwzgBRJPQSIzn7DDw2UiT4MvhksPurCsT/lNnRavw8Paxoh/hFCIB7ctFHZMJLCt1doaO
+ oPjuPR8slo3Ol+qmNwTwBMn32Dr9Iwk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-Jbv4V-YoPvmIG6I8TaByCQ-1; Thu, 24 Sep 2020 05:23:52 -0400
-X-MC-Unique: Jbv4V-YoPvmIG6I8TaByCQ-1
+ us-mta-20-ArvbciFSM9iElJerc6OHUQ-1; Thu, 24 Sep 2020 05:23:53 -0400
+X-MC-Unique: ArvbciFSM9iElJerc6OHUQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38281420F5
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42890100746C
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05BCF60E1C
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C63E60C15
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:51 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/92] net: relocate paths to helpers and scripts
-Date: Thu, 24 Sep 2020 05:22:27 -0400
-Message-Id: <20200924092314.1722645-46-pbonzini@redhat.com>
+Subject: [PULL 48/92] qemu-bridge-helper: relocate path to default ACL
+Date: Thu, 24 Sep 2020 05:22:30 -0400
+Message-Id: <20200924092314.1722645-49-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -86,101 +86,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/net/net.h |  4 ++--
- net/tap.c         | 26 +++++++++++++++++++-------
- 2 files changed, 21 insertions(+), 9 deletions(-)
+ qemu-bridge-helper.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/include/net/net.h b/include/net/net.h
-index e7ef42d62b..897b2d7595 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -209,8 +209,8 @@ void netdev_add(QemuOpts *opts, Error **errp);
- int net_hub_id_for_client(NetClientState *nc, int *id);
- NetClientState *net_hub_port_find(int hub_id);
+diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
+index 88b26747fc..a26e1663f0 100644
+--- a/qemu-bridge-helper.c
++++ b/qemu-bridge-helper.c
+@@ -40,6 +40,7 @@
+ #endif
  
--#define DEFAULT_NETWORK_SCRIPT "/etc/qemu-ifup"
--#define DEFAULT_NETWORK_DOWN_SCRIPT "/etc/qemu-ifdown"
-+#define DEFAULT_NETWORK_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifup"
-+#define DEFAULT_NETWORK_DOWN_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifdown"
- #define DEFAULT_BRIDGE_HELPER CONFIG_QEMU_HELPERDIR "/qemu-bridge-helper"
- #define DEFAULT_BRIDGE_INTERFACE "br0"
+ #include "qemu/queue.h"
++#include "qemu/cutils.h"
  
-diff --git a/net/tap.c b/net/tap.c
-index 14dc904fca..04ce72dd2f 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -478,6 +478,7 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
-                                  Error **errp)
- {
-     sigset_t oldmask, mask;
-+    g_autofree char *default_helper = NULL;
-     int pid, status;
-     char *args[5];
-     char **parg;
-@@ -487,6 +488,10 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
-     sigaddset(&mask, SIGCHLD);
-     sigprocmask(SIG_BLOCK, &mask, &oldmask);
+ #include "net/tap-linux.h"
  
-+    if (!helper) {
-+        helper = default_helper = get_relocated_path(DEFAULT_BRIDGE_HELPER);
-+    }
+@@ -245,6 +246,7 @@ int main(int argc, char **argv)
+     ACLList acl_list;
+     int access_allowed, access_denied;
+     int ret = EXIT_SUCCESS;
++    g_autofree char *acl_file = NULL;
+ 
+ #ifdef CONFIG_LIBCAP_NG
+     /* if we're run from an suid binary, immediately drop privileges preserving
+@@ -257,6 +259,8 @@ int main(int argc, char **argv)
+     }
+ #endif
+ 
++    qemu_init_exec_dir(argv[0]);
 +
-     if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
-         error_setg_errno(errp, errno, "socketpair() failed");
-         return -1;
-@@ -588,8 +593,7 @@ int net_init_bridge(const Netdev *netdev, const char *name,
+     /* parse arguments */
+     for (index = 1; index < argc; index++) {
+         if (strcmp(argv[index], "--use-vnet") == 0) {
+@@ -282,9 +286,10 @@ int main(int argc, char **argv)
  
-     assert(netdev->type == NET_CLIENT_DRIVER_BRIDGE);
-     bridge = &netdev->u.bridge;
--
--    helper = bridge->has_helper ? bridge->helper : DEFAULT_BRIDGE_HELPER;
-+    helper = bridge->has_helper ? bridge->helper : NULL;
-     br     = bridge->has_br     ? bridge->br     : DEFAULT_BRIDGE_INTERFACE;
- 
-     fd = net_bridge_run_helper(helper, br, errp);
-@@ -773,8 +777,8 @@ int net_init_tap(const Netdev *netdev, const char *name,
-     const NetdevTapOptions *tap;
-     int fd, vnet_hdr = 0, i = 0, queues;
-     /* for the no-fd, no-helper case */
--    const char *script = NULL; /* suppress wrong "uninit'd use" gcc warning */
--    const char *downscript = NULL;
-+    const char *script;
-+    const char *downscript;
-     Error *err = NULL;
-     const char *vhostfdname;
-     char ifname[128];
-@@ -784,6 +788,8 @@ int net_init_tap(const Netdev *netdev, const char *name,
-     tap = &netdev->u.tap;
-     queues = tap->has_queues ? tap->queues : 1;
-     vhostfdname = tap->has_vhostfd ? tap->vhostfd : NULL;
-+    script = tap->has_script ? tap->script : NULL;
-+    downscript = tap->has_downscript ? tap->downscript : NULL;
- 
-     /* QEMU hubs do not support multiqueue tap, in this case peer is set.
-      * For -netdev, peer is always NULL. */
-@@ -934,13 +940,19 @@ free_fail:
-             return -1;
-         }
-     } else {
-+        g_autofree char *default_script = NULL;
-+        g_autofree char *default_downscript = NULL;
-         if (tap->has_vhostfds) {
-             error_setg(errp, "vhostfds= is invalid if fds= wasn't specified");
-             return -1;
-         }
--        script = tap->has_script ? tap->script : DEFAULT_NETWORK_SCRIPT;
--        downscript = tap->has_downscript ? tap->downscript :
--            DEFAULT_NETWORK_DOWN_SCRIPT;
-+
-+        if (!script) {
-+            script = default_script = get_relocated_path(DEFAULT_NETWORK_SCRIPT);
-+        }
-+        if (!downscript) {
-+            downscript = default_downscript = get_relocated_path(DEFAULT_NETWORK_SCRIPT);
-+        }
- 
-         if (tap->has_ifname) {
-             pstrcpy(ifname, sizeof ifname, tap->ifname);
+     /* parse default acl file */
+     QSIMPLEQ_INIT(&acl_list);
+-    if (parse_acl_file(DEFAULT_ACL_FILE, &acl_list) == -1) {
++    acl_file = get_relocated_path(DEFAULT_ACL_FILE);
++    if (parse_acl_file(acl_file, &acl_list) == -1) {
+         fprintf(stderr, "failed to parse default acl file `%s'\n",
+-                DEFAULT_ACL_FILE);
++                acl_file);
+         ret = EXIT_FAILURE;
+         goto cleanup;
+     }
 -- 
 2.26.2
 
