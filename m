@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3825276E35
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:08:26 +0200 (CEST)
-Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BAA276E1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:04:56 +0200 (CEST)
+Received: from localhost ([::1]:53132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOAr-0005xD-MO
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39228)
+	id 1kLO7T-0008Qj-6V
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTz-0001Zz-7y
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27292)
+ id 1kLNU1-0001gn-VH
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTw-00067z-Hn
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:06 -0400
+ id 1kLNTz-00068X-3a
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939443;
+ s=mimecast20190719; t=1600939446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xP6WqepeP8xglmi4j/uOwwV7vPCvBXJqTO/ebv4iXdk=;
- b=cXh41CWlYx2ghbpEVdZZZN+WmWb2t/2weyXCbf+MeWaK5pRp542yUUSjCS4y62dZsKRGdY
- iN5v0aRtfTBMLArs4tjAVAjRAv5aqTZYVxqLdm21uEGrX2wZXsZJQ8IVR6HFZBSu2q7Tc3
- hDyEKETOwh8gZocLbU98SBkqW7ScgBQ=
+ bh=zpSbVzl3acQ2bkk+yM/us7BGZDZKLKzv1rEDakyBM8k=;
+ b=RxVGRu8gXbhUtd0Z4Jb/T0Yfq1JWwQfvJf/O4ZR1ymuYIDsZtz/BqitG94tMYKcTKi5loo
+ pBFyKIl1vULbVVBOT249lrSqIZomeZgwCUpvgQTfIvPOU0z9ASvwuNi/Ri1CLqalg5J0hH
+ LrQhENXGfH7FcSQ/ulqhEwqIBj3Z0bY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-EK-FN6roMuy4fVUbwEEc_Q-1; Thu, 24 Sep 2020 05:24:01 -0400
-X-MC-Unique: EK-FN6roMuy4fVUbwEEc_Q-1
+ us-mta-419-gDI7B_H5MXSPmr7wyvUSRA-1; Thu, 24 Sep 2020 05:24:02 -0400
+X-MC-Unique: gDI7B_H5MXSPmr7wyvUSRA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2192104D3E5;
- Thu, 24 Sep 2020 09:24:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47A90425E6;
+ Thu, 24 Sep 2020 09:24:01 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A19185C1DC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0827A5C1DC;
  Thu, 24 Sep 2020 09:24:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/92] meson: fix installation of keymaps
-Date: Thu, 24 Sep 2020 05:22:37 -0400
-Message-Id: <20200924092314.1722645-56-pbonzini@redhat.com>
+Subject: [PULL 56/92] configure: fix performance regression due to PIC objects
+Date: Thu, 24 Sep 2020 05:22:38 -0400
+Message-Id: <20200924092314.1722645-57-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,40 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>
+Cc: Ahmed Karaman <ahmedkrmn@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anthony PERARD <anthony.perard@citrix.com>
+Because most files in QEMU are grouped into static libraries, Meson conservatively
+compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
+some TCG tests.
 
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+As a stopgap measure, use the b_staticpic option to limit the slowdown to
+--enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
+us to use b_staticpic=false and let Meson do the right thing.
 
-Message-Id: <20200918130354.1879275-1-anthony.perard@citrix.com>
+Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20200919155639.1045857-1-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/keymaps/meson.build | 2 ++
- 1 file changed, 2 insertions(+)
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
-index 2e2e0dfa3b..05eda6c0d2 100644
---- a/pc-bios/keymaps/meson.build
-+++ b/pc-bios/keymaps/meson.build
-@@ -47,6 +47,7 @@ foreach km, args: keymaps
-                        build_by_default: true,
-                        output: km,
-                        command: [native_qemu_keymap, '-f', '@OUTPUT@', args.split()],
-+                       install: true,
-                        install_dir: qemu_datadir / 'keymaps')
-   else
-     # copy from source tree
-@@ -55,6 +56,7 @@ foreach km, args: keymaps
-                        input: km,
-                        output: km,
-                        command: ['cp', '@INPUT@', '@OUTPUT@'],
-+                       install: true,
-                        install_dir: qemu_datadir / 'keymaps')
-   endif
- endforeach
+diff --git a/configure b/configure
+index fee5faa054..ac0dfdfac5 100755
+--- a/configure
++++ b/configure
+@@ -7849,6 +7849,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
+         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
++        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+ 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim \
+ 	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
 -- 
 2.26.2
 
