@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF772276E0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:59:42 +0200 (CEST)
-Received: from localhost ([::1]:37522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A171276E00
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:55:51 +0200 (CEST)
+Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLO2P-00015D-P5
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39382)
+	id 1kLNyf-0003sX-S5
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:55:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNU9-00020h-65
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35546)
+ id 1kLNUK-0002Sy-P8
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNU7-0006A6-8U
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:16 -0400
+ id 1kLNUJ-0006BE-3S
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939454;
+ s=mimecast20190719; t=1600939466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yYD3ca9nKAPeS67sQ64Xwoz3V+LQEik3mZArxHhunnU=;
- b=MuJeVA2p/2L1+rKUZkNO2Av8jhPVCLjiuJJDLMmX74XXBDT2/efR51erdwe1+zKViwHCFC
- UxNzxaUXO1Ltvn8LzoBtaAn7s9HZqjxWH9ElCioYQj/Q6B1hKjgotfJZs1YJ/8C0kvc5XY
- Z1XWIKCqWehZfkUEEMFEoDGn1yqtmQk=
+ bh=QmgYRQHFIFcdTWAIpyTXgnNQEvKpJ/ZLizrIx12YOv0=;
+ b=eGBjwEa15Ao2v1ejylKPPa2EFBWOvldwWRPNdg/vX7kG8sE4+4FOihwFhyJO6bCVRqGkY2
+ 7scRXjH9QnXAoKSCKjlwJGoP2xNjOn2G6AfQZ9qphvfeZlaewWt5YKZRGxKAtg+ODDoQeD
+ mLZASdPAy9z5uxOXu96MRF6bHf0H9Dc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-VJM2flinNBusWbiB7EqsTg-1; Thu, 24 Sep 2020 05:24:10 -0400
-X-MC-Unique: VJM2flinNBusWbiB7EqsTg-1
+ us-mta-276-WIlf1CIQMLuMC7qAktCbOQ-1; Thu, 24 Sep 2020 05:24:24 -0400
+X-MC-Unique: WIlf1CIQMLuMC7qAktCbOQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACF441007464
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1C7D1007469
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1C626198C;
- Thu, 24 Sep 2020 09:24:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C5CF65F5E;
+ Thu, 24 Sep 2020 09:24:18 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 65/92] char: fix logging when chardev write fails
-Date: Thu, 24 Sep 2020 05:22:47 -0400
-Message-Id: <20200924092314.1722645-66-pbonzini@redhat.com>
+Subject: [PULL 68/92] qom: Use ``code`` Sphinx syntax where appropriate
+Date: Thu, 24 Sep 2020 05:22:50 -0400
+Message-Id: <20200924092314.1722645-69-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,72 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-The qemu_chr_write_buffer() method sends data to the chardev backend for
-writing, and then also writes to the log file. In case the chardev
-backend only writes part of the data buffer, we need to make sure we
-only log the same subset. qemu_chr_write_buffer() will be invoked again
-later to write the rest of the buffer.
+Replace gtkdoc markup with Sphinx ``code`` syntax.
 
-In the case the chardev backend returns an error though, no further
-attempts to likely to be made to write the data. We must therefore write
-the entire buffer to the log immediately.
-
-An example where this is important is with the socket backend. This will
-return -1 for all writes if no client is currently connected. We still
-wish to write data to the log file when no client is present though.
-This used to work because the chardev would return "len" to pretend it
-had written all data when no client is connected, but this changed to
-return an error in
-
-  commit 271094474b65de1ad7aaf729938de3d9b9d0d36f
-  Author: Dima Stepanov <dimastep@yandex-team.ru>
-  Date: Thu May 28 12:11:18 2020 +0300
-
-    char-socket: return -1 in case of disconnect during tcp_chr_write
-
-and this broke the logging, resulting in all data being discarded when
-no client is present.
-
-Fixes: https://bugs.launchpad.net/qemu/+bug/1893691
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20200910221526.10041-4-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/char.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ include/qom/object.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/chardev/char.c b/chardev/char.c
-index 6b85099c03..78553125d3 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -138,7 +138,20 @@ static int qemu_chr_write_buffer(Chardev *s,
-         }
-     }
-     if (*offset > 0) {
-+        /*
-+         * If some data was written by backend, we should
-+         * only log what was actually written. This method
-+         * may be invoked again to write the remaining
-+         * method, thus we'll log the remainder at that time.
-+         */
-         qemu_chr_write_log(s, buf, *offset);
-+    } else if (res < 0) {
-+        /*
-+         * If a fatal error was reported by the backend,
-+         * assume this method won't be invoked again with
-+         * this buffer, so log it all right away.
-+         */
-+        qemu_chr_write_log(s, buf, len);
-     }
-     qemu_mutex_unlock(&s->chr_write_lock);
- 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 473dc21bf4..f1e8cb5398 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -203,8 +203,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * an interface instance should always be of incomplete type in order to be
+  * sure it cannot be dereferenced.  That is, you should define the
+  * 'typedef struct SomethingIf SomethingIf' so that you can pass around
+- * 'SomethingIf *si' arguments, but not define a 'struct SomethingIf { ... }'.
+- * The only things you can validly do with a 'SomethingIf *' are to pass it as
++ * ``SomethingIf *si`` arguments, but not define a ``struct SomethingIf { ... }``.
++ * The only things you can validly do with a ``SomethingIf *`` are to pass it as
+  * an argument to a method on its corresponding SomethingIfClass, or to
+  * dynamically cast it to an object that implements the interface.
+  *
+@@ -301,7 +301,7 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *
+  * Alternatively, object_class_by_name() can be used to obtain the class and
+  * its non-overridden methods for a specific type. This would correspond to
+- * |[ MyClass::method(...) ]| in C++.
++ * ``MyClass::method(...)`` in C++.
+  *
+  * The first example of such a QOM method was #CPUClass.reset,
+  * another example is #DeviceClass.realize.
 -- 
 2.26.2
 
