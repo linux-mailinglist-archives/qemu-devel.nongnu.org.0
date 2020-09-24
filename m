@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1B8276DEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:53:03 +0200 (CEST)
-Received: from localhost ([::1]:42738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF2A276E0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:58:47 +0200 (CEST)
+Received: from localhost ([::1]:35174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNvy-0007Tn-PC
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
+	id 1kLO1V-0008P8-B6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTp-0001AA-F4
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45252)
+ id 1kLNTq-0001Du-Sc
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTm-00065Y-BQ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:57 -0400
+ id 1kLNTm-00065o-QL
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939433;
+ s=mimecast20190719; t=1600939434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t66UYdSA+NP80TVHGPpMrwUuOQD1zSBwmCRzpom03PM=;
- b=GuAg8LOqlz1wf1mIkSjq/28IkEmn7iONuownumfmK3Un1N0eliAFg9DvYtfj1bRvwlxSFn
- 0o+N6qV4PWcIU1JsdHGrEztD6nCZRGwADji/yvsL0KdzrpMC/JQkVyh01MJtkCpbnjk3kM
- BlbDG+8PYNTv+Tvycim0Yko3LlL7I+A=
+ bh=w8CvE9kAxYtIRve+39sdvjANpNKhXew6psQEJPG103A=;
+ b=czI4u78KnbwIqiS7xOlB4b5GcYC/oKd9pYsTc+EVdJSEIgH/EzoO/cwAj6x7qPwLcy4nv1
+ tpSVUffqs7WxMYk4GOCbDirKRiY3b6OaxuQpKdj7Ak4ZAaBATf/Bg5QYaPxE7P1eh4LKkd
+ aI1dV4w5b6J1XtmRjMMRinz6itYSsJ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-rf_SClL5NhuqhndFIoDLSA-1; Thu, 24 Sep 2020 05:23:51 -0400
-X-MC-Unique: rf_SClL5NhuqhndFIoDLSA-1
+ us-mta-62-8iZKrLuTM42pPzAxrUxB9A-1; Thu, 24 Sep 2020 05:23:52 -0400
+X-MC-Unique: 8iZKrLuTM42pPzAxrUxB9A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEB1E1891E82
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 878FE81F00B
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:51 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABBDE60C15
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5460A60C15
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:51 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/92] module: relocate path to modules
-Date: Thu, 24 Sep 2020 05:22:26 -0400
-Message-Id: <20200924092314.1722645-45-pbonzini@redhat.com>
+Subject: [PULL 46/92] vl: relocate paths to data directories
+Date: Thu, 24 Sep 2020 05:22:28 -0400
+Message-Id: <20200924092314.1722645-47-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,11 +56,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -84,32 +84,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+As an additional advantage, the logic is now unified between
+POSIX and Win32 systems.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/module.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/qemu-common.h   |  1 -
+ include/sysemu/sysemu.h |  2 +-
+ os-posix.c              | 20 --------------------
+ os-win32.c              | 11 -----------
+ softmmu/vl.c            | 40 ++++++++++++++++++++++++++++------------
+ tests/qtest/fuzz/fuzz.c |  5 +++--
+ 6 files changed, 32 insertions(+), 47 deletions(-)
 
-diff --git a/util/module.c b/util/module.c
-index 9ffe83bb32..a44ec38d93 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -19,6 +19,7 @@
- #endif
- #include "qemu/queue.h"
- #include "qemu/module.h"
-+#include "qemu/cutils.h"
- #ifdef CONFIG_MODULE_UPGRADES
- #include "qemu-version.h"
- #endif
-@@ -202,7 +203,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
-     if (search_dir != NULL) {
-         dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
-     }
--    dirs[n_dirs++] = g_strdup_printf("%s", CONFIG_QEMU_MODDIR);
-+    dirs[n_dirs++] = get_relocated_path(CONFIG_QEMU_MODDIR);
-     dirs[n_dirs++] = g_strdup(qemu_get_exec_dir());
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 9cfd62669b..a9b11f59c4 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -131,7 +131,6 @@ char *qemu_find_file(int type, const char *name);
  
- #ifdef CONFIG_MODULE_UPGRADES
+ /* OS specific functions */
+ void os_setup_early_signal_handling(void);
+-char *os_find_datadir(void);
+ int os_parse_cmd_args(int index, const char *optarg);
+ 
+ /*
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 4b6a5c459c..817ff4cf75 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -14,7 +14,7 @@ extern const char *qemu_name;
+ extern QemuUUID qemu_uuid;
+ extern bool qemu_uuid_set;
+ 
+-void qemu_add_data_dir(const char *path);
++void qemu_add_data_dir(char *path);
+ 
+ void qemu_add_exit_notifier(Notifier *notify);
+ void qemu_remove_exit_notifier(Notifier *notify);
+diff --git a/os-posix.c b/os-posix.c
+index 36e344c544..1de2839554 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -80,26 +80,6 @@ void os_setup_signal_handling(void)
+     sigaction(SIGTERM, &act, NULL);
+ }
+ 
+-/*
+- * Find a likely location for support files using the location of the binary.
+- * When running from the build tree this will be "$bindir/pc-bios".
+- * Otherwise, this is CONFIG_QEMU_DATADIR.
+- *
+- * The caller must use g_free() to free the returned data when it is
+- * no longer required.
+- */
+-char *os_find_datadir(void)
+-{
+-    g_autofree char *dir = NULL;
+-
+-    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
+-    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
+-        return g_steal_pointer(&dir);
+-    }
+-
+-    return g_strdup(CONFIG_QEMU_DATADIR);
+-}
+-
+ void os_set_proc_name(const char *s)
+ {
+ #if defined(PR_SET_NAME)
+diff --git a/os-win32.c b/os-win32.c
+index eb8501b9e5..fd1137bab1 100644
+--- a/os-win32.c
++++ b/os-win32.c
+@@ -57,17 +57,6 @@ void os_setup_early_signal_handling(void)
+     atexit(os_undo_timer_resolution);
+ }
+ 
+-/*
+- * Look for support files in the same directory as the executable.
+- *
+- * The caller must use g_free() to free the returned data when it is
+- * no longer required.
+- */
+-char *os_find_datadir(void)
+-{
+-    return g_strdup(qemu_get_exec_dir());
+-}
+-
+ void os_set_line_buffering(void)
+ {
+     setbuf(stdout, NULL);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index f7b103467c..c872657e60 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2005,7 +2005,7 @@ char *qemu_find_file(int type, const char *name)
+     return NULL;
+ }
+ 
+-void qemu_add_data_dir(const char *path)
++void qemu_add_data_dir(char *path)
+ {
+     int i;
+ 
+@@ -2017,10 +2017,11 @@ void qemu_add_data_dir(const char *path)
+     }
+     for (i = 0; i < data_dir_idx; i++) {
+         if (strcmp(data_dir[i], path) == 0) {
+-            return; /* duplicate */
++            g_free(path); /* duplicate */
++            return;
+         }
+     }
+-    data_dir[data_dir_idx++] = g_strdup(path);
++    data_dir[data_dir_idx++] = path;
+ }
+ 
+ static inline bool nonempty_str(const char *str)
+@@ -2829,6 +2830,26 @@ static void create_default_memdev(MachineState *ms, const char *path)
+                             &error_fatal);
+ }
+ 
++/*
++ * Find a likely location for support files using the location of the binary.
++ * When running from the build tree this will be "$bindir/pc-bios".
++ * Otherwise, this is CONFIG_QEMU_DATADIR (possibly relocated).
++ *
++ * The caller must use g_free() to free the returned data when it is
++ * no longer required.
++ */
++static char *find_datadir(void)
++{
++    g_autofree char *dir = NULL;
++
++    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
++    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
++        return g_steal_pointer(&dir);
++    }
++
++    return get_relocated_path(CONFIG_QEMU_DATADIR);
++}
++
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+@@ -2862,7 +2883,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     Error *main_loop_err = NULL;
+     Error *err = NULL;
+     bool list_data_dirs = false;
+-    char *dir, **dirs;
++    char **dirs;
+     const char *mem_path = NULL;
+     bool have_custom_ram_size;
+     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
+@@ -3195,7 +3216,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 if (is_help_option(optarg)) {
+                     list_data_dirs = true;
+                 } else {
+-                    qemu_add_data_dir(optarg);
++                    qemu_add_data_dir(g_strdup(optarg));
+                 }
+                 break;
+             case QEMU_OPTION_bios:
+@@ -3927,17 +3948,12 @@ void qemu_init(int argc, char **argv, char **envp)
+     /* add configured firmware directories */
+     dirs = g_strsplit(CONFIG_QEMU_FIRMWAREPATH, G_SEARCHPATH_SEPARATOR_S, 0);
+     for (i = 0; dirs[i] != NULL; i++) {
+-        qemu_add_data_dir(dirs[i]);
++        qemu_add_data_dir(get_relocated_path(dirs[i]));
+     }
+     g_strfreev(dirs);
+ 
+     /* try to find datadir relative to the executable path */
+-    dir = os_find_datadir();
+-    qemu_add_data_dir(dir);
+-    g_free(dir);
+-
+-    /* add the datadir specified when building */
+-    qemu_add_data_dir(CONFIG_QEMU_DATADIR);
++    qemu_add_data_dir(find_datadir());
+ 
+     /* -L help lists the data directories and exits. */
+     if (list_data_dirs) {
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index c4dc5fa629..d926c490c5 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -170,8 +170,9 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+         datadir = g_build_filename(bindir, "pc-bios", NULL);
+         if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
+             qemu_add_data_dir(datadir);
+-        }
+-        g_free(datadir);
++        } else {
++            g_free(datadir);
++	}
+     } else if (*argc > 1) {  /* The target is specified as an argument */
+         target_name = (*argv)[1];
+         if (!strstr(target_name, "--fuzz-target=")) {
 -- 
 2.26.2
 
