@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFFA276CB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:05:20 +0200 (CEST)
-Received: from localhost ([::1]:36556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E05276CCC
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:07:20 +0200 (CEST)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNBn-00069X-9z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:05:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33624)
+	id 1kLNDj-0008UU-Oz
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLN9y-0004nT-5b
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:03:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLN9v-0003ER-5n
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:03:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600938202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e+55kK8neczSRBpB8gZp8Jwk57omXrDXz8rrmA5b2pw=;
- b=DQ/51f3ZBClLCqfxDJpwgeqfmQtBV4CMeU7BEo+TijOM4qxR43BN0N5N5OcTH9Y8BtsauD
- h7jPM9k6wzmc4VL90u9AdjYcm4N1MTshlzLaMf9wemwCyKuNHXh/OtMI3a73nlmVOByjOz
- /DqDAcT+p75sj4/ttdtVR47yInPSCGE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-t0lw9BhdOLCeA756Oyc0Bw-1; Thu, 24 Sep 2020 05:03:17 -0400
-X-MC-Unique: t0lw9BhdOLCeA756Oyc0Bw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 543FB81F007;
- Thu, 24 Sep 2020 09:03:16 +0000 (UTC)
-Received: from work-vm (ovpn-114-250.ams2.redhat.com [10.36.114.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30E799CBA;
- Thu, 24 Sep 2020 09:03:14 +0000 (UTC)
-Date: Thu, 24 Sep 2020 10:03:11 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chuan Zheng <zhengchuan@huawei.com>
-Subject: Re: [PATCH v4 0/6] *** Add Multifd support for TLS migration ***
-Message-ID: <20200924090311.GA4980@work-vm>
-References: <1600139042-104593-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kLNAd-0005N3-Um
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:04:08 -0400
+Resent-Date: Thu, 24 Sep 2020 05:04:07 -0400
+Resent-Message-Id: <E1kLNAd-0005N3-Um@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21336)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kLNAW-0003JP-RD
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:04:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1600938231; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=TWd25W6wWXngp+PWwZOsUiAbalDapkP00AW7zho3w898uoHG/ZXyyVgneKKtkVRaytUjhC8mX48kG5TyhuW2zewWJDjov2upuY/NiZdk1jG5CYTmWGBQmPQJxPj+qx4TvD/wKODmsotWf6SSowfxu1b1UABL+LmgiGiZX2oMHUs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1600938231;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=LESyqMO+YynnZBqjzGxs1ZIXGrio6kIRTOhh0Kmke9U=; 
+ b=MK24Hr6IMtYjhYgojg/Dbks1YSB7GrvJA3p7lI8RP3Hq3U7XwlQRTl6QS1JUjSnz1STgwwGJGQ10o9QzktaSwAodAJPqFU73PbW4o1D9cMQiW9Ppq7PKKAvCguzUOWiQF4sE/gniohk8dBQEJCZDM0aJzqrDXqB8Dw3QTEelfHU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1600938230784668.4938155603958;
+ Thu, 24 Sep 2020 02:03:50 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 0/7] Use ACPI PCI hot-plug for Q35
+Message-ID: <160093822936.759.17698136551159882588@66eaa9a8a123>
+In-Reply-To: <20200924070013.165026-1-jusual@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1600139042-104593-1-git-send-email-zhengchuan@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: jusual@redhat.com
+Date: Thu, 24 Sep 2020 02:03:50 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 04:58:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,77 +69,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
- yuxiating@huawei.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, jinyan12@huawei.com
+Reply-To: qemu-devel@nongnu.org
+Cc: ani@anisinha.ca, imammedo@redhat.com, jusual@redhat.com,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chuan Zheng (zhengchuan@huawei.com) wrote:
-> v3 -> v4:
->     still use MigrationState field and save hostname in migration_tls_channel_connect
->     remove MigrationState from MultiFDSendParams
->  
-> v2 -> v3:
->     rebase patches on master
-> 
-> v1 -> v2:
->     fix memoryleak of MigrationState hostname
->     add tls_hostname into MultiFDSendParams for handshake use
->     fix function alignment
->     squash Patch005 and Patch006
->     add ioc into trace-events
-> 
-> TLS migration could easily reach bottleneck of cpu because of encryption
-> and decryption in migration thread.
-> In our test, the tls migration could only reach 300MB/s under bandwidth
-> of 500MB/s.
-> 
-> Inspired by multifd, we add multifd support for tls migration to make fully
-> use of given net bandwidth at the cost of multi-cpus and could reduce
-> at most of 100% migration time with 4U16G test vm.
-> 
-> Evaluate migration time of migration vm.
-> The VM specifications for migration are as follows:
-> - VM use 4-K page;
-> - the number of VCPU is 4;
-> - the total memory is 16Gigabit;
-> - use 'mempress' tool to pressurize VM(mempress 4096 100);
-> - migration flag is 73755 (8219 + 65536 (TLS)) vs 204827 (8219 + 65536 (TLS) + 131072(Multifd))
-> 
-> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> |                      |         TLS           |      MultiFD + TLS (2 channel)    |
-> --------------------------------------------------------t---------------------------
-> | mempress 1024 120    |       25.035s         |           15.067s                 |
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> | mempress 1024 200    |       48.798s         |           25.334s                 |
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Queued.
-
-> Chuan Zheng (6):
->   migration/tls: save hostname into MigrationState
->   migration/tls: extract migration_tls_client_create for common-use
->   migration/tls: add tls_hostname into MultiFDSendParams
->   migration/tls: extract cleanup function for common-use
->   migration/tls: add support for multifd tls-handshake
->   migration/tls: add trace points for multifd-tls
-> 
->  migration/channel.c    |   1 +
->  migration/migration.c  |   1 +
->  migration/migration.h  |   5 ++
->  migration/multifd.c    | 124 +++++++++++++++++++++++++++++++++++++++++++------
->  migration/multifd.h    |   2 +
->  migration/tls.c        |  28 +++++++----
->  migration/tls.h        |   6 +++
->  migration/trace-events |   4 ++
->  8 files changed, 149 insertions(+), 22 deletions(-)
-> 
-> -- 
-> 1.8.3.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyNDA3MDAxMy4xNjUw
+MjYtMS1qdXN1YWxAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
+Y2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNv
+bW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxs
+ZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJ
+UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5F
+VFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9
+MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpDIGxpbmtlciBmb3IgdGhlIGhv
+c3QgbWFjaGluZTogY2MgbGQuYmZkIDIuMjctNDMKSG9zdCBtYWNoaW5lIGNwdSBmYW1pbHk6IHg4
+Nl82NApIb3N0IG1hY2hpbmUgY3B1OiB4ODZfNjQKLi4vc3JjL21lc29uLmJ1aWxkOjEwOiBXQVJO
+SU5HOiBNb2R1bGUgdW5zdGFibGUta2V5dmFsIGhhcyBubyBiYWNrd2FyZHMgb3IgZm9yd2FyZHMg
+Y29tcGF0aWJpbGl0eSBhbmQgbWlnaHQgbm90IGV4aXN0IGluIGZ1dHVyZSByZWxlYXNlcy4KUHJv
+Z3JhbSBzaCBmb3VuZDogWUVTClByb2dyYW0gcHl0aG9uMyBmb3VuZDogWUVTICgvdXNyL2Jpbi9w
+eXRob24zKQpDb25maWd1cmluZyBuaW5qYXRvb2wgdXNpbmcgY29uZmlndXJhdGlvbgotLS0KTGlu
+a2luZyB0YXJnZXQgdGVzdHMvdGVzdC1yZXBsaWNhdGlvbgpsaWJjb21tb24uZmEucC9od19wY2lf
+cGNpZS5jLm86IEluIGZ1bmN0aW9uIGBhY3BpX3BjaWhwX2VuYWJsZWQnOgovdG1wL3FlbXUtdGVz
+dC9idWlsZC8uLi9zcmMvaHcvcGNpL3BjaWUuYzo1MjI6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8g
+YG9iamVjdF9yZXNvbHZlX3R5cGVfdW5hbWJpZ3VvdXMnCmNvbGxlY3QyOiBlcnJvcjogbGQgcmV0
+dXJuZWQgMSBleGl0IHN0YXR1cwptYWtlOiAqKiogW3FlbXUtc3lzdGVtLWFhcmNoNjRdIEVycm9y
+IDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJhY2ViYWNrICht
+b3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIs
+IGxpbmUgNzA5LCBpbiA8bW9kdWxlPgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihy
+ZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1
+ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLXJtJywgJy0tbGFiZWwnLCAnY29tLnFlbXUu
+aW5zdGFuY2UudXVpZD0zODY0NDY5MGE5OTM0MjI2YjdlNzEwOGVhNDM5MDUzMCcsICctdScsICcx
+MDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctZScsICdUQVJH
+RVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1l
+JywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAnQ0NB
+Q0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3Fl
+bXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRj
+aGV3LXRlc3Rlci10bXAtMmpxcWV4MGovc3JjL2RvY2tlci1zcmMuMjAyMC0wOS0yNC0wNC41OS4w
+Ni40NjYyOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11L2NlbnRvczcnLCAnL3Zhci90bXAvcWVt
+dS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpm
+aWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD0zODY0NDY5MGE5OTM0
+MjI2YjdlNzEwOGVhNDM5MDUzMAptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFr
+ZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC0yanFx
+ZXgwai9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNlbnRvczddIEVycm9y
+IDIKCnJlYWwgICAgNG00My4yMzdzCnVzZXIgICAgMG0yMC42MDNzCgoKVGhlIGZ1bGwgbG9nIGlz
+IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDkyNDA3MDAxMy4xNjUw
+MjYtMS1qdXN1YWxAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
