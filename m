@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A434276CFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:24:50 +0200 (CEST)
-Received: from localhost ([::1]:35418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D398B276D3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:27:11 +0200 (CEST)
+Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNUf-00020Q-FX
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38454)
+	id 1kLNWw-0005Vk-Ok
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTH-000074-FF
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28045)
+ id 1kLNTK-0000CA-NU
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTE-0005y1-BY
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:23 -0400
+ id 1kLNTJ-0005yj-1W
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939399;
+ s=mimecast20190719; t=1600939404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GkKR887fLWOo4DC15+qJV+odLhc3rljp4gn44gOfM4I=;
- b=HGOuSH5KPYsoLwyqSEuxSf4G47XuiEiAwjF7wVr5x7zxypRnARKE2SLv6i2sZUW1InBhek
- B7HRuz1xD2m0cB4sftmqIuVYF3F8sr3b9y7k1AKyVlRybmgodEqSqj4Xel4txgvIOkj7Qf
- lgfRhHYuACY32dRYTG8ajKAQIUtQ2zY=
+ bh=JvAHEXTUBzeIY8mtVJqgNnwDgQ8RGKYkHR8gkOm0/zo=;
+ b=cXzYUjDZlUPpslkP8kdQPhKWknb0Kb9WGHO6fCrshBEY0pQA9+CKpYZXkT5/zAr0IdZTpC
+ 59ATp1kxHDG6+8WEzU7OfvfFZE85sp/jG4J6niBCCez4+YVRSVQHenpJIg7RpLpmwvHnRi
+ 5h4vCguMO3JDhrJcgo3teubmX1dR4ao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-jRS2MTe9NP-6OEZycVPIRQ-1; Thu, 24 Sep 2020 05:23:17 -0400
-X-MC-Unique: jRS2MTe9NP-6OEZycVPIRQ-1
+ us-mta-550-i9sR1I_eO6WGUgXs0KzYWA-1; Thu, 24 Sep 2020 05:23:20 -0400
+X-MC-Unique: i9sR1I_eO6WGUgXs0KzYWA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 996CB6415D
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF8B764142
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:19 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55EB173662;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4A2173684;
  Thu, 24 Sep 2020 09:23:16 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/92] ninjatool: rebuild multi-output targets if outputs are
- missing
-Date: Thu, 24 Sep 2020 05:21:45 -0400
-Message-Id: <20200924092314.1722645-4-pbonzini@redhat.com>
+Subject: [PULL 04/92] meson: fix MSI rule
+Date: Thu, 24 Sep 2020 05:21:46 -0400
+Message-Id: <20200924092314.1722645-5-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +56,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -82,39 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "stamp file trick" used to group targets of a single multi-output rule
-prevents the user from deleting one such target in order to force its
-rebuild.  Doing so will not touch the stamp file, and therefore only
-the dummy ":" command will be executed.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-With this patch, ninjatool writes rules that force-rebuild the stamp
-file if any of its outputs are missing.  Rebuilding the missing
-target therefore causes the stamp file to be rebuilt too.
+The environment variables can't be passed through an env: argument
+yet (meson#2723), use 'env' as suggested in:
+https://github.com/mesonbuild/meson/issues/2723#issuecomment-348630957
 
-Reported-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/ninjatool.py | 3 +++
- 1 file changed, 3 insertions(+)
+ qga/meson.build | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
-index 627a1cab45..6f0e35c727 100755
---- a/scripts/ninjatool.py
-+++ b/scripts/ninjatool.py
-@@ -908,6 +908,9 @@ class Ninja2Make(NinjaParserEventsWithVars):
-             else:
-                 stamp = '%s@%s.stamp' % (rule, sha1_text(targets)[0:11])
-             self.print('%s: %s; @:' % (targets, stamp))
-+            self.print('ifneq (%s, $(wildcard %s))' % (targets, targets))
-+            self.print('.PHONY: %s' % (stamp, ))
-+            self.print('endif')
-             self.print('%s: %s | %s; ${ninja-command-restat}' % (stamp, inputs, orderonly))
-             self.rule_targets[rule].append(stamp)
-             self.stamp_targets[rule].append(stamp)
+diff --git a/qga/meson.build b/qga/meson.build
+index e5c5778a3e..c10a0526b2 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -70,6 +70,7 @@ if targetos == 'windows'
+                             output: 'qemu-ga-@0@.msi'.format(config_host['ARCH']),
+                             depends: deps,
+                             command: [
++                              find_program('env'),
+                               'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
+                               'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
+                               'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
 -- 
 2.26.2
 
