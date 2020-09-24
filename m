@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92118276EBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:29:16 +0200 (CEST)
-Received: from localhost ([::1]:47210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B8D276E25
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:05:51 +0200 (CEST)
+Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOV1-0008VV-Mt
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39836)
+	id 1kLO8M-0001ds-88
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUx-0003O7-7E
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23722)
+ id 1kLNUz-0003Oc-S7
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUo-0006Ht-2f
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:06 -0400
+ id 1kLNUq-0006I0-0a
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939497;
+ s=mimecast20190719; t=1600939498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nRx9VPEInYcDlJiu1UzYV+oCMUQGsOR+qty0u0XiqXQ=;
- b=c3AIuFFdAReB6sGXCA/itlIk24b6kchArqAFTgrbikGRcEKmDMICTC347qis6i+wnZW95l
- Szs/Os5N0MIGatgx5OkshXoUkVobJpMEALKVvw8WNAYx3fyHCc75rB7BFPbqko99UVfPQn
- 4yq8ESoo0PhcudjyzSYdV+WM8oEsC3Q=
+ bh=f8IF91sjN25lbtFmQe6SfV4tAQBciSF2GxvmgEJFKxE=;
+ b=hH94C2HVkLWAHTeN9qTvW/X43EbuHT7jpWzimEzlWhtV1swQQOSOQWDy0yHIowSvY+YaPQ
+ o1sHd7DUytV/d8NwOTEbKvuhVAr9Z+H5sPaMrxyU4luQ3PqM9oYYfzXT0HpSFK8HJzNQ1T
+ Aw0XOw3nos6ipEqs/ixhKZbYh2FL+rE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-XXx1uAUZMDCEnjQoV4570A-1; Thu, 24 Sep 2020 05:24:54 -0400
-X-MC-Unique: XXx1uAUZMDCEnjQoV4570A-1
+ us-mta-521-ATeukPI1NvuzkaV6HuHQVg-1; Thu, 24 Sep 2020 05:24:55 -0400
+X-MC-Unique: ATeukPI1NvuzkaV6HuHQVg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A68F39CC1A;
- Thu, 24 Sep 2020 09:24:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 446771882FC6;
+ Thu, 24 Sep 2020 09:24:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 860455576C;
- Thu, 24 Sep 2020 09:24:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C6EC455764;
+ Thu, 24 Sep 2020 09:24:53 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 87/92] hw/net/can: sja1000 ignore CAN FD frames
-Date: Thu, 24 Sep 2020 05:23:09 -0400
-Message-Id: <20200924092314.1722645-88-pbonzini@redhat.com>
+Subject: [PULL 88/92] net/can: Add can_dlc2len and can_len2dlc for CAN FD.
+Date: Thu, 24 Sep 2020 05:23:10 -0400
+Message-Id: <20200924092314.1722645-89-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -91,102 +91,73 @@ From: Jan Charvat <charvj10@fel.cvut.cz>
 Signed-off-by: Jan Charvat <charvj10@fel.cvut.cz>
 Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Reviewed-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-Message-Id: <48d9ebf6b64e7652851c12fe4566e06b44803372.1600069689.git.pisa@cmp.felk.cvut.cz>
+Message-Id: <0a2efc6ef9c458505952ed230e49ae25cad7f324.1600069689.git.pisa@cmp.felk.cvut.cz>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/net/can/can_sja1000.c | 29 +++++++++++++++++++++++------
- 1 file changed, 23 insertions(+), 6 deletions(-)
+ include/net/can_emu.h |  4 ++++
+ net/can/can_core.c    | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
-index ec66d4232d..42d2f99dfb 100644
---- a/hw/net/can/can_sja1000.c
-+++ b/hw/net/can/can_sja1000.c
-@@ -323,11 +323,16 @@ static void buff2frame_bas(const uint8_t *buff, qemu_can_frame *frame)
- static int frame2buff_pel(const qemu_can_frame *frame, uint8_t *buff)
- {
-     int i;
-+    int dlen = frame->can_dlc;
+diff --git a/include/net/can_emu.h b/include/net/can_emu.h
+index cab98ee8ec..6f9b206bb5 100644
+--- a/include/net/can_emu.h
++++ b/include/net/can_emu.h
+@@ -122,4 +122,8 @@ int can_bus_client_set_filters(CanBusClientState *,
+                                const struct qemu_can_filter *filters,
+                                size_t filters_cnt);
  
-     if (frame->can_id & QEMU_CAN_ERR_FLAG) { /* error frame, NOT support now. */
-         return -1;
-     }
++uint8_t can_dlc2len(uint8_t can_dlc);
++
++uint8_t can_len2dlc(uint8_t len);
++
+ #endif
+diff --git a/net/can/can_core.c b/net/can/can_core.c
+index 90f4d8576a..0115d78794 100644
+--- a/net/can/can_core.c
++++ b/net/can/can_core.c
+@@ -33,6 +33,42 @@
+ #include "net/can_emu.h"
+ #include "qom/object_interfaces.h"
  
-+    if (dlen > 8) {
-+        return -1;
++/* CAN DLC to real data length conversion helpers */
++
++static const uint8_t dlc2len[] = {
++    0, 1, 2, 3, 4, 5, 6, 7,
++    8, 12, 16, 20, 24, 32, 48, 64
++};
++
++/* get data length from can_dlc with sanitized can_dlc */
++uint8_t can_dlc2len(uint8_t can_dlc)
++{
++    return dlc2len[can_dlc & 0x0F];
++}
++
++static const uint8_t len2dlc[] = {
++    0, 1, 2, 3, 4, 5, 6, 7, 8,                              /* 0 - 8 */
++    9, 9, 9, 9,                                             /* 9 - 12 */
++    10, 10, 10, 10,                                         /* 13 - 16 */
++    11, 11, 11, 11,                                         /* 17 - 20 */
++    12, 12, 12, 12,                                         /* 21 - 24 */
++    13, 13, 13, 13, 13, 13, 13, 13,                         /* 25 - 32 */
++    14, 14, 14, 14, 14, 14, 14, 14,                         /* 33 - 40 */
++    14, 14, 14, 14, 14, 14, 14, 14,                         /* 41 - 48 */
++    15, 15, 15, 15, 15, 15, 15, 15,                         /* 49 - 56 */
++    15, 15, 15, 15, 15, 15, 15, 15                          /* 57 - 64 */
++};
++
++/* map the sanitized data length to an appropriate data length code */
++uint8_t can_len2dlc(uint8_t len)
++{
++    if (unlikely(len > 64)) {
++        return 0xF;
 +    }
 +
-     buff[0] = 0x0f & frame->can_dlc; /* DLC */
-     if (frame->can_id & QEMU_CAN_RTR_FLAG) { /* RTR */
-         buff[0] |= (1 << 6);
-@@ -338,18 +343,18 @@ static int frame2buff_pel(const qemu_can_frame *frame, uint8_t *buff)
-         buff[2] = extract32(frame->can_id, 13, 8); /* ID.20~ID.13 */
-         buff[3] = extract32(frame->can_id, 5, 8);  /* ID.12~ID.05 */
-         buff[4] = extract32(frame->can_id, 0, 5) << 3; /* ID.04~ID.00,xxx */
--        for (i = 0; i < frame->can_dlc; i++) {
-+        for (i = 0; i < dlen; i++) {
-             buff[5 + i] = frame->data[i];
-         }
--        return frame->can_dlc + 5;
-+        return dlen + 5;
-     } else { /* SFF */
-         buff[1] = extract32(frame->can_id, 3, 8); /* ID.10~ID.03 */
-         buff[2] = extract32(frame->can_id, 0, 3) << 5; /* ID.02~ID.00,xxxxx */
--        for (i = 0; i < frame->can_dlc; i++) {
-+        for (i = 0; i < dlen; i++) {
-             buff[3 + i] = frame->data[i];
-         }
- 
--        return frame->can_dlc + 3;
-+        return dlen + 3;
-     }
- 
-     return -1;
-@@ -358,6 +363,7 @@ static int frame2buff_pel(const qemu_can_frame *frame, uint8_t *buff)
- static int frame2buff_bas(const qemu_can_frame *frame, uint8_t *buff)
- {
-     int i;
-+    int dlen = frame->can_dlc;
- 
-      /*
-       * EFF, no support for BasicMode
-@@ -369,17 +375,21 @@ static int frame2buff_bas(const qemu_can_frame *frame, uint8_t *buff)
-         return -1;
-     }
- 
-+    if (dlen > 8) {
-+        return -1;
-+    }
++    return len2dlc[len];
++}
 +
-     buff[0] = extract32(frame->can_id, 3, 8); /* ID.10~ID.03 */
-     buff[1] = extract32(frame->can_id, 0, 3) << 5; /* ID.02~ID.00,xxxxx */
-     if (frame->can_id & QEMU_CAN_RTR_FLAG) { /* RTR */
-         buff[1] |= (1 << 4);
-     }
-     buff[1] |= frame->can_dlc & 0x0f;
--    for (i = 0; i < frame->can_dlc; i++) {
-+    for (i = 0; i < dlen; i++) {
-         buff[2 + i] = frame->data[i];
-     }
+ struct CanBusState {
+     Object object;
  
--    return frame->can_dlc + 2;
-+    return dlen + 2;
- }
- 
- static void can_sja_update_pel_irq(CanSJA1000State *s)
-@@ -766,6 +776,13 @@ ssize_t can_sja_receive(CanBusClientState *client, const qemu_can_frame *frames,
-     if (frames_cnt <= 0) {
-         return 0;
-     }
-+    if (frame->flags & QEMU_CAN_FRMF_TYPE_FD) {
-+        if (DEBUG_FILTER) {
-+            can_display_msg("[cansja]: ignor fd frame ", frame);
-+        }
-+        return 1;
-+    }
-+
-     if (DEBUG_FILTER) {
-         can_display_msg("[cansja]: receive ", frame);
-     }
 -- 
 2.26.2
 
