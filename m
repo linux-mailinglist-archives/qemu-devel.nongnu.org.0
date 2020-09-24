@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351F0276FEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:28:19 +0200 (CEST)
-Received: from localhost ([::1]:54398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D3D276FF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:29:53 +0200 (CEST)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLPQA-0000R8-8X
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39528)
+	id 1kLPRg-0003HA-1N
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLPMd-0004pv-29
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:24:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60193)
+ id 1kLPNE-0006PW-1p
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:25:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLPMB-0004ZT-FT
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:24:20 -0400
+ id 1kLPNA-0004fQ-Sy
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:25:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600946650;
+ s=mimecast20190719; t=1600946711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=lbjEMjmXxh9sGQhB/+Im41pv1jla9LL6zlkMThvXYP0=;
- b=hA+5/RhNfLBs1pKrr0URlogCUA6/x122Ov4DGASnkgGlhJ2cDCvRUNkSI0eyJHslk2PSXV
- yFYZ7viSOtzmkRWNo1L3n5ERgcJFzffHrr+aHH757MGhVkSESSX6JBGzMqELRcQ9G4NDaM
- WGtG7jzxbNnBnbHhTvcKkJB9JdyHvy0=
+ bh=k+wQ+OIRsqJkypaQ3tYxlrKKy4H6UiUJI+kMDREEbEM=;
+ b=XgQ9tkcAx2GtDzwKsaZhzXrlipB4oyHqFM1nBdQbP0dJbJ6TbW9xWvePJQUZjzgyeQJ1oG
+ k9lS0hiFC8+Vo0+KtOf7B4trnuRO3JotjK8Fk+AlYGm/mREBPikzhZUPGBVtzZK3/bZRjD
+ +NQKT6lcVNAF15tFqk3kpyy6Du6UEIA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-Su90VoSPPK-EeXuUowqgFw-1; Thu, 24 Sep 2020 07:24:06 -0400
-X-MC-Unique: Su90VoSPPK-EeXuUowqgFw-1
+ us-mta-539-Ar7fjCsxO2io9NktLmKMnA-1; Thu, 24 Sep 2020 07:25:07 -0400
+X-MC-Unique: Ar7fjCsxO2io9NktLmKMnA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD0DD1091068;
- Thu, 24 Sep 2020 11:24:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04AFD1009443;
+ Thu, 24 Sep 2020 11:25:06 +0000 (UTC)
 Received: from localhost (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7908578827;
- Thu, 24 Sep 2020 11:24:04 +0000 (UTC)
-Date: Thu, 24 Sep 2020 12:24:03 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A024C7882C;
+ Thu, 24 Sep 2020 11:25:05 +0000 (UTC)
+Date: Thu, 24 Sep 2020 12:25:04 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8 2/7] block/io: refactor coroutine wrappers
-Message-ID: <20200924112403.GU62770@stefanha-x1.localdomain>
+Subject: Re: [PATCH v8 3/7] block: declare some coroutine functions in
+ block/coroutines.h
+Message-ID: <20200924112504.GV62770@stefanha-x1.localdomain>
 References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
- <20200915164411.20590-3-vsementsov@virtuozzo.com>
+ <20200915164411.20590-4-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200915164411.20590-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20200915164411.20590-4-vsementsov@virtuozzo.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8Tx+BDMK09J610+l"
+ protocol="application/pgp-signature"; boundary="o3Y+93sjbn8Tp8J9"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -87,50 +88,46 @@ Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---8Tx+BDMK09J610+l
+--o3Y+93sjbn8Tp8J9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 15, 2020 at 07:44:06PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+On Tue, Sep 15, 2020 at 07:44:07PM +0300, Vladimir Sementsov-Ogievskiy wrot=
 e:
-> Most of our coroutine wrappers already follow this convention:
->=20
-> We have 'coroutine_fn bdrv_co_<something>(<normal argument list>)' as
-> the core function, and a wrapper 'bdrv_<something>(<same argument
-> list>)' which does parameters packing and call bdrv_run_co().
->=20
-> The only outsiders are the bdrv_prwv_co and
-> bdrv_common_block_status_above wrappers. Let's refactor them to behave
-> as the others, it simplifies further conversion of coroutine wrappers.
->=20
-> This patch adds indirection layer, but it will be compensated by
-> further commit, which will drop bdrv_co_prwv together with is_write
-> logic, to keep read and write path separate.
+> We are going to keep coroutine-wrappers code (structure-packing
+> parameters, BDRV_POLL wrapper functions) in separate auto-generated
+> files. So, we'll need a header with declaration of original _co_
+> functions, for those which are static now. As well, we'll need
+> declarations for wrapper functions. Do these declarations now, as a
+> preparation step.
 >=20
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->  block/io.c | 60 +++++++++++++++++++++++++++++-------------------------
->  1 file changed, 32 insertions(+), 28 deletions(-)
+>  block/coroutines.h | 67 ++++++++++++++++++++++++++++++++++++++++++++++
+>  block.c            |  8 +++---
+>  block/io.c         | 34 +++++++++++------------
+>  3 files changed, 88 insertions(+), 21 deletions(-)
+>  create mode 100644 block/coroutines.h
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---8Tx+BDMK09J610+l
+--o3Y+93sjbn8Tp8J9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sgdMACgkQnKSrs4Gr
-c8hi6gf9E8GXn8H8iEJ5L2+Dt96y7PmdzawX78o756UUfmfBiOYPc2+OCxnunFQ6
-79qB9N8VMO/iTjpIyDuQ1FXtZk5v1uZ6nvSjW4MZXWHOXrXeNooQ1GVKs/Aoql9j
-++t7tkJXu6Zw3mohCULjtluyiDHpNyQRv4xn1XfFLziLVfSIA3B0+g8Mdw74ccQ0
-hjUcV17bwBcBWcx+l+5jejSBNZFRw4SbSDGUYOWRhLBIYgy+lH9JiH82uScPUYBj
-07BQQYm9JjoMU8rLJTHH7dQIT+XEER/rYZQB0LbpJaqzyYpXn7i7KfnyP9oMy2Vx
-jhoCZDcHjR/nZEQDMZSYyTofZfd8cw==
-=31Hw
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sghAACgkQnKSrs4Gr
+c8iROgf+KlQZovPdLemWHP5cqcPyuoqJ1Ck/MjeWQ4lUDvPgtcmXypKOFb77Bn/P
+0ahV2aHSFdxSAYTvoPdQm2gVlNAfxqW+9ZTHkUg8iopZaiPyuia3jBJTMBbKbvjR
+htrrrH/9KcyRBeIUHQtHLUP/tSHeDNrqrc+Jt+xmOgLxafQfZLPzMBVLZeNvmbSf
+t4d/O725LzFnGQus6CFJeuXVBINq/oxxHEvGbG6PLnvrrGs18hioyaMSxKHpGLga
+xR56e4Kv5Hrr6dIUOqnexbS/7G162HT6f9mzTOsM7X0okjTQxuvnH9AdDFVME8KR
+Fw0JOmwX394qHMunYnwEWKgAixRrUQ==
+=HLfI
 -----END PGP SIGNATURE-----
 
---8Tx+BDMK09J610+l--
+--o3Y+93sjbn8Tp8J9--
 
 
