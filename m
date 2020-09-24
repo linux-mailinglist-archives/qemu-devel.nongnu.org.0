@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C760277707
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:42:08 +0200 (CEST)
-Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B5D27772E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:49:25 +0200 (CEST)
+Received: from localhost ([::1]:46082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLUJr-00017B-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55746)
+	id 1kLUQu-0000Bz-TN
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kLTdM-0005Gk-C5
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:58:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34359)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTlF-0003RJ-7Q
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:06:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
- id 1kLTdJ-0001ry-GG
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:58:11 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kLTlA-00047c-TN
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:06:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600963087;
+ s=mimecast20190719; t=1600963570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2dXAN1AEuHxZeGXzbuduQk0HLokhpg2HmL3oGwsdnAg=;
- b=PMqiraOE3NYXxIuI9Ymc78flivMwA9MIfbkzcIz8XSilL5pbQEED+Tg8ZbSVU10hRZ3xUF
- 4aGVb3BbI6vJXY3w9+Z+2bpiL21GQy/FEDQtTpqvnac8NtnB5sSjIfNRqrN7a+L6Oz9KpR
- Z9kLKB4ZhB2Dc7RdIB63yS3MxZDYj5s=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-Ob4KLpmdOhq7ObBWJz1LwA-1; Thu, 24 Sep 2020 11:58:05 -0400
-X-MC-Unique: Ob4KLpmdOhq7ObBWJz1LwA-1
-Received: by mail-yb1-f199.google.com with SMTP id k3so3256799ybk.16
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 08:58:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2dXAN1AEuHxZeGXzbuduQk0HLokhpg2HmL3oGwsdnAg=;
- b=URWRPoF/Hqa/0czBbLiVkkVysyNVaH3hVY0K+G0I+zuDGSX04IwhKXwJk54YZ1GV/v
- KuhagZp2TwY8l1YRdbUNXPQhgcxOJPeJ5SJmx0NWfo54v4FhBZ4d4+ZhwxX7dLXp2igt
- m4O5S2fdCybOVA5UUBqtfaojV9c81opFmehCVMZDk4gXw1Oyk+SHSFOk08Vr6MEwHawO
- daPaMjPWjlRq8CjiA6/7XwOdePmIun4to/sVaxwNyIWMTfhITOgh2/lNIOCdBLiQExWM
- k2Ej5B/yav+sQJWgcoTg3E+czGD8StQeozpQvJ7gmmWym5jCPCRblS+4BZy2qxllWNmg
- QvXA==
-X-Gm-Message-State: AOAM531QImgXpAVzVjRVwRPR0WGSqJEGRuLXHo6usrv5FRN/+0qtBmlQ
- xmMGalMVuLXSzfRaK+Ct0s1H5YmhzfsJEGDgw9i0Y81H1TNibEc8SY3TDx6zqlx5kokDj0+ojoy
- k9k2CQrMUXY/lVMW2hExVRYXWADufBw4=
-X-Received: by 2002:a25:6084:: with SMTP id u126mr290879ybb.321.1600963084501; 
- Thu, 24 Sep 2020 08:58:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwE6Uvh9fxgKS0uCkFfy/sVD6XHLMJ4ug5J0fUTWrbId80DMzONIyrzkvZ5uSF8Vad+UrRULV7/n0MJKK1HzRE=
-X-Received: by 2002:a25:6084:: with SMTP id u126mr290842ybb.321.1600963084241; 
- Thu, 24 Sep 2020 08:58:04 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mSCCpzPyhsMwYJKczrXwMJcdEyfh5JEBcvT1ucYDlOQ=;
+ b=TrdPRKdVaoJ+IZRQZMn/o+RH6HznwWu3h7Ka9REF4IA47wlGOFFGt1F458ZcHpZ0QiDT3U
+ FDLavBJTZEFTW/WvWqsGSnY0bjzQ3x2exDrMqu3ZukS3d6wTXgc7epFS0UEiIoTGyK0VXY
+ EOwHJzuzyYSiveEKFSpISAqjaJoedes=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-gbfgZH2QNtmdSJnbvo3dSg-1; Thu, 24 Sep 2020 12:04:46 -0400
+X-MC-Unique: gbfgZH2QNtmdSJnbvo3dSg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33515801FDC;
+ Thu, 24 Sep 2020 16:04:45 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-4.ams2.redhat.com [10.36.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9065519C66;
+ Thu, 24 Sep 2020 16:04:24 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH PROTOTYPE 0/6] virtio-mem: vfio support
+Date: Thu, 24 Sep 2020 18:04:17 +0200
+Message-Id: <20200924160423.106747-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20200924151511.131471-1-sgarzare@redhat.com>
-In-Reply-To: <20200924151511.131471-1-sgarzare@redhat.com>
-From: Julia Suvorova <jusual@redhat.com>
-Date: Thu, 24 Sep 2020 17:57:53 +0200
-Message-ID: <CAMDeoFUNv2q5u-OZHoJUFtbQXoTW_uEXZ9c_aiWRHmqjjRmEEw@mail.gmail.com>
-Subject: Re: [PATCH] docs: add 'io_uring' option to 'aio' param in
- qemu-options.hx
-To: Stefano Garzarella <sgarzare@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsuvorov@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsuvorov@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -90,63 +75,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Luiz Capitulino <lcapitulino@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 24, 2020 at 5:15 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->
-> When we added io_uring AIO engine, we forgot to update qemu-options.hx,
-> so qemu(1) man page and qemu help were outdated.
->
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+This is a quick and dirty (1.5 days of hacking) prototype to make
+vfio and virtio-mem play together. The basic idea was the result of Alex
+brainstorming with me on how to tackle this.
 
-Reviewed-by: Julia Suvorova <jusual@redhat.com>
+A virtio-mem device manages a memory region in guest physical address
+space, represented as a single (currently large) memory region in QEMU.
+Before the guest is allowed to use memory blocks, it must coordinate with
+the hypervisor (plug blocks). After a reboot, all memory is usually
+unplugged - when the guest comes up, it detects the virtio-mem device and
+selects memory blocks to plug (based on requests from the hypervisor).
 
-> ---
->  qemu-options.hx | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 47f64be0c0..5b098577fe 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1053,7 +1053,8 @@ SRST
->              The path to the image file in the local filesystem
->
->          ``aio``
-> -            Specifies the AIO backend (threads/native, default: threads)
-> +            Specifies the AIO backend (threads/native/io_uring,
-> +            default: threads)
->
->          ``locking``
->              Specifies whether the image file is protected with Linux OFD
-> @@ -1175,7 +1176,8 @@ DEF("drive", HAS_ARG, QEMU_OPTION_drive,
->      "-drive [file=file][,if=type][,bus=n][,unit=m][,media=d][,index=i]\n"
->      "       [,cache=writethrough|writeback|none|directsync|unsafe][,format=f]\n"
->      "       [,snapshot=on|off][,rerror=ignore|stop|report]\n"
-> -    "       [,werror=ignore|stop|report|enospc][,id=name][,aio=threads|native]\n"
-> +    "       [,werror=ignore|stop|report|enospc][,id=name]\n"
-> +    "       [,aio=threads|native|io_uring]\n"
->      "       [,readonly=on|off][,copy-on-read=on|off]\n"
->      "       [,discard=ignore|unmap][,detect-zeroes=on|off|unmap]\n"
->      "       [[,bps=b]|[[,bps_rd=r][,bps_wr=w]]]\n"
-> @@ -1247,8 +1249,8 @@ SRST
->          The default mode is ``cache=writeback``.
->
->      ``aio=aio``
-> -        aio is "threads", or "native" and selects between pthread based
-> -        disk I/O and native Linux AIO.
-> +        aio is "threads", "native", or "io_uring" and selects between pthread
-> +        based disk I/O, native Linux AIO, or Linux io_uring API.
->
->      ``format=format``
->          Specify which disk format will be used rather than detecting the
-> --
-> 2.26.2
->
+Memory hot(un)plug consists of (un)plugging memory blocks via a virtio-mem
+device (triggered by the guest). When unplugging blocks, we discard the
+memory. In contrast to memory ballooning, we always know which memory
+blocks a guest may use - especially during a reboot, after a crash, or
+after kexec.
+
+The issue with vfio is, that it cannot deal with random discards - for this
+reason, virtio-mem and vfio can currently only run mutually exclusive.
+Especially, vfio would currently map the whole memory region (with possible
+only little/no plugged blocks), resulting in all pages getting pinned and
+therefore resulting in a higher memory consumption than expected (turning
+virtio-mem basically useless in these environments).
+
+To make vfio work nicely with virtio-mem, we have to map only the plugged
+blocks, and map/unmap properly when plugging/unplugging blocks (including
+discarding of RAM when unplugging). We achieve that by using a new notifier
+mechanism that communicates changes.
+
+It's important to map memory in the granularity in which we could see
+unmaps again (-> virtio-mem block size) - so when e.g., plugging
+consecutive 100 MB with a block size of 2MB, we need 50 mappings. When
+unmapping, we can use a single vfio_unmap call for the applicable range.
+We expect that the block size of virtio-mem devices will be fairly large
+in the future (to not run out of mappings and to improve hot(un)plug
+performance), configured by the user, when used with vfio (e.g., 128MB,
+1G, ...) - Linux guests will still have to be optimized for that.
+
+We try to handle errors when plugging memory (mapping in VFIO) gracefully
+- especially to cope with too many mappings in VFIO.
+
+
+As I basically have no experience with vfio, all I did for testing is
+passthrough a secondary GPU (NVIDIA GK208B) via vfio-pci to my guest
+and saw it pop up in dmesg. I did *not* actually try to use it (I know
+...), so there might still be plenty of BUGs regarding the actual mappings
+in the code. When I resize virtio-mem devices (resulting in
+memory hot(un)plug), I can spot the memory consumption of my host adjusting
+accordingly - in contrast to before, wehreby my machine would always
+consume the maximum size of my VM, as if all memory provided by
+virtio-mem devices were fully plugged.
+
+I even tested it with 2MB huge pages (sadly for the first time with
+virtio-mem ever) - and it worked like a charm on the hypervisor side as
+well. The number of free hugepages adjusted accordingly. (again, did not
+properly test the device in the guest ...).
+
+If anybody wants to play with it and needs some guidance, please feel
+free to ask. I might add some vfio-related documentation to
+https://virtio-mem.gitlab.io/ (but it really isn't that special - only
+the block size limitations have to be considered).
+
+David Hildenbrand (6):
+  memory: Introduce sparse RAM handler for memory regions
+  virtio-mem: Impelement SparseRAMHandler interface
+  vfio: Implement support for sparse RAM memory regions
+  memory: Extend ram_block_discard_(require|disable) by two discard
+    types
+  virtio-mem: Require only RAM_BLOCK_DISCARD_T_COORDINATED discards
+  vfio: Disable only RAM_BLOCK_DISCARD_T_UNCOORDINATED discards
+
+ exec.c                         | 109 +++++++++++++++++----
+ hw/vfio/common.c               | 169 ++++++++++++++++++++++++++++++++-
+ hw/virtio/virtio-mem.c         | 164 +++++++++++++++++++++++++++++++-
+ include/exec/memory.h          | 151 ++++++++++++++++++++++++++++-
+ include/hw/vfio/vfio-common.h  |  12 +++
+ include/hw/virtio/virtio-mem.h |   3 +
+ softmmu/memory.c               |   7 ++
+ 7 files changed, 583 insertions(+), 32 deletions(-)
+
+-- 
+2.26.2
 
 
