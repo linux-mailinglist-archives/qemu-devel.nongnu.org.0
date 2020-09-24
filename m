@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747302776DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:38:54 +0200 (CEST)
-Received: from localhost ([::1]:48380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DBDB277708
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 18:42:12 +0200 (CEST)
+Received: from localhost ([::1]:56778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLUGj-00062M-AV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60248)
+	id 1kLUJv-0001In-Fh
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 12:42:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLTuU-00039d-9n
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:15:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLTuQ-0005tm-8K
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 12:15:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600964148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Do8uA0sevsJAHsT4aXHQnTzq5FT+FriRFTq+cYRFu9o=;
- b=QvAv8ztKsiE0LR8p8gHFRQ30pCdWHlzlHmCGqcKk7Z+uSVI4Id8rQgLp79sT3RYa1HKqKo
- +G3w4WEhv+6Rx4u6XepJulQ4P/MH4HjPOivcpQ2cwl650q3fO61WzBgmack8DbpZDonI65
- ZZYgUXvfjsMyKMOH3//gxRkbOQtZgg0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-CbM_HpeWNB-St8APFS7MHQ-1; Thu, 24 Sep 2020 12:15:41 -0400
-X-MC-Unique: CbM_HpeWNB-St8APFS7MHQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A0C0800475;
- Thu, 24 Sep 2020 16:15:40 +0000 (UTC)
-Received: from localhost (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BDFC55786;
- Thu, 24 Sep 2020 16:15:39 +0000 (UTC)
-Date: Thu, 24 Sep 2020 17:15:39 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jon Maloy <jmaloy@redhat.com>
-Subject: Re: Problems with building using meson and fuzzing
-Message-ID: <20200924161539.GA929935@stefanha-x1.localdomain>
-References: <3d188586-5301-30ba-1a19-db34a273cbb0@redhat.com>
- <615f663c-f935-1401-5042-4436da257a96@redhat.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kLTzQ-0007KJ-V0; Thu, 24 Sep 2020 12:21:00 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:45730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kLTzN-0006UV-LQ; Thu, 24 Sep 2020 12:21:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=bIxYOukvuVLNA62gPP9pTjTnW+BVNzF3xYkYcFNXXiM=; 
+ b=JXWeGBHQy1zs7d314u/haJi6IhXaUX/5BYUPSw+1ZV7vVmODf94tYAbUnWquGMuPyUUGvbx3Kgd2AjMQufTo2mwbs9ViLc5NhaZTzX2YH5tOgqjyrRnHvbamcIAJBphlb+7PSQ7JrR119IT0Yf3oBWEdi+6cFOP01LHepaCGMi7+UxaYGk6zTemx+0cCEgR6CYF1kgUAHhAgQTNZQZyQc+Omkbhzyxt2nXD6MBs79Ys+2ueqI87B1agwgHdWfLxpd5iqyRflKOI3MS6ZKKgSJgARkV73QLi7gS0Y53gdw4jdipgbIOywxvPDGDc2goUAmCFGyIM+vtOoBAVTbuSXbw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kLTyz-0008Bh-L0; Thu, 24 Sep 2020 18:20:33 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kLTyz-00046O-9d; Thu, 24 Sep 2020 18:20:33 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v6 1/5] block/io: fix bdrv_co_block_status_above
+In-Reply-To: <20200916122008.20303-2-vsementsov@virtuozzo.com>
+References: <20200916122008.20303-1-vsementsov@virtuozzo.com>
+ <20200916122008.20303-2-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 24 Sep 2020 18:20:33 +0200
+Message-ID: <w514knnqh7y.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <615f663c-f935-1401-5042-4436da257a96@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 12:20:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,41 +63,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---huq684BweRXVnRxX
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed 16 Sep 2020 02:20:04 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+> bdrv_co_block_status_above has several design problems with handling
+> short backing files:
+>
+> 1. With want_zeros=true, it may return ret with BDRV_BLOCK_ZERO but
+> without BDRV_BLOCK_ALLOCATED flag, when actually short backing file
+> which produces these after-EOF zeros is inside requested backing
+> sequence.
+>
+> 2. With want_zero=false, it may return pnum=0 prior to actual EOF,
+> because of EOF of short backing file.
+>
+> Fix these things, making logic about short backing files clearer.
+>
+> With fixed bdrv_block_status_above we also have to improve is_zero in
+> qcow2 code, otherwise iotest 154 will fail, because with this patch we
+> stop to merge zeros of different types (produced by fully unallocated
+> in the whole backing chain regions vs produced by short backing files).
+>
+> Note also, that this patch leaves for another day the general problem
+> around block-status: misuse of BDRV_BLOCK_ALLOCATED as is-fs-allocated
+> vs go-to-backing.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-On Thu, Sep 24, 2020 at 10:36:20AM -0400, Jon Maloy wrote:
-> Alex, Stefan & al
-> I am trying to build and run Marc-Andr=E9s Lureaus libslirp code with fuz=
-zing
-> activated, but I am running into build issues.
-> https://gitlab.freedesktop.org/elmarco/libslirp/-/commit/9fba8af484ec6bc1=
-0b22e3f49d9e34d95c28b086
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
-Discussion happening here:
-https://github.com/mesonbuild/meson/issues/7761
-
---huq684BweRXVnRxX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sxisACgkQnKSrs4Gr
-c8gweQf8DarVEqeGBbQZy7J7Pfi9ml92n2Zk+J2suzEPNq5vDBtVjFi9tYYWmO6y
-GDaqBJEdFShgf4ickI8VrLq532zqz0FwdUTWF+XhMtMbmLkOhhJXJ8/tCDR9kGRk
-0hojpyh9n9zuCV5LMd6Zs1oIpJLcoAW/k/zupusLFxiyXY5ghjgRlhz0Xabbf6CY
-IXd1ddVMNYuVf2ipJSiXAqq680x43V10jwXblqX/wqUemActAyIs0aozofNQiawV
-ulkXLepbjR1heZBlexDs+sJ43XQYmXoor+luYp5DxvuW9K/9NKNAI3Vb0TW1WLGE
-48gtsHByXx56X4u5RJ6du9R8XKgQhA==
-=SZQ9
------END PGP SIGNATURE-----
-
---huq684BweRXVnRxX--
-
+Berto
 
