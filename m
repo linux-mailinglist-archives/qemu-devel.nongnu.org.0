@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F2B276D77
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:29:33 +0200 (CEST)
-Received: from localhost ([::1]:52326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D941C276CFB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:24:44 +0200 (CEST)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNZE-0000fk-PY
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38470)
+	id 1kLNUZ-0001s2-S2
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTI-00008e-SY
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31556)
+ id 1kLNTG-00006w-4S
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTF-0005yB-O1
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:24 -0400
+ id 1kLNTE-0005y0-7q
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939401;
+ s=mimecast20190719; t=1600939399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=33CQC+ryDrw5P8xsKjFoneZbT0UyUrCwgzYwwVEspxQ=;
- b=ifZcIwTl+24kyAim18y0KXgn1SMP1R1WgCbrYFxeNg9LflnQwqbehysiJp/YZjOU7oCVoq
- uLdwxWNRlLuqM1xPG8jZ4ZO+3ZfeCmjxL29AjOtLkqZbhkyEAaFNF4XwzUz0wxfvazPaU3
- 5nU3MIKUQvVldV9Esg9E0UJYkK23EdA=
+ bh=fnyjZGsqRbbPt12X0NACZz8vmfAX9gsJo64TD+RO6CM=;
+ b=EpqQAbzHrB3A6GantP//aPXCBQQ93hjaTJSbNYibKcN4W1Xns1Y9vCfhvSwIas7Lnf7Ud5
+ khITkFFGYOF5UxPeYylQ4YAKrHRziM7AKvu2EfXHDbdsSm2VpcTGnHk/lxl+VGUV+jkqO8
+ kE74+WUo6U/aSj+BQVQytDzqH9G4THk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-FAfaDRjsN4WYODyWQTUgaQ-1; Thu, 24 Sep 2020 05:23:16 -0400
-X-MC-Unique: FAfaDRjsN4WYODyWQTUgaQ-1
+ us-mta-209-nDERCLWKPT6XvUcxY_Iw0Q-1; Thu, 24 Sep 2020 05:23:17 -0400
+X-MC-Unique: nDERCLWKPT6XvUcxY_Iw0Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF50F85B67C;
- Thu, 24 Sep 2020 09:23:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A63C64158
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:16 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BEB273684;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA8F073662;
  Thu, 24 Sep 2020 09:23:15 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/92] tests: add missing genh dependency
-Date: Thu, 24 Sep 2020 05:21:43 -0400
-Message-Id: <20200924092314.1722645-2-pbonzini@redhat.com>
+Subject: [PULL 02/92] meson: clean up build_by_default
+Date: Thu, 24 Sep 2020 05:21:44 -0400
+Message-Id: <20200924092314.1722645-3-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,11 +56,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -81,46 +81,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
+Cc: Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Claudio Fontana <cfontana@suse.de>
+Build all executables by default except for the known-broken ones.
 
-Fix high-parallelism builds by forcing all generated headers
-to be created before tests are compiled.
+This also allows running qemu-iotests without manually building
+socket_scm_helper.
 
-Reported-by: Claudio Fontana <cfontana@suse.de>
+Reported-by: Max Reitz <mreitz@redhat.com>
+Tested-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Tested-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/devel/build-system.rst    | 5 +++++
+ tests/fp/meson.build           | 2 --
+ tests/meson.build              | 5 ++---
+ tests/qemu-iotests/meson.build | 3 +--
+ trace/meson.build              | 1 -
+ ui/shader/meson.build          | 1 -
+ 6 files changed, 8 insertions(+), 9 deletions(-)
 
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 08e85c69e1..2ee368fad6 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -193,6 +193,11 @@ compilation as possible. The Meson "sourceset" functionality is used
+ to list the files and their dependency on various configuration  
+ symbols.
+ 
++All executables are built by default, except for some `contrib/`
++binaries that are known to fail to build on some platforms (for example
++32-bit or big-endian platforms).  Tests are also built by default,
++though that might change in the future.
++
+ Various subsystems that are common to both tools and emulators have
+ their own sourceset, for example `block_ss` for the block device subsystem,
+ `chardev_ss` for the character device subsystem, etc.  These sourcesets
+diff --git a/tests/fp/meson.build b/tests/fp/meson.build
+index 8779a17aab..24739ad421 100644
+--- a/tests/fp/meson.build
++++ b/tests/fp/meson.build
+@@ -541,7 +541,6 @@ fpcflags += [
+ fptest = executable(
+   'fp-test',
+   ['fp-test.c', tfdir / 'slowfloat.c', '../../fpu/softfloat.c'],
+-  build_by_default: false,
+   link_with: [libtestfloat, libsoftfloat],
+   dependencies: [qemuutil],
+   include_directories: [sfinc, include_directories(tfdir)],
+@@ -628,7 +627,6 @@ test('fp-test:mulAdd', fptest,
+ fpbench = executable(
+   'fp-bench',
+   ['fp-bench.c', '../../fpu/softfloat.c'],
+-  build_by_default: false,
+   link_with: [libtestfloat, libsoftfloat],
+   dependencies: [qemuutil],
+   include_directories: [sfinc, include_directories(tfdir)],
 diff --git a/tests/meson.build b/tests/meson.build
-index 8c3e930687..70203890a1 100644
+index 70203890a1..116d9a2654 100644
 --- a/tests/meson.build
 +++ b/tests/meson.build
-@@ -56,7 +56,7 @@ test_qapi_files = custom_target('Test QAPI files',
- # perhaps change qapi_gen to replace / with _, like Meson itself does?
- subdir('include')
+@@ -248,12 +248,11 @@ foreach bench_name, deps: benchs
+             suite: ['speed'])
+ endforeach
  
--libtestqapi = static_library('testqapi', sources: [test_qapi_files, test_qapi_outputs_extra])
-+libtestqapi = static_library('testqapi', sources: [test_qapi_files, genh, test_qapi_outputs_extra])
- testqapi = declare_dependency(link_with: libtestqapi)
+-if have_tools and 'CONFIG_VHOST_USER' in config_host
++if have_tools and 'CONFIG_VHOST_USER' in config_host and 'CONFIG_LINUX' in config_host
+   executable('vhost-user-bridge',
+              sources: files('vhost-user-bridge.c'),
+              link_with: [libvhost_user],
+-             dependencies: [qemuutil],
+-             build_by_default: false)
++             dependencies: [qemuutil])
+ endif
  
- testblock = declare_dependency(dependencies: [block], sources: 'iothread.c')
-@@ -229,7 +229,7 @@ foreach test_name, extra: tests
-     src += test_ss.all_sources()
-     deps += test_ss.all_dependencies()
-   endif
--  exe = executable(test_name, src, dependencies: deps)
-+  exe = executable(test_name, src, genh, dependencies: deps)
- 
-   test(test_name, exe,
-        depends: test_deps.get(test_name, []),
+ if have_system and 'CONFIG_POSIX' in config_host
+diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
+index 60470936b4..67aed1e492 100644
+--- a/tests/qemu-iotests/meson.build
++++ b/tests/qemu-iotests/meson.build
+@@ -1,6 +1,5 @@
+ if 'CONFIG_LINUX' in config_host
+-    socket_scm_helper = executable('socket_scm_helper', 'socket_scm_helper.c',
+-                                    build_by_default: false)
++    socket_scm_helper = executable('socket_scm_helper', 'socket_scm_helper.c')
+ else
+     socket_scm_helper = []
+ endif
+diff --git a/trace/meson.build b/trace/meson.build
+index b36937d3a6..d5fc45c628 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -70,7 +70,6 @@ foreach d : [
+                 output: d[0],
+                 input: meson.source_root() / 'trace-events',
+                 command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
+-                build_by_default: true, # to be removed when added to a target
+                 capture: true)
+   specific_ss.add(gen)
+ endforeach
+diff --git a/ui/shader/meson.build b/ui/shader/meson.build
+index f69e44ed89..592bf596b9 100644
+--- a/ui/shader/meson.build
++++ b/ui/shader/meson.build
+@@ -9,7 +9,6 @@ foreach e : shaders
+   genh += custom_target(output,
+                 output: output,
+                 capture: true,
+-                build_by_default: true, # to be removed when added to a target
+                 input: files('@0@.@1@'.format(e[0], e[1])),
+                 command: [shaderinclude, '@INPUT0@'])
+ endforeach
 -- 
 2.26.2
 
