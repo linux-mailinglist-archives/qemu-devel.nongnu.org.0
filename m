@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BF0276FDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:26:17 +0200 (CEST)
-Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426C4276FD4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:24:58 +0200 (CEST)
+Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLPOC-0006Ha-Tr
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
+	id 1kLPMv-0004LI-9C
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLPI5-0006R6-Ow
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:19:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLPI4-00044t-0w
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:19:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600946394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aAY4HH0vLkFMVDa7/70urJ4jfZ+B/7TCwT5TQDTeqbo=;
- b=EN8IUmcDy/EsHOLVHjl/83KnZeyRGePKWE/DPbdayLOUKRLlu4s05+r1q9wVk/TOPdBSBm
- UWn4Ya5p8QmpnEBJZs2sqruayk0YghRmJXtWx7X77eYZ37wAHlT5JLsp7oiQj+kxQVYhI/
- CpODppv6ssOD+Vi48UEBANtC00CdktU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-pFgwJ8pFMR20AoPt5CXE0Q-1; Thu, 24 Sep 2020 07:19:51 -0400
-X-MC-Unique: pFgwJ8pFMR20AoPt5CXE0Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A51E10082EA;
- Thu, 24 Sep 2020 11:19:50 +0000 (UTC)
-Received: from localhost (ovpn-114-5.ams2.redhat.com [10.36.114.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9876F60CCC;
- Thu, 24 Sep 2020 11:19:49 +0000 (UTC)
-Date: Thu, 24 Sep 2020 12:19:48 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8 1/7] block: return error-code from bdrv_invalidate_cache
-Message-ID: <20200924111948.GT62770@stefanha-x1.localdomain>
-References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
- <20200915164411.20590-2-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kLPJY-0008Q7-GS; Thu, 24 Sep 2020 07:21:28 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kLPJW-0004KH-Fo; Thu, 24 Sep 2020 07:21:28 -0400
+Received: by mail-wm1-x344.google.com with SMTP id y15so3210698wmi.0;
+ Thu, 24 Sep 2020 04:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5yo252NP5gBDkXbN6/NBxZR9g3mZ/MmbyKBXikp+NFI=;
+ b=cF/n9sQOZvDjqggC0chbJQEu3M6YCOssqdDQr66p7QU0BGDPhAQoGq7+h0H5BCuhrb
+ KsPPpy6tp26JXyzReSOyJfkFlWaaAb090ekTWt/+YWof0tWdbYEiwh4VAlVPJAArknIP
+ /jRWkLSxg3XEvIMd+54WBuurNktXz78q5XFD8NDWiS862BUcdXDQhPcsUqvbqWZn3Jxd
+ AWlfvbHYEcijs1172Nb9ZmLGbP5DzTG+YlLrrs/D0hBX9AKMBTOV3yjt8DQvM2h+KFFi
+ k7jufQX0dhPAiVICiXnZKVvDhTbyg3QWL2t8Y+lALzQV+5fhbremYUMbAIv3Ml/05mJB
+ VnzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5yo252NP5gBDkXbN6/NBxZR9g3mZ/MmbyKBXikp+NFI=;
+ b=ndpusKQdgS3tfEToUMKB5LeJXr14vj1TGKXVtRo/HeaBDYN07hTFYklF9nyUevPfHZ
+ 6Xcr6RTTNdEIQNzn2at4J2TOGIBANEesgnuD32qcLvTEQ4OfRIbtxgITAkhwA86NlAYj
+ Qz/coC5UHXr5XcdlB02Fip2kpAV7MSRNzRqSN+5Mpy+xttx3h7VYJPzLANphE/CTTSIk
+ JJSK6j5lhV76O2H3MWpIUPvSye8OYSQLV40SRu+xLdJP6vQLGbAOQg48dDPGMMZ6XCQ+
+ OxT5mc/0Gs2ADNvPgQS7/x09hqQvQvVAasm99d3MPdbYzV5gSO44KyfYTZT5xU2RZJoR
+ 7aDg==
+X-Gm-Message-State: AOAM531V/oBJKEkMAqY/55Q9D4+xnL55DfhcFX+nLl0HbALmBfgz8xKR
+ 0+ItT4lu4sCq8L7hpSiVJ/g=
+X-Google-Smtp-Source: ABdhPJxrC8iNMR34XLwGhS+CM52uP9Yt0PjY2Du0Lk4wHjzY4GliWRO5D4wTokgnl2/1DjF9osyIeA==
+X-Received: by 2002:a7b:c751:: with SMTP id w17mr4096204wmk.97.1600946484941; 
+ Thu, 24 Sep 2020 04:21:24 -0700 (PDT)
+Received: from [192.168.1.34] (234.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.234])
+ by smtp.gmail.com with ESMTPSA id t203sm3230662wmg.43.2020.09.24.04.21.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Sep 2020 04:21:23 -0700 (PDT)
+Subject: Re: [PATCH v2 0/5] hw/arm/raspi: Fix SYS_timer to unbrick Linux
+ kernels v3.7+
+To: qemu-devel@nongnu.org
+References: <20200921035257.434532-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <80c32945-a83a-1c8d-d2df-5d8c832bf0b9@amsat.org>
+Date: Thu, 24 Sep 2020 13:21:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200915164411.20590-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MET8MpPxp2u2c48q"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200921035257.434532-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.214,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,55 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- crosa@redhat.com, den@openvz.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---MET8MpPxp2u2c48q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/21/20 5:52 AM, Philippe Mathieu-Daudé wrote:
+> In this series we implement the COMPARE registers of the
+> SYS_timer, since they are used by Linux.
+> 
+> This fixes the hang reported by Niek here:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg682090.html
+> 
+> Since v1:
+> - Extracted unrelated patches to previous series
+>   (which happened to be mis-rebased)
+> 
+> Based-on: <20200921034729.432931-1-f4bug@amsat.org>
+> Supersedes: <20200920175825.417680-1-f4bug@amsat.org>
+> 
+> Philippe Mathieu-Daudé (5):
+>   hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
+>   hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT definition
+>   hw/timer/bcm2835: Rename variable holding CTRL_STATUS register
+>   hw/timer/bcm2835: Support the timer COMPARE registers
 
-On Tue, Sep 15, 2020 at 07:44:05PM +0300, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> This is the only coroutine wrapper from block.c and block/io.c which
-> doesn't return a value, so let's convert it to the common behavior, to
-> simplify moving to generated coroutine wrappers in a further commit.
->=20
-> Also, bdrv_invalidate_cache is a void function, returning error only
-> through **errp parameter, which is considered to be bad practice, as
-> it forces callers to define and propagate local_err variable, so
-> conversion is good anyway.
->=20
-> This patch leaves the conversion of .bdrv_co_invalidate_cache() driver
-> callbacks and bdrv_invalidate_cache_all() for another day.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->  include/block/block.h |  2 +-
->  block.c               | 32 ++++++++++++++++++--------------
->  2 files changed, 19 insertions(+), 15 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---MET8MpPxp2u2c48q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9sgNQACgkQnKSrs4Gr
-c8is6gf8Dq+g+SdmHl+WQO8jLOo21zQu2avqOflYhxog5ksLCIrXHnnU9dus48/G
-lXkeOzA7Bzp68zKe6tG/bIGwD447DSW25Kr6T1TWkD+OFs2Ro1OuzV0oE5fmJWNS
-1uoioP4EEbxAN96ZNuVu2sLuItFiZlGQBKOMNoLKhLj0d46jynXDz3090KkF6u+R
-sOZWQZ6+DOy6xh2fWJ7bLFn5qRg+0sfCg2SLDrmhpVpLVtawlyhYwRX4K7GNVhOk
-sSaAbX0GnpST+4ZBttTpQfjw32S5PdgFqZ04ougWA6o5swpM63dchdBjmNKTtgD5
-TVsScIhYwRTuMg34lZhvy8k+ilre4Q==
-=2miv
------END PGP SIGNATURE-----
-
---MET8MpPxp2u2c48q--
-
+I'll respin this series trying to address Luc's comments on patch 4.
 
