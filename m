@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996FD2768CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 08:18:33 +0200 (CEST)
-Received: from localhost ([::1]:57412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DC82768E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 08:30:37 +0200 (CEST)
+Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLKaO-0005np-Mo
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 02:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56058)
+	id 1kLKm3-0001s0-NF
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 02:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLKZD-0004la-GV
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 02:17:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26006)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kLKjT-0008WT-2z
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 02:27:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLKZB-0000Xk-Li
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 02:17:19 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kLKjP-0001fJ-HD
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 02:27:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600928236;
+ s=mimecast20190719; t=1600928869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LjuAs3xurAQ+p7FiGGufckxielAvPaGPzu8pvuvyP1I=;
- b=UoIWM+VEoj0GFF6gMc/1AtpvpRqPuT18MfpMUKzkcfmaGQPrkOxudz5R8Gy2vS6hw7+307
- G8TC6/ekmK5XIa6Jlk68E2rwxEHcUJDjpu4nJvZ8wv4xbWdl18cMApzk9HOJVNTbWjDZzu
- aVglLXeDOLiUZ8NuwPojO7+DylBRYIk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-dlwsk805NHOH7bTSaWz3FA-1; Thu, 24 Sep 2020 02:17:14 -0400
-X-MC-Unique: dlwsk805NHOH7bTSaWz3FA-1
-Received: by mail-wm1-f70.google.com with SMTP id l15so806241wmh.9
- for <qemu-devel@nongnu.org>; Wed, 23 Sep 2020 23:17:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LjuAs3xurAQ+p7FiGGufckxielAvPaGPzu8pvuvyP1I=;
- b=g3GzC7w7pJO09wZr25xF0iq9fCAqRYjC1O5HOknMYhzSKelodlbKU52fU3Jx99mfZn
- Rkqr5ZtDXq2QU1DNJ9EEpt9/39Ci08wiOAJdEf0DvGSUzNdOl/CMC/bRiRZH+2UY4Z+/
- PYSNoSQ9mpYdUom1XZKi3l00UsPHiBDrNFpAJB3x/5XjzwbuahQyGxfj309GnAhd/UTb
- QGcAqtsnC/bQKiJJbM9b4kxS+7gSyGG9MYkqD3qdS3ahN8fEZiE06JgPJGtLUGV7E2Y3
- e+wuYS65J+cfPh6m1rNd8CfZofzvOeIcQhNt+2+8gTfsYXyX3BPdrqtqTRdyX7FWfTrK
- 2nNg==
-X-Gm-Message-State: AOAM533LFALGVCIPvOxNyGwtUeKMWdcz/GqzvvTY/8JEDwRhh81o/T+z
- BD9kRXPPMd0C1ZZzbQ/AWZLwu/6HZvZCupM8JQj97l2UPnCuQ2ASgJGtz18h8/tTiH/KAwBjN7X
- V/W8v49M19vVPn8I=
-X-Received: by 2002:adf:eb04:: with SMTP id s4mr3426811wrn.81.1600928233629;
- Wed, 23 Sep 2020 23:17:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0MUM9G0tQA6U0qi+P36QtVB5kHcVsJhCI8KkgiVMCsTXjxw80xX0wE/qHQEoRXCsubiqUmw==
-X-Received: by 2002:adf:eb04:: with SMTP id s4mr3426796wrn.81.1600928233443;
- Wed, 23 Sep 2020 23:17:13 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id d19sm2131421wmd.0.2020.09.23.23.17.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Sep 2020 23:17:12 -0700 (PDT)
-Date: Thu, 24 Sep 2020 02:17:10 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH] hw/i386/acpi-build: Explain bits in OSC method
-Message-ID: <20200924021247-mutt-send-email-mst@kernel.org>
-References: <20200923075514.110478-1-jusual@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q3lE4bwa+YcStO7nihW826YZqhNfcbV+LgvWfuY0f/s=;
+ b=bY1ysLdzfgNyw6PA09rJyomkZ2c8Lrx9Wj74z9jrnuoAYoJct+l+dpTlcgFcPtZuXhnaLr
+ ie6IJ6WWNBsi1VDA9TfclHTVVJxT1j30iAqVmnr2SL6O/58a8MuwviHz8LYesObF31ekRR
+ e1ajISYMT4VetyH599PGZkV2gpTxlPo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-YucWTQ9cOuiZPnogPgMtng-1; Thu, 24 Sep 2020 02:27:46 -0400
+X-MC-Unique: YucWTQ9cOuiZPnogPgMtng-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A495081CBEB;
+ Thu, 24 Sep 2020 06:27:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
+ [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B74E702E7;
+ Thu, 24 Sep 2020 06:27:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D46829D77; Thu, 24 Sep 2020 08:27:34 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/11] microvm: add pcie support
+Date: Thu, 24 Sep 2020 08:27:23 +0200
+Message-Id: <20200924062734.22978-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200923075514.110478-1-jusual@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -92,77 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Radoslaw Biernacki <rad@semihalf.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Leif Lindholm <leif@nuviainc.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 23, 2020 at 09:55:14AM +0200, Julia Suvorova wrote:
-> Provide a better explanation for the enabled bits in the _OSC control
-> field. Base it on the latest specification due to new bits 5 and 6.
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> ---
->  hw/i386/acpi-build.h | 11 +++++++++++
->  hw/i386/acpi-build.c |  7 ++++++-
->  2 files changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
-> index 74df5fc612..bb5269d162 100644
-> --- a/hw/i386/acpi-build.h
-> +++ b/hw/i386/acpi-build.h
-> @@ -5,6 +5,17 @@
->  
->  extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
->  
-> +/* PCI Firmware Specification 3.2, Table 4-5 */
-> +typedef enum {
-> +    ACPI_OSC_NATIVE_HP_EN = 0,
-> +    ACPI_OSC_SHPC_EN = 1,
-> +    ACPI_OSC_PME_EN = 2,
-> +    ACPI_OSC_AER_EN = 3,
-> +    ACPI_OSC_PCIE_CAP_EN = 4,
-> +    ACPI_OSC_LTR_EN = 5,
-> +    ACPI_OSC_ALLONES_INVALID = 6,
-> +} AcpiOSCField;
-> +
->  void acpi_setup(void);
->  
->  #endif
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 0e0535d2e3..b08f005a35 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1417,6 +1417,7 @@ static Aml *build_q35_osc_method(void)
->      Aml *method;
->      Aml *a_cwd1 = aml_name("CDW1");
->      Aml *a_ctrl = aml_local(0);
-> +    unsigned osc_ctrl;
->  
->      method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
->      aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
-> @@ -1432,7 +1433,11 @@ static Aml *build_q35_osc_method(void)
->       * Always allow native PME, AER (no dependencies)
->       * Allow SHPC (PCI bridges can have SHPC controller)
->       */
-> -    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
-> +    osc_ctrl = BIT(ACPI_OSC_PME_EN) | BIT(ACPI_OSC_AER_EN) |
-> +               BIT(ACPI_OSC_PCIE_CAP_EN) | BIT(ACPI_OSC_NATIVE_HP_EN) |
-> +               BIT(ACPI_OSC_SHPC_EN);
-> +
-> +    aml_append(if_ctx, aml_and(a_ctrl, aml_int(osc_ctrl), a_ctrl));
-
-Now the comment above somewhat duplicates the enums.  And decoding what
-does each value mean is a head scratcher.  As long as there's a single
-use, we prefer comments to an enum, they can match spec exactly:
-
-BIT(0) /* PCI Express Native Hotplug control */ |
-BIT(4) /* SHPC Native Hotplug control */ |
-
-etc ...
-
->      if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
->      /* Unknown revision */
-> -- 
-> 2.25.4
+v2:=0D
+ - move aml generator to gpex and have arm virt + microvm share it.=0D
+ - add 64bit window.=0D
+ - add testcase.=0D
+=0D
+Gerd Hoffmann (11):=0D
+  move MemMapEntry=0D
+  acpi: add acpi_dsdt_add_gpex=0D
+  arm: use acpi_dsdt_add_gpex=0D
+  microvm: add irq table=0D
+  microvm: add pcie support=0D
+  microvm/pcie: add 64bit mmio window=0D
+  tests/acpi: allow updates for expected data files=0D
+  tests/acpi: factor out common microvm test setup=0D
+  tests/acpi: add microvm pcie test=0D
+  acpi/gpex: no reason to use a method for _CRS=0D
+  tests/acpi: update expected data files=0D
+=0D
+ include/exec/hwaddr.h             |   5 +=0D
+ include/hw/arm/virt.h             |   5 -=0D
+ include/hw/i386/microvm.h         |  32 ++++++=0D
+ include/hw/pci-host/gpex.h        |  11 ++=0D
+ hw/arm/sbsa-ref.c                 |   5 -=0D
+ hw/arm/virt-acpi-build.c          | 175 ++---------------------------=0D
+ hw/i386/acpi-microvm.c            |  12 ++=0D
+ hw/i386/microvm.c                 |  91 +++++++++++++++=0D
+ hw/pci-host/gpex-acpi.c           | 177 ++++++++++++++++++++++++++++++=0D
+ tests/qtest/bios-tables-test.c    |  27 ++++-=0D
+ hw/i386/Kconfig                   |   1 +=0D
+ hw/pci-host/meson.build           |   1 +=0D
+ tests/data/acpi/microvm/DSDT.pcie | Bin 0 -> 3023 bytes=0D
+ tests/data/acpi/virt/DSDT         | Bin 5200 -> 5196 bytes=0D
+ tests/data/acpi/virt/DSDT.memhp   | Bin 6561 -> 6557 bytes=0D
+ tests/data/acpi/virt/DSDT.numamem | Bin 5200 -> 5196 bytes=0D
+ 16 files changed, 361 insertions(+), 181 deletions(-)=0D
+ create mode 100644 hw/pci-host/gpex-acpi.c=0D
+ create mode 100644 tests/data/acpi/microvm/DSDT.pcie=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
