@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64072778FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:14:43 +0200 (CEST)
-Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1E1277905
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:17:14 +0200 (CEST)
+Received: from localhost ([::1]:39438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLWhW-0007Sl-J1
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47784)
+	id 1kLWjt-0000t6-IQ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWfg-0006D4-VU
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:12:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29896)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWgp-000797-Tp
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:13:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWfe-0004oC-UN
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:12:48 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600974766;
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWgo-0004vy-83
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:13:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600974837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3KQjyDtr86N3Vu29eaf2j+Q2gjNsZEkZFwan1PkONWk=;
- b=Vyk2dlo5cEKd4K1wsI1lIC6u+y17hgB2Cd5uSWV/fQwtBHB5sK55rCYOK+iYhrcAE+Uv5Z
- aoWKIX6+FMLqoIWP3cZ6XhStWgSKKGWEGU6RoxQ7ZSHsPrSLVq9jJCjX0y1JLBiqTgv4ok
- MU//tEmh8xdWhHAbwxGHm+QTvBJAC+o=
+ bh=CNiUDrdB5D3qrcDyauFEItUNr3cwdP1UFje6GOHws1w=;
+ b=GRKXInpG6PDOOLc5jOx+xq3NUKI0Flle4esRQyd6cuaWnGh/ainLiMDTCgwHY+ROI6h4OL
+ mPc/zyAQWrzRo4GgpSU8DT9T7E7gy0mou/UaoPYdupM70xYKUuUvbba2yabm3jNB3ZQDyg
+ ltOqsxcvEYs5xlu8EO3lj0CEZGsRAWg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-Um8MmS1dOD-YXQlb-c8H_Q-1; Thu, 24 Sep 2020 15:12:42 -0400
-X-MC-Unique: Um8MmS1dOD-YXQlb-c8H_Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-500-VW_unlwcO1O_cso4dbNsbw-1; Thu, 24 Sep 2020 15:13:53 -0400
+X-MC-Unique: VW_unlwcO1O_cso4dbNsbw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E26F4104D3E5;
- Thu, 24 Sep 2020 19:12:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA49D9CC32;
+ Thu, 24 Sep 2020 19:13:34 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69CC658826;
- Thu, 24 Sep 2020 19:12:35 +0000 (UTC)
-Date: Thu, 24 Sep 2020 15:12:33 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA5C83782;
+ Thu, 24 Sep 2020 19:13:33 +0000 (UTC)
+Date: Thu, 24 Sep 2020 15:13:31 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 36/38] qapi/visit.py: assert tag_member contains a
- QAPISchemaEnumType
-Message-ID: <20200924191233.GA346482@localhost.localdomain>
+Subject: Re: [PATCH v2 37/38] qapi/visit.py: remove unused parameters from
+ gen_visit_object
+Message-ID: <20200924191331.GB346482@localhost.localdomain>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-37-jsnow@redhat.com>
- <20200923191549.GY3312949@habkost.net>
- <c85b68d3-1ca1-9283-6911-664179b1c732@redhat.com>
+ <20200922210101.4081073-38-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c85b68d3-1ca1-9283-6911-664179b1c732@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200922210101.4081073-38-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
+ protocol="application/pgp-signature"; boundary="IrhDeMKUP4DT/M7F"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -84,62 +82,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---SLDf9lqlvOQaIe6s
+--IrhDeMKUP4DT/M7F
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2020 at 06:13:30PM -0400, John Snow wrote:
-> On 9/23/20 3:15 PM, Eduardo Habkost wrote:
-> > On Tue, Sep 22, 2020 at 05:00:59PM -0400, John Snow wrote:
-> > > Signed-off-by: John Snow <jsnow@redhat.com>
-> >=20
-> > This for making mypy happy, correct?  An explanation in the commit
-> > message would be nice.
-> >=20
-> > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> >=20
+On Tue, Sep 22, 2020 at 05:01:00PM -0400, John Snow wrote:
+> And this fixes the pylint report for this file, so make sure we check
+> this in the future, too.
 >=20
-> Yes, it's for mypy -- but it's a runtime visible change. Technically our
-> type system isn't mature enough to express this constraint natively, so i=
-t's
-> being carried around as developer knowledge.
->=20
-> This formalizes that knowledge, albeit in a very crude way.
->=20
-> I've amended the commit msg.
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-OK, this answers my previous question about why it was handled as an
-assert.
+LGTM, and pylint is happy.
 
-- Cleber.
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 
---SLDf9lqlvOQaIe6s
+--IrhDeMKUP4DT/M7F
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s76EACgkQZX6NM6Xy
-CfPatxAAyA62VTdb0dvqEmnV24zAoKxOq0ajB6oOnK2/A2sOcFZtR52pgzr4UZsm
-430bMUBz5ZJtIBqbFKkFof8I352D3hCidQ9o0VGmJXEBO2fjpngvYB3QwmJzlFwU
-kR5y290+ECVa7mL4fKYcCwzICtSE45IwgSbvMC36XNmRWM+PhXNmlN8zfE+gGuek
-sFrf5RZUroy1HMfGlnbuoC3txVvGmo54GzTBgJ2/Gm2hoj2FLb3shxwbgiragmxI
-NgwhQQY3IcQ7JF4p6IzPHvSFQ54XrLm6yAbjGNh6a+P1sYD9uRElw8roHwzYESZF
-g1KEJfmFGNLYWYBWRUk6F1MOtelTru8lmix0B7XlBcl9ZdIMOoy6IzF6ikzZdYyS
-m8BRWzU8D5eDYqQ/H105LJ7D4RD9li6Ke6d8hUMjyd9EznU51+HxsvRlOBuLQt5A
-VowuFiMhfG+ej/WKoxWGhQhAgn0NyjFMyyYrmcfRrynQ3UlTYjXsD72yToMR1/fR
-ByRyfIJ2g6MlalZ0xP+5BYNyXtYD6LCx9FxdAgJcjCJD7IW7kh7Fftb2/UnWKNy0
-Ja6wuIKcK24nJrwJPO/JmxJJ6/Q10PQI15oUGzoDy2tCQihShkcGcLSQ1R285AIQ
-BxLLqJLsOBWRp3o9AKFp93zveuTa2AODnw3bYpneSP5PNv2DwcE=
-=zXt7
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s79sACgkQZX6NM6Xy
+CfN9xBAAwSA2xscK/mgvX17RMfy89ghwvMze5GoMB8DIv4tKoYrEn6RRomkCej1z
+bqNQO8KUySmxfwdMUhvNBviLCwy61akfDoky3yqJcTl6WeXSUgxWMgeZHw/WGZeH
+2iFKsxBlLIwZZMjB+UhKrUsrCwJnvBCrWA59q+Air/amNV8a0SBANBHEMeyG7t32
+RtOHpLacfG//47XvUd9AfSDrfmBOLMvYNfMAAP8WS3USN29zsfls/E4oYl7G5wKz
+Uo6lQ7e5Xrrny2brZrakcQCbyIsxSJMXPCh9Ocr5ScZntoV9L+GuqWCky1+J5PYb
+wwmy3zX66TlVpD2d6V+bMI6eBQZ0ehV3bmcqkz4AF5toKSANWUn1vuksTCa8c1q9
+yVHoauvPjAiBIIhsp/NXq5tmeUfSh05sokcCqIFAvryF1IDdf3jD0zVHoZGrGkJJ
+PJWsuL4OIV1hH+bv/C5fodBj4EOpTCK7H5E63cpTy8AfYJ5nfJsRgySjugfLtMMB
+LJt4RRvwfMYeuAm075sqEEoy2RlpcislA//dSD/qX74BCGxkLxdvjBPdLFUHN+5y
+FnbrvCt/9x9p1flmK5+N9tR2rJ39nuPkbR30xVxx+a48uNhacni79pKWnk5W7xje
+H7FPTmfSiBKW7ULCrGX4s96bMrapwHmxAFw+e5D3pfB1IexDy8w=
+=OYLF
 -----END PGP SIGNATURE-----
 
---SLDf9lqlvOQaIe6s--
+--IrhDeMKUP4DT/M7F--
 
 
