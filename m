@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713D3276E51
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:12:00 +0200 (CEST)
-Received: from localhost ([::1]:53404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBC8276E61
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:13:46 +0200 (CEST)
+Received: from localhost ([::1]:33330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOEJ-0003Vj-G4
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39754)
+	id 1kLOG1-0006nl-GE
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUo-0003JN-92
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47255)
+ id 1kLNUq-0003LS-Bv
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:25:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUh-0006Dx-5G
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:56 -0400
+ id 1kLNUh-0006EG-6R
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939489;
+ s=mimecast20190719; t=1600939490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dSnQvBe46TQHYaLjorM/ZllLfxRsnLhFi+ylixqOnQo=;
- b=LV41tYEWKHs5RT4q6pwj73G54Rj47J6j2ZgsMy+UWfHe1bft02q8diiNUzZPXgu9wu/KcI
- 2rMdXpEnY2DR71DwqlbvGw/NtjHWOr2HMFbjpMo2QF1kn088C3MbeGW3jAd2UexxPchLfg
- mhe5h+ApfFQOoxIHca+nxyBdOH08RVI=
+ bh=KhunfyMqZu8ajluTXiYzuB/L8TX6n6L4ytoh/Vi5/VU=;
+ b=AUBN3Q1Ofk84ojcrAIibi2gpVrfzzhfwcBLcxwygStg0LERQe+2U/bSwhSvksY/LAWUB+9
+ EyVFUjAtB0edN3jTCedzHTlPtjY1Ol3HqPzT23lYi0IK4SbvuPVGaNYA2HkZk6e8ifb6qh
+ QuwK5vzGpgZOEJcudYeFE1zWETQ92hA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-87JkxBihPUy34OUaQiSsxg-1; Thu, 24 Sep 2020 05:24:47 -0400
-X-MC-Unique: 87JkxBihPUy34OUaQiSsxg-1
+ us-mta-451-RRbdrHF_NPuozldRZ3FGqg-1; Thu, 24 Sep 2020 05:24:48 -0400
+X-MC-Unique: RRbdrHF_NPuozldRZ3FGqg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0189E1009443
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70145186DD4C
  for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A88E25C1C7;
- Thu, 24 Sep 2020 09:24:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 228445C1C7;
+ Thu, 24 Sep 2020 09:24:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 78/92] hw/xen: Split x86-specific declaration from generic
- hardware ones
-Date: Thu, 24 Sep 2020 05:23:00 -0400
-Message-Id: <20200924092314.1722645-79-pbonzini@redhat.com>
+Subject: [PULL 79/92] typedefs: Restrict PCMachineState to 'hw/i386/pc.h'
+Date: Thu, 24 Sep 2020 05:23:01 -0400
+Message-Id: <20200924092314.1722645-80-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -88,91 +87,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-xen_hvm_init() is restricted to the X86 architecture.
+The PCMachineState type is only used under hw/i386/.
+We don't need to forward-declare it for all architectures,
+restrict it to the X86 one.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200908155530.249806-6-philmd@redhat.com>
+Message-Id: <20200908155530.249806-7-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc_piix.c        |  2 +-
- hw/i386/xen/xen-hvm.c    |  1 +
- include/hw/xen/xen-x86.h | 15 +++++++++++++++
- include/hw/xen/xen.h     |  2 --
- stubs/xen-hw-stub.c      |  1 +
- 5 files changed, 18 insertions(+), 3 deletions(-)
- create mode 100644 include/hw/xen/xen-x86.h
+ include/hw/i386/pc.h    | 4 ++--
+ include/qemu/typedefs.h | 1 -
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 9eaf8d6e0d..7d5aa6d1ba 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -46,7 +46,7 @@
- #include "hw/sysbus.h"
- #include "sysemu/arch_init.h"
- #include "hw/i2c/smbus_eeprom.h"
--#include "hw/xen/xen.h"
-+#include "hw/xen/xen-x86.h"
- #include "exec/memory.h"
- #include "exec/address-spaces.h"
- #include "hw/acpi/acpi.h"
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 49748cda3f..e03c59e53d 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -22,6 +22,7 @@
- #include "hw/xen/xen_common.h"
- #include "hw/xen/xen-legacy-backend.h"
- #include "hw/xen/xen-bus.h"
-+#include "hw/xen/xen-x86.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qemu/error-report.h"
-diff --git a/include/hw/xen/xen-x86.h b/include/hw/xen/xen-x86.h
-new file mode 100644
-index 0000000000..85e3db1b8d
---- /dev/null
-+++ b/include/hw/xen/xen-x86.h
-@@ -0,0 +1,15 @@
-+/*
-+ * Xen X86-specific
-+ *
-+ * Copyright 2020 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#ifndef QEMU_HW_XEN_X86_H
-+#define QEMU_HW_XEN_X86_H
-+
-+#include "hw/i386/pc.h"
-+
-+void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory);
-+
-+#endif /* QEMU_HW_XEN_X86_H */
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index b2b459964c..1406648ca5 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -30,8 +30,6 @@ qemu_irq *xen_interrupt_controller_init(void);
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index c71b02cafd..8699029053 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -20,7 +20,7 @@
+  * @boot_cpus: number of present VCPUs
+  * @smp_dies: number of dies per one package
+  */
+-struct PCMachineState {
++typedef struct PCMachineState {
+     /*< private >*/
+     X86MachineState parent_obj;
  
- void xenstore_store_pv_console_info(int i, struct Chardev *chr);
+@@ -50,7 +50,7 @@ struct PCMachineState {
  
--void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory);
--
- void xen_register_framebuffer(struct MemoryRegion *mr);
+     /* ACPI Memory hotplug IO base address */
+     hwaddr memhp_io_base;
+-};
++} PCMachineState;
  
- #endif /* QEMU_HW_XEN_H */
-diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
-index d14efef49e..2ea8190921 100644
---- a/stubs/xen-hw-stub.c
-+++ b/stubs/xen-hw-stub.c
-@@ -8,6 +8,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/xen/xen.h"
-+#include "hw/xen/xen-x86.h"
- 
- void xenstore_store_pv_console_info(int i, Chardev *chr)
- {
+ #define PC_MACHINE_ACPI_DEVICE_PROP "acpi-device"
+ #define PC_MACHINE_MAX_RAM_BELOW_4G "max-ram-below-4g"
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 427027a970..6281eae3b5 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -90,7 +90,6 @@ typedef struct PCIExpressDevice PCIExpressDevice;
+ typedef struct PCIExpressHost PCIExpressHost;
+ typedef struct PCIHostDeviceAddress PCIHostDeviceAddress;
+ typedef struct PCIHostState PCIHostState;
+-typedef struct PCMachineState PCMachineState;
+ typedef struct PostcopyDiscardState PostcopyDiscardState;
+ typedef struct Property Property;
+ typedef struct PropertyInfo PropertyInfo;
 -- 
 2.26.2
 
