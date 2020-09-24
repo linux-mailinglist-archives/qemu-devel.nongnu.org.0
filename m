@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A286F277969
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:34:45 +0200 (CEST)
-Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7616A277977
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 21:37:16 +0200 (CEST)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLX0u-0006Dk-Nd
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1kLX3L-0008Et-Hv
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 15:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWxK-0003sC-DC
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:31:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLWxI-000741-GB
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:31:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600975859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EdlyipBrcWcEOxgv5FCntRU9E6aghxPnL4N9otTzvLU=;
- b=TVhsDaPvio/NWn7w9z13bfBOqRfQi0bytpkQfL/+GHkT1mT5DjOUG/D9JJFU536hXJo8/C
- dbdj1eFTxbw5Ewr8IEJPEhPs4ysH4izqz159OJVH2S0TYz7YalwXHSC5aJH6r7c79NYWyP
- FhZZ0r+KTESwj/dWZOPB6GZ524jD2uA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-I8LW60YlM2GRJJ8jAw0YQg-1; Thu, 24 Sep 2020 15:30:55 -0400
-X-MC-Unique: I8LW60YlM2GRJJ8jAw0YQg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B2FA801AC8;
- Thu, 24 Sep 2020 19:30:54 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6178573672;
- Thu, 24 Sep 2020 19:30:53 +0000 (UTC)
-Date: Thu, 24 Sep 2020 15:30:51 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 10/38] qapi/common.py: delint with pylint
-Message-ID: <20200924193051.GE347036@localhost.localdomain>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-11-jsnow@redhat.com>
- <20200923160119.GJ191229@localhost.localdomain>
- <cc0047ca-cb29-67fa-759d-500d226e928c@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLX04-0005yc-LS
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:33:52 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:37587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLX00-0007HY-JE
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 15:33:52 -0400
+Received: by mail-ed1-x543.google.com with SMTP id n22so116473edt.4
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 12:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6Btl4FPZQgdO78dzpd+d4Ko721XLDPeypchuq83fgFw=;
+ b=MK1V/27u+7+RUV3t+oObtYiBFS1mO+Nxsc1bJff4XX8eqPrjo1aFQtu5IBrM5jBIY5
+ mQUvdsyHjVtufgYBLPBJy7tA5CwDnTh0SsFn2l6erEQ+LmxRTLrn8xQzcZmt5U4c68AB
+ 5JiHUaDalYcF+SDf9RVudFL00nNAf1le1rfsnY8Y1bfGfR7mN5k1qYhWH1ZX/pjPgEPl
+ /ef3EUxvjARpfmdfn+CPY0Oj/8Mk/YaH0lLfOj00a9QA2TcrwAriK2YOBGkKQoh/2JSO
+ +w9yC70wKXScY24Zy4Te/HYC+xb3hwEIE0B21vECy2XidXAW8b6PjhTEgWL7w7Q4rzfu
+ SxHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6Btl4FPZQgdO78dzpd+d4Ko721XLDPeypchuq83fgFw=;
+ b=heRbfXWIQEvonxHAVCKX/Bq5W7O32i/UsatobNJGz8MrJqzhzNmtG4fwbY8oA9F6Zh
+ 22pzB5q0ONLVc7jvDVPMipsZ7IpKmVeItYD2FF8XYxxpqJ3U9LewMnU9t1kPdi35lyUX
+ AfHshn6RcmDYXAfcd72clKlwm8bcJzZldg/J8RS8+IYKMkQR7UBFOl+Jg+gNh0xxrurd
+ RzzD1OiEJJMsNldAHR+iB9jSOgckoFkLOV8Jo8o2o1Bcs75uRtHgXbbkz1++20TkeSMl
+ BWqQBY8YSt2YY+ggxIaCKD/9Mwnaex0JO1WlfcjJutS/LOzXCHKEtylOMwvrh/beR8z6
+ SzXw==
+X-Gm-Message-State: AOAM53252liJEvpfSr1t7uOEghavceK0jPpsoy4u9iZWokJnhpjzskiR
+ 8nTr/j4HpI266vR6FpOp1CGx0F9AoW2B48VAyLF1rg==
+X-Google-Smtp-Source: ABdhPJzAzq2CZ6V0oWRSDqhDyMTkUxMwZrFQMmw/XnMylbzSUK7zldWVYjvlxY5bB2OD2KeGjic+vzonTEZ3GX9TQcs=
+X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr347616edw.251.1600976026577; 
+ Thu, 24 Sep 2020 12:33:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cc0047ca-cb29-67fa-759d-500d226e928c@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="G6nVm6DDWH/FONJq"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200923100220.674903-1-philmd@redhat.com>
+ <20200923100220.674903-5-philmd@redhat.com>
+ <CAFEAcA9XOpCyWr0QXn6T_y9nh4ZX5Op2ztonefr-pV2oQfU3iw@mail.gmail.com>
+ <fd8a9c3e-45f2-caae-25ab-5e1365fd9298@redhat.com>
+ <2a2cc60d-2d30-eb38-369e-0a26f0eac9bd@linaro.org>
+In-Reply-To: <2a2cc60d-2d30-eb38-369e-0a26f0eac9bd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Sep 2020 20:33:35 +0100
+Message-ID: <CAFEAcA-+ssh05EdeYLSoF=m8Yvg_ENoChrV6vT6H=NVSPUPFAw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] qemu/bswap: Remove <byteswap.h> dependency
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,102 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---G6nVm6DDWH/FONJq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 24 Sep 2020 at 20:30, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/23/20 3:30 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 9/23/20 12:16 PM, Peter Maydell wrote:
+> >> I suppose if we wanted to just use the __builtin_bswap*
+> >> implementation on all hosts (ie drop the special casing
+> >> of CONFIG_MACHINE_BSWAP_H/FreeBSD/Haiku) we'd need to
+> >> rename our macros to avoid potential conflicts with the
+> >> versions in the system headers there in case they were
+> >> pulled in via some other path ?
+> >
+> > Yes, this is why I couldn't get ride of everything
+> >
+> > After reading Paolo's suggestion to use qatomic*, I
+> > am tempted to suggest qbswap* but I am still looking
+> > for better alternatives...
+>
+> Hum, maybe.  It's pretty ugly.  We could just leave those alone and hope =
+the
+> system version is decent enough.
 
-On Wed, Sep 23, 2020 at 01:37:06PM -0400, John Snow wrote:
-> On 9/23/20 12:01 PM, Cleber Rosa wrote:
-> > On Tue, Sep 22, 2020 at 05:00:33PM -0400, John Snow wrote:
-> > > At this point, that just means using a consistent strategy for consta=
-nt names.
-> > > constants get UPPER_CASE and names not used externally get a leading =
-underscore.
-> > >=20
-> > > As a preference, while renaming constants to be UPPERCASE, move them =
-to
-> > > the head of the file. Generally, it's nice to be able to audit the co=
-de
-> > > that runs on import in one central place.
-> > >=20
-> > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > > ---
-> > >   scripts/qapi/common.py | 18 ++++++++----------
-> > >   scripts/qapi/schema.py | 14 +++++++-------
-> > >   2 files changed, 15 insertions(+), 17 deletions(-)
-> > >=20
-> > > diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-> > > index e0c5871b10..bddfb5a9e5 100644
-> > > --- a/scripts/qapi/common.py
-> > > +++ b/scripts/qapi/common.py
-> > > @@ -14,6 +14,11 @@
-> > >   import re
-> > > +EATSPACE =3D '\033EATSPACE.'
-> > > +POINTER_SUFFIX =3D ' *' + EATSPACE
-> > > +_C_NAME_TRANS =3D str.maketrans('.-', '__')
-> >=20
-> > IMO _C_NAME_TRANS is solely the concern of the c_name() function, and
-> > should not be a global.  If you're concerned with speed (which I don't
-> > think you should) you could still do:
-> >=20
->=20
-> It's true, but that's why it's marked internal here with the leading
-> underscore -- it will not be exported. It was also *already* defined at t=
-he
-> module level, I didn't hoist it.
->=20
-> I think what is written here is already the simplest thing that works.
->=20
-> >     def c_name(name, protect=3DTrue,
-> >                name_translation=3Dstr.maketrans('.-', '__')):
-> >        ...
-> >        name =3D name.translate(name_translation)
-> >=20
-> > Keeping in mind that you're adding a mutable type to a function
-> > argument *on purpose*.  I'd really favor having that statement within
-> > the only function that uses it, though.
-> >=20
->=20
-> That complicates the signature, so I think we shouldn't.
->=20
-> --js
->=20
->=20
+Mostly what I would like is to be able to be rid of the
+configure machinery so we could just use a single
+portable implementation.
 
-Not a too strong opinion about this to block it.  So if I hadn't
-already:
-
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-
---G6nVm6DDWH/FONJq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9s8+sACgkQZX6NM6Xy
-CfN/mg//dZhNsMiFwP0iJKQBWal2k6urX/f75ZTXrFEwjnI0lKKoxg2QOfpn09M/
-of6tFaOMka20/dWLy4O89D/8QabAEFDPpZWoDZCI42t7uwVUqku3K9YqaqTNFWce
-/pGZeiLNxfoYIzR5hkwPmwHFU8GniAdYULzJnWB+K8j7rbh5UznrvurXfIa+8uTd
-GrlVeZ5a6FFGAOqsBUNL2fDEDul+2q952VpEXzZ+g0U2YOqIFmZXZvzFrv02WlT6
-VxW99pMZgi3iZ5+vns5NUeuEB173vNRzNAZkSonvOB0rmcc1+237UmP+eTbPfTdH
-o1SFJd2KIKSa2VK+hMMpv/b1tSBDzUneYAJ2evirsWJxmb1uIgSYH1srDofst9/N
-rlETqQwI6qjFRmiTvzTeVyfHULz5jVQKN2Y7fzGzhxDffh72KOobD0MjiChm/1Cn
-8mq1Q4Rm/NDvTAzGI8y05fZs/v3dhvTV7guU5Zy0CcGjbYmZrpMRNVX2vO6XhSCV
-FM+Bt4440s8HH2FIqOLgBmIiKclOkUbtudREyokjDMd3XDh4ZXP2dTeqn9+6vtBb
-uiqWDYdhz7STcSCGgphSngCOjPcLlJQ+bmGr/3isVOm1+lNVzhm09rXGOjme0Rei
-hKe9OsPpAHZF5wHLBYreZh034XQVy3Edbg7p+1CgfYD0loZmjQo=
-=ZXUi
------END PGP SIGNATURE-----
-
---G6nVm6DDWH/FONJq--
-
+thanks
+-- PMM
 
