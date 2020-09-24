@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0751276E7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:19:34 +0200 (CEST)
-Received: from localhost ([::1]:54386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F02276E20
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:04:57 +0200 (CEST)
+Received: from localhost ([::1]:53204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOLe-00075u-0c
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:19:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39484)
+	id 1kLO7T-0008Sd-SG
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUO-0002cg-Bf
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55529)
+ id 1kLNUS-0002nP-Bf
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUM-0006Bm-QC
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:32 -0400
+ id 1kLNUP-0006Bx-GM
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939470;
+ s=mimecast20190719; t=1600939472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1yGgP/wnkoeiNvd9YE6GhujgEyLfDMjsnEUzEA74Obg=;
- b=IUk0AZ+PPhqfPe5NGUfru+OgnkUDcv2LRue31ZiR/HOJbT9v6A9A3uPrz3JU7hrjrWtQ76
- dVWIuW4B8yNztKrt2IScwyKxF+rAOSfwsVjqci2RPso3431AILiGTBhk9fXLjC392omhJs
- p8rrlG9DDWnjD9niE15/bxLRT9LJ5sQ=
+ bh=FRpFA2P7IfC6WfO047C+ygVzFYlCMRb/VByphnkkYsQ=;
+ b=esTEjMgt3so/C20LNtFxLp8H40XdqkhxiThhhHWnYKrX9mEVdRyzqc9YPAAAZ3aweEb74+
+ sWKN0dERzlJj6QjxEllVO7bQbXnbJCqX8xtF7unuxSIhth2XRJKbS4HmHSZfPMpRvm2Mo6
+ 51ora6AGG2f0itJ1Kzv+gACfpB0cqcc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-CBGqjGrFM8Kpb_PoZjq1Xg-1; Thu, 24 Sep 2020 05:24:28 -0400
-X-MC-Unique: CBGqjGrFM8Kpb_PoZjq1Xg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-337--6AYhX73M6O4BgfTPw0wgw-1; Thu, 24 Sep 2020 05:24:31 -0400
+X-MC-Unique: -6AYhX73M6O4BgfTPw0wgw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745DA871803
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21558104D3F3
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC0FD61983;
- Thu, 24 Sep 2020 09:24:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D74F15C1C7;
+ Thu, 24 Sep 2020 09:24:27 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 69/92] qom: Add kernel-doc markup to introduction doc comment
-Date: Thu, 24 Sep 2020 05:22:51 -0400
-Message-Id: <20200924092314.1722645-70-pbonzini@redhat.com>
+Subject: [PULL 70/92] qom: Reformat section titles using Sphinx syntax
+Date: Thu, 24 Sep 2020 05:22:52 -0400
+Message-Id: <20200924092314.1722645-71-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,31 +87,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-Add DOC: section keyword to introduction doc comment, so it will
-be rendered by kernel-doc.
-
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200910221526.10041-5-ehabkost@redhat.com>
+Message-Id: <20200910221526.10041-6-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ include/qom/object.h | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index f1e8cb5398..c6e3d5d80c 100644
+index c6e3d5d80c..5418464de4 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -29,9 +29,7 @@ typedef struct InterfaceInfo InterfaceInfo;
- #define TYPE_OBJECT "object"
- 
- /**
-- * SECTION:object.h
-- * @title:Base Object Type System
-- * @short_description: interfaces for creating new types and objects
-+ * DOC:
+@@ -120,7 +120,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *   </programlisting>
+  * </example>
   *
-  * The QEMU Object Model provides a framework for registering user creatable
-  * types and instantiating objects from those types.  QOM provides the following
+- * # Class Initialization #
++ * Class Initialization
++ * ====================
+  *
+  * Before an object is initialized, the class for the object must be
+  * initialized.  There is only one class object for all instance objects
+@@ -193,7 +194,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+  *   </programlisting>
+  * </example>
+  *
+- * # Interfaces #
++ * Interfaces
++ * ==========
+  *
+  * Interfaces allow a limited form of multiple inheritance.  Instances are
+  * similar to normal types except for the fact that are only defined by
+@@ -206,7 +208,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * an argument to a method on its corresponding SomethingIfClass, or to
+  * dynamically cast it to an object that implements the interface.
+  *
+- * # Methods #
++ * Methods
++ * =======
+  *
+  * A <emphasis>method</emphasis> is a function within the namespace scope of
+  * a class. It usually operates on the object instance by passing it as a
+@@ -304,7 +307,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+  * The first example of such a QOM method was #CPUClass.reset,
+  * another example is #DeviceClass.realize.
+  *
+- * # Standard type declaration and definition macros #
++ * Standard type declaration and definition macros
++ * ===============================================
+  *
+  * A lot of the code outlined above follows a standard pattern and naming
+  * convention. To reduce the amount of boilerplate code that needs to be
 -- 
 2.26.2
 
