@@ -2,83 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B9C276FF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:30:41 +0200 (CEST)
-Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8F9276FE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 13:27:03 +0200 (CEST)
+Received: from localhost ([::1]:50644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLPSS-0003sl-G5
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:30:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38136)
+	id 1kLPOw-0007GX-3z
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 07:27:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLPGy-0005DO-57; Thu, 24 Sep 2020 07:18:49 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:37484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kLPGw-0003xT-6P; Thu, 24 Sep 2020 07:18:47 -0400
-Received: by mail-qt1-x842.google.com with SMTP id k25so2594844qtu.4;
- Thu, 24 Sep 2020 04:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LdHRg1X1WPu+nzmX2IxfvedbJtQeAJMB+niaJPcRek4=;
- b=GWT5e9iwALVxi895mMw4WMu9KUR4fzUgWSMbnDOCMKpA1DxQedVf5yHJMDVfVKhpW7
- QOMK3tzqSPivEEIpccOi+d6ildjGkICYdHStSG+oa1i6J+ak96gzkyWkZEJbIKK1G9Rg
- v2iYyXGcsebWR4EaLvi6FssEl3Fr/djiVHmfgt6jaFeRG2SAtjHYjkCIjR8OkDg/zdwc
- MJQcbTqUKdGn3difwMJZIvIUzch8967s6xk/X7ZZn/9Y6SXZoQA0YUv5uPsFiADARoEP
- FdSiWZftMxRIir2QN8mLhWvMIabt/facHY4YHGVGAbt/DKzaVvLchX0KjVNG61wevEWA
- o4Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LdHRg1X1WPu+nzmX2IxfvedbJtQeAJMB+niaJPcRek4=;
- b=EGC4258xyyilp6pt63ef2StNVWLuq960xCK6j+yl18lIcogftp1M3o4BjqSOudysWW
- S+oD9OLlhLJ4oCRasprX9IJk5cZ2kSbjHksaSooHNpEM6FNiOfKaFAxsQZUw4iT6XZwG
- D6VyLoFmw0reE0qV9PRyuIdkYXv8OKrsH7umvIINIsOOJXmw8z2X5NlVzK0Tg6F6nRcF
- 2Cvbsfr6QVV2yDw45OnGRYUy1un0JTqQz1DJSiopdr7pToM7XJftainiJoJjwFv62lnd
- rGDuUsoDTrAu4TfbaRU2OaxOSBthVXnyos3RAWG5HKQqc0NhTdbVitXldsSuz97jqVIj
- fVIg==
-X-Gm-Message-State: AOAM5317WpIk//svK7Ca6ztTBy/8uNEksgtYb8lA75r5diOrVjtgJKjF
- cahXkEZ4QqLU4mFDNg4lNzw=
-X-Google-Smtp-Source: ABdhPJwOFjSIGzVyq51h4090Np9eS5V86lU56V+l7gkLYix/KZjLKR9HBizTQEWBGQf1s2u4hFItvA==
-X-Received: by 2002:aed:39e3:: with SMTP id m90mr5035959qte.43.1600946322374; 
- Thu, 24 Sep 2020 04:18:42 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7c7:c625:6c0e:4720:8228:5f68?
- ([2804:431:c7c7:c625:6c0e:4720:8228:5f68])
- by smtp.gmail.com with ESMTPSA id g5sm1774696qtx.43.2020.09.24.04.18.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Sep 2020 04:18:41 -0700 (PDT)
-Subject: Re: [PATCH 3/6] spapr_numa: translate regular NUMA distance to PAPR
- distance
-To: Greg Kurz <groug@kaod.org>
-References: <20200923193458.203186-1-danielhb413@gmail.com>
- <20200923193458.203186-4-danielhb413@gmail.com>
- <20200924101629.16cfec36@bahia.lan>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <69dcb671-dcc9-fe8b-97ac-2c2ed69603d9@gmail.com>
-Date: Thu, 24 Sep 2020 08:18:38 -0300
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLPHF-0005NN-FJ
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:19:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLPHD-00040T-1G
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 07:19:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600946340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CP8pe471sadaujYtQ42toBoLM0kH56szOsJNj0ieRxI=;
+ b=jW0oPgGlgp0QM2rD/FpoRnvEABfwEySCpptkWjnBhjNEKjNu9P5SJZD6BGKLqDtPjTEzwN
+ B45vSkYMFcwn6Q5rzHC64Ug9pbryyG2UyoF5/V303IesY9Y0gwZ50bH6kBy7ncwNA0pZMq
+ EuDTJ+BCqhPB8urAcuEiS+NJdpmFPM4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-nVLxuL2FOk2FqrDT8lblVQ-1; Thu, 24 Sep 2020 07:18:56 -0400
+X-MC-Unique: nVLxuL2FOk2FqrDT8lblVQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1329100746C;
+ Thu, 24 Sep 2020 11:18:54 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-153.ams2.redhat.com
+ [10.36.114.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B300C34800;
+ Thu, 24 Sep 2020 11:18:52 +0000 (UTC)
+Subject: Re: [PATCH v8 5/7] copy-on-read: limit guest writes to base in COR
+ driver
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <1598633579-221780-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1598633579-221780-6-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <667dbbb4-b4b3-1e18-6c9b-466b75cbd00c@redhat.com>
+ <716e4f2e-b15b-6094-badc-84d3daf9f8ab@virtuozzo.com>
+ <c8e0ab87-b5e9-7b4b-6cc1-db404cbd4c80@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <037bc8a7-1e47-8599-a51f-4a884e5b348b@redhat.com>
+Date: Thu, 24 Sep 2020 13:18:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200924101629.16cfec36@bahia.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x842.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.214,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c8e0ab87-b5e9-7b4b-6cc1-db404cbd4c80@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="1CqS3I0Zkupm3O2r6RHHRkK4HPazh2NR9"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,135 +113,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--1CqS3I0Zkupm3O2r6RHHRkK4HPazh2NR9
+Content-Type: multipart/mixed; boundary="yPP6hWH5Jp7o6GjLmEH1Rjjhm7rzxQKiS"
 
+--yPP6hWH5Jp7o6GjLmEH1Rjjhm7rzxQKiS
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On 9/24/20 5:16 AM, Greg Kurz wrote:
-> On Wed, 23 Sep 2020 16:34:55 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> 
->> QEMU allows the user to set NUMA distances in the command line.
->> For ACPI architectures like x86, this means that user input is
->> used to populate the SLIT table, and the guest perceives the
->> distances as the user chooses to.
+On 22.09.20 15:13, Andrey Shinkevich wrote:
+> On 04.09.2020 16:59, Vladimir Sementsov-Ogievskiy wrote:
+>> 04.09.2020 15:50, Max Reitz wrote:
+>>> On 28.08.20 18:52, Andrey Shinkevich wrote:
+>>>> Limit the guest's COR operations by the base node in the backing chain
+>>>> during a stream job.
+>>>
+>>> I don=E2=80=99t understand.=C2=A0=C2=A0 Shouldn=E2=80=99t we limit the =
+areas where we set the COR
+>>> flag?
+>>>
+>>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>>> ---
+>>>> =C2=A0 block/copy-on-read.c | 49
+>>>> +++++++++++++++++++++++++++++++++++++++++++++++++
+>>>> =C2=A0 1 file changed, 49 insertions(+)
+>>>>
+>>>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+>>>> index 1f858bb..ecbd1f8 100644
+>>>> --- a/block/copy-on-read.c
+>>>> +++ b/block/copy-on-read.c
+>>>> @@ -57,6 +57,37 @@ static BlockDriverState
+>>>> *get_base_by_name(BlockDriverState *bs,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return base_bs;
+>>>> =C2=A0 }
+>>>> =C2=A0 +/*
+>>>> + * Returns 1 if the block is allocated in a node between
+>>>> cor_filter_bs->file->bs
+>>>> + * and the base_bs in the backing chain. Otherwise, returns 0.
+>>>> + * The COR operation is allowed if the base_bs is not specified -
+>>>> return 1.
+>>>> + * Returns negative errno on failure.
+>>>> + */
+>>>> +static int node_above_base(BlockDriverState *cor_filter_bs,
+>>>> uint64_t offset,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 uint64_t bytes)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 int ret;
+>>>> +=C2=A0=C2=A0=C2=A0 int64_t dummy;
+>>>> +=C2=A0=C2=A0=C2=A0 BlockDriverState *file =3D NULL;
+>>>> +=C2=A0=C2=A0=C2=A0 BDRVStateCOR *state =3D cor_filter_bs->opaque;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 if (!state->base_bs) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 ret =3D bdrv_block_status_above(cor_filter_bs->fil=
+e->bs,
+>>>> state->base_bs,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 offset, bytes, &dumm=
+y, NULL, &file);
+>>>> +=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 if (file) {
+>>>
+>>> Why check file and not the return value?
+>>>
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 1;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 return 0;
+>>>
+>>> =E2=80=9Cdummy=E2=80=9D should really not be called that way, it should=
+ be evaluated
+>>> whether it=E2=80=99s smaller than bytes.
+>>>
+>>> First, [offset, offset + dummy) may not be allocated above the base =E2=
+=80=93
+>>> but [offset + dummy, offset + bytes) may be.=C2=A0 Then this function r=
+eturns
+>>> 0 here, even though there is something in that range that=E2=80=99s all=
+ocated.
+>>>
+>>> Second, in that case we still shouldn=E2=80=99t return 1, but return th=
+e
+>>> shrunken offset instead.=C2=A0 Or, if there are multiple distinct alloc=
+ated
+>>> areas, they should probably even all be copied separately.
+>>>
+>>>
+>>> (But all of that of course only if this function is intended to be used
+>>> to limit where we set the COR flag, because I don=E2=80=99t understand =
+why we=E2=80=99d
+>>> want to limit where something can be written.)
+>>>
 >>
->> PPC64 does not work that way. In the PAPR concept of NUMA,
->> associativity relations between the NUMA nodes are provided by
->> the device tree, and the guest kernel is free to calculate the
->> distances as it sees fit. Given how ACPI architectures works,
->> this puts the pSeries machine in a strange spot - users expect
->> to define NUMA distances like in the ACPI case, but QEMU does
->> not have control over it. To give pSeries users a similar
->> experience, we'll need to bring kernel specifics to QEMU
->> to approximate the NUMA distances.
+>> Agree to all.
 >>
->> The pSeries kernel works with the NUMA distance range 10,
->> 20, 40, 80 and 160. The code starts at 10 (local distance) and
->> searches for a match in the first NUMA level between the
->> resources. If there is no match, the distance is doubled and
->> then it proceeds to try to match in the next NUMA level. Rinse
->> and repeat for MAX_DISTANCE_REF_POINTS levels.
+>> 1. Write path shouldn't be changed: it's a copy-on-read filter.
 >>
->> This patch introduces a spapr_numa_PAPRify_distances() helper
-> 
-> Funky naming but meaningful and funny, for me at least :)
-> 
->> that translates the user distances to kernel distance, which
->> we're going to use to determine the associativity domains for
->> the NUMA nodes.
+>> 2. On read we need is_allocated_above-driven loop, to insert the flag
+>> only to regions allocated above base
+>> =C2=A0(and other regions we read just without the flag, don't skip them)=
+.
+>> qiov_offset will help very well.
 >>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr_numa.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 44 insertions(+)
->>
->> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
->> index 36aaa273ee..180800b2f3 100644
->> --- a/hw/ppc/spapr_numa.c
->> +++ b/hw/ppc/spapr_numa.c
->> @@ -37,6 +37,49 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
->>       return true;
->>   }
->>   
->> +/*
->> + * This function will translate the user distances into
->> + * what the kernel understand as possible values: 10
->> + * (local distance), 20, 40, 80 and 160. Current heuristic
->> + * is:
->> + *
->> + *  - distances between 11 and 30 -> rounded to 20
->> + *  - distances between 31 and 60 -> rounded to 40
->> + *  - distances between 61 and 120 -> rounded to 80
->> + *  - everything above 120 -> 160
-> 
-> It isn't clear what happens when the distances are exactly
-> 30, 60 or 120...
+>> 3. Like in many other places, let's ignore=C2=A0 errors (and just add th=
+e
+>> flag if block_status fails)
+>=20
+>=20
+> If "block_status" fails, the stream job does not copy. Shall we keep the
+> same behavior in the cor_co_preadv_part()?
 
-30 is rounded to 20, 60 is rounded to 40 and 120 is rounded to 80.
-Perhaps I should change this to mention "between 11 and 30
-inclusive" and so on.
+I think copying can=E2=80=99t really hurt, so I think it would be better to=
+ copy
+if we aren=E2=80=99t sure (because block_status failed).  The difference to
+streaming could well be considered a bug fix.
 
-> 
->> + *
->> + * This step can also be done in the same time as the NUMA
->> + * associativity domains calculation, at the cost of extra
->> + * complexity. We chose to keep it simpler.
->> + *
->> + * Note: this will overwrite the distance values in
->> + * ms->numa_state->nodes.
->> + */
->> +static void spapr_numa_PAPRify_distances(MachineState *ms)
->> +{
->> +    int src, dst;
->> +    int nb_numa_nodes = ms->numa_state->num_nodes;
->> +    NodeInfo *numa_info = ms->numa_state->nodes;
->> +
->> +    for (src = 0; src < nb_numa_nodes; src++) {
->> +        for (dst = src; dst < nb_numa_nodes; dst++) {
->> +            uint8_t distance = numa_info[src].distance[dst];
->> +            uint8_t rounded_distance = 160;
->> +
->> +            if (distance > 11 && distance < 30) {
->> +                rounded_distance = 20;
->> +            } else if (distance > 31 && distance < 60) {
->> +                rounded_distance = 40;
->> +            } else if (distance > 61 && distance < 120) {
->> +                rounded_distance = 80;
->> +            }
-> 
-> ... and this code doesn't convert them to PAPR-friendly values
-> actually. I guess < should be turned into <= .
+Max
 
 
-Good catch. Yep, this needs to be <=.
+--yPP6hWH5Jp7o6GjLmEH1Rjjhm7rzxQKiS--
 
+--1CqS3I0Zkupm3O2r6RHHRkK4HPazh2NR9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Thanks,
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9sgJoACgkQ9AfbAGHV
+z0B3UAf+MIwSdv4BHfaNtI3EdMS05ehyEiynT55GoQmVLO2vOx9sp+rNJBfMz62R
+YKkBxxfXtmDLlBZAlMWmXNK5WshsD4uqhqkl32MnAveiI421st8E2x0SLvfMid9g
+JWD7S4eXodNyWlrKKtHdCUBc+798Q9kpi+mAEdUUJZuetnFHJETf6vz9otOLh+rO
+Cf7gzD22fuoB0rFbsnfucj8Hgdi/t9cGzez0geLdpBi3W2KX+PHoGz7Dc7Jfu2LE
+4BBJ11vBh2e6ppU8ZrnKPDbj3AkyILf8D899yOo5IqHDsYATB6sxO+tesTEKaH8N
+Yv0KfqAKoTDOsvjpj2GFcI36jjYkDw==
+=3JYe
+-----END PGP SIGNATURE-----
 
-DHB
+--1CqS3I0Zkupm3O2r6RHHRkK4HPazh2NR9--
 
-> 
->> +
->> +            numa_info[src].distance[dst] = rounded_distance;
->> +            numa_info[dst].distance[src] = rounded_distance;
->> +        }
->> +    }
->> +}
->> +
->>   void spapr_numa_associativity_init(SpaprMachineState *spapr,
->>                                      MachineState *machine)
->>   {
->> @@ -95,6 +138,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
->>           exit(1);
->>       }
->>   
->> +    spapr_numa_PAPRify_distances(machine);
->>   }
->>   
->>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
-> 
 
