@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1012B2775AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:45:26 +0200 (CEST)
-Received: from localhost ([::1]:60832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489632775AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 17:44:59 +0200 (CEST)
+Received: from localhost ([::1]:60286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLTQz-0002ZR-31
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48778)
+	id 1kLTQY-0002Lt-C9
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 11:44:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTA7-0001D1-M2
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:27:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44509)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTA2-00010S-Dw
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:27:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLTA2-0005Qk-64
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:27:59 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLT9z-0005PL-P5
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 11:27:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600961273;
+ s=mimecast20190719; t=1600961270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iHxPf4E6nv7ka0kIDLdkyKT+jqwegwlf8eihiZP8g1Q=;
- b=fJ+oqHILn6Va+gzCLhjPr4O7G6LDUCNMWf3gqCy9yNzYzVdBHjG6Wep19CqYrhjLE6wt+t
- QStW8s5Q8jAc0pE1DmwabS0pGDmLX3stGY8Eo3F6CFifxOagJ+sSmm5qmPh5i1bm8ECSeY
- QvAvZzdp41pctMxbDKGgvILjSl2hU2A=
+ bh=YFExa1XBjuDahVzgOp0o1ycbjz1uW2Ujx2ZjgIjE49M=;
+ b=iRDnggLQ1BOsYrPbfLg5zqvt6drrDe8bq66g2F/JdTMVU1jN7AV1qkS4maH41K2kDU98On
+ bCWHQOF4yaUQTsy0vMlS8sjo7XI4YROK/8KT1NXIKXRrt7DPlE0xZOfN9i1xW0G6C9ELEf
+ ZJms4b/EZYuKy9sQjw+cADmESCBVGe8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-Y7So3h4sNWygTqL9t51ENw-1; Thu, 24 Sep 2020 11:27:51 -0400
-X-MC-Unique: Y7So3h4sNWygTqL9t51ENw-1
+ us-mta-538-bqn-GZ5JPm6Z70mB9JcC_Q-1; Thu, 24 Sep 2020 11:27:48 -0400
+X-MC-Unique: bqn-GZ5JPm6Z70mB9JcC_Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BECD780F05A;
- Thu, 24 Sep 2020 15:27:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA87885EE95;
+ Thu, 24 Sep 2020 15:27:46 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-72.ams2.redhat.com [10.36.114.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FFEE60C15;
- Thu, 24 Sep 2020 15:27:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A6C660C04;
+ Thu, 24 Sep 2020 15:27:45 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 06/31] qemu-nbd: Use raw block driver for --offset
-Date: Thu, 24 Sep 2020 17:26:52 +0200
-Message-Id: <20200924152717.287415-7-kwolf@redhat.com>
+Subject: [PATCH v2 08/31] nbd: Add max-connections to nbd-server-start
+Date: Thu, 24 Sep 2020 17:26:54 +0200
+Message-Id: <20200924152717.287415-9-kwolf@redhat.com>
 In-Reply-To: <20200924152717.287415-1-kwolf@redhat.com>
 References: <20200924152717.287415-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,245 +83,202 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of implementing qemu-nbd --offset in the NBD code, just put a
-raw block node with the requested offset on top of the user image and
-rely on that doing the job.
-
-This does not only simplify the nbd_export_new() interface and bring it
-closer to the set of options that the nbd-server-add QMP command offers,
-but in fact it also eliminates a potential source for bugs in the NBD
-code which previously had to add the offset manually in all relevant
-places.
+This is a QMP equivalent of qemu-nbd's --shared option, limiting the
+maximum number of clients that can attach at the same time.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/nbd.h |  4 ++--
- blockdev-nbd.c      |  9 +--------
- nbd/server.c        | 33 ++++++++++++++++-----------------
- qemu-nbd.c          | 27 ++++++++++++---------------
- 4 files changed, 31 insertions(+), 42 deletions(-)
+ qapi/block-export.json               | 10 +++++++--
+ include/block/nbd.h                  |  3 ++-
+ block/monitor/block-hmp-cmds.c       |  2 +-
+ blockdev-nbd.c                       | 33 ++++++++++++++++++++++------
+ storage-daemon/qemu-storage-daemon.c |  4 ++--
+ 5 files changed, 39 insertions(+), 13 deletions(-)
 
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index 71c5730bc0..60474bfacd 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -20,13 +20,16 @@
+ #             is only resolved at time of use, so can be deleted and
+ #             recreated on the fly while the NBD server is active.
+ #             If missing, it will default to denying access (since 4.0).
++# @max-connections: The maximum number of connections to allow at the same
++#                   time, 0 for unlimited. (since 5.2; default: 0)
+ #
+ # Since: 4.2
+ ##
+ { 'struct': 'NbdServerOptions',
+   'data': { 'addr': 'SocketAddress',
+             '*tls-creds': 'str',
+-            '*tls-authz': 'str'} }
++            '*tls-authz': 'str',
++            '*max-connections': 'uint32' } }
+ 
+ ##
+ # @nbd-server-start:
+@@ -43,6 +46,8 @@
+ #             is only resolved at time of use, so can be deleted and
+ #             recreated on the fly while the NBD server is active.
+ #             If missing, it will default to denying access (since 4.0).
++# @max-connections: The maximum number of connections to allow at the same
++#                   time, 0 for unlimited. (since 5.2; default: 0)
+ #
+ # Returns: error if the server is already running.
+ #
+@@ -54,7 +59,8 @@
+ { 'command': 'nbd-server-start',
+   'data': { 'addr': 'SocketAddressLegacy',
+             '*tls-creds': 'str',
+-            '*tls-authz': 'str'} }
++            '*tls-authz': 'str',
++            '*max-connections': 'uint32' } }
+ 
+ ##
+ # @BlockExportOptionsNbd:
 diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 7698453fb2..451f399b0a 100644
+index f55f5b710b..acccdb3180 100644
 --- a/include/block/nbd.h
 +++ b/include/block/nbd.h
-@@ -331,8 +331,8 @@ typedef struct NBDExport NBDExport;
- typedef struct NBDClient NBDClient;
+@@ -354,7 +354,8 @@ void nbd_client_get(NBDClient *client);
+ void nbd_client_put(NBDClient *client);
  
- BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp);
--NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
--                          uint64_t size, const char *name, const char *desc,
-+NBDExport *nbd_export_new(BlockDriverState *bs,
-+                          const char *name, const char *desc,
-                           const char *bitmap, bool readonly, bool shared,
-                           void (*close)(NBDExport *), bool writethrough,
-                           BlockBackend *on_eject_blk, Error **errp);
+ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+-                      const char *tls_authz, Error **errp);
++                      const char *tls_authz, uint32_t max_connections,
++                      Error **errp);
+ void nbd_server_start_options(NbdServerOptions *arg, Error **errp);
+ 
+ /* nbd_read
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index fb632b1189..662b7f7d00 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -411,7 +411,7 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
+         goto exit;
+     }
+ 
+-    nbd_server_start(addr, NULL, NULL, &local_err);
++    nbd_server_start(addr, NULL, NULL, 0, &local_err);
+     qapi_free_SocketAddress(addr);
+     if (local_err != NULL) {
+         goto exit;
 diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 47b04f166a..96cb0100e9 100644
+index 7bcca105f9..41d5542987 100644
 --- a/blockdev-nbd.c
 +++ b/blockdev-nbd.c
-@@ -154,7 +154,6 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
-     BlockDriverState *bs = NULL;
-     BlockBackend *on_eject_blk;
-     NBDExport *exp = NULL;
--    int64_t len;
-     AioContext *aio_context;
+@@ -23,23 +23,41 @@ typedef struct NBDServerData {
+     QIONetListener *listener;
+     QCryptoTLSCreds *tlscreds;
+     char *tlsauthz;
++    uint32_t max_connections;
++    uint32_t connections;
+ } NBDServerData;
  
-     assert(exp_args->type == BLOCK_EXPORT_TYPE_NBD);
-@@ -192,12 +191,6 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
+ static NBDServerData *nbd_server;
  
-     aio_context = bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
--    len = bdrv_getlength(bs);
--    if (len < 0) {
--        error_setg_errno(errp, -len,
--                         "Failed to determine the NBD export's length");
--        goto out;
--    }
- 
-     if (!arg->has_writable) {
-         arg->writable = false;
-@@ -206,7 +199,7 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
-         arg->writable = false;
-     }
- 
--    exp = nbd_export_new(bs, 0, len, arg->name, arg->description, arg->bitmap,
-+    exp = nbd_export_new(bs, arg->name, arg->description, arg->bitmap,
-                          !arg->writable, !arg->writable,
-                          NULL, false, on_eject_blk, errp);
-     if (!exp) {
-diff --git a/nbd/server.c b/nbd/server.c
-index f5af93c253..33aaca918c 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -89,7 +89,6 @@ struct NBDExport {
-     BlockBackend *blk;
-     char *name;
-     char *description;
--    uint64_t dev_offset;
-     uint64_t size;
-     uint16_t nbdflags;
-     QTAILQ_HEAD(, NBDClient) clients;
-@@ -1507,8 +1506,8 @@ static void nbd_eject_notifier(Notifier *n, void *data)
-     aio_context_release(aio_context);
++static void nbd_update_server_watch(NBDServerData *s);
++
+ static void nbd_blockdev_client_closed(NBDClient *client, bool ignored)
+ {
+     nbd_client_put(client);
++    assert(nbd_server->connections > 0);
++    nbd_server->connections--;
++    nbd_update_server_watch(nbd_server);
  }
  
--NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
--                          uint64_t size, const char *name, const char *desc,
-+NBDExport *nbd_export_new(BlockDriverState *bs,
-+                          const char *name, const char *desc,
-                           const char *bitmap, bool readonly, bool shared,
-                           void (*close)(NBDExport *), bool writethrough,
-                           BlockBackend *on_eject_blk, Error **errp)
-@@ -1516,9 +1515,17 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-     AioContext *ctx;
-     BlockBackend *blk;
-     NBDExport *exp;
-+    int64_t size;
-     uint64_t perm;
-     int ret;
- 
-+    size = bdrv_getlength(bs);
-+    if (size < 0) {
-+        error_setg_errno(errp, -size,
-+                         "Failed to determine the NBD export's length");
-+        return NULL;
-+    }
+ static void nbd_accept(QIONetListener *listener, QIOChannelSocket *cioc,
+                        gpointer opaque)
+ {
++    nbd_server->connections++;
++    nbd_update_server_watch(nbd_server);
 +
-     exp = g_new0(NBDExport, 1);
-     exp->common = (BlockExport) {
-         .drv = &blk_exp_nbd,
-@@ -1553,8 +1560,6 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-     exp->refcount = 1;
-     QTAILQ_INIT(&exp->clients);
-     exp->blk = blk;
--    assert(dev_offset <= INT64_MAX);
--    exp->dev_offset = dev_offset;
-     exp->name = g_strdup(name);
-     assert(!desc || strlen(desc) <= NBD_MAX_STRING_SIZE);
-     exp->description = g_strdup(desc);
-@@ -1569,7 +1574,6 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-         exp->nbdflags |= (NBD_FLAG_SEND_TRIM | NBD_FLAG_SEND_WRITE_ZEROES |
-                           NBD_FLAG_SEND_FAST_ZERO);
-     }
--    assert(size <= INT64_MAX - dev_offset);
-     exp->size = QEMU_ALIGN_DOWN(size, BDRV_SECTOR_SIZE);
+     qio_channel_set_name(QIO_CHANNEL(cioc), "nbd-server");
+     nbd_client_new(cioc, nbd_server->tlscreds, nbd_server->tlsauthz,
+                    nbd_blockdev_client_closed);
+ }
  
-     if (bitmap) {
-@@ -1928,8 +1932,7 @@ static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
-             stl_be_p(&chunk.length, pnum);
-             ret = nbd_co_send_iov(client, iov, 1, errp);
-         } else {
--            ret = blk_pread(exp->blk, offset + progress + exp->dev_offset,
--                            data + progress, pnum);
-+            ret = blk_pread(exp->blk, offset + progress, data + progress, pnum);
-             if (ret < 0) {
-                 error_setg_errno(errp, -ret, "reading from file failed");
-                 break;
-@@ -2303,8 +2306,7 @@ static coroutine_fn int nbd_do_cmd_read(NBDClient *client, NBDRequest *request,
-                                        data, request->len, errp);
-     }
- 
--    ret = blk_pread(exp->blk, request->from + exp->dev_offset, data,
--                    request->len);
-+    ret = blk_pread(exp->blk, request->from, data, request->len);
-     if (ret < 0) {
-         return nbd_send_generic_reply(client, request->handle, ret,
-                                       "reading from file failed", errp);
-@@ -2339,7 +2341,7 @@ static coroutine_fn int nbd_do_cmd_cache(NBDClient *client, NBDRequest *request,
- 
-     assert(request->type == NBD_CMD_CACHE);
- 
--    ret = blk_co_preadv(exp->blk, request->from + exp->dev_offset, request->len,
-+    ret = blk_co_preadv(exp->blk, request->from, request->len,
-                         NULL, BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH);
- 
-     return nbd_send_generic_reply(client, request->handle, ret,
-@@ -2370,8 +2372,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-         if (request->flags & NBD_CMD_FLAG_FUA) {
-             flags |= BDRV_REQ_FUA;
-         }
--        ret = blk_pwrite(exp->blk, request->from + exp->dev_offset,
--                         data, request->len, flags);
-+        ret = blk_pwrite(exp->blk, request->from, data, request->len, flags);
-         return nbd_send_generic_reply(client, request->handle, ret,
-                                       "writing to file failed", errp);
- 
-@@ -2392,8 +2393,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-             int align = client->check_align ?: 1;
-             int len = MIN(request->len, QEMU_ALIGN_DOWN(BDRV_REQUEST_MAX_BYTES,
-                                                         align));
--            ret = blk_pwrite_zeroes(exp->blk, request->from + exp->dev_offset,
--                                    len, flags);
-+            ret = blk_pwrite_zeroes(exp->blk, request->from, len, flags);
-             request->len -= len;
-             request->from += len;
-         }
-@@ -2416,8 +2416,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-             int align = client->check_align ?: 1;
-             int len = MIN(request->len, QEMU_ALIGN_DOWN(BDRV_REQUEST_MAX_BYTES,
-                                                         align));
--            ret = blk_co_pdiscard(exp->blk, request->from + exp->dev_offset,
--                                  len);
-+            ret = blk_co_pdiscard(exp->blk, request->from, len);
-             request->len -= len;
-             request->from += len;
-         }
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 33476a1000..1752daa4c4 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -524,7 +524,6 @@ int main(int argc, char **argv)
-     const char *port = NULL;
-     char *sockpath = NULL;
-     char *device = NULL;
--    int64_t fd_size;
-     QemuOpts *sn_opts = NULL;
-     const char *sn_id_or_name = NULL;
-     const char *sopt = "hVb:o:p:rsnc:dvk:e:f:tl:x:T:D:B:L";
-@@ -1037,6 +1036,17 @@ int main(int argc, char **argv)
-     }
-     bs = blk_bs(blk);
- 
-+    if (dev_offset) {
-+        QDict *raw_opts = qdict_new();
-+        qdict_put_str(raw_opts, "driver", "raw");
-+        qdict_put_str(raw_opts, "file", bs->node_name);
-+        qdict_put_int(raw_opts, "offset", dev_offset);
-+        bs = bdrv_open(NULL, NULL, raw_opts, flags, &error_fatal);
-+        blk_remove_bs(blk);
-+        blk_insert_bs(blk, bs, &error_fatal);
-+        bdrv_unref(bs);
++static void nbd_update_server_watch(NBDServerData *s)
++{
++    if (!s->max_connections || s->connections < s->max_connections) {
++        qio_net_listener_set_client_func(s->listener, nbd_accept, NULL, NULL);
++    } else {
++        qio_net_listener_set_client_func(s->listener, NULL, NULL, NULL);
 +    }
-+
-     blk_set_enable_write_cache(blk, !writethrough);
++}
  
-     if (sn_opts) {
-@@ -1054,21 +1064,8 @@ int main(int argc, char **argv)
+ static void nbd_server_free(NBDServerData *server)
+ {
+@@ -88,7 +106,8 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
+ 
+ 
+ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+-                      const char *tls_authz, Error **errp)
++                      const char *tls_authz, uint32_t max_connections,
++                      Error **errp)
+ {
+     if (nbd_server) {
+         error_setg(errp, "NBD server already running");
+@@ -96,6 +115,7 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
      }
  
-     bs->detect_zeroes = detect_zeroes;
--    fd_size = blk_getlength(blk);
--    if (fd_size < 0) {
--        error_report("Failed to determine the image length: %s",
--                     strerror(-fd_size));
--        exit(EXIT_FAILURE);
--    }
--
--    if (dev_offset >= fd_size) {
--        error_report("Offset (%" PRIu64 ") has to be smaller than the image "
--                     "size (%" PRId64 ")", dev_offset, fd_size);
--        exit(EXIT_FAILURE);
--    }
--    fd_size -= dev_offset;
+     nbd_server = g_new0(NBDServerData, 1);
++    nbd_server->max_connections = max_connections;
+     nbd_server->listener = qio_net_listener_new();
  
--    export = nbd_export_new(bs, dev_offset, fd_size, export_name,
-+    export = nbd_export_new(bs, export_name,
-                             export_description, bitmap, readonly, shared > 1,
-                             nbd_export_closed, writethrough, NULL,
-                             &error_fatal);
+     qio_net_listener_set_name(nbd_server->listener,
+@@ -120,10 +140,7 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+ 
+     nbd_server->tlsauthz = g_strdup(tls_authz);
+ 
+-    qio_net_listener_set_client_func(nbd_server->listener,
+-                                     nbd_accept,
+-                                     NULL,
+-                                     NULL);
++    nbd_update_server_watch(nbd_server);
+ 
+     return;
+ 
+@@ -134,17 +151,19 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+ 
+ void nbd_server_start_options(NbdServerOptions *arg, Error **errp)
+ {
+-    nbd_server_start(arg->addr, arg->tls_creds, arg->tls_authz, errp);
++    nbd_server_start(arg->addr, arg->tls_creds, arg->tls_authz,
++                     arg->max_connections, errp);
+ }
+ 
+ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+                           bool has_tls_creds, const char *tls_creds,
+                           bool has_tls_authz, const char *tls_authz,
++                          bool has_max_connections, uint32_t max_connections,
+                           Error **errp)
+ {
+     SocketAddress *addr_flat = socket_address_flatten(addr);
+ 
+-    nbd_server_start(addr_flat, tls_creds, tls_authz, errp);
++    nbd_server_start(addr_flat, tls_creds, tls_authz, max_connections, errp);
+     qapi_free_SocketAddress(addr_flat);
+ }
+ 
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index b6f678d3ab..0fcab6ed2d 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -101,9 +101,9 @@ static void help(void)
+ "                         configure a QMP monitor\n"
+ "\n"
+ "  --nbd-server addr.type=inet,addr.host=<host>,addr.port=<port>\n"
+-"               [,tls-creds=<id>][,tls-authz=<id>]\n"
++"               [,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]\n"
+ "  --nbd-server addr.type=unix,addr.path=<path>\n"
+-"               [,tls-creds=<id>][,tls-authz=<id>]\n"
++"               [,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]\n"
+ "                         start an NBD server for exporting block nodes\n"
+ "\n"
+ "  --object help          list object types that can be added\n"
 -- 
 2.25.4
 
