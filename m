@@ -2,78 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FF5276AA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:20:54 +0200 (CEST)
-Received: from localhost ([::1]:46546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3A276AAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 09:23:04 +0200 (CEST)
+Received: from localhost ([::1]:49928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLLYj-0005A6-3U
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:20:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
+	id 1kLLap-0006f5-AR
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 03:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kLLWo-0004bL-5o
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:18:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22952)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kLLWm-00078D-Hj
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 03:18:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600931931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dZ3/BPUVRwrbQPq6VKw3tMqbd6KhrzQlc7HRater6K8=;
- b=at2QyfZ5xjoWhn9hmeZ5sIZZB/+CHdVtQOOhXcdloNAHhpVe8dOabHBhl6vmGoyzP8uDt7
- N3e62K8ioFIIPe4wRb4wNUmitwDdQhwKnhhZW450T7NNF0RS1oWiWoxVCkLfNLmpu03xRt
- 5ZG6kXWaTpAz1MiA2GWdJe79nq9JyI4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-xVDVRJ5EP6y336Cj1UMzSg-1; Thu, 24 Sep 2020 03:18:49 -0400
-X-MC-Unique: xVDVRJ5EP6y336Cj1UMzSg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC06C1882FAA;
- Thu, 24 Sep 2020 07:18:48 +0000 (UTC)
-Received: from [10.72.13.193] (ovpn-13-193.pek2.redhat.com [10.72.13.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C5F281C40;
- Thu, 24 Sep 2020 07:18:43 +0000 (UTC)
-Subject: Re: [PATCH 1/3] virtio-net: Set mac address to hardware if the peer
- is vdpa
-To: Cindy Lu <lulu@redhat.com>
-References: <20200917155851.20636-1-lulu@redhat.com>
- <b5ac3a30-6d81-117c-37af-e16b9a21ddad@redhat.com>
- <CACLfguUNqfKYb-4Yo6-7Zn4NwYq94WHSKn+2KPX1+W0JH7Re2A@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <584a955b-ab7f-75ee-fbcf-fac8a76c368a@redhat.com>
-Date: Thu, 24 Sep 2020 15:18:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CACLfguUNqfKYb-4Yo6-7Zn4NwYq94WHSKn+2KPX1+W0JH7Re2A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kLLYV-0005SC-Id; Thu, 24 Sep 2020 03:20:40 -0400
+Received: from mail-eopbgr00135.outbound.protection.outlook.com
+ ([40.107.0.135]:61715 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kLLYP-0007Mc-Q0; Thu, 24 Sep 2020 03:20:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dVxvFULcchcTSYjx1x2Z2yrmdvS9FQUu+4zjMEOmqDtxc8qiSko41l7X6Rj/WevkNsMX0alxIhJ2+ozHcim/k58jq4VACdn9/M4mX3Ap3mBo97weSFn1zBskdstZDJCoPDuX0+UyhaSNHITtl3Djbtw96phW7FMIwQu43vRD4s9Ojx/LPgBO58L1q9cFo5KUcN+2VbwNaNZWA0l1mQAyFswVi16akeO8jLP1Xnmq4+G3CcghoGiawLCS4eJ5WSDOg0UEIN6HiQuPv8qZZz3YMJatB8PUrX1LduKsPbp8W81FlKxCCzM3pD9Qsmqdw/EqsY4vapaLGXfFTMWlZkM2kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9c9QMrlnwGJIZCl4VeO7RONqKuB5bsH5nV/gnTCsNl0=;
+ b=gdEVFKLtE1hNw0GQs33c9PNZGrCNQgTiFNgL9f9oV7NHhSTVJzA5xclQDl+E+VSjCfIK0RWK+CDqJJ6WYJu6qm5XuOLuqs39FH+sPkFb7mc5Zon74Pj46OKcLMFwD4Ueeq1vypx+w5otIhiS91ZfECsEthgL3ADitq/LPHPoQf2BMA2J9Gp4i3q/bi1YeqqBM/ich/FNIl6aDnaxO4lYTwGdoXTS2ZfQWnmPr5S2K7DAxJAoiN+5fFtodHYz5FpNhDZrGtuU0/ZYxoK7EaAbtcsAmv9ZEASGsljo+Jjq0w8/d1FA5xdtjt0TPJOr0swRgU7j/krWXhvYX3DQUxCQpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9c9QMrlnwGJIZCl4VeO7RONqKuB5bsH5nV/gnTCsNl0=;
+ b=m57z5qoGzivSPfTwN3ab3g5eimM9SEbdhJAGXCrM4ZDhpL7pZBlz+T6UFuePLDF5qAAvuyE0NJGUxJTZfAs48agbeShwCx9QAI0yrifNEBdJrAwY/yLjU05OKuMiEIhRoB0yjWqdbMC2vgb7pU7KMHAbDW2rE4H2jkOZaLFHTEU=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1652.eurprd08.prod.outlook.com (2603:10a6:203:3c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.15; Thu, 24 Sep
+ 2020 07:20:27 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.033; Thu, 24 Sep 2020
+ 07:20:27 +0000
+Subject: Re: [PATCH v8 7/7] block/io: refactor save/load vmstate
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
+ fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com, kwolf@redhat.com,
+ den@openvz.org
+References: <20200915164411.20590-1-vsementsov@virtuozzo.com>
+ <20200915164411.20590-8-vsementsov@virtuozzo.com>
+ <7fd65dfd-6264-8510-5995-b712d5c4cfa7@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <94ed93ae-0fe4-cba1-50d4-16606e2595a8@virtuozzo.com>
+Date: Thu, 24 Sep 2020 10:20:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
+In-Reply-To: <7fd65dfd-6264-8510-5995-b712d5c4cfa7@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.228,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR01CA0096.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::37) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.94) by
+ AM0PR01CA0096.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::37) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21 via Frontend
+ Transport; Thu, 24 Sep 2020 07:20:26 +0000
+X-Originating-IP: [185.215.60.94]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dd200331-ed79-4111-3c1a-08d8605a4fa8
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1652:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1652CDC85E3DB4279E57A13DC1390@AM5PR0801MB1652.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ypMT48uJeSgp+75AURiSot+uXWGTGQo+HsWmOZC76LaqQr7Om9rZX+cccW2wJCRu/PjbIMu/EH5148UMrRz1byaYfv5PviX+vLydsqoS3C62eGGB68OLgi2LyiI3iMR+jINRhrL2uhSyAD3otBMsljVFX7RlHzcXmwFbQdpVhZ4Di+jMBWOQgvvfG2X9WMqDruuEUGX0bcOBQ51eLlU6ej8KZdEg4S3I38aHT8PLft+Q6EqpFRTkoUzHCTMM2j49iYDOeTfe2TiMXzp4xk+GuqqnEnomDdpwOnqP+foPRWDW0ebNAic3agMd5evp1Ziv53xs+Hi315b7pdNlh8baPNhUdcbqffwSm7hE9WviStMx0BxOvKSFKEjQp6BCjFFCc3pxKlS8sCM1tsoG7zu4LokFHvEXRKhctiqwDPXjXTLVpLJujRUgAdqHtWBWryYJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(396003)(376002)(39840400004)(136003)(107886003)(4326008)(31696002)(2906002)(478600001)(66556008)(66946007)(66476007)(8676002)(8936002)(2616005)(31686004)(83380400001)(316002)(6486002)(956004)(186003)(26005)(16526019)(36756003)(5660300002)(16576012)(86362001)(53546011)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: sV7YXy+1Acbrt563W0ysGmm2qw7BtBmuQSEgtL5nxYpkMnwSJmh2env9C/9LDNtGma0u5wkOirgfV4jpNcL1tQmMbhn3vNZPNw3Ehjqr4YvjrwqhQloKbZRSrCvlVhQ48wh2TmmuAnfMv7ILLqdZd4g51oLfcztaqOH+df8oPi7BFpaPVDI4pSSvylAHM0k/w7qbl6hXcGYxmDRmfNnQrbtmJqtT4KtsIaVobmUDbdZSQseo6PNl+Vvs1pWGvLQgaHc7D00rRWsGpUytqCeIykShBRtrzpXTwriU99g5OQ56vyvm5vL+wvgcOKwA0Vh0Ldr6yAv5ZmFWtiEQ9T+H84JEt2e9uPOGqRSrF1o2VtpPacFRyszbbTBlaUXbEMLELkhIwnsOEyR3zHVo11773nldZpps3ZaGRgPEiNiRXJtdNm/ipLpgOUbL5cQ1Aj1Rhr5KiGbGqtBq6HTM4til4P2iUT4X6bPRO0ZdtvPeXwZUY3Ytrw10SMYl2GLUR8dcEztf2bem68I7P4TDxSv/EZUvptpJ5rbiR82BU1053/0NEDwhysMnMrDghllmBS0oQoL9fJhQgS04p7eUOiFR8eEAtFEnziWNHduls+h77gkyDJMM0rpJhzmoVlx9IBqJQ0TKcSXCC34pwjfSzchNdw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd200331-ed79-4111-3c1a-08d8605a4fa8
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 07:20:27.4177 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 41VkQ+WPpL7oObV/CfXN+JkRGHwmMXi+CF5Oa09S0tybdKpNsfsncL8fmZktmdJycRX2LlVl8M2IDH1sHjn6AkbZj27nCOUY6A7qAoSc5Xc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1652
+Received-SPF: pass client-ip=40.107.0.135;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 03:20:29
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,93 +121,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Tsirkin <mst@redhat.com>, qemu-stable@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/9/22 上午11:01, Cindy Lu wrote:
-> On Tue, Sep 22, 2020 at 9:55 AM Jason Wang <jasowang@redhat.com> wrote:
+23.09.2020 23:10, Eric Blake wrote:
+> On 9/15/20 11:44 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> Like for read/write in a previous commit, drop extra indirection layer,
+>> generate directly bdrv_readv_vmstate() and bdrv_writev_vmstate().
 >>
->> On 2020/9/17 下午11:58, Cindy Lu wrote:
->>> If the peer's type is vdpa,set the mac address to NIC in virtio_net_device_realize,
->>> Also sometime vdpa get an all 0 macaddress from the hardware, this will cause the traffic down
->>> So we add the check for this part.
->>> if we get an 0 mac address we will use the default mac address instead
->>>
->>> Signed-off-by: Cindy Lu <lulu@redhat.com>
->>> ---
->>>    hw/net/virtio-net.c | 12 +++++++++++-
->>>    1 file changed, 11 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->>> index cb0d27084c..7db9da1482 100644
->>> --- a/hw/net/virtio-net.c
->>> +++ b/hw/net/virtio-net.c
->>> @@ -126,6 +126,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
->>>        VirtIONet *n = VIRTIO_NET(vdev);
->>>        struct virtio_net_config netcfg;
->>>        NetClientState *nc = qemu_get_queue(n->nic);
->>> +    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
->>>
->>>        int ret = 0;
->>>        memset(&netcfg, 0 , sizeof(struct virtio_net_config));
->>> @@ -151,7 +152,11 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
->>>            ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
->>>                                       n->config_size);
->>>            if (ret != -1) {
->>> -            memcpy(config, &netcfg, n->config_size);
->>> +            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) != 0) {
->>> +                memcpy(config, &netcfg, n->config_size);
->>> +        } else {
->>> +                error_report("Get an all zero mac address from hardware");
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> ---
+>>   block/coroutines.h    | 10 +++----
+>>   include/block/block.h |  6 ++--
+>>   block/io.c            | 67 ++++++++++++++++++++++---------------------
+>>   3 files changed, 42 insertions(+), 41 deletions(-)
 >>
->> This is probably a hint that MAC is not properly provisioned.
->>
->> So I guess we can leave this as is, or simply warn until the management
->> interface is finalized.
->>
-> Hi Jason, For sure this is NIC card's problem, They cannot provide an
-> correct MAC address,
-> But if we continue use this 0 mac address will cause this traffic
-> down, maybe will cost a lot of effort in debugging
-> So I think maybe Just an warn is not enough, We can use the default
-> mac address  and let the traffic working
+>> diff --git a/block/coroutines.h b/block/coroutines.h
+> 
+>>   int coroutine_fn
+>> -bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+>> -                   bool is_read)
+>> +bdrv_co_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
+>>   {
+>>       BlockDriver *drv = bs->drv;
+>>       int ret = -ENOTSUP;
+>> +    if (!drv) {
+>> +        return -ENOMEDIUM;
+>> +    }
+>> +
+>>       bdrv_inc_in_flight(bs);
+>> -    if (!drv) {
+>> -        ret = -ENOMEDIUM;
+>> -    } else if (drv->bdrv_load_vmstate) {
+>> -        if (is_read) {
+>> -            ret = drv->bdrv_load_vmstate(bs, qiov, pos);
+>> -        } else {
+>> -            ret = drv->bdrv_save_vmstate(bs, qiov, pos);
+>> -        }
+>> +    if (drv->bdrv_load_vmstate) {
+>> +        ret = drv->bdrv_load_vmstate(bs, qiov, pos);
+> 
+> This one makes sense;
+> 
+>>       } else if (bs->file) {
+>> -        ret = bdrv_co_rw_vmstate(bs->file->bs, qiov, pos, is_read);
+>> +        ret = bdrv_co_readv_vmstate(bs->file->bs, qiov, pos);
+>>       }
+>>       bdrv_dec_in_flight(bs);
+>> +
+>>       return ret;
+>>   }
+>> -int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
+>> -                      int64_t pos, int size)
+>> +int coroutine_fn
+>> +bdrv_co_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
+>>   {
+>> -    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, size);
+>> -    int ret;
+>> +    BlockDriver *drv = bs->drv;
+>> +    int ret = -ENOTSUP;
+>> -    ret = bdrv_writev_vmstate(bs, &qiov, pos);
+>> -    if (ret < 0) {
+>> -        return ret;
+>> +    if (!drv) {
+>> +        return -ENOMEDIUM;
+>>       }
+>> -    return size;
+>> -}
+>> +    bdrv_inc_in_flight(bs);
+>> -int bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
+>> -{
+>> -    return bdrv_rw_vmstate(bs, qiov, pos, false);
+>> +    if (drv->bdrv_load_vmstate) {
+>> +        ret = drv->bdrv_save_vmstate(bs, qiov, pos);
+> 
+> but this one looks awkward. It represents the pre-patch logic, but it would be nicer to check for bdrv_save_vmstate.  With that tweak, my R-b still stands.
 
+Agree.
 
-Yes, and it's done by the following code.
+> 
+> I had an interesting time applying this patch due to merge conflicts with the new bdrv_primary_bs() changes that landed in the meantime.
+> 
 
-But the question is there's no much value for the error here consider 
-you've already had a solution.
+Thanks a lot!
 
-Thanks
+To clarify: did you finally staged the series to send a pull request? Or Stefan should do it? Should I make a v9?
 
-
->>> +            }
->>>            }
->>>        }
->>>    }
->>> @@ -3399,6 +3404,11 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
->>>        nc = qemu_get_queue(n->nic);
->>>        nc->rxfilter_notify_enabled = 1;
->>>
->>> +   if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
->>> +        struct virtio_net_config netcfg = {};
->>> +        memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
->>> +        virtio_net_set_config(vdev, (uint8_t *)&netcfg);
->>
->> Won't this overwrite all other fields in the netcfg? I think we should
->> only touch mac part.
->>
->> Thanks
->>
->>
-> Sure, will fix this
->>> +    }
->>>        QTAILQ_INIT(&n->rsc_chains);
->>>        n->qdev = dev;
->>>
->
-
+-- 
+Best regards,
+Vladimir
 
