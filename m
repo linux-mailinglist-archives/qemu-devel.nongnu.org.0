@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31396276E95
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:22:27 +0200 (CEST)
-Received: from localhost ([::1]:59206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90830276E9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 12:24:21 +0200 (CEST)
+Received: from localhost ([::1]:36966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLOOQ-00016a-7I
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39562)
+	id 1kLOQG-0003jv-L7
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 06:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUY-00033P-Db
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41944)
+ id 1kLNUa-00039c-VI
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNUW-0006Ce-2F
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:42 -0400
+ id 1kLNUZ-0006Cr-5l
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:24:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939479;
+ s=mimecast20190719; t=1600939482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=neynTPykMVT69D9xSmX+p5xUsT3sYnJigTKUA/YKnIo=;
- b=huqnO0qTfDaoBhTRowkijprOG6p2/XQmaDrT6v3BsoSDQ6a/xw87Y/3gdBZI6BmSoDvDAz
- XuSmvqjZnjSL2o9vsiWAi6+YwBCGsgwdGRSstIr75xOGkhnEPzQAQCnaQH1OC6M1XvOWnh
- dFwH2msvAzM6HODdQR8ehYgwi1RJ4IA=
+ bh=C75c8C5H3Uf5JEwtP0xToObs8W5BgAHw9Opy9pz7Mp0=;
+ b=QXJTMMexH/QDm0R1ENhzoksh3vaIP7h+9IY9XdOqhwjqq3HlRQuvFsyFC4Z/6ZNwoJJpwY
+ d96seVjMA7V9yvylUEH0YARQ/Tw+9y35g4R3CREgxSfjxGAceaJ5AXeHROKKYgQR6puouw
+ k6d5fftFVM81VMadZnBwLKF1SQ6XK4Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-3CLcmmiDPde59O834i7AGw-1; Thu, 24 Sep 2020 05:24:37 -0400
-X-MC-Unique: 3CLcmmiDPde59O834i7AGw-1
+ us-mta-595-NaiDoUbSM2isKOR4y6Srkw-1; Thu, 24 Sep 2020 05:24:40 -0400
+X-MC-Unique: NaiDoUbSM2isKOR4y6Srkw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6742C87137B
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7022C1891E9D
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:24:39 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53FC85C1C7;
- Thu, 24 Sep 2020 09:24:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 883D05C1C7;
+ Thu, 24 Sep 2020 09:24:36 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 72/92] qom: Add code block markup to all code blocks
-Date: Thu, 24 Sep 2020 05:22:54 -0400
-Message-Id: <20200924092314.1722645-73-pbonzini@redhat.com>
+Subject: [PULL 73/92] docs: Create docs/devel/qom.rst
+Date: Thu, 24 Sep 2020 05:22:55 -0400
+Message-Id: <20200924092314.1722645-74-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -87,349 +87,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-Convert all example/codelisting markup to Sphinx code-block.
-
-There are a few sections where backslashes at the end of lines
-break code formatting.  A comment was added noting that this is
-an issue.
-
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20200910221526.10041-8-ehabkost@redhat.com>
+Message-Id: <20200910221526.10041-9-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h | 135 ++++++++++++++++++-------------------------
- 1 file changed, 56 insertions(+), 79 deletions(-)
+ docs/devel/index.rst | 1 +
+ docs/devel/qom.rst   | 5 +++++
+ 2 files changed, 6 insertions(+)
+ create mode 100644 docs/devel/qom.rst
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index d96ac334c8..d839a2c39f 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -31,6 +31,8 @@ typedef struct InterfaceInfo InterfaceInfo;
- /**
-  * DOC:
-  *
-+ * .. highlight:: c
-+ *
-  * The QEMU Object Model provides a framework for registering user creatable
-  * types and instantiating objects from those types.  QOM provides the following
-  * features:
-@@ -39,9 +41,9 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *  - Support for single-inheritance of types
-  *  - Multiple inheritance of stateless interfaces
-  *
-- * <example>
-- *   <title>Creating a minimal type</title>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Creating a minimal type
-+ *
-  *    #include "qdev.h"
-  *
-  *    #define TYPE_MY_DEVICE "my-device"
-@@ -68,8 +70,6 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *    }
-  *
-  *    type_init(my_device_register_types)
-- *      </programlisting>
-- * </example>
-  *
-  * In the above example, we create a simple type that is described by #TypeInfo.
-  * #TypeInfo describes information about the type including what it inherits
-@@ -78,8 +78,8 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * Alternatively several static types could be registered using helper macro
-  * DEFINE_TYPES()
-  *
-- * <example>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *
-  *    static const TypeInfo device_types_info[] = {
-  *        {
-  *            .name = TYPE_MY_DEVICE_A,
-@@ -94,8 +94,6 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *    };
-  *
-  *    DEFINE_TYPES(device_types_info)
-- *      </programlisting>
-- * </example>
-  *
-  * Every type has an #ObjectClass associated with it.  #ObjectClass derivatives
-  * are instantiated dynamically but there is only ever one instance for any
-@@ -108,17 +106,19 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * OBJECT_CHECK() and OBJECT_CLASS_CHECK() to make it easier to convert to a
-  * specific type:
-  *
-- * <example>
-- *   <title>Typecasting macros</title>
-- *   <programlisting>
-+ * .. kernel-doc messes up with the code block below because of the
-+ *    backslash at the end of lines.  This will be fixes if we move this
-+ *    content to qom.rst.
-+ *
-+ * .. code-block:: c
-+ *    :caption: Typecasting macros
-+ *
-  *    #define MY_DEVICE_GET_CLASS(obj) \
-  *       OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-  *    #define MY_DEVICE_CLASS(klass) \
-  *       OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-  *    #define MY_DEVICE(obj) \
-  *       OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-- *   </programlisting>
-- * </example>
-  *
-  * Class Initialization
-  * ====================
-@@ -141,9 +141,9 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * its virtual functions.  Here is how the above example might be modified
-  * to introduce an overridden virtual function:
-  *
-- * <example>
-- *   <title>Overriding a virtual function</title>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Overriding a virtual function
-+ *
-  *    #include "qdev.h"
-  *
-  *    void my_device_class_init(ObjectClass *klass, void *class_data)
-@@ -158,16 +158,14 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *        .instance_size = sizeof(MyDevice),
-  *        .class_init = my_device_class_init,
-  *    };
-- *      </programlisting>
-- * </example>
-  *
-  * Introducing new virtual methods requires a class to define its own
-  * struct and to add a .class_size member to the #TypeInfo.  Each method
-  * will also have a wrapper function to call it easily:
-  *
-- * <example>
-- *   <title>Defining an abstract class</title>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Defining an abstract class
-+ *
-  *    #include "qdev.h"
-  *
-  *    typedef struct MyDeviceClass
-@@ -191,8 +189,6 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *
-  *        klass->frobnicate(obj);
-  *    }
-- *      </programlisting>
-- * </example>
-  *
-  * Interfaces
-  * ==========
-@@ -230,13 +226,13 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *
-  * To invoke the method being overridden, the preferred solution is to store
-  * the original value in the overriding class before overriding the method.
-- * This corresponds to |[ {super,base}.method(...) ]| in Java and C#
-+ * This corresponds to ``{super,base}.method(...)`` in Java and C#
-  * respectively; this frees the overriding class from hardcoding its parent
-  * class, which someone might choose to change at some point.
-  *
-- * <example>
-- *   <title>Overriding a virtual method</title>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Overriding a virtual method
-+ *
-  *    typedef struct MyState MyState;
-  *
-  *    typedef void (*MyDoSomething)(MyState *obj);
-@@ -297,8 +293,6 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *        .class_size = sizeof(DerivedClass),
-  *        .class_init = derived_class_init,
-  *    };
-- *      </programlisting>
-- * </example>
-  *
-  * Alternatively, object_class_by_name() can be used to obtain the class and
-  * its non-overridden methods for a specific type. This would correspond to
-@@ -320,18 +314,16 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * OBJECT_DECLARE_SIMPLE_TYPE macro is suitable, and is commonly placed
-  * in the header file:
-  *
-- * <example>
-- *   <title>Declaring a simple type</title>
-- *   <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Declaring a simple type
-+ *
-  *     OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-- *   </programlisting>
-- * </example>
-  *
-  * This is equivalent to the following:
-  *
-- * <example>
-- *   <title>Expansion from declaring a simple type</title>
-- *   <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Expansion from declaring a simple type
-+ *
-  *     typedef struct MyDevice MyDevice;
-  *     typedef struct MyDeviceClass MyDeviceClass;
-  *
-@@ -347,8 +339,6 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *     struct MyDeviceClass {
-  *         DeviceClass parent_class;
-  *     };
-- *   </programlisting>
-- * </example>
-  *
-  * The 'struct MyDevice' needs to be declared separately.
-  * If the type requires virtual functions to be declared in the class
-@@ -359,18 +349,16 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * To implement the type, the OBJECT_DEFINE macro family is available.
-  * In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
-  *
-- * <example>
-- *   <title>Defining a simple type</title>
-- *   <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Defining a simple type
-+ *
-  *     OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-- *   </programlisting>
-- * </example>
-  *
-  * This is equivalent to the following:
-  *
-- * <example>
-- *   <title>Expansion from defining a simple type</title>
-- *   <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Expansion from defining a simple type
-+ *
-  *     static void my_device_finalize(Object *obj);
-  *     static void my_device_class_init(ObjectClass *oc, void *data);
-  *     static void my_device_init(Object *obj);
-@@ -391,8 +379,6 @@ typedef struct InterfaceInfo InterfaceInfo;
-  *         type_register_static(&my_device_info);
-  *     }
-  *     type_init(my_device_register_types);
-- *   </programlisting>
-- * </example>
-  *
-  * This is sufficient to get the type registered with the type
-  * system, and the three standard methods now need to be implemented
-@@ -402,24 +388,20 @@ typedef struct InterfaceInfo InterfaceInfo;
-  * OBJECT_DEFINE_TYPE_WITH_INTERFACES() macro can be used instead.
-  * This accepts an array of interface type names.
-  *
-- * <example>
-- *   <title>Defining a simple type implementing interfaces</title>
-- *   <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Defining a simple type implementing interfaces
-+ *
-  *     OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
-  *                                        MY_DEVICE, DEVICE,
-  *                                        { TYPE_USER_CREATABLE }, { NULL })
-- *   </programlisting>
-- * </example>
-  *
-  * If the type is not intended to be instantiated, then then
-  * the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-  *
-- * <example>
-- *   <title>Defining a simple type</title>
-- *   <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Defining a simple abstract type
-+ *
-  *     OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-- *   </programlisting>
-- * </example>
-  */
- 
- 
-@@ -982,9 +964,9 @@ Object *object_new(const char *typename);
-  * object will be marked complete once all the properties have been
-  * processed.
-  *
-- * <example>
-- *   <title>Creating an object with properties</title>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Creating an object with properties
-+ *
-  *      Error *err = NULL;
-  *      Object *obj;
-  *
-@@ -1001,8 +983,6 @@ Object *object_new(const char *typename);
-  *      if (!obj) {
-  *        error_reportf_err(err, "Cannot create memory backend: ");
-  *      }
-- *      </programlisting>
-- * </example>
-  *
-  * The returned object will have one stable reference maintained
-  * for as long as it is present in the object hierarchy.
-@@ -1051,9 +1031,9 @@ void object_apply_compat_props(Object *obj);
-  * strings. The propname of %NULL indicates the end of the property
-  * list.
-  *
-- * <example>
-- *   <title>Update an object's properties</title>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Update an object's properties
-+ *
-  *      Error *err = NULL;
-  *      Object *obj = ...get / create object...;
-  *
-@@ -1066,8 +1046,6 @@ void object_apply_compat_props(Object *obj);
-  *                            NULL)) {
-  *        error_reportf_err(err, "Cannot set properties: ");
-  *      }
-- *      </programlisting>
-- * </example>
-  *
-  * The returned object will have one stable reference maintained
-  * for as long as it is present in the object hierarchy.
-@@ -1155,10 +1133,11 @@ bool object_initialize_child_with_propsv(Object *parentobj,
-  * object.
-  * @type: The name of the type of the object to instantiate.
-  *
-- * This is like
-- * object_initialize_child_with_props(parent, propname,
-- *                                    child, sizeof(*child), type,
-- *                                    &error_abort, NULL)
-+ * This is like::
-+ *
-+ *   object_initialize_child_with_props(parent, propname,
-+ *                                      child, sizeof(*child), type,
-+ *                                      &error_abort, NULL)
-  */
- #define object_initialize_child(parent, propname, child, type)          \
-     object_initialize_child_internal((parent), (propname),              \
-@@ -1517,9 +1496,9 @@ typedef struct ObjectPropertyIterator {
-  *
-  * Typical usage pattern would be
-  *
-- * <example>
-- *   <title>Using object property iterators</title>
-- *      <programlisting>
-+ * .. code-block:: c
-+ *    :caption: Using object property iterators
-+ *
-  *      ObjectProperty *prop;
-  *      ObjectPropertyIterator iter;
-  *
-@@ -1527,8 +1506,6 @@ typedef struct ObjectPropertyIterator {
-  *      while ((prop = object_property_iter_next(&iter))) {
-  *        ... do something with prop ...
-  *      }
-- *      </programlisting>
-- * </example>
-  */
- void object_property_iter_init(ObjectPropertyIterator *iter,
-                                Object *obj);
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 04773ce076..c34b43ec28 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -31,3 +31,4 @@ Contents:
+    reset
+    s390-dasd-ipl
+    clocks
++   qom
+diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+new file mode 100644
+index 0000000000..dc5be79a4a
+--- /dev/null
++++ b/docs/devel/qom.rst
+@@ -0,0 +1,5 @@
++===========================
++The QEMU Object Model (QOM)
++===========================
++
++.. kernel-doc:: include/qom/object.h
 -- 
 2.26.2
 
