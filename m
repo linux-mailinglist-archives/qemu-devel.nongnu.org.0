@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7CC276CF3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:21:50 +0200 (CEST)
-Received: from localhost ([::1]:56934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829EE276D3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:27:14 +0200 (CEST)
+Received: from localhost ([::1]:43830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNRl-0007MJ-7I
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37802)
+	id 1kLNWz-0005ck-JV
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLNQF-0006Og-Aa
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:20:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52553)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLNTI-00007v-D1
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kLNQD-0005a3-8I
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:20:15 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLNTF-0005y8-Ba
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939212;
+ s=mimecast20190719; t=1600939400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DMQKbmEgRVJHgyL5PhQoezSPMUMwIr8B8kyS+LUDP8Y=;
- b=VwbXG+HUKAkAkL49DDgZupEWExsS5rSjRAH2hc3kGIMGsukhdfW10TD+R3vFRm5v+x0UXu
- Y6nggByKzYfSgeo4Azu4wch9KxGcuhY+4hMrk68muePd6+8JU5yrTSTEGUXMiz+cWf3Rm0
- oDrS6ID3pl2zZOMPNXSDt7jv8sLnBAo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-RNjpd1y0NruGla1I9quuOA-1; Thu, 24 Sep 2020 05:20:10 -0400
-X-MC-Unique: RNjpd1y0NruGla1I9quuOA-1
-Received: by mail-wr1-f70.google.com with SMTP id g6so1001610wrv.3
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 02:20:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DMQKbmEgRVJHgyL5PhQoezSPMUMwIr8B8kyS+LUDP8Y=;
- b=kE/jaUVXEM1hmh3Jbjswbp7dZSGoVmyyaAgx6whm8/ebjBQUGeoUuaI/8vMqxUnW9c
- A9e0PALXWKvrrHypO1KoqPBeyCOunGyZ2x1MBehfu8VDzjHg7MVdcRew5CHHEKjQy36Z
- DUo5eWpwNX1HtSXPu4SYriUilSqjWmJdxhNOXmgY/TDBoemR0GjW8yDAD+snqDrSI+P0
- /pwRORYwhajz75oG1tf82LHgXvb3czno6PyW2DeMaWztq/T0mynbke4nGrjGItr7EOJ9
- cb2oFDs3012bj/S25SrLaQ/q0owjg7BRZe90VPZfaOWi7e+3sg/gal5QKZGN/Omnyr48
- 8gxA==
-X-Gm-Message-State: AOAM533p5h4hIaWK/VHVU9W4a6cjVw4nhrfW24gt/l64+ffZuB719iAn
- XztHRVw1YieHyiLbmVUAQkhDgumXYiTBWiq65x+z3FdYkj21trXyWfk6vfBndYsXRe8BlkdNDrs
- PYtdO0ZMkqtmZywU=
-X-Received: by 2002:a1c:96cf:: with SMTP id y198mr3912646wmd.104.1600939209631; 
- Thu, 24 Sep 2020 02:20:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnvXEwkLhbCROCj8EccJu2Mv6skujJtHkEGHZualIwvEp0brjC62XlZCYJoNVaD0EG1uJ7gg==
-X-Received: by 2002:a1c:96cf:: with SMTP id y198mr3912628wmd.104.1600939209394; 
- Thu, 24 Sep 2020 02:20:09 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id c205sm2669439wmd.33.2020.09.24.02.20.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 02:20:08 -0700 (PDT)
-Date: Thu, 24 Sep 2020 05:20:05 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [RFC PATCH v3 0/7] Use ACPI PCI hot-plug for Q35
-Message-ID: <20200924050236-mutt-send-email-mst@kernel.org>
-References: <20200924070013.165026-1-jusual@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RO5ygMS8C8tGgfEkOpIcIMYcYipQIFP0Y6iMNp6Gyt8=;
+ b=dLPpeXdcWg01s9YX4IBqeu/wkKbc3pdxtsrUpwuCpX+Ge1TV1cWW7Lgz58BNwUJxfQxPvz
+ sDbZP20LRaEHfNgPZF29Dl3Wy81yKln8AF1MFc3phHv3gLgJCq94kSIbdSrQ2KHEzYUGYF
+ SoW34Qqi8VofoXdLCjy7GisEHaFkdMU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-2MNRravcPXyKMuOpBXm0Eg-1; Thu, 24 Sep 2020 05:23:16 -0400
+X-MC-Unique: 2MNRravcPXyKMuOpBXm0Eg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 600B281F028
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:15 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DF6973662
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:15 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/92] Misc patches for 2020-09-24
+Date: Thu, 24 Sep 2020 05:21:42 -0400
+Message-Id: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200924070013.165026-1-jusual@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -92,104 +78,314 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 24, 2020 at 09:00:06AM +0200, Julia Suvorova wrote:
-> The patch set consists of two parts:
-> patches 1-4: introduce new feature
->              'acpi-pci-hotplug-with-bridge-support' on Q35
-> patches 5-7: make the feature default along with changes in ACPI tables
-> 
-> This way maintainers can decide which way to choose without breaking
-> the patch set.
-> 
-> With the feature disabled Q35 falls back to the native hot-plug.
-> 
-> Pros
->     * no racy behavior during boot (see 110c477c2ed)
->     * eject is possible - according to PCIe spec, attention button
->       press should lead to power off, and then the adapter should be
->       removed manually. As there is no power down state exists in QEMU,
->       we cannot distinguish between an eject and a power down
->       request.
->     * no delay during deleting - after the actual power off software
->       must wait at least 1 second before indicating about it. This case
->       is quite important for users, it even has its own bug:
->           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
->     * no timer-based behavior - in addition to the previous example,
->       the attention button has a 5-second waiting period, during which
->       the operation can be canceled with a second press. While this
->       looks fine for manual button control, automation will result in
->       the need to queue or drop events, and the software receiving
->       events in all sort of unspecified combinations of attention/power
->       indicator states, which is racy and uppredictable.
->     * fixes:
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1752465
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1690256
-> 
-> Cons:
->     * lose per-port control over hot-plug (can be resolved)
->     * no access to possible features presented in slot capabilities
->       (this is only surprise removal AFAIK)
+The following changes since commit 0fc0142828b5bc965790a1c5c6e241897d3387cb:
 
-something I don't quite get is whether with this one can still add
-new pcie bridges and then hotplug into these with native
-hotplug.
+  Merge remote-tracking branch 'remotes/kraxel/tags/input-20200921-pull-request' into staging (2020-09-22 21:11:10 +0100)
 
-the challenge to answering this with certainty is that right now qemu
-does not allow hotplugging complex devices such as bridges at all,
-we only have a hack for multifunction devices.
-Maybe adding a bridge as function 1 on command line, then hotplugging another device as
-function 0 will work to test this.
+are available in the Git repository at:
 
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
+for you to fetch changes up to f40b138ec74bfdaf50f77e46e4b9c10a38f43db6:
 
-> v3:
->     * drop change of _OSC to allow SHPC on hotplugged bridges
->     * use 'acpi-root-pci-hotplug'
->     * add migration states [Igor]
->     * minor style changes
-> 
-> v2:
->     * new ioport range for acpiphp [Gerd]
->     * drop find_pci_host() [Igor]
->     * explain magic numbers in _OSC [Igor]
->     * drop build_q35_pci_hotplug() wrapper [Igor]
-> 
-> Julia Suvorova (7):
->   hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
->   hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
->   hw/pci/pcie: Do not initialize slot capability if acpihp is used
->   hw/acpi/ich9: Enable ACPI PCI hot-plug
->   bios-tables-test: Allow changes in DSDT ACPI tables
->   hw/acpi/ich9: Set ACPI PCI hot-plug as default
->   bios-tables-test: Update golden binaries
-> 
->  hw/i386/acpi-build.h              |   7 ++++
->  include/hw/acpi/ich9.h            |   5 +++
->  include/hw/acpi/pcihp.h           |   3 +-
->  hw/acpi/ich9.c                    |  67 ++++++++++++++++++++++++++++++
->  hw/acpi/pcihp.c                   |  16 ++++---
->  hw/acpi/piix4.c                   |   4 +-
->  hw/i386/acpi-build.c              |  31 ++++++++------
->  hw/i386/pc.c                      |   1 +
->  hw/pci/pcie.c                     |  16 +++++++
->  tests/data/acpi/q35/DSDT          | Bin 7678 -> 7950 bytes
->  tests/data/acpi/q35/DSDT.acpihmat | Bin 9002 -> 9274 bytes
->  tests/data/acpi/q35/DSDT.bridge   | Bin 7695 -> 9865 bytes
->  tests/data/acpi/q35/DSDT.cphp     | Bin 8141 -> 8413 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9331 -> 9603 bytes
->  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7753 -> 8025 bytes
->  tests/data/acpi/q35/DSDT.memhp    | Bin 9037 -> 9309 bytes
->  tests/data/acpi/q35/DSDT.mmio64   | Bin 8808 -> 9080 bytes
->  tests/data/acpi/q35/DSDT.numamem  | Bin 7684 -> 7956 bytes
->  tests/data/acpi/q35/DSDT.tis      | Bin 8283 -> 8555 bytes
->  19 files changed, 129 insertions(+), 21 deletions(-)
-> 
-> -- 
-> 2.25.4
+  Merge tag 'pull-cap-20200922' of https://github.com/rth7680/qemu into HEAD (2020-09-23 14:39:20 -0400)
+
+----------------------------------------------------------------
+* SCSI fix (Dmitry, Li Feng, Li Qiang)
+* memory API fixes (Eduardo)
+* removal of deprecated '-numa node', 'cpu-add', '-smp' (Igor)
+* ACPI fix for VMBus (Jon)
+* relocatable install (myself)
+* always remove docker containers (myself)
+* serial cleanups (Philippe)
+* vmware cpuid leaf for tsc and apic frequency (Sunil)
+* KVM_FEATURE_ASYNC_PF_INT support (Vitaly)
+* i386 XSAVE bugfix (Xiaoyao)
+* QOM developer documentation in docs/devel (Eduardo)
+* new checkpatch tests (Dov)
+* x86_64 syscall fix (Douglas)
+* interrupt-based APF fix (Vitaly)
+* always create kvmclock (Vitaly)
+* fix bios-tables-test (Eduardo)
+* KVM PV features cleanup (myself)
+* CAN FD (Pavel)
+
+meson:
+* fixes (Marc-André, Max, Stefan, Alexander, myself)
+* submodule and environment CFLAGS overhaul (myself)
+* moved libmpathpersist, cocoa, malloc tests (myself)
+* support for 0.56 introspected test dependencies (myself)
+
+----------------------------------------------------------------
+Alexander Bulekov (1):
+      oss-fuzz: move linker arg to fix coverage-build
+
+Anthony PERARD (1):
+      meson: fix installation of keymaps
+
+Claudio Fontana (1):
+      tests: add missing genh dependency
+
+Daniel P. Berrangé (1):
+      char: fix logging when chardev write fails
+
+Dmitry Fomichev (1):
+      scsi-generic: Fix HM-zoned device scan
+
+Douglas Crosher (1):
+      helper_syscall x86_64: clear exception_is_int
+
+Dov Murik (1):
+      checkpatch: Detect '%#' or '%0#' in printf-style format strings
+
+Eduardo Habkost (10):
+      memory: Convert IOMMUMemoryRegionClass doc comment to kernel-doc
+      qom: Document all function parameters in doc comments
+      qom: Use kernel-doc private/public tags in structs
+      qom: Use ``code`` Sphinx syntax where appropriate
+      qom: Add kernel-doc markup to introduction doc comment
+      qom: Reformat section titles using Sphinx syntax
+      qom: Indent existing code examples
+      qom: Add code block markup to all code blocks
+      docs: Create docs/devel/qom.rst
+      bios-tables-test: Remove kernel-irqchip=off option
+
+Igor Mammedov (5):
+      numa: drop support for '-numa node' (without memory specified)
+      doc: Cleanup "'-mem-path' fallback to RAM" deprecation text
+      numa: remove fixup numa_state->num_nodes to MAX_NODES
+      smp: drop support for deprecated (invalid topologies)
+      cphp: remove deprecated cpu-add command(s)
+
+Jan Charvat (5):
+      net/can: Initial host SocketCan support for CAN FD.
+      hw/net/can: sja1000 ignore CAN FD frames
+      net/can: Add can_dlc2len and can_len2dlc for CAN FD.
+      hw/net/can/ctucafd: Add CTU CAN FD core register definitions.
+      hw/net/can: CTU CAN FD IP open hardware core emulation.
+
+Jon Doron (1):
+      acpi: i386: Move VMBus DSDT entry to SB
+
+Li Feng (1):
+      vhost-scsi: support inflight io track
+
+Li Qiang (2):
+      hw: megasas: return -1 when 'megasas_map_sgl' fails
+      hw: megasas: consider 'iov_count=0' is an error in megasas_map_sgl
+
+Marc-André Lureau (2):
+      meson: fix MSI rule
+      meson: error out if qemu_suffix starts with /
+
+Paolo Bonzini (34):
+      meson: clean up build_by_default
+      ninjatool: rebuild multi-output targets if outputs are missing
+      meson: move libudev test
+      meson: move libmpathpersist test
+      meson: extend libmpathpersist test for static linking
+      configure: move malloc_trim/tcmalloc/jemalloc to meson
+      configure: fix --meson=/path/to/meson
+      configure: move cocoa option to Meson
+      configure: do not limit Hypervisor.framework test to Darwin
+      meson: qtest: set "depends" correctly
+      mtest2make: add support for introspected test dependencies
+      meson: report accelerator support
+      oslib: do not call g_strdup from qemu_get_exec_dir
+      fuzz: use qemu_get_exec_dir
+      oslib-posix: default exec_dir to bindir
+      cutils: introduce get_relocated_path
+      oslib-posix: relocate path to /var
+      module: relocate path to modules
+      net: relocate paths to helpers and scripts
+      vl: relocate paths to data directories
+      vl: relocate path to configuration file
+      qemu-bridge-helper: relocate path to default ACL
+      qga: relocate path to default configuration and hook
+      ui: relocate paths to icons and translations
+      configure: use a platform-neutral prefix
+      configure: fix performance regression due to PIC objects
+      tests/tcg: reinstate or replace desired parts of rules.mak
+      configure: cleanup invocation of submodule Make
+      configure: cleanup CFLAGS and LDFLAGS for submodules
+      configure: do not clobber environment CFLAGS/CXXFLAGS/LDFLAGS
+      configure: consistently pass CFLAGS/CXXFLAGS/LDFLAGS to meson
+      docs: Move object.h overview doc comment to qom.rst
+      target/i386: kvm: do not use kvm_check_extension to find paravirtual capabilities
+      Merge tag 'pull-cap-20200922' of https://github.com/rth7680/qemu into HEAD
+
+Pavel Pisa (2):
+      hw/net/can: Documentation for CTU CAN FD IP open hardware core emulation.
+      hw/net/can: Correct Kconfig dependencies
+
+Philippe Mathieu-Daudé (16):
+      configure: Do not intent to build WHPX on 32-bit host
+      hw/mips/mipssim: Use MMIO serial device on fake ISA I/O
+      hw/char/serial: Remove TYPE_SERIAL_IO
+      hw/char/serial: Assert serial_ioport_read/write offset fits 8 bytes
+      hw/char/serial: Replace commented DPRINTF() by trace event
+      hw/char/serial: Remove old DEBUG_SERIAL commented code
+      hw/char/serial: Rename I/O read/write trace events
+      hw/char/serial: Make 'wakeup' property boolean
+      hw/char/serial-{isa, pci}: Alias QDEV properties from generic serial object
+      hw/i386/q35: Remove unreachable Xen code on Q35 machine
+      exec: Remove MemoryRegion::global_locking field
+      hw/i386/xen: Rename X86/PC specific function as xen_hvm_init_pc()
+      sysemu/xen: Add missing 'exec/cpu-common.h' header for ram_addr_t type
+      stubs: Split accelerator / hardware related stubs
+      hw/xen: Split x86-specific declaration from generic hardware ones
+      typedefs: Restrict PCMachineState to 'hw/i386/pc.h'
+
+Stefan Hajnoczi (2):
+      MAINTAINERS: add Paolo Bonzini as RCU maintainer
+      configure: rename QEMU_GA_MSI_ENABLED to CONFIG_QGA_MSI
+
+Stefano Garzarella (1):
+      checkpatch: avoid error on cover letter files
+
+Sunil Muthuswamy (1):
+      WHPX: vmware cpuid leaf for tsc and apic frequency
+
+Vitaly Kuznetsov (3):
+      target/i386: support KVM_FEATURE_ASYNC_PF_INT
+      target/i386: Fix VM migration when interrupt based APF is enabled
+      target/i386: always create kvmclock device
+
+Xiaoyao Li (1):
+      i386/cpu: Clear FEAT_XSAVE_COMP_{LO,HI} when XSAVE is not available
+
+ MAINTAINERS                           |  18 +
+ Makefile                              |  37 +-
+ accel/stubs/xen-stub.c                |  41 +-
+ accel/tcg/cputlb.c                    |   4 +-
+ accel/tcg/translate-all.c             |  24 +-
+ capstone                              |   2 +-
+ chardev/char.c                        |  13 +
+ configure                             | 377 ++++---------
+ disas.c                               | 695 ++++++------------------
+ disas/capstone.c                      | 326 ++++++++++++
+ disas/meson.build                     |   1 +
+ docs/can.txt                          | 113 +++-
+ docs/devel/build-system.rst           |   5 +
+ docs/devel/index.rst                  |   1 +
+ docs/devel/qom.rst                    | 378 +++++++++++++
+ docs/system/deprecated.rst            |  95 ++--
+ exec.c                                |   2 +-
+ hmp-commands.hx                       |  15 -
+ hw/char/serial-isa.c                  |   4 +-
+ hw/char/serial-pci.c                  |   3 +-
+ hw/char/serial.c                      |  65 +--
+ hw/char/trace-events                  |   5 +-
+ hw/core/machine-hmp-cmds.c            |  12 -
+ hw/core/machine-qmp-cmds.c            |  12 -
+ hw/core/machine.c                     |  17 +-
+ hw/core/numa.c                        |  59 ---
+ hw/i386/acpi-build.c                  |  12 +-
+ hw/i386/kvm/clock.c                   |   7 +-
+ hw/i386/microvm.c                     |   2 +-
+ hw/i386/pc.c                          |  44 +-
+ hw/i386/pc_piix.c                     |  17 +-
+ hw/i386/pc_q35.c                      |  19 +-
+ hw/i386/xen/xen-hvm.c                 |   3 +-
+ hw/mips/mipssim.c                     |   5 +-
+ hw/net/Kconfig                        |  16 +-
+ hw/net/can/can_sja1000.c              |  31 +-
+ hw/net/can/ctu_can_fd_frame.h         | 189 +++++++
+ hw/net/can/ctu_can_fd_regs.h          | 971 ++++++++++++++++++++++++++++++++++
+ hw/net/can/ctucan_core.c              | 696 ++++++++++++++++++++++++
+ hw/net/can/ctucan_core.h              | 127 +++++
+ hw/net/can/ctucan_pci.c               | 281 ++++++++++
+ hw/net/can/meson.build                |   2 +
+ hw/ppc/spapr.c                        |   1 -
+ hw/s390x/s390-virtio-ccw.c            |  12 -
+ hw/scsi/megasas.c                     |   6 +-
+ hw/scsi/scsi-generic.c                |  10 +-
+ hw/scsi/vhost-scsi-common.c           |  27 +
+ include/disas/dis-asm.h               | 104 ++--
+ include/disas/disas.h                 |   2 +-
+ include/exec/log.h                    |   4 +-
+ include/exec/memory.h                 |  64 ++-
+ include/hw/boards.h                   |   3 -
+ include/hw/char/serial.h              |  11 +-
+ include/hw/i386/pc.h                  |   8 +-
+ include/hw/kvm/clock.h                |   4 +-
+ include/hw/virtio/vhost-scsi-common.h |   2 +
+ include/hw/xen/xen-x86.h              |  15 +
+ include/hw/xen/xen.h                  |   2 -
+ include/monitor/hmp.h                 |   1 -
+ include/net/can_emu.h                 |  12 +-
+ include/net/net.h                     |   4 +-
+ include/qemu-common.h                 |   1 -
+ include/qemu/cutils.h                 |  12 +
+ include/qemu/osdep.h                  |   8 +-
+ include/qemu/typedefs.h               |   1 -
+ include/qom/object.h                  | 547 ++++---------------
+ include/scsi/constants.h              |   1 +
+ include/sysemu/numa.h                 |   4 -
+ include/sysemu/sysemu.h               |   2 +-
+ include/sysemu/xen.h                  |   2 +
+ meson.build                           | 339 ++++++++++--
+ meson_options.txt                     |  13 +
+ net/can/can_core.c                    |  36 ++
+ net/can/can_socketcan.c               |  47 +-
+ net/tap.c                             |  26 +-
+ os-posix.c                            |  24 -
+ os-win32.c                            |  11 -
+ pc-bios/keymaps/meson.build           |   2 +
+ qapi/machine.json                     |  24 -
+ qemu-bridge-helper.c                  |   9 +-
+ qga/main.c                            |   8 +-
+ qga/meson.build                       |   1 +
+ scripts/checkpatch.pl                 |  12 +-
+ scripts/mtest2make.py                 |  19 +-
+ scripts/ninjatool.py                  |   3 +
+ softmmu/memory.c                      |   6 -
+ softmmu/vl.c                          |  43 +-
+ stubs/meson.build                     |   1 +
+ stubs/xen-hw-stub.c                   |  50 ++
+ target/i386/cpu.c                     |   6 +-
+ target/i386/cpu.h                     |   1 +
+ target/i386/kvm.c                     |  45 +-
+ target/i386/kvm_i386.h                |   1 +
+ target/i386/machine.c                 |  19 +
+ target/i386/seg_helper.c              |   1 +
+ target/i386/whp-dispatch.h            |   3 +-
+ target/i386/whpx-all.c                |  96 +++-
+ target/s390x/cpu.c                    |   4 +
+ tcg/tcg.c                             |   4 +-
+ tests/fp/meson.build                  |   2 -
+ tests/meson.build                     |   9 +-
+ tests/qemu-iotests/meson.build        |   3 +-
+ tests/qtest/bios-tables-test.c        |   3 +-
+ tests/qtest/cpu-plug-test.c           | 100 +---
+ tests/qtest/fuzz/fuzz.c               |  12 +-
+ tests/qtest/meson.build               |   8 +-
+ tests/qtest/test-hmp.c                |   1 -
+ tests/tcg/Makefile.qemu               |  13 +-
+ tests/tcg/configure.sh                |   4 +-
+ trace/meson.build                     |   1 -
+ ui/gtk.c                              |  10 +-
+ ui/meson.build                        |   2 +-
+ ui/sdl2.c                             |   9 +-
+ ui/shader/meson.build                 |   1 -
+ util/cutils.c                         |  61 +++
+ util/module.c                         |  10 +-
+ util/oslib-posix.c                    |  35 +-
+ util/oslib-win32.c                    |  14 +-
+ 118 files changed, 4618 insertions(+), 2150 deletions(-)
+ create mode 100644 disas/capstone.c
+ create mode 100644 docs/devel/qom.rst
+ create mode 100644 hw/net/can/ctu_can_fd_frame.h
+ create mode 100644 hw/net/can/ctu_can_fd_regs.h
+ create mode 100644 hw/net/can/ctucan_core.c
+ create mode 100644 hw/net/can/ctucan_core.h
+ create mode 100644 hw/net/can/ctucan_pci.c
+ create mode 100644 include/hw/xen/xen-x86.h
+ create mode 100644 stubs/xen-hw-stub.c
+-- 
+2.26.2
 
 
