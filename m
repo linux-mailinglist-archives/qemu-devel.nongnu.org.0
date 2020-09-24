@@ -2,110 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DA7277B60
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:56:40 +0200 (CEST)
-Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7350E277B63
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 23:58:27 +0200 (CEST)
+Received: from localhost ([::1]:58150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLZEF-000565-3a
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52166)
+	id 1kLZFy-0006yT-H0
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 17:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kLZAv-0001BD-Jo
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:14 -0400
-Received: from mail-dm6nam12on2054.outbound.protection.outlook.com
- ([40.107.243.54]:32225 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kLZED-0005ih-Ov
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:56:38 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:45772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kLZAr-0007Vc-AL
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:53:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YLI9bOLc01kpH+hP8K73qmZMH1e53t4oeLD36MNO0NLdhI3M7wGoBlBriIDL/d1QC8KvW3RMuJt0IQ3NiN9JsIn24SAsuzshlv0WoD4IUKkyUuD9TrWEoQ8QQzKIAGwt7yxJRebuJoarGm9ecLzbbz4gHaQ/L99xw7xxzZ9R3zbspx749EFFCycQtLOzgQuw5f40L0c7NOYu3FnQkv1yupS381KPEqP54XAxgZ8J4wp8tsI+APFYFHxdsifMDxXz5S1o5Hthe/3hmn0zUowgJ0i98m0HGbLNzd8We2jCCvxT6aPPoZeKPbDMKrFzts5REmejMdJcRhCkH3C8aFjKHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WNym5ZKQr7RNJ9mpvNWLRccvGNs0SwJO2FRVBoMOUBQ=;
- b=HMYUDCvTqLpBNH6YSsaJJao+o7GpLfn++4m5ZLuz3mopmLNUUPSv5IBBi+IaVawcIRTxYUV4evJYIwLD5VUp+FZZvQWCdH1yi9Q45eFNZC1U19Yh1zOoZuoriXEFJRZdSykFsuT8D4UCp/GIdGCEhPPaYNw/c+KF8BNDQ66jfWfO0cDBYkCpIHp5vaXVvdADCQXRc64goAbBFH7rtETg14TOu93JJWvGTb4lbhOTOfn3JMXh3gXwzgOuCyQi9tNFjwgzEebRA5UKutJ3XCOenqwM5F0OLIUysOClJjxkXiWnjxb3MleJ3lsvQmVTtunTqjK7lSW4by049OkDKNtDRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WNym5ZKQr7RNJ9mpvNWLRccvGNs0SwJO2FRVBoMOUBQ=;
- b=kna5fLx0Ax7/XUwRzGFnANuo5RpNiGv6P02ZVOEyPK3ejMiQjSc/L3M/MZGBJ2P42JCaVlrdxuOlulfsT3IPoUgbrBq2SoySlfzeLGfF7tQ3onnH+fv4QF12xfxe49EjUB9cLi/3olhVwPZuAqzhoqiN5y0/q9Xi03AI1pvC/Eo=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
- by SA0PR12MB4590.namprd12.prod.outlook.com (2603:10b6:806:93::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Thu, 24 Sep
- 2020 21:53:03 +0000
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::1d50:341:16e2:84b1]) by SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::1d50:341:16e2:84b1%6]) with mapi id 15.20.3391.027; Thu, 24 Sep 2020
- 21:53:03 +0000
-Date: Thu, 24 Sep 2020 21:52:56 +0000
-From: Ashish Kalra <ashish.kalra@amd.com>
-To: Brijesh Singh <brijesh.singh@amd.com>
-Subject: Re: SEV guest debugging support for Qemu
-Message-ID: <20200924215256.GA8562@ashkalra_ubuntu_server>
-References: <20200922201124.GA6606@ashkalra_ubuntu_server>
- <20200924135342.GE2792@work-vm>
- <20200924190653.GA8180@ashkalra_ubuntu_server>
- <a35415c9-6e50-5260-e0e6-e36b9f16f2b2@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a35415c9-6e50-5260-e0e6-e36b9f16f2b2@amd.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: SN6PR04CA0080.namprd04.prod.outlook.com
- (2603:10b6:805:f2::21) To SN6PR12MB2767.namprd12.prod.outlook.com
- (2603:10b6:805:75::23)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kLZEB-0007vg-JR
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 17:56:37 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLnHc2086498;
+ Thu, 24 Sep 2020 21:56:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=PO/+MPSFsfrcY8TXay9YRNNGGYNKzkEY3zxqqURHpIg=;
+ b=hdL4mxcKd6OD2q63cVb0bZOXCCIZHAYiv/eAXU6ksEMSynusO1Flrv6llUp82tbWqeIg
+ mw0bPiCJ8R4x2bKbQQ8+BB9P3rZKJ91CtBZb1v9Crg9UwE/Ndn90C2jcpJfPHKLWKcL7
+ Nz0iSNZgk4mBIl7BFpxRSVFfSYJIgiDXUDkRghsuVMpqJirWF4XTaqUZGYlpDCqmcaWu
+ khaF6V530GK1OegHxZQ74F/QaROD1bqJT0IXfEivA5fDgS98HqF1ISp38vWqKCFVVvjw
+ nGgIk2T7CNQZqemhtTNfBeMc+Ye0ysDTvMSS8gSvs2Tncv+Y+rnzIW+C5N+NaJ45EHxo Ag== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 33q5rgs3k1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 24 Sep 2020 21:56:32 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OLoU6n046312;
+ Thu, 24 Sep 2020 21:54:31 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 33nurwtsnd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Sep 2020 21:54:31 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08OLsTD7028759;
+ Thu, 24 Sep 2020 21:54:30 GMT
+Received: from [10.39.244.100] (/10.39.244.100)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 24 Sep 2020 14:54:29 -0700
+Subject: Re: [PATCH V1 22/32] char: qio_channel_socket_accept reuse fd
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+ <1596122076-341293-23-git-send-email-steven.sistare@oracle.com>
+ <20200915173334.GD2922@work-vm>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <1fe5d582-52a0-dad1-583f-8b11ffb56ec7@oracle.com>
+Date: Thu, 24 Sep 2020 17:54:27 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ashkalra_ubuntu_server (165.204.77.1) by
- SN6PR04CA0080.namprd04.prod.outlook.com (2603:10b6:805:f2::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3412.20 via Frontend Transport; Thu, 24 Sep 2020 21:53:02 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 13ddc930-e114-4784-baf8-08d860d435eb
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4590:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB45907E9B880E6914D4B107FF8E390@SA0PR12MB4590.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: W43zKmKB6A1XiQHQez8R4DRwykgodcxU/fMoceAthEkEzPOgrt9Fot07pGzgaMd9uH12Rlxha0jKlenh2H3w4zIIX1cJoTs5GTznUtTNoFidc18wJQ9qsXRBg3A6JGaZZtwo+4bCX/hfGnMqbuG6+5i4RX4wh392LZbchXIVTUqsrwiplyjCs61vLrtvn82IjBuJe534YR+WxpCU7Dys+hwxuV7zr1PJiLjvsF3H/nn8CS6Bjlc/7LkPdSHbmAXYT6XgV+hGlXYex9yVulwO2OIMdXzpJISBIG3WkY9zEFx3Xm8i0POXL9NJphde4BZ2iBJ9yyrSCMZsIGQkt9yfTLZxYrQBN92N+PL44SQA2CQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(39860400002)(376002)(346002)(396003)(6862004)(45080400002)(956004)(52116002)(186003)(1076003)(16526019)(966005)(2906002)(8676002)(316002)(6636002)(478600001)(5660300002)(4326008)(26005)(66946007)(86362001)(6666004)(44832011)(53546011)(66476007)(66556008)(6496006)(8936002)(33656002)(9686003)(83380400001)(55016002)(33716001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: skZZjyi7kSo5ImLGiJOeD4gxYlUSP938Mc3sInOuXSjr8JWmhF9AsBHbuBEyUI4sdAt+9LiKbIMsgph63ztDPVdbbg2eDqdzIJx7ML4E5Lix6yFTPGbXn1J8dXFm0gqG3y1VVLJ+rkK1LUzZvlndskSnsXwg7DtY9En9SWhsTMcqIiXTDpvpmYzdvtcTL+AYrWB0om1ZnrGExJXWPoJfXY/uF9FOChu/Karx75bk3hcUwt2fesaxnxykU4JdUG11bIUXVF07IDXiSkq0ldpECG12xLn+N/oxu/4WdbrJP7RQwgRMeKrpVZBVxp3itIFdJA/+HRG/QwTcO+XMZU2GnrvCdctdiMG5UtY4I3qnG7x9pg5/OlU4DopWxELalsGwy9xgLWGUzzJi6R4RbeMJxfjzU9ZZzxuXCpYoobeuCMRV6kFler1anyA5V1Z4UHKGGiYQe0GXWw3hdXFPm094hYNZxZbEguzv+xTztn4QDgvIIVCzTb0K9ODBVJdTQQk5xIs9hwWteM2YAUAXoegsGu8WeslTiMNmFAo7Wxt28gKNgJZO6qkVS45r0j6JtqmTGaD/gkB9NAnBc8wdWf0lP+7PhvbvZKh3r2JoxayA9p3vFUTfIaG0iImuCYHoV5ys/7q7lz4ZGqZclgwZW/NLvQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13ddc930-e114-4784-baf8-08d860d435eb
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2020 21:53:02.9498 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kkkfEJl24UDk8HN6wcu00dV+pCobFjooHPY6z+mukuUSLjEGSyKa73S5gxAbIJqbE6uhRObRZWcbMdVAvazRLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4590
-Received-SPF: none client-ip=40.107.243.54; envelope-from=Ashish.Kalra@amd.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 17:53:04
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20200915173334.GD2922@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ malwarescore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009240156
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9754
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ impostorscore=0
+ clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009240156
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 16:42:31
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,106 +103,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thomas.lendacky@amd.com, jon.grimm@amd.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 24, 2020 at 02:37:33PM -0500, Brijesh Singh wrote:
+On 9/15/2020 1:33 PM, Dr. David Alan Gilbert wrote:
+> * Steve Sistare (steven.sistare@oracle.com) wrote:
+>> From: Mark Kanda <mark.kanda@oracle.com>
+>>
+>> Add an fd argument to qio_channel_socket_accept.  If not -1, the channel
+>> uses that fd instead of accepting a new socket connection.  All callers
+>> pass -1 in this patch, so no functional change.
 > 
-> On 9/24/20 2:06 PM, Ashish Kalra wrote:
-> > Hello Dave,
-> >
-> > Thanks for your response, please see my replies inline :
-> >
-> > On Thu, Sep 24, 2020 at 02:53:42PM +0100, Dr. David Alan Gilbert wrote:
-> >> * Ashish Kalra (ashish.kalra@amd.com) wrote:
-> >>> Hello Alan, Paolo,
-> >>>
-> >>> I am following up on Brijesh’s patches for SEV guest debugging support for Qemu using gdb and/or qemu monitor.
-> >>> I believe that last time, Qemu SEV debug patches were not applied and have attached the link to the email thread and Paolo’s feedback below for reference [1].
-> >>> I wanted to re-start a discussion on the same here with the Qemu community and seek the feedback on the approaches which we are considering :
-> >>> Looking at Qemu code, I see the following interface is defined, for virtual memory access for debug : cpu_memory_rw_debug(). 
-> >>> Both gdbstub (target_memory_rw_debug() ) and QMP/HMP (monitor/misc.c : memory_dump() ) use this standard and well-defined interface to access guest memory for debugging purposes. 
-> >>>
-> >>> This internally invokes the address_space_rw() accessor functions which we had  "fixed" internally (as part of the earlier patch) to invoke memory region specific debug ops. 
-> >>> In our earlier approach we were adding debug ops/callbacks to memory regions and as per comments on our earlier patches, Paolo was not happy with this debug API for
-> >>> MemoryRegions and hence the SEV support for Qemu was merged without the debug support.
-> >>>
-> >>> Now, we want to reuse this cpu_memory_rw_debug() interface or alternatively introduce a new generic debug interface/object in the Qemu. This 
-> >>> debug interface should be controlled through the global machine policy.
-> >> Let me leave the question of how the memory_rw_debug interface should
-> >> work to Paolo.
-> >>
-> >>> For e.g., 
-> >>> # $QEMU -machine -debug=<a debug object>
-> >>> or
-> >>> # $QEMU -machine -debug=sev-guest-debug
-> >>>
-> >>> The QMP and GDB access will be updated to use the generic debug  interface. The generic debug interface or the cpu_memory_rw_debug() interace will introduce hooks to call a 
-> >>> vendor specific debug object to delegate accessing the data. The vendor specific debug object may do a further checks before and after accessing the memory.
-> >> I'm not sure that needs a commandline switch for it; since you can
-> >> already get it from the guest policy in the sev object and I can't think
-> >> of any other cases that would need something similar.
-> > Yes, i agree with that, so i am now considering abstracting this vendor
-> > specific debug interface via CPUClass object instead of doing it via
-> > MemoryRegions. 
-> >
-> >>> Now, looking specifically at cpu_memory_rw_debug() interface, this interface is invoked for all guest memory accesses for debugging purposes and it also does 
-> >>> guest VA to GPA translation via cpu_get_phys_page_attrs_debug(), so we can again add a vendor specific callback here to do guest VA to GPA translations specific
-> >>> to SEV as SEV guest debugging will also require accessing guest page table entries and decrypting them via the SEV DBG_DECRYPT APIs and additionally clearing
-> >>> the C-bit on page table entries (PxEs) before using them further for page table walks.
-> >>>
-> >>> There is still an issue with the generic cpu_memory_rw_debug() interface, though it is used for all guest memory accesses for debugging and we can also handle
-> >>> guest page table walks via it (as mentioned above), there are still other gdb/monitor commands such as tlb_info_xx() and mem_info_xx() which also do guest page
-> >>> table walks, but they don’t go through any generic guest memory access/debug interface, so these commands will need to be handled additionally for SEV.
-> >> If some of those should be using the debug interface and aren't then
-> >> please fix them anyway.
-> >>
-> >>> The vendor specific debug object (added as a hook to generic debug object or the generic cpu_memory_rw_debug() interface) will do further checks before and after accessing the memory.
-> >>>
-> >>> e.g., in the case of SEV,
-> >>>
-> >>> 1. Check the guest policy, if guest policy does not allow debug then return an error.
-> >>>
-> >>> 2. If its an MMIO region then access the data.
-> >>>
-> >>> 3. If its RAM region then call the PSP commands to decrypt the data.
-> >>>
-> >>> 4. If caller asked to read the PTE entry then probably clear the C-bits after reading the PTE entry.
-> >> Does that work if the guest is currently running?
-> >>
-> > I assume you are asking that is this done when guest is being debugged,
-> > the above steps are only done when the guest is paused and being debugged.
-> 
-> 
-> I don't why we need to pause the guest. Ideally we should be able to
-> connect to Qemu monitor and run the "x" command to dump memory. IIRC, if
-> paging is enabled then monitor will walk the guest page table to reach
-> to gpa. Something like this in the Qemu monitor console should work:
-> 
-> x /10i $eip
-> 
-> 
+> Doesn't some of this just come from the fact you're insisting on reusing
+> the command line?   We should be able to open a chardev on an fd
+> shouldn't we?
 
-Yes that works, what i basically meant that monitor will invoke a set of debugging
-interfaces to get gpa and then dump guest memory even while guest is
-running.
+If the management layer originally added the char device via hot plug, then
+we expect it to do so again after restart, following the typical practice for
+live migration.  The device has no presence on the command line.
 
-Thanks,
-Ashish
+- Steve
 
-> >
-> >>> 5. many more checks
-> >>>
-> >>> Looking fwd. to your feedback/comments on the above approach or other any other suggestions.
-> >>>
-> >>> Thanks,
-> >>> Ashish
-> >>>
-> >>> [1] -> https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fnext.patchew.org%2FQEMU%2F20180308124901.83533-1-brijesh.singh%40amd.com%2F20180308124901.83533-29-brijesh.singh%40amd.com%2F&amp;data=02%7C01%7Cashish.kalra%40amd.com%7Cd21e40d3527d4dba609c08d86091490e%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637365524404435805&amp;sdata=P%2F6DqPQmUObJipkbbeXcrUdCqulePiqxSU6OB8xUEWo%3D&amp;reserved=0
-> >>>
-> >> -- 
-> >> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >>
+>> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>> ---
+>>  include/io/channel-socket.h    |  3 ++-
+>>  io/channel-socket.c            | 12 +++++++++---
+>>  io/net-listener.c              |  4 ++--
+>>  scsi/qemu-pr-helper.c          |  2 +-
+>>  tests/qtest/tpm-emu.c          |  2 +-
+>>  tests/test-char.c              |  2 +-
+>>  tests/test-io-channel-socket.c |  4 ++--
+>>  7 files changed, 18 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
+>> index 777ff59..0ffc560 100644
+>> --- a/include/io/channel-socket.h
+>> +++ b/include/io/channel-socket.h
+>> @@ -248,6 +248,7 @@ qio_channel_socket_get_remote_address(QIOChannelSocket *ioc,
+>>  /**
+>>   * qio_channel_socket_accept:
+>>   * @ioc: the socket channel object
+>> + * @reuse_fd: fd to reuse; -1 otherwise
+>>   * @errp: pointer to a NULL-initialized error object
+>>   *
+>>   * If the socket represents a server, then this accepts
+>> @@ -258,7 +259,7 @@ qio_channel_socket_get_remote_address(QIOChannelSocket *ioc,
+>>   */
+>>  QIOChannelSocket *
+>>  qio_channel_socket_accept(QIOChannelSocket *ioc,
+>> -                          Error **errp);
+>> +                          int reuse_fd, Error **errp);
+>>  
+>>  
+>>  #endif /* QIO_CHANNEL_SOCKET_H */
+>> diff --git a/io/channel-socket.c b/io/channel-socket.c
+>> index e1b4667..dde12bf 100644
+>> --- a/io/channel-socket.c
+>> +++ b/io/channel-socket.c
+>> @@ -352,7 +352,7 @@ void qio_channel_socket_dgram_async(QIOChannelSocket *ioc,
+>>  
+>>  QIOChannelSocket *
+>>  qio_channel_socket_accept(QIOChannelSocket *ioc,
+>> -                          Error **errp)
+>> +                          int reuse_fd, Error **errp)
+>>  {
+>>      QIOChannelSocket *cioc;
+>>  
+>> @@ -362,8 +362,14 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+>>  
+>>   retry:
+>>      trace_qio_channel_socket_accept(ioc);
+>> -    cioc->fd = qemu_accept(ioc->fd, (struct sockaddr *)&cioc->remoteAddr,
+>> -                           &cioc->remoteAddrLen);
+>> +
+>> +    if (reuse_fd != -1) {
+>> +        cioc->fd = reuse_fd;
+>> +    } else {
+>> +        cioc->fd = qemu_accept(ioc->fd, (struct sockaddr *)&cioc->remoteAddr,
+>> +                               &cioc->remoteAddrLen);
+>> +    }
+>> +
+>>      if (cioc->fd < 0) {
+>>          if (errno == EINTR) {
+>>              goto retry;
+>> diff --git a/io/net-listener.c b/io/net-listener.c
+>> index 5d8a226..bbdea1e 100644
+>> --- a/io/net-listener.c
+>> +++ b/io/net-listener.c
+>> @@ -45,7 +45,7 @@ static gboolean qio_net_listener_channel_func(QIOChannel *ioc,
+>>      QIOChannelSocket *sioc;
+>>  
+>>      sioc = qio_channel_socket_accept(QIO_CHANNEL_SOCKET(ioc),
+>> -                                     NULL);
+>> +                                     -1, NULL);
+>>      if (!sioc) {
+>>          return TRUE;
+>>      }
+>> @@ -194,7 +194,7 @@ static gboolean qio_net_listener_wait_client_func(QIOChannel *ioc,
+>>      QIOChannelSocket *sioc;
+>>  
+>>      sioc = qio_channel_socket_accept(QIO_CHANNEL_SOCKET(ioc),
+>> -                                     NULL);
+>> +                                     -1, NULL);
+>>      if (!sioc) {
+>>          return TRUE;
+>>      }
+>> diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
+>> index 57ad830..0e6d683 100644
+>> --- a/scsi/qemu-pr-helper.c
+>> +++ b/scsi/qemu-pr-helper.c
+>> @@ -800,7 +800,7 @@ static gboolean accept_client(QIOChannel *ioc, GIOCondition cond, gpointer opaqu
+>>      PRHelperClient *prh;
+>>  
+>>      cioc = qio_channel_socket_accept(QIO_CHANNEL_SOCKET(ioc),
+>> -                                     NULL);
+>> +                                     -1, NULL);
+>>      if (!cioc) {
+>>          return TRUE;
+>>      }
+>> diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
+>> index 2e8eb7b..19e5dab 100644
+>> --- a/tests/qtest/tpm-emu.c
+>> +++ b/tests/qtest/tpm-emu.c
+>> @@ -83,7 +83,7 @@ void *tpm_emu_ctrl_thread(void *data)
+>>      g_cond_signal(&s->data_cond);
+>>  
+>>      qio_channel_wait(QIO_CHANNEL(lioc), G_IO_IN);
+>> -    ioc = QIO_CHANNEL(qio_channel_socket_accept(lioc, &error_abort));
+>> +    ioc = QIO_CHANNEL(qio_channel_socket_accept(lioc, -1, &error_abort));
+>>      g_assert(ioc);
+>>  
+>>      {
+>> diff --git a/tests/test-char.c b/tests/test-char.c
+>> index 614bdac..1bb6ae0 100644
+>> --- a/tests/test-char.c
+>> +++ b/tests/test-char.c
+>> @@ -884,7 +884,7 @@ char_socket_client_server_thread(gpointer data)
+>>      QIOChannelSocket *cioc;
+>>  
+>>  retry:
+>> -    cioc = qio_channel_socket_accept(ioc, &error_abort);
+>> +    cioc = qio_channel_socket_accept(ioc, -1, &error_abort);
+>>      g_assert_nonnull(cioc);
+>>  
+>>      if (char_socket_ping_pong(QIO_CHANNEL(cioc), NULL) != 0) {
+>> diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
+>> index d43083a..0d410cf 100644
+>> --- a/tests/test-io-channel-socket.c
+>> +++ b/tests/test-io-channel-socket.c
+>> @@ -75,7 +75,7 @@ static void test_io_channel_setup_sync(SocketAddress *listen_addr,
+>>      qio_channel_set_delay(*src, false);
+>>  
+>>      qio_channel_wait(QIO_CHANNEL(lioc), G_IO_IN);
+>> -    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, &error_abort));
+>> +    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, -1, &error_abort));
+>>      g_assert(*dst);
+>>  
+>>      test_io_channel_set_socket_bufs(*src, *dst);
+>> @@ -143,7 +143,7 @@ static void test_io_channel_setup_async(SocketAddress *listen_addr,
+>>      g_assert(!data.err);
+>>  
+>>      qio_channel_wait(QIO_CHANNEL(lioc), G_IO_IN);
+>> -    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, &error_abort));
+>> +    *dst = QIO_CHANNEL(qio_channel_socket_accept(lioc, -1, &error_abort));
+>>      g_assert(*dst);
+>>  
+>>      qio_channel_set_delay(*src, false);
+>> -- 
+>> 1.8.3.1
+>>
 
