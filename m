@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18128277202
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 15:17:31 +0200 (CEST)
-Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4037427721F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 15:27:12 +0200 (CEST)
+Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLR7p-0001q2-UV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 09:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38970)
+	id 1kLRHD-0005fV-BN
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 09:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kLR6P-0001Hh-AN
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 09:16:01 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:37575)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLRGF-0004lU-Mo
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 09:26:11 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kLR6J-00022R-BQ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 09:16:01 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id kk9so1591472pjb.2
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 06:15:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=az/wsOQwgBXT/JHQLjm+p3Ns1zy8RvzvKA8qGlTCQ5Q=;
- b=K77JuxdGRdAwy1oosxpzn57IvE9hBBpfGsT4BvgBIQwZTIePCRH7eyErzCtYOofUwC
- XoS2Ju7Si/nvGHKzlJ0G28j06AqqsW9P/3vG8A7RaiF1mvuF8QHLbfQBPj0rPpxxap0W
- DhUw5gm30V3xooq9vVLna4fUm/JcjwTOOqHjHvaKT2GXyd/E7JjlURVTnHmcK9UMgmHw
- HjivHww4PcJ6xwCPhhp27y9Vh9mdwuAZGT3kvvdy77bNzwAzRgIYI35ZnxIID8rdxQBY
- yIxbH92FtmiBf+St95Ioh5K3t/d0QA+FZuNwQHwq3OlVy+zNm+5zySDkasRKBHhBcjSQ
- UeJA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLRG9-0003b9-RZ
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 09:26:11 -0400
+Received: by mail-ej1-x630.google.com with SMTP id i26so4415879ejb.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 06:26:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W9sBZ1D3FeWEwSqR0OXsStgm+06piW+45wc8xzqQ1Uk=;
+ b=xnSOAilI5QN3ozStJhyIsNfsnCzGCg6dEE6PP8MyxtJ+9ymX8WZRw3DperxatoNpI+
+ S6W5xSdh4w5T8zJlqgUMThGuk1uZ2vdE246jkw558j0yHJXND6yRbCXQ5mneBiTSHSzB
+ n/whPKBDtNLwn0ulq22O/HwP6zrJcy0bKj4b+z2s2Xu7m6GFHCf4af4nGnUyf5ucZDJJ
+ NbuStZhfHjKXRP6G8JLknFdX4SpPsS2bdntWFZ5JzpsMU0/K3QuR64sKmouCiEg9GWyp
+ 9cA12VHFyAG5Z5XEVbGCq7HNv4wkGuSL4Y1i9RmKEHG2o4w01GnbK6U7Alm4KYtQPY1y
+ ScRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=az/wsOQwgBXT/JHQLjm+p3Ns1zy8RvzvKA8qGlTCQ5Q=;
- b=tkrfE5R7H+f5OrDrfDZg7l2KbQZtwI4oTN4zNZwG4A5fMV5kXQorN+N9EqnL1FvR5D
- NfzcM7wqHd5Q2bXZYOJkZOh2VK3SQBNzASlot4Kxb135NF6S1BX7A/c/9paFm6ny+RBz
- V/TfHHWZX0ihobdO7+fK8VQAuq/e/+FEoT6aBC90AfxHjhK90DmS5owMnpL9I1PO2sj6
- CjBWKaO73PgCBlQhg9+mR5gsE5brTitpcWdfsAIF3WeKxFIcLFU/iZKYV0XKJquyb5sj
- 8OvmuxUr3CvzuUb0D7Wcu2UD5SBJvqZ6q0ftNED0IezpZo4G4MkjZ7gFq3nLKnBHdU8x
- ChGg==
-X-Gm-Message-State: AOAM5335LWMTs/uDlI+UKtH8An+9QvIVB2OsxU1IlL+DoTyASKSQh1BV
- 5NPHs0S91dQiKNDmARRLC6TZwQ==
-X-Google-Smtp-Source: ABdhPJygPqbZT9VRms7rirLS40GuU7VC/CjYMmyfYIAOKWVuOvT7qQVU5uhtfVwPusBQmroX+IutGg==
-X-Received: by 2002:a17:90b:4b11:: with SMTP id
- lx17mr3980358pjb.22.1600953352806; 
- Thu, 24 Sep 2020 06:15:52 -0700 (PDT)
-Received: from ani-ubuntu ([115.96.139.162])
- by smtp.googlemail.com with ESMTPSA id q7sm3117080pgg.10.2020.09.24.06.15.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 06:15:52 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <ani@ani-ubuntu>
-Date: Thu, 24 Sep 2020 18:45:46 +0530 (IST)
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [RFC PATCH v3 2/7] hw/i386/acpi-build: Add ACPI PCI hot-plug
- methods to Q35
-In-Reply-To: <20200924070013.165026-3-jusual@redhat.com>
-Message-ID: <alpine.DEB.2.21.2009241831140.17687@ani-ubuntu>
-References: <20200924070013.165026-1-jusual@redhat.com>
- <20200924070013.165026-3-jusual@redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W9sBZ1D3FeWEwSqR0OXsStgm+06piW+45wc8xzqQ1Uk=;
+ b=b7aTCbdZt4Xc+9EYubm4wErOIFbzrhZkhDNBq0HmcBjng57i3QJXkn5nRk7Otkcsy9
+ qtxp708iuURa5Wn+PAf+stC1jjkEBhb85A1FVQLprQQOxdtUs9q2tQ7oR/Zpl402aS3z
+ s4+gYM2K8jyA1BM/I+Af8DCacBvNvoNSFk6/GOvb+25G9CDXrai966oV8Oa072PymVG9
+ TTtv42dtY3WXkoXGw2hQEeYXmN5IopP0YNAUtfGOvnDTpKMnK0gdPtCdyXu4hUcAgM+m
+ 0GdPW9xbRKxx12F2TAbWaY4oLL3ZfrGMbp+BMs6qTajf3RlP2KvC/6GBxEIaxAqrFpqQ
+ N68Q==
+X-Gm-Message-State: AOAM531pQYOpgDD87SYFIiGJbvFV0mVE4dOSK9/MidoH2x9CI7XFmIOc
+ maOSz2YumDdKpmQEwkeSMPPkb5gMscwHGL8MrPz9pQ==
+X-Google-Smtp-Source: ABdhPJzciKdW9wsIXB1getpEuAYIfwdsAHfV03OUPaDm+BtHMFDtLKgq/pxntQ2JQO6U6LwkH7EVduVQlq1s0cAYnFY=
+X-Received: by 2002:a17:907:20d9:: with SMTP id
+ qq25mr1002769ejb.382.1600953962866; 
+ Thu, 24 Sep 2020 06:26:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-Received-SPF: none client-ip=2607:f8b0:4864:20::1042;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1042.google.com
+References: <20200810195019.25427-1-peter.maydell@linaro.org>
+ <20200810195019.25427-10-peter.maydell@linaro.org>
+ <875z8t913t.fsf@dusky.pond.sub.org>
+ <CAFEAcA_X6gA7XTAXwcCLa-08UWpwg_AhBVKyTfsDrq53R4rH0A@mail.gmail.com>
+ <877dsmrq9x.fsf@dusky.pond.sub.org>
+In-Reply-To: <877dsmrq9x.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Sep 2020 14:25:51 +0100
+Message-ID: <CAFEAcA8A=xJ8b2q1aNPQnn5CevW0Eds9o-_VEGJ=Pav5__EYLQ@mail.gmail.com>
+Subject: Re: [PATCH v5 09/20] docs/sphinx: Add new qapi-doc Sphinx extension
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,243 +83,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 22 Sep 2020 at 12:42, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Fri, 4 Sep 2020 at 13:29, Markus Armbruster <armbru@redhat.com> wrote:
+> >> Got a pointer to "Writing Sphinx Extensions for Dummies" or similar?
+> >
+> > The upstream documentation on extending Sphinx is probably
+> > a good place to start; in particular the tutorials are useful:
+> >
+> > https://www.sphinx-doc.org/en/master/development/index.html
+>
+> Do you think having this link in a comment could help future readers /
+> maintainers?
 
+Easy enough to add it, and it doesn't hurt.
 
-On Thu, 24 Sep 2020, Julia Suvorova wrote:
+> > OK, how about:
+> >
+> > # The purpose of this extension is to read the documentation comments
+> > # in QAPI schema files, and insert them all into the current document.
+> > #
+> > # It implements one new rST directive, "qapi-doc::".
+> > # Each qapi-doc:: directive takes one argument, which is the
+> > # path of the .json file to process, relative to the source tree.
+> > #
+> > # The docs/conf.py file must set the qapidoc_srctree config value to
+> > # the root of the QEMU source tree.
+> >
+> > ?
+>
+> Works for me with "pathname" instead of "path".  I'd also write "schema
+> file" instead of ".json file", but that's a matter of taste and up to
+> you.
 
-> Implement notifications and gpe to support q35 ACPI PCI hot-plug.
-> Use 0xcc4 - 0xcd7 range for 'acpi-pci-hotplug' io ports.
->
+Fixed.
 
-For this patch, I would suggest maybe you can also add a diff of the
-disassembly of the DSDT table so that we know what changes exactly we
-shall see in the table as a result of this patch.
-Add the diff to this commit message as it will be helpful for anyone
-to take a look at it when they look at this patch.
+> The doc string is confusing (I figure you borrowed the it along with the
+> code).  str.join() works just fine for arrays.  It's not the kind of
+> iterable that's the problem, it's the kind of thing the iterable yields:
+> str.join() wants str, we have. docutils.node.literal.
+>
+> The lazy solution is to delete the confusing doc string.
+>
+> Here's my attempt at a non-lazy solution:
+>
+>     """Yield the members of *iterable* interspersed with *separator*."""
 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> ---
-> hw/i386/acpi-build.h    |  4 ++++
-> include/hw/acpi/ich9.h  |  2 ++
-> include/hw/acpi/pcihp.h |  3 ++-
-> hw/acpi/pcihp.c         |  8 ++++----
-> hw/acpi/piix4.c         |  4 +++-
-> hw/i386/acpi-build.c    | 27 ++++++++++++++++-----------
-> 6 files changed, 31 insertions(+), 17 deletions(-)
->
-> diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
-> index 74df5fc612..487ec7710f 100644
-> --- a/hw/i386/acpi-build.h
-> +++ b/hw/i386/acpi-build.h
-> @@ -5,6 +5,10 @@
->
-> extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
->
-> +/* PCI Hot-plug registers bases. See docs/spec/acpi_pci_hotplug.txt */
-> +#define ACPI_PCIHP_SEJ_BASE 0x8
-> +#define ACPI_PCIHP_BNMR_BASE 0x10
-> +
-> void acpi_setup(void);
->
-> #endif
-> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-> index 28a53181cb..4d19571ed7 100644
-> --- a/include/hw/acpi/ich9.h
-> +++ b/include/hw/acpi/ich9.h
-> @@ -28,6 +28,8 @@
-> #include "hw/acpi/acpi_dev_interface.h"
-> #include "hw/acpi/tco.h"
->
-> +#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
-> +
-> typedef struct ICH9LPCPMRegs {
->     /*
->      * In ich9 spec says that pm1_cnt register is 32bit width and
-> diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-> index 02f4665767..ce49fb03b9 100644
-> --- a/include/hw/acpi/pcihp.h
-> +++ b/include/hw/acpi/pcihp.h
-> @@ -54,7 +54,8 @@ typedef struct AcpiPciHpState {
-> } AcpiPciHpState;
->
-> void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
-> -                     MemoryRegion *address_space_io, bool bridges_enabled);
-> +                     MemoryRegion *address_space_io, bool bridges_enabled,
-> +                     uint16_t io_base);
->
-> void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->                                    DeviceState *dev, Error **errp);
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index ff23104aea..bb457bc279 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -38,7 +38,6 @@
-> #include "qom/qom-qobject.h"
-> #include "trace.h"
->
-> -#define ACPI_PCIHP_ADDR 0xae00
-> #define ACPI_PCIHP_SIZE 0x0014
-> #define PCI_UP_BASE 0x0000
-> #define PCI_DOWN_BASE 0x0004
-> @@ -381,12 +380,13 @@ static const MemoryRegionOps acpi_pcihp_io_ops = {
-> };
->
-> void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
-> -                     MemoryRegion *address_space_io, bool bridges_enabled)
-> +                     MemoryRegion *address_space_io, bool bridges_enabled,
-> +                     uint16_t io_base)
-> {
->     s->io_len = ACPI_PCIHP_SIZE;
-> -    s->io_base = ACPI_PCIHP_ADDR;
-> +    s->io_base = io_base;
+Docstring updated to that text.
 
-Maybe you want to remove ACPI_PCIHP_ADDR ?
+> >> I think I'd rather have a separate _node_for_ifcond().  Not a demand.
+> >
+> > I'm not sure what you have in mind here, so I'll leave it as it is :-)
+>
+> _nodes_for_sections() is used like this:
+>
+>         self._add_doc(WHAT,
+>                       [self._nodes_for_WHAT(doc, ...),
+>                        self._nodes_for_features(doc),
+>                        self._nodes_for_sections(doc, ifcond)])
+>
+> ._add_doc()'s second argument is a list of nodes for sections.
+>
+> ._nodes_for_WHAT() computes the nodes specific to the kind of thing
+> we're processing: enum, object, alternate, command, event.
+>
+> ._nodes_for_features() computes the nodes for the feature section.
+>
+> ._nodes_for_sections() computes both the nodes for additional sections
+> and the nodes for the ifcond section.
+>
+> I'd compute the nodes for the ifcond section in their own function, to
+> keep .nodes_for_sections() focused on just one purpose.
 
->
-> -    s->root= root_bus;
-> +    s->root = root_bus;
->     s->legacy_piix = !bridges_enabled;
->
->     memory_region_init_io(&s->io, owner, &acpi_pcihp_io_ops, s,
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 832f8fba82..a505ab5bcf 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -50,6 +50,8 @@
-> #define GPE_BASE 0xafe0
-> #define GPE_LEN 4
->
-> +#define ACPI_PCIHP_ADDR_PIIX4 0xae00
-> +
-> struct pci_status {
->     uint32_t up; /* deprecated, maintained for migration compatibility */
->     uint32_t down;
-> @@ -597,7 +599,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
->     memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
->
->     acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> -                    s->use_acpi_hotplug_bridge);
-> +                    s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
->
->     s->cpu_hotplug_legacy = true;
->     object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 0e0535d2e3..cf503b16af 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -201,10 +201,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
->         /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
->         pm->fadt.rev = 1;
->         pm->cpu_hp_io_base = PIIX4_CPU_HOTPLUG_IO_BASE;
-> -        pm->pcihp_io_base =
-> -            object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
-> -        pm->pcihp_io_len =
-> -            object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
->     }
->     if (lpc) {
->         struct AcpiGenericAddress r = { .space_id = AML_AS_SYSTEM_IO,
-> @@ -214,6 +210,10 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
->         pm->fadt.flags |= 1 << ACPI_FADT_F_RESET_REG_SUP;
->         pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
->     }
-> +    pm->pcihp_io_base =
-> +        object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
-> +    pm->pcihp_io_len =
-> +        object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
->
->     /* The above need not be conditional on machine type because the reset port
->      * happens to be the same on PIIX (pc) and ICH9 (q35). */
-> @@ -472,7 +472,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
->         QLIST_FOREACH(sec, &bus->child, sibling) {
->             int32_t devfn = sec->parent_dev->devfn;
->
-> -            if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
-> +            if (pci_bus_is_root(sec)) {
->                 continue;
->             }
->
-> @@ -1368,7 +1368,7 @@ static void build_piix4_isa_bridge(Aml *table)
->     aml_append(table, scope);
-> }
->
-> -static void build_piix4_pci_hotplug(Aml *table)
-> +static void build_x86_pci_hotplug(Aml *table, uint64_t pcihp_addr)
-> {
->     Aml *scope;
->     Aml *field;
-> @@ -1377,20 +1377,22 @@ static void build_piix4_pci_hotplug(Aml *table)
->     scope =  aml_scope("_SB.PCI0");
->
->     aml_append(scope,
-> -        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(0xae00), 0x08));
-> +        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(pcihp_addr), 0x08));
->     field = aml_field("PCST", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
->     aml_append(field, aml_named_field("PCIU", 32));
->     aml_append(field, aml_named_field("PCID", 32));
->     aml_append(scope, field);
->
->     aml_append(scope,
-> -        aml_operation_region("SEJ", AML_SYSTEM_IO, aml_int(0xae08), 0x04));
-> +    aml_operation_region("SEJ", AML_SYSTEM_IO,
-> +                         aml_int(pcihp_addr + ACPI_PCIHP_SEJ_BASE), 0x04));
->     field = aml_field("SEJ", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
->     aml_append(field, aml_named_field("B0EJ", 32));
->     aml_append(scope, field);
->
->     aml_append(scope,
-> -        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x04));
-> +        aml_operation_region("BNMR", AML_SYSTEM_IO,
-> +                             aml_int(pcihp_addr + ACPI_PCIHP_BNMR_BASE), 0x04));
->     field = aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
->     aml_append(field, aml_named_field("BNUM", 32));
->     aml_append(scope, field);
-> @@ -1504,7 +1506,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->         build_hpet_aml(dsdt);
->         build_piix4_isa_bridge(dsdt);
->         build_isa_devices_aml(dsdt);
-> -        build_piix4_pci_hotplug(dsdt);
-> +        build_x86_pci_hotplug(dsdt, pm->pcihp_io_base);
+Oh, OK, that makes sense. The name "_nodes_for_ifcond" is already
+taken, though, so I'll call it "_nodes_for_if_section".
 
-This will conflict here with my patch. I think you need to do something 
-like this:
-
-   if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-
-You'll get this from my patch.
-
-
->         build_piix4_pci0_int(dsdt);
->     } else {
->         sb_scope = aml_scope("_SB");
-> @@ -1520,6 +1522,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->         build_hpet_aml(dsdt);
->         build_q35_isa_bridge(dsdt);
->         build_isa_devices_aml(dsdt);
-> +        if (pm->pcihp_bridge_en) {
-> +            build_x86_pci_hotplug(dsdt, pm->pcihp_io_base);
-> +        }
-
-ditto as above.
-
->         build_q35_pci0_int(dsdt);
->         if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
->             build_smb0(dsdt, pcms->smbus, ICH9_SMB_DEV, ICH9_SMB_FUNC);
-> @@ -1546,7 +1551,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->     {
->         aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+> >> Makes me wonder why you build two levels in the first place.
+> >
+> > This is probably just me not being a very experienced Python
+> > programmer. What's the syntax for passing _add_doc the single list
+> > which is just the concatenation of the various lists that
+> > the _nodes_for_* methods return ?
 >
-> -        if (misc->is_piix4) {
-> +        if (misc->is_piix4 || pm->pcihp_bridge_en) {
->             method = aml_method("_E01", 0, AML_NOTSERIALIZED);
->             aml_append(method,
->                 aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
-> -- 
-> 2.25.4
+> You could replace
 >
+>                       [self._nodes_for_WHAT(doc, ...),
+>                        self._nodes_for_features(doc),
+>                        self._nodes_for_sections(doc, ifcond)])
 >
+> by
+>
+>                       self._nodes_for_WHAT(doc, ...)
+>                       + self._nodes_for_features(doc)
+>                       + self._nodes_for_sections(doc, ifcond)
+>
+> Operator + concatenates sequences.
+
+Right. We also need to change some of the _nodes_for_whatever
+functions that were sometimes returning just a single node
+(eg "return section") to instead return a one-element list
+("return [section]"), and make them return [] where they were
+previously returning None. But this seems like a good change,
+as then all these functions consistently return a list
+(which might have 0, 1 or many elements).
+
+> > How do I get a QAPIError from within one of the
+> > visit_* or freeform methods of a QAPISchemaVisitor ?
+>
+> The visit_ methods take an info argument.  With that:
+>
+>     raise QAPISemError(info, "the error message")
+
+We need to launder it into an ExtensionError, so
+   qapierr = QAPISemError(info, "message")
+   raise ExtensionError(str(qapierr))
+
+but otherwise this works nicely, and you get:
+
+Extension error:
+In file included from
+/home/petmay01/linaro/qemu-from-laptop/qemu/docs/../qapi/qapi-schema.json:72:
+/home/petmay01/linaro/qemu-from-laptop/qemu/docs/../qapi/block.json:4:
+section or subsection heading must be in its own doc comment block
+
+(Or we could do the launder-QAPIError-into-ExtensionError
+in run() by extending the scope of its try..except, as I think
+you suggest below.)
+
+> > (Aside: what was your conclusion on the question of section
+> > headers, anyway? I need to go back and re-read the older
+> > threads but I think that is still an unresolved topic...)
+>
+> If I remember correctly, I disliked "[PATCH 19/29]
+> qapi/qapi-schema.json: Put headers in their own doc-comment blocks",
+> because "it sweeps the actual problem under the rug, namely flaws in our
+> parsing and representation of doc comments."
+>
+> Our documentation has a tree structure.  Ideally, we'd represent it as a
+> tree.  I figure such a tree would suit you well: you could translate
+> more or less 1:1 to Sphinx nodes.
+>
+> We currently have a two-level list instead: a list of blocks (either
+> definition or free-form), where each block has a list of sections (see
+> QAPIDoc's doc string).
+>
+> My commit dcdc07a97c "qapi: Make section headings start a new doc
+> comment block" was a minimally invasive patch to get us closer to a
+> (partially flattened) tree.  Kind of collects the dirt in an (hopefully
+> obvious) pile next to the rug.
+
+Ah, yes, I'd forgotten that commit. So I can drop the bit of
+code you disliked previously that insists on section headings
+being in their own freeform block (handling "header line followed
+by freeform text" is easy). That also incidentally means we're down
+to only one parser-error in the qapidoc.py, which is the one that
+catches mis-ordered section headings (eg using '=== header' when
+you hadn't previously used '== header').
+
+> You could finish the job and rework the representation into a tree.
+> That would be lovely.  I appreciate help with cleaning up existing QAPI
+> messes very much, but do not feel obliged.
+>
+> You could work with the two-level list as is, relying on the fact that a
+> '=' can only occur right at the start of a free-form block.
+
+I'll take this option, I think.
+
+> You could tweak the two-level list just a bit, so that the heading
+> becomes properly represented, and you don't have to match free-form body
+> section text to find it.
+
+thanks
+-- PMM
 
