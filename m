@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B155276DDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:51:46 +0200 (CEST)
-Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009E4276DB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Sep 2020 11:46:26 +0200 (CEST)
+Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLNuj-00051r-IU
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38898)
+	id 1kLNpZ-0005T1-0P
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 05:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTk-0000wR-Tp
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33141)
+ id 1kLNTp-0001BJ-SR
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLNTi-00063U-T2
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:52 -0400
+ id 1kLNTk-00063w-BT
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 05:23:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600939430;
+ s=mimecast20190719; t=1600939431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SvyaTO1ei0MJNGjxJt0EegRpZ6xa/svFn/Im3XA6sB0=;
- b=doJ1DFdnyNwvwYGwyOQDRi0uZyEDNQZjBGMA8zc6gicjN70CFzyiDJqnAguKV/czgy3GK4
- x/Z29B6OuYHSAykikmfFU79qYPPtH2YNzlm/4SEDt9U/TnyuBOVtAcOVxSba5btHBdBt2c
- Eic+/GUa09Am8agUJt3iBqQ5SR9PCG0=
+ bh=KUQybDQTiMw6/4JwPhuOD8S61c0O7V2K0/QidkUDYtg=;
+ b=cMZKsaq0CBXYV43aqVCegfMXc+EYiRuMGmAjt509iQLdfifpSK/sd4+R2AP0zE7Coc2L5R
+ NKBiXc0bgqiC8HLA7/RVogFzkiFqNZ5e5OgqJSrSgUSNp0xaWSY0iQQr9WFdRjKbaDKYTf
+ vjFMMmnZI8tzdKu40i8P/jY10liBXQE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-R4vRevH2OlWiMRjS9GZY9g-1; Thu, 24 Sep 2020 05:23:48 -0400
-X-MC-Unique: R4vRevH2OlWiMRjS9GZY9g-1
+ us-mta-529-0U8QBLNzPw6Su_Yk6QMQKA-1; Thu, 24 Sep 2020 05:23:48 -0400
+X-MC-Unique: 0U8QBLNzPw6Su_Yk6QMQKA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66FBD1007473
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6277393B1
  for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1894B55778;
- Thu, 24 Sep 2020 09:23:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 878CF55764
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 09:23:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/92] meson: qtest: set "depends" correctly
-Date: Thu, 24 Sep 2020 05:22:18 -0400
-Message-Id: <20200924092314.1722645-37-pbonzini@redhat.com>
+Subject: [PULL 37/92] mtest2make: add support for introspected test
+ dependencies
+Date: Thu, 24 Sep 2020 05:22:19 -0400
+Message-Id: <20200924092314.1722645-38-pbonzini@redhat.com>
 In-Reply-To: <20200924092314.1722645-1-pbonzini@redhat.com>
 References: <20200924092314.1722645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,90 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This does not have any effect on Meson's behavior itself, since "meson test"
-always rebuilds everything (that is one reason why we are not using it...).
-However, mtest2make can use this information to do a selective rebuild
-for the requested suite.
+Right now all "make check" targets depend blindly on "all".  If Meson
+is 0.56.0 or newer, we can use the correct dependencies using the new
+"depends" entry in "meson introspect --tests".
 
-Cc: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build             | 7 ++++---
- tests/qtest/meson.build | 8 +++++++-
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ Makefile              |  2 +-
+ scripts/mtest2make.py | 19 +++++++++++++++----
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 1e7d2f9a0a..6abb8bbcb1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1088,7 +1088,7 @@ common_all = static_library('common',
- 
- feature_to_c = find_program('scripts/feature_to_c.sh')
- 
--emulators = []
-+emulators = {}
- foreach target : target_dirs
-   config_target = config_target_mak[target]
-   target_name = config_target['TARGET_NAME']
-@@ -1207,7 +1207,8 @@ foreach target : target_dirs
-     }]
-   endif
-   foreach exe: execs
--    emulators += executable(exe['name'], exe['sources'],
-+    emulators += {exe['name']:
-+         executable(exe['name'], exe['sources'],
-                install: true,
-                c_args: c_args,
-                dependencies: arch_deps + deps + exe['dependencies'],
-@@ -1216,6 +1217,7 @@ foreach target : target_dirs
-                link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
-                link_args: link_args,
-                gui_app: exe['gui'])
-+    }
- 
-     if 'CONFIG_TRACE_SYSTEMTAP' in config_host
-       foreach stp: [
-@@ -1261,7 +1263,6 @@ if xkbcommon.found()
-                            dependencies: [qemuutil, xkbcommon], install: have_tools)
+diff --git a/Makefile b/Makefile
+index 42d90cb597..897246d77c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -78,7 +78,7 @@ ${ninja-targets-c_COMPILER} ${ninja-targets-cpp_COMPILER}: .var.command += -MP
+ # reread (and MESON won't be empty anymore).
+ ifneq ($(MESON),)
+ Makefile.mtest: build.ninja scripts/mtest2make.py
+-	$(MESON) introspect --tests --benchmarks | $(PYTHON) scripts/mtest2make.py > $@
++	$(MESON) introspect --targets --tests --benchmarks | $(PYTHON) scripts/mtest2make.py > $@
+ -include Makefile.mtest
  endif
  
--qemu_block_tools = []
- if have_tools
-   qemu_img = executable('qemu-img', [files('qemu-img.c'), hxdep],
-              dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 874b5be62b..4f7757ee93 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -228,10 +228,15 @@ foreach dir : target_dirs
-   endif
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index 9cbb2e374d..c3489a4605 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -5,6 +5,7 @@
+ # Author: Paolo Bonzini <pbonzini@redhat.com>
  
-   target_base = dir.split('-')[0]
-+  qtest_emulator = emulators['qemu-system-' + target_base]
-   qtests = get_variable('qtests_' + target_base, []) + qtests_generic
+ from collections import defaultdict
++import itertools
+ import json
+ import os
+ import shlex
+@@ -36,7 +37,7 @@ SPEED = quick
+ introspect = json.load(sys.stdin)
+ i = 0
  
-+  test_deps = []
-   qtest_env = environment()
--  qtest_env.set('QTEST_QEMU_IMG', './qemu-img')
-+  if have_tools
-+    qtest_env.set('QTEST_QEMU_IMG', './qemu-img')
-+    test_deps += [qemu_img]
-+  endif
-   qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vmstate-daemon.sh')
-   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
-   
-@@ -248,6 +253,7 @@ foreach dir : target_dirs
-     # FIXME: missing dependency on the emulator binary and qemu-img
-     test('qtest-@0@: @1@'.format(target_base, test),
-          qtest_executables[test],
-+         depends: [test_deps, qtest_emulator],
-          env: qtest_env,
-          args: ['--tap', '-k'],
-          protocol: 'tap',
+-def process_tests(test, suites):
++def process_tests(test, targets, suites):
+     global i
+     env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
+                     for k, v in test['env'].items()))
+@@ -58,12 +59,19 @@ def process_tests(test, suites):
+     i += 1
+     if test['workdir'] is not None:
+         print('.test.dir.%d := %s' % (i, shlex.quote(test['workdir'])))
++
++    if 'depends' in test:
++        deps = (targets.get(x, []) for x in test['depends'])
++        deps = itertools.chain.from_iterable(deps)
++    else:
++        deps = ['all']
++
+     print('.test.name.%d := %s' % (i, test['name']))
+     print('.test.driver.%d := %s' % (i, driver))
+     print('.test.env.%d := $(.test.env) %s' % (i, env))
+     print('.test.cmd.%d := %s' % (i, cmd))
+     print('.PHONY: run-test-%d' % (i,))
+-    print('run-test-%d: all' % (i,))
++    print('run-test-%d: %s' % (i, ' '.join(deps)))
+     print('\t@$(call .test.run,%d,$(.test.output-format))' % (i,))
+ 
+     test_suites = test['suite'] or ['default']
+@@ -102,16 +110,19 @@ def emit_suite(name, suite, prefix):
+     print('.tests += $(.test.$(SPEED).%s)' % (target, ))
+     print('endif')
+ 
++targets = {t['id']: [os.path.relpath(f) for f in t['filename']]
++           for t in introspect['targets']}
++
+ testsuites = defaultdict(Suite)
+ for test in introspect['tests']:
+-    process_tests(test, testsuites)
++    process_tests(test, targets, testsuites)
+ emit_prolog(testsuites, 'check')
+ for name, suite in testsuites.items():
+     emit_suite(name, suite, 'check')
+ 
+ benchsuites = defaultdict(Suite)
+ for test in introspect['benchmarks']:
+-    process_tests(test, benchsuites)
++    process_tests(test, targets, benchsuites)
+ emit_prolog(benchsuites, 'bench')
+ for name, suite in benchsuites.items():
+     emit_suite(name, suite, 'bench')
 -- 
 2.26.2
 
