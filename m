@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9230278CC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:32:09 +0200 (CEST)
-Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64A6278CD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:34:16 +0200 (CEST)
+Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLphg-0002Lq-V1
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:32:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59876)
+	id 1kLpjj-0004RC-Oo
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kLpX3-0001C5-SC
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:21:10 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:37194)
+ id 1kLpX6-0001Cu-U9
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:21:14 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kLpWw-0005Ru-9B
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:21:09 -0400
-Received: by mail-pf1-x441.google.com with SMTP id w7so3519781pfi.4
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:21:01 -0700 (PDT)
+ id 1kLpX2-0005Rz-Rw
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:21:12 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 34so2840786pgo.13
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mpMuefpfKDSRa7HcV8+nIrrA4a3VHPfcVNzq0zqqZrA=;
- b=s2jX6yv6L6/OYkKhCLJhUKpvPgP6Qh3E4zUP/V/2J9EQboIuqhHH2Vniu9Lq8NJWKm
- b2ViiQWtzIxldMab9CixRJ7K5xqlrL804mf3CY+WXCC6mG7XU8mDsCBKQ3S/j0nlIAlW
- LOP62ur7H24YihB0umcT7SgHKQb9TKA7p20qAlk1dh6ItKOXGHXOphhwSv4Wn+NmFfG6
- z16TpL1nWQP/d4U8pLWb3USIXctxjC6qzKN2cmjvZOELjKXMpJDuNgmFBr2nHKBTwoa8
- wwa02ubeiEZPc/pQqtFl0kdZYwqPTzmydBSLlMWkSZYcCZTcQjKjcmf+IQ/9YVFfjqBg
- JDJg==
+ bh=zr2QWZIaQ416tfvMuGmnFuEpgzcclZDiNIL1w+CaZnM=;
+ b=P48Mm0V5ZXsyDICfr03qRnpHI2cflgPzbD+s83vBKG6aARRuGWJxDqHo3udWU4hl/j
+ oyxYyxaVVGBlE1ySztLuJi4f1+eZNEddyYDTXv49z5W2UH/hKtyQRR9TSsA5dDpYFrVH
+ U30MZXBo38S477lMCwnA1ePeVTHw4rzXgiwqBbFxFZZlwTeRscKJUGgxCffs8S2GQfMy
+ /+82lRIbyJrrQdJMEHRX+ZlY0wtod5ez1/m74x+lQvP+PqSq4z39H5EwrvbqQynY0cmd
+ sE3R+HiTFEz3ddjYYGJB1HT7gHWnGwDLVjnqrpMv6Klv9+jCzhVp0P+7slgFMG5uXcCG
+ HYJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mpMuefpfKDSRa7HcV8+nIrrA4a3VHPfcVNzq0zqqZrA=;
- b=TYHr62WsTefMf7chK98eYSpaYeQ8gmJMQgHpnU9dsmdLcF1mMM2jUEmKMZcN7jW6ka
- vio3EzvRMLkAmzIS5EwsI0Itof9c2FKQdsVleO899b+7AKooT9QQorEJXrtJKU0b738v
- 9hTNLEQ5eyMD59aeyt9O/lHdsY7Aulrxk6kkQTkU7RVIKo8FUUzGXiiycF+Jjk3t6wSU
- Hgk+pE3yj3wWbL8I2mZqWORkXtUBgsyAUlui1+cyg70SX5dXgY7mrXNBwQlOrt0CyU9Q
- Ye1aUduFhoIlPTx3oq3TbN6tuUqHAaAW7wfApgsUklYh2rboditT0OriOZOozRSe176Z
- XGyQ==
-X-Gm-Message-State: AOAM531frLK4nsEsrzxab5gEw5meJGqRBPpsTHvuADNB09pdZ6oAH8cR
- ZYSXJk4hmzsfzzPEmkZpv+ZUxanWuL4Vug==
-X-Google-Smtp-Source: ABdhPJzehvrMKHj33fbqTtrMScVPTlqFQMlemzbuahlLQ8PdWsvK6TgXkKViP4O/DzNe5ORJ8I+YRw==
-X-Received: by 2002:aa7:9f4a:0:b029:142:2501:34f7 with SMTP id
- h10-20020aa79f4a0000b0290142250134f7mr4489385pfr.80.1601047260559; 
- Fri, 25 Sep 2020 08:21:00 -0700 (PDT)
+ bh=zr2QWZIaQ416tfvMuGmnFuEpgzcclZDiNIL1w+CaZnM=;
+ b=enoK4yPwGl65bnujx6uGmy90kCxhrm9kkPx1lnFq3r1D7SsuWeU+ycTN8XNMvRph1Q
+ hNt9zwq3AEo/a3Gic2R61AbEW0SvN7CAdSsfPDmObxVr4IrObKH6R0xoohmePv3M1M5g
+ DD9VA0TBYwEC7CiIGhCYS/pxCJm8dcUMPJRc2AAIQfTBw177ypLmcthDTZHkCahxxK4y
+ jDacdyjDZcIeKN1ULVhWgSG8TRPCIK7twEgLztuVTKp/RsJ2/wDaG9XpEACw5634N0mz
+ plRi8pj04ogpsFxRJOz4UCJGHOS7hOLACsjABURL33cLkC1X4uTmXOOG7Pj2hww9Qs38
+ w9dA==
+X-Gm-Message-State: AOAM5302DMOgYFWoDHtb8VuPNhMPcbwy35LsmSSGkB+WW+e3DKtlDuw3
+ EbaUbJrNUVVD80FCpRKZWj2gFGhUTcoBjw==
+X-Google-Smtp-Source: ABdhPJwdAQXPL872sdEPiy5IQ3upfPMUvoXdE5S0t5BTBhFxgKyrLFnFliKgqkE0uFd40kvPqqj1dA==
+X-Received: by 2002:a17:902:b702:b029:d1:e598:4014 with SMTP id
+ d2-20020a170902b702b02900d1e5984014mr5129473pls.78.1601047261839; 
+ Fri, 25 Sep 2020 08:21:01 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id a5sm2717859pgk.13.2020.09.25.08.20.59
+ by smtp.gmail.com with ESMTPSA id a5sm2717859pgk.13.2020.09.25.08.21.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 08:20:59 -0700 (PDT)
+ Fri, 25 Sep 2020 08:21:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/10] softfloat: Use x86_64 assembly for sh[rl]_double
-Date: Fri, 25 Sep 2020 08:20:45 -0700
-Message-Id: <20200925152047.709901-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/10] softfloat: Use aarch64 assembly for {add, sub}{192,
+ 256}
+Date: Fri, 25 Sep 2020 08:20:46 -0700
+Message-Id: <20200925152047.709901-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200925152047.709901-1-richard.henderson@linaro.org>
 References: <20200925152047.709901-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,42 +90,99 @@ Cc: bharata@linux.ibm.com, alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GCC isn't recognizing this pattern for x86, and it
-probably couldn't recognize that the outer condition
-is not required either.
+The compiler cannot chain more than two additions together.
+Use inline assembly for 3 or 4 additions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/fpu/softfloat-macros.h | 14 ++++++++++++++
+ fpu/softfloat.c                | 27 +++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
+diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
+index 99fa124e56..969a486fd2 100644
+--- a/include/fpu/softfloat-macros.h
++++ b/include/fpu/softfloat-macros.h
+@@ -442,6 +442,13 @@ static inline void
+         "adc %3, %0"
+         : "=&r"(*z0Ptr), "=&r"(*z1Ptr), "=&r"(*z2Ptr)
+         : "rm"(b0), "rm"(b1), "rm"(b2), "0"(a0), "1"(a1), "2"(a2));
++#elif defined(__aarch64__)
++    asm("adds %2, %x5, %x8\n\t"
++        "adcs %1, %x4, %x7\n\t"
++        "adc  %0, %x3, %x6"
++        : "=&r"(*z0Ptr), "=&r"(*z1Ptr), "=&r"(*z2Ptr)
++        : "rZ"(a0), "rZ"(a1), "rZ"(a2), "rZ"(b0), "rZ"(b1), "rZ"(b2)
++        : "cc");
+ #else
+     uint64_t z0, z1, z2;
+     int8_t carry0, carry1;
+@@ -507,6 +514,13 @@ static inline void
+         "sbb %3, %0"
+         : "=&r"(*z0Ptr), "=&r"(*z1Ptr), "=&r"(*z2Ptr)
+         : "rm"(b0), "rm"(b1), "rm"(b2), "0"(a0), "1"(a1), "2"(a2));
++#elif defined(__aarch64__)
++    asm("subs %2, %x5, %x8\n\t"
++        "sbcs %1, %x4, %x7\n\t"
++        "sbc  %0, %x3, %x6"
++        : "=&r"(*z0Ptr), "=&r"(*z1Ptr), "=&r"(*z2Ptr)
++        : "rZ"(a0), "rZ"(a1), "rZ"(a2), "rZ"(b0), "rZ"(b1), "rZ"(b2)
++        : "cc");
+ #else
+     uint64_t z0, z1, z2;
+     int8_t borrow0, borrow1;
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 54d0b210ac..fdf5bde69e 100644
+index fdf5bde69e..07dc17caad 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -7260,12 +7260,22 @@ typedef struct UInt256 {
+@@ -7358,6 +7358,18 @@ static void sub256(UInt256 *r, UInt256 *a, UInt256 *b)
+         : "=&r"(r->w[0]), "=&r"(r->w[1]), "=&r"(r->w[2]), "=&r"(r->w[3])
+         : "rme"(b->w[0]), "rme"(b->w[1]), "rme"(b->w[2]), "rme"(b->w[3]),
+             "0"(a->w[0]),   "1"(a->w[1]),   "2"(a->w[2]),   "3"(a->w[3]));
++#elif defined(__aarch64__)
++    asm("subs %[r3], %x[a3], %x[b3]\n\t"
++        "sbcs %[r2], %x[a2], %x[b2]\n\t"
++        "sbcs %[r1], %x[a1], %x[b1]\n\t"
++        "sbc  %[r0], %x[a0], %x[b0]"
++        : [r0] "=&r"(r->w[0]), [r1] "=&r"(r->w[1]),
++          [r2] "=&r"(r->w[2]), [r3] "=&r"(r->w[3])
++        : [a0] "rZ"(a->w[0]), [a1] "rZ"(a->w[1]),
++          [a2] "rZ"(a->w[2]), [a3] "rZ"(a->w[3]),
++          [b0] "rZ"(b->w[0]), [b1] "rZ"(b->w[1]),
++          [b2] "rZ"(b->w[2]), [b3] "rZ"(b->w[3])
++        : "cc");
+ #else
+     bool borrow = false;
  
- static inline uint64_t shl_double(uint64_t h, uint64_t l, unsigned lsh)
- {
-+#ifdef __x86_64__
-+    asm("shld %b2, %1, %0" : "+r"(h) : "r"(l), "ci"(lsh));
-+    return h;
-+#else
-     return lsh ? (h << lsh) | (l >> (64 - lsh)) : h;
-+#endif
- }
+@@ -7388,6 +7400,13 @@ static void neg256(UInt256 *a)
+         : "=&r"(a->w[0]), "=&r"(a->w[1]), "=&r"(a->w[2]), "+rm"(a->w[3])
+         : "rme"(a->w[0]), "rme"(a->w[1]), "rme"(a->w[2]),
+           "0"(0), "1"(0), "2"(0));
++#elif defined(__aarch64__)
++    asm("negs %3, %3\n\t"
++        "ngcs %2, %2\n\t"
++        "ngcs %1, %1\n\t"
++        "ngc  %0, %0"
++        : "+r"(a->w[0]), "+r"(a->w[1]), "+r"(a->w[2]), "+r"(a->w[3])
++        : : "cc");
+ #else
+     /*
+      * Recall that -X - 1 = ~X, and that since this is negation,
+@@ -7430,6 +7449,14 @@ static void add256(UInt256 *a, UInt256 *b)
+         "adc %4, %0"
+         :  "+r"(a->w[0]),  "+r"(a->w[1]),  "+r"(a->w[2]),  "+r"(a->w[3])
+         : "rme"(b->w[0]), "rme"(b->w[1]), "rme"(b->w[2]), "rme"(b->w[3]));
++#elif defined(__aarch64__)
++    asm("adds %3, %3, %x7\n\t"
++        "adcs %2, %2, %x6\n\t"
++        "adcs %1, %1, %x5\n\t"
++        "adc  %0, %0, %x4"
++        : "+r"(a->w[0]), "+r"(a->w[1]), "+r"(a->w[2]), "+r"(a->w[3])
++        : "rZ"(b->w[0]), "rZ"(b->w[1]), "rZ"(b->w[2]), "rZ"(b->w[3])
++        : "cc");
+ #else
+     bool carry = false;
  
- static inline uint64_t shr_double(uint64_t h, uint64_t l, unsigned rsh)
- {
-+#ifdef __x86_64__
-+    asm("shrd %b2, %1, %0" : "+r"(l) : "r"(h), "ci"(rsh));
-+    return l;
-+#else
-     return rsh ? (h << (64 - rsh)) | (l >> rsh) : l;
-+#endif
- }
- 
- static void shortShift256Left(UInt256 *p, unsigned lsh)
 -- 
 2.25.1
 
