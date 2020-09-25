@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890EA27850A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:25:41 +0200 (CEST)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16034278511
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:28:10 +0200 (CEST)
+Received: from localhost ([::1]:42364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLkv6-0001tH-J8
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:25:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
+	id 1kLkxV-0004kB-5J
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknm-0001Z8-4l; Fri, 25 Sep 2020 06:18:06 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:58262)
+ id 1kLknk-0001Yd-TO; Fri, 25 Sep 2020 06:18:06 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:58264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknh-0007So-TJ; Fri, 25 Sep 2020 06:18:05 -0400
+ id 1kLknh-0007Sp-TQ; Fri, 25 Sep 2020 06:18:04 -0400
 Received: from sekoia-pc.bar.greensocs.com (sekoia-pc.home.lmichel.fr
  [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id EBF81C60F25;
- Fri, 25 Sep 2020 10:17:20 +0000 (UTC)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPS id 08C2BC61424;
+ Fri, 25 Sep 2020 10:17:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1601029040;
+ t=1601029041;
  h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jzk0uP9k3MS5cnLaH5qrGE/fnKTXANTCV6K+Nith/Go=;
- b=hfb9RzTP6dXBiznw5KlW87C53QFgpKuyurFMogcw5A/Z2+gOsWWxdJj4lq1H9IXIm7XtDj
- Ze7oGFn2YoThG2R0mJqc3CDLxkl0qSS575WHOVQ4WcHDBqD+STFCtn8c56y1bLGegu5yf4
- CaxOw6SzzjqP5nR6U/vqzuP+zA6PlUHqGXy8uyu4CCmJNKbr2CB+GnsrFyBjxuXQAcIlMD
- RMTarrPtfFPgIEb9b7B1CKRUlzS3+Nuw65nO4uXiFUkBeUFUNV0tSKFmejCgcn6dKnEJwV
- kNh1+f1FuzgYMLbRZMMP+RmU7rS0NEGbey+DSXCmUuBv13CbMueF3H8cw2Rf6g==
+ bh=nYIO6oVFxUZV1TH9x+9OCm3cGZXkpXFo/VqRcUn44+U=;
+ b=DW5g0qjJIUMvhhgTBWSkRp+9YOyVNrwX/TP5EYfA9pPjQkKw4xKeLN3MSNEh5ScPFyHrsz
+ NGZkXToXVrQ4VgC6E6iKmkeB8/EqM3i4iydCSaODOPMDqu1xtd0yAgQ+caGy11LnD2Bgjy
+ zE+guOKG/BER9sTPEXjFevFEIs6z0PPPr2tgmwBI2xvGjMZQzDMx5gemd96iAoTjNmTw7a
+ hUlh5VdfCNUMm3sTMOStOyz6Gbsiv+AonGiJzSVMg78KEMq1FWy5UzMp1+UUGCeCkbsCwa
+ e+euD6wI4Cq3DYAsMV1KHVkLxW43dB2B38Szm2apup60oYERn38NACX+1KH52w==
 From: Luc Michel <luc@lmichel.fr>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 13/14] hw/char/pl011: add a clock input
-Date: Fri, 25 Sep 2020 12:17:30 +0200
-Message-Id: <20200925101731.2159827-14-luc@lmichel.fr>
+Subject: [RFC PATCH 14/14] hw/arm/bcm2835_peripherals: connect the UART clock
+Date: Fri, 25 Sep 2020 12:17:31 +0200
+Message-Id: <20200925101731.2159827-15-luc@lmichel.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200925101731.2159827-1-luc@lmichel.fr>
 References: <20200925101731.2159827-1-luc@lmichel.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
- s=pharaoh; t=1601029040;
+ s=pharaoh; t=1601029041;
  h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jzk0uP9k3MS5cnLaH5qrGE/fnKTXANTCV6K+Nith/Go=;
- b=K7cR4DFHW1uDWtw0Zq2Nf+uvUafaWoKIX+uHHeLscLRVPa3Z+sOTH+i1aQW+HLaO0J0v73
- WndHOfijhOKHuEGS6aGp/DH+oF3k6E37RNTeDtCXzA8xKTmDWUvtIKW7zgVnkL0zJhVImr
- /O53zFTXZ0y+QzlEnJJrh53eP7I5HWPNlpF6H54vMBqjHD/gny8KZXJL4Gs/ATpFUSsu6o
- +C//+KLXNdsQY24m8bxXoxBdfrYeCco4JMxGUqIqcHurnyxn+NT26t+CYiJu5HhJRfoY5O
- 0G9wpv3NtnFyO+xkwUIVqk8uS8pQ+d6dnVmlph4hLg25H6Nr2oyBdIBUnkBzzQ==
-ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029040; a=rsa-sha256; cv=none;
- b=jRVhJgajq0sjnjwiJcf6nqb9KPhUuxZgd4rOkvSmsHk/GljfvnMhM0rOigoBnb1AdA6hqd0vJ4mZ2bFEQvBTEIA8rXnFfATMpguvYKORcUcVxc+xFTb2+NiVb0afVH208m1h2HfA3k6ax4fuEweL92JniKyuE5XT+U5RkBJ7M7ttAiZCDoTwF/oej4NIcNhMTpnpoVUajShAoKMeP8qNuLUrQSMuV71e4lqJGpcHCE1WYQNhoIESlmKOny1mrJMRakAeDgW5j4eiGFs0eDnhqgvO06Xz0A0zEPsh7D94S8PMis9+mofBIXBZNKxUNabjtFSJa5JFFj56Vefy+sivIg==
+ bh=nYIO6oVFxUZV1TH9x+9OCm3cGZXkpXFo/VqRcUn44+U=;
+ b=Aj75JlhH/otuCtkq4rHuO8rkZ1y1YmCKr6nxnldTCBp2pdnqhPc5BMFOeJSXWWviXcJC+f
+ gCne17Goy45PTbFyltcgeJK/zdDvLftHFwbzxh9PhKQKRvQv9Ho+q7jafOuPxmHr3n8Jhl
+ QebBDH2fgUYE0/6NosS2GaaAy5WWM8mtFd9cyGyXCOB1iAeLYtqLCelEt8RLqQdkbUjNFl
+ kH9YGs9GDlm92Xr/ji2olgHyZ+sQDJUoJ3GRWry22EKmM/9qa8yUB6MGaxw9hfhybOvLhb
+ EQqGiaySnlq7hDIUKHTqXELGVIJ2mXfncJHplhXskMvnV9w9980X9vJC8CLFYg==
+ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029041; a=rsa-sha256; cv=none;
+ b=dyaLWTww/X8AwLKqegqfKpDMeoo40HdqROuBVcSkNUZvT333OEohA5CHKidBgtgK9MkUQ6nejgfcVPKIC5EGg7kUKQWmUTHfAFGiIaYKOoY7uzQECeY6Ilxv+5AMtLzXSaQoW4pTyM7zIFT9nGZ0ByoM6MqFF7kXcW9YzfNUR+OjaWV5DkQWnJnT2fTjXC0Naq1ZomoUe8bv7kR5Ak+iYZ2JvIJb3FbevTKJx/zb12HXkRjc2udg2mGUOmOOX+m/0GIZna9VPZL1laMBqKmEFwJofyN+AAqJXLfSBX7My0LDYcq3mNpS3A9cz53u0pKfa3+gs/gN5ZNJRcUcq+S8uQ==
 ARC-Authentication-Results: i=1;
 	pharaoh.lmichel.fr
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
@@ -88,174 +88,30 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a clock input to the PL011 UART so we can compute the current baud
-rate and trace it. This is intended for developers who wish to use QEMU
-to e.g. debug their firmware or to figure out the baud rate configured
-by an unknown/closed source binary.
+Connect the 'uart-out' clock from the cprman to the PL011 instance.
 
 Signed-off-by: Luc Michel <luc@lmichel.fr>
 ---
- include/hw/char/pl011.h |  1 +
- hw/char/pl011.c         | 45 +++++++++++++++++++++++++++++++++++++++++
- hw/char/trace-events    |  1 +
- 3 files changed, 47 insertions(+)
+ hw/arm/bcm2835_peripherals.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
-index a91ea50e11..33e5e5317b 100644
---- a/include/hw/char/pl011.h
-+++ b/include/hw/char/pl011.h
-@@ -47,10 +47,11 @@ struct PL011State {
-     int read_pos;
-     int read_count;
-     int read_trigger;
-     CharBackend chr;
-     qemu_irq irq[6];
-+    Clock *clk;
-     const unsigned char *id;
- };
- 
- static inline DeviceState *pl011_create(hwaddr addr,
-                                         qemu_irq irq,
-diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index 13e784f9d9..ede16c781c 100644
---- a/hw/char/pl011.c
-+++ b/hw/char/pl011.c
-@@ -20,10 +20,11 @@
- 
- #include "qemu/osdep.h"
- #include "hw/char/pl011.h"
- #include "hw/irq.h"
- #include "hw/sysbus.h"
-+#include "hw/qdev-clock.h"
- #include "migration/vmstate.h"
- #include "chardev/char-fe.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "trace.h"
-@@ -167,10 +168,29 @@ static void pl011_set_read_trigger(PL011State *s)
-     else
- #endif
-         s->read_trigger = 1;
- }
- 
-+static unsigned int pl011_get_baudrate(const PL011State *s)
-+{
-+    uint64_t clk;
-+
-+    if (s->fbrd == 0) {
-+        return 0;
-+    }
-+
-+    clk = clock_get_hz(s->clk);
-+    return (clk / ((s->ibrd << 6) + s->fbrd)) << 2;
-+}
-+
-+static void pl011_trace_baudrate_change(const PL011State *s)
-+{
-+    trace_pl011_baudrate_change(pl011_get_baudrate(s),
-+                                clock_get_hz(s->clk),
-+                                s->ibrd, s->fbrd);
-+}
-+
- static void pl011_write(void *opaque, hwaddr offset,
-                         uint64_t value, unsigned size)
- {
-     PL011State *s = (PL011State *)opaque;
-     unsigned char ch;
-@@ -196,13 +216,15 @@ static void pl011_write(void *opaque, hwaddr offset,
-     case 8: /* UARTUARTILPR */
-         s->ilpr = value;
-         break;
-     case 9: /* UARTIBRD */
-         s->ibrd = value;
-+        pl011_trace_baudrate_change(s);
-         break;
-     case 10: /* UARTFBRD */
-         s->fbrd = value;
-+        pl011_trace_baudrate_change(s);
-         break;
-     case 11: /* UARTLCR_H */
-         /* Reset the FIFO state on FIFO enable or disable */
-         if ((s->lcr ^ value) & 0x10) {
-             s->read_count = 0;
-@@ -284,16 +306,33 @@ static void pl011_event(void *opaque, QEMUChrEvent event)
- {
-     if (event == CHR_EVENT_BREAK)
-         pl011_put_fifo(opaque, 0x400);
- }
- 
-+static void pl011_clock_update(void *opaque)
-+{
-+    PL011State *s = PL011(opaque);
-+
-+    pl011_trace_baudrate_change(s);
-+}
-+
- static const MemoryRegionOps pl011_ops = {
-     .read = pl011_read,
-     .write = pl011_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
-+static const VMStateDescription vmstate_pl011_clock = {
-+    .name = "pl011/clock",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_CLOCK(clk, PL011State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_pl011 = {
-     .name = "pl011",
-     .version_id = 2,
-     .minimum_version_id = 2,
-     .fields = (VMStateField[]) {
-@@ -312,10 +351,14 @@ static const VMStateDescription vmstate_pl011 = {
-         VMSTATE_UINT32(ifl, PL011State),
-         VMSTATE_INT32(read_pos, PL011State),
-         VMSTATE_INT32(read_count, PL011State),
-         VMSTATE_INT32(read_trigger, PL011State),
-         VMSTATE_END_OF_LIST()
-+    },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_pl011_clock,
-+        NULL
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index 958aadeeb9..9e4e85c3ad 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -167,10 +167,12 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->cprman), errp)) {
+         return;
      }
- };
+     memory_region_add_subregion(&s->peri_mr, CPRMAN_OFFSET,
+                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->cprman), 0));
++    qdev_connect_clock_in(DEVICE(&s->uart0), "clk",
++                          qdev_get_clock_out(DEVICE(&s->cprman), "uart-out"));
  
- static Property pl011_properties[] = {
-     DEFINE_PROP_CHR("chardev", PL011State, chr),
-@@ -332,10 +375,12 @@ static void pl011_init(Object *obj)
-     sysbus_init_mmio(sbd, &s->iomem);
-     for (i = 0; i < ARRAY_SIZE(s->irq); i++) {
-         sysbus_init_irq(sbd, &s->irq[i]);
-     }
+     memory_region_add_subregion(&s->peri_mr, ARMCTRL_IC_OFFSET,
+                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ic), 0));
+     sysbus_pass_irq(SYS_BUS_DEVICE(s), SYS_BUS_DEVICE(&s->ic));
  
-+    s->clk = qdev_init_clock_in(DEVICE(obj), "clk", pl011_clock_update, s);
-+
-     s->read_trigger = 1;
-     s->ifl = 0x12;
-     s->cr = 0x300;
-     s->flags = 0x90;
- 
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 2442a9f7d5..cc1f0065ac 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -62,10 +62,11 @@ pl011_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
- pl011_read_fifo(int read_count) "FIFO read, read_count now %d"
- pl011_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
- pl011_can_receive(uint32_t lcr, int read_count, int r) "LCR 0x%08x read_count %d returning %d"
- pl011_put_fifo(uint32_t c, int read_count) "new char 0x%x read_count now %d"
- pl011_put_fifo_full(void) "FIFO now full, RXFF set"
-+pl011_baudrate_change(unsigned int baudrate, uint64_t clock, uint32_t ibrd, uint32_t fbrd) "new baudrate %u (clk: %" PRIu64 "hz, ibrd: %" PRIu32 ", fbrd: %" PRIu32 ")"
- 
- # cmsdk-apb-uart.c
- cmsdk_apb_uart_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB UART read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- cmsdk_apb_uart_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB UART write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- cmsdk_apb_uart_reset(void) "CMSDK APB UART: reset"
 -- 
 2.28.0
 
