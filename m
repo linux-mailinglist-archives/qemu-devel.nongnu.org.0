@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A397B277EB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 05:52:18 +0200 (CEST)
-Received: from localhost ([::1]:52928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BEB3277EB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 05:50:33 +0200 (CEST)
+Received: from localhost ([::1]:46110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLemP-000127-MC
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 23:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54902)
+	id 1kLekh-0006aM-4B
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 23:50:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kLejD-0004yX-Ti; Thu, 24 Sep 2020 23:48:59 -0400
-Received: from ozlabs.org ([203.11.71.1]:59057)
+ id 1kLejD-0004yW-Se; Thu, 24 Sep 2020 23:48:59 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:58071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kLejB-0004Nb-65; Thu, 24 Sep 2020 23:48:59 -0400
+ id 1kLejB-0004Ne-GU; Thu, 24 Sep 2020 23:48:59 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4ByHvf5Y1Xz9sSC; Fri, 25 Sep 2020 13:48:46 +1000 (AEST)
+ id 4ByHvf6sjyz9sSf; Fri, 25 Sep 2020 13:48:46 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1601005726;
- bh=JKQQATwlkwN/lEawxMHKDxbT7I+XJJIqcJK7SXhXu4Y=;
+ bh=aztyh5kRnN3IjMd+gwz8A9KzQM5vU2R11UVtnsH8Mzk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o0TA+aXb2CvI2OuV6zj7xXkFb7DwCN1NP9d4Hn5FoAqBKHKAaJejiQWfcIdFM72WM
- ZjvWsOgBgpaHQm2KmIhaVXXBAeCBH4FGa7Ze+LnuaaYMGJw8+5lG+QM8tbc006rYVY
- LhMSKKZuvjEkiamk6lKfoRMJb4IagJN4yT64iqV4=
-Date: Fri, 25 Sep 2020 12:36:48 +1000
+ b=SEnVw+m3PR/ZsORGzgF0FSrmH2IldAr4Y/RKa8WhqKS2bMTQukE7Sezh0ftiy6Z8t
+ jsMgqV0PAvwxGaE7FKa0TgjldOixZxrnRj3ZTVv9PTItmfSHceQwuyHkZRg1pYT1Uq
+ eK9xJhoIq7T6ZCjTYxkuxkBXUqslj+tJcwJ6F50U=
+Date: Fri, 25 Sep 2020 12:38:43 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 2/6] spapr_numa: forbid asymmetrical NUMA setups
-Message-ID: <20200925023648.GR2298@yekko.fritz.box>
+Subject: Re: [PATCH v2 4/6] spapr_numa: change reference-points and maxdomain
+ settings
+Message-ID: <20200925023843.GS2298@yekko.fritz.box>
 References: <20200924195058.362984-1-danielhb413@gmail.com>
- <20200924195058.362984-3-danielhb413@gmail.com>
+ <20200924195058.362984-5-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="19HmC3QOnaNVzKTI"
+ protocol="application/pgp-signature"; boundary="9wW3yB/H9ZmnRBtb"
 Content-Disposition: inline
-In-Reply-To: <20200924195058.362984-3-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200924195058.362984-5-danielhb413@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 23:48:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -65,84 +66,104 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---19HmC3QOnaNVzKTI
+--9wW3yB/H9ZmnRBtb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 24, 2020 at 04:50:54PM -0300, Daniel Henrique Barboza wrote:
-> The pSeries machine does not support asymmetrical NUMA
-> configurations. This doesn't make much of a different
-> since we're not using user input for pSeries NUMA setup,
-> but this will change in the next patches.
+On Thu, Sep 24, 2020 at 04:50:56PM -0300, Daniel Henrique Barboza wrote:
+> This is the first guest visible change introduced in
+> spapr_numa.c. The previous settings of both reference-points
+> and maxdomains were too restrictive, but enough for the
+> existing associativity we're setting in the resources.
 >=20
-> To avoid breaking existing setups, gate this change by
-> checking for legacy NUMA support.
+> We'll change that in the following patches, populating the
+> associativity arrays based on user input. For those changes
+> to be effective, reference-points and maxdomains must be
+> more flexible. After this patch, we'll have 4 distinct
+> levels of NUMA (0x4, 0x3, 0x2, 0x1) and maxdomains will
+> allow for any type of configuration the user intends to
+> do - under the scope and limitations of PAPR itself, of
+> course.
 >=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
+Although..
+
 > ---
->  hw/ppc/spapr_numa.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
+>  hw/ppc/spapr_numa.c | 40 ++++++++++++++++++++++++++++++++--------
+>  1 file changed, 32 insertions(+), 8 deletions(-)
 >=20
 > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 64fe567f5d..fe395e80a3 100644
+> index 990a5fce08..ea33439a15 100644
 > --- a/hw/ppc/spapr_numa.c
 > +++ b/hw/ppc/spapr_numa.c
-> @@ -19,6 +19,24 @@
->  /* Moved from hw/ppc/spapr_pci_nvlink2.c */
->  #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
-> =20
-> +static bool spapr_numa_is_symmetrical(MachineState *ms)
-> +{
-> +    int src, dst;
-> +    int nb_numa_nodes =3D ms->numa_state->num_nodes;
-> +    NodeInfo *numa_info =3D ms->numa_state->nodes;
-> +
-> +    for (src =3D 0; src < nb_numa_nodes; src++) {
-> +        for (dst =3D src; dst < nb_numa_nodes; dst++) {
-> +            if (numa_info[src].distance[dst] !=3D
-> +                numa_info[dst].distance[src]) {
-> +                return false;
-> +            }
-> +        }
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  void spapr_numa_associativity_init(SpaprMachineState *spapr,
->                                     MachineState *machine)
+> @@ -222,24 +222,48 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachi=
+neState *spapr, void *fdt,
+>   */
+>  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
+tas)
 >  {
-> @@ -61,6 +79,22 @@ void spapr_numa_associativity_init(SpaprMachineState *=
-spapr,
+> +    MachineState *ms =3D MACHINE(spapr);
+>      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+>      uint32_t refpoints[] =3D {
+>          cpu_to_be32(0x4),
+> -        cpu_to_be32(0x4),
+> +        cpu_to_be32(0x3),
+>          cpu_to_be32(0x2),
+> +        cpu_to_be32(0x1),
+>      };
+>      uint32_t nr_refpoints =3D ARRAY_SIZE(refpoints);
+> -    uint32_t maxdomain =3D cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
+> +    uint32_t maxdomain =3D ms->numa_state->num_nodes + spapr->gpu_numa_i=
+d;
+>      uint32_t maxdomains[] =3D {
+>          cpu_to_be32(4),
+> -        maxdomain,
+> -        maxdomain,
+> -        maxdomain,
+> -        cpu_to_be32(spapr->gpu_numa_id),
+> +        cpu_to_be32(maxdomain),
+> +        cpu_to_be32(maxdomain),
+> +        cpu_to_be32(maxdomain),
+> +        cpu_to_be32(maxdomain)
+>      };
 > =20
->          spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
->      }
-> +
-> +    /*
-> +     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-> +     * 1 NUMA node) will not benefit from anything we're going to do
-> +     * after this point.
-> +     */
+> -    if (smc->pre_5_1_assoc_refpoints) {
+> -        nr_refpoints =3D 2;
 > +    if (spapr_machine_using_legacy_numa(spapr)) {
-> +        return;
-> +    }
+> +        uint32_t legacy_refpoints[] =3D {
+> +            cpu_to_be32(0x4),
+> +            cpu_to_be32(0x4),
+> +            cpu_to_be32(0x2),
+> +        };
+> +        uint32_t legacy_maxdomain =3D spapr->gpu_numa_id > 1 ? 1 : 0;
+> +        uint32_t legacy_maxdomains[] =3D {
+> +            cpu_to_be32(4),
+> +            cpu_to_be32(legacy_maxdomain),
+> +            cpu_to_be32(legacy_maxdomain),
+> +            cpu_to_be32(legacy_maxdomain),
+> +            cpu_to_be32(spapr->gpu_numa_id),
+> +        };
 > +
-> +    if (!spapr_numa_is_symmetrical(machine)) {
-> +        error_report("Asymmetrical NUMA topologies aren't supported "
-> +                     "in the pSeries machine");
-> +        exit(EXIT_FAILURE);
-> +    }
+> +        nr_refpoints =3D 3;
 > +
->  }
+> +        memcpy(refpoints, legacy_refpoints, sizeof(legacy_refpoints));
+> +        memcpy(maxdomains, legacy_maxdomains, sizeof(legacy_maxdomains));
+
+It would be nice to have a G_STATIC_ASSERT() or QEMU_BUILD_BUG_MSG()
+ro ensure that the two structures are the same size, if they became
+different the memcpy is wildly unsafe.
+
+> +        /* pseries-5.0 and older reference-points array is {0x4, 0x4} */
+> +        if (smc->pre_5_1_assoc_refpoints) {
+> +            nr_refpoints =3D 2;
+> +        }
+>      }
 > =20
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
+>      _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -150,25 +171,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---19HmC3QOnaNVzKTI
+--9wW3yB/H9ZmnRBtb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9tV8AACgkQbDjKyiDZ
-s5I0IBAAi4FxxFY9n5j57xUadukJSwKsoYFBZp/Hd/Mexz1FX5xEF9JcyjaU1NKk
-CNkt7n9djCVlJZ0MObZ1+xtEhJ8JiKb1MyUyACxcQmJL7bRImgYDUsCEXTkpMOob
-wf96ZMIppZHwqIr7VMq7JDwVaNcF9/yTdMi8BAIHkz7lq45xjYwvDM3nGGQg4xJL
-2QJ4SFi+506yg6iFhE+a/OuRCEmH27UJAWfQbTQi1ML8MPYbJNUiR/5fyNSLy9uO
-KnvpFEIKPhR2R8GB3BktTxIIwVX2Pvv/dWi72qiabsio9yul9ZbSbw4Qv9PNphba
-mhGZUzwi7uuvcJ54dJa5MCynxoQqlyDZBEEI8FOQyI1/9KT7sBRT2xQ3T1ScVZOp
-R+8N8Aa1MGpZaKf/+cpwKbJHI91ZlXQxr34Fs0YN4kzoGwyD8GEdr0BHnn47Fgnp
-SJPiFPPrfl0sjDENudZVbU4di5gXPGivtoXAUvdNHTcX/zrqXY019uLeNMg0KrNb
-JziCFtvacZoYax6RfAcr+pwbRkEDVTVhaeDUfKfrW7O+x0XeQxNWUHv2jeZ/qN7+
-OTo4RYpZhRbr5c7FxLytWMDdMdWP0uPCfRPZo54y9JL+0HX2WJaLlyRHsF5ryAwt
-ww/zt9j4SQ3BcEXiU0l5NNiFVebGokA4MyZS0MNL+PY2FRKzGeg=
-=5HuR
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9tWDMACgkQbDjKyiDZ
+s5L+GRAAr1ea5lQLFDxTfHHq4i5gNeSqara9px6eUzctxtQPQ5AN61hoe5OriYBi
+rwFdNDlCNvP4Dw0XZamgfahN353rBDhMaIjPxaJ8IPDK84/H4JBIENjCW3W5CNCL
+V367byA9dH/85AKHtmQoqx3kavj/TNG+7bXzv4bcZGr2xoWF3olcg3BSpdMhIfax
+SO2bmK9+diE3uUxIAg9rUJe1wu7tjG9ywpTpmvmzZJUDxF2Y5iQuGIeU1bjY5FdB
+Bb0nqoFEcfzMktXRRMRal42I2suYXWpzmT2OL4/YHA8aw8OW5B7DcKU5HgXksTIj
+wDeT/DVghTrACQl0hv1aGc0DYaakFM/1AFu5mNZbKsjZZ8G+ratvOY9xOLGfXzSp
+nZfkF+WHgJRF7OQ1+kloBBuyipO5CcQgqDBGpQcBIInJ55MsXgBNi3UOKNx2lTm2
+V09xZWyhBz5HPW7DnvMVnvMMwtOIrdI+nGtLZ2U02Dfs0AdHYWhqhRZiiX0fZVAC
+H0MOjmMEeblpoQQFLD835cqwSzQRKSKR7P/LlrbfYeZ+e3sdYD25SillzZXzMseQ
+0KSYzZn8cMitOm44i1A0QJmYbDFUaD6if+B2bPm0BAXEcJel9+5/ciSZgXyGUi1v
+6pEoXWAEiwHbwaTKx2hkGLlIYQ5UgnrW6IfDsNNctf3RRwz4LV0=
+=vH/R
 -----END PGP SIGNATURE-----
 
---19HmC3QOnaNVzKTI--
+--9wW3yB/H9ZmnRBtb--
 
