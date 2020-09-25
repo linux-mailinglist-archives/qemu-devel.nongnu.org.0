@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05148277D82
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:15:15 +0200 (CEST)
-Received: from localhost ([::1]:53786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFEA277D6C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:11:29 +0200 (CEST)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLcKQ-00065L-2x
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:15:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56512)
+	id 1kLcGm-00010r-J6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLc85-0006Mq-F5
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:02:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39027)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLc9J-0007qJ-4Z
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:03:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLc83-0004AP-Lh
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:02:29 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLc9H-0004EW-2S
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:03:44 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600995746;
+ s=mimecast20190719; t=1600995822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=efpcnv3iaE4cDrmILcGzUzV//P5sRDTscCSxW2Tndfo=;
- b=VL1ge0t6aNk6bKh+1KAAy4lWhYpkGPv07KUTMq6o5oRe+n9y7QPv64BlaF3Nxs4BeUiOKe
- bimIdoiTua89IwChm/1ug1HRnc3cRFICNqYb+oJ6NEBOFuUfCwOPM/C0s79URMxmGGe1YI
- YEb4ZX9ZFOpRGwSpCckzR5pJRgFNlD8=
+ bh=+0adTjZOnLzLQl5iK+M7OgaHQl/j5U/j7s9kWIkNk3M=;
+ b=TxeCEfqemgewUYXjcTWxRFIbemMBC3FaSE0PxhK44YTWkrrwthXcxzZfzhitjDAgh1Nb9n
+ yThS3Ny+UIhIfvsCP7PuFXAgx5pvv8J7ndiglMxkUV2YalFAosl3Wf8UQO76VaONXXpWbT
+ QagOsa5LEwjtEaj8dmZDu4JZV9jF1qA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-ehKWiv1vPSKp-AkB2Axy-A-1; Thu, 24 Sep 2020 21:02:24 -0400
-X-MC-Unique: ehKWiv1vPSKp-AkB2Axy-A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-81-JVAzzufjNYigsTOBD9QZRA-1; Thu, 24 Sep 2020 21:03:39 -0400
+X-MC-Unique: JVAzzufjNYigsTOBD9QZRA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 669FC8030A5;
- Fri, 25 Sep 2020 01:02:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD49C801AAB;
+ Fri, 25 Sep 2020 01:03:38 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB6F75C1D7;
- Fri, 25 Sep 2020 01:02:22 +0000 (UTC)
-Date: Thu, 24 Sep 2020 21:02:20 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE29910013C1;
+ Fri, 25 Sep 2020 01:03:37 +0000 (UTC)
+Date: Thu, 24 Sep 2020 21:03:36 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 13/16] qapi/expr.py: Modify check_keys to accept any
- Iterable
-Message-ID: <20200925010220.GF368253@localhost.localdomain>
+Subject: Re: [PATCH 14/16] qapi/expr.py: Use tuples instead of lists for
+ static data
+Message-ID: <20200925010336.GG368253@localhost.localdomain>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
- <20200922211313.4082880-14-jsnow@redhat.com>
+ <20200922211313.4082880-15-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922211313.4082880-14-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200922211313.4082880-15-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QNDPHrPUIc00TOLW"
+ protocol="application/pgp-signature"; boundary="QWpDgw58+k1mSFBj"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -87,48 +87,40 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---QNDPHrPUIc00TOLW
+--QWpDgw58+k1mSFBj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2020 at 05:13:10PM -0400, John Snow wrote:
-> This is a very minor adjustment.
->=20
-> a + b is list-specific behavior, but we can accept a wider variety of
-> types in a more pythonic fashion if we avoid that behavior.
->=20
-> Typing it this way allows callers to use things like dict.keys() and
-> other iterables that are not their own discrete lists.
->=20
-> Including it just as a statement of practice if nothing else: It's nice
-> to use the least-specific type possible as function input and use the
-> most-specific type for returns.
->=20
+On Tue, Sep 22, 2020 at 05:13:11PM -0400, John Snow wrote:
+> It is -- maybe -- possibly -- three nanoseconds faster.
+>
+
+Kevin O'Leary would clearly say here: "stop the madness!" :)
+
 > Signed-off-by: John Snow <jsnow@redhat.com>
 
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
---QNDPHrPUIc00TOLW
+--QWpDgw58+k1mSFBj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9tQZwACgkQZX6NM6Xy
-CfMAtw/+JNcnNp0ba6AR7gd5fH6lPq6g9Ew1B/ofbAjgI7p0WxKxQHTK8wa+c0l1
-29hXUwKKjSW/vYVQyDrtk7QSz0IBbe7iJ9Th9Xh8NvvLEy6ath+dJrla6LljGkVB
-Hr0Ir/zDLvtm5uqINAueoR8JIcLYEXxXgQ3D+bLZp++0MpPVHSFFqWKmt1Jn1NSk
-F6uu6i9Hl6C3i4GHHim1Fa4TwSIfnymJycPLrkEDheO+T1UZGsqjHL/SzD3ipTEJ
-5g3y/2wSgOPapu2TBY7jpdrYTsyQRb3/EhTJCF9bPcrmlYQQTPvpdv71g11jW0YK
-88o9W7C1EUCh35YZBCiEhLtl2QkK5Ak+xprRdNJfcD9RGndZmOckFGayIIXhT4Ba
-Nqqxc0Rr1wzLlyEqX2mT2mlDLalpT7SfwqW50zMWUOQ0dAlGrJXVpoU2cUkcinrG
-RNVNf65HarePbUTU7S/vxo+LzSJiKEunDWLiACTKOklEOCvAeug22twS2E/HqF+r
-rAss+Z01KLlOEZ/8/wuJ5DG6sKhdmt5s6x/KdBWWPiAn+LJqRcY04t/puEqiWUal
-5R/rXvOsHBJ2RHYCvp0qtQ3XiK2FgySYjSr8To4uehAUzLEb4Rs6jpFI3U7R8xRm
-ZDg3qaZcy5VEwTwKiW/S6CHuqKRXSYDQUjeQ8hFRD0nb5bqQPBU=
-=GC7t
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9tQegACgkQZX6NM6Xy
+CfMyqRAA0c1j26OCVdy598PcmEZHMWaBnd4a/yuoquIvL4N3V5IQFaJuQA/Cy45e
+bHkOVeB/V2QZKIWRWR/5TfGQZ4HqCZpglrjf3xDXMAVVcq8LX2EpjSQGusETYE0g
+xz2HfoFd/a6fdzS8KNYnpBfEnToQ+EeYvntHIZtcWuYRFmcmXNoJRjMKKPzkwe1Q
+Qn1GAuk9KISjSUxgrHLHaR0p/nPBDixv7FzRTOzLghzlvJ8bG6QDMhrgG1XnwZR4
+CHZdtAUkHaoS27NrvmlIJ7cjRQHYe/Qpg4BnnHBoA0H2v90lRmnlgkXhfW0/kg9+
+F+DKXuOqzhL/3HYtbrpJ+RnFnbKst8apYvFUr8HCA9nLXZYEWUCD862w2Azphcre
+i88B4OCFhFqAZO5Dx5qHAiB0+dc1eEx3scj0nP0K5D0twCBKpg8I9sr46bN5TYas
+Q52XD8SiGWEitEaTc6Ld1hhoOyBqz+f3P5UwaO7UmSyCqWPSF8+wrFrKtnK9wxxq
+LhjpyCfSijpavrLzGO8ZFWhBLEguPywximgxQhuxtH6/uNqP6RdH2ubMxrgrNa4y
+JjLt2ddIcywjs1Qa+Wx5yUpqIppC/W3GQFwocpBNR4o7cd5xbHcVkuFlyKGltqS2
+WMAYg4ifbHZHrEf6fce2DqHdhAQvtNNAQ7NvB1Gybmmsi4v6WzQ=
+=VVeR
 -----END PGP SIGNATURE-----
 
---QNDPHrPUIc00TOLW--
+--QWpDgw58+k1mSFBj--
 
 
