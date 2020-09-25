@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6A5277EB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 05:50:39 +0200 (CEST)
-Received: from localhost ([::1]:46678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6605E277F13
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 06:29:12 +0200 (CEST)
+Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLeko-0006pA-Bo
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 23:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54960)
+	id 1kLfM7-00071G-3n
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 00:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kLejJ-00057C-3T; Thu, 24 Sep 2020 23:49:05 -0400
-Received: from ozlabs.org ([203.11.71.1]:37275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kLejG-0004OO-AW; Thu, 24 Sep 2020 23:49:04 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4ByHvg3Cwwz9sTQ; Fri, 25 Sep 2020 13:48:47 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1601005727;
- bh=ak2X9l4J3Q5bnvej5+0Wy4dhSPXoi7+d8mIV4kXE8as=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=azfZQyfe+zZhTcc6V0WTHwUMEknQIpxYI/jv0OTy9aZbcJ0DPqWLpqfRrJUJDn/8q
- TLWAeWoZfCkUinLj7dKJA/ZwQwrNtq4MgFydFHzTyXTAZtAzvUo7gmp13EZMqb3GYI
- yLWM6pyjm5u5qHpoW7Rh4/7e7COCs4KDFGaw9S5M=
-Date: Fri, 25 Sep 2020 13:48:16 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 2/6] spapr_numa: forbid asymmetrical NUMA setups
-Message-ID: <20200925034816.GV2298@yekko.fritz.box>
-References: <20200924195058.362984-1-danielhb413@gmail.com>
- <20200924195058.362984-3-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
+ id 1kLfLI-0006bd-2v
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 00:28:20 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:34510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
+ id 1kLfLF-0000T8-Lz
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 00:28:19 -0400
+Received: by mail-io1-xd44.google.com with SMTP id m17so1406867ioo.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 21:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wR4H4Y2nHt/Vl5c+Snggk/KwIir8bq5iQK/I5Iw0+ew=;
+ b=CF9bEA0YIQ06i6AGcr7YlrPpbikFyVNQCyZzPEKyJLrJq84XCJSCejMq7kgMUXg1GO
+ B7Qhv7seQ3o9Sp03gGzADlndAceoPpCoDPTI1UzvKL+vxxbygODj0kXFxF/a9i6Jzun2
+ eNdCWQbwLmktSIPEUHhEAYXkF5McTSOqYeBfqMdL7u2vmKs8meSTLTXR7AryDa+UBdM8
+ GxQYzslvyX0GrJpfsmVvhMsk50HKcgMARSDiQVQWxaCJObDwg3hgHC0MllCKKxxk6H/f
+ ucPgj00fY1JEVWsUa6Pfolu4mBXcjoRCL2cppxGa4b7l3bOVmxPJ/l9tfrfvgzdlMxlz
+ oSJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wR4H4Y2nHt/Vl5c+Snggk/KwIir8bq5iQK/I5Iw0+ew=;
+ b=px7QobB6otnKoV1tOnP/ImJAjsQre69/n7vvowmWKCZSTkLAwMM4f+JhuiVjzBXBmR
+ tmlddkohqSJTJWdhKs+6dViEh4yBlLN6g6uNHZVnj62M0WBLS7bAiGXHRfZ/vfAXDCft
+ tpkhM/xuUC8DTGjcgiQxlWK5pLX8FwG7laA0XlKSNtMjyfHQb/n1E4Dx+tuaULKq9Dxm
+ x/8WMyR2nReTLqzd+b1d/9cuu88bSHjes8ZURDkVUKptNURw0vF3v/l0nnXop0gdN9Pt
+ sLx4+gQnvOzpQzRvVpHPUknUf0NZ9His4StRBBueyNFu+OjK5H6Xht+3Cet7BQ0j3ieA
+ T7Ew==
+X-Gm-Message-State: AOAM530CcMVS5rvQGdyo0GAF0KR3bK3cXmy5hY7RvX+Z7PiDIp2n68p3
+ sGZObxFy3I4xyxkUURya5X8PZCp2esV0PChh/do=
+X-Google-Smtp-Source: ABdhPJyCFLAS/d68Yl/TnWlXnriSHkC1jS9S66+5rwrADjyHNvSsmSNc5pGuAtKCI14v1RHVOM4Rug0vZieubjmw8C0=
+X-Received: by 2002:a6b:f413:: with SMTP id i19mr1921338iog.125.1601008095944; 
+ Thu, 24 Sep 2020 21:28:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yC91f7qSViS67v3c"
-Content-Disposition: inline
-In-Reply-To: <20200924195058.362984-3-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 23:48:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <1600222344-16808-1-git-send-email-chenhc@lemote.com>
+ <1600222344-16808-7-git-send-email-chenhc@lemote.com>
+ <c3804617-7c65-4082-de76-81e718f6d139@amsat.org>
+ <CAAhV-H5OysVNvGzD066eVqA+-k2+GJDjwSGR0hJT0VUh3Ld83A@mail.gmail.com>
+ <4a461bbc-3765-4d3c-7e7b-952dab564af1@amsat.org>
+In-Reply-To: <4a461bbc-3765-4d3c-7e7b-952dab564af1@amsat.org>
+From: Huacai Chen <chenhuacai@gmail.com>
+Date: Fri, 25 Sep 2020 12:28:02 +0800
+Message-ID: <CAAhV-H5UXE-BWgrF89kQMMsP1s0uzoRq05Jf2SxN5j72_quCPA@mail.gmail.com>
+Subject: Re: [PATCH V9 6/6] hw/mips: Add Loongson-3 machine support
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=chenhuacai@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,127 +84,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Philippe,
 
---yC91f7qSViS67v3c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 24, 2020 at 11:40 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> On 9/16/20 11:49 AM, Huacai Chen wrote:
+> > Hi, Philippe,
+> >
+> > On Wed, Sep 16, 2020 at 3:56 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
+t.org> wrote:
+> >>
+> >> Hi Huacai,
+> >>
+> >> On 9/16/20 4:12 AM, Huacai Chen wrote:
+> ...
+> >> hw/mips/loongson3_virt.c:373:15: note: each undeclared identifier is
+> >> reported only once for each function it appears in
+> >> hw/mips/loongson3_virt.c:373:15: error: excess elements in struct
+> >> initializer [-Werror]
+> >> hw/mips/loongson3_virt.c:373:15: note: (near initialization for 'freq_=
+reg')
+> >> hw/mips/loongson3_virt.c:374:9: error: unknown field 'addr' specified =
+in
+> >> initializer
+> >>          .addr =3D (uintptr_t)(&freq)
+> >>          ^
+> >> hw/mips/loongson3_virt.c:374:17: error: excess elements in struct
+> >> initializer [-Werror]
+> >>          .addr =3D (uintptr_t)(&freq)
+> >>                  ^
+> >> hw/mips/loongson3_virt.c:374:17: note: (near initialization for 'freq_=
+reg')
+> >> hw/mips/loongson3_virt.c:372:24: error: storage size of 'freq_reg' isn=
+'t
+> >> known
+> >>      struct kvm_one_reg freq_reg =3D {
+> >>                         ^
+> >> hw/mips/loongson3_virt.c:380:41: error: 'KVM_GET_ONE_REG' undeclared
+> >> (first use in this function)
+> >>          ret =3D kvm_vcpu_ioctl(first_cpu, KVM_GET_ONE_REG, &freq_reg)=
+;
+> >>                                          ^
+> >> hw/mips/loongson3_virt.c:372:24: error: unused variable 'freq_reg'
+> >> [-Werror=3Dunused-variable]
+> >>      struct kvm_one_reg freq_reg =3D {
+> >>                         ^
+> >> hw/mips/loongson3_virt.c: In function 'init_loongson_params':
+> >> hw/mips/loongson3_virt.c:467:25: error: cast from pointer to integer o=
+f
+> >> different size [-Werror=3Dpointer-to-int-cast]
+> >>      lp->memory_offset =3D (unsigned long long)init_memory_map(p)
+> >>                          ^
+> > I guess this happens on a 32bit platform where pointer is 32bit, and
+> > could you please suggest a best solution for this? Maybe use uintptr_t
+> > instead of unsigned long long?
+>
+> Since the machine doesn't have to know the EFI structures
+> layout, I'd change your method to fill EFI structures as i.e.:
+>
+> /*
+>  * @ptr: Pointer to fill
+>  * @size: Buffer size available at @ptr
+>  * Returns: Structure size filled on success, -1 on error.
+>  */
+> size_t fill_efi_memory_map_loongson(char *ptr, size_t size);
+>
+> And move that to hw/mips/loongson_efi.{c,h}.
+>
+> Then you don't need to worry about host pointer size, you just
+> exchange buffer/size, then caller can round up and increment an
+> offset.
+All boot parameters are located in a small region, so a uint32_t seems
+enough for xxx_offset, so uintptr_t is just OK, I think.
 
-On Thu, Sep 24, 2020 at 04:50:54PM -0300, Daniel Henrique Barboza wrote:
-> The pSeries machine does not support asymmetrical NUMA
-> configurations. This doesn't make much of a different
-> since we're not using user input for pSeries NUMA setup,
-> but this will change in the next patches.
->=20
-> To avoid breaking existing setups, gate this change by
-> checking for legacy NUMA support.
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>
+> BTW the EFI helpers are not endian safe.
+>
+> You should use the helpers described in docs/devel/loads-stores.rst:
+>
+> stw_le_p, stl_le_p(), ... (as I don't expect big-endian guests).
+This seems like a very big project, but I will do it in the next version.
 
-Having read the rest of the series, I realized there's another type of
-configuration that PAPR can't represent, so possibly we should add
-logic to catch that as well.  That's what I'm going to call
-"non-transitive" configurations, e.g.
-
-Node	0	1	2
-0	10	20	40
-1	20	10	20
-2	40	20	10=09
-
-Basically the closeness of 0 to 1 and 1 to 2 forces them all to be in
-the same domain at every PAPR level, even though 0-2 is supposed to be
-more expensive.
-
-> ---
->  hw/ppc/spapr_numa.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 64fe567f5d..fe395e80a3 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -19,6 +19,24 @@
->  /* Moved from hw/ppc/spapr_pci_nvlink2.c */
->  #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
-> =20
-> +static bool spapr_numa_is_symmetrical(MachineState *ms)
-> +{
-> +    int src, dst;
-> +    int nb_numa_nodes =3D ms->numa_state->num_nodes;
-> +    NodeInfo *numa_info =3D ms->numa_state->nodes;
-> +
-> +    for (src =3D 0; src < nb_numa_nodes; src++) {
-> +        for (dst =3D src; dst < nb_numa_nodes; dst++) {
-> +            if (numa_info[src].distance[dst] !=3D
-> +                numa_info[dst].distance[src]) {
-> +                return false;
-> +            }
-> +        }
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  void spapr_numa_associativity_init(SpaprMachineState *spapr,
->                                     MachineState *machine)
->  {
-> @@ -61,6 +79,22 @@ void spapr_numa_associativity_init(SpaprMachineState *=
-spapr,
-> =20
->          spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
->      }
-> +
-> +    /*
-> +     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-> +     * 1 NUMA node) will not benefit from anything we're going to do
-> +     * after this point.
-> +     */
-> +    if (spapr_machine_using_legacy_numa(spapr)) {
-> +        return;
-> +    }
-> +
-> +    if (!spapr_numa_is_symmetrical(machine)) {
-> +        error_report("Asymmetrical NUMA topologies aren't supported "
-> +                     "in the pSeries machine");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
->  }
-> =20
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---yC91f7qSViS67v3c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9taIAACgkQbDjKyiDZ
-s5KGoA//ZUXZmhcODTKD7ESs7bBXDecNjUnu8GmWuPXCHgxN5Hpe3Lt/feIQjfUr
-cNYl3Hm+9I3O1pYitt3ganf7HTgBGLH7ZGeF+FdpXuyWcv1y7HFhTKy0h27qRH2e
-QyfyZGX8KhX7vtMOg3bs8VzkSI1EmBWJ6E/vPW9GkaIOASdl1sb9wG3F/XNe6hS2
-H3gW3Xoc35G7WRWPJ/y2WwAkAcKpWbTun1XUU0xsuNQNc2tSkn03K04ugWItH2Zw
-ddEat0mI9u6ucw1PGT/1vsZDmWxiUcZjMQRQMCHTfHGtXAMBDGtmBV5ZN18WrZ0r
-sFYAMzdwWbsdBJTF/7hWtEm3z9ONKQviw/CBCllmlDgOJj3hQlg8x+Y3OiyMFTKW
-otn+W9/2fKF3SdkW/vLGwoQe9Zej2SoaBQTarNgLYgnbRwrUtHhPiUs4lxv25FJb
-4sELfC+dpOfQaxf79GdXKPWU7AmFl6woLTU90MEJwagR9H2WtIWrvAPkmf+j4O5x
-anxJ6Zidy9zEyCPLQVzM3QW83AR0Ecv0pNp4bL36lzB87VmflembH0gayqI3Xvhb
-BuHmAYFx9ec+C/EhUheHugzG5RmIERwfwp7dYROliemiQXEV0sKFgdKTCrT5LZGo
-9YYBpBdVEyVsc0IqeintHUGBmhKIA/mnzuwCUAq8SuGu6Iw15FM=
-=gLmR
------END PGP SIGNATURE-----
-
---yC91f7qSViS67v3c--
+Huacai
+>
+> Regards,
+>
+> Phil.
 
