@@ -2,111 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB0A27833C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 10:51:19 +0200 (CEST)
-Received: from localhost ([::1]:35256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5F7278344
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 10:53:18 +0200 (CEST)
+Received: from localhost ([::1]:39310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLjRm-0007z8-DW
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 04:51:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52568)
+	id 1kLjTh-0001Lg-KR
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 04:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kLjQ7-0006Ir-Aw; Fri, 25 Sep 2020 04:49:35 -0400
-Received: from mail-eopbgr20121.outbound.protection.outlook.com
- ([40.107.2.121]:43758 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kLjQ4-00055u-Mo; Fri, 25 Sep 2020 04:49:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d0CfUHt6BKSPZCgqE+uTwxG9sZEPIzDN9UO+jlV5fqe4PHVsJ9ZFOTljRROQVV9Hac6l7vxYF50CzsFffumBPtktRixKnwIbpYuk1tY8BW+Y+e6P1lMqLKTJUp7ph1uCYXmFr9o7WI/O0Fa/9aWfQX9eKdy2Hibg3NvMSHz6f39cfartOrhWJoqHqjcD/9vD+23fL0tcjMa8ZXD+F7WS4Hj8+2c/N6PjCxAh2J24ClwKfbkScfch94tFAmfx2uz6GbT5dddgmpeS55/SPwKdwmTDZfiJ0FrjiawemM5n4wPgGceo+2d3wKTEnbnGje/g7rt3lC4ZVosllPc00Ln41w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L8MV5R3Vsy+iqNN2DNi3hJN2WJrvV697vAunxjs1P8s=;
- b=atXFbpbxJhQr+1cxJASvv7JpvfYrhFWwCx+E/Xsq0seVsGmLPn6Bi8S1EC+kb4WKUMz/mkOt8LQwRxse9Vu4l9cRpwRXRl3HcYAgw4YSB0oqwnK8cEct1wIYRuqcY6sXsTu7rcpGvQwH9rNxQ6+fQzjna3N3O5j7Mepuc34rZQDwvdEZtyIGjJZpecT5/7ADBm1Qg1/JY+KQzKofnJ6eG+TQquQHYVwEbDuCp0coU/pFliPPTp6EAjTe7SplsA9wDM5nbS0yEBOxdU98+00T+FWGvfu6fzehtTZPwonNEBODbyHmMmSmZ2E5rB00KhXLiFse9zEBEBkFfdmjtE9eCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L8MV5R3Vsy+iqNN2DNi3hJN2WJrvV697vAunxjs1P8s=;
- b=A9XY+qSIU3H3STZGMzV7vCFp4mIuHSXUr03QZAATa7BZtnZxvZH39+XsaD1I2OemtlwqaTRgztn0E+NC2W8fC1/QtiOwtl9LR8abVgH/0UxAB6nPnQRZTK4PaeRxX0Assz64nm8XQMAGrluq5gZiJFSuz/Up2190CSDCk2qd1W8=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0802MB2418.eurprd08.prod.outlook.com (2603:10a6:203:9f::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Fri, 25 Sep
- 2020 08:49:29 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.033; Fri, 25 Sep 2020
- 08:49:29 +0000
-Subject: Re: [PATCH v6 11/15] iotests: add 298 to test new preallocate filter
- driver
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- fam@euphon.net, stefanha@redhat.com, kwolf@redhat.com, den@openvz.org
-References: <20200918181951.21752-1-vsementsov@virtuozzo.com>
- <20200918181951.21752-12-vsementsov@virtuozzo.com>
- <1d202398-7a0e-9e72-6f9d-c04b7f887a0a@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <33d1a996-f212-eac7-ab78-659a4025c069@virtuozzo.com>
-Date: Fri, 25 Sep 2020 11:49:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
-In-Reply-To: <1d202398-7a0e-9e72-6f9d-c04b7f887a0a@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FRYP281CA0008.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::18)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLjRk-0000CK-23
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 04:51:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLjRh-0005PB-J1
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 04:51:15 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601023871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pRG0H7r3cKqQm27cVPcMa1iZkYLiHI2CPy4+qCFW1tM=;
+ b=Jd7OwjIJqixs8xvIVrED7zo4rZ2HnIFpJ0v6ouui8RIDQzJdzxU6CvJPkxKHPyJsa2YAmN
+ a9p9dLIJzMD84QvPHZpuiC0au03FTXMdNBcJlWFCnzMq/apJbUM9xCH3w6JQt1FcOJvNJQ
+ ugV9jbkk6FkcHQ3wg/4sTAkzAkpiOWs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-aT-PYYwfPOSDU_6BYbwecw-1; Fri, 25 Sep 2020 04:51:09 -0400
+X-MC-Unique: aT-PYYwfPOSDU_6BYbwecw-1
+Received: by mail-wm1-f70.google.com with SMTP id s24so583508wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 01:51:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pRG0H7r3cKqQm27cVPcMa1iZkYLiHI2CPy4+qCFW1tM=;
+ b=HcE2MFVeldU88z28YOWCgPjvnXnXwH8CSC10luf/nIHvCFv7ZaRvvDyBslrLmVvFMO
+ s8FZPJ17BvKFTII0qULEUwoiP4q2ISEf3q4H6vFikT/lyQm1sw79F2zgOOSwQzkQg3bQ
+ QxAs10lQYdmFmVuZH0uWt8sl7GdUVDjWynFOshrKasrZrkdAl/RYXCRjlaFPOl+jJ3+R
+ S0KYaRLAsaulSGvo1b83wodqO99Trnop1PRBnAdUy2sRJLQuakKJyUP46zt1KF/n5Rs3
+ uW/B0uTK8rYA5T8d5AipLbW4xf7bwZTARKPVhBU/CnEXnKn+67heDxEWncByf6PfQcm8
+ G4AQ==
+X-Gm-Message-State: AOAM532MX9gCZ942gHRQnJUX/XnnjvaaSj6f9aorJYK6/YLcrY8pnokw
+ ugYmKHQhgWelJLMgJ0bWMN6k7tyYL9QxKWidsknGNZ+/bYHTqD/OgjeWpTQa0CsEt1D5iw7FCWG
+ sUouTPy63L8laSIE=
+X-Received: by 2002:adf:d845:: with SMTP id k5mr3037630wrl.285.1601023867500; 
+ Fri, 25 Sep 2020 01:51:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCfw/mpXmy/j9RdvUPQJBwj94hCzl8r+H9IRq6gYf5nu8Qq2M368LoLovETpecVSxDt/nUUg==
+X-Received: by 2002:adf:d845:: with SMTP id k5mr3037611wrl.285.1601023867241; 
+ Fri, 25 Sep 2020 01:51:07 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ec9b:111a:97e3:4baf?
+ ([2001:b07:6468:f312:ec9b:111a:97e3:4baf])
+ by smtp.gmail.com with ESMTPSA id x10sm2120241wmi.37.2020.09.25.01.51.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Sep 2020 01:51:06 -0700 (PDT)
+Subject: Re: SEV guest debugging support for Qemu
+To: Ashish Kalra <ashish.kalra@amd.com>, dgilbert@redhat.com,
+ qemu-devel@nongnu.org
+References: <20200922201124.GA6606@ashkalra_ubuntu_server>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5a58509c-5838-f0aa-d9ab-4f85ca0ac35f@redhat.com>
+Date: Fri, 25 Sep 2020 10:51:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.94) by
- FRYP281CA0008.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.14 via Frontend Transport; Fri, 25 Sep 2020 08:49:28 +0000
-X-Originating-IP: [185.215.60.94]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45984944-89c9-4d64-1bd0-08d8612fea2d
-X-MS-TrafficTypeDiagnostic: AM5PR0802MB2418:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB241899856091A3A38AF8F43CC1360@AM5PR0802MB2418.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WdvUtxv9ZYN0AFmxZ7+ZBfX7llm6LUaYSjQzwkQCYFnkT5kFLg0SV5keEExN/xHoQ7W0Hq97ZI6Tx8xVmnPCi2oOnujEunsqTRftXAzSEzxXJnMzGU1TfJ0b5NGjLDNqCl5Bn/OGPg3iliBnGZehV2+WX6SdrqVXH4+ZtSEO7NEw6aJksLUL9IlTXKXLjESKB4VXVkYgv1j1yHqOXO9kfD0m5+Ao/OCd9OQkH913S3fx5Ws4Cbk34NiRWYIrsaL1ozxW8DVp1N/Wd8RqpI/GtYHZmy0XPzW7fTmfS8ORdPM3LcmsiCLmVaeWTJDd9FQk0JPidhtEPDB+LBPMu5wW3qhQ+HtUSlUnkEQPr8npyn1B8znaTba8t6FNWfTZQCIYa4bKI5HL9uLRdv+/oGr0uRfuZ4Ai46sPqIb90OhTfiOZMjMjapiPOoggrMv8tlPl
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(376002)(346002)(136003)(366004)(66946007)(66556008)(478600001)(8936002)(4326008)(2616005)(956004)(8676002)(66476007)(107886003)(36756003)(6486002)(86362001)(16576012)(316002)(2906002)(5660300002)(83380400001)(31696002)(31686004)(186003)(16526019)(26005)(53546011)(52116002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: kZgi9IUwM96+36houIM0aYd12PlkIq576vzauhzTnSUT6ulBF3m/CouaBUOk+im6mNiE31W1361gkrUUJfrmoF+DrTqVwOaLse4dQmv73oPcluWuLwxLLPcObHYu4VL38t0N8BrYTmwwoZZhApLyVpLmj3X9YpZyVN+cIo5DjyxuakvQH6FV09235/pL0ZrtyYr+sgjPeOQpi5+rmh4uEykx92h+pdBph37/Lw6LVQ5eA1LnTuRKPfHSQhWEXFTbPv1k1M1FtLaqAjhgKB2Ka0itVBJYr/e/JJD885Gg/hJ04LLca2nd1YTwS2ZxOkDu4Ti6xl8r+CoK21dhYOWaL57Kj1upoWMLK+et8FBwFBFiPm1Uj9jxQ6L0hG2DWLab6/+Aw6VQxHT48RND+cSsF3fFksQ4JJX+qHj6iSyN1CH5MKIRVyBkZJOqQuUamhuCf3Ah056GT1djcLVAgR5TK94q4FC88KXxJ3pOZnk4JcI4WDNCIVTG4l2yhF97Mx6oZ3KKmz7p0H2RhzVgmjTMmQ4iB5qaQD+e//sH5BLyqmUpkI/bZWggXsYZ6G9OUiE2od/wFuZ7rFRtDNH8lTQlml2yYjMhMOucAkUaN4T1JrHv7+S1ABPTJVCFGkH7wPbQWCgPUvziCdrx8SSS+t1ccA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45984944-89c9-4d64-1bd0-08d8612fea2d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2020 08:49:29.4670 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z8EfpGJDRI2KVYZkg2RK0NvlpW0h58kBDXZlHx8mabNkItKQoy25KhAQIGWp5/vYPUhkfdUi/Rciko6NkGLmNc0oPH2bv8ScBoK/dT2xZXY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2418
-Received-SPF: pass client-ip=40.107.2.121;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 04:49:30
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20200922201124.GA6606@ashkalra_ubuntu_server>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,117 +102,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thomas.lendacky@amd.com, jon.grimm@amd.com, brijesh.singh@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-25.09.2020 11:26, Max Reitz wrote:
-> On 18.09.20 20:19, Vladimir Sementsov-Ogievskiy wrote:
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/298     | 186 +++++++++++++++++++++++++++++++++++++
->>   tests/qemu-iotests/298.out |   5 +
->>   tests/qemu-iotests/group   |   1 +
->>   3 files changed, 192 insertions(+)
->>   create mode 100644 tests/qemu-iotests/298
->>   create mode 100644 tests/qemu-iotests/298.out
->>
->> diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
->> new file mode 100644
->> index 0000000000..fef10f6a7a
->> --- /dev/null
->> +++ b/tests/qemu-iotests/298
-> 
-> [...]
-> 
->> +class TestPreallocateBase(iotests.QMPTestCase):
-> 
-> Perhaps a
-> 
-> @iotests.skip_if_unsupported(['preallocate'])
-> 
-> here?
-> 
->> +    def setUp(self):
->> +        iotests.qemu_img_create('-f', iotests.imgfmt, disk, str(10 * MiB))
-> 
-> [...]
-> 
->> +class TestTruncate(iotests.QMPTestCase):
-> 
-> The same decorator could be placed here, although this class doesn’t
-> start a VM, and so is unaffected by the allowlist.  Still may be
-> relevant in case of block modules, I don’t know.
+On 22/09/20 22:11, Ashish Kalra wrote:
+> This internally invokes the address_space_rw() accessor functions
+> which we had  "fixed" internally (as part of the earlier patch) to
+> invoke memory region specific debug ops. In our earlier approach we
+> were adding debug ops/callbacks to memory regions and as per comments
+> on our earlier patches, Paolo was not happy with this debug API for 
+> MemoryRegions and hence the SEV support for Qemu was merged without
+> the debug support.
 
-Or just global test skip at file top
+My complaint was only about hooking into address_space_read and
+address_space_write; I think the hook should not touch general-purpose
+(non-debug) code if possible, so something like this:
 
-> 
->> +    def setUp(self):
->> +        iotests.qemu_img_create('-f', iotests.imgfmt, disk, str(10 * MiB))
->> +        iotests.qemu_img_create('-f', iotests.imgfmt, refdisk, str(10 * MiB))
->> +
->> +    def tearDown(self):
->> +        os.remove(disk)
->> +        os.remove(refdisk)
->> +
->> +    def do_test(self, prealloc_mode, new_size):
->> +        ret = iotests.qemu_io_silent('--image-opts', '-c', 'write 0 10M', '-c',
->> +                                     f'truncate -m {prealloc_mode} {new_size}',
->> +                                     drive_opts)
->> +        self.assertEqual(ret, 0)
->> +
->> +        ret = iotests.qemu_io_silent('-f', iotests.imgfmt, '-c', 'write 0 10M',
->> +                                     '-c',
->> +                                     f'truncate -m {prealloc_mode} {new_size}',
->> +                                     refdisk)
->> +        self.assertEqual(ret, 0)
->> +
->> +        stat = os.stat(disk)
->> +        refstat = os.stat(refdisk)
->> +
->> +        # Probably we'll want preallocate filter to keep align to cluster when
->> +        # shrink preallocation, so, ignore small differece
->> +        self.assertLess(abs(stat.st_size - refstat.st_size), 64 * 1024)
->> +
->> +        # Preallocate filter may leak some internal clusters (for example, if
->> +        # guest write far over EOF, skipping some clusters - they will remain
->> +        # fallocated, preallocate filter don't care about such leaks, it drops
->> +        # only trailing preallocation.
-> 
-> True, but that isn’t what’s happening here.  (We only write 10M at 0, so
-> there are no gaps.)  Why do we need this 1M margin?
+typedef struct MemoryDebugOps {
+    hwaddr (*translate)(CPUState *cpu, target_ulong addr,
+                        MemTxAttrs *attrs);
+    MemTxResult (*read)(AddressSpace *as, hwaddr phys_addr,
+                        MemTxAttrs attrs, void *buf,
+                        hwaddr len);
+    MemTxResult (*write)(AddressSpace *as, hwaddr phys_addr,
+                         MemTxAttrs attrs, const void *buf,
+                         hwaddr len);
+} MemoryDebugOps;
 
-We write 10M, but qcow2 also writes metadata as it wants
+These ops would be used only by cpu_memory_rw_debug and would default to
 
-> 
->> +        self.assertLess(abs(stat.st_blocks - refstat.st_blocks) * 512,
->> +                        1024 * 1024)
-> 
-> [...]
-> 
->> diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
->> index ff59cfd2d4..15d5f9619b 100644
->> --- a/tests/qemu-iotests/group
->> +++ b/tests/qemu-iotests/group
->> @@ -307,6 +307,7 @@
->>   295 rw
->>   296 rw
->>   297 meta
->> +298 auto quick
-> 
-> I wouldn’t mark it as quick, there is at least one preallocate=full of
-> 140M, and one of 40M, plus multiple 10M data writes and falloc
-> preallocations.
-> 
-> Also, since you mark it as “auto”, have you run this test on all
-> CI-relevant hosts?  (Among other things I can’t predict) I wonder how
-> preallocation behaves on macOS.  Just because that one was always a bit
-> weird about not-really-data areas.
-> 
+static const MemoryDebugOps default_debug_ops = {
+    .translate = cpu_get_phys_page_attrs_debug,
+    .read = address_space_read,
+    .write = address_space_write_rom
+};
 
-Ofcourse, I didn't run on all hosts. I'm a bit out of sync about this.. If I don't put new test in "auto", is there any chance that test would be automatically run somewhere?
+static const MemoryDebugOps *debug_ops = &default_debug_ops;
 
+Paolo
 
--- 
-Best regards,
-Vladimir
 
