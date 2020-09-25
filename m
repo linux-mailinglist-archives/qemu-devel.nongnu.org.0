@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C90278EE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:41:14 +0200 (CEST)
-Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8FD278EF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:44:45 +0200 (CEST)
+Received: from localhost ([::1]:36502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqmX-0001Ye-GY
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47982)
+	id 1kLqpw-0005LT-Q7
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVV-0006kO-Am
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:37 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34299)
+ id 1kLqVX-0006nS-NC
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:41 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVT-0006pZ-FQ
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:37 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t10so4270846wrv.1
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:35 -0700 (PDT)
+ id 1kLqVV-0006pl-0J
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:39 -0400
+Received: by mail-wr1-x435.google.com with SMTP id x14so4188404wrl.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FBXPGy4Klp9jR272eFs+vFXX4JatTC9w4gnl2L3wGwM=;
- b=aoFRQTk8aCC3CHzz0MKU/jnPXCmTb8bzpkTpPXd+TvFw3NfehyZi6fOH1f+Fxwvkk4
- dNCx8BEuf601p05FQMPvGD7OZx1fWaoBrdCxgsE80tSu6yyFN83anJeVNz8hwUKJjp1R
- ejN+/kd7rG90qE4p8PtwREKV2otmIX4i9BlwTo4Pbfkdw1OYCnebXlJSNcyAjKsaDT8U
- oNIirMulqWpHYSRXjDznDpvzg22JT0AFsDQIXdvGCtFKFLvg/ZAsxZ9TYh8US/ExMKJv
- T/z6N1kef+urrraW1mbQOaVxFbwnMAIwOmbQ+oDsFxyHBZvkwvslXzXO+HzRb2dRUp+w
- 8VmA==
+ bh=qY2/0F+KpB2LvKmpEVYN1JeJz0DmkWbUEhi/m2WaAQM=;
+ b=Dwo1VRN0HctI0eR9SiDm2YZDriqLyQF2ran5BiImW24LJO041VlhJ1zI+v4cNMgWK7
+ RjQGjklZVPSOqt+VCQmUZw5L+ptGJ1tm4x6Vn6oUFILVGzlECBrBDamdm91Sy06rZfXa
+ qRLIunzB/WtK7/qrO893ZEAcnk8fyE9/n3MNJisEr8sJyWF8Pwyb2roXKiaT7vyoc44A
+ 1aei1uKsuCUDy4PvnCf0Tqx8N5kxeOGg7n+xoHdOZmv6sSzoGjKjlf1Dqa9sxIt7LsyL
+ pyc9fFxTQNhSp5CvcU9vgvJgdx5uKpDm8j3nQw0Pz8OBLTNmfulbNZVD5xvcWnqc9xJH
+ UHlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FBXPGy4Klp9jR272eFs+vFXX4JatTC9w4gnl2L3wGwM=;
- b=lUBdEYlEGKpOfm6N8AjtRjESWgesj1eiX+XZDD14EL3Iaz7ypd6xZ4dPZAzNSYWktl
- yMCB1vmTJr/4N3RGwj3dOj+lSqmUE+r2TLbr69DxEDm+2/JKND5wf6Bad9W1Epz4xVLY
- wSqp2KD4yYOt2h6nHzy8oE2G2cbmuh/bxQ19/IfPIEoYf1XkSe+NgaIM4AVVFQp3Y1R0
- zz1cygy7JPlvvNOKG1FgRzzbkG4g5eTxIHcDiNBX4nINYr7M/imxbVEmW3PYJCJV/qnK
- vxnAOzGiZ0Ffec0H95AKn8geVrAQySgr0Pzh6DkEMii9MWHcDTeIZ4bZexBwCxIvxAMV
- ROTg==
-X-Gm-Message-State: AOAM532SZYYZPqSmlFYOM8+5KtCPgkqgxz7GJ4Rea6ArAIAKXvmJLyiL
- 1you0nlbJ8wWYq7YDcrVTSPxNa9jLjIJ4lmX
-X-Google-Smtp-Source: ABdhPJztB7Nfdn+wqkAa4jjRlgpJGNfZ647xrloJJWdmyWDZEbmnaL5/KvLHNMtTfGGGwAvHIYfBDw==
-X-Received: by 2002:adf:8b1d:: with SMTP id n29mr5156184wra.383.1601051013686; 
- Fri, 25 Sep 2020 09:23:33 -0700 (PDT)
+ bh=qY2/0F+KpB2LvKmpEVYN1JeJz0DmkWbUEhi/m2WaAQM=;
+ b=d9U/RGHcxKvdzvbkKgwR9E0hpvm2P8hgfZmQHy8+b9DU1XMKRmS3Zvk/4GI3AsX1Rs
+ 3vJCToSJTRZMQIfQ1tjwyVzbRgVoWyDqJcqWVex34o8RjWw5blYRcl7tOmsQ0LwQSPyx
+ 1uboD/vXpV2cyJn5fqCy87/XMBRyULeiOy7e7EcUejsgleXrcAfEfa9VStJ8CoPOhpVq
+ 0f3NJemVTWyAx1HXs8j0Em5WcYShUjMnZX5mCan7HtUDv1c7y/GRnFhWQykmgIWnYicM
+ nYSEQGm3d07ps5IEdb4WkJ2AVCsElKwv9a/aRBi+5lk8PzYrAN8+KksgGIZT8gYCKNUn
+ Tu5Q==
+X-Gm-Message-State: AOAM530SV7R0QAy4tfVJpILn8TQBUYR0gBVFSczYEkBbY8pL9pfcWcCp
+ i2q0mm0o9dZ4EKlI39Misk38S210nqTnOqvc
+X-Google-Smtp-Source: ABdhPJyAnE4IwgMDhnsRUPyvmYxviC0kY/TzRJG97OEH60uNh11++Dx42rfrFocTeYgPA/b/nAzUxw==
+X-Received: by 2002:adf:8162:: with SMTP id 89mr5551556wrm.237.1601051014991; 
+ Fri, 25 Sep 2020 09:23:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.32
+ by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 09:23:33 -0700 (PDT)
+ Fri, 25 Sep 2020 09:23:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 13/21] meson.build: Move SPHINX_ARGS to top level
- meson.build file
-Date: Fri, 25 Sep 2020 17:23:08 +0100
-Message-Id: <20200925162316.21205-14-peter.maydell@linaro.org>
+Subject: [PATCH v6 14/21] meson.build: Make manuals depend on source to Sphinx
+ extensions
+Date: Fri, 25 Sep 2020 17:23:09 +0100
+Message-Id: <20200925162316.21205-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925162316.21205-1-peter.maydell@linaro.org>
 References: <20200925162316.21205-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,47 +89,54 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're going to want to use SPHINX_ARGS in both docs/meson.build
-and tests/qapi-schema/meson.build. Move the definition up to the
-top level file so it is available to both subdirectories.
+The automatic dependency handling for Sphinx manuals only makes the output
+depend on the input documentation files. This means that if you edit
+the Python source of an extension then the documentation won't be
+rebuilt.
+
+Create a list of all the source files for the extensions and add
+it to the dependencies for the manuals. This is similar to how we
+handle the qapi_gen_depends list.
+
+Because we don't try to identify which manuals are using which
+Sphinx extensions, a change to the source of one extension will
+always rebuild the entire manual set, not merely the manuals
+which have changed. This is acceptable because we don't change
+the extensions all that often.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/meson.build | 8 --------
+ docs/meson.build | 1 +
  meson.build      | 8 ++++++++
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ 2 files changed, 9 insertions(+)
 
 diff --git a/docs/meson.build b/docs/meson.build
-index 69097e2ca07..99da609e813 100644
+index 99da609e813..59fea873b10 100644
 --- a/docs/meson.build
 +++ b/docs/meson.build
-@@ -1,11 +1,3 @@
--SPHINX_ARGS = [config_host['SPHINX_BUILD'],
--               '-Dversion=' + meson.project_version(),
--               '-Drelease=' + config_host['PKGVERSION']]
--
--if get_option('werror')
--  SPHINX_ARGS += [ '-W' ]
--endif
--
- if build_docs
-   configure_file(output: 'index.html',
-                  input: files('index.html.in'),
+@@ -36,6 +36,7 @@ if build_docs
+                 output: [manual + '.stamp'],
+                 input: [files('conf.py'), files(manual / 'conf.py')],
+                 depfile: manual + '.d',
++                depend_files: sphinx_extn_depends,
+                 command: [SPHINX_ARGS, '-Ddepfile=@DEPFILE@',
+                           '-Ddepfile_stamp=@OUTPUT0@',
+                           '-b', 'html', '-d', private_dir,
 diff --git a/meson.build b/meson.build
-index 73d675ca834..6408ad442ea 100644
+index 6408ad442ea..3c07e75dbd5 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -671,6 +671,14 @@ foreach d : hx_headers
- endforeach
- genh += hxdep
+@@ -679,6 +679,14 @@ if get_option('werror')
+   SPHINX_ARGS += [ '-W' ]
+ endif
  
-+SPHINX_ARGS = [config_host['SPHINX_BUILD'],
-+               '-Dversion=' + meson.project_version(),
-+               '-Drelease=' + config_host['PKGVERSION']]
-+
-+if get_option('werror')
-+  SPHINX_ARGS += [ '-W' ]
-+endif
++sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
++                        meson.source_root() / 'docs/sphinx/hxtool.py',
++                        meson.source_root() / 'docs/sphinx/kerneldoc.py',
++                        meson.source_root() / 'docs/sphinx/kernellog.py',
++                        meson.source_root() / 'docs/sphinx/qapidoc.py',
++                        meson.source_root() / 'docs/sphinx/qmp_lexer.py',
++                        qapi_gen_depends ]
 +
  # Collect sourcesets.
  
