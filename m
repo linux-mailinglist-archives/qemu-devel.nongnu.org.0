@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A06278F9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 19:29:12 +0200 (CEST)
-Received: from localhost ([::1]:56246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C47FB278F9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 19:28:34 +0200 (CEST)
+Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLrWx-0005Gz-FW
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 13:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35174)
+	id 1kLrWL-00043f-Qm
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 13:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLrUA-0002MJ-Gr
+ id 1kLrUA-0002MY-NR
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:26:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32492)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLrU7-0007Ap-43
+ id 1kLrU7-0007BD-Ok
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:26:18 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601054773;
+ s=mimecast20190719; t=1601054775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T6FsGBuKouQQB30ht/asEi8mqll9dtqJrQ6O1uHPob4=;
- b=jHCNng8J6VG2zOk52tGpIdIc5wNmuaxQdlYHH+H0HRjTj8kqJ2djbMsFhW+5oiTwkWbRd4
- XeVm12PXVacWnmSmP3z1SoGcN1nC02NNIo6b2z+WEw5y8kDqnyH2zKy6/tWDpfjifr21YJ
- xQ5L0gM34X5h3jHGOamjdzJIUhXZ0b8=
+ bh=XUpo1DJesgvRqw3d+/1xweFRc1qsON2eoPTXlfvGNrs=;
+ b=EeLu15oZ7QvmhkR/QOOKeVAc1W3fLkoJ1O/qjbpwMem/+k6hBSod9Is7EZ3i3z2pJmMZKa
+ VGlrSrP4S8ZtowAjJ6STBi/lukJk9ZNm3xlZptpGXcumjFGOBEasqvEmXgZnLzrJ3q6NZo
+ gPIqc/8aw/fBq6CM4yIqxKNWtwckoeg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-lhct7wilN7qnGvW2rX9oJQ-1; Fri, 25 Sep 2020 13:26:12 -0400
-X-MC-Unique: lhct7wilN7qnGvW2rX9oJQ-1
+ us-mta-238-rqt3pe73M-eZ3_RKk1IEZQ-1; Fri, 25 Sep 2020 13:26:13 -0400
+X-MC-Unique: rqt3pe73M-eZ3_RKk1IEZQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A41980EF9F
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 17:26:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48CFA10BBED5
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 17:26:12 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD91A5D9F3;
- Fri, 25 Sep 2020 17:26:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC8A25D9F3;
+ Fri, 25 Sep 2020 17:26:11 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/10] device-core: use RCU for list of children of a bus
-Date: Fri, 25 Sep 2020 13:25:59 -0400
-Message-Id: <20200925172604.2142227-6-pbonzini@redhat.com>
+Subject: [PATCH 07/10] scsi/scsi-bus: scsi_device_find: don't return
+ unrealized devices
+Date: Fri, 25 Sep 2020 13:26:01 -0400
+Message-Id: <20200925172604.2142227-8-pbonzini@redhat.com>
 In-Reply-To: <20200925172604.2142227-1-pbonzini@redhat.com>
 References: <20200925172604.2142227-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -87,265 +88,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-This fixes the race between device emulation code that tries to find
-a child device to dispatch the request to (e.g a scsi disk),
-and hotplug of a new device to that bus.
+The device core first places a device on the bus and then realizes it.
+Make scsi_device_find avoid returing such devices to avoid
+races in drivers that use an iothread (currently virtio-scsi)
 
-Note that this doesn't convert all the readers of the list
-but only these that might go over that list without BQL held.
-
-This is a very small first step to make this code thread safe.
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1812399
 
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200913160259.32145-5-mlevitsk@redhat.com>
-[Use RCU_READ_LOCK_GUARD in more places. - Paolo]
+Message-Id: <20200913160259.32145-7-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/bus.c          | 28 +++++++++++++++++-----------
- hw/core/qdev.c         | 37 +++++++++++++++++++++++--------------
- hw/scsi/scsi-bus.c     | 12 +++++++++---
- hw/scsi/virtio-scsi.c  |  6 +++++-
- include/hw/qdev-core.h |  9 +++++++++
- 5 files changed, 63 insertions(+), 29 deletions(-)
+ hw/scsi/scsi-bus.c | 83 +++++++++++++++++++++++++++++-----------------
+ 1 file changed, 53 insertions(+), 30 deletions(-)
 
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 6b987b6946..a0483859ae 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -49,12 +49,14 @@ int qbus_walk_children(BusState *bus,
-         }
-     }
- 
--    QTAILQ_FOREACH(kid, &bus->children, sibling) {
--        err = qdev_walk_children(kid->child,
--                                 pre_devfn, pre_busfn,
--                                 post_devfn, post_busfn, opaque);
--        if (err < 0) {
--            return err;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
-+            err = qdev_walk_children(kid->child,
-+                                     pre_devfn, pre_busfn,
-+                                     post_devfn, post_busfn, opaque);
-+            if (err < 0) {
-+                return err;
-+            }
-         }
-     }
- 
-@@ -90,8 +92,10 @@ static void bus_reset_child_foreach(Object *obj, ResettableChildCallback cb,
-     BusState *bus = BUS(obj);
-     BusChild *kid;
- 
--    QTAILQ_FOREACH(kid, &bus->children, sibling) {
--        cb(OBJECT(kid->child), opaque, type);
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
-+            cb(OBJECT(kid->child), opaque, type);
-+        }
-     }
- }
- 
-@@ -194,9 +198,11 @@ static void bus_set_realized(Object *obj, bool value, Error **errp)
- 
-         /* TODO: recursive realization */
-     } else if (!value && bus->realized) {
--        QTAILQ_FOREACH(kid, &bus->children, sibling) {
--            DeviceState *dev = kid->child;
--            qdev_unrealize(dev);
-+        WITH_RCU_READ_LOCK_GUARD() {
-+            QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
-+                DeviceState *dev = kid->child;
-+                qdev_unrealize(dev);
-+            }
-         }
-         if (bc->unrealize) {
-             bc->unrealize(bus);
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 74db78df36..59e5e710b7 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -51,6 +51,12 @@ const VMStateDescription *qdev_get_vmsd(DeviceState *dev)
-     return dc->vmsd;
- }
- 
-+static void bus_free_bus_child(BusChild *kid)
-+{
-+    object_unref(OBJECT(kid->child));
-+    g_free(kid);
-+}
-+
- static void bus_remove_child(BusState *bus, DeviceState *child)
- {
-     BusChild *kid;
-@@ -60,15 +66,16 @@ static void bus_remove_child(BusState *bus, DeviceState *child)
-             char name[32];
- 
-             snprintf(name, sizeof(name), "child[%d]", kid->index);
--            QTAILQ_REMOVE(&bus->children, kid, sibling);
-+            QTAILQ_REMOVE_RCU(&bus->children, kid, sibling);
- 
-             bus->num_children--;
- 
-             /* This gives back ownership of kid->child back to us.  */
-             object_property_del(OBJECT(bus), name);
--            object_unref(OBJECT(kid->child));
--            g_free(kid);
--            return;
-+
-+            /* free the bus kid, when it is safe to do so*/
-+            call_rcu(kid, bus_free_bus_child, rcu);
-+            break;
-         }
-     }
- }
-@@ -83,7 +90,7 @@ static void bus_add_child(BusState *bus, DeviceState *child)
-     kid->child = child;
-     object_ref(OBJECT(kid->child));
- 
--    QTAILQ_INSERT_HEAD(&bus->children, kid, sibling);
-+    QTAILQ_INSERT_HEAD_RCU(&bus->children, kid, sibling);
- 
-     /* This transfers ownership of kid->child to the property.  */
-     snprintf(name, sizeof(name), "child[%d]", kid->index);
-@@ -672,17 +679,19 @@ DeviceState *qdev_find_recursive(BusState *bus, const char *id)
-     DeviceState *ret;
-     BusState *child;
- 
--    QTAILQ_FOREACH(kid, &bus->children, sibling) {
--        DeviceState *dev = kid->child;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
-+            DeviceState *dev = kid->child;
- 
--        if (dev->id && strcmp(dev->id, id) == 0) {
--            return dev;
--        }
-+            if (dev->id && strcmp(dev->id, id) == 0) {
-+                return dev;
-+            }
- 
--        QLIST_FOREACH(child, &dev->child_bus, sibling) {
--            ret = qdev_find_recursive(child, id);
--            if (ret) {
--                return ret;
-+            QLIST_FOREACH(child, &dev->child_bus, sibling) {
-+                ret = qdev_find_recursive(child, id);
-+                if (ret) {
-+                    return ret;
-+                }
-             }
-         }
-     }
 diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 69d7c3f90c..4ab9811cd8 100644
+index 4ab9811cd8..7599113efe 100644
 --- a/hw/scsi/scsi-bus.c
 +++ b/hw/scsi/scsi-bus.c
-@@ -399,7 +399,10 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
-     id = r->req.dev->id;
-     found_lun0 = false;
-     n = 0;
--    QTAILQ_FOREACH(kid, &r->req.bus->qbus.children, sibling) {
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
-         DeviceState *qdev = kid->child;
-         SCSIDevice *dev = SCSI_DEVICE(qdev);
+@@ -24,6 +24,55 @@ static void scsi_target_free_buf(SCSIRequest *req);
  
-@@ -420,7 +423,7 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
-     memset(r->buf, 0, len);
-     stl_be_p(&r->buf[0], n);
-     i = found_lun0 ? 8 : 16;
--    QTAILQ_FOREACH(kid, &r->req.bus->qbus.children, sibling) {
-+    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
-         DeviceState *qdev = kid->child;
-         SCSIDevice *dev = SCSI_DEVICE(qdev);
+ static int next_scsi_bus;
  
-@@ -429,6 +432,7 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
-             i += 8;
-         }
-     }
++static SCSIDevice *do_scsi_device_find(SCSIBus *bus,
++                                       int channel, int id, int lun,
++                                       bool include_unrealized)
++{
++    BusChild *kid;
++    SCSIDevice *retval = NULL;
 +
-     assert(i == n + 8);
-     r->len = len;
-     return true;
-@@ -1571,7 +1575,8 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-     BusChild *kid;
-     SCSIDevice *target_dev = NULL;
- 
--    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
-+    RCU_READ_LOCK_GUARD();
 +    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
-         DeviceState *qdev = kid->child;
-         SCSIDevice *dev = SCSI_DEVICE(qdev);
- 
-@@ -1590,6 +1595,7 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-             }
-         }
-     }
++        DeviceState *qdev = kid->child;
++        SCSIDevice *dev = SCSI_DEVICE(qdev);
 +
-     return target_dev;
- }
- 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 3a71ea7097..971afbb217 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -367,12 +367,16 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIOSCSIReq *req)
-     case VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET:
-         target = req->req.tmf.lun[1];
-         s->resetting++;
--        QTAILQ_FOREACH(kid, &s->bus.qbus.children, sibling) {
++        if (dev->channel == channel && dev->id == id) {
++            if (dev->lun == lun) {
++                retval = dev;
++                break;
++            }
 +
-+        rcu_read_lock();
-+        QTAILQ_FOREACH_RCU(kid, &s->bus.qbus.children, sibling) {
-              d = SCSI_DEVICE(kid->child);
-              if (d->channel == 0 && d->id == target) {
-                 qdev_reset_all(&d->qdev);
-              }
-         }
-+        rcu_read_unlock();
++            /*
++             * If we don't find exact match (channel/bus/lun),
++             * we will return the first device which matches channel/bus
++             */
 +
-         s->resetting--;
-         break;
- 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index e62da68a26..8067497074 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -3,6 +3,8 @@
- 
- #include "qemu/queue.h"
- #include "qemu/bitmap.h"
-+#include "qemu/rcu.h"
-+#include "qemu/rcu_queue.h"
- #include "qom/object.h"
- #include "hw/hotplug.h"
- #include "hw/resettable.h"
-@@ -228,6 +230,7 @@ struct BusClass {
- };
- 
- typedef struct BusChild {
-+    struct rcu_head rcu;
-     DeviceState *child;
-     int index;
-     QTAILQ_ENTRY(BusChild) sibling;
-@@ -248,6 +251,12 @@ struct BusState {
-     int max_index;
-     bool realized;
-     int num_children;
++            if (!retval) {
++                retval = dev;
++            }
++        }
++    }
 +
 +    /*
-+     * children is a RCU QTAILQ, thus readers must use RCU to access it,
-+     * and writers must hold the big qemu lock
++     * This function might run on the IO thread and we might race against
++     * main thread hot-plugging the device.
++     * We assume that as soon as .realized is set to true we can let
++     * the user access the device.
 +     */
 +
-     QTAILQ_HEAD(, BusChild) children;
-     QLIST_ENTRY(BusState) sibling;
-     ResettableState reset;
++    if (retval && !include_unrealized &&
++        !qatomic_load_acquire(&retval->qdev.realized)) {
++        retval = NULL;
++    }
++
++    return retval;
++}
++
++SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
++{
++    RCU_READ_LOCK_GUARD();
++    return do_scsi_device_find(bus, channel, id, lun, false);
++}
++
+ static void scsi_device_realize(SCSIDevice *s, Error **errp)
+ {
+     SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(s);
+@@ -137,7 +186,10 @@ static bool scsi_bus_is_address_free(SCSIBus *bus,
+ 				     int channel, int target, int lun,
+ 				     SCSIDevice **p_dev)
+ {
+-    SCSIDevice *d = scsi_device_find(bus, channel, target, lun);
++    SCSIDevice *d;
++
++    RCU_READ_LOCK_GUARD();
++    d = do_scsi_device_find(bus, channel, target, lun, true);
+     if (d && d->lun == lun) {
+         if (p_dev) {
+             *p_dev = d;
+@@ -1570,35 +1622,6 @@ static char *scsibus_get_fw_dev_path(DeviceState *dev)
+                            qdev_fw_name(dev), d->id, d->lun);
+ }
+ 
+-SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+-{
+-    BusChild *kid;
+-    SCSIDevice *target_dev = NULL;
+-
+-    RCU_READ_LOCK_GUARD();
+-    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
+-        DeviceState *qdev = kid->child;
+-        SCSIDevice *dev = SCSI_DEVICE(qdev);
+-
+-        if (dev->channel == channel && dev->id == id) {
+-            if (dev->lun == lun) {
+-                return dev;
+-            }
+-
+-            /*
+-             * If we don't find exact match (channel/bus/lun),
+-             * we will return the first device which matches channel/bus
+-             */
+-
+-            if (!target_dev) {
+-                target_dev = dev;
+-            }
+-        }
+-    }
+-
+-    return target_dev;
+-}
+-
+ /* SCSI request list.  For simplicity, pv points to the whole device */
+ 
+ static int put_scsi_requests(QEMUFile *f, void *pv, size_t size,
 -- 
 2.26.2
 
