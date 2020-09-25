@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05669278DC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:14:31 +0200 (CEST)
-Received: from localhost ([::1]:40192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA37F278E6C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:29:06 +0200 (CEST)
+Received: from localhost ([::1]:50148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqMg-0004Ai-1n
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
+	id 1kLqan-0003Uf-Qs
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLqDv-00024y-Pr
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:05:29 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:40703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLqDr-0003y5-Qq
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:05:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=c67lafeT8pvBCjlA1iVegcBQYEjZ3KBj1IoX8n6PGHQ=; b=OGQ6DF3KX407eA+3tmLxeStyc7
- Qf4AixR2K1EmoOBPleA4hw3K9xChj9Vrx8KnlYYaJhfngCTHLJTL/H4obn9NboPqyDaTodsJDUeAj
- LlIgpEGXFz3hA9RPLKS5mm2ypvWfNBcIgzgCQvqDIeE+uA4toxjaYo+DnbrSAzr++SfHe2G5fvzSH
- g/fT7G2AOzZ/lH6D1+vcRzqS/QI/2GNJuQilPZJHtEoA8neepMPZN1qmHWPSuZDDPuf7UzYYYLzWa
- WcjOck5aUUCdu2Du6JL5BIcpG/0XnP6aUsolrhwdza8CZMR17RV110Ylve2znGlZCrxuoLr8l9FYK
- mwyVSL/g==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- "cdupontd@redhat.com" <cdupontd@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Shinde, Archana M" <archana.m.shinde@intel.com>,
- Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: virtiofs vs 9p performance(Re: tools/virtiofs: Multi threading
- seems to hurt performance)
-Date: Fri, 25 Sep 2020 18:05:17 +0200
-Message-ID: <7085634.CctCyd8GvG@silver>
-In-Reply-To: <20200925130538.GK2873@work-vm>
-References: <20200918213436.GA3520@redhat.com> <4973513.bp6ERB8pJA@silver>
- <20200925130538.GK2873@work-vm>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLqGT-0005N2-1C
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:08:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLqGQ-0004Lq-0E
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:08:04 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601050080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iw1gWC5GW3AuHGJTIbuLqmMQjqTiUSF+r9QKoQ/zpYw=;
+ b=ScPFmgtX6y8W+VwzN9zP6hUDtjn6yyzK+bTvAw8n29slxNXbMOfRmg+O1qLSiGyFPyv2fG
+ bdBLsqUgzkWL3WFbXu5yv5Ohnc/0FSL0XurxhA2AaoNpVkFaE1gzCHQj6OD03BlRMJLjXh
+ MJp+nOed41K9I9IVtYuDh2A9okukHX0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410--nUvBH1LNYGJKEOIpXKQyA-1; Fri, 25 Sep 2020 12:07:57 -0400
+X-MC-Unique: -nUvBH1LNYGJKEOIpXKQyA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B0531882FB3;
+ Fri, 25 Sep 2020 16:07:56 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-83.ams2.redhat.com [10.36.114.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED09B60CCC;
+ Fri, 25 Sep 2020 16:07:51 +0000 (UTC)
+Date: Fri, 25 Sep 2020 18:07:50 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v7 13/13] block: Convert 'block_resize' to coroutine
+Message-ID: <20200925160750.GJ5731@linux.fritz.box>
+References: <20200909151149.490589-1-kwolf@redhat.com>
+ <20200909151149.490589-14-kwolf@redhat.com>
+ <20200915145733.GF629589@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 11:47:23
+In-Reply-To: <20200915145733.GF629589@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,47 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, armbru@redhat.com,
+ qemu-block@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 25. September 2020 15:05:38 CEST Dr. David Alan Gilbert wrote:
-> > > 9p ( mount -t 9p -o trans=virtio kernel /mnt
-> > > -oversion=9p2000.L,cache=mmap,msize=1048576 ) test: (g=0): rw=randrw,
-> > 
-> > Bottleneck ------------------------------^
-> > 
-> > By increasing 'msize' you would encounter better 9P I/O results.
-> 
-> OK, I thought that was bigger than the default;  what number should I
-> use?
+--MfFXiAuoTsnnDAfZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It depends on the underlying storage hardware. In other words: you have to try 
-increasing the 'msize' value to a point where you no longer notice a negative 
-performance impact (or almost). Which is fortunately quite easy to test on 
-guest like:
+Am 15.09.2020 um 16:57 hat Stefan Hajnoczi geschrieben:
+> On Wed, Sep 09, 2020 at 05:11:49PM +0200, Kevin Wolf wrote:
+> > @@ -2456,8 +2456,7 @@ void qmp_block_resize(bool has_device, const char=
+ *device,
+> >          return;
+> >      }
+> > =20
+> > -    aio_context =3D bdrv_get_aio_context(bs);
+> > -    aio_context_acquire(aio_context);
+> > +    old_ctx =3D bdrv_co_move_to_aio_context(bs);
+> > =20
+> >      if (size < 0) {
+> >          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0 s=
+ize");
+>=20
+> Is it safe to call blk_new() outside the BQL since it mutates global stat=
+e?
+>=20
+> In other words, could another thread race with us?
 
-	dd if=/dev/zero of=test.dat bs=1G count=12
-	time cat test.dat > /dev/null
+Hm, probably not.
 
-I would start with an absolute minimum msize of 10MB. I would recommend 
-something around 100MB maybe for a mechanical hard drive. With a PCIe flash 
-you probably would rather pick several hundred MB or even more.
+Would it be safer to have the bdrv_co_move_to_aio_context() call only
+immediately before the drain?
 
-That unpleasant 'msize' issue is a limitation of the 9p protocol: client 
-(guest) must suggest the value of msize on connection to server (host). Server 
-can only lower, but not raise it. And the client in turn obviously cannot see 
-host's storage device(s), so client is unable to pick a good value by itself. 
-So it's a suboptimal handshake issue right now.
+> > @@ -2479,8 +2478,8 @@ void qmp_block_resize(bool has_device, const char=
+ *device,
+> >      bdrv_drained_end(bs);
+> > =20
+> >  out:
+> > +    aio_co_reschedule_self(old_ctx);
+> >      blk_unref(blk);
+> > -    aio_context_release(aio_context);
+>=20
+> The following precondition is violated by the blk_unref -> bdrv_drain ->
+> AIO_WAIT_WHILE() call if blk->refcnt is 1 here:
+>=20
+>  * The caller's thread must be the IOThread that owns @ctx or the main lo=
+op
+>  * thread (with @ctx acquired exactly once).
+>=20
+> blk_unref() is called from the main loop thread without having acquired
+> blk's AioContext.
+>=20
+> Normally blk->refcnt will be > 1 so bdrv_drain() won't be called, but
+> I'm not sure if that can be guaranteed.
+>=20
+> The following seems safer although it's uglier:
+>=20
+>   aio_context =3D bdrv_get_aio_context(bs);
+>   aio_context_acquire(aio_context);
+>   blk_unref(blk);
+>   aio_context_release(aio_context);
 
-Many users don't even know this 'msize' parameter exists and hence run with 
-the Linux kernel's default value of just 8kB. For QEMU 5.2 I addressed this by 
-logging a performance warning on host side for making users at least aware 
-about this issue. The long-term plan is to pass a good msize value from host 
-to guest via virtio (like it's already done for the available export tags) and 
-the Linux kernel would default to that instead.
+May we actually acquire aio_context if blk is in the main thread? I
+think we must only do this if it's in a different iothread because we'd
+end up with a recursive lock and drain would hang.
 
-Best regards,
-Christian Schoenebeck
+Kevin
 
+--MfFXiAuoTsnnDAfZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl9uFdYACgkQfwmycsiP
+L9ZhaxAAtYSZCrYXKple59TV8i2cfoVccDk6ARiveCa80lJCRRzonkV2qysaOR9v
+FdZwImJ/CHQUDvrjKxINGkXQqiUQKV+mvGiwlPmsyPDrYMxttd21qSrdcdag+2yk
+NF5F5jn0mBFWd51O9Kk8yp4w5ahihENPtbnh9n/2x7sGe6eo02Ay3ueN7gLpIaPf
+J6+esFWZRqbmvGDGnIdwtgjGLEyKd+hyCMCNOSoDjtzEz/2slkuLGm/vOGL/uawK
+2gq3lXUoYFoyOV62yFbA54suskgfEqzafmfmcNiBstM/QIdm/N6jibkT4Oqy5MM2
++3idIK6Sw3xg8i1x17ZrXYKJQDvB+JOGFdqM573KjCRPhqd0Jy8gAMASnXPvrWx7
+dFFCWHwL6BVvWa8AU4GrEPwPqpOVa/2DnQ8NphZdKCkXbk1r+7J67PCIISZv+WkD
+VmEHV4h6mvuk+Djy5H6i5lqY1rNdcZWQwQ4Hy9yqtXusDrTBYtC5GDzGWSyjhJ/V
+la3Ntwf0Dr2dwE+CxSIJM44IxKBdHEpOHBEizNx2cE1hq5Rpg5aInT8scRBaBgKV
+IrU5lnL/IxBzDDexIay8MttF8rU6fPCUCu+c7GtQwyN9UxBSA25Tj/m3U79AQms1
+P+JfolcZ7hjQDg7jQShqW6vj0hV01WGVvWe7HwfLuG1psi+W2ko=
+=GZaf
+-----END PGP SIGNATURE-----
+
+--MfFXiAuoTsnnDAfZ--
 
 
