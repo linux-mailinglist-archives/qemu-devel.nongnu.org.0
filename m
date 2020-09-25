@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3FB2786D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:17:47 +0200 (CEST)
-Received: from localhost ([::1]:40310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D962786E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:18:42 +0200 (CEST)
+Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmfa-0006M0-Ke
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
+	id 1kLmgT-0007Ec-8U
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWI-0003dS-8E
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48880)
+ id 1kLmWJ-0003fZ-1Q
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWD-0004Hz-GX
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:09 -0400
+ id 1kLmWH-0004IX-0k
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:10 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601035684;
+ s=mimecast20190719; t=1601035688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UTt8X+r2NAe5sUSIUqOrvCV6Cqr7EQkVjHlDWo/HZE8=;
- b=IdJw76QARrlHM+qNlD2fsbhwGo0nG8CUFwoIPlEfPP7nRW9wafl0nb6ySB3d1WSrtnI8jV
- tpR0OyFOk4GYktpyBa3DQ4dN0E+M7JtP9jl+cNH9RsR38FDpj6fJymDgAuq+86BDRU4Krf
- IJSkrJm4n+63iEDEvb14jxjVPWEpUhE=
+ bh=C8kuCzwewug5ZS+IEH9Np5RTfbg3mae2wgdLl7KapEs=;
+ b=T+Ow4eFSa/tP5nFz2SDTKdOu4lhdNgmfrL0pQcAK/73Tb4UEIaKBlpJBS//8+UMKUBdD/F
+ 40OXVResaZGRL8YL8au4vL3BRc2WleMLGsSHn3rgcJCD7hVDGDZScDNEFyrohkNa+zJ3RK
+ PZRnI0TUFqjrFrBZzfph3zyu5jHL6H0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-wIQFGDGLPAOWInNTFozYEQ-1; Fri, 25 Sep 2020 08:08:00 -0400
-X-MC-Unique: wIQFGDGLPAOWInNTFozYEQ-1
+ us-mta-130-4Nh1OWgDOa6u5ML4JSrMIA-1; Fri, 25 Sep 2020 08:08:05 -0400
+X-MC-Unique: 4Nh1OWgDOa6u5ML4JSrMIA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D022186DD44;
- Fri, 25 Sep 2020 12:07:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DE16186DD42;
+ Fri, 25 Sep 2020 12:08:04 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-177.ams2.redhat.com
  [10.36.114.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29FC673695;
- Fri, 25 Sep 2020 12:07:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67D2E73697;
+ Fri, 25 Sep 2020 12:07:59 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, zhengchuan@huawei.com, dovmurik@linux.vnet.ibm.com,
  hgcoin@gmail.com, zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com,
  peterx@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
  jinyan12@huawei.com, ann.zhuangyanying@huawei.com
-Subject: [PULL 15/26] migration: Truncate state file in xen-save-devices-state
-Date: Fri, 25 Sep 2020 13:06:44 +0100
-Message-Id: <20200925120655.295142-16-dgilbert@redhat.com>
+Subject: [PULL 16/26] migration: increase max-bandwidth to 128 MiB/s (1 Gib/s)
+Date: Fri, 25 Sep 2020 13:06:45 +0100
+Message-Id: <20200925120655.295142-17-dgilbert@redhat.com>
 In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
 References: <20200925120655.295142-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -61,9 +61,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -88,34 +88,38 @@ Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dov Murik <dovmurik@linux.vnet.ibm.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-When running the xen-save-devices-state QMP command, if the filename
-already exists it will be truncated before dumping the devices' state
-into it.
+max-bandwidth is set by default to 32 MiB/s (256 Mib/s)
+since 2008 (5bb7910af031c).
 
-Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
-Message-Id: <20200921094830.114028-1-dovmurik@linux.vnet.ibm.com>
+Most of the CPUs can dirty memory faster than that now,
+and this is clearly a problem with POWER where the page
+size is 64 kiB and not 4 KiB.
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20200921144957.979989-1-lvivier@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/savevm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ migration/migration.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index ee21e981ba..34e4b71052 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2803,7 +2803,8 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-     vm_stop(RUN_STATE_SAVE_VM);
-     global_state_store_running();
+diff --git a/migration/migration.c b/migration/migration.c
+index 827f8be07d..de34c995af 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -57,7 +57,7 @@
+ #include "qemu/queue.h"
+ #include "multifd.h"
  
--    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT, 0660, errp);
-+    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT | O_TRUNC,
-+                                    0660, errp);
-     if (!ioc) {
-         goto the_end;
-     }
+-#define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttling */
++#define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
+ 
+ /* Amount of time to allocate to each "chunk" of bandwidth-throttled
+  * data. */
 -- 
 2.26.2
 
