@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF109278D4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:57:10 +0200 (CEST)
-Received: from localhost ([::1]:51856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CE4278D28
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:50:26 +0200 (CEST)
+Received: from localhost ([::1]:35364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLq5t-0000yH-Ph
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38254)
+	id 1kLpzM-0001en-Ld
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:50:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLpyA-0002Y0-0s
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:49:13 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40515)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLpy7-0000VM-TZ
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:49:09 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id j2so4101310wrx.7
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:49:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a1oClsqC0Jus89g3hfrBaMyM4864X7tFULVIlVAmDEU=;
- b=g9ki3RXU4kaHJ0pqVY+OckCldjvK0wP3mRFn8kstX1401P8jhS7jgWNK4x6xCE9gOg
- okN0F2bWrmAbmBMsjmDjWIDCvfuELqKXPssIrL32nyUMk+i8TvWE9XTW3qRoNVKH+1s4
- LwfqJ6jJCQM9cCSDAlcWZPMNCH5oPXJSlKFuM42nMMu/zcLrrUy2lnsW0vhEuA5vwKgf
- ajEUfNnbN5i7dVR3FzOjM1xW3GFv5f20bUg4GAxnApvxrLCZyoyypGVuTz8ndpdafPwd
- 8ioLBh2RSrHqs0fKGXUks5EZ1P0BqtDE0jB170dRPqHs54C7kBsZbhXpY6BqEwVy7bZl
- FlJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=a1oClsqC0Jus89g3hfrBaMyM4864X7tFULVIlVAmDEU=;
- b=UvW9R7AalcXvVRvvMApjhAb+PtPY71VMGCDL6oeoyris0J5JeC+9Zkju/JQnrUrLb3
- jXdqFFUx4MhlIMjipgc2ib0csKsOrK5oKBvp3WwEiqCgtWbJ0i4MFwGzm431ls8Fbpn5
- IjmNsN7/ahjHi+zP1cXJsfMVfkTXxj75aBl2BwAMe5ZsYO3rsWoLpLPCwB0Abx1iZTBG
- SAaQ1IHQYWM65YOpFH1Pkdepw+fNHhAWq/Ceog0q1F7nyBlFUWVSTcff/kVXkNE7mKLX
- IqW7jOY+W9FVfMghiPaL8mwdVZVrglXJopDt7aE+8FMpjU07GH68LLPeWJEmXLTYS/Zz
- OLUw==
-X-Gm-Message-State: AOAM530zB7q42uVy5g8zU6QUzWrCZh/i0vFmp1EX766+eN23o07CiVgi
- KlQkBtlB6RUNVxdRhDj0iemtlA==
-X-Google-Smtp-Source: ABdhPJyaKy24ARcDo2jKflNE1sBSIehz6uIXj+vxFIgr+bb8Aw9gcWUKYoD885DgMg330ClYWTc1YQ==
-X-Received: by 2002:a5d:56cd:: with SMTP id m13mr5026148wrw.261.1601048946237; 
- Fri, 25 Sep 2020 08:49:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l18sm3226507wrp.84.2020.09.25.08.49.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 08:49:04 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 298481FF9B;
- Fri, 25 Sep 2020 16:40:30 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/15] shippable.yml: Remove the Debian9-based MinGW
- cross-compiler tests
-Date: Fri, 25 Sep 2020 16:40:24 +0100
-Message-Id: <20200925154027.12672-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200925154027.12672-1-alex.bennee@linaro.org>
-References: <20200925154027.12672-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLpt9-0006HO-JF
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:43:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLpt7-00083R-W6
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:43:59 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601048636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WxbwFwT33OGrgK/cs5dtfZ6zGQcuRjeRBdSmr0zZmEo=;
+ b=jQ4Z92GImr9XPcvKbqzqAY+ySOv9mQ3vCQXgqxfq9QB2FaRzyERRCi4nAlwSKj1UDg1f2Q
+ 8ADnHf/aShJ+XsB+ZCbAzBL3ny2Vc0i8im4qa1M9GRX/mQ9+xqIX2Tu7nz/NEiK/ecavee
+ QvEIcG53+ZCb2bY7fhKwfNxwn7q/ni8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-ROXynxSYMuGmskKxNKIRrw-1; Fri, 25 Sep 2020 11:43:53 -0400
+X-MC-Unique: ROXynxSYMuGmskKxNKIRrw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A51F10BBECF;
+ Fri, 25 Sep 2020 15:43:51 +0000 (UTC)
+Received: from gondolin (ovpn-112-192.ams2.redhat.com [10.36.112.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B31C5D9F1;
+ Fri, 25 Sep 2020 15:43:42 +0000 (UTC)
+Date: Fri, 25 Sep 2020 17:43:41 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Subject: Re: [PATCH v6 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
+Message-ID: <20200925174341.21fe97af.cohuck@redhat.com>
+In-Reply-To: <20200925173205.288d877b@ibm-vm>
+References: <20200915194416.107460-1-walling@linux.ibm.com>
+ <20200916175300.5c2b6bbb.cohuck@redhat.com>
+ <3f4c28d6-fe5f-2e52-2e51-3190621ea63d@linux.ibm.com>
+ <82f7c31c-16f6-8450-d241-ca8257db6469@linux.ibm.com>
+ <20200925171855.670bd93a.cohuck@redhat.com>
+ <20200925173205.288d877b@ibm-vm>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,42 +84,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Collin Walling <walling@linux.ibm.com>, frankja@linux.ibm.com,
+ mst@redhat.com, david@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, thuth@redhat.com,
+ pbonzini@redhat.com, sumanthk@linux.ibm.com, mihajlov@linux.ibm.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On Fri, 25 Sep 2020 17:32:05 +0200
+Claudio Imbrenda <imbrenda@linux.ibm.com> wrote:
 
-We're not supporting Debian 9 anymore, and we are now testing
-MinGW cross-compiler builds in the gitlab-CI, too, so we do not
-really need these jobs in the shippable.yml anymore.
+> On Fri, 25 Sep 2020 17:18:55 +0200
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+> > On Fri, 25 Sep 2020 11:13:49 -0400
+> > Collin Walling <walling@linux.ibm.com> wrote:
+> >   
+> > > On 9/16/20 1:15 PM, Collin Walling wrote:    
+> > > > On 9/16/20 11:53 AM, Cornelia Huck wrote:
+> > > > 
+> > > > [...]
+> > > >       
+> > > >>>      
+> > > >>
+> > > >> Thanks, applied.
+> > > >>
+> > > >>      
+> > > > 
+> > > > Thanks Conny.
+> > > > 
+> > > > Much appreciated for everyone's patience and review. The only
+> > > > thing I'd like to hold out on for now is for someone to take a
+> > > > peek at patch #3 with respect to the protected virtualization
+> > > > stuff. I don't know too much about it, honestly, and I want to
+> > > > ensure that dynamically allocating memory for the SCCB makes
+> > > > sense there. The alternative would be to allocate a static 4K for
+> > > > the work_sccb.   
+> > > 
+> > > I had someone take a look at the patch for PV and was told
+> > > everything looks sane. Since the patches have already been applied,
+> > > it seems like it's too late to add a reviewed-by from someone?    
+> > 
+> > Have the reviewer reply with their R-b, and I'll happily add it, as I
+> > rebase s390-next before doing a pull req anyway :)  
+> 
+> well it was me :)
+> 
+> you can add a 
+> 
+> Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> 
+> for the first 6 patches, and an
+> 
+> Acked-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> 
+> for the last one
+> 
+> 
+> thanks!
+> 
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200921174320.46062-5-thuth@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .shippable.yml | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/.shippable.yml b/.shippable.yml
-index 0b4fd6df1d81..14350e6de8a1 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -7,10 +7,6 @@ env:
-   matrix:
-     - IMAGE=debian-amd64
-       TARGET_LIST=x86_64-softmmu,x86_64-linux-user
--    - IMAGE=debian-win32-cross
--      TARGET_LIST=arm-softmmu,i386-softmmu
--    - IMAGE=debian-win64-cross
--      TARGET_LIST=aarch64-softmmu,sparc64-softmmu,x86_64-softmmu
-     - IMAGE=debian-armel-cross
-       TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
-     - IMAGE=debian-armhf-cross
--- 
-2.20.1
+Thanks, updated and pushed out.
 
 
