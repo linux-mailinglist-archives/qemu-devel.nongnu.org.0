@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925B72789EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:49:47 +0200 (CEST)
-Received: from localhost ([::1]:36598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BDF278A21
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:57:57 +0200 (CEST)
+Received: from localhost ([::1]:34960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLo6c-0002ae-IB
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
+	id 1kLoEW-0005Mv-EW
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:57:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLo50-0001IL-OM
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:48:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46563)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kLo69-0002Yy-HO
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:49:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLo4z-0000gL-2v
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:48:06 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kLo61-0000ja-RB
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:49:17 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601041684;
+ s=mimecast20190719; t=1601041743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nm1MVESNeeXQFKYle+erIhXHp4I8+k6l2IuItRrQOcc=;
- b=VRw8QEBq2U2C1hcs0jmFXCYmCgV59L6bNZ75qo/HQnRgWw4nF2eLDrDo+gL+fypK68bh7B
- KtNNSUjLMxWmNdZuLcxm53BEg/8aRnmmcTBL62KSLSiMk7MX+Xoytb/8yzghw+O6ZqvN3Q
- vWfAc6kctmPs5i4MbKJXuq1/lPUDuEE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lHwkygGOtFCWYYuo4bTMJ9qBoaJdLyJPLBK8kFsoDDY=;
+ b=O4vuLgBYiPOJbDBfO8d4tjB1GFZceBD+fMjptp207l5lol/PB8/KhixaE7JJoVaMgBaUod
+ 9Lom/0FE96afJ54iYzVk9yKmJ+QuU7RtEp7UzBKXn4QrRzcIlykOGeEZRl26tYlXyVkJN5
+ 2fsm8FYiFwZNLwkEKOgXN3+tH8MFpwg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-mhflANFfOauKhwTP-Ht9PA-1; Fri, 25 Sep 2020 09:48:00 -0400
-X-MC-Unique: mhflANFfOauKhwTP-Ht9PA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-517-ouihUiiqPFqWfsVYlFz0rg-1; Fri, 25 Sep 2020 09:49:02 -0400
+X-MC-Unique: ouihUiiqPFqWfsVYlFz0rg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BE3564091;
- Fri, 25 Sep 2020 13:47:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
- [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E8F6E55788;
- Fri, 25 Sep 2020 13:47:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 56854113865F; Fri, 25 Sep 2020 15:47:57 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 09/38] qapi/common.py: Add indent manager
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-10-jsnow@redhat.com>
- <20200922222232.GK2044576@habkost.net>
- <c57afb75-3db9-abec-dd21-c32f9f918104@redhat.com>
- <87sgb6t6p1.fsf@dusky.pond.sub.org>
- <20200925131321.GO3717385@habkost.net>
-Date: Fri, 25 Sep 2020 15:47:57 +0200
-In-Reply-To: <20200925131321.GO3717385@habkost.net> (Eduardo Habkost's message
- of "Fri, 25 Sep 2020 09:13:21 -0400")
-Message-ID: <878scyq86q.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D62781084C9E;
+ Fri, 25 Sep 2020 13:49:00 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 150A45D9DC;
+ Fri, 25 Sep 2020 13:48:49 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, stefanha@redhat.com, fam@euphon.net,
+ philmd@redhat.com, alex.williamson@redhat.com
+Subject: [RFC 0/3] NVMe passthrough: Take into account host IOVA reserved
+ regions
+Date: Fri, 25 Sep 2020 15:48:42 +0200
+Message-Id: <20200925134845.21053-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -86,47 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: lvivier@redhat.com, kwolf@redhat.com, cohuck@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+The current IOVA allocator allocates within the [0x10000, 1ULL << 39]
+window, without paying attention to the host IOVA reserved regions.
+This prevents NVMe passthtrough from working on ARM as the fixed
+IOVAs rapidly grow up to the MSI reserved region [0x8000000, 0x8100000]
+causing some VFIO MAP DMA failures. This series collects the usable
+IOVA regions using VFIO GET_INFO (this requires the host to support
+VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE) and rework the fixed and
+temporary IOVA allocators to avoid those latter. Also the min/max
+IOVAs now can be dynamically determined.
 
-> On Fri, Sep 25, 2020 at 01:51:54PM +0200, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> > On 9/22/20 6:22 PM, Eduardo Habkost wrote:
-> [...]
->> > Yeah, there's only one user right now, so ... I just kinda wanted to
->> > get rid of the global usage. Maybe if we make the code generator
->> > fancier we'll find out what form is best.
->> 
->> You don't get rid of the global variable, you just change it from
->> integer to a class.  A class can be handier when generating multiple
->> things interleaved, because you can have one class instance per thing.
->
-> To be fair, John doesn't claim to be getting rid of a global
-> variable.  He's getting rid of usage of the 'global' keyword to
-> make linters happier.
+Unfortunately the usable host IOVA ranges reported by the kernel
+currently do not take into account the dma_mask of devices within
+the group. This needs to be fixed, otherwise this series might try
+to allocate temporary IOVAs within the range supported by the IOMMU
+but beyond the allowed dma_mask. I got the case where the SMMU
+supports up to 48 bits but the dma_mask only is 42bits. This kernel
+dependency plus the testing limited to one peculiar ARM platform
+explains the RFC state.
 
-True.
+Best Regards
 
->                        There are ways to do that without changing
-> the code too much, though.
+Eric
 
-Let's do something easy and cheap, because ...
+This series can be found at:
+https://github.com/eauger/qemu/tree/nvme_rfc
 
->> Note that we already have a class instance per thing we generate:
->> instances of subtypes of QAPIGen.  The thought of moving the indentation
->> machinery into QAPIGen or or maybe QAPIGenCCode crossed my mind many
->> moons ago, but I had bigger fish to fry, and then I forgot :)
+This was tested on ARM only.
 
-... we'll probably want to move this stuff into QAPIGen later, and
-that's when we should make it pretty.
 
->> John, I suggest you don't try to make this pretty just yet.  Do what
->> needs to be done for the type hint job.  We can make it pretty later.
+Eric Auger (3):
+  util/vfio-helpers: Collect IOVA reserved regions
+  util/vfio-helpers: Dynamically compute the min/max IOVA
+  util/vfio-helpers: Rework the IOVA allocator to avoid IOVA reserved
+    regions
+
+ util/vfio-helpers.c | 162 ++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 143 insertions(+), 19 deletions(-)
+
+-- 
+2.21.3
 
 
