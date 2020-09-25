@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D54277D22
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:46:44 +0200 (CEST)
-Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461BA277D28
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:49:42 +0200 (CEST)
+Received: from localhost ([::1]:57482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLbsp-0000RZ-3a
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:46:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
+	id 1kLbvh-0004tR-Aq
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcC-000131-2Q
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44508)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcF-00014H-Df
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbc2-0000BO-GN
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:25 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbc3-0000BX-3y
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:31 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600993761;
+ s=mimecast20190719; t=1600993762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wHiKdb4KxUCEeWEQLFqKeu735EVLNLwGYY7fMxRkcYA=;
- b=Q2XvcLiadtkd3EHddfaj6iJCqdnRrrjDfOVWI3d16578uwPsxBICq8XutKUXMiW0enBRtS
- pmiv4fBIdu+/mtHIZaFU9NkM88f8pwXht1wsL1l5PySvAaJ7RlA7OytVbKX5L1lbNli2OV
- AuPoMktPa+d7trurCSJhh/db5WVcGmQ=
+ bh=biFOPHLzKBCldBmC6JjpuVxRRXigQ6l8u6YAFIG2HQs=;
+ b=YI6EZ1iKWF3czjF77anGvWJzZNGqMPNAwYdbuGAs5dJwo2bKBJnYiKMbaHHSg4hYUbIql5
+ 9V+Kt32gCgBprpjoPbp2mXrflyJDVRLoEHjS81tgnHgJ24MhdF0gNzjZUE1Pr2uilcTfL+
+ pUVioCXp6/CL3EdQuQSiry7T2pd59/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-bz7uvFT6N3CD99JdsKgNbg-1; Thu, 24 Sep 2020 20:29:19 -0400
-X-MC-Unique: bz7uvFT6N3CD99JdsKgNbg-1
+ us-mta-557-3YHvcvR2PEuPhIfaPm3lxA-1; Thu, 24 Sep 2020 20:29:20 -0400
+X-MC-Unique: 3YHvcvR2PEuPhIfaPm3lxA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8D191008548
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4CE98015A5
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:19 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E1005D9DD;
- Fri, 25 Sep 2020 00:29:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AE0F5D9DD;
+ Fri, 25 Sep 2020 00:29:19 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/47] qapi/common.py: check with pylint
-Date: Thu, 24 Sep 2020 20:28:32 -0400
-Message-Id: <20200925002900.465855-20-jsnow@redhat.com>
+Subject: [PATCH v3 20/47] qapi/common.py: add type hint annotations
+Date: Thu, 24 Sep 2020 20:28:33 -0400
+Message-Id: <20200925002900.465855-21-jsnow@redhat.com>
 In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,30 +83,124 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove qapi/common.py from the pylintrc ignore list.
+Annotations do not change runtime behavior.
+This commit *only* adds annotations.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- scripts/qapi/pylintrc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ scripts/qapi/common.py | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index 02dd22c863..6151427a51 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -2,8 +2,7 @@
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index 9e50070f62..d1d39fdb4c 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -12,6 +12,7 @@
+ # See the COPYING file in the top-level directory.
  
- # Add files or directories matching the regex patterns to the ignore list.
- # The regex matches against base names, not paths.
--ignore-patterns=common.py,
--                doc.py,
-+ignore-patterns=doc.py,
-                 error.py,
-                 expr.py,
-                 gen.py,
+ import re
++from typing import Optional, Sequence
+ 
+ EATSPACE = '\033EATSPACE.'
+ POINTER_SUFFIX = ' *' + EATSPACE
+@@ -21,7 +22,7 @@
+ # ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
+ # ENUM_NAME -> ENUM_NAME, ENUM_NAME1 -> ENUM_NAME1, ENUM_Name2 -> ENUM_NAME2
+ # ENUM24_Name -> ENUM24_NAME
+-def camel_to_upper(value):
++def camel_to_upper(value: str) -> str:
+     c_fun_str = c_name(value, False)
+     if value.isupper():
+         return c_fun_str
+@@ -40,7 +41,9 @@ def camel_to_upper(value):
+     return new_name.lstrip('_').upper()
+ 
+ 
+-def c_enum_const(type_name, const_name, prefix=None):
++def c_enum_const(type_name: str,
++                 const_name: str,
++                 prefix: Optional[str] = None) -> str:
+     if prefix is not None:
+         type_name = prefix
+     return camel_to_upper(type_name) + '_' + c_name(const_name, False).upper()
+@@ -55,7 +58,7 @@ def c_enum_const(type_name, const_name, prefix=None):
+ # into substrings of a generated C function name.
+ # '__a.b_c' -> '__a_b_c', 'x-foo' -> 'x_foo'
+ # protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
+-def c_name(name, protect=True):
++def c_name(name: str, protect: bool = True) -> str:
+     # ANSI X3J11/88-090, 3.1.1
+     c89_words = set(['auto', 'break', 'case', 'char', 'const', 'continue',
+                      'default', 'do', 'double', 'else', 'enum', 'extern',
+@@ -130,24 +133,24 @@ def decrease(self, amount: int = 4) -> None:
+ 
+ # Generate @code with @kwds interpolated.
+ # Obey indent, and strip EATSPACE.
+-def cgen(code, **kwds):
++def cgen(code: str, **kwds: object) -> str:
+     raw = code % kwds
+     if indent:
+         raw = re.sub(r'^(?!(#|$))', str(indent), raw, flags=re.MULTILINE)
+     return re.sub(re.escape(EATSPACE) + r' *', '', raw)
+ 
+ 
+-def mcgen(code, **kwds):
++def mcgen(code: str, **kwds: object) -> str:
+     if code[0] == '\n':
+         code = code[1:]
+     return cgen(code, **kwds)
+ 
+ 
+-def c_fname(filename):
++def c_fname(filename: str) -> str:
+     return re.sub(r'[^A-Za-z0-9_]', '_', filename)
+ 
+ 
+-def guardstart(name):
++def guardstart(name: str) -> str:
+     return mcgen('''
+ #ifndef %(name)s
+ #define %(name)s
+@@ -156,7 +159,7 @@ def guardstart(name):
+                  name=c_fname(name).upper())
+ 
+ 
+-def guardend(name):
++def guardend(name: str) -> str:
+     return mcgen('''
+ 
+ #endif /* %(name)s */
+@@ -164,7 +167,7 @@ def guardend(name):
+                  name=c_fname(name).upper())
+ 
+ 
+-def gen_if(ifcond):
++def gen_if(ifcond: Sequence[str]) -> str:
+     ret = ''
+     for ifc in ifcond:
+         ret += mcgen('''
+@@ -173,7 +176,7 @@ def gen_if(ifcond):
+     return ret
+ 
+ 
+-def gen_endif(ifcond):
++def gen_endif(ifcond: Sequence[str]) -> str:
+     ret = ''
+     for ifc in reversed(ifcond):
+         ret += mcgen('''
+@@ -182,7 +185,9 @@ def gen_endif(ifcond):
+     return ret
+ 
+ 
+-def build_params(arg_type, boxed, extra=None):
++def build_params(arg_type,
++                 boxed: bool,
++                 extra: Optional[str] = None) -> str:
+     ret = ''
+     sep = ''
+     if boxed:
 -- 
 2.26.2
 
