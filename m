@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA4A278D23
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:48:45 +0200 (CEST)
-Received: from localhost ([::1]:60880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA25278D35
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:53:02 +0200 (CEST)
+Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLpxk-0000QD-Qn
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:48:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35954)
+	id 1kLq1t-000587-1W
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLppq-0002fY-D6
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:34 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41965)
+ id 1kLppz-0002rK-KB
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:45 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLppo-0007ag-6D
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:33 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w5so4062766wrp.8
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:31 -0700 (PDT)
+ id 1kLppt-0007cv-Ia
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:43 -0400
+Received: by mail-wr1-x433.google.com with SMTP id c18so4061177wrm.9
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6NYly9DVGNd0iwSQHYlx1RrznyvyAiNTg6sPQ2mc5/4=;
- b=tgHGr84R5wydMnolhzTwswArZh4PrmdnFcY0aICs3QFjpDoi/FBBDXa+8yMMae9hcN
- U/QRm/gRcEvUjSfzychr2T4pWFzfxMAucTFl+hPHQicajB22+uQQy7ENXWYpOytP5Rg5
- aoNA3bVkRH/e02U1tVr1+Eat0JAzcVgBr1X06CJSOMgwHbGdDZe2YT7209B3CCg6F92A
- a7F3dlI4MhHfufkJ5fM+Hen5eTTlPNBYW2pxA7Wd5pUPI+zc2Uwr1f0s2betKFqRa5X0
- 57mN60WzoxFlWVeW1LhCqchKGVhq8QlASy9Z/ZB1mWTfj3574jHD+9o1L7PpzgpXpfTR
- 3w1g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=P/lRZdjmbM+i2Bneg/hO0ZOlO6BgKhfMQmpeyPmCGjo=;
+ b=Fr82j0dDOxTQuZBkiobLKYO95T6lkzphWgY6qcWsQmXXUqbi9ZEjnxmyLFUnGX0BwC
+ Ux8y3YNFdD2+vVyKgkVO7Qh8wV+lJAWygs+ykRF54WzbaGlBn5VHZ1DN7sd0U2Yac1v7
+ j36+KcN2rflxTUVhNnYctheFRUN5cjzun9iYr9IUn5IWHfBlD6cs/TKRETxo4AMBBx7p
+ jZwsuNZBSPhKPPP0bymefXYGwEW4PIbJzcnPaDWV8dLZ+OjvsiM5n0bfR2zmfa3NvelU
+ Y63MCEItTImLTc4ha3TGx+mIQCCC/1k5v0//BPxntiHEl76SdXVoQFwW8yEAWDz6vCf6
+ 47pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6NYly9DVGNd0iwSQHYlx1RrznyvyAiNTg6sPQ2mc5/4=;
- b=eI5AxKNki6ifW6b2b7GpLr405YmZameWk02LBuho857hYXxGhnK3OCNsW8EUzj5Dn3
- c/y0jp/r5OBmsPZZ8pOmCMQuYnQWSrCVmFAfOapstvpVsohWnhlEOyg3iojuPVOjElFu
- poRgamSe/bN+zg9P+67BeSZtrAybGc563d4PU016ugspj04x3stUHKegDVpyvnoodgBh
- cXLuWMuh42R8W3ihlYC3jHOj7xVo97kbyeoKxuNkASzpprKwUX4bq8tfFxabUhB6UMoc
- +KbvQryaafSpnWzBwhsZZgGVe7hJ0JyV4MkmubvaAu4VPmQ841U7pD2wiUckiA7xhqe6
- qVGQ==
-X-Gm-Message-State: AOAM533q7RDll3lZw7JCaMTtbkm9K4yXq4xrEt2dwxdWFd0qFZDPBmod
- 2UoghXAzfH8biQcozcqhnvKKdg==
-X-Google-Smtp-Source: ABdhPJxh8C6ocfKgJORMR5uDz35eOWmaUht41cXmCBdo6+I9JzVUpujqE20PmnLHmRqNQo2h9OXZYg==
-X-Received: by 2002:adf:e407:: with SMTP id g7mr5116848wrm.349.1601048430451; 
- Fri, 25 Sep 2020 08:40:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=P/lRZdjmbM+i2Bneg/hO0ZOlO6BgKhfMQmpeyPmCGjo=;
+ b=gCbiVddlweM6Sgk02xJ7CirPMNq6MHBRUAJ7nxeE7/3P4oLfpqp2kZLQCgzOhTT49y
+ 6zV2LIw2WQRxvII2/j9jLcHeIv8CLn4OjDzqA0KVTMENoafFm1KvDbf/m8ARIS8WsJU6
+ Byr9MVv+bD41bxB1RYYDTsAw4dK+z7Q3gqISNZvWzLuO8OiOCO5hTA2hhDzrgvDzFXp0
+ WVmUvohmy9KbTaFgmfDtWEnEO3wdXP0hqxEssM0fNVplrWExjn+mssFhcabnxE/1v+hL
+ a37jvEsfcIf0P21rzMqwRvAICeV6rjlpAwGZ55E6tBv/bXWyipFVmEZsd51lx0MFiwWh
+ u2Ug==
+X-Gm-Message-State: AOAM530pACGAzu1aW8cccWYUGJilUX7fAOXUjPVEQrUbvn6H+LLCpp8C
+ nwr7aNGTexlzZat2GzJje8pEjg==
+X-Google-Smtp-Source: ABdhPJy4qcv7Yn8VOCy+QmK2D6gvszP+60K/lcrvtMYpW5JxoGHI9NkOMg94Vt3Bt2Nic8ejLN6Rmw==
+X-Received: by 2002:adf:f7d0:: with SMTP id a16mr4916953wrq.381.1601048436176; 
+ Fri, 25 Sep 2020 08:40:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w21sm3499960wmk.34.2020.09.25.08.40.28
+ by smtp.gmail.com with ESMTPSA id y1sm3203232wma.36.2020.09.25.08.40.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 08:40:28 -0700 (PDT)
+ Fri, 25 Sep 2020 08:40:30 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 17A571FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 4815E1FF87;
  Fri, 25 Sep 2020 16:40:28 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 00/15] testing/next pre-PR (python3.6, check-tcg)
-Date: Fri, 25 Sep 2020 16:40:12 +0100
-Message-Id: <20200925154027.12672-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 01/15] tests/tcg: reinstate or replace desired parts of
+ rules.mak
+Date: Fri, 25 Sep 2020 16:40:13 +0100
+Message-Id: <20200925154027.12672-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200925154027.12672-1-alex.bennee@linaro.org>
+References: <20200925154027.12672-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,70 +89,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-This is my pre-PR state of testing/next. Mostly it has Thomas'
-python3.6 clean-ups for the various CI bits as well as Paolo's fix for
-the build system to enable check-tcg to work properly again. I should
-cut the PR on Monday.
+Commit 660f79309303d696531ffb394719dfab3e0c42c0 was a bit overzealous
+with respect to tests/tcg, which needed quiet-command and $(BUILD_DIR).
+Reinstate quiet-command, and replace $(BUILD_DIR) with just the
+current directory.
 
-I think Paolo's fixes are also in another PR but I've left them in
-here because a) it makes testing easier and b) it's the 21st century
-and git should cope.
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200921163425.1410280-1-pbonzini@redhat.com>
+---
+ tests/tcg/Makefile.qemu | 13 ++++++++++++-
+ tests/tcg/configure.sh  |  4 ++--
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-Paolo Bonzini (3):
-  tests/tcg: reinstate or replace desired parts of rules.mak
-  meson: move libudev test
-  meson: move libmpathpersist test
-
-Thomas Huth (12):
-  migration: Silence compiler warning in global_state_store_running()
-  travis.yml: Drop the default softmmu builds
-  travis.yml: Update Travis to use Bionic and Focal instead of Xenial
-  travis.yml: Drop the superfluous Python 3.6 build
-  travis.yml: Drop the Python 3.5 build
-  tests/docker: Use Fedora containers for MinGW cross-builds in the
-    gitlab-CI
-  gitlab-ci: Remove the Debian9-based containers and containers-layer3
-  tests/docker: Update the tricore container to debian 10
-  shippable.yml: Remove the Debian9-based MinGW cross-compiler tests
-  tests/docker: Remove old Debian 9 containers
-  gitlab-ci: Increase the timeout for the cross-compiler builds
-  configure: Bump the minimum required Python version to 3.6
-
- docs/conf.py                                  |  4 +-
- configure                                     | 95 ++-----------------
- meson.build                                   | 85 +++++++++++++++--
- migration/global_state.c                      |  4 +-
- .gitlab-ci.d/containers.yml                   | 38 +++-----
- .gitlab-ci.d/crossbuilds.yml                  |  5 +-
- .gitlab-ci.yml                                |  1 -
- .shippable.yml                                |  4 -
- .travis.yml                                   | 55 +++--------
- meson_options.txt                             |  2 +
- tests/docker/Makefile.include                 |  2 +-
- .../dockerfiles/debian-tricore-cross.docker   |  2 +-
- .../dockerfiles/debian-win32-cross.docker     | 38 --------
- .../dockerfiles/debian-win64-cross.docker     | 45 ---------
- tests/docker/dockerfiles/debian9-mxe.docker   | 21 ----
- tests/docker/dockerfiles/debian9.docker       | 32 -------
- .../dockerfiles/fedora-win32-cross.docker     | 42 ++++++++
- .../dockerfiles/fedora-win64-cross.docker     | 38 ++++++++
- tests/qemu-iotests/iotests.py                 |  2 -
- tests/tcg/Makefile.qemu                       | 13 ++-
- tests/tcg/configure.sh                        |  4 +-
- 21 files changed, 211 insertions(+), 321 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/debian-win32-cross.docker
- delete mode 100644 tests/docker/dockerfiles/debian-win64-cross.docker
- delete mode 100644 tests/docker/dockerfiles/debian9-mxe.docker
- delete mode 100644 tests/docker/dockerfiles/debian9.docker
- create mode 100644 tests/docker/dockerfiles/fedora-win32-cross.docker
- create mode 100644 tests/docker/dockerfiles/fedora-win64-cross.docker
-
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index 0332bad10fd4..c096c611a2b4 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -11,9 +11,20 @@
+ # The configure script fills in extra information about
+ # useful docker images or alternative compiler flags.
+ 
++# Usage: $(call quiet-command,command and args,"NAME","args to print")
++# This will run "command and args", and either:
++#  if V=1 just print the whole command and args
++#  otherwise print the 'quiet' output in the format "  NAME     args to print"
++# NAME should be a short name of the command, 7 letters or fewer.
++# If called with only a single argument, will print nothing in quiet mode.
++quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
++quiet-@ = $(if $(V),,@)
++quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
++
+ CROSS_CC_GUEST:=
+ DOCKER_IMAGE:=
+--include $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak
++
++-include tests/tcg/config-$(TARGET).mak
+ 
+ GUEST_BUILD=
+ TCG_MAKE=../Makefile.target
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 598a50cd4f31..be51bdb5a4a7 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -193,11 +193,11 @@ for target in $target_list; do
+   case $target in
+     *-linux-user | *-bsd-user)
+       echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+-      echo "QEMU=\$(BUILD_DIR)/qemu-$arch" >> $config_target_mak
++      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+       ;;
+     *-softmmu)
+       echo "CONFIG_SOFTMMU=y" >> $config_target_mak
+-      echo "QEMU=\$(BUILD_DIR)/qemu-system-$arch" >> $config_target_mak
++      echo "QEMU=$PWD/qemu-system-$arch" >> $config_target_mak
+       ;;
+   esac
+ 
 -- 
 2.20.1
 
