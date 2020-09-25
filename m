@@ -2,94 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB2B2793BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 23:48:09 +0200 (CEST)
-Received: from localhost ([::1]:56520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4DA2793D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 23:56:56 +0200 (CEST)
+Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLvZY-00017v-Mr
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 17:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33726)
+	id 1kLvi3-00050x-Qe
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 17:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLvY6-0000F3-Oz
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 17:46:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23104)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kLvgs-00045V-C9
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 17:55:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLvY3-00057r-Rq
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 17:46:38 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kLvgo-0005xe-Ua
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 17:55:41 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601070393;
+ s=mimecast20190719; t=1601070937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tFHV2p2T6W1zsI3twiSVhyKSedUXvxYEy3SFwozY6do=;
- b=e/dGJq1tYJCpkcjWa5lCZRe0JWaW7OHNQS2+OGraz+odKKbk3FsgD+R75j7qTQJ4u+PX5q
- oDuecD6FQjBElJJKOdI48JwKC0k/Cj90AXOtOPCDnVH0L9H0r6tkHSeea/AUu88Q9sqIc4
- PF9anSSwi27BggTxI8gHNiovdssMRKE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-mV-cWbuvNq2ICAAGaRBjrw-1; Fri, 25 Sep 2020 17:46:31 -0400
-X-MC-Unique: mV-cWbuvNq2ICAAGaRBjrw-1
-Received: by mail-wm1-f69.google.com with SMTP id b20so133220wmj.1
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 14:46:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tFHV2p2T6W1zsI3twiSVhyKSedUXvxYEy3SFwozY6do=;
- b=duOL2rBQrPW3VltC9WgUqQYmrhDHZLKmaNrgZAIHYy04fWyPR+167lym4mx0unpSiF
- FMIqwDbku8JCGFU7tRxgj53RSqNMXRzRLEJ0okz/ykfNwoymcf6cbJf+4hY20frZ5lsT
- I5hgj9E+luBZRgtv/CG17LisXKwpP7Kc5PPrDkaz3rDXFEFPvrDVEtgpsTZ6OpCim4jh
- 4gjgg9g4prjWHSCEJ07tgBBcXZfeeHBJqZHBIOOvqd36CbkBzP2uiKjVsQMA07bxCHay
- bM66+z4omNXx1/otDuNaRjJhTqu4FLd5NTssh7nX2w0w4EWX5o957EDOPttOcQ6FqqFh
- sLSw==
-X-Gm-Message-State: AOAM531N7jONnFsTD3jzVAKYQFjw6bSHD2IJ3vxfGADUsFRyVVLQ+oQ8
- hPxvVh2WR0t8tw8SbKuzRWbtldyCNwwz3+2Vw4ukHHuN63pPK23TaD/jrL5d9SQg2i8YJoqbO2Z
- mybOo/CaipOfx+yY=
-X-Received: by 2002:a7b:c958:: with SMTP id i24mr615939wml.50.1601070389803;
- Fri, 25 Sep 2020 14:46:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGStkYX88H9h82oVfeCorCyovR+c65aeNMCo27SmSvpthFUp1DGUjbHbgG1sHteumUbKwmpQ==
-X-Received: by 2002:a7b:c958:: with SMTP id i24mr615923wml.50.1601070389535;
- Fri, 25 Sep 2020 14:46:29 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ec9b:111a:97e3:4baf?
- ([2001:b07:6468:f312:ec9b:111a:97e3:4baf])
- by smtp.gmail.com with ESMTPSA id a15sm4640958wrn.3.2020.09.25.14.46.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Sep 2020 14:46:28 -0700 (PDT)
-Subject: Re: [PATCH] i386: Document when features can be added to
- kvm_default_props
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20200925211021.4158567-1-ehabkost@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <70cf3a0b-ddb8-129a-201f-ec583c3883d1@redhat.com>
-Date: Fri, 25 Sep 2020 23:46:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=ltCZNDoOCk2PBX+aBN7KCjzbwbIHJyz/JXqrBLGNM/4=;
+ b=BCp3g5HQDbDal+REdL7iMYURjd3YkaaZzOQDjzScbr6B116NVHNTp/+mXTDPQrpjkNqAHA
+ 7Vtdvq1fSvUs1vs5wicnHJKDM8S2ik5n5roFMZCuI63FMprK5GKhJq6StlOsspfn0bH2Sa
+ pHw4toFUMk+N6yzh6HQWjB/EE8InFOg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-w3Sj8t2qMFym8Gls4qVkBQ-1; Fri, 25 Sep 2020 17:55:36 -0400
+X-MC-Unique: w3Sj8t2qMFym8Gls4qVkBQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6745188C129;
+ Fri, 25 Sep 2020 21:55:33 +0000 (UTC)
+Received: from x1.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C16E78822;
+ Fri, 25 Sep 2020 21:55:28 +0000 (UTC)
+Date: Fri, 25 Sep 2020 15:55:28 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v26 12/17] vfio: Add function to start and stop dirty
+ pages tracking
+Message-ID: <20200925155528.73cdfe09@x1.home>
+In-Reply-To: <1600817059-26721-13-git-send-email-kwankhede@nvidia.com>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-13-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <20200925211021.4158567-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,43 +84,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/09/20 23:10, Eduardo Habkost wrote:
-> It's very easy to mistakenly extend kvm_default_props to include
-> features that require a kernel version that's too recent.  Add a
-> comment warning about that, pointing to the documentation file
-> where the minimum kernel version for KVM is documented.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
->  target/i386/cpu.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 3ffd877dd51..c8558bb49ac 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4098,8 +4098,14 @@ static X86CPUDefinition builtin_x86_defs[] = {
->      },
->  };
->  
-> -/* KVM-specific features that are automatically added/removed
-> +/*
-> + * KVM-specific features that are automatically added/removed
->   * from all CPU models when KVM is enabled.
-> + *
-> + * NOTE: features can be enabled by default only if they were
-> + *       already available in the oldest kernel version supported
-> + *       by the KVM accelerator (see "OS requirements" section at
-> + *       docs/system/target-i386.rst)
->   */
->  static PropValue kvm_default_props[] = {
->      { "kvmclock", "on" },
-> 
+On Wed, 23 Sep 2020 04:54:14 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
+> for VFIO devices.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 4306f6316417..822b68b4e015 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -11,6 +11,7 @@
+>  #include "qemu/main-loop.h"
+>  #include "qemu/cutils.h"
+>  #include <linux/vfio.h>
+> +#include <sys/ioctl.h>
+>  
+>  #include "sysemu/runstate.h"
+>  #include "hw/vfio/vfio-common.h"
+> @@ -355,6 +356,32 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>      return qemu_file_get_error(f);
+>  }
+>  
+> +static int vfio_set_dirty_page_tracking(VFIODevice *vbasedev, bool start)
+> +{
+> +    int ret;
+> +    VFIOContainer *container = vbasedev->group->container;
+> +    struct vfio_iommu_type1_dirty_bitmap dirty = {
+> +        .argsz = sizeof(dirty),
+> +    };
+> +
+> +    if (start) {
+> +        if (vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) {
+> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
+> +        } else {
+> +            return -EINVAL;
+> +        }
+> +    } else {
+> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
+> +    }
+> +
+> +    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
+> +    if (ret) {
+> +        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+> +                     dirty.flags, errno);
+> +    }
+
+Maybe doesn't matter in the long run, but do you want to use -errno for
+the return rather than -1 from the ioctl on error?  Thanks,
+
+Alex
+
+> +    return ret;
+> +}
+> +
+>  /* ---------------------------------------------------------------------- */
+>  
+>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> @@ -386,6 +413,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+>          return ret;
+>      }
+>  
+> +    ret = vfio_set_dirty_page_tracking(vbasedev, true);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+>      qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+>  
+>      ret = qemu_file_get_error(f);
+> @@ -401,6 +433,8 @@ static void vfio_save_cleanup(void *opaque)
+>      VFIODevice *vbasedev = opaque;
+>      VFIOMigration *migration = vbasedev->migration;
+>  
+> +    vfio_set_dirty_page_tracking(vbasedev, false);
+> +
+>      if (migration->region.mmaps) {
+>          vfio_region_unmap(&migration->region);
+>      }
+> @@ -734,6 +768,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+>          if (ret) {
+>              error_report("%s: Failed to set state RUNNING", vbasedev->name);
+>          }
+> +
+> +        vfio_set_dirty_page_tracking(vbasedev, false);
+>      }
+>  }
+>  
 
 
