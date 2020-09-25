@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47FB278F9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 19:28:34 +0200 (CEST)
-Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CA8278FAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 19:32:57 +0200 (CEST)
+Received: from localhost ([::1]:35646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLrWL-00043f-Qm
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 13:28:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
+	id 1kLraZ-0000AK-Vc
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 13:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLrUA-0002MY-NR
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:26:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33015)
+ id 1kLrUx-0003e0-Bh
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:27:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLrU7-0007BD-Ok
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:26:18 -0400
+ id 1kLrUr-0007Ec-TV
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:27:06 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601054775;
+ s=mimecast20190719; t=1601054821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XUpo1DJesgvRqw3d+/1xweFRc1qsON2eoPTXlfvGNrs=;
- b=EeLu15oZ7QvmhkR/QOOKeVAc1W3fLkoJ1O/qjbpwMem/+k6hBSod9Is7EZ3i3z2pJmMZKa
- VGlrSrP4S8ZtowAjJ6STBi/lukJk9ZNm3xlZptpGXcumjFGOBEasqvEmXgZnLzrJ3q6NZo
- gPIqc/8aw/fBq6CM4yIqxKNWtwckoeg=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=66oL3D5lzRUoqWi8bvrMPQnZkzWgskqyagude6h6vlc=;
+ b=KxENK+v9oq2ctPcYWQBvn2GA+DrYPp1EZFbzxnmxjAAZoA+GlTmicnPg4OC4j6JE8fuWR1
+ 9eXaN1iwg7y/gCkYOvnDCpJvf+RCMzmWUqWJfwu+GOAVqFy17eWMTEYdaCbUumzkedyPS0
+ 0LiIl4Ie+WNMjRgNfS5L/XZje5wHfSc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-rqt3pe73M-eZ3_RKk1IEZQ-1; Fri, 25 Sep 2020 13:26:13 -0400
-X-MC-Unique: rqt3pe73M-eZ3_RKk1IEZQ-1
+ us-mta-501-QPaby4RyMKq50-q6B4oD4A-1; Fri, 25 Sep 2020 13:26:09 -0400
+X-MC-Unique: QPaby4RyMKq50-q6B4oD4A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48CFA10BBED5
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 17:26:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6393A1902ECE
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 17:26:08 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC8A25D9F3;
- Fri, 25 Sep 2020 17:26:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8DB05D9F7;
+ Fri, 25 Sep 2020 17:26:04 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/10] scsi/scsi-bus: scsi_device_find: don't return
- unrealized devices
-Date: Fri, 25 Sep 2020 13:26:01 -0400
-Message-Id: <20200925172604.2142227-8-pbonzini@redhat.com>
-In-Reply-To: <20200925172604.2142227-1-pbonzini@redhat.com>
-References: <20200925172604.2142227-1-pbonzini@redhat.com>
+Subject: [PATCH 00/10] Fix scsi devices plug/unplug races w.r.t virtio-scsi
+ iothread
+Date: Fri, 25 Sep 2020 13:25:54 -0400
+Message-Id: <20200925172604.2142227-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -59,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -86,133 +83,40 @@ Cc: stefanha@redhat.com, mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+This is my take on Maxim's patches.  Mostly I am avoiding the problems with
+"scsi/scsi_bus: switch search direction in scsi_device_find" by adding
+a pre-realize callback for BusState that checks for the device address
+being in use.
 
-The device core first places a device on the bus and then realizes it.
-Make scsi_device_find avoid returing such devices to avoid
-races in drivers that use an iothread (currently virtio-scsi)
+This makes it possible to avoid the tricky search for a preexisting device.
 
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1812399
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200913160259.32145-7-mlevitsk@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/scsi/scsi-bus.c | 83 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 53 insertions(+), 30 deletions(-)
+Maxim Levitsky (7):
+  scsi/scsi_bus: switch search direction in scsi_device_find
+  device_core: use drain_call_rcu in in hmp_device_del/qmp_device_add
+  device-core: use RCU for list of children of a bus
+  device-core: use atomic_set on .realized property
+  scsi/scsi_bus: Add scsi_device_get
+  virtio-scsi: use scsi_device_get
+  scsi/scsi_bus: fix races in REPORT LUNS
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 4ab9811cd8..7599113efe 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -24,6 +24,55 @@ static void scsi_target_free_buf(SCSIRequest *req);
- 
- static int next_scsi_bus;
- 
-+static SCSIDevice *do_scsi_device_find(SCSIBus *bus,
-+                                       int channel, int id, int lun,
-+                                       bool include_unrealized)
-+{
-+    BusChild *kid;
-+    SCSIDevice *retval = NULL;
-+
-+    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
-+        DeviceState *qdev = kid->child;
-+        SCSIDevice *dev = SCSI_DEVICE(qdev);
-+
-+        if (dev->channel == channel && dev->id == id) {
-+            if (dev->lun == lun) {
-+                retval = dev;
-+                break;
-+            }
-+
-+            /*
-+             * If we don't find exact match (channel/bus/lun),
-+             * we will return the first device which matches channel/bus
-+             */
-+
-+            if (!retval) {
-+                retval = dev;
-+            }
-+        }
-+    }
-+
-+    /*
-+     * This function might run on the IO thread and we might race against
-+     * main thread hot-plugging the device.
-+     * We assume that as soon as .realized is set to true we can let
-+     * the user access the device.
-+     */
-+
-+    if (retval && !include_unrealized &&
-+        !qatomic_load_acquire(&retval->qdev.realized)) {
-+        retval = NULL;
-+    }
-+
-+    return retval;
-+}
-+
-+SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-+{
-+    RCU_READ_LOCK_GUARD();
-+    return do_scsi_device_find(bus, channel, id, lun, false);
-+}
-+
- static void scsi_device_realize(SCSIDevice *s, Error **errp)
- {
-     SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(s);
-@@ -137,7 +186,10 @@ static bool scsi_bus_is_address_free(SCSIBus *bus,
- 				     int channel, int target, int lun,
- 				     SCSIDevice **p_dev)
- {
--    SCSIDevice *d = scsi_device_find(bus, channel, target, lun);
-+    SCSIDevice *d;
-+
-+    RCU_READ_LOCK_GUARD();
-+    d = do_scsi_device_find(bus, channel, target, lun, true);
-     if (d && d->lun == lun) {
-         if (p_dev) {
-             *p_dev = d;
-@@ -1570,35 +1622,6 @@ static char *scsibus_get_fw_dev_path(DeviceState *dev)
-                            qdev_fw_name(dev), d->id, d->lun);
- }
- 
--SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
--{
--    BusChild *kid;
--    SCSIDevice *target_dev = NULL;
--
--    RCU_READ_LOCK_GUARD();
--    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
--
--        if (dev->channel == channel && dev->id == id) {
--            if (dev->lun == lun) {
--                return dev;
--            }
--
--            /*
--             * If we don't find exact match (channel/bus/lun),
--             * we will return the first device which matches channel/bus
--             */
--
--            if (!target_dev) {
--                target_dev = dev;
--            }
--        }
--    }
--
--    return target_dev;
--}
--
- /* SCSI request list.  For simplicity, pv points to the whole device */
- 
- static int put_scsi_requests(QEMUFile *f, void *pv, size_t size,
+Paolo Bonzini (3):
+  qdev: add "check if address free" callback for buses
+  scsi: switch to bus->check_address
+  scsi/scsi-bus: scsi_device_find: don't return unrealized devices
+
+ hw/core/bus.c          |  28 +++--
+ hw/core/qdev.c         |  73 +++++++++---
+ hw/net/virtio-net.c    |   2 +-
+ hw/scsi/scsi-bus.c     | 262 ++++++++++++++++++++++++++---------------
+ hw/scsi/virtio-scsi.c  |  27 +++--
+ hw/sd/core.c           |   3 +-
+ include/hw/qdev-core.h |  15 ++-
+ include/hw/scsi/scsi.h |   1 +
+ qdev-monitor.c         |  22 ++++
+ 9 files changed, 299 insertions(+), 134 deletions(-)
+
 -- 
 2.26.2
-
 
 
