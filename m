@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55F127809F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 08:27:43 +0200 (CEST)
-Received: from localhost ([::1]:35606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10453278052
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 08:08:44 +0200 (CEST)
+Received: from localhost ([::1]:51708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLhCo-0002iN-T8
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 02:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45732)
+	id 1kLguQ-0004hw-OR
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 02:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxim.cournoyer@gmail.com>)
- id 1kLdf9-0004L4-QK
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 22:40:43 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:40794)
+ (Exim 4.90_1) (envelope-from <helio@loureiro.eng.br>)
+ id 1kLgpq-00045P-2J
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 02:03:58 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:35245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxim.cournoyer@gmail.com>)
- id 1kLdf7-00088G-2Q
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 22:40:43 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id j3so616541qvi.7
- for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 19:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+T7swFY/5OL/bQ/lM0AT9E0hq6eUNp+O81f0PcvH+qg=;
- b=mv66V7Nsnj9D4BwTmcKdiHEeKi5284zMdh46qe806P6R4RWSv/peZyeIGPsKeQFYPY
- S3mX4tYhMjnCOmvJD5H/UN57aHYTum+oJ2MOXP4ONeVMBdfTgWl0sEpCU74CIx1sGdHo
- tRX0Y9A9nctapterDIC0wBXQAHE9nRXTV0GuSn9P3x1qe7sBbVdxEELdBxldKVj8FU3L
- FEFt6EWMKCm+I8AB4gQnWXfB64K6uRWw0SkHJlM9Se1AReIie82dZk8GGeebB0ig6wXf
- lPozpxLMjxI9CCbeEydM7ft7iUAXaygLsxPy3RyjAq380v1jLbvcQGv9kc4sibkNew1E
- zkSQ==
+ (Exim 4.90_1) (envelope-from <helio@loureiro.eng.br>)
+ id 1kLgpn-0002XU-T2
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 02:03:57 -0400
+Received: by mail-ej1-x642.google.com with SMTP id u21so2034877eja.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 23:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=loureiro-eng-br.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=M/VZXapZPUKVFa+REPSoafkcKSRPp9QZPs9YOI6GhcY=;
+ b=wVGSjG1O5ARv3clBUjykDQL18V8nIQ4My/bkSWkP/sE4ZNmh0MWbCwFd/6CZKbxlnC
+ EOvxG1oKeIjCEFzLBKE3foYb5KJAKZ+nK/utYh+O0rOfQpkTXfJ+T+igjHijlX4hsOJq
+ d9InrFdG3KN/s6la1UUipsg+xwUboJR+RIXBwJwnTHgcy0BtceVMSd1WS7LPIvMcwrzA
+ obi/HkGKDxLeQopy2o7UwQln+UWI3kcxP7zjH3VcltwzkvhMiHEmgB5zjocDPKDB5wnC
+ /CqBkvwlJar5kIttNNrQkoasNKODmNDnuWAO0S46OpRfa8tsRQJMWbZ9DOFcKJJT4CPw
+ uHbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+T7swFY/5OL/bQ/lM0AT9E0hq6eUNp+O81f0PcvH+qg=;
- b=B+CtODs2UcC8wsCUCR9PYxydv4UMbvhEWR0i12Jbc9NxPGEyq1kupmcIOMm6JQ0Znu
- 4su9kGF+Nxv4nPALfck6mqL2iJSviRVvkRi3ezRiyXS0Xrg4f42YkFj0QpwUvt8rJ0gk
- BFzv5aXv44Jy0A0iDTztgG225e5/NVvIDxMnVvcXHLBAqQBfD4Bqzt/NP1Z32EhWcFyU
- e2G78SOK2O6JEG+TN8d2AdGhksF0C3ArIbw62ySyqf2koprajQH3pOw2uDWYIePRZUED
- K1PvD9MVKFtfrpqIIboVo0k93Uw2tZvl8t8ujyU+MBcN4wBfagrJcvoSnBYNMks6UbjL
- nrxA==
-X-Gm-Message-State: AOAM530GOi51gOej0/G6JutTrNDm3fjB2wanoiUMw34dvisn9/FIVPnt
- 5nVm0SdilbzHkOlExRRtfJUmPJVA2pLkEw==
-X-Google-Smtp-Source: ABdhPJxTyp9cmanyeL0Hu9CIJoMO4u5Jgny/wU4sSQFdnoPeYIQlcoO1VQQhOjpLgcpwC8Qb2+3qjA==
-X-Received: by 2002:a0c:dd8d:: with SMTP id v13mr2315414qvk.22.1601001640093; 
- Thu, 24 Sep 2020 19:40:40 -0700 (PDT)
-Received: from localhost.localdomain (dsl-10-130-151.b2b2c.ca. [72.10.130.151])
- by smtp.gmail.com with ESMTPSA id f14sm841913qkh.134.2020.09.24.19.40.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 19:40:39 -0700 (PDT)
-From: Maxim Cournoyer <maxim.cournoyer@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build: Build and install the info manual.
-Date: Thu, 24 Sep 2020 22:41:43 -0400
-Message-Id: <20200925024143.26492-1-maxim.cournoyer@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M/VZXapZPUKVFa+REPSoafkcKSRPp9QZPs9YOI6GhcY=;
+ b=EHKOnS0nrqKBlgCp1t6ni8envgrwP31lf7FUZeFnJk/CgCLs4vmOQrUQ/XtxzZTK/6
+ 9R6X2DawhgD2dX4tq6daIZ/UMgqf8rxAFUqR0JtAM5j6HtAA6fucsPmhg0TpkzQbUAR9
+ HiwxxfK+ciToaooE2DGct16nonROazcItUm+gP/jU6PGiRI6LT8v/J/qZy0x3OorcsqF
+ SWOHsTZTNmXEAV3ZpBEyIdjRnfCJO4hy2QS1e7qycPHLI021UuVwPrTcbkE9USNDOQP/
+ AeJuuZqHG8nAxnPhhFTaFhF7h5C6lcW/2qL0XxDKzBgYYoObBJxDpLDJS+bflheOq01v
+ J9nw==
+X-Gm-Message-State: AOAM530LPR66jjxEvqN7y92hByRxWtvFlFu7cW3SjimLq7bZb1E3FfyX
+ rKehlrxsinVjMxkk1NRQ2QjkBEmNmOpT8sJMV/MaJw==
+X-Google-Smtp-Source: ABdhPJzkNM7tzREbM+mQiVTzsyHsIJ9XllUtkUJ56XU4uXWxZJo7rCnedGfgvrah7PTCzPWT3KNOeDc6eIx+L4dL9es=
+X-Received: by 2002:a17:906:f950:: with SMTP id
+ ld16mr1086549ejb.489.1601013832588; 
+ Thu, 24 Sep 2020 23:03:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=maxim.cournoyer@gmail.com; helo=mail-qv1-xf2f.google.com
+References: <20200922211313.4082880-1-jsnow@redhat.com>
+ <20200922211313.4082880-17-jsnow@redhat.com>
+ <20200925011849.GI368253@localhost.localdomain>
+ <5a392d78-cf26-7c75-e00e-bf913607c0ac@redhat.com>
+In-Reply-To: <5a392d78-cf26-7c75-e00e-bf913607c0ac@redhat.com>
+From: Helio Loureiro <helio@loureiro.eng.br>
+Date: Fri, 25 Sep 2020 08:03:41 +0200
+Message-ID: <CAPxLgJLSntAY5zaLJvJuPhA9bccGYpAe04j0nhcMdk94SSvtAA@mail.gmail.com>
+Subject: Re: [PATCH 16/16] qapi/expr.py: Use an expression checker dispatch
+ table
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000c5bb0e05b01d14e0"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=helio@loureiro.eng.br; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 25 Sep 2020 02:23:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,121 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Cournoyer <maxim.cournoyer@gmail.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Take advantage of the Sphinx texinfo backend to generate a QEMU info
-manual.  The texinfo format allows for more structure and info readers
-provide more advanced navigation capabilities compared to manpages
-readers.
+--000000000000c5bb0e05b01d14e0
+Content-Type: text/plain; charset="UTF-8"
 
-* configure (infodir): Add the --infodir option, which allows
-configuring the directory under which the info manuals are installed.
-* docs/index.rst: Include the top level documents to prevent
-warnings (treated as errors by sphinx-build).
-* docs/meson.build (sphinxinfo): Add new target.
----
- configure        |  3 +++
- docs/index.rst   |  2 ++
- docs/meson.build | 13 +++++++++++++
- meson.build      |  4 +++-
- 4 files changed, 21 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/configure b/configure
-index e8e8e984f2..9dfd10e063 100755
---- a/configure
-+++ b/configure
-@@ -1069,6 +1069,8 @@ for opt do
-     static="yes"
-     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
-   ;;
-+  --infodir=*) infodir="$optarg"
-+  ;;
-   --mandir=*) mandir="$optarg"
-   ;;
-   --bindir=*) bindir="$optarg"
-@@ -1786,6 +1788,7 @@ Advanced options (experts only):
-   --smbd=SMBD              use specified smbd [$smbd]
-   --with-git=GIT           use specified git [$git]
-   --static                 enable static build [$static]
-+  --infodir=PATH           install info manual in PATH
-   --mandir=PATH            install man pages in PATH
-   --datadir=PATH           install firmware in PATH/$qemu_suffix
-   --docdir=PATH            install documentation in PATH/$qemu_suffix
-diff --git a/docs/index.rst b/docs/index.rst
-index 763e3d0426..4f155b51d7 100644
---- a/docs/index.rst
-+++ b/docs/index.rst
-@@ -9,6 +9,7 @@ Welcome to QEMU's documentation!
- .. toctree::
-    :maxdepth: 2
-    :caption: Contents:
-+   :glob:
- 
-    system/index
-    user/index
-@@ -16,3 +17,4 @@ Welcome to QEMU's documentation!
-    interop/index
-    specs/index
-    devel/index
-+   *
-diff --git a/docs/meson.build b/docs/meson.build
-index 50f367349b..eb94e4f3cf 100644
---- a/docs/meson.build
-+++ b/docs/meson.build
-@@ -32,10 +32,13 @@ if build_docs
- 
-   sphinxdocs = []
-   sphinxmans = []
-+  conf_py_files = [files('conf.py')]
-+
-   foreach manual : manuals
-     private_dir = meson.current_build_dir() / (manual + '.p')
-     output_dir = meson.current_build_dir() / manual
-     input_dir = meson.current_source_dir() / manual
-+    conf_py_files += files(manual / 'conf.py')
- 
-     this_manual = custom_target(manual + ' manual',
-                 build_by_default: build_docs,
-@@ -70,4 +73,14 @@ if build_docs
-   endforeach
-   alias_target('sphinxdocs', sphinxdocs)
-   alias_target('man', sphinxmans)
-+
-+  sphinxinfo = custom_target(
-+    'QEMU info manual generated source',
-+    output: ['QEMU.texi', 'sphinxinfo.stamp'],
-+    input: conf_py_files,
-+    depfile: 'sphinxinfo.d',
-+    command: [SPHINX_ARGS, '-Ddepfile=@DEPFILE@', '-Ddepfile_stamp=@OUTPUT1@',
-+             '-b', 'texinfo',
-+             meson.current_source_dir(), meson.current_build_dir()])
-+  alias_target('sphinxinfo', sphinxinfo)
- endif
-diff --git a/meson.build b/meson.build
-index f4d1ab1096..4156b585ba 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1218,6 +1218,7 @@ if build_docs
-                                               'qemu_confdir': config_host['qemu_confdir']})
- 
-   texi = {
-+    'QEMU': sphinxinfo,
-     'qemu-qmp-ref': ['docs/interop/qemu-qmp-ref.texi', qapi_doc_texi, version_texi],
-   }
-   if 'CONFIG_GUEST_AGENT' in config_host
-@@ -1241,7 +1242,8 @@ if build_docs
-                       input: input,
-                       output: output,
-                       install: true,
--                      install_dir: qemu_docdir / 'interop',
-+                      install_dir: ext == 'info' ? get_option('infodir') \
-+                                                 : qemu_docdir / 'interop',
-                       command: cmd + args)
-       endforeach
-       alias_target(ext, t)
--- 
-2.28.0
+I would replace the word variable "kind" by "category".
 
+./helio
+
+On Fri, Sep 25, 2020, 03:32 John Snow <jsnow@redhat.com> wrote:
+
+> On 9/24/20 9:18 PM, Cleber Rosa wrote:
+> > I have to say the style of this line bothers me, but it's just that,
+> > style. So,
+>
+> What don't you like?
+>
+>
+>
+
+--000000000000c5bb0e05b01d14e0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi,<div dir=3D"auto"><br></div><div dir=3D"auto">I would =
+replace the word variable &quot;kind&quot; by &quot;category&quot;.</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">./helio</div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 25, 20=
+20, 03:32 John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 9/24/20 9:18 PM=
+, Cleber Rosa wrote:<br>
+&gt; I have to say the style of this line bothers me, but it&#39;s just tha=
+t,<br>
+&gt; style. So,<br>
+<br>
+What don&#39;t you like?<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000c5bb0e05b01d14e0--
 
