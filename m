@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C1A2781F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 09:50:26 +0200 (CEST)
-Received: from localhost ([::1]:45492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F28278223
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 10:00:41 +0200 (CEST)
+Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLiUq-0007gs-Pn
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 03:50:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
+	id 1kLiem-0002pe-PN
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 04:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLiU8-0007GQ-LE
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 03:49:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLiU6-00064t-C7
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 03:49:40 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601020177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XFWhY6ADkiA2L7gQ47jjDU3nGrb7QML0Rmkmd9wvsVs=;
- b=DKHosU9WUWWEZ9OT4HbnJANC7ovrhxoe0DysM5soU1xDejfMspolX7fGAk8ucRhIbJpTyL
- 5AtcINWKFxS2379Ow4dHKdXKQPp60gI5ocsCi+XrPT5OhHWdClMzKOI3YsExOLKcetQnjZ
- sBJf9Mv/dUv0/JO93ZzU/G4lAb6IBqs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-8Mhki_AsMRy4TxobYOwR-A-1; Fri, 25 Sep 2020 03:49:33 -0400
-X-MC-Unique: 8Mhki_AsMRy4TxobYOwR-A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 684B5800E23;
- Fri, 25 Sep 2020 07:49:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
- [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3794760C07;
- Fri, 25 Sep 2020 07:49:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C053A113865F; Fri, 25 Sep 2020 09:49:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 14/37] qapi/common.py: Move comments into docstrings
-References: <20200915224027.2529813-1-jsnow@redhat.com>
- <20200915224027.2529813-15-jsnow@redhat.com>
- <87d02kpizr.fsf@dusky.pond.sub.org>
- <49e28f59-012c-9b7b-02b7-1854f85884b2@redhat.com>
- <20200917191455.GX7594@habkost.net>
- <3b1ce70b-377d-144f-9331-4f6da4c93f6f@redhat.com>
- <87a6xf8b9a.fsf@dusky.pond.sub.org>
- <7a58ccb0-8b54-38e9-316d-c8b7690b6ea1@redhat.com>
-Date: Fri, 25 Sep 2020 09:49:30 +0200
-In-Reply-To: <7a58ccb0-8b54-38e9-316d-c8b7690b6ea1@redhat.com> (John Snow's
- message of "Thu, 24 Sep 2020 12:31:56 -0400")
-Message-ID: <87eemq1ek5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLiZq-0000Oz-Nv; Fri, 25 Sep 2020 03:55:34 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:52283)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kLiZn-0006pU-RD; Fri, 25 Sep 2020 03:55:34 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7AA5958042E;
+ Fri, 25 Sep 2020 03:55:30 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Fri, 25 Sep 2020 03:55:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=Hd09b1Dke+4Nidz7jQvpkZva1Ey
+ hYK6I5jDGOXKWlG8=; b=MTdY1yXp2/o90moVuG6yeQvsJ93Xh6kesT6zKrZJ+v5
+ Gtfb5e874kcSgQ00fIQaqaUTNUlk2R3TzYTuJnbsHCwWr8XZzTNF3bgZeqr+ThY+
+ mxSpS8+BOLBf5ACPsZQGDehwrfRZgIeJ/EUMWM92FZyPINUULZI4wv/prVExwts9
+ eBH7Fzrvf553gyO0yNuxxYG4CmxoxAxOvJAfStq9oMWeFZbYI/tJj8H9uSgu0LOR
+ uRvM1IuJUobtQ7RbSI9/Eii+QuElqr2Q7m9msNHBwU+XOOHJwzFgU9nzzoI7zyq6
+ EdYjlTQ0PlqUOjNAqNVynPtl+sD2P3TilUxtoERi8+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Hd09b1
+ Dke+4Nidz7jQvpkZva1EyhYK6I5jDGOXKWlG8=; b=u6kRJfXYZyciwA22JxeUxD
+ U5xe32/7hJjGqlFmKh5s4ZyMzL9kNEvEhlC2VT+I1Y05+RFkxWOUBc68rJ8PGSVD
+ hIwaCNO3koRX3ZI9ewLjTeYLLtDtfBZm3DVtdggqm69N3Ur6hvXs2bkQ5ZoY5NLD
+ uCMpfLWvT9Geop4IA/DpxH2n4A5rg6j5biWnt8QOzr33Gbrn0tUY+jds7q/gKBl9
+ MdVAMmWIu7zwndcCMifHJB4DOShUUC3JuBnn/5UyLRyBdx1AeZclhy69MN3fGkNT
+ MzETFKx5QG+TqeW/EM0XiyREL5qInQbpHCnd0eW/NLnzvLZvpyWufibfm94S25JQ
+ ==
+X-ME-Sender: <xms:cKJtX4H8Fajhf6O2iZZDtRh7EMcQrbWUS7LCPa321-TKWit_UoBFsA>
+ <xme:cKJtXxWFGj_fUYpcmMOzEofnxvA5IWMPwTJGsUdFPVla8VMu83_u6hR0xLgl-HPcZ
+ 8EHIOGb1wcBxx5nmpc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelgdduvddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
+ ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
+ vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepleevleduffdtfeegiedtjeeghfduff
+ fghfehhffgvdfgffegudfgveefheefleefnecuffhomhgrihhnpehprghttghhvgifrdho
+ rhhgnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:cKJtXyLgl44DPudwaEMsmyG3wSLqB1oXyQTtfDqphuZK6ZonaVzNLw>
+ <xmx:cKJtX6FmRIolKMdZLFobCHVMdEs2F8hfSb70XjPqfv2vHc7P5fvL8w>
+ <xmx:cKJtX-UcBMqnaOQUa74epsVNDSM6UAy3LvMPEuCq4xOQU6RxEKIXZQ>
+ <xmx:caJtXwfmSa_43tZZPgCzu-4Z22W9-cVwdxqm-AHmJseYcvv97IDJsw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B48FE3280060;
+ Fri, 25 Sep 2020 03:55:27 -0400 (EDT)
+Date: Fri, 25 Sep 2020 09:55:25 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/16] hw/block/nvme: zoned namespace command set
+Message-ID: <20200925075525.GA1901923@apples.localdomain>
+References: <20200924204516.1881843-1-its@irrelevant.dk>
+ <160098741693.12744.661899168797123531@66eaa9a8a123>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
+Content-Disposition: inline
+In-Reply-To: <160098741693.12744.661899168797123531@66eaa9a8a123>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 03:55:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,78 +96,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ k.jensen@samsung.com, mreitz@redhat.com, kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
 
-> On 9/24/20 11:06 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> On 9/17/20 3:14 PM, Eduardo Habkost wrote:
->>>> On Thu, Sep 17, 2020 at 02:44:53PM -0400, John Snow wrote:
->>>> [...]
->>>>> Having said this, I have not found any tool to date that actually *checks*
->>>>> these comments for consistency. The pycharm IDE interactively highlights
->>>>> them when it senses that you have made a mistake, but that cannot be worked
->>>>> into our CI process that I know of - it's a proprietary checker.
->>>>>
->>>>> So right now, they're just plaintext that I am writing to approximate the
->>>>> Sphinx style until such time as I enable autodoc for the module and
->>>>> fine-tune the actual formatting and so on.
->> You are deliberately trying to "approximate" Sphinx style, and ...
->> 
->>>> After applying this series, I only had to make two small tweaks
->>>> to make Sphinx + autodoc happy with the docstrings you wrote.
->>>> With the following patch, "make sphinxdocs" will generate the
->>>> QAPI Python module documentation at docs/devel/qapi.html.
->>>> I had to explicitly skip qapi/doc.py because autodoc thinks the
->>>> string constants are documentation strings.
->>>>
->>>
->>> Awesome!
->> ... actually almost nail it.
->> Please mention your choice of style in the commit message.
->> 
->
-> OK, I'll try to summarize it. I guess I'll do it in this commit
-> message, but it's not likely to be too visible in the future that way,
-> depending on how you run git blame and what you're looking at.
+--pf9I7BMVVzbSWLtt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Sep 24 15:43, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20200924204516.1881843-1-its@irrele=
+vant.dk/
+>=20
+>=20
+>=20
+> Hi,
+>=20
+> This series seems to have some coding style problems. See output below for
+> more information:
+>=20
+> Type: series
+> Message-id: 20200924204516.1881843-1-its@irrelevant.dk
+> Subject: [PATCH 00/16] hw/block/nvme: zoned namespace command set
+>=20
+> 7/16 Checking commit ab4c119d9d68 (hw/block/nvme: add commands supported =
+and effects log page)
+> ERROR: Macros with complex values should be enclosed in parenthesis
+> #46: FILE: hw/block/nvme.c:131:
+> +#define NVME_EFFECTS_NVM_INITIALIZER                   \
+> +    [NVME_CMD_FLUSH]            =3D NVME_EFFECTS_CSUPP | \
+> +                                  NVME_EFFECTS_LBCC,   \
+> +    [NVME_CMD_WRITE]            =3D NVME_EFFECTS_CSUPP | \
+> +                                  NVME_EFFECTS_LBCC,   \
+> +    [NVME_CMD_READ]             =3D NVME_EFFECTS_CSUPP,  \
+> +    [NVME_CMD_WRITE_ZEROES]     =3D NVME_EFFECTS_CSUPP | \
+> +                                  NVME_EFFECTS_LBCC
+>=20
 
-> I want to resurface my other python style patches soon; perhaps a
-> python coding style document should go in alongside those patches.
->
->>> I think I am going to delay explicitly pursuing writing a manual for
->>> the QAPI parser for now, but it's good to know I am not too far
->>> off. I'm going to target the mypy conversions first, because they can
->>> be invasive and full of churn.
->>>
->>> When I get there, though ... I am thinking I should add this as
->>> Devel/QAPI Parser.
->> Doing "actually Sphinx style" instead of "an approximation of Sphinx
->> style" would reduce churn later on.  So, if it's not too distracting...
->> 
->
-> Yes, I just mean in terms of rebasing, docstrings and signatures fight
-> with each other for context and make re-spinning 125 patches a major 
-> chore. I wasn't prepared to have the debate on if we wanted to add
-> Python code into the Sphinx generator and have that entire discussion
-> yet.
->
-> So, I figured it would be a separate series afterwards. I mentioned
-> somewhere else that I anticipated doing it when I removed the 
-> "missing-docstring" warning.
->
-> I will investigate doing it (using Eduardo's patches) as a starting
-> point while reviews continue to filter in. If I figure it out in time,
-> I might squash the formatting changes in, but leave the sphinx
-> enablement patches themselves out.
+Pffft. If anyone has a better idea how to make this nice and not too
+repetitive in the code, please let me know ;)
 
-Use your judgement.
+> 11/16 Checking commit 6343d89bf734 (hw/block/nvme: add the zone managemen=
+t send command)
+> WARNING: Block comments use a leading /* on a separate line
+> #66: FILE: hw/block/nvme.c:1118:
+> +    return __nvme_allocate(ns, slba, nlb, false /* deallocate */);
+>=20
+> WARNING: Block comments use a leading /* on a separate line
+> #77: FILE: hw/block/nvme.c:1129:
+> +    return __nvme_allocate(ns, slba, nlb, true /* deallocate */);
+>=20
+> total: 0 errors, 2 warnings, 704 lines checked
+>=20
+> Patch 11/16 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
 
+I seem to remember that this has been up before, but doesnt look like a
+fix for that has gone into checkpatch.pl.
+
+--pf9I7BMVVzbSWLtt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9tomsACgkQTeGvMW1P
+Dek/Rgf9FwLAxE3fxb030pY6psITaxwE8m04AeS2r0CZO5RLD0jFB1hZYI9YlZdz
+HQBtimlMjzn/xNTw3R3QbT9NvcJDa13Kl9q07Wa7l+ZiXZ4FRLLFV5eeTD8xqXL6
+PLa7AsM5zPMz9/lByQI8eW2ZVyhddx3Q7lhPGYTMgImhWkV5Q2KSJ3axozCEMvmO
+4PjHouXssQn9jPYoanhJ+66bgN//boex4x/QmSe2P97gsJ7hbr6I4D+C7Ny3smyR
+qfx6WxznckeFYkAjo4wnQb2/jX7V6WBEnZy4TpIt2LjSU1k/9Des7Ptnysalyx9q
+QVgK1yE7mimOP92umS6DTtfHURcFmA==
+=Im2t
+-----END PGP SIGNATURE-----
+
+--pf9I7BMVVzbSWLtt--
 
