@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C0927876E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:41:33 +0200 (CEST)
-Received: from localhost ([::1]:35916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D07527877F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:45:53 +0200 (CEST)
+Received: from localhost ([::1]:49508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLn2a-0004cP-MY
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
+	id 1kLn6m-0001p5-HD
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kLmxH-0000dq-7b
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:36:03 -0400
-Resent-Date: Fri, 25 Sep 2020 08:36:03 -0400
-Resent-Message-Id: <E1kLmxH-0000dq-7b@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kLmx5-0007dN-Jy
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:35:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1601037326; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=S4upVYhmX1yH+6R0SwY8MY5lLpwnSTDjM3ENL8/MwRZYL2G9DcM7bGbramm6UUdrntOAazi/RgvauM4jEFu0Y0LhVIVvXI1aF3nUhAB4+Eh+pXs7f5xUx4XRz5Fw//MkWhgYoItQOacIZQgA/UxTB5jKUVDW97ZqHR7BYAxwpP8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1601037326;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Fx8jhEx4L4sLamG0FLh7lpDqp/Yl+H/jqo8ETWgMK94=; 
- b=JbAnhtb/QsaLX58Z1xAk+KCEi+0OD5pR6AapB5fqm1F/dsqJFdLKtQK0G/eyz60uSk0+/d9vknNze8XD+HSYKEh1CI7CTeuYnJNJKtfA5R2CU2/rPqfdXTTg30PeXOEd/GDAMqxrdy0hj9yMrWDrqcyxYohxgh6YCMkNz3nQ3gI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1601037324404950.202350990675;
- Fri, 25 Sep 2020 05:35:24 -0700 (PDT)
-Subject: Re: [PULL 00/26] migration and friends queue
-Message-ID: <160103732220.12744.17131266745475052918@66eaa9a8a123>
-In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kLn2D-00056u-DM; Fri, 25 Sep 2020 08:41:10 -0400
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:36725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kLn2A-0008KN-FZ; Fri, 25 Sep 2020 08:41:09 -0400
+Received: by mail-qv1-xf42.google.com with SMTP id f11so1233235qvw.3;
+ Fri, 25 Sep 2020 05:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=r2I0xvUUMJVD4WDyMshDfJjhLibFVhonZCVK7m16xEo=;
+ b=agYFxTjnYGFQloWfNhoq8C+PauDCTJrxpApyAxqZj39ukGZrxFAUN27LHmCC80Yk/4
+ OWQzSKxGQbjEJBvT/zQHHW6mYhoye8Xby/v/zt8dFFoh9hJr9/+LkSIBcx6RuuJGL55T
+ jlGyew6/+k5T03cNa5Zi1T2jPWRnBfnysM5QChAZkjXSq9pZkYYF7FJl7xBj0cYw0pqz
+ 5fUkLtJlP0wahTiO6De+YVDX9nQOBqjwH/Nm+JpsVE11+qSJS+CgM+QumCM7Sy7FwM+A
+ Do/gLtGF0fpk5ov5s4HNCsY3Z1mkM7JRk5QR81yukcZoYjSmk6LNJb4MXV9ZboCgy2BH
+ AXXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=r2I0xvUUMJVD4WDyMshDfJjhLibFVhonZCVK7m16xEo=;
+ b=rGIrDpirZZpkPB9GVle6YaFCvYRdO96c7DdtjxEqfot7wH8EeCOxlBTTGApxxcXz/c
+ PXpUy0TbyOSR4xjr80+THgbtbXJCjyFROu6uXot//WIw7SXHSOD5nwAmaVgPpQeYzX0a
+ qXzAti1YX2zr0sl/ehmqle+ukJTpiWQbrQifACPRxOJFXvfHD/A9LJ+LKHwWO26nTzMI
+ MQE4n0npge2jI8Ry3VaHAs2MuvnO9Bc1tr8PT77aJ+QZ7vIw79WFZve82X6tVCHQngBP
+ CktZBVM1ZtLEb8weulqvMNuJWL/ILj4Upvdsq9ala8v7D8fgPn1ggMWYRTh+mjik/Q9c
+ NwKA==
+X-Gm-Message-State: AOAM533x2N5kuJxeUGSuEvkw9nL3+mQQpTzNKb+RnIqE/l8rUdlvA2oK
+ 3g3hj5S9zKZmvGbJrIHVC/swqc0yfWQ=
+X-Google-Smtp-Source: ABdhPJzYeZ97QBukBm3wgJhZM+owwa83AqexXZKQaQcm1f0DAgI2OJzXlJoPmPvDHvHuL6TLO9zlwQ==
+X-Received: by 2002:a0c:bd02:: with SMTP id m2mr4368814qvg.0.1601037664996;
+ Fri, 25 Sep 2020 05:41:04 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7c7:c625:6c0e:4720:8228:5f68?
+ ([2804:431:c7c7:c625:6c0e:4720:8228:5f68])
+ by smtp.gmail.com with ESMTPSA id p192sm1680858qke.7.2020.09.25.05.41.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Sep 2020 05:41:04 -0700 (PDT)
+Subject: Re: [PATCH v2 2/6] spapr_numa: forbid asymmetrical NUMA setups
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20200924195058.362984-1-danielhb413@gmail.com>
+ <20200924195058.362984-3-danielhb413@gmail.com>
+ <20200925034816.GV2298@yekko.fritz.box>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <f787466e-0f39-fb2e-c36f-59a6bc2dde00@gmail.com>
+Date: Fri, 25 Sep 2020 09:41:02 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dgilbert@redhat.com
-Date: Fri, 25 Sep 2020 05:35:24 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 07:56:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200925034816.GV2298@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f42;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.238,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,142 +90,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lvivier@redhat.com, quintela@redhat.com, hgcoin@gmail.com,
- qemu-devel@nongnu.org, peterx@redhat.com, zhengchuan@huawei.com,
- dovmurik@linux.vnet.ibm.com, zhangjiachen.jaycee@bytedance.com,
- stefanha@redhat.com, ann.zhuangyanying@huawei.com, jinyan12@huawei.com,
- vgoyal@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyNTEyMDY1NS4yOTUx
-NDItMS1kZ2lsYmVydEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA5MjUxMjA2NTUuMjk1
-MTQyLTEtZGdpbGJlcnRAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8yNl0gbWlncmF0aW9u
-IGFuZCBmcmllbmRzIHF1ZXVlCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
-CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
-dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
-Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
-VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0
-dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAg
-ICBwYXRjaGV3LzIwMjAwOTI1MTIwNjU1LjI5NTE0Mi0xLWRnaWxiZXJ0QHJlZGhhdC5jb20gLT4g
-cGF0Y2hldy8yMDIwMDkyNTEyMDY1NS4yOTUxNDItMS1kZ2lsYmVydEByZWRoYXQuY29tClN3aXRj
-aGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNzg2YWZiZiB2aXJ0aW9mc2Q6IEFkZCAtbyBhbGxv
-d19kaXJlY3RfaW98bm9fYWxsb3dfZGlyZWN0X2lvIG9wdGlvbnMKYjRlM2QyZiB2aXJ0aW9mc2Q6
-IFVzZWQgZ2xpYiAic2hhcmVkIiB0aHJlYWQgcG9vbAo1YzZjZjUzIHZpcnRpb2ZzZDogZG9jdW1l
-bnQgY2FjaGU9YXV0byBkZWZhdWx0CmIwYTVkNTQgbW9uaXRvcjogVXNlIExPQ0tfR1VBUkQgbWFj
-cm9zCjg4YjMxZTggbWlncmF0aW9uL3RsczogYWRkIHRyYWNlIHBvaW50cyBmb3IgbXVsdGlmZC10
-bHMKNDJkZDg0NCBtaWdyYXRpb24vdGxzOiBhZGQgc3VwcG9ydCBmb3IgbXVsdGlmZCB0bHMtaGFu
-ZHNoYWtlCjBkZDk5ZjQgbWlncmF0aW9uL3RsczogZXh0cmFjdCBjbGVhbnVwIGZ1bmN0aW9uIGZv
-ciBjb21tb24tdXNlCmU5NTEzNTkgbWlncmF0aW9uL3RsczogYWRkIHRsc19ob3N0bmFtZSBpbnRv
-IE11bHRpRkRTZW5kUGFyYW1zCjY1MmRlYTggbWlncmF0aW9uL3RsczogZXh0cmFjdCBtaWdyYXRp
-b25fdGxzX2NsaWVudF9jcmVhdGUgZm9yIGNvbW1vbi11c2UKZDcwZmM3MiBtaWdyYXRpb24vdGxz
-OiBzYXZlIGhvc3RuYW1lIGludG8gTWlncmF0aW9uU3RhdGUKY2IwYzNhMyBtaWdyYXRpb246IGlu
-Y3JlYXNlIG1heC1iYW5kd2lkdGggdG8gMTI4IE1pQi9zICgxIEdpYi9zKQpiNGYyZDUwIG1pZ3Jh
-dGlvbjogVHJ1bmNhdGUgc3RhdGUgZmlsZSBpbiB4ZW4tc2F2ZS1kZXZpY2VzLXN0YXRlCjc0NDg0
-MTUgbWlncmF0aW9uL2RpcnR5cmF0ZTogQWRkIHRyYWNlX2NhbGxzIHRvIG1ha2UgaXQgZWFzaWVy
-IHRvIGRlYnVnCmFhNDRlM2EgbWlncmF0aW9uL2RpcnR5cmF0ZTogSW1wbGVtZW50IHFtcF9jYWxf
-ZGlydHlfcmF0ZSgpL3FtcF9nZXRfZGlydHlfcmF0ZSgpIGZ1bmN0aW9uCjlhMWYwMDUgbWlncmF0
-aW9uL2RpcnR5cmF0ZTogSW1wbGVtZW50IGNhbGN1bGF0ZV9kaXJ0eXJhdGUoKSBmdW5jdGlvbgpm
-MWJmYmE3IG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEltcGxlbWVudCBzZXRfc2FtcGxlX3BhZ2VfcGVy
-aW9kKCkgYW5kIGlzX3NhbXBsZV9wZXJpb2RfdmFsaWQoKQpjYjNiN2ZmIG1pZ3JhdGlvbi9kaXJ0
-eXJhdGU6IHNraXAgc2FtcGxpbmcgcmFtYmxvY2sgd2l0aCBzaXplIGJlbG93IE1JTl9SQU1CTE9D
-S19TSVpFCmE4MmI2NDYgbWlncmF0aW9uL2RpcnR5cmF0ZTogQ29tcGFyZSBwYWdlIGhhc2ggcmVz
-dWx0cyBmb3IgcmVjb3JkZWQgc2FtcGxlZCBwYWdlCjdkMGY0ZDIgbWlncmF0aW9uL2RpcnR5cmF0
-ZTogUmVjb3JkIGhhc2ggcmVzdWx0cyBmb3IgZWFjaCBzYW1wbGVkIHBhZ2UKOGE5MDM4OSBtaWdy
-YXRpb24vZGlydHlyYXRlOiBtb3ZlIFJBTUJMT0NLX0ZPUkVBQ0hfTUlHUkFUQUJMRSBpbnRvIHJh
-bS5oCjUzOWMwZDcgbWlncmF0aW9uL2RpcnR5cmF0ZTogQWRkIGRpcnR5cmF0ZSBzdGF0aXN0aWNz
-IHNlcmllcyBmdW5jdGlvbnMKNDIxODkyYiBtaWdyYXRpb24vZGlydHlyYXRlOiBBZGQgUmFtYmxv
-Y2tEaXJ0eUluZm8gdG8gc3RvcmUgc2FtcGxlZCBwYWdlIGluZm8KY2FiMTYxNCBtaWdyYXRpb24v
-ZGlydHlyYXRlOiBhZGQgRGlydHlSYXRlU3RhdHVzIHRvIGRlbm90ZSBjYWxjdWxhdGlvbiBzdGF0
-dXMKODM4MjZmZiBtaWdyYXRpb24vZGlydHlyYXRlOiBzZXR1cCB1cCBxdWVyeS1kaXJ0eXJhdGUg
-ZnJhbXdvcmsKYzU4ZjAyOCBtaWdyYXRpb246IFJld29yayBtaWdyYXRlX3NlbmRfcnBfcmVxX3Bh
-Z2VzKCkgZnVuY3Rpb24KMDEyMjI2ZiBtaWdyYXRpb246IFByb3Blcmx5IGRlc3Ryb3kgdmFyaWFi
-bGVzIG9uIGluY29taW5nIHNpZGUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjYgQ2hlY2tpbmcg
-Y29tbWl0IDAxMjIyNmZjYWNiNyAobWlncmF0aW9uOiBQcm9wZXJseSBkZXN0cm95IHZhcmlhYmxl
-cyBvbiBpbmNvbWluZyBzaWRlKQoyLzI2IENoZWNraW5nIGNvbW1pdCBjNThmMDI4NmZkZGUgKG1p
-Z3JhdGlvbjogUmV3b3JrIG1pZ3JhdGVfc2VuZF9ycF9yZXFfcGFnZXMoKSBmdW5jdGlvbikKV0FS
-TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUK
-IzMyOiBGSUxFOiBtaWdyYXRpb24vbWlncmF0aW9uLmM6MzE3OgorLyogUmVxdWVzdCBvbmUgcGFn
-ZSBmcm9tIHRoZSBzb3VyY2UgVk0gYXQgdGhlIGdpdmVuIHN0YXJ0IGFkZHJlc3MuCgp0b3RhbDog
-MCBlcnJvcnMsIDEgd2FybmluZ3MsIDg5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMjYgaGFzIHN0
-eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
-ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
-QVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8yNiBDaGVja2luZyBjb21taXQgODM4MjZmZmNhZjc0ICht
-aWdyYXRpb24vZGlydHlyYXRlOiBzZXR1cCB1cCBxdWVyeS1kaXJ0eXJhdGUgZnJhbXdvcmspCldB
-Uk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMg
-bmVlZCB1cGRhdGluZz8KIzIwOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9y
-cywgMSB3YXJuaW5ncywgNzEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8yNiBoYXMgc3R5bGUgcHJv
-YmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBw
-b3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGlu
-IE1BSU5UQUlORVJTLgo0LzI2IENoZWNraW5nIGNvbW1pdCBjYWIxNjE0ODBkZDEgKG1pZ3JhdGlv
-bi9kaXJ0eXJhdGU6IGFkZCBEaXJ0eVJhdGVTdGF0dXMgdG8gZGVub3RlIGNhbGN1bGF0aW9uIHN0
-YXR1cykKNS8yNiBDaGVja2luZyBjb21taXQgNDIxODkyYjJjZTM0IChtaWdyYXRpb24vZGlydHly
-YXRlOiBBZGQgUmFtYmxvY2tEaXJ0eUluZm8gdG8gc3RvcmUgc2FtcGxlZCBwYWdlIGluZm8pCjYv
-MjYgQ2hlY2tpbmcgY29tbWl0IDUzOWMwZDdhYmNmMCAobWlncmF0aW9uL2RpcnR5cmF0ZTogQWRk
-IGRpcnR5cmF0ZSBzdGF0aXN0aWNzIHNlcmllcyBmdW5jdGlvbnMpCjcvMjYgQ2hlY2tpbmcgY29t
-bWl0IDhhOTAzODk5MmJjMCAobWlncmF0aW9uL2RpcnR5cmF0ZTogbW92ZSBSQU1CTE9DS19GT1JF
-QUNIX01JR1JBVEFCTEUgaW50byByYW0uaCkKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0
-YXRlbWVudHMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiM2NzogRklM
-RTogbWlncmF0aW9uL3JhbS5oOjQyOgorI2RlZmluZSBSQU1CTE9DS19GT1JFQUNIX05PVF9JR05P
-UkVEKGJsb2NrKSAgICAgICAgICAgIFwKKyAgICBJTlRFUk5BTF9SQU1CTE9DS19GT1JFQUNIKGJs
-b2NrKSAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIGlmIChyYW1ibG9ja19pc19pZ25vcmVk
-KGJsb2NrKSkge30gZWxzZQoKRVJST1I6IHRyYWlsaW5nIHN0YXRlbWVudHMgc2hvdWxkIGJlIG9u
-IG5leHQgbGluZQojNjk6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uaDo0NDoKKyAgICAgICAgaWYgKHJh
-bWJsb2NrX2lzX2lnbm9yZWQoYmxvY2spKSB7fSBlbHNlCgpFUlJPUjogTWFjcm9zIHdpdGggbXVs
-dGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AK
-IzcxOiBGSUxFOiBtaWdyYXRpb24vcmFtLmg6NDY6CisjZGVmaW5lIFJBTUJMT0NLX0ZPUkVBQ0hf
-TUlHUkFUQUJMRShibG9jaykgICAgICAgICAgICAgXAorICAgIElOVEVSTkFMX1JBTUJMT0NLX0ZP
-UkVBQ0goYmxvY2spICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgaWYgKCFxZW11X3JhbV9p
-c19taWdyYXRhYmxlKGJsb2NrKSkge30gZWxzZQoKRVJST1I6IHRyYWlsaW5nIHN0YXRlbWVudHMg
-c2hvdWxkIGJlIG9uIG5leHQgbGluZQojNzM6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uaDo0ODoKKyAg
-ICAgICAgaWYgKCFxZW11X3JhbV9pc19taWdyYXRhYmxlKGJsb2NrKSkge30gZWxzZQoKRVJST1I6
-IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAoj
-NzM6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uaDo0ODoKKyAgICAgICAgaWYgKCFxZW11X3JhbV9pc19t
-aWdyYXRhYmxlKGJsb2NrKSkge30gZWxzZQpbLi4uXQorICAgICAgICBpZiAoIXFlbXVfcmFtX2lz
-X21pZ3JhdGFibGUoYmxvY2spKSB7fSBlbHNlClsuLi5dCgp0b3RhbDogNSBlcnJvcnMsIDAgd2Fy
-bmluZ3MsIDQ1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMjYgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KCjgvMjYgQ2hlY2tpbmcgY29tbWl0IDdkMGY0ZDIyMzMzYiAobWlncmF0aW9uL2RpcnR5
-cmF0ZTogUmVjb3JkIGhhc2ggcmVzdWx0cyBmb3IgZWFjaCBzYW1wbGVkIHBhZ2UpCjkvMjYgQ2hl
-Y2tpbmcgY29tbWl0IGE4MmI2NDY0ZThhYSAobWlncmF0aW9uL2RpcnR5cmF0ZTogQ29tcGFyZSBw
-YWdlIGhhc2ggcmVzdWx0cyBmb3IgcmVjb3JkZWQgc2FtcGxlZCBwYWdlKQoxMC8yNiBDaGVja2lu
-ZyBjb21taXQgY2IzYjdmZjgzY2EzIChtaWdyYXRpb24vZGlydHlyYXRlOiBza2lwIHNhbXBsaW5n
-IHJhbWJsb2NrIHdpdGggc2l6ZSBiZWxvdyBNSU5fUkFNQkxPQ0tfU0laRSkKMTEvMjYgQ2hlY2tp
-bmcgY29tbWl0IGYxYmZiYTcwZWNkZCAobWlncmF0aW9uL2RpcnR5cmF0ZTogSW1wbGVtZW50IHNl
-dF9zYW1wbGVfcGFnZV9wZXJpb2QoKSBhbmQgaXNfc2FtcGxlX3BlcmlvZF92YWxpZCgpKQoxMi8y
-NiBDaGVja2luZyBjb21taXQgOWExZjAwNTBhODc2IChtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBs
-ZW1lbnQgY2FsY3VsYXRlX2RpcnR5cmF0ZSgpIGZ1bmN0aW9uKQoxMy8yNiBDaGVja2luZyBjb21t
-aXQgYWE0NGUzYTg1Yzk3IChtaWdyYXRpb24vZGlydHlyYXRlOiBJbXBsZW1lbnQgcW1wX2NhbF9k
-aXJ0eV9yYXRlKCkvcW1wX2dldF9kaXJ0eV9yYXRlKCkgZnVuY3Rpb24pCjE0LzI2IENoZWNraW5n
-IGNvbW1pdCA3NDQ4NDE1N2NmMjYgKG1pZ3JhdGlvbi9kaXJ0eXJhdGU6IEFkZCB0cmFjZV9jYWxs
-cyB0byBtYWtlIGl0IGVhc2llciB0byBkZWJ1ZykKMTUvMjYgQ2hlY2tpbmcgY29tbWl0IGI0ZjJk
-NTBjMTVhOCAobWlncmF0aW9uOiBUcnVuY2F0ZSBzdGF0ZSBmaWxlIGluIHhlbi1zYXZlLWRldmlj
-ZXMtc3RhdGUpCjE2LzI2IENoZWNraW5nIGNvbW1pdCBjYjBjM2EzNzQzMzUgKG1pZ3JhdGlvbjog
-aW5jcmVhc2UgbWF4LWJhbmR3aWR0aCB0byAxMjggTWlCL3MgKDEgR2liL3MpKQoxNy8yNiBDaGVj
-a2luZyBjb21taXQgZDcwZmM3MjE3Y2M3IChtaWdyYXRpb24vdGxzOiBzYXZlIGhvc3RuYW1lIGlu
-dG8gTWlncmF0aW9uU3RhdGUpCjE4LzI2IENoZWNraW5nIGNvbW1pdCA2NTJkZWE4MDlhNGIgKG1p
-Z3JhdGlvbi90bHM6IGV4dHJhY3QgbWlncmF0aW9uX3Rsc19jbGllbnRfY3JlYXRlIGZvciBjb21t
-b24tdXNlKQoxOS8yNiBDaGVja2luZyBjb21taXQgZTk1MTM1OTA2N2I5IChtaWdyYXRpb24vdGxz
-OiBhZGQgdGxzX2hvc3RuYW1lIGludG8gTXVsdGlGRFNlbmRQYXJhbXMpCjIwLzI2IENoZWNraW5n
-IGNvbW1pdCAwZGQ5OWY0ZGIxOTcgKG1pZ3JhdGlvbi90bHM6IGV4dHJhY3QgY2xlYW51cCBmdW5j
-dGlvbiBmb3IgY29tbW9uLXVzZSkKMjEvMjYgQ2hlY2tpbmcgY29tbWl0IDQyZGQ4NDQ3ZWZkNiAo
-bWlncmF0aW9uL3RsczogYWRkIHN1cHBvcnQgZm9yIG11bHRpZmQgdGxzLWhhbmRzaGFrZSkKMjIv
-MjYgQ2hlY2tpbmcgY29tbWl0IDg4YjMxZThlMTU4MyAobWlncmF0aW9uL3RsczogYWRkIHRyYWNl
-IHBvaW50cyBmb3IgbXVsdGlmZC10bHMpCjIzLzI2IENoZWNraW5nIGNvbW1pdCBiMGE1ZDU0ZTZl
-M2UgKG1vbml0b3I6IFVzZSBMT0NLX0dVQVJEIG1hY3JvcykKMjQvMjYgQ2hlY2tpbmcgY29tbWl0
-IDVjNmNmNTM0NWMwZiAodmlydGlvZnNkOiBkb2N1bWVudCBjYWNoZT1hdXRvIGRlZmF1bHQpCjI1
-LzI2IENoZWNraW5nIGNvbW1pdCBiNGUzZDJmOWFmY2EgKHZpcnRpb2ZzZDogVXNlZCBnbGliICJz
-aGFyZWQiIHRocmVhZCBwb29sKQoyNi8yNiBDaGVja2luZyBjb21taXQgNzg2YWZiZjQ4YWU5ICh2
-aXJ0aW9mc2Q6IEFkZCAtbyBhbGxvd19kaXJlY3RfaW98bm9fYWxsb3dfZGlyZWN0X2lvIG9wdGlv
-bnMpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
-CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
-MjAwOTI1MTIwNjU1LjI5NTE0Mi0xLWRnaWxiZXJ0QHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3Bh
-dGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
-YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
-dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+
+
+On 9/25/20 12:48 AM, David Gibson wrote:
+> On Thu, Sep 24, 2020 at 04:50:54PM -0300, Daniel Henrique Barboza wrote:
+>> The pSeries machine does not support asymmetrical NUMA
+>> configurations. This doesn't make much of a different
+>> since we're not using user input for pSeries NUMA setup,
+>> but this will change in the next patches.
+>>
+>> To avoid breaking existing setups, gate this change by
+>> checking for legacy NUMA support.
+>>
+>> Reviewed-by: Greg Kurz <groug@kaod.org>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+> Having read the rest of the series, I realized there's another type of
+> configuration that PAPR can't represent, so possibly we should add
+> logic to catch that as well.  That's what I'm going to call
+> "non-transitive" configurations, e.g.
+> 
+> Node	0	1	2
+> 0	10	20	40
+> 1	20	10	20
+> 2	40	20	10	
+> 
+> Basically the closeness of 0 to 1 and 1 to 2 forces them all to be in
+> the same domain at every PAPR level, even though 0-2 is supposed to be
+> more expensive.
+
+
+Yes, this is correct. I'm not sure how to proceed in this case
+though. Should we error out?
+
+
+DHB
+
+> 
+>> ---
+>>   hw/ppc/spapr_numa.c | 34 ++++++++++++++++++++++++++++++++++
+>>   1 file changed, 34 insertions(+)
+>>
+>> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+>> index 64fe567f5d..fe395e80a3 100644
+>> --- a/hw/ppc/spapr_numa.c
+>> +++ b/hw/ppc/spapr_numa.c
+>> @@ -19,6 +19,24 @@
+>>   /* Moved from hw/ppc/spapr_pci_nvlink2.c */
+>>   #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+>>   
+>> +static bool spapr_numa_is_symmetrical(MachineState *ms)
+>> +{
+>> +    int src, dst;
+>> +    int nb_numa_nodes = ms->numa_state->num_nodes;
+>> +    NodeInfo *numa_info = ms->numa_state->nodes;
+>> +
+>> +    for (src = 0; src < nb_numa_nodes; src++) {
+>> +        for (dst = src; dst < nb_numa_nodes; dst++) {
+>> +            if (numa_info[src].distance[dst] !=
+>> +                numa_info[dst].distance[src]) {
+>> +                return false;
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    return true;
+>> +}
+>> +
+>>   void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>                                      MachineState *machine)
+>>   {
+>> @@ -61,6 +79,22 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>   
+>>           spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>>       }
+>> +
+>> +    /*
+>> +     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
+>> +     * 1 NUMA node) will not benefit from anything we're going to do
+>> +     * after this point.
+>> +     */
+>> +    if (spapr_machine_using_legacy_numa(spapr)) {
+>> +        return;
+>> +    }
+>> +
+>> +    if (!spapr_numa_is_symmetrical(machine)) {
+>> +        error_report("Asymmetrical NUMA topologies aren't supported "
+>> +                     "in the pSeries machine");
+>> +        exit(EXIT_FAILURE);
+>> +    }
+>> +
+>>   }
+>>   
+>>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+> 
 
