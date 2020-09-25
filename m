@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C5A2788FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:03:52 +0200 (CEST)
-Received: from localhost ([::1]:40578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BD827890F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:09:09 +0200 (CEST)
+Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnOB-00054f-LQ
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:03:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48388)
+	id 1kLnTI-0003A5-VV
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnCw-0007rp-Si
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:14 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53738)
+ id 1kLnJl-0002c8-2W
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnCu-0001RU-3c
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:14 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id x23so2927646wmi.3
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:52:11 -0700 (PDT)
+ id 1kLnJi-0002HJ-9c
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:16 -0400
+Received: by mail-wr1-x442.google.com with SMTP id k15so3471710wrn.10
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2gc/eAiM6fc/9xFq9v+gXHzceFFWcZXTxfGGQdY3TKo=;
- b=lL+PE4Xcu99+Yf301fWBDOYOKBRFX4BGFnZJ9UM7e6YQx7nI3w4CwXaBrlDtW24dA7
- 9yH0LGCvLuy+6BePjaLK1Vg1wGGk81aoyFSpUs2ZOC/clFHjzRFJ5XlSSO7/i7x/vkjN
- g0roGJSrbKQve6pS7JsMrp+kDyc9YYHw+3/f04F6DOnoJ1nQpXYmGJDG/RvPf7xuxmx7
- ouVpX/eJImiwkjssNy4cVXCMVUjntSt3ydwH8eVazGioYkm5+7tClPR79hX3PJa1G9Od
- Mm7sOQrVgX+nxEgdIFkHH8pbG3IUlI2fURFwA6jXVZzmfqpo/yNQtoPA9PVNEdHPHoJs
- BbsQ==
+ bh=Q4iTHSBorxk55Li2+GvTNnYqx3kRUnXXkY6aAFMYM/s=;
+ b=v2rf8a22kBUgvdat3avWZaW4mN0N/9L+GeS8rZBwFpbXgyNEA8VuJfT+y6TXOJi/jn
+ 8771/fqeQCE4KnqcuWbyEHsU1A1oyvnct5X0a7zqa6y+v5zKAfikbc6M5TtDu3Vv9KDn
+ eCzpC+XQnacfBUplYEg6WMnBxG+69iasXx9vAWv6aJzUxGNRpuw8gcDthchF1kMwSM7U
+ +4I+PcinNdi8sBnAG4CS1BVzAXnyOcYRp3hzoTca3/k8gTUvmMEW9z5dLqfC8mEs0q2A
+ 2Pfp/TqleOQeL0aOB3Zudp1/B7yTNGO+dN4xcrtnA4CSXUnByPuIBdItaMWf+XqlVdw2
+ 2M9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2gc/eAiM6fc/9xFq9v+gXHzceFFWcZXTxfGGQdY3TKo=;
- b=LshQ5juMAg9NyBcvAzw9yzFSmq2/V0jMfbU5YNUHcolFJZR01niF3Kz1BSh5ixc1nG
- 4eyFWvpbX9G70CyxlLv4R6VtnwIGMz5F8KCO7948gUUomUmg4GBscHKE6His/pymbEV3
- KvhqD8rAoedPk9gBu3b5UtzpxpQyQPykh16z8BNtHtCCJOycV7e/PLbe/S1vzwWerJ8u
- yIS1BPU3lWYoS105pg9qD3fo4hxyg2JyMZFqWxFt8ir5Z/yjsat3kiTtmErLQmWo22vw
- b1rtbN/uxKCJ1taHjelDreDv7LbRqJzxTTSQ1+hjlmyzuVVtE/w2PmMvWBihNV42iFNg
- z3lw==
-X-Gm-Message-State: AOAM530TMNHFRgFENs7DMb/20lmht/UnBPUu/l1P2jKA2cZoDyzw/fxP
- CumPgkMLP+zqfY/rXrr8m71lhg==
-X-Google-Smtp-Source: ABdhPJxeBSupo8i5C6YvM07AtjMhDiqQ1xpAwpiJVWc7s3N20uU84fMRZW1sEDeRezUSSYo0TsiUYQ==
-X-Received: by 2002:a1c:ed19:: with SMTP id l25mr3025751wmh.49.1601038330538; 
- Fri, 25 Sep 2020 05:52:10 -0700 (PDT)
+ bh=Q4iTHSBorxk55Li2+GvTNnYqx3kRUnXXkY6aAFMYM/s=;
+ b=L7GmZS+C3H3uvPVYQimvOMHe3ftMEf+yW26QcMxW8Re+jAWjdpAxurPAM+NM0r2aSJ
+ D3wLvy9Fs5KCeQ9MVhl2jOLj9mqi8ZPup9A+l3Kj7HHndGNgR9GXlRbl5UsQvoXR9rhF
+ KiXip53aks1ipXoOAzlPgZ54G4UaKr8GMoECBSV2c+tx7xhjNBWhTtUu7uilIhcXgONU
+ fiCMrrMQ6TGVPmKUHFjBRuuMkLRPxX+kCYgxlrfCXBhV0XOgu7Ou0WLlDctpC8F2cfQy
+ kQwBx6GYgaVPdoP5KheEAcaDds+6cGrfZrIkvljAAxYDlFu/r3t5Jve+gZNbMOQZyh41
+ GgvA==
+X-Gm-Message-State: AOAM5328RgF1ZSOQ0qiI5cE1/GyCEYCJ6ddaUnZs5ysUvIyL+8rN3T7q
+ BEMAULICouFmKfUzf/UhsDDoYA==
+X-Google-Smtp-Source: ABdhPJyhV2HYYzu/SbmGq+HXq0mlohFIVNFo6iMDNOdcQsYjpYH/oS8OWnIeoRhAoMBBlvixP+sFWw==
+X-Received: by 2002:a5d:40cd:: with SMTP id b13mr4353786wrq.297.1601038751867; 
+ Fri, 25 Sep 2020 05:59:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l126sm2849103wmf.39.2020.09.25.05.51.55
+ by smtp.gmail.com with ESMTPSA id x67sm2411242wmb.25.2020.09.25.05.59.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 05:52:00 -0700 (PDT)
+ Fri, 25 Sep 2020 05:59:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E0241FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 74C251FF9C;
  Fri, 25 Sep 2020 13:51:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org, maxim.uvarov@linaro.org, joakim.bech@linaro.org,
  ilias.apalodimas@linaro.org, tomas.winkler@intel.com, yang.huang@intel.com,
  bing.zhu@intel.com, Matti.Moell@opensynergy.com, hmo@opensynergy.com
-Subject: [RFC PATCH 12/19] tools/vhost-user-rpmb: import hmac_sha256 functions
-Date: Fri, 25 Sep 2020 13:51:40 +0100
-Message-Id: <20200925125147.26943-13-alex.bennee@linaro.org>
+Subject: [RFC PATCH 13/19] tools/vhost-user-rpmb: implement the PROGRAM_KEY
+ handshake
+Date: Fri, 25 Sep 2020 13:51:41 +0100
+Message-Id: <20200925125147.26943-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925125147.26943-1-alex.bennee@linaro.org>
 References: <20200925125147.26943-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,461 +98,382 @@ Cc: jean-philippe@linaro.org, takahiro.akashi@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to calculate HMAC-256SHA as part of the protocol. To avoid
-making the daemon dependent on QEMU's internal crypto library we
-import the functions here.
+This implements the first handshake of the device initialisation which
+is the programming of the device key. This can only be done once
+per-device.
+
+Currently there is no persistence for the device key and other
+metadata such as the write count. This will be added later.
+
+[TODO: clarify the spec if we should respond immediately or on request]
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tools/vhost-user-rpmb/hmac_sha256.h |  87 ++++++++
- tools/vhost-user-rpmb/hmac_sha256.c | 331 ++++++++++++++++++++++++++++
- tools/vhost-user-rpmb/meson.build   |   3 +-
- 3 files changed, 420 insertions(+), 1 deletion(-)
- create mode 100644 tools/vhost-user-rpmb/hmac_sha256.h
- create mode 100644 tools/vhost-user-rpmb/hmac_sha256.c
+ tools/vhost-user-rpmb/main.c | 299 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 286 insertions(+), 13 deletions(-)
 
-diff --git a/tools/vhost-user-rpmb/hmac_sha256.h b/tools/vhost-user-rpmb/hmac_sha256.h
-new file mode 100644
-index 000000000000..e67a5baedecd
---- /dev/null
-+++ b/tools/vhost-user-rpmb/hmac_sha256.h
-@@ -0,0 +1,87 @@
-+/*
-+ * HMAC-SHA-256 implementation
-+ * Last update: 06/15/2005
-+ * Issue date:  06/15/2005
-+ *
-+ * Copyright (C) 2005 Olivier Gay <olivier.gay@a3.epfl.ch>
-+ * All rights reserved.
-+ *
-+ * Copyright (c) 2016, 2020, Linaro Limited
-+ * All rights reserved.
-+ *
-+ * Redistribution and use in source and binary forms, with or without
-+ * modification, are permitted provided that the following conditions
-+ * are met:
-+ * 1. Redistributions of source code must retain the above copyright
-+ *    notice, this list of conditions and the following disclaimer.
-+ * 2. Redistributions in binary form must reproduce the above copyright
-+ *    notice, this list of conditions and the following disclaimer in the
-+ *    documentation and/or other materials provided with the distribution.
-+ * 3. Neither the name of the project nor the names of its contributors
-+ *    may be used to endorse or promote products derived from this software
-+ *    without specific prior written permission.
-+ *
-+ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
-+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
-+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+ * SUCH DAMAGE.
-+ */
-+
-+#ifndef HMAC_SHA256_H
-+#define HMAC_SHA256_H
-+
-+#define SHA256_DIGEST_SIZE ( 256 / 8)
-+#define SHA256_BLOCK_SIZE  ( 512 / 8)
-+
-+#ifndef SHA2_TYPES
-+#define SHA2_TYPES
-+typedef unsigned char uint8;
-+typedef unsigned int  uint32;
-+typedef unsigned long long uint64;
-+#endif
-+
-+typedef struct {
-+    unsigned int tot_len;
-+    unsigned int len;
-+    unsigned char block[2 * SHA256_BLOCK_SIZE];
-+    uint32 h[8];
-+} sha256_ctx;
-+
-+void sha256_init(sha256_ctx * ctx);
-+void sha256_update(sha256_ctx *ctx, const unsigned char *message,
-+                   unsigned int len);
-+void sha256_final(sha256_ctx *ctx, unsigned char *digest);
-+void sha256(const unsigned char *message, unsigned int len,
-+            unsigned char *digest);
-+
-+typedef struct {
-+    sha256_ctx ctx_inside;
-+    sha256_ctx ctx_outside;
-+
-+    /* for hmac_reinit */
-+    sha256_ctx ctx_inside_reinit;
-+    sha256_ctx ctx_outside_reinit;
-+
-+    unsigned char block_ipad[SHA256_BLOCK_SIZE];
-+    unsigned char block_opad[SHA256_BLOCK_SIZE];
-+} hmac_sha256_ctx;
-+
-+void hmac_sha256_init(hmac_sha256_ctx *ctx, const unsigned char *key,
-+                      unsigned int key_size);
-+void hmac_sha256_reinit(hmac_sha256_ctx *ctx);
-+void hmac_sha256_update(hmac_sha256_ctx *ctx, const unsigned char *message,
-+                        unsigned int message_len);
-+void hmac_sha256_final(hmac_sha256_ctx *ctx, unsigned char *mac,
-+                       unsigned int mac_size);
-+void hmac_sha256(const unsigned char *key, unsigned int key_size,
-+                 const unsigned char *message, unsigned int message_len,
-+                 unsigned char *mac, unsigned mac_size);
-+
-+#endif /* !HMAC_SHA256_H */
-diff --git a/tools/vhost-user-rpmb/hmac_sha256.c b/tools/vhost-user-rpmb/hmac_sha256.c
-new file mode 100644
-index 000000000000..f6640a46c616
---- /dev/null
-+++ b/tools/vhost-user-rpmb/hmac_sha256.c
-@@ -0,0 +1,331 @@
-+/*
-+ * HMAC-SHA-256 implementation
-+ * Last update: 06/15/2005
-+ * Issue date:  06/15/2005
-+ *
-+ * Copyright (C) 2005 Olivier Gay <olivier.gay@a3.epfl.ch>
-+ * All rights reserved.
-+ *
-+ * Copyright (c) 2016, 2020 Linaro Limited
-+ * All rights reserved.
-+ *
-+ * Redistribution and use in source and binary forms, with or without
-+ * modification, are permitted provided that the following conditions
-+ * are met:
-+ * 1. Redistributions of source code must retain the above copyright
-+ *    notice, this list of conditions and the following disclaimer.
-+ * 2. Redistributions in binary form must reproduce the above copyright
-+ *    notice, this list of conditions and the following disclaimer in the
-+ *    documentation and/or other materials provided with the distribution.
-+ * 3. Neither the name of the project nor the names of its contributors
-+ *    may be used to endorse or promote products derived from this software
-+ *    without specific prior written permission.
-+ *
-+ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
-+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
-+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+ * SUCH DAMAGE.
-+ */
-+
-+#include <string.h>
-+
+diff --git a/tools/vhost-user-rpmb/main.c b/tools/vhost-user-rpmb/main.c
+index 64bd7e79f573..9c98f6916f6f 100644
+--- a/tools/vhost-user-rpmb/main.c
++++ b/tools/vhost-user-rpmb/main.c
+@@ -22,10 +22,14 @@
+ #include <sys/stat.h>
+ #include <sys/mman.h>
+ #include <unistd.h>
++#include <endian.h>
++#include <assert.h>
+ 
+ #include "contrib/libvhost-user/libvhost-user-glib.h"
+ #include "contrib/libvhost-user/libvhost-user.h"
+ 
 +#include "hmac_sha256.h"
 +
-+/* SHA256 functions */
+ #ifndef container_of
+ #define container_of(ptr, type, member) ({                      \
+         const typeof(((type *) 0)->member) *__mptr = (ptr);     \
+@@ -57,6 +61,31 @@ enum {
+ /* These structures are defined in the specification */
+ #define KiB     (1UL << 10)
+ #define MAX_RPMB_SIZE (KiB * 128 * 256)
++#define RPMB_KEY_MAC_SIZE 32
 +
-+#define SHFR(x, n)    (x >> n)
-+#define ROTR(x, n)   ((x >> n) | (x << ((sizeof(x) << 3) - n)))
-+#define ROTL(x, n)   ((x << n) | (x >> ((sizeof(x) << 3) - n)))
-+#define CH(x, y, z)  ((x & y) ^ (~x & z))
-+#define MAJ(x, y, z) ((x & y) ^ (x & z) ^ (y & z))
++/* RPMB Request Types */
++#define VIRTIO_RPMB_REQ_PROGRAM_KEY        0x0001
++#define VIRTIO_RPMB_REQ_GET_WRITE_COUNTER  0x0002
++#define VIRTIO_RPMB_REQ_DATA_WRITE         0x0003
++#define VIRTIO_RPMB_REQ_DATA_READ          0x0004
++#define VIRTIO_RPMB_REQ_RESULT_READ        0x0005
 +
-+#define SHA256_F1(x) (ROTR(x,  2) ^ ROTR(x, 13) ^ ROTR(x, 22))
-+#define SHA256_F2(x) (ROTR(x,  6) ^ ROTR(x, 11) ^ ROTR(x, 25))
-+#define SHA256_F3(x) (ROTR(x,  7) ^ ROTR(x, 18) ^ SHFR(x,  3))
-+#define SHA256_F4(x) (ROTR(x, 17) ^ ROTR(x, 19) ^ SHFR(x, 10))
++/* RPMB Response Types */
++#define VIRTIO_RPMB_RESP_PROGRAM_KEY       0x0100
++#define VIRTIO_RPMB_RESP_GET_COUNTER       0x0200
++#define VIRTIO_RPMB_RESP_DATA_WRITE        0x0300
++#define VIRTIO_RPMB_RESP_DATA_READ         0x0400
 +
-+#define UNPACK32(x, str)                      \
-+{                                             \
-+    *((str) + 3) = (uint8) ((x)      );       \
-+    *((str) + 2) = (uint8) ((x) >>  8);       \
-+    *((str) + 1) = (uint8) ((x) >> 16);       \
-+    *((str) + 0) = (uint8) ((x) >> 24);       \
-+}
-+
-+#define PACK32(str, x)                        \
-+{                                             \
-+    *(x) =   ((uint32) *((str) + 3)      )    \
-+           | ((uint32) *((str) + 2) <<  8)    \
-+           | ((uint32) *((str) + 1) << 16)    \
-+           | ((uint32) *((str) + 0) << 24);   \
-+}
-+
-+#define UNPACK64(x, str)                      \
-+{                                             \
-+    *((str) + 7) = (uint8) ((x)      );       \
-+    *((str) + 6) = (uint8) ((x) >>  8);       \
-+    *((str) + 5) = (uint8) ((x) >> 16);       \
-+    *((str) + 4) = (uint8) ((x) >> 24);       \
-+    *((str) + 3) = (uint8) ((x) >> 32);       \
-+    *((str) + 2) = (uint8) ((x) >> 40);       \
-+    *((str) + 1) = (uint8) ((x) >> 48);       \
-+    *((str) + 0) = (uint8) ((x) >> 56);       \
-+}
-+
-+#define PACK64(str, x)                        \
-+{                                             \
-+    *(x) =   ((uint64) *((str) + 7)      )    \
-+           | ((uint64) *((str) + 6) <<  8)    \
-+           | ((uint64) *((str) + 5) << 16)    \
-+           | ((uint64) *((str) + 4) << 24)    \
-+           | ((uint64) *((str) + 3) << 32)    \
-+           | ((uint64) *((str) + 2) << 40)    \
-+           | ((uint64) *((str) + 1) << 48)    \
-+           | ((uint64) *((str) + 0) << 56);   \
-+}
-+
-+#define SHA256_SCR(i)                         \
-+{                                             \
-+    w[i] =  SHA256_F4(w[i -  2]) + w[i -  7]  \
-+          + SHA256_F3(w[i - 15]) + w[i - 16]; \
-+}
-+
-+uint32 sha256_h0[8] =
-+            {0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
-+             0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19};
-+
-+uint32 sha256_k[64] =
-+            {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
-+             0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
-+             0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
-+             0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-+             0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
-+             0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
-+             0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
-+             0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-+             0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
-+             0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
-+             0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3,
-+             0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-+             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
-+             0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-+             0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
-+             0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2};
-+
-+/* SHA-256 functions */
-+
-+static void sha256_transf(sha256_ctx *ctx, const unsigned char *message,
-+                          unsigned int block_nb)
++/* RPMB Operation Results */
++#define VIRTIO_RPMB_RES_OK                     0x0000
++#define VIRTIO_RPMB_RES_GENERAL_FAILURE        0x0001
++#define VIRTIO_RPMB_RES_AUTH_FAILURE           0x0002
++#define VIRTIO_RPMB_RES_COUNT_FAILURE          0x0003
++#define VIRTIO_RPMB_RES_ADDR_FAILURE           0x0004
++#define VIRTIO_RPMB_RES_WRITE_FAILURE          0x0005
++#define VIRTIO_RPMB_RES_READ_FAILURE           0x0006
++#define VIRTIO_RPMB_RES_NO_AUTH_KEY            0x0007
++#define VIRTIO_RPMB_RES_WRITE_COUNTER_EXPIRED  0x0080
+ 
+ struct virtio_rpmb_config {
+     uint8_t capacity;
+@@ -64,9 +93,13 @@ struct virtio_rpmb_config {
+     uint8_t max_rd_cnt;
+ };
+ 
++/*
++ * This is based on the JDEC standard and not the currently not
++ * up-streamed NVME standard.
++ */
+ struct virtio_rpmb_frame {
+     uint8_t stuff[196];
+-    uint8_t key_mac[32];
++    uint8_t key_mac[RPMB_KEY_MAC_SIZE];
+     uint8_t data[256];
+     uint8_t nonce[16];
+     /* remaining fields are big-endian */
+@@ -75,7 +108,7 @@ struct virtio_rpmb_frame {
+     uint16_t block_count;
+     uint16_t result;
+     uint16_t req_resp;
+-};
++} __attribute__((packed));
+ 
+ /*
+  * Structure to track internal state of RPMB Device
+@@ -87,15 +120,63 @@ typedef struct VuRpmb {
+     GMainLoop *loop;
+     int flash_fd;
+     void *flash_map;
++    uint8_t *key;
++    uint16_t last_result;
++    uint16_t last_reqresp;
+ } VuRpmb;
+ 
+-struct virtio_rpmb_ctrl_command {
+-    VuVirtqElement elem;
+-    VuVirtq *vq;
+-    struct virtio_rpmb_frame frame;
+-    uint32_t error;
+-    bool finished;
+-};
++/* refer to util/iov.c */
++static size_t vrpmb_iov_size(const struct iovec *iov,
++                             const unsigned int iov_cnt)
 +{
-+    uint32 w[64];
-+    uint32 wv[8];
-+    uint32 t1, t2;
-+    const unsigned char *sub_block;
-+    int i;
-+    int j;
++    size_t len;
++    unsigned int i;
 +
-+    for (i = 0; i < (int) block_nb; i++) {
-+        sub_block = message + (i << 6);
++    len = 0;
++    for (i = 0; i < iov_cnt; i++) {
++        len += iov[i].iov_len;
++    }
++    return len;
++}
 +
-+        for (j = 0; j < 16; j++) {
-+            PACK32(&sub_block[j << 2], &w[j]);
-+        }
 +
-+        for (j = 16; j < 64; j++) {
-+            SHA256_SCR(j);
-+        }
-+
-+        for (j = 0; j < 8; j++) {
-+            wv[j] = ctx->h[j];
-+        }
-+
-+        for (j = 0; j < 64; j++) {
-+            t1 = wv[7] + SHA256_F2(wv[4]) + CH(wv[4], wv[5], wv[6])
-+                + sha256_k[j] + w[j];
-+            t2 = SHA256_F1(wv[0]) + MAJ(wv[0], wv[1], wv[2]);
-+            wv[7] = wv[6];
-+            wv[6] = wv[5];
-+            wv[5] = wv[4];
-+            wv[4] = wv[3] + t1;
-+            wv[3] = wv[2];
-+            wv[2] = wv[1];
-+            wv[1] = wv[0];
-+            wv[0] = t1 + t2;
-+        }
-+
-+        for (j = 0; j < 8; j++) {
-+            ctx->h[j] += wv[j];
++static size_t vrpmb_iov_to_buf(const struct iovec *iov, const unsigned int iov_cnt,
++                               size_t offset, void *buf, size_t bytes)
++{
++    size_t done;
++    unsigned int i;
++    for (i = 0, done = 0; (offset || done < bytes) && i < iov_cnt; i++) {
++        if (offset < iov[i].iov_len) {
++            size_t len = MIN(iov[i].iov_len - offset, bytes - done);
++            memcpy(buf + done, iov[i].iov_base + offset, len);
++            done += len;
++            offset = 0;
++        } else {
++            offset -= iov[i].iov_len;
 +        }
 +    }
++    assert(offset == 0);
++    return done;
 +}
 +
-+void sha256(const unsigned char *message, unsigned int len, unsigned char *digest)
++static size_t vrpmb_iov_from_buf(const struct iovec *iov, unsigned int iov_cnt,
++                                 size_t offset, const void *buf, size_t bytes)
 +{
-+    sha256_ctx ctx;
-+
-+    sha256_init(&ctx);
-+    sha256_update(&ctx, message, len);
-+    sha256_final(&ctx, digest);
-+}
-+
-+void sha256_init(sha256_ctx *ctx)
-+{
-+    int i;
-+    for (i = 0; i < 8; i++) {
-+        ctx->h[i] = sha256_h0[i];
-+    }
-+
-+    ctx->len = 0;
-+    ctx->tot_len = 0;
-+}
-+
-+void sha256_update(sha256_ctx *ctx, const unsigned char *message,
-+                   unsigned int len)
-+{
-+    unsigned int block_nb;
-+    unsigned int new_len, rem_len, tmp_len;
-+    const unsigned char *shifted_message;
-+
-+    tmp_len = SHA256_BLOCK_SIZE - ctx->len;
-+    rem_len = len < tmp_len ? len : tmp_len;
-+
-+    memcpy(&ctx->block[ctx->len], message, rem_len);
-+
-+    if (ctx->len + len < SHA256_BLOCK_SIZE) {
-+        ctx->len += len;
-+        return;
-+    }
-+
-+    new_len = len - rem_len;
-+    block_nb = new_len / SHA256_BLOCK_SIZE;
-+
-+    shifted_message = message + rem_len;
-+
-+    sha256_transf(ctx, ctx->block, 1);
-+    sha256_transf(ctx, shifted_message, block_nb);
-+
-+    rem_len = new_len % SHA256_BLOCK_SIZE;
-+
-+    memcpy(ctx->block, &shifted_message[block_nb << 6],
-+           rem_len);
-+
-+    ctx->len = rem_len;
-+    ctx->tot_len += (block_nb + 1) << 6;
-+}
-+
-+void sha256_final(sha256_ctx *ctx, unsigned char *digest)
-+{
-+    unsigned int block_nb;
-+    unsigned int pm_len;
-+    unsigned int len_b;
-+    int i;
-+
-+    block_nb = (1 + ((SHA256_BLOCK_SIZE - 9)
-+                     < (ctx->len % SHA256_BLOCK_SIZE)));
-+
-+    len_b = (ctx->tot_len + ctx->len) << 3;
-+    pm_len = block_nb << 6;
-+
-+    memset(ctx->block + ctx->len, 0, pm_len - ctx->len);
-+    ctx->block[ctx->len] = 0x80;
-+    UNPACK32(len_b, ctx->block + pm_len - 4);
-+
-+    sha256_transf(ctx, ctx->block, block_nb);
-+
-+    for (i = 0 ; i < 8; i++) {
-+        UNPACK32(ctx->h[i], &digest[i << 2]);
-+    }
-+}
-+
-+/* HMAC-SHA-256 functions */
-+
-+void hmac_sha256_init(hmac_sha256_ctx *ctx, const unsigned char *key,
-+                      unsigned int key_size)
-+{
-+    unsigned int fill;
-+    unsigned int num;
-+
-+    const unsigned char *key_used;
-+    unsigned char key_temp[SHA256_DIGEST_SIZE];
-+    int i;
-+
-+    if (key_size == SHA256_BLOCK_SIZE) {
-+        key_used = key;
-+        num = SHA256_BLOCK_SIZE;
-+    } else {
-+        if (key_size > SHA256_BLOCK_SIZE){
-+            num = SHA256_DIGEST_SIZE;
-+            sha256(key, key_size, key_temp);
-+            key_used = key_temp;
-+        } else { /* key_size > SHA256_BLOCK_SIZE */
-+            key_used = key;
-+            num = key_size;
++    size_t done;
++    unsigned int i;
++    for (i = 0, done = 0; (offset || done < bytes) && i < iov_cnt; i++) {
++        if (offset < iov[i].iov_len) {
++            size_t len = MIN(iov[i].iov_len - offset, bytes - done);
++            memcpy(iov[i].iov_base + offset, buf + done, len);
++            done += len;
++            offset = 0;
++        } else {
++            offset -= iov[i].iov_len;
 +        }
-+        fill = SHA256_BLOCK_SIZE - num;
-+
-+        memset(ctx->block_ipad + num, 0x36, fill);
-+        memset(ctx->block_opad + num, 0x5c, fill);
 +    }
-+
-+    for (i = 0; i < (int) num; i++) {
-+        ctx->block_ipad[i] = key_used[i] ^ 0x36;
-+        ctx->block_opad[i] = key_used[i] ^ 0x5c;
-+    }
-+
-+    sha256_init(&ctx->ctx_inside);
-+    sha256_update(&ctx->ctx_inside, ctx->block_ipad, SHA256_BLOCK_SIZE);
-+
-+    sha256_init(&ctx->ctx_outside);
-+    sha256_update(&ctx->ctx_outside, ctx->block_opad,
-+                  SHA256_BLOCK_SIZE);
-+
-+    /* for hmac_reinit */
-+    memcpy(&ctx->ctx_inside_reinit, &ctx->ctx_inside,
-+           sizeof(sha256_ctx));
-+    memcpy(&ctx->ctx_outside_reinit, &ctx->ctx_outside,
-+           sizeof(sha256_ctx));
++    assert(offset == 0);
++    return done;
 +}
+ 
+ static void vrpmb_panic(VuDev *dev, const char *msg)
+ {
+@@ -142,19 +223,211 @@ vrpmb_set_config(VuDev *dev, const uint8_t *data,
+     return 0;
+ }
+ 
++/*
++ * vrpmb_update_mac_in_frame:
++ *
++ * From the spec:
++ *   The MAC is calculated using HMAC SHA-256. It takes
++ *   as input a key and a message. The key used for the MAC calculation
++ *   is always the 256-bit RPMB authentication key. The message used as
++ *   input to the MAC calculation is the concatenation of the fields in
++ *   the RPMB frames excluding stuff bytes and the MAC itself.
++ *
++ * The code to do this has been lifted from the optee supplicant code
++ * which itself uses a 3 clause BSD chunk of code.
++ */
 +
-+void hmac_sha256_reinit(hmac_sha256_ctx *ctx)
-+{
-+    memcpy(&ctx->ctx_inside, &ctx->ctx_inside_reinit,
-+           sizeof(sha256_ctx));
-+    memcpy(&ctx->ctx_outside, &ctx->ctx_outside_reinit,
-+           sizeof(sha256_ctx));
-+}
-+
-+void hmac_sha256_update(hmac_sha256_ctx *ctx, const unsigned char *message,
-+                        unsigned int message_len)
-+{
-+    sha256_update(&ctx->ctx_inside, message, message_len);
-+}
-+
-+void hmac_sha256_final(hmac_sha256_ctx *ctx, unsigned char *mac,
-+                       unsigned int mac_size)
-+{
-+    unsigned char digest_inside[SHA256_DIGEST_SIZE];
-+    unsigned char mac_temp[SHA256_DIGEST_SIZE];
-+
-+    sha256_final(&ctx->ctx_inside, digest_inside);
-+    sha256_update(&ctx->ctx_outside, digest_inside, SHA256_DIGEST_SIZE);
-+    sha256_final(&ctx->ctx_outside, mac_temp);
-+    memcpy(mac, mac_temp, mac_size);
-+}
-+
-+void hmac_sha256(const unsigned char *key, unsigned int key_size,
-+          const unsigned char *message, unsigned int message_len,
-+          unsigned char *mac, unsigned mac_size)
++static void vrpmb_update_mac_in_frame(VuRpmb *r, struct virtio_rpmb_frame *frm)
 +{
 +    hmac_sha256_ctx ctx;
++    static const int dlen = (sizeof(struct virtio_rpmb_frame) -
++                             offsetof(struct virtio_rpmb_frame, data));
 +
-+    hmac_sha256_init(&ctx, key, key_size);
-+    hmac_sha256_update(&ctx, message, message_len);
-+    hmac_sha256_final(&ctx, mac, mac_size);
++    hmac_sha256_init(&ctx, r->key, RPMB_KEY_MAC_SIZE);
++    hmac_sha256_update(&ctx, frm->data, dlen);
++    hmac_sha256_final(&ctx, &frm->key_mac[0], 32);
 +}
-diff --git a/tools/vhost-user-rpmb/meson.build b/tools/vhost-user-rpmb/meson.build
-index cf80bedd99ac..f964837d151d 100644
---- a/tools/vhost-user-rpmb/meson.build
-+++ b/tools/vhost-user-rpmb/meson.build
-@@ -1,5 +1,6 @@
- executable('vhost-user-rpmb', files(
--  'main.c'),
-+  'main.c',
-+  'hmac_sha256.c'),
-   dependencies: [qemuutil, glib, gio],
-   link_with: [libvhost_user],
-   install: true,
++
++/*
++ * Handlers for individual control messages
++ */
++
++/*
++ * vrpmb_handle_program_key:
++ *
++ * Program the device with our key. The spec is a little hazzy on if
++ * we respond straight away or we wait for the user to send a
++ * VIRTIO_RPMB_REQ_RESULT_READ request.
++ */
++static void vrpmb_handle_program_key(VuDev *dev, struct virtio_rpmb_frame *frame)
++{
++    VuRpmb *r = container_of(dev, VuRpmb, dev.parent);
++
++    /*
++     * Run the checks from:
++     * 5.12.6.1.1 Device Requirements: Device Operation: Program Key
++     */
++    r->last_reqresp = VIRTIO_RPMB_RESP_PROGRAM_KEY;
++
++    /* Fail if already programmed */
++    if (r->key) {
++        g_debug("key already programmed");
++        r->last_result = VIRTIO_RPMB_RES_WRITE_FAILURE;
++    } else if (be16toh(frame->block_count) != 1) {
++        g_debug("weird block counts (%d)", frame->block_count);
++        r->last_result = VIRTIO_RPMB_RES_GENERAL_FAILURE;
++    } else {
++        r->key = g_memdup(&frame->key_mac[0], RPMB_KEY_MAC_SIZE);
++        r->last_result = VIRTIO_RPMB_RES_OK;
++    }
++
++    g_info("%s: req_resp = %x, result = %x", __func__,
++           r->last_reqresp, r->last_result);
++    return;
++}
++
++/*
++ * Return the result of the last message. This is only valid if the
++ * previous message was VIRTIO_RPMB_REQ_PROGRAM_KEY or
++ * VIRTIO_RPMB_REQ_DATA_WRITE.
++ *
++ * The frame should be freed once sent.
++ */
++static struct virtio_rpmb_frame * vrpmb_handle_result_read(VuDev *dev)
++{
++    VuRpmb *r = container_of(dev, VuRpmb, dev.parent);
++    struct virtio_rpmb_frame *resp = g_new0(struct virtio_rpmb_frame, 1);
++
++    if (r->last_reqresp == VIRTIO_RPMB_RESP_PROGRAM_KEY ||
++        r->last_reqresp == VIRTIO_RPMB_REQ_DATA_WRITE) {
++        resp->result = htobe16(r->last_result);
++        resp->req_resp = htobe16(r->last_reqresp);
++    } else {
++        resp->result = htobe16(VIRTIO_RPMB_RES_GENERAL_FAILURE);
++    }
++
++    /* calculate HMAC */
++    if (!r->key) {
++        resp->result = htobe16(VIRTIO_RPMB_RES_GENERAL_FAILURE);
++    } else {
++        vrpmb_update_mac_in_frame(r, resp);
++    }
++
++    g_info("%s: result = %x req_resp = %x", __func__,
++           be16toh(resp->result),
++           be16toh(resp->req_resp));
++    return resp;
++}
++
++static void fmt_bytes(GString *s, uint8_t *bytes, int len)
++{
++    int i;
++    for (i = 0; i < len; i++) {
++        if (i % 16 == 0) {
++            g_string_append_c(s, '\n');
++        }
++        g_string_append_printf(s, "%x ", bytes[i]);
++    }
++}
++
++static void vrpmb_dump_frame(struct virtio_rpmb_frame *frame)
++{
++    g_autoptr(GString) s = g_string_new("frame: ");
++
++    g_string_append_printf(s, " %p\n", frame);
++    g_string_append_printf(s, "key_mac:");
++    fmt_bytes(s, (uint8_t *) &frame->key_mac[0], 32);
++    g_string_append_printf(s, "\ndata:");
++    fmt_bytes(s, (uint8_t *) &frame->data, 256);
++    g_string_append_printf(s, "\nnonce:");
++    fmt_bytes(s, (uint8_t *) &frame->nonce, 16);
++    g_string_append_printf(s, "\nwrite_counter: %d\n",
++                           be32toh(frame->write_counter));
++    g_string_append_printf(s, "address: %#04x\n", be16toh(frame->address));
++    g_string_append_printf(s, "block_count: %d\n", be16toh(frame->block_count));
++    g_string_append_printf(s, "result: %d\n", be16toh(frame->result));
++    g_string_append_printf(s, "req_resp: %d\n", be16toh(frame->req_resp));
++
++    g_debug("%s: %s\n", __func__, s->str);
++}
++
+ static void
+ vrpmb_handle_ctrl(VuDev *dev, int qidx)
+ {
+     VuVirtq *vq = vu_get_queue(dev, qidx);
+-    struct virtio_rpmb_ctrl_command *cmd = NULL;
++    struct virtio_rpmb_frame *frames = NULL;
+ 
+     for (;;) {
+-        cmd = vu_queue_pop(dev, vq, sizeof(struct virtio_rpmb_ctrl_command));
+-        if (!cmd) {
++        VuVirtqElement *elem;
++        size_t len, frame_sz = sizeof(struct virtio_rpmb_frame);
++        int n;
++
++        elem = vu_queue_pop(dev, vq, sizeof(VuVirtqElement));
++        if (!elem) {
+             break;
+         }
++        g_debug("%s: got queue (in %d, out %d)", __func__,
++                elem->in_num, elem->out_num);
+ 
+-        g_debug("un-handled cmd: %p", cmd);
++        len = vrpmb_iov_size(elem->out_sg, elem->out_num);
++        frames = g_realloc(frames, len);
++        vrpmb_iov_to_buf(elem->out_sg, elem->out_num, 0, frames, len);
++
++        if (len % frame_sz != 0) {
++            g_warning("%s: incomplete frames %zu/%zu != 0\n",
++                      __func__, len, frame_sz);
++        }
++
++        for (n = 0; n < len / frame_sz; n++) {
++            struct virtio_rpmb_frame *f = &frames[n];
++            struct virtio_rpmb_frame *resp = NULL;
++            uint16_t req_resp = be16toh(f->req_resp);
++            bool responded = false;
++
++            if (debug) {
++                g_info("req_resp=%x", req_resp);
++                vrpmb_dump_frame(f);
++            }
++
++            switch (req_resp) {
++            case VIRTIO_RPMB_REQ_PROGRAM_KEY:
++                vrpmb_handle_program_key(dev, f);
++                break;
++            case VIRTIO_RPMB_REQ_RESULT_READ:
++                if (!responded) {
++                    resp = vrpmb_handle_result_read(dev);
++                } else {
++                    g_warning("%s: already sent a response in this set of frames",
++                              __func__);
++                }
++                break;
++            default:
++                g_debug("un-handled request: %x", f->req_resp);
++                break;
++            }
++
++            /*
++             * Do we have a frame to send back?
++             */
++            if (resp) {
++                g_debug("sending response frame: %p", resp);
++                if (debug) {
++                    vrpmb_dump_frame(resp);
++                }
++                len = vrpmb_iov_from_buf(elem->in_sg,
++                                         elem->in_num, 0, resp, sizeof(*resp));
++                if (len != sizeof(*resp)) {
++                    g_critical("%s: response size incorrect %zu vs %zu",
++                               __func__, len, sizeof(*resp));
++                } else {
++                    vu_queue_push(dev, vq, elem, len);
++                    vu_queue_notify(dev, vq);
++                    responded = true;
++                }
++
++                g_free(resp);
++            }
++        }
+     }
+ }
+ 
 -- 
 2.20.1
 
