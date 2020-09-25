@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0299F277D6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:12:53 +0200 (CEST)
-Received: from localhost ([::1]:47046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42559277D66
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:09:11 +0200 (CEST)
+Received: from localhost ([::1]:33546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLcI8-0003C4-2e
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:12:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54452)
+	id 1kLcEY-0005o8-9N
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbwY-00072L-Rw
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:50:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32644)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLbwn-0007PR-3C
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:50:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbwX-0002j4-0M
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:50:34 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLbwj-0002m7-W7
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:50:48 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600995031;
+ s=mimecast20190719; t=1600995045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rrDVGz/n/23SBC+0iYk5PpLY1dapDKmuCwxPuy6K3U8=;
- b=Q6RX78Y/g9XTJJPDdi61QIRdDRc68veXrDrJo4aIEjCRUpssBUXSa4+kYYmrEipYkD60ml
- cXQCv1DviAvc3puMf7WJ2qmRTXlhSGeDQOaLUr1r/M3r1QujFGV2jFzF3/Iw/3fXygdc7I
- CjGOc54iuDDLCTdfvlUa2UGNWzXBbrI=
+ bh=y3uCgNgeQ/PAPtZW3gDF2g8oCDnwvW7deiVRsnLVDAQ=;
+ b=i4VHo3GHABi7VSyvQ32wBA3chCN6mhp7zPj+S13N7HpSboUDWi2tRYqI8PIU/qJz1amYYz
+ gZEasSUNfITTsQn6m/Hizy/lLX1FxbxIDJj01H23OatB5hV6w2/q7qxL+s7AJ2etXd387e
+ cRaDJT2ZkCuuvnMeofK8V66eOeVgOOw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-Pv-8iEdDMsm32EuWuti6Xg-1; Thu, 24 Sep 2020 20:50:30 -0400
-X-MC-Unique: Pv-8iEdDMsm32EuWuti6Xg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-411-dVRFLPfcP0-lk02NzvmURg-1; Thu, 24 Sep 2020 20:50:40 -0400
+X-MC-Unique: dVRFLPfcP0-lk02NzvmURg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E10B11074652;
- Fri, 25 Sep 2020 00:50:28 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5934C60C04;
- Fri, 25 Sep 2020 00:50:28 +0000 (UTC)
-Subject: Re: [PATCH 06/16] qapi/expr.py: Check type of 'data' member
-To: Cleber Rosa <crosa@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF640425DD;
+ Fri, 25 Sep 2020 00:50:39 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 431E41002C0D;
+ Fri, 25 Sep 2020 00:50:39 +0000 (UTC)
+Date: Thu, 24 Sep 2020 20:50:37 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 09/16] qapi/expr.py: rewrite check_if
+Message-ID: <20200925005037.GB368253@localhost.localdomain>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
- <20200922211313.4082880-7-jsnow@redhat.com>
- <20200925003102.GI347918@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <37788a49-bce8-d04e-0d98-72c50fb9e2ec@redhat.com>
-Date: Thu, 24 Sep 2020 20:50:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ <20200922211313.4082880-10-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925003102.GI347918@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200922211313.4082880-10-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GID0FwUMdk1T2AWN"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,32 +86,45 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/20 8:31 PM, Cleber Rosa wrote:
-> On Tue, Sep 22, 2020 at 05:13:03PM -0400, John Snow wrote:
->> Iterating over the members of data isn't going to work if it's not some
->> form of dict anyway, but for type safety, formalize it.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/expr.py | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> index 3f5af5f5e4..633f9b9172 100644
->> --- a/scripts/qapi/expr.py
->> +++ b/scripts/qapi/expr.py
->> @@ -247,6 +247,9 @@ def check_union(expr, info):
->>               raise QAPISemError(info, "'discriminator' requires 'base'")
->>           check_name_is_str(discriminator, info, "'discriminator'")
->>   
->> +    if not isinstance(members, dict):
->> +        raise QAPISemError(info, "'data' must be an object")
->> +
-> 
-> Don't you mean "must be a dict" ?
-> 
+--GID0FwUMdk1T2AWN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This error is speaking JSON-ese! json objects become python dicts, so if 
-we didn't get a python dict here, we didn't get a json object.
+On Tue, Sep 22, 2020 at 05:13:06PM -0400, John Snow wrote:
+> This is a only minor rewrite to address some minor style nits.  Don't
+> compare against the empty list to check for the empty condition, and
+> move the normalization forward to unify the check on the now-normalized
+> structure.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+
+And just to make sure there was not change in the logic:
+
+Tested-by: Cleber Rosa <crosa@redhat.com>
+
+--GID0FwUMdk1T2AWN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9tPtkACgkQZX6NM6Xy
+CfNM3RAAiRkdxe3/KaDzyu58Gw9B/GzbXtVp6JEzRzlXzEwDYOM/DJFkwyLBil7B
+PbYqds9+3yNuqjjOpdSiRNeJNvVIWDiZthcM6e9j42PE7r0qEHOusoEdMadUxjc3
+GFbiGlOckItlVM4rPTAFQ+JzLR522Nysvvth78qSFY2XoUDeZEtOFRwrOLbhJnsI
+6WrzRtVbXLeGDHZFx74Cq3hau0gi+nuUVWfIJRtmm1Ml52hkSdB+YhdoQT7fcd1Q
+a9asZGIIiGzvt69mq4IoFv6Y11/DICRdRiN0UU7kXLzqDAB0Stk0QwAEwlA6g3VI
+2fCy5cCWYNnX7EYopiSyvm4I4skOBzLOvIdrC83U+rQGhHJfkqJmT1BpyTR828Fp
+s5fC9U1Qmg5wV/BltC9qe4FVw9isAUUzK2vUukWf2KGdPNcW8If8z90KbjlSDFJi
+Jl4Yf9erIDJzsiBO7p2Xc05ZfmKDR30V3QZ7uSGanwKHi7GgzNHnGaSbYWdMmxN2
+cblZ8MKF5Ed/3XMAVDifwT1Hk0GiPwSLGDb25acdxAKbaGmE6TqnfjmcIlTSMzHA
+hvBU4RlpxROn2vTNNG2aZTwJ2hUuzJv3S0peUQ9NVhZxn2KSM49c5/o7VbzRhkSY
+SgMnKye67A+mqy73bx56X7LTIqagT6I8OOzBwoUk/E4UrLq0j7w=
+=USLk
+-----END PGP SIGNATURE-----
+
+--GID0FwUMdk1T2AWN--
 
 
