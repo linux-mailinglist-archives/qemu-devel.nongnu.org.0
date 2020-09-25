@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED3A2784F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:21:34 +0200 (CEST)
-Received: from localhost ([::1]:54300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAF4278505
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:23:45 +0200 (CEST)
+Received: from localhost ([::1]:60662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLkr7-00061k-8J
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42674)
+	id 1kLktE-0000JQ-NX
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknF-00014J-2A; Fri, 25 Sep 2020 06:17:36 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:58106)
+ id 1kLknK-00017P-3a; Fri, 25 Sep 2020 06:17:38 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:58102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLkn8-0007QK-BA; Fri, 25 Sep 2020 06:17:32 -0400
+ id 1kLkn8-0007QM-CO; Fri, 25 Sep 2020 06:17:37 -0400
 Received: from sekoia-pc.bar.greensocs.com (sekoia-pc.home.lmichel.fr
  [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id 073DDC60F1A;
+ by pharaoh.lmichel.fr (Postfix) with ESMTPS id 16C69C60F1B;
  Fri, 25 Sep 2020 10:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
  t=1601029040;
@@ -27,17 +27,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh;
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P5QEx3f68QGQra+kkPmQWR7B9ok9n9lJElCkekR6j6I=;
- b=cJyQHSPwYc0jPIEc5WYgPEdghMrGnoHcDzlKGtijwg8U2m8ra0U+B2iEjGexwPAmrGmEOT
- 6wdx0Qt32iC0ZKmRjc+tHhp7scWTEVGE+M8d/DREubzg/SGtzhdvWKFP1pN8uvl57eoX41
- Bie68X/6kmcmbw+cLAgcjBEvyng1f9oklGUPiHH9TGISz+IDnQlBz53sz140aGppQoZopq
- XGXCYWksy4BlZwbrRgS71+7FotIX1E6VsE0400+48W33ep911FdYzeKRXRwn8qoq1wpFko
- Ho4QOVEIfBU8rPMpWE9FtM7RNSkUzYXn77cWmrAF6+BEdNH+DuM6d38aZ7SQHg==
+ bh=/tKa1P2RI8QqeDivN4AwKZq089IN8gBMXYs/CxNR70A=;
+ b=Di5T9gsYyNKiIQa1A2BerU2u5MUBsMgWmxBBGdSIo+0W7JCnxq+Nl+UlmyVghd/xiA4ze7
+ h7CwGbgYBW9KfeqfRKRPhiSmMMVO9LLXynqEOj0eBwLJ8GUC04C0I6oWdELgGPfutjKoQi
+ jVElSY82BxiBBfYdLwZp0DHNCq/E/SqaprgVVRZmmnwDt6HDUXVoGpnY/FPJX8RuywHzgC
+ 4y/PcwJXb8Pagkv1JbCQkgwpOT9ZCMHAJp1pxPRuDXF82MMF/o0xd1M0WZ6gyCpVc246uF
+ SDwUuDraUWeOJ1M73XIswaJ+OUSsDhI+J03neuXa2ei3z3Dp6jXS3LVdbC2fXQ==
 From: Luc Michel <luc@lmichel.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/14] hw/core/clock: trace clock values in Hz instead of ns
-Date: Fri, 25 Sep 2020 12:17:19 +0200
-Message-Id: <20200925101731.2159827-3-luc@lmichel.fr>
+Subject: [PATCH 03/14] hw/arm/raspi: fix cprman base address
+Date: Fri, 25 Sep 2020 12:17:20 +0200
+Message-Id: <20200925101731.2159827-4-luc@lmichel.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200925101731.2159827-1-luc@lmichel.fr>
 References: <20200925101731.2159827-1-luc@lmichel.fr>
@@ -49,14 +49,14 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P5QEx3f68QGQra+kkPmQWR7B9ok9n9lJElCkekR6j6I=;
- b=f12niBetxYie6Uj4j014WsbRL0aGVpQJS53vKG8obFag71VTm89vjxK5HIYif0RjjKQimI
- caXeKnaV1Tqv2XgeFT9XU79NJ3R1EyhQFV23VR99bzfrGrhSepGDysL1RF4JMsK5HpD37F
- GNHMx+fs8Lw+phNO1lROB7+KlHUzJs8n/OqR3+I4P/i0Pg9+8vd8UH8coVF/JZlycg1xGt
- LURn2PKMMEDFbFSAylV/1vkaglV7zWNxRgrB1xXlj9D4wXSAhJ11OC6aqHgQG91y9VWe1r
- RgRuPc2tfiEz9pe0klesELtazt2XY1hg+usRe9ykTzFbNBgbqokWX5UTUnBNGw==
+ bh=/tKa1P2RI8QqeDivN4AwKZq089IN8gBMXYs/CxNR70A=;
+ b=b+YFla3H32U0KcBLxS1Kwb+jVwYfCEfZYn04ZWOGWCoVYteklzMcrDn5RQvifuIg+Q1DN/
+ 75qI1zKGtmwDxV8+l5mctaBoD/3kpQeWsJMcCtTOe66ula2Gy3s7rW3AJkDW+y3aWQCO0T
+ FUalF+xAymcG0YHvBZL52u62njA/eyB9Ex1y2rwhCSSgYK9Kcqi+ZHPFQ8VJvkpVvsecDj
+ w/lDeb7hqHK3Re6qhLUABXctV8BDD8DhRiDAZAMxf448FxPWfNRa/Wqt+FvPdG3VBtdmZs
+ NJhzBdJYnsl3hUQ3HmArCHxJBUvmmJPt6q5WCrJfNNuvuSCX+0DyhumkOGAtNg==
 ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029040; a=rsa-sha256; cv=none;
- b=CWzyzcThJ1xsiy8bC89xELDhW5e4djNdwcPfJVZmO4/MjJKg7esbnVLYRvpt3ToM3gJXFhR1J5krgpchxIRmmyDg+32xJwmH1SB/2ef6R2OhIJHgOE8DEl/pTSm9xCfLW+DJrgy5QHREUfrVAlqSTMlHgUwz1AThua8rr45ULsYj8QCSjeQBGvHb1sTsZLU7NnXQ5P2xle5VnVqHjGd1j2mvvDHilPr+AfmGjLZBsHJH6vB6LHk1sIrU3ae9FGmiUFinodH5wBZ1c3xkjWkb78i9TPMr+BNrKvZFjyinQHzCA6OhVHkP8BdZsCctGV+6zz2tpxMog5+y+sgFrOIg6g==
+ b=immFFgtyNuj6HTtbPGPzuSGZORnYh1JrJd/+MGtz0nkRwZIvdTmpn+Pvt1QZPKOYQC/5Abag4aqHlfOZdT20PDuMOlwBpyy4uI0pVYUFvOhKryDnuI+McjWHlA2KtLvjGTLrpBH1qmcRe3yl1YCOkPiaRk7X1Z1VFevU/IkiYAV2nf++5NRn3megf7OnbYm0Uvom+jgL9q9dOdR4rIfcTbjXZK/1xGWemYubItsbiJlSCFbI32l0wZNvZMvgbI0+A4r50LUDjeUFoiOuRFKqiKP4elImEut/x0aVrLtijrQQD5QZw8VVwXe94WbTmJlCuS3kW1ERP1GXUH3JG5oVmw==
 ARC-Authentication-Results: i=1;
 	pharaoh.lmichel.fr
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
@@ -81,77 +81,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Luc Michel <luc@lmichel.fr>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nanosecond unit greatly limits the dynamic range we can display in
-clock value traces, for values in the order of 1GHz and more. The
-internal representation can go way beyond this value and it is quite
-common for today's clocks to be within those ranges.
+The cprman (clock controller) was mapped at the watchdog/power manager
+address. It was also split into two unimplemented peripherals (cm and
+a2w) but this is really the same one, as shown by this extract of the
+Raspberry Pi 3 Linux device tree:
 
-For example, a frequency between 500MHz+ and 1GHz will be displayed as
-1ns. Beyond 1GHz, it will show up as 0ns.
+    watchdog@7e100000 {
+            compatible = "brcm,bcm2835-pm\0brcm,bcm2835-pm-wdt";
+            [...]
+            reg = <0x7e100000 0x114 0x7e00a000 0x24>;
+            [...]
+    };
 
-Replace nanosecond periods traces with frequencies in the Hz unit
-to have more dynamic range in the trace output.
+    [...]
+    cprman@7e101000 {
+            compatible = "brcm,bcm2835-cprman";
+            [...]
+            reg = <0x7e101000 0x2000>;
+            [...]
+    };
 
 Signed-off-by: Luc Michel <luc@lmichel.fr>
 ---
- hw/core/clock.c      | 6 +++---
- hw/core/trace-events | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ include/hw/arm/bcm2835_peripherals.h | 2 +-
+ include/hw/arm/raspi_platform.h      | 5 ++---
+ hw/arm/bcm2835_peripherals.c         | 4 ++--
+ 3 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/core/clock.c b/hw/core/clock.c
-index 7066282f7b..81184734e0 100644
---- a/hw/core/clock.c
-+++ b/hw/core/clock.c
-@@ -37,12 +37,12 @@ void clock_clear_callback(Clock *clk)
- bool clock_set(Clock *clk, uint64_t period)
- {
-     if (clk->period == period) {
-         return false;
-     }
--    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_NS(clk->period),
--                    CLOCK_PERIOD_TO_NS(period));
-+    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_HZ(clk->period),
-+                    CLOCK_PERIOD_TO_HZ(period));
-     clk->period = period;
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+index 13d7c4c553..199088425a 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -44,12 +44,12 @@ struct BCM2835PeripheralState {
+     qemu_irq irq, fiq;
  
-     return true;
- }
+     BCM2835SystemTimerState systmr;
+     BCM2835MphiState mphi;
+     UnimplementedDeviceState armtmr;
++    UnimplementedDeviceState powermgt;
+     UnimplementedDeviceState cprman;
+-    UnimplementedDeviceState a2w;
+     PL011State uart0;
+     BCM2835AuxState aux;
+     BCM2835FBState fb;
+     BCM2835DMAState dma;
+     BCM2835ICState ic;
+diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
+index 61b04a1bd4..51a477cdc2 100644
+--- a/include/hw/arm/raspi_platform.h
++++ b/include/hw/arm/raspi_platform.h
+@@ -34,13 +34,12 @@
+ #define ARMCTRL_OFFSET          (ARM_OFFSET + 0x000)
+ #define ARMCTRL_IC_OFFSET       (ARM_OFFSET + 0x200) /* Interrupt controller */
+ #define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 */
+ #define ARMCTRL_0_SBM_OFFSET    (ARM_OFFSET + 0x800) /* User 0 (ARM) Semaphores
+                                                       * Doorbells & Mailboxes */
+-#define CPRMAN_OFFSET           0x100000 /* Power Management, Watchdog */
+-#define CM_OFFSET               0x101000 /* Clock Management */
+-#define A2W_OFFSET              0x102000 /* Reset controller */
++#define PM_OFFSET               0x100000 /* Power Management */
++#define CPRMAN_OFFSET           0x101000 /* Clock Management */
+ #define AVS_OFFSET              0x103000 /* Audio Video Standard */
+ #define RNG_OFFSET              0x104000
+ #define GPIO_OFFSET             0x200000
+ #define UART0_OFFSET            0x201000
+ #define MMCI0_OFFSET            0x202000
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index a9d7f53f6e..f0802c91e0 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -342,12 +342,12 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->dwc2), 0,
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+                                INTERRUPT_USB));
  
-@@ -52,11 +52,11 @@ static void clock_propagate_period(Clock *clk, bool call_callbacks)
- 
-     QLIST_FOREACH(child, &clk->children, sibling) {
-         if (child->period != clk->period) {
-             child->period = clk->period;
-             trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
--                               CLOCK_PERIOD_TO_NS(clk->period),
-+                               CLOCK_PERIOD_TO_HZ(clk->period),
-                                call_callbacks);
-             if (call_callbacks && child->callback) {
-                 child->callback(child->callback_opaque);
-             }
-             clock_propagate_period(child, call_callbacks);
-diff --git a/hw/core/trace-events b/hw/core/trace-events
-index 1ac60ede6b..6f96d8bfd0 100644
---- a/hw/core/trace-events
-+++ b/hw/core/trace-events
-@@ -29,8 +29,8 @@ resettable_phase_exit_end(void *obj, const char *objtype, unsigned count) "obj=%
- resettable_transitional_function(void *obj, const char *objtype) "obj=%p(%s)"
- 
- # clock.c
- clock_set_source(const char *clk, const char *src) "'%s', src='%s'"
- clock_disconnect(const char *clk) "'%s'"
--clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', ns=%"PRIu64"->%"PRIu64
-+clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', %"PRIu64"hz->%"PRIu64"hz"
- clock_propagate(const char *clk) "'%s'"
--clock_update(const char *clk, const char *src, uint64_t val, int cb) "'%s', src='%s', ns=%"PRIu64", cb=%d"
-+clock_update(const char *clk, const char *src, uint64_t hz, int cb) "'%s', src='%s', val=%"PRIu64"hz cb=%d"
+     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+-    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
+-    create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
++    create_unimp(s, &s->powermgt, "bcm2835-powermgt", PM_OFFSET, 0x114);
++    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x2000);
+     create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
+     create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
+     create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
+     create_unimp(s, &s->bscsl, "bcm2835-spis", BSC_SL_OFFSET, 0x100);
+     create_unimp(s, &s->i2c[0], "bcm2835-i2c0", BSC0_OFFSET, 0x20);
 -- 
 2.28.0
 
