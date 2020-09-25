@@ -2,98 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FE12787B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:50:04 +0200 (CEST)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E99278831
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:53:52 +0200 (CEST)
+Received: from localhost ([::1]:37850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnAp-0005Qk-55
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47364)
+	id 1kLnEV-0000aG-1T
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn9M-0004cB-W1
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:48:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56406)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn9L-0000wW-4w
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:48:32 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601038110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=o/pkk+tR7fiy5tsWJPZTwKGdlkNmyR+1q6EKE+EHCgc=;
- b=KNwyvKTxj5DYTtMWTvMdKTvEfUZLxjoyxRuODucGRCsmCS9/JsED4hiITQocgsgPvgSwV+
- cDKlYkiEKCp3Av0xVBnTOLHJPgMs401HFm79O1/hjnY3v+X3Ux5ObggK0rD9nKEHjLJQRy
- O36oll7yPk91dM12qp3IuhVxmr2mcjU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-bMyymx7_P8urpbhieaQ-qQ-1; Fri, 25 Sep 2020 08:48:27 -0400
-X-MC-Unique: bMyymx7_P8urpbhieaQ-qQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F034910BBEE1;
- Fri, 25 Sep 2020 12:48:26 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-113.ams2.redhat.com
- [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19C1D4061;
- Fri, 25 Sep 2020 12:48:22 +0000 (UTC)
-Subject: Re: [PATCH v2 28/31] iotests: Factor out qemu_tool_pipe_and_status()
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200924152717.287415-1-kwolf@redhat.com>
- <20200924152717.287415-29-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <621c62bc-98e4-bc22-4c6a-bee56120e439@redhat.com>
-Date: Fri, 25 Sep 2020 14:48:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kLnCc-0007M1-Iv
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:51:54 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kLnCa-0001NQ-4o
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:51:54 -0400
+Received: by mail-wm1-x341.google.com with SMTP id q9so2946658wmj.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:51:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6mFQ8VpzrmbMOCqpnYjIMbNUVSnomJ1x/Qk71Rvs1y0=;
+ b=R3ED/lw5dhoGoolIIEgu84rM9C6qp0s+cbZtnx5euOuqUgdeLUi4piqSeYuUlWODwK
+ SepkYjDF4Mt/opsQu7trlLMeKHcngicTvDCTyYbVnsTvFbwkthlZGcnbw+XQOvdJCgmT
+ Hhj5nJP54BLXXbmWcx+e28Z/p/XhTGYsrHu0FtHk5aUrKNjOBkwMzjMDokJKiA5z8OCg
+ hTqHA9abg/Fmo/kX2hLo0UlVzWFRBcoLFLZEgfe3F7lW8HzNdDFVi7E0sJ1MBlzN8S3u
+ 1D+edPN3ITP5kvu7OQPkxlaqn4xnw521ZcBmlS69mj1mlQYFbbpivxKsCFwWZqkoezk9
+ Jr+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6mFQ8VpzrmbMOCqpnYjIMbNUVSnomJ1x/Qk71Rvs1y0=;
+ b=dL3otVAZ4xAk9oLXvdP5ePn9GMtH5MkZiHBB0cNKtosCu2ZtB7wkE1KUFebf7NqiLb
+ SIWrcDB8IyWu2Pt95WSJhhpvN8iGbE37cB3ozcMY+lsWOiFxIgBVUdx2vyQaiorGK5wM
+ wsGK+LxjggBDfIe21ad+tWE2dYYDxgOb7z1czNhHtLJj5uce29cCywlcOfmT6G6hrUuO
+ ztHPi78k6O8xwF0OGizhi/+bxV/AuQ6vyE2e/6CL35Dtwq4HpmKUIINge1Nh23CWYzfh
+ snbr8Cu6YkDx20yTkVfNr9eEVHxyXy5I8EeWWY5k5YPcy6DvIuiacc6WSpN92S4Z6rBt
+ s7FA==
+X-Gm-Message-State: AOAM530bBPJY4BiBdjdWm84qP1kAHKE75m4o6AaWVz88gH/gEU2k+mWw
+ 7PApg9+ZLIuvYRGGq5Wb90rY7g==
+X-Google-Smtp-Source: ABdhPJxznKkCiCp0cypkgr+MbBGziK/EtaKmN1u8NJ0i2PUEpJSsg/9BTD2DzIq/t0D5xdLEIqj3Aw==
+X-Received: by 2002:a05:600c:414e:: with SMTP id
+ h14mr2926737wmm.2.1601038309869; 
+ Fri, 25 Sep 2020 05:51:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u17sm3030823wri.45.2020.09.25.05.51.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 05:51:48 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 007681FF7E;
+ Fri, 25 Sep 2020 13:51:47 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org, maxim.uvarov@linaro.org, joakim.bech@linaro.org,
+ ilias.apalodimas@linaro.org, tomas.winkler@intel.com, yang.huang@intel.com,
+ bing.zhu@intel.com, Matti.Moell@opensynergy.com, hmo@opensynergy.com
+Subject: [RFC PATCH  00/19] vhost-user-rpmb (Replay Protected Memory Block)
+Date: Fri, 25 Sep 2020 13:51:28 +0100
+Message-Id: <20200925125147.26943-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200924152717.287415-29-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="fL9QU9OEmyhc56Ik3mzYyu6MQS20TP0VG"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,51 +89,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: jean-philippe@linaro.org, takahiro.akashi@linaro.org,
+ virtualization@lists.linuxfoundation.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, arnd@linaro.org,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---fL9QU9OEmyhc56Ik3mzYyu6MQS20TP0VG
-Content-Type: multipart/mixed; boundary="1K0lAGmjFbs7sTmQaCHezlWliPf1dN12K"
+Hi,
 
---1K0lAGmjFbs7sTmQaCHezlWliPf1dN12K
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This is an initial implementation of a vhost-user backend for the
+VirtIO RPMB device. The device is currently in the draft of the next
+VirtIO specification and describes block device which uses combination
+of a key, nonce, hashing and a persistent write counter to prevent
+replay attacks (hence Replay Protected Memory Block).
 
-On 24.09.20 17:27, Kevin Wolf wrote:
-> We have three almost identical functions that call an external process
-> and return its output and return code. Refactor them into small wrappers
-> around a common function.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  tests/qemu-iotests/iotests.py | 49 ++++++++++++++++-------------------
->  1 file changed, 23 insertions(+), 26 deletions(-)
+It is implemented as a vhost-user device because we want to experiment
+in making portable backends that can be used with multiple
+hypervisors. We also want to support backends isolated in their own
+separate service VMs with limited memory cross-sections with the
+principle guest. This is part of a wider initiative called project
+Stratos for which you can find information here:
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+  https://collaborate.linaro.org/display/STR/Stratos
 
+I mention this to explain the decision to duplicate some of the
+utility functions (specifically iov and hmac handling) and write the
+daemon as a fairly pure glib application that just depends on
+libvhost-user. As it happens I ended up having to include libqemuutil
+as libvhost-user requires qemu_memfd_alloc. Whether this is an
+oversight for libvhost-user or it means we should split these daemons
+into a separate repository is a discussion I would like to have with
+the community. Now I have a working reference implementation I also
+want to explore how easy it is to write a Rust version of the backend
+which raises similar questions about where such a project should live.
 
---1K0lAGmjFbs7sTmQaCHezlWliPf1dN12K--
+The current Linux kernel doesn't support RPMB devices in the vanilla
+tree so if you want to test you will need to look at my testing tree
+which is based on Thomas Winkler's original patches although somewhat
+cut down and pared back to just support the JDEC style frames of the
+upstream spec and the simple chardev based userspace interface. You
+can find my kernel testing tree here:
 
---fL9QU9OEmyhc56Ik3mzYyu6MQS20TP0VG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+  https://git.linaro.org/people/alex.bennee/linux.git/log/?h=testing/virtio-rpmb   
 
------BEGIN PGP SIGNATURE-----
+The above branch includes a simple test script with the rpmb userspace
+tool which I've used to exercise the various features. I'm unsure if
+there will ever be a push to upstream support for RPMB to the kernel
+as access to these sorts of devices are usually the preserve of
+firmware living in the secure world. There is currently work underway
+to support this device in uboot and I suspect eventually there will be
+support for OPTEE as well.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9t5xUACgkQ9AfbAGHV
-z0DRVgf/Sd1yd1NvrKkJHie/HkgsHmE+sr/vKpK9qtpJYBMSmE5ZXxHczu8tOZ8B
-+pOKx1L/ddEx86Zgbu4vuWvJVYp3jXcdjQY6OlvRNa7EKXN6ot3duxy+ivf1XHvI
-VziuJhGxY1ws4UewnU4iVp1PxH5sA4EATU0Xov3LweAY9B2UtLYXNX9DrrnGHlWR
-ICZI4Pi5cWwL+yoDwjK3eav/UvkWRCx0vaLDknfPKMnjK0jLb/+mSC+uZEZZZraP
-VWebdP+XW1sMRhgfb24iolR00GbDnyYpg/VvE4MF9KnFGJJzndAHGiOcC4MJc6Im
-z6CFpWsu9tchydeFpjoS4fmvktEPkQ==
-=GnZH
------END PGP SIGNATURE-----
+Any review comments gratefully received as well as discussion about if
+we should consider creating some new projects for housing these sort
+of vhost-user backends. 
 
---fL9QU9OEmyhc56Ik3mzYyu6MQS20TP0VG--
+Alex Bennée (19):
+  tools/virtiofsd: add support for --socket-group
+  hw/block: add boilerplate for vhost-user-rpmb device
+  hw/virtio: move virtio-pci.h into shared include space
+  hw/block: add vhost-user-rpmb-pci boilerplate
+  virtio-pci: add notification trace points
+  tools/vhost-user-rpmb: add boilerplate and initial main
+  tools/vhost-user-rpmb: implement --print-capabilities
+  tools/vhost-user-rpmb: connect to fd and instantiate basic run loop
+  tools/vhost-user-rpmb: add a --verbose/debug flags for logging
+  tools/vhost-user-rpmb: handle shutdown and SIGINT/SIGHUP cleanly
+  tools/vhost-user-rpmb: add --flash-path for backing store
+  tools/vhost-user-rpmb: import hmac_sha256 functions
+  tools/vhost-user-rpmb: implement the PROGRAM_KEY handshake
+  tools/vhost-user-rpmb: implement VIRTIO_RPMB_REQ_GET_WRITE_COUNTER
+  tools/vhost-user-rpmb: implement VIRTIO_RPMB_REQ_DATA_WRITE
+  tools/vhost-user-rpmb: implement VIRTIO_RPMB_REQ_DATA_READ
+  tools/vhost-user-rpmb: add key persistence
+  tools/vhost-user-rpmb: allow setting of the write_count
+  docs: add a man page for vhost-user-rpmb
+
+ docs/tools/index.rst                       |   1 +
+ docs/tools/vhost-user-rpmb.rst             | 102 +++
+ docs/tools/virtiofsd.rst                   |   4 +
+ include/hw/virtio/vhost-user-rpmb.h        |  46 ++
+ {hw => include/hw}/virtio/virtio-pci.h     |   0
+ tools/vhost-user-rpmb/hmac_sha256.h        |  87 ++
+ tools/virtiofsd/fuse_i.h                   |   1 +
+ hw/block/vhost-user-rpmb-pci.c             |  82 ++
+ hw/block/vhost-user-rpmb.c                 | 333 ++++++++
+ hw/virtio/vhost-scsi-pci.c                 |   2 +-
+ hw/virtio/vhost-user-blk-pci.c             |   2 +-
+ hw/virtio/vhost-user-fs-pci.c              |   2 +-
+ hw/virtio/vhost-user-input-pci.c           |   2 +-
+ hw/virtio/vhost-user-scsi-pci.c            |   2 +-
+ hw/virtio/vhost-user-vsock-pci.c           |   2 +-
+ hw/virtio/vhost-vsock-pci.c                |   2 +-
+ hw/virtio/virtio-9p-pci.c                  |   2 +-
+ hw/virtio/virtio-balloon-pci.c             |   2 +-
+ hw/virtio/virtio-blk-pci.c                 |   2 +-
+ hw/virtio/virtio-input-host-pci.c          |   2 +-
+ hw/virtio/virtio-input-pci.c               |   2 +-
+ hw/virtio/virtio-iommu-pci.c               |   2 +-
+ hw/virtio/virtio-net-pci.c                 |   2 +-
+ hw/virtio/virtio-pci.c                     |   5 +-
+ hw/virtio/virtio-rng-pci.c                 |   2 +-
+ hw/virtio/virtio-scsi-pci.c                |   2 +-
+ hw/virtio/virtio-serial-pci.c              |   2 +-
+ tools/vhost-user-rpmb/hmac_sha256.c        | 331 ++++++++
+ tools/vhost-user-rpmb/main.c               | 880 +++++++++++++++++++++
+ tools/virtiofsd/fuse_lowlevel.c            |   6 +
+ tools/virtiofsd/fuse_virtio.c              |  20 +-
+ MAINTAINERS                                |   5 +
+ hw/block/Kconfig                           |   5 +
+ hw/block/meson.build                       |   3 +
+ hw/virtio/trace-events                     |   7 +-
+ tools/meson.build                          |   8 +
+ tools/vhost-user-rpmb/50-qemu-rpmb.json.in |   5 +
+ tools/vhost-user-rpmb/meson.build          |  12 +
+ 38 files changed, 1956 insertions(+), 21 deletions(-)
+ create mode 100644 docs/tools/vhost-user-rpmb.rst
+ create mode 100644 include/hw/virtio/vhost-user-rpmb.h
+ rename {hw => include/hw}/virtio/virtio-pci.h (100%)
+ create mode 100644 tools/vhost-user-rpmb/hmac_sha256.h
+ create mode 100644 hw/block/vhost-user-rpmb-pci.c
+ create mode 100644 hw/block/vhost-user-rpmb.c
+ create mode 100644 tools/vhost-user-rpmb/hmac_sha256.c
+ create mode 100644 tools/vhost-user-rpmb/main.c
+ create mode 100644 tools/vhost-user-rpmb/50-qemu-rpmb.json.in
+ create mode 100644 tools/vhost-user-rpmb/meson.build
+
+-- 
+2.20.1
 
 
