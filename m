@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7148E2786BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:12:13 +0200 (CEST)
-Received: from localhost ([::1]:53524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050FC2786B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:09:35 +0200 (CEST)
+Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmaC-0008Tj-60
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38112)
+	id 1kLmXd-0004vX-Ts
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmVX-0002Bq-9w
+ id 1kLmVW-0002Bm-9T
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57022)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmVT-0004DN-TV
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:23 -0400
+ id 1kLmVT-0004DQ-To
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:21 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601035638;
+ s=mimecast20190719; t=1601035639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8fT5Zma08Owo8hQzAyZxIdi4dLbrYqBsXoHvPgCnfPc=;
- b=U4dTRfsHzCLr1DFXn2GZ31OGIRu6OE4UNAYnwcxTJy1oflYVZYVPukUqGL5rlt36d2Zfze
- OFUSHSJ9q5D751G55mpq1G/lwy62epx8rNyNCxqR9ir6YUZfIEoVXMaxk3JRP5akKpekf/
- YlGrtey0l+PS/OYFsi48Dvu7QCWWGGY=
+ bh=KwoC26LP5CpaPJLEShkXwNEdUVef6paLbONKlxitJ44=;
+ b=QMN0oJXhiYCb1kueCFVJbgzr+MFBxUShwoQldfTgt7mbIKKq/UzDJUkSaDaTTaowurlFmV
+ T3qF+Ds3x97AzbQga93Sk38CQ934jCuJGV3VKuz0riFJsau4h+scOQjHcaJ66COtfTu865
+ tPohydDKEHzu3AJQO1UueLel+8uFOX0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-DfDVf4bsOmWwYStUY9dzBg-1; Fri, 25 Sep 2020 08:07:14 -0400
-X-MC-Unique: DfDVf4bsOmWwYStUY9dzBg-1
+ us-mta-255-TSRwodWsMc-XCZJs2rr5Vw-1; Fri, 25 Sep 2020 08:07:17 -0400
+X-MC-Unique: TSRwodWsMc-XCZJs2rr5Vw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18064805EEE;
- Fri, 25 Sep 2020 12:07:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B301B10BBECB;
+ Fri, 25 Sep 2020 12:07:15 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-177.ams2.redhat.com
  [10.36.114.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C314A73693;
- Fri, 25 Sep 2020 12:07:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6563E78437;
+ Fri, 25 Sep 2020 12:07:13 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, zhengchuan@huawei.com, dovmurik@linux.vnet.ibm.com,
  hgcoin@gmail.com, zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com,
  peterx@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
  jinyan12@huawei.com, ann.zhuangyanying@huawei.com
-Subject: [PULL 03/26] migration/dirtyrate: setup up query-dirtyrate framwork
-Date: Fri, 25 Sep 2020 13:06:32 +0100
-Message-Id: <20200925120655.295142-4-dgilbert@redhat.com>
+Subject: [PULL 04/26] migration/dirtyrate: add DirtyRateStatus to denote
+ calculation status
+Date: Fri, 25 Sep 2020 13:06:33 +0100
+Message-Id: <20200925120655.295142-5-dgilbert@redhat.com>
 In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
 References: <20200925120655.295142-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -90,112 +91,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chuan Zheng <zhengchuan@huawei.com>
 
-Add get_dirtyrate_thread() functions to setup query-dirtyrate
-framework.
+add DirtyRateStatus to denote calculating status.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Signed-off-by: YanYing Zhuang <ann.zhuangyanying@huawei.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <1600237327-33618-2-git-send-email-zhengchuan@huawei.com>
+Message-Id: <1600237327-33618-3-git-send-email-zhengchuan@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  atomic name fixup
 ---
- migration/dirtyrate.c | 38 ++++++++++++++++++++++++++++++++++++++
- migration/dirtyrate.h | 28 ++++++++++++++++++++++++++++
- migration/meson.build |  2 +-
- 3 files changed, 67 insertions(+), 1 deletion(-)
- create mode 100644 migration/dirtyrate.c
- create mode 100644 migration/dirtyrate.h
+ migration/dirtyrate.c | 26 ++++++++++++++++++++++++++
+ qapi/migration.json   | 17 +++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-new file mode 100644
-index 0000000000..bf7fd24e75
---- /dev/null
+index bf7fd24e75..3edf000f45 100644
+--- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -0,0 +1,38 @@
-+/*
-+ * Dirtyrate implement code
-+ *
-+ * Copyright (c) 2020 HUAWEI TECHNOLOGIES CO.,LTD.
-+ *
-+ * Authors:
-+ *  Chuan Zheng <zhengchuan@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "cpu.h"
-+#include "qemu/config-file.h"
-+#include "exec/memory.h"
-+#include "exec/ramblock.h"
-+#include "exec/target_page.h"
-+#include "qemu/rcu_queue.h"
-+#include "qapi/qapi-commands-migration.h"
-+#include "migration.h"
-+#include "dirtyrate.h"
-+
-+static void calculate_dirtyrate(struct DirtyRateConfig config)
-+{
-+    /* todo */
-+    return;
-+}
-+
-+void *get_dirtyrate_thread(void *arg)
-+{
-+    struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-+
-+    calculate_dirtyrate(config);
-+
-+    return NULL;
-+}
-diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-new file mode 100644
-index 0000000000..84ab9409ac
---- /dev/null
-+++ b/migration/dirtyrate.h
-@@ -0,0 +1,28 @@
-+/*
-+ *  Dirtyrate common functions
-+ *
-+ *  Copyright (c) 2020 HUAWEI TECHNOLOGIES CO., LTD.
-+ *
-+ *  Authors:
-+ *  Chuan Zheng <zhengchuan@huawei.com>
-+ *
-+ *  This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ *  See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_MIGRATION_DIRTYRATE_H
-+#define QEMU_MIGRATION_DIRTYRATE_H
-+
-+/*
-+ * Sample 512 pages per GB as default.
-+ * TODO: Make it configurable.
-+ */
-+#define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
-+
-+struct DirtyRateConfig {
-+    uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
-+    int64_t sample_period_seconds; /* time duration between two sampling */
-+};
-+
-+void *get_dirtyrate_thread(void *arg);
-+#endif
-diff --git a/migration/meson.build b/migration/meson.build
-index ac8ff1419f..b5b71c8060 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -37,4 +37,4 @@ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
- softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
- softmmu_ss.add(when: 'CONFIG_ZSTD', if_true: [files('multifd-zstd.c'), zstd])
+@@ -22,6 +22,19 @@
+ #include "migration.h"
+ #include "dirtyrate.h"
  
--specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('ram.c'))
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c', 'ram.c'))
++static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
++
++static int dirtyrate_set_state(int *state, int old_state, int new_state)
++{
++    assert(new_state < DIRTY_RATE_STATUS__MAX);
++    if (qatomic_cmpxchg(state, old_state, new_state) == old_state) {
++        return 0;
++    } else {
++        return -1;
++    }
++}
++
++
+ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ {
+     /* todo */
+@@ -31,8 +44,21 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ void *get_dirtyrate_thread(void *arg)
+ {
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
++    int ret;
++
++    ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
++                              DIRTY_RATE_STATUS_MEASURING);
++    if (ret == -1) {
++        error_report("change dirtyrate state failed.");
++        return NULL;
++    }
+ 
+     calculate_dirtyrate(config);
+ 
++    ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
++                              DIRTY_RATE_STATUS_MEASURED);
++    if (ret == -1) {
++        error_report("change dirtyrate state failed.");
++    }
+     return NULL;
+ }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 675f70bb67..76a59b4f92 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1720,3 +1720,20 @@
+ ##
+ { 'event': 'UNPLUG_PRIMARY',
+   'data': { 'device-id': 'str' } }
++
++##
++# @DirtyRateStatus:
++#
++# An enumeration of dirtyrate status.
++#
++# @unstarted: the dirtyrate thread has not been started.
++#
++# @measuring: the dirtyrate thread is measuring.
++#
++# @measured: the dirtyrate thread has measured and results are available.
++#
++# Since: 5.2
++#
++##
++{ 'enum': 'DirtyRateStatus',
++  'data': [ 'unstarted', 'measuring', 'measured'] }
 -- 
 2.26.2
 
