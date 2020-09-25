@@ -2,70 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE397279220
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 22:35:07 +0200 (CEST)
-Received: from localhost ([::1]:39610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F9D27925B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 22:42:08 +0200 (CEST)
+Received: from localhost ([::1]:46690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLuQt-0002yY-1m
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 16:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
+	id 1kLuXe-0006Pt-Js
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 16:42:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLuOz-0001Vz-0J
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:33:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56511)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLuWH-0005xU-Pr
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:40:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLuOw-0004hl-6Y
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:33:08 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLuWG-0005oz-53
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:40:41 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601065982;
+ s=mimecast20190719; t=1601066439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IsJvNJS7L2JYP6gKta1dJI8uaoFwaEjNa7oZL6/WB0Y=;
- b=gFRk6MuD17N5a/aSNWD1D76sIJa59LF5g/lSv02zDjPUJeM/3qB0UNjuHUm20Q47mFTDGk
- yYDtlo9YVJrnhkvzsonW/2vF5LHmAKRyPGrtkMzZj9KafS86213LZ5MYsFBapx8N20Dq8Q
- 7X5uKYImNdVpuVeE3Epv5dnK8L+eiSY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-DqkBF0GMNAOG_FJom5bodg-1; Fri, 25 Sep 2020 16:32:59 -0400
-X-MC-Unique: DqkBF0GMNAOG_FJom5bodg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CC8480732A;
- Fri, 25 Sep 2020 20:32:58 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-114-148.phx2.redhat.com [10.3.114.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8735B5C1BB;
- Fri, 25 Sep 2020 20:32:57 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] nbd: Add 'qemu-nbd -A' to expose allocation depth
-Date: Fri, 25 Sep 2020 15:32:49 -0500
-Message-Id: <20200925203249.155705-4-eblake@redhat.com>
-In-Reply-To: <20200925203249.155705-1-eblake@redhat.com>
-References: <20200925203249.155705-1-eblake@redhat.com>
+ bh=EAubhKnwyEs8w9HrWjRkvDMBUMr7xck3seQiqdvNCL4=;
+ b=ccIhm495cV1pnlrpCe69Cj6qVLZAh7NUzcg0nDLFvmas7BfGqxY+b3/MxJDNvOUY5sIBwu
+ PbRyJC5Pe7TSu7KVbasahBEOBKp0cmt3dlgBYHfcJzdhfSFUeC+CHJ6Ypd2gqbkCcXnBnT
+ S6KfW7JhuddIHZnQEy7Jkl4MUwxh8nQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-Y59qkiVCN7isFQN0vcTmxQ-1; Fri, 25 Sep 2020 16:40:37 -0400
+X-MC-Unique: Y59qkiVCN7isFQN0vcTmxQ-1
+Received: by mail-wm1-f71.google.com with SMTP id x81so69246wmg.8
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 13:40:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EAubhKnwyEs8w9HrWjRkvDMBUMr7xck3seQiqdvNCL4=;
+ b=WBO12aSQS4ioQxXJFJYMk3lJ2D1ONTUMNQi7V145Of7RQEWraF9ev/OwVzo3P2VGnq
+ ZNnyfqEoaAFyoLrDTtFfWOUpe0VoJxJngGc85Bl/7Y52LrddjDM79THRXrD5oDyl8fzh
+ ppfUpkxgm0xHRWlbmFpKeLs59VHKhv+xarBFRq1ikt62p6J9NEiax00sOWTgAo1/7lk3
+ nCLJhTLeL5Pc/KcQiyS0eEK1MxMC9EcEU2npbtqjJL93mZA7T89e/lZBj+gkimhRlVAg
+ RUIGZzuZm9gU2GQ+woreGUioE/ypX11O9kxBP+dprlB3epkZS11iRf7dVBy+OT60Ch7c
+ Vv7w==
+X-Gm-Message-State: AOAM5303UZscD9duiOG2tqGETicLDjSR22SH7uRX/94rkFPvcGL7EWF0
+ WRVM7fCyA8rbEEeSsrOmWVUg0jWrZEoidhcVCgW4igNq5mb6xiT5DFNiVvjInpfXikdg4o2Kog1
+ nTM9nJTipiR9geas=
+X-Received: by 2002:adf:a3ca:: with SMTP id m10mr6458354wrb.104.1601066436439; 
+ Fri, 25 Sep 2020 13:40:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1ymA4ihf4Yb5gmaE9JLo7z92q/jSHxxiPHu8gDHsNp0Wji4GQSm7sgd6OPgh5z1zqPc5J6A==
+X-Received: by 2002:adf:a3ca:: with SMTP id m10mr6458337wrb.104.1601066436186; 
+ Fri, 25 Sep 2020 13:40:36 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ec9b:111a:97e3:4baf?
+ ([2001:b07:6468:f312:ec9b:111a:97e3:4baf])
+ by smtp.gmail.com with ESMTPSA id 97sm3895548wrm.15.2020.09.25.13.40.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Sep 2020 13:40:35 -0700 (PDT)
+Subject: Re: [PATCH v1 1/3] i386: Remove the limitation of IP payloads for
+ Intel PT
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <1582580312-19864-1-git-send-email-luwei.kang@intel.com>
+ <1582580312-19864-2-git-send-email-luwei.kang@intel.com>
+ <20200925161539.GS3717385@habkost.net>
+ <MW3PR11MB46655375CAECC74BA2D7CAECF2360@MW3PR11MB4665.namprd11.prod.outlook.com>
+ <20200925165415.GT3717385@habkost.net>
+ <036ba624-670c-d6b7-721c-ad5c9d648c1f@redhat.com>
+ <20200925202956.GV3717385@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <db31a0fa-c6cf-4730-6d64-f81228948d30@redhat.com>
+Date: Fri, 25 Sep 2020 22:40:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200925202956.GV3717385@habkost.net>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,324 +108,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, rjones@redhat.com,
- Max Reitz <mreitz@redhat.com>, vsementsov@virtuozzo.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Kang,
+ Luwei" <luwei.kang@intel.com>, "Strong, Beeman" <beeman.strong@intel.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the server to expose an additional metacontext to be requested
-by savvy clients.  qemu-nbd adds a new option -A to expose the
-qemu:allocation-depth metacontext through NBD_CMD_BLOCK_STATUS; this
-can also be set via QMP when using nbd-server-add.
+On 25/09/20 22:29, Eduardo Habkost wrote:
+>> No, it's not possible.  KVM doesn't have a say on what the processor
+>> writes in the tracing packets.
+> Can KVM refuse to enable packet generation if CSbase is not zero
+> and CPUID.(EAX=14H,ECX=0)[bit 31] seen by guest is different from
+> host?
 
-qemu as client can be hacked into viewing this new context by using
-the now-misnamed x-dirty-bitmap option when creating an NBD blockdev;
-although it is worth noting the decoding of how such context
-information will appear in 'qemu-img map --output=json':
+Yes, but the processor could change operating mode (and hence CSbase)
+while tracing is active.  This is very unlikely, since it would require
+nonzero CS-base and a 32-bit host, but in principle not impossible
+(could be a firmware call, for example).
 
-NBD_STATE_DEPTH_UNALLOC => "zero":false, "data":true
-NBD_STATE_DEPTH_LOCAL => "zero":false, "data":false
-NBD_STATE_DEPTH_BACKING => "zero":true, "data":true
+The only solution is for KVM to accept both, and for QEMU to refuse a
+setting that does not match the host.
 
-libnbd as client is probably a nicer way to get at the information
-without having to decipher such hacks in qemu as client. ;)
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- docs/tools/qemu-nbd.rst    |  6 ++++
- qapi/block-core.json       |  7 ++--
- include/block/nbd.h        |  7 ++--
- blockdev-nbd.c             |  3 +-
- nbd/server.c               |  8 +++--
- qemu-nbd.c                 | 16 ++++++---
- tests/qemu-iotests/309     | 73 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/309.out | 22 ++++++++++++
- tests/qemu-iotests/group   |  1 +
- 9 files changed, 129 insertions(+), 14 deletions(-)
- create mode 100755 tests/qemu-iotests/309
- create mode 100644 tests/qemu-iotests/309.out
-
-diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-index 667861cb22e9..0e545a97cfa3 100644
---- a/docs/tools/qemu-nbd.rst
-+++ b/docs/tools/qemu-nbd.rst
-@@ -72,6 +72,12 @@ driver options if ``--image-opts`` is specified.
-
-   Export the disk as read-only.
-
-+.. option:: -A, --allocation-depth
-+
-+  Expose allocation depth information via the
-+  ``qemu:allocation-depth`` context accessible through
-+  NBD_OPT_SET_META_CONTEXT.
-+
- .. option:: -B, --bitmap=NAME
-
-   If *filename* has a qcow2 persistent bitmap *NAME*, expose
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index b3ec30a83cd7..84f7a7a34dc1 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3874,9 +3874,12 @@
- #
- # @tls-creds: TLS credentials ID
- #
--# @x-dirty-bitmap: A "qemu:dirty-bitmap:NAME" string to query in place of
-+# @x-dirty-bitmap: A metacontext name such as "qemu:dirty-bitmap:NAME" or
-+#                  "qemu:allocation-depth" to query in place of the
- #                  traditional "base:allocation" block status (see
--#                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol) (since 3.0)
-+#                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol; and
-+#                  yes, naming this option x-context would have made
-+#                  more sense) (since 3.0)
- #
- # @reconnect-delay: On an unexpected disconnect, the nbd client tries to
- #                   connect again until succeeding or encountering a serious
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 71a2623f7842..f660e0274ce3 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -336,9 +336,10 @@ typedef struct NBDClient NBDClient;
-
- NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-                           uint64_t size, const char *name, const char *desc,
--                          const char *bitmap, bool readonly, bool shared,
--                          void (*close)(NBDExport *), bool writethrough,
--                          BlockBackend *on_eject_blk, Error **errp);
-+                          bool alloc_depth, const char *bitmap, bool readonly,
-+                          bool shared, void (*close)(NBDExport *),
-+                          bool writethrough, BlockBackend *on_eject_blk,
-+                          Error **errp);
- void nbd_export_close(NBDExport *exp);
- void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp);
- void nbd_export_get(NBDExport *exp);
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 1a95d89f0096..562ea3751b85 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -203,7 +203,8 @@ void qmp_nbd_server_add(BlockExportNbd *arg, Error **errp)
-         arg->writable = false;
-     }
-
--    exp = nbd_export_new(bs, 0, len, arg->name, arg->description, arg->bitmap,
-+    exp = nbd_export_new(bs, 0, len, arg->name, arg->description,
-+                         arg->alloc, arg->bitmap,
-                          !arg->writable, !arg->writable,
-                          NULL, false, on_eject_blk, errp);
-     if (!exp) {
-diff --git a/nbd/server.c b/nbd/server.c
-index 02d5fb375b24..f5e0e115b703 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1450,9 +1450,10 @@ static void nbd_eject_notifier(Notifier *n, void *data)
-
- NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-                           uint64_t size, const char *name, const char *desc,
--                          const char *bitmap, bool readonly, bool shared,
--                          void (*close)(NBDExport *), bool writethrough,
--                          BlockBackend *on_eject_blk, Error **errp)
-+                          bool alloc_depth, const char *bitmap, bool readonly,
-+                          bool shared, void (*close)(NBDExport *),
-+                          bool writethrough, BlockBackend *on_eject_blk,
-+                          Error **errp)
- {
-     AioContext *ctx;
-     BlockBackend *blk;
-@@ -1545,6 +1546,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint64_t dev_offset,
-         assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SIZE);
-     }
-
-+    exp->alloc_context = alloc_depth;
-     exp->close = close;
-     exp->ctx = ctx;
-     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index e39d3b23c121..5aeef60b0a5a 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -100,6 +100,7 @@ static void usage(const char *name)
- "\n"
- "Exposing part of the image:\n"
- "  -o, --offset=OFFSET       offset into the image\n"
-+"  -A, --allocation-depth    expose the allocation depth\n"
- "  -B, --bitmap=NAME         expose a persistent dirty bitmap\n"
- "\n"
- "General purpose options:\n"
-@@ -527,7 +528,7 @@ int main(int argc, char **argv)
-     int64_t fd_size;
-     QemuOpts *sn_opts = NULL;
-     const char *sn_id_or_name = NULL;
--    const char *sopt = "hVb:o:p:rsnc:dvk:e:f:tl:x:T:D:B:L";
-+    const char *sopt = "hVb:o:p:rsnc:dvk:e:f:tl:x:T:D:AB:L";
-     struct option lopt[] = {
-         { "help", no_argument, NULL, 'h' },
-         { "version", no_argument, NULL, 'V' },
-@@ -536,6 +537,7 @@ int main(int argc, char **argv)
-         { "socket", required_argument, NULL, 'k' },
-         { "offset", required_argument, NULL, 'o' },
-         { "read-only", no_argument, NULL, 'r' },
-+        { "allocation-depth", no_argument, NULL, 'A' },
-         { "bitmap", required_argument, NULL, 'B' },
-         { "connect", required_argument, NULL, 'c' },
-         { "disconnect", no_argument, NULL, 'd' },
-@@ -577,6 +579,7 @@ int main(int argc, char **argv)
-     QDict *options = NULL;
-     const char *export_name = NULL; /* defaults to "" later for server mode */
-     const char *export_description = NULL;
-+    bool alloc_depth = false;
-     const char *bitmap = NULL;
-     const char *tlscredsid = NULL;
-     bool imageOpts = false;
-@@ -700,6 +703,9 @@ int main(int argc, char **argv)
-             readonly = true;
-             flags &= ~BDRV_O_RDWR;
-             break;
-+        case 'A':
-+            alloc_depth = true;
-+            break;
-         case 'B':
-             bitmap = optarg;
-             break;
-@@ -797,8 +803,8 @@ int main(int argc, char **argv)
-             exit(EXIT_FAILURE);
-         }
-         if (export_name || export_description || dev_offset ||
--            device || disconnect || fmt || sn_id_or_name || bitmap ||
--            seen_aio || seen_discard || seen_cache) {
-+            device || disconnect || fmt || sn_id_or_name || alloc_depth ||
-+            bitmap || seen_aio || seen_discard || seen_cache) {
-             error_report("List mode is incompatible with per-device settings");
-             exit(EXIT_FAILURE);
-         }
-@@ -1069,8 +1075,8 @@ int main(int argc, char **argv)
-     fd_size -= dev_offset;
-
-     export = nbd_export_new(bs, dev_offset, fd_size, export_name,
--                            export_description, bitmap, readonly, shared > 1,
--                            nbd_export_closed, writethrough, NULL,
-+                            export_description, alloc_depth, bitmap, readonly,
-+                            shared > 1, nbd_export_closed, writethrough, NULL,
-                             &error_fatal);
-
-     if (device) {
-diff --git a/tests/qemu-iotests/309 b/tests/qemu-iotests/309
-new file mode 100755
-index 000000000000..fda3be9abbd2
---- /dev/null
-+++ b/tests/qemu-iotests/309
-@@ -0,0 +1,73 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-nbd -A
-+#
-+# Copyright (C) 2018-2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1 # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    nbd_server_stop
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.nbd
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_require_command QEMU_NBD
-+
-+echo
-+echo "=== Initial image setup ==="
-+echo
-+
-+TEST_IMG="$TEST_IMG.base" _make_test_img 4M
-+$QEMU_IO -c 'w 0 2M' -f $IMGFMT "$TEST_IMG.base" | _filter_qemu_io
-+_make_test_img -b "$TEST_IMG.base" -F $IMGFMT 4M
-+$QEMU_IO -c 'w 1M 2M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Check allocation over NBD ==="
-+echo
-+
-+# Normal -f raw NBD block status loses access to allocation information
-+$QEMU_IMG map --output=json -f qcow2 "$TEST_IMG"
-+IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
-+nbd_server_start_unix_socket -r -f qcow2 -A "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG" | _filter_qemu_img_map
-+# But since we used -A, and use x-dirty-bitmap as a hack for reading bitmaps,
-+# we can reconstruct it, by abusing block status to report:
-+#    NBD_STATE_DEPTH_UNALLOC => "zero":false, "data":true
-+#    NBD_STATE_DEPTH_LOCAL => "zero":false, "data":false
-+#    NBD_STATE_DEPTH_BACKING => "zero":true, "data":true
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:allocation-depth" | _filter_qemu_img_map
-+
-+# success, all done
-+echo '*** done'
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/309.out b/tests/qemu-iotests/309.out
-new file mode 100644
-index 000000000000..db75bb6b0df9
---- /dev/null
-+++ b/tests/qemu-iotests/309.out
-@@ -0,0 +1,22 @@
-+QA output created by 309
-+
-+=== Initial image setup ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=4194304
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4194304 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+wrote 2097152/2097152 bytes at offset 1048576
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Check allocation over NBD ===
-+
-+[{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": true, "offset": 327680},
-+{ "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 327680},
-+{ "start": 3145728, "length": 1048576, "depth": 1, "zero": true, "data": false}]
-+[{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 3145728, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": true, "offset": OFFSET},
-+{ "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": false},
-+{ "start": 3145728, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index ff59cfd2d4c4..57182e4b3169 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -314,3 +314,4 @@
- 303 rw quick
- 304 rw quick
- 305 rw quick
-+309 rw auto quick
--- 
-2.28.0
+Paolo
 
 
