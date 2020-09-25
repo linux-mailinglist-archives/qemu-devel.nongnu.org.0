@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5802278D80
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:02:25 +0200 (CEST)
-Received: from localhost ([::1]:32902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A935B278D96
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:05:59 +0200 (CEST)
+Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqAy-0004w0-QY
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35988)
+	id 1kLqEQ-0000hP-OE
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:05:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLpps-0002ia-1t
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:36 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40996)
+ id 1kLpq1-0002sS-0r
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:45 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:33559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLppp-0007am-EX
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:35 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id w5so4062847wrp.8
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:32 -0700 (PDT)
+ id 1kLppz-0007dC-C1
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:44 -0400
+Received: by mail-wm1-x336.google.com with SMTP id e11so2152525wme.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Eq5ug6TQ+UWKEm8ljjwiAREdUaKCvushWVwVKg/Ob2M=;
- b=BRVTziPRh3r1hZaLn45/uI8UP8IS0MV7348lJ87Z7216xOiuLlR+t50yDY9VtdAD/J
- +KkFL8yQJiDZVPZw52MVPQdnIJ45NDlz28F8xVnBARIztGi3VxhJmvAzFeauHTMXap0U
- x44a0AGIjVeA7SmpMtxeDyV8ugb57Eau+Z+jviot4xrVRabVvN0fddMRjcZVncMHgAnO
- BgS24KyFUXJhhJ0IK3aEdmKQkmDC70fCu+t+dcQ+IiwgGK/RFVyZV4qUm25Gfcz7UPv/
- q2QyhCitwPUZMsEiLuLG0Km+je5YNWzy+4bsLLSeL4J7kQGBdf6ewYZiJvXVtdeQlDdE
- FaIg==
+ bh=X7bddl+nfV1LEnfasUkpHrBmJA8Qf82YzRcmiRjcnEs=;
+ b=Fvv0fb6QVcj+/2IYYwI2Tqv7vEMUecaGZYgEjmZgE0MopFbf+D5ZRTwcDF2W+8B/Mm
+ SQiB5YujpQ/Cqqhri4/jJH2puoFFdfie5AtOqjJI85NOSdJee8Vicewin6iTJ0Jv6WFs
+ +Bupkim+rc2QldbJpPMYo7zARPgP5AWZgHKMK2upApcJjWhFi1cWcuEfnAbbE3kW2YRN
+ //VwJaGnZK2ZNiDHntABn4rpbwFVd9+sy/rqPzsVrrPrQDliOr9djz3l8XyZytGvnphk
+ Cc/IlNtxBGXYzVo4HNgdBN4nYuUmeHzEXpmACoaES/fCPwcsEZlMsGIta0QSQCtKUXL5
+ miaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Eq5ug6TQ+UWKEm8ljjwiAREdUaKCvushWVwVKg/Ob2M=;
- b=r5+/+GtWdKHYPngHk9nwI1K6aauzYsWGqIW2wy8C5apdMjvHwthq/JKLzD68BBOYXl
- CS6Y1euscJPJ1ktMCQ5UWKGJOs81wjreYrolvag+IrBCpx+Oc+2YeuDcFyqxVDAOstWc
- rHOTFpE1vSrxjNZgOSBLMP7/T0M050REV0KmFFU1RLfLlYwRHKbHXV+DbYQaTrwjpwD5
- BFiuX2kNuZUQxTL9xHdrbQF2WeJ5+OEasMipBOHPfUc2ci87w8s/7jDlXY+4v61dwZyW
- 7s07hqgAlcWisMDJUvFjVXKSPP9Uf+sPxthVfYBmEW0v0Yq9eY+7BPpjG4/UBovEB4K7
- V5NQ==
-X-Gm-Message-State: AOAM532uXej44zCLGa6UVrmzspaW7e/5fsICDMnvb+lY8kjpNs+bNgHa
- /4FbYi4eih6No9jzmlVhI7yWPQ==
-X-Google-Smtp-Source: ABdhPJx3VDNvBieNUSpj4GcSQL/a58+tJTbC2CwqBSV1W6U0xwhMVW/bKE3pdbe2W0uJmLvKuM+I4g==
-X-Received: by 2002:a5d:4a0c:: with SMTP id m12mr5185502wrq.83.1601048431705; 
- Fri, 25 Sep 2020 08:40:31 -0700 (PDT)
+ bh=X7bddl+nfV1LEnfasUkpHrBmJA8Qf82YzRcmiRjcnEs=;
+ b=ruqyshyV/KYFlD80LOO9DKrArwzpPGeGvIHyf3CCoMcFfTHTxIoF3PmrFAHVyAw+ch
+ eHz+QG1BhbyQyE/esumJafwZkztrZpKE+fIhuTkk6OtbupKIueuFCzIYpcpXSsc10W5X
+ JE2Bdv1lgMXID3HD4iyGRexHrtzMHgjsWjYCfMRjq6sMFOy4m2HNaivrtWRkNFkGJgoA
+ aRlfpokH4+WmwSXEKS6UScRvld5Z9WGRPLKcgZBSsw996CyJlCaQ4/vQwkqON4cGNl6v
+ 2wXCalVwNzPVctLMAow9I+gDHRmKl+RdIaBR5esrwdiyPpcTl6HwKMT4xoy0swmgdClQ
+ APsw==
+X-Gm-Message-State: AOAM531rctNDnAURoto3s9FsoDXnnYDoBlA/dMfC7k3KiDNsICLJbnFv
+ qJBHj2h69bxsSYLhBC16TlQpxg==
+X-Google-Smtp-Source: ABdhPJxHsVtqjERGlj5OZEyi3Iu0MdVdm+94pbD6Uro6koH8k7XQn9Fli34wJj6tjFRACQ4CXXmuiQ==
+X-Received: by 2002:a7b:cd88:: with SMTP id y8mr3728495wmj.24.1601048438811;
+ Fri, 25 Sep 2020 08:40:38 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o4sm3155020wru.55.2020.09.25.08.40.28
+ by smtp.gmail.com with ESMTPSA id 9sm3189318wmf.7.2020.09.25.08.40.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 08:40:30 -0700 (PDT)
+ Fri, 25 Sep 2020 08:40:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6CB4B1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id EB4941FF91;
  Fri, 25 Sep 2020 16:40:28 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 02/15] meson: move libudev test
-Date: Fri, 25 Sep 2020 16:40:14 +0100
-Message-Id: <20200925154027.12672-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 05/15] travis.yml: Drop the default softmmu builds
+Date: Fri, 25 Sep 2020 16:40:17 +0100
+Message-Id: <20200925154027.12672-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925154027.12672-1-alex.bennee@linaro.org>
 References: <20200925154027.12672-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,94 +88,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+The total runtime of all Travis jobs is very long and we are testing
+all softmmu targets in the gitlab-CI already - so we can speed up the
+Travis testing a little bit by not testing the softmmu targets here
+anymore.
+
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200916162621.100141-2-pbonzini@redhat.com>
-Message-Id: <20200918103430.297167-2-thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200918103430.297167-5-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- configure   | 14 --------------
- meson.build |  7 ++++---
- 2 files changed, 4 insertions(+), 17 deletions(-)
+ .travis.yml | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/configure b/configure
-index e8e8e984f245..48bf437021f6 100755
---- a/configure
-+++ b/configure
-@@ -908,7 +908,6 @@ Linux)
-   linux_user="yes"
-   kvm="yes"
-   QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
--  libudev="yes"
- ;;
- esac
+diff --git a/.travis.yml b/.travis.yml
+index c75221dca3e7..1fc49b07464d 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -123,20 +123,6 @@ jobs:
+         - CONFIG="--disable-system --static"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
  
-@@ -6283,15 +6282,6 @@ if test "$libnfs" != "no" ; then
- fi
- 
- ##########################################
--# Do we have libudev
--if test "$libudev" != "no" ; then
--  if $pkg_config libudev && test "$static" != "yes"; then
--    libudev="yes"
--    libudev_libs=$($pkg_config --libs libudev)
--  else
--    libudev="no"
--  fi
--fi
- 
- # Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
- if test "$solaris" = "no" && test "$tsan" = "no"; then
-@@ -7460,10 +7450,6 @@ if test "$gcov" = "yes" ; then
-   echo "CONFIG_GCOV=y" >> $config_host_mak
- fi
- 
--if test "$libudev" != "no"; then
--    echo "CONFIG_LIBUDEV=y" >> $config_host_mak
--    echo "LIBUDEV_LIBS=$libudev_libs" >> $config_host_mak
--fi
- if test "$fuzzing" != "no"; then
-     echo "CONFIG_FUZZ=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index f4d1ab109680..48724988972d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -252,8 +252,8 @@ if 'CONFIG_CURL' in config_host
-                             link_args: config_host['CURL_LIBS'].split())
- endif
- libudev = not_found
--if 'CONFIG_LIBUDEV' in config_host
--  libudev = declare_dependency(link_args: config_host['LIBUDEV_LIBS'].split())
-+if target_os == 'linux'
-+  libudev = dependency('libudev', static: enable_static)
- endif
- brlapi = not_found
- if 'CONFIG_BRLAPI' in config_host
-@@ -435,6 +435,7 @@ has_gettid = cc.has_function('gettid')
- 
- # Create config-host.h
- 
-+config_host_data.set('CONFIG_LIBUDEV', libudev.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('CONFIG_VNC', vnc.found())
-@@ -1515,7 +1516,7 @@ summary_info += {'sheepdog support':  config_host.has_key('CONFIG_SHEEPDOG')}
- summary_info += {'capstone':          config_host.has_key('CONFIG_CAPSTONE')}
- summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
- summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
--summary_info += {'libudev':           config_host.has_key('CONFIG_LIBUDEV')}
-+summary_info += {'libudev':           libudev.found()}
- summary_info += {'default devices':   config_host['CONFIG_MINIKCONF_MODE'] == '--defconfig'}
- summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
- summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
+-
+-    # we split the system builds as it takes a while to build them all
+-    - name: "GCC (main-softmmu)"
+-      env:
+-        - CONFIG="--disable-user --target-list=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+-
+-    - name: "GCC (other-softmmu)"
+-      env:
+-       - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+-
+     # Just build tools and run minimal unit and softfloat checks
+     - name: "GCC check-unit and check-softfloat"
+       env:
 -- 
 2.20.1
 
