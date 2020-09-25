@@ -2,57 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E56D277DDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 04:19:05 +0200 (CEST)
-Received: from localhost ([::1]:55968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C43D277EB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 05:50:33 +0200 (CEST)
+Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLdKC-0000uY-44
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 22:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42678)
+	id 1kLeki-0006ah-9Q
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 23:50:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <colin.xu@intel.com>)
- id 1kLdJW-0000Uq-Ji
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 22:18:22 -0400
-Received: from mga09.intel.com ([134.134.136.24]:26280)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kLejF-0004yo-BL; Thu, 24 Sep 2020 23:49:01 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57799 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <colin.xu@intel.com>)
- id 1kLdJT-0004je-US
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 22:18:22 -0400
-IronPort-SDR: Ey4CNbyRwB4q+YorXaB1dyBm3dWdvc8prrWq8ZoOXpLNglVmUp9cTi8+UUhcZm3r6hTonXdQP4
- k3Rf/RUltghg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="162306440"
-X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="162306440"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2020 19:18:11 -0700
-IronPort-SDR: N5cMB49TnerwnmHefpmB4SIt36A06SS8kjiU0KtgFLyZRXfVn/q2vGQP76REMWCaF2Ph3G4aH1
- GAzsP5yeMGVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="511893828"
-Received: from unknown (HELO coxu-arch-shz.sh.intel.com) ([10.239.160.21])
- by fmsmga006.fm.intel.com with ESMTP; 24 Sep 2020 19:18:10 -0700
-From: Colin Xu <colin.xu@intel.com>
-To: kraxel@redhat.com,
-	pbonzini@redhat.com
-Subject: [PATCH] input-linux: Reset il->fd handler before closing it
-Date: Fri, 25 Sep 2020 10:18:08 +0800
-Message-Id: <20200925021808.26471-1-colin.xu@intel.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kLejB-0004Na-UY; Thu, 24 Sep 2020 23:49:01 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4ByHvf3lwSz9sSJ; Fri, 25 Sep 2020 13:48:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1601005726;
+ bh=MdW6sXukn7vg5MJvG2HlZEd0/aOSKSG9CbfcB31TQd0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E94OS26XB7wsufEqZTbbX1Sjo4uaWAEnx0D6QRy4HE45jvWr4tlOkWn1l723Z+Rqn
+ 7IS46gntmgvxeE4YtPDTNixP5fnpWMCfMxu7bzvXyN/x3Vc3nlKIvStqcNu/oC/8x6
+ 55WwsmOpsOoaBCqO0toYyTqCG/2HNQxb8Iwqqsq8=
+Date: Fri, 25 Sep 2020 12:35:24 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v2 3/6] spapr_numa: translate regular NUMA distance to
+ PAPR distance
+Message-ID: <20200925023524.GQ2298@yekko.fritz.box>
+References: <20200924195058.362984-1-danielhb413@gmail.com>
+ <20200924195058.362984-4-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=colin.xu@intel.com;
- helo=mga09.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 22:18:12
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3wfpuDtTLg8/Vq6g"
+Content-Disposition: inline
+In-Reply-To: <20200924195058.362984-4-danielhb413@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,33 +61,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, colin.xu@intel.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If object-del input-linux object on-the-fly, instance finalize will
-close evdev fd without resetting it. However the main thread is still
-trying to lock_acquire/lock_release during ppoll, which leads to a very
-high CPU utilization.
 
-Signed-off-by: Colin Xu <colin.xu@intel.com>
----
- ui/input-linux.c | 1 +
- 1 file changed, 1 insertion(+)
+--3wfpuDtTLg8/Vq6g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/ui/input-linux.c b/ui/input-linux.c
-index ab351a418701..34cc531190f9 100644
---- a/ui/input-linux.c
-+++ b/ui/input-linux.c
-@@ -418,6 +418,7 @@ static void input_linux_instance_finalize(Object *obj)
- 
-     if (il->initialized) {
-         QTAILQ_REMOVE(&inputs, il, next);
-+        qemu_set_fd_handler(il->fd, NULL, NULL, NULL);
-         close(il->fd);
-     }
-     g_free(il->evdev);
--- 
-2.28.0
+On Thu, Sep 24, 2020 at 04:50:55PM -0300, Daniel Henrique Barboza wrote:
+> QEMU allows the user to set NUMA distances in the command line.
+> For ACPI architectures like x86, this means that user input is
+> used to populate the SLIT table, and the guest perceives the
+> distances as the user chooses to.
+>=20
+> PPC64 does not work that way. In the PAPR concept of NUMA,
+> associativity relations between the NUMA nodes are provided by
+> the device tree, and the guest kernel is free to calculate the
+> distances as it sees fit. Given how ACPI architectures works,
+> this puts the pSeries machine in a strange spot - users expect
+> to define NUMA distances like in the ACPI case, but QEMU does
+> not have control over it. To give pSeries users a similar
+> experience, we'll need to bring kernel specifics to QEMU
+> to approximate the NUMA distances.
+>=20
+> The pSeries kernel works with the NUMA distance range 10,
+> 20, 40, 80 and 160. The code starts at 10 (local distance) and
+> searches for a match in the first NUMA level between the
+> resources. If there is no match, the distance is doubled and
+> then it proceeds to try to match in the next NUMA level. Rinse
+> and repeat for MAX_DISTANCE_REF_POINTS levels.
+>=20
+> This patch introduces a spapr_numa_PAPRify_distances() helper
+> that translates the user distances to kernel distance, which
+> we're going to use to determine the associativity domains for
+> the NUMA nodes.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
+The idea of rounding the distances like this seems pretty good to me.
+Since each level is a multiple of a distance from the preivous one it
+might be more theoretically correct to place the thresholds at the
+geometric mean between each level, rather than the arithmetic mean.  I
+very much doubt it makes much different in practice though, and this
+is simpler.
+
+There is one nit, I'm less happy with though..
+
+> ---
+>  hw/ppc/spapr_numa.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index fe395e80a3..990a5fce08 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -37,6 +37,49 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
+>      return true;
+>  }
+> =20
+> +/*
+> + * This function will translate the user distances into
+> + * what the kernel understand as possible values: 10
+> + * (local distance), 20, 40, 80 and 160. Current heuristic
+> + * is:
+> + *
+> + *  - distances between 11 and 30 inclusive -> rounded to 20
+> + *  - distances between 31 and 60 inclusive -> rounded to 40
+> + *  - distances between 61 and 120 inclusive -> rounded to 80
+> + *  - everything above 120 -> 160
+> + *
+> + * This step can also be done in the same time as the NUMA
+> + * associativity domains calculation, at the cost of extra
+> + * complexity. We chose to keep it simpler.
+> + *
+> + * Note: this will overwrite the distance values in
+> + * ms->numa_state->nodes.
+> + */
+> +static void spapr_numa_PAPRify_distances(MachineState *ms)
+> +{
+> +    int src, dst;
+> +    int nb_numa_nodes =3D ms->numa_state->num_nodes;
+> +    NodeInfo *numa_info =3D ms->numa_state->nodes;
+> +
+> +    for (src =3D 0; src < nb_numa_nodes; src++) {
+> +        for (dst =3D src; dst < nb_numa_nodes; dst++) {
+> +            uint8_t distance =3D numa_info[src].distance[dst];
+> +            uint8_t rounded_distance =3D 160;
+> +
+> +            if (distance > 11 && distance <=3D 30) {
+> +                rounded_distance =3D 20;
+> +            } else if (distance > 31 && distance <=3D 60) {
+> +                rounded_distance =3D 40;
+> +            } else if (distance > 61 && distance <=3D 120) {
+> +                rounded_distance =3D 80;
+> +            }
+> +
+> +            numa_info[src].distance[dst] =3D rounded_distance;
+> +            numa_info[dst].distance[src] =3D rounded_distance;
+
+=2E.I don't love the fact that we alter the distance table in place.
+Even though it was never exposed to the guest, I'd prefer not to
+destroy the information the user passed in.  It could lead to
+surprising results with QMP introspection, and it may make future
+extensions more difficult.
+
+So I'd prefer to either (a) just leave the table as is and round
+on-demand with a paprify_distance(NN) -> {20,40,80,..} type function,
+or (b) create a parallel, spapr local, table with the rounded
+distances
+
+> +        }
+> +    }
+> +}
+> +
+>  void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>                                     MachineState *machine)
+>  {
+> @@ -95,6 +138,7 @@ void spapr_numa_associativity_init(SpaprMachineState *=
+spapr,
+>          exit(EXIT_FAILURE);
+>      }
+> =20
+> +    spapr_numa_PAPRify_distances(machine);
+>  }
+> =20
+>  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
+dt,
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--3wfpuDtTLg8/Vq6g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9tV2oACgkQbDjKyiDZ
+s5L1SBAAr5rajD4yKA4Isc/oeVGgQq1HCtHaHQC6qyBcaekV3DivDmbUbQRjSrRN
+HiiLMC4/6Q5qhPmaOGIiRNaQegv0ZccucT34z9k7MoiUeDdOYp56rVHXS4NS8xhN
+iAn7s8Llk88q2at1nO8Wkl8uEj7X0Poa1NfsOc2Yb9ETdWE3eDoObvEPfT8elt1C
+dDE8TF07a2QU0PF0wtcNEMQa5zvo6Bz6NkbyJrhi/lJbZD4iUuEBh+4ZLRnNGq6p
+soaTYg5+pk2SXz42ljVoMJsfZxCeoUsbN3+TA8/NX9MUWVVzIENpbb2c3mAgWS8n
+o9fxE32/uywrcpwz0L41Aq35JxdUwzDUGlAenerI5+UYNBYK7MDF+aMCn/pQxVj4
+a4icenwM9xoNFOlDIUViYbcNABOmOpL+Xe+SVSdKBQUoe25XVUQ0oXxFZNWDghYF
+E7TX2J6KVvZ+iJl7hfB5sR9MLxR3cvGIwtNfSDmAQ4KT+/vwCQE0LYSr730D3gvh
+jT+7MI5h2pyIx/FlNcIQ0USz3x/fQgSTCRCLud7VHB0a1pmkQON+4+ZcHBxs6+rW
+HS7RGcFGUrkccRIv563bdgKYRc7IQAuhx/oj2WOjouCAaZ/qawIfvMyJ7SnRRmCf
+NSB7rtFr8TGaAOngPJ+UVn+o7g8oS3p5gfy3I8NHKQHO6Y8CEmA=
+=pOAB
+-----END PGP SIGNATURE-----
+
+--3wfpuDtTLg8/Vq6g--
 
