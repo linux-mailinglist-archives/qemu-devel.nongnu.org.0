@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4DA2793D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 23:56:56 +0200 (CEST)
-Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED32A2793ED
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Sep 2020 00:06:15 +0200 (CEST)
+Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLvi3-00050x-Qe
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 17:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
+	id 1kLvr4-0000uj-WC
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 18:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kLvgs-00045V-C9
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 17:55:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kLvgo-0005xe-Ua
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 17:55:41 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601070937;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ltCZNDoOCk2PBX+aBN7KCjzbwbIHJyz/JXqrBLGNM/4=;
- b=BCp3g5HQDbDal+REdL7iMYURjd3YkaaZzOQDjzScbr6B116NVHNTp/+mXTDPQrpjkNqAHA
- 7Vtdvq1fSvUs1vs5wicnHJKDM8S2ik5n5roFMZCuI63FMprK5GKhJq6StlOsspfn0bH2Sa
- pHw4toFUMk+N6yzh6HQWjB/EE8InFOg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-w3Sj8t2qMFym8Gls4qVkBQ-1; Fri, 25 Sep 2020 17:55:36 -0400
-X-MC-Unique: w3Sj8t2qMFym8Gls4qVkBQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6745188C129;
- Fri, 25 Sep 2020 21:55:33 +0000 (UTC)
-Received: from x1.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C16E78822;
- Fri, 25 Sep 2020 21:55:28 +0000 (UTC)
-Date: Fri, 25 Sep 2020 15:55:28 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v26 12/17] vfio: Add function to start and stop dirty
- pages tracking
-Message-ID: <20200925155528.73cdfe09@x1.home>
-In-Reply-To: <1600817059-26721-13-git-send-email-kwankhede@nvidia.com>
-References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
- <1600817059-26721-13-git-send-email-kwankhede@nvidia.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLvpQ-0000TM-Ed
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 18:04:32 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38394)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kLvpM-0006tt-OY
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 18:04:31 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id c8so4060809edv.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 15:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yG0e0qFJzFjFg1wvozInXCMKoskixBF8iD4ScRIlFYw=;
+ b=ueZvpjBG/SllWPPhN6ngyzz+fjQn73vlTSTAJu6ufKBCUikVMIkHW5mOoA+kTBXaNR
+ AtYB5qWnV+RP+ggh1VMATD7H+jjjPHh9bSCaoLUrd+J4RsYhygcYY0mzfSpiB/QNhZud
+ jU5TQ08Yxy/vJKBIay+R1fIE5e8KjanopcxQU9tgSfsFpZNlJ0pZGEC7k0RfM4fePE9m
+ dWp2y0Rnj4T1peaerH3osqZTQXSVG9XtyhbHkve+8ATE2m+p8GvPS5ar8IuLz9hkJoBr
+ GilZuBigHM7LWgZGudJmHMPSXIKlAJjfKkODixeKQ8hj93OA7eoDWlA6s24ne3ESy3uw
+ wD+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yG0e0qFJzFjFg1wvozInXCMKoskixBF8iD4ScRIlFYw=;
+ b=s70prlhVWsfd5pVu82AsVVPW6IaTMzrnvOfq+r49Sy17sYcjCfosSXF9qX5EGEwVsB
+ yHvM0OYvSpYuP3y0UmNhX9VjWeLvCLGZsjQ0sqTs5sT7gGsNyqfKIsgh0hqgEfG8f/0i
+ 4TKEj/kiT/d2dKEttB8r5pJts8yTLZXChEtVzlbIfWPjveGqhg/uxY4wU490TDktn9Ta
+ afAB0sbz3S+6CW18m5yYfnWcQZFe3LdYZNtcr550FSNhsu8fpmS4Td3I4ikcUcRomQVx
+ MnzRSif8BGokb7ErKczcjnczUvjXh4Nl48vdlJOT5Yn2mKmUzkOMsMzqFA6bhcG+eeUo
+ m/Zg==
+X-Gm-Message-State: AOAM533FpUMHvU55BUu0ggEpMKDBhmLHjfrKV0XHQod1TQb8W81v0KvX
+ 2SoAEmj8oC5tXRfr4BdksQ+cs/7OBvG7s4fWskd1+g==
+X-Google-Smtp-Source: ABdhPJzOYb1BI05yR3uwQCwvoDKF9810a6NMlpXTZx3EWdEWDmakjqgu53T/KP1/cCgjJlKr+VRa6kFcVG0o6oBXMmU=
+X-Received: by 2002:a05:6402:202a:: with SMTP id
+ ay10mr3768863edb.36.1601071466671; 
+ Fri, 25 Sep 2020 15:04:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200925194737.2148096-1-pbonzini@redhat.com>
+In-Reply-To: <20200925194737.2148096-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Sep 2020 23:04:15 +0100
+Message-ID: <CAFEAcA8d9upaWzQp_Ux9jaTBWOS1C0Xf_8ibDh5vcyB56+PFrA@mail.gmail.com>
+Subject: Re: [PULL v6 00/87] Misc patches for 2020-09-24
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,110 +81,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Sep 2020 04:54:14 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+On Fri, 25 Sep 2020 at 20:51, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 8c1c07929feae876202ba26f07a540c5115c18=
+cd:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request'=
+ into staging (2020-09-24 18:48:45 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to f19fc40acf2a4481f56165228f788f322d947f60:
+>
+>   hw/net/can: Correct Kconfig dependencies (2020-09-25 15:21:30 -0400)
+>
+> ----------------------------------------------------------------
+> * SCSI fix (Dmitry, Li Feng, Li Qiang)
+> * memory API fixes (Eduardo)
+> * removal of deprecated '-numa node', 'cpu-add', '-smp' (Igor)
+> * ACPI fix for VMBus (Jon)
+> * relocatable install (myself)
+> * always remove docker containers (myself)
+> * serial cleanups (Philippe)
+> * vmware cpuid leaf for tsc and apic frequency (Sunil)
+> * KVM_FEATURE_ASYNC_PF_INT support (Vitaly)
+> * i386 XSAVE bugfix (Xiaoyao)
+> * QOM developer documentation in docs/devel (Eduardo)
+> * new checkpatch tests (Dov)
+> * x86_64 syscall fix (Douglas)
+> * interrupt-based APF fix (Vitaly)
+> * always create kvmclock (Vitaly)
+> * fix bios-tables-test (Eduardo)
+> * KVM PV features cleanup (myself)
+> * CAN FD (Pavel)
+>
+> meson:
+> * fixes (Marc-Andr=C3=A9, Max, Stefan, Alexander, myself)
+> * moved libmpathpersist, cocoa, malloc tests (myself)
+> * support for 0.56 introspected test dependencies (myself)
 
-> Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
-> for VFIO devices.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index 4306f6316417..822b68b4e015 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -11,6 +11,7 @@
->  #include "qemu/main-loop.h"
->  #include "qemu/cutils.h"
->  #include <linux/vfio.h>
-> +#include <sys/ioctl.h>
->  
->  #include "sysemu/runstate.h"
->  #include "hw/vfio/vfio-common.h"
-> @@ -355,6 +356,32 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
->      return qemu_file_get_error(f);
->  }
->  
-> +static int vfio_set_dirty_page_tracking(VFIODevice *vbasedev, bool start)
-> +{
-> +    int ret;
-> +    VFIOContainer *container = vbasedev->group->container;
-> +    struct vfio_iommu_type1_dirty_bitmap dirty = {
-> +        .argsz = sizeof(dirty),
-> +    };
-> +
-> +    if (start) {
-> +        if (vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) {
-> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
-> +        } else {
-> +            return -EINVAL;
-> +        }
-> +    } else {
-> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
-> +    }
-> +
-> +    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
-> +    if (ret) {
-> +        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
-> +                     dirty.flags, errno);
-> +    }
+This version fails on the BSDs:
 
-Maybe doesn't matter in the long run, but do you want to use -errno for
-the return rather than -1 from the ioctl on error?  Thanks,
+Library util found: YES
+Found pkg-config: /usr/local/bin/pkg-config (1.7.3)
+Run-time dependency pixman-1 found: YES 0.40.0
+Library pam found: YES
+Library aio found: NO
+Run-time dependency zlib found: YES 1.2.10
+Run-time dependency xkbcommon found: YES 0.10.0
+Library rt found: YES
 
-Alex
+../src/meson.build:274:3: ERROR: Unknown variable "target_os".
 
-> +    return ret;
-> +}
-> +
->  /* ---------------------------------------------------------------------- */
->  
->  static int vfio_save_setup(QEMUFile *f, void *opaque)
-> @@ -386,6 +413,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
->          return ret;
->      }
->  
-> +    ret = vfio_set_dirty_page_tracking(vbasedev, true);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
->      qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
->  
->      ret = qemu_file_get_error(f);
-> @@ -401,6 +433,8 @@ static void vfio_save_cleanup(void *opaque)
->      VFIODevice *vbasedev = opaque;
->      VFIOMigration *migration = vbasedev->migration;
->  
-> +    vfio_set_dirty_page_tracking(vbasedev, false);
-> +
->      if (migration->region.mmaps) {
->          vfio_region_unmap(&migration->region);
->      }
-> @@ -734,6 +768,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
->          if (ret) {
->              error_report("%s: Failed to set state RUNNING", vbasedev->name);
->          }
-> +
-> +        vfio_set_dirty_page_tracking(vbasedev, false);
->      }
->  }
->  
+A full log can be found at
+/usr/home/qemu/qemu-test.5nusiE/build/meson-logs/meson-log.txt
 
+ERROR: meson setup failed
+
+Windows crossbuild produces the meson.build error but then
+somehow proceeds to link executables and succeed anyway(?!) :
+
+C++ compiler for the host machine: i686-w64-mingw32.shared-g++ (gcc
+5.5.0 "i686-w64-mingw32.shared-g++ (GCC) 5.5.0")
+C++ linker for the host machine: i686-w64-mingw32.shared-g++ ld.bfd 2.28
+Library m found: YES
+Library util found: NO
+Library ws2_32 found: YES
+Library winmm found: YES
+Windows resource compiler: GNU windres (GNU Binutils) 2.28
+Dependency pixman-1 found: YES 0.33.6 (cached)
+Library aio found: NO
+Dependency zlib found: YES 1.2.11 (cached)
+Found pkg-config: /usr/lib/mxe/usr/bin/i686-w64-mingw32.shared-pkg-config (=
+0.28)
+Run-time dependency xkbcommon found: NO (tried pkgconfig)
+Library rt found: NO
+
+../../meson.build:274:3: ERROR: Unknown variable "target_os".
+
+A full log can be found at
+/home/petmay01/qemu-for-merges/build/w32/meson-logs/meson-log.txt
+Generating qemu-version.h with a meson_exe.py custom command
+Compiling C object libqemu-i386-softmmu.fa.p/target_i386_cpu.c.obj
+Compiling C object libqemu-x86_64-softmmu.fa.p/target_i386_cpu.c.obj
+Linking target qemu-system-i386.exe
+Linking target qemu-system-i386w.exe
+Linking target qemu-system-x86_64.exe
+Linking target qemu-system-x86_64w.exe
+make: Leaving directory '/home/petmay01/qemu-for-merges/build/w32'
+OK DONE windows crossbuilds
+
+thanks
+-- PMM
 
