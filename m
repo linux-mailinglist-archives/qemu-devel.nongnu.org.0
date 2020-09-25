@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC0C278A08
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:53:33 +0200 (CEST)
-Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A39B278A0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:54:49 +0200 (CEST)
+Received: from localhost ([::1]:50724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLoAG-0006qx-Pq
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35666)
+	id 1kLoBO-0008VE-Oj
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kLo89-0005Ad-Uv
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:51:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29399)
+ id 1kLo8U-0005yF-To
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:51:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kLo88-00016N-8J
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:51:21 -0400
+ id 1kLo8S-00017v-Tn
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:51:42 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601041879;
+ s=mimecast20190719; t=1601041900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EcxuaihQf+q3fMDO0K/qhspHbpdXxw1wN+4jE1kNrAk=;
- b=YgQAlltx61ILjSdMRXiTry52guZnzQFCDXBhtdzby9Ft3L9EzgI4RUqO1Q42f8u6Do7dlk
- EHq9GrXouIiplhbmL+RCd5d0kHovg5AQcvHB6MSXIUD04IrGk9FCWrYcsF7c+IHZwvyI4d
- rPUqccRxu/ZbDw31zhFag51zpYK4V5w=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8Y86zsB51YRxIrGPaBaJ0OMrK6jcKF47UHG43z60HUs=;
+ b=i+m1Y7JmTTb06n22NjUm7COyJRc+6f/TLB4IcYEhZfkxJCXT/yrGhx4i8GFixaiMqu1ot0
+ 9LTEm+fiW/cA1UQQKTjRX6g72EWR9Fze8JZbnI+ZvlFFmT2JRzXecL5Y26iI4G7AEWRZdL
+ cC0lcNT/eVmOw9BumJzdYmCMOtGfauI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-nEk74T3vOaqLF9Z6QCJLLQ-1; Fri, 25 Sep 2020 09:51:16 -0400
-X-MC-Unique: nEk74T3vOaqLF9Z6QCJLLQ-1
+ us-mta-592--Y6R1eraMc22fZGv1yEz7Q-1; Fri, 25 Sep 2020 09:51:38 -0400
+X-MC-Unique: -Y6R1eraMc22fZGv1yEz7Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD55F80EFA7;
- Fri, 25 Sep 2020 13:51:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34A42802B78;
+ Fri, 25 Sep 2020 13:51:37 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 598B57369E;
- Fri, 25 Sep 2020 13:51:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 533B87368F;
+ Fri, 25 Sep 2020 13:51:19 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/6] Add physical display dimensions to spice/virtio-gpu
-Date: Fri, 25 Sep 2020 17:50:51 +0400
-Message-Id: <20200925135057.291556-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/6] edid: fix physical display size computation
+Date: Fri, 25 Sep 2020 17:50:52 +0400
+Message-Id: <20200925135057.291556-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20200925135057.291556-1-marcandre.lureau@redhat.com>
+References: <20200925135057.291556-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -84,37 +87,33 @@ Cc: spice-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-This series improves the support for HiDPI displays with Spice.=0D
-The related spice series have already been merged.=0D
-=0D
-v2:=0D
-- add patch to "spice: remove the single monitor config logic" (Gerd)=0D
-=0D
-Marc-Andr=C3=A9 Lureau (6):=0D
-  edid: fix physical display size computation=0D
-  edid: use physical dimensions if available=0D
-  ui: add getter for UIInfo=0D
-  spice: remove the single monitor config logic=0D
-  spice: get monitors physical dimension=0D
-  virtio-gpu: set physical dimensions for EDID=0D
-=0D
- hw/display/edid-generate.c     | 36 +++++++++++++++++++++++----------=0D
- hw/display/virtio-gpu-base.c   |  2 ++=0D
- hw/display/virtio-gpu.c        |  2 ++=0D
- include/hw/display/edid.h      |  5 ++++-=0D
- include/hw/virtio/virtio-gpu.h |  1 +=0D
- include/ui/console.h           |  4 ++++=0D
- qemu-edid.c                    | 11 ++++++++--=0D
- ui/console.c                   |  7 +++++++=0D
- ui/spice-display.c             | 37 +++++++++++++---------------------=0D
- 9 files changed, 68 insertions(+), 37 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+Divide the resolution by the DPI, and multiply to mm.
+
+Note the computation done for edid[21/22] is correct (in cm).
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ hw/display/edid-generate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
+index e58472fde5..618c74e1df 100644
+--- a/hw/display/edid-generate.c
++++ b/hw/display/edid-generate.c
+@@ -208,8 +208,8 @@ static void edid_desc_timing(uint8_t *desc,
+                              uint32_t dpi)
+ {
+     /* physical display size */
+-    uint32_t xmm = xres * dpi / 254;
+-    uint32_t ymm = yres * dpi / 254;
++    uint32_t xmm = xres * 254 / 10 / dpi;
++    uint32_t ymm = yres * 254 / 10 / dpi;
+ 
+     /* pull some realistic looking timings out of thin air */
+     uint32_t xfront = xres * 25 / 100;
+-- 
+2.26.2
 
 
