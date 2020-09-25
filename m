@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040112784E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:19:43 +0200 (CEST)
-Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED3A2784F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:21:34 +0200 (CEST)
+Received: from localhost ([::1]:54300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLkpK-0002nu-0E
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
+	id 1kLkr7-00061k-8J
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknD-000131-SW; Fri, 25 Sep 2020 06:17:31 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:58110)
+ id 1kLknF-00014J-2A; Fri, 25 Sep 2020 06:17:36 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:58106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLkn8-0007QI-Bb; Fri, 25 Sep 2020 06:17:31 -0400
+ id 1kLkn8-0007QK-BA; Fri, 25 Sep 2020 06:17:32 -0400
 Received: from sekoia-pc.bar.greensocs.com (sekoia-pc.home.lmichel.fr
  [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id 00207C60F18;
- Fri, 25 Sep 2020 10:17:19 +0000 (UTC)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPS id 073DDC60F1A;
+ Fri, 25 Sep 2020 10:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
  t=1601029040;
  h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eHG3gOOfzWKUSsScEIEjr33P+R1FlB8vtIzUKO1MkuU=;
- b=jG7Mlc5BbIrGtqCQe2bSsyUPLWmzT8fZ2eFENXB3MSzQuOSNzfP8r9jXebL2e2R+nC4znA
- IIDU3IH90XvoIFJtY2EU5CU3B9V+pi9JWqkeiPoti3U0A2rJCsIsPlVUGPhw6FBNay8y9m
- D6jZRUVAfWK4JxUi3cV1FiX6hwAEQ2JYVQvL106ybXOo5yAbmOijjNZnA5xRfcv8+wugGX
- aQ29yn/ojH8QY2ZaPrWR8Lld1s2PwSlvpzlxK11zc3+ERbl/D7vrjSDEuZe9+WSzmxvNuZ
- n2ilotIRXKhc/TK3Ebch/qblCPZo1YTszDNg0/lV+KKHYGsVwWnsOOTFq74vaQ==
+ bh=P5QEx3f68QGQra+kkPmQWR7B9ok9n9lJElCkekR6j6I=;
+ b=cJyQHSPwYc0jPIEc5WYgPEdghMrGnoHcDzlKGtijwg8U2m8ra0U+B2iEjGexwPAmrGmEOT
+ 6wdx0Qt32iC0ZKmRjc+tHhp7scWTEVGE+M8d/DREubzg/SGtzhdvWKFP1pN8uvl57eoX41
+ Bie68X/6kmcmbw+cLAgcjBEvyng1f9oklGUPiHH9TGISz+IDnQlBz53sz140aGppQoZopq
+ XGXCYWksy4BlZwbrRgS71+7FotIX1E6VsE0400+48W33ep911FdYzeKRXRwn8qoq1wpFko
+ Ho4QOVEIfBU8rPMpWE9FtM7RNSkUzYXn77cWmrAF6+BEdNH+DuM6d38aZ7SQHg==
 From: Luc Michel <luc@lmichel.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/14] hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
-Date: Fri, 25 Sep 2020 12:17:18 +0200
-Message-Id: <20200925101731.2159827-2-luc@lmichel.fr>
+Subject: [PATCH 02/14] hw/core/clock: trace clock values in Hz instead of ns
+Date: Fri, 25 Sep 2020 12:17:19 +0200
+Message-Id: <20200925101731.2159827-3-luc@lmichel.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200925101731.2159827-1-luc@lmichel.fr>
 References: <20200925101731.2159827-1-luc@lmichel.fr>
@@ -49,14 +49,14 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eHG3gOOfzWKUSsScEIEjr33P+R1FlB8vtIzUKO1MkuU=;
- b=ZDEbLfzepCVtKAYPvw/E5Wd/Dfqo+sfmNjXfjWnRjQUbtrUBn4a5ISHCf+3kE3GT19/sNF
- R6Tufv32GN5BXpwEO1fIdchuYsyzTBwH2eglrEkCcwevgB5UoNB7C6kpb8aADgSay1kmpP
- i9P44oayX1yEDUCLAKO6PKhYT3B7uFJbcxEGXuz5kkzJPPxp9zKHsWHpSjmwnK0UU869jF
- HGmC39sETRAGEPPlcec7D47K5DIslnGa9ZzidmFT9ISQplZ54UwN5CHHIBJkr+9rAzBSB+
- MVK7uPeGTlXd5+Vl2ZZvttHcYFYOGiLMGuC+T5PMGxLKJTk+I/fDzJGfIo7eow==
+ bh=P5QEx3f68QGQra+kkPmQWR7B9ok9n9lJElCkekR6j6I=;
+ b=f12niBetxYie6Uj4j014WsbRL0aGVpQJS53vKG8obFag71VTm89vjxK5HIYif0RjjKQimI
+ caXeKnaV1Tqv2XgeFT9XU79NJ3R1EyhQFV23VR99bzfrGrhSepGDysL1RF4JMsK5HpD37F
+ GNHMx+fs8Lw+phNO1lROB7+KlHUzJs8n/OqR3+I4P/i0Pg9+8vd8UH8coVF/JZlycg1xGt
+ LURn2PKMMEDFbFSAylV/1vkaglV7zWNxRgrB1xXlj9D4wXSAhJ11OC6aqHgQG91y9VWe1r
+ RgRuPc2tfiEz9pe0klesELtazt2XY1hg+usRe9ykTzFbNBgbqokWX5UTUnBNGw==
 ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029040; a=rsa-sha256; cv=none;
- b=FJmGm+h++qPtwsov66hcRhRWgMNyEIYmlcTupRvfNvvSUxKu3vjMIxhPuuCJQgJbrfrgujKXP7JCHaah2xg2FyPUz0plkq5Ba6CYppzvsBP0o0d+OMfebOGDr9Rfck2rAreG/Jmj/aDUG+SOaQOytQsWpLk9DNTebt5OWHRak7kXjWZ6ocpnqQa1HFICvPlssPcTa2+x4lBHEusHJJTHkm2HWtogEYfYdRvwCnTAEvsbQiksZxPyBknzQI9dU+V8zmGeofQOWhBaHNWu9LP97YVACcE0rn0OqQoQmj98xUBvfk8nWGRp/UVKmBJEDTWNilf2y39Pcky2gpA24AYg4g==
+ b=CWzyzcThJ1xsiy8bC89xELDhW5e4djNdwcPfJVZmO4/MjJKg7esbnVLYRvpt3ToM3gJXFhR1J5krgpchxIRmmyDg+32xJwmH1SB/2ef6R2OhIJHgOE8DEl/pTSm9xCfLW+DJrgy5QHREUfrVAlqSTMlHgUwz1AThua8rr45ULsYj8QCSjeQBGvHb1sTsZLU7NnXQ5P2xle5VnVqHjGd1j2mvvDHilPr+AfmGjLZBsHJH6vB6LHk1sIrU3ae9FGmiUFinodH5wBZ1c3xkjWkb78i9TPMr+BNrKvZFjyinQHzCA6OhVHkP8BdZsCctGV+6zz2tpxMog5+y+sgFrOIg6g==
 ARC-Authentication-Results: i=1;
 	pharaoh.lmichel.fr
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
@@ -88,31 +88,70 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The nanosecond unit greatly limits the dynamic range we can display in
+clock value traces, for values in the order of 1GHz and more. The
+internal representation can go way beyond this value and it is quite
+common for today's clocks to be within those ranges.
+
+For example, a frequency between 500MHz+ and 1GHz will be displayed as
+1ns. Beyond 1GHz, it will show up as 0ns.
+
+Replace nanosecond periods traces with frequencies in the Hz unit
+to have more dynamic range in the trace output.
+
 Signed-off-by: Luc Michel <luc@lmichel.fr>
 ---
- include/hw/clock.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/core/clock.c      | 6 +++---
+ hw/core/trace-events | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index d357594df9..c93e6113cd 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -79,10 +79,15 @@ struct Clock {
- extern const VMStateDescription vmstate_clock;
- #define VMSTATE_CLOCK(field, state) \
-     VMSTATE_CLOCK_V(field, state, 0)
- #define VMSTATE_CLOCK_V(field, state, version) \
-     VMSTATE_STRUCT_POINTER_V(field, state, version, vmstate_clock, Clock)
-+#define VMSTATE_ARRAY_CLOCK(field, state, num) \
-+    VMSTATE_ARRAY_CLOCK_V(field, state, num, 0)
-+#define VMSTATE_ARRAY_CLOCK_V(field, state, num, version)          \
-+    VMSTATE_ARRAY_OF_POINTER_TO_STRUCT(field, state, num, version, \
-+                                       vmstate_clock, Clock)
+diff --git a/hw/core/clock.c b/hw/core/clock.c
+index 7066282f7b..81184734e0 100644
+--- a/hw/core/clock.c
++++ b/hw/core/clock.c
+@@ -37,12 +37,12 @@ void clock_clear_callback(Clock *clk)
+ bool clock_set(Clock *clk, uint64_t period)
+ {
+     if (clk->period == period) {
+         return false;
+     }
+-    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_NS(clk->period),
+-                    CLOCK_PERIOD_TO_NS(period));
++    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_HZ(clk->period),
++                    CLOCK_PERIOD_TO_HZ(period));
+     clk->period = period;
  
- /**
-  * clock_setup_canonical_path:
-  * @clk: clock
-  *
+     return true;
+ }
+ 
+@@ -52,11 +52,11 @@ static void clock_propagate_period(Clock *clk, bool call_callbacks)
+ 
+     QLIST_FOREACH(child, &clk->children, sibling) {
+         if (child->period != clk->period) {
+             child->period = clk->period;
+             trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
+-                               CLOCK_PERIOD_TO_NS(clk->period),
++                               CLOCK_PERIOD_TO_HZ(clk->period),
+                                call_callbacks);
+             if (call_callbacks && child->callback) {
+                 child->callback(child->callback_opaque);
+             }
+             clock_propagate_period(child, call_callbacks);
+diff --git a/hw/core/trace-events b/hw/core/trace-events
+index 1ac60ede6b..6f96d8bfd0 100644
+--- a/hw/core/trace-events
++++ b/hw/core/trace-events
+@@ -29,8 +29,8 @@ resettable_phase_exit_end(void *obj, const char *objtype, unsigned count) "obj=%
+ resettable_transitional_function(void *obj, const char *objtype) "obj=%p(%s)"
+ 
+ # clock.c
+ clock_set_source(const char *clk, const char *src) "'%s', src='%s'"
+ clock_disconnect(const char *clk) "'%s'"
+-clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', ns=%"PRIu64"->%"PRIu64
++clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', %"PRIu64"hz->%"PRIu64"hz"
+ clock_propagate(const char *clk) "'%s'"
+-clock_update(const char *clk, const char *src, uint64_t val, int cb) "'%s', src='%s', ns=%"PRIu64", cb=%d"
++clock_update(const char *clk, const char *src, uint64_t hz, int cb) "'%s', src='%s', val=%"PRIu64"hz cb=%d"
 -- 
 2.28.0
 
