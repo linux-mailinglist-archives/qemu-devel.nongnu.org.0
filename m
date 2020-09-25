@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73AA278755
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:35:45 +0200 (CEST)
-Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E59F27874C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:33:29 +0200 (CEST)
+Received: from localhost ([::1]:47378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmwy-0007ky-Pf
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:35:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
+	id 1kLmum-0005YN-1O
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:33:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLmhl-0001NE-Vk
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:20:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kLmhj-0005dD-OK
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLmhl-0001Ms-46
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:20:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLmhj-0005d9-Bo
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:20:00 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601036399;
+ s=mimecast20190719; t=1601036398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X1Ok+S4tCqvlGBK8mlM5wkU0Ocgo70X7Bu7JzOiKepQ=;
- b=hTcn7oVaehSRSW5b2SStQvkJHwpooj+Zrma5IvHALb4NM6GKu/zpmuzQtgooOcMepbAalR
- tQBRoIKMFU2J1pwcwiZ9pUTk+krFXXu19WnOfbaGVRg+4MAu1TQEWUYLyQykOYy/20V9qd
- wSmegCXpkpQp4ThGbKhK2ug3V6Z04KE=
+ bh=ZEH6VI9EZI0WB7IP/xooniTqfZZCAukTQa6Rslmvrs4=;
+ b=J49+MyEcnXsK4+wIper3ZRLsnHhcE7Yz4LRkZnmtE7f0WQ8PbtpBS/tjcAOCS7ptCvEqAr
+ vEdIzzNXyeENoBUZYRAFHbn0tC1KFadYyWRpYhf2s1PmIfkS3ECbQio62JLzWZ52bzCZ7h
+ cSg8Cd3JYDflMKGiU6qh/0Eoungwn2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-4VN7quNmPySyZWlRVXo_vw-1; Fri, 25 Sep 2020 08:19:57 -0400
-X-MC-Unique: 4VN7quNmPySyZWlRVXo_vw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-325-dorw4QlwMU-4oqHqlWWmLQ-1; Fri, 25 Sep 2020 08:19:56 -0400
+X-MC-Unique: dorw4QlwMU-4oqHqlWWmLQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36B3F18B9F42;
- Fri, 25 Sep 2020 12:19:56 +0000 (UTC)
-Received: from gondolin (ovpn-112-192.ams2.redhat.com [10.36.112.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BEC95D9DC;
- Fri, 25 Sep 2020 12:19:49 +0000 (UTC)
-Date: Fri, 25 Sep 2020 14:19:47 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Subject: Re: [PATCH] virtio-pmem-pci: force virtio version 1
-Message-ID: <20200925141947.4c30b2a8.cohuck@redhat.com>
-In-Reply-To: <CAM9Jb+gmKmqVmb+BsNQ5R_rxiwEKBJKhEiO_=j_dYnoLkLC_cQ@mail.gmail.com>
-References: <20200925102251.7216-1-pankaj.gupta.linux@gmail.com>
- <20200925123837.1733dcdc.cohuck@redhat.com>
- <CAM9Jb+gmKmqVmb+BsNQ5R_rxiwEKBJKhEiO_=j_dYnoLkLC_cQ@mail.gmail.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8820C802EA3;
+ Fri, 25 Sep 2020 12:19:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
+ [10.36.112.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5827060C07;
+ Fri, 25 Sep 2020 12:19:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D5FC4113865F; Fri, 25 Sep 2020 14:19:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 18/38] qapi/events.py: Move comments into docstrings
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-19-jsnow@redhat.com>
+ <20200923144819.GE3312949@habkost.net>
+Date: Fri, 25 Sep 2020 14:19:52 +0200
+In-Reply-To: <20200923144819.GE3312949@habkost.net> (Eduardo Habkost's message
+ of "Wed, 23 Sep 2020 10:48:19 -0400")
+Message-ID: <87k0wit5ef.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,55 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Sep 2020 13:49:05 +0200
-Pankaj Gupta <pankaj.gupta.linux@gmail.com> wrote:
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-> >  
-> > >  Qemu fails with below error when trying to run with virtio pmem:
-> > >
-> > >  (qemu) qemu-system-x86_64: -device virtio-pmem-pci,memdev=mem1,id=nv1:
-> > >   device is modern-only, use disable-legacy=on  
-> >
-> > Oh, another one :(  
-> :)
-> >  
-> > >
-> > >  This patch fixes this by forcing virtio 1 with virtio-pmem.
-> > >
-> > > fixes: adf0748a49 ("virtio-pci: Proxy for virtio-pmem")
-> > > Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> > > ---
-> > >  hw/virtio/virtio-pmem-pci.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/hw/virtio/virtio-pmem-pci.c b/hw/virtio/virtio-pmem-pci.c
-> > > index 21a457d151..2b2a0b1eae 100644
-> > > --- a/hw/virtio/virtio-pmem-pci.c
-> > > +++ b/hw/virtio/virtio-pmem-pci.c
-> > > @@ -22,6 +22,7 @@ static void virtio_pmem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> > >      VirtIOPMEMPCI *pmem_pci = VIRTIO_PMEM_PCI(vpci_dev);
-> > >      DeviceState *vdev = DEVICE(&pmem_pci->vdev);
-> > >
-> > > +    virtio_pci_force_virtio_1(vpci_dev);
-> > >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> > >  }
-> > >  
-> >
-> > The alternative would be to force virtio 1 only for 5.1 and later (see
-> > https://lore.kernel.org/qemu-devel/20200921122506.82515-1-sgarzare@redhat.com/).  
-> 
-> Thanks for sharing this. It's still good to mark virtio pmem as a
-> modern virtio device.
+> On Tue, Sep 22, 2020 at 05:00:41PM -0400, John Snow wrote:
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  scripts/qapi/events.py | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+>> index 00a9513c16..e859fd7a52 100644
+>> --- a/scripts/qapi/events.py
+>> +++ b/scripts/qapi/events.py
+>> @@ -52,8 +52,10 @@ def gen_event_send_decl(name: str,
+>>                   proto=build_event_send_proto(name, arg_type, boxed))
+>>  
+>>  
+>> -# Declare and initialize an object 'qapi' using parameters from build_params()
+>>  def gen_param_var(typ: QAPISchemaObjectType) -> str:
+>> +    """
+>> +    Declare and initialize a qapi object, using parameters from `build_params`.
+>
+> The mention of "object 'qapi'" is gone, and this seems correct
+> because there's no object called 'qapi' anywhere in this
+> function.  So:
+>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>
+> Comments/questions for follow up patches, because it's beyond the
+> scope of this series:
+>
+> - Was the doc string supposed to say "an object 'param'" instead
+>   of "an object 'qapi'", as that's the name of the variable it
+>   declares?
 
-If you don't really need to care about compat handling, forcing virtio
-1 is fine.
+Checking history... yes.  The variable was renamed from @qapi to @param
+during review.
 
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+> - The "using parameters from build_params()" part was confusing to
+>   me.  I thought it meant gen_param_var() would call build_params().
+>   I took a while to notice it actually meant "using the C
+>   function parameters that were previously declared using
+>   build_params() at build_event_send_proto()".  I don't know
+>   how we could make it clearer.
+
+What about:
+
+    Generate a QAPI struct variable holding the event parameters,
+    initialized with the function's arguments.
+
+>> +    """
+>>      assert not typ.variants
+>>      ret = mcgen('''
+>>      %(c_name)s param = {
+>> -- 
+>> 2.26.2
+>> 
 
 
