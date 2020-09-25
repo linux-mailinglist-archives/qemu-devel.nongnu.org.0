@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74CE277FF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 07:32:04 +0200 (CEST)
-Received: from localhost ([::1]:43344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D36427800E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 07:56:49 +0200 (CEST)
+Received: from localhost ([::1]:48520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLgKw-0006it-7O
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 01:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
+	id 1kLgiu-0002fO-G8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 01:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLgH6-0006AU-OB; Fri, 25 Sep 2020 01:28:04 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:36047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kLgH3-00079x-Ub; Fri, 25 Sep 2020 01:28:04 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 90C3D58031C;
- Fri, 25 Sep 2020 01:28:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute7.internal (MEProxy); Fri, 25 Sep 2020 01:28:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=6fEy7Fs/dx1VtqTnuZoxt0adG8w
- N+t1idcCWjjhTniw=; b=wJHzNm7WgPxnnF4D1695Y8NkDusd7oHdcNu673pSO8T
- 1goGcOqYamLLUjtLcScifJiiNhZmQpQDAQPQiJWp8LMDuU3l5eOO/iGAL4PC36Qm
- y6tBNEZwfgWDRer6vQR9nuw/pI6d6UklHFyi07JJMI/9sy5Tm3MxvNhriQFcMkHr
- qMY8C/z+7cqZVfwBKbwsUMto+f/1uPW8Xlg6eFasMBqEd72li4eGIpLGnKWzvBW4
- lgUsEi9rkfVchfhXbeEk3KdXJPPgAkv5+qVhZ7svTJaIG4envgWk+Vfmi4MHbG9C
- HSW3kfo/ec4/DR4jwz5j0C73rI3bPx7jl5ap1fv8ZEg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=6fEy7F
- s/dx1VtqTnuZoxt0adG8wN+t1idcCWjjhTniw=; b=fKu/e8wTtCx6Gm89kGjaJN
- CUILdofTS1qbhKJ5EGRH7EGMBXr+8vPC7YrEgjMXEiIfKzTx06/QN8ktVEM4qh9n
- CWOXoeelJ6Kdok6sepIYSxl8bgTJ4KMXRJWahJI85aIu5cJYCz8HwFaaKCh8SaB6
- H9QISFx7knyMaWNsdMmrFZ5dFhjKHDYgaKtck2zoBwG5mJf+yKAHmJd9fo5Vj0TR
- +LYK4xP8X2suy6xgcLGN3rN/7PVzEkqA82xagmISrAE+2DDeKQtcNOOzFPEYgGTI
- CZ6zY2n74k/DyZgA5ZSgm23zgQBhR5toSIyvb4Ycq5Au+w7+s3GSwh7FSp0GHiIg
- ==
-X-ME-Sender: <xms:339tX0JszhOvq4mvlH7kAnIwUD8ll9y69AbFO0uQ9Yw3i-gKkzuDnQ>
- <xme:339tX0KA9TQMqkz6sKXUof3VYjRnU16I1wz2U8-gvuf2cpliwTzOuiAnvuNqAi1tk
- SQCCeaGoQ2UDijYWyM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelgdeludcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:339tX0tA-43MoU3QmWQqzyyvC2E8U9xZ0SvkfhLFFqkbNRYmmRzVRA>
- <xmx:339tXxYuxcO6Bl89MB3_hfDgUfPEPRmlKA1AdhnRBWAa1Kjsg4KbbA>
- <xmx:339tX7Yn6E5z4PS58rmKH03rodb1szyKMDy_SPgUmOg-tY57mBINuQ>
- <xmx:4H9tX2wjl4zfQ25IegcfJIx9ayfDqaerRXd6VwS9d_bVFogSR0yRbw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E8D6B328005D;
- Fri, 25 Sep 2020 01:27:57 -0400 (EDT)
-Date: Fri, 25 Sep 2020 07:27:56 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 00/16] hw/block/nvme: zoned namespace command set
-Message-ID: <20200925052756.GA1899703@apples.localdomain>
-References: <20200924204516.1881843-1-its@irrelevant.dk>
- <20200925012407.GA5897@C02WT3WMHTD6>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kLgiA-0002EC-Kh
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 01:56:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kLgi8-0001kI-LC
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 01:56:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kLgi6-0001mN-0g
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:55:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 042B22E80EE
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:55:58 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
-Content-Disposition: inline
-In-Reply-To: <20200925012407.GA5897@C02WT3WMHTD6>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:28:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 25 Sep 2020 05:47:54 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1849644@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=In Progress; importance=Low;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange laurent-vivier npes87184 paelzer samuel-t
+X-Launchpad-Bug-Reporter: Samuel (samuel-t)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
+Message-Id: <160101287484.26542.12601182506463721030.launchpad@wampee.canonical.com>
+Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
+ 'binary' subprotocol
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a314d157ca9be8d00eae0214fc0d7dff1cd406e4"; Instance="production"
+X-Launchpad-Hash: 0b348cc84df50b4d35324883ba7b49ff6ee51e5c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:55:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,57 +79,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Description changed:
 
---9amGYk9869ThD9tj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+- When running a machine using "-vnc" and the "websocket" option QEMU
+- seems to require the subprotocol called 'binary'. This subprotocol does
+- not exist in the WebSocket specification. In fact it has never existed
+- in the spec, in one of the very early drafts of WebSockets it was
+- briefly mentioned but it never made it to a final version.
++ [Impact]
++ =
 
-On Sep 24 19:24, Keith Busch wrote:
-> On Thu, Sep 24, 2020 at 10:45:00PM +0200, Klaus Jensen wrote:
-> > Finally, I wrote this. I am *NOT* saying that this somehow makes it
-> > better, but as a maintainer, is a big deal to me since both series are
-> > arguably a lot of code to maintain and support (both series are about
-> > the same size). But - I am not the only maintainer, so if Keith (now
-> > suddenly placed in the grim role as some sort of arbiter) signs off on
-> > Dmitry's series, then so be it, I will rest my case.
->=20
-> I think it's neat there's enough interest in ZNS that we have multiple
-> solutions to consider.
->=20
++  * The exact details of the protocol/subprotocal was slightly unclear
++    between the projects. So qemu ended up insisting on "binary" being
++    used but newer noVNC clients no more used it.
++ =
 
-Yes - it is a luxury problem :)
++  * Qemu got fixed in 5.0 to be more tolerant and accept an empty sub-
++    protocol as well. This SRU backports that fix to Focal.
++ =
 
-> I'm still catching up from virtual conferencing, but I should be able to =
-have a
-> look over the weekend. I know everyone's put a lot of work into the devel=
-opment
-> of this capability, so maybe there's something to be taken from both? Not=
- sure
-> yet if that's feasible, but I'll have a better idea on that later.
++ [Test Case]
++ =
 
-Thanks Keith, sounds good.
++  * Without the fix the following will "Failed to connect", but with the
++ fix it will work.
++ =
 
---9amGYk9869ThD9tj
-Content-Type: application/pgp-signature; name="signature.asc"
++ $ sudo apt install qemu-system-x86
++ # will only boot into a failing bootloader, but that is enough
++ $ qemu-system-x86_64 -vnc :0,websocket
++ # We need version 1.2 or later, so use the snap
++ $ snap install novnc
++ $ novnc --vnc localhost:5700
++ Connect browser to http://<IP>:6080/vnc.html
++ Click "Connect"
++ =
 
------BEGIN PGP SIGNATURE-----
++  * Cross check with an older noVNC (e.g. the one in Focal) if the =
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9tf9cACgkQTeGvMW1P
-Denatwf/d2XNqwuHV9su+QANmyJQ9rFuRG9FOo3GYjNb8E+mq8T8S9ooEVrHISKc
-j/9uktWnpUSoGaXjhwcgVrsrk4B/GDsI+CzbH6V1RdtSyDB55abeI/ck601Erixj
-qFsYLl3v5V3xFm0PlxfiMUM8jw7P3OeO3XdeXAZyGwT4pGEveBrCWH/PP7MrAmj7
-0VsrVj0O9uoIqR7GhEGzDX4704twHlYYROnOiS8HaeBmEJczrYv51ZniXnkOie7W
-WU95efWo/GunKW6X4ib/T76pAEaWS3kKoacur3R0M+LMfb1h7ythxtYJIAVqWFXL
-GEnLNKu9KfjSZzN0NLK82uo+QcCohQ==
-=3OHw
------END PGP SIGNATURE-----
++    connectivity still works on those as well
++ =
 
---9amGYk9869ThD9tj--
++    - Reminders when switching between the noVNC implementations
++      - always refresh the browser with all clear ctrl+alt+f5
++      - start/stop the snapped one via snap.novnc.novncsvc.service
++ =
+
++ [Regression Potential]
++ =
+
++  * This is exclusive to the functionality of noVNC, so regressions would =
+
++    have to be expected in there. The tests try to exercise the basics, but
++    e.g. Openstack would be a major product using =
+
++ =
+
++ [Other Info]
++  =
+
++  * The noVNC in Focal itself does not yet have the offending change, but
++    we want the qemu in focal to be connecteable from ~any type of client
++ =
+
++ =
+
++ ---
++ =
+
++ =
+
++ =
+
++ When running a machine using "-vnc" and the "websocket" option QEMU seems=
+ to require the subprotocol called 'binary'. This subprotocol does not exis=
+t in the WebSocket specification. In fact it has never existed in the spec,=
+ in one of the very early drafts of WebSockets it was briefly mentioned but=
+ it never made it to a final version.
+  =
+
+  When the WebSocket server requires a non-standard subprotocol any
+  WebSocket client that works correctly won't be able to connect.
+  =
+
+  One example of such a client is noVNC, it tells the server that it
+  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't let
+  noVNC connect. If noVNC is modified to ask for 'binary' it will work,
+  this is, however, incorrect behavior.
+  =
+
+  Looking at the code in "io/channel-websock.c" it seems it's quite hard-
+  coded to binary:
+  =
+
+  Look at line 58 and 433 here:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
+  =
+
+  This code has to be made more dynamic, and shouldn't require binary.
+
+** Changed in: qemu (Ubuntu Focal)
+       Status: Confirmed =3D> Triaged
+
+** Changed in: qemu (Ubuntu Focal)
+       Status: Triaged =3D> In Progress
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1849644
+
+Title:
+  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  In Progress
+
+Bug description:
+  [Impact]
+
+   * The exact details of the protocol/subprotocal was slightly unclear
+     between the projects. So qemu ended up insisting on "binary" being
+     used but newer noVNC clients no more used it.
+
+   * Qemu got fixed in 5.0 to be more tolerant and accept an empty sub-
+     protocol as well. This SRU backports that fix to Focal.
+
+  [Test Case]
+
+   * Without the fix the following will "Failed to connect", but with
+  the fix it will work.
+
+  $ sudo apt install qemu-system-x86
+  # will only boot into a failing bootloader, but that is enough
+  $ qemu-system-x86_64 -vnc :0,websocket
+  # We need version 1.2 or later, so use the snap
+  $ snap install novnc
+  $ novnc --vnc localhost:5700
+  Connect browser to http://<IP>:6080/vnc.html
+  Click "Connect"
+
+   * Cross check with an older noVNC (e.g. the one in Focal) if the =
+
+     connectivity still works on those as well
+
+     - Reminders when switching between the noVNC implementations
+       - always refresh the browser with all clear ctrl+alt+f5
+       - start/stop the snapped one via snap.novnc.novncsvc.service
+
+  [Regression Potential]
+
+   * This is exclusive to the functionality of noVNC, so regressions would =
+
+     have to be expected in there. The tests try to exercise the basics, but
+     e.g. Openstack would be a major product using =
+
+
+  [Other Info]
+   =
+
+   * The noVNC in Focal itself does not yet have the offending change, but
+     we want the qemu in focal to be connecteable from ~any type of client
+
+
+  ---
+
+
+  =
+
+  When running a machine using "-vnc" and the "websocket" option QEMU seems=
+ to require the subprotocol called 'binary'. This subprotocol does not exis=
+t in the WebSocket specification. In fact it has never existed in the spec,=
+ in one of the very early drafts of WebSockets it was briefly mentioned but=
+ it never made it to a final version.
+
+  When the WebSocket server requires a non-standard subprotocol any
+  WebSocket client that works correctly won't be able to connect.
+
+  One example of such a client is noVNC, it tells the server that it
+  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
+  let noVNC connect. If noVNC is modified to ask for 'binary' it will
+  work, this is, however, incorrect behavior.
+
+  Looking at the code in "io/channel-websock.c" it seems it's quite
+  hard-coded to binary:
+
+  Look at line 58 and 433 here:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
+
+  This code has to be made more dynamic, and shouldn't require binary.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
 
