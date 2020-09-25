@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C23F278A0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:53:47 +0200 (CEST)
-Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B495B278A1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:56:43 +0200 (CEST)
+Received: from localhost ([::1]:56114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLoAU-0007Gm-En
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34342)
+	id 1kLoDK-0002Pd-OT
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kLo3O-00081e-Uy
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:46:27 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:37412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kLo3K-0000Qq-Pj
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:46:26 -0400
-Received: by mail-io1-xd43.google.com with SMTP id y13so2762982iow.4
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:46:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qsJFz9ZZQHN3NtmfxBoCNhND12L6eT8AG7JY+9MDvSY=;
- b=f2tky5zkMeRO7gO/eYJ54yvvNG+W+3YXtoUVuXiwZTrKn7zBduW0aEDIjhX0Vuhoji
- oj7n9VTuftwGB493G6iz1ARTvNEqZUJTYzY3pT0DJTM3dpysrFqSJvkOM2ffxef6FuBe
- qdmVK4vVpzX3D7ZsF82u2G5gqTiqldxpaNC0ehbjmM4dIhKnqEiCBRF7kb4pl17hpmE1
- LppKYD7N9T3x82ueuhepKUEbnRWvAdy1oMi82IQli4q121V7RBHgnPPerCMitTGcZwyx
- tUVY0KDJgPZZe57YWyIaKUwTU0e9h7NRnWx5/R1X0PPYGrXQoIvImnPbpNb8OdS0kZAE
- orbg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kLo3g-0008Ui-B6
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:46:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kLo3e-0000WF-Ey
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:46:43 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601041601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u+PTCwbI92mESxT97awff80rbzW6pzd40xZ32fTMYC0=;
+ b=ZgnRUJhosbjqpgen1HpKBnxb6ONHIkYzMolwxeFDP/GJ5VR1Ldi9Q6JkcNf0KhRG1raQbX
+ fH8eu/gbeUuVgjb8x00UEhmNV5o4D4pkeI2kPPbuP3DycSQpOq867QB37s9/TmcT5h5p5K
+ wLrNL404bettjAbZzJciYdxeC4yRG7M=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-ZrqkFbDFONeq142QPJFzxw-1; Fri, 25 Sep 2020 09:46:39 -0400
+X-MC-Unique: ZrqkFbDFONeq142QPJFzxw-1
+Received: by mail-qv1-f71.google.com with SMTP id z12so1684280qvp.11
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:46:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qsJFz9ZZQHN3NtmfxBoCNhND12L6eT8AG7JY+9MDvSY=;
- b=ew56laSNYu1SciOsO4B0NuL0nDk88NXYb+lBxmNS7ZUUKiIfpQnfMuwVEv1nfyYHwY
- aVrsMBIc+W4PNG8Z8MOXCswlv4cgqjzTcJTje4RmWjN7HGR3H/cXqurZPY/2EBJprG4k
- TljmVs5IexOtBiWAzvMyJALfF/L8Shs/2uY5sBT/gXueKBOVuAkrK/DmfdTeKTggMGrq
- rA1Ki9wNe9zZLtxk+hFhAY3TdcTDoIN1DcDrWgW0E2SzaKjvlfJaaAq7FI31xnFtegRN
- N0ZHGIV4UgQ8ov5E3MENvpxnn08iDGq1NzFqGTteNvBU6qwzJYkSpN2p0Wf4haI2PvrO
- CXvg==
-X-Gm-Message-State: AOAM531Xr4lDgkFYKLaXpfFCyM0UBV/S2A5WBhqTUcskEl4a6gSv/Gbu
- LNHByQtNlW4wGfrCqs/K0ID24A/UGnuMMskOMbI=
-X-Google-Smtp-Source: ABdhPJw+8CXvNGB9Hyv2pTHwUCtN0E23aUCmL+Kxzf2rGBAPbOd9ICGL5o6OGdxLo2U18GQkUDf84f4usFjNkPMlFd8=
-X-Received: by 2002:a6b:7909:: with SMTP id i9mr270536iop.98.1601041581479;
- Fri, 25 Sep 2020 06:46:21 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=u+PTCwbI92mESxT97awff80rbzW6pzd40xZ32fTMYC0=;
+ b=T5ez0+6nOAuCTBv/+X1Mwuar83Vb6FJJxjm2D5WOAnoaPw4JUjgr1QLtspbArZ0/rZ
+ Y9vG3V/p+H9wajPyZXN2n2wJMVCaRV/H1Sb8Z7AynMNZMkD7CAxkcuev1FUHUcxd5dI8
+ sTZ+YyQfPLU6QPk99B8oIpuAl95L5IlqnlFndFNJgUS3QWLHcCmcm/WU60yudM7Jsdkf
+ CDRHx3PciZgQEVh0o1mz1jOHqQfXSJQ+cFubY5I+OGCe9E/qwsYa4AE6nhLZYnVI2SDM
+ FjUut+xD2G1qlhgsVvCE8cF6XdA4dT7PikZNx5udIWiu8XMl4Se8PrBjz1rrZEdd8xnM
+ WU/A==
+X-Gm-Message-State: AOAM533SNm0n223TUikmkhSmrFDHRqwI+CFsy7mknC1v+S37fJ0xaC4t
+ LKqBq139GTWQrGtE5uAWMi9pOPzK4ZKazIQd/Ik8qE6G1wQeVEEFKZqNoNtkUZdUlyRLkXhJI5c
+ N8rkKqnHAEod6GXQ=
+X-Received: by 2002:a05:6214:601:: with SMTP id z1mr4667541qvw.0.1601041599406; 
+ Fri, 25 Sep 2020 06:46:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSuIcMNzLFYwzz3oESL5DTKn7YQWWS0lRAB0noFOO97ayLrSwaagdvyJs2FJfM79nlUVrm9Q==
+X-Received: by 2002:a05:6214:601:: with SMTP id z1mr4667521qvw.0.1601041599107; 
+ Fri, 25 Sep 2020 06:46:39 -0700 (PDT)
+Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
+ [70.53.122.15])
+ by smtp.gmail.com with ESMTPSA id v56sm2014957qtc.49.2020.09.25.06.46.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 06:46:38 -0700 (PDT)
+Date: Fri, 25 Sep 2020 09:46:37 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 0/6] migration/postcopy: Sync faulted addresses after
+ network recovered
+Message-ID: <20200925134637.GA188812@xz-x1>
+References: <20200908203022.341615-1-peterx@redhat.com>
+ <20200923174311.GA124840@work-vm> <20200925115026.GA2874@work-vm>
 MIME-Version: 1.0
-References: <20200923113900.72718-1-david@redhat.com>
- <20200923113900.72718-2-david@redhat.com>
-In-Reply-To: <20200923113900.72718-2-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Fri, 25 Sep 2020 15:46:10 +0200
-Message-ID: <CAM9Jb+gJkzW3_d-JxG+o6eYttSXHPGxCGDhzLgpyb_okOG+xXA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] virtio-mem: Probe THP size to determine default
- block size
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200925115026.GA2874@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,161 +95,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Wei Yang <richardw.yang@linux.intel.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Xiaohui Li <xiaohli@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Let's allow a minimum block size of 1 MiB in all configurations. Use
-> a default block size based on the THP size, and warn if something
-> smaller is configured by the user.
->
-> VIRTIO_MEM only supports Linux (depends on LINUX), so we can probe the
-> THP size unconditionally.
->
-> For now we only support virtio-mem on x86-64 - there isn't a user-visiable
-> change (x86-64 only supports 2 MiB THP on the PMD level) - the default
-> was, and will be 2 MiB.
->
-> If we ever have THP on the PUD level (e.g., 1 GiB THP on x86-64), we
-> expect to have a trigger to explicitly opt-in for the new THP granularity.
->
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Wei Yang <richardw.yang@linux.intel.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/virtio/virtio-mem.c | 82 +++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 78 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index 8fbec77ccc..58098686ee 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -33,10 +33,70 @@
->  #include "trace.h"
->
->  /*
-> - * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
-> - * memory (e.g., 2MB on x86_64).
-> + * Let's not allow blocks smaller than 1 MiB, for example, to keep the tracking
-> + * bitmap small.
->   */
-> -#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)QEMU_VMALLOC_ALIGN)
-> +#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
-> +
-> +/*
-> + * We want to have a reasonable default block size such that
-> + * 1. We avoid splitting THPs when unplugging memory, which degrades
-> + *    performance.
-> + * 2. We avoid placing THPs for plugged blocks that also cover unplugged
-> + *    blocks.
-> + *
-> + * The actual THP size might differ between Linux kernels, so we try to probe
-> + * it. In the future (if we ever run into issues regarding 2.), we might want
-> + * to disable THP in case we fail to properly probe the THP size, or if the
-> + * block size is configured smaller than the THP size.
-> + */
-> +static uint32_t default_block_size;
-> +
-> +#define HPAGE_PMD_SIZE_PATH "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
-> +static uint32_t virtio_mem_default_block_size(void)
-> +{
-> +    gchar *content = NULL;
-> +    const char *endptr;
-> +    uint64_t tmp;
-> +
-> +    if (default_block_size) {
-> +        return default_block_size;
-> +    }
-> +
-> +    /*
-> +     * Try to probe the actual THP size, fallback to (sane but eventually
-> +     * incorrect) default sizes.
-> +     */
-> +    if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
-> +        !qemu_strtou64(content, &endptr, 0, &tmp) &&
-> +        (!endptr || *endptr == '\n')) {
-> +        /*
-> +         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
-> +         * pages) or weird, fallback to something smaller.
-> +         */
-> +        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
-> +            warn_report("Detected a THP size of %" PRIx64
-> +                        " MiB, falling back to 1 MiB.", tmp / MiB);
-> +            default_block_size = 1 * MiB;
+On Fri, Sep 25, 2020 at 12:50:26PM +0100, Dr. David Alan Gilbert wrote:
+> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> > * Peter Xu (peterx@redhat.com) wrote:
+> > > v2:
+> > 
+> > Queued
+> 
+> Hi Peter,
+>   I've had to unqueue most of this; it doesn't like building on 32bit.
+> I fixed up the trace_ stuff easily (_del can take a void*, add just
+> needs to use PRIX64) but there are other places where it doesn't like
+> the casting from pointers to uint64_t's etc.
+> 
+>   I've kept the first couple of commits.
 
-Probably use macro "VIRTIO_MEM_MIN_BLOCK_SIZE"
-> +        } else {
-> +            default_block_size = tmp;
-> +        }
-> +    } else {
-> +#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
-> +    defined(__powerpc64__)
-> +        default_block_size = 2 * MiB;
-> +#else
-> +        /* fallback to 1 MiB (e.g., the THP size on s390x) */
-> +        default_block_size = 1 * MiB;
-> +#endif
+Thanks, Dave.  I'll have a look later and repost.
 
-Maybe we can declare this macro near to "VIRTIO_MEM_MIN_BLOCK_SIZE
-((uint32_t)(1 * MiB))"
-or club into one, just a thought.
+-- 
+Peter Xu
 
-> +        warn_report("Could not detect THP size, falling back to %" PRIx64
-> +                    "  MiB.", default_block_size / MiB);
-> +    }
-> +
-> +    g_free(content);
-> +    return default_block_size;
-> +}
-> +
->  /*
->   * Size the usable region bigger than the requested size if possible. Esp.
->   * Linux guests will only add (aligned) memory blocks in case they fully
-> @@ -437,6 +497,15 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
->      rb = vmem->memdev->mr.ram_block;
->      page_size = qemu_ram_pagesize(rb);
->
-> +    /*
-> +     * If the block size wasn't configured by the user, use a sane default. This
-> +     * allows using hugetlbfs backends with a pagesize bigger than the detected
-> +     * THP size without manual intervention/configuration.
-> +     */
-> +    if (!vmem->block_size) {
-> +        vmem->block_size = MAX(page_size, virtio_mem_default_block_size());
-> +    }
-> +
->      if (vmem->block_size < page_size) {
->          error_setg(errp, "'%s' property has to be at least the page size (0x%"
->                     PRIx64 ")", VIRTIO_MEM_BLOCK_SIZE_PROP, page_size);
-> @@ -760,6 +829,12 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
->          error_setg(errp, "'%s' property has to be a power of two", name);
->          return;
->      }
-> +
-> +    if (value < virtio_mem_default_block_size()) {
-> +        warn_report("'%s' property is smaller than the default block size "
-> +                    "(detected THP size) of %" PRIx64 " MiB", name,
-> +                    virtio_mem_default_block_size() / MiB);
-> +    }
->      vmem->block_size = value;
->  }
->
-> @@ -810,7 +885,6 @@ static void virtio_mem_instance_init(Object *obj)
->  {
->      VirtIOMEM *vmem = VIRTIO_MEM(obj);
->
-> -    vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
->      notifier_list_init(&vmem->size_change_notifiers);
->      vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
->
-> --
-> 2.26.2
->
 
