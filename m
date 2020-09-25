@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFCD278D19
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:48:09 +0200 (CEST)
-Received: from localhost ([::1]:60120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023E8278D37
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:53:22 +0200 (CEST)
+Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLpxA-00006Q-WA
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34344)
+	id 1kLq2D-0005iV-2N
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:53:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLpjo-0005CI-Kf
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:34:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38453)
+ id 1kLpmp-0007nk-8e
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:37:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kLpjm-0006m0-HW
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:34:20 -0400
+ id 1kLpml-0007Eb-1h
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:37:26 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601048057;
+ s=mimecast20190719; t=1601048242;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2jRr4AvgCfVa23Hi8U1sKX8X2s5I2G5lQffVGscQikc=;
- b=dr0ccCvHezvrr2uqrwNEbkCef9Rg/XBUOWPjWTIqLDM1NAeJKjeZ5KKxBarohVB6omZf4C
- m0GdalY/7AugRRAv/tQf72bEg9fUhsBGrc1KqEqXDLlCcpMRKBS8BnoepHpptUxDXp9aZV
- 1YcWacX9YXA1+yqWAB/JdARliP9FwVw=
+ bh=ANe7izlsvAT61cUuBs6PVDfU18VVxHK+XZUhRdZvqqE=;
+ b=YytAUqMXFw7nc06K+UZUHm0aD/OGpa/MleugYtRRqDPk8aa28fqOE9Q9wwd1aHGdmJYaGI
+ 4/VDvFYGZEfA/foJ7w6yg0zcAf19KL0iQoWxXniH41l2/j+VZXb7oSEh1ZW3KR9YagzWSC
+ SeKV/1Me61MbHUg1d5LZfSn2fqoxJgM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-YrRm__MbPfmT4JQL0pvUMg-1; Fri, 25 Sep 2020 11:34:14 -0400
-X-MC-Unique: YrRm__MbPfmT4JQL0pvUMg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-482-9jlOX98aMnKzLLkrpPvmGg-1; Fri, 25 Sep 2020 11:37:05 -0400
+X-MC-Unique: 9jlOX98aMnKzLLkrpPvmGg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98AD88912FF;
- Fri, 25 Sep 2020 15:34:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4FF21005E6D;
+ Fri, 25 Sep 2020 15:37:04 +0000 (UTC)
 Received: from localhost (ovpn-115-66.ams2.redhat.com [10.36.115.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC22C5C1BB;
- Fri, 25 Sep 2020 15:34:07 +0000 (UTC)
-Date: Fri, 25 Sep 2020 16:34:06 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 791EC19C66;
+ Fri, 25 Sep 2020 15:37:04 +0000 (UTC)
+Date: Fri, 25 Sep 2020 16:37:03 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 3/6] block/nvme: Reduce I/O registers scope
-Message-ID: <20200925153406.GB343759@stefanha-x1.localdomain>
+Subject: Re: [PATCH v2 0/6] block/nvme: Map doorbells pages write-only,
+ remove magic from nvme_init
+Message-ID: <20200925153703.GC343759@stefanha-x1.localdomain>
 References: <20200922083821.578519-1-philmd@redhat.com>
- <20200922083821.578519-4-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922083821.578519-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200922083821.578519-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LyciRD1jyfeSSjG0"
+ protocol="application/pgp-signature"; boundary="jy6Sn24JjFx/iggw"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -68,7 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,44 +86,57 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---LyciRD1jyfeSSjG0
+--jy6Sn24JjFx/iggw
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2020 at 10:38:18AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> @@ -808,6 +808,10 @@ static int nvme_init(BlockDriverState *bs, const cha=
-r *device, int namespace,
->          ret =3D -EIO;
->      }
->  out:
-> +    if (regs) {
-> +        qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)regs, 0, sizeof(Nvme=
-Bar));
-> +    }
+On Tue, Sep 22, 2020 at 10:38:15AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Instead of mapping 8K of I/O + doorbells as RW during the whole
+> execution, maps I/O temporarly at init, and map doorbells WO.
+>=20
+> Replace various magic values by slighly more explicit macros from
+> "block/nvme.h".
+>=20
+> Since v1: Fix uninitialized regs* (patchew)
+>=20
+> Philippe Mathieu-Daud=E9 (6):
+>   util/vfio-helpers: Pass page protections to qemu_vfio_pci_map_bar()
+>   block/nvme: Map doorbells pages write-only
+>   block/nvme: Reduce I/O registers scope
+>   block/nvme: Drop NVMeRegs structure, directly use NvmeBar
+>   block/nvme: Use register definitions from 'block/nvme.h'
+>   block/nvme: Replace magic value by SCALE_MS definition
+>=20
+>  include/qemu/vfio-helpers.h |  2 +-
+>  block/nvme.c                | 73 +++++++++++++++++++++----------------
+>  util/vfio-helpers.c         |  4 +-
+>  3 files changed, 44 insertions(+), 35 deletions(-)
+>=20
+> --=20
+> 2.26.2
+>=20
 
-qemu_vfio_pci_unmap_bar(NULL) is a nop, so the check is unnecessary.  I
-didn't look to see whether the doorbells can be NULL too during unmap,
-but if yes, then it's clearer to be consistent (always check NULL or
-never check NULL).
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
-Not worth respinning though.
+Stefan
 
---LyciRD1jyfeSSjG0
+--jy6Sn24JjFx/iggw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9uDe4ACgkQnKSrs4Gr
-c8iHiQgAxOb7++9OpggbikvmLdndsptZvQSeRGNNIPfas1MzndIPw8bRjIgIIPQH
-PzNu1SHZJpdR6vG+mukKAslliBYsNuQj6Dx0nvbtzE1MMADdEU7yG6XJAqqC8eNq
-557psxOaVGIqZvbT5+hb1ZV2V/6+lui4tTHH4iicjDaCYEbkr2ve0pF6/SG1hjKE
-MvZd+tsimPih2LxXDKrHu/ncWipxRanuUAdySBJIx9nDUrmyKLSAtsJ73B3K6ASA
-EqPq2gIdcAH7m4slx2fvkNr4yk91BCo9wzjR8rGkd1on2zBJe3OYXehj3QDLsLtO
-dQD3GP6mX0DZ3A+kPQIRkuhyaRy/Iw==
-=Vwyr
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9uDp8ACgkQnKSrs4Gr
+c8hYvQgAn0inP/zsZZ69JBiPpm6quzuhz+Gnu+72fooDMD/bY+bIth7EnRBRAVAw
+IgsW5jiIx4w00ldTpyjq4M98XtO+B5NDd/daYRpUEfMmyufgmKZCM5w66ErOftlL
+wzTshlvtohy2cEtHigGbaLJoeTTLsnf4DXdk4qNA/T6mDrsPFZ8sBpgqYMknA9Zn
+byiD7O6RocuooVcGE7potfQM2hU8vlslAQHqiLNYJUArPfh9oOCUzvu3yqvADbR0
+/Pc521f9yjTvt7t2d4wgN+HlnqQD5oiOq4BDcPX/SiajVsmYObw3LcmtURVRX5SZ
+cjASkLNkgL5B85rLARBRN1PcdG5duQ==
+=qXpW
 -----END PGP SIGNATURE-----
 
---LyciRD1jyfeSSjG0--
+--jy6Sn24JjFx/iggw--
 
 
