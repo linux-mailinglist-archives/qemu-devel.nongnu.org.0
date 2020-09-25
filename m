@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27215278F80
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 19:21:37 +0200 (CEST)
-Received: from localhost ([::1]:45876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A18278F9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 19:29:01 +0200 (CEST)
+Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLrPc-0000fo-8F
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 13:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33652)
+	id 1kLrWm-0004yZ-4y
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 13:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLrOc-0000FF-FL
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:20:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47881)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLrU7-0002If-I7
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:26:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLrOa-0006Fm-Ju
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:20:34 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kLrU5-0007AN-77
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 13:26:15 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601054432;
+ s=mimecast20190719; t=1601054771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=agSp5clNkAlvv+7OQrr58my2ojfitmXmXyJkiPqDTAQ=;
- b=HcgcCBt0EixryLdvj/ofSWKTHsjjR9mDk/qBEQAr5xEkDctB7Ma+bdIWFRsMXj0UC5yBYJ
- TcEeK7ADcOZm83dQdLoHzSqXciudk/KFTSqv0cHhazCEq6eHhoKZuueVGDJeISrorOVOR6
- Kw+VJdoU8LssnI0MIaGJD/VyNzbwVk4=
+ bh=BJsOJtdUq0tUG2aZuW0ACSP+CoOcPXw/lA+VjROBOnY=;
+ b=I/LvndCgZ+YpKQmCD4B5OuOVMZWvPwWk03xjWpChOCpoqfIVEi34tADYkqisqGktI8lWWY
+ 45Sbqz8UNA2uECDIp3fRPExARgbF57OqFfKEc3er4HMkRkEKb+eTg6Mmh6sR9GK82twUz3
+ Z6ig8nA+UXjZx06iInZss6g6NJ4bqjU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-xkDB8LHNOI2SgyYBo1w5HA-1; Fri, 25 Sep 2020 13:20:28 -0400
-X-MC-Unique: xkDB8LHNOI2SgyYBo1w5HA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-425-WtZn1hmBMYeqIrYsCF1iKg-1; Fri, 25 Sep 2020 13:26:10 -0400
+X-MC-Unique: WtZn1hmBMYeqIrYsCF1iKg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67B71802B4A;
- Fri, 25 Sep 2020 17:20:26 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 643011002C34;
- Fri, 25 Sep 2020 17:20:19 +0000 (UTC)
-Subject: Re: [PATCH v2 22/38] qapi/source.py: add type hint annotations
-To: Cleber Rosa <crosa@redhat.com>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-23-jsnow@redhat.com>
- <20200923223619.GV191229@localhost.localdomain>
- <0ace0c8d-0853-d078-d865-1453640b1c06@redhat.com>
- <20200925170524.GD402155@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <08a051c3-308c-4d68-ea9f-5db9f9c06a3e@redhat.com>
-Date: Fri, 25 Sep 2020 13:20:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0955887137B
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 17:26:09 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CC955D9F7;
+ Fri, 25 Sep 2020 17:26:08 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 01/10] qdev: add "check if address free" callback for buses
+Date: Fri, 25 Sep 2020 13:25:55 -0400
+Message-Id: <20200925172604.2142227-2-pbonzini@redhat.com>
+In-Reply-To: <20200925172604.2142227-1-pbonzini@redhat.com>
+References: <20200925172604.2142227-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925170524.GD402155@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,120 +81,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: stefanha@redhat.com, mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/20 1:05 PM, Cleber Rosa wrote:
-> On Wed, Sep 23, 2020 at 07:55:50PM -0400, John Snow wrote:
->> On 9/23/20 6:36 PM, Cleber Rosa wrote:
->>> On Tue, Sep 22, 2020 at 05:00:45PM -0400, John Snow wrote:
->>>> Annotations do not change runtime behavior.
->>>> This commit *only* adds annotations.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> ---
->>>>    scripts/qapi/mypy.ini  |  5 -----
->>>>    scripts/qapi/source.py | 31 ++++++++++++++++++-------------
->>>>    2 files changed, 18 insertions(+), 18 deletions(-)
->>>>
->>>> diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
->>>> index 9da1dccef4..43c8bd1973 100644
->>>> --- a/scripts/qapi/mypy.ini
->>>> +++ b/scripts/qapi/mypy.ini
->>>> @@ -39,11 +39,6 @@ disallow_untyped_defs = False
->>>>    disallow_incomplete_defs = False
->>>>    check_untyped_defs = False
->>>> -[mypy-qapi.source]
->>>> -disallow_untyped_defs = False
->>>> -disallow_incomplete_defs = False
->>>> -check_untyped_defs = False
->>>> -
->>>
->>> This is what I meant in my comment in the previous patch.  It looks
->>> like a mix of commit grannurality styles.  Not a blocker though.
->>>
->>
->> Yep. Just how the chips fell. Some files were just very quick to cleanup and
->> I didn't have to refactor them much when I split things out, so the
->> enablements got rolled in.
->>
->> I will, once reviews are in (and there is a commitment to merge), try to
->> squash things where it seems appropriate.
->>
->>>>    [mypy-qapi.types]
->>>>    disallow_untyped_defs = False
->>>>    disallow_incomplete_defs = False
->>>> diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
->>>> index e97b9a8e15..1cc6a5b82d 100644
->>>> --- a/scripts/qapi/source.py
->>>> +++ b/scripts/qapi/source.py
->>>> @@ -11,37 +11,42 @@
->>>>    import copy
->>>>    import sys
->>>> +from typing import List, Optional, TypeVar
->>>>    class QAPISchemaPragma:
->>>> -    def __init__(self):
->>>> +    def __init__(self) -> None:
->>>
->>> I don't follow the reason for typing this...
->>>
->>>>            # Are documentation comments required?
->>>>            self.doc_required = False
->>>>            # Whitelist of commands allowed to return a non-dictionary
->>>> -        self.returns_whitelist = []
->>>> +        self.returns_whitelist: List[str] = []
->>>>            # Whitelist of entities allowed to violate case conventions
->>>> -        self.name_case_whitelist = []
->>>> +        self.name_case_whitelist: List[str] = []
->>>>    class QAPISourceInfo:
->>>> -    def __init__(self, fname, line, parent):
->>>> +    T = TypeVar('T', bound='QAPISourceInfo')
->>>> +
->>>> +    def __init__(self: T, fname: str, line: int, parent: Optional[T]):
->>>
->>> And not this... to tune my review approach, should I assume that this
->>> series intends to add complete type hints or not?
->>>
->>
->> This is a mypy quirk you've discovered that I've simply forgotten about.
->>
->> When __init__ has *no* arguments, you need to annotate its return to explain
->> to mypy that you have fully typed that method. It's a sentinel that says
->> "Please type check this class!"
->>
-> 
-> Ouch.  Is this a permanent quirk or a known bug that will eventually
-> be addressed?
+Check if an address is free on the bus before plugging in the
+device.  This makes it possible to do the check without any
+side effects, and to detect the problem early without having
+to do it in the realize callback.
 
-Permanent, it is a feature.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/core/qdev.c         | 17 +++++++++++++++--
+ hw/net/virtio-net.c    |  2 +-
+ hw/sd/core.c           |  3 ++-
+ include/hw/qdev-core.h |  3 ++-
+ 4 files changed, 20 insertions(+), 5 deletions(-)
 
-mypy intentionally supports gradual typing as a paradigm: it allows you 
-to intermix "typed" and "untyped" functions.
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 96772a15bd..74db78df36 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -94,13 +94,23 @@ static void bus_add_child(BusState *bus, DeviceState *child)
+                              0);
+ }
+ 
+-void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
++static bool bus_check_address(BusState *bus, DeviceState *child, Error **errp)
++{
++    BusClass *bc = BUS_GET_CLASS(bus);
++    return !bc->check_address || bc->check_address(bus, child, errp);
++}
++
++bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
+ {
+     BusState *old_parent_bus = dev->parent_bus;
+     DeviceClass *dc = DEVICE_GET_CLASS(dev);
+ 
+     assert(dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type));
+ 
++    if (!bus_check_address(bus, dev, errp)) {
++        return false;
++    }
++
+     if (old_parent_bus) {
+         trace_qdev_update_parent_bus(dev, object_get_typename(OBJECT(dev)),
+             old_parent_bus, object_get_typename(OBJECT(old_parent_bus)),
+@@ -126,6 +136,7 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
+         object_unref(OBJECT(old_parent_bus));
+         object_unref(OBJECT(dev));
+     }
++    return true;
+ }
+ 
+ DeviceState *qdev_new(const char *name)
+@@ -371,7 +382,9 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
+     assert(!dev->realized && !dev->parent_bus);
+ 
+     if (bus) {
+-        qdev_set_parent_bus(dev, bus);
++        if (!qdev_set_parent_bus(dev, bus, errp)) {
++            return false;
++        }
+     } else {
+         assert(!DEVICE_GET_CLASS(dev)->bus_type);
+     }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 7bf27b9db7..268cecc498 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3142,7 +3142,7 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
+         error_setg(errp, "virtio_net: couldn't find primary bus");
+         return false;
+     }
+-    qdev_set_parent_bus(n->primary_dev, n->primary_bus);
++    qdev_set_parent_bus(n->primary_dev, n->primary_bus, &error_abort);
+     n->primary_should_be_hidden = false;
+     if (!qemu_opt_set_bool(n->primary_device_opts,
+                            "partially_hotplugged", true, errp)) {
+diff --git a/hw/sd/core.c b/hw/sd/core.c
+index 957d116f1a..08c93b5903 100644
+--- a/hw/sd/core.c
++++ b/hw/sd/core.c
+@@ -23,6 +23,7 @@
+ #include "hw/qdev-core.h"
+ #include "hw/sd/sd.h"
+ #include "qemu/module.h"
++#include "qapi/error.h"
+ #include "trace.h"
+ 
+ static inline const char *sdbus_name(SDBus *sdbus)
+@@ -240,7 +241,7 @@ void sdbus_reparent_card(SDBus *from, SDBus *to)
+     readonly = sc->get_readonly(card);
+ 
+     sdbus_set_inserted(from, false);
+-    qdev_set_parent_bus(DEVICE(card), &to->qbus);
++    qdev_set_parent_bus(DEVICE(card), &to->qbus, &error_abort);
+     sdbus_set_inserted(to, true);
+     sdbus_set_readonly(to, readonly);
+ }
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 72064f4dd4..e62da68a26 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -217,6 +217,7 @@ struct BusClass {
+      */
+     char *(*get_fw_dev_path)(DeviceState *dev);
+     void (*reset)(BusState *bus);
++    bool (*check_address)(BusState *bus, DeviceState *dev, Error **errp);
+     BusRealize realize;
+     BusUnrealize unrealize;
+ 
+@@ -788,7 +789,7 @@ const char *qdev_fw_name(DeviceState *dev);
+ Object *qdev_get_machine(void);
+ 
+ /* FIXME: make this a link<> */
+-void qdev_set_parent_bus(DeviceState *dev, BusState *bus);
++bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp);
+ 
+ extern bool qdev_hotplug;
+ extern bool qdev_hot_removed;
+-- 
+2.26.2
 
-```
-def __init__(self):
-     pass
-```
-
-Happens to pass as both untyped and fully typed. In order to distinguish 
-it in this one case, you must add the return annotation as a declaration 
-of intent.
-
-However, when using '--strict' mode, you are declaring your intent to 
-mypy that everything MUST be strictly typed, so perhaps in this case it 
-would be possible to omit the annotation for __init__.
-
-So maybe someday this will change; but given how uncommon it is to write 
-no-argument init methods, I am hardly bothered by it. Mypy will remind 
-you if you forget.
-
-> 
-> - Cleber.
-> 
 
 
