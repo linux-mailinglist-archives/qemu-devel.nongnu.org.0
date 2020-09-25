@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85127279221
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 22:35:14 +0200 (CEST)
-Received: from localhost ([::1]:40226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DEB27921F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 22:35:00 +0200 (CEST)
+Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLuQz-0003Dg-JK
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 16:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46654)
+	id 1kLuQl-0002jX-Do
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 16:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLuP1-0001YT-6u
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:33:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60765)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLuOs-0001P0-Br
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:33:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLuOz-0004jY-Dy
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:33:10 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLuOq-0004hH-6M
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 16:33:01 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601065988;
+ s=mimecast20190719; t=1601065979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DiOISlUzz1DBdB0gdF6ULC0W1Qa1Ugpes4SyPgSL19M=;
- b=VGtfGreoqbqDt71TxSmlEnzHRhIXlgtaQZDUiTRupCaP+NRLLIZ2SXa6HXDgY/7m3szBTA
- qagOKB8XoLMMf+C6BrkpVxuF4w9ukrZdfEL3VQKmxDGb3iwICuGwFmhZBNzbfAPCflzmS4
- RBiaOh/hxESXvFA80j9VHfOSxLEV0VM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mPj7nn1jIF484UQtbNudZY2mWhzmnzITwVFl2WATscQ=;
+ b=FO/Smi+E3vL3/IVLPiHHfHVL60B4dE1ibjRCeEYfDbaJEZBVzqnMZWMil2Sxw1LV1LDVNs
+ H5tnFGAL6b5xDjZ8gmiK4VlYBk33uKHr7r8O6Qb2WDX7CVVgVI72qnurHeq7FwSy+He/RV
+ itYgUc1q+AgME9iyjN5LfruBic1PFlc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-QJicQSE0MaOOJ8X-kehXhw-1; Fri, 25 Sep 2020 16:32:51 -0400
-X-MC-Unique: QJicQSE0MaOOJ8X-kehXhw-1
+ us-mta-500-NRyy2JCZN-21PkHZfeVlVw-1; Fri, 25 Sep 2020 16:32:57 -0400
+X-MC-Unique: NRyy2JCZN-21PkHZfeVlVw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73FCE10066FE;
- Fri, 25 Sep 2020 20:32:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 693341DE05;
+ Fri, 25 Sep 2020 20:32:56 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-148.phx2.redhat.com [10.3.114.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD83B5C1BB;
- Fri, 25 Sep 2020 20:32:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B35E65C1BB;
+ Fri, 25 Sep 2020 20:32:55 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] Exposing backing-chain allocation over NBD
-Date: Fri, 25 Sep 2020 15:32:46 -0500
-Message-Id: <20200925203249.155705-1-eblake@redhat.com>
+Subject: [PATCH 1/3] nbd: Simplify meta-context parsing
+Date: Fri, 25 Sep 2020 15:32:47 -0500
+Message-Id: <20200925203249.155705-2-eblake@redhat.com>
+In-Reply-To: <20200925203249.155705-1-eblake@redhat.com>
+References: <20200925203249.155705-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -62,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,68 +83,269 @@ Cc: pkrempa@redhat.com, vsementsov@virtuozzo.com, rjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm working on preparing my KVM Forum presentation on NBD, and ran
-into a situation where I really wanted to do the equivalent of
-'qemu-img map' over NBD for determining which portions of an overlay
-image are changed from the backing layer.  So after less than 24 hours
-hacking, I'm pretty pleased with the results.
+We had a premature optimization of trying to read as little from the
+wire as possible while handling NBD_OPT_SET_META_CONTEXT in phases.
+But in reality, we HAVE to read the entire string from the client
+before we can get to the next command, and it is easier to just read
+it all at once than it is to read it in pieces.  And once we do that,
+several functions end up no longer performing I/O, and no longer need
+to return a value.
 
-Known caveats:
+While simplifying this, take advantage of g_str_has_prefix for less
+repetition of boilerplate string length computation.
 
-- Probably has lots of conflicts with Kevin's pending work on
-  refactoring NBD for nicer use in qemu-storage-daemon
+Our iotests still pass; I also checked that libnbd's testsuite (which
+covers more corner cases of odd meta context requests) still passes.
 
-- Not yet tested with Vladimir's patches to fix bdrv_block_status bugs
-  when the backing file is short (and therefore, applying this series
-  without that is likely to make it possible to expose the same bugs
-  of wrong information)
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ nbd/server.c | 172 ++++++++++++++-------------------------------------
+ 1 file changed, 47 insertions(+), 125 deletions(-)
 
-- I _still_ want to get QMP 'block-dirty-bitmap-populate' in qemu 5.2;
-  with that in place, you could avoid the need for this series by
-  instead populating a temporary bitmap and exposing that bitmap over
-  NBD instead.  But that requires more work, both in coding (Peter
-  Krempa and I still need to make sure we have the ideal QMP
-  interface) and in usage (managing temporary bitmaps is more effort
-  than a new bool toggle).
+diff --git a/nbd/server.c b/nbd/server.c
+index 982de67816a7..0d2d7e52058f 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1,5 +1,5 @@
+ /*
+- *  Copyright (C) 2016-2018 Red Hat, Inc.
++ *  Copyright (C) 2016-2020 Red Hat, Inc.
+  *  Copyright (C) 2005  Anthony Liguori <anthony@codemonkey.ws>
+  *
+  *  Network Block Device Server Side
+@@ -792,135 +792,64 @@ static int nbd_negotiate_send_meta_context(NBDClient *client,
+     return qio_channel_writev_all(client->ioc, iov, 2, errp) < 0 ? -EIO : 0;
+ }
 
-- And if we _did_ use block-dirty-bitmap-populate, I find myself
-  wanting to be able to expose more than one bitmap at a time over
-  NBD, which in turn means revisiting our current QAPI for
-  nbd-server-add of '*bitmap':'str' to instead allow an alternate type
-  that permits either "'str'" or "['str']", except that our QAPI
-  generator does not yet support arrays in alternates, and is
-  undergoing changes from John Snow for python cleanups...
+-/* Read strlen(@pattern) bytes, and set @match to true if they match @pattern.
+- * @match is never set to false.
+- *
+- * Return -errno on I/O error, 0 if option was completely handled by
+- * sending a reply about inconsistent lengths, or 1 on success.
+- *
+- * Note: return code = 1 doesn't mean that we've read exactly @pattern.
+- * It only means that there are no errors.
++
++/*
++ * Check @ns with @len bytes, and set @match to true if it matches @pattern,
++ * or if @len is 0 and the client is performing _LIST_. @match is never set
++ * to false.
+  */
+-static int nbd_meta_pattern(NBDClient *client, const char *pattern, bool *match,
+-                            Error **errp)
++static void nbd_meta_empty_or_pattern(NBDClient *client, const char *pattern,
++                                      const char *ns, uint32_t len,
++                                      bool *match, Error **errp)
+ {
+-    int ret;
+-    char *query;
+-    size_t len = strlen(pattern);
+-
+-    assert(len);
+-
+-    query = g_malloc(len);
+-    ret = nbd_opt_read(client, query, len, errp);
+-    if (ret <= 0) {
+-        g_free(query);
+-        return ret;
+-    }
+-
+-    if (strncmp(query, pattern, len) == 0) {
++    if (len == 0) {
++        if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
++            *match = true;
++        }
++        trace_nbd_negotiate_meta_query_parse("empty");
++    } else if (strcmp(pattern, ns) == 0) {
+         trace_nbd_negotiate_meta_query_parse(pattern);
+         *match = true;
+     } else {
+         trace_nbd_negotiate_meta_query_skip("pattern not matched");
+     }
+-    g_free(query);
+-
+-    return 1;
+-}
+-
+-/*
+- * Read @len bytes, and set @match to true if they match @pattern, or if @len
+- * is 0 and the client is performing _LIST_. @match is never set to false.
+- *
+- * Return -errno on I/O error, 0 if option was completely handled by
+- * sending a reply about inconsistent lengths, or 1 on success.
+- *
+- * Note: return code = 1 doesn't mean that we've read exactly @pattern.
+- * It only means that there are no errors.
+- */
+-static int nbd_meta_empty_or_pattern(NBDClient *client, const char *pattern,
+-                                     uint32_t len, bool *match, Error **errp)
+-{
+-    if (len == 0) {
+-        if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
+-            *match = true;
+-        }
+-        trace_nbd_negotiate_meta_query_parse("empty");
+-        return 1;
+-    }
+-
+-    if (len != strlen(pattern)) {
+-        trace_nbd_negotiate_meta_query_skip("different lengths");
+-        return nbd_opt_skip(client, len, errp);
+-    }
+-
+-    return nbd_meta_pattern(client, pattern, match, errp);
+ }
 
-- I am aware of long-standing qemu bugs where when we advertise a
-  large minimum block size (say 4k) but the backing file has smaller
-  granularity (such as 512), then we can violate NBD protocol by
-  sending a reply to NBD_CMD_BLOCK_STATUS with misaligned data.  This
-  adds yet another instance of being able to tickle that (rare) bug.
-  I really need to revisit my patches to add
-  bdrv_block_status_aligned...
+ /* nbd_meta_base_query
+  *
+  * Handle queries to 'base' namespace. For now, only the base:allocation
+- * context is available.  'len' is the amount of text remaining to be read from
+- * the current name, after the 'base:' portion has been stripped.
+- *
+- * Return -errno on I/O error, 0 if option was completely handled by
+- * sending a reply about inconsistent lengths, or 1 on success.
++ * context is available.  @len is the length of @ns, including the 'base:'
++ * prefix.
+  */
+-static int nbd_meta_base_query(NBDClient *client, NBDExportMetaContexts *meta,
+-                               uint32_t len, Error **errp)
++static void nbd_meta_base_query(NBDClient *client, NBDExportMetaContexts *meta,
++                                const char *ns, uint32_t len, Error **errp)
+ {
+-    return nbd_meta_empty_or_pattern(client, "allocation", len,
+-                                     &meta->base_allocation, errp);
++    nbd_meta_empty_or_pattern(client, "allocation", ns + 5, len - 5,
++                              &meta->base_allocation, errp);
+ }
 
-Also available at:
-https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/nbd-alloc-depth-v1
+ /* nbd_meta_bitmap_query
+  *
+  * Handle query to 'qemu:' namespace.
+- * @len is the amount of text remaining to be read from the current name, after
+- * the 'qemu:' portion has been stripped.
+- *
+- * Return -errno on I/O error, 0 if option was completely handled by
+- * sending a reply about inconsistent lengths, or 1 on success. */
+-static int nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
+-                               uint32_t len, Error **errp)
++ * @len is the length of @ns, including the `qemu:' prefix.
++ */
++static void nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
++                                const char *ns, uint32_t len, Error **errp)
+ {
+-    bool dirty_bitmap = false;
+-    size_t dirty_bitmap_len = strlen("dirty-bitmap:");
+-    int ret;
+-
+     if (!meta->exp->export_bitmap) {
+         trace_nbd_negotiate_meta_query_skip("no dirty-bitmap exported");
+-        return nbd_opt_skip(client, len, errp);
+-    }
+-
+-    if (len == 0) {
++    } else if (len == 0) {
+         if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
+             meta->bitmap = true;
+         }
+         trace_nbd_negotiate_meta_query_parse("empty");
+-        return 1;
+-    }
+-
+-    if (len < dirty_bitmap_len) {
+-        trace_nbd_negotiate_meta_query_skip("not dirty-bitmap:");
+-        return nbd_opt_skip(client, len, errp);
+-    }
+-
+-    len -= dirty_bitmap_len;
+-    ret = nbd_meta_pattern(client, "dirty-bitmap:", &dirty_bitmap, errp);
+-    if (ret <= 0) {
+-        return ret;
+-    }
+-    if (!dirty_bitmap) {
++    } else if (!g_str_has_prefix(ns + 5, "dirty-bitmap:")) {
+         trace_nbd_negotiate_meta_query_skip("not dirty-bitmap:");
+-        return nbd_opt_skip(client, len, errp);
++    } else {
++        trace_nbd_negotiate_meta_query_parse("dirty-bitmap:");
++        nbd_meta_empty_or_pattern(client, meta->exp->export_bitmap_context,
++                                  ns, len, &meta->bitmap, errp);
+     }
+-
+-    trace_nbd_negotiate_meta_query_parse("dirty-bitmap:");
+-
+-    return nbd_meta_empty_or_pattern(
+-            client, meta->exp->export_bitmap_context +
+-            strlen("qemu:dirty_bitmap:"), len, &meta->bitmap, errp);
+ }
 
-Eric Blake (3):
-  nbd: Simplify meta-context parsing
-  nbd: Add new qemu:allocation-depth metacontext
-  nbd: Add 'qemu-nbd -A' to expose allocation depth
+ /* nbd_negotiate_meta_query
+@@ -930,22 +859,13 @@ static int nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
+  *
+  * The only supported namespaces are 'base' and 'qemu'.
+  *
+- * The function aims not wasting time and memory to read long unknown namespace
+- * names.
+- *
+  * Return -errno on I/O error, 0 if option was completely handled by
+  * sending a reply about inconsistent lengths, or 1 on success. */
+ static int nbd_negotiate_meta_query(NBDClient *client,
+                                     NBDExportMetaContexts *meta, Error **errp)
+ {
+-    /*
+-     * Both 'qemu' and 'base' namespaces have length = 5 including a
+-     * colon. If another length namespace is later introduced, this
+-     * should certainly be refactored.
+-     */
+     int ret;
+-    size_t ns_len = 5;
+-    char ns[5];
++    g_autofree char *ns = NULL;
+     uint32_t len;
 
- docs/interop/nbd.txt       |  22 ++-
- docs/tools/qemu-nbd.rst    |   6 +
- qapi/block-core.json       |  13 +-
- include/block/nbd.h        |  15 +-
- blockdev-nbd.c             |   3 +-
- nbd/server.c               | 294 ++++++++++++++++++++-----------------
- qemu-nbd.c                 |  16 +-
- tests/qemu-iotests/309     |  73 +++++++++
- tests/qemu-iotests/309.out |  22 +++
- tests/qemu-iotests/group   |   1 +
- 10 files changed, 310 insertions(+), 155 deletions(-)
- create mode 100755 tests/qemu-iotests/309
- create mode 100644 tests/qemu-iotests/309.out
+     ret = nbd_opt_read(client, &len, sizeof(len), errp);
+@@ -958,27 +878,29 @@ static int nbd_negotiate_meta_query(NBDClient *client,
+         trace_nbd_negotiate_meta_query_skip("length too long");
+         return nbd_opt_skip(client, len, errp);
+     }
+-    if (len < ns_len) {
+-        trace_nbd_negotiate_meta_query_skip("length too short");
+-        return nbd_opt_skip(client, len, errp);
+-    }
 
+-    len -= ns_len;
+-    ret = nbd_opt_read(client, ns, ns_len, errp);
++    ns = g_malloc(len + 1);
++    ret = nbd_opt_read(client, ns, len, errp);
+     if (ret <= 0) {
+         return ret;
+     }
++    ns[len] = '\0';
++    if (strlen(ns) != len) {
++        return nbd_opt_invalid(client, errp,
++                               "Embedded NUL in query for option %s",
++                               nbd_opt_lookup(client->opt));
++    }
+
+-    if (!strncmp(ns, "base:", ns_len)) {
++    if (g_str_has_prefix(ns, "base:")) {
+         trace_nbd_negotiate_meta_query_parse("base:");
+-        return nbd_meta_base_query(client, meta, len, errp);
+-    } else if (!strncmp(ns, "qemu:", ns_len)) {
++        nbd_meta_base_query(client, meta, ns, len, errp);
++    } else if (g_str_has_prefix(ns, "qemu:")) {
+         trace_nbd_negotiate_meta_query_parse("qemu:");
+-        return nbd_meta_qemu_query(client, meta, len, errp);
++        nbd_meta_qemu_query(client, meta, ns, len, errp);
++    } else {
++        trace_nbd_negotiate_meta_query_skip("unknown namespace");
+     }
+-
+-    trace_nbd_negotiate_meta_query_skip("unknown namespace");
+-    return nbd_opt_skip(client, len, errp);
++    return 1;
+ }
+
+ /* nbd_negotiate_meta_queries
 -- 
 2.28.0
 
