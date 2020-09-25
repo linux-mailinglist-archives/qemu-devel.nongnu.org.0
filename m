@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBE0277D7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:14:10 +0200 (CEST)
-Received: from localhost ([::1]:50684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D850D277D9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:26:50 +0200 (CEST)
+Received: from localhost ([::1]:56950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLcJN-0004jY-N7
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58034)
+	id 1kLcVd-0002zG-Vt
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:26:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLcFl-0000bq-J1
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:10:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48594)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLcHW-0003D0-0t
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:12:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLcFh-0004yM-5g
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:10:25 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLcHU-0005CA-4z
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:12:13 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600996219;
+ s=mimecast20190719; t=1600996331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nXFUedN+avppx+RpPrGCHpyvgQds/QsD0uCB95noGkk=;
- b=WnNXAHIBHWykZGdmluVIscPHVgZv4S9JBdVEdyiF7ckt48HybOW+mW3CG8xrB5W5iGjSHd
- eT1hc3rXyVLH/bIphnh1XJ54tQdq/elulCHho+Ivph6UhMRw3QHaPrrzKbKrsNhf833qi9
- 0tzlQNwWOaqiJ1A8X1a2czwAMt2xnuo=
+ bh=e/M9Kng8nfBMuGiYepoHE37rTaMj478TdKuorc0x9fQ=;
+ b=YN3jqYnZrtae2VkYWyerBpmxf9KgScbdjD56yQGwgAz3bWcv0jyuOTn/5IEbNxERgM6sPq
+ DUpq5XdN0ZeDFHc72do0QB+ccrMcc1vm4GbRf+fyTw9O/f5LnXQxxY3yyZrQTo3hyJxrUA
+ rMb/ZbqoUuWWxb+lbjVwgazzEeObMxk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-UJFyxKxlM1OkL_4tvFklFQ-1; Thu, 24 Sep 2020 21:10:15 -0400
-X-MC-Unique: UJFyxKxlM1OkL_4tvFklFQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-454-X6eFiezjPW-VIcLAsofCtg-1; Thu, 24 Sep 2020 21:12:09 -0400
+X-MC-Unique: X6eFiezjPW-VIcLAsofCtg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A64B410066FC;
- Fri, 25 Sep 2020 01:10:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A509807341;
+ Fri, 25 Sep 2020 01:12:08 +0000 (UTC)
 Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E46425D9DD;
- Fri, 25 Sep 2020 01:10:13 +0000 (UTC)
-Subject: Re: [PATCH 12/16] qapi/expr.py: Add docstrings
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 527E355761;
+ Fri, 25 Sep 2020 01:12:07 +0000 (UTC)
+Subject: Re: [PATCH 14/16] qapi/expr.py: Use tuples instead of lists for
+ static data
 To: Cleber Rosa <crosa@redhat.com>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
- <20200922211313.4082880-13-jsnow@redhat.com>
- <20200925005930.GE368253@localhost.localdomain>
+ <20200922211313.4082880-15-jsnow@redhat.com>
+ <20200925010336.GG368253@localhost.localdomain>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <1f883f50-0d39-7648-3b55-ac8150e340de@redhat.com>
-Date: Thu, 24 Sep 2020 21:10:13 -0400
+Message-ID: <d6d52a3e-84cd-cfe1-9dd5-c646c7b9f6ac@redhat.com>
+Date: Thu, 24 Sep 2020 21:12:06 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200925005930.GE368253@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200925010336.GG368253@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -60,9 +61,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -90,309 +91,28 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/20 8:59 PM, Cleber Rosa wrote:
-> On Tue, Sep 22, 2020 at 05:13:09PM -0400, John Snow wrote:
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/expr.py | 157 ++++++++++++++++++++++++++++++++++++++++++-
->>   1 file changed, 155 insertions(+), 2 deletions(-)
+On 9/24/20 9:03 PM, Cleber Rosa wrote:
+> On Tue, Sep 22, 2020 at 05:13:11PM -0400, John Snow wrote:
+>> It is -- maybe -- possibly -- three nanoseconds faster.
 >>
->> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> index f244e9648c..4bba09f6e5 100644
->> --- a/scripts/qapi/expr.py
->> +++ b/scripts/qapi/expr.py
->> @@ -1,7 +1,5 @@
->>   # -*- coding: utf-8 -*-
->>   #
->> -# Check (context-free) QAPI schema expression structure
->> -#
->>   # Copyright IBM, Corp. 2011
->>   # Copyright (c) 2013-2019 Red Hat Inc.
->>   #
->> @@ -14,6 +12,25 @@
->>   # This work is licensed under the terms of the GNU GPL, version 2.
->>   # See the COPYING file in the top-level directory.
->>   
->> +"""
->> +Normalize and validate (context-free) QAPI schema expression structures.
->> +
->> +After QAPI expressions are parsed from disk, they are stored in
->> +recursively nested Python data structures using Dict, List, str, bool,
->> +and int. This module ensures that those nested structures have the
->> +correct type(s) and key(s) where appropriate for the QAPI context-free
->> +grammar.
->> +
->> +The QAPI schema expression language also allows for syntactic sugar;
->> +this module also handles the normalization process of these nested
->> +structures.
->> +
->> +See `check_exprs` for the main entry point.
->> +
->> +See `schema.QAPISchema` for processing into native Python data
->> +structures and contextual semantic validation.
->> +"""
->> +
->>   import re
->>   from typing import (
->>       Iterable,
->> @@ -46,6 +63,7 @@
->>   def check_name_is_str(name: object,
->>                         info: QAPISourceInfo,
->>                         source: str) -> None:
->> +    """Ensures that `name` is a string. [Const]"""
->>       if not isinstance(name, str):
->>           raise QAPISemError(info, "%s requires a string name" % source)
->>   
->> @@ -56,6 +74,24 @@ def check_name_str(name: str,
->>                      allow_optional: bool = False,
->>                      enum_member: bool = False,
->>                      permit_upper: bool = False) -> None:
->> +    """
->> +    Ensures a string is a legal name. [Const]
->> +
->> +    A name is legal in the default case when:
->> +    - It matches ``(__[a-z0-9.-]+_)?[a-z][a-z0-9_-]*``
->> +    - It does not start with ``q_`` or ``q-``
->> +
->> +    :param name:           Name to check.
->> +    :param info:           QAPI source file information.
->> +    :param source:         Human-readable str describing "what" this name is.
->> +    :param allow_optional: Allow the very first character to be ``*``.
->> +                           (Cannot be used with `enum_member`)
->> +    :param enum_member:    Allow the very first character to be a digit.
->> +                           (Cannot be used with `allow_optional`)
->> +    :param permit_upper:   Allows upper-case characters wherever
->> +                           lower-case characters are allowed.
->> +    """
->> +    assert not (allow_optional and enum_member)
->>       membername = name
->>   
->>       if allow_optional and name.startswith('*'):
->> @@ -76,6 +112,17 @@ def check_name_str(name: str,
->>   
->>   
->>   def check_defn_name_str(name: str, info: QAPISourceInfo, meta: str) -> None:
->> +    """
->> +    Ensures a name is a legal definition name. [Const]
->> +
->> +    A legal definition name:
->> +     - Adheres to the criteria in `check_name_str`, with uppercase permitted
->> +     - Does not end with ``Kind`` or ``List``.
->> +
->> +    :param name: Name to check.
->> +    :param info: QAPI source file information.
->> +    :param meta: Type name of the QAPI expression.
->> +    """
->>       check_name_str(name, info, meta, permit_upper=True)
->>       if name.endswith('Kind') or name.endswith('List'):
->>           raise QAPISemError(
->> @@ -87,6 +134,15 @@ def check_keys(value: _JSObject,
->>                  source: str,
->>                  required: List[str],
->>                  optional: List[str]) -> None:
->> +    """
->> +    Ensures an object has a specific set of keys. [Const]
->> +
->> +    :param value:    The object to check.
->> +    :param info:     QAPI source file information.
->> +    :param source:   Human-readable str describing "what" this object is.
->> +    :param required: Keys that *must* be present.
->> +    :param optional: Keys that *may* be present.
->> +    """
->>   
->>       def pprint(elems: Iterable[str]) -> str:
->>           return ', '.join("'" + e + "'" for e in sorted(elems))
->> @@ -109,6 +165,12 @@ def pprint(elems: Iterable[str]) -> str:
->>   
->>   
->>   def check_flags(expr: Expression, info: QAPISourceInfo) -> None:
->> +    """
->> +    Ensures common fields in an Expression are correct. [Const]
->> +
->> +    :param expr: Expression to validate.
->> +    :param info: QAPI source file information.
->> +    """
->>       for key in ['gen', 'success-response']:
->>           if key in expr and expr[key] is not False:
->>               raise QAPISemError(
->> @@ -120,6 +182,18 @@ def check_flags(expr: Expression, info: QAPISourceInfo) -> None:
->>   
->>   
->>   def check_if(expr: _JSObject, info: QAPISourceInfo, source: str) -> None:
->> +    """
->> +    Syntactically validate and normalize the ``if`` field of an object. [RW]
->> +
->> +    The ``if`` field may be either a `str` or a `List[str]`.
->> +    A `str` element will be normalized to `List[str]`.
->> +
->> +    Sugared: `Union[str, List[str]]`
->> +    Ifcond: `List[str]`
->> +
->> +    :param expr: A `dict`; the ``if`` field, if present, will be validated.
->> +    :param info: QAPI source file information.
->> +    """
->>   
->>       def check_if_str(ifcond: object) -> None:
->>           if not isinstance(ifcond, str):
->> @@ -148,6 +222,16 @@ def check_if_str(ifcond: object) -> None:
->>   
->>   
->>   def normalize_members(members: object) -> None:
->> +    """
->> +    Normalize a "members" value. [RW]
->> +
->> +    If `members` is an object, for every value in that object, if that
->> +    value is not itself already an object, normalize it to
->> +    ``{'type': value}``.
->> +
->> +    Sugared: `Dict[str, Union[str, TypeRef]]`
->> +    Members: `Dict[str, TypeRef]`
->> +    """
->>       if isinstance(members, dict):
->>           for key, arg in members.items():
->>               if isinstance(arg, dict):
->> @@ -160,6 +244,18 @@ def check_type(value: Optional[object],
->>                  source: str,
->>                  allow_array: bool = False,
->>                  allow_dict: Union[bool, str] = False) -> None:
->> +    """
->> +    Check the QAPI type of `value`. [RW]
->> +
->> +    Python types of `str` or `None` are always allowed.
->> +
->> +    :param value:       The value to check.
->> +    :param info:        QAPI Source file information.
->> +    :param source:      Human readable string describing "what" the value is.
->> +    :param allow_array: Allow a `List[str]` of length 1,
->> +                        which indicates an Array<T> type.
->> +    :param allow_dict:  Allow a dict, treated as an anonymous type.
->> +    """
->>       if value is None:
->>           return
->>   
->> @@ -205,6 +301,15 @@ def check_type(value: Optional[object],
->>   
->>   def check_features(features: Optional[object],
->>                      info: QAPISourceInfo) -> None:
->> +    """
->> +    Syntactically validate and normalize the "features" field. [RW]
->> +
->> +    `features` may be a List of either `str` or `dict`.
->> +    Any `str` element will be normalized to `{'name': element}`.
->> +
->> +    Sugared: `List[Union[str, Feature]]`
->> +    Features: `List[Feature]`
->> +    """
->>       if features is None:
->>           return
->>       if not isinstance(features, list):
->> @@ -222,6 +327,12 @@ def check_features(features: Optional[object],
->>   
->>   
->>   def check_enum(expr: Expression, info: QAPISourceInfo) -> None:
->> +    """
->> +    Validate this `Expression` as an ``enum`` expression. [RW]
->> +
->> +    :param expr: `Expression` to validate.
->> +    :param info: QAPI source file information.
->> +    """
->>       name = expr['enum']
->>       members = expr['data']
->>       prefix = expr.get('prefix')
->> @@ -246,6 +357,12 @@ def check_enum(expr: Expression, info: QAPISourceInfo) -> None:
->>   
->>   
->>   def check_struct(expr: Expression, info: QAPISourceInfo) -> None:
->> +    """
->> +    Validate this `Expression` as a ``struct`` expression. [RW]
->> +
->> +    :param expr: `Expression` to validate.
->> +    :param info: QAPI source file information.
->> +    """
->>       name = cast(str, expr['struct'])  # Asserted in check_exprs
->>       members = expr['data']
->>   
->> @@ -254,6 +371,12 @@ def check_struct(expr: Expression, info: QAPISourceInfo) -> None:
->>   
->>   
->>   def check_union(expr: Expression, info: QAPISourceInfo) -> None:
->> +    """
->> +    Validate this `Expression` as a ``union`` expression. [RW]
->> +
->> +    :param expr: `Expression` to validate.
->> +    :param info: QAPI source file information.
->> +    """
->>       name = cast(str, expr['union'])  # Asserted in check_exprs
->>       base = expr.get('base')
->>       discriminator = expr.get('discriminator')
->> @@ -280,6 +403,12 @@ def check_union(expr: Expression, info: QAPISourceInfo) -> None:
->>   
->>   
->>   def check_alternate(expr: Expression, info: QAPISourceInfo) -> None:
->> +    """
->> +    Validate this `Expression` as an ``alternate`` expression. [RW]
->> +
->> +    :param expr: Expression to validate.
->> +    :param info: QAPI source file information.
->> +    """
->>       members = expr['data']
->>   
->>       if not members:
->> @@ -297,6 +426,12 @@ def check_alternate(expr: Expression, info: QAPISourceInfo) -> None:
->>   
->>   
->>   def check_command(expr: Expression, info: QAPISourceInfo) -> None:
->> +    """
->> +    Validate this `Expression` as a ``command`` expression. [RW]
->> +
->> +    :param expr: `Expression` to validate.
->> +    :param info: QAPI source file information.
->> +    """
->>       args = expr.get('data')
->>       rets = expr.get('returns')
->>       boxed = expr.get('boxed', False)
->> @@ -308,6 +443,16 @@ def check_command(expr: Expression, info: QAPISourceInfo) -> None:
->>   
->>   
->>   def check_event(expr: Expression, info: QAPISourceInfo) -> None:
->> +    """
->> +    Normalize and syntactically validate the ``event`` expression. [RW]
->> +
->> +    Event:
->> +        event:    `str`
->> +        data:     `Optional[Dict[str, Member]]`
->> +        boxed:    `Optional[bool]`
->> +        if:       `Optional[Ifcond]`
->> +        features: `Optional[Features]`
->> +    """
->>       args = expr.get('data')
->>       boxed = expr.get('boxed', False)
->>   
->> @@ -317,6 +462,14 @@ def check_event(expr: Expression, info: QAPISourceInfo) -> None:
->>   
->>   
->>   def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
->> +    """
->> +    Validate and normalize a list of parsed QAPI schema expressions. [RW]
->> +
->> +    This function accepts a list of expressions + metadta as returned by
->> +    the parser. It destructively normalizes the expressions in-place.
->> +
->> +    :param exprs: The list of expressions to normalize/validate.
->> +    """
 > 
-> This is a huge improvement already, but maybe also take the
-> opportunity to add ":return:" too?  Anyway,
+> Kevin O'Leary would clearly say here: "stop the madness!" :)
+> 
+>> Signed-off-by: John Snow <jsnow@redhat.com>
 > 
 > Reviewed-by: Cleber Rosa <crosa@redhat.com>
 > 
 
-Yeah, I can do that. The only reason I added docstrings here -- and 
-basically nowhere else -- was I found this code hardest to understand, 
-because of the highly dynamic type structures it's dealing with.
+I can explain!
 
-So I wrote a bunch of notes for myself, and ... may as well share those.
+When I sat down to write this series, I just "cleaned" in general 
+without regard to what was strictly necessary and what wasn't.
 
-Thanks!
+Once I had to split them out, brick-by-brick, some things looked much 
+more frivolous than others, but I had already written and tested them, so...
+
+Well. There are definitely a few unimportant patches here.
+
+--js
 
 
