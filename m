@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE71927807E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 08:22:48 +0200 (CEST)
-Received: from localhost ([::1]:56552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E0A278085
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 08:23:41 +0200 (CEST)
+Received: from localhost ([::1]:58872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLh83-0007rg-HV
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 02:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48992)
+	id 1kLh8u-0000RM-CB
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 02:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kLh6Q-00070w-1Z
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 02:21:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34730)
+ id 1kLh6R-00071y-Ig
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 02:21:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kLh6N-0004Jm-S1
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 02:21:05 -0400
+ id 1kLh6O-0004KU-MJ
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 02:21:07 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kLh6K-0004vM-Ba
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:21:00 +0000
+ id 1kLh6M-0005G7-Q3
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:21:02 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 53E192E80DB
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:21:00 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C15B02E80DC
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:21:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 25 Sep 2020 06:07:46 -0000
-From: Launchpad Bug Tracker <1849644@bugs.launchpad.net>
+Date: Fri, 25 Sep 2020 06:09:19 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1849644@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
@@ -45,9 +45,10 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: berrange laurent-vivier npes87184 paelzer samuel-t
 X-Launchpad-Bug-Reporter: Samuel (samuel-t)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
 References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
-Message-Id: <160101406860.2048.16326445419879746217.launchpad@ackee.canonical.com>
+Message-Id: <160101415967.32322.18369474357125211179.malone@gac.canonical.com>
 Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
  'binary' subprotocol
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -55,7 +56,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="a314d157ca9be8d00eae0214fc0d7dff1cd406e4"; Instance="production"
-X-Launchpad-Hash: 8f866b2a46ca67200e94db35acd325f6a1ace0f0
+X-Launchpad-Hash: 17c674b296b04572e10681e8fb85dcedd4d5b9d5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:55:59
@@ -82,9 +83,7 @@ Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Merge proposal linked:
-   https://code.launchpad.net/~paelzer/ubuntu/+source/qemu/+git/qemu/+merge=
-/391348
+SRU Template for qemu added and MP linked to fix this in Ubuntu 20.04
 
 -- =
 
