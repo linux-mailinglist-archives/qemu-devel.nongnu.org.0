@@ -2,72 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA37F278E6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:29:06 +0200 (CEST)
-Received: from localhost ([::1]:50148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93512278E4E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:22:37 +0200 (CEST)
+Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqan-0003Uf-Qs
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43916)
+	id 1kLqUW-0004a0-DY
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLqGT-0005N2-1C
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:08:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLqGQ-0004Lq-0E
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:08:04 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601050080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iw1gWC5GW3AuHGJTIbuLqmMQjqTiUSF+r9QKoQ/zpYw=;
- b=ScPFmgtX6y8W+VwzN9zP6hUDtjn6yyzK+bTvAw8n29slxNXbMOfRmg+O1qLSiGyFPyv2fG
- bdBLsqUgzkWL3WFbXu5yv5Ohnc/0FSL0XurxhA2AaoNpVkFaE1gzCHQj6OD03BlRMJLjXh
- MJp+nOed41K9I9IVtYuDh2A9okukHX0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410--nUvBH1LNYGJKEOIpXKQyA-1; Fri, 25 Sep 2020 12:07:57 -0400
-X-MC-Unique: -nUvBH1LNYGJKEOIpXKQyA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B0531882FB3;
- Fri, 25 Sep 2020 16:07:56 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-83.ams2.redhat.com [10.36.114.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED09B60CCC;
- Fri, 25 Sep 2020 16:07:51 +0000 (UTC)
-Date: Fri, 25 Sep 2020 18:07:50 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v7 13/13] block: Convert 'block_resize' to coroutine
-Message-ID: <20200925160750.GJ5731@linux.fritz.box>
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-14-kwolf@redhat.com>
- <20200915145733.GF629589@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kLqHa-0007E1-EF
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:09:15 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kLqHX-0004TQ-Ah
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:09:14 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6057BAE19;
+ Fri, 25 Sep 2020 16:09:08 +0000 (UTC)
+Subject: Re: [PATCH v8 00/17] QEMU cpus.c refactoring part2
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>
+References: <20200916142004.27429-1-cfontana@suse.de>
+ <d0bb4af9-55a1-b332-af6f-7601dfb10db7@linaro.org>
+ <402c303b-64a4-c2ed-151a-48f2e2cb40ac@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <66180c1d-f075-dd0c-cddc-bc26e511aef3@suse.de>
+Date: Fri, 25 Sep 2020 18:09:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200915145733.GF629589@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <402c303b-64a4-c2ed-151a-48f2e2cb40ac@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 00:10:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.238,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,96 +63,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, armbru@redhat.com,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Colin Xu <colin.xu@intel.com>, haxm-team@intel.com,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Wenchao Wang <wenchao.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---MfFXiAuoTsnnDAfZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/25/20 3:09 PM, Paolo Bonzini wrote:
+> On 18/09/20 21:00, Richard Henderson wrote:
+>> On 9/16/20 7:19 AM, Claudio Fontana wrote:
+>>> Motivation and higher level steps:
+>>>
+>>> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
+>>>
+>>> Current state is mostly all reviewed, but I include here a few resolutions
+>>> of rebasing conflicts and a new patch to use current_machine instead of
+>>> qdev_get_machine in softmmu context.
+>>>
+>>> It's minor, but if additional reviewing is necessary, here is the whole series again.
+>>>
+>>> CI is all green, and also available at https://github.com/hw-claudio/qemu.git "cpus-refactoring"
+>>>
+>>> The following changes since commit 5a77bbb53b087f95dbba7ce30b02ac2d7b147a3a:
+>>>
+>>>   iotests: Work around failing readlink -f (2020-09-15 18:19:26 +0200)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   https://github.com/hw-claudio/qemu.git 
+>>>
+>>> for you to fetch changes up to f9ec667595537400a6bc0aaf094a5ca6bbaacf44:
+>>>
+>>>   accel/tcg: use current_machine as it is always set for softmmu (2020-09-15 18:19:27 +0200)
+>>
+>> Queuing this to tcg-next, with Phil's suggested change to current_machine in
+>> the final patch.
+> 
+> This doesn't apply anymore, but I've fixed it up because I had it as a
+> prerequisite for my next pull request.  If you want, I can shepherd it too.
+> 
+> Paolo
+> 
 
-Am 15.09.2020 um 16:57 hat Stefan Hajnoczi geschrieben:
-> On Wed, Sep 09, 2020 at 05:11:49PM +0200, Kevin Wolf wrote:
-> > @@ -2456,8 +2456,7 @@ void qmp_block_resize(bool has_device, const char=
- *device,
-> >          return;
-> >      }
-> > =20
-> > -    aio_context =3D bdrv_get_aio_context(bs);
-> > -    aio_context_acquire(aio_context);
-> > +    old_ctx =3D bdrv_co_move_to_aio_context(bs);
-> > =20
-> >      if (size < 0) {
-> >          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0 s=
-ize");
->=20
-> Is it safe to call blk_new() outside the BQL since it mutates global stat=
-e?
->=20
-> In other words, could another thread race with us?
 
-Hm, probably not.
+Hi, if it is helpful I just rebased on latest master and pushed to
 
-Would it be safer to have the bdrv_co_move_to_aio_context() call only
-immediately before the drain?
+https://github.com/hw-claudio/qemu.git branch: "cpus-refactoring"
 
-> > @@ -2479,8 +2478,8 @@ void qmp_block_resize(bool has_device, const char=
- *device,
-> >      bdrv_drained_end(bs);
-> > =20
-> >  out:
-> > +    aio_co_reschedule_self(old_ctx);
-> >      blk_unref(blk);
-> > -    aio_context_release(aio_context);
->=20
-> The following precondition is violated by the blk_unref -> bdrv_drain ->
-> AIO_WAIT_WHILE() call if blk->refcnt is 1 here:
->=20
->  * The caller's thread must be the IOThread that owns @ctx or the main lo=
-op
->  * thread (with @ctx acquired exactly once).
->=20
-> blk_unref() is called from the main loop thread without having acquired
-> blk's AioContext.
->=20
-> Normally blk->refcnt will be > 1 so bdrv_drain() won't be called, but
-> I'm not sure if that can be guaranteed.
->=20
-> The following seems safer although it's uglier:
->=20
->   aio_context =3D bdrv_get_aio_context(bs);
->   aio_context_acquire(aio_context);
->   blk_unref(blk);
->   aio_context_release(aio_context);
+The following changes since commit d4277402b5e4645e4c7706a3221f8acd3f1a50f7:
 
-May we actually acquire aio_context if blk is in the main thread? I
-think we must only do this if it's in a different iothread because we'd
-end up with a recursive lock and drain would hang.
+  tests: add missing genh dependency (2020-09-25 14:10:56 +0200)
 
-Kevin
+are available in the Git repository at:
 
---MfFXiAuoTsnnDAfZ
-Content-Type: application/pgp-signature; name="signature.asc"
+  https://github.com/hw-claudio/qemu.git 
 
------BEGIN PGP SIGNATURE-----
+for you to fetch changes up to 4822a683c261c249e46d26cd65ff37cc1e1cfb94:
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl9uFdYACgkQfwmycsiP
-L9ZhaxAAtYSZCrYXKple59TV8i2cfoVccDk6ARiveCa80lJCRRzonkV2qysaOR9v
-FdZwImJ/CHQUDvrjKxINGkXQqiUQKV+mvGiwlPmsyPDrYMxttd21qSrdcdag+2yk
-NF5F5jn0mBFWd51O9Kk8yp4w5ahihENPtbnh9n/2x7sGe6eo02Ay3ueN7gLpIaPf
-J6+esFWZRqbmvGDGnIdwtgjGLEyKd+hyCMCNOSoDjtzEz/2slkuLGm/vOGL/uawK
-2gq3lXUoYFoyOV62yFbA54suskgfEqzafmfmcNiBstM/QIdm/N6jibkT4Oqy5MM2
-+3idIK6Sw3xg8i1x17ZrXYKJQDvB+JOGFdqM573KjCRPhqd0Jy8gAMASnXPvrWx7
-dFFCWHwL6BVvWa8AU4GrEPwPqpOVa/2DnQ8NphZdKCkXbk1r+7J67PCIISZv+WkD
-VmEHV4h6mvuk+Djy5H6i5lqY1rNdcZWQwQ4Hy9yqtXusDrTBYtC5GDzGWSyjhJ/V
-la3Ntwf0Dr2dwE+CxSIJM44IxKBdHEpOHBEizNx2cE1hq5Rpg5aInT8scRBaBgKV
-IrU5lnL/IxBzDDexIay8MttF8rU6fPCUCu+c7GtQwyN9UxBSA25Tj/m3U79AQms1
-P+JfolcZ7hjQDg7jQShqW6vj0hV01WGVvWe7HwfLuG1psi+W2ko=
-=GZaf
------END PGP SIGNATURE-----
+  accel/tcg: use current_machine as it is always set for softmmu (2020-09-25 17:34:07 +0200)
 
---MfFXiAuoTsnnDAfZ--
+----------------------------------------------------------------
+Claudio Fontana (17):
+      cpu-timers, icount: new modules
+      icount: rename functions to be consistent with the module name
+      cpus: prepare new CpusAccel cpu accelerator interface
+      cpus: extract out TCG-specific code to accel/tcg
+      cpus: extract out qtest-specific code to accel/qtest
+      cpus: extract out kvm-specific code to accel/kvm
+      cpus: extract out hax-specific code to target/i386/
+      cpus: extract out whpx-specific code to target/i386/
+      cpus: extract out hvf-specific code to target/i386/hvf/
+      cpus: cleanup now unneeded includes
+      cpus: remove checks for non-NULL cpus_accel
+      cpus: add handle_interrupt to the CpusAccel interface
+      hvf: remove hvf specific functions from global includes
+      whpx: remove whpx specific functions from global includes
+      hax: remove hax specific functions from global includes
+      kvm: remove kvm specific functions from global includes
+      accel/tcg: use current_machine as it is always set for softmmu
 
+ MAINTAINERS                    |    5 +-
+ accel/kvm/kvm-all.c            |   14 +-
+ accel/kvm/kvm-cpus.c           |   88 +++
+ accel/kvm/kvm-cpus.h           |   24 +
+ accel/kvm/meson.build          |    5 +-
+ accel/meson.build              |    2 +-
+ accel/qtest/meson.build        |    7 +
+ accel/qtest/qtest-cpus.c       |   91 +++
+ accel/qtest/qtest-cpus.h       |   17 +
+ accel/{ => qtest}/qtest.c      |   13 +-
+ accel/stubs/hax-stub.c         |   10 -
+ accel/stubs/hvf-stub.c         |   30 -
+ accel/stubs/kvm-stub.c         |   23 -
+ accel/stubs/meson.build        |    2 -
+ accel/stubs/whpx-stub.c        |   47 --
+ accel/tcg/cpu-exec.c           |   43 +-
+ accel/tcg/meson.build          |    2 +-
+ accel/tcg/tcg-all.c            |   42 +-
+ accel/tcg/tcg-cpus.c           |  579 ++++++++++++++
+ accel/tcg/tcg-cpus.h           |   17 +
+ accel/tcg/translate-all.c      |    3 +-
+ dma-helpers.c                  |    4 +-
+ docs/replay.txt                |    6 +-
+ exec.c                         |    4 -
+ hw/core/cpu.c                  |   14 +-
+ hw/core/ptimer.c               |    8 +-
+ hw/i386/x86.c                  |    3 +-
+ include/exec/cpu-all.h         |    4 +
+ include/exec/exec-all.h        |    4 +-
+ include/hw/core/cpu.h          |   14 -
+ include/qemu/timer.h           |   24 +-
+ include/sysemu/cpu-timers.h    |   90 +++
+ include/sysemu/cpus.h          |   50 +-
+ include/sysemu/hax.h           |   17 -
+ include/sysemu/hvf.h           |    8 -
+ include/sysemu/hw_accel.h      |   69 +-
+ include/sysemu/kvm.h           |    7 -
+ include/sysemu/qtest.h         |    2 +
+ include/sysemu/replay.h        |    4 +-
+ include/sysemu/whpx.h          |   19 -
+ replay/replay.c                |    6 +-
+ softmmu/cpu-timers.c           |  279 +++++++
+ softmmu/cpus.c                 | 1706 +++-------------------------------------
+ softmmu/icount.c               |  492 ++++++++++++
+ softmmu/meson.build            |   10 +-
+ softmmu/qtest.c                |   34 +-
+ softmmu/timers-state.h         |   69 ++
+ softmmu/vl.c                   |    8 +-
+ stubs/clock-warp.c             |    7 -
+ stubs/cpu-get-clock.c          |    3 +-
+ stubs/cpu-get-icount.c         |   16 -
+ stubs/cpu-synchronize-state.c  |    9 +
+ stubs/cpus-get-virtual-clock.c |    8 +
+ stubs/icount.c                 |   45 ++
+ stubs/meson.build              |    6 +-
+ stubs/qemu-timer-notify-cb.c   |    2 +-
+ stubs/qtest.c                  |    5 +
+ target/alpha/translate.c       |    3 +-
+ target/arm/helper.c            |    7 +-
+ target/i386/hax-all.c          |   17 +-
+ target/i386/hax-cpus.c         |   84 ++
+ target/i386/hax-cpus.h         |   33 +
+ target/i386/hax-i386.h         |    2 +
+ target/i386/hax-mem.c          |    2 +-
+ target/i386/hax-posix.c        |   13 +-
+ target/i386/hax-windows.c      |   22 +-
+ target/i386/hax-windows.h      |    2 +
+ target/i386/hvf/hvf-cpus.c     |  131 +++
+ target/i386/hvf/hvf-cpus.h     |   25 +
+ target/i386/hvf/hvf.c          |   12 +-
+ target/i386/hvf/meson.build    |    1 +
+ target/i386/hvf/x86hvf.c       |    2 +
+ target/i386/hvf/x86hvf.h       |    1 -
+ target/i386/meson.build        |   14 +-
+ target/i386/whpx-all.c         |   13 +-
+ target/i386/whpx-cpus.c        |   96 +++
+ target/i386/whpx-cpus.h        |   34 +
+ target/riscv/csr.c             |    8 +-
+ tests/ptimer-test-stubs.c      |    5 +-
+ tests/test-timed-average.c     |    2 +-
+ util/main-loop.c               |   12 +-
+ util/qemu-timer.c              |   14 +-
+ 82 files changed, 2639 insertions(+), 2036 deletions(-)
+ create mode 100644 accel/kvm/kvm-cpus.c
+ create mode 100644 accel/kvm/kvm-cpus.h
+ create mode 100644 accel/qtest/meson.build
+ create mode 100644 accel/qtest/qtest-cpus.c
+ create mode 100644 accel/qtest/qtest-cpus.h
+ rename accel/{ => qtest}/qtest.c (81%)
+ delete mode 100644 accel/stubs/hvf-stub.c
+ delete mode 100644 accel/stubs/whpx-stub.c
+ create mode 100644 accel/tcg/tcg-cpus.c
+ create mode 100644 accel/tcg/tcg-cpus.h
+ create mode 100644 include/sysemu/cpu-timers.h
+ create mode 100644 softmmu/cpu-timers.c
+ create mode 100644 softmmu/icount.c
+ create mode 100644 softmmu/timers-state.h
+ delete mode 100644 stubs/clock-warp.c
+ delete mode 100644 stubs/cpu-get-icount.c
+ create mode 100644 stubs/cpu-synchronize-state.c
+ create mode 100644 stubs/cpus-get-virtual-clock.c
+ create mode 100644 stubs/icount.c
+ create mode 100644 target/i386/hax-cpus.c
+ create mode 100644 target/i386/hax-cpus.h
+ create mode 100644 target/i386/hvf/hvf-cpus.c
+ create mode 100644 target/i386/hvf/hvf-cpus.h
+ create mode 100644 target/i386/whpx-cpus.c
+ create mode 100644 target/i386/whpx-cpus.h
 
