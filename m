@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C024327872A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:24:41 +0200 (CEST)
-Received: from localhost ([::1]:57924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6D3278730
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:26:53 +0200 (CEST)
+Received: from localhost ([::1]:34584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmmG-0005fi-QL
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38556)
+	id 1kLmoO-0007zt-Iy
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWe-0003zX-Mw
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25551)
+ id 1kLmWg-00043S-ED
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWb-0004K0-I6
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:32 -0400
+ id 1kLmWe-0004KM-BV
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:34 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601035708;
+ s=mimecast20190719; t=1601035711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YFFWgewJEUCwYiM/+Aevl1Ftix7NLyf9/nEk16IBEow=;
- b=K7KqjJP6vp7LnE/jgDeRmjsHnS5ZJUwy9eyd4pRmH0+e5lZI5FhbTgvDxGGQzU6BfJlP+0
- BbbnCHTUa5SpX041c74lygLvMj98k+/Hp0/0GiYasSnpS/1kwchDHI2YtfCJe6z6BsmNlN
- KIPyTn+WmjSKzSUsrSbTOa+AyU5YrMs=
+ bh=0q4K1GoOimXoF+idVYBXV3zVvJCoT2zu/GupuV3fex0=;
+ b=ghH+SPIPoiEqYKlRuLeLC31ds+vkvVqjToc/8tB4iqZBkERtxjqPkn/RNihnOxi5S7XJ9B
+ WifKGJ2OyJyPSdCXGyetFCfj1gkqvS1IfJVpWS239Fa4/6hA/T88/l4vdr+vWwYFqdhthB
+ mZeFUmXhcS47jmFQQMgpthD66Mx3uEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-y-Pi9oUrP6aOm4HqIsU-_w-1; Fri, 25 Sep 2020 08:08:24 -0400
-X-MC-Unique: y-Pi9oUrP6aOm4HqIsU-_w-1
+ us-mta-321-GaS2aTUPPO6JDpp2XjVWdg-1; Fri, 25 Sep 2020 08:08:27 -0400
+X-MC-Unique: GaS2aTUPPO6JDpp2XjVWdg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C7AE57088;
- Fri, 25 Sep 2020 12:08:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DACF8030CC;
+ Fri, 25 Sep 2020 12:08:25 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-177.ams2.redhat.com
  [10.36.114.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 011D273695;
- Fri, 25 Sep 2020 12:08:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56D8373692;
+ Fri, 25 Sep 2020 12:08:23 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, zhengchuan@huawei.com, dovmurik@linux.vnet.ibm.com,
  hgcoin@gmail.com, zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com,
  peterx@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
  jinyan12@huawei.com, ann.zhuangyanying@huawei.com
-Subject: [PULL 21/26] migration/tls: add support for multifd tls-handshake
-Date: Fri, 25 Sep 2020 13:06:50 +0100
-Message-Id: <20200925120655.295142-22-dgilbert@redhat.com>
+Subject: [PULL 22/26] migration/tls: add trace points for multifd-tls
+Date: Fri, 25 Sep 2020 13:06:51 +0100
+Message-Id: <20200925120655.295142-23-dgilbert@redhat.com>
 In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
 References: <20200925120655.295142-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -61,9 +61,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -90,120 +90,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chuan Zheng <zhengchuan@huawei.com>
 
-Similar like migration main thread, we need to do handshake
-for each multifd thread.
+add trace points for multifd-tls for debug.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Yan Jin <jinyan12@huawei.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <1600139042-104593-6-git-send-email-zhengchuan@huawei.com>
+Message-Id: <1600139042-104593-7-git-send-email-zhengchuan@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd.c | 77 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 2 deletions(-)
+ migration/multifd.c    | 10 +++++++++-
+ migration/trace-events |  4 ++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 36d4a403a5..67e39593a7 100644
+index 67e39593a7..776f963436 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -20,6 +20,7 @@
- #include "ram.h"
- #include "migration.h"
- #include "socket.h"
-+#include "tls.h"
- #include "qemu-file.h"
- #include "trace.h"
- #include "multifd.h"
-@@ -719,6 +720,77 @@ out:
-     return NULL;
+@@ -731,7 +731,11 @@ static void multifd_tls_outgoing_handshake(QIOTask *task,
+     QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
+     Error *err = NULL;
+ 
+-    qio_task_propagate_error(task, &err);
++    if (qio_task_propagate_error(task, &err)) {
++        trace_multifd_tls_outgoing_handshake_error(ioc, error_get_pretty(err));
++    } else {
++        trace_multifd_tls_outgoing_handshake_complete(ioc);
++    }
+     multifd_channel_connect(p, ioc, err);
  }
  
-+static bool multifd_channel_connect(MultiFDSendParams *p,
-+                                    QIOChannel *ioc,
-+                                    Error *error);
-+
-+static void multifd_tls_outgoing_handshake(QIOTask *task,
-+                                           gpointer opaque)
-+{
-+    MultiFDSendParams *p = opaque;
-+    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-+    Error *err = NULL;
-+
-+    qio_task_propagate_error(task, &err);
-+    multifd_channel_connect(p, ioc, err);
-+}
-+
-+static void multifd_tls_channel_connect(MultiFDSendParams *p,
-+                                        QIOChannel *ioc,
-+                                        Error **errp)
-+{
-+    MigrationState *s = migrate_get_current();
-+    const char *hostname = p->tls_hostname;
-+    QIOChannelTLS *tioc;
-+
-+    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-+    if (!tioc) {
-+        return;
-+    }
-+
-+    qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
-+    qio_channel_tls_handshake(tioc,
-+                              multifd_tls_outgoing_handshake,
-+                              p,
-+                              NULL,
-+                              NULL);
-+
-+}
-+
-+static bool multifd_channel_connect(MultiFDSendParams *p,
-+                                    QIOChannel *ioc,
-+                                    Error *error)
-+{
-+    MigrationState *s = migrate_get_current();
-+
-+    if (!error) {
-+        if (s->parameters.tls_creds &&
-+            *s->parameters.tls_creds &&
-+            !object_dynamic_cast(OBJECT(ioc),
-+                                 TYPE_QIO_CHANNEL_TLS)) {
-+            multifd_tls_channel_connect(p, ioc, &error);
-+            if (!error) {
-+                /*
-+                 * tls_channel_connect will call back to this
-+                 * function after the TLS handshake,
-+                 * so we mustn't call multifd_send_thread until then
-+                 */
-+                return false;
-+            } else {
-+                return true;
-+            }
-+        } else {
-+            /* update for tls qio channel */
-+            p->c = ioc;
-+            qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-+                                   QEMU_THREAD_JOINABLE);
-+       }
-+       return false;
-+    }
-+
-+    return true;
-+}
-+
- static void multifd_new_send_channel_cleanup(MultiFDSendParams *p,
-                                              QIOChannel *ioc, Error *err)
- {
-@@ -749,8 +821,9 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
-         p->c = QIO_CHANNEL(sioc);
-         qio_channel_set_delay(p->c, false);
-         p->running = true;
--        qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
--                           QEMU_THREAD_JOINABLE);
-+        if (multifd_channel_connect(p, sioc, local_err)) {
-+            goto cleanup;
-+        }
+@@ -748,6 +752,7 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
          return;
      }
  
++    trace_multifd_tls_outgoing_handshake_start(ioc, tioc, hostname);
+     qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
+     qio_channel_tls_handshake(tioc,
+                               multifd_tls_outgoing_handshake,
+@@ -763,6 +768,9 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
+ {
+     MigrationState *s = migrate_get_current();
+ 
++    trace_multifd_set_outgoing_channel(
++        ioc, object_get_typename(OBJECT(ioc)), p->tls_hostname, error);
++
+     if (!error) {
+         if (s->parameters.tls_creds &&
+             *s->parameters.tls_creds &&
+diff --git a/migration/trace-events b/migration/trace-events
+index 597a470b9d..338f38b3dd 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -129,6 +129,10 @@ multifd_send_sync_main_wait(uint8_t id) "channel %d"
+ multifd_send_terminate_threads(bool error) "error %d"
+ multifd_send_thread_end(uint8_t id, uint64_t packets, uint64_t pages) "channel %d packets %" PRIu64 " pages %"  PRIu64
+ multifd_send_thread_start(uint8_t id) "%d"
++multifd_tls_outgoing_handshake_start(void *ioc, void *tioc, const char *hostname) "ioc=%p tioc=%p hostname=%s"
++multifd_tls_outgoing_handshake_error(void *ioc, const char *err) "ioc=%p err=%s"
++multifd_tls_outgoing_handshake_complete(void *ioc) "ioc=%p"
++multifd_set_outgoing_channel(void *ioc, const char *ioctype, const char *hostname, void *err)  "ioc=%p ioctype=%s hostname=%s err=%p"
+ 
+ # migration.c
+ await_return_path_close_on_source_close(void) ""
 -- 
 2.26.2
 
