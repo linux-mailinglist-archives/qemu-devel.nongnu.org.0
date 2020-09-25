@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECE6278F09
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:49:50 +0200 (CEST)
-Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC3D278EAC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:34:40 +0200 (CEST)
+Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqur-0002Qh-Nf
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:49:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48118)
+	id 1kLqgB-0002AU-4a
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVj-0006qs-Kk
+ id 1kLqVk-0006r2-Ov
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:53 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35702)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVd-0006qs-Kl
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:51 -0400
-Received: by mail-wm1-x333.google.com with SMTP id y15so3947997wmi.0
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:43 -0700 (PDT)
+ id 1kLqVd-0006r1-Kc
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:52 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id x14so4188972wrl.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IBvSe9U4y9OyrW59Pq+7GIi7CePKnagVOSmaXWRdN60=;
- b=nSuXRZn+qUU5qIYn5Y7l1NVzBY+e1Ew+5TO241KwdWoxEK0KN4Iwl0V+LFOEheZjlO
- hKdWPZ6Fv+28M/kmUUW+teDzI5X/4YGJT7eKg6pfQZWOOXBXn+oFZ4/hfw62RvJMuMvF
- NOwXocmtppq30VPBXIurhtePfmd6RWy9Qu4vEM2ySMBYTkD43By65fzhfux9zGXfGrh6
- ilG+J07fAwUNbIVQhZ3OciCxmyBhudau35DQUW5yCUfnmQSd9CKVMqbH5vVF48qk8IjJ
- u0ib3lBddIdIQOnHAFLkY73pHU1ka37YCG3Zwau72yOjMU/+Sr2+bDemtf1jeprN/P9E
- pf0A==
+ bh=b27CB/FmLq2oeiHU/6zkG//hh/Oo3LelbsnNKWwTVM0=;
+ b=mJcq0Y3gXrYSpPTPJph+oe7Hk6EcpnrqiXnRYlcQDAqYpWTdWUqyf8eaYjiDfiS1tr
+ iYFY+ooUbp9LftEXgBLdM6AU1XTGcPL3AbtC0kvbCZVUxVNDxU9YOhw4xzg+2MLIRdXg
+ FjKpscamNXutxB8n1I8MSJb2lClwiPs2t4OM6JNNlZm/Ltjk7rNNr5a9Ko7wBpqtI3da
+ yD9lEC18vw5HEx4BRQvimXWHXTxU9ETu1abjtQGbZrqrdxwGjYQuV+R+laBVcDJ95Xcy
+ ocv+4VEEV6wgNifJaSvnRQdlWCQTerpMwQn0ZTXkTck5+PF57I8Hx8GVL2aq3cRjZglN
+ XZYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IBvSe9U4y9OyrW59Pq+7GIi7CePKnagVOSmaXWRdN60=;
- b=klp3gpeo7rAiqCP5LBbffHk344XLsc9iUrGqyBQiQ3qskAGlUopmRIi0eSXMZ9IQ57
- be1YY+LHzDHBQv96mVjTzZ99vwtcg0gNyqDTqT3afPQ0lJrEiiNl2t5Md2qVfemhae7Q
- oYe4j7f1BYUPkXvIhLfhOFZCLK6Tj8v8cLN2b5mpJfvqRz+iizHXsxY+wdLdwuXusGTK
- NMvmoR95THno+tDdoseeiXogXkBgIJWJYgOlVegYSzd9lP4hr6tL6vdvn8V5mUy5vtaP
- A08YcW40hxHdCQh6JN4BGiJF4PhRsvTLN16UrL6OPWNPFKvJ/xrzB4CzNYNcOZSamsIY
- z4Jw==
-X-Gm-Message-State: AOAM531ewFqDkc5e2cXBySn9HnI6eDDpG62W3sFPXdADSsFAEij4gmZV
- VPzFJYnd/jLBN5ntYm6MctuyxQ1I6oHwAsyE
-X-Google-Smtp-Source: ABdhPJzNvXY+iL3QOA8WWmeGgC7/LfSm1SsgDKUSW6sdIl25Xh3TnKbcbkQC//HJtKf5i64bobIQKQ==
-X-Received: by 2002:a1c:9c8c:: with SMTP id f134mr3951436wme.27.1601051022631; 
- Fri, 25 Sep 2020 09:23:42 -0700 (PDT)
+ bh=b27CB/FmLq2oeiHU/6zkG//hh/Oo3LelbsnNKWwTVM0=;
+ b=Mw8GVR+Z2DUp8iBroEIAiHe2Fm2GvvdiTXSTWpMj2mUlL7aBhxqm4eWDAiEjBbrM0J
+ xPULwn1k//y/FX722JHI4H2757CbQupCiErGrl7vPQHHXt7bvgw1eGPqXCAvt2OzmqVa
+ KsdK4EOOjksDMDo1bIgufTOxRQSDDiXJbLBT2qAASgPyB2EWEU3lx0UPvzSFuiWOAf9O
+ won1GvcbRhHyWItlZSiplY77Na9ugLka3juWolbQ95MLUiFliPq/4KHB+5N6AiCRJCGi
+ k+BXeNNSjZkJejbudZ8x8EwA0QaL5kXLOEddVYyfKT6FJuWfgXRs2sJslQ/x4lsZ8N+c
+ sdAw==
+X-Gm-Message-State: AOAM533uzCE3HBfy73tapjVtNP9f0HzY6ehL8wU9Gf2l96fbV79uhJhI
+ a76mlz5RnRuQ8h7Epo+t4SQreC67JfzD4ume
+X-Google-Smtp-Source: ABdhPJzJ8GJ+YKnhZSKrRwC0abwgx3fEXOmgpHP1yt0fqAcywFqiwIJJf56hYB3MWSZzrNk26aeXkg==
+X-Received: by 2002:a5d:4744:: with SMTP id o4mr5299974wrs.130.1601051023800; 
+ Fri, 25 Sep 2020 09:23:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.41
+ by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 09:23:42 -0700 (PDT)
+ Fri, 25 Sep 2020 09:23:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 20/21] configure: Drop texinfo requirement
-Date: Fri, 25 Sep 2020 17:23:15 +0100
-Message-Id: <20200925162316.21205-21-peter.maydell@linaro.org>
+Subject: [PATCH v6 21/21] Remove texinfo dependency from docker and CI configs
+Date: Fri, 25 Sep 2020 17:23:16 +0100
+Message-Id: <20200925162316.21205-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925162316.21205-1-peter.maydell@linaro.org>
 References: <20200925162316.21205-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,58 +88,104 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need the texinfo and pod2man programs to build our documentation
-any more, so remove them from configure's tests.
+We don't need texinfo to build the docs any more, so we can
+drop that dependency from our docker and other CI configs.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- configure | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ .travis.yml                                | 1 -
+ scripts/coverity-scan/coverity-scan.docker | 1 -
+ tests/docker/dockerfiles/debian10.docker   | 1 -
+ tests/docker/dockerfiles/fedora.docker     | 1 -
+ tests/docker/dockerfiles/ubuntu.docker     | 1 -
+ tests/docker/dockerfiles/ubuntu1804.docker | 1 -
+ tests/docker/dockerfiles/ubuntu2004.docker | 1 -
+ 7 files changed, 7 deletions(-)
 
-diff --git a/configure b/configure
-index e8e8e984f24..190d88ffa37 100755
---- a/configure
-+++ b/configure
-@@ -4873,14 +4873,14 @@ if test "$docs" != "no" ; then
-   else
-     sphinx_ok=no
-   fi
--  if has makeinfo && has pod2man && test "$sphinx_ok" = "yes"; then
-+  if test "$sphinx_ok" = "yes"; then
-     docs=yes
-   else
-     if test "$docs" = "yes" ; then
-       if has $sphinx_build && test "$sphinx_ok" != "yes"; then
-         echo "Warning: $sphinx_build exists but it is either too old or uses too old a Python version" >&2
-       fi
--      feature_not_found "docs" "Install texinfo, Perl/perl-podlators and a Python 3 version of python-sphinx"
-+      feature_not_found "docs" "Install a Python 3 version of python-sphinx"
-     fi
-     docs=no
-   fi
-@@ -6300,13 +6300,6 @@ if test "$solaris" = "no" && test "$tsan" = "no"; then
-     fi
- fi
+diff --git a/.travis.yml b/.travis.yml
+index c75221dca3e..bd9a6fc06cc 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -192,7 +192,6 @@ jobs:
+         apt:
+           packages:
+             - python3-sphinx
+-            - texinfo
+             - perl
  
--# test if pod2man has --utf8 option
--if pod2man --help | grep -q utf8; then
--    POD2MAN="pod2man --utf8"
--else
--    POD2MAN="pod2man"
--fi
--
- # Use ASLR, no-SEH and DEP if available
- if test "$mingw32" = "yes" ; then
-     for flag in --dynamicbase --no-seh --nxcompat; do
-@@ -7455,7 +7448,6 @@ echo "HOST_DSOSUF=$HOST_DSOSUF" >> $config_host_mak
- echo "LIBS_QGA=$libs_qga" >> $config_host_mak
- echo "TASN1_LIBS=$tasn1_libs" >> $config_host_mak
- echo "TASN1_CFLAGS=$tasn1_cflags" >> $config_host_mak
--echo "POD2MAN=$POD2MAN" >> $config_host_mak
- if test "$gcov" = "yes" ; then
-   echo "CONFIG_GCOV=y" >> $config_host_mak
- fi
+ 
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+index 018c03de6d5..501ac672332 100644
+--- a/scripts/coverity-scan/coverity-scan.docker
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -110,7 +110,6 @@ ENV PACKAGES \
+     systemd-devel \
+     systemtap-sdt-devel \
+     tar \
+-    texinfo \
+     usbredir-devel \
+     virglrenderer-devel \
+     vte291-devel \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index e3c11a454ee..1e4188ba225 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -31,7 +31,6 @@ RUN apt update && \
+         python3 \
+         python3-setuptools \
+         python3-sphinx \
+-        texinfo \
+         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+ 
+ ENV FEATURES docs
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 70b6186bd3e..71e4b569770 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -96,7 +96,6 @@ ENV PACKAGES \
+     tar \
+     tesseract \
+     tesseract-langpack-eng \
+-    texinfo \
+     usbredir-devel \
+     virglrenderer-devel \
+     vte291-devel \
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index 161806e6b8c..b556ed17d29 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -63,7 +63,6 @@ ENV PACKAGES \
+     python3-yaml \
+     python3-sphinx \
+     sparse \
+-    texinfo \
+     xfslibs-dev
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index a10ea2850b6..a6a7617da67 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -49,7 +49,6 @@ ENV PACKAGES \
+     python3-yaml \
+     python3-sphinx \
+     sparse \
+-    texinfo \
+     xfslibs-dev
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 8d10934a2a7..cafe8443fbf 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -57,7 +57,6 @@ ENV PACKAGES flex bison \
+     sparse \
+     tesseract-ocr \
+     tesseract-ocr-eng \
+-    texinfo \
+     xfslibs-dev\
+     vim
+ RUN apt-get update && \
 -- 
 2.20.1
 
