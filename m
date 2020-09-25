@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF54278920
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:14:09 +0200 (CEST)
-Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C8F278906
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:06:13 +0200 (CEST)
+Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnY8-00023j-Ps
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
+	id 1kLnQS-0007hX-3q
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnJf-0002WQ-LD
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:12 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35295)
+ id 1kLnJj-0002aU-VH
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:16 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnJd-0002Gh-G9
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:11 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y15so3208965wmi.0
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:59:09 -0700 (PDT)
+ id 1kLnJg-0002H4-FG
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:15 -0400
+Received: by mail-wr1-x431.google.com with SMTP id c18so3486009wrm.9
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:59:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sln1IsFPWRFtNzDapJfqz9D0UXVcbAOIwCVnS/WVrtY=;
- b=ZBulUDn5etyg+1dgFomway7kca2EbjmeP6HXXUn2kPBv7e7AxynvYVSXdfxdyMdsoU
- xEK2ZtRZVQD+4fy7Et8CsSFF82ZVYh3tL0ehKCKvCe0Wvi8ciIArcncdn0L/wGVeSM3X
- aYv85YBs14SG+7zMjCj0rcm+Xx41zh4wMGs/dKmBOF5L6eBSb2UvS57QZDKSKb7jEBqW
- YnQZnZfqzXDevKvT/WTNM83s9lDRmS5JvZr26qlvg6rWPXmQdouKNzvzCTNpH4WJ2lPu
- zJiJQpf5g9nCDXCKIFFmqd1gVULLBqJ9fdyYqC5xlG3iD1yaF0PiyWJ4irYUtCwQKT4m
- 8nrw==
+ bh=pVKBS48AbwRPMB8Nsn3vDh4qlhS4C2TzgyypcYvasXA=;
+ b=ZBJZ7pcJqJAVmUAbL4bU66vcIwVRIBqHWOASZ/moE0vV9ZZ33zqzmEXlFz4PpHxyJj
+ Uaz50G84KCnXXDED5db8v/So/HcoT41z/5o6kTlmVpJeGh9K1osiMIDL+9ePs+osyjtw
+ ILIJ4EmKoiyejWgBu8wQq6abQvntQ8CYDjEe2HFSomOfk4gmh26KOujkWs9BaIO1BKUR
+ Z1Uh1k1BlhWT/C+rmkcVZk7X5PcR9R/g/YTXKLN7lFCNJhPdxGR+HfwTM8xnlyqrvzDG
+ a+1tkSxfjFM2zda9K6l23VMm3E+YHLGwoij5h5DI9k3dvIDSp0NyuCjHuEyXrR0ZUmiP
+ c69g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sln1IsFPWRFtNzDapJfqz9D0UXVcbAOIwCVnS/WVrtY=;
- b=thoRc0xawXr/fEmo3VeJHtCWMXniGbTt4SRuCDZBSobP7oYEEMkGZmi1AIo23Y6EOc
- MHz9rqDWQxygycKkloqUKqi94yrCk9B/dEbxxNiYmYiSh8Wn8CsLgNwQAsgk2UP6gikc
- pt5GNyBql+IU6hrWkycJNpo0aws/kFKnQMZWupo5t9EOvNAx4KqrGRL5zpDQhZFOVQq3
- WUspbBANkBjxnvYnO6FIj7inrnO4beLd4LoMljie6NvtDnX2jcWsrMiJSQLMSns5G4+T
- MW4OiAg+5fetlkhTaZnIttZEUauShD+mHbbnbIXt2dQlitG8sa47CgSlcHh840fTUvQV
- PWLg==
-X-Gm-Message-State: AOAM531zdVOEuzpeu/eVpsY+hSWc1lsygZhUNHjIYU0jN9qAx++lBohe
- uGKEqn+fQmNBucmaAGEFyWUYPA==
-X-Google-Smtp-Source: ABdhPJwOvPxIbh1o3qPJsaGqkunGlbhgt2Yfji/eep9aSP6iGhmKJbXwgWNt3MCRzqxCCkT92+9UHw==
-X-Received: by 2002:a05:600c:2317:: with SMTP id
- 23mr3135313wmo.183.1601038748151; 
- Fri, 25 Sep 2020 05:59:08 -0700 (PDT)
+ bh=pVKBS48AbwRPMB8Nsn3vDh4qlhS4C2TzgyypcYvasXA=;
+ b=fR5KJ/Cu7kIcb6U5JabxCnHRARqZAXFNnWU2YvtsrIp8mHAWTjExXo3lg03vLcE0mn
+ Im5CKDyJrfB6526d4I4ApURoBMcNoNwCVQ1W9yX8x3jWW3Zr5XfcU9JSMj5j8AmwwVxJ
+ seZXqPH0Dxqc1ru4W3zr6pUvNsE8l7BCkZVfjxFjHCq1P6TPUDpvvdqyoY9Wk4Lz91qK
+ 8zaAQoI7rKmVl5ozYYUziZyu+ybDbiwp+9xGl4wRutYKt7hJCpaQx3kSxwCLE1yCqtvV
+ bCO1spty42A1HGDHgN77kXCQjs0+z92vg0nXPubpoicB298zqihoiPui+QUA8flOG/Su
+ 8AIg==
+X-Gm-Message-State: AOAM531/SLnR/XthWJHigYxhLZFtlQD6Rl4nf826oJIb4Tl0tk2uNoPQ
+ 18X20V5bN35QkFQE4hY5hARGWQ==
+X-Google-Smtp-Source: ABdhPJwCqES0abvcUL6qZHv6FfjWwPBI3DLs8hO10nQV8cxdXD+ajQvsKcdNDT3JetUMn+NKAOi/PQ==
+X-Received: by 2002:a5d:4cc1:: with SMTP id c1mr4416288wrt.122.1601038750650; 
+ Fri, 25 Sep 2020 05:59:10 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n2sm3112612wma.29.2020.09.25.05.59.02
+ by smtp.gmail.com with ESMTPSA id e1sm2891195wrp.49.2020.09.25.05.59.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Sep 2020 05:59:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E2DCB1FFA6;
- Fri, 25 Sep 2020 13:51:49 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 064BC1FF7E;
+ Fri, 25 Sep 2020 13:51:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org, maxim.uvarov@linaro.org, joakim.bech@linaro.org,
  ilias.apalodimas@linaro.org, tomas.winkler@intel.com, yang.huang@intel.com,
  bing.zhu@intel.com, Matti.Moell@opensynergy.com, hmo@opensynergy.com
-Subject: [RFC PATCH 18/19] tools/vhost-user-rpmb: allow setting of the
- write_count
-Date: Fri, 25 Sep 2020 13:51:46 +0100
-Message-Id: <20200925125147.26943-19-alex.bennee@linaro.org>
+Subject: [RFC PATCH  19/19] docs: add a man page for vhost-user-rpmb
+Date: Fri, 25 Sep 2020 13:51:47 +0100
+Message-Id: <20200925125147.26943-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925125147.26943-1-alex.bennee@linaro.org>
 References: <20200925125147.26943-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -99,45 +97,132 @@ Cc: jean-philippe@linaro.org, takahiro.akashi@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mostly useful for testing. Practically all guest operations
-will probe the write count before any write transaction.
+Basic usage and example invocation.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tools/vhost-user-rpmb/main.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ docs/tools/index.rst           |   1 +
+ docs/tools/vhost-user-rpmb.rst | 102 +++++++++++++++++++++++++++++++++
+ 2 files changed, 103 insertions(+)
+ create mode 100644 docs/tools/vhost-user-rpmb.rst
 
-diff --git a/tools/vhost-user-rpmb/main.c b/tools/vhost-user-rpmb/main.c
-index 34607ad19429..c798a6f66cd2 100644
---- a/tools/vhost-user-rpmb/main.c
-+++ b/tools/vhost-user-rpmb/main.c
-@@ -39,6 +39,7 @@
- static gchar *socket_path;
- static char *flash_path;
- static char *key_path;
-+static gint initial_counter;
- static gint socket_fd = -1;
- static gboolean print_cap;
- static gboolean verbose;
-@@ -49,6 +50,7 @@ static GOptionEntry options[] =
- {
-     { "socket-path", 0, 0, G_OPTION_ARG_FILENAME, &socket_path, "Location of vhost-user Unix domain socket, incompatible with --fd", "PATH" },
-     { "flash-path", 0, 0, G_OPTION_ARG_FILENAME, &flash_path, "Location of raw flash image file", "PATH" },
-+    { "initial-counter", 0, 0, G_OPTION_ARG_INT, &initial_counter, "Set initial value of write counter", NULL},
-     { "key-path", 0, 0, G_OPTION_ARG_FILENAME, &key_path, "Location of persistent keyfile", "KEY"},
-     { "key-set", 0, 0, G_OPTION_ARG_NONE, &key_set, "Is the key already programmed", NULL},
-     { "fd", 0, 0, G_OPTION_ARG_INT, &socket_fd, "Specify the file-descriptor of the backend, incompatible with --socket-path", "FD" },
-@@ -797,6 +799,10 @@ int main(int argc, char *argv[])
-         vrpmb_set_key(&rpmb, key_path);
-     }
- 
-+    if (initial_counter) {
-+        rpmb.write_count = initial_counter;
-+    }
+diff --git a/docs/tools/index.rst b/docs/tools/index.rst
+index 232ce9f3e463..488784b3bf1f 100644
+--- a/docs/tools/index.rst
++++ b/docs/tools/index.rst
+@@ -15,3 +15,4 @@ Contents:
+    qemu-trace-stap
+    virtfs-proxy-helper
+    virtiofsd
++   vhost-user-rpmb
+diff --git a/docs/tools/vhost-user-rpmb.rst b/docs/tools/vhost-user-rpmb.rst
+new file mode 100644
+index 000000000000..40d5d3bceb7c
+--- /dev/null
++++ b/docs/tools/vhost-user-rpmb.rst
+@@ -0,0 +1,102 @@
++QEMU vhost-user-rpmb - rpmb emulation backend
++=============================================
 +
-     if (!socket_path && socket_fd < 0) {
-         g_printerr("Please specify either --fd or --socket-path\n");
-         exit(EXIT_FAILURE);
++Synopsis
++--------
++
++**vhost-user-rpmb** [*OPTIONS*]
++
++Description
++-----------
++
++This program is a vhost-user backed that emulates a VirtIO Replay
++Protected Memory Block device. These are usually special partitions
++that are part of a flash device that offer protection against reply
++attacks. They are used to store secure information in a way that is
++hard to tamper with.
++
++This program is designed to work with QEMU's ``--device
++vhost-user-rpmb-pci`` but should work with any virtual machine
++monitor (VMM) that supports vhost-user. See the Examples section
++below.
++
++This program requires a backing store to persist any data programmed
++into the device. The spec supports devices up 32Mb in size. For the
++daemon this is simply a raw file of the appropriate size. To program
++the device it needs to have a key. This can either be programmed by
++the guest at the start or come from a key file supplied to the daemon.
++
++Options
++-------
++
++.. program:: vhost-user-rpmb
++
++.. option:: -h, --help
++
++  Print help.
++
++.. option:: -V, --version
++
++  Print version.
++
++.. option:: -v, --verbose
++
++   Increase verbosity of output
++            
++.. option:: --debug
++
++  Enable debug output.
++
++.. option:: --socket-path=PATH
++
++  Listen on vhost-user UNIX domain socket at PATH. Incompatible with --fd.
++
++.. option:: --fd=FDNUM
++
++  Accept connections from vhost-user UNIX domain socket file descriptor FDNUM.
++  The file descriptor must already be listening for connections.
++  Incompatible with --socket-path.
++
++.. option:: --flash-path=PATH
++
++  Path to the backing store for the flash image, can be up to 32Mb in size.
++
++.. option:: --key-path=PATH
++
++  Path to the backing store for the key of 32 bytes.
++            
++.. option:: --key-set
++
++  Treat the value of key-path as set meaning the key cannot be
++  reprogrammed by the guest.
++
++.. option:: --initial-counter=N
++
++  Set the initial value of the devices write count. It is
++  incremented by each write operation. 
++
++Examples
++--------
++
++The daemon should be started first:
++
++::
++
++  host# vhost-user-rpmb --socket-path=vrpmb.sock \
++   --flash-path=flash.img \
++   --key-path=key --key-set \
++   --initial-counter=1234
++
++The QEMU invocation needs to create a chardev socket the device can
++use to communicate as well as share the guests memory over a memfd.
++
++::
++
++  host# qemu-system \
++      -chardev socket,path=vrpmb.sock,id=vrpmb \
++      -device vhost-user-rpmb-pci,chardev=vrpmb,id=rpmb \
++      -m 4096 \
++      -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on \
++      -numa node,memdev=mem \
++      ...
++
 -- 
 2.20.1
 
