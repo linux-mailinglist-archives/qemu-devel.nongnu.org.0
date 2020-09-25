@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FFE277CF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:33:52 +0200 (CEST)
-Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FF2277CF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:33:51 +0200 (CEST)
+Received: from localhost ([::1]:40438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLbgN-0002rL-Qq
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
+	id 1kLbgM-0002kD-8L
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbq-0000kO-LM
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55266)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbp-0000kB-Uv
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbn-000087-6y
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:10 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbn-00008K-Ht
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:09 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600993746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JAuWcurd2bQlFa76ujgiI/gh0ag/aedHuk6D4YKnRc0=;
- b=QbUjmHbYnhW5Fmz/w492Q/G0/KNFKcX2fcEGY5PgTfhidVz1C4uKYpfY4twVwp3rlj/CF7
- f7JAMp27T2ElwscxxhxwqB9V7964vBJPmU9/HwuudK8+Via95AlwG8SiswVPxByhvPse5K
- TywwYpKJMrKe71MjqbP2nVTHCLpMqbU=
+ bh=IeM04lapevKTHqeknWiyBVqeCQ71OkXYt22/0qzWNxA=;
+ b=CssMJh4LJ4ji3jll/ndORV5AivvS0YeN8ydqCsjrNDJrpPomIM3DBdKE6AWKNeL1YSpsme
+ 2lIR2S/KqJucTyTCTEFik9V/CmPw/JRG+byLzaVNaYoHdQyNS7Sldy0kTCPN8rKERV6B4x
+ YSIi80Z4BnNvk9o5N5mOr/VaEDJvHTo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-Sp_cuZqfOEKX3dhAhDfWug-1; Thu, 24 Sep 2020 20:29:04 -0400
-X-MC-Unique: Sp_cuZqfOEKX3dhAhDfWug-1
+ us-mta-216-B_n8Hn6FPf-XsAqkh86iTw-1; Thu, 24 Sep 2020 20:29:04 -0400
+X-MC-Unique: B_n8Hn6FPf-XsAqkh86iTw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32736801AAB
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC8DD805EE4
  for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:03 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D7D25D9F1;
- Fri, 25 Sep 2020 00:29:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 579735D9F1;
+ Fri, 25 Sep 2020 00:29:03 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/47] [DO-NOT-MERGE] docs: repair broken references
-Date: Thu, 24 Sep 2020 20:28:15 -0400
-Message-Id: <20200925002900.465855-3-jsnow@redhat.com>
+Subject: [PATCH v3 03/47] [DO-NOT-MERGE] docs/sphinx: change default role to
+ "any"
+Date: Thu, 24 Sep 2020 20:28:16 -0400
+Message-Id: <20200925002900.465855-4-jsnow@redhat.com>
 In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,36 +86,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/devel/multi-thread-tcg.rst | 2 +-
- docs/devel/testing.rst          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ docs/conf.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
-index 21483870db..92a9eba13c 100644
---- a/docs/devel/multi-thread-tcg.rst
-+++ b/docs/devel/multi-thread-tcg.rst
-@@ -267,7 +267,7 @@ of view of external observers (e.g. another processor core). They can
- apply to any memory operations as well as just loads or stores.
+diff --git a/docs/conf.py b/docs/conf.py
+index 0dbd90dc11..a68f616d5a 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -81,6 +81,9 @@
+ # The master toctree document.
+ master_doc = 'index'
  
- The Linux kernel has an excellent `write-up
--<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`
-+<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`_
- on the various forms of memory barrier and the guarantees they can
- provide.
- 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 666c4d7240..f21f3f58eb 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -953,7 +953,7 @@ compiler flags are needed to build for a given target.
- If you have the ability to run containers as the user you can also
- take advantage of the build systems "Docker" support. It will then use
- containers to build any test case for an enabled guest where there is
--no system compiler available. See :ref: `_docker-ref` for details.
-+no system compiler available. See `docker-ref` for details.
- 
- Running subset of tests
- -----------------------
++# Interpret `this` to be a cross-reference to "anything".
++default_role = 'any'
++
+ # General information about the project.
+ project = u'QEMU'
+ copyright = u'2020, The QEMU Project Developers'
 -- 
 2.26.2
 
