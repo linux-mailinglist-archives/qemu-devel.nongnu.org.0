@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2F32786F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:21:04 +0200 (CEST)
-Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6233A278720
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:24:26 +0200 (CEST)
+Received: from localhost ([::1]:56708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmil-0001Yb-DW
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38492)
+	id 1kLmm1-0005Ai-ER
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWT-0003oi-GC
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20363)
+ id 1kLmWV-0003ps-RL
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWN-0004J7-Ml
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:19 -0400
+ id 1kLmWP-0004JF-JJ
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:22 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601035694;
+ s=mimecast20190719; t=1601035696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qJcE2eKX4MSRYIivfXLil9oVYKvuM5PqU9DzpHd1rCw=;
- b=L7BK30seZc45QSS/OKR9xPVoCKm15DKBalk4M0E9i1RBJFUURa7hPShxx4Oy/SzYYtBOPF
- xvk7nJevZBj5ZrhhfUwxsgV4ymFD8wKX2+ZRpKaqTDmgdk/ZRbvuTadmG4ggNLd67E3suE
- M+wBvPxrthqTasoWabGJk+1d2rgyW4c=
+ bh=u9hQ0hMltJMExf+pAheHArc7xtnUmlp9SNigj7wOqJY=;
+ b=XooFcRqmftislbbHpW94NiY9eqTAJOY8/UZnkJGlig5q4z68/x+BVFKTbuxrKhalAbB26J
+ DTGyG8cdVRpz483BxKPySOuS4d9ofFm7yz/6aUUJtbY2CbIoRxolkqLAOTFqxJQSZcJqJ3
+ u6SIKyXwoyV0J/xz7zMLazX5jR1+y5E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-mWJxMNN1O9qRroVteRP5DQ-1; Fri, 25 Sep 2020 08:08:11 -0400
-X-MC-Unique: mWJxMNN1O9qRroVteRP5DQ-1
+ us-mta-33-Hpu-5s4KOc22Ys_oujHSHA-1; Fri, 25 Sep 2020 08:08:13 -0400
+X-MC-Unique: Hpu-5s4KOc22Ys_oujHSHA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3301805EE4;
- Fri, 25 Sep 2020 12:08:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61B09802EA3;
+ Fri, 25 Sep 2020 12:08:12 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-177.ams2.redhat.com
  [10.36.114.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7912773693;
- Fri, 25 Sep 2020 12:08:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AAC973697;
+ Fri, 25 Sep 2020 12:08:09 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, zhengchuan@huawei.com, dovmurik@linux.vnet.ibm.com,
  hgcoin@gmail.com, zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com,
  peterx@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
  jinyan12@huawei.com, ann.zhuangyanying@huawei.com
-Subject: [PULL 18/26] migration/tls: extract migration_tls_client_create for
- common-use
-Date: Fri, 25 Sep 2020 13:06:47 +0100
-Message-Id: <20200925120655.295142-19-dgilbert@redhat.com>
+Subject: [PULL 19/26] migration/tls: add tls_hostname into MultiFDSendParams
+Date: Fri, 25 Sep 2020 13:06:48 +0100
+Message-Id: <20200925120655.295142-20-dgilbert@redhat.com>
 In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
 References: <20200925120655.295142-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -62,9 +61,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -91,103 +90,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chuan Zheng <zhengchuan@huawei.com>
 
-migration_tls_client_create will be used in multifd-tls, let's
-extract it.
+Since multifd creation is async with migration_channel_connect, we should
+pass the hostname from MigrationState to MultiFDSendParams.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Yan Jin <jinyan12@huawei.com>
+Message-Id: <1600139042-104593-4-git-send-email-zhengchuan@huawei.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <1600139042-104593-3-git-send-email-zhengchuan@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/tls.c | 26 ++++++++++++++++++--------
- migration/tls.h |  6 ++++++
- 2 files changed, 24 insertions(+), 8 deletions(-)
+ migration/multifd.c | 5 +++++
+ migration/multifd.h | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/migration/tls.c b/migration/tls.c
-index 8fbf9ac796..66c6f43221 100644
---- a/migration/tls.c
-+++ b/migration/tls.c
-@@ -22,7 +22,6 @@
- #include "channel.h"
- #include "migration.h"
- #include "tls.h"
--#include "io/channel-tls.h"
- #include "crypto/tlscreds.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-@@ -125,11 +124,10 @@ static void migration_tls_outgoing_handshake(QIOTask *task,
-     object_unref(OBJECT(ioc));
- }
+diff --git a/migration/multifd.c b/migration/multifd.c
+index fd57378db8..de34276c43 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -548,6 +548,8 @@ void multifd_save_cleanup(void)
+         qemu_sem_destroy(&p->sem_sync);
+         g_free(p->name);
+         p->name = NULL;
++        g_free(p->tls_hostname);
++        p->tls_hostname = NULL;
+         multifd_pages_clear(p->pages);
+         p->pages = NULL;
+         p->packet_len = 0;
+@@ -751,10 +753,12 @@ int multifd_save_setup(Error **errp)
+     int thread_count;
+     uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+     uint8_t i;
++    MigrationState *s;
  
--
--void migration_tls_channel_connect(MigrationState *s,
--                                   QIOChannel *ioc,
--                                   const char *hostname,
--                                   Error **errp)
-+QIOChannelTLS *migration_tls_client_create(MigrationState *s,
-+                                           QIOChannel *ioc,
-+                                           const char *hostname,
-+                                           Error **errp)
- {
-     QCryptoTLSCreds *creds;
-     QIOChannelTLS *tioc;
-@@ -137,7 +135,7 @@ void migration_tls_channel_connect(MigrationState *s,
-     creds = migration_tls_get_creds(
-         s, QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT, errp);
-     if (!creds) {
--        return;
-+        return NULL;
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
++    s = migrate_get_current();
+     thread_count = migrate_multifd_channels();
+     multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+     multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
+@@ -779,6 +783,7 @@ int multifd_save_setup(Error **errp)
+         p->packet->magic = cpu_to_be32(MULTIFD_MAGIC);
+         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+         p->name = g_strdup_printf("multifdsend_%d", i);
++        p->tls_hostname = g_strdup(s->hostname);
+         socket_send_channel_create(multifd_new_send_channel_async, p);
      }
  
-     if (s->parameters.tls_hostname && *s->parameters.tls_hostname) {
-@@ -145,11 +143,23 @@ void migration_tls_channel_connect(MigrationState *s,
-     }
-     if (!hostname) {
-         error_setg(errp, "No hostname available for TLS");
--        return;
-+        return NULL;
-     }
- 
-     tioc = qio_channel_tls_new_client(
-         ioc, creds, hostname, errp);
-+
-+    return tioc;
-+}
-+
-+void migration_tls_channel_connect(MigrationState *s,
-+                                   QIOChannel *ioc,
-+                                   const char *hostname,
-+                                   Error **errp)
-+{
-+    QIOChannelTLS *tioc;
-+
-+    tioc = migration_tls_client_create(s, ioc, hostname, errp);
-     if (!tioc) {
-         return;
-     }
-diff --git a/migration/tls.h b/migration/tls.h
-index cdd70001ed..0cfbe368ba 100644
---- a/migration/tls.h
-+++ b/migration/tls.h
-@@ -22,11 +22,17 @@
- #define QEMU_MIGRATION_TLS_H
- 
- #include "io/channel.h"
-+#include "io/channel-tls.h"
- 
- void migration_tls_channel_process_incoming(MigrationState *s,
-                                             QIOChannel *ioc,
-                                             Error **errp);
- 
-+QIOChannelTLS *migration_tls_client_create(MigrationState *s,
-+                                           QIOChannel *ioc,
-+                                           const char *hostname,
-+                                           Error **errp);
-+
- void migration_tls_channel_connect(MigrationState *s,
-                                    QIOChannel *ioc,
-                                    const char *hostname,
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 448a03d89a..8d6751f5ed 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -71,6 +71,8 @@ typedef struct {
+     uint8_t id;
+     /* channel thread name */
+     char *name;
++    /* tls hostname */
++    char *tls_hostname;
+     /* channel thread id */
+     QemuThread thread;
+     /* communication channel */
 -- 
 2.26.2
 
