@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABE2278911
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:10:04 +0200 (CEST)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2073C278916
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:11:54 +0200 (CEST)
+Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnUA-0004OH-Vf
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:10:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50086)
+	id 1kLnVx-00070j-41
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnJc-0002QT-Qz
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:08 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34457)
+ id 1kLnJe-0002V5-H3
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:10 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnJa-0002GH-Kk
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:08 -0400
-Received: by mail-wr1-x443.google.com with SMTP id t10so3550056wrv.1
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:59:06 -0700 (PDT)
+ id 1kLnJc-0002GW-JB
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:10 -0400
+Received: by mail-wr1-x442.google.com with SMTP id j2so3500833wrx.7
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L9eT1oZ9PgrU1jdXi7fYi4acA1czIwdtwVY/kAyMWRU=;
- b=zT3p1w6zUFNJ20/+EwFBQqMR+Y5rKNFb9ZY04ww0i/XqWnq5j5v4z8NxLDJBr+Us/1
- wTdtmpy4LKMBgniZ9C6xNXpgGff8U/mvjX+cd3niKGQnc1c6FcFUXXpDawolWTT4E5b4
- 0FmTYLVplO2F+SbcpE8R4a1vX6BW0O4nWnr6dDex7VK7Qqx4vDo1f7QPh60180QERAyk
- NNIgjw04m/V0krJh01tzmrUP5XXxMiv+4PDk0RXDSN06k6VMbJ1jE8RI3M13G4FSwOXr
- 9waI5ISaS3T8Rcpfv7dQxKijf2l38ytY5793syneVyry9t1rp88sisn/yqDIpoayZ5DL
- /WHg==
+ bh=uzbbYkb4NnbTBJGCofcpI1INW2euUpldKIpyeVgpePE=;
+ b=G/4+NjmMBCwOaEnAD8G4WHhVWosqSJutwj2jU41+Wz3f+z5Pu+x3w+Apvq4vw/gI6v
+ OWEZlnT5uP58hV4MyLlM6VfpFHdnUJ4oqdaUQf4zXdNX3SOuQgljdobicUopdh9+6Ttb
+ tXUTPX9pd8fHN81fYhE73C+f0Vr4nbSfPJs/eTSm7mBApwHMwISTgoEUPS1o/1aTGy59
+ Ly1MU/lRmWaDwMuBlaDKximatvYG0mrhUzV1I42Ya1KBavcxdPG4gy+D1vTEfCiEcnNY
+ 0b0zurgjWbBhlZV/04f0ObAWGAtX/EUic+h5M9zvFuDlqSnXZHFaMy2ek4+dRMByrReH
+ XEZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L9eT1oZ9PgrU1jdXi7fYi4acA1czIwdtwVY/kAyMWRU=;
- b=IR/Clz/IW6FXzyXy9+ASefnRb6OxjWNiCJJIlcvJUB737rEKw778z3lhDHxxnNxpZj
- u0AyGhOiPyH6gESSTnM6k1W8No+AGBP6q0ZUH3EwkJM8BIGfXTpEeZyHZWmqDTSgo1CC
- szptp8dovbWBtJ1Ue7c8I7NdjAC4jvqCoQGxj03Y12eM0zDXCnV4ko+yIi9BRC79f0pm
- ndK6Czrx/smt+cnPI3AAhlF5UXfLQ7t2G4cmzJz10fsO94PsXFQk5BE/f1UOQtC5PXpm
- Ew4nk06JLlULZYeYse6CapsiqURaBvGr5KWPzn+FVonVYqFDWzyt/UCSlqAGizZNR5Yu
- kQNA==
-X-Gm-Message-State: AOAM533eZsO755RF8NwdGwToV4YTSmPL0o9aeSVOD/Qz0h1FAXVNxNqq
- nyjdJ3jB3uj97xUPYcoz13xR7w==
-X-Google-Smtp-Source: ABdhPJy5z2JTSE7xjlqn9lmm3x6ZThm35XF11X2xktR9qINldTWdDf5oKrIdHbtjdTA4P0VidpRpFw==
-X-Received: by 2002:a5d:574c:: with SMTP id q12mr4373496wrw.253.1601038744992; 
- Fri, 25 Sep 2020 05:59:04 -0700 (PDT)
+ bh=uzbbYkb4NnbTBJGCofcpI1INW2euUpldKIpyeVgpePE=;
+ b=JdkuRMINdU1TX4ZOidrCAn93NmhK6xGD6kINi6LCGvTdv6VCw/pTUmJ6kWk8b/M/at
+ /V6nr8IkzMU/rVZFiZTVfbdxytib9r8sJ4xrPFB065GiiGv9jdjwTi52KVaxS0r3JfM8
+ cGnuiBX8QE/RgjblD48Zl78NUy0TH1h3vS5rNHHeW+S0kc8aIem6dp85b0aYVIO5J93+
+ RxOLNEquceq5HnaPVByZCCCXqPB0NdFQiSZyrzpgV0PaU17ydWAItBFXeV/iaSrQPxaN
+ ZMQ88hFl/7SoQ/YkUX4f/OpV+WC6zwZBrqHVjebPGmPLW30jTSa0L02JdBtEgK7eT2yM
+ Uz/Q==
+X-Gm-Message-State: AOAM533IvYLjrNGQl57h1sYHsNSDRUQDYSy7WUn9DeBaclDQc/ZPT5UC
+ 3DHkYk8Qq8gtQlcJOOczKPJ4sg==
+X-Google-Smtp-Source: ABdhPJy8Ipyz4jx7i9Y+XtUqRtfhW1VyFR6m8SCZSQPxBY5fr63M/xHX3v8k/G7hF1I7i6WrR75kfg==
+X-Received: by 2002:a5d:4645:: with SMTP id j5mr4392648wrs.230.1601038747151; 
+ Fri, 25 Sep 2020 05:59:07 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u63sm2867369wmb.13.2020.09.25.05.59.02
+ by smtp.gmail.com with ESMTPSA id a17sm3054427wra.24.2020.09.25.05.59.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Sep 2020 05:59:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A112E1FF9E;
+ by zen.linaroharston (Postfix) with ESMTP id B5F5C1FF9F;
  Fri, 25 Sep 2020 13:51:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org, maxim.uvarov@linaro.org, joakim.bech@linaro.org,
  ilias.apalodimas@linaro.org, tomas.winkler@intel.com, yang.huang@intel.com,
  bing.zhu@intel.com, Matti.Moell@opensynergy.com, hmo@opensynergy.com
-Subject: [RFC PATCH 15/19] tools/vhost-user-rpmb: implement
- VIRTIO_RPMB_REQ_DATA_WRITE
-Date: Fri, 25 Sep 2020 13:51:43 +0100
-Message-Id: <20200925125147.26943-16-alex.bennee@linaro.org>
+Subject: [RFC PATCH 16/19] tools/vhost-user-rpmb: implement
+ VIRTIO_RPMB_REQ_DATA_READ
+Date: Fri, 25 Sep 2020 13:51:44 +0100
+Message-Id: <20200925125147.26943-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925125147.26943-1-alex.bennee@linaro.org>
 References: <20200925125147.26943-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,186 +98,81 @@ Cc: jean-philippe@linaro.org, takahiro.akashi@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this command we are finally updating data to the backing store
-and cycling the write_count and each successful write. We also include
-the write count in all response frames as the spec is a little unclear
-but the example test code expected it.
+The read command is a lot simpler to implement. However the spec does
+specify you can only read a single block at a time so we limit it to
+that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tools/vhost-user-rpmb/main.c | 111 +++++++++++++++++++++++++++++++++--
- 1 file changed, 105 insertions(+), 6 deletions(-)
+ tools/vhost-user-rpmb/main.c | 52 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
 diff --git a/tools/vhost-user-rpmb/main.c b/tools/vhost-user-rpmb/main.c
-index 88747c50fa44..a17c3b4bcc4e 100644
+index a17c3b4bcc4e..49d4e00b24a9 100644
 --- a/tools/vhost-user-rpmb/main.c
 +++ b/tools/vhost-user-rpmb/main.c
-@@ -62,6 +62,7 @@ enum {
- #define KiB     (1UL << 10)
- #define MAX_RPMB_SIZE (KiB * 128 * 256)
- #define RPMB_KEY_MAC_SIZE 32
-+#define RPMB_BLOCK_SIZE 256
- 
- /* RPMB Request Types */
- #define VIRTIO_RPMB_REQ_PROGRAM_KEY        0x0001
-@@ -100,7 +101,7 @@ struct virtio_rpmb_config {
- struct virtio_rpmb_frame {
-     uint8_t stuff[196];
-     uint8_t key_mac[RPMB_KEY_MAC_SIZE];
--    uint8_t data[256];
-+    uint8_t data[RPMB_BLOCK_SIZE];
-     uint8_t nonce[16];
-     /* remaining fields are big-endian */
-     uint32_t write_counter;
-@@ -124,6 +125,7 @@ typedef struct VuRpmb {
-     uint8_t  last_nonce[16];
-     uint16_t last_result;
-     uint16_t last_reqresp;
-+    uint16_t last_address;
-     uint32_t write_count;
- } VuRpmb;
- 
-@@ -239,17 +241,30 @@ vrpmb_set_config(VuDev *dev, const uint8_t *data,
-  * which itself uses a 3 clause BSD chunk of code.
-  */
- 
-+static const int rpmb_frame_dlen = (sizeof(struct virtio_rpmb_frame) -
-+                                    offsetof(struct virtio_rpmb_frame, data));
-+
- static void vrpmb_update_mac_in_frame(VuRpmb *r, struct virtio_rpmb_frame *frm)
- {
-     hmac_sha256_ctx ctx;
--    static const int dlen = (sizeof(struct virtio_rpmb_frame) -
--                             offsetof(struct virtio_rpmb_frame, data));
- 
-     hmac_sha256_init(&ctx, r->key, RPMB_KEY_MAC_SIZE);
--    hmac_sha256_update(&ctx, frm->data, dlen);
-+    hmac_sha256_update(&ctx, frm->data, rpmb_frame_dlen);
-     hmac_sha256_final(&ctx, &frm->key_mac[0], 32);
- }
- 
-+static bool vrpmb_verify_mac_in_frame(VuRpmb *r, struct virtio_rpmb_frame *frm)
-+{
-+    hmac_sha256_ctx ctx;
-+    uint8_t calculated_mac[RPMB_KEY_MAC_SIZE];
-+
-+    hmac_sha256_init(&ctx, r->key, RPMB_KEY_MAC_SIZE);
-+    hmac_sha256_update(&ctx, frm->data, rpmb_frame_dlen);
-+    hmac_sha256_final(&ctx, calculated_mac, RPMB_KEY_MAC_SIZE);
-+
-+    return memcmp(calculated_mac, frm->key_mac, RPMB_KEY_MAC_SIZE) == 0;
-+}
-+
- /*
-  * Handlers for individual control messages
-  */
-@@ -324,6 +339,82 @@ vrpmb_handle_get_write_counter(VuDev *dev, struct virtio_rpmb_frame *frame)
-     return resp;
+@@ -414,6 +414,55 @@ static int vrpmb_handle_write(VuDev *dev, struct virtio_rpmb_frame *frame)
+     return extra_frames;
  }
  
 +/*
-+ * vrpmb_handle_write:
++ * vrpmb_handle_read:
 + *
-+ * We will report the success/fail on receipt of
-+ * VIRTIO_RPMB_REQ_RESULT_READ. Returns the number of extra frames
-+ * processed in the request.
++ * Unlike the write operation we return a frame with the result of the
++ * read here. While the config specifies a maximum read count the spec
++ * is limited to a single read at a time.
 + */
-+static int vrpmb_handle_write(VuDev *dev, struct virtio_rpmb_frame *frame)
++static struct virtio_rpmb_frame *
++vrpmb_handle_read(VuDev *dev, struct virtio_rpmb_frame *frame)
 +{
 +    VuRpmb *r = container_of(dev, VuRpmb, dev.parent);
-+    int extra_frames = 0;
++    size_t offset = be16toh(frame->address) * RPMB_BLOCK_SIZE;
 +    uint16_t block_count = be16toh(frame->block_count);
-+    uint32_t write_counter = be32toh(frame->write_counter);
-+    size_t offset;
++    struct virtio_rpmb_frame *resp = g_new0(struct virtio_rpmb_frame, 1);
 +
-+    r->last_reqresp = VIRTIO_RPMB_RESP_DATA_WRITE;
-+    r->last_address = be16toh(frame->address);
-+    offset =  r->last_address * RPMB_BLOCK_SIZE;
++    resp->req_resp = htobe16(VIRTIO_RPMB_RESP_DATA_READ);
++    resp->address = frame->address;
++    resp->block_count = htobe16(1);
 +
 +    /*
 +     * Run the checks from:
-+     * 5.12.6.1.3 Device Requirements: Device Operation: Data Write
++     * 5.12.6.1.4 Device Requirements: Device Operation: Data Read
 +     */
 +    if (!r->key) {
 +        g_warning("no key programmed");
-+        r->last_result = VIRTIO_RPMB_RES_NO_AUTH_KEY;
-+    } else if (block_count == 0 ||
-+               block_count > r->virtio_config.max_wr_cnt) {
-+        r->last_result = VIRTIO_RPMB_RES_GENERAL_FAILURE;
-+    } else if (false /* what does an expired write counter mean? */) {
-+        r->last_result = VIRTIO_RPMB_RES_WRITE_COUNTER_EXPIRED;
-+    } else if (offset > (r->virtio_config.capacity * (128 * KiB))) {
-+        r->last_result = VIRTIO_RPMB_RES_ADDR_FAILURE;
-+    } else if (!vrpmb_verify_mac_in_frame(r, frame)) {
-+        r->last_result = VIRTIO_RPMB_RES_AUTH_FAILURE;
-+    } else if (write_counter != r->write_count) {
-+        r->last_result = VIRTIO_RPMB_RES_COUNT_FAILURE;
-+    } else {
-+        int i;
-+        /* At this point we have a valid authenticated write request
-+         * so the counter can incremented and we can attempt to
-+         * update the backing device.
++        resp->result = htobe16(VIRTIO_RPMB_RES_NO_AUTH_KEY);
++    } else if (block_count != 1) {
++        /*
++         * Despite the config the spec only allows for reading one
++         * block at a time: "If block count has not been set to 1 then
++         * VIRTIO_RPMB_RES_GENERAL_FAILURE SHOULD be responded as
++         * result."
 +         */
-+        r->write_count++;
-+        for (i = 0; i < block_count; i++) {
-+            void *blk = r->flash_map + offset;
-+            g_debug("%s: writing block %d", __func__, i);
-+            if (mprotect(blk, RPMB_BLOCK_SIZE, PROT_WRITE) != 0) {
-+                r->last_result =  VIRTIO_RPMB_RES_WRITE_FAILURE;
-+                break;
-+            }
-+            memcpy(blk, frame[i].data, RPMB_BLOCK_SIZE);
-+            if (msync(blk, RPMB_BLOCK_SIZE, MS_SYNC) != 0) {
-+                g_warning("%s: failed to sync update", __func__);
-+                r->last_result = VIRTIO_RPMB_RES_WRITE_FAILURE;
-+                break;
-+            }
-+            if (mprotect(blk, RPMB_BLOCK_SIZE, PROT_READ) != 0) {
-+                g_warning("%s: failed to re-apply read protection", __func__);
-+                r->last_result = VIRTIO_RPMB_RES_GENERAL_FAILURE;
-+                break;
-+            }
-+            offset += RPMB_BLOCK_SIZE;
-+        }
-+        r->last_result = VIRTIO_RPMB_RES_OK;
-+        extra_frames = i - 1;
++        resp->result = htobe16(VIRTIO_RPMB_RES_GENERAL_FAILURE);
++    } else if (offset > (r->virtio_config.capacity * (128 * KiB))) {
++        resp->result = htobe16(VIRTIO_RPMB_RES_ADDR_FAILURE);
++    } else {
++        void *blk = r->flash_map + offset;
++        g_debug("%s: reading block from %p (%zu)", __func__, blk, offset);
++        memcpy(resp->data, blk, RPMB_BLOCK_SIZE);
++        resp->result = htobe16(VIRTIO_RPMB_RES_OK);
 +    }
 +
-+    g_info("%s: %s (%x, %d extra frames processed), write_count=%d", __func__,
-+           r->last_result == VIRTIO_RPMB_RES_OK ? "successful":"failed",
-+           r->last_result, extra_frames, r->write_count);
++    /* Final housekeeping, copy nonce and calculate MAC */
++    memcpy(&resp->nonce, &frame->nonce, sizeof(frame->nonce));
++    vrpmb_update_mac_in_frame(r, resp);
 +
-+    return extra_frames;
++    return resp;
 +}
-+
-+
+ 
  /*
   * Return the result of the last message. This is only valid if the
-  * previous message was VIRTIO_RPMB_REQ_PROGRAM_KEY or
-@@ -339,10 +430,14 @@ static struct virtio_rpmb_frame * vrpmb_handle_result_read(VuDev *dev)
-     g_info("%s: for request:%x result:%x", __func__,
-            r->last_reqresp, r->last_result);
- 
--    if (r->last_reqresp == VIRTIO_RPMB_RESP_PROGRAM_KEY ||
--        r->last_reqresp == VIRTIO_RPMB_REQ_DATA_WRITE) {
-+    if (r->last_reqresp == VIRTIO_RPMB_RESP_PROGRAM_KEY) {
-         resp->result = htobe16(r->last_result);
-         resp->req_resp = htobe16(r->last_reqresp);
-+    } else if (r->last_reqresp == VIRTIO_RPMB_RESP_DATA_WRITE) {
-+        resp->result = htobe16(r->last_result);
-+        resp->req_resp = htobe16(r->last_reqresp);
-+        resp->write_counter = htobe32(r->write_count);
-+        resp->address = htobe16(r->last_address);
-     } else {
-         resp->result = htobe16(VIRTIO_RPMB_RES_GENERAL_FAILURE);
-     }
-@@ -445,6 +540,10 @@ vrpmb_handle_ctrl(VuDev *dev, int qidx)
-                               __func__);
-                 }
+@@ -544,6 +593,9 @@ vrpmb_handle_ctrl(VuDev *dev, int qidx)
+                 /* we can have multiple blocks handled */
+                 n += vrpmb_handle_write(dev, f);
                  break;
-+            case VIRTIO_RPMB_REQ_DATA_WRITE:
-+                /* we can have multiple blocks handled */
-+                n += vrpmb_handle_write(dev, f);
++            case VIRTIO_RPMB_REQ_DATA_READ:
++                resp = vrpmb_handle_read(dev, f);
 +                break;
              default:
                  g_debug("un-handled request: %x", f->req_resp);
