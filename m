@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4A5278D91
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:04:45 +0200 (CEST)
-Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A757278D7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:02:05 +0200 (CEST)
+Received: from localhost ([::1]:60308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqDE-0008Ji-Fx
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:04:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36166)
+	id 1kLqAe-0004Zu-46
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLpqB-0002yH-Gh
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:55 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41000)
+ id 1kLpyD-0002Yn-QF
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:49:19 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLpq5-0007eb-8u
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:55 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id w5so4063727wrp.8
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:48 -0700 (PDT)
+ id 1kLpy9-0000VV-JR
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:49:11 -0400
+Received: by mail-wm1-x332.google.com with SMTP id k18so3807712wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9nPyMT1X5QmnyF+DhIV8Y2gJFsLW/DPqQWHOVMTnoaA=;
- b=C8IlginxXjUunqjy6NE2/BOeWdP8hOrx0pxC4WrMWeQTiKp5ZcIZRzfhguwPLR+Czm
- EmaLlR30VokM+edUTHM3MbHwGY8OdyluheB2PiXFZ4Q/7bKroEkMEnQpIzXuenZSM0eE
- VfpaCjdfRSXa3w08Z0WYouWWIV3960cyqPRNnMI1sTM0RP4454ZH8CFXY1DTm0M6YcN3
- 45qGVscMRYEL8aS+SiWAKiEevCsc9jL0JTRKgrTCYNw96LhV8Vf1YsO0WHrS6iehKkMs
- 2/PFeiwAW2uphKMBckddTtyK0iNwdPw6f4cZJkf/GNlfXsPRGWIV6oCCSLdQQKe4nIqL
- GrRA==
+ bh=GEgAIy3Gb432FQIIBfbH6rEBsgGzghVjuElpT6S9p1E=;
+ b=DU35PRZL5dZiqMF1B5UlZK99Fkrw15w545/K7aWYWGwvjXcOj/ucLUwUZIX4u+4H7b
+ labIFr+ZDoLZqO6+8w9zf3DWWng/b8d2iBviW5COT8blcuAJxBqxzCcg+bWEns6pURCC
+ h9ppNxkHIgV4pA7IlC3LBeJiWnQDqPUn2TgNBGCR4Cv4AeVuKtalcoyUy567KDMpfiBt
+ uiAcuTpBCeFoFwZAdkqk46xGSnKTsh4RAxKxoYTq8NUyyTUp6bsJwZ9Q7x4ABYHK6MJh
+ +y6srtpGxzhR6ibN7o3F3DgeXkS0M+ByTsvgMW/5PTX1BMLRHGbKMopA8l+q9Ktsu/1I
+ GnXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9nPyMT1X5QmnyF+DhIV8Y2gJFsLW/DPqQWHOVMTnoaA=;
- b=BTv8VTnAmEkg7+8eNOV2ejdrg9Zp2bFniXe9n36rRvplsjLjbRmoh9IyCmUA8E8F+6
- bWyqQYDgpQ/w5qtvnY1BtgSr1fd3qPaGNoQulzukNLbsjJ4FjXSr105BiLJBtIWYN/Ro
- b+kQ5ja8ClTP2nJ/Pns3kefruGfV+ioaxlh02/WPAXLJzzpQpE7jgv+7k5mJteijasRr
- acXnDkTa/neBZpgprpurDkip1LnQE0jLMo42dWkc9XWSpDKfsT1o7Z6C6GdELyjthzZD
- 91p9DSUsBVpJj15XF6c+7BmGgbG7vIQgGkstfASswHBaeTQTqVTAwTL2MohiepkdEniK
- eq6g==
-X-Gm-Message-State: AOAM531Yf9xXXx3lnfSQRwxCDXCfS+bFrmmWqJHlSc2ilzZtIDrTRAFP
- AboV6A2Up0xMNxdAl/xCjNlnMQ==
-X-Google-Smtp-Source: ABdhPJzFkFhSI9n+Mskmz3dUbGSUs2z0+z2WCh1jXRnXNb2f5wfiJfk6dIrRCwg4XoWvHPWTt5QVQA==
-X-Received: by 2002:adf:ab54:: with SMTP id r20mr1672274wrc.293.1601048447687; 
- Fri, 25 Sep 2020 08:40:47 -0700 (PDT)
+ bh=GEgAIy3Gb432FQIIBfbH6rEBsgGzghVjuElpT6S9p1E=;
+ b=DTnizRETIn9Djzs8GzPm3DH4e3pXVcAxWefLTNDK/a4XRB1WnnuLpry9GcnDaD6sRu
+ PzV+OOhoVozAnjLL5kxW1BBMtOUMPkLt+EUE6KRtmvFmVCpZAjcIHNW94HgxCbQ9O0Lc
+ 4CZQaJs1uC3US4gvWK73w2viZj80ILpBUm6RJN5Nds3kfpDqdhTrj8iqsz98hV/OvDoE
+ g8CCxGB5a0RJCJLoiat7We/7FvwQlJxLBytj2PN3TcZBVhSXZyI1TW5PGG3pE4rT3J6D
+ 7og9CUrGEhMU2mw33ahqYC412Mo3Nbwhb7zfOgYS6OhZgX0IGkuNwCeNR868rP1rh0Rj
+ pAwg==
+X-Gm-Message-State: AOAM531gPbwYxEftUGAkJ85zfG6voBB2KvmqALnjA+m5/ozPhJlCrTCX
+ wISinDjfPzf6oCct3hr5DcxpfdZrTdVBdQ==
+X-Google-Smtp-Source: ABdhPJylLb16ToRfVowy12faH0FAJN7HDj/sGxNMyizaqMtLtuq2BhkdxuTT8zknjNfbgNQHJiiJnQ==
+X-Received: by 2002:a7b:c1d4:: with SMTP id a20mr3835065wmj.30.1601048947951; 
+ Fri, 25 Sep 2020 08:49:07 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s17sm3524196wrr.40.2020.09.25.08.40.35
+ by smtp.gmail.com with ESMTPSA id r206sm3342155wma.47.2020.09.25.08.49.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 08:40:37 -0700 (PDT)
+ Fri, 25 Sep 2020 08:49:04 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 076601FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id 563291FF9C;
  Fri, 25 Sep 2020 16:40:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 11/15] tests/docker: Update the tricore container to debian
- 10
-Date: Fri, 25 Sep 2020 16:40:23 +0100
-Message-Id: <20200925154027.12672-12-alex.bennee@linaro.org>
+Subject: [PATCH  v1 13/15] tests/docker: Remove old Debian 9 containers
+Date: Fri, 25 Sep 2020 16:40:25 +0100
+Message-Id: <20200925154027.12672-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925154027.12672-1-alex.bennee@linaro.org>
 References: <20200925154027.12672-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,69 +88,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-We do not support Debian 9 anymore, thus update the Tricore container
-to Debian 10 now.
+We do not support Debian 9 in QEMU anymore, and the Debian 9 containers
+are now no longer used in the gitlab-CI. Time to remove them.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200921174320.46062-4-thuth@redhat.com>
+Message-Id: <20200921174320.46062-6-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/containers.yml                          | 2 +-
- tests/docker/Makefile.include                        | 2 +-
- tests/docker/dockerfiles/debian-tricore-cross.docker | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .gitlab-ci.d/containers.yml                   | 12 -----
+ .../dockerfiles/debian-win32-cross.docker     | 38 ----------------
+ .../dockerfiles/debian-win64-cross.docker     | 45 -------------------
+ tests/docker/dockerfiles/debian9-mxe.docker   | 21 ---------
+ tests/docker/dockerfiles/debian9.docker       | 32 -------------
+ 5 files changed, 148 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-win32-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-win64-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian9-mxe.docker
+ delete mode 100644 tests/docker/dockerfiles/debian9.docker
 
 diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 6769eef0ff0d..089cea7c14c1 100644
+index 089cea7c14c1..11d079ea5810 100644
 --- a/.gitlab-ci.d/containers.yml
 +++ b/.gitlab-ci.d/containers.yml
-@@ -210,7 +210,7 @@ sparc64-debian-cross-container:
- tricore-debian-cross-container:
+@@ -48,18 +48,6 @@ amd64-debian11-container:
+   variables:
+     NAME: debian11
+ 
+-amd64-debian9-container:
+-  <<: *container_job_definition
+-  variables:
+-    NAME: debian9
+-
+-amd64-debian9-mxe-container:
+-  <<: *container_job_definition
+-  stage: containers-layer2
+-  needs: ['amd64-debian9-container']
+-  variables:
+-    NAME: debian9-mxe
+-
+ alpha-debian-cross-container:
    <<: *container_job_definition
    stage: containers-layer2
--  needs: ['amd64-debian9-container']
-+  needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-tricore-cross
- 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 75704268ff0a..02ec92830b83 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -137,7 +137,7 @@ docker-image-debian-sparc64-cross: docker-image-debian10
- docker-image-travis: NOUSER=1
- 
- # Specialist build images, sometimes very limited tools
--docker-image-debian-tricore-cross: docker-image-debian9
-+docker-image-debian-tricore-cross: docker-image-debian10
- docker-image-debian-all-test-cross: docker-image-debian10
- docker-image-debian-arm64-test-cross: docker-image-debian11
- 
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 769d95c77bb2..985925134c67 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -7,7 +7,7 @@
- #
- # SPDX-License-Identifier: GPL-2.0-or-later
- #
+diff --git a/tests/docker/dockerfiles/debian-win32-cross.docker b/tests/docker/dockerfiles/debian-win32-cross.docker
+deleted file mode 100644
+index b045e821b910..000000000000
+--- a/tests/docker/dockerfiles/debian-win32-cross.docker
++++ /dev/null
+@@ -1,38 +0,0 @@
+-#
+-# Docker mingw32 cross-compiler target
+-#
+-# This docker target builds on the debian Stretch MXE base image.
+-#
+-FROM qemu/debian9-mxe
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-ENV TARGET i686
+-
+-ENV PATH $PATH:/usr/lib/mxe/usr/bin:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
+-
+-ENV PKG_CONFIG_PATH \
+-    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
+-
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        mxe-$TARGET-w64-mingw32.shared-bzip2 \
+-        mxe-$TARGET-w64-mingw32.shared-curl \
+-        mxe-$TARGET-w64-mingw32.shared-glib \
+-        mxe-$TARGET-w64-mingw32.shared-libgcrypt \
+-        mxe-$TARGET-w64-mingw32.shared-libusb1 \
+-        mxe-$TARGET-w64-mingw32.shared-lzo \
+-        mxe-$TARGET-w64-mingw32.shared-nettle \
+-        mxe-$TARGET-w64-mingw32.shared-ncurses \
+-        mxe-$TARGET-w64-mingw32.shared-nsis \
+-        mxe-$TARGET-w64-mingw32.shared-pixman \
+-        mxe-$TARGET-w64-mingw32.shared-pkgconf \
+-        mxe-$TARGET-w64-mingw32.shared-pthreads \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2 \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-mixer \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-gfx \
+-        mxe-$TARGET-w64-mingw32.shared-zlib
+-
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
+-ENV QEMU_CONFIGURE_OPTS --cross-prefix=$TARGET-w64-mingw32.shared-
+diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b/tests/docker/dockerfiles/debian-win64-cross.docker
+deleted file mode 100644
+index 4cc4a3f3657f..000000000000
+--- a/tests/docker/dockerfiles/debian-win64-cross.docker
++++ /dev/null
+@@ -1,45 +0,0 @@
+-#
+-# Docker mingw64 cross-compiler target
+-#
+-# This docker target builds on the debian Stretch MXE base image.
+-#
+-FROM qemu/debian9-mxe
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-ENV TARGET x86-64
+-
+-ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
+-
+-ENV PKG_CONFIG_PATH \
+-    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
+-
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        mxe-$TARGET-w64-mingw32.shared-bzip2 \
+-        mxe-$TARGET-w64-mingw32.shared-curl \
+-        mxe-$TARGET-w64-mingw32.shared-glib \
+-        mxe-$TARGET-w64-mingw32.shared-libgcrypt \
+-        mxe-$TARGET-w64-mingw32.shared-libusb1 \
+-        mxe-$TARGET-w64-mingw32.shared-lzo \
+-        mxe-$TARGET-w64-mingw32.shared-nettle \
+-        mxe-$TARGET-w64-mingw32.shared-ncurses \
+-        mxe-$TARGET-w64-mingw32.shared-nsis \
+-        mxe-$TARGET-w64-mingw32.shared-pixman \
+-        mxe-$TARGET-w64-mingw32.shared-pkgconf \
+-        mxe-$TARGET-w64-mingw32.shared-pthreads \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2 \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-mixer \
+-        mxe-$TARGET-w64-mingw32.shared-sdl2-gfx \
+-        mxe-$TARGET-w64-mingw32.shared-zlib \
+-        curl && \
+-    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvEmulation.h \
+-        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvemulation.h?format=raw" && \
+-    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/WinHvPlatform.h \
+-        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvplatform.h?format=raw" && \
+-    curl -s -S -o /usr/lib/mxe/usr/x86_64-w64-mingw32.shared/include/winhvplatformdefs.h \
+-        "https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-headers/include/winhvplatformdefs.h?format=raw"
+-
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
+-ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32.shared-
+diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/dockerfiles/debian9-mxe.docker
+deleted file mode 100644
+index ae2c222a6f08..000000000000
+--- a/tests/docker/dockerfiles/debian9-mxe.docker
++++ /dev/null
+@@ -1,21 +0,0 @@
+-#
+-# Docker mingw cross-compiler target
+-#
+-# This docker target builds on the debian Stretch base image.
+-#
 -FROM qemu/debian9
-+FROM qemu/debian10
- 
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends gnupg dirmngr
+-
+-# Add the foreign architecture we want and install dependencies
+-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C6BF758A33A3A276 && \
+-    echo "deb http://pkg.mxe.cc/repos/apt stretch main" > /etc/apt/sources.list.d/mxeapt.list
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt-get install -y --no-install-recommends \
+-        $(apt-get -s install -y --no-install-recommends gw32.shared-mingw-w64 | egrep "^Inst mxe-x86-64-unknown-" | cut -d\  -f2)
+-
+-ENV PATH $PATH:/usr/lib/mxe/usr/bin/
+diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
+deleted file mode 100644
+index 3edb5147ef3e..000000000000
+--- a/tests/docker/dockerfiles/debian9.docker
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#
+-# Docker multiarch cross-compiler target
+-#
+-# This docker target is builds on Debian cross compiler targets to build distro
+-# with a selection of cross compilers for building test binaries.
+-#
+-# On its own you can't build much but the docker-foo-cross targets
+-# build on top of the base debian image.
+-#
+-FROM debian:stretch-slim
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+-
+-# Install common build utilities
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        bc \
+-        build-essential \
+-        ca-certificates \
+-        clang \
+-        gdb-multiarch \
+-        gettext \
+-        git \
+-        libncurses5-dev \
+-        pkg-config \
+-        psmisc \
+-        python3 \
+-        python3-setuptools \
+-        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
 -- 
 2.20.1
 
