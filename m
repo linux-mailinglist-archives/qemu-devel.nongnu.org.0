@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E45278504
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:23:45 +0200 (CEST)
-Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 890EA27850A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:25:41 +0200 (CEST)
+Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLktE-0000I7-5H
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
+	id 1kLkv6-0001tH-J8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:25:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknL-0001BX-V7; Fri, 25 Sep 2020 06:17:39 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:58242)
+ id 1kLknm-0001Z8-4l; Fri, 25 Sep 2020 06:18:06 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:58262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknJ-0007SP-8I; Fri, 25 Sep 2020 06:17:39 -0400
+ id 1kLknh-0007So-TJ; Fri, 25 Sep 2020 06:18:05 -0400
 Received: from sekoia-pc.bar.greensocs.com (sekoia-pc.home.lmichel.fr
  [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id C5B91C60F23;
+ by pharaoh.lmichel.fr (Postfix) with ESMTPS id EBF81C60F25;
  Fri, 25 Sep 2020 10:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
  t=1601029040;
@@ -27,17 +27,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh;
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MsNBR+iq9fdf+lKa2N77Xg9ZgMSlmTYx7Lrf4dgXr5M=;
- b=Z/yixsQk9LhChvn6Av25PKVNnCU2u7tFz3KPh7EOcnLhdElmL1kfIOWnpJL2YC+Le18X6R
- KBqwmEO+EJXlt11nAmINSnb/YxDTMwA+NLHrTpPJvmKi4NQ1QNJvE60lFqQRt8ymcy6BRC
- Hh0qEM/zT3EtAgDM9Lbo+CgWhdBukFNpvdAIqTt2xN6CKfQQgShNy0S1rrOkdNFEdmXNBB
- wSE/9HKiV7GWHm9hzXfpMISLrTLVb2MnPWBnQ1FluxEuDBz/rzaUR4jNMAkcBAg+4efW3m
- 5wMVjLglF0i1BvAPUB54FpCfF56z4cbTnhfOpRK8Lwg4pUspgE7KtoxAlDa1+g==
+ bh=Jzk0uP9k3MS5cnLaH5qrGE/fnKTXANTCV6K+Nith/Go=;
+ b=hfb9RzTP6dXBiznw5KlW87C53QFgpKuyurFMogcw5A/Z2+gOsWWxdJj4lq1H9IXIm7XtDj
+ Ze7oGFn2YoThG2R0mJqc3CDLxkl0qSS575WHOVQ4WcHDBqD+STFCtn8c56y1bLGegu5yf4
+ CaxOw6SzzjqP5nR6U/vqzuP+zA6PlUHqGXy8uyu4CCmJNKbr2CB+GnsrFyBjxuXQAcIlMD
+ RMTarrPtfFPgIEb9b7B1CKRUlzS3+Nuw65nO4uXiFUkBeUFUNV0tSKFmejCgcn6dKnEJwV
+ kNh1+f1FuzgYMLbRZMMP+RmU7rS0NEGbey+DSXCmUuBv13CbMueF3H8cw2Rf6g==
 From: Luc Michel <luc@lmichel.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/14] hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
-Date: Fri, 25 Sep 2020 12:17:28 +0200
-Message-Id: <20200925101731.2159827-12-luc@lmichel.fr>
+Subject: [RFC PATCH 13/14] hw/char/pl011: add a clock input
+Date: Fri, 25 Sep 2020 12:17:30 +0200
+Message-Id: <20200925101731.2159827-14-luc@lmichel.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200925101731.2159827-1-luc@lmichel.fr>
 References: <20200925101731.2159827-1-luc@lmichel.fr>
@@ -49,14 +49,14 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MsNBR+iq9fdf+lKa2N77Xg9ZgMSlmTYx7Lrf4dgXr5M=;
- b=YV1ALaM0Zcy3/FLJKBAK9mQZDveD4zzRvBsNo3PrzIOw03rR6XLWLLSUA6Q3IVXuyzXv0/
- NmXVrJDCFFXIMK7kHCKRvFryHAc0FFCs2Bi8d3rrgmq5LV8JdA4uxVam1TtOMHbcsH4V+O
- Q6ckXBEp/6eYUEnUjxME1Jr34yJUIHt/2dC+JhCE5kJsEbSdn03Wh0aOWdenrSd1UsF8Ke
- EnQWza/M4EJYWPhSpW8JnJPcMl2VA6Lga5ZlwNWmDW7+V5ARvxJjmWrIlYTPYWYZTkoDri
- vJvy5DbYn72GkV4PKehHQ0OTZ/tw120ZyMR5CwUgw1fsALffqhWDgmD+VWZTMw==
+ bh=Jzk0uP9k3MS5cnLaH5qrGE/fnKTXANTCV6K+Nith/Go=;
+ b=K7cR4DFHW1uDWtw0Zq2Nf+uvUafaWoKIX+uHHeLscLRVPa3Z+sOTH+i1aQW+HLaO0J0v73
+ WndHOfijhOKHuEGS6aGp/DH+oF3k6E37RNTeDtCXzA8xKTmDWUvtIKW7zgVnkL0zJhVImr
+ /O53zFTXZ0y+QzlEnJJrh53eP7I5HWPNlpF6H54vMBqjHD/gny8KZXJL4Gs/ATpFUSsu6o
+ +C//+KLXNdsQY24m8bxXoxBdfrYeCco4JMxGUqIqcHurnyxn+NT26t+CYiJu5HhJRfoY5O
+ 0G9wpv3NtnFyO+xkwUIVqk8uS8pQ+d6dnVmlph4hLg25H6Nr2oyBdIBUnkBzzQ==
 ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029040; a=rsa-sha256; cv=none;
- b=IeGihrNl9K3ZP6IAGdpfdOYwR4CiL/lsj4Eqk4LV6LwzRbX+ne/R32W0x0fb6XWZSeVLBO2woHl3zALMLRm6yNaM3xJjdQGCoxXZ0c8b+vGUShlhlo6FpjBJWzCwdPLbaupAK5agxnnbW7ChVySO93T/vB4puJmeBsdvshNpP+IGN4HAi1Kcv1lLZWLdVh+M6DJ4KjjoDrf5SENX9PBpfXR7TRVdxX5SoncP7jO7ufnWqtDvIsW4FMEan+7qI5HbWXAp4o4d/0LdvJk35pYoq6QoUQeFEUjJ25gU9t0erdZRah5L2k2iC55NKH6VaBqzhCZ/ZyQf5GG8KmNMTOE2bQ==
+ b=jRVhJgajq0sjnjwiJcf6nqb9KPhUuxZgd4rOkvSmsHk/GljfvnMhM0rOigoBnb1AdA6hqd0vJ4mZ2bFEQvBTEIA8rXnFfATMpguvYKORcUcVxc+xFTb2+NiVb0afVH208m1h2HfA3k6ax4fuEweL92JniKyuE5XT+U5RkBJ7M7ttAiZCDoTwF/oej4NIcNhMTpnpoVUajShAoKMeP8qNuLUrQSMuV71e4lqJGpcHCE1WYQNhoIESlmKOny1mrJMRakAeDgW5j4eiGFs0eDnhqgvO06Xz0A0zEPsh7D94S8PMis9+mofBIXBZNKxUNabjtFSJa5JFFj56Vefy+sivIg==
 ARC-Authentication-Results: i=1;
 	pharaoh.lmichel.fr
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
@@ -88,254 +88,174 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simple mux sits between the PLL channels and the DSI0E and DSI0P
-clock muxes. This mux selects between PLLA-DSI0 and PLLD-DSI0 channel
-and outputs the selected signal to source number 4 of DSI0E/P clock
-muxes. It is controlled by the cm_dsi0hsck register.
+Add a clock input to the PL011 UART so we can compute the current baud
+rate and trace it. This is intended for developers who wish to use QEMU
+to e.g. debug their firmware or to figure out the baud rate configured
+by an unknown/closed source binary.
 
 Signed-off-by: Luc Michel <luc@lmichel.fr>
 ---
- include/hw/misc/bcm2835_cprman.h           | 15 +++++
- include/hw/misc/bcm2835_cprman_internals.h |  6 ++
- hw/misc/bcm2835_cprman.c                   | 78 +++++++++++++++++++++-
- 3 files changed, 98 insertions(+), 1 deletion(-)
+ include/hw/char/pl011.h |  1 +
+ hw/char/pl011.c         | 45 +++++++++++++++++++++++++++++++++++++++++
+ hw/char/trace-events    |  1 +
+ 3 files changed, 47 insertions(+)
 
-diff --git a/include/hw/misc/bcm2835_cprman.h b/include/hw/misc/bcm2835_cprman.h
-index c2a89e8e90..5555a299fc 100644
---- a/include/hw/misc/bcm2835_cprman.h
-+++ b/include/hw/misc/bcm2835_cprman.h
-@@ -171,20 +171,35 @@ typedef struct CprmanClockMuxState {
-      * source number.
-      */
-     struct CprmanClockMuxState *backref[CPRMAN_NUM_CLOCK_MUX_SRC];
- } CprmanClockMuxState;
- 
-+typedef struct CprmanDsi0HsckMuxState {
-+    /*< private >*/
-+    DeviceState parent_obj;
-+
-+    /*< public >*/
-+    CprmanClockMux id;
-+
-+    uint32_t *reg_cm;
-+
-+    Clock *plla_in;
-+    Clock *plld_in;
-+    Clock *out;
-+} CprmanDsi0HsckMuxState;
-+
- struct BCM2835CprmanState {
-     /*< private >*/
-     SysBusDevice parent_obj;
- 
-     /*< public >*/
-     MemoryRegion iomem;
- 
-     CprmanPLLState plls[CPRMAN_NUM_PLL];
-     CprmanPLLChannelState channels[CPRMAN_NUM_PLL_CHANNEL];
-     CprmanClockMuxState clock_muxes[CPRMAN_NUM_CLOCK_MUX];
-+    CprmanDsi0HsckMuxState dsi0hsck_mux;
- 
-     uint32_t regs[CPRMAN_NUM_REGS];
-     uint32_t xosc_freq;
- 
-     Clock *xosc;
-diff --git a/include/hw/misc/bcm2835_cprman_internals.h b/include/hw/misc/bcm2835_cprman_internals.h
-index a2b5a1aa50..ad07cf5276 100644
---- a/include/hw/misc/bcm2835_cprman_internals.h
-+++ b/include/hw/misc/bcm2835_cprman_internals.h
-@@ -13,17 +13,20 @@
- #include "hw/misc/bcm2835_cprman.h"
- 
- #define TYPE_CPRMAN_PLL "bcm2835-cprman-pll"
- #define TYPE_CPRMAN_PLL_CHANNEL "bcm2835-cprman-pll-channel"
- #define TYPE_CPRMAN_CLOCK_MUX "bcm2835-cprman-clock-mux"
-+#define TYPE_CPRMAN_DSI0HSCK_MUX "bcm2835-cprman-dsi0hsck-mux"
- 
- DECLARE_INSTANCE_CHECKER(CprmanPLLState, CPRMAN_PLL,
-                          TYPE_CPRMAN_PLL)
- DECLARE_INSTANCE_CHECKER(CprmanPLLChannelState, CPRMAN_PLL_CHANNEL,
-                          TYPE_CPRMAN_PLL_CHANNEL)
- DECLARE_INSTANCE_CHECKER(CprmanClockMuxState, CPRMAN_CLOCK_MUX,
-                          TYPE_CPRMAN_CLOCK_MUX)
-+DECLARE_INSTANCE_CHECKER(CprmanDsi0HsckMuxState, CPRMAN_DSI0HSCK_MUX,
-+                         TYPE_CPRMAN_DSI0HSCK_MUX)
- 
- /* Register map */
- 
- /* PLLs */
- REG32(CM_PLLA, 0x104)
-@@ -221,10 +224,13 @@ REG32(CM_LOCK, 0x114)
-     FIELD(CM_LOCK, FLOCKD, 11, 1)
-     FIELD(CM_LOCK, FLOCKC, 10, 1)
-     FIELD(CM_LOCK, FLOCKB, 9, 1)
-     FIELD(CM_LOCK, FLOCKA, 8, 1)
- 
-+REG32(CM_DSI0HSCK, 0x120)
-+    FIELD(CM_DSI0HSCK, SELPLLD, 0, 1)
-+
- /*
-  * This field is common to all registers. Each register write value must match
-  * the CPRMAN_PASSWORD magic value in its 8 MSB.
-  */
- FIELD(CPRMAN, PASSWORD, 24, 8)
-diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-index 75bc11939b..e576ab2642 100644
---- a/hw/misc/bcm2835_cprman.c
-+++ b/hw/misc/bcm2835_cprman.c
-@@ -327,10 +327,62 @@ static const TypeInfo cprman_clock_mux_info = {
-     .class_init = clock_mux_class_init,
-     .instance_init = clock_mux_init,
+diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
+index a91ea50e11..33e5e5317b 100644
+--- a/include/hw/char/pl011.h
++++ b/include/hw/char/pl011.h
+@@ -47,10 +47,11 @@ struct PL011State {
+     int read_pos;
+     int read_count;
+     int read_trigger;
+     CharBackend chr;
+     qemu_irq irq[6];
++    Clock *clk;
+     const unsigned char *id;
  };
  
+ static inline DeviceState *pl011_create(hwaddr addr,
+                                         qemu_irq irq,
+diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+index 13e784f9d9..ede16c781c 100644
+--- a/hw/char/pl011.c
++++ b/hw/char/pl011.c
+@@ -20,10 +20,11 @@
  
-+/* DSI0HSCK mux */
-+
-+static void dsi0hsck_mux_update(CprmanDsi0HsckMuxState *s)
+ #include "qemu/osdep.h"
+ #include "hw/char/pl011.h"
+ #include "hw/irq.h"
+ #include "hw/sysbus.h"
++#include "hw/qdev-clock.h"
+ #include "migration/vmstate.h"
+ #include "chardev/char-fe.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "trace.h"
+@@ -167,10 +168,29 @@ static void pl011_set_read_trigger(PL011State *s)
+     else
+ #endif
+         s->read_trigger = 1;
+ }
+ 
++static unsigned int pl011_get_baudrate(const PL011State *s)
 +{
-+    bool src_is_plld = FIELD_EX32(*s->reg_cm, CM_DSI0HSCK, SELPLLD);
-+    Clock *src = src_is_plld ? s->plld_in : s->plla_in;
++    uint64_t clk;
 +
-+    clock_update(s->out, clock_get(src));
++    if (s->fbrd == 0) {
++        return 0;
++    }
++
++    clk = clock_get_hz(s->clk);
++    return (clk / ((s->ibrd << 6) + s->fbrd)) << 2;
 +}
 +
-+static void dsi0hsck_mux_in_update(void *opaque)
++static void pl011_trace_baudrate_change(const PL011State *s)
 +{
-+    dsi0hsck_mux_update(CPRMAN_DSI0HSCK_MUX(opaque));
++    trace_pl011_baudrate_change(pl011_get_baudrate(s),
++                                clock_get_hz(s->clk),
++                                s->ibrd, s->fbrd);
 +}
 +
-+static void dsi0hsck_mux_init(Object *obj)
+ static void pl011_write(void *opaque, hwaddr offset,
+                         uint64_t value, unsigned size)
+ {
+     PL011State *s = (PL011State *)opaque;
+     unsigned char ch;
+@@ -196,13 +216,15 @@ static void pl011_write(void *opaque, hwaddr offset,
+     case 8: /* UARTUARTILPR */
+         s->ilpr = value;
+         break;
+     case 9: /* UARTIBRD */
+         s->ibrd = value;
++        pl011_trace_baudrate_change(s);
+         break;
+     case 10: /* UARTFBRD */
+         s->fbrd = value;
++        pl011_trace_baudrate_change(s);
+         break;
+     case 11: /* UARTLCR_H */
+         /* Reset the FIFO state on FIFO enable or disable */
+         if ((s->lcr ^ value) & 0x10) {
+             s->read_count = 0;
+@@ -284,16 +306,33 @@ static void pl011_event(void *opaque, QEMUChrEvent event)
+ {
+     if (event == CHR_EVENT_BREAK)
+         pl011_put_fifo(opaque, 0x400);
+ }
+ 
++static void pl011_clock_update(void *opaque)
 +{
-+    CprmanDsi0HsckMuxState *s = CPRMAN_DSI0HSCK_MUX(obj);
-+    DeviceState *dev = DEVICE(obj);
++    PL011State *s = PL011(opaque);
 +
-+    s->plla_in = qdev_init_clock_in(dev, "plla-in", dsi0hsck_mux_in_update, s);
-+    s->plld_in = qdev_init_clock_in(dev, "plld-in", dsi0hsck_mux_in_update, s);
-+    s->out = qdev_init_clock_out(DEVICE(s), "out");
++    pl011_trace_baudrate_change(s);
 +}
 +
-+static const VMStateDescription dsi0hsck_mux_vmstate = {
-+    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
+ static const MemoryRegionOps pl011_ops = {
+     .read = pl011_read,
+     .write = pl011_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
++static const VMStateDescription vmstate_pl011_clock = {
++    .name = "pl011/clock",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_CLOCK(plla_in, CprmanDsi0HsckMuxState),
-+        VMSTATE_CLOCK(plld_in, CprmanDsi0HsckMuxState),
++        VMSTATE_CLOCK(clk, PL011State),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void dsi0hsck_mux_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &dsi0hsck_mux_vmstate;
-+}
-+
-+static const TypeInfo cprman_dsi0hsck_mux_info = {
-+    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
-+    .parent = TYPE_DEVICE,
-+    .instance_size = sizeof(CprmanDsi0HsckMuxState),
-+    .class_init = dsi0hsck_mux_class_init,
-+    .instance_init = dsi0hsck_mux_init,
-+};
-+
-+
- /* CPRMAN "top level" model */
- 
- static uint32_t get_cm_lock(const BCM2835CprmanState *s)
- {
-     static const int CM_LOCK_MAPPING[] = {
-@@ -488,10 +540,14 @@ static void cprman_write(void *opaque, hwaddr offset,
-     case R_CM_SDCCTL ... R_CM_ARMCTL:
-     case R_CM_AVEOCTL ... R_CM_EMMCDIV:
-     case R_CM_EMMC2CTL ... R_CM_EMMC2DIV:
-         update_mux_from_cm(s, idx);
-         break;
-+
-+    case R_CM_DSI0HSCK:
-+        dsi0hsck_mux_update(&s->dsi0hsck_mux);
-+        break;
+ static const VMStateDescription vmstate_pl011 = {
+     .name = "pl011",
+     .version_id = 2,
+     .minimum_version_id = 2,
+     .fields = (VMStateField[]) {
+@@ -312,10 +351,14 @@ static const VMStateDescription vmstate_pl011 = {
+         VMSTATE_UINT32(ifl, PL011State),
+         VMSTATE_INT32(read_pos, PL011State),
+         VMSTATE_INT32(read_count, PL011State),
+         VMSTATE_INT32(read_trigger, PL011State),
+         VMSTATE_END_OF_LIST()
++    },
++    .subsections = (const VMStateDescription * []) {
++        &vmstate_pl011_clock,
++        NULL
      }
- }
+ };
  
- #undef CASE_PLL_A2W_REGS
- 
-@@ -519,10 +575,12 @@ static void cprman_reset(DeviceState *dev)
- 
-     for (i = 0; i < CPRMAN_NUM_PLL_CHANNEL; i++) {
-         device_cold_reset(DEVICE(&s->channels[i]));
+ static Property pl011_properties[] = {
+     DEFINE_PROP_CHR("chardev", PL011State, chr),
+@@ -332,10 +375,12 @@ static void pl011_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->iomem);
+     for (i = 0; i < ARRAY_SIZE(s->irq); i++) {
+         sysbus_init_irq(sbd, &s->irq[i]);
      }
  
-+    device_cold_reset(DEVICE(&s->dsi0hsck_mux));
++    s->clk = qdev_init_clock_in(DEVICE(obj), "clk", pl011_clock_update, s);
 +
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         device_cold_reset(DEVICE(&s->clock_muxes[i]));
-     }
+     s->read_trigger = 1;
+     s->ifl = 0x12;
+     s->cr = 0x300;
+     s->flags = 0x90;
  
-     clock_update_hz(s->xosc, s->xosc_freq);
-@@ -560,10 +618,14 @@ static void cprman_init(Object *obj)
-                                 &s->channels[i],
-                                 TYPE_CPRMAN_PLL_CHANNEL);
-         set_pll_channel_init_info(s, &s->channels[i], i);
-     }
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 2442a9f7d5..cc1f0065ac 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -62,10 +62,11 @@ pl011_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+ pl011_read_fifo(int read_count) "FIFO read, read_count now %d"
+ pl011_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+ pl011_can_receive(uint32_t lcr, int read_count, int r) "LCR 0x%08x read_count %d returning %d"
+ pl011_put_fifo(uint32_t c, int read_count) "new char 0x%x read_count now %d"
+ pl011_put_fifo_full(void) "FIFO now full, RXFF set"
++pl011_baudrate_change(unsigned int baudrate, uint64_t clock, uint32_t ibrd, uint32_t fbrd) "new baudrate %u (clk: %" PRIu64 "hz, ibrd: %" PRIu32 ", fbrd: %" PRIu32 ")"
  
-+    object_initialize_child(obj, "dsi0hsck-mux",
-+                            &s->dsi0hsck_mux, TYPE_CPRMAN_DSI0HSCK_MUX);
-+    s->dsi0hsck_mux.reg_cm = &s->regs[R_CM_DSI0HSCK];
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         char *alias;
- 
-         object_initialize_child(obj, CLOCK_MUX_INIT_INFO[i].name,
-                                 &s->clock_muxes[i],
-@@ -608,11 +670,11 @@ static void connect_mux_sources(BCM2835CprmanState *s,
-         Clock *src;
- 
-         if (mapping == CPRMAN_CLOCK_SRC_FORCE_GROUND) {
-             src = s->gnd;
-         } else if (mapping == CPRMAN_CLOCK_SRC_DSI0HSCK) {
--            src = s->gnd; /* TODO */
-+            src = s->dsi0hsck_mux.out;
-         } else if (i < CPRMAN_CLOCK_SRC_PLLA) {
-             src = CLK_SRC_MAPPING[i];
-         } else {
-             src = s->channels[mapping].out;
-         }
-@@ -646,10 +708,23 @@ static void cprman_realize(DeviceState *dev, Error **errp)
-         if (!qdev_realize(DEVICE(channel), NULL, errp)) {
-             return;
-         }
-     }
- 
-+    {
-+        CprmanDsi0HsckMuxState *dsi0hsck_mux = &s->dsi0hsck_mux;
-+
-+        clock_set_source(dsi0hsck_mux->plla_in,
-+                         s->channels[CPRMAN_PLLA_CHANNEL_DSI0].out);
-+        clock_set_source(dsi0hsck_mux->plld_in,
-+                         s->channels[CPRMAN_PLLD_CHANNEL_DSI0].out);
-+
-+        if (!qdev_realize(DEVICE(dsi0hsck_mux), NULL, errp)) {
-+            return;
-+        }
-+    }
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         CprmanClockMuxState *clock_mux = &s->clock_muxes[i];
- 
-         connect_mux_sources(s, clock_mux, CLOCK_MUX_INIT_INFO[i].src_mapping);
- 
-@@ -696,8 +771,9 @@ static void cprman_register_types(void)
- {
-     type_register_static(&cprman_info);
-     type_register_static(&cprman_pll_info);
-     type_register_static(&cprman_pll_channel_info);
-     type_register_static(&cprman_clock_mux_info);
-+    type_register_static(&cprman_dsi0hsck_mux_info);
- }
- 
- type_init(cprman_register_types);
+ # cmsdk-apb-uart.c
+ cmsdk_apb_uart_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB UART read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ cmsdk_apb_uart_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB UART write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ cmsdk_apb_uart_reset(void) "CMSDK APB UART: reset"
 -- 
 2.28.0
 
