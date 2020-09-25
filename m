@@ -2,123 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0811A279131
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 20:56:29 +0200 (CEST)
-Received: from localhost ([::1]:49770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2935279102
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 20:45:15 +0200 (CEST)
+Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLstQ-0000ZF-3r
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 14:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55162)
+	id 1kLsiY-0004ik-Jz
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 14:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kLssD-0008Tk-Ao
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 14:55:13 -0400
-Received: from mail-dm6nam11on2082.outbound.protection.outlook.com
- ([40.107.223.82]:22785 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kLsh5-000433-SJ
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 14:43:44 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:37282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kLssA-0001Ib-J5
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 14:55:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nPIjJTWLVwi0XGaXC11P46aCHXE5AZGyZGOvSQPuygT/cyv7fgYA9dJudZ9BRmlETHfNh5dKaEvf9axrq7cC06U+1dOemZ8WwdS4K4NhJ6no+vePbD0zKZgWrLie8qDQWef0LU2scG8c9YplBQdNlVvzvJ3bOpmy0LhLee7iDZLsj2MsKZuKIL6J0ct/c/zjZpN7jXgg+pGN0MTZ/uP2f2p+8/kxFJXBfLzoeTEoJ/uXLQ57Aabr21hx6X+MWPMpedYYRIG4xkzzK1LQivoD3QW0Iua6iRcO1jI9ixLOtCxVRbJp6Kbh/5nr5xJy8GAHCiwN4avUJctdFwxn2+0cgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LxMA9V6Dcu5GoZlHLHOn5a9si/iRfDPpj4gwZrQT4/M=;
- b=hpt8iygL2T0DXpusPoyPljaJNNqU6f7sT/esqfVoTV4vvB3WrkO65PsEcgeIGwOkxF8rEJVK7Ao1Q2I8MX0w6rAFraoZ4gFwkViWR/ssM3DoNaqFtJalRU7TNmOUrPsoZFica57WVAfcesYj1RQMpTKoQ8B9XKKgySH5kSvvOhBJajOjjjaEAx1oPxBqdbWac5B0x+JSAzEo0MZNKOmJmrPxlWySJCEdSjv/lyShA9fUBQcbMapytRKqxXv/BPU4pEPdYbIRKUJksrNQh4Aod1NnGr9FwgOfFknSNNZjixJSo1cNBAMONeguS9e5kJxIE+vYV6JVnnZ2WczBUR7lhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LxMA9V6Dcu5GoZlHLHOn5a9si/iRfDPpj4gwZrQT4/M=;
- b=k0Zuj156HnPnwJdOLb/00cKrcjfg0ydPlESzM/N++JpfcZx0d7VE5NRAT7VWWcfXFc1Lpa2TtOlkPH82YrA6YAa8r0HsvVhTd2782pTOd0efQTSK3TyrvVFYLEmBpdBM6gYExTmFwkera/4xIn7HiOPfnSQtV9LW9gN3FJj4dFU=
-Received: from SN4PR0701CA0017.namprd07.prod.outlook.com
- (2603:10b6:803:28::27) by MN2PR02MB7054.namprd02.prod.outlook.com
- (2603:10b6:208:201::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Fri, 25 Sep
- 2020 18:40:05 +0000
-Received: from SN1NAM02FT021.eop-nam02.prod.protection.outlook.com
- (2603:10b6:803:28:cafe::a) by SN4PR0701CA0017.outlook.office365.com
- (2603:10b6:803:28::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21 via Frontend
- Transport; Fri, 25 Sep 2020 18:40:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT021.mail.protection.outlook.com (10.152.72.144) with Microsoft SMTP
- Server id 15.20.3412.21 via Frontend Transport; Fri, 25 Sep 2020 18:40:05
- +0000
-Received: from [149.199.38.66] (port=42503 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1kLsdG-00027T-9V; Fri, 25 Sep 2020 11:39:46 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by smtp.xilinx.com with smtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1kLsdZ-00052k-0H; Fri, 25 Sep 2020 11:40:05 -0700
-Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08PIdujd019026; 
- Fri, 25 Sep 2020 11:39:56 -0700
-Received: from [10.71.116.235] (helo=localhost)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1kLsdP-0004r6-PD; Fri, 25 Sep 2020 11:39:56 -0700
-Date: Fri, 25 Sep 2020 20:39:46 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v10 7/7] Versal: Connect DWC3 controller with virt-versal
-Message-ID: <20200925183946.GP4142@toto>
-References: <1600957256-6494-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1600957256-6494-8-git-send-email-sai.pavan.boddu@xilinx.com>
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kLsh3-0008M1-JF
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 14:43:43 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08PITJpT177923;
+ Fri, 25 Sep 2020 18:43:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=Y6oulS03/k4Sd54fG5evpXChg4ftfztZMx4ltBMlWag=;
+ b=G+UcGbgOglSqq8tMKO64I6OYSfRwOR6Isk7qD2yYdJKwJdRk2GvqxUE7iDFr0RG7xT/D
+ ScBuOVcAtWygzG5fSWVF0ZX5QJBuCkVTNrUx6i9XjQ4iMmycnEc3LBjlUyWZ1UBoeBm6
+ oXem/mRh/cRSsmd54EMulrtccquw3n8lMYJJM1UoHuiT8Mn3eqkXPKsrj3Ec32nspMzj
+ D2T3CDJxilhUdg0CTGptPLD2suu+o8vr2T0sqLt9DvLlWpdr4vOclD/d2lguVVFQMNFG
+ FOXs0qFCAQvOb9Cy+lI/8b+PQOXWLTdhtlREYn0OcaRiJcr2IypWuDck0mb7XWY/hpyy Iw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 33q5rgwjp8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 25 Sep 2020 18:43:37 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08PIVVV8088997;
+ Fri, 25 Sep 2020 18:43:36 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 33nux4ut60-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 25 Sep 2020 18:43:36 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08PIhYBI003484;
+ Fri, 25 Sep 2020 18:43:34 GMT
+Received: from [10.39.220.177] (/10.39.220.177)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 25 Sep 2020 11:43:33 -0700
+Subject: Re: [PATCH V1 03/32] savevm: QMP command for cprsave
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <1596122076-341293-1-git-send-email-steven.sistare@oracle.com>
+ <1596122076-341293-4-git-send-email-steven.sistare@oracle.com>
+ <20200911164338.GK3310@work-vm>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <b4172f01-2ad3-4b90-66cf-f810594737bf@oracle.com>
+Date: Fri, 25 Sep 2020 14:43:31 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1600957256-6494-8-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b40cd46e-5fc4-4c38-5db8-08d861826bae
-X-MS-TrafficTypeDiagnostic: MN2PR02MB7054:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB7054A51945FD1166C42E18BCC2360@MN2PR02MB7054.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:651;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xhWjpCmV2Hu5f/e5wYOQG5LULHJ1VpbG1YLVrUaq97qL0R91j3YOwiXH1zu9tPanVPHXcPwbAQLJrB0DiKIzyOloot//KoXCoMrgUe99cRV4QT5/U3QL36AGkjkcvEq7C688WDv7SRshJ4C1WX1XGU2+twXjSsEzBZacPvdfDDYCpPEK9jezefzUFsmxplFBwGr8NUr9PDrgs0TUMyGS8Yh94CUOtpbeZoo8Si+ZzZXHbR+hWJvvCMLjPBlTSsF4E0bg8t8at7c2F9amFbParerCvLXyq7w9JY04uO3JOsfzP/g+1wBq+jc5xfLJ0h4n68dEbLoqbx3/v7i6pDMBmpsp7SSYDHvYTFc4R3eqhMUcyfmrsenm+ZUQ+9TdpYG72/JDYNa9tZu2uygk0q8kBw==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(7916004)(136003)(376002)(396003)(346002)(39860400002)(46966005)(70586007)(54906003)(356005)(186003)(33716001)(26005)(6666004)(5660300002)(82740400003)(19627235002)(1076003)(2906002)(316002)(81166007)(336012)(33656002)(8936002)(83380400001)(82310400003)(70206006)(6862004)(47076004)(6636002)(8676002)(9786002)(107886003)(9686003)(7416002)(478600001)(426003)(4326008);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2020 18:40:05.3017 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b40cd46e-5fc4-4c38-5db8-08d861826bae
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT021.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB7054
-Received-SPF: pass client-ip=40.107.223.82; envelope-from=edgar@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 14:55:08
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+In-Reply-To: <20200911164338.GK3310@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9755
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009250130
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9755
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ impostorscore=0
+ clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009250130
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 14:43:40
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -132,209 +103,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?iso-8859-1?Q?'Marc-Andr=E9?= Lureau' <marcandre.lureau@redhat.com>,
- Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- 'Philippe =?iso-8859-1?Q?Mathieu-Daud=E9'?= <philmd@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 24, 2020 at 07:50:56PM +0530, Sai Pavan Boddu wrote:
-> From: Vikram Garhwal <fnu.vikram@xilinx.com>
+On 9/11/2020 12:43 PM, Dr. David Alan Gilbert wrote:
+> * Steve Sistare (steven.sistare@oracle.com) wrote:
+>> To enable live reboot, provide the cprsave QMP command and the VMS_REBOOT
+>> vmstate-saving operation, which saves the state of the virtual machine in a
+>> simple file.
+>>
+>> Syntax:
+>>   {'command':'cprsave', 'data':{'file':'str', 'mode':'str'}}
+>>
+>>   The mode argument must be 'reboot'.  Additional modes will be defined in
+>>   the future.
+>>
+>> Unlike the savevm command, cprsave supports any type of guest image and
+>> block device.  cprsave stops the VM so that guest ram and block devices are
+>> not modified after state is saved.  Guest ram must be mapped to a persistent
+>> memory file such as /dev/dax0.0.  The ram object vmstate handler and block
+>> device handler do not apply to VMS_REBOOT, so restrict them to VMS_MIGRATE
+>> or VMS_SNAPSHOT.  After cprsave completes successfully, qemu exits.
+>>
+>> After issuing cprsave, the caller may update qemu, update the host kernel,
+>> reboot, start qemu using the same arguments as the original process, and
+>> issue the cprload command to restore the guest.  cprload is added by
+>> subsequent patches.
+>>
+>> If the caller suspends the guest instead of stopping the VM, such as by
+>> issuing guest-suspend-ram to the qemu guest agent, then cprsave and cprload
+>> support guests with vfio devices.  The guest drivers suspend methods flush
+>> outstanding requests and re-initialize the devices, and thus there is no
+>> device state to save and restore.
+>>
+>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>> Signed-off-by: Maran Wilson <maran.wilson@oracle.com>
 > 
-> Connect dwc3 controller and usb2-reg module to xlnx-versal SOC, its placed
-> in iou of lpd domain and configure it as dual port host controller. Add the
-> respective guest dts nodes for "xlnx-versal-virt" machine.
-
-Hi Sai,
-
-One minor comment inline.
-
-And a question, could you please post an example command-line for this?
-
-
+> Going back a step; could you.....
 > 
-> Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/arm/xlnx-versal-virt.c    | 58 ++++++++++++++++++++++++++++++++++++++++++++
->  hw/arm/xlnx-versal.c         | 34 ++++++++++++++++++++++++++
->  include/hw/arm/xlnx-versal.h | 14 +++++++++++
->  3 files changed, 106 insertions(+)
+>> ---
+>>  include/migration/vmstate.h |  1 +
+>>  include/sysemu/sysemu.h     |  2 ++
+>>  migration/block.c           |  1 +
+>>  migration/ram.c             |  1 +
+>>  migration/savevm.c          | 59 +++++++++++++++++++++++++++++++++++++++++++++
+>>  monitor/qmp-cmds.c          |  6 +++++
+>>  qapi/migration.json         | 14 +++++++++++
+>>  7 files changed, 84 insertions(+)
+>>
+>> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+>> index fa575f9..c58551a 100644
+>> --- a/include/migration/vmstate.h
+>> +++ b/include/migration/vmstate.h
+>> @@ -161,6 +161,7 @@ typedef enum {
+>>  typedef enum {
+>>      VMS_MIGRATE  = (1U << 1),
+>>      VMS_SNAPSHOT = (1U << 2),
+>> +    VMS_REBOOT   = (1U << 3),
+>>      VMS_MODE_ALL = ~0U
+>>  } VMStateMode;
+>>  
+>> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+>> index 4b6a5c4..6fe86e6 100644
+>> --- a/include/sysemu/sysemu.h
+>> +++ b/include/sysemu/sysemu.h
+>> @@ -24,6 +24,8 @@ extern bool machine_init_done;
+>>  void qemu_add_machine_init_done_notifier(Notifier *notify);
+>>  void qemu_remove_machine_init_done_notifier(Notifier *notify);
+>>  
+>> +void save_cpr_snapshot(const char *file, const char *mode, Error **errp);
+>> +
+>>  extern int autostart;
+>>  
+>>  typedef enum {
+>> diff --git a/migration/block.c b/migration/block.c
+>> index 737b649..a69accb 100644
+>> --- a/migration/block.c
+>> +++ b/migration/block.c
+>> @@ -1023,6 +1023,7 @@ static SaveVMHandlers savevm_block_handlers = {
+>>      .load_state = block_load,
+>>      .save_cleanup = block_migration_cleanup,
+>>      .is_active = block_is_active,
+>> +    .mode_mask = VMS_MIGRATE | VMS_SNAPSHOT,
+>>  };
+>>  
+>>  void blk_mig_init(void)
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index 76d4fee..f0d5d9f 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -3795,6 +3795,7 @@ static SaveVMHandlers savevm_ram_handlers = {
+>>      .load_setup = ram_load_setup,
+>>      .load_cleanup = ram_load_cleanup,
+>>      .resume_prepare = ram_resume_prepare,
+>> +    .mode_mask = VMS_MIGRATE | VMS_SNAPSHOT,
+>>  };
+>>  
+>>  void ram_mig_init(void)
+>> diff --git a/migration/savevm.c b/migration/savevm.c
+>> index ce02b6b..ff1a46e 100644
+>> --- a/migration/savevm.c
+>> +++ b/migration/savevm.c
+>> @@ -2680,6 +2680,65 @@ int qemu_load_device_state(QEMUFile *f)
+>>      return 0;
+>>  }
+>>  
+>> +static QEMUFile *qf_file_open(const char *filename, int flags, int mode,
+>> +                              Error **errp)
+>> +{
+>> +    QIOChannel *ioc;
+>> +    int fd = qemu_open(filename, flags, mode);
+>> +
+>> +    if (fd < 0) {
+>> +        error_setg_errno(errp, errno, "%s(%s)", __func__, filename);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    ioc = QIO_CHANNEL(qio_channel_file_new_fd(fd));
+>> +
+>> +    if (flags & O_WRONLY) {
+>> +        return qemu_fopen_channel_output(ioc);
+>> +    }
+>> +
+>> +    return qemu_fopen_channel_input(ioc);
+>> +}
+>> +
+>> +void save_cpr_snapshot(const char *file, const char *mode, Error **errp)
+>> +{
+>> +    int ret = 0;
+>> +    QEMUFile *f;
+>> +    VMStateMode op;
+>> +
+>> +    if (!strcmp(mode, "reboot")) {
+>> +        op = VMS_REBOOT;
+>> +    } else {
+>> +        error_setg(errp, "cprsave: bad mode %s", mode);
+>> +        return;
+>> +    }
+>> +
+>> +    f = qf_file_open(file, O_CREAT | O_WRONLY | O_TRUNC, 0600, errp);
+>> +    if (!f) {
+>> +        return;
+>> +    }
+>> +
+>> +    ret = global_state_store();
+>> +    if (ret) {
+>> +        error_setg(errp, "Error saving global state");
+>> +        qemu_fclose(f);
+>> +        return;
+>> +    }
+>> +
+>> +    vm_stop(RUN_STATE_SAVE_VM);
+>> +
+>> +    ret = qemu_savevm_state(f, op, errp);
+>> +    if ((ret < 0) && !*errp) {
+>> +        error_setg(errp, "qemu_savevm_state failed");
+>> +    }
 > 
-> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> index 03e2320..f0ac5ba 100644
-> --- a/hw/arm/xlnx-versal-virt.c
-> +++ b/hw/arm/xlnx-versal-virt.c
-> @@ -39,6 +39,8 @@ struct VersalVirt {
->          uint32_t ethernet_phy[2];
->          uint32_t clk_125Mhz;
->          uint32_t clk_25Mhz;
-> +        uint32_t usb;
-> +        uint32_t dwc;
->      } phandle;
->      struct arm_boot_info binfo;
->  
-> @@ -66,6 +68,8 @@ static void fdt_create(VersalVirt *s)
->      s->phandle.clk_25Mhz = qemu_fdt_alloc_phandle(s->fdt);
->      s->phandle.clk_125Mhz = qemu_fdt_alloc_phandle(s->fdt);
->  
-> +    s->phandle.usb = qemu_fdt_alloc_phandle(s->fdt);
-> +    s->phandle.dwc = qemu_fdt_alloc_phandle(s->fdt);
->      /* Create /chosen node for load_dtb.  */
->      qemu_fdt_add_subnode(s->fdt, "/chosen");
->  
-> @@ -148,6 +152,59 @@ static void fdt_add_timer_nodes(VersalVirt *s)
->                       compat, sizeof(compat));
->  }
->  
-> +static void fdt_add_usb_xhci_nodes(VersalVirt *s)
-> +{
-> +    const char clocknames[] = "bus_clk\0ref_clk";
-> +    char *name = g_strdup_printf("/usb@%" PRIx32, MM_USB2_CTRL_REGS);
-> +    const char compat[] = "xlnx,versal-dwc3";
-> +
-> +    qemu_fdt_add_subnode(s->fdt, name);
-> +    qemu_fdt_setprop(s->fdt, name, "compatible",
-> +                         compat, sizeof(compat));
-> +    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-> +                                 2, MM_USB2_CTRL_REGS,
-> +                                 2, MM_USB2_CTRL_REGS_SIZE);
-> +    qemu_fdt_setprop(s->fdt, name, "clock-names",
-> +                         clocknames, sizeof(clocknames));
-> +    qemu_fdt_setprop_cells(s->fdt, name, "clocks",
-> +                               s->phandle.clk_25Mhz, s->phandle.clk_125Mhz);
-> +    qemu_fdt_setprop(s->fdt, name, "ranges", NULL, 0);
-> +    qemu_fdt_setprop_cell(s->fdt, name, "#address-cells", 2);
-> +    qemu_fdt_setprop_cell(s->fdt, name, "#size-cells", 2);
-> +    qemu_fdt_setprop_cell(s->fdt, name, "phandle", s->phandle.usb);
-> +    g_free(name);
-> +
-> +    {
-> +        const char irq_name[] = "dwc_usb3";
-> +        const char compat[] = "snps,dwc3";
-> +
-> +        name = g_strdup_printf("/usb@%" PRIx32 "/dwc3@%" PRIx32,
-> +                               MM_USB2_CTRL_REGS, MM_USB_XHCI_0);
-> +        qemu_fdt_add_subnode(s->fdt, name);
-> +        qemu_fdt_setprop(s->fdt, name, "compatible",
-> +                         compat, sizeof(compat));
-> +        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-> +                                     2, MM_USB_XHCI_0, 2, MM_USB_XHCI_0_SIZE);
-> +        qemu_fdt_setprop(s->fdt, name, "interrupt-names",
-> +                         irq_name, sizeof(irq_name));
-> +        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-> +                                   GIC_FDT_IRQ_TYPE_SPI, VERSAL_USB0_IRQ_0,
-> +                                   GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-> +        qemu_fdt_setprop_cell(s->fdt, name,
-> +                              "snps,quirk-frame-length-adjustment", 0x20);
-> +        qemu_fdt_setprop_cells(s->fdt, name, "#stream-id-cells", 1);
-> +        qemu_fdt_setprop_string(s->fdt, name, "dr_mode", "host");
-> +        qemu_fdt_setprop_string(s->fdt, name, "phy-names", "usb3-phy");
-> +        qemu_fdt_setprop(s->fdt, name, "snps,dis_u2_susphy_quirk", NULL, 0);
-> +        qemu_fdt_setprop(s->fdt, name, "snps,dis_u3_susphy_quirk", NULL, 0);
-> +        qemu_fdt_setprop(s->fdt, name, "snps,refclk_fladj", NULL, 0);
-> +        qemu_fdt_setprop(s->fdt, name, "snps,mask_phy_reset", NULL, 0);
-> +        qemu_fdt_setprop_cell(s->fdt, name, "phandle", s->phandle.dwc);
-> +        qemu_fdt_setprop_string(s->fdt, name, "maximum-speed", "high-speed");
-> +        g_free(name);
-> +    }
-> +}
-> +
->  static void fdt_add_uart_nodes(VersalVirt *s)
->  {
->      uint64_t addrs[] = { MM_UART1, MM_UART0 };
-> @@ -515,6 +572,7 @@ static void versal_virt_init(MachineState *machine)
->      fdt_add_gic_nodes(s);
->      fdt_add_timer_nodes(s);
->      fdt_add_zdma_nodes(s);
-> +    fdt_add_usb_xhci_nodes(s);
->      fdt_add_sd_nodes(s);
->      fdt_add_rtc_node(s);
->      fdt_add_cpu_nodes(s, psci_conduit);
-> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index 12ba6c4..64b0d0a 100644
-> --- a/hw/arm/xlnx-versal.c
-> +++ b/hw/arm/xlnx-versal.c
-> @@ -145,6 +145,39 @@ static void versal_create_uarts(Versal *s, qemu_irq *pic)
->      }
->  }
->  
-> +static void versal_create_usbs(Versal *s, qemu_irq *pic)
-> +{
-> +    DeviceState *dev, *xhci_dev;
-> +    MemoryRegion *mr;
-> +
-> +    object_initialize_child(OBJECT(s), "dwc3-0", &s->lpd.iou.usb.dwc3,
-> +                            TYPE_USB_DWC3);
-> +    dev = DEVICE(&s->lpd.iou.usb.dwc3);
-> +    xhci_dev = DEVICE(&s->lpd.iou.usb.dwc3.sysbus_xhci);
-> +
-> +    object_property_set_link(OBJECT(xhci_dev), "dma", OBJECT(&s->mr_ps),
-> +                             &error_abort);
-> +    qdev_prop_set_uint32(xhci_dev, "intrs", 1);
-> +    qdev_prop_set_uint32(xhci_dev, "slots", 2);
-> +
-> +    sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-> +
-> +    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-> +    memory_region_add_subregion(&s->mr_ps, MM_USB_XHCI_0_DWC3_GLOBAL, mr);
-> +    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(xhci_dev), 0);
-> +    memory_region_add_subregion(&s->mr_ps, MM_USB_XHCI_0, mr);
-> +
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(xhci_dev), 0, pic[VERSAL_USB0_IRQ_0]);
-> +
-> +    object_initialize_child(OBJECT(s), "usb2reg-0", &s->lpd.iou.usb.Usb2Regs,
-> +                           TYPE_XILINX_VERSAL_USB2_CTRL_REGS);
-> +    dev = DEVICE(&s->lpd.iou.usb.Usb2Regs);
-> +    sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-> +
-> +    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-> +    memory_region_add_subregion(&s->mr_ps, MM_USB2_CTRL_REGS, mr);
-> +}
-> +
->  static void versal_create_gems(Versal *s, qemu_irq *pic)
->  {
->      int i;
-> @@ -333,6 +366,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
->      versal_create_apu_cpus(s);
->      versal_create_apu_gic(s, pic);
->      versal_create_uarts(s, pic);
-> +    versal_create_usbs(s, pic);
->      versal_create_gems(s, pic);
->      versal_create_admas(s, pic);
->      versal_create_sds(s, pic);
-> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-> index 8ce8e63..743e4f7 100644
-> --- a/include/hw/arm/xlnx-versal.h
-> +++ b/include/hw/arm/xlnx-versal.h
-> @@ -21,6 +21,8 @@
->  #include "hw/net/cadence_gem.h"
->  #include "hw/rtc/xlnx-zynqmp-rtc.h"
->  #include "qom/object.h"
-> +#include "hw/usb/hcd-dwc3.h"
-> +#include "hw/misc/xlnx-versal-usb2-ctrl-regs.h"
->  
->  #define TYPE_XLNX_VERSAL "xlnx-versal"
->  OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
-> @@ -59,6 +61,10 @@ struct Versal {
->              PL011State uart[XLNX_VERSAL_NR_UARTS];
->              CadenceGEMState gem[XLNX_VERSAL_NR_GEMS];
->              XlnxZDMA adma[XLNX_VERSAL_NR_ADMAS];
-> +            struct {
-> +                USBDWC3 dwc3;
-> +                VersalUsb2CtrlRegs Usb2Regs;
+> just call qemu_save_device_state(f) there rather than introducing the
+> modes?
+> What you're doing is VERY similar to qmp_xen_save_devices_state and also
+> COLO's device state saving.
+> 
+> (and also very similar to migration with the x-ignore-shared flag set).
 
-I'd prefer this to be any of the following:
+Good idea, calling qemu_save_device_state instead of qemu_savevm_state will factor
+out the steps that are specific to migration.  I'll still need the mode, though,
+to exclude savevm_block_handlers, and maybe for other reasons.  I'll try it.
 
-                   VersalUsb2CtrlRegs ctrl;
-                   VersalUsb2CtrlRegs regs;
-                   VersalUsb2CtrlRegs ctrl_regs;
+- Steve
+
+>> +    qemu_fclose(f);
+>> +
+>> +    if (op == VMS_REBOOT) {
+>> +        no_shutdown = 0;
+>> +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>> +    }
+>> +}
+>> +
+[...]
 
 
