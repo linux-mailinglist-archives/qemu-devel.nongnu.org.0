@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA25278D35
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:53:02 +0200 (CEST)
-Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1584E278D4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:56:43 +0200 (CEST)
+Received: from localhost ([::1]:50726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLq1t-000587-1W
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
+	id 1kLq5S-0000PP-16
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLppz-0002rK-KB
+ id 1kLppz-0002r0-IN
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:45 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42145)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLppt-0007cv-Ia
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:43 -0400
-Received: by mail-wr1-x433.google.com with SMTP id c18so4061177wrm.9
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:37 -0700 (PDT)
+ id 1kLpps-0007cj-QT
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:38 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id b79so3777294wmb.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P/lRZdjmbM+i2Bneg/hO0ZOlO6BgKhfMQmpeyPmCGjo=;
- b=Fr82j0dDOxTQuZBkiobLKYO95T6lkzphWgY6qcWsQmXXUqbi9ZEjnxmyLFUnGX0BwC
- Ux8y3YNFdD2+vVyKgkVO7Qh8wV+lJAWygs+ykRF54WzbaGlBn5VHZ1DN7sd0U2Yac1v7
- j36+KcN2rflxTUVhNnYctheFRUN5cjzun9iYr9IUn5IWHfBlD6cs/TKRETxo4AMBBx7p
- jZwsuNZBSPhKPPP0bymefXYGwEW4PIbJzcnPaDWV8dLZ+OjvsiM5n0bfR2zmfa3NvelU
- Y63MCEItTImLTc4ha3TGx+mIQCCC/1k5v0//BPxntiHEl76SdXVoQFwW8yEAWDz6vCf6
- 47pg==
+ bh=OYOkhfqBvCVhEmRcsWLQjTvCk1qdHmUTfu79+E6c644=;
+ b=f/2V055KITt+0m6Dly97XZvbzuaU4488B2iqSwdmL7qBFTsbwYjLk7Cb4EFUSB0y8m
+ Jt6YF/uDwtmXTGlQEgpvxXGCuynbZNoBGIhPea3J85aCniVcz8yIAD4BX188gK98b0Wp
+ dKm8wUrCQ8l3MEGsCyYnbHyzSeJkd8WtbkMmscWIUJ+Uwevsh+ZrK2/2Nsq5bvSogrCA
+ koZ4ANHJfYnwtIPH4VnaPHp0pHfBTq0PBOnxtEr/F8w189h4B+2v9DTLqZKrFgFiBeOc
+ uOrqYOMsqXv5WvY9f/XSYR7xBQVmEtktAiYBEYPQ/PBvfJMDX0gnZBgqyQTfeeyvMM3A
+ S3Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P/lRZdjmbM+i2Bneg/hO0ZOlO6BgKhfMQmpeyPmCGjo=;
- b=gCbiVddlweM6Sgk02xJ7CirPMNq6MHBRUAJ7nxeE7/3P4oLfpqp2kZLQCgzOhTT49y
- 6zV2LIw2WQRxvII2/j9jLcHeIv8CLn4OjDzqA0KVTMENoafFm1KvDbf/m8ARIS8WsJU6
- Byr9MVv+bD41bxB1RYYDTsAw4dK+z7Q3gqISNZvWzLuO8OiOCO5hTA2hhDzrgvDzFXp0
- WVmUvohmy9KbTaFgmfDtWEnEO3wdXP0hqxEssM0fNVplrWExjn+mssFhcabnxE/1v+hL
- a37jvEsfcIf0P21rzMqwRvAICeV6rjlpAwGZ55E6tBv/bXWyipFVmEZsd51lx0MFiwWh
- u2Ug==
-X-Gm-Message-State: AOAM530pACGAzu1aW8cccWYUGJilUX7fAOXUjPVEQrUbvn6H+LLCpp8C
- nwr7aNGTexlzZat2GzJje8pEjg==
-X-Google-Smtp-Source: ABdhPJy4qcv7Yn8VOCy+QmK2D6gvszP+60K/lcrvtMYpW5JxoGHI9NkOMg94Vt3Bt2Nic8ejLN6Rmw==
-X-Received: by 2002:adf:f7d0:: with SMTP id a16mr4916953wrq.381.1601048436176; 
- Fri, 25 Sep 2020 08:40:36 -0700 (PDT)
+ bh=OYOkhfqBvCVhEmRcsWLQjTvCk1qdHmUTfu79+E6c644=;
+ b=iLHdQz/uGbIfrk9DaT3nDTleTl8RbHWInDayoNvZqQBRmaJGdeZbk5/gsgHJIA3dnd
+ Q9HngkpM/ciTH8fE3VKLO/r4uU8pQOF1qLLJ/PFlFomhq2BbfsXtfY+sUzDvpG8pvROS
+ PTU8yZOx57Xru+daXvBrGnhD5oizD5yZMVV3KKw6l36DRWfMq++z0bSzG/c/tF+p5L4p
+ hBnn6P2zXM1sFVTM8Qz7uA491VDMuJOw0w8QzFuYOXV6kidMOkKFrRAUzJFACU9nK7U3
+ mpUg9HByvL2pMkZiHuMir583JMgArBAcF1ZWUm+iUkCyqDtMHGpN7hWvwxi9v5b5dxrk
+ j2HA==
+X-Gm-Message-State: AOAM532MTpr4TfWes/tsefXYS6t6wZAuQGVJ9CN7HkJu9AuhvYZEKLlF
+ N0SnVtBhgT+Naxkh24mOLYcbbQ==
+X-Google-Smtp-Source: ABdhPJw3EpVECZRcN+jMhpRzl3QD2ed6YyLIdm+b0fgfB1itsjZv3w5cZV55p7V8yBe2MpWQIDVmAQ==
+X-Received: by 2002:a7b:c215:: with SMTP id x21mr3687140wmi.138.1601048435278; 
+ Fri, 25 Sep 2020 08:40:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y1sm3203232wma.36.2020.09.25.08.40.28
+ by smtp.gmail.com with ESMTPSA id k8sm3455402wma.16.2020.09.25.08.40.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Sep 2020 08:40:30 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4815E1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 99DDD1FF8F;
  Fri, 25 Sep 2020 16:40:28 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 01/15] tests/tcg: reinstate or replace desired parts of
- rules.mak
-Date: Fri, 25 Sep 2020 16:40:13 +0100
-Message-Id: <20200925154027.12672-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 03/15] meson: move libmpathpersist test
+Date: Fri, 25 Sep 2020 16:40:15 +0100
+Message-Id: <20200925154027.12672-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925154027.12672-1-alex.bennee@linaro.org>
 References: <20200925154027.12672-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,72 +88,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Commit 660f79309303d696531ffb394719dfab3e0c42c0 was a bit overzealous
-with respect to tests/tcg, which needed quiet-command and $(BUILD_DIR).
-Reinstate quiet-command, and replace $(BUILD_DIR) with just the
-current directory.
+This is the first compiler/linker test that has been moved to Meson.
+Add more section headings to keep things clearer.
 
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
+[thuth: Add check for mpathpersist.found() before showing mpathpersist_new_api]
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200918103430.297167-3-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200921163425.1410280-1-pbonzini@redhat.com>
 ---
- tests/tcg/Makefile.qemu | 13 ++++++++++++-
- tests/tcg/configure.sh  |  4 ++--
- 2 files changed, 14 insertions(+), 3 deletions(-)
+ configure         | 77 +++-----------------------------------------
+ meson.build       | 82 ++++++++++++++++++++++++++++++++++++++++++-----
+ meson_options.txt |  2 ++
+ 3 files changed, 80 insertions(+), 81 deletions(-)
 
-diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
-index 0332bad10fd4..c096c611a2b4 100644
---- a/tests/tcg/Makefile.qemu
-+++ b/tests/tcg/Makefile.qemu
-@@ -11,9 +11,20 @@
- # The configure script fills in extra information about
- # useful docker images or alternative compiler flags.
+diff --git a/configure b/configure
+index 48bf437021f6..b81868cf0231 100755
+--- a/configure
++++ b/configure
+@@ -403,7 +403,7 @@ netmap="no"
+ sdl="auto"
+ sdl_image="auto"
+ virtfs=""
+-mpath=""
++mpath="auto"
+ vnc="enabled"
+ sparse="no"
+ vde=""
+@@ -1116,9 +1116,9 @@ for opt do
+   ;;
+   --enable-virtfs) virtfs="yes"
+   ;;
+-  --disable-mpath) mpath="no"
++  --disable-mpath) mpath="disabled"
+   ;;
+-  --enable-mpath) mpath="yes"
++  --enable-mpath) mpath="enabled"
+   ;;
+   --disable-vnc) vnc="disabled"
+   ;;
+@@ -3848,57 +3848,6 @@ if test "$modules" = yes; then
+     fi
+ fi
  
-+# Usage: $(call quiet-command,command and args,"NAME","args to print")
-+# This will run "command and args", and either:
-+#  if V=1 just print the whole command and args
-+#  otherwise print the 'quiet' output in the format "  NAME     args to print"
-+# NAME should be a short name of the command, 7 letters or fewer.
-+# If called with only a single argument, will print nothing in quiet mode.
-+quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
-+quiet-@ = $(if $(V),,@)
-+quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
+-##########################################
+-# libmpathpersist probe
+-
+-if test "$mpath" != "no" ; then
+-  # probe for the new API
+-  cat > $TMPC <<EOF
+-#include <libudev.h>
+-#include <mpath_persist.h>
+-unsigned mpath_mx_alloc_len = 1024;
+-int logsink;
+-static struct config *multipath_conf;
+-extern struct udev *udev;
+-extern struct config *get_multipath_config(void);
+-extern void put_multipath_config(struct config *conf);
+-struct udev *udev;
+-struct config *get_multipath_config(void) { return multipath_conf; }
+-void put_multipath_config(struct config *conf) { }
+-
+-int main(void) {
+-    udev = udev_new();
+-    multipath_conf = mpath_lib_init();
+-    return 0;
+-}
+-EOF
+-  if compile_prog "" "-ludev -lmultipath -lmpathpersist" ; then
+-    mpathpersist=yes
+-    mpathpersist_new_api=yes
+-  else
+-    # probe for the old API
+-    cat > $TMPC <<EOF
+-#include <libudev.h>
+-#include <mpath_persist.h>
+-unsigned mpath_mx_alloc_len = 1024;
+-int logsink;
+-int main(void) {
+-    struct udev *udev = udev_new();
+-    mpath_lib_init(udev);
+-    return 0;
+-}
+-EOF
+-    if compile_prog "" "-ludev -lmultipath -lmpathpersist" ; then
+-      mpathpersist=yes
+-      mpathpersist_new_api=no
+-    else
+-      mpathpersist=no
+-    fi
+-  fi
+-else
+-  mpathpersist=no
+-fi
+-
+ ##########################################
+ # pthread probe
+ PTHREADLIBS_LIST="-pthread -lpthread -lpthreadGC2"
+@@ -6340,23 +6289,11 @@ if test "$softmmu" = yes ; then
+       fi
+       virtfs=no
+     fi
+-    if test "$mpath" != no && test "$mpathpersist" = yes ; then
+-      mpath=yes
+-    else
+-      if test "$mpath" = yes; then
+-        error_exit "Multipath requires libmpathpersist devel"
+-      fi
+-      mpath=no
+-    fi
+   else
+     if test "$virtfs" = yes; then
+       error_exit "VirtFS is supported only on Linux"
+     fi
+     virtfs=no
+-    if test "$mpath" = yes; then
+-      error_exit "Multipath is supported only on Linux"
+-    fi
+-    mpath=no
+   fi
+ fi
+ 
+@@ -6897,12 +6834,6 @@ fi
+ if test "$virtfs" = "yes" ; then
+   echo "CONFIG_VIRTFS=y" >> $config_host_mak
+ fi
+-if test "$mpath" = "yes" ; then
+-  echo "CONFIG_MPATH=y" >> $config_host_mak
+-  if test "$mpathpersist_new_api" = "yes"; then
+-    echo "CONFIG_MPATH_NEW_API=y" >> $config_host_mak
+-  fi
+-fi
+ if test "$vhost_scsi" = "yes" ; then
+   echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
+ fi
+@@ -7992,7 +7923,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+-	-Dsdl=$sdl -Dsdl_image=$sdl_image \
++	-Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+ 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+ 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
+         $cross_arg \
+diff --git a/meson.build b/meson.build
+index 48724988972d..c09d869f9b02 100644
+--- a/meson.build
++++ b/meson.build
+@@ -81,6 +81,14 @@ if 'SPARSE_CFLAGS' in config_host
+                        'compile_commands.json'])
+ endif
+ 
++###########################################
++# Target-specific checks and dependencies #
++###########################################
 +
- CROSS_CC_GUEST:=
- DOCKER_IMAGE:=
---include $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak
++if targetos != 'linux' and get_option('mpath').enabled()
++  error('Multipath is supported only on Linux')
++endif
 +
-+-include tests/tcg/config-$(TARGET).mak
+ m = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
+ winmm = []
+@@ -112,6 +120,11 @@ elif targetos == 'haiku'
+             cc.find_library('network'),
+             cc.find_library('bsd')]
+ endif
++
++################
++# Dependencies #
++################
++
+ # The path to glib.h is added to all compilation commands.  This was
+ # grandfathered in from the QEMU Makefiles.
+ add_project_arguments(config_host['GLIB_CFLAGS'].split(),
+@@ -218,10 +231,6 @@ if 'CONFIG_SPICE' in config_host
+                              link_args: config_host['SPICE_LIBS'].split())
+ endif
+ rt = cc.find_library('rt', required: false)
+-libmpathpersist = not_found
+-if config_host.has_key('CONFIG_MPATH')
+-  libmpathpersist = cc.find_library('mpathpersist')
+-endif
+ libdl = not_found
+ if 'CONFIG_PLUGIN' in config_host
+   libdl = cc.find_library('dl', required: true)
+@@ -252,9 +261,62 @@ if 'CONFIG_CURL' in config_host
+                             link_args: config_host['CURL_LIBS'].split())
+ endif
+ libudev = not_found
+-if target_os == 'linux'
+-  libudev = dependency('libudev', static: enable_static)
++if targetos == 'linux'
++  libudev = dependency('libudev',
++                       required: get_option('mpath'),
++                       static: enable_static)
++endif
++
++mpathpersist = not_found
++if targetos == 'linux' and not get_option('mpath').disabled()
++  libmultipath = cc.find_library('multipath',
++                                 required: get_option('mpath'),
++                                 static: enable_static)
++  libmpathpersist = cc.find_library('mpathpersist',
++                                    required: get_option('mpath'),
++                                    static: enable_static)
++  if libmultipath.found() and libmpathpersist.found() and libudev.found()
++    if cc.links('''
++      #include <libudev.h>
++      #include <mpath_persist.h>
++      unsigned mpath_mx_alloc_len = 1024;
++      int logsink;
++      static struct config *multipath_conf;
++      extern struct udev *udev;
++      extern struct config *get_multipath_config(void);
++      extern void put_multipath_config(struct config *conf);
++      struct udev *udev;
++      struct config *get_multipath_config(void) { return multipath_conf; }
++      void put_multipath_config(struct config *conf) { }
++      int main(void) {
++          udev = udev_new();
++          multipath_conf = mpath_lib_init();
++          return 0;
++      }''', dependencies: [libmultipath, libmpathpersist, libudev])
++      mpathpersist = declare_dependency(dependencies: [libmultipath, libmpathpersist, libudev])
++      mpathpersist_new_api = true
++    elif cc.links('''
++      #include <libudev.h>
++      #include <mpath_persist.h>
++      unsigned mpath_mx_alloc_len = 1024;
++      int logsink;
++      int main(void) {
++          struct udev *udev = udev_new();
++          mpath_lib_init(udev);
++          return 0;
++      }''', dependencies: [libmultipath, libmpathpersist, libudev])
++      mpathpersist = declare_dependency(dependencies: [libmultipath, libmpathpersist, libudev])
++      mpathpersist_new_api = false
++    else
++      if get_option('mpath').enabled()
++        error('Cannot detect libmpathpersist API')
++      else
++        warning('Cannot detect libmpathpersist API, disabling')
++      endif
++    endif
++  endif
+ endif
++
+ brlapi = not_found
+ if 'CONFIG_BRLAPI' in config_host
+   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
+@@ -436,6 +498,10 @@ has_gettid = cc.has_function('gettid')
+ # Create config-host.h
  
- GUEST_BUILD=
- TCG_MAKE=../Makefile.target
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 598a50cd4f31..be51bdb5a4a7 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -193,11 +193,11 @@ for target in $target_list; do
-   case $target in
-     *-linux-user | *-bsd-user)
-       echo "CONFIG_USER_ONLY=y" >> $config_target_mak
--      echo "QEMU=\$(BUILD_DIR)/qemu-$arch" >> $config_target_mak
-+      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
-       ;;
-     *-softmmu)
-       echo "CONFIG_SOFTMMU=y" >> $config_target_mak
--      echo "QEMU=\$(BUILD_DIR)/qemu-system-$arch" >> $config_target_mak
-+      echo "QEMU=$PWD/qemu-system-$arch" >> $config_target_mak
-       ;;
-   esac
+ config_host_data.set('CONFIG_LIBUDEV', libudev.found())
++config_host_data.set('CONFIG_MPATH', mpathpersist.found())
++if mpathpersist.found()
++  config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
++endif
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+@@ -1185,7 +1251,7 @@ if have_tools
  
+     executable('qemu-pr-helper', files('scsi/qemu-pr-helper.c', 'scsi/utils.c'),
+                dependencies: [authz, crypto, io, qom, qemuutil,
+-                              libcap_ng, libudev, libmpathpersist],
++                              libcap_ng, mpathpersist],
+                install: true)
+   endif
+ 
+@@ -1407,7 +1473,7 @@ summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
+ summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
+ summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
+ summary_info += {'VirtFS support':    config_host.has_key('CONFIG_VIRTFS')}
+-summary_info += {'Multipath support': config_host.has_key('CONFIG_MPATH')}
++summary_info += {'Multipath support': mpathpersist.found()}
+ summary_info += {'VNC support':       vnc.found()}
+ if vnc.found()
+   summary_info += {'VNC SASL support':  sasl.found()}
+diff --git a/meson_options.txt b/meson_options.txt
+index 543cf70043a2..b38a6ae92a92 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -6,6 +6,8 @@ option('docdir', type : 'string', value : 'doc',
+ option('gettext', type : 'boolean', value : true,
+        description: 'Localization of the GTK+ user interface')
+ 
++option('mpath', type : 'feature', value : 'auto',
++       description: 'Multipath persistent reservation passthrough')
+ option('sdl', type : 'feature', value : 'auto',
+        description: 'SDL user interface')
+ option('sdl_image', type : 'feature', value : 'auto',
 -- 
 2.20.1
 
