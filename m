@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A887D278D7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:01:36 +0200 (CEST)
-Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF27278DA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:08:25 +0200 (CEST)
+Received: from localhost ([::1]:49892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqAB-00047T-JY
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:01:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
+	id 1kLqGm-0004jl-FJ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLpq5-0002wJ-0V
+ id 1kLpq3-0002vo-NQ
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:49 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51066)
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLpq3-0007eG-FB
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:48 -0400
-Received: by mail-wm1-x332.google.com with SMTP id e17so3502815wme.0
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:47 -0700 (PDT)
+ id 1kLpq1-0007dy-Q0
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:47 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id k18so3774653wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7uJYNbe5lkb51q2+AyPUZmp3kp5cS3cpbQny1Ymo9K0=;
- b=wjwB3VAgAU77vyL2OTnMzaRayFuCaZ0kCBfL1J9jDeWLtAxCjSTNYf9FWUMuI5ExGB
- ifRciv4oeeMQe1Gh84AIC8MfEeBKHrzaroLSdRd/wE+I6KLF+bnX+TXSZWOs3lnkXiMm
- Z89IW9w7AnrFSdSwYrDKdo7SzzIpxsa4XYSL+OLdgDh6nLoRglVkz2NYXPIWJygWsa+D
- F1DFVRq4N8xNVDMWHxh/jdzSlHzwq6jk5dFPLMdTQ8D7ynZKBrqt3K5OG7aoq2pQ7fpu
- lnn2dJ/e5rLOVG4kBNFVgkmkhlgbNWiaBjSPBZuxTaT5SF8f/r1RnbA9o0TVMleKV1Ef
- c7Tg==
+ bh=WKSNg6dxCEDR+YSvlaoe9ShT7s8QEV1fUXWqUzLTCNA=;
+ b=lBxErtcqO/0cldm5pArSsDPO3PLK+xEuwGy2CsJhJwhI6bL+C/TyjEEKGwhksatvfV
+ h045P1GjK3dCLq9fkUaes3yyDR/YtDH9mjKcfAPShNZwvFMVjtOnioiTfDNputoTmNnA
+ repW+uKEssIC7a5F2RM5s1COGPERYPU9lSB3x3HjXhJiOy4YHq4NmPJfLZCP0b7P/FZF
+ fXa7M91cg/OdHNwlZMJHovWiXQc8Y6pfsd8GIi4VqdZ5c7MwU/qs1h8Dea4pUqNbnjO8
+ lr6qfr3xXqpyeCLlHGTz+KTvTMiObhLzYDVRaheWUsx6nXBLXHd5QAJB5abkcWc5nit/
+ F+vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7uJYNbe5lkb51q2+AyPUZmp3kp5cS3cpbQny1Ymo9K0=;
- b=tXivXqY1chtmct40ZqCeWmC1mvEDbS+3IVPrrHXHgnGEca0oZ0nSzpw4Ck4xM4uXhZ
- Ir4Np94EEfSXY+2npQ7n16K1dftro3UaBtvrvbaxxz6h5PHlweE0h9bAdfAC2g1AkVV/
- zdUG8kGhuOKGamX6Jaut52w3kBe6h6I7/DocSj1C5H+/DCZF99GFDTsmq3xILhgCq0RU
- AqUSq306p9NNrKgkGP25CniZY5FmryTJU3ZLdcUVBWGMjVzLaTA7e8gsts4yl5wr2R71
- IFhEoamxVG3knZok9WmvT0pzplOj05MOsAwRgUcEHO4YXNLV0oVdJxu19QfLRUMSveU9
- zZ8w==
-X-Gm-Message-State: AOAM531cO2g2GbpRBsnimtT7qD2f4/2BT1+WZL8qAqwiKSd/I82W0nSw
- 93RYiTxff+6+uvikGnsTKecn0NoLaY7BOQ==
-X-Google-Smtp-Source: ABdhPJykRqXnarAjkd2p7nIp/t2a9UE+Xqm1ELOXvi8hr6LDT64Cvxym2O0inPPaJp2TVckiXkMTag==
-X-Received: by 2002:a7b:cf27:: with SMTP id m7mr3784148wmg.74.1601048445823;
- Fri, 25 Sep 2020 08:40:45 -0700 (PDT)
+ bh=WKSNg6dxCEDR+YSvlaoe9ShT7s8QEV1fUXWqUzLTCNA=;
+ b=faYjQ7LdTMxTvAxn6VLKXnCkro4AnmSd/vVNByJf3xz3nebaF8iT/VAcywMPoMbCbP
+ kg2KtR/mJdt57XYMmc4Crd7aZnn13oLiT2QANRJpkWw/x1IY/1QV8FjVDWpojP3Y41Pm
+ y86yArsH59treq2BJodvyha8lqHA5XnZnIp5Ao3Zdz1LveLNLPXS1So3X3E2j00x0T8A
+ j8OsUI/g4s19KYSqNsO1Wrtt/Q+rrbyntWvUzEz43ounczAZnw/X3YpvHJ8+QxUml3HI
+ wjSQLB1moqbVYqbl+/ASoQ8cg75Dr4ewFdjxY+yYlbVR2zv2l49SFuvwT0D4L1zoPusa
+ NaTg==
+X-Gm-Message-State: AOAM530rGEE/gT8na4ucleKOTLM8H1wcGWw4Hc0vcKR4sbCPkXT8e/Bp
+ 5gP77mArlPQVRgMOHNDKqBXL0X8eZElSzg==
+X-Google-Smtp-Source: ABdhPJyOVqNBkJUB+3lboBjNFPMsagYHP59K7YCDBfNq4COAHpoQLyBpz2GM5s0T7hKhkhFDf35Ogw==
+X-Received: by 2002:a1c:7c13:: with SMTP id x19mr3899144wmc.45.1601048444423; 
+ Fri, 25 Sep 2020 08:40:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k84sm3353801wmf.6.2020.09.25.08.40.32
+ by smtp.gmail.com with ESMTPSA id p1sm3161957wma.0.2020.09.25.08.40.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Sep 2020 08:40:37 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6362B1FF96;
+ by zen.linaroharston (Postfix) with ESMTP id CD5A21FF99;
  Fri, 25 Sep 2020 16:40:29 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 08/15] travis.yml: Drop the Python 3.5 build
-Date: Fri, 25 Sep 2020 16:40:20 +0100
-Message-Id: <20200925154027.12672-9-alex.bennee@linaro.org>
+Subject: [PATCH v1 10/15] gitlab-ci: Remove the Debian9-based containers and
+ containers-layer3
+Date: Fri, 25 Sep 2020 16:40:22 +0100
+Message-Id: <20200925154027.12672-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925154027.12672-1-alex.bennee@linaro.org>
 References: <20200925154027.12672-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,45 +89,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-We are soon going to remove the support for Python 3.5. So remove
-the CI job now.
+According to our support policy, Debian 9 is not supported by the
+QEMU project anymore. Since we now switched the MinGW cross-compiler
+builds to Fedora, we do not need these Debian9-based containers
+in the gitlab-CI anymore, and can now also get rid of the "layer3"
+container build stage this way.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200921174320.46062-3-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200922070441.48844-1-thuth@redhat.com>
 ---
- .travis.yml | 9 ---------
- 1 file changed, 9 deletions(-)
+ .gitlab-ci.d/containers.yml | 14 --------------
+ .gitlab-ci.yml              |  1 -
+ 2 files changed, 15 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 023fcf71190c..b6fee288bec2 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -254,15 +254,6 @@ jobs:
-         - TEST_CMD=""
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 15e7b564f91f..6769eef0ff0d 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -214,20 +214,6 @@ tricore-debian-cross-container:
+   variables:
+     NAME: debian-tricore-cross
  
+-win32-debian-cross-container:
+-  <<: *container_job_definition
+-  stage: containers-layer3
+-  needs: ['amd64-debian9-mxe-container']
+-  variables:
+-    NAME: debian-win32-cross
+-
+-win64-debian-cross-container:
+-  <<: *container_job_definition
+-  stage: containers-layer3
+-  needs: ['amd64-debian9-mxe-container']
+-  variables:
+-    NAME: debian-win64-cross
+-
+ xtensa-debian-cross-container:
+   <<: *container_job_definition
+   variables:
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index a18e18b57e54..c265e7f8ab0a 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -4,7 +4,6 @@
+ stages:
+   - containers
+   - containers-layer2
+-  - containers-layer3
+   - build
+   - test
  
--    # Python builds
--    - name: "GCC Python 3.5 (x86_64-softmmu)"
--      env:
--        - CONFIG="--target-list=x86_64-softmmu"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
--      language: python
--      python: 3.5
--
--
-     # Using newer GCC with sanitizers
-     - name: "GCC9 with sanitizers (softmmu)"
-       dist: bionic
 -- 
 2.20.1
 
