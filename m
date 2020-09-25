@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2044278735
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:28:19 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D593278742
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:30:07 +0200 (CEST)
+Received: from localhost ([::1]:42108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmpm-0001Kt-O5
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38626)
+	id 1kLmrR-00038D-99
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWu-0004ZY-A9
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50766)
+ id 1kLmZm-00019x-9h
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:11:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmWr-0004L1-RQ
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:08:47 -0400
+ id 1kLmZj-0004u1-Tq
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:11:45 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601035725;
+ s=mimecast20190719; t=1601035903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YsBaT4DJHkqdygiSvDUVi/ykdYW4lCujueR9t1v3JVc=;
- b=avscC13Ol+pqrUVes5G3e7ts37Zzdp7B5A8wC6IRl6hXygo4pAr+q6scr37DHVaFnTHBfF
- 3w/El2gK7oTHaXfYwcVbV+HCmBU4D6FAbiSTq7yo0zg/zu1Mw2oyG0YaFVRbNs6u5g8KRM
- JmBJ9C/hxdiU1SXF8x8THOMelftKVsE=
+ bh=y+gySHXFPtcVMWGDh75/zYmsLP/gVPgTdBrVe3bE91U=;
+ b=IJO1TShx4A2/Uerfta5Cj57DcjBt4hPp0IE7R4e8/vhkVqs4XduWs8Nk14W3tRVG+IgcWd
+ 4OGx+yOruwDuzaMffxg3+9Q1fyshvF2TsK3ONBgCCVVYmHmJ9qFm4EcCkwXYWMUh4QpZFx
+ 0I4axCOne20Do3rDX2iZdxdze7/VvWU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-Dma4gezJPbyvSfJjcxVmxA-1; Fri, 25 Sep 2020 08:08:43 -0400
-X-MC-Unique: Dma4gezJPbyvSfJjcxVmxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-287-Xed2SRbdMT-MUG6olyH2tQ-1; Fri, 25 Sep 2020 08:11:39 -0400
+X-MC-Unique: Xed2SRbdMT-MUG6olyH2tQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 888308030CD;
- Fri, 25 Sep 2020 12:08:41 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-177.ams2.redhat.com
- [10.36.114.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CD3A73695;
- Fri, 25 Sep 2020 12:08:36 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, zhengchuan@huawei.com, dovmurik@linux.vnet.ibm.com,
- hgcoin@gmail.com, zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com,
- peterx@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
- jinyan12@huawei.com, ann.zhuangyanying@huawei.com
-Subject: [PULL 26/26] virtiofsd: Add -o allow_direct_io|no_allow_direct_io
- options
-Date: Fri, 25 Sep 2020 13:06:55 +0100
-Message-Id: <20200925120655.295142-27-dgilbert@redhat.com>
-In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
-References: <20200925120655.295142-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DDC88030CC;
+ Fri, 25 Sep 2020 12:11:38 +0000 (UTC)
+Received: from work-vm (ovpn-114-177.ams2.redhat.com [10.36.114.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DCA955761;
+ Fri, 25 Sep 2020 12:11:29 +0000 (UTC)
+Date: Fri, 25 Sep 2020 13:11:27 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
+Message-ID: <20200925121127.GI2873@work-vm>
+References: <20200918213436.GA3520@redhat.com> <20200921153243.GK3221@work-vm>
+ <20200922102531.GA2837@work-vm> <20200922174733.GD57620@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200922174733.GD57620@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -85,125 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com
+Cc: jose.carlos.venegas.munoz@intel.com, qemu-devel@nongnu.org,
+ cdupontd@redhat.com, virtio-fs-list <virtio-fs@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, archana.m.shinde@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Tue, Sep 22, 2020 at 11:25:31AM +0100, Dr. David Alan Gilbert wrote:
+> > * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> > > Hi,
+> > >   I've been doing some of my own perf tests and I think I agree
+> > > about the thread pool size;  my test is a kernel build
+> > > and I've tried a bunch of different options.
+> > > 
+> > > My config:
+> > >   Host: 16 core AMD EPYC (32 thread), 128G RAM,
+> > >      5.9.0-rc4 kernel, rhel 8.2ish userspace.
+> > >   5.1.0 qemu/virtiofsd built from git.
+> > >   Guest: Fedora 32 from cloud image with just enough extra installed for
+> > > a kernel build.
+> > > 
+> > >   git cloned and checkout v5.8 of Linux into /dev/shm/linux on the host
+> > > fresh before each test.  Then log into the guest, make defconfig,
+> > > time make -j 16 bzImage,  make clean; time make -j 16 bzImage 
+> > > The numbers below are the 'real' time in the guest from the initial make
+> > > (the subsequent makes dont vary much)
+> > > 
+> > > Below are the detauls of what each of these means, but here are the
+> > > numbers first
+> > > 
+> > > virtiofsdefault        4m0.978s
+> > > 9pdefault              9m41.660s
+> > > virtiofscache=none    10m29.700s
+> > > 9pmmappass             9m30.047s
+> > > 9pmbigmsize           12m4.208s
+> > > 9pmsecnone             9m21.363s
+> > > virtiofscache=noneT1   7m17.494s
+> > > virtiofsdefaultT1      3m43.326s
+> > > 
+> > > So the winner there by far is the 'virtiofsdefaultT1' - that's
+> > > the default virtiofs settings, but with --thread-pool-size=1 - so
+> > > yes it gives a small benefit.
+> > > But interestingly the cache=none virtiofs performance is pretty bad,
+> > > but thread-pool-size=1 on that makes a BIG improvement.
+> > 
+> > Here are fio runs that Vivek asked me to run in my same environment
+> > (there are some 0's in some of the mmap cases, and I've not investigated
+> > why yet).
+> 
+> cache=none does not allow mmap in case of virtiofs. That's when you
+> are seeing 0.
+> 
+> >virtiofs is looking good here in I think all of the cases;
+> > there's some division over which cinfig; cache=none
+> > seems faster in some cases which surprises me.
+> 
+> I know cache=none is faster in case of write workloads. It forces
+> direct write where we don't call file_remove_privs(). While cache=auto
+> goes through file_remove_privs() and that adds a GETXATTR request to
+> every WRITE request.
 
-Due to the commit 65da4539803373ec4eec97ffc49ee90083e56efd, the O_DIRECT
-open flag of guest applications will be discarded by virtiofsd. While
-this behavior makes it consistent with the virtio-9p scheme when guest
-applications use direct I/O, we no longer have any chance to bypass the
-host page cache.
+Can you point me to how cache=auto causes the file_remove_privs?
 
-Therefore, we add a flag 'allow_direct_io' to lo_data. If '-o
- no_allow_direct_io' option is added, or none of '-o allow_direct_io' or
- '-o no_allow_direct_io' is added, the 'allow_direct_io' will be set to
- 0, and virtiofsd discards O_DIRECT as before. If '-o allow_direct_io'
-is added to the starting command-line, 'allow_direct_io' will be set to
-1, so that the O_DIRECT flags will be retained and host page cache can
-be bypassed.
+Dave
 
-Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200824105957.61265-1-zhangjiachen.jaycee@bytedance.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/helper.c         |  4 ++++
- tools/virtiofsd/passthrough_ll.c | 20 ++++++++++++++------
- 2 files changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 7bc5d7dc5a..85770d63f1 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -178,6 +178,10 @@ void fuse_cmdline_help(void)
-            "                               (0 leaves rlimit unchanged)\n"
-            "                               default: min(1000000, fs.file-max - 16384)\n"
-            "                                        if the current rlimit is lower\n"
-+           "    -o allow_direct_io|no_allow_direct_io\n"
-+           "                               retain/discard O_DIRECT flags passed down\n"
-+           "                               to virtiofsd from guest applications.\n"
-+           "                               default: no_allow_direct_io\n"
-            );
- }
- 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 784330e0e4..0b229ebd57 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -151,6 +151,7 @@ struct lo_data {
-     int timeout_set;
-     int readdirplus_set;
-     int readdirplus_clear;
-+    int allow_direct_io;
-     struct lo_inode root;
-     GHashTable *inodes; /* protected by lo->mutex */
-     struct lo_map ino_map; /* protected by lo->mutex */
-@@ -179,6 +180,8 @@ static const struct fuse_opt lo_opts[] = {
-     { "cache=always", offsetof(struct lo_data, cache), CACHE_ALWAYS },
-     { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
-     { "no_readdirplus", offsetof(struct lo_data, readdirplus_clear), 1 },
-+    { "allow_direct_io", offsetof(struct lo_data, allow_direct_io), 1 },
-+    { "no_allow_direct_io", offsetof(struct lo_data, allow_direct_io), 0 },
-     FUSE_OPT_END
- };
- static bool use_syslog = false;
-@@ -1516,7 +1519,8 @@ static void lo_releasedir(fuse_req_t req, fuse_ino_t ino,
-     fuse_reply_err(req, 0);
- }
- 
--static void update_open_flags(int writeback, struct fuse_file_info *fi)
-+static void update_open_flags(int writeback, int allow_direct_io,
-+                              struct fuse_file_info *fi)
- {
-     /*
-      * With writeback cache, kernel may send read requests even
-@@ -1541,10 +1545,13 @@ static void update_open_flags(int writeback, struct fuse_file_info *fi)
- 
-     /*
-      * O_DIRECT in guest should not necessarily mean bypassing page
--     * cache on host as well. If somebody needs that behavior, it
--     * probably should be a configuration knob in daemon.
-+     * cache on host as well. Therefore, we discard it by default
-+     * ('-o no_allow_direct_io'). If somebody needs that behavior,
-+     * the '-o allow_direct_io' option should be set.
-      */
--    fi->flags &= ~O_DIRECT;
-+    if (!allow_direct_io) {
-+        fi->flags &= ~O_DIRECT;
-+    }
- }
- 
- static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-@@ -1576,7 +1583,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-         goto out;
-     }
- 
--    update_open_flags(lo->writeback, fi);
-+    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
- 
-     fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
-                 mode);
-@@ -1786,7 +1793,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
-     fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
-              fi->flags);
- 
--    update_open_flags(lo->writeback, fi);
-+    update_open_flags(lo->writeback, lo->allow_direct_io, fi);
- 
-     sprintf(buf, "%i", lo_fd(req, ino));
-     fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
-@@ -2823,6 +2830,7 @@ int main(int argc, char *argv[])
-         .debug = 0,
-         .writeback = 0,
-         .posix_lock = 0,
-+        .allow_direct_io = 0,
-         .proc_self_fd = -1,
-     };
-     struct lo_map_elem *root_elem;
+> Vivek
 -- 
-2.26.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
