@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF1E277D96
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:25:53 +0200 (CEST)
-Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10778277D8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:18:28 +0200 (CEST)
+Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLcUi-0000ti-Hl
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:25:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57694)
+	id 1kLcNW-0000b2-RK
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLcEU-0006rg-CB
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:09:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50061)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLcEi-0007C1-Qw
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:09:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kLcER-0004nX-AU
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:09:05 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLcEf-0004pI-Pu
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 21:09:19 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600996142;
+ s=mimecast20190719; t=1600996157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xb71NDI91Nw7FvUlU7JDiKXXQ6YzL1rzkQcv7u1Y6q0=;
- b=U1moOXSlRpe89blAjdkj6KGijPd3gGzuwc9lEWgb83rUnBZsCLErz3fv741kVa3NVliNQ+
- 90iUDdTXeWE14HXsURN2P+nBF5UKRNS1o5H28XBkL70L1Zyrb+HfS/ai6mQD2RLgtENRnz
- gczpVXsOgroseaN8NWk+LLfcDVkoSVA=
+ bh=wEMmMVk3Gjsn2Z4sSRwjP4ghgCa33Yk7RKvvnHhd7NQ=;
+ b=QwOSVFsZSZ1xaNj4NhAHDIm2rtXXfTlqnPV0O+4B1PxoPM1+33YwDRwXG2VIj3a3/qBmZV
+ GJVhhXK1mlIbGd+956QCgmf8WFLysV6k8y3KlC46GjoITrQ7letKdPXWDwyl5GWYth/gYe
+ 3U3RGFJ+ZjREWZ+njDXHjf60iViS1rk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-fBsSYKlDPvG_F8tOZMbr-Q-1; Thu, 24 Sep 2020 21:08:59 -0400
-X-MC-Unique: fBsSYKlDPvG_F8tOZMbr-Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-261-qwRVCBWgOP2QhP5KCpL5_Q-1; Thu, 24 Sep 2020 21:09:14 -0400
+X-MC-Unique: qwRVCBWgOP2QhP5KCpL5_Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A113D2FD02;
- Fri, 25 Sep 2020 01:08:58 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C93A5577A;
- Fri, 25 Sep 2020 01:08:58 +0000 (UTC)
-Date: Thu, 24 Sep 2020 21:08:57 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D090A8064D1;
+ Fri, 25 Sep 2020 01:09:13 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 377F55C1C7;
+ Fri, 25 Sep 2020 01:09:13 +0000 (UTC)
+Date: Thu, 24 Sep 2020 21:09:11 -0400
+From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 04/16] qapi/expr.py: Add assertion for union type
- 'check_dict'
-Message-ID: <20200925010857.GM3717385@habkost.net>
+Subject: Re: [PATCH 15/16] qapi/expr.py: move related checks inside check_xxx
+ functions
+Message-ID: <20200925010911.GH368253@localhost.localdomain>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
- <20200922211313.4082880-5-jsnow@redhat.com>
- <20200923195322.GE3312949@habkost.net>
- <a296d090-634d-f6f4-7aa7-fa6f510eb7f9@redhat.com>
+ <20200922211313.4082880-16-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a296d090-634d-f6f4-7aa7-fa6f510eb7f9@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200922211313.4082880-16-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SUk9VBj82R8Xhb8H"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -83,53 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 24, 2020 at 08:47:31PM -0400, John Snow wrote:
-> On 9/23/20 3:53 PM, Eduardo Habkost wrote:
-> > On Tue, Sep 22, 2020 at 05:13:01PM -0400, John Snow wrote:
-> > > mypy isn't fond of allowing you to check for bool membership in a
-> > > collection of str elements. Guard this lookup for precisely when we were
-> > > given a name.
-> > > 
-> > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > > ---
-> > >   scripts/qapi/expr.py | 4 +++-
-> > >   1 file changed, 3 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> > > index f6b55a87c1..67892502e9 100644
-> > > --- a/scripts/qapi/expr.py
-> > > +++ b/scripts/qapi/expr.py
-> > > @@ -166,7 +166,9 @@ def check_type(value, info, source,
-> > >           raise QAPISemError(info,
-> > >                              "%s should be an object or type name" % source)
-> > > -    permit_upper = allow_dict in info.pragma.name_case_whitelist
-> > > +    permit_upper = False
-> > > +    if isinstance(allow_dict, str):
-> > > +        permit_upper = allow_dict in info.pragma.name_case_whitelist
-> > 
-> > Well, this keeps existing behavior, so:
-> > 
-> > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> > 
-> > But: what exactly is the meaning of allow_dict=False,
-> > allow_dict=True, and allow_dict being a string?
-> > 
-> > 
-> 
-> allow_dict = True -- allows the type to be an object describing the type.
-> 
-> allow_dict: str -- allows the type to be an object (like True), but also
-> passes a name in for the purposes of validating the name with the pragma
-> whitelist(!)
+--SUk9VBj82R8Xhb8H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What.
+On Tue, Sep 22, 2020 at 05:13:12PM -0400, John Snow wrote:
+> There's not a big obvious difference between the types of checks that
+> happen in the main function versus the kind that happen in the
+> functions. Now they're in one place for each of the main types.
+>=20
+> As part of the move, spell out the required and optional keywords so
+> they're obvious at a glance.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
--- 
-Eduardo
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+
+--SUk9VBj82R8Xhb8H
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9tQzUACgkQZX6NM6Xy
+CfNLyhAAtZcDHfbMBxZ49AtZu4iz5/6psRI3IC6hlLnmVfUZHrnEiO7jl+mh+ONr
+WnfeD7N2K0xMD2EXblpZU5BGeO/N7P0trXDbkQLLzmQs1V6iBYAivBf10DUIfKjc
+VHdFMUqG6cCppXLlws91wDpK3K2dO9xrdF+U6m+FY6ymSb5WR5a1WCM0BMdFovsI
+6aWbm1iqUdfiwJlHYQlLjseyhADKIV/ERsk9QoJcnOtGpiA0WBYnIL+tWlpZbu4P
+NPMTeg+fiOxvLZPs1IkycI46bEYNbr62Qp81UJqEoDMswT1mhW4nYCHm+u4HOtSh
+Btc0qLFhn0YSTJDRt90PaThw07PxF72u915m02zQeWWcldvlf/FLzI9xFuSeW7/S
+ww/NNvUFTwIiqE6qphcKPM0cWkC44B163Bzcguco4IlbqyXJrT4rMpFtPVal9Nih
+3obCW4nrTol/L1eivxS6omS+zq/69RtVYXCe1sqS4H+Q5C+YbDcd4hyBZyNSuaF4
+ZgZI1VQI4dWmrxo3aBM/v2+rgix8Cx8hIEYdlxS9yJhB3sqAIlVrmCWKy5Zlm58n
+KNXXOg3kWQECYmmwspahB3OJP0CunWgzVAwE1KQbfSwy4LO8I8ukHg1wqlPe7HOE
+xPeE9x6OyeF+/0e0dfH+7FhSu9W+HcHBG0Sy5OuVIUH7szxJTxY=
+=VEuW
+-----END PGP SIGNATURE-----
+
+--SUk9VBj82R8Xhb8H--
 
 
