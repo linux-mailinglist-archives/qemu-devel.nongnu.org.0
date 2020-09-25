@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C3F277D1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:44:51 +0200 (CEST)
-Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E5C277CF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:34:16 +0200 (CEST)
+Received: from localhost ([::1]:41234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLbr0-0006FK-Qy
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
+	id 1kLbgl-00035y-Gj
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbby-0000r7-VK
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41848)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbz-0000tB-LS
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbv-00009e-S4
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:18 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbx-0000A1-2D
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:19 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600993755;
+ s=mimecast20190719; t=1600993756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wMogz3UY4+2VVe3Yqivuz7WZ5WTRsaKaTdJjGZ64c68=;
- b=VBhV4POQVc3+x1DEKZ6gVTWpb92jpYOZzyHOg3w1rV+dZgbuNdWt8mDMGKAlhyET84vHIW
- FeMwtgcZhoDJIJIG28lsuh3CXAYQvin9nxVtH8GKRnHmN77xzgnRDMI8CHHvOZsosHEorB
- 48NKg/PElTCzCnG/KZUsMxwhLNWBo7s=
+ bh=EM/9SLIysbSVW3ZW58L3soB0wBJh+tajanNL6oCUKYI=;
+ b=Ubzal3fN5i+4JRVzMMNWJoAXiOG26D32WHwVfiCqsLfeWbGHvMX2vV66pJsWywqW4AJvBx
+ Fce0nbOHNfSvOJtSNdhnFhwO5OCRO2RXWmjDvq13WkCAi4IeRi5w4XNbxsak16r1eJFyFk
+ 9ySobu0PSR6gNYs+qdrqqV0TeQBXLHE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-iqmv2GUgMDKoPLpI48PMgA-1; Thu, 24 Sep 2020 20:29:13 -0400
-X-MC-Unique: iqmv2GUgMDKoPLpI48PMgA-1
+ us-mta-40-qHj48_uzMSyxC4ISgKEP-Q-1; Thu, 24 Sep 2020 20:29:14 -0400
+X-MC-Unique: qHj48_uzMSyxC4ISgKEP-Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E15781F03E
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94C818015A5
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:13 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7EBC85D9DD;
- Fri, 25 Sep 2020 00:29:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4F785D9DD;
+ Fri, 25 Sep 2020 00:29:12 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/47] qapi: enforce import order/styling with isort
-Date: Thu, 24 Sep 2020 20:28:25 -0400
-Message-Id: <20200925002900.465855-13-jsnow@redhat.com>
+Subject: [PATCH v3 13/47] qapi: delint using flake8
+Date: Thu, 24 Sep 2020 20:28:26 -0400
+Message-Id: <20200925002900.465855-14-jsnow@redhat.com>
 In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -83,168 +83,135 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we're mucking around with imports, we might as well formalize the
-style we use. Let's use isort to do it for us.
+Petty style guide fixes and line length enforcement.  Not a big win, not
+a big loss, but flake8 passes 100% on the qapi module, which gives us an
+easy baseline to enforce hereafter.
 
-force_sort_within_sections: Intermingles "from x" and "import x" style
-statements, such that sorting is always performed strictly on the module
-name itself.
+A note on the flake8 exception: flake8 will warn on *any* bare except,
+but pylint's is context-aware and will suppress the warning if you
+re-raise the exception.
 
-force_grid_wrap=4: Four or more imports from a single module will force
-the one-per-line style that's more git-friendly. This will generally
-happen for 'typing' imports.
-
-multi_line_output=3: Uses the one-per-line indented style for long
-imports.
-
-include_trailing_comma: Adds a comma to the last import in a group,
-which makes git conflicts nicer to deal with, generally.
-
-Suggested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/.isort.cfg    | 5 +++++
- scripts/qapi/commands.py   | 6 +-----
- scripts/qapi/doc.py        | 2 +-
- scripts/qapi/expr.py       | 4 ++--
- scripts/qapi/introspect.py | 3 +--
- scripts/qapi/main.py       | 1 -
- scripts/qapi/parser.py     | 2 +-
- scripts/qapi/schema.py     | 2 +-
- scripts/qapi/types.py      | 1 -
- 9 files changed, 12 insertions(+), 14 deletions(-)
- create mode 100644 scripts/qapi/.isort.cfg
+ scripts/qapi/.flake8     |  2 ++
+ scripts/qapi/commands.py |  3 ++-
+ scripts/qapi/schema.py   |  8 +++++---
+ scripts/qapi/visit.py    | 16 +++++++++++-----
+ 4 files changed, 20 insertions(+), 9 deletions(-)
+ create mode 100644 scripts/qapi/.flake8
 
-diff --git a/scripts/qapi/.isort.cfg b/scripts/qapi/.isort.cfg
+diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
 new file mode 100644
-index 0000000000..b0aeffec26
+index 0000000000..6b158c68b8
 --- /dev/null
-+++ b/scripts/qapi/.isort.cfg
-@@ -0,0 +1,5 @@
-+[settings]
-+force_sort_within_sections=True
-+force_grid_wrap=4
-+multi_line_output=3
-+include_trailing_comma=True
++++ b/scripts/qapi/.flake8
+@@ -0,0 +1,2 @@
++[flake8]
++extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
 diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index e1df0e341f..64ed5278f9 100644
+index 64ed5278f9..5dc2f5a9fa 100644
 --- a/scripts/qapi/commands.py
 +++ b/scripts/qapi/commands.py
-@@ -13,11 +13,7 @@
- See the COPYING file in the top-level directory.
- """
+@@ -65,7 +65,8 @@ def gen_call(name, arg_type, boxed, ret_type):
+ def gen_marshal_output(ret_type):
+     return mcgen('''
  
--from .common import (
--    build_params,
--    c_name,
--    mcgen,
--)
-+from .common import build_params, c_name, mcgen
- from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
+-static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
++static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
++                                QObject **ret_out, Error **errp)
+ {
+     Visitor *v;
  
- 
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index b764a8ccc0..1acb773e0a 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -5,9 +5,9 @@
- """This script produces the documentation of a qapi schema in texinfo format"""
- 
- import re
-+
- from .gen import QAPIGenDoc, QAPISchemaVisitor
- 
--
- _MSG = '''
- @deftypefn {type} {{}} {name}
- 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 03b31ecfc1..3e952a1462 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -14,12 +14,12 @@
- # This work is licensed under the terms of the GNU GPL, version 2.
- # See the COPYING file in the top-level directory.
- 
--import re
- from collections import OrderedDict
-+import re
-+
- from .common import c_name
- from .error import QAPISemError
- 
--
- # Names must be letters, numbers, -, and _.  They must start with letter,
- # except for downstream extensions which must start with __RFQDN_.
- # Dots are only valid in the downstream extension prefix.
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index b036fcf9ce..2850121cbd 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -17,8 +17,7 @@
-     mcgen,
- )
- from .gen import QAPISchemaMonolithicCVisitor
--from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
--                     QAPISchemaType)
-+from .schema import QAPISchemaArrayType, QAPISchemaBuiltinType, QAPISchemaType
- 
- 
- def _make_tree(obj, ifcond, features, extra=None):
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-index 3f8338ade8..b2f20581fd 100644
---- a/scripts/qapi/main.py
-+++ b/scripts/qapi/main.py
-@@ -20,7 +20,6 @@
- from .types import gen_types
- from .visit import gen_visit
- 
--
- DEFAULT_OUTPUT_DIR = ''
- DEFAULT_PREFIX = ''
- 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 76d28c1ce9..fd89e2188b 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -14,9 +14,9 @@
- # This work is licensed under the terms of the GNU GPL, version 2.
- # See the COPYING file in the top-level directory.
- 
-+from collections import OrderedDict
- import os
- import re
--from collections import OrderedDict
- 
- from .error import QAPIParseError, QAPISemError
- from .source import QAPISourceInfo
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index a835ee6fde..093f7a38d8 100644
+index 093f7a38d8..cfc52e1ae4 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -14,9 +14,9 @@
+@@ -536,7 +536,7 @@ def set_defined_in(self, name):
+             v.set_defined_in(name)
  
- # TODO catching name collisions in generated code would be nice
+     def check(self, schema, seen):
+-        if not self.tag_member: # flat union
++        if not self.tag_member:  # flat union
+             self.tag_member = seen.get(c_name(self._tag_name))
+             base = "'base'"
+             # Pointing to the base type when not implicit would be
+@@ -821,7 +821,7 @@ def __init__(self, fname):
+         self._entity_dict = {}
+         self._module_dict = OrderedDict()
+         self._schema_dir = os.path.dirname(fname)
+-        self._make_module(None) # built-ins
++        self._make_module(None)  # built-ins
+         self._make_module(fname)
+         self._predefining = True
+         self._def_predefineds()
+@@ -965,7 +965,9 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
+             # But it's not tight: the disjunction need not imply it.  We
+             # may end up compiling useless wrapper types.
+             # TODO kill simple unions or implement the disjunction
+-            assert (ifcond or []) == typ._ifcond # pylint: disable=protected-access
++
++            # pylint: disable=protected-access
++            assert (ifcond or []) == typ._ifcond
+         else:
+             self._def_entity(QAPISchemaObjectType(
+                 name, info, None, ifcond, None, None, members, None))
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index ea277e7704..808410d6f1 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -31,7 +31,9 @@ def gen_visit_decl(name, scalar=False):
+     if not scalar:
+         c_type += '*'
+     return mcgen('''
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_type)sobj, Error **errp);
++
++bool visit_type_%(c_name)s(Visitor *v, const char *name,
++                 %(c_type)sobj, Error **errp);
+ ''',
+                  c_name=c_name(name), c_type=c_type)
  
-+from collections import OrderedDict
- import os
- import re
--from collections import OrderedDict
+@@ -125,7 +127,8 @@ def gen_visit_object_members(name, base, members, variants):
+ def gen_visit_list(name, element_type):
+     return mcgen('''
  
- from .common import c_name, pointer_suffix
- from .error import QAPIError, QAPISemError
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 53b47f9e58..cc6dad4c89 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -23,7 +23,6 @@
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaEnumMember, QAPISchemaObjectType
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
++bool visit_type_%(c_name)s(Visitor *v, const char *name,
++                 %(c_name)s **obj, Error **errp)
+ {
+     bool ok = false;
+     %(c_name)s *tail;
+@@ -158,7 +161,8 @@ def gen_visit_list(name, element_type):
+ def gen_visit_enum(name):
+     return mcgen('''
  
--
- # variants must be emitted before their container; track what has already
- # been output
- objects_seen = set()
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj, Error **errp)
++bool visit_type_%(c_name)s(Visitor *v, const char *name,
++                 %(c_name)s *obj, Error **errp)
+ {
+     int value = *obj;
+     bool ok = visit_type_enum(v, name, &value, &%(c_name)s_lookup, errp);
+@@ -172,7 +176,8 @@ def gen_visit_enum(name):
+ def gen_visit_alternate(name, variants):
+     ret = mcgen('''
+ 
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
++bool visit_type_%(c_name)s
++    (Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
+ {
+     bool ok = false;
+ 
+@@ -247,7 +252,8 @@ def gen_visit_alternate(name, variants):
+ def gen_visit_object(name, base, members, variants):
+     return mcgen('''
+ 
+-bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
++bool visit_type_%(c_name)s
++    (Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
+ {
+     bool ok = false;
+ 
 -- 
 2.26.2
 
