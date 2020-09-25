@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050FC2786B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:09:35 +0200 (CEST)
-Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36D52786C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:14:22 +0200 (CEST)
+Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmXd-0004vX-Ts
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:09:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38104)
+	id 1kLmcH-0003Lz-TR
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmVW-0002Bm-9T
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35726)
+ id 1kLmVe-0002G8-Im
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmVT-0004DQ-To
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:21 -0400
+ id 1kLmVc-0004Dr-8m
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:30 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601035639;
+ s=mimecast20190719; t=1601035646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KwoC26LP5CpaPJLEShkXwNEdUVef6paLbONKlxitJ44=;
- b=QMN0oJXhiYCb1kueCFVJbgzr+MFBxUShwoQldfTgt7mbIKKq/UzDJUkSaDaTTaowurlFmV
- T3qF+Ds3x97AzbQga93Sk38CQ934jCuJGV3VKuz0riFJsau4h+scOQjHcaJ66COtfTu865
- tPohydDKEHzu3AJQO1UueLel+8uFOX0=
+ bh=5RtNjHNs3hEYTQX9+njr/qBDA45DXZrosh4HKnfGnHo=;
+ b=IZSmJuLS2DsLKZX0rT49klLiP5HEuGnh+C7Nt2v5mA1d7f1xmSOLcOq02SdA/tXCRvFetf
+ ofQZOEE6HkMzJiHp/EQk9C1ENCw+zYAkC4AtOXlyLCR9hMk4mejweKFh3xqAER3BraKXWc
+ AIo0atWm6n9rUaX+HyeV0G5Wj845h7Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-TSRwodWsMc-XCZJs2rr5Vw-1; Fri, 25 Sep 2020 08:07:17 -0400
-X-MC-Unique: TSRwodWsMc-XCZJs2rr5Vw-1
+ us-mta-433-rJDnEYYoN32iW2IG99GHQQ-1; Fri, 25 Sep 2020 08:07:22 -0400
+X-MC-Unique: rJDnEYYoN32iW2IG99GHQQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B301B10BBECB;
- Fri, 25 Sep 2020 12:07:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17ACF10066FC;
+ Fri, 25 Sep 2020 12:07:21 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-177.ams2.redhat.com
  [10.36.114.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6563E78437;
- Fri, 25 Sep 2020 12:07:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0AC5773692;
+ Fri, 25 Sep 2020 12:07:15 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, zhengchuan@huawei.com, dovmurik@linux.vnet.ibm.com,
  hgcoin@gmail.com, zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com,
  peterx@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
  jinyan12@huawei.com, ann.zhuangyanying@huawei.com
-Subject: [PULL 04/26] migration/dirtyrate: add DirtyRateStatus to denote
- calculation status
-Date: Fri, 25 Sep 2020 13:06:33 +0100
-Message-Id: <20200925120655.295142-5-dgilbert@redhat.com>
+Subject: [PULL 05/26] migration/dirtyrate: Add RamblockDirtyInfo to store
+ sampled page info
+Date: Fri, 25 Sep 2020 13:06:34 +0100
+Message-Id: <20200925120655.295142-6-dgilbert@redhat.com>
 In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
 References: <20200925120655.295142-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -91,90 +91,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chuan Zheng <zhengchuan@huawei.com>
 
-add DirtyRateStatus to denote calculating status.
+Add RamblockDirtyInfo to store sampled page info of each ramblock.
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <1600237327-33618-3-git-send-email-zhengchuan@huawei.com>
+Message-Id: <1600237327-33618-4-git-send-email-zhengchuan@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  atomic name fixup
 ---
- migration/dirtyrate.c | 26 ++++++++++++++++++++++++++
- qapi/migration.json   | 17 +++++++++++++++++
- 2 files changed, 43 insertions(+)
+ migration/dirtyrate.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index bf7fd24e75..3edf000f45 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -22,6 +22,19 @@
- #include "migration.h"
- #include "dirtyrate.h"
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 84ab9409ac..8707df852d 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -19,10 +19,28 @@
+  */
+ #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
  
-+static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
++/*
++ * Record ramblock idstr
++ */
++#define RAMBLOCK_INFO_MAX_LEN                     256
 +
-+static int dirtyrate_set_state(int *state, int old_state, int new_state)
-+{
-+    assert(new_state < DIRTY_RATE_STATUS__MAX);
-+    if (qatomic_cmpxchg(state, old_state, new_state) == old_state) {
-+        return 0;
-+    } else {
-+        return -1;
-+    }
-+}
-+
-+
- static void calculate_dirtyrate(struct DirtyRateConfig config)
- {
-     /* todo */
-@@ -31,8 +44,21 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
- void *get_dirtyrate_thread(void *arg)
- {
-     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-+    int ret;
-+
-+    ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-+                              DIRTY_RATE_STATUS_MEASURING);
-+    if (ret == -1) {
-+        error_report("change dirtyrate state failed.");
-+        return NULL;
-+    }
+ struct DirtyRateConfig {
+     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+     int64_t sample_period_seconds; /* time duration between two sampling */
+ };
  
-     calculate_dirtyrate(config);
- 
-+    ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
-+                              DIRTY_RATE_STATUS_MEASURED);
-+    if (ret == -1) {
-+        error_report("change dirtyrate state failed.");
-+    }
-     return NULL;
- }
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 675f70bb67..76a59b4f92 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1720,3 +1720,20 @@
- ##
- { 'event': 'UNPLUG_PRIMARY',
-   'data': { 'device-id': 'str' } }
++/*
++ * Store dirtypage info for each ramblock.
++ */
++struct RamblockDirtyInfo {
++    char idstr[RAMBLOCK_INFO_MAX_LEN]; /* idstr for each ramblock */
++    uint8_t *ramblock_addr; /* base address of ramblock we measure */
++    uint64_t ramblock_pages; /* ramblock size in TARGET_PAGE_SIZE */
++    uint64_t *sample_page_vfn; /* relative offset address for sampled page */
++    uint64_t sample_pages_count; /* count of sampled pages */
++    uint64_t sample_dirty_count; /* count of dirty pages we measure */
++    uint32_t *hash_result; /* array of hash result for sampled pages */
++};
 +
-+##
-+# @DirtyRateStatus:
-+#
-+# An enumeration of dirtyrate status.
-+#
-+# @unstarted: the dirtyrate thread has not been started.
-+#
-+# @measuring: the dirtyrate thread is measuring.
-+#
-+# @measured: the dirtyrate thread has measured and results are available.
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'enum': 'DirtyRateStatus',
-+  'data': [ 'unstarted', 'measuring', 'measured'] }
+ void *get_dirtyrate_thread(void *arg);
+ #endif
 -- 
 2.26.2
 
