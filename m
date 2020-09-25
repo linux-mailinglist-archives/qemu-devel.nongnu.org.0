@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B867277D21
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:46:35 +0200 (CEST)
-Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473CF277D35
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:52:56 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLbsg-0000EU-1F
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:46:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51320)
+	id 1kLbyp-00005C-8p
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcO-0001Co-7T
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31021)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcX-0001NL-Bb
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcG-0000DR-Sl
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:43 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcL-0000DV-Ik
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:53 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1600993773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cIjB40CcYVFl3iMOrIvxEeJVWLX3mylMBB5dxrAPUNE=;
- b=CEzeAC0qGD0b4AVp90sFyV0AEahUOaitHMy3zl34gec+O8Rlptx3IKOzCEHtjlwrqsgqXs
- XGejIfzuCgDf0HupkYVwxrwo9XthrDDAFQmSfnPLAaFVKYUlsVrM7SpiMU4wmUbGzIeB8t
- stPAjOysOT2DEX5KQBDJ4iI3DqiKvzA=
+ bh=ZUJwWCFNGA6+mV8YreYmKR5QC1m5IZJw4r6/CyXQT1E=;
+ b=Ja93vRQiOdC33LILNpPEkq6hUeVbIbw5mzRRn72iWFj/8hMpaPq54KCqcahbWBefqy17OG
+ lzNqtckc6KHiJlMV0JRG2qlQ41ivXs8ABeT+9S9iJwv6pWqWbx8NlmP0VMF2I5PxZTUCxa
+ V3S6ZyG2Ar/HxbXeaWoS5GpOIk+yItw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-I5n6w7pYPb2_CmCFnd7E5w-1; Thu, 24 Sep 2020 20:29:31 -0400
-X-MC-Unique: I5n6w7pYPb2_CmCFnd7E5w-1
+ us-mta-131-2LuE7ViFP5Sm_FmfhMXymQ-1; Thu, 24 Sep 2020 20:29:31 -0400
+X-MC-Unique: 2LuE7ViFP5Sm_FmfhMXymQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09FAF8015A5
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6756188C122
  for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:30 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 62F725D9DD;
- Fri, 25 Sep 2020 00:29:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F8165D9DD;
+ Fri, 25 Sep 2020 00:29:30 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 33/47] qapi/gen.py: Enable checking with mypy
-Date: Thu, 24 Sep 2020 20:28:46 -0400
-Message-Id: <20200925002900.465855-34-jsnow@redhat.com>
+Subject: [PATCH v3 34/47] qapi/gen.py: Remove unused parameter
+Date: Thu, 24 Sep 2020 20:28:47 -0400
+Message-Id: <20200925002900.465855-35-jsnow@redhat.com>
 In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,30 +83,37 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+module_basename doesn't use the 'what' argument, so remove it.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/mypy.ini | 5 -----
- 1 file changed, 5 deletions(-)
+ scripts/qapi/gen.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 43c8bd1973..dbfeda748c 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -19,11 +19,6 @@ disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index eec941074b..ece908a058 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -265,7 +265,7 @@ def _is_user_module(name: Optional[str]) -> bool:
+     def _is_builtin_module(name: Optional[str]) -> bool:
+         return not name
  
--[mypy-qapi.gen]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
--
- [mypy-qapi.introspect]
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
+-    def _module_dirname(self, what: str, name: Optional[str]) -> str:
++    def _module_dirname(self, name: Optional[str]) -> str:
+         if self._is_user_module(name):
+             return os.path.dirname(name)
+         return ''
+@@ -283,7 +283,7 @@ def _module_basename(self, what: str, name: Optional[str]) -> str:
+         return ret
+ 
+     def _module_filename(self, what: str, name: Optional[str]) -> str:
+-        return os.path.join(self._module_dirname(what, name),
++        return os.path.join(self._module_dirname(name),
+                             self._module_basename(what, name))
+ 
+     def _add_module(self, name: Optional[str], blurb: str) -> None:
 -- 
 2.26.2
 
