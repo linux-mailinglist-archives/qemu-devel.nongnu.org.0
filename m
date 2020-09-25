@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2073C278916
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:11:54 +0200 (CEST)
-Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BA62788FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:03:22 +0200 (CEST)
+Received: from localhost ([::1]:38736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnVx-00070j-41
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
+	id 1kLnNh-0004HI-RA
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:03:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnJe-0002V5-H3
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:10 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40023)
+ id 1kLnJb-0002Od-UY
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:07 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:32882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnJc-0002GW-JB
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:10 -0400
-Received: by mail-wr1-x442.google.com with SMTP id j2so3500833wrx.7
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:59:08 -0700 (PDT)
+ id 1kLnJZ-0002G2-Rd
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:59:07 -0400
+Received: by mail-wr1-x441.google.com with SMTP id m6so3553835wrn.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uzbbYkb4NnbTBJGCofcpI1INW2euUpldKIpyeVgpePE=;
- b=G/4+NjmMBCwOaEnAD8G4WHhVWosqSJutwj2jU41+Wz3f+z5Pu+x3w+Apvq4vw/gI6v
- OWEZlnT5uP58hV4MyLlM6VfpFHdnUJ4oqdaUQf4zXdNX3SOuQgljdobicUopdh9+6Ttb
- tXUTPX9pd8fHN81fYhE73C+f0Vr4nbSfPJs/eTSm7mBApwHMwISTgoEUPS1o/1aTGy59
- Ly1MU/lRmWaDwMuBlaDKximatvYG0mrhUzV1I42Ya1KBavcxdPG4gy+D1vTEfCiEcnNY
- 0b0zurgjWbBhlZV/04f0ObAWGAtX/EUic+h5M9zvFuDlqSnXZHFaMy2ek4+dRMByrReH
- XEZA==
+ bh=9fkNiykv8ADFgLC/XdCeeBy0xSrSjYwQRRXXIjcsZfQ=;
+ b=ng2mbfBaraUgOB2YcxAblz8zL/B2JiLaRmUITJQx7pI/RpR/qZr0cy2sSwPxSWDRCT
+ GOaiiUyVeZnnyMd1JAeliXANvRli3jJpypwA3K+piwLhuP58yghIcf2FHiK3i/I6w8Y2
+ 8squPohCNbuCKFU5zycOQ2ZA3fuUfBDWeB/2H+4NN/Wa74uEGyo5zIiRZuqBPj2f236o
+ ysTS4djRAw3rwKqug6u+wsiLi66HBgznwi/DWJUcKL3s9UEKzPg0EaXjnDVUL56+Kn19
+ jG/A0xENSMpLe761AysdmZZjWvB7DK8NqKj8nvYZ/pOdT7FBFcx6MaCzt9mDFEu9quNV
+ +F/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uzbbYkb4NnbTBJGCofcpI1INW2euUpldKIpyeVgpePE=;
- b=JdkuRMINdU1TX4ZOidrCAn93NmhK6xGD6kINi6LCGvTdv6VCw/pTUmJ6kWk8b/M/at
- /V6nr8IkzMU/rVZFiZTVfbdxytib9r8sJ4xrPFB065GiiGv9jdjwTi52KVaxS0r3JfM8
- cGnuiBX8QE/RgjblD48Zl78NUy0TH1h3vS5rNHHeW+S0kc8aIem6dp85b0aYVIO5J93+
- RxOLNEquceq5HnaPVByZCCCXqPB0NdFQiSZyrzpgV0PaU17ydWAItBFXeV/iaSrQPxaN
- ZMQ88hFl/7SoQ/YkUX4f/OpV+WC6zwZBrqHVjebPGmPLW30jTSa0L02JdBtEgK7eT2yM
- Uz/Q==
-X-Gm-Message-State: AOAM533IvYLjrNGQl57h1sYHsNSDRUQDYSy7WUn9DeBaclDQc/ZPT5UC
- 3DHkYk8Qq8gtQlcJOOczKPJ4sg==
-X-Google-Smtp-Source: ABdhPJy8Ipyz4jx7i9Y+XtUqRtfhW1VyFR6m8SCZSQPxBY5fr63M/xHX3v8k/G7hF1I7i6WrR75kfg==
-X-Received: by 2002:a5d:4645:: with SMTP id j5mr4392648wrs.230.1601038747151; 
- Fri, 25 Sep 2020 05:59:07 -0700 (PDT)
+ bh=9fkNiykv8ADFgLC/XdCeeBy0xSrSjYwQRRXXIjcsZfQ=;
+ b=B5zcq7s+cgMK/Eo9Rxf8awPfJlAVQGUUi3m2bsOGLnfOvtKV9KwclFEiCeFjmPUOcK
+ 3pLZ3+PrbxqF0WfFupDNnz+8OJVxEp+YjHjSjxsLuj7dW33TiXmQnLjdbyrUMnLeOhKi
+ bpCbKLetifu/2yLwlttGdoYMHHshsLxDvSdtkzup3QeCMizwKzh4nlMY8CCUheRaIIDt
+ VO0LI4S7499iJymbUIfqijf+IE8OeohFSS6+eOiHMlNSQ9zbyOynRTqW3IkI5NF8Wdky
+ pDx/74a0u9wGmYPqGc304QNBzUt710FxawKQnOY8ymVSnxeak1i3rvcdyd+Vd7BfWzmb
+ YS2Q==
+X-Gm-Message-State: AOAM531Ti6Q8jlWRMbuNAjchCQUliITJriZopL+qtziy3BtlI3MKYmEB
+ q6iFC5Ku4S6yBlSu5L59NVQgGQ==
+X-Google-Smtp-Source: ABdhPJwZXb/aMNaYKd7Fb9nlyToAZPmVmFIUciP/z/7p3m/cMVRnn2njwc65CUypQ59VcJIyBLwOWg==
+X-Received: by 2002:adf:ec47:: with SMTP id w7mr4681024wrn.175.1601038743834; 
+ Fri, 25 Sep 2020 05:59:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a17sm3054427wra.24.2020.09.25.05.59.02
+ by smtp.gmail.com with ESMTPSA id w7sm2681834wmc.43.2020.09.25.05.59.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Sep 2020 05:59:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B5F5C1FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id CBB9F1FFA5;
  Fri, 25 Sep 2020 13:51:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org, maxim.uvarov@linaro.org, joakim.bech@linaro.org,
  ilias.apalodimas@linaro.org, tomas.winkler@intel.com, yang.huang@intel.com,
  bing.zhu@intel.com, Matti.Moell@opensynergy.com, hmo@opensynergy.com
-Subject: [RFC PATCH 16/19] tools/vhost-user-rpmb: implement
- VIRTIO_RPMB_REQ_DATA_READ
-Date: Fri, 25 Sep 2020 13:51:44 +0100
-Message-Id: <20200925125147.26943-17-alex.bennee@linaro.org>
+Subject: [RFC PATCH  17/19] tools/vhost-user-rpmb: add key persistence
+Date: Fri, 25 Sep 2020 13:51:45 +0100
+Message-Id: <20200925125147.26943-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925125147.26943-1-alex.bennee@linaro.org>
 References: <20200925125147.26943-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,85 +97,97 @@ Cc: jean-philippe@linaro.org, takahiro.akashi@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The read command is a lot simpler to implement. However the spec does
-specify you can only read a single block at a time so we limit it to
-that.
+Add support for persisting the key in --key-path. By default it will
+accept the program-key command and store the key in the key file. If
+you pass --key-set then the key is deemed to be programmed and can't
+be re-programmed. Obviously you will need some other mechanism to let
+the guest know what the key is so it can do other operations.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tools/vhost-user-rpmb/main.c | 52 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ tools/vhost-user-rpmb/main.c | 37 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/tools/vhost-user-rpmb/main.c b/tools/vhost-user-rpmb/main.c
-index a17c3b4bcc4e..49d4e00b24a9 100644
+index 49d4e00b24a9..34607ad19429 100644
 --- a/tools/vhost-user-rpmb/main.c
 +++ b/tools/vhost-user-rpmb/main.c
-@@ -414,6 +414,55 @@ static int vrpmb_handle_write(VuDev *dev, struct virtio_rpmb_frame *frame)
-     return extra_frames;
+@@ -38,15 +38,19 @@
+ 
+ static gchar *socket_path;
+ static char *flash_path;
++static char *key_path;
+ static gint socket_fd = -1;
+ static gboolean print_cap;
+ static gboolean verbose;
+ static gboolean debug;
++static gboolean key_set;
+ 
+ static GOptionEntry options[] =
+ {
+     { "socket-path", 0, 0, G_OPTION_ARG_FILENAME, &socket_path, "Location of vhost-user Unix domain socket, incompatible with --fd", "PATH" },
+     { "flash-path", 0, 0, G_OPTION_ARG_FILENAME, &flash_path, "Location of raw flash image file", "PATH" },
++    { "key-path", 0, 0, G_OPTION_ARG_FILENAME, &key_path, "Location of persistent keyfile", "KEY"},
++    { "key-set", 0, 0, G_OPTION_ARG_NONE, &key_set, "Is the key already programmed", NULL},
+     { "fd", 0, 0, G_OPTION_ARG_INT, &socket_fd, "Specify the file-descriptor of the backend, incompatible with --socket-path", "FD" },
+     { "print-capabilities", 0, 0, G_OPTION_ARG_NONE, &print_cap, "Output to stdout the backend capabilities in JSON format and exit", NULL},
+     { "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose, "Be more verbose in output", NULL},
+@@ -296,8 +300,18 @@ static void vrpmb_handle_program_key(VuDev *dev, struct virtio_rpmb_frame *frame
+     } else {
+         r->key = g_memdup(&frame->key_mac[0], RPMB_KEY_MAC_SIZE);
+         r->last_result = VIRTIO_RPMB_RES_OK;
++        if (key_path) {
++            GError *err = NULL;
++            if (!g_file_set_contents(key_path, (char *) r->key,
++                                     RPMB_KEY_MAC_SIZE, &err)) {
++                g_warning("%s: unable to persist key data to %s: %s",
++                          __func__, key_path, err->message);
++                g_error_free(err);
++            }
++        }
+     }
+ 
++
+     g_info("%s: req_resp = %x, result = %x", __func__,
+            r->last_reqresp, r->last_result);
+     return;
+@@ -709,6 +723,25 @@ static bool vrpmb_load_flash_image(VuRpmb *r, char *img_path)
+     return true;
  }
  
-+/*
-+ * vrpmb_handle_read:
-+ *
-+ * Unlike the write operation we return a frame with the result of the
-+ * read here. While the config specifies a maximum read count the spec
-+ * is limited to a single read at a time.
-+ */
-+static struct virtio_rpmb_frame *
-+vrpmb_handle_read(VuDev *dev, struct virtio_rpmb_frame *frame)
++static void vrpmb_set_key(VuRpmb *r, char *key_path)
 +{
-+    VuRpmb *r = container_of(dev, VuRpmb, dev.parent);
-+    size_t offset = be16toh(frame->address) * RPMB_BLOCK_SIZE;
-+    uint16_t block_count = be16toh(frame->block_count);
-+    struct virtio_rpmb_frame *resp = g_new0(struct virtio_rpmb_frame, 1);
++    GError *err = NULL;
++    gsize length;
 +
-+    resp->req_resp = htobe16(VIRTIO_RPMB_RESP_DATA_READ);
-+    resp->address = frame->address;
-+    resp->block_count = htobe16(1);
++    if (!g_file_get_contents(key_path, (char **) &r->key, &length, &err)) {
++        g_print("Unable to read %s: %s", key_path, err->message);
++        exit(1);
++    }
++    if (length < RPMB_KEY_MAC_SIZE) {
++        g_print("key file to small %ld < %d", length, RPMB_KEY_MAC_SIZE);
++        exit(1);
++    } else if (length > RPMB_KEY_MAC_SIZE) {
++        /* being too big isn't fatal, we just ignore the excess */
++        g_warning("%ld bytes of %s ignore (file too big)",
++                  length - RPMB_KEY_MAC_SIZE, key_path);
++    }
++}
 +
-+    /*
-+     * Run the checks from:
-+     * 5.12.6.1.4 Device Requirements: Device Operation: Data Read
-+     */
-+    if (!r->key) {
-+        g_warning("no key programmed");
-+        resp->result = htobe16(VIRTIO_RPMB_RES_NO_AUTH_KEY);
-+    } else if (block_count != 1) {
-+        /*
-+         * Despite the config the spec only allows for reading one
-+         * block at a time: "If block count has not been set to 1 then
-+         * VIRTIO_RPMB_RES_GENERAL_FAILURE SHOULD be responded as
-+         * result."
-+         */
-+        resp->result = htobe16(VIRTIO_RPMB_RES_GENERAL_FAILURE);
-+    } else if (offset > (r->virtio_config.capacity * (128 * KiB))) {
-+        resp->result = htobe16(VIRTIO_RPMB_RES_ADDR_FAILURE);
-+    } else {
-+        void *blk = r->flash_map + offset;
-+        g_debug("%s: reading block from %p (%zu)", __func__, blk, offset);
-+        memcpy(resp->data, blk, RPMB_BLOCK_SIZE);
-+        resp->result = htobe16(VIRTIO_RPMB_RES_OK);
+ static void vrpmb_destroy(VuRpmb *r)
+ {
+     vug_deinit(&r->dev);
+@@ -760,6 +793,10 @@ int main(int argc, char *argv[])
+         vrpmb_load_flash_image(&rpmb, flash_path);
+     }
+ 
++    if (key_path && key_set) {
++        vrpmb_set_key(&rpmb, key_path);
 +    }
 +
-+    /* Final housekeeping, copy nonce and calculate MAC */
-+    memcpy(&resp->nonce, &frame->nonce, sizeof(frame->nonce));
-+    vrpmb_update_mac_in_frame(r, resp);
-+
-+    return resp;
-+}
- 
- /*
-  * Return the result of the last message. This is only valid if the
-@@ -544,6 +593,9 @@ vrpmb_handle_ctrl(VuDev *dev, int qidx)
-                 /* we can have multiple blocks handled */
-                 n += vrpmb_handle_write(dev, f);
-                 break;
-+            case VIRTIO_RPMB_REQ_DATA_READ:
-+                resp = vrpmb_handle_read(dev, f);
-+                break;
-             default:
-                 g_debug("un-handled request: %x", f->req_resp);
-                 break;
+     if (!socket_path && socket_fd < 0) {
+         g_printerr("Please specify either --fd or --socket-path\n");
+         exit(EXIT_FAILURE);
 -- 
 2.20.1
 
