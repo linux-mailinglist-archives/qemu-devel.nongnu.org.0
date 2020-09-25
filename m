@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8B5277D20
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:46:32 +0200 (CEST)
-Received: from localhost ([::1]:45834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C3F277D1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:44:51 +0200 (CEST)
+Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLbsd-00005B-7f
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:46:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51090)
+	id 1kLbr0-0006FK-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbby-0000qf-N2
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbby-0000r7-VK
  for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49826)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbu-00009S-Uf
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbv-00009e-S4
  for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:18 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600993754;
+ s=mimecast20190719; t=1600993755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mJCCI9PEKemOs8lv+3p8WkT+iAoGzjEh/EoijsMA9Dk=;
- b=e+rxuMJCV94lu2eo8jVIyQV1/1uDI2zxayMl6kY0H2Ms+ee4ngWntzJZ/bpUwaMql+YV+6
- GedB6d5Vfugwjp7fksyZUjNasmUu6pfRLqafgiXewWUO7Cc3qkQTDV6p9osdpYncD4BZ3W
- 2nUsWBrpLehQO6iTGrMbrFSzQsWPhOE=
+ bh=wMogz3UY4+2VVe3Yqivuz7WZ5WTRsaKaTdJjGZ64c68=;
+ b=VBhV4POQVc3+x1DEKZ6gVTWpb92jpYOZzyHOg3w1rV+dZgbuNdWt8mDMGKAlhyET84vHIW
+ FeMwtgcZhoDJIJIG28lsuh3CXAYQvin9nxVtH8GKRnHmN77xzgnRDMI8CHHvOZsosHEorB
+ 48NKg/PElTCzCnG/KZUsMxwhLNWBo7s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-Q1hTjf0FPaWPc8rDxHroOQ-1; Thu, 24 Sep 2020 20:29:12 -0400
-X-MC-Unique: Q1hTjf0FPaWPc8rDxHroOQ-1
+ us-mta-573-iqmv2GUgMDKoPLpI48PMgA-1; Thu, 24 Sep 2020 20:29:13 -0400
+X-MC-Unique: iqmv2GUgMDKoPLpI48PMgA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4224064095
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E15781F03E
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:12 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F2A05D9DD;
- Fri, 25 Sep 2020 00:29:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EBC85D9DD;
+ Fri, 25 Sep 2020 00:29:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/47] qapi: Remove wildcard includes
-Date: Thu, 24 Sep 2020 20:28:24 -0400
-Message-Id: <20200925002900.465855-12-jsnow@redhat.com>
+Subject: [PATCH v3 12/47] qapi: enforce import order/styling with isort
+Date: Thu, 24 Sep 2020 20:28:25 -0400
+Message-Id: <20200925002900.465855-13-jsnow@redhat.com>
 In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,146 +83,168 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wildcard includes become hard to manage when refactoring and dealing
-with circular dependencies with strictly typed mypy.
+While we're mucking around with imports, we might as well formalize the
+style we use. Let's use isort to do it for us.
 
-flake8 also flags each one as a warning, as it is not smart enough to
-know which names exist in the imported file.
+force_sort_within_sections: Intermingles "from x" and "import x" style
+statements, such that sorting is always performed strictly on the module
+name itself.
 
-Remove them and include things explicitly by name instead.
+force_grid_wrap=4: Four or more imports from a single module will force
+the one-per-line style that's more git-friendly. This will generally
+happen for 'typing' imports.
 
+multi_line_output=3: Uses the one-per-line indented style for long
+imports.
+
+include_trailing_comma: Adds a comma to the last import in a group,
+which makes git conflicts nicer to deal with, generally.
+
+Suggested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/commands.py   |  6 +++++-
- scripts/qapi/events.py     |  7 ++++++-
- scripts/qapi/gen.py        | 12 +++++++++---
- scripts/qapi/introspect.py |  7 ++++++-
- scripts/qapi/types.py      |  8 +++++++-
- scripts/qapi/visit.py      | 10 +++++++++-
- 6 files changed, 42 insertions(+), 8 deletions(-)
+ scripts/qapi/.isort.cfg    | 5 +++++
+ scripts/qapi/commands.py   | 6 +-----
+ scripts/qapi/doc.py        | 2 +-
+ scripts/qapi/expr.py       | 4 ++--
+ scripts/qapi/introspect.py | 3 +--
+ scripts/qapi/main.py       | 1 -
+ scripts/qapi/parser.py     | 2 +-
+ scripts/qapi/schema.py     | 2 +-
+ scripts/qapi/types.py      | 1 -
+ 9 files changed, 12 insertions(+), 14 deletions(-)
+ create mode 100644 scripts/qapi/.isort.cfg
 
+diff --git a/scripts/qapi/.isort.cfg b/scripts/qapi/.isort.cfg
+new file mode 100644
+index 0000000000..b0aeffec26
+--- /dev/null
++++ b/scripts/qapi/.isort.cfg
+@@ -0,0 +1,5 @@
++[settings]
++force_sort_within_sections=True
++force_grid_wrap=4
++multi_line_output=3
++include_trailing_comma=True
 diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index ce5926146a..e1df0e341f 100644
+index e1df0e341f..64ed5278f9 100644
 --- a/scripts/qapi/commands.py
 +++ b/scripts/qapi/commands.py
-@@ -13,7 +13,11 @@
+@@ -13,11 +13,7 @@
  See the COPYING file in the top-level directory.
  """
  
--from .common import *
-+from .common import (
-+    build_params,
-+    c_name,
-+    mcgen,
-+)
+-from .common import (
+-    build_params,
+-    c_name,
+-    mcgen,
+-)
++from .common import build_params, c_name, mcgen
  from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
  
  
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 0467272438..6b3afa14d7 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -12,7 +12,12 @@
- See the COPYING file in the top-level directory.
- """
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index b764a8ccc0..1acb773e0a 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -5,9 +5,9 @@
+ """This script produces the documentation of a qapi schema in texinfo format"""
  
--from .common import *
-+from .common import (
-+    build_params,
-+    c_enum_const,
-+    c_name,
-+    mcgen,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaEnumMember
- from .types import gen_enum, gen_enum_lookup
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index f82ce9b661..d37339fe8f 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -11,13 +11,19 @@
+ import re
++
+ from .gen import QAPIGenDoc, QAPISchemaVisitor
+ 
+-
+ _MSG = '''
+ @deftypefn {type} {{}} {name}
+ 
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 03b31ecfc1..3e952a1462 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -14,12 +14,12 @@
  # This work is licensed under the terms of the GNU GPL, version 2.
  # See the COPYING file in the top-level directory.
  
+-import re
+ from collections import OrderedDict
++import re
++
+ from .common import c_name
+ from .error import QAPISemError
+ 
 -
-+from contextlib import contextmanager
- import errno
- import os
- import re
--from contextlib import contextmanager
- 
--from .common import *
-+from .common import (
-+    c_fname,
-+    gen_endif,
-+    gen_if,
-+    guardend,
-+    guardstart,
-+    mcgen,
-+)
- from .schema import QAPISchemaVisitor
- 
- 
+ # Names must be letters, numbers, -, and _.  They must start with letter,
+ # except for downstream extensions which must start with __RFQDN_.
+ # Dots are only valid in the downstream extension prefix.
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 2a34cd1e8e..b036fcf9ce 100644
+index b036fcf9ce..2850121cbd 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -10,7 +10,12 @@
- See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+)
+@@ -17,8 +17,7 @@
+     mcgen,
+ )
  from .gen import QAPISchemaMonolithicCVisitor
- from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
-                      QAPISchemaType)
+-from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
+-                     QAPISchemaType)
++from .schema import QAPISchemaArrayType, QAPISchemaBuiltinType, QAPISchemaType
+ 
+ 
+ def _make_tree(obj, ifcond, features, extra=None):
+diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+index 3f8338ade8..b2f20581fd 100644
+--- a/scripts/qapi/main.py
++++ b/scripts/qapi/main.py
+@@ -20,7 +20,6 @@
+ from .types import gen_types
+ from .visit import gen_visit
+ 
+-
+ DEFAULT_OUTPUT_DIR = ''
+ DEFAULT_PREFIX = ''
+ 
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 76d28c1ce9..fd89e2188b 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -14,9 +14,9 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.
+ # See the COPYING file in the top-level directory.
+ 
++from collections import OrderedDict
+ import os
+ import re
+-from collections import OrderedDict
+ 
+ from .error import QAPIParseError, QAPISemError
+ from .source import QAPISourceInfo
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index a835ee6fde..093f7a38d8 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -14,9 +14,9 @@
+ 
+ # TODO catching name collisions in generated code would be nice
+ 
++from collections import OrderedDict
+ import os
+ import re
+-from collections import OrderedDict
+ 
+ from .common import c_name, pointer_suffix
+ from .error import QAPIError, QAPISemError
 diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index ca9a5aacb3..53b47f9e58 100644
+index 53b47f9e58..cc6dad4c89 100644
 --- a/scripts/qapi/types.py
 +++ b/scripts/qapi/types.py
-@@ -13,7 +13,13 @@
- # See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_enum_const,
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+)
+@@ -23,7 +23,6 @@
  from .gen import QAPISchemaModularCVisitor, ifcontext
  from .schema import QAPISchemaEnumMember, QAPISchemaObjectType
  
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 7850f6e848..ea277e7704 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -13,7 +13,15 @@
- See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_enum_const,
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+    pop_indent,
-+    push_indent,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaObjectType
- 
+-
+ # variants must be emitted before their container; track what has already
+ # been output
+ objects_seen = set()
 -- 
 2.26.2
 
