@@ -2,99 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AD2278901
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:05:03 +0200 (CEST)
-Received: from localhost ([::1]:44842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7404E27890E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:09:05 +0200 (CEST)
+Received: from localhost ([::1]:54780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnPK-0006tN-Ru
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:05:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49146)
+	id 1kLnTE-0002yi-FV
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLnGK-0004L3-10
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:55:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLnGD-0001vV-Mg
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:55:43 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601038537;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=z+EfLONnbMIwOWHnisDlZ53mle3LNvUOOk+mW6M/4Gs=;
- b=U7uhu8nBsTARWb7NY47f40vcp4pj9Kps0aI2j8tw2srNVjjSEnLSUdv1Pw1/lsralPXTkB
- yprT5AjbrskQGgwviuCY7xtiPMgYWRh40TpudQXvq/iggXvk+m9TOsDbjLMB+OxkmlEccP
- PQ2WbkBaRw2ulnuvKXv3kjBYUR2cb1E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-vW98NuQlOKK69jNjThfYPQ-1; Fri, 25 Sep 2020 08:55:32 -0400
-X-MC-Unique: vW98NuQlOKK69jNjThfYPQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E674918A2248;
- Fri, 25 Sep 2020 12:55:31 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-113.ams2.redhat.com
- [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52E0F1002C19;
- Fri, 25 Sep 2020 12:55:27 +0000 (UTC)
-Subject: Re: [PATCH v2 29/31] iotests: Introduce qemu_nbd_list_log()
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200924152717.287415-1-kwolf@redhat.com>
- <20200924152717.287415-30-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <5b8b5aed-6c77-b2a9-29c1-b36d5f0be9e4@redhat.com>
-Date: Fri, 25 Sep 2020 14:55:25 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kLnGU-0004cZ-9t; Fri, 25 Sep 2020 08:55:54 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kLnGR-0001wV-Pt; Fri, 25 Sep 2020 08:55:53 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x14so3455240wrl.12;
+ Fri, 25 Sep 2020 05:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=E66i6/ZzpAgvqmQvZR6jcwUy6QGSNRPMsP3NXLcqhtg=;
+ b=JUnsQT7s+uys+cl4zufD7hdUunBqmV6W0JQ0UT+28XeykSmpxuIqbbIbOjfHkt4paa
+ fRsDgH4voP1YatOEOEFeMyPFFKMlR1ubgbpSIQ2dZt9uCVFjxUFRdxgyOR8CQvDi+KuI
+ +RHtQy2FJh6NRuCdX076ulJU+V9ehhfrRUdJcLhCrEHrY+B045xjU4ca6O0Zl44xfSCn
+ 4P9BMxmE6Hcq0pct7IUPQPL72he3Xn7zABmywW/Pe04gSiuvdnIScSkaVyuwGy9Qm6r/
+ jEZGpKmNeuQiBB7ZgOLEdeIuxozMc/MJmYmloOgK3pqDHLApjDeRHIVYDSQllfNp4q75
+ ENUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=E66i6/ZzpAgvqmQvZR6jcwUy6QGSNRPMsP3NXLcqhtg=;
+ b=eha8NYSZwUonAOLFwjD0ETqkLNdQU295trfyBlf2qQx4JKxHpLrkubxqf8QNWS5EK8
+ wY9482iZ/bGpMJEzJpW4PuMB3xwEcUL3xHxbyAr6QO/7x/b/EyQM8U2WTN2ldgPW4igm
+ zd4GAodVb7XvTlyFVmnG0h3wzF+xH049Wp+E+/1owd+7F2NjB4hJ+v3Kwg30Fzh/BGWu
+ 6NIkZqwBnwKLK530o6o3RjU4BEAIiRhH/Vzd80lOdVn6DEqDRiFy+WiWnQ9lLMLjGA+R
+ 7XGVdE8cZPYqUXk9JhDFKjENEhx++68jqpj0zqSW6JsvbVX1ZZOeVfm3EHYvkwQZnS9e
+ VqIQ==
+X-Gm-Message-State: AOAM533ZmJMtYlwvcW2MQFwYMnsO0VE9Akz6CqMcZoj09B7WMMmxkJqM
+ RkPB9KAZ9VeIEMfeGnFG8Gg=
+X-Google-Smtp-Source: ABdhPJyvTDqsVBaIFBY5W/s+86+8hjpdyqZsECsGHavxD1mZhQW8wLqZ3364h+WfcY2EeMYkU4Iq3g==
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr4192604wro.146.1601038549255; 
+ Fri, 25 Sep 2020 05:55:49 -0700 (PDT)
+Received: from [192.168.1.34] (234.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.234])
+ by smtp.gmail.com with ESMTPSA id u126sm3605884wmu.9.2020.09.25.05.55.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Sep 2020 05:55:48 -0700 (PDT)
+Subject: Re: [PATCH 00/14] raspi: add the bcm2835 cprman clock manager
+To: Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
+References: <20200925101731.2159827-1-luc@lmichel.fr>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <81da166c-a5de-e91e-15a8-5fdd08984423@amsat.org>
+Date: Fri, 25 Sep 2020 14:55:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200924152717.287415-30-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xLncaaEuCasFnJOedjglV3w7JvzefVcNp"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20200925101731.2159827-1-luc@lmichel.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.238,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,49 +88,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xLncaaEuCasFnJOedjglV3w7JvzefVcNp
-Content-Type: multipart/mixed; boundary="qB4yeQiGRjoChBD0ArqPh43n3PNV6f0id"
+Cc'ing Paul/Niek/Havard.
 
---qB4yeQiGRjoChBD0ArqPh43n3PNV6f0id
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 9/25/20 12:17 PM, Luc Michel wrote:
+> Hi,
+> 
+> This series add the BCM2835 cprman clock manager peripheral to the
+> Raspberry Pi machine.
+> 
+> Patches 1-3 are preliminary changes, patches 4-12 are the actual
+> implementation.
+> 
+> The two last patches add a clock input to the PL011 and
+> connect it to the cprman and are RFC.
+> 
+> This series has been tested with Linux 5.4.61 (the current raspios
+> version). It fixes the kernel Oops at boot time due to invalid UART
+> clock value, and other warnings/errors here and there because of bad
+> clocks or lack of cprman.
+> 
+> Here is the clock tree as seen by Linux when booted in QEMU:
+> (/sys/kernel/debug/clk/clk_summary with some columns removed)
+> 
+>                         enable  prepare              
+>    clock                 count    count          rate
+> -----------------------------------------------------
+>  otg                         0        0     480000000
+>  osc                         5        5      19200000
+>     gp2                      1        1         32768
+>     tsens                    0        0       1920000
+>     otp                      0        0       4800000
+>     timer                    0        0       1000002
+>     pllh                     4        4     864000000
+>        pllh_pix_prediv       1        1       3375000
+>           pllh_pix           0        0        337500
+>        pllh_aux              1        1     216000000
+>           vec                0        0     108000000
+>        pllh_rcal_prediv      1        1       3375000
+>           pllh_rcal          0        0        337500
+>     plld                     3        3    2000000024
+>        plld_dsi1             0        0       7812501
+>        plld_dsi0             0        0       7812501
+>        plld_per              3        3     500000006
+>           gp1                1        1      25000000
+>           uart               1        2      47999625
+>        plld_core             2        2     500000006
+>           sdram              0        0     166666668
+>     pllc                     3        3    2400000000
+>        pllc_per              1        1    1200000000
+>           emmc               0        0     200000000
+>        pllc_core2            0        0       9375000
+>        pllc_core1            0        0       9375000
+>        pllc_core0            2        2    1200000000
+>           vpu                1        1     700000000
+>              aux_spi2        0        0     700000000
+>              aux_spi1        0        0     700000000
+>              aux_uart        0        0     700000000
+>              peri_image      0        0     700000000
+>     plla                     2        2    2250000000
+>        plla_ccp2             0        0       8789063
+>        plla_dsi0             0        0       8789063
+>        plla_core             1        1     750000000
+>           h264               0        0     250000000
+>           isp                0        0     250000000
+>  dsi1p                       0        0             0
+>  dsi0p                       0        0             0
+>  dsi1e                       0        0             0
+>  dsi0e                       0        0             0
+>  cam1                        0        0             0
+>  cam0                        0        0             0
+>  dpi                         0        0             0
+>  tec                         0        0             0
+>  smi                         0        0             0
+>  slim                        0        0             0
+>  gp0                         0        0             0
+>  dft                         0        0             0
+>  aveo                        0        0             0
+>  pcm                         0        0             0
+>  pwm                         0        0             0
+>  hsm                         0        0             0
+> 
+> It shows small differences with real hardware due other missing
+> peripherals for which the driver turn the clock off (like tsens).
+> 
+> Luc Michel (14):
+>   hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
+>   hw/core/clock: trace clock values in Hz instead of ns
+>   hw/arm/raspi: fix cprman base address
+>   hw/arm/raspi: add a skeleton implementation of the cprman
+>   hw/misc/bcm2835_cprman: add a PLL skeleton implementation
+>   hw/misc/bcm2835_cprman: implement PLLs behaviour
+>   hw/misc/bcm2835_cprman: add a PLL channel skeleton implementation
+>   hw/misc/bcm2835_cprman: implement PLL channels behaviour
+>   hw/misc/bcm2835_cprman: add a clock mux skeleton implementation
+>   hw/misc/bcm2835_cprman: implement clock mux behaviour
+>   hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
+>   hw/misc/bcm2835_cprman: add sane reset values to the registers
+>   hw/char/pl011: add a clock input
+>   hw/arm/bcm2835_peripherals: connect the UART clock
+> 
 
-On 24.09.20 17:27, Kevin Wolf wrote:
-> Add a function to list the NBD exports offered by an NBD server.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  tests/qemu-iotests/iotests.py | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+>  14 files changed, 2118 insertions(+), 12 deletions(-)
+ouch... o_O huge device...
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---qB4yeQiGRjoChBD0ArqPh43n3PNV6f0id--
-
---xLncaaEuCasFnJOedjglV3w7JvzefVcNp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9t6L0ACgkQ9AfbAGHV
-z0AwmggAwt1tHPtzMkzWYctJf12HOkTOPJ9A9iv7FjeU3eZpA2yIxdO5xSCFelUP
-MKUMxV7OcrRX8SxCVSTRr7zCky97Dun3n8+39zwbtwKWZ61oXCo0rkga5GGdqoyZ
-B+cm3+Hy3wzItYboQzzdLdgwb5BXfp3zxYuxq5djhdcmqW/aZUHq9sfQ/7j35aqq
-S0cm9mnVa7sFVY41w+XDGAUHJTWiImWqrQiJbIYi4lazVK9HBhN5BYv7a9E5zjEq
-yxcBI/CTXCHPJIa5KIRjhIdsfVKrsMw5meQNIJzrz9OHUUHGAiuVEmm+uM3wVdj7
-1PFYG3S00adFkIg91mamrTeiw/C95w==
-=geF+
------END PGP SIGNATURE-----
-
---xLncaaEuCasFnJOedjglV3w7JvzefVcNp--
-
+Tested on top of my raspi branch with raspi[0123]:
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
