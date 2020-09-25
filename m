@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A07427877A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:44:21 +0200 (CEST)
-Received: from localhost ([::1]:44766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C4D278780
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:45:56 +0200 (CEST)
+Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLn5I-0008Hu-4k
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45824)
+	id 1kLn6p-0001sz-7v
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn3m-0006i6-0b
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:42:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59987)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn4k-0000EV-MN
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:43:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn3j-000059-S0
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:42:45 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn4j-0000Ds-3V
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:43:46 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601037763;
+ s=mimecast20190719; t=1601037824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2wmcIqWOJWPNx7SFaLe4H1+xZLdZr7Y14rTENlAjHlA=;
- b=R0M0YFRGxoU+FawYmsAldnwq5bx8KI6YgWpPGyuLrqFsrnKjk+hygjll6l4XMOmi2XXVWI
- OctGW0Nd4eVZEbV9dnBBySnyY0BnIaKCVenzpbTAXziYTPRvTglxXPD9GswtNcIylFPDO/
- R7AG2u4TqD7Uag0UIrej77F4WyMXSS8=
+ bh=uvt3lJ+3MHMbSv/PuRGjHopsG++4ex1JUI44nB1Dwsk=;
+ b=d+vblay73I43Apwrbp2qntV/oyeAWLu1Gbfz/FVRLbKFxqaqRUEUxJugdl1hyky6lV1XD+
+ zfb2J9Ln775oxUikhr1i3FhDy9e1PjYK3KhMXd30qt/9qHcAR6D1uuH9jY0zZB8lVA+s0Q
+ DT6djjPJWGHI8elibVXisH6N/i9AB10=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-m7wG_vYMN7iCTQzVikkzjQ-1; Fri, 25 Sep 2020 08:42:40 -0400
-X-MC-Unique: m7wG_vYMN7iCTQzVikkzjQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-367-nlDHNRjrNfyL6E6Vl0JoFw-1; Fri, 25 Sep 2020 08:43:41 -0400
+X-MC-Unique: nlDHNRjrNfyL6E6Vl0JoFw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE188186DD2C;
- Fri, 25 Sep 2020 12:42:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 989EE1902EAD;
+ Fri, 25 Sep 2020 12:43:33 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-113.ams2.redhat.com
  [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F33BD73694;
- Fri, 25 Sep 2020 12:42:35 +0000 (UTC)
-Subject: Re: [PATCH v2 26/31] nbd: Merge nbd_export_new() and
- nbd_export_create()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A12F660C15;
+ Fri, 25 Sep 2020 12:43:29 +0000 (UTC)
+Subject: Re: [PATCH v2 27/31] nbd: Deprecate nbd-server-add/remove
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20200924152717.287415-1-kwolf@redhat.com>
- <20200924152717.287415-27-kwolf@redhat.com>
+ <20200924152717.287415-28-kwolf@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -70,20 +69,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <76384846-fb33-e1de-0ecc-3206fa1c3fcc@redhat.com>
-Date: Fri, 25 Sep 2020 14:42:34 +0200
+Message-ID: <f5922f34-def9-69d3-a658-bef47476adab@redhat.com>
+Date: Fri, 25 Sep 2020 14:43:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200924152717.287415-27-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200924152717.287415-28-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="1uS9iNWxolB7LotcVA7hyrSTSHiVCv3VY"
+ boundary="A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
@@ -95,7 +94,7 @@ X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,46 +112,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1uS9iNWxolB7LotcVA7hyrSTSHiVCv3VY
-Content-Type: multipart/mixed; boundary="ef7F77NxDcFacyw1B1ZSYpwMuA8d1bzVY"
+--A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG
+Content-Type: multipart/mixed; boundary="XNqw8VKAOvbZ8pdAum0Tl8RCrLJwKIKsZ"
 
---ef7F77NxDcFacyw1B1ZSYpwMuA8d1bzVY
+--XNqw8VKAOvbZ8pdAum0Tl8RCrLJwKIKsZ
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 24.09.20 17:27, Kevin Wolf wrote:
-> There is no real reason any more why nbd_export_new() and
-> nbd_export_create() should be separate functions. The latter only
-> performs a few checks before it calls the former.
+> These QMP commands are replaced by block-export-add/del.
 >=20
-> What makes the current state stand out is that it's the only function in
-> BlockExportDriver that is not a static function inside nbd/server.c, but
-> a small wrapper in blockdev-nbd.c that then calls back into nbd/server.c
-> for the real functionality.
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  qapi/block-export.json     | 11 +++++++++--
+>  docs/system/deprecated.rst |  6 ++++++
+>  2 files changed, 15 insertions(+), 2 deletions(-)
 
-Thanks :)
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---ef7F77NxDcFacyw1B1ZSYpwMuA8d1bzVY--
+--XNqw8VKAOvbZ8pdAum0Tl8RCrLJwKIKsZ--
 
---1uS9iNWxolB7LotcVA7hyrSTSHiVCv3VY
+--A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9t5boACgkQ9AfbAGHV
-z0CYMQgAtGnIcLCUPp9V7Y7kRORGhzdaTqu3mGXs/sc3CgiZW0Q+2IuPYWeXn9Ip
-9PkgXlqcaNRb835cca3oxC78/boxmPpYoXbPqrWscApciePB1tR1VwGgK/kyLJEL
-kYM6bw6OQurhBvYwPJUSgKIrAcYG65tQrGkXcvUoq0LYKqSsxznoKhnE+yCIACx7
-UYS+9337CJ1VH8cdDeXIp5bawntfGHKZzQiY5lVcZ1B/x6FOQSMByJFFr1EODUkT
-tB6TJ27Rez2TKToGcmV5DLOHXzufHSecxZmPN01Q6W2kwt+TW3I5TVsqIQh0nwlj
-HN4nc3YaptySGQgllbLN3wsR2LHLpw==
-=Vis3
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9t5fAACgkQ9AfbAGHV
+z0Cu+QgAo+6gPmjbp2Rf4xYfUYEPfKlXxprb1UZxsYqNVf0Li/NToYwaWwg3q0Ub
+ubkfupzspYYRN4uiIWGKYEit2redso41ool23YIPL01nUMVvI9KLH/7tpSGJJhuq
+cHBzi5UBpWDK/l9DWQPqlgh499AxB0qtnpr//K4QOTE1oXCp53emucVUih5e+iLB
+YVMz4roEvkRVjL6iXWjDZq4NJ3/s5OvNYbOvyTkVjhupA0mpP82WCC8l03zIeiB4
+T/jrSo5NhgXRxGyjZ2q93jEzccg3EgDtWKORWJ2IMJu9yWvZBSIH+gT7Jfhcv9/j
+SLEJWDQ6oUDzgA15L97EnC6I9FqDWw==
+=H2wF
 -----END PGP SIGNATURE-----
 
---1uS9iNWxolB7LotcVA7hyrSTSHiVCv3VY--
+--A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG--
 
 
