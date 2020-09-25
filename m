@@ -2,105 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1180E278CF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:41:35 +0200 (CEST)
-Received: from localhost ([::1]:46776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A329278D06
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:45:04 +0200 (CEST)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLpqo-0002Hr-3C
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:41:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34078)
+	id 1kLpuB-0006A9-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:45:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1kLphx-0003fc-8z; Fri, 25 Sep 2020 11:32:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5014)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kLpi6-0003pa-1l; Fri, 25 Sep 2020 11:32:35 -0400
+Received: from mail-vi1eur05on2129.outbound.protection.outlook.com
+ ([40.107.21.129]:14432 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1kLphs-0006dq-AV; Fri, 25 Sep 2020 11:32:24 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08PF2eqa160889; Fri, 25 Sep 2020 11:32:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=J48lAXbHx6sb22bQTk8g6r+Rb2iXuaXblEe1RyP/woA=;
- b=kk5tHftRC6Px3wtcDWvGMKVQpYNM++p95mEfJVh++7w7LwZvL97HU+XuBwaJnVmEzqfB
- QaifWu2uRoMXQF5gxzyynZLv7vL7S7C3u82sFeTKH6AjX1Xyau+f+pw5vRwjsKwo0Xju
- WPw3hVnP+Uvto4aLkaN760cEv9u4g06IlIBqbNKbE4iyfxPQzqJ37u1rrmeBiyyTu2Wm
- urjsLgtji0LhMfMPba/PnX+fNYqnNSdsElYbVK4N6K3cPnH7zJ5QfsuPwLvelmNHBHBg
- 2t0KlmyeCRTFrE/Sw3LagEvtKVKN2px1pvXahSeKECDqJyMHtgYRag1ieIypFQ5oQwky Kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33sfwy70ff-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Sep 2020 11:32:13 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08PF3BVv163020;
- Fri, 25 Sep 2020 11:32:13 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33sfwy70ej-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Sep 2020 11:32:13 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08PFJjuE018892;
- Fri, 25 Sep 2020 15:32:10 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 33n9m7ubcv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Sep 2020 15:32:10 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 08PFW7wf31195448
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Sep 2020 15:32:07 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BD5A811C04C;
- Fri, 25 Sep 2020 15:32:07 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 19E9011C050;
- Fri, 25 Sep 2020 15:32:07 +0000 (GMT)
-Received: from ibm-vm (unknown [9.145.11.83])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 25 Sep 2020 15:32:07 +0000 (GMT)
-Date: Fri, 25 Sep 2020 17:32:05 +0200
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v6 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
-Message-ID: <20200925173205.288d877b@ibm-vm>
-In-Reply-To: <20200925171855.670bd93a.cohuck@redhat.com>
-References: <20200915194416.107460-1-walling@linux.ibm.com>
- <20200916175300.5c2b6bbb.cohuck@redhat.com>
- <3f4c28d6-fe5f-2e52-2e51-3190621ea63d@linux.ibm.com>
- <82f7c31c-16f6-8450-d241-ca8257db6469@linux.ibm.com>
- <20200925171855.670bd93a.cohuck@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kLpi2-0006fa-RP; Fri, 25 Sep 2020 11:32:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ktgKx2NNlVpVxGLIj/YYk8+F6Xu8lsCcbme6SMIzSIMBmsdCfOVfcggjONO6HGrRPo4y2xgcxKgrLGZnheB8KDxjANR6T3r4hpAdXahLLupYhm3dC/H0lVxXZq91QmNHP9ah2t77xuE/GWlFgK4x6NRnBftLqYpXgwXh1H9NDubmcOWG82sPuSnoxvJI9G7cRCxou8/8uvhPR/8avL/cDQErsUkxD6Ym8wyIfJZEuPkVrgovVrJZTriA1k5OtkR8FMNbvhdKXaAL+f2GOAawLcWAw8M8L5w/rvDDBmTUYatY4v09Y9hI7+alWKBYybYncqp9kW5K6d8Azp/eeV+cVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iLIXcVMRlnwDMP0t+ILLedA5TGrpKFL13tKO/Ep+7rA=;
+ b=Zahh/VQnZQue38h16awmq+W/PL0JUeln2Ig09CDO7fjOkl0ticYqblujTbhnKtiihban5v2aLECIWPyKF/LgZ+rVTF6+0kabiC0RRJuhYv6yMextRjNn/bDcSf0cuUQ+q6T6bsD13AqbhDgkE9kXxqxSbIMOuq9AoEtGdg1xX3dKilLsWeEDJkb3bhIkhvBbVks4FBugpC+fNah3vKWGzUy8IlOaKYn/HPZnGLFunq+GrHVT/6JtRrqGgyr2n8mjhGZ10Oqx13C79lsDChp5obZVZuEX5IQ33jh2wLdBuy661z+XEWSEwnApEXMuuQ0oVulvpSsl/WYtv3euL35u9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iLIXcVMRlnwDMP0t+ILLedA5TGrpKFL13tKO/Ep+7rA=;
+ b=Fh+N7dZpykliNU6gr2OepLkiK0yBJMmKu6VSCrn5E/DZ4Y7u4+YAAWFMfySd8gWlzk75OkCaj60AHmcruC65/K1gsKdhtMbYPRuoJwIVWtX/+FkyqD2eXD9hKWD4IebkWXVzpzLqnIuHAOpJyvnWglj3w0ern2miFuofeT1knrU=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5384.eurprd08.prod.outlook.com (2603:10a6:20b:10c::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.24; Fri, 25 Sep
+ 2020 15:32:27 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b179:9641:7589:d692%8]) with mapi id 15.20.3370.033; Fri, 25 Sep 2020
+ 15:32:27 +0000
+Subject: Re: [PATCH v6 11/15] iotests: add 298 to test new preallocate filter
+ driver
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
+ fam@euphon.net, stefanha@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20200918181951.21752-1-vsementsov@virtuozzo.com>
+ <20200918181951.21752-12-vsementsov@virtuozzo.com>
+ <1d202398-7a0e-9e72-6f9d-c04b7f887a0a@redhat.com>
+ <33d1a996-f212-eac7-ab78-659a4025c069@virtuozzo.com>
+ <d36a27c8-0f2c-ede5-6f97-e134093dcf6e@redhat.com>
+ <9d324820-cb15-84a6-574d-f92846e16928@virtuozzo.com>
+Message-ID: <09045b49-f4e8-8989-09b5-aa3538b507fc@virtuozzo.com>
+Date: Fri, 25 Sep 2020 18:32:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
+In-Reply-To: <9d324820-cb15-84a6-574d-f92846e16928@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR02CA0082.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-25_12:2020-09-24,
- 2020-09-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- adultscore=0 clxscore=1011 impostorscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009250108
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 10:10:19
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.94) by
+ AM0PR02CA0082.eurprd02.prod.outlook.com (2603:10a6:208:154::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
+ Transport; Fri, 25 Sep 2020 15:32:26 +0000
+X-Originating-IP: [185.215.60.94]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9af0dd8c-76eb-4694-4278-08d86168357d
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5384:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB538435FDE98E5DA3F31DE8E2C1360@AM7PR08MB5384.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CIbVQXcykA+COwaHBOl+DnSeaWWBpRYi1oR1aESEDaPdZGf/C5ASzwIgNQdYLOJzBSvfmSLqrZ7kSnX3QHBnXOWwc9jSo0ireiJY3r5713ZDVYfWWlyEf3wNA9Jm0I6a21nb04Bsn80LrG25DICVfAXTccc5NEtB/n+3yF3ldmGFm2l3AX74Soj4h3JKMoc1RanSp/YAJcHI4rHyg9pClh3HahVVbDWeQ9SDUYL7db+wB5VBN5yY2mODuiejyRTWe7VHBFMaOeFjNEif74MNt+6cLYX4jpqShJO1JboaeYGn5oVn+Hb/t4rlg2zm/IOVkxIB377TbKLlX6aYsmLcQ2Uxv0zH1Wy3C0L167rk3bM9Kb3Ec2/BDwYqWuh6WnJlTLz9qg3KW9xOEHaWsXHi93yGCosZAw3ZgIDetQK1DFc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(39850400004)(346002)(396003)(376002)(53546011)(186003)(52116002)(16576012)(107886003)(316002)(31696002)(83380400001)(2616005)(6486002)(956004)(478600001)(16526019)(26005)(31686004)(86362001)(4326008)(5660300002)(2906002)(66476007)(66556008)(36756003)(8936002)(66946007)(8676002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: qNWUveQnwJOq+RFdJYNXW/osT2LIBFc8AfRZfYzf6Zo7kkAb03Gx0ygKbLeHk40ElnoZPimk5c1AE4Fz2nhb2PXa8R/tiKk7A9kO1m64wNx+BU1Vqk06B/IpJTDrMpNsTTmLpaxl1vTCJ7rads2DNFTVlBXHRUKrSeLL1gQ9W963u76NKTT15D6bUfhgP0H7tjSs2KO2EIQ9vM1XSvH7486xndfgDWYSq/UNDAVV+YmZwjZAoHq3etleUeviUtbPse/M3G9xVK6NVoIP1rI53uwFiULjzvuAAkixMi910DKWMBaGKVqzedL7w3aiM4zQza3bp+K5aD2Fp/RdwMSOdrT1+18rRt/hmO7TI8XD4r2pjmvvild2bvDrwIPp5OnQGaItcoIV+FBHqRYkuCSiLM4/X1DYgAJNhEe/bvtw5A4XHY14Vb1/89H7MYOiOLlTL/gXjuAiuO2qF9Aek0HkVdoiDfgrHXRtwX0+97nN/FQX7CN/obZP5Q6GJ9NFbZedISZwc0zTlLJxdxoCMFnIn6vp8BkgfvzWvS7LLVbhLrTJAYcaEsAfxdbax02y7tzA6EEKmlSL5X+sN04dqqb3yfhVdVSlOAwI2i+zxJQwmBOhVBlEuOoXyrt4yb/KQRjPjmDlyUrffT0BBGn8tetXOQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9af0dd8c-76eb-4694-4278-08d86168357d
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2020 15:32:27.6422 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4gFQeRUADpq37gyT2ZuC2MjC7oFEolP97TxMTKVBiwpxKL3odm523uMuPKnRi+E7nBi9p4gdk6GbjnhymBsN8SYVk2f97oKLf7UKPNGE/SE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5384
+Received-SPF: pass client-ip=40.107.21.129;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 11:32:28
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,61 +124,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Collin Walling <walling@linux.ibm.com>, frankja@linux.ibm.com,
- mst@redhat.com, david@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, thuth@redhat.com,
- pbonzini@redhat.com, sumanthk@linux.ibm.com, mihajlov@linux.ibm.com,
- rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Sep 2020 17:18:55 +0200
-Cornelia Huck <cohuck@redhat.com> wrote:
+25.09.2020 18:11, Vladimir Sementsov-Ogievskiy wrote:
+> 25.09.2020 12:11, Max Reitz wrote:
+>> On 25.09.20 10:49, Vladimir Sementsov-Ogievskiy wrote:
+>>> 25.09.2020 11:26, Max Reitz wrote:
+>>>> On 18.09.20 20:19, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>>> ---
+>>>>>    tests/qemu-iotests/298     | 186 +++++++++++++++++++++++++++++++++++++
+>>>>>    tests/qemu-iotests/298.out |   5 +
+>>>>>    tests/qemu-iotests/group   |   1 +
+>>>>>    3 files changed, 192 insertions(+)
+>>>>>    create mode 100644 tests/qemu-iotests/298
+>>>>>    create mode 100644 tests/qemu-iotests/298.out
+>>
+>> [...]
+>>
+>>>>> +class TestTruncate(iotests.QMPTestCase):
+>>>>
+>>>> The same decorator could be placed here, although this class doesn’t
+>>>> start a VM, and so is unaffected by the allowlist.  Still may be
+>>>> relevant in case of block modules, I don’t know.
+>>>
+>>> Or just global test skip at file top
+>>
+>> Hm.  Like verify_quorum()?  Is there a generic function for that already?
+>>
+>> [...]
+>>
+>>>>> +        # Probably we'll want preallocate filter to keep align to
+>>>>> cluster when
+>>>>> +        # shrink preallocation, so, ignore small differece
+>>>>> +        self.assertLess(abs(stat.st_size - refstat.st_size), 64 * 1024)
+>>>>> +
+>>>>> +        # Preallocate filter may leak some internal clusters (for
+>>>>> example, if
+>>>>> +        # guest write far over EOF, skipping some clusters - they
+>>>>> will remain
+>>>>> +        # fallocated, preallocate filter don't care about such
+>>>>> leaks, it drops
+>>>>> +        # only trailing preallocation.
+>>>>
+>>>> True, but that isn’t what’s happening here.  (We only write 10M at 0, so
+>>>> there are no gaps.)  Why do we need this 1M margin?
+>>>
+>>> We write 10M, but qcow2 also writes metadata as it wants
+>>
+>> Ah, yes, sure.  Shouldn’t result in 1M, but why not.
+>>
+>>>>> +        self.assertLess(abs(stat.st_blocks - refstat.st_blocks) * 512,
+>>>>> +                        1024 * 1024)
+>>>>
+>>>> [...]
+>>>>
+>>>>> diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+>>>>> index ff59cfd2d4..15d5f9619b 100644
+>>>>> --- a/tests/qemu-iotests/group
+>>>>> +++ b/tests/qemu-iotests/group
+>>>>> @@ -307,6 +307,7 @@
+>>>>>    295 rw
+>>>>>    296 rw
+>>>>>    297 meta
+>>>>> +298 auto quick
+>>>>
+>>>> I wouldn’t mark it as quick, there is at least one preallocate=full of
+>>>> 140M, and one of 40M, plus multiple 10M data writes and falloc
+>>>> preallocations.
+>>>>
+>>>> Also, since you mark it as “auto”, have you run this test on all
+>>>> CI-relevant hosts?  (Among other things I can’t predict) I wonder how
+>>>> preallocation behaves on macOS.  Just because that one was always a bit
+>>>> weird about not-really-data areas.
+>>>>
+>>>
+>>> Ofcourse, I didn't run on all hosts. I'm a bit out of sync about this..
 
-> On Fri, 25 Sep 2020 11:13:49 -0400
-> Collin Walling <walling@linux.ibm.com> wrote:
+Sorry, I see now that it sounds rude.
+
+>>
+>> Well, someone has to do it.  The background story is that tests are
+>> added to auto all the time (because “why not”), and then they fail on
+>> BSD or macOS.  We have BSD docker test build targets at least, so they
+>> can be easily tested.  (Well, it takes like half an hour, but you know.)
+>>
+>> (We don’t have macOS builds, as far as I can tell, but I personally
+>> don’t even know why we run the iotests on macOS at all.  (Well, I also
+>> wonder about the BSDs, but given the test build targets, I shouldn’t
+>> complain, I suppose.))
+>>
+>> (Though macOS isn’t part of the gating CI, is it?  I seem to remember
+>> macOS errors are generally only reported to me half a week after the
+>> pull request is merged, which is even worse.)
+>>
+>> Anyway.  I just ran the test for OpenBSD
+>> (EXTRA_CONFIGURE_OPTS='--target-list=x86_64-softmmu' \
+>>     make vm-build-openbsd)
 > 
-> > On 9/16/20 1:15 PM, Collin Walling wrote:  
-> > > On 9/16/20 11:53 AM, Cornelia Huck wrote:
-> > > 
-> > > [...]
-> > >     
-> > >>>    
-> > >>
-> > >> Thanks, applied.
-> > >>
-> > >>    
-> > > 
-> > > Thanks Conny.
-> > > 
-> > > Much appreciated for everyone's patience and review. The only
-> > > thing I'd like to hold out on for now is for someone to take a
-> > > peek at patch #3 with respect to the protected virtualization
-> > > stuff. I don't know too much about it, honestly, and I want to
-> > > ensure that dynamically allocating memory for the SCCB makes
-> > > sense there. The alternative would be to allocate a static 4K for
-> > > the work_sccb. 
-> > 
-> > I had someone take a look at the patch for PV and was told
-> > everything looks sane. Since the patches have already been applied,
-> > it seems like it's too late to add a reviewed-by from someone?  
+> Oh, I didn't know that it's so simple. What another things you are running before sending a PULL?
 > 
-> Have the reviewer reply with their R-b, and I'll happily add it, as I
-> rebase s390-next before doing a pull req anyway :)
+>> and got some failures:
+>>
+>> --- /home/qemu/qemu-test.PGo2ls/src/tests/qemu-iotests/298.out  Fri Sep
+>> 25 07:10:31 2020
+>> +++ /home/qemu/qemu-test.PGo2ls/build/tests/qemu-iotests/298.out.bad
+>> Fri Sep 25 08:57:56 2020
+>> @@ -1,5 +1,67 @@
+>> -.............
+>> +qemu-io: Failed to resize underlying file: Unsupported preallocation
+>> mode: falloc
 
-well it was me :)
+[..]
 
-you can add a 
+>> -OK
+>> +FAILED (failures=6)
+>>
+>>> If I don't put new test in "auto", is there any chance that test would
+>>> be automatically run somewhere?
+>>
+>> I run all tests before pull requests at least.
+>>
 
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+OK, so it doesn't work on BSD at all. I don't really want to investigate, but seems it's because of absence of fallocate. So let's drop "auto" group.
 
-for the first 6 patches, and an
+Another thing: maybe, add auto-linux test group for running only in linux-build? So, new tests will be added to it because why not, and we will not bother with BSD and MacOS?
 
-Acked-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-
-for the last one
-
-
-thanks!
-
+-- 
+Best regards,
+Vladimir
 
