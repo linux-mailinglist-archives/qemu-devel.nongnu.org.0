@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333B7278DAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:08:49 +0200 (CEST)
-Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7542D278DF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:19:05 +0200 (CEST)
+Received: from localhost ([::1]:48988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqHA-00057U-7p
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:08:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37766)
+	id 1kLqR6-0007wR-Cu
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLpwl-00017H-MG
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:47:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23808)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kLpzZ-0003Pw-Vg
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:50:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLpwb-0000EM-U3
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:47:42 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kLpzY-0000pR-4B
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:50:37 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601048850;
+ s=mimecast20190719; t=1601049034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qBMGmx+o2S9GK6JncI/rK6bcegbvSjtxVQoXApwVBPA=;
- b=iwSwhVXKVLDh1muep4ofNuxzXUZZM4kQ490IOCMIv5CFcV56BztG3M8un5H9Jx3yVGRM9A
- ZZ9LRb3z9MFPZvN3/a1inQ4N7xljE6NT7fdN6CQsfsnj8fPrYDfUQNqBFnEtF/lWKPutwg
- tmuyLMWz0Dg7qVM+hconVDHyUX5NDKA=
+ bh=kn0OPSkZ86wr3CHW4Wqq657cUF8YVMDcQEUbaoJsE1Y=;
+ b=H11YoPJqoK566e6NOTf4ZEWD7TRzK/AMXZtN6lGMLHuI4o9p7k8iqQF73lBNQcgE5ZBOZw
+ wMU0W5LpXvALetdmc/hbrabAcbK4Mzh52/lnmZTx/fO23LNuRPTB19YPnw93LTzoMgKU4P
+ k9Oeun5wXgqmPs2J5Pse/qHIbvYYjD8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-snbg52eJNeeDBpJq8VVEJg-1; Fri, 25 Sep 2020 11:47:24 -0400
-X-MC-Unique: snbg52eJNeeDBpJq8VVEJg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-243-nmsdpxLsN_CvUuuAiHqnLg-1; Fri, 25 Sep 2020 11:50:31 -0400
+X-MC-Unique: nmsdpxLsN_CvUuuAiHqnLg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A450218A2252;
- Fri, 25 Sep 2020 15:47:19 +0000 (UTC)
-Received: from [10.3.114.148] (ovpn-114-148.phx2.redhat.com [10.3.114.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E697573692;
- Fri, 25 Sep 2020 15:47:18 +0000 (UTC)
-Subject: Re: [PATCH v2 28/38] qapi/gen.py: update write() to be more idiomatic
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF29210082EB;
+ Fri, 25 Sep 2020 15:50:29 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B92039CBA;
+ Fri, 25 Sep 2020 15:50:29 +0000 (UTC)
+Date: Fri, 25 Sep 2020 11:50:28 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 24/38] qapi/gen.py: Fix edge-case of _is_user_module
+Message-ID: <20200925155028.GR3717385@habkost.net>
 References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-29-jsnow@redhat.com>
- <20200923152624.GO3312949@habkost.net>
- <c0b8ed9e-c66a-a6fa-43e1-c3c61581d928@redhat.com>
- <20200924155959.GC191229@localhost.localdomain>
- <87r1qqro8i.fsf@dusky.pond.sub.org> <20200925132458.GJ2178035@redhat.com>
- <874knmq7yg.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ee3b6aca-2e2d-c562-6b3e-e9344682694b@redhat.com>
-Date: Fri, 25 Sep 2020 10:47:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ <20200922210101.4081073-25-jsnow@redhat.com>
+ <20200923151743.GK3312949@habkost.net>
+ <87wo0iroxo.fsf@dusky.pond.sub.org>
+ <20200925151527.GQ3717385@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <874knmq7yg.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200925151527.GQ3717385@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,57 +83,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/20 8:52 AM, Markus Armbruster wrote:
+On Fri, Sep 25, 2020 at 11:15:28AM -0400, Eduardo Habkost wrote:
+> On Fri, Sep 25, 2020 at 03:00:51PM +0200, Markus Armbruster wrote:
+> > Eduardo Habkost <ehabkost@redhat.com> writes:
+> > 
+> > > On Tue, Sep 22, 2020 at 05:00:47PM -0400, John Snow wrote:
+> > >> The edge case is that if the name is '', this expression returns a
+> > >> string instead of a bool, which violates our declared type.
+> > >> 
+> > >> Signed-off-by: John Snow <jsnow@redhat.com>
+> > >> ---
+> > >>  scripts/qapi/gen.py | 2 +-
+> > >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >> 
+> > >> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> > >> index 9898d513ae..cb2b2655c3 100644
+> > >> --- a/scripts/qapi/gen.py
+> > >> +++ b/scripts/qapi/gen.py
+> > >> @@ -251,7 +251,7 @@ def __init__(self, prefix, what, user_blurb, builtin_blurb, pydoc):
+> > >>  
+> > >>      @staticmethod
+> > >>      def _is_user_module(name):
+> > >> -        return name and not name.startswith('./')
+> > >> +        return name is not None and not name.startswith('./')
+> > >
+> > > This changes behavior if name=='', and I guess this is OK, but
+> > > I'm not sure.
+> > 
+> > @name is either
+> > 
+> > (1) A module pathname relative to the main module
+> > 
+> >     This is a module defined by the user.
+> > 
+> > (2) system module name, starting with './'
+> > 
+> >     This is a named system module.  We currently have two: './init' in
+> >     commands.py, and and './emit' in events.py.
+> > 
+> > (3) None
+> > 
+> >     This is the (nameless) system module for built-in stuff.  It
+> >     predates (2).  Using './builtin' would probably be better now.
+> > 
+> > Note that (1) and (2) are disjoint: relative pathnames do not begin with
+> > './'.
+> > 
+> > name='' is not possible, because '' is not a valid pathname.
+> 
+> Thanks!  So, the './' prefix is just internal state and never
+> visible to the outside, correct?  I would use a separate bool
+> instead of trying to encode additional state inside the string.
 
->>> This was my best attempt to open the file read/write, creating it if it
->>> doesn't exist.
->>>
->>> Plain
->>>
->>>          f = open(pathname, "r+", encoding='utf-8')
->>>
->>> fails instead of creates, and
->>>
->>>          f = open(pathname, "w+", encoding='utf-8')
->>>
->>> truncates.
->>>
->>> If you know a better way, tell me!
->>
->> IIUC, you need  "a+" as the mode, rather than "w+"
-> 
-> Sure this lets me do
-> 
->              f.seek(0)
->              f.truncate(0)
->              f.write(text)
-> 
-> to overwrite the old contents on all systems?
+I've found only one place where the './' prefix might be leaking,
+and I don't know if it's intentional or not:
 
-As long as you do a single pass over the output (you issue a stream of 
-f.write() after the truncate, but never a seek), then this will work.
-
-> 
-> Documentation cautions:
-> 
->      [...] 'a' for appending (which on some Unix systems, means that all
->      writes append to the end of the file regardless of the current seek
->      position).
-
-Yes, that means that random access is impossible on such a stream.  But 
-not all file creation patterns require random access.
+Is the name argument to visit_include() supposed to be always
+(1), or are './' pathnames allowed too?
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Eduardo
 
 
