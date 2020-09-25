@@ -2,99 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9D2278951
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:20:28 +0200 (CEST)
-Received: from localhost ([::1]:33750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7503B278941
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:17:45 +0200 (CEST)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLneF-0001T3-6C
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52640)
+	id 1kLnbc-0006JP-CL
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:17:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLnTu-0005Gy-DR
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:09:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60152)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kLnW4-0008R9-4F
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:12:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLnTs-0003RR-HX
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:09:46 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kLnW0-0003rL-IM
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:11:59 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601039383;
+ s=mimecast20190719; t=1601039515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Q+U7ZCZ6Ra+egqPlv7ZUU8gm5fjWV7L/ZzljnejQyA=;
- b=CGwlSy9nHzIFYlLwQ3eKIaEW5o79TKNcl4Ywy8Q5pWCNNByygi/PxRijJzBEGXrrMt4nUT
- IOXwjMl/vKmmmLVy4eZ5C2op65V6mfeRytfCWPR2ROVfbuyzcqtLOeE8SOOQeJfK7sOqz6
- rCEkTYYxC0qqmhybyscBaehm/cvPtBs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-f_1j2s53PbezpE5deePhwg-1; Fri, 25 Sep 2020 09:09:39 -0400
-X-MC-Unique: f_1j2s53PbezpE5deePhwg-1
-Received: by mail-wr1-f70.google.com with SMTP id l17so1049686wrw.11
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:09:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5Q+U7ZCZ6Ra+egqPlv7ZUU8gm5fjWV7L/ZzljnejQyA=;
- b=cQ5TQofunbuoJpFBHPmnN48e3n92ui9du5XYVleY4UteWeobseQgW2kpUVls7uKr5U
- Hk4x5fb3xvOnwlT4OUyTJRvPX4fxzrtx5Zu9y7HP1TUmHECUeOd04+mPXT/1HgyutYMb
- rR2m2EjRtTSdZzMwswMnh/D3Rtt0+g/eqAtTpQ3df8/oHeB+fmvZo8CHrY5N/tSCEe1v
- x9Bc3T9jdRBPfhXDQ7vDnr0NoQAD/KtIWC3ISwXIeiB9D6uXRWRJ9Ll970C2s+fFlIvS
- ey/nhBcv+E5lmpghNs6gkZ4oe10VbcBUdaGJaK/NwVTjP2D0upUAUTD3ZeSUSR3/gXtY
- 6DbA==
-X-Gm-Message-State: AOAM530umvyGv+0Tt5HBEmW9CgyJqHs47K7s2hEK42t3D52ORR9k+w7P
- KrXGwcec22m/cbLCsL+AMny2YxqRvNo8JiejaXXRK8vIrtUHwYT2K5QjWNwM/M98m7AZa7TWsZG
- XK6130YWehh+jee0=
-X-Received: by 2002:adf:eece:: with SMTP id a14mr4333263wrp.330.1601039378626; 
- Fri, 25 Sep 2020 06:09:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnP1UEX8Q9z7X6isdeRKWpZDDZNvGCJrh4o2sRShxUXseVjGuk7rfeXm93a+31LJzpl2dqfQ==
-X-Received: by 2002:adf:eece:: with SMTP id a14mr4333228wrp.330.1601039378385; 
- Fri, 25 Sep 2020 06:09:38 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ec9b:111a:97e3:4baf?
- ([2001:b07:6468:f312:ec9b:111a:97e3:4baf])
- by smtp.gmail.com with ESMTPSA id t124sm2982445wmg.31.2020.09.25.06.09.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Sep 2020 06:09:37 -0700 (PDT)
-Subject: Re: [PATCH v8 00/17] QEMU cpus.c refactoring part2
-To: Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20200916142004.27429-1-cfontana@suse.de>
- <d0bb4af9-55a1-b332-af6f-7601dfb10db7@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <402c303b-64a4-c2ed-151a-48f2e2cb40ac@redhat.com>
-Date: Fri, 25 Sep 2020 15:09:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=fpV8DHfqHlUsIFUnLnE9BpUd6xzNJarGN6/D8yQHXCY=;
+ b=ibfqUJwXoWzJZOK3hRzsuibdtTKD8n10fRIhR0YXdsnRHs+SOAIOj+bQOOAoq1y0aZa7xY
+ t2Nlp1ZlujwcaUlSTK3/MlbL9MkAv0nR6/TCpo5Eg/kyAkBNe/+QzxPal3JEQTcokOOTf7
+ BYZlwrRaPLylD8BLECjOTNyuMa14Tyw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-Ac7SFtpJO3-TCkXsDxcQMA-1; Fri, 25 Sep 2020 09:11:53 -0400
+X-MC-Unique: Ac7SFtpJO3-TCkXsDxcQMA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C39B46416A;
+ Fri, 25 Sep 2020 13:11:52 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-239.rdu2.redhat.com [10.10.116.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C96755786;
+ Fri, 25 Sep 2020 13:11:42 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 74B9D222FC0; Fri, 25 Sep 2020 09:11:42 -0400 (EDT)
+Date: Fri, 25 Sep 2020 09:11:42 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
+Message-ID: <20200925131142.GC132653@redhat.com>
+References: <20200918213436.GA3520@redhat.com> <20200921153243.GK3221@work-vm>
+ <20200922102531.GA2837@work-vm> <20200922174733.GD57620@redhat.com>
+ <20200925121127.GI2873@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <d0bb4af9-55a1-b332-af6f-7601dfb10db7@linaro.org>
+In-Reply-To: <20200925121127.GI2873@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,48 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Colin Xu <colin.xu@intel.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: jose.carlos.venegas.munoz@intel.com, qemu-devel@nongnu.org,
+ cdupontd@redhat.com, virtio-fs-list <virtio-fs@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, archana.m.shinde@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/09/20 21:00, Richard Henderson wrote:
-> On 9/16/20 7:19 AM, Claudio Fontana wrote:
->> Motivation and higher level steps:
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
->>
->> Current state is mostly all reviewed, but I include here a few resolutions
->> of rebasing conflicts and a new patch to use current_machine instead of
->> qdev_get_machine in softmmu context.
->>
->> It's minor, but if additional reviewing is necessary, here is the whole series again.
->>
->> CI is all green, and also available at https://github.com/hw-claudio/qemu.git "cpus-refactoring"
->>
->> The following changes since commit 5a77bbb53b087f95dbba7ce30b02ac2d7b147a3a:
->>
->>   iotests: Work around failing readlink -f (2020-09-15 18:19:26 +0200)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/hw-claudio/qemu.git 
->>
->> for you to fetch changes up to f9ec667595537400a6bc0aaf094a5ca6bbaacf44:
->>
->>   accel/tcg: use current_machine as it is always set for softmmu (2020-09-15 18:19:27 +0200)
+On Fri, Sep 25, 2020 at 01:11:27PM +0100, Dr. David Alan Gilbert wrote:
+> * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > On Tue, Sep 22, 2020 at 11:25:31AM +0100, Dr. David Alan Gilbert wrote:
+> > > * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> > > > Hi,
+> > > >   I've been doing some of my own perf tests and I think I agree
+> > > > about the thread pool size;  my test is a kernel build
+> > > > and I've tried a bunch of different options.
+> > > > 
+> > > > My config:
+> > > >   Host: 16 core AMD EPYC (32 thread), 128G RAM,
+> > > >      5.9.0-rc4 kernel, rhel 8.2ish userspace.
+> > > >   5.1.0 qemu/virtiofsd built from git.
+> > > >   Guest: Fedora 32 from cloud image with just enough extra installed for
+> > > > a kernel build.
+> > > > 
+> > > >   git cloned and checkout v5.8 of Linux into /dev/shm/linux on the host
+> > > > fresh before each test.  Then log into the guest, make defconfig,
+> > > > time make -j 16 bzImage,  make clean; time make -j 16 bzImage 
+> > > > The numbers below are the 'real' time in the guest from the initial make
+> > > > (the subsequent makes dont vary much)
+> > > > 
+> > > > Below are the detauls of what each of these means, but here are the
+> > > > numbers first
+> > > > 
+> > > > virtiofsdefault        4m0.978s
+> > > > 9pdefault              9m41.660s
+> > > > virtiofscache=none    10m29.700s
+> > > > 9pmmappass             9m30.047s
+> > > > 9pmbigmsize           12m4.208s
+> > > > 9pmsecnone             9m21.363s
+> > > > virtiofscache=noneT1   7m17.494s
+> > > > virtiofsdefaultT1      3m43.326s
+> > > > 
+> > > > So the winner there by far is the 'virtiofsdefaultT1' - that's
+> > > > the default virtiofs settings, but with --thread-pool-size=1 - so
+> > > > yes it gives a small benefit.
+> > > > But interestingly the cache=none virtiofs performance is pretty bad,
+> > > > but thread-pool-size=1 on that makes a BIG improvement.
+> > > 
+> > > Here are fio runs that Vivek asked me to run in my same environment
+> > > (there are some 0's in some of the mmap cases, and I've not investigated
+> > > why yet).
+> > 
+> > cache=none does not allow mmap in case of virtiofs. That's when you
+> > are seeing 0.
+> > 
+> > >virtiofs is looking good here in I think all of the cases;
+> > > there's some division over which cinfig; cache=none
+> > > seems faster in some cases which surprises me.
+> > 
+> > I know cache=none is faster in case of write workloads. It forces
+> > direct write where we don't call file_remove_privs(). While cache=auto
+> > goes through file_remove_privs() and that adds a GETXATTR request to
+> > every WRITE request.
 > 
-> Queuing this to tcg-next, with Phil's suggested change to current_machine in
-> the final patch.
+> Can you point me to how cache=auto causes the file_remove_privs?
 
-This doesn't apply anymore, but I've fixed it up because I had it as a
-prerequisite for my next pull request.  If you want, I can shepherd it too.
+fs/fuse/file.c
 
-Paolo
+fuse_cache_write_iter() {
+	err = file_remove_privs(file);
+}
+
+Above path is taken when cache=auto/cache=always is used. If virtiofsd
+is running with noxattr, then it does not impose any cost. But if xattr
+are enabled, then every WRITE first results in a
+getxattr(security.capability) and that slows down WRITES tremendously.
+
+When cache=none is used, we go through following path instead.
+
+fuse_direct_write_iter() and it does not have file_remove_privs(). We
+set a flag in WRITE request to tell server to kill
+suid/sgid/security.capability, instead.
+
+fuse_direct_io() {
+	ia->write.in.write_flags |= FUSE_WRITE_KILL_PRIV
+}
+
+Vivek
 
 
