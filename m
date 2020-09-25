@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE232788A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:57:45 +0200 (CEST)
-Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD732788E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:59:18 +0200 (CEST)
+Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnIG-00070L-7i
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
+	id 1kLnJl-0001eZ-B1
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:59:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnCs-0007o4-Cs
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:10 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39623)
+ id 1kLnCu-0007qm-Eh
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:13 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnCq-0001Ql-8P
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:10 -0400
-Received: by mail-wm1-x343.google.com with SMTP id b79so3165742wmb.4
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:52:07 -0700 (PDT)
+ id 1kLnCs-0001R5-EM
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:12 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e16so3518664wrm.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DYHqy58UJZR46wXpvs59hJagcJIqgUuvxLRDNUapKkI=;
- b=PLLxusxhPFqPGcofHMPBU7+IrVX7cQrLqgbuFwawPTVl20xOtV1nU3phv+B+iZ4AHa
- g6keJCPtstcNtkR9uvaZR6JJFaC+CjknldAUPdPCKsKEqqQdWg7LQ/K64hl5HabyR+I2
- XSZC8zZAAoQbmjDZS9YNLV94KZuLi3xRHX0VLG/Fck6PAhVxCTdnu5nWkj+h3JthSgFt
- /DM5h3kfoW2vgHw+PVqreYUPDkb5qTvo2xXHv7fcmFtCsNdZ/1Wv5+Bqip7AwK31O8Vt
- TwzJnYZQXcWYdG2MOygKPCTZz2aVxUEYC/IWxxydBRUNyRiC7pnfkoDkJoL/Yb8CwfVz
- LUDw==
+ bh=La3wf0jgdLLaxy3qyiZ5nLFWQDulF/WBD+D4LgHv5vo=;
+ b=gDSOYgSFewYCKCeiBthgQfO9lDdu251R/GVGuV69QTfKwahNlWXaTyMUnKiZcCLRwZ
+ J3We7jodc6NQ7jHC86IJpHHURJc45O+bvnnqI/MehiicHpvvWUHzonrCKxc14M1htnM/
+ ieM+uPWUdkfYbyHoEGQ0NqHWnjG2MmAr6amBossVDArsXaThqA69zcMqZjL29V/xRPkG
+ kQHSWh0RGM5Ot/o7V6ISt5Uk//+IctUG0nsjkBfnJ8HUfN9mJvW0hGc0oHrppjAB3Gyr
+ 4qJxETzaACuIVtVWHItKkcHuifPd/KG7nyqc8SFS3PCAQDKiG1gnlCzGoa6FpimLafIb
+ 6DlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DYHqy58UJZR46wXpvs59hJagcJIqgUuvxLRDNUapKkI=;
- b=qauUn9YTiIZ29QaG9zlffh9DQEymYDQXh5lXJbjJFnEZ25SE5F+2XKDoMFo8rMA9nj
- xDN5TmbEdmn34c8yJaUK7AsBM53xX2llnqHlkHZK+dN5oRblrprgpBexm+QcWYSd2367
- WmYPk7EfKLGqkt69lD2h3lNQKV2aQe/s0HQJ7izseufxSUulVJGItfgjbjlKh/yyV+ra
- 3ktswvQkZZaC1WZI2limO8TXtCW/fLvVCNIkGe7K67n7giE3rJgPDVK3q8TlwAIsxQQP
- RZvKGjs2hx1WVVraK758DwyUbLDDqaRcd0bea2AOE6Lzd6EzjIo6/dhSH6+6eko7kqsq
- jrkw==
-X-Gm-Message-State: AOAM533VbynN63xu/oKej6wX15RxLYT7HHBqItYw0pRsPHEVxrwZduBg
- sK83FWepZM5jL+TvZWzI6MeaYw==
-X-Google-Smtp-Source: ABdhPJzzqmM6H2FagwjjJuJz8oyzXp/4kjhdAn5abuNmGND89rNn/daHMZEIYFS4dnMv23kcecepaA==
-X-Received: by 2002:a1c:4455:: with SMTP id r82mr2957959wma.60.1601038326726; 
- Fri, 25 Sep 2020 05:52:06 -0700 (PDT)
+ bh=La3wf0jgdLLaxy3qyiZ5nLFWQDulF/WBD+D4LgHv5vo=;
+ b=ebZ5YeV1lRoi66VlnEZ71ngjmuGPxV3rKcY7L9JYfagjjasow/bX/jANw85LfaVUmp
+ sE4AkQnCzOSpGWOtknIC/GoreIXhU6b/SWwz8NrTBgxd680jX59T56v7voJ3GiPpKScB
+ wCTrDrGmTTVFjm9uaDGk0bOyHTCdbH65I3GtOAM/fq8AWJBPLs5ehxGrTREQnzHvoIqf
+ Rrh7hQNGmVWD0Hrlnp+mP+KGdHKg2Xjck6FzZmNYqCxzOcgrPrPj5CIVkG/W6cdlEZs7
+ tvAL7sdDHJzOIJtzFNpZZIKJiR3xNyo5WyROYQpIue+oRYArXS2a0xx5Oej+Y8PgYwsY
+ FtDQ==
+X-Gm-Message-State: AOAM530WE1A75FXBMUm1cgdQqXnNXRA9HSp6TtkwAVJdrCF0wbPba5bu
+ zRV+/3b0FfhrvSlK/75XYZDiYg==
+X-Google-Smtp-Source: ABdhPJw+FnAq0jAiugV2Cg4Tl3jIA4VQwRsQf9Hp7qNWdz8GCxcD2vXGq4F6xrTrZ0uReMSF0qA0HQ==
+X-Received: by 2002:adf:e292:: with SMTP id v18mr4351820wri.256.1601038329141; 
+ Fri, 25 Sep 2020 05:52:09 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m12sm2708543wml.38.2020.09.25.05.51.54
+ by smtp.gmail.com with ESMTPSA id i83sm2877331wma.22.2020.09.25.05.51.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Sep 2020 05:52:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 173971FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 2C74D1FF99;
  Fri, 25 Sep 2020 13:51:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org, maxim.uvarov@linaro.org, joakim.bech@linaro.org,
  ilias.apalodimas@linaro.org, tomas.winkler@intel.com, yang.huang@intel.com,
  bing.zhu@intel.com, Matti.Moell@opensynergy.com, hmo@opensynergy.com
-Subject: [RFC PATCH 09/19] tools/vhost-user-rpmb: add a --verbose/debug flags
- for logging
-Date: Fri, 25 Sep 2020 13:51:37 +0100
-Message-Id: <20200925125147.26943-10-alex.bennee@linaro.org>
+Subject: [RFC PATCH 10/19] tools/vhost-user-rpmb: handle shutdown and
+ SIGINT/SIGHUP cleanly
+Date: Fri, 25 Sep 2020 13:51:38 +0100
+Message-Id: <20200925125147.26943-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925125147.26943-1-alex.bennee@linaro.org>
 References: <20200925125147.26943-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,71 +98,127 @@ Cc: jean-philippe@linaro.org, takahiro.akashi@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This gives us two levels of informational output when tracing what the
-daemon is doing.
+The libvhost-user library will just exit if it handles the
+VHOST_USER_NONE message and we want to ensure we have tidied up after
+ourselves. As we need to signal the shutdown of the main loop we need
+to move the information into the VuRmb state structure.
+
+We also want to do the same if we catch a SIGINT/SIGHUP termination
+signal. While we are at it add some instrumentation so we can follow
+the program flow.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tools/vhost-user-rpmb/main.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ tools/vhost-user-rpmb/main.c | 49 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 43 insertions(+), 6 deletions(-)
 
 diff --git a/tools/vhost-user-rpmb/main.c b/tools/vhost-user-rpmb/main.c
-index 269c86cbb633..1be0d4b8a567 100644
+index 1be0d4b8a567..7b3b29ccfc5b 100644
 --- a/tools/vhost-user-rpmb/main.c
 +++ b/tools/vhost-user-rpmb/main.c
-@@ -6,6 +6,9 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
- 
-+#define G_LOG_DOMAIN "vhost-user-rpmb"
-+#define G_LOG_USE_STRUCTURED 1
-+
+@@ -12,6 +12,7 @@
  #include <glib.h>
  #include <gio/gio.h>
  #include <gio/gunixsocketaddress.h>
-@@ -25,12 +28,16 @@
- static gchar *socket_path;
- static gint socket_fd = -1;
- static gboolean print_cap;
-+static gboolean verbose;
-+static gboolean debug;
++#include <glib-unix.h>
+ #include <stdio.h>
+ #include <string.h>
+ #include <inttypes.h>
+@@ -73,6 +74,7 @@ struct virtio_rpmb_frame {
+ typedef struct VuRpmb {
+     VugDev dev;
+     struct virtio_rpmb_config virtio_config;
++    GMainLoop *loop;
+ } VuRpmb;
  
- static GOptionEntry options[] =
- {
-     { "socket-path", 0, 0, G_OPTION_ARG_FILENAME, &socket_path, "Location of vhost-user Unix domain socket, incompatible with --fd", "PATH" },
-     { "fd", 0, 0, G_OPTION_ARG_INT, &socket_fd, "Specify the file-descriptor of the backend, incompatible with --socket-path", "FD" },
-     { "print-capabilities", 0, 0, G_OPTION_ARG_NONE, &print_cap, "Output to stdout the backend capabilities in JSON format and exit", NULL},
-+    { "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose, "Be more verbose in output", NULL},
-+    { "debug", 0, 0, G_OPTION_ARG_NONE, &debug, "Include debug output", NULL},
-     { NULL }
- };
- 
-@@ -84,6 +91,7 @@ static void vrpmb_panic(VuDev *dev, const char *msg)
- 
- static uint64_t vrpmb_get_features(VuDev *dev)
- {
-+    g_info("%s: replying", __func__);
-     return 0;
+ struct virtio_rpmb_ctrl_command {
+@@ -158,10 +160,22 @@ vrpmb_queue_set_started(VuDev *dev, int qidx, bool started)
+     }
  }
  
-@@ -209,6 +217,17 @@ int main (int argc, char *argv[])
+-static int
+-vrpmb_process_msg(VuDev *dev, VhostUserMsg *msg, int *do_reply)
++/*
++ * vrpmb_process_msg: process messages of vhost-user interface
++ *
++ * Any that are not handled here are processed by the libvhost library
++ * itself.
++ */
++static int vrpmb_process_msg(VuDev *dev, VhostUserMsg *msg, int *do_reply)
+ {
++    VuRpmb *r = container_of(dev, VuRpmb, dev.parent);
++
++    g_info("%s: msg %d", __func__, msg->request);
++
+     switch (msg->request) {
++    case VHOST_USER_NONE:
++        g_main_loop_quit(r->loop);
++        return 1;
+     default:
+         return 0;
+     }
+@@ -181,6 +195,9 @@ static const VuDevIface vuiface = {
+ static void vrpmb_destroy(VuRpmb *r)
+ {
+     vug_deinit(&r->dev);
++    if (socket_path) {
++        unlink(socket_path);
++    }
+ }
+ 
+ /* Print vhost-user.json backend program capabilities */
+@@ -191,11 +208,18 @@ static void print_capabilities(void)
+     printf("}\n");
+ }
+ 
++static gboolean hangup(gpointer user_data)
++{
++    GMainLoop *loop = (GMainLoop *) user_data;
++    g_info("%s: caught hangup/quit signal, quitting main loop", __func__);
++    g_main_loop_quit(loop);
++    return true;
++}
++
+ int main (int argc, char *argv[])
+ {
+     GError *error = NULL;
+     GOptionContext *context;
+-    g_autoptr(GMainLoop) loop = NULL;
+     g_autoptr(GSocket) socket = NULL;
+     VuRpmb rpmb = {  };
+ 
+@@ -262,15 +286,28 @@ int main (int argc, char *argv[])
+         }
+     }
+ 
++    /*
++     * Create the main loop first so all the various sources can be
++     * added. As well as catching signals we need to ensure vug_init
++     * can add it's GSource watches.
++     */
++
++    rpmb.loop = g_main_loop_new(NULL, FALSE);
++    /* catch exit signals */
++    g_unix_signal_add(SIGHUP, hangup, rpmb.loop);
++    g_unix_signal_add(SIGINT, hangup, rpmb.loop);
++
+     if (!vug_init(&rpmb.dev, VHOST_USER_RPMB_MAX_QUEUES, g_socket_get_fd(socket),
+                   vrpmb_panic, &vuiface)) {
+         g_printerr("Failed to initialize libvhost-user-glib.\n");
          exit(EXIT_FAILURE);
      }
  
-+    if (verbose || debug) {
-+        g_log_set_handler(NULL, G_LOG_LEVEL_MASK, g_log_default_handler, NULL);
-+        if (debug) {
-+            g_setenv("G_MESSAGES_DEBUG", "all", true);
-+        }
-+    } else {
-+        g_log_set_handler(NULL,
-+                          G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_ERROR,
-+                          g_log_default_handler, NULL);
-+    }
+-    loop = g_main_loop_new(NULL, FALSE);
+-    g_main_loop_run(loop);
+-    g_main_loop_unref(loop);
+ 
++    g_message("entering main loop, awaiting messages");
++    g_main_loop_run(rpmb.loop);
++    g_message("finished main loop, cleaning up");
 +
-     /*
-      * Now create a vhost-user socket that we will receive messages
-      * on. Once we have our handler set up we can enter the glib main
++    g_main_loop_unref(rpmb.loop);
+     vrpmb_destroy(&rpmb);
+ }
 -- 
 2.20.1
 
