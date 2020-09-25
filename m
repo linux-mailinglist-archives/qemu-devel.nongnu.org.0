@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A451527951E
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Sep 2020 01:50:17 +0200 (CEST)
-Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8570E27955C
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Sep 2020 02:06:34 +0200 (CEST)
+Received: from localhost ([::1]:39364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLxTk-0007Ov-9N
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 19:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54552)
+	id 1kLxjV-0002ci-L8
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 20:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kLxSP-0006wt-K3
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 19:48:53 -0400
-Received: from mail-bn7nam10on2059.outbound.protection.outlook.com
- ([40.107.92.59]:38752 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1kLxSN-0001mN-LL
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 19:48:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hebU+j4wGLhPyNtv5JgpFOFGuyUlFC88xjgz5z3U8sWtVf1oPTPz7tviFVODg0I7SHM616r6l2pVvQy6pvQC7E4+fjkrxXF3rt/lwwbAZs+GjEbboMB6C0BQrtPVulgwznkLzSCPTtbz4U7dIGbBdk7Gd4mTkJw1v0/Y7yD0pmburl1nerlWxxtogkANyDufUf+IK757/oRBvoKeB8gAH9idK7GKTNkSIpRHmMO2EPvmnUw/Zvu1+Qhehosdm/QVyxxzG70ySy5umWs7QYJC4HIxdElS9Q25LxbmOLReHA0nHKqHiKruKXyCJOIpfoFq06x4VYptSdlwIXfybde57A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BXWv/0dPhb7qqXviZ3mct4nxXg2/91PqWK7aE0SaK5c=;
- b=Y6dGv6Ry5O1LnuYoBTzHjS+7H8NlOd8IgK3fpfx18QZsxqciuu3u7XWj9NUdY84FK2RPD1V2uoLbaGbFEjqu+fdzQovEJD+nBRYwR2t14GiB2eyPF8mHxi4QRG6ug3XBM1v7gw6mh58h9t0Qg7N8L3tPGcriFFd+4Y/5yAmOSRC1EWnMCgWy2whSOMtHcgk51N7HDcBKAs3MRTet9wBWNcKisacX9nK+t5EJ+BXNbHFocjcdavTjxCZjO2MG7Q8xrPO+QXu26tLiPc+4J/6rq8dFBdbgtHyBIw9FdciN5lce9v3CKhyTILH/G09xTNgcBMtYm7bBT96aivy/4RIDLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BXWv/0dPhb7qqXviZ3mct4nxXg2/91PqWK7aE0SaK5c=;
- b=TWuqvrMrS2g3ulwwgbiOCgqcUe0mDPIziWJmwMuIx5tNXhkfD3qIGADmfFOqcuBcKfLY7TgBsWRa+QbAS8qC63PsZtBZJV4W2F6RnwmAge/nkd4kp1Jf58fDKh1E4TqO8nGdRyGgo/wwrLUysCsjVJ2gc0uHCm/oGZ/w6UXo5sw=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
- by SN6PR12MB2766.namprd12.prod.outlook.com (2603:10b6:805:78::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Fri, 25 Sep
- 2020 23:48:48 +0000
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::1d50:341:16e2:84b1]) by SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::1d50:341:16e2:84b1%6]) with mapi id 15.20.3391.027; Fri, 25 Sep 2020
- 23:48:48 +0000
-Date: Fri, 25 Sep 2020 23:48:41 +0000
-From: Ashish Kalra <ashish.kalra@amd.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: SEV guest debugging support for Qemu
-Message-ID: <20200925234841.GA11103@ashkalra_ubuntu_server>
-References: <20200922201124.GA6606@ashkalra_ubuntu_server>
- <5a58509c-5838-f0aa-d9ab-4f85ca0ac35f@redhat.com>
- <20200925204607.GA10964@ashkalra_ubuntu_server>
- <e9b09c9b-4d4c-c6de-4cce-807effc38836@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e9b09c9b-4d4c-c6de-4cce-807effc38836@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: SN4PR0801CA0011.namprd08.prod.outlook.com
- (2603:10b6:803:29::21) To SN6PR12MB2767.namprd12.prod.outlook.com
- (2603:10b6:805:75::23)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kLxhq-0001W9-47; Fri, 25 Sep 2020 20:04:50 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42383)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kLxhn-0003Sn-B8; Fri, 25 Sep 2020 20:04:49 -0400
+Received: by mail-io1-xd43.google.com with SMTP id u6so5074193iow.9;
+ Fri, 25 Sep 2020 17:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hqWpA3xJXULkK9SNCF3rv2QowoHKj1neEdL6/aJUL9s=;
+ b=NTRPD0gped5vrqwBvIzy6jJr+jIN7pkg42iP5inh5HH8po76n9b75+NgcHO5wHntP7
+ QnbdSTDomaV2hKCNir593Rz/LxjJ5dksO/PlipVNgTUSNv28cWGmKNuLORD/S5wk5F+A
+ 6dRyMY/XM2evrLTOQnk/7XQMPfY0q71+c1wQUjMDMORQROP5wr/nfef3Asj4R6PhfoCW
+ nkCmQLVGjTr6Wmi4WCG/m4qOVeaiof53XOsBO+U8A0Xj8BazFQOJg9jY3LWQKXO8U3HC
+ UngYumz3gEKBAyfR/3kFD39EztBmlZ+e9DjQsh/VC5YQX8XdsUbuLsT29cpzSpzjNmZK
+ oQBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hqWpA3xJXULkK9SNCF3rv2QowoHKj1neEdL6/aJUL9s=;
+ b=CM6ne/m3YqzKXNG/PfR8/8vbHW3NUvM1LKYqj8SiVS2G+NX2KbfM5caheF4djTHGTn
+ CnMbqZjsiutDeE5h7hcXicaplRB4fspKhlJKl7PSRE0IvFXlh1JgP+YX0f/IBHq/y/jg
+ YkHxebefKgKG3gOIGxUsifSK/npuxAFGilVkqaS87Da7VmwV/mH16BFhPsf6e33HcVqD
+ iE7z8ytHVKnyYsPvZL/norp9jhAn5Fm4jMeoT04g8zsYkGzwBllFnwnnumj1F77GUxcO
+ Z0Rz4KJYgAsrd3WVmvCW3QBeQIkmYr5ZHZl/EAFBxZaOCUTTMmVcx19EeoTx5AekEEd2
+ uPpA==
+X-Gm-Message-State: AOAM530BNprf7qLOze/f8kEPWblVV7m5uYRkVdGvSTrMej4CZOF1MVDW
+ Fg62oqXfjw1gg7Kzvt3jxBv/8oW3fWr5NuySO9w=
+X-Google-Smtp-Source: ABdhPJwEK4qq+BJWCVz8tDOASACx0PZe5u2/ktMEh1xeTXGl7OOw0XyV2Mmf8YlPmHrYBKspPOlYwgmgiiqdacafk2k=
+X-Received: by 2002:a02:486:: with SMTP id 128mr1281198jab.8.1601078683885;
+ Fri, 25 Sep 2020 17:04:43 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ashkalra_ubuntu_server (165.204.77.1) by
- SN4PR0801CA0011.namprd08.prod.outlook.com (2603:10b6:803:29::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
- Transport; Fri, 25 Sep 2020 23:48:47 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 115c53fc-a072-4ddf-1714-08d861ad8c0e
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2766:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB27663FC042C2428E5EFC07E28E360@SN6PR12MB2766.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Dpzw0mh+PlHfyhlRxZuQfJ3L0Eu+dRPSZAzYjnShdnK58J1lTHyw7UXLYxmOrUe0QEV/Wh5gfARF9EN94Icdd78jfCRSreflNtVKQ1HY3m0Ms1bXGLbJH2X8dCJW7v6px8YE2fKtc7f7/Ds8h+tygM/Pi1Al2LiVGJj2qcWbicVaSTQIhSJ7BkH6DdbALq0kWjPVwZacPa9yx4LZpMDioljp8EUa7E87GX7Hxd33M4Be1nI2zPd4oZeG32I6Ba6KKWies6jGJIucJzs/SePeO3bC/8O2KKdjNXgDcXvHs++dR27fzPwMFPgDawSWKUOrvSxHKFT1KC8eSvmul374GUdubboE7BV0xWZi3gSwLFqqeCZ3Y3H9VWwH4U7pPJpz
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(5660300002)(53546011)(44832011)(83380400001)(86362001)(6496006)(55016002)(9686003)(52116002)(2906002)(66476007)(956004)(66556008)(478600001)(6666004)(16526019)(316002)(1076003)(66946007)(186003)(6916009)(26005)(8936002)(33716001)(8676002)(4326008)(33656002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: GjKreCjb2ScxcB8oc+qNi52/OzjkII8ZFW0I4RE4Lun7IHSN3W5obaeJFeGe3TXeS6YF4jcjOsO8NLO3JXAYA8tsu5Eh4Nl9K4ahFIgD850TNDw/XUR7ILbkCfGg0bdxExIMsuDOBqVXrJTX7Nwtj7uY4RyYq6VtCxJoAiyt7rdBKNr5xPM6KNjE6WZrEx/ovKK8siH70Ao9OznvqgmU30t6FeeX2aig9xORRZcs0sCy/RGPIvz4FS/PpWPWrOBV436UI5H+TdP8tUPjqw6za7V4WRMbmgIGQZhE/HV0fc8zelhLcYH4OhTi5wNV03F+i5XQyKgC5VbU2kO//sCdXwaC6JNq4/w+aQT9MBHalE5RBx4VL+T1v7suaBsvOxMIqpw11v1YW5hYxqADzvb7SWl2j5S9JAHh4Sv3kBKSASRlTXOi+KOr2+6cHnr0h/GzIr/a+Vc61Yn/TOvpP5W9KqSCZlLvEg5cMIwk7MYeNDR1cA+9e/42GFGrc0rvXa1MLcgH4wDoXUUQhPj0EzDFwjMZf2Fu6bZD6+fp+LOeXYdWVr1m8UXEPgzbjwNVnL+wCyS+2Uv4RuLDBe3fDFmcDFmI+G6UED93DJtno4S8kH2Epp/6RAPtXBLxB2jdeT4VeWBlOwC629asUf6ts2iPfQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 115c53fc-a072-4ddf-1714-08d861ad8c0e
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2020 23:48:48.3593 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Img0pfQR/fxQcyelbxLhC1lI7NgH0eTsN/+Bs37WsqO7uUEwVJAXKyT1JCW38fDMWl2NPuIePkiUtatMVx5nRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2766
-Received-SPF: none client-ip=40.107.92.59; envelope-from=Ashish.Kalra@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 19:48:49
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+References: <20200705174020.BDD0174633F@zero.eik.bme.hu>
+ <CAKmqyKPJDiSYvcw5-7_t4uNrXuzeqfX0jnvu-hHc1DxeekB=2w@mail.gmail.com>
+ <alpine.BSF.2.22.395.2007072050210.70758@zero.eik.bme.hu>
+ <86fbf276-bbd6-1481-4387-34dd1a6c0b2@eik.bme.hu>
+In-Reply-To: <86fbf276-bbd6-1481-4387-34dd1a6c0b2@eik.bme.hu>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 25 Sep 2020 16:53:24 -0700
+Message-ID: <CAKmqyKMFssewkp4QnnNc7WeFJ4apwkVwc7pX5_70kPPKJ25-2A@mail.gmail.com>
+Subject: Re: [PATCH] load_elf: Remove unused address variables from callers
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,54 +80,512 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, jon.grimm@amd.com, brijesh.singh@amd.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Anthony Green <green@moxielogic.com>, Chris Wulff <crwulff@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Huacai Chen <chenhc@lemote.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Paolo,
+On Wed, Sep 23, 2020 at 2:15 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+> On Tue, 7 Jul 2020, BALATON Zoltan wrote:
+> > On Tue, 7 Jul 2020, Alistair Francis wrote:
+> >> On Sun, Jul 5, 2020 at 10:41 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+> >>> Several callers of load_elf() pass pointers for lowaddr and highaddr
+> >>> parameters which are then not used for anything. This may stem from a
+> >>> misunderstanding that load_elf need a value here but in fact it can
+> >>> take NULL to ignore these values. Remove such unused variables and
+> >>> pass NULL instead from callers that don't need these.
+> >>>
+> >>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> >>
+> >> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > So this got a few review and acked by but since it touches multiple parts who
+> > will actually send pull or merge it? I'd like to make sure this won't miss
+> > the freeze deadline just because everybody thinks this should go in via some
+> > other maintainer. What's the best way for this? Trivial maintainers or Peter
+> > should handle such patches?
+>
+> Ping? Could someone please queue this patch? It still seems to apply
+> cleanly.
 
-On Fri, Sep 25, 2020 at 10:56:10PM +0200, Paolo Bonzini wrote:
-> On 25/09/20 22:46, Ashish Kalra wrote:
-> > I was also considering abstracting this vendor/SEV specific debug
-> > interface via the CPUClass object, the CPUClass object aleady has cpu
-> > specific methods for doing things like guest VA to GPA translations like the
-> > get_phys_page_attrs_debug() method and it will be a simple and clean
-> > approach to override this method with a SEV specific
-> > get_phys_page_attrs_debug() if SEV guest is active and SEV debug policy
-> > is allowed. [...]
-> > 
-> > I can probably add new interfaces/methods to this CPUClass object for
-> > guest memory read/writes for debugging purpose and then invoke the same
-> > from the generic cpu_memory_rw_debug() interface. 
-> > 
-> > Let me know your thougts on abstracting this debug interface via the
-> > CPUClass object ? 
-> > 
-> > Or the other option is to introduce the new MemoryDebugOps you described
-> > above and additionally apply SEV/SEV-ES considerations in CPUClass
-> > methods such as gdb_read_register, gdb_write_register, etc.
-> 
-> Yes, this makes the most sense, however you're right that you don't need
-> translate in MemoryDebugOps.  I don't think read/write should be moved
-> to CPUClass, however, since you can use a MemTxAttr to tell the
-> read/write MemoryDebugOps whether the page is encrypted or not.
-> 
+I've got to send a register API PR, I'll add this one to it unless
+someone else wants to take it.
 
-Thanks for your input, i have one additional query with reference to this support :
+Alistair
 
-For all explicitly unecrypted guest memory regions such as S/W IOTLB bounce buffers,
-dma_decrypted() allocated regions and for guest regions marked as "__bss_decrypted",
-we need to ensure that DBG_DECRYPT API calls are bypassed for such
-regions and those regions are dumped as un-encrypted.
-
-This guest memory regions encryption status is found using KVM's page encryption bitmap
-support which is part of the page encryption bitmap hypercall interface of the
-KVM/QEMU SEV live migration patches.
-
-As this additional debug support is dependent on the KVM's page encryption bitmap
-support, are there any updates on KVM SEV live migration patches ?
-
-Thanks,
-Ashish
+>
+> Regards,
+> BALATON Zoltan
+>
+> >>> ---
+> >>>  hw/alpha/dp264.c       |  8 ++++----
+> >>>  hw/arm/armv7m.c        |  4 +---
+> >>>  hw/cris/boot.c         |  4 ++--
+> >>>  hw/microblaze/boot.c   |  4 ++--
+> >>>  hw/mips/fuloong2e.c    |  8 ++++----
+> >>>  hw/moxie/moxiesim.c    |  4 ++--
+> >>>  hw/nios2/boot.c        |  4 ++--
+> >>>  hw/ppc/mac_newworld.c  |  6 ++----
+> >>>  hw/ppc/mac_oldworld.c  |  6 ++----
+> >>>  hw/ppc/ppc440_bamboo.c |  9 +++------
+> >>>  hw/ppc/sam460ex.c      | 12 +++++-------
+> >>>  hw/ppc/spapr.c         | 11 ++++-------
+> >>>  hw/ppc/virtex_ml507.c  |  4 ++--
+> >>>  hw/riscv/boot.c        |  8 ++++----
+> >>>  hw/xtensa/sim.c        |  3 +--
+> >>>  hw/xtensa/xtfpga.c     |  3 +--
+> >>>  16 files changed, 41 insertions(+), 57 deletions(-)
+> >>>
+> >>> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+> >>> index f7751b18f6..4d24518d1d 100644
+> >>> --- a/hw/alpha/dp264.c
+> >>> +++ b/hw/alpha/dp264.c
+> >>> @@ -62,8 +62,8 @@ static void clipper_init(MachineState *machine)
+> >>>      qemu_irq rtc_irq;
+> >>>      long size, i;
+> >>>      char *palcode_filename;
+> >>> -    uint64_t palcode_entry, palcode_low, palcode_high;
+> >>> -    uint64_t kernel_entry, kernel_low, kernel_high;
+> >>> +    uint64_t palcode_entry;
+> >>> +    uint64_t kernel_entry, kernel_low;
+> >>>      unsigned int smp_cpus = machine->smp.cpus;
+> >>>
+> >>>      /* Create up to 4 cpus.  */
+> >>> @@ -113,7 +113,7 @@ static void clipper_init(MachineState *machine)
+> >>>          exit(1);
+> >>>      }
+> >>>      size = load_elf(palcode_filename, NULL, cpu_alpha_superpage_to_phys,
+> >>> -                    NULL, &palcode_entry, &palcode_low, &palcode_high,
+> >>> NULL,
+> >>> +                    NULL, &palcode_entry, NULL, NULL, NULL,
+> >>>                      0, EM_ALPHA, 0, 0);
+> >>>      if (size < 0) {
+> >>>          error_report("could not load palcode '%s'", palcode_filename);
+> >>> @@ -132,7 +132,7 @@ static void clipper_init(MachineState *machine)
+> >>>          uint64_t param_offset;
+> >>>
+> >>>          size = load_elf(kernel_filename, NULL,
+> >>> cpu_alpha_superpage_to_phys,
+> >>> -                        NULL, &kernel_entry, &kernel_low, &kernel_high,
+> >>> NULL,
+> >>> +                        NULL, &kernel_entry, &kernel_low, NULL, NULL,
+> >>>                          0, EM_ALPHA, 0, 0);
+> >>>          if (size < 0) {
+> >>>              error_report("could not load kernel '%s'", kernel_filename);
+> >>> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+> >>> index 3308211e9c..92f859d760 100644
+> >>> --- a/hw/arm/armv7m.c
+> >>> +++ b/hw/arm/armv7m.c
+> >>> @@ -309,7 +309,6 @@ void armv7m_load_kernel(ARMCPU *cpu, const char
+> >>> *kernel_filename, int mem_size)
+> >>>  {
+> >>>      int image_size;
+> >>>      uint64_t entry;
+> >>> -    uint64_t lowaddr;
+> >>>      int big_endian;
+> >>>      AddressSpace *as;
+> >>>      int asidx;
+> >>> @@ -330,12 +329,11 @@ void armv7m_load_kernel(ARMCPU *cpu, const char
+> >>> *kernel_filename, int mem_size)
+> >>>
+> >>>      if (kernel_filename) {
+> >>>          image_size = load_elf_as(kernel_filename, NULL, NULL, NULL,
+> >>> -                                 &entry, &lowaddr, NULL,
+> >>> +                                 &entry, NULL, NULL,
+> >>>                                   NULL, big_endian, EM_ARM, 1, 0, as);
+> >>>          if (image_size < 0) {
+> >>>              image_size = load_image_targphys_as(kernel_filename, 0,
+> >>>                                                  mem_size, as);
+> >>> -            lowaddr = 0;
+> >>>          }
+> >>>          if (image_size < 0) {
+> >>>              error_report("Could not load kernel '%s'", kernel_filename);
+> >>> diff --git a/hw/cris/boot.c b/hw/cris/boot.c
+> >>> index b8947bc660..aa8d2756d6 100644
+> >>> --- a/hw/cris/boot.c
+> >>> +++ b/hw/cris/boot.c
+> >>> @@ -67,7 +67,7 @@ static uint64_t translate_kernel_address(void *opaque,
+> >>> uint64_t addr)
+> >>>  void cris_load_image(CRISCPU *cpu, struct cris_load_info *li)
+> >>>  {
+> >>>      CPUCRISState *env = &cpu->env;
+> >>> -    uint64_t entry, high;
+> >>> +    uint64_t entry;
+> >>>      int kcmdline_len;
+> >>>      int image_size;
+> >>>
+> >>> @@ -76,7 +76,7 @@ void cris_load_image(CRISCPU *cpu, struct cris_load_info
+> >>> *li)
+> >>>         devboard SDK.  */
+> >>>      image_size = load_elf(li->image_filename, NULL,
+> >>>                            translate_kernel_address, NULL,
+> >>> -                          &entry, NULL, &high, NULL, 0, EM_CRIS, 0, 0);
+> >>> +                          &entry, NULL, NULL, NULL, 0, EM_CRIS, 0, 0);
+> >>>      li->entry = entry;
+> >>>      if (image_size < 0) {
+> >>>          /* Takes a kimage from the axis devboard SDK.  */
+> >>> diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+> >>> index 925e3f7c9d..8ad3c27f2c 100644
+> >>> --- a/hw/microblaze/boot.c
+> >>> +++ b/hw/microblaze/boot.c
+> >>> @@ -135,7 +135,7 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, hwaddr
+> >>> ddr_base,
+> >>>
+> >>>      if (kernel_filename) {
+> >>>          int kernel_size;
+> >>> -        uint64_t entry, low, high;
+> >>> +        uint64_t entry, high;
+> >>>          uint32_t base32;
+> >>>          int big_endian = 0;
+> >>>
+> >>> @@ -145,7 +145,7 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, hwaddr
+> >>> ddr_base,
+> >>>
+> >>>          /* Boots a kernel elf binary.  */
+> >>>          kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+> >>> -                               &entry, &low, &high, NULL,
+> >>> +                               &entry, NULL, &high, NULL,
+> >>>                                 big_endian, EM_MICROBLAZE, 0, 0);
+> >>>          base32 = entry;
+> >>>          if (base32 == 0xc0000000) {
+> >>> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> >>> index 8ca31e5162..507e549fca 100644
+> >>> --- a/hw/mips/fuloong2e.c
+> >>> +++ b/hw/mips/fuloong2e.c
+> >>> @@ -107,7 +107,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t
+> >>> *prom_buf, int index,
+> >>>
+> >>>  static int64_t load_kernel(CPUMIPSState *env)
+> >>>  {
+> >>> -    int64_t kernel_entry, kernel_low, kernel_high, initrd_size;
+> >>> +    int64_t kernel_entry, kernel_high, initrd_size;
+> >>>      int index = 0;
+> >>>      long kernel_size;
+> >>>      ram_addr_t initrd_offset;
+> >>> @@ -116,9 +116,9 @@ static int64_t load_kernel(CPUMIPSState *env)
+> >>>
+> >>>      kernel_size = load_elf(loaderparams.kernel_filename, NULL,
+> >>>                             cpu_mips_kseg0_to_phys, NULL,
+> >>> -                           (uint64_t *)&kernel_entry,
+> >>> -                           (uint64_t *)&kernel_low, (uint64_t
+> >>> *)&kernel_high,
+> >>> -                           NULL, 0, EM_MIPS, 1, 0);
+> >>> +                           (uint64_t *)&kernel_entry, NULL,
+> >>> +                           (uint64_t *)&kernel_high, NULL,
+> >>> +                           0, EM_MIPS, 1, 0);
+> >>>      if (kernel_size < 0) {
+> >>>          error_report("could not load kernel '%s': %s",
+> >>>                       loaderparams.kernel_filename,
+> >>> diff --git a/hw/moxie/moxiesim.c b/hw/moxie/moxiesim.c
+> >>> index 51a98287b5..a765e9f6be 100644
+> >>> --- a/hw/moxie/moxiesim.c
+> >>> +++ b/hw/moxie/moxiesim.c
+> >>> @@ -52,13 +52,13 @@ typedef struct {
+> >>>
+> >>>  static void load_kernel(MoxieCPU *cpu, LoaderParams *loader_params)
+> >>>  {
+> >>> -    uint64_t entry, kernel_low, kernel_high;
+> >>> +    uint64_t entry, kernel_high;
+> >>>      int64_t initrd_size;
+> >>>      long kernel_size;
+> >>>      ram_addr_t initrd_offset;
+> >>>
+> >>>      kernel_size = load_elf(loader_params->kernel_filename,  NULL, NULL,
+> >>> NULL,
+> >>> -                           &entry, &kernel_low, &kernel_high, NULL, 1,
+> >>> EM_MOXIE,
+> >>> +                           &entry, NULL, &kernel_high, NULL, 1, EM_MOXIE,
+> >>>                             0, 0);
+> >>>
+> >>>      if (kernel_size <= 0) {
+> >>> diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+> >>> index 88224aa84c..1df3b66c29 100644
+> >>> --- a/hw/nios2/boot.c
+> >>> +++ b/hw/nios2/boot.c
+> >>> @@ -139,7 +139,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+> >>>
+> >>>      if (kernel_filename) {
+> >>>          int kernel_size, fdt_size;
+> >>> -        uint64_t entry, low, high;
+> >>> +        uint64_t entry, high;
+> >>>          int big_endian = 0;
+> >>>
+> >>>  #ifdef TARGET_WORDS_BIGENDIAN
+> >>> @@ -148,7 +148,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+> >>>
+> >>>          /* Boots a kernel elf binary. */
+> >>>          kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+> >>> -                               &entry, &low, &high, NULL,
+> >>> +                               &entry, NULL, &high, NULL,
+> >>>                                 big_endian, EM_ALTERA_NIOS2, 0, 0);
+> >>>          if ((uint32_t)entry == 0xc0000000) {
+> >>>              /*
+> >>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> >>> index 828c5992ae..a3f25ab479 100644
+> >>> --- a/hw/ppc/mac_newworld.c
+> >>> +++ b/hw/ppc/mac_newworld.c
+> >>> @@ -177,7 +177,6 @@ static void ppc_core99_init(MachineState *machine)
+> >>>      }
+> >>>
+> >>>      if (linux_boot) {
+> >>> -        uint64_t lowaddr = 0;
+> >>>          int bswap_needed;
+> >>>
+> >>>  #ifdef BSWAP_NEEDED
+> >>> @@ -188,9 +187,8 @@ static void ppc_core99_init(MachineState *machine)
+> >>>          kernel_base = KERNEL_LOAD_ADDR;
+> >>>
+> >>>          kernel_size = load_elf(kernel_filename, NULL,
+> >>> -                               translate_kernel_address, NULL,
+> >>> -                               NULL, &lowaddr, NULL, NULL, 1,
+> >>> PPC_ELF_MACHINE,
+> >>> -                               0, 0);
+> >>> +                               translate_kernel_address, NULL, NULL,
+> >>> NULL,
+> >>> +                               NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+> >>>          if (kernel_size < 0)
+> >>>              kernel_size = load_aout(kernel_filename, kernel_base,
+> >>>                                      ram_size - kernel_base, bswap_needed,
+> >>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> >>> index f8c204ead7..4bcce22a96 100644
+> >>> --- a/hw/ppc/mac_oldworld.c
+> >>> +++ b/hw/ppc/mac_oldworld.c
+> >>> @@ -150,7 +150,6 @@ static void ppc_heathrow_init(MachineState *machine)
+> >>>      }
+> >>>
+> >>>      if (linux_boot) {
+> >>> -        uint64_t lowaddr = 0;
+> >>>          int bswap_needed;
+> >>>
+> >>>  #ifdef BSWAP_NEEDED
+> >>> @@ -160,9 +159,8 @@ static void ppc_heathrow_init(MachineState *machine)
+> >>>  #endif
+> >>>          kernel_base = KERNEL_LOAD_ADDR;
+> >>>          kernel_size = load_elf(kernel_filename, NULL,
+> >>> -                               translate_kernel_address, NULL,
+> >>> -                               NULL, &lowaddr, NULL, NULL, 1,
+> >>> PPC_ELF_MACHINE,
+> >>> -                               0, 0);
+> >>> +                               translate_kernel_address, NULL, NULL,
+> >>> NULL,
+> >>> +                               NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+> >>>          if (kernel_size < 0)
+> >>>              kernel_size = load_aout(kernel_filename, kernel_base,
+> >>>                                      ram_size - kernel_base, bswap_needed,
+> >>> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+> >>> index 4c5e9e4373..74028dc986 100644
+> >>> --- a/hw/ppc/ppc440_bamboo.c
+> >>> +++ b/hw/ppc/ppc440_bamboo.c
+> >>> @@ -172,9 +172,6 @@ static void bamboo_init(MachineState *machine)
+> >>>      PCIBus *pcibus;
+> >>>      PowerPCCPU *cpu;
+> >>>      CPUPPCState *env;
+> >>> -    uint64_t elf_entry;
+> >>> -    uint64_t elf_lowaddr;
+> >>> -    hwaddr loadaddr = LOAD_UIMAGE_LOADADDR_INVALID;
+> >>>      target_long initrd_size = 0;
+> >>>      DeviceState *dev;
+> >>>      int success;
+> >>> @@ -246,14 +243,14 @@ static void bamboo_init(MachineState *machine)
+> >>>
+> >>>      /* Load kernel. */
+> >>>      if (kernel_filename) {
+> >>> +        hwaddr loadaddr = LOAD_UIMAGE_LOADADDR_INVALID;
+> >>>          success = load_uimage(kernel_filename, &entry, &loadaddr, NULL,
+> >>>                                NULL, NULL);
+> >>>          if (success < 0) {
+> >>> +            uint64_t elf_entry;
+> >>>              success = load_elf(kernel_filename, NULL, NULL, NULL,
+> >>> &elf_entry,
+> >>> -                               &elf_lowaddr, NULL, NULL, 1,
+> >>> PPC_ELF_MACHINE,
+> >>> -                               0, 0);
+> >>> +                               NULL, NULL, NULL, 1, PPC_ELF_MACHINE, 0,
+> >>> 0);
+> >>>              entry = elf_entry;
+> >>> -            loadaddr = elf_lowaddr;
+> >>>          }
+> >>>          /* XXX try again as binary */
+> >>>          if (success < 0) {
+> >>> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> >>> index 1a106a68de..71f74e983c 100644
+> >>> --- a/hw/ppc/sam460ex.c
+> >>> +++ b/hw/ppc/sam460ex.c
+> >>> @@ -286,7 +286,6 @@ static void sam460ex_init(MachineState *machine)
+> >>>      CPUPPCState *env;
+> >>>      I2CBus *i2c;
+> >>>      hwaddr entry = UBOOT_ENTRY;
+> >>> -    hwaddr loadaddr = LOAD_UIMAGE_LOADADDR_INVALID;
+> >>>      target_long initrd_size = 0;
+> >>>      DeviceState *dev;
+> >>>      SysBusDevice *sbdev;
+> >>> @@ -426,17 +425,16 @@ static void sam460ex_init(MachineState *machine)
+> >>>
+> >>>      /* Load kernel. */
+> >>>      if (machine->kernel_filename) {
+> >>> +        hwaddr loadaddr = LOAD_UIMAGE_LOADADDR_INVALID;
+> >>>          success = load_uimage(machine->kernel_filename, &entry,
+> >>> &loadaddr,
+> >>>                                NULL, NULL, NULL);
+> >>>          if (success < 0) {
+> >>> -            uint64_t elf_entry, elf_lowaddr;
+> >>> +            uint64_t elf_entry;
+> >>>
+> >>> -            success = load_elf(machine->kernel_filename, NULL,
+> >>> -                               NULL, NULL, &elf_entry,
+> >>> -                               &elf_lowaddr, NULL, NULL, 1,
+> >>> PPC_ELF_MACHINE, 0,
+> >>> -                               0);
+> >>> +            success = load_elf(machine->kernel_filename, NULL, NULL,
+> >>> NULL,
+> >>> +                               &elf_entry, NULL, NULL, NULL,
+> >>> +                               1, PPC_ELF_MACHINE, 0, 0);
+> >>>              entry = elf_entry;
+> >>> -            loadaddr = elf_lowaddr;
+> >>>          }
+> >>>          /* XXX try again as binary */
+> >>>          if (success < 0) {
+> >>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> >>> index f6f034d039..f4e8e2e139 100644
+> >>> --- a/hw/ppc/spapr.c
+> >>> +++ b/hw/ppc/spapr.c
+> >>> @@ -2972,18 +2972,15 @@ static void spapr_machine_init(MachineState
+> >>> *machine)
+> >>>      }
+> >>>
+> >>>      if (kernel_filename) {
+> >>> -        uint64_t lowaddr = 0;
+> >>> -
+> >>>          spapr->kernel_size = load_elf(kernel_filename, NULL,
+> >>>                                        translate_kernel_address, spapr,
+> >>> -                                      NULL, &lowaddr, NULL, NULL, 1,
+> >>> +                                      NULL, NULL, NULL, NULL, 1,
+> >>>                                        PPC_ELF_MACHINE, 0, 0);
+> >>>          if (spapr->kernel_size == ELF_LOAD_WRONG_ENDIAN) {
+> >>>              spapr->kernel_size = load_elf(kernel_filename, NULL,
+> >>> -                                          translate_kernel_address,
+> >>> spapr, NULL,
+> >>> -                                          &lowaddr, NULL, NULL, 0,
+> >>> -                                          PPC_ELF_MACHINE,
+> >>> -                                          0, 0);
+> >>> +                                          translate_kernel_address,
+> >>> spapr,
+> >>> +                                          NULL, NULL, NULL, NULL, 0,
+> >>> +                                          PPC_ELF_MACHINE, 0, 0);
+> >>>              spapr->kernel_le = spapr->kernel_size > 0;
+> >>>          }
+> >>>          if (spapr->kernel_size < 0) {
+> >>> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+> >>> index 78c4901be1..c790c1113f 100644
+> >>> --- a/hw/ppc/virtex_ml507.c
+> >>> +++ b/hw/ppc/virtex_ml507.c
+> >>> @@ -250,12 +250,12 @@ static void virtex_init(MachineState *machine)
+> >>>      sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq[TIMER_IRQ]);
+> >>>
+> >>>      if (kernel_filename) {
+> >>> -        uint64_t entry, low, high;
+> >>> +        uint64_t entry, high;
+> >>>          hwaddr boot_offset;
+> >>>
+> >>>          /* Boots a kernel elf binary.  */
+> >>>          kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+> >>> -                               &entry, &low, &high, NULL, 1,
+> >>> PPC_ELF_MACHINE,
+> >>> +                               &entry, NULL, &high, NULL, 1,
+> >>> PPC_ELF_MACHINE,
+> >>>                                 0, 0);
+> >>>          boot_info.bootstrap_pc = entry & 0x00ffffff;
+> >>>
+> >>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> >>> index adb421b91b..ab8da252ee 100644
+> >>> --- a/hw/riscv/boot.c
+> >>> +++ b/hw/riscv/boot.c
+> >>> @@ -85,10 +85,10 @@ target_ulong riscv_load_firmware(const char
+> >>> *firmware_filename,
+> >>>                                   hwaddr firmware_load_addr,
+> >>>                                   symbol_fn_t sym_cb)
+> >>>  {
+> >>> -    uint64_t firmware_entry, firmware_start, firmware_end;
+> >>> +    uint64_t firmware_entry;
+> >>>
+> >>>      if (load_elf_ram_sym(firmware_filename, NULL, NULL, NULL,
+> >>> -                         &firmware_entry, &firmware_start, &firmware_end,
+> >>> NULL,
+> >>> +                         &firmware_entry, NULL, NULL, NULL,
+> >>>                           0, EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+> >>>          return firmware_entry;
+> >>>      }
+> >>> @@ -104,10 +104,10 @@ target_ulong riscv_load_firmware(const char
+> >>> *firmware_filename,
+> >>>
+> >>>  target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t
+> >>> sym_cb)
+> >>>  {
+> >>> -    uint64_t kernel_entry, kernel_high;
+> >>> +    uint64_t kernel_entry;
+> >>>
+> >>>      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+> >>> -                         &kernel_entry, NULL, &kernel_high, NULL, 0,
+> >>> +                         &kernel_entry, NULL, NULL, NULL, 0,
+> >>>                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+> >>>          return kernel_entry;
+> >>>      }
+> >>> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
+> >>> index aeb46d86f5..cbac50db2d 100644
+> >>> --- a/hw/xtensa/sim.c
+> >>> +++ b/hw/xtensa/sim.c
+> >>> @@ -106,9 +106,8 @@ void xtensa_sim_load_kernel(XtensaCPU *cpu,
+> >>> MachineState *machine)
+> >>>
+> >>>      if (kernel_filename) {
+> >>>          uint64_t elf_entry;
+> >>> -        uint64_t elf_lowaddr;
+> >>>          int success = load_elf(kernel_filename, NULL,
+> >>> translate_phys_addr, cpu,
+> >>> -                               &elf_entry, &elf_lowaddr, NULL, NULL,
+> >>> big_endian,
+> >>> +                               &elf_entry, NULL, NULL, NULL, big_endian,
+> >>>                                 EM_XTENSA, 0, 0);
+> >>>
+> >>>          if (success > 0) {
+> >>> diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
+> >>> index 10de15855a..b1470b88e6 100644
+> >>> --- a/hw/xtensa/xtfpga.c
+> >>> +++ b/hw/xtensa/xtfpga.c
+> >>> @@ -413,9 +413,8 @@ static void xtfpga_init(const XtfpgaBoardDesc *board,
+> >>> MachineState *machine)
+> >>>          env->regs[2] = tagptr;
+> >>>
+> >>>          uint64_t elf_entry;
+> >>> -        uint64_t elf_lowaddr;
+> >>>          int success = load_elf(kernel_filename, NULL,
+> >>> translate_phys_addr, cpu,
+> >>> -                &elf_entry, &elf_lowaddr, NULL, NULL, be, EM_XTENSA, 0,
+> >>> 0);
+> >>> +                &elf_entry, NULL, NULL, NULL, be, EM_XTENSA, 0, 0);
+> >>>          if (success > 0) {
+> >>>              entry_point = elf_entry;
+> >>>          } else {
+> >>> --
+> >>> 2.21.3
+> >>>
+> >>>
+> >>
+> >>
+> >
+> >
 
