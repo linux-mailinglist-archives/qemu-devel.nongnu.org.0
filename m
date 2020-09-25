@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD84278EFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:47:36 +0200 (CEST)
-Received: from localhost ([::1]:42966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECE6278F09
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:49:50 +0200 (CEST)
+Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqsh-0008CZ-Oi
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48112)
+	id 1kLqur-0002Qh-Nf
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVf-0006pI-S4
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:49 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51694)
+ id 1kLqVj-0006qs-Kk
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:53 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVd-0006qj-K4
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:47 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id w2so3638408wmi.1
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:42 -0700 (PDT)
+ id 1kLqVd-0006qs-Kl
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:51 -0400
+Received: by mail-wm1-x333.google.com with SMTP id y15so3947997wmi.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=25BY9m20F0UzEdPJ4XVHRzjKq1kcqLKFnuqSO6foM7U=;
- b=V7LMJc0SH/KrNoOhaDblTimtLfZTqHIS5Qv2WRAZCiG46ZFJFHjNp34/vYNDSLn1CQ
- Z0pP/xB9/UQA1L2whFTNKhrsiOxiaRqALIjilzblWyOPT468+ioryiTqZVzD9te2WS2B
- hk+feWKMdOG1zqTd/PENuAAfyDb1kuonZ01IL/qI9SGYxUsdnQtfVos8UT2i7R8C1iNP
- Y+e2p24hueYItebGKUuqgmPwq3DeQ3m3zUCpEQIQJGeXgUFiHimV0CwI70XOwz6vWjRQ
- avhCJExohyMkPu4x65vPwjWO8hM5JgeVD7Mn/m+lUWuuQPfx1YCYuqEUDBVMGfCJOT6z
- Ck3Q==
+ bh=IBvSe9U4y9OyrW59Pq+7GIi7CePKnagVOSmaXWRdN60=;
+ b=nSuXRZn+qUU5qIYn5Y7l1NVzBY+e1Ew+5TO241KwdWoxEK0KN4Iwl0V+LFOEheZjlO
+ hKdWPZ6Fv+28M/kmUUW+teDzI5X/4YGJT7eKg6pfQZWOOXBXn+oFZ4/hfw62RvJMuMvF
+ NOwXocmtppq30VPBXIurhtePfmd6RWy9Qu4vEM2ySMBYTkD43By65fzhfux9zGXfGrh6
+ ilG+J07fAwUNbIVQhZ3OciCxmyBhudau35DQUW5yCUfnmQSd9CKVMqbH5vVF48qk8IjJ
+ u0ib3lBddIdIQOnHAFLkY73pHU1ka37YCG3Zwau72yOjMU/+Sr2+bDemtf1jeprN/P9E
+ pf0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=25BY9m20F0UzEdPJ4XVHRzjKq1kcqLKFnuqSO6foM7U=;
- b=prOSN3kbEIWfRYgBPezgdK6oPsujGE3f8P1TRocdq+oeItT3IZ3ypyGOJN/3lxNy6k
- H65KdnwVHK24d3x0/9BaY6qUFtf3T1tBLF4TIJQRHTccQ1O244XkEjB18A6mWPxBoiNN
- 1kEwwDxDueoSzuR3Ic8B51a9RM0izEWgRF9MDh7UD1ZADTMTffNuRnww1uQZvJcQwvTh
- nhk5LbKWKb0fGUSevZwwU9g0aXW0vWFVHBaEAt4bx/lGk6/Aj7QRIegRo+ZnUMoJQR7I
- +cDYKTuUML5Am1zMF4u0H1O32F8p00VIdQtZ/E4qf3XMqhOTllBbSm64v5PCHNk46Y5f
- qT5A==
-X-Gm-Message-State: AOAM533BxZsJPnWavZLqhrscvM4XktK17Qi5/Hq66bxIeyXbj6B3dMrH
- S84g6Ou/w4XXJa7KjfnpIvGktZEFegHRkWad
-X-Google-Smtp-Source: ABdhPJy1dL/KBbKc3Kle4EouFaQeLJVlTYmHrfn89uJ80k+KRZWJfKQmuSUPjR0bXPdAhGy2mE/I6w==
-X-Received: by 2002:a1c:3d44:: with SMTP id k65mr3844075wma.132.1601051021547; 
- Fri, 25 Sep 2020 09:23:41 -0700 (PDT)
+ bh=IBvSe9U4y9OyrW59Pq+7GIi7CePKnagVOSmaXWRdN60=;
+ b=klp3gpeo7rAiqCP5LBbffHk344XLsc9iUrGqyBQiQ3qskAGlUopmRIi0eSXMZ9IQ57
+ be1YY+LHzDHBQv96mVjTzZ99vwtcg0gNyqDTqT3afPQ0lJrEiiNl2t5Md2qVfemhae7Q
+ oYe4j7f1BYUPkXvIhLfhOFZCLK6Tj8v8cLN2b5mpJfvqRz+iizHXsxY+wdLdwuXusGTK
+ NMvmoR95THno+tDdoseeiXogXkBgIJWJYgOlVegYSzd9lP4hr6tL6vdvn8V5mUy5vtaP
+ A08YcW40hxHdCQh6JN4BGiJF4PhRsvTLN16UrL6OPWNPFKvJ/xrzB4CzNYNcOZSamsIY
+ z4Jw==
+X-Gm-Message-State: AOAM531ewFqDkc5e2cXBySn9HnI6eDDpG62W3sFPXdADSsFAEij4gmZV
+ VPzFJYnd/jLBN5ntYm6MctuyxQ1I6oHwAsyE
+X-Google-Smtp-Source: ABdhPJzNvXY+iL3QOA8WWmeGgC7/LfSm1SsgDKUSW6sdIl25Xh3TnKbcbkQC//HJtKf5i64bobIQKQ==
+X-Received: by 2002:a1c:9c8c:: with SMTP id f134mr3951436wme.27.1601051022631; 
+ Fri, 25 Sep 2020 09:23:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.40
+ by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 09:23:40 -0700 (PDT)
+ Fri, 25 Sep 2020 09:23:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 19/21] Remove Texinfo related line from git.orderfile
-Date: Fri, 25 Sep 2020 17:23:14 +0100
-Message-Id: <20200925162316.21205-20-peter.maydell@linaro.org>
+Subject: [PATCH v6 20/21] configure: Drop texinfo requirement
+Date: Fri, 25 Sep 2020 17:23:15 +0100
+Message-Id: <20200925162316.21205-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925162316.21205-1-peter.maydell@linaro.org>
 References: <20200925162316.21205-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,26 +88,58 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't use Texinfo any more; we can remove the references to the
-.texi source file from our git.orderfile.
+We don't need the texinfo and pod2man programs to build our documentation
+any more, so remove them from configure's tests.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- scripts/git.orderfile | 1 -
- 1 file changed, 1 deletion(-)
+ configure | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/git.orderfile b/scripts/git.orderfile
-index a021afc2d51..3736c1d6aff 100644
---- a/scripts/git.orderfile
-+++ b/scripts/git.orderfile
-@@ -12,7 +12,6 @@
- # Documentation
- docs/*
- *.rst
--*.texi
+diff --git a/configure b/configure
+index e8e8e984f24..190d88ffa37 100755
+--- a/configure
++++ b/configure
+@@ -4873,14 +4873,14 @@ if test "$docs" != "no" ; then
+   else
+     sphinx_ok=no
+   fi
+-  if has makeinfo && has pod2man && test "$sphinx_ok" = "yes"; then
++  if test "$sphinx_ok" = "yes"; then
+     docs=yes
+   else
+     if test "$docs" = "yes" ; then
+       if has $sphinx_build && test "$sphinx_ok" != "yes"; then
+         echo "Warning: $sphinx_build exists but it is either too old or uses too old a Python version" >&2
+       fi
+-      feature_not_found "docs" "Install texinfo, Perl/perl-podlators and a Python 3 version of python-sphinx"
++      feature_not_found "docs" "Install a Python 3 version of python-sphinx"
+     fi
+     docs=no
+   fi
+@@ -6300,13 +6300,6 @@ if test "$solaris" = "no" && test "$tsan" = "no"; then
+     fi
+ fi
  
- # build system
- configure
+-# test if pod2man has --utf8 option
+-if pod2man --help | grep -q utf8; then
+-    POD2MAN="pod2man --utf8"
+-else
+-    POD2MAN="pod2man"
+-fi
+-
+ # Use ASLR, no-SEH and DEP if available
+ if test "$mingw32" = "yes" ; then
+     for flag in --dynamicbase --no-seh --nxcompat; do
+@@ -7455,7 +7448,6 @@ echo "HOST_DSOSUF=$HOST_DSOSUF" >> $config_host_mak
+ echo "LIBS_QGA=$libs_qga" >> $config_host_mak
+ echo "TASN1_LIBS=$tasn1_libs" >> $config_host_mak
+ echo "TASN1_CFLAGS=$tasn1_cflags" >> $config_host_mak
+-echo "POD2MAN=$POD2MAN" >> $config_host_mak
+ if test "$gcov" = "yes" ; then
+   echo "CONFIG_GCOV=y" >> $config_host_mak
+ fi
 -- 
 2.20.1
 
