@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7420278D03
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:43:38 +0200 (CEST)
-Received: from localhost ([::1]:51276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7B7278CF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:39:48 +0200 (CEST)
+Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLpsn-0004fS-Tr
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35238)
+	id 1kLpp4-00013B-2I
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:39:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLpmp-0007nW-4M
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:37:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50597)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLpml-0007mH-AO
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:37:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLpmj-0007E5-2q
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:37:26 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLpmf-0007Dl-A1
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:37:19 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601048237;
+ s=mimecast20190719; t=1601048235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1r+ZrPN4PJ8fO1pGpR3Ejy/1rSpS+dz9mz7NC2iNFPI=;
- b=Ub5JLGEln9Wm5fT8dtTHHIYhzcGhOgqdDqMSA6VdJ/ccZXnZ/cv9ehNZNOBW15POr5C+sa
- fVCm14RFbuNjUTQjAV0Tl9CasW14ztDTKbjv+THqXM+yKrOZ25wu6qjXwZV5eGr1fV6CIQ
- bZdYIY7kFqQB9khLwSL3aFgEiDxsECo=
+ bh=AoCy5b99+EYcJjUs4iGXU3DO2q+DP1rEYmMpCxtpZjY=;
+ b=BhHugwpFv70eTCiiT7PEPRd2nmy/N4CeVGoxK4NXzOuYSVSqRyhvIfqbarRzNfzdYbwxzU
+ P/zaes4/iB9WRYxeqFY5CO2IB1hyEMns7V6eJzYj2TrIznic4c9wsXE2ZmCQdNjf6emv9s
+ m/DMzkFA3WI/EyBj31iE8+KrNWCIy7w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-JhzpEDpGMxiN2Q_nNmwAng-1; Fri, 25 Sep 2020 11:37:13 -0400
-X-MC-Unique: JhzpEDpGMxiN2Q_nNmwAng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-543-Q8lNYf_aNWatH2iq7T3QDg-1; Fri, 25 Sep 2020 11:37:13 -0400
+X-MC-Unique: Q8lNYf_aNWatH2iq7T3QDg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C30391084D78;
- Fri, 25 Sep 2020 15:37:12 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-83.ams2.redhat.com [10.36.114.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93D6F5D9DC;
- Fri, 25 Sep 2020 15:37:08 +0000 (UTC)
-Date: Fri, 25 Sep 2020 17:37:07 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 08/13] qapi: Add a 'coroutine' flag for commands
-Message-ID: <20200925153707.GG5731@linux.fritz.box>
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-9-kwolf@redhat.com>
- <87r1r4mlt5.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 724BB420F0;
+ Fri, 25 Sep 2020 15:37:11 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93B0573692;
+ Fri, 25 Sep 2020 15:37:10 +0000 (UTC)
+Subject: Re: [PATCH v2 02/38] qapi-gen: Separate arg-parsing from generation
+To: Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-3-jsnow@redhat.com>
+ <20200923000031.GB191229@localhost.localdomain>
+ <87zh5et7hx.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <c38cbc07-4878-ae05-8871-8cb1c46acde2@redhat.com>
+Date: Fri, 25 Sep 2020 11:37:10 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87r1r4mlt5.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <87zh5et7hx.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,103 +85,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.09.2020 um 17:15 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On 9/25/20 7:34 AM, Markus Armbruster wrote:
+> Cleber Rosa <crosa@redhat.com> writes:
 > 
-> > This patch adds a new 'coroutine' flag to QMP command definitions that
-> > tells the QMP dispatcher that the command handler is safe to be run in a
-> > coroutine.
-> >
-> > The documentation of the new flag pretends that this flag is already
-> > used as intended, which it isn't yet after this patch. We'll implement
-> > this in another patch in this series.
-> >
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> >  docs/devel/qapi-code-gen.txt            | 12 ++++++++++++
-> >  include/qapi/qmp/dispatch.h             |  1 +
-> >  tests/test-qmp-cmds.c                   |  4 ++++
-> >  scripts/qapi/commands.py                | 10 +++++++---
-> >  scripts/qapi/doc.py                     |  2 +-
-> >  scripts/qapi/expr.py                    | 10 ++++++++--
-> >  scripts/qapi/introspect.py              |  2 +-
-> >  scripts/qapi/schema.py                  | 12 ++++++++----
-> >  tests/qapi-schema/test-qapi.py          |  7 ++++---
-> >  tests/qapi-schema/meson.build           |  1 +
-> >  tests/qapi-schema/oob-coroutine.err     |  2 ++
-> >  tests/qapi-schema/oob-coroutine.json    |  2 ++
-> >  tests/qapi-schema/oob-coroutine.out     |  0
-> >  tests/qapi-schema/qapi-schema-test.json |  1 +
-> >  tests/qapi-schema/qapi-schema-test.out  |  2 ++
-> >  15 files changed, 54 insertions(+), 14 deletions(-)
-> >  create mode 100644 tests/qapi-schema/oob-coroutine.err
-> >  create mode 100644 tests/qapi-schema/oob-coroutine.json
-> >  create mode 100644 tests/qapi-schema/oob-coroutine.out
-> >
-> > diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-> > index f3e7ced212..36daa9b5f8 100644
-> > --- a/docs/devel/qapi-code-gen.txt
-> > +++ b/docs/devel/qapi-code-gen.txt
-> > @@ -472,6 +472,7 @@ Syntax:
-> >                  '*gen': false,
-> >                  '*allow-oob': true,
-> >                  '*allow-preconfig': true,
-> > +                '*coroutine': true,
-> >                  '*if': COND,
-> >                  '*features': FEATURES }
-> >  
-> > @@ -596,6 +597,17 @@ before the machine is built.  It defaults to false.  For example:
-> >  QMP is available before the machine is built only when QEMU was
-> >  started with --preconfig.
-> >  
-> > +Member 'coroutine' tells the QMP dispatcher whether the command handler
-> > +is safe to be run in a coroutine.
+>> On Tue, Sep 22, 2020 at 05:00:25PM -0400, John Snow wrote:
+>>> This is a minor re-work of the entrypoint script. It isolates a
+>>> generate() method from the actual command-line mechanism.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi-gen.py | 87 ++++++++++++++++++++++++++++++++-------------
+>>>   1 file changed, 63 insertions(+), 24 deletions(-)
+>>>
+>>> diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+>>> index 4b03f7d53b..59becba3e1 100644
+>>> --- a/scripts/qapi-gen.py
+>>> +++ b/scripts/qapi-gen.py
+>>> @@ -1,9 +1,13 @@
+>>>   #!/usr/bin/env python3
+>>> -# QAPI generator
+>>> -#
+>>> +
+>>>   # This work is licensed under the terms of the GNU GPL, version 2 or later.
+>>>   # See the COPYING file in the top-level directory.
+>>>   
+>>> +"""
+>>> +QAPI Generator
+>>> +
+>>> +This script is the main entry point for generating C code from the QAPI schema.
+>>> +"""
+>>>   
+>>>   import argparse
+>>>   import re
+>>> @@ -11,21 +15,65 @@
+>>>   
+>>>   from qapi.commands import gen_commands
+>>>   from qapi.doc import gen_doc
+>>> +from qapi.error import QAPIError
+>>>   from qapi.events import gen_events
+>>>   from qapi.introspect import gen_introspect
+>>> -from qapi.schema import QAPIError, QAPISchema
+>>> +from qapi.schema import QAPISchema
+>>>   from qapi.types import gen_types
+>>>   from qapi.visit import gen_visit
+>>>   
+>>>   
+>>> -def main(argv):
+>>> +DEFAULT_OUTPUT_DIR = ''
+>>> +DEFAULT_PREFIX = ''
+>>
+>> I did not understand the purpose of these.  If they're used only as
+>> the default value for the command line option parsing, I'd suggest
+>> dropping them.
+>>
+>>> +
+>>> +
+>>> +def generate(schema_file: str,
+>>> +             output_dir: str,
+>>> +             prefix: str,
+>>> +             unmask: bool = False,
+>>> +             builtins: bool = False) -> None:
+>>> +    """
+>>> +    generate uses a given schema to produce C code in the target directory.
+>>> +
+>>> +    :param schema_file: The primary QAPI schema file.
+>>> +    :param output_dir: The output directory to store generated code.
+>>> +    :param prefix: Optional C-code prefix for symbol names.
+>>> +    :param unmask: Expose non-ABI names through introspection?
+>>> +    :param builtins: Generate code for built-in types?
+>>> +
+>>> +    :raise QAPIError: On failures.
+>>> +    """
+>>> +    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
+>>> +    if match and match.end() != len(prefix):
+>>
+>> Nice catch with the extra check here.  Maybe worth mentioning and/or
+>> splitting the change?
 > 
-> We need to document what exactly makes a command handler coroutine safe
-> / unsafe.  We discussed this at some length in review of PATCH v4 1/4:
+> Please do not sneak additional checking into patches advertized as pure
+> refactoring.  It makes me look for more sneakery with a microscope.
 > 
->     Message-ID: <874kwnvgad.fsf@dusky.pond.sub.org>
->     https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg05015.html
+> This re.match() cannot possibly fail.  Three cases:
 > 
-> I'd be willing to accept a follow-up patch, if that's more convenient
-> for you.
-
-Did we ever arrive at a conclusion for a good definition?
-
-I mean I can give a definition like "it's coroutine safe if it results
-in the right behaviour even when called in coroutine context", but
-that's not really helpful.
-
-FWIW, I would also have a hard time giving a much better definition than
-this for thread safety.
-
-> >                                     It defaults to false.  If it is true,
-> > +the command handler is called from coroutine context and may yield while
+> * First character is funny
 > 
-> Is it *always* called from coroutine context, or could it be called
-> outside coroutine context, too?  I guess the former, thanks to PATCH 10,
-> and as long as we diligently mark HMP commands that such call QMP
-> handlers, like you do in PATCH 13.
+>    The regexp matches the empty string.  There's a reason the regexp ends
+>    with '?'.
+> 
+> * Non-first character is funny
+> 
+>    The regexp matches the non-funny prefix.
+> 
+> * No character is funny
+> 
+>    The regexp matches the complete string.
+> 
+> Checking impossible conditions as if they were possible is confusing.
+> Please drop the additional check.
+> 
+> We can talk about checking this impossible condition with
+> 
+>          assert(match)
+> 
+> if you believe it makes the code easier to understand (it does not
+> improve its behavior).
+> 
 
-Yes, it must *always* be called from coroutine context. This is the
-reason why I included HMP after all, even though I'm really mostly just
-interested in QMP.
+My use of strict_optional=False is what prevents this from exhibiting as 
+an error in mypy. An assert will help convince mypy that 'match' cannot 
+possibly be 'None'.
 
-> What's the worst than can happen when we neglect to mark such an HMP
-> command?
+eh, well. I will fix this when I remove strict_optional, so I will just 
+remove this additional check for now to avoid adding another patch to 
+this series.
 
-When the command handler tries to yield and it's not in coroutine
-context, it will abort(). If it never tries to yield, I think it would
-just work - but of course, the ability to yield is the only reason why
-you would want to run a command handler in a coroutine.
-
-Kevin
+--js
 
 
