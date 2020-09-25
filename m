@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD002786B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:09:18 +0200 (CEST)
-Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF28D2786AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:08:52 +0200 (CEST)
+Received: from localhost ([::1]:41686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLmXN-0004UA-PK
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38024)
+	id 1kLmWx-0003Sw-HD
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmVO-0002Ag-EW
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48221)
+ id 1kLmVS-0002B3-8X
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kLmVJ-0004CI-So
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:14 -0400
+ id 1kLmVO-0004Cd-5a
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:07:17 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601035628;
+ s=mimecast20190719; t=1601035631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LVFMvPIwxJm0uQkWAMfr5CZDG1AjtzCGXz1lEFqfOUk=;
- b=JbK2PZbTSsym4eGGVNqbXoQ4BGQ8MHS3NWReDeM8fee5jUBNgGu61pvbATzfXUZKIATWhd
- QqfWK6orEPZB5ZQEPPz0vGArPcYMDq2rAlBMSPBgCl/Bvi58CSDbqUhfFG3dvlr9WWAuBS
- WrKRyBq76KNdjokQQZr+EF6pAbHGa2s=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ikZ5UtE3+vjTJczLSWLwfVuGSIdVlZO2PJ0ByXz+1L8=;
+ b=Sq1vfTOpcs7vELZLNm4IHog+k3g44CZJBvMJ2/mTukgrj+UJa74fjVRXw9JSzaO1i9Idxl
+ oFMHUjz6Myv3wZxjQaurBKkKEIPCahfxgB0TPCGSmKg3SMY99aJ3UBvf4MlncrciEC70zL
+ vkJIaqsil9MV8RhMbYRDfAjoSquMmlk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-lHv7rMwQNI2utjS0tWz8LQ-1; Fri, 25 Sep 2020 08:07:06 -0400
-X-MC-Unique: lHv7rMwQNI2utjS0tWz8LQ-1
+ us-mta-192-KF4qLxXBPGCAgDrw4VwhmA-1; Fri, 25 Sep 2020 08:07:09 -0400
+X-MC-Unique: KF4qLxXBPGCAgDrw4VwhmA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44E512FD09;
- Fri, 25 Sep 2020 12:07:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D759410066FC;
+ Fri, 25 Sep 2020 12:07:07 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-177.ams2.redhat.com
  [10.36.114.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FA4D73692;
- Fri, 25 Sep 2020 12:06:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F92673692;
+ Fri, 25 Sep 2020 12:07:05 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, zhengchuan@huawei.com, dovmurik@linux.vnet.ibm.com,
  hgcoin@gmail.com, zhangjiachen.jaycee@bytedance.com, lvivier@redhat.com,
  peterx@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
  jinyan12@huawei.com, ann.zhuangyanying@huawei.com
-Subject: [PULL 00/26] migration and friends queue
-Date: Fri, 25 Sep 2020 13:06:29 +0100
-Message-Id: <20200925120655.295142-1-dgilbert@redhat.com>
+Subject: [PULL 01/26] migration: Properly destroy variables on incoming side
+Date: Fri, 25 Sep 2020 13:06:30 +0100
+Message-Id: <20200925120655.295142-2-dgilbert@redhat.com>
+In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
+References: <20200925120655.295142-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
@@ -85,95 +88,49 @@ Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Peter Xu <peterx@redhat.com>
 
-The following changes since commit 8c1c07929feae876202ba26f07a540c5115c18cd:
+In migration_incoming_state_destroy(), we've got a few variables that aren't
+destroyed properly, namely:
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-09-24 18:48:45 +0100)
+    main_thread_load_event
+    postcopy_pause_sem_dst
+    postcopy_pause_sem_fault
+    rp_mutex
 
-are available in the Git repository at:
+Destroy them properly.
 
-  git://github.com/dagrh/qemu.git tags/pull-migration-20200925a
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20200908203022.341615-2-peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ migration/migration.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to e12a0edafeb5019aac74114b62a4703f79c5c693:
-
-  virtiofsd: Add -o allow_direct_io|no_allow_direct_io options (2020-09-25 12:45:58 +0100)
-
-----------------------------------------------------------------
-Migration and virtiofsd pull
-
-Chuan Zheng's Dirtyrate and TLS changes, with small fixes from Dov and
-Luarent and Peter.
-Small virtiofs changes from Harry, Stefan, Vivek and Jiachen.
-One HMP/monitor rework from me.
-
-----------------------------------------------------------------
-Chuan Zheng (18):
-      migration/dirtyrate: setup up query-dirtyrate framwork
-      migration/dirtyrate: add DirtyRateStatus to denote calculation status
-      migration/dirtyrate: Add RamblockDirtyInfo to store sampled page info
-      migration/dirtyrate: Add dirtyrate statistics series functions
-      migration/dirtyrate: move RAMBLOCK_FOREACH_MIGRATABLE into ram.h
-      migration/dirtyrate: Record hash results for each sampled page
-      migration/dirtyrate: Compare page hash results for recorded sampled page
-      migration/dirtyrate: skip sampling ramblock with size below MIN_RAMBLOCK_SIZE
-      migration/dirtyrate: Implement set_sample_page_period() and is_sample_period_valid()
-      migration/dirtyrate: Implement calculate_dirtyrate() function
-      migration/dirtyrate: Implement qmp_cal_dirty_rate()/qmp_get_dirty_rate() function
-      migration/dirtyrate: Add trace_calls to make it easier to debug
-      migration/tls: save hostname into MigrationState
-      migration/tls: extract migration_tls_client_create for common-use
-      migration/tls: add tls_hostname into MultiFDSendParams
-      migration/tls: extract cleanup function for common-use
-      migration/tls: add support for multifd tls-handshake
-      migration/tls: add trace points for multifd-tls
-
-Dov Murik (1):
-      migration: Truncate state file in xen-save-devices-state
-
-Dr. David Alan Gilbert (1):
-      monitor: Use LOCK_GUARD macros
-
-Harry G. Coin (1):
-      virtiofsd: document cache=auto default
-
-Jiachen Zhang (1):
-      virtiofsd: Add -o allow_direct_io|no_allow_direct_io options
-
-Laurent Vivier (1):
-      migration: increase max-bandwidth to 128 MiB/s (1 Gib/s)
-
-Peter Xu (2):
-      migration: Properly destroy variables on incoming side
-      migration: Rework migrate_send_rp_req_pages() function
-
-Vivek Goyal (1):
-      virtiofsd: Used glib "shared" thread pool
-
- docs/tools/virtiofsd.rst              |   1 +
- migration/channel.c                   |   1 +
- migration/dirtyrate.c                 | 426 ++++++++++++++++++++++++++++++++++
- migration/dirtyrate.h                 |  69 ++++++
- migration/meson.build                 |   2 +-
- migration/migration.c                 |  36 ++-
- migration/migration.h                 |   9 +-
- migration/multifd.c                   | 124 ++++++++--
- migration/multifd.h                   |   2 +
- migration/postcopy-ram.c              |  24 +-
- migration/ram.c                       |  11 +-
- migration/ram.h                       |  10 +
- migration/savevm.c                    |   3 +-
- migration/tls.c                       |  28 ++-
- migration/tls.h                       |   6 +
- migration/trace-events                |  12 +
- monitor/misc.c                        |  44 ++--
- qapi/migration.json                   |  67 ++++++
- tools/virtiofsd/fuse_virtio.c         |   2 +-
- tools/virtiofsd/helper.c              |   4 +
- tools/virtiofsd/passthrough_ll.c      |  20 +-
- tools/virtiofsd/passthrough_seccomp.c |   2 +
- 22 files changed, 797 insertions(+), 106 deletions(-)
- create mode 100644 migration/dirtyrate.c
- create mode 100644 migration/dirtyrate.h
+diff --git a/migration/migration.c b/migration/migration.c
+index d9d1e0b190..3495c9e542 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -238,12 +238,15 @@ void migration_incoming_state_destroy(void)
+         mis->postcopy_remote_fds = NULL;
+     }
+ 
+-    qemu_event_reset(&mis->main_thread_load_event);
+-
+     if (mis->socket_address_list) {
+         qapi_free_SocketAddressList(mis->socket_address_list);
+         mis->socket_address_list = NULL;
+     }
++
++    qemu_event_destroy(&mis->main_thread_load_event);
++    qemu_sem_destroy(&mis->postcopy_pause_sem_dst);
++    qemu_sem_destroy(&mis->postcopy_pause_sem_fault);
++    qemu_mutex_destroy(&mis->rp_mutex);
+ }
+ 
+ static void migrate_generate_event(int new_state)
+-- 
+2.26.2
 
 
