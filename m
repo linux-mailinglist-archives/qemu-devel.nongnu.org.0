@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FA5277D56
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:02:27 +0200 (CEST)
-Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5213277D58
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:03:16 +0200 (CEST)
+Received: from localhost ([::1]:42810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLc82-0004zP-Do
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:02:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51514)
+	id 1kLc8p-0006Ag-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcg-0001TU-Kk
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:30:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35588)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLbdw-00024T-QQ
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:31:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcS-0000FQ-DQ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:30:02 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLbdt-0000Yv-N3
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:31:20 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600993787;
+ s=mimecast20190719; t=1600993874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8PdN2Xceg+pUbHNWsceYjl+XWMYW+37uzBGhMCm/pL4=;
- b=PTmJIW25ylKiJGMP69t9hUVCXa5lbBnFtrtulk+mOryP3avW9o+52t4sK4kGOAD+mX9EM/
- 9J8AyFn3oxs6LWacYu2UqzI+Y3NMdMa4RSp774cwECMovlT3SxBpr/bF8lOcVJABqZKtLp
- X25cASZQvNvQXPBK7FhmyXUgShUaGdE=
+ bh=KlbSagAU6+h/mKQslrnw8AEXM+WEO2y97b7b1fgJXbI=;
+ b=ZlAxCIot1GzUhOYbjKrq6JS2r8H6EA7htMfCOC110Q++63A387KaJJb3Bo3yBZA5sIwlBI
+ 2m8h4Wwj7S2PxWB6nkbjkFXY7Nazajr7DcdAYNiuKsu0W+QfNz7L4kfeMWoOOprM6ZUVjp
+ 1B0e7XB09X4pZXh0LIdW8dcE4Pm4vww=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-Cb1DgBAvP3mNhaUyHHv5yA-1; Thu, 24 Sep 2020 20:29:45 -0400
-X-MC-Unique: Cb1DgBAvP3mNhaUyHHv5yA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-367-DZx66z2APPen-8Us4SMauQ-1; Thu, 24 Sep 2020 20:31:06 -0400
+X-MC-Unique: DZx66z2APPen-8Us4SMauQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2F488015A5
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:44 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9AE45D9DD;
- Fri, 25 Sep 2020 00:29:43 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 47/47] qapi/visit.py: add type hint annotations
-Date: Thu, 24 Sep 2020 20:29:00 -0400
-Message-Id: <20200925002900.465855-48-jsnow@redhat.com>
-In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
-References: <20200925002900.465855-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 889131009443;
+ Fri, 25 Sep 2020 00:31:05 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DEBFC60C15;
+ Fri, 25 Sep 2020 00:31:04 +0000 (UTC)
+Date: Thu, 24 Sep 2020 20:31:02 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 06/16] qapi/expr.py: Check type of 'data' member
+Message-ID: <20200925003102.GI347918@localhost.localdomain>
+References: <20200922211313.4082880-1-jsnow@redhat.com>
+ <20200922211313.4082880-7-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200922211313.4082880-7-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KrHCbChajFcK0yQE"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -78,217 +80,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Annotations do not change runtime behavior.
-This commit *only* adds annotations.
+--KrHCbChajFcK0yQE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
----
- scripts/qapi/mypy.ini |  5 ---
- scripts/qapi/visit.py | 73 +++++++++++++++++++++++++++++++++----------
- 2 files changed, 56 insertions(+), 22 deletions(-)
+On Tue, Sep 22, 2020 at 05:13:03PM -0400, John Snow wrote:
+> Iterating over the members of data isn't going to work if it's not some
+> form of dict anyway, but for type safety, formalize it.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/expr.py | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index 3f5af5f5e4..633f9b9172 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -247,6 +247,9 @@ def check_union(expr, info):
+>              raise QAPISemError(info, "'discriminator' requires 'base'")
+>          check_name_is_str(discriminator, info, "'discriminator'")
+> =20
+> +    if not isinstance(members, dict):
+> +        raise QAPISemError(info, "'data' must be an object")
+> +
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 3babc380a8..5ab3433c5f 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -28,8 +28,3 @@ check_untyped_defs = False
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
--
--[mypy-qapi.visit]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index e54694e23d..14d4f0b261 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -13,6 +13,8 @@
- See the COPYING file in the top-level directory.
- """
- 
-+from typing import List, Optional
-+
- from .common import (
-     c_enum_const,
-     c_name,
-@@ -22,10 +24,20 @@
-     mcgen,
- )
- from .gen import QAPISchemaModularCVisitor, ifcontext
--from .schema import QAPISchemaEnumType, QAPISchemaObjectType
-+from .schema import (
-+    QAPISchema,
-+    QAPISchemaEnumMember,
-+    QAPISchemaEnumType,
-+    QAPISchemaFeature,
-+    QAPISchemaObjectType,
-+    QAPISchemaObjectTypeMember,
-+    QAPISchemaType,
-+    QAPISchemaVariants,
-+)
-+from .source import QAPISourceInfo
- 
- 
--def gen_visit_decl(name, scalar=False):
-+def gen_visit_decl(name: str, scalar: bool = False) -> str:
-     c_type = c_name(name) + ' *'
-     if not scalar:
-         c_type += '*'
-@@ -37,7 +49,7 @@ def gen_visit_decl(name, scalar=False):
-                  c_name=c_name(name), c_type=c_type)
- 
- 
--def gen_visit_members_decl(name):
-+def gen_visit_members_decl(name: str) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp);
-@@ -45,7 +57,10 @@ def gen_visit_members_decl(name):
-                  c_name=c_name(name))
- 
- 
--def gen_visit_object_members(name, base, members, variants):
-+def gen_visit_object_members(name: str,
-+                             base: Optional[QAPISchemaObjectType],
-+                             members: List[QAPISchemaObjectTypeMember],
-+                             variants: Optional[QAPISchemaVariants]) -> str:
-     ret = mcgen('''
- 
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
-@@ -125,7 +140,7 @@ def gen_visit_object_members(name, base, members, variants):
-     return ret
- 
- 
--def gen_visit_list(name, element_type):
-+def gen_visit_list(name: str, element_type: QAPISchemaType) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s(Visitor *v, const char *name,
-@@ -159,7 +174,7 @@ def gen_visit_list(name, element_type):
-                  c_name=c_name(name), c_elt_type=element_type.c_name())
- 
- 
--def gen_visit_enum(name):
-+def gen_visit_enum(name: str) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s(Visitor *v, const char *name,
-@@ -174,7 +189,7 @@ def gen_visit_enum(name):
-                  c_name=c_name(name))
- 
- 
--def gen_visit_alternate(name, variants):
-+def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
-     ret = mcgen('''
- 
- bool visit_type_%(c_name)s
-@@ -250,7 +265,7 @@ def gen_visit_alternate(name, variants):
-     return ret
- 
- 
--def gen_visit_object(name):
-+def gen_visit_object(name: str) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s
-@@ -285,12 +300,12 @@ def gen_visit_object(name):
- 
- class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
- 
--    def __init__(self, prefix):
-+    def __init__(self, prefix: str):
-         super().__init__(
-             prefix, 'qapi-visit', ' * Schema-defined QAPI visitors',
-             ' * Built-in QAPI visitors', __doc__)
- 
--    def _begin_system_module(self, name):
-+    def _begin_system_module(self, name: None) -> None:
-         self._genc.preamble_add(mcgen('''
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-@@ -302,7 +317,7 @@ def _begin_system_module(self, name):
- 
- '''))
- 
--    def _begin_user_module(self, name):
-+    def _begin_user_module(self, name: str) -> None:
-         types = self._module_basename('qapi-types', name)
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.preamble_add(mcgen('''
-@@ -319,18 +334,34 @@ def _begin_user_module(self, name):
- ''',
-                                       types=types))
- 
--    def visit_enum_type(self, name, info, ifcond, features, members, prefix):
-+    def visit_enum_type(self,
-+                        name: str,
-+                        info: QAPISourceInfo,
-+                        ifcond: List[str],
-+                        features: List[QAPISchemaFeature],
-+                        members: List[QAPISchemaEnumMember],
-+                        prefix: Optional[str]) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name, scalar=True))
-             self._genc.add(gen_visit_enum(name))
- 
--    def visit_array_type(self, name, info, ifcond, element_type):
-+    def visit_array_type(self,
-+                         name: str,
-+                         info: Optional[QAPISourceInfo],
-+                         ifcond: List[str],
-+                         element_type: QAPISchemaType) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_list(name, element_type))
- 
--    def visit_object_type(self, name, info, ifcond, features,
--                          base, members, variants):
-+    def visit_object_type(self,
-+                          name: str,
-+                          info: Optional[QAPISourceInfo],
-+                          ifcond: List[str],
-+                          features: List[QAPISchemaFeature],
-+                          base: Optional[QAPISchemaObjectType],
-+                          members: List[QAPISchemaObjectTypeMember],
-+                          variants: Optional[QAPISchemaVariants]) -> None:
-         # Nothing to do for the special empty builtin
-         if name == 'q_empty':
-             return
-@@ -345,13 +376,21 @@ def visit_object_type(self, name, info, ifcond, features,
-                 self._genh.add(gen_visit_decl(name))
-                 self._genc.add(gen_visit_object(name))
- 
--    def visit_alternate_type(self, name, info, ifcond, features, variants):
-+    def visit_alternate_type(self,
-+                             name: str,
-+                             info: QAPISourceInfo,
-+                             ifcond: List[str],
-+                             features: List[QAPISchemaFeature],
-+                             variants: QAPISchemaVariants) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_alternate(name, variants))
- 
- 
--def gen_visit(schema, output_dir, prefix, opt_builtins):
-+def gen_visit(schema: QAPISchema,
-+              output_dir: str,
-+              prefix: str,
-+              opt_builtins: bool) -> None:
-     vis = QAPISchemaGenVisitVisitor(prefix)
-     schema.visit(vis)
-     vis.write(output_dir, opt_builtins)
--- 
-2.26.2
+Don't you mean "must be a dict" ?
+
+>      for (key, value) in members.items():
+>          source =3D "'data' member '%s'" % key
+>          check_name_str(key, info, source)
+> @@ -260,6 +263,10 @@ def check_alternate(expr, info):
+> =20
+>      if not members:
+>          raise QAPISemError(info, "'data' must not be empty")
+> +
+> +    if not isinstance(members, dict):
+> +        raise QAPISemError(info, "'data' must be an object")
+> +
+
+Same here?
+
+- Cleber.
+
+>      for (key, value) in members.items():
+>          source =3D "'data' member '%s'" % key
+>          check_name_str(key, info, source)
+> --=20
+> 2.26.2
+>=20
+
+--KrHCbChajFcK0yQE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9tOkQACgkQZX6NM6Xy
+CfNy4Q//Zx/jsPrOKp/bYl3MqfTwuOMC/kTTaykgACWxodA5pLu1H5wVzhmrOjLf
+KnGTWrPdjHeP486MxoZ2RRRGfleLyCzYHaKXdR1x+L75dBm1aWgmN93b5cwNyU7T
+nO7f4lTHuPu2ULPVRGfgULN7yZXNB66f2KfvMCnQe+VTav7wOjOcYVmszYWZed1K
+KyZF9HsGB8/wo1WzLhLca2btdoec71iNddCxc5uHDP8XNLFnQuj8vOiaebJBowKY
+YE169CmPa3z/srT7GbZmtvDsLyuYJ7dasgptCcFCIgkil09GSL6TO5ENW3gi6yLc
+9W6natuG4kPXV7S2Xv7vX77Dqvh5UMFmVFnFuVkR4t+CfbU5E5hN5j0MkXWjgmIW
+zQu+wFcSxiKGrMBWFlfpKFGY6HPwRLsRWqGDJB80k8f55yNa3qeUmwUDQTa6Fshi
+NuuCWl3/erSyAanuA5cp8KASAiQHawMCgUFD6gQRR9VQpf7w9yuFqApYX3e8ftPX
+k1EX1EVucr4oSLfsxO0rhW4wQwKsGetDZhzMM6pKAUYIzlPEVZhpD4X0CjfZQk6O
+9cYIboevA4HRPlxAE9Znij/HO+cCzh6HsfZqZJjkRTVa4/qh1RA2qZvDFyw8U30N
+r7QoVJWkotjTtVc2BF0IvHrkhEHSO58hVHAQ4q0UAWwa+rWsYZQ=
+=CuAp
+-----END PGP SIGNATURE-----
+
+--KrHCbChajFcK0yQE--
 
 
