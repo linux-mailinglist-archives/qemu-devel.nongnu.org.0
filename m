@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33230278EC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:38:03 +0200 (CEST)
-Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C90278EE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:41:14 +0200 (CEST)
+Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqjS-00067F-8S
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47968)
+	id 1kLqmX-0001Ye-GY
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVT-0006ja-Tb
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:36 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36391)
+ id 1kLqVV-0006kO-Am
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:37 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVS-0006pJ-8t
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:35 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z1so4249287wrt.3
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:33 -0700 (PDT)
+ id 1kLqVT-0006pZ-FQ
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:37 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id t10so4270846wrv.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2fo9KhPCNYW+F0sc33/RwPCGaMMzyxHJl2mjQCHcWVQ=;
- b=ILhYsBqm/G3LakPho1BoLo9PHmXUYJUJBYE5V0pHW3b7W/Rb56wkyFLqjKsLF2GjJt
- oE/UFSqvdVbwCuDhSDzdWidtPWR+CZOY84TAM+js+LOItPPgIvw/SWU8KRnGsjyc8px9
- uhYgtAn6ObsG5SQl960Yssa9cCUKGG42N1ejJHXubtErLhCUsEf0ivvkBYbvjuX8rZ5l
- Wklg8xRVkGql/x8gQPPBBQC6oDH9kWYFI4S5uwLLHRcbNxzbkkl+bnmAtPKM1HlLLDBo
- Ra7yTo5QuYKRINhYR+yh/etqUG0TXURd2clU6PSbYwT5BIRbg9K5BH2366Kb7Bm2ie1q
- /RGw==
+ bh=FBXPGy4Klp9jR272eFs+vFXX4JatTC9w4gnl2L3wGwM=;
+ b=aoFRQTk8aCC3CHzz0MKU/jnPXCmTb8bzpkTpPXd+TvFw3NfehyZi6fOH1f+Fxwvkk4
+ dNCx8BEuf601p05FQMPvGD7OZx1fWaoBrdCxgsE80tSu6yyFN83anJeVNz8hwUKJjp1R
+ ejN+/kd7rG90qE4p8PtwREKV2otmIX4i9BlwTo4Pbfkdw1OYCnebXlJSNcyAjKsaDT8U
+ oNIirMulqWpHYSRXjDznDpvzg22JT0AFsDQIXdvGCtFKFLvg/ZAsxZ9TYh8US/ExMKJv
+ T/z6N1kef+urrraW1mbQOaVxFbwnMAIwOmbQ+oDsFxyHBZvkwvslXzXO+HzRb2dRUp+w
+ 8VmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2fo9KhPCNYW+F0sc33/RwPCGaMMzyxHJl2mjQCHcWVQ=;
- b=iKm8xa3S/9yupv2sudNQKuUoITEgLtSBTlEmfHRrOOx39JMEyqu6ZOpNSwqADr3qx4
- A/WEqCSMnl51ATArBUjuL+r1JSztqlb+7dSkCcgt+OwvR/rV60bK3j8LqhLWQbSBOJ6T
- /MK3A0n0hoKzPOXirSOfD14nWh0CLFF3UC0nffWGbJ1R+cwngGfw8AF65PurAI5/MUpo
- q+M6mMRvBXZxnCOsWAeuMziZCtKXwrJ0xOGDFDFStB6ZmS0sbrPmE/QRQN/l+FIskF/j
- b6GFNWVxYzyEmBWY4bct9SCwn4JF02EbC+eJT9bG38t5iXwKUCkVZnCY24p+G+rCqNMU
- YBYQ==
-X-Gm-Message-State: AOAM532+KqoXoERtvyZESylS0AskmSAffhyMcvj83ksJIKBpTnvJJcxX
- nb7Mfuk1dOiwjVTT/BWSWHhH9CDl+rSV3nV6
-X-Google-Smtp-Source: ABdhPJymVcifPlwdaXncrMZQk3zFji1MGfBUxOHM34fO6zeF+X0bGouwxhS9Adgq2+0ThsGhzsJjiA==
-X-Received: by 2002:adf:e304:: with SMTP id b4mr5155282wrj.141.1601051012628; 
- Fri, 25 Sep 2020 09:23:32 -0700 (PDT)
+ bh=FBXPGy4Klp9jR272eFs+vFXX4JatTC9w4gnl2L3wGwM=;
+ b=lUBdEYlEGKpOfm6N8AjtRjESWgesj1eiX+XZDD14EL3Iaz7ypd6xZ4dPZAzNSYWktl
+ yMCB1vmTJr/4N3RGwj3dOj+lSqmUE+r2TLbr69DxEDm+2/JKND5wf6Bad9W1Epz4xVLY
+ wSqp2KD4yYOt2h6nHzy8oE2G2cbmuh/bxQ19/IfPIEoYf1XkSe+NgaIM4AVVFQp3Y1R0
+ zz1cygy7JPlvvNOKG1FgRzzbkG4g5eTxIHcDiNBX4nINYr7M/imxbVEmW3PYJCJV/qnK
+ vxnAOzGiZ0Ffec0H95AKn8geVrAQySgr0Pzh6DkEMii9MWHcDTeIZ4bZexBwCxIvxAMV
+ ROTg==
+X-Gm-Message-State: AOAM532SZYYZPqSmlFYOM8+5KtCPgkqgxz7GJ4Rea6ArAIAKXvmJLyiL
+ 1you0nlbJ8wWYq7YDcrVTSPxNa9jLjIJ4lmX
+X-Google-Smtp-Source: ABdhPJztB7Nfdn+wqkAa4jjRlgpJGNfZ647xrloJJWdmyWDZEbmnaL5/KvLHNMtTfGGGwAvHIYfBDw==
+X-Received: by 2002:adf:8b1d:: with SMTP id n29mr5156184wra.383.1601051013686; 
+ Fri, 25 Sep 2020 09:23:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.31
+ by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 09:23:32 -0700 (PDT)
+ Fri, 25 Sep 2020 09:23:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 12/21] tests/qapi-schema: Convert doc-good.json to
- rST-style strong/emphasis
-Date: Fri, 25 Sep 2020 17:23:07 +0100
-Message-Id: <20200925162316.21205-13-peter.maydell@linaro.org>
+Subject: [PATCH v6 13/21] meson.build: Move SPHINX_ARGS to top level
+ meson.build file
+Date: Fri, 25 Sep 2020 17:23:08 +0100
+Message-Id: <20200925162316.21205-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925162316.21205-1-peter.maydell@linaro.org>
 References: <20200925162316.21205-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,74 +89,51 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-doc-good.json currently uses the old *strong* and _emphasis_ markup.
-As part of the conversion to rST this needs to switch to **strong**
-and *emphasis*, because rST uses underscores as part of its markup
-of hyperlinks and will otherwise warn about the syntax error.
-
-In commit a660eed482063b we fixed up the in-tree uses of the
-old markup:
- 1) _this_ was replaced with *this*
- 2) the only in-tree use of *this* was left alone (turning
-    a 'strong' into an 'emphasis')
-(and so currently in-tree nothing is using either new-style
-**strong** or old-style _emphasis_).
-
-Update doc-good.json in a similar way:
- 1) replace _this_ with *this*
- 2) remove the usage of old-style *this*
-
-(This slightly reduces the coverage for the old Texinfo generator,
-which is about to go away, but is fine for the new rST generator
-because that does not need to handle strong/emphasis itself because
-it is simply passing the entire text as raw rST to Sphinx.)
+We're going to want to use SPHINX_ARGS in both docs/meson.build
+and tests/qapi-schema/meson.build. Move the definition up to the
+top level file so it is available to both subdirectories.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qapi-schema/doc-good.json | 2 +-
- tests/qapi-schema/doc-good.out  | 2 +-
- tests/qapi-schema/doc-good.texi | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ docs/meson.build | 8 --------
+ meson.build      | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
-index c6822145c49..e9af0857db7 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -10,7 +10,7 @@
- #
- # == Subsection
- #
--# *strong* _with emphasis_
-+# *with emphasis*
- # @var {in braces}
- #
- # * List item one
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index b7e3f4313da..419284dae29 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -73,7 +73,7 @@ doc freeform
-     body=
- == Subsection
+diff --git a/docs/meson.build b/docs/meson.build
+index 69097e2ca07..99da609e813 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -1,11 +1,3 @@
+-SPHINX_ARGS = [config_host['SPHINX_BUILD'],
+-               '-Dversion=' + meson.project_version(),
+-               '-Drelease=' + config_host['PKGVERSION']]
+-
+-if get_option('werror')
+-  SPHINX_ARGS += [ '-W' ]
+-endif
+-
+ if build_docs
+   configure_file(output: 'index.html',
+                  input: files('index.html.in'),
+diff --git a/meson.build b/meson.build
+index 73d675ca834..6408ad442ea 100644
+--- a/meson.build
++++ b/meson.build
+@@ -671,6 +671,14 @@ foreach d : hx_headers
+ endforeach
+ genh += hxdep
  
--*strong* _with emphasis_
-+*with emphasis*
- @var {in braces}
++SPHINX_ARGS = [config_host['SPHINX_BUILD'],
++               '-Dversion=' + meson.project_version(),
++               '-Drelease=' + config_host['PKGVERSION']]
++
++if get_option('werror')
++  SPHINX_ARGS += [ '-W' ]
++endif
++
+ # Collect sourcesets.
  
- * List item one
-diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good.texi
-index 12808989ffb..29abef33e98 100644
---- a/tests/qapi-schema/doc-good.texi
-+++ b/tests/qapi-schema/doc-good.texi
-@@ -4,7 +4,7 @@
- 
- @subsection Subsection
- 
--@strong{strong} @emph{with emphasis}
-+@strong{with emphasis}
- @code{var} @{in braces@}
- 
- @itemize @bullet
+ util_ss = ss.source_set()
 -- 
 2.20.1
 
