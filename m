@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7573277D6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:10:55 +0200 (CEST)
-Received: from localhost ([::1]:38902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0299F277D6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 03:12:53 +0200 (CEST)
+Received: from localhost ([::1]:47046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLcGE-00083J-W5
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:10:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53964)
+	id 1kLcI8-0003C4-2e
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 21:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbti-00036m-U5
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:47:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41544)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbwY-00072L-Rw
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:50:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbth-0002QZ-3a
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:47:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbwX-0002j4-0M
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:50:34 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600994856;
+ s=mimecast20190719; t=1600995031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6pFR1KCFzkkeHceQX8jxzWs9sM0KFQN82/g5+XkxspM=;
- b=VgbTUWKIAIb9cmSXTCWw0hJDJ9g1wXRW2bm3Ua8Yk3cX7mKNO2myG5hlqp2noPz1e9tV+P
- LKTMYFLDtoJ+lcS90dVBOQOETZBaM11cX07BWbRAhsslotFaQJXXGlctdoy3nmQBie3YXX
- opx01sqq0Fz3DlQyR5Qs22EOkKAwGZQ=
+ bh=rrDVGz/n/23SBC+0iYk5PpLY1dapDKmuCwxPuy6K3U8=;
+ b=Q6RX78Y/g9XTJJPDdi61QIRdDRc68veXrDrJo4aIEjCRUpssBUXSa4+kYYmrEipYkD60ml
+ cXQCv1DviAvc3puMf7WJ2qmRTXlhSGeDQOaLUr1r/M3r1QujFGV2jFzF3/Iw/3fXygdc7I
+ CjGOc54iuDDLCTdfvlUa2UGNWzXBbrI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-j1EiGyM3OZGe1R_B_0NSlg-1; Thu, 24 Sep 2020 20:47:34 -0400
-X-MC-Unique: j1EiGyM3OZGe1R_B_0NSlg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-276-Pv-8iEdDMsm32EuWuti6Xg-1; Thu, 24 Sep 2020 20:50:30 -0400
+X-MC-Unique: Pv-8iEdDMsm32EuWuti6Xg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D5F010066FE;
- Fri, 25 Sep 2020 00:47:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E10B11074652;
+ Fri, 25 Sep 2020 00:50:28 +0000 (UTC)
 Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A1681002C14;
- Fri, 25 Sep 2020 00:47:32 +0000 (UTC)
-Subject: Re: [PATCH 04/16] qapi/expr.py: Add assertion for union type
- 'check_dict'
-To: Eduardo Habkost <ehabkost@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5934C60C04;
+ Fri, 25 Sep 2020 00:50:28 +0000 (UTC)
+Subject: Re: [PATCH 06/16] qapi/expr.py: Check type of 'data' member
+To: Cleber Rosa <crosa@redhat.com>
 References: <20200922211313.4082880-1-jsnow@redhat.com>
- <20200922211313.4082880-5-jsnow@redhat.com>
- <20200923195322.GE3312949@habkost.net>
+ <20200922211313.4082880-7-jsnow@redhat.com>
+ <20200925003102.GI347918@localhost.localdomain>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <a296d090-634d-f6f4-7aa7-fa6f510eb7f9@redhat.com>
-Date: Thu, 24 Sep 2020 20:47:31 -0400
+Message-ID: <37788a49-bce8-d04e-0d98-72c50fb9e2ec@redhat.com>
+Date: Thu, 24 Sep 2020 20:50:27 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200923195322.GE3312949@habkost.net>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200925003102.GI347918@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
@@ -85,56 +84,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/20 3:53 PM, Eduardo Habkost wrote:
-> On Tue, Sep 22, 2020 at 05:13:01PM -0400, John Snow wrote:
->> mypy isn't fond of allowing you to check for bool membership in a
->> collection of str elements. Guard this lookup for precisely when we were
->> given a name.
+On 9/24/20 8:31 PM, Cleber Rosa wrote:
+> On Tue, Sep 22, 2020 at 05:13:03PM -0400, John Snow wrote:
+>> Iterating over the members of data isn't going to work if it's not some
+>> form of dict anyway, but for type safety, formalize it.
 >>
 >> Signed-off-by: John Snow <jsnow@redhat.com>
 >> ---
->>   scripts/qapi/expr.py | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>   scripts/qapi/expr.py | 7 +++++++
+>>   1 file changed, 7 insertions(+)
 >>
 >> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> index f6b55a87c1..67892502e9 100644
+>> index 3f5af5f5e4..633f9b9172 100644
 >> --- a/scripts/qapi/expr.py
 >> +++ b/scripts/qapi/expr.py
->> @@ -166,7 +166,9 @@ def check_type(value, info, source,
->>           raise QAPISemError(info,
->>                              "%s should be an object or type name" % source)
+>> @@ -247,6 +247,9 @@ def check_union(expr, info):
+>>               raise QAPISemError(info, "'discriminator' requires 'base'")
+>>           check_name_is_str(discriminator, info, "'discriminator'")
 >>   
->> -    permit_upper = allow_dict in info.pragma.name_case_whitelist
->> +    permit_upper = False
->> +    if isinstance(allow_dict, str):
->> +        permit_upper = allow_dict in info.pragma.name_case_whitelist
+>> +    if not isinstance(members, dict):
+>> +        raise QAPISemError(info, "'data' must be an object")
+>> +
 > 
-> Well, this keeps existing behavior, so:
-> 
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> 
-> But: what exactly is the meaning of allow_dict=False,
-> allow_dict=True, and allow_dict being a string?
-> 
+> Don't you mean "must be a dict" ?
 > 
 
-allow_dict = True -- allows the type to be an object describing the type.
-
-allow_dict: str -- allows the type to be an object (like True), but also 
-passes a name in for the purposes of validating the name with the pragma 
-whitelist(!)
-
->>   
->>       # value is a dictionary, check that each member is okay
->>       for (key, arg) in value.items():
->> -- 
->> 2.26.2
->>
-> 
+This error is speaking JSON-ese! json objects become python dicts, so if 
+we didn't get a python dict here, we didn't get a json object.
 
 
