@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BBE278518
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:31:13 +0200 (CEST)
-Received: from localhost ([::1]:49294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1159E278537
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:33:43 +0200 (CEST)
+Received: from localhost ([::1]:54244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLl0S-0007iE-GB
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
+	id 1kLl2s-0001bB-4v
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknj-0001XP-Ia; Fri, 25 Sep 2020 06:18:04 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:58244)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknd-0007SN-9R; Fri, 25 Sep 2020 06:18:02 -0400
-Received: from sekoia-pc.bar.greensocs.com (sekoia-pc.home.lmichel.fr
- [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id D7558C60F24;
- Fri, 25 Sep 2020 10:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1601029040;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XYmTD4UkWAFnlkcU34EMX40lMfSmz6vUyQ7STKLwesk=;
- b=DHi72S62IkVE1v4kGD8A1tHQY8kC7rYG6BbaYGUK6rtKRvXH4iBap0uNnKVJsl1uyGzsqj
- Ji8eZXalGWg+gjsxDlRSlI3BWz9qZdVw6+1X/C3nxSKa7UwF/bbOpN88fZg8ZiLisJljku
- hpmwb68xQn6jFSSWbuiDPb0GR88AH00DHAXBgwi8OQo2DNgfD8FsKmhIil0FHRkxkogKm1
- vLF0wcr5FzIFOp2dc8ehRXTWbfkbtcokSbwkDDDhXWLEoqGY9hSQK2TRoBSDRH6OGTV9Ue
- nqVdPVeLjWxZPm8ae9aU1r0Qv642srci7tzhZeZbUEuijqdhm7KHzGgOgOYVzg==
-From: Luc Michel <luc@lmichel.fr>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 12/14] hw/misc/bcm2835_cprman: add sane reset values to the
- registers
-Date: Fri, 25 Sep 2020 12:17:29 +0200
-Message-Id: <20200925101731.2159827-13-luc@lmichel.fr>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200925101731.2159827-1-luc@lmichel.fr>
-References: <20200925101731.2159827-1-luc@lmichel.fr>
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kLksY-0000At-HM
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 06:23:02 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:45527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kLksW-00084J-Ux
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 06:23:02 -0400
+Received: by mail-ed1-x542.google.com with SMTP id l17so1911526edq.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 03:23:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BNH32WpIB3BHjwbBfQ9O8Ky7gKSFN5qvos5tTlr8vDM=;
+ b=SO2Y590jYV22Nvt3P2DnGE4A6zzhsfNy9sz63Jlv5fkECOv1EJ8wQzA2MlXtgUAgj1
+ 86ltt91Vmj4+7gemlV1zMlccEXvCeJuoaXjvsud+41Wmgscb0Bo3V+/dDQ0mZXSiSRe8
+ ++YyH/kVoiuLu+Mt8aA2HwGZc69GY/YD2WOFBVjAIH4XI4BQ+lbqqadb+TC0x9ZgxAIX
+ MBw2yhVO6fy5UoTeRgA+E15ZCNZkcLn2xAg7GwFkJebmq3qSxhvwU7kLBGRn78iBjbsw
+ N/wh32ibMU4Z1nZMf3QMU+VKzoeNZ+Kc+w2mFDwGzx7nZSjxwbeUVmazEHKd4P2thL+0
+ c8/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BNH32WpIB3BHjwbBfQ9O8Ky7gKSFN5qvos5tTlr8vDM=;
+ b=FSGz9XPzVfXXZVrDwJWzwY064N4FpQrGbEHX3TrIpVyVsNRmFV2URcWa2MtJACirNo
+ SCltk+ClR9xGRg5n+Cm7UYH4cRhktWCZY9SD50GMjmkQfsB1YrVVwm4MkF7CabTRyZMR
+ ZHBUKm2cR0dn4IguZ1i55OrOCJG7BQZIdDdzp4kSmkxnBCVIVDHf8T4rwAM2GkCeg5Oa
+ aKJEZPSZBl9SXrJal97zSEyUVy+RZgy3Qq/0eMrRVA19qfP/R5el7oG/30k1Ncc44cFm
+ dNxk8YW4s68snVyY26A+MNMmAvhImkk97I0gnbS2dTRBd/B0H+TMNTLcqLU1YJacm5e/
+ SdQQ==
+X-Gm-Message-State: AOAM5307GqvXRM6v/pwrXPQw/3qGR4fRgsxcKSMjJrIndGAI8Z9JfnY/
+ bhZaZgPG4kvWTed62FCDTy4=
+X-Google-Smtp-Source: ABdhPJxHt0V7c0r8jMqnyyGslXvvVUzgy3mNS9C6u850MIUFooQHfo3ikyvAG13h4tyv0o9/EH2h7g==
+X-Received: by 2002:a50:f28b:: with SMTP id f11mr516866edm.44.1601029379438;
+ Fri, 25 Sep 2020 03:22:59 -0700 (PDT)
+Received: from lb01399.pb.local ([2001:1438:4010:2558:5c17:67ff:fe35:747b])
+ by smtp.gmail.com with ESMTPSA id s30sm1504223edc.8.2020.09.25.03.22.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 03:22:58 -0700 (PDT)
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+To: mst@redhat.com,
+	david@redhat.com
+Subject: [PATCH] virtio-pmem-pci: force virtio version 1
+Date: Fri, 25 Sep 2020 12:22:51 +0200
+Message-Id: <20200925102251.7216-1-pankaj.gupta.linux@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
- s=pharaoh; t=1601029040;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XYmTD4UkWAFnlkcU34EMX40lMfSmz6vUyQ7STKLwesk=;
- b=ZFNBK2dF7KwM8aqyZZL3phW8mwtRk6JuKM7rzuab5DBEqYC/Fdy3U4BOuYIgjyB9obFCzi
- /zRv3q6VyPdDPjJJDk2HiOEiGOGLn1ecF6LgzvTiQ9vAfgKXyWFCc3GpD8YMcipef41LEs
- PQnasQwRSa4VlCLzB5f2ENr83TJc/BlqBYf9cDRp1qOLtw04a7AU3/zHPTIknf1xHRYvF7
- Xjh5XXKxFcxwkXDV/kl25XUiiHyc6X2LYAZJoxholPkpOh6CsSu/hs8kV1wHizfEWQgIiZ
- zrtuhlXtpW6ieBkQLoD+q9tVven7hWBDMGa4TGnS/mIb79f+ZOWVmlhL82nGhw==
-ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029040; a=rsa-sha256; cv=none;
- b=jOzjd6FCZeN40HNRxAGmjxQHWaC87Pn6Sumkyke9Pfv+oVNLn/DnvYtqUZcReq27qiKR6+bdWgE4DFiZBzop4KsSTzo3C/Cb0DhiCq+1FBAWYomNMKftNs00k4XJPuUgjLydsN8ExhiPhuA9ePkMvT7Q8yocikot/pT/hkrlLAjwQHVMDy6YNKV4XjV+AYJ9YkVVcxuXSg5rCZPcHL+JVgr2fR3fOiA8w/Q4SrmS8BNPvijrCXq8t/YPff5WUHSV1zCcvkpEA40+7NkNL4IekEmVLNsC44kSUMNXT6wZXP38vPsbSo8+vgLjdB95B++qn1Uwuovztbuh+ifwOyAGvA==
-ARC-Authentication-Results: i=1;
-	pharaoh.lmichel.fr
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 06:17:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,419 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Luc Michel <luc@lmichel.fr>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Those reset values have been extracted from a Raspberry Pi 3 model B
-v1.2, using the 2020-08-20 version of raspios. The dump was done using
-the debugfs interface of the cprman driver in Linux (under
-'/sys/kernel/debug/clk'). Each exposed clock tree stage (PLLs, channels
-and muxes) can be observed by reading the 'regdump' file (e.g.
-'plla/regdump').
+ Qemu fails with below error when trying to run with virtio pmem:
 
-Those values are set by the Raspberry Pi firmware at boot time (Linux
-expects them to be set when it boots up).
+ (qemu) qemu-system-x86_64: -device virtio-pmem-pci,memdev=mem1,id=nv1:
+  device is modern-only, use disable-legacy=on
+ 
+ This patch fixes this by forcing virtio 1 with virtio-pmem.
 
-Some stages are not exposed by the Linux driver (e.g. the PLL B). For
-those, the reset values are unknown and left to 0 which implies a
-disabled output.
-
-Once booted in QEMU, the final clock tree is very similar to the one
-visible on real hardware. The differences come from some unimplemented
-devices for which the driver simply disable the corresponding clock.
-
-Signed-off-by: Luc Michel <luc@lmichel.fr>
+fixes: adf0748a49 ("virtio-pci: Proxy for virtio-pmem")
+Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 ---
- include/hw/misc/bcm2835_cprman_internals.h | 269 +++++++++++++++++++++
- hw/misc/bcm2835_cprman.c                   |  31 +++
- 2 files changed, 300 insertions(+)
+ hw/virtio/virtio-pmem-pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/misc/bcm2835_cprman_internals.h b/include/hw/misc/bcm2835_cprman_internals.h
-index ad07cf5276..f5e168ccf9 100644
---- a/include/hw/misc/bcm2835_cprman_internals.h
-+++ b/include/hw/misc/bcm2835_cprman_internals.h
-@@ -744,6 +744,275 @@ static inline void set_clock_mux_init_info(BCM2835CprmanState *s,
-     mux->reg_cm = &s->regs[CLOCK_MUX_INIT_INFO[id].cm_offset];
-     mux->int_bits = CLOCK_MUX_INIT_INFO[id].int_bits;
-     mux->frac_bits = CLOCK_MUX_INIT_INFO[id].frac_bits;
+diff --git a/hw/virtio/virtio-pmem-pci.c b/hw/virtio/virtio-pmem-pci.c
+index 21a457d151..2b2a0b1eae 100644
+--- a/hw/virtio/virtio-pmem-pci.c
++++ b/hw/virtio/virtio-pmem-pci.c
+@@ -22,6 +22,7 @@ static void virtio_pmem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VirtIOPMEMPCI *pmem_pci = VIRTIO_PMEM_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&pmem_pci->vdev);
+ 
++    virtio_pci_force_virtio_1(vpci_dev);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
  }
  
-+
-+/*
-+ * Object reset info
-+ * Those values have been dumped from a Raspberry Pi 3 Model B v1.2 using the
-+ * clk debugfs interface in Linux.
-+ */
-+typedef struct PLLResetInfo {
-+    uint32_t cm;
-+    uint32_t a2w_ctrl;
-+    uint32_t a2w_ana[4];
-+    uint32_t a2w_frac;
-+} PLLResetInfo;
-+
-+static const PLLResetInfo PLL_RESET_INFO[] = {
-+    [CPRMAN_PLLA] = {
-+        .cm = 0x0000008a,
-+        .a2w_ctrl = 0x0002103a,
-+        .a2w_frac = 0x00098000,
-+        .a2w_ana = { 0x00000000, 0x00144000, 0x00000000, 0x00000100 }
-+    },
-+
-+    [CPRMAN_PLLC] = {
-+        .cm = 0x00000228,
-+        .a2w_ctrl = 0x0002103e,
-+        .a2w_frac = 0x00080000,
-+        .a2w_ana = { 0x00000000, 0x00144000, 0x00000000, 0x00000100 }
-+    },
-+
-+    [CPRMAN_PLLD] = {
-+        .cm = 0x0000020a,
-+        .a2w_ctrl = 0x00021034,
-+        .a2w_frac = 0x00015556,
-+        .a2w_ana = { 0x00000000, 0x00144000, 0x00000000, 0x00000100 }
-+    },
-+
-+    [CPRMAN_PLLH] = {
-+        .cm = 0x00000000,
-+        .a2w_ctrl = 0x0002102d,
-+        .a2w_frac = 0x00000000,
-+        .a2w_ana = { 0x00900000, 0x0000000c, 0x00000000, 0x00000000 }
-+    },
-+
-+    [CPRMAN_PLLB] = {
-+        /* unknown */
-+        .cm = 0x00000000,
-+        .a2w_ctrl = 0x00000000,
-+        .a2w_frac = 0x00000000,
-+        .a2w_ana = { 0x00000000, 0x00000000, 0x00000000, 0x00000000 }
-+    }
-+};
-+
-+typedef struct PLLChannelResetInfo {
-+    /*
-+     * Even though a PLL channel has a CM register, it shares it with its
-+     * parent PLL. The parent already takes care of the reset value.
-+     */
-+    uint32_t a2w_ctrl;
-+} PLLChannelResetInfo;
-+
-+static const PLLChannelResetInfo PLL_CHANNEL_RESET_INFO[] = {
-+    [CPRMAN_PLLA_CHANNEL_DSI0] = { .a2w_ctrl = 0x00000100 },
-+    [CPRMAN_PLLA_CHANNEL_CORE] = { .a2w_ctrl = 0x00000003 },
-+    [CPRMAN_PLLA_CHANNEL_PER] = { .a2w_ctrl = 0x00000000 }, /* unknown */
-+    [CPRMAN_PLLA_CHANNEL_CCP2] = { .a2w_ctrl = 0x00000100 },
-+
-+    [CPRMAN_PLLC_CHANNEL_CORE2] = { .a2w_ctrl = 0x00000100 },
-+    [CPRMAN_PLLC_CHANNEL_CORE1] = { .a2w_ctrl = 0x00000100 },
-+    [CPRMAN_PLLC_CHANNEL_PER] = { .a2w_ctrl = 0x00000002 },
-+    [CPRMAN_PLLC_CHANNEL_CORE0] = { .a2w_ctrl = 0x00000002 },
-+
-+    [CPRMAN_PLLD_CHANNEL_DSI0] = { .a2w_ctrl = 0x00000100 },
-+    [CPRMAN_PLLD_CHANNEL_CORE] = { .a2w_ctrl = 0x00000004 },
-+    [CPRMAN_PLLD_CHANNEL_PER] = { .a2w_ctrl = 0x00000004 },
-+    [CPRMAN_PLLD_CHANNEL_DSI1] = { .a2w_ctrl = 0x00000100 },
-+
-+    [CPRMAN_PLLH_CHANNEL_AUX] = { .a2w_ctrl = 0x00000004 },
-+    [CPRMAN_PLLH_CHANNEL_RCAL] = { .a2w_ctrl = 0x00000000 },
-+    [CPRMAN_PLLH_CHANNEL_PIX] = { .a2w_ctrl = 0x00000000 },
-+
-+    [CPRMAN_PLLB_CHANNEL_ARM] = { .a2w_ctrl = 0x00000000 }, /* unknown */
-+};
-+
-+typedef struct ClockMuxResetInfo {
-+    uint32_t cm_ctrl;
-+    uint32_t cm_div;
-+} ClockMuxResetInfo;
-+
-+static const ClockMuxResetInfo CLOCK_MUX_RESET_INFO[] = {
-+    [CPRMAN_CLOCK_GNRIC] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_VPU] = {
-+        .cm_ctrl = 0x00000245,
-+        .cm_div = 0x00003000,
-+    },
-+
-+    [CPRMAN_CLOCK_SYS] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_PERIA] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_PERII] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_H264] = {
-+        .cm_ctrl = 0x00000244,
-+        .cm_div = 0x00003000,
-+    },
-+
-+    [CPRMAN_CLOCK_ISP] = {
-+        .cm_ctrl = 0x00000244,
-+        .cm_div = 0x00003000,
-+    },
-+
-+    [CPRMAN_CLOCK_V3D] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_CAM0] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_CAM1] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_CCP2] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_DSI0E] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_DSI0P] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_DPI] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_GP0] = {
-+        .cm_ctrl = 0x00000200,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_GP1] = {
-+        .cm_ctrl = 0x00000096,
-+        .cm_div = 0x00014000,
-+    },
-+
-+    [CPRMAN_CLOCK_GP2] = {
-+        .cm_ctrl = 0x00000291,
-+        .cm_div = 0x00249f00,
-+    },
-+
-+    [CPRMAN_CLOCK_HSM] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_OTP] = {
-+        .cm_ctrl = 0x00000091,
-+        .cm_div = 0x00004000,
-+    },
-+
-+    [CPRMAN_CLOCK_PCM] = {
-+        .cm_ctrl = 0x00000200,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_PWM] = {
-+        .cm_ctrl = 0x00000200,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_SLIM] = {
-+        .cm_ctrl = 0x00000200,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_SMI] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_TEC] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_TD0] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_TD1] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_TSENS] = {
-+        .cm_ctrl = 0x00000091,
-+        .cm_div = 0x0000a000,
-+    },
-+
-+    [CPRMAN_CLOCK_TIMER] = {
-+        .cm_ctrl = 0x00000291,
-+        .cm_div = 0x00013333,
-+    },
-+
-+    [CPRMAN_CLOCK_UART] = {
-+        .cm_ctrl = 0x00000296,
-+        .cm_div = 0x0000a6ab,
-+    },
-+
-+    [CPRMAN_CLOCK_VEC] = {
-+        .cm_ctrl = 0x00000097,
-+        .cm_div = 0x00002000,
-+    },
-+
-+    [CPRMAN_CLOCK_PULSE] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_SDC] = {
-+        .cm_ctrl = 0x00004006,
-+        .cm_div = 0x00003000,
-+    },
-+
-+    [CPRMAN_CLOCK_ARM] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+
-+    [CPRMAN_CLOCK_AVEO] = {
-+        .cm_ctrl = 0x00000000,
-+        .cm_div = 0x00000000,
-+    },
-+
-+    [CPRMAN_CLOCK_EMMC] = {
-+        .cm_ctrl = 0x00000295,
-+        .cm_div = 0x00006000,
-+    },
-+
-+    [CPRMAN_CLOCK_EMMC2] = {
-+        .cm_ctrl = 0, /* unknown */
-+        .cm_div = 0
-+    },
-+};
-+
- #endif
-diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-index e576ab2642..a8b54cccdb 100644
---- a/hw/misc/bcm2835_cprman.c
-+++ b/hw/misc/bcm2835_cprman.c
-@@ -51,10 +51,21 @@
- #include "hw/misc/bcm2835_cprman_internals.h"
- #include "trace.h"
- 
- /* PLL */
- 
-+static void pll_reset(DeviceState *dev)
-+{
-+    CprmanPLLState *s = CPRMAN_PLL(dev);
-+    const PLLResetInfo *info = &PLL_RESET_INFO[s->id];
-+
-+    *s->reg_cm = info->cm;
-+    *s->reg_a2w_ctrl = info->a2w_ctrl;
-+    memcpy(s->reg_a2w_ana, info->a2w_ana, sizeof(info->a2w_ana));
-+    *s->reg_a2w_frac = info->a2w_frac;
-+}
-+
- static bool pll_is_locked(const CprmanPLLState *pll)
- {
-     return !FIELD_EX32(*pll->reg_a2w_ctrl, A2W_PLLx_CTRL, PWRDN)
-         && !FIELD_EX32(*pll->reg_cm, CM_PLLx, ANARST);
- }
-@@ -121,10 +132,11 @@ static const VMStateDescription pll_vmstate = {
- 
- static void pll_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-+    dc->reset = pll_reset;
-     dc->vmsd = &pll_vmstate;
- }
- 
- static const TypeInfo cprman_pll_info = {
-     .name = TYPE_CPRMAN_PLL,
-@@ -135,10 +147,18 @@ static const TypeInfo cprman_pll_info = {
- };
- 
- 
- /* PLL channel */
- 
-+static void pll_channel_reset(DeviceState *dev)
-+{
-+    CprmanPLLChannelState *s = CPRMAN_PLL_CHANNEL(dev);
-+    const PLLChannelResetInfo *info = &PLL_CHANNEL_RESET_INFO[s->id];
-+
-+    *s->reg_a2w_ctrl = info->a2w_ctrl;
-+}
-+
- static bool pll_channel_is_enabled(CprmanPLLChannelState *channel)
- {
-     /*
-      * XXX I'm not sure of the purpose of the LOAD field. The Linux driver does
-      * not set it when enabling the channel, but does clear it when disabling
-@@ -215,10 +235,11 @@ static const VMStateDescription pll_channel_vmstate = {
- 
- static void pll_channel_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-+    dc->reset = pll_channel_reset;
-     dc->vmsd = &pll_channel_vmstate;
- }
- 
- static const TypeInfo cprman_pll_channel_info = {
-     .name = TYPE_CPRMAN_PLL_CHANNEL,
-@@ -283,10 +304,19 @@ static void clock_mux_src_update(void *opaque)
-     }
- 
-     clock_mux_update(s);
- }
- 
-+static void clock_mux_reset(DeviceState *dev)
-+{
-+    CprmanClockMuxState *clock = CPRMAN_CLOCK_MUX(dev);
-+    const ClockMuxResetInfo *info = &CLOCK_MUX_RESET_INFO[clock->id];
-+
-+    clock->reg_cm[0] = info->cm_ctrl;
-+    clock->reg_cm[1] = info->cm_div;
-+}
-+
- static void clock_mux_init(Object *obj)
- {
-     CprmanClockMuxState *s = CPRMAN_CLOCK_MUX(obj);
-     size_t i;
- 
-@@ -315,10 +345,11 @@ static const VMStateDescription clock_mux_vmstate = {
- 
- static void clock_mux_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-+    dc->reset = clock_mux_reset;
-     dc->vmsd = &clock_mux_vmstate;
- }
- 
- static const TypeInfo cprman_clock_mux_info = {
-     .name = TYPE_CPRMAN_CLOCK_MUX,
 -- 
-2.28.0
+2.20.1
 
 
