@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855FF278976
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:24:15 +0200 (CEST)
-Received: from localhost ([::1]:44934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DD9278953
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:20:39 +0200 (CEST)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnhu-0006Ob-Ki
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54330)
+	id 1kLneQ-0001va-Or
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:20:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLnal-00061g-OM; Fri, 25 Sep 2020 09:16:52 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:54417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kLnai-0004VK-Jw; Fri, 25 Sep 2020 09:16:51 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.59])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0C2285EDAFF2;
- Fri, 25 Sep 2020 15:16:35 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 25 Sep
- 2020 15:16:34 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0055d6d8ade-ad58-4d72-b4a1-c1d99a967c57,
- A5F0BA03093B57E977C960A2BE809674B2E579B9) smtp.auth=groug@kaod.org
-Date: Fri, 25 Sep 2020 15:16:33 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 4/6] spapr_numa: change reference-points and
- maxdomain settings
-Message-ID: <20200925151633.12982bf0@bahia.lan>
-In-Reply-To: <20200924195058.362984-5-danielhb413@gmail.com>
-References: <20200924195058.362984-1-danielhb413@gmail.com>
- <20200924195058.362984-5-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLnch-0000C2-0X
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:18:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kLncf-0004kK-Bo
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:18:50 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601039926;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wrXC6Hrh4waCXbNflOPmXOvos3LJrLmLT3doSUsuFvY=;
+ b=aV+i6sNzwnIbwGIQMi0RBDgHkdJmxGeO1VliFDjy7tPIqKNXTkBwxe6o4oSgE47i1nQBXD
+ VCNMX4Lyl9p1Xm3Gjh7xLGWTDBGsQn6c2evMfIF4C/9XO02raUBjmOagg3TctH2ckQDg6o
+ ahZsQc1M9/KlAKRaZK2oUcRCI4+FsDA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-s81Fbr0YNySYALNxcx2f2Q-1; Fri, 25 Sep 2020 09:18:43 -0400
+X-MC-Unique: s81Fbr0YNySYALNxcx2f2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 163D010BBECD;
+ Fri, 25 Sep 2020 13:18:42 +0000 (UTC)
+Received: from [10.3.114.148] (ovpn-114-148.phx2.redhat.com [10.3.114.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B007278837;
+ Fri, 25 Sep 2020 13:18:37 +0000 (UTC)
+Subject: Re: [PATCH v2 04/31] block/export: Add BlockExport infrastructure and
+ block-export-add
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200924152717.287415-1-kwolf@redhat.com>
+ <20200924152717.287415-5-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <79736c34-a51a-c701-b263-2cea643271e5@redhat.com>
+Date: Fri, 25 Sep 2020 08:18:37 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <20200924152717.287415-5-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 563753aa-4c03-48ec-93c8-174e0490230b
-X-Ovh-Tracer-Id: 17127752334968986080
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 09:16:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,95 +85,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Sep 2020 16:50:56 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-
-> This is the first guest visible change introduced in
-> spapr_numa.c. The previous settings of both reference-points
-> and maxdomains were too restrictive, but enough for the
-> existing associativity we're setting in the resources.
+On 9/24/20 10:26 AM, Kevin Wolf wrote:
+> We want to have a common set of commands for all types of block exports.
+> Currently, this is only NBD, but we're going to add more types.
 > 
-> We'll change that in the following patches, populating the
-> associativity arrays based on user input. For those changes
-> to be effective, reference-points and maxdomains must be
-> more flexible. After this patch, we'll have 4 distinct
-> levels of NUMA (0x4, 0x3, 0x2, 0x1) and maxdomains will
-> allow for any type of configuration the user intends to
-> do - under the scope and limitations of PAPR itself, of
-> course.
+> This patch adds the basic BlockExport and BlockExportDriver structs and
+> a QMP command block-export-add that creates a new export based on the
+> given BlockExportOptions.
 > 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> qmp_nbd_server_add() becomes a wrapper around qmp_block_export_add().
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
 > ---
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
->  hw/ppc/spapr_numa.c | 40 ++++++++++++++++++++++++++++++++--------
->  1 file changed, 32 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 990a5fce08..ea33439a15 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -222,24 +222,48 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
->   */
->  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
->  {
-> +    MachineState *ms = MACHINE(spapr);
->      SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
->      uint32_t refpoints[] = {
->          cpu_to_be32(0x4),
-> -        cpu_to_be32(0x4),
-> +        cpu_to_be32(0x3),
->          cpu_to_be32(0x2),
-> +        cpu_to_be32(0x1),
->      };
->      uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
-> -    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
-> +    uint32_t maxdomain = ms->numa_state->num_nodes + spapr->gpu_numa_id;
->      uint32_t maxdomains[] = {
->          cpu_to_be32(4),
-> -        maxdomain,
-> -        maxdomain,
-> -        maxdomain,
-> -        cpu_to_be32(spapr->gpu_numa_id),
-> +        cpu_to_be32(maxdomain),
-> +        cpu_to_be32(maxdomain),
-> +        cpu_to_be32(maxdomain),
-> +        cpu_to_be32(maxdomain)
->      };
->  
-> -    if (smc->pre_5_1_assoc_refpoints) {
-> -        nr_refpoints = 2;
-> +    if (spapr_machine_using_legacy_numa(spapr)) {
-> +        uint32_t legacy_refpoints[] = {
-> +            cpu_to_be32(0x4),
-> +            cpu_to_be32(0x4),
-> +            cpu_to_be32(0x2),
-> +        };
-> +        uint32_t legacy_maxdomain = spapr->gpu_numa_id > 1 ? 1 : 0;
-> +        uint32_t legacy_maxdomains[] = {
-> +            cpu_to_be32(4),
-> +            cpu_to_be32(legacy_maxdomain),
-> +            cpu_to_be32(legacy_maxdomain),
-> +            cpu_to_be32(legacy_maxdomain),
-> +            cpu_to_be32(spapr->gpu_numa_id),
-> +        };
-> +
-> +        nr_refpoints = 3;
-> +
-> +        memcpy(refpoints, legacy_refpoints, sizeof(legacy_refpoints));
-> +        memcpy(maxdomains, legacy_maxdomains, sizeof(legacy_maxdomains));
-> +
-> +        /* pseries-5.0 and older reference-points array is {0x4, 0x4} */
-> +        if (smc->pre_5_1_assoc_refpoints) {
-> +            nr_refpoints = 2;
-> +        }
->      }
->  
->      _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
