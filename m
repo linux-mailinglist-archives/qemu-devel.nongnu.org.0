@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B495B278A1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:56:43 +0200 (CEST)
-Received: from localhost ([::1]:56114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925B72789EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:49:47 +0200 (CEST)
+Received: from localhost ([::1]:36598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLoDK-0002Pd-OT
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
+	id 1kLo6c-0002ae-IB
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kLo3g-0008Ui-B6
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:46:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41497)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLo50-0001IL-OM
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:48:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kLo3e-0000WF-Ey
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:46:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLo4z-0000gL-2v
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:48:06 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601041601;
+ s=mimecast20190719; t=1601041684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=u+PTCwbI92mESxT97awff80rbzW6pzd40xZ32fTMYC0=;
- b=ZgnRUJhosbjqpgen1HpKBnxb6ONHIkYzMolwxeFDP/GJ5VR1Ldi9Q6JkcNf0KhRG1raQbX
- fH8eu/gbeUuVgjb8x00UEhmNV5o4D4pkeI2kPPbuP3DycSQpOq867QB37s9/TmcT5h5p5K
- wLrNL404bettjAbZzJciYdxeC4yRG7M=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-ZrqkFbDFONeq142QPJFzxw-1; Fri, 25 Sep 2020 09:46:39 -0400
-X-MC-Unique: ZrqkFbDFONeq142QPJFzxw-1
-Received: by mail-qv1-f71.google.com with SMTP id z12so1684280qvp.11
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 06:46:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=u+PTCwbI92mESxT97awff80rbzW6pzd40xZ32fTMYC0=;
- b=T5ez0+6nOAuCTBv/+X1Mwuar83Vb6FJJxjm2D5WOAnoaPw4JUjgr1QLtspbArZ0/rZ
- Y9vG3V/p+H9wajPyZXN2n2wJMVCaRV/H1Sb8Z7AynMNZMkD7CAxkcuev1FUHUcxd5dI8
- sTZ+YyQfPLU6QPk99B8oIpuAl95L5IlqnlFndFNJgUS3QWLHcCmcm/WU60yudM7Jsdkf
- CDRHx3PciZgQEVh0o1mz1jOHqQfXSJQ+cFubY5I+OGCe9E/qwsYa4AE6nhLZYnVI2SDM
- FjUut+xD2G1qlhgsVvCE8cF6XdA4dT7PikZNx5udIWiu8XMl4Se8PrBjz1rrZEdd8xnM
- WU/A==
-X-Gm-Message-State: AOAM533SNm0n223TUikmkhSmrFDHRqwI+CFsy7mknC1v+S37fJ0xaC4t
- LKqBq139GTWQrGtE5uAWMi9pOPzK4ZKazIQd/Ik8qE6G1wQeVEEFKZqNoNtkUZdUlyRLkXhJI5c
- N8rkKqnHAEod6GXQ=
-X-Received: by 2002:a05:6214:601:: with SMTP id z1mr4667541qvw.0.1601041599406; 
- Fri, 25 Sep 2020 06:46:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSuIcMNzLFYwzz3oESL5DTKn7YQWWS0lRAB0noFOO97ayLrSwaagdvyJs2FJfM79nlUVrm9Q==
-X-Received: by 2002:a05:6214:601:: with SMTP id z1mr4667521qvw.0.1601041599107; 
- Fri, 25 Sep 2020 06:46:39 -0700 (PDT)
-Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
- [70.53.122.15])
- by smtp.gmail.com with ESMTPSA id v56sm2014957qtc.49.2020.09.25.06.46.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 06:46:38 -0700 (PDT)
-Date: Fri, 25 Sep 2020 09:46:37 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 0/6] migration/postcopy: Sync faulted addresses after
- network recovered
-Message-ID: <20200925134637.GA188812@xz-x1>
-References: <20200908203022.341615-1-peterx@redhat.com>
- <20200923174311.GA124840@work-vm> <20200925115026.GA2874@work-vm>
+ bh=nm1MVESNeeXQFKYle+erIhXHp4I8+k6l2IuItRrQOcc=;
+ b=VRw8QEBq2U2C1hcs0jmFXCYmCgV59L6bNZ75qo/HQnRgWw4nF2eLDrDo+gL+fypK68bh7B
+ KtNNSUjLMxWmNdZuLcxm53BEg/8aRnmmcTBL62KSLSiMk7MX+Xoytb/8yzghw+O6ZqvN3Q
+ vWfAc6kctmPs5i4MbKJXuq1/lPUDuEE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-mhflANFfOauKhwTP-Ht9PA-1; Fri, 25 Sep 2020 09:48:00 -0400
+X-MC-Unique: mhflANFfOauKhwTP-Ht9PA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BE3564091;
+ Fri, 25 Sep 2020 13:47:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
+ [10.36.112.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8F6E55788;
+ Fri, 25 Sep 2020 13:47:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 56854113865F; Fri, 25 Sep 2020 15:47:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 09/38] qapi/common.py: Add indent manager
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-10-jsnow@redhat.com>
+ <20200922222232.GK2044576@habkost.net>
+ <c57afb75-3db9-abec-dd21-c32f9f918104@redhat.com>
+ <87sgb6t6p1.fsf@dusky.pond.sub.org>
+ <20200925131321.GO3717385@habkost.net>
+Date: Fri, 25 Sep 2020 15:47:57 +0200
+In-Reply-To: <20200925131321.GO3717385@habkost.net> (Eduardo Habkost's message
+ of "Fri, 25 Sep 2020 09:13:21 -0400")
+Message-ID: <878scyq86q.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200925115026.GA2874@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -95,29 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaohui Li <xiaohli@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 25, 2020 at 12:50:26PM +0100, Dr. David Alan Gilbert wrote:
-> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > v2:
-> > 
-> > Queued
-> 
-> Hi Peter,
->   I've had to unqueue most of this; it doesn't like building on 32bit.
-> I fixed up the trace_ stuff easily (_del can take a void*, add just
-> needs to use PRIX64) but there are other places where it doesn't like
-> the casting from pointers to uint64_t's etc.
-> 
->   I've kept the first couple of commits.
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Thanks, Dave.  I'll have a look later and repost.
+> On Fri, Sep 25, 2020 at 01:51:54PM +0200, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> > On 9/22/20 6:22 PM, Eduardo Habkost wrote:
+> [...]
+>> > Yeah, there's only one user right now, so ... I just kinda wanted to
+>> > get rid of the global usage. Maybe if we make the code generator
+>> > fancier we'll find out what form is best.
+>> 
+>> You don't get rid of the global variable, you just change it from
+>> integer to a class.  A class can be handier when generating multiple
+>> things interleaved, because you can have one class instance per thing.
+>
+> To be fair, John doesn't claim to be getting rid of a global
+> variable.  He's getting rid of usage of the 'global' keyword to
+> make linters happier.
 
--- 
-Peter Xu
+True.
+
+>                        There are ways to do that without changing
+> the code too much, though.
+
+Let's do something easy and cheap, because ...
+
+>> Note that we already have a class instance per thing we generate:
+>> instances of subtypes of QAPIGen.  The thought of moving the indentation
+>> machinery into QAPIGen or or maybe QAPIGenCCode crossed my mind many
+>> moons ago, but I had bigger fish to fry, and then I forgot :)
+
+... we'll probably want to move this stuff into QAPIGen later, and
+that's when we should make it pretty.
+
+>> John, I suggest you don't try to make this pretty just yet.  Do what
+>> needs to be done for the type hint job.  We can make it pretty later.
 
 
