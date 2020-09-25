@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7503B278941
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:17:45 +0200 (CEST)
-Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB2A27894F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:20:24 +0200 (CEST)
+Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnbc-0006JP-CL
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:17:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
+	id 1kLneB-0001KX-5d
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:20:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kLnW4-0008R9-4F
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:12:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35153)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kLnXU-0001xd-Fv
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:13:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kLnW0-0003rL-IM
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:11:59 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kLnXS-00042A-PG
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:13:28 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601039515;
+ s=mimecast20190719; t=1601039605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fpV8DHfqHlUsIFUnLnE9BpUd6xzNJarGN6/D8yQHXCY=;
- b=ibfqUJwXoWzJZOK3hRzsuibdtTKD8n10fRIhR0YXdsnRHs+SOAIOj+bQOOAoq1y0aZa7xY
- t2Nlp1ZlujwcaUlSTK3/MlbL9MkAv0nR6/TCpo5Eg/kyAkBNe/+QzxPal3JEQTcokOOTf7
- BYZlwrRaPLylD8BLECjOTNyuMa14Tyw=
+ bh=7byq/43urxKD/pGBbVN5gQ2pX5MjOJqBzwFP1wtlyo0=;
+ b=cdwtz7WJNg290s9ufatqhvJBJ8DqBGSJiymwsHONB6w2aw9DEF8U2liwz57GyVw36cGAAg
+ qxsS/ju+mmpbg4jPuvfsIu2Q8q9vAgSL1UzwZHq3LGYuSyRasyD+1bHdsguj98Tio33E5l
+ nQfGUwGys4lyKsQhU+zzg8GyJqS1t2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-Ac7SFtpJO3-TCkXsDxcQMA-1; Fri, 25 Sep 2020 09:11:53 -0400
-X-MC-Unique: Ac7SFtpJO3-TCkXsDxcQMA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-409-RTrUrKTAMEWQfAo4Zvxokw-1; Fri, 25 Sep 2020 09:13:24 -0400
+X-MC-Unique: RTrUrKTAMEWQfAo4Zvxokw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C39B46416A;
- Fri, 25 Sep 2020 13:11:52 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-239.rdu2.redhat.com [10.10.116.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C96755786;
- Fri, 25 Sep 2020 13:11:42 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 74B9D222FC0; Fri, 25 Sep 2020 09:11:42 -0400 (EDT)
-Date: Fri, 25 Sep 2020 09:11:42 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: tools/virtiofs: Multi threading seems to hurt performance
-Message-ID: <20200925131142.GC132653@redhat.com>
-References: <20200918213436.GA3520@redhat.com> <20200921153243.GK3221@work-vm>
- <20200922102531.GA2837@work-vm> <20200922174733.GD57620@redhat.com>
- <20200925121127.GI2873@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0AF91018725;
+ Fri, 25 Sep 2020 13:13:22 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 929BB60C15;
+ Fri, 25 Sep 2020 13:13:22 +0000 (UTC)
+Date: Fri, 25 Sep 2020 09:13:21 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 09/38] qapi/common.py: Add indent manager
+Message-ID: <20200925131321.GO3717385@habkost.net>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-10-jsnow@redhat.com>
+ <20200922222232.GK2044576@habkost.net>
+ <c57afb75-3db9-abec-dd21-c32f9f918104@redhat.com>
+ <87sgb6t6p1.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20200925121127.GI2873@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <87sgb6t6p1.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -81,91 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jose.carlos.venegas.munoz@intel.com, qemu-devel@nongnu.org,
- cdupontd@redhat.com, virtio-fs-list <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, archana.m.shinde@intel.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 25, 2020 at 01:11:27PM +0100, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > On Tue, Sep 22, 2020 at 11:25:31AM +0100, Dr. David Alan Gilbert wrote:
-> > > * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> > > > Hi,
-> > > >   I've been doing some of my own perf tests and I think I agree
-> > > > about the thread pool size;  my test is a kernel build
-> > > > and I've tried a bunch of different options.
-> > > > 
-> > > > My config:
-> > > >   Host: 16 core AMD EPYC (32 thread), 128G RAM,
-> > > >      5.9.0-rc4 kernel, rhel 8.2ish userspace.
-> > > >   5.1.0 qemu/virtiofsd built from git.
-> > > >   Guest: Fedora 32 from cloud image with just enough extra installed for
-> > > > a kernel build.
-> > > > 
-> > > >   git cloned and checkout v5.8 of Linux into /dev/shm/linux on the host
-> > > > fresh before each test.  Then log into the guest, make defconfig,
-> > > > time make -j 16 bzImage,  make clean; time make -j 16 bzImage 
-> > > > The numbers below are the 'real' time in the guest from the initial make
-> > > > (the subsequent makes dont vary much)
-> > > > 
-> > > > Below are the detauls of what each of these means, but here are the
-> > > > numbers first
-> > > > 
-> > > > virtiofsdefault        4m0.978s
-> > > > 9pdefault              9m41.660s
-> > > > virtiofscache=none    10m29.700s
-> > > > 9pmmappass             9m30.047s
-> > > > 9pmbigmsize           12m4.208s
-> > > > 9pmsecnone             9m21.363s
-> > > > virtiofscache=noneT1   7m17.494s
-> > > > virtiofsdefaultT1      3m43.326s
-> > > > 
-> > > > So the winner there by far is the 'virtiofsdefaultT1' - that's
-> > > > the default virtiofs settings, but with --thread-pool-size=1 - so
-> > > > yes it gives a small benefit.
-> > > > But interestingly the cache=none virtiofs performance is pretty bad,
-> > > > but thread-pool-size=1 on that makes a BIG improvement.
-> > > 
-> > > Here are fio runs that Vivek asked me to run in my same environment
-> > > (there are some 0's in some of the mmap cases, and I've not investigated
-> > > why yet).
-> > 
-> > cache=none does not allow mmap in case of virtiofs. That's when you
-> > are seeing 0.
-> > 
-> > >virtiofs is looking good here in I think all of the cases;
-> > > there's some division over which cinfig; cache=none
-> > > seems faster in some cases which surprises me.
-> > 
-> > I know cache=none is faster in case of write workloads. It forces
-> > direct write where we don't call file_remove_privs(). While cache=auto
-> > goes through file_remove_privs() and that adds a GETXATTR request to
-> > every WRITE request.
+On Fri, Sep 25, 2020 at 01:51:54PM +0200, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> > On 9/22/20 6:22 PM, Eduardo Habkost wrote:
+[...]
+> > Yeah, there's only one user right now, so ... I just kinda wanted to
+> > get rid of the global usage. Maybe if we make the code generator
+> > fancier we'll find out what form is best.
 > 
-> Can you point me to how cache=auto causes the file_remove_privs?
+> You don't get rid of the global variable, you just change it from
+> integer to a class.  A class can be handier when generating multiple
+> things interleaved, because you can have one class instance per thing.
 
-fs/fuse/file.c
+To be fair, John doesn't claim to be getting rid of a global
+variable.  He's getting rid of usage of the 'global' keyword to
+make linters happier.  There are ways to do that without changing
+the code too much, though.
 
-fuse_cache_write_iter() {
-	err = file_remove_privs(file);
-}
+> 
+> Note that we already have a class instance per thing we generate:
+> instances of subtypes of QAPIGen.  The thought of moving the indentation
+> machinery into QAPIGen or or maybe QAPIGenCCode crossed my mind many
+> moons ago, but I had bigger fish to fry, and then I forgot :)
+> 
+> John, I suggest you don't try to make this pretty just yet.  Do what
+> needs to be done for the type hint job.  We can make it pretty later.
 
-Above path is taken when cache=auto/cache=always is used. If virtiofsd
-is running with noxattr, then it does not impose any cost. But if xattr
-are enabled, then every WRITE first results in a
-getxattr(security.capability) and that slows down WRITES tremendously.
-
-When cache=none is used, we go through following path instead.
-
-fuse_direct_write_iter() and it does not have file_remove_privs(). We
-set a flag in WRITE request to tell server to kill
-suid/sgid/security.capability, instead.
-
-fuse_direct_io() {
-	ia->write.in.write_flags |= FUSE_WRITE_KILL_PRIV
-}
-
-Vivek
+-- 
+Eduardo
 
 
