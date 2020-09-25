@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4FC2784E6
+	by mail.lfdr.de (Postfix) with ESMTPS id 040112784E5
 	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 12:19:43 +0200 (CEST)
-Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLkpK-0002oF-5G
+	id 1kLkpK-0002nu-0E
 	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 06:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLknC-00012S-BZ; Fri, 25 Sep 2020 06:17:31 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:58108)
+ id 1kLknD-000131-SW; Fri, 25 Sep 2020 06:17:31 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:58110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kLkn8-0007QJ-C6; Fri, 25 Sep 2020 06:17:30 -0400
+ id 1kLkn8-0007QI-Bb; Fri, 25 Sep 2020 06:17:31 -0400
 Received: from sekoia-pc.bar.greensocs.com (sekoia-pc.home.lmichel.fr
  [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id E3E66C60F16;
+ by pharaoh.lmichel.fr (Postfix) with ESMTPS id 00207C60F18;
  Fri, 25 Sep 2020 10:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1601029039;
+ t=1601029040;
  h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=+i1IMBcfnyxNIfGLpyrczRRU6dqOLvpt9ZQFDVOdrsU=;
- b=GJLXcfHdChTy1BnExgSIf73pP5O399xYXRDkZtAEPWLnRgj3vULWFBw/9yJNvBNx2V9eJt
- Fs4Ev0YPGaKGtSXWEYpLq24KgVXbEYxdpsZjQZlj42mtiQagwoOLNjRH9YM3XPEu80Cw96
- ievT4dgD19hFayCOhYMjDCoe3X/COq/kqsgKaAj/sDeTa3k0WZGaUPjcUnw1EWsT9CAWYF
- QSnMF0w+U8+yO81mJl2p5Q0OV1HwwNsFlEVZB1M4NJIKjdAlJHT2baMJyztywQr2ML9vcu
- pv5DqFzYmtsySEExTed8hg3fb9oRvqfoa5S/xwIEjOiVQL0UTckwelJ26p/brQ==
+ in-reply-to:in-reply-to:references:references;
+ bh=eHG3gOOfzWKUSsScEIEjr33P+R1FlB8vtIzUKO1MkuU=;
+ b=jG7Mlc5BbIrGtqCQe2bSsyUPLWmzT8fZ2eFENXB3MSzQuOSNzfP8r9jXebL2e2R+nC4znA
+ IIDU3IH90XvoIFJtY2EU5CU3B9V+pi9JWqkeiPoti3U0A2rJCsIsPlVUGPhw6FBNay8y9m
+ D6jZRUVAfWK4JxUi3cV1FiX6hwAEQ2JYVQvL106ybXOo5yAbmOijjNZnA5xRfcv8+wugGX
+ aQ29yn/ojH8QY2ZaPrWR8Lld1s2PwSlvpzlxK11zc3+ERbl/D7vrjSDEuZe9+WSzmxvNuZ
+ n2ilotIRXKhc/TK3Ebch/qblCPZo1YTszDNg0/lV+KKHYGsVwWnsOOTFq74vaQ==
 From: Luc Michel <luc@lmichel.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/14] raspi: add the bcm2835 cprman clock manager
-Date: Fri, 25 Sep 2020 12:17:17 +0200
-Message-Id: <20200925101731.2159827-1-luc@lmichel.fr>
+Subject: [PATCH 01/14] hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
+Date: Fri, 25 Sep 2020 12:17:18 +0200
+Message-Id: <20200925101731.2159827-2-luc@lmichel.fr>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200925101731.2159827-1-luc@lmichel.fr>
+References: <20200925101731.2159827-1-luc@lmichel.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
- s=pharaoh; t=1601029039;
+ s=pharaoh; t=1601029040;
  h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=+i1IMBcfnyxNIfGLpyrczRRU6dqOLvpt9ZQFDVOdrsU=;
- b=VttaK9sXbsnsKYY7T0sqNV4pi+f9GKaSHgAtLkwQUO+0vAlJuKxvp1KnrnQ3GOJ++Zi0Zx
- 70tVawx66iWcjDyRhZfq20OTs586wy74AnRHVq6jijlhRWPNZQH/vcSJiNnhPIcR7HV2Y5
- xtLAO6ZQbs43CX1Q60Kfa0AaAe9jBkO2/cZMG/wXKYCyG6zH8ttfh4U7AuZpJ/JwVqoEit
- 05fkDOju49h5wlzhUCpKduqm5JxncoQrn3Dbh/WdhkdvWkElGVOWrJM6FKRiSEegJb220d
- tVnScOfeEptrTTKUWZPjlBRiBZ0cxof0E3wQB2EenuRo9TISmKQOJV3V55APrQ==
-ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029039; a=rsa-sha256; cv=none;
- b=PTpJR9EXehRHHX5m0/ZM9ubtyBwXVCJRivwWMeyZIlb05Z93E1OnLkpTo7RLWMNFBmkFABihKAu8vykvdwSBbMLyjre1LYPrM10eF3SC/D63yjhlhj+/lBgLpO74jRVST8x6/BUc++7wuMTSXYE10vR9TGtucOeK3XCTXdTgOjaeUMOpxIrwLUhIWxImjz7XD+NzQjS3r0QSNbeNhGw7gEthgqN56d3UzT9+UVbiCwuUpGcsak6qvm9qsmKqg0mmeBHaz7nmUJkUjb/e4daU8i49DoHegaerhlz7jVGl6CqM9Q7MMtWIBEtknexRoEd4IC9ASyraziRi3wI8L9nBPw==
+ in-reply-to:in-reply-to:references:references;
+ bh=eHG3gOOfzWKUSsScEIEjr33P+R1FlB8vtIzUKO1MkuU=;
+ b=ZDEbLfzepCVtKAYPvw/E5Wd/Dfqo+sfmNjXfjWnRjQUbtrUBn4a5ISHCf+3kE3GT19/sNF
+ R6Tufv32GN5BXpwEO1fIdchuYsyzTBwH2eglrEkCcwevgB5UoNB7C6kpb8aADgSay1kmpP
+ i9P44oayX1yEDUCLAKO6PKhYT3B7uFJbcxEGXuz5kkzJPPxp9zKHsWHpSjmwnK0UU869jF
+ HGmC39sETRAGEPPlcec7D47K5DIslnGa9ZzidmFT9ISQplZ54UwN5CHHIBJkr+9rAzBSB+
+ MVK7uPeGTlXd5+Vl2ZZvttHcYFYOGiLMGuC+T5PMGxLKJTk+I/fDzJGfIo7eow==
+ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601029040; a=rsa-sha256; cv=none;
+ b=FJmGm+h++qPtwsov66hcRhRWgMNyEIYmlcTupRvfNvvSUxKu3vjMIxhPuuCJQgJbrfrgujKXP7JCHaah2xg2FyPUz0plkq5Ba6CYppzvsBP0o0d+OMfebOGDr9Rfck2rAreG/Jmj/aDUG+SOaQOytQsWpLk9DNTebt5OWHRak7kXjWZ6ocpnqQa1HFICvPlssPcTa2+x4lBHEusHJJTHkm2HWtogEYfYdRvwCnTAEvsbQiksZxPyBknzQI9dU+V8zmGeofQOWhBaHNWu9LP97YVACcE0rn0OqQoQmj98xUBvfk8nWGRp/UVKmBJEDTWNilf2y39Pcky2gpA24AYg4g==
 ARC-Authentication-Results: i=1;
 	pharaoh.lmichel.fr
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
@@ -77,128 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Luc Michel <luc@lmichel.fr>,
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Signed-off-by: Luc Michel <luc@lmichel.fr>
+---
+ include/hw/clock.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-This series add the BCM2835 cprman clock manager peripheral to the
-Raspberry Pi machine.
-
-Patches 1-3 are preliminary changes, patches 4-12 are the actual
-implementation.
-
-The two last patches add a clock input to the PL011 and
-connect it to the cprman and are RFC.
-
-This series has been tested with Linux 5.4.61 (the current raspios
-version). It fixes the kernel Oops at boot time due to invalid UART
-clock value, and other warnings/errors here and there because of bad
-clocks or lack of cprman.
-
-Here is the clock tree as seen by Linux when booted in QEMU:
-(/sys/kernel/debug/clk/clk_summary with some columns removed)
-
-                        enable  prepare              
-   clock                 count    count          rate
------------------------------------------------------
- otg                         0        0     480000000
- osc                         5        5      19200000
-    gp2                      1        1         32768
-    tsens                    0        0       1920000
-    otp                      0        0       4800000
-    timer                    0        0       1000002
-    pllh                     4        4     864000000
-       pllh_pix_prediv       1        1       3375000
-          pllh_pix           0        0        337500
-       pllh_aux              1        1     216000000
-          vec                0        0     108000000
-       pllh_rcal_prediv      1        1       3375000
-          pllh_rcal          0        0        337500
-    plld                     3        3    2000000024
-       plld_dsi1             0        0       7812501
-       plld_dsi0             0        0       7812501
-       plld_per              3        3     500000006
-          gp1                1        1      25000000
-          uart               1        2      47999625
-       plld_core             2        2     500000006
-          sdram              0        0     166666668
-    pllc                     3        3    2400000000
-       pllc_per              1        1    1200000000
-          emmc               0        0     200000000
-       pllc_core2            0        0       9375000
-       pllc_core1            0        0       9375000
-       pllc_core0            2        2    1200000000
-          vpu                1        1     700000000
-             aux_spi2        0        0     700000000
-             aux_spi1        0        0     700000000
-             aux_uart        0        0     700000000
-             peri_image      0        0     700000000
-    plla                     2        2    2250000000
-       plla_ccp2             0        0       8789063
-       plla_dsi0             0        0       8789063
-       plla_core             1        1     750000000
-          h264               0        0     250000000
-          isp                0        0     250000000
- dsi1p                       0        0             0
- dsi0p                       0        0             0
- dsi1e                       0        0             0
- dsi0e                       0        0             0
- cam1                        0        0             0
- cam0                        0        0             0
- dpi                         0        0             0
- tec                         0        0             0
- smi                         0        0             0
- slim                        0        0             0
- gp0                         0        0             0
- dft                         0        0             0
- aveo                        0        0             0
- pcm                         0        0             0
- pwm                         0        0             0
- hsm                         0        0             0
-
-It shows small differences with real hardware due other missing
-peripherals for which the driver turn the clock off (like tsens).
-
-Luc Michel (14):
-  hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
-  hw/core/clock: trace clock values in Hz instead of ns
-  hw/arm/raspi: fix cprman base address
-  hw/arm/raspi: add a skeleton implementation of the cprman
-  hw/misc/bcm2835_cprman: add a PLL skeleton implementation
-  hw/misc/bcm2835_cprman: implement PLLs behaviour
-  hw/misc/bcm2835_cprman: add a PLL channel skeleton implementation
-  hw/misc/bcm2835_cprman: implement PLL channels behaviour
-  hw/misc/bcm2835_cprman: add a clock mux skeleton implementation
-  hw/misc/bcm2835_cprman: implement clock mux behaviour
-  hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
-  hw/misc/bcm2835_cprman: add sane reset values to the registers
-  hw/char/pl011: add a clock input
-  hw/arm/bcm2835_peripherals: connect the UART clock
-
- include/hw/arm/bcm2835_peripherals.h       |    5 +-
- include/hw/arm/raspi_platform.h            |    5 +-
- include/hw/char/pl011.h                    |    1 +
- include/hw/clock.h                         |    5 +
- include/hw/misc/bcm2835_cprman.h           |  209 ++++
- include/hw/misc/bcm2835_cprman_internals.h | 1018 ++++++++++++++++++++
- hw/arm/bcm2835_peripherals.c               |   15 +-
- hw/char/pl011.c                            |   45 +
- hw/core/clock.c                            |    6 +-
- hw/misc/bcm2835_cprman.c                   |  810 ++++++++++++++++
- hw/char/trace-events                       |    1 +
- hw/core/trace-events                       |    4 +-
- hw/misc/meson.build                        |    1 +
- hw/misc/trace-events                       |    5 +
- 14 files changed, 2118 insertions(+), 12 deletions(-)
- create mode 100644 include/hw/misc/bcm2835_cprman.h
- create mode 100644 include/hw/misc/bcm2835_cprman_internals.h
- create mode 100644 hw/misc/bcm2835_cprman.c
-
+diff --git a/include/hw/clock.h b/include/hw/clock.h
+index d357594df9..c93e6113cd 100644
+--- a/include/hw/clock.h
++++ b/include/hw/clock.h
+@@ -79,10 +79,15 @@ struct Clock {
+ extern const VMStateDescription vmstate_clock;
+ #define VMSTATE_CLOCK(field, state) \
+     VMSTATE_CLOCK_V(field, state, 0)
+ #define VMSTATE_CLOCK_V(field, state, version) \
+     VMSTATE_STRUCT_POINTER_V(field, state, version, vmstate_clock, Clock)
++#define VMSTATE_ARRAY_CLOCK(field, state, num) \
++    VMSTATE_ARRAY_CLOCK_V(field, state, num, 0)
++#define VMSTATE_ARRAY_CLOCK_V(field, state, num, version)          \
++    VMSTATE_ARRAY_OF_POINTER_TO_STRUCT(field, state, num, version, \
++                                       vmstate_clock, Clock)
+ 
+ /**
+  * clock_setup_canonical_path:
+  * @clk: clock
+  *
 -- 
 2.28.0
 
