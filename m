@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1E8277D40
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:55:14 +0200 (CEST)
-Received: from localhost ([::1]:46064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258D8277D47
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:58:10 +0200 (CEST)
+Received: from localhost ([::1]:54360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLc13-0003g7-Rm
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
+	id 1kLc3t-0007KP-5i
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcO-0001CC-0d
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46522)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcS-0001KJ-IH
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcG-0000Df-SZ
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:43 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcL-0000Dm-Mh
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:48 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600993775;
+ s=mimecast20190719; t=1600993776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=81Clp/gi1N02OnIoY6vpj7MY+PSX++jNU88i6n8jQqg=;
- b=Ed+gGenHGFIjOhzezjir+Sc0pHOXOQiIuscI4t+ha6KG4WBslO26OT0u9uyyuOQknL0IzF
- c0MX7w0tF1i9ccsccJ7ak9RFGah57c1mf5fmjoTU2atrXkavX6OGspbdl9GhZ0G3uj8AxV
- gLWxbgSOsg1HXEBk4u27jmdp4JUyjtc=
+ bh=FExXdI0eYX9zvZFr4CkJdNGgA9djcrorR1lanAz+/Ck=;
+ b=Dt9eqmqhc75I6cFMANIUA/2+v9OFJOdPuro1FJudYMS5RqjziljJ3Lb59ej9Ob2kJuyY9p
+ Z21BSQgNYAS+dgPa9SG6nji8zewSTS48MIBV8tGs2wpG1wVrryzB/LInWJC5lu4b/XMOfW
+ 2NMLDd+wEZxyHXNHy11nrhJUkxGRHEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-u_jXjNT0MLC4i2IpaONRxQ-1; Thu, 24 Sep 2020 20:29:32 -0400
-X-MC-Unique: u_jXjNT0MLC4i2IpaONRxQ-1
+ us-mta-241-30E7O35zOXyKd4A5p1OBFQ-1; Thu, 24 Sep 2020 20:29:34 -0400
+X-MC-Unique: 30E7O35zOXyKd4A5p1OBFQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6B8B188C125
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C81C64091
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:33 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE6BE5D9DD;
- Fri, 25 Sep 2020 00:29:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 078C25D9DD;
+ Fri, 25 Sep 2020 00:29:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 35/47] qapi/gen.py: update write() to be more idiomatic
-Date: Thu, 24 Sep 2020 20:28:48 -0400
-Message-Id: <20200925002900.465855-36-jsnow@redhat.com>
+Subject: [PATCH v3 36/47] qapi/gen.py: delint with pylint
+Date: Thu, 24 Sep 2020 20:28:49 -0400
+Message-Id: <20200925002900.465855-37-jsnow@redhat.com>
 In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -83,64 +83,59 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the file handling here just a tiny bit more idiomatic.
-(I realize this is heavily subjective.)
+'fp' and 'fd' are self-evident in context, add them to the list of OK
+names.
 
-Use exist_ok=True for os.makedirs and remove the exception,
-use fdopen() to wrap the file descriptor in a File-like object,
-and use a context manager for managing the file pointer.
+_top and _bottom also need to stay standard methods because some users
+override the method and need to use `self`. Tell pylint to shush.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/gen.py | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+ scripts/qapi/gen.py   | 2 ++
+ scripts/qapi/pylintrc | 5 +++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index ece908a058..201f5af5a5 100644
+index 201f5af5a5..bce3737d3b 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -14,7 +14,6 @@
- # See the COPYING file in the top-level directory.
+@@ -53,9 +53,11 @@ def get_content(self) -> str:
+         return self._top() + self._preamble + self._body + self._bottom()
  
- from contextlib import contextmanager
--import errno
- import os
- import re
- from typing import (
-@@ -67,21 +66,18 @@ def write(self, output_dir: str) -> None:
-             return
-         pathname = os.path.join(output_dir, self.fname)
-         odir = os.path.dirname(pathname)
-+
-         if odir:
--            try:
--                os.makedirs(odir)
--            except os.error as e:
--                if e.errno != errno.EEXIST:
--                    raise
-+            os.makedirs(odir, exist_ok=True)
-+
-         fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
--        f = open(fd, 'r+', encoding='utf-8')
--        text = self.get_content()
--        oldtext = f.read(len(text) + 1)
--        if text != oldtext:
--            f.seek(0)
--            f.truncate(0)
--            f.write(text)
--        f.close()
-+        with os.fdopen(fd, 'r+', encoding='utf-8') as fp:
-+            text = self.get_content()
-+            oldtext = fp.read(len(text) + 1)
-+            if text != oldtext:
-+                fp.seek(0)
-+                fp.truncate(0)
-+                fp.write(text)
+     def _top(self) -> str:
++        # pylint: disable=no-self-use
+         return ''
  
+     def _bottom(self) -> str:
++        # pylint: disable=no-self-use
+         return ''
  
- def _wrap_ifcond(ifcond: List[str], before: str, after: str) -> str:
+     def write(self, output_dir: str) -> None:
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 7438806096..de132d03cf 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -5,7 +5,6 @@
+ ignore-patterns=doc.py,
+                 error.py,
+                 expr.py,
+-                gen.py,
+                 parser.py,
+                 schema.py,
+                 types.py,
+@@ -46,7 +45,9 @@ good-names=i,
+            k,
+            ex,
+            Run,
+-           _
++           _,
++           fp,  # fp = open(...)
++           fd,  # fd = os.open(...)
+ 
+ [VARIABLES]
+ 
 -- 
 2.26.2
 
