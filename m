@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D052788EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:59:49 +0200 (CEST)
-Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE232788A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:57:45 +0200 (CEST)
+Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLnKG-000234-Ar
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
+	id 1kLnIG-00070L-7i
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnCp-0007n1-Dm
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:08 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34559)
+ id 1kLnCs-0007o4-Cs
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:10 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kLnCn-0001QP-5R
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:07 -0400
-Received: by mail-wm1-x344.google.com with SMTP id l15so1824725wmh.1
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:52:04 -0700 (PDT)
+ id 1kLnCq-0001Ql-8P
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:52:10 -0400
+Received: by mail-wm1-x343.google.com with SMTP id b79so3165742wmb.4
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 05:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LyX39wHBNrDOQa2NkxK5rhi5dv936oaE8zOOQGpdbek=;
- b=EgxvFKsFa+w2EoU101dM4fi2UQcaWDko5usfIsYh+Gc83uVqHoFtK69ClctkN3gJDl
- rnVMeIXp8+xCE9RCo5iMzUsThofAlgs6Rm9Q4ByzenZSAwdnf0iiBfR90jfEFPUKGz1A
- zy7cRrTszJzI7fubdVrfIDJmUhrazn4o5HtSnXZ5WKt9ufBN2qmVqJyyG9pViB0mvjrY
- BV+Z1lYEv3LPAUQETl1XoUldUkzn4GJg+e/c7xB6aiAxUG82aFz1br4s78c7DkP58F7z
- S2yNPcz7PRWckp92SDxumaDnOH2qcn8hZ/VTpSXRHcYOHd5x3wtv4PB0+Dman0MfvH4L
- 9jag==
+ bh=DYHqy58UJZR46wXpvs59hJagcJIqgUuvxLRDNUapKkI=;
+ b=PLLxusxhPFqPGcofHMPBU7+IrVX7cQrLqgbuFwawPTVl20xOtV1nU3phv+B+iZ4AHa
+ g6keJCPtstcNtkR9uvaZR6JJFaC+CjknldAUPdPCKsKEqqQdWg7LQ/K64hl5HabyR+I2
+ XSZC8zZAAoQbmjDZS9YNLV94KZuLi3xRHX0VLG/Fck6PAhVxCTdnu5nWkj+h3JthSgFt
+ /DM5h3kfoW2vgHw+PVqreYUPDkb5qTvo2xXHv7fcmFtCsNdZ/1Wv5+Bqip7AwK31O8Vt
+ TwzJnYZQXcWYdG2MOygKPCTZz2aVxUEYC/IWxxydBRUNyRiC7pnfkoDkJoL/Yb8CwfVz
+ LUDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LyX39wHBNrDOQa2NkxK5rhi5dv936oaE8zOOQGpdbek=;
- b=btx8e5M+VLJMm9aKqTV2YFSiFSCt645qFT8qF3G/xTR/vS79eCGpw+OAvh834uJ4yt
- f98aNZej8L6bmA6oXslvBg34BORVV0Xsntyv9n8UPh409ZlD4N4ndNXw9EL6RSYi2/6i
- h/kvgqgkRogvwpFZqeZfHBJ4HsNd4ri6/rvrkWUfYMSm9X4NQ/eyEcEODEHptXgTd73o
- BAQ6hejeMrSqj8K3XbtCrbxDT9tJhHZDu6qZKgR2T0eRfnnMyy8i0GX8rd6kAJtK/iQW
- sLVkn9XoNRW0CGqsrRCoXKHnGlxltZkfQrHEVqaiRCWf9/ptiHR21nYs23UV61nIZsnE
- GUxg==
-X-Gm-Message-State: AOAM531FN7Ww2B0KeGZ9wv0OZkfKV6O45akNUlLUbd093pSJIQuUWhBr
- wU+6yKXaGRtXqZfbuLp45A61fQ==
-X-Google-Smtp-Source: ABdhPJxi/v3h2iuMHrsZ3StbC1XR0MKxMeNhamxbZ/I2fhP0xWFopPy82Rox73hf+EqwzTsOzijxdw==
-X-Received: by 2002:a1c:800f:: with SMTP id b15mr2850434wmd.114.1601038323513; 
- Fri, 25 Sep 2020 05:52:03 -0700 (PDT)
+ bh=DYHqy58UJZR46wXpvs59hJagcJIqgUuvxLRDNUapKkI=;
+ b=qauUn9YTiIZ29QaG9zlffh9DQEymYDQXh5lXJbjJFnEZ25SE5F+2XKDoMFo8rMA9nj
+ xDN5TmbEdmn34c8yJaUK7AsBM53xX2llnqHlkHZK+dN5oRblrprgpBexm+QcWYSd2367
+ WmYPk7EfKLGqkt69lD2h3lNQKV2aQe/s0HQJ7izseufxSUulVJGItfgjbjlKh/yyV+ra
+ 3ktswvQkZZaC1WZI2limO8TXtCW/fLvVCNIkGe7K67n7giE3rJgPDVK3q8TlwAIsxQQP
+ RZvKGjs2hx1WVVraK758DwyUbLDDqaRcd0bea2AOE6Lzd6EzjIo6/dhSH6+6eko7kqsq
+ jrkw==
+X-Gm-Message-State: AOAM533VbynN63xu/oKej6wX15RxLYT7HHBqItYw0pRsPHEVxrwZduBg
+ sK83FWepZM5jL+TvZWzI6MeaYw==
+X-Google-Smtp-Source: ABdhPJzzqmM6H2FagwjjJuJz8oyzXp/4kjhdAn5abuNmGND89rNn/daHMZEIYFS4dnMv23kcecepaA==
+X-Received: by 2002:a1c:4455:: with SMTP id r82mr2957959wma.60.1601038326726; 
+ Fri, 25 Sep 2020 05:52:06 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p3sm2631021wmm.40.2020.09.25.05.51.51
+ by smtp.gmail.com with ESMTPSA id m12sm2708543wml.38.2020.09.25.05.51.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 05:51:56 -0700 (PDT)
+ Fri, 25 Sep 2020 05:52:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 012C21FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 173971FF98;
  Fri, 25 Sep 2020 13:51:49 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org, maxim.uvarov@linaro.org, joakim.bech@linaro.org,
  ilias.apalodimas@linaro.org, tomas.winkler@intel.com, yang.huang@intel.com,
  bing.zhu@intel.com, Matti.Moell@opensynergy.com, hmo@opensynergy.com
-Subject: [RFC PATCH 08/19] tools/vhost-user-rpmb: connect to fd and
- instantiate basic run loop
-Date: Fri, 25 Sep 2020 13:51:36 +0100
-Message-Id: <20200925125147.26943-9-alex.bennee@linaro.org>
+Subject: [RFC PATCH 09/19] tools/vhost-user-rpmb: add a --verbose/debug flags
+ for logging
+Date: Fri, 25 Sep 2020 13:51:37 +0100
+Message-Id: <20200925125147.26943-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925125147.26943-1-alex.bennee@linaro.org>
 References: <20200925125147.26943-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,272 +98,71 @@ Cc: jean-philippe@linaro.org, takahiro.akashi@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Again doesn't do much on it's own but will create a socket and wait on
-messages coming in from the vhost-user message socket.
+This gives us two levels of informational output when tracing what the
+daemon is doing.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tools/vhost-user-rpmb/main.c      | 211 +++++++++++++++++++++++++++++-
- tools/vhost-user-rpmb/meson.build |   2 +-
- 2 files changed, 210 insertions(+), 3 deletions(-)
+ tools/vhost-user-rpmb/main.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/tools/vhost-user-rpmb/main.c b/tools/vhost-user-rpmb/main.c
-index 6b1989125bd6..269c86cbb633 100644
+index 269c86cbb633..1be0d4b8a567 100644
 --- a/tools/vhost-user-rpmb/main.c
 +++ b/tools/vhost-user-rpmb/main.c
-@@ -7,10 +7,23 @@
+@@ -6,6 +6,9 @@
+  * SPDX-License-Identifier: GPL-2.0-or-later
   */
  
++#define G_LOG_DOMAIN "vhost-user-rpmb"
++#define G_LOG_USE_STRUCTURED 1
++
  #include <glib.h>
-+#include <gio/gio.h>
-+#include <gio/gunixsocketaddress.h>
- #include <stdio.h>
-+#include <string.h>
-+#include <inttypes.h>
-+
-+#include "contrib/libvhost-user/libvhost-user-glib.h"
-+#include "contrib/libvhost-user/libvhost-user.h"
-+
-+#ifndef container_of
-+#define container_of(ptr, type, member) ({                      \
-+        const typeof(((type *) 0)->member) *__mptr = (ptr);     \
-+        (type *) ((char *) __mptr - offsetof(type, member));})
-+#endif
- 
+ #include <gio/gio.h>
+ #include <gio/gunixsocketaddress.h>
+@@ -25,12 +28,16 @@
  static gchar *socket_path;
--static gint socket_fd;
-+static gint socket_fd = -1;
+ static gint socket_fd = -1;
  static gboolean print_cap;
++static gboolean verbose;
++static gboolean debug;
  
  static GOptionEntry options[] =
-@@ -21,6 +34,147 @@ static GOptionEntry options[] =
+ {
+     { "socket-path", 0, 0, G_OPTION_ARG_FILENAME, &socket_path, "Location of vhost-user Unix domain socket, incompatible with --fd", "PATH" },
+     { "fd", 0, 0, G_OPTION_ARG_INT, &socket_fd, "Specify the file-descriptor of the backend, incompatible with --socket-path", "FD" },
+     { "print-capabilities", 0, 0, G_OPTION_ARG_NONE, &print_cap, "Output to stdout the backend capabilities in JSON format and exit", NULL},
++    { "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose, "Be more verbose in output", NULL},
++    { "debug", 0, 0, G_OPTION_ARG_NONE, &debug, "Include debug output", NULL},
      { NULL }
  };
  
-+enum {
-+    VHOST_USER_RPMB_MAX_QUEUES = 1,
-+};
-+
-+/* These structures are defined in the specification */
-+
-+struct virtio_rpmb_config {
-+    uint8_t capacity;
-+    uint8_t max_wr_cnt;
-+    uint8_t max_rd_cnt;
-+};
-+
-+struct virtio_rpmb_frame {
-+    uint8_t stuff[196];
-+    uint8_t key_mac[32];
-+    uint8_t data[256];
-+    uint8_t nonce[16];
-+    /* remaining fields are big-endian */
-+    uint32_t write_counter;
-+    uint16_t address;
-+    uint16_t block_count;
-+    uint16_t result;
-+    uint16_t req_resp;
-+};
-+
-+/*
-+ * Structure to track internal state of RPMB Device
-+ */
-+
-+typedef struct VuRpmb {
-+    VugDev dev;
-+    struct virtio_rpmb_config virtio_config;
-+} VuRpmb;
-+
-+struct virtio_rpmb_ctrl_command {
-+    VuVirtqElement elem;
-+    VuVirtq *vq;
-+    struct virtio_rpmb_frame frame;
-+    uint32_t error;
-+    bool finished;
-+};
-+
-+static void vrpmb_panic(VuDev *dev, const char *msg)
-+{
-+    g_critical("%s\n", msg);
-+    exit(EXIT_FAILURE);
-+}
-+
-+static uint64_t vrpmb_get_features(VuDev *dev)
-+{
-+    return 0;
-+}
-+
-+static void vrpmb_set_features(VuDev *dev, uint64_t features)
-+{
-+    if (features) {
-+        g_autoptr(GString) s = g_string_new("Requested un-handled feature");
-+        g_string_append_printf(s, " 0x%" PRIx64 "", features);
-+        g_info("%s: %s", __func__, s->str);
-+    }
-+}
-+
-+/*
-+ * The configuration of the device is static and set when we start the
-+ * daemon.
-+ */
-+static int
-+vrpmb_get_config(VuDev *dev, uint8_t *config, uint32_t len)
-+{
-+    VuRpmb *r = container_of(dev, VuRpmb, dev.parent);
-+    g_return_val_if_fail(len <= sizeof(struct virtio_rpmb_config), -1);
-+    memcpy(config, &r->virtio_config, len);
-+    return 0;
-+}
-+
-+static int
-+vrpmb_set_config(VuDev *dev, const uint8_t *data,
-+                 uint32_t offset, uint32_t size,
-+                 uint32_t flags)
-+{
-+    /* ignore */
-+    return 0;
-+}
-+
-+static void
-+vrpmb_handle_ctrl(VuDev *dev, int qidx)
-+{
-+    VuVirtq *vq = vu_get_queue(dev, qidx);
-+    struct virtio_rpmb_ctrl_command *cmd = NULL;
-+
-+    for (;;) {
-+        cmd = vu_queue_pop(dev, vq, sizeof(struct virtio_rpmb_ctrl_command));
-+        if (!cmd) {
-+            break;
-+        }
-+
-+        g_debug("un-handled cmd: %p", cmd);
-+    }
-+}
-+
-+static void
-+vrpmb_queue_set_started(VuDev *dev, int qidx, bool started)
-+{
-+    VuVirtq *vq = vu_get_queue(dev, qidx);
-+
-+    g_debug("queue started %d:%d\n", qidx, started);
-+
-+    switch (qidx) {
-+    case 0:
-+        vu_set_queue_handler(dev, vq, started ? vrpmb_handle_ctrl : NULL);
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static int
-+vrpmb_process_msg(VuDev *dev, VhostUserMsg *msg, int *do_reply)
-+{
-+    switch (msg->request) {
-+    default:
-+        return 0;
-+    }
-+
-+    return 0;
-+}
-+
-+static const VuDevIface vuiface = {
-+    .set_features = vrpmb_set_features,
-+    .get_features = vrpmb_get_features,
-+    .queue_set_started = vrpmb_queue_set_started,
-+    .process_msg = vrpmb_process_msg,
-+    .get_config = vrpmb_get_config,
-+    .set_config = vrpmb_set_config,
-+};
-+
-+static void vrpmb_destroy(VuRpmb *r)
-+{
-+    vug_deinit(&r->dev);
-+}
-+
- /* Print vhost-user.json backend program capabilities */
- static void print_capabilities(void)
- {
-@@ -33,8 +187,11 @@ int main (int argc, char *argv[])
- {
-     GError *error = NULL;
-     GOptionContext *context;
-+    g_autoptr(GMainLoop) loop = NULL;
-+    g_autoptr(GSocket) socket = NULL;
-+    VuRpmb rpmb = {  };
+@@ -84,6 +91,7 @@ static void vrpmb_panic(VuDev *dev, const char *msg)
  
--    context = g_option_context_new ("vhost-user-rpmb - vhost-user emulation of RPBM device");
-+    context = g_option_context_new ("vhost-user emulation of RPBM device");
-     g_option_context_add_main_entries (context, options, "vhost-user-rpmb");
-     if (!g_option_context_parse (context, &argc, &argv, &error))
-     {
-@@ -47,4 +204,54 @@ int main (int argc, char *argv[])
-         exit(0);
+ static uint64_t vrpmb_get_features(VuDev *dev)
+ {
++    g_info("%s: replying", __func__);
+     return 0;
+ }
+ 
+@@ -209,6 +217,17 @@ int main (int argc, char *argv[])
+         exit(EXIT_FAILURE);
      }
  
-+    if (!socket_path && socket_fd < 0) {
-+        g_printerr("Please specify either --fd or --socket-path\n");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    /*
-+     * Now create a vhost-user socket that we will receive messages
-+     * on. Once we have our handler set up we can enter the glib main
-+     * loop.
-+     */
-+    if (socket_path) {
-+        g_autoptr(GSocketAddress) addr = g_unix_socket_address_new(socket_path);
-+        g_autoptr(GSocket) bind_socket = g_socket_new(G_SOCKET_FAMILY_UNIX, G_SOCKET_TYPE_STREAM,
-+                                                      G_SOCKET_PROTOCOL_DEFAULT, &error);
-+
-+        if (!g_socket_bind(bind_socket, addr, false, &error)) {
-+            g_printerr("Failed to bind to socket at %s (%s).\n",
-+                       socket_path, error->message);
-+            exit(EXIT_FAILURE);
-+        }
-+        if (!g_socket_listen(bind_socket, &error)) {
-+            g_printerr("Failed to listen on socket %s (%s).\n",
-+                       socket_path, error->message);
-+        }
-+        g_message("awaiting connection to %s", socket_path);
-+        socket = g_socket_accept(bind_socket, NULL, &error);
-+        if (!socket) {
-+            g_printerr("Failed to accept on socket %s (%s).\n",
-+                       socket_path, error->message);
++    if (verbose || debug) {
++        g_log_set_handler(NULL, G_LOG_LEVEL_MASK, g_log_default_handler, NULL);
++        if (debug) {
++            g_setenv("G_MESSAGES_DEBUG", "all", true);
 +        }
 +    } else {
-+        socket = g_socket_new_from_fd(socket_fd, &error);
-+        if (!socket) {
-+            g_printerr("Failed to connect to FD %d (%s).\n",
-+                       socket_fd, error->message);
-+            exit(EXIT_FAILURE);
-+        }
++        g_log_set_handler(NULL,
++                          G_LOG_LEVEL_WARNING | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_ERROR,
++                          g_log_default_handler, NULL);
 +    }
 +
-+    if (!vug_init(&rpmb.dev, VHOST_USER_RPMB_MAX_QUEUES, g_socket_get_fd(socket),
-+                  vrpmb_panic, &vuiface)) {
-+        g_printerr("Failed to initialize libvhost-user-glib.\n");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    loop = g_main_loop_new(NULL, FALSE);
-+    g_main_loop_run(loop);
-+    g_main_loop_unref(loop);
-+
-+    vrpmb_destroy(&rpmb);
- }
-diff --git a/tools/vhost-user-rpmb/meson.build b/tools/vhost-user-rpmb/meson.build
-index e0df1b69a3fb..cf80bedd99ac 100644
---- a/tools/vhost-user-rpmb/meson.build
-+++ b/tools/vhost-user-rpmb/meson.build
-@@ -1,6 +1,6 @@
- executable('vhost-user-rpmb', files(
-   'main.c'),
--  dependencies: [glib],
-+  dependencies: [qemuutil, glib, gio],
-   link_with: [libvhost_user],
-   install: true,
-   install_dir: get_option('libexecdir'))
+     /*
+      * Now create a vhost-user socket that we will receive messages
+      * on. Once we have our handler set up we can enter the glib main
 -- 
 2.20.1
 
