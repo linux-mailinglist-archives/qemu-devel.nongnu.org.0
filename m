@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E357278D50
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:57:12 +0200 (CEST)
-Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA4A278D23
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 17:48:45 +0200 (CEST)
+Received: from localhost ([::1]:60880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLq5v-0000zF-Iy
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35698)
+	id 1kLpxk-0000QD-Qn
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 11:48:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLpoS-0001Vo-Kd
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:39:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kLpoP-0007Pk-Ex
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:39:08 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601048344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oFwQCd3ldRCbqmuLEjlCiQ4fSPbO+5IXuAPphp1HtV0=;
- b=L5pRJRcX2F48QTNSCIXsPuSHygTq99xlb2s0Fd8MVZhLKeaP+f/6ia7jJvSNhjRFebarrn
- ensYCxAxqq2kEAxObgECjB8L9wINMpdGagfFMugzdG40JjdH//nQbtgYTimI2O1i+AD4kp
- tf4np4kRD0EXZBsPVoi7clRTk3WIgvA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-FBGsudf-PQiDXLJmoanL1g-1; Fri, 25 Sep 2020 11:39:03 -0400
-X-MC-Unique: FBGsudf-PQiDXLJmoanL1g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7FA456BFE;
- Fri, 25 Sep 2020 15:39:01 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-83.ams2.redhat.com [10.36.114.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A87785C1C2;
- Fri, 25 Sep 2020 15:38:56 +0000 (UTC)
-Date: Fri, 25 Sep 2020 17:38:55 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 09/13] qmp: Move dispatcher to a coroutine
-Message-ID: <20200925153855.GH5731@linux.fritz.box>
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-10-kwolf@redhat.com>
- <87imcgml3w.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kLppq-0002fY-D6
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:34 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kLppo-0007ag-6D
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 11:40:33 -0400
+Received: by mail-wr1-x444.google.com with SMTP id w5so4062766wrp.8
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 08:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6NYly9DVGNd0iwSQHYlx1RrznyvyAiNTg6sPQ2mc5/4=;
+ b=tgHGr84R5wydMnolhzTwswArZh4PrmdnFcY0aICs3QFjpDoi/FBBDXa+8yMMae9hcN
+ U/QRm/gRcEvUjSfzychr2T4pWFzfxMAucTFl+hPHQicajB22+uQQy7ENXWYpOytP5Rg5
+ aoNA3bVkRH/e02U1tVr1+Eat0JAzcVgBr1X06CJSOMgwHbGdDZe2YT7209B3CCg6F92A
+ a7F3dlI4MhHfufkJ5fM+Hen5eTTlPNBYW2pxA7Wd5pUPI+zc2Uwr1f0s2betKFqRa5X0
+ 57mN60WzoxFlWVeW1LhCqchKGVhq8QlASy9Z/ZB1mWTfj3574jHD+9o1L7PpzgpXpfTR
+ 3w1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6NYly9DVGNd0iwSQHYlx1RrznyvyAiNTg6sPQ2mc5/4=;
+ b=eI5AxKNki6ifW6b2b7GpLr405YmZameWk02LBuho857hYXxGhnK3OCNsW8EUzj5Dn3
+ c/y0jp/r5OBmsPZZ8pOmCMQuYnQWSrCVmFAfOapstvpVsohWnhlEOyg3iojuPVOjElFu
+ poRgamSe/bN+zg9P+67BeSZtrAybGc563d4PU016ugspj04x3stUHKegDVpyvnoodgBh
+ cXLuWMuh42R8W3ihlYC3jHOj7xVo97kbyeoKxuNkASzpprKwUX4bq8tfFxabUhB6UMoc
+ +KbvQryaafSpnWzBwhsZZgGVe7hJ0JyV4MkmubvaAu4VPmQ841U7pD2wiUckiA7xhqe6
+ qVGQ==
+X-Gm-Message-State: AOAM533q7RDll3lZw7JCaMTtbkm9K4yXq4xrEt2dwxdWFd0qFZDPBmod
+ 2UoghXAzfH8biQcozcqhnvKKdg==
+X-Google-Smtp-Source: ABdhPJxh8C6ocfKgJORMR5uDz35eOWmaUht41cXmCBdo6+I9JzVUpujqE20PmnLHmRqNQo2h9OXZYg==
+X-Received: by 2002:adf:e407:: with SMTP id g7mr5116848wrm.349.1601048430451; 
+ Fri, 25 Sep 2020 08:40:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w21sm3499960wmk.34.2020.09.25.08.40.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Sep 2020 08:40:28 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 17A571FF7E;
+ Fri, 25 Sep 2020 16:40:28 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/15] testing/next pre-PR (python3.6, check-tcg)
+Date: Fri, 25 Sep 2020 16:40:12 +0100
+Message-Id: <20200925154027.12672-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <87imcgml3w.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,402 +86,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.09.2020 um 17:30 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
-> 
-> > This moves the QMP dispatcher to a coroutine and runs all QMP command
-> > handlers that declare 'coroutine': true in coroutine context so they
-> > can avoid blocking the main loop while doing I/O or waiting for other
-> > events.
-> >
-> > For commands that are not declared safe to run in a coroutine, the
-> > dispatcher drops out of coroutine context by calling the QMP command
-> > handler from a bottom half.
-> >
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> >  include/qapi/qmp/dispatch.h |   1 +
-> >  monitor/monitor-internal.h  |   6 +-
-> >  monitor/monitor.c           |  55 +++++++++++++---
-> >  monitor/qmp.c               | 122 +++++++++++++++++++++++++++---------
-> >  qapi/qmp-dispatch.c         |  61 ++++++++++++++++--
-> >  qapi/qmp-registry.c         |   3 +
-> >  util/aio-posix.c            |   8 ++-
-> >  7 files changed, 210 insertions(+), 46 deletions(-)
-> >
-> > diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-> > index 9fd2b720a7..af8d96c570 100644
-> > --- a/include/qapi/qmp/dispatch.h
-> > +++ b/include/qapi/qmp/dispatch.h
-> > @@ -31,6 +31,7 @@ typedef enum QmpCommandOptions
-> >  typedef struct QmpCommand
-> >  {
-> >      const char *name;
-> > +    /* Runs in coroutine context if QCO_COROUTINE is set */
-> >      QmpCommandFunc *fn;
-> >      QmpCommandOptions options;
-> >      QTAILQ_ENTRY(QmpCommand) node;
-> > diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-> > index b39e03b744..b55d6df07f 100644
-> > --- a/monitor/monitor-internal.h
-> > +++ b/monitor/monitor-internal.h
-> > @@ -155,7 +155,9 @@ static inline bool monitor_is_qmp(const Monitor *mon)
-> >  
-> >  typedef QTAILQ_HEAD(MonitorList, Monitor) MonitorList;
-> >  extern IOThread *mon_iothread;
-> > -extern QEMUBH *qmp_dispatcher_bh;
-> > +extern Coroutine *qmp_dispatcher_co;
-> > +extern bool qmp_dispatcher_co_shutdown;
-> > +extern bool qmp_dispatcher_co_busy;
-> >  extern QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
-> >  extern QemuMutex monitor_lock;
-> >  extern MonitorList mon_list;
-> > @@ -173,7 +175,7 @@ void monitor_fdsets_cleanup(void);
-> >  
-> >  void qmp_send_response(MonitorQMP *mon, const QDict *rsp);
-> >  void monitor_data_destroy_qmp(MonitorQMP *mon);
-> > -void monitor_qmp_bh_dispatcher(void *data);
-> > +void coroutine_fn monitor_qmp_dispatcher_co(void *data);
-> >  
-> >  int get_monitor_def(int64_t *pval, const char *name);
-> >  void help_cmd(Monitor *mon, const char *name);
-> > diff --git a/monitor/monitor.c b/monitor/monitor.c
-> > index 629aa073ee..ac2722bf91 100644
-> > --- a/monitor/monitor.c
-> > +++ b/monitor/monitor.c
-> > @@ -55,8 +55,32 @@ typedef struct {
-> >  /* Shared monitor I/O thread */
-> >  IOThread *mon_iothread;
-> >  
-> > -/* Bottom half to dispatch the requests received from I/O thread */
-> > -QEMUBH *qmp_dispatcher_bh;
-> > +/* Coroutine to dispatch the requests received from I/O thread */
-> > +Coroutine *qmp_dispatcher_co;
-> > +
-> > +/* Set to true when the dispatcher coroutine should terminate */
-> > +bool qmp_dispatcher_co_shutdown;
-> > +
-> > +/*
-> > + * qmp_dispatcher_co_busy is used for synchronisation between the
-> > + * monitor thread and the main thread to ensure that the dispatcher
-> > + * coroutine never gets scheduled a second time when it's already
-> > + * scheduled (scheduling the same coroutine twice is forbidden).
-> > + *
-> > + * It is true if the coroutine is active and processing requests.
-> > + * Additional requests may then be pushed onto mon->qmp_requests,
-> > + * and @qmp_dispatcher_co_shutdown may be set without further ado.
-> > + * @qmp_dispatcher_co_busy must not be woken up in this case.
-> > + *
-> > + * If false, you also have to set @qmp_dispatcher_co_busy to true and
-> > + * wake up @qmp_dispatcher_co after pushing the new requests.
-> > + *
-> > + * The coroutine will automatically change this variable back to false
-> > + * before it yields.  Nobody else may set the variable to false.
-> > + *
-> > + * Access must be atomic for thread safety.
-> > + */
-> > +bool qmp_dispatcher_co_busy;
-> >  
-> >  /*
-> >   * Protects mon_list, monitor_qapi_event_state, coroutine_mon,
-> > @@ -623,9 +647,24 @@ void monitor_cleanup(void)
-> >      }
-> >      qemu_mutex_unlock(&monitor_lock);
-> >  
-> > -    /* QEMUBHs needs to be deleted before destroying the I/O thread */
-> > -    qemu_bh_delete(qmp_dispatcher_bh);
-> > -    qmp_dispatcher_bh = NULL;
-> > +    /*
-> > +     * The dispatcher needs to stop before destroying the I/O thread.
-> > +     *
-> > +     * We need to poll both qemu_aio_context and iohandler_ctx to make
-> > +     * sure that the dispatcher coroutine keeps making progress and
-> > +     * eventually terminates.  qemu_aio_context is automatically
-> > +     * polled by calling AIO_WAIT_WHILE on it, but we must poll
-> > +     * iohandler_ctx manually.
-> > +     */
-> > +    qmp_dispatcher_co_shutdown = true;
-> > +    if (!atomic_xchg(&qmp_dispatcher_co_busy, true)) {
-> > +        aio_co_wake(qmp_dispatcher_co);
-> > +    }
-> > +
-> > +    AIO_WAIT_WHILE(qemu_get_aio_context(),
-> > +                   (aio_poll(iohandler_get_aio_context(), false),
-> > +                    atomic_mb_read(&qmp_dispatcher_co_busy)));
-> > +
-> >      if (mon_iothread) {
-> >          iothread_destroy(mon_iothread);
-> >          mon_iothread = NULL;
-> > @@ -649,9 +688,9 @@ void monitor_init_globals_core(void)
-> >       * have commands assuming that context.  It would be nice to get
-> >       * rid of those assumptions.
-> >       */
-> > -    qmp_dispatcher_bh = aio_bh_new(iohandler_get_aio_context(),
-> > -                                   monitor_qmp_bh_dispatcher,
-> > -                                   NULL);
-> > +    qmp_dispatcher_co = qemu_coroutine_create(monitor_qmp_dispatcher_co, NULL);
-> > +    atomic_mb_set(&qmp_dispatcher_co_busy, true);
-> > +    aio_co_schedule(iohandler_get_aio_context(), qmp_dispatcher_co);
-> >  }
-> >  
-> >  int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
-> > diff --git a/monitor/qmp.c b/monitor/qmp.c
-> > index 922fdb5541..69f6e93f38 100644
-> > --- a/monitor/qmp.c
-> > +++ b/monitor/qmp.c
-> > @@ -133,6 +133,10 @@ static void monitor_qmp_respond(MonitorQMP *mon, QDict *rsp)
-> >      }
-> >  }
-> >  
-> > +/*
-> > + * Runs outside of coroutine context for OOB commands, but in
-> > + * coroutine context for everything else.
-> > + */
-> >  static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
-> >  {
-> >      QDict *rsp;
-> > @@ -205,43 +209,99 @@ static QMPRequest *monitor_qmp_requests_pop_any_with_lock(void)
-> >      return req_obj;
-> >  }
-> >  
-> > -void monitor_qmp_bh_dispatcher(void *data)
-> > +void coroutine_fn monitor_qmp_dispatcher_co(void *data)
-> >  {
-> > -    QMPRequest *req_obj = monitor_qmp_requests_pop_any_with_lock();
-> > +    QMPRequest *req_obj = NULL;
-> >      QDict *rsp;
-> >      bool need_resume;
-> >      MonitorQMP *mon;
-> >  
-> > -    if (!req_obj) {
-> > -        return;
-> > -    }
-> > +    while (true) {
-> > +        assert(atomic_mb_read(&qmp_dispatcher_co_busy) == true);
-> >  
-> > -    mon = req_obj->mon;
-> > -    /*  qmp_oob_enabled() might change after "qmp_capabilities" */
-> > -    need_resume = !qmp_oob_enabled(mon) ||
-> > -        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1;
-> > -    qemu_mutex_unlock(&mon->qmp_queue_lock);
-> > -    if (req_obj->req) {
-> > -        QDict *qdict = qobject_to(QDict, req_obj->req);
-> > -        QObject *id = qdict ? qdict_get(qdict, "id") : NULL;
-> > -        trace_monitor_qmp_cmd_in_band(qobject_get_try_str(id) ?: "");
-> > -        monitor_qmp_dispatch(mon, req_obj->req);
-> > -    } else {
-> > -        assert(req_obj->err);
-> > -        rsp = qmp_error_response(req_obj->err);
-> > -        req_obj->err = NULL;
-> > -        monitor_qmp_respond(mon, rsp);
-> > -        qobject_unref(rsp);
-> > -    }
-> > +        /*
-> > +         * Mark the dispatcher as not busy already here so that we
-> > +         * don't miss any new requests coming in the middle of our
-> > +         * processing.
-> > +         */
-> > +        atomic_mb_set(&qmp_dispatcher_co_busy, false);
-> > +
-> > +        while (!(req_obj = monitor_qmp_requests_pop_any_with_lock())) {
-> > +            /*
-> > +             * No more requests to process.  Wait to be reentered from
-> > +             * handle_qmp_command() when it pushes more requests, or
-> > +             * from monitor_cleanup() when it requests shutdown.
-> > +             */
-> > +            if (!qmp_dispatcher_co_shutdown) {
-> > +                qemu_coroutine_yield();
-> > +
-> > +                /*
-> > +                 * busy must be set to true again by whoever
-> > +                 * rescheduled us to avoid double scheduling
-> > +                 */
-> > +                assert(atomic_xchg(&qmp_dispatcher_co_busy, false) == true);
-> > +            }
-> > +
-> > +            /*
-> > +             * qmp_dispatcher_co_shutdown may have changed if we
-> > +             * yielded and were reentered from monitor_cleanup()
-> > +             */
-> > +            if (qmp_dispatcher_co_shutdown) {
-> > +                return;
-> > +            }
-> > +        }
-> >  
-> > -    if (need_resume) {
-> > -        /* Pairs with the monitor_suspend() in handle_qmp_command() */
-> > -        monitor_resume(&mon->common);
-> > -    }
-> > -    qmp_request_free(req_obj);
-> > +        if (atomic_xchg(&qmp_dispatcher_co_busy, true) == true) {
-> > +            /*
-> > +             * Someone rescheduled us (probably because a new requests
-> > +             * came in), but we didn't actually yield. Do that now,
-> > +             * only to be immediately reentered and removed from the
-> > +             * list of scheduled coroutines.
-> > +             */
-> > +            qemu_coroutine_yield();
-> > +        }
-> >  
-> > -    /* Reschedule instead of looping so the main loop stays responsive */
-> > -    qemu_bh_schedule(qmp_dispatcher_bh);
-> > +        /*
-> > +         * Move the coroutine from iohandler_ctx to qemu_aio_context for
-> > +         * executing the command handler so that it can make progress if it
-> > +         * involves an AIO_WAIT_WHILE().
-> > +         */
-> > +        aio_co_schedule(qemu_get_aio_context(), qmp_dispatcher_co);
-> > +        qemu_coroutine_yield();
-> > +
-> > +        mon = req_obj->mon;
-> > +        /* qmp_oob_enabled() might change after "qmp_capabilities" */
-> > +        need_resume = !qmp_oob_enabled(mon) ||
-> > +            mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX - 1;
-> > +        qemu_mutex_unlock(&mon->qmp_queue_lock);
-> > +        if (req_obj->req) {
-> > +            QDict *qdict = qobject_to(QDict, req_obj->req);
-> > +            QObject *id = qdict ? qdict_get(qdict, "id") : NULL;
-> > +            trace_monitor_qmp_cmd_in_band(qobject_get_try_str(id) ?: "");
-> > +            monitor_qmp_dispatch(mon, req_obj->req);
-> > +        } else {
-> > +            assert(req_obj->err);
-> > +            rsp = qmp_error_response(req_obj->err);
-> > +            req_obj->err = NULL;
-> > +            monitor_qmp_respond(mon, rsp);
-> > +            qobject_unref(rsp);
-> > +        }
-> > +
-> > +        if (need_resume) {
-> > +            /* Pairs with the monitor_suspend() in handle_qmp_command() */
-> > +            monitor_resume(&mon->common);
-> > +        }
-> > +        qmp_request_free(req_obj);
-> > +
-> > +        /*
-> > +         * Yield and reschedule so the main loop stays responsive.
-> > +         *
-> > +         * Move back to iohandler_ctx so that nested event loops for
-> > +         * qemu_aio_context don't start new monitor commands.
-> > +         */
-> > +        aio_co_schedule(iohandler_get_aio_context(), qmp_dispatcher_co);
-> > +        qemu_coroutine_yield();
-> > +    }
-> >  }
-> >  
-> >  static void handle_qmp_command(void *opaque, QObject *req, Error *err)
-> > @@ -302,7 +362,9 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
-> >      qemu_mutex_unlock(&mon->qmp_queue_lock);
-> >  
-> >      /* Kick the dispatcher routine */
-> > -    qemu_bh_schedule(qmp_dispatcher_bh);
-> > +    if (!atomic_xchg(&qmp_dispatcher_co_busy, true)) {
-> > +        aio_co_wake(qmp_dispatcher_co);
-> > +    }
-> >  }
-> >  
-> >  static void monitor_qmp_read(void *opaque, const uint8_t *buf, int size)
-> > diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> > index 5677ba92ca..754f7b854c 100644
-> > --- a/qapi/qmp-dispatch.c
-> > +++ b/qapi/qmp-dispatch.c
-> > @@ -12,12 +12,16 @@
-> >   */
-> >  
-> >  #include "qemu/osdep.h"
-> > +
-> > +#include "block/aio.h"
-> >  #include "qapi/error.h"
-> >  #include "qapi/qmp/dispatch.h"
-> >  #include "qapi/qmp/qdict.h"
-> >  #include "qapi/qmp/qjson.h"
-> >  #include "sysemu/runstate.h"
-> >  #include "qapi/qmp/qbool.h"
-> > +#include "qemu/coroutine.h"
-> > +#include "qemu/main-loop.h"
-> >  
-> >  static QDict *qmp_dispatch_check_obj(QDict *dict, bool allow_oob,
-> >                                       Error **errp)
-> > @@ -88,6 +92,30 @@ bool qmp_is_oob(const QDict *dict)
-> >          && !qdict_haskey(dict, "execute");
-> >  }
-> >  
-> > +typedef struct QmpDispatchBH {
-> > +    const QmpCommand *cmd;
-> > +    Monitor *cur_mon;
-> > +    QDict *args;
-> > +    QObject **ret;
-> > +    Error **errp;
-> > +    Coroutine *co;
-> > +} QmpDispatchBH;
-> > +
-> > +static void do_qmp_dispatch_bh(void *opaque)
-> > +{
-> > +    QmpDispatchBH *data = opaque;
-> > +
-> > +    assert(monitor_cur() == NULL);
-> > +    monitor_set_cur(qemu_coroutine_self(), data->cur_mon);
-> > +    data->cmd->fn(data->args, data->ret, data->errp);
-> > +    monitor_set_cur(qemu_coroutine_self(), NULL);
-> > +    aio_co_wake(data->co);
-> > +}
-> > +
-> > +/*
-> > + * Runs outside of coroutine context for OOB commands, but in coroutine
-> > + * context for everything else.
-> > + */
-> >  QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-> >                      bool allow_oob, Monitor *cur_mon)
-> >  {
-> > @@ -153,12 +181,35 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-> >          qobject_ref(args);
-> >      }
-> >  
-> > +    assert(!(oob && qemu_in_coroutine()));
-> >      assert(monitor_cur() == NULL);
-> > -    monitor_set_cur(qemu_coroutine_self(), cur_mon);
-> > -
-> > -    cmd->fn(args, &ret, &err);
-> > -
-> > -    monitor_set_cur(qemu_coroutine_self(), NULL);
-> > +    if (!!(cmd->options & QCO_COROUTINE) == qemu_in_coroutine()) {
-> > +        monitor_set_cur(qemu_coroutine_self(), cur_mon);
-> > +        cmd->fn(args, &ret, &err);
-> > +        monitor_set_cur(qemu_coroutine_self(), NULL);
-> > +    } else {
-> > +        /*
-> > +         * Not being in coroutine context implies that we're handling
-> > +         * an OOB command, which must not have QCO_COROUTINE.
-> > +         *
-> > +         * This implies that we are in coroutine context, but the
-> > +         * command doesn't have QCO_COROUTINE. We must drop out of
-> > +         * coroutine context for this one.
-> > +         */
-> 
-> I had to read this several times to get it.  The first sentence leads me
-> into coroutine context, and then the next sentence tells me the
-> opposite, throwing me into confusion.
-> 
-> Perhaps something like this:
-> 
->            /*
->             * Actual context doesn't match the one the command needs.
->             * Case 1: we are in coroutine context, but command does not
->             * have QCO_COROUTINE.  We need to drop out of coroutine
->             * context for executing it.
->             * Case 2: we are outside coroutine context, but command has
->             * QCO_COROUTINE.  Can't actually happen, because we get here
->             * outside coroutine context only when executing a command
->             * out of band, and OOB commands never have QCO_COROUTINE.
->             */
+Hi,
 
-Works for me. Can you squash this in while applying?
+This is my pre-PR state of testing/next. Mostly it has Thomas'
+python3.6 clean-ups for the various CI bits as well as Paolo's fix for
+the build system to enable check-tcg to work properly again. I should
+cut the PR on Monday.
 
-Kevin
+I think Paolo's fixes are also in another PR but I've left them in
+here because a) it makes testing easier and b) it's the 21st century
+and git should cope.
+
+Paolo Bonzini (3):
+  tests/tcg: reinstate or replace desired parts of rules.mak
+  meson: move libudev test
+  meson: move libmpathpersist test
+
+Thomas Huth (12):
+  migration: Silence compiler warning in global_state_store_running()
+  travis.yml: Drop the default softmmu builds
+  travis.yml: Update Travis to use Bionic and Focal instead of Xenial
+  travis.yml: Drop the superfluous Python 3.6 build
+  travis.yml: Drop the Python 3.5 build
+  tests/docker: Use Fedora containers for MinGW cross-builds in the
+    gitlab-CI
+  gitlab-ci: Remove the Debian9-based containers and containers-layer3
+  tests/docker: Update the tricore container to debian 10
+  shippable.yml: Remove the Debian9-based MinGW cross-compiler tests
+  tests/docker: Remove old Debian 9 containers
+  gitlab-ci: Increase the timeout for the cross-compiler builds
+  configure: Bump the minimum required Python version to 3.6
+
+ docs/conf.py                                  |  4 +-
+ configure                                     | 95 ++-----------------
+ meson.build                                   | 85 +++++++++++++++--
+ migration/global_state.c                      |  4 +-
+ .gitlab-ci.d/containers.yml                   | 38 +++-----
+ .gitlab-ci.d/crossbuilds.yml                  |  5 +-
+ .gitlab-ci.yml                                |  1 -
+ .shippable.yml                                |  4 -
+ .travis.yml                                   | 55 +++--------
+ meson_options.txt                             |  2 +
+ tests/docker/Makefile.include                 |  2 +-
+ .../dockerfiles/debian-tricore-cross.docker   |  2 +-
+ .../dockerfiles/debian-win32-cross.docker     | 38 --------
+ .../dockerfiles/debian-win64-cross.docker     | 45 ---------
+ tests/docker/dockerfiles/debian9-mxe.docker   | 21 ----
+ tests/docker/dockerfiles/debian9.docker       | 32 -------
+ .../dockerfiles/fedora-win32-cross.docker     | 42 ++++++++
+ .../dockerfiles/fedora-win64-cross.docker     | 38 ++++++++
+ tests/qemu-iotests/iotests.py                 |  2 -
+ tests/tcg/Makefile.qemu                       | 13 ++-
+ tests/tcg/configure.sh                        |  4 +-
+ 21 files changed, 211 insertions(+), 321 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian-win32-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian-win64-cross.docker
+ delete mode 100644 tests/docker/dockerfiles/debian9-mxe.docker
+ delete mode 100644 tests/docker/dockerfiles/debian9.docker
+ create mode 100644 tests/docker/dockerfiles/fedora-win32-cross.docker
+ create mode 100644 tests/docker/dockerfiles/fedora-win64-cross.docker
+
+-- 
+2.20.1
 
 
