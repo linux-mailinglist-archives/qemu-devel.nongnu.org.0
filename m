@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CB1277D34
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:52:24 +0200 (CEST)
-Received: from localhost ([::1]:35058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85BC2277CFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 02:37:16 +0200 (CEST)
+Received: from localhost ([::1]:49528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLbyJ-0007Of-Lp
-	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
+	id 1kLbjf-0006ew-I1
+	for lists+qemu-devel@lfdr.de; Thu, 24 Sep 2020 20:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbcF-00014I-Dq
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48426)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbc0-0000wQ-TR
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbc3-0000Be-7o
- for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:33 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLbbz-0000Ac-6A
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 20:29:20 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1600993762;
+ s=mimecast20190719; t=1600993758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B0MgVzc6UwqHvYZ10ytMYSk1oMAHGPSbXoWqlzyvijw=;
- b=aDRK32DwCzXGvM+LkAnLfGM+PvwZJJ+d357SihqqpTx2qBWbEzVJI/ZiIWbV1NCPcLUyAj
- ZZoo5g0fCCaimVzAmlDTsG6fuZKqgfPYtuXuSCKTb7vqzhfxIhBIqqFKsHxsI55w3BHtve
- 5sLJk7isXvKEhSKBK3w2JuBi3dAdt3E=
+ bh=m9h2zukFjbhKmOktF4waQNR43yY/9y0Kxw8OLVbTV1I=;
+ b=Xr9UPHHFdZZgzngbPkg8xqTqfvTuaMUgK+MUc9gMeWRrw3jm0nZRQYfkyYqIYXO6VEuwwi
+ LGeClfHr4YwVW3KtIToaVb6W2KeDm4JbXHJP9KkgN7V7UirRNgzKwajIbmDOFxaavGsapD
+ /TjD1FU7MnxmzhsMkfJq2GAte+iHjI4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-XDy1NdU3MlCeLgSEPFxJWA-1; Thu, 24 Sep 2020 20:29:15 -0400
-X-MC-Unique: XDy1NdU3MlCeLgSEPFxJWA-1
+ us-mta-162-21bFMBiiOTWYYUvTP9wWtA-1; Thu, 24 Sep 2020 20:29:16 -0400
+X-MC-Unique: 21bFMBiiOTWYYUvTP9wWtA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE493801AAB
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC9C26408A
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 00:29:15 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7CA45D9DD;
- Fri, 25 Sep 2020 00:29:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FEF35D9DD;
+ Fri, 25 Sep 2020 00:29:14 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/47] qapi: add pylintrc
-Date: Thu, 24 Sep 2020 20:28:27 -0400
-Message-Id: <20200925002900.465855-15-jsnow@redhat.com>
+Subject: [PATCH v3 15/47] qapi/common.py: Remove python compatibility
+ workaround
+Date: Thu, 24 Sep 2020 20:28:28 -0400
+Message-Id: <20200925002900.465855-16-jsnow@redhat.com>
 In-Reply-To: <20200925002900.465855-1-jsnow@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/22 23:02:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/24 01:10:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -65,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,121 +84,29 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using `pylint --generate-rcfile > pylintrc`, generate a skeleton
-pylintrc file. Sections that are not presently relevant (by the end of
-this series) are removed leaving just the empty section as a search
-engine / documentation hint to future authors.
-
-I am targeting pylint 2.6.0. In the future (and hopefully before 5.2 is
-released), I aim to have gitlab CI running the specific targeted
-versions of pylint, mypy, flake8, etc in a job.
-
-2.5.x will work if you additionally pass --disable=bad-whitespace.
-This warning was removed from 2.6.x, for lack of consistent support.
-
-Right now, quite a few modules are ignored as they are known to fail as
-of this commit. modules will be removed from the known-bad list
-throughout this and following series as they are repaired.
-
-Note: Normally, pylintrc would go in the folder above the module, but as
-that folder is shared by many things, it is going inside the module
-folder (for now). Due to a bug in pylint 2.5+, pylint does not
-correctly recognize when it is being run from "inside" a package, and
-must be run *outside* of the package.
-
-Therefore, to run it, you must:
-
- > pylint scripts/qapi/ --rcfile=scripts/qapi/pylintrc
-
 Signed-off-by: John Snow <jsnow@redhat.com>
-Tested-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/pylintrc | 74 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 scripts/qapi/pylintrc
+ scripts/qapi/common.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-new file mode 100644
-index 0000000000..02dd22c863
---- /dev/null
-+++ b/scripts/qapi/pylintrc
-@@ -0,0 +1,74 @@
-+[MASTER]
-+
-+# Add files or directories matching the regex patterns to the ignore list.
-+# The regex matches against base names, not paths.
-+ignore-patterns=common.py,
-+                doc.py,
-+                error.py,
-+                expr.py,
-+                gen.py,
-+                parser.py,
-+                schema.py,
-+                source.py,
-+                types.py,
-+                visit.py,
-+
-+
-+[MESSAGES CONTROL]
-+
-+# Disable the message, report, category or checker with the given id(s). You
-+# can either give multiple identifiers separated by comma (,) or put this
-+# option multiple times (only on the command line, not in the configuration
-+# file where it should appear only once). You can also use "--disable=all" to
-+# disable everything first and then reenable specific checks. For example, if
-+# you want to run only the similarities checker, you can use "--disable=all
-+# --enable=similarities". If you want to run only the classes checker, but have
-+# no Warning level messages displayed, use "--disable=all --enable=classes
-+# --disable=W".
-+disable=fixme,
-+        missing-docstring,
-+        too-many-arguments,
-+        too-many-branches,
-+        too-many-statements,
-+        too-many-instance-attributes,
-+
-+[REPORTS]
-+
-+[REFACTORING]
-+
-+[MISCELLANEOUS]
-+
-+[LOGGING]
-+
-+[BASIC]
-+
-+# Good variable names which should always be accepted, separated by a comma.
-+good-names=i,
-+           j,
-+           k,
-+           ex,
-+           Run,
-+           _
-+
-+[VARIABLES]
-+
-+[STRING]
-+
-+[SPELLING]
-+
-+[FORMAT]
-+
-+[SIMILARITIES]
-+
-+# Ignore import statements themselves when computing similarities.
-+ignore-imports=yes
-+
-+[TYPECHECK]
-+
-+[CLASSES]
-+
-+[IMPORTS]
-+
-+[DESIGN]
-+
-+[EXCEPTIONS]
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index ba35abea47..cee63eb95c 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -119,10 +119,7 @@ def cgen(code, **kwds):
+     raw = code % kwds
+     if indent_level:
+         indent = genindent(indent_level)
+-        # re.subn() lacks flags support before Python 2.7, use re.compile()
+-        raw = re.subn(re.compile(r'^(?!(#|$))', re.MULTILINE),
+-                      indent, raw)
+-        raw = raw[0]
++        raw = re.sub(r'^(?!(#|$))', indent, raw, flags=re.MULTILINE)
+     return re.sub(re.escape(eatspace) + r' *', '', raw)
+ 
+ 
 -- 
 2.26.2
 
