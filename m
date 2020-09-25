@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B586278EE5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:42:01 +0200 (CEST)
-Received: from localhost ([::1]:59232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B26A278F16
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:51:22 +0200 (CEST)
+Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqnI-0002up-5R
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
+	id 1kLqwL-0003zQ-5j
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLqfM-0002vJ-E3
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:33:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27680)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLqk0-00088B-Pb
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:38:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLqfK-0008Gm-Jr
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:33:48 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kLqjy-0000bD-Ft
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:38:36 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601051625;
+ s=mimecast20190719; t=1601051913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=njVxwsFBl5qqvocgMMqfLHI/WZSPERi0+KklB2rnKQA=;
- b=LBGOjUHVazDsAQzGffw58EfJYvOsp4juvqlwH/IscKyZRVP0W0hMv0tEUBybaofAJzCg5U
- hntz780Zh32kegXQPUDeJ0ECPLZz3sb+ni4MKm16QrsKmyhtT1nMhnVnxfg2PgWU6Z8QUt
- 453RNrk9egp5rC3QFYzU7QqC9cHQkC4=
+ bh=qj/m6Py3YcUa8xsvOQrw2tIIOm4lhr23K9JS+VvutwQ=;
+ b=bYamS/FnuWY1BzPx5AUXjyMs5Mu40isi32Jmu8lODZkICZPpAkzMxd49Dh03q3OtpM074e
+ oCvW84/+SM8hMq0pjmotsjAmthqRlyVZixHBlMv1vT1XYIL8kFTtzf+a6rFBvFd/9BCinB
+ ZZiVrC4fH7zPluPcnGv8gAZ6DW4g/DY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506--1TbFKiIOZONdUwNEv13tw-1; Fri, 25 Sep 2020 12:33:42 -0400
-X-MC-Unique: -1TbFKiIOZONdUwNEv13tw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-190-QEIQ6aVdPXqMMphIz6mWdQ-1; Fri, 25 Sep 2020 12:38:28 -0400
+X-MC-Unique: QEIQ6aVdPXqMMphIz6mWdQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 307A780734F;
- Fri, 25 Sep 2020 16:33:41 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E6BE5C1D7;
- Fri, 25 Sep 2020 16:33:37 +0000 (UTC)
-Subject: Re: [PATCH v2 28/38] qapi/gen.py: update write() to be more idiomatic
-To: Eduardo Habkost <ehabkost@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-29-jsnow@redhat.com>
- <20200923152624.GO3312949@habkost.net>
- <c0b8ed9e-c66a-a6fa-43e1-c3c61581d928@redhat.com>
- <20200924155959.GC191229@localhost.localdomain>
- <87r1qqro8i.fsf@dusky.pond.sub.org> <20200925132607.GP3717385@habkost.net>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <73455868-86f9-e1a7-52e7-a61a8484a999@redhat.com>
-Date: Fri, 25 Sep 2020 12:33:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5EA464144;
+ Fri, 25 Sep 2020 16:38:27 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EE7B60C15;
+ Fri, 25 Sep 2020 16:38:23 +0000 (UTC)
+Date: Fri, 25 Sep 2020 12:38:22 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 16/16] qapi/expr.py: Use an expression checker dispatch
+ table
+Message-ID: <20200925163822.GA402155@localhost.localdomain>
+References: <20200922211313.4082880-1-jsnow@redhat.com>
+ <20200922211313.4082880-17-jsnow@redhat.com>
+ <20200925011849.GI368253@localhost.localdomain>
+ <5a392d78-cf26-7c75-e00e-bf913607c0ac@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925132607.GP3717385@habkost.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <5a392d78-cf26-7c75-e00e-bf913607c0ac@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,80 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/20 9:26 AM, Eduardo Habkost wrote:
-> On Fri, Sep 25, 2020 at 03:15:57PM +0200, Markus Armbruster wrote:
->> Cleber Rosa <crosa@redhat.com> writes:
->>
->>> On Wed, Sep 23, 2020 at 02:37:27PM -0400, John Snow wrote:
->>>> On 9/23/20 11:26 AM, Eduardo Habkost wrote:
->>>>> On Tue, Sep 22, 2020 at 05:00:51PM -0400, John Snow wrote:
->>>>>> Make the file handling here just a tiny bit more idiomatic.
->>>>>> (I realize this is heavily subjective.)
->>>>>>
->>>>>> Use exist_ok=True for os.makedirs and remove the exception,
->>>>>> use fdopen() to wrap the file descriptor in a File-like object,
->>>>>> and use a context manager for managing the file pointer.
->>>>>>
->>>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>>
->>>>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->>>>>
->>>>> I really miss a comment below explaining why we use
->>>>> open(os.open(pathname, ...), ...) instead of open(pathname, ...).
->>
->> This code:
->>
->>          fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
->>          f = open(fd, 'r+', encoding='utf-8')
->>
->>>> Not known to me. It was introduced in 907b846653 as part of an effort to
->>>> reduce rebuild times. Maybe this avoids a modification time change if the
->>>> file already exists?
->>>>
->>>> Markus?
->>>
->>> AFACIT the change on 907b846653 is effective because of the "is new
->>> text different from old text?" conditional.  I can not see how the
->>> separate/duplicate open/fdopen would contribute to that.
->>>
->>> But, let's hear from Markus.
->>
->> This was my best attempt to open the file read/write, creating it if it
->> doesn't exist.
->>
->> Plain
->>
->>          f = open(pathname, "r+", encoding='utf-8')
->>
->> fails instead of creates, and
->>
->>          f = open(pathname, "w+", encoding='utf-8')
->>
->> truncates.
->>
->> If you know a better way, tell me!
-> 
-> Thanks for the explanation!
-> 
-> Yeah, it looks like there's no combination of open() flags that
-> would get translated to O_RDWR|O_CREAT.
-> 
-> Using os.open() like you did seems more straightforward than
-> catching FileNotFoundError.
-> 
+--cNdxnHkX5QqsyA0e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK. Using fdopen works for us, so let's stick with it. I will add a 
-comment explaining our reasoning.
+On Thu, Sep 24, 2020 at 09:32:05PM -0400, John Snow wrote:
+> On 9/24/20 9:18 PM, Cleber Rosa wrote:
+> > I have to say the style of this line bothers me, but it's just that,
+> > style. So,
+>=20
+> What don't you like?
 
-Thanks!
+It's the sum of the "private" + "global dictionary" + "its item being
+called directly".
 
---js
+But don't bother, this is probably the kind of comment that I should
+omit, as I don't want you to, say, create a wrapper function around
+the dict, partially defeating the purpose of this patch.
+
+- Cleber.
+
+--cNdxnHkX5QqsyA0e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9uHPsACgkQZX6NM6Xy
+CfNRtw/8Dl3flk8eKAATYvp5jb6JNMuwmxVjBB7bA14+3ZLj6qQysS/hfMzjae3h
+ChOrv6EzdFUynaqIM6FmXpqhCJW5rifeUoTHeFcwq2/XgdsnbKkK/51MLEYWLLb8
+XAHlkfc6v71Kag/9/foVHb7H2FqmnT4eLTKj71kEdjlsv4yxk2AFI96/gJksZzKH
+SkXcYAOYmEq2ccrvY2AV2GS+PcE0LnYtVkgMOfp+Fg5cjATIxUuMUxffQWE27zeo
+ORasHXgNYBmjC+r1csdvENJBWTIEqOtIPPiwkATiAp1srqM0AjeL16PJ4Xb9NM5E
+PgYLAm0ogj5CWE8N4MF3dwThF1C1g2TGSuLBSG+xA0Og81aBzESXOL9iAOHN3E7R
+EN5lv+VtVWXWoZ7ESrRa90TAK5DIiNBo2AxUN017RziecXO6Bmk13N+VGXhHHSuR
+0oWmxxc1CBDuc0CHLNSQtwdbt979YrfPeYfXvNZ27v8OGsWyVS4O8GmZUKkTNrht
+5b3yGFQ4KvVJAtU66dYuFF6bGSErdZkfEGRkF73bP079FKwK/oXDP3C4WSXJv1VF
+vihJJzzt3vwlfxUIlM5VA0Xdfbl3T8uv9qsUxSOY7jrM7QWN9BLY7qoxjlA2Jmz+
+wvdoNxsDXrZquTLZSkaFFLHwjqiU2sdiUNRpK02+nEaVnSIuwoc=
+=TmqR
+-----END PGP SIGNATURE-----
+
+--cNdxnHkX5QqsyA0e--
 
 
