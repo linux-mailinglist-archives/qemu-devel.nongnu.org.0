@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49470278E5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:26:02 +0200 (CEST)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586D9278E6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:29:06 +0200 (CEST)
+Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqXp-0008Fh-CN
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47778)
+	id 1kLqan-0003U1-Dv
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVI-0006PT-EF
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:24 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40792)
+ id 1kLqVJ-0006RJ-4z
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:25 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVG-0006ms-Bc
+ id 1kLqVG-0006n4-EQ
  for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:24 -0400
-Received: by mail-wr1-x431.google.com with SMTP id j2so4218138wrx.7
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:20 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id e17so3636916wme.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f3Y1p+WW0tVjbRnIDDuydFaNtzkRxU7Uq0iBhPhks/0=;
- b=RTd8mKA/+LdcjZQ+y7bRxAofNuJw16VSkhDUV2mRoEvX9NBzgbZomBumXHWa8NB7UF
- I88BVcd+qIymEGukHPMQmvRCu7PnqKR1WyBbTA/61u12Y4ZLqjU0LtCckj3KCQ99twZk
- xLGbJaPGWoMfaEW3JDOUQ5TDGdP4rekmaENNQLBO+fHT63Dmb16mhlfSmooNqTWt2ksu
- 9n+rmST5saUwA1DH3vS3BvJmzD3TuIiB0edvOiXoyppNlVKDB3xp8tvMl9yHWnwf9eyC
- 7YX1iK/Oq6vMg0YB6l6MCJvhsUEd3JvifGlCCUWsodVPG1CN0i/dPYZuaj4AcYYcr1In
- xFrg==
+ bh=c4J/ihfjud0tiL/YgbEpbNjAusuDSDtTtmByqn5ExUo=;
+ b=Ly51b0niAPdRMoO9pFuqtLIZV7yDCrCyGQaaCQNb8Rj0SiaYJJMn4/7IM+hGFFAi0S
+ 9/3MBB34rS9Kpang7iFSXoZm7RnPQkNMjxEp1YtwrhdcrOZtOtyjFrv0tDJO+D4k+BLY
+ 14BHQeSSX68yKI+ygYkqBMsCdIud6CYFESE/2VMcf0clA04aMgA33DjFzqGRYEuFzQ7T
+ jLvcOh9Zlk9/59IcuISbes4Y0mhFSO2BrAHIkZBGBhp+ONOYsHuEcq/SIWaQyo3R5zEe
+ 3jNsrntJY35yW5CHNl/VowQsBbTTr5WtCDuiM9DoywPgdCIxuW3tzodk9Rrl8FeWfkE7
+ KtGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f3Y1p+WW0tVjbRnIDDuydFaNtzkRxU7Uq0iBhPhks/0=;
- b=k2hOFoTpAQRj6H63lYGIGAVRVbWKrKTUrcmq/lmUrCjADCzhdw8J6b27s7OEI+KMSx
- dyOjyWLvBVkROGdpXsYIntaT9LwGMca7vUJ0BNAB6Sd7EMTU0xceJyaRrTT/ABKDradr
- q/aJLBydA2YL2g/zy/v1jt0PiYoiNfoDpQF03NOdPvHNIoAoZmJac26iszZAzX0L0DaR
- 8joUB9Hl7oHhFqV7GTCTtn02r6pYKFEYGNhG8o6EgEJ+py1Oq+MRp+rrqnIaM0Rjbp/z
- F5aEYAp7IxWAtD6YKaBXBhLNZnilOd2IlYlz5Sgt2cl8cwAAOIAzsTiQoa/UaRg8B/NM
- X4ZA==
-X-Gm-Message-State: AOAM530wDhwFwJJ6IZucuGME/XPJRVvOVTBPUER6GY9s9dnMifmDh9ZP
- YYAkNLR/oShSfedB7ra/OndM0zZGsxuk9n8x
-X-Google-Smtp-Source: ABdhPJwBl4fThuNXxxbkJDsQwMQZ9y43Kq0oHMc4oPQK3Kbrrt9dyIzgPibzg1A7KduvHW6/sVr0gA==
-X-Received: by 2002:adf:8b1d:: with SMTP id n29mr5155248wra.383.1601050999311; 
- Fri, 25 Sep 2020 09:23:19 -0700 (PDT)
+ bh=c4J/ihfjud0tiL/YgbEpbNjAusuDSDtTtmByqn5ExUo=;
+ b=Rn0lCxB6WlJw710Czxl39El/La5mQWuwgsgX9sBDoiNcu/ZOLKUS7HXmEkMQ2Y1/H4
+ TZY3hLiE9KZ8sgWXdQYpyMa01qq8sekI8KTgeXYqSireA9eGUtd7goap0d25g0ciyRS1
+ DPYNbL+TvQ9bf7LmlriH+CwAmmyiylSnWnyTT0SnyDTxd6KFNvYk3KRiazuTGUsdX8Xj
+ jnuTNhk8G2D89diNkO2N1EjE1TTllKic9L2LZ//4VzfMVbmsV0sLE+SKEqxcre5riegJ
+ spkWGsFzjKZn2cJZyOWICuDfNH9Opa7IdlaqYZMb1Gms6CRvB36KRPUfyQUdco6cdhMx
+ fPVg==
+X-Gm-Message-State: AOAM530KTWdW0ZCHowjZ8+pNlWCmv54pdA0q6iKkGbvh1WkMwS66+Dd9
+ a4zOxmIBpLDFQtxZ7f4ScY26udBK5MgNCvWl
+X-Google-Smtp-Source: ABdhPJy0nKQ5ZSNNamO7SIg1g+TOg4lVO7fM5iGWxgVAkuilIEFlcAAnQvuSPCp6XB0qRltN3Q6iPg==
+X-Received: by 2002:a1c:800f:: with SMTP id b15mr3793482wmd.114.1601051000539; 
+ Fri, 25 Sep 2020 09:23:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.18
+ by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 09:23:18 -0700 (PDT)
+ Fri, 25 Sep 2020 09:23:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/21] qapi: Fix doc comment indentation again
-Date: Fri, 25 Sep 2020 17:22:56 +0100
-Message-Id: <20200925162316.21205-2-peter.maydell@linaro.org>
+Subject: [PATCH v6 02/21] qapi/block.json: Add newline after "Example:" for
+ block-latency-histogram-set
+Date: Fri, 25 Sep 2020 17:22:57 +0100
+Message-Id: <20200925162316.21205-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200925162316.21205-1-peter.maydell@linaro.org>
 References: <20200925162316.21205-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,171 +89,70 @@ Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 26ec4e53f2 and similar commits we fixed the indentation
-for doc comments in our qapi json files to follow a new stricter
-standard for indentation, which permits only:
-    @arg: description line 1
-          description line 2
+The block-latency-histogram-set command is the only one which uses
+the Example/Examples section with the first line of the documentation
+immediately following the ':'. Bring it into line with the rest.
 
-or:
-    @arg:
-    line 1
-    line 2
+This allows us to avoid special-casing the indentation handling for
+"Examples" sections; instead for Examples as for any other section
+header these two indentations will be equivalent:
 
-but because the script updates that enforce this are not yet in the
-tree we have had a steady trickle of subsequent changes which didn't
-follow the new rules.
+Examples:
+Line one
+Line two
 
-Fix the latest round of mis-indented doc comments.
+Examples: Line one
+          Line two
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qapi/block-core.json |   4 +-
- qapi/migration.json  | 102 +++++++++++++++++++++----------------------
- 2 files changed, 53 insertions(+), 53 deletions(-)
+ qapi/block.json | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 3c16f1e11d6..dd77a91174c 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4316,8 +4316,8 @@
- # @data-file-raw: True if the external data file must stay valid as a
- #                 standalone (read-only) raw image without looking at qcow2
- #                 metadata (default: false; since: 4.0)
--# @extended-l2      True to make the image have extended L2 entries
--#                   (default: false; since 5.2)
-+# @extended-l2: True to make the image have extended L2 entries
-+#               (default: false; since 5.2)
- # @size: Size of the virtual disk in bytes
- # @version: Compatibility level (default: v3)
- # @backing-file: File name of the backing file if a backing file
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 675f70bb673..b89052c6fd3 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -681,23 +681,23 @@
- #                      Defaults to 1. (Since 5.0)
+diff --git a/qapi/block.json b/qapi/block.json
+index c54a393cf3a..a009f7d3a2d 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -528,7 +528,8 @@
  #
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
--#          aliases for the purpose of dirty bitmap migration.  Such
--#          aliases may for example be the corresponding names on the
--#          opposite site.
--#          The mapping must be one-to-one, but not necessarily
--#          complete: On the source, unmapped bitmaps and all bitmaps
--#          on unmapped nodes will be ignored.  On the destination,
--#          encountering an unmapped alias in the incoming migration
--#          stream will result in a report, and all further bitmap
--#          migration data will then be discarded.
--#          Note that the destination does not know about bitmaps it
--#          does not receive, so there is no limitation or requirement
--#          regarding the number of bitmaps received, or how they are
--#          named, or on which nodes they are placed.
--#          By default (when this parameter has never been set), bitmap
--#          names are mapped to themselves.  Nodes are mapped to their
--#          block device name if there is one, and to their node name
--#          otherwise. (Since 5.2)
-+#                        aliases for the purpose of dirty bitmap migration.  Such
-+#                        aliases may for example be the corresponding names on the
-+#                        opposite site.
-+#                        The mapping must be one-to-one, but not necessarily
-+#                        complete: On the source, unmapped bitmaps and all bitmaps
-+#                        on unmapped nodes will be ignored.  On the destination,
-+#                        encountering an unmapped alias in the incoming migration
-+#                        stream will result in a report, and all further bitmap
-+#                        migration data will then be discarded.
-+#                        Note that the destination does not know about bitmaps it
-+#                        does not receive, so there is no limitation or requirement
-+#                        regarding the number of bitmaps received, or how they are
-+#                        named, or on which nodes they are placed.
-+#                        By default (when this parameter has never been set), bitmap
-+#                        names are mapped to themselves.  Nodes are mapped to their
-+#                        block device name if there is one, and to their node name
-+#                        otherwise. (Since 5.2)
+ # Since: 4.0
  #
- # Since: 2.4
- ##
-@@ -841,23 +841,23 @@
- #                      Defaults to 1. (Since 5.0)
+-# Example: set new histograms for all io types with intervals
++# Example:
++# set new histograms for all io types with intervals
+ # [0, 10), [10, 50), [50, 100), [100, +inf):
  #
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
--#          aliases for the purpose of dirty bitmap migration.  Such
--#          aliases may for example be the corresponding names on the
--#          opposite site.
--#          The mapping must be one-to-one, but not necessarily
--#          complete: On the source, unmapped bitmaps and all bitmaps
--#          on unmapped nodes will be ignored.  On the destination,
--#          encountering an unmapped alias in the incoming migration
--#          stream will result in a report, and all further bitmap
--#          migration data will then be discarded.
--#          Note that the destination does not know about bitmaps it
--#          does not receive, so there is no limitation or requirement
--#          regarding the number of bitmaps received, or how they are
--#          named, or on which nodes they are placed.
--#          By default (when this parameter has never been set), bitmap
--#          names are mapped to themselves.  Nodes are mapped to their
--#          block device name if there is one, and to their node name
--#          otherwise. (Since 5.2)
-+#                        aliases for the purpose of dirty bitmap migration.  Such
-+#                        aliases may for example be the corresponding names on the
-+#                        opposite site.
-+#                        The mapping must be one-to-one, but not necessarily
-+#                        complete: On the source, unmapped bitmaps and all bitmaps
-+#                        on unmapped nodes will be ignored.  On the destination,
-+#                        encountering an unmapped alias in the incoming migration
-+#                        stream will result in a report, and all further bitmap
-+#                        migration data will then be discarded.
-+#                        Note that the destination does not know about bitmaps it
-+#                        does not receive, so there is no limitation or requirement
-+#                        regarding the number of bitmaps received, or how they are
-+#                        named, or on which nodes they are placed.
-+#                        By default (when this parameter has never been set), bitmap
-+#                        names are mapped to themselves.  Nodes are mapped to their
-+#                        block device name if there is one, and to their node name
-+#                        otherwise. (Since 5.2)
+ # -> { "execute": "block-latency-histogram-set",
+@@ -536,7 +537,8 @@
+ #                     "boundaries": [10, 50, 100] } }
+ # <- { "return": {} }
  #
- # Since: 2.4
- ##
-@@ -1037,23 +1037,23 @@
- #                      Defaults to 1. (Since 5.0)
+-# Example: set new histogram only for write, other histograms will remain
++# Example:
++# set new histogram only for write, other histograms will remain
+ # not changed (or not created):
  #
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
--#          aliases for the purpose of dirty bitmap migration.  Such
--#          aliases may for example be the corresponding names on the
--#          opposite site.
--#          The mapping must be one-to-one, but not necessarily
--#          complete: On the source, unmapped bitmaps and all bitmaps
--#          on unmapped nodes will be ignored.  On the destination,
--#          encountering an unmapped alias in the incoming migration
--#          stream will result in a report, and all further bitmap
--#          migration data will then be discarded.
--#          Note that the destination does not know about bitmaps it
--#          does not receive, so there is no limitation or requirement
--#          regarding the number of bitmaps received, or how they are
--#          named, or on which nodes they are placed.
--#          By default (when this parameter has never been set), bitmap
--#          names are mapped to themselves.  Nodes are mapped to their
--#          block device name if there is one, and to their node name
--#          otherwise. (Since 5.2)
-+#                        aliases for the purpose of dirty bitmap migration.  Such
-+#                        aliases may for example be the corresponding names on the
-+#                        opposite site.
-+#                        The mapping must be one-to-one, but not necessarily
-+#                        complete: On the source, unmapped bitmaps and all bitmaps
-+#                        on unmapped nodes will be ignored.  On the destination,
-+#                        encountering an unmapped alias in the incoming migration
-+#                        stream will result in a report, and all further bitmap
-+#                        migration data will then be discarded.
-+#                        Note that the destination does not know about bitmaps it
-+#                        does not receive, so there is no limitation or requirement
-+#                        regarding the number of bitmaps received, or how they are
-+#                        named, or on which nodes they are placed.
-+#                        By default (when this parameter has never been set), bitmap
-+#                        names are mapped to themselves.  Nodes are mapped to their
-+#                        block device name if there is one, and to their node name
-+#                        otherwise. (Since 5.2)
+ # -> { "execute": "block-latency-histogram-set",
+@@ -544,7 +546,8 @@
+ #                     "boundaries-write": [10, 50, 100] } }
+ # <- { "return": {} }
  #
- # Since: 2.4
- ##
+-# Example: set new histograms with the following intervals:
++# Example:
++# set new histograms with the following intervals:
+ #   read, flush: [0, 10), [10, 50), [50, 100), [100, +inf)
+ #   write: [0, 1000), [1000, 5000), [5000, +inf)
+ #
+@@ -554,7 +557,8 @@
+ #                     "boundaries-write": [1000, 5000] } }
+ # <- { "return": {} }
+ #
+-# Example: remove all latency histograms:
++# Example:
++# remove all latency histograms:
+ #
+ # -> { "execute": "block-latency-histogram-set",
+ #      "arguments": { "id": "drive0" } }
 -- 
 2.20.1
 
