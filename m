@@ -2,98 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C4D278780
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:45:56 +0200 (CEST)
-Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A6B278829
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 14:53:29 +0200 (CEST)
+Received: from localhost ([::1]:36750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLn6p-0001sz-7v
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46106)
+	id 1kLnE8-000076-1Y
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 08:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn4k-0000EV-MN
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:43:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kLn4j-0000Ds-3V
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 08:43:46 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601037824;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=uvt3lJ+3MHMbSv/PuRGjHopsG++4ex1JUI44nB1Dwsk=;
- b=d+vblay73I43Apwrbp2qntV/oyeAWLu1Gbfz/FVRLbKFxqaqRUEUxJugdl1hyky6lV1XD+
- zfb2J9Ln775oxUikhr1i3FhDy9e1PjYK3KhMXd30qt/9qHcAR6D1uuH9jY0zZB8lVA+s0Q
- DT6djjPJWGHI8elibVXisH6N/i9AB10=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-nlDHNRjrNfyL6E6Vl0JoFw-1; Fri, 25 Sep 2020 08:43:41 -0400
-X-MC-Unique: nlDHNRjrNfyL6E6Vl0JoFw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 989EE1902EAD;
- Fri, 25 Sep 2020 12:43:33 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-113.ams2.redhat.com
- [10.36.113.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A12F660C15;
- Fri, 25 Sep 2020 12:43:29 +0000 (UTC)
-Subject: Re: [PATCH v2 27/31] nbd: Deprecate nbd-server-add/remove
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200924152717.287415-1-kwolf@redhat.com>
- <20200924152717.287415-28-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f5922f34-def9-69d3-a658-bef47476adab@redhat.com>
-Date: Fri, 25 Sep 2020 14:43:28 +0200
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kLn5M-00019d-IR; Fri, 25 Sep 2020 08:44:24 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:37437)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kLn5K-0000Gi-KR; Fri, 25 Sep 2020 08:44:24 -0400
+Received: by mail-qk1-x742.google.com with SMTP id 16so2593860qkf.4;
+ Fri, 25 Sep 2020 05:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/i6nj4tbiwLX1+KBy5Ylg7HAbJZyPN/vGWHVtdE9rf8=;
+ b=reL+hxe6EA2DhijIySr7wdXrrSsJyMlifXO2uyuZs3uFHJx1UC2ObfnKD6I5V8CxUN
+ WP8p/mnNhoN88kzKZITk/V4/rlpMaA3ATZo/BJngZ8jALSHB6T4kFcLTRoQyUep8hJoX
+ 6S68FOhnsL57jkA8haYtzneqhx8iLAvAnf1w946R9tCYw5CuXcbCI7Ak24l0dfXew/el
+ kjMMY9tY6TW9YOkUj0Zn8ZtHh/SXsFzAK3VMq2rSecJb8Kj8wOqTLuNSwXW6PgVmrhy0
+ VpCY7gKUy8vMib7wIOjCRC96E6YDAbeMArBze7zfvwMywD7AiVn5ubH6oipNxXuqIEQ1
+ bVXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/i6nj4tbiwLX1+KBy5Ylg7HAbJZyPN/vGWHVtdE9rf8=;
+ b=S0IMz+lAjLtruruIfkL0brqVQkljesZ83TRBBwP8vekPtfT8gm0JQrUnyGLUPlxRU5
+ fMX7xkfJvYcKLDiW2Yy7VKcbyHnHkCwMuk+3yYMmyN0MFmU9fpxTRSbDkvzT979JWL88
+ u+bFvcg5jvsRWX1tk3/qiK9UExLtW8y847YZ2GLOlK6KL/F+Z8gtst1fvDDzpNJPy21t
+ 61sDREi4DwlW1rzUGs/Y61rBpkXfo5nw51Jp5y+o+dYJD6Ckypm1OIps5jLkjuq8pUAG
+ A3B68xFSVQXSIfJbHLi8bR9NhMS1tisB98WIPw7KTh4DoAd4jmQ7dL5bUi6fK+BFhwMt
+ BB4w==
+X-Gm-Message-State: AOAM531+/vObctDB5LhKtEHzalDsXb5n8SpG14/qG7sPr8teDnZRqATo
+ cnOMYtvx12jWqP2GPbz+x7E=
+X-Google-Smtp-Source: ABdhPJyiuIultynL+rWtMgV6AispgAVmgdpZldZXsBU5jEHT6EJEobgcmzWoqGu3LrmJxyhM5tcAoA==
+X-Received: by 2002:ae9:e40d:: with SMTP id q13mr3759629qkc.24.1601037860748; 
+ Fri, 25 Sep 2020 05:44:20 -0700 (PDT)
+Received: from ?IPv6:2804:431:c7c7:c625:6c0e:4720:8228:5f68?
+ ([2804:431:c7c7:c625:6c0e:4720:8228:5f68])
+ by smtp.gmail.com with ESMTPSA id f127sm1610932qke.133.2020.09.25.05.44.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Sep 2020 05:44:17 -0700 (PDT)
+Subject: Re: [PATCH v2 3/6] spapr_numa: translate regular NUMA distance to
+ PAPR distance
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20200924195058.362984-1-danielhb413@gmail.com>
+ <20200924195058.362984-4-danielhb413@gmail.com>
+ <20200925023524.GQ2298@yekko.fritz.box>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <5a80b9ae-3954-7e01-dcda-759ce50fe5e7@gmail.com>
+Date: Fri, 25 Sep 2020 09:44:14 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200924152717.287415-28-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200925023524.GQ2298@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x742.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.238,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,50 +91,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG
-Content-Type: multipart/mixed; boundary="XNqw8VKAOvbZ8pdAum0Tl8RCrLJwKIKsZ"
-
---XNqw8VKAOvbZ8pdAum0Tl8RCrLJwKIKsZ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 24.09.20 17:27, Kevin Wolf wrote:
-> These QMP commands are replaced by block-export-add/del.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qapi/block-export.json     | 11 +++++++++--
->  docs/system/deprecated.rst |  6 ++++++
->  2 files changed, 15 insertions(+), 2 deletions(-)
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---XNqw8VKAOvbZ8pdAum0Tl8RCrLJwKIKsZ--
+On 9/24/20 11:35 PM, David Gibson wrote:
+> On Thu, Sep 24, 2020 at 04:50:55PM -0300, Daniel Henrique Barboza wrote:
+>> QEMU allows the user to set NUMA distances in the command line.
+>> For ACPI architectures like x86, this means that user input is
+>> used to populate the SLIT table, and the guest perceives the
+>> distances as the user chooses to.
+>>
+>> PPC64 does not work that way. In the PAPR concept of NUMA,
+>> associativity relations between the NUMA nodes are provided by
+>> the device tree, and the guest kernel is free to calculate the
+>> distances as it sees fit. Given how ACPI architectures works,
+>> this puts the pSeries machine in a strange spot - users expect
+>> to define NUMA distances like in the ACPI case, but QEMU does
+>> not have control over it. To give pSeries users a similar
+>> experience, we'll need to bring kernel specifics to QEMU
+>> to approximate the NUMA distances.
+>>
+>> The pSeries kernel works with the NUMA distance range 10,
+>> 20, 40, 80 and 160. The code starts at 10 (local distance) and
+>> searches for a match in the first NUMA level between the
+>> resources. If there is no match, the distance is doubled and
+>> then it proceeds to try to match in the next NUMA level. Rinse
+>> and repeat for MAX_DISTANCE_REF_POINTS levels.
+>>
+>> This patch introduces a spapr_numa_PAPRify_distances() helper
+>> that translates the user distances to kernel distance, which
+>> we're going to use to determine the associativity domains for
+>> the NUMA nodes.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+> The idea of rounding the distances like this seems pretty good to me.
+> Since each level is a multiple of a distance from the preivous one it
+> might be more theoretically correct to place the thresholds at the
+> geometric mean between each level, rather than the arithmetic mean.  I
+> very much doubt it makes much different in practice though, and this
+> is simpler.
+> 
+> There is one nit, I'm less happy with though..
+> 
+>> ---
+>>   hw/ppc/spapr_numa.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 44 insertions(+)
+>>
+>> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+>> index fe395e80a3..990a5fce08 100644
+>> --- a/hw/ppc/spapr_numa.c
+>> +++ b/hw/ppc/spapr_numa.c
+>> @@ -37,6 +37,49 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
+>>       return true;
+>>   }
+>>   
+>> +/*
+>> + * This function will translate the user distances into
+>> + * what the kernel understand as possible values: 10
+>> + * (local distance), 20, 40, 80 and 160. Current heuristic
+>> + * is:
+>> + *
+>> + *  - distances between 11 and 30 inclusive -> rounded to 20
+>> + *  - distances between 31 and 60 inclusive -> rounded to 40
+>> + *  - distances between 61 and 120 inclusive -> rounded to 80
+>> + *  - everything above 120 -> 160
+>> + *
+>> + * This step can also be done in the same time as the NUMA
+>> + * associativity domains calculation, at the cost of extra
+>> + * complexity. We chose to keep it simpler.
+>> + *
+>> + * Note: this will overwrite the distance values in
+>> + * ms->numa_state->nodes.
+>> + */
+>> +static void spapr_numa_PAPRify_distances(MachineState *ms)
+>> +{
+>> +    int src, dst;
+>> +    int nb_numa_nodes = ms->numa_state->num_nodes;
+>> +    NodeInfo *numa_info = ms->numa_state->nodes;
+>> +
+>> +    for (src = 0; src < nb_numa_nodes; src++) {
+>> +        for (dst = src; dst < nb_numa_nodes; dst++) {
+>> +            uint8_t distance = numa_info[src].distance[dst];
+>> +            uint8_t rounded_distance = 160;
+>> +
+>> +            if (distance > 11 && distance <= 30) {
+>> +                rounded_distance = 20;
+>> +            } else if (distance > 31 && distance <= 60) {
+>> +                rounded_distance = 40;
+>> +            } else if (distance > 61 && distance <= 120) {
+>> +                rounded_distance = 80;
+>> +            }
+>> +
+>> +            numa_info[src].distance[dst] = rounded_distance;
+>> +            numa_info[dst].distance[src] = rounded_distance;
+> 
+> ..I don't love the fact that we alter the distance table in place.
+> Even though it was never exposed to the guest, I'd prefer not to
+> destroy the information the user passed in.  It could lead to
+> surprising results with QMP introspection, and it may make future
+> extensions more difficult.
+> 
+> So I'd prefer to either (a) just leave the table as is and round
+> on-demand with a paprify_distance(NN) -> {20,40,80,..} type function,
+> or (b) create a parallel, spapr local, table with the rounded
+> distances
 
---A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+I did something similar with (a) in the very first version of this series.
+I'll fall back to on-demand translation logic to avoid changing numa_info.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl9t5fAACgkQ9AfbAGHV
-z0Cu+QgAo+6gPmjbp2Rf4xYfUYEPfKlXxprb1UZxsYqNVf0Li/NToYwaWwg3q0Ub
-ubkfupzspYYRN4uiIWGKYEit2redso41ool23YIPL01nUMVvI9KLH/7tpSGJJhuq
-cHBzi5UBpWDK/l9DWQPqlgh499AxB0qtnpr//K4QOTE1oXCp53emucVUih5e+iLB
-YVMz4roEvkRVjL6iXWjDZq4NJ3/s5OvNYbOvyTkVjhupA0mpP82WCC8l03zIeiB4
-T/jrSo5NhgXRxGyjZ2q93jEzccg3EgDtWKORWJ2IMJu9yWvZBSIH+gT7Jfhcv9/j
-SLEJWDQ6oUDzgA15L97EnC6I9FqDWw==
-=H2wF
------END PGP SIGNATURE-----
 
---A9H03zcGfJBd4svIRsfULQ5Cc5EfHYsbG--
 
+Thanks,
+
+
+DHB
+
+> 
+>> +        }
+>> +    }
+>> +}
+>> +
+>>   void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>                                      MachineState *machine)
+>>   {
+>> @@ -95,6 +138,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>           exit(EXIT_FAILURE);
+>>       }
+>>   
+>> +    spapr_numa_PAPRify_distances(machine);
+>>   }
+>>   
+>>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+> 
 
