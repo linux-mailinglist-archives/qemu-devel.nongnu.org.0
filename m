@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C618278A37
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 16:00:41 +0200 (CEST)
-Received: from localhost ([::1]:42478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C53EF278A16
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 15:56:28 +0200 (CEST)
+Received: from localhost ([::1]:54572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLoHA-00007W-FZ
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 10:00:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
+	id 1kLoD5-0001h2-QZ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 09:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kLo6B-0002ca-2P
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:49:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37477)
+ id 1kLo6w-0003tm-1n
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:50:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kLo67-0000l7-K3
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:49:18 -0400
+ id 1kLo6s-0000ps-0u
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 09:50:04 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601041751;
+ s=mimecast20190719; t=1601041798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MhsjaAvcc2A8rxRwS3aD1ncZ7PrT1QP4PmosGTDO3t8=;
- b=MfHEKkxNkuLrZve9tO+3ivk5KhVeSqle9Fe7Wvn+AF4Edy5MgJLG+jAkm5Ba7W3p8r1LIc
- dunyc3GlgvrXOIeL3XQXsuobTYccYWJuBUT2et4tz4mSJGeGNue81ZfKE3z3braO2qc+3y
- z5UvHkFRv56gU1QPP+Dr9kIA0jRjUvI=
+ bh=fLvjjbnseEvWZyZlxkrX+W1Hx+rNQ9Jg98KLgwjIUh0=;
+ b=ir8IhASSfIG71X7ZkLp8wJzrmpD7klhPzoOvKNpE5GerdxbH8gp/RxQbD2lYJjGLE+wYuG
+ Z65D3ifu8JFOnQe1MXCBo0Jvnr+U2ht6VdY3BUIv8C6oTEoIaDD2WUfiXq6o392tOuGY8l
+ izfQpDhJqKVEiEd1aVFi+HBI1WnDh40=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-eiyasU3IM82UTT2iBI4_eA-1; Fri, 25 Sep 2020 09:49:10 -0400
-X-MC-Unique: eiyasU3IM82UTT2iBI4_eA-1
+ us-mta-557-_u9TE8skM56EMqOW5PgM4Q-1; Fri, 25 Sep 2020 09:49:57 -0400
+X-MC-Unique: _u9TE8skM56EMqOW5PgM4Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2417881F00F;
- Fri, 25 Sep 2020 13:49:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C183F1084C9E;
+ Fri, 25 Sep 2020 13:49:55 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEF625D9DC;
- Fri, 25 Sep 2020 13:49:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 742DE5D9DC;
+ Fri, 25 Sep 2020 13:49:09 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, stefanha@redhat.com, fam@euphon.net,
  philmd@redhat.com, alex.williamson@redhat.com
-Subject: [RFC 2/3] util/vfio-helpers: Dynamically compute the min/max IOVA
-Date: Fri, 25 Sep 2020 15:48:44 +0200
-Message-Id: <20200925134845.21053-3-eric.auger@redhat.com>
+Subject: [RFC 3/3] util/vfio-helpers: Rework the IOVA allocator to avoid IOVA
+ reserved regions
+Date: Fri, 25 Sep 2020 15:48:45 +0200
+Message-Id: <20200925134845.21053-4-eric.auger@redhat.com>
 In-Reply-To: <20200925134845.21053-1-eric.auger@redhat.com>
 References: <20200925134845.21053-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -59,9 +60,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -69,7 +70,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,132 +87,97 @@ Cc: lvivier@redhat.com, kwolf@redhat.com, cohuck@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the min/max IOVA are hardcoded to [0x10000, 1 << 39].
-Now we dynamically fetch the info from VFIO, if the kernel supports
-it, let's use the dynamically retrieved value.
-
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- util/vfio-helpers.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+ util/vfio-helpers.c | 55 +++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 51 insertions(+), 4 deletions(-)
 
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 8e91beba95..567bcf1ded 100644
+index 567bcf1ded..c98d0d882e 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -26,11 +26,11 @@
+@@ -676,6 +676,48 @@ static bool qemu_vfio_verify_mappings(QEMUVFIOState *s)
+     return true;
+ }
  
- #define QEMU_VFIO_DEBUG 0
- 
-+/*
-+ * Min/Max IOVA addresses, only used if VFIO does not report
-+ * the usable IOVA ranges
-+ */
- #define QEMU_VFIO_IOVA_MIN 0x10000ULL
--/* XXX: Once VFIO exposes the iova bit width in the IOMMU capability interface,
-- * we can use a runtime limit; alternatively it's also possible to do platform
-- * specific detection by reading sysfs entries. Until then, 39 is a safe bet.
-- **/
- #define QEMU_VFIO_IOVA_MAX (1ULL << 39)
- 
- typedef struct {
-@@ -56,6 +56,8 @@ struct QEMUVFIOState {
-     struct vfio_region_info config_region_info, bar_region_info[6];
-     struct IOVARange *usable_iova_ranges;
-     uint8_t nb_iova_ranges;
-+    uint64_t max_iova;
-+    uint64_t min_iova;
- 
-     /* These fields are protected by @lock */
-     /* VFIO's IO virtual address space is managed by splitting into a few
-@@ -63,7 +65,7 @@ struct QEMUVFIOState {
-      *
-      * ---------------       <= 0
-      * |xxxxxxxxxxxxx|
--     * |-------------|       <= QEMU_VFIO_IOVA_MIN
-+     * |-------------|       <= min_iova
-      * |             |
-      * |    Fixed    |
-      * |             |
-@@ -75,20 +77,20 @@ struct QEMUVFIOState {
-      * |             |
-      * |    Temp     |
-      * |             |
--     * |-------------|       <= QEMU_VFIO_IOVA_MAX
-+     * |-------------|       <= max_iova
-      * |xxxxxxxxxxxxx|
-      * |xxxxxxxxxxxxx|
-      * ---------------
-      *
--     * - Addresses lower than QEMU_VFIO_IOVA_MIN are reserved as invalid;
-+     * - Addresses lower than min_iova are reserved as invalid;
-      *
-      * - Fixed mappings of HVAs are assigned "low" IOVAs in the range of
--     *   [QEMU_VFIO_IOVA_MIN, low_water_mark).  Once allocated they will not be
-+     *   [min_iova, low_water_mark).  Once allocated they will not be
-      *   reclaimed - low_water_mark never shrinks;
-      *
-      * - IOVAs in range [low_water_mark, high_water_mark) are free;
-      *
--     * - IOVAs in range [high_water_mark, QEMU_VFIO_IOVA_MAX) are volatile
-+     * - IOVAs in range [high_water_mark, max_iova) are volatile
-      *   mappings. At each qemu_vfio_dma_reset_temporary() call, the whole area
-      *   is recycled. The caller should make sure I/O's depending on these
-      *   mappings are completed before calling.
-@@ -271,6 +273,8 @@ static void collect_usable_iova_ranges(QEMUVFIOState *s, void *first_cap)
-         s->usable_iova_ranges[i].start = cap_iova_range->iova_ranges[i].start;
-         s->usable_iova_ranges[i].end = cap_iova_range->iova_ranges[i].end;
++static int
++qemu_vfio_find_fixed_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
++{
++    int i;
++
++    for (i = 0; i < s->nb_iova_ranges; i++) {
++        if (s->usable_iova_ranges[i].end < s->low_water_mark) {
++            continue;
++        }
++        s->low_water_mark =
++            MAX(s->low_water_mark, s->usable_iova_ranges[i].start);
++
++        if (s->usable_iova_ranges[i].end - s->low_water_mark + 1 >= size) {
++            *iova = s->low_water_mark;
++            s->low_water_mark += size;
++            return 0;
++        }
++    }
++    return -ENOMEM;
++}
++
++static int
++qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
++{
++    int i;
++
++    for (i = s->nb_iova_ranges - 1; i >= 0; i--) {
++        if (s->usable_iova_ranges[i].start > s->high_water_mark) {
++            continue;
++        }
++        s->high_water_mark =
++            MIN(s->high_water_mark, s->usable_iova_ranges[i].end + 1);
++
++        if (s->high_water_mark - s->usable_iova_ranges[i].start + 1 >= size) {
++            *iova = s->high_water_mark - size;
++            s->high_water_mark = *iova;
++            return 0;
++        }
++    }
++    return -ENOMEM;
++}
++
+ /* Map [host, host + size) area into a contiguous IOVA address space, and store
+  * the result in @iova if not NULL. The caller need to make sure the area is
+  * aligned to page size, and mustn't overlap with existing mapping areas (split
+@@ -702,7 +744,11 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+             goto out;
+         }
+         if (!temporary) {
+-            iova0 = s->low_water_mark;
++            if (qemu_vfio_find_fixed_iova(s, size, &iova0)) {
++                ret = -ENOMEM;
++                goto out;
++            }
++
+             mapping = qemu_vfio_add_mapping(s, host, size, index + 1, iova0);
+             if (!mapping) {
+                 ret = -ENOMEM;
+@@ -714,15 +760,16 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+                 qemu_vfio_undo_mapping(s, mapping, NULL);
+                 goto out;
+             }
+-            s->low_water_mark += size;
+             qemu_vfio_dump_mappings(s);
+         } else {
+-            iova0 = s->high_water_mark - size;
++            if (qemu_vfio_find_temp_iova(s, size, &iova0)) {
++                ret = -ENOMEM;
++                goto out;
++            }
+             ret = qemu_vfio_do_mapping(s, host, size, iova0);
+             if (ret) {
+                 goto out;
+             }
+-            s->high_water_mark -= size;
+         }
      }
-+    s->min_iova = s->usable_iova_ranges[0].start;
-+    s->max_iova = s->usable_iova_ranges[i - 1].end + 1;
- }
- 
- static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
-@@ -362,12 +366,14 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
- 
-     /*
-      * if the kernel does not report usable IOVA regions, choose
--     * the legacy [QEMU_VFIO_IOVA_MIN, QEMU_VFIO_IOVA_MAX -1] region
-+     * the legacy [QEMU_VFIO_IOVA_MIN, QEMU_VFIO_IOVA_MAX - 1] region
-      */
-     s->nb_iova_ranges = 1;
-     s->usable_iova_ranges = g_new0(struct IOVARange, 1);
-     s->usable_iova_ranges[0].start = QEMU_VFIO_IOVA_MIN;
-     s->usable_iova_ranges[0].end = QEMU_VFIO_IOVA_MAX - 1;
-+    s->min_iova = QEMU_VFIO_IOVA_MIN;
-+    s->max_iova = QEMU_VFIO_IOVA_MAX;
- 
-     if (iommu_info->argsz > iommu_info_size) {
-         void *first_cap;
-@@ -484,8 +490,8 @@ static void qemu_vfio_open_common(QEMUVFIOState *s)
-     s->ram_notifier.ram_block_added = qemu_vfio_ram_block_added;
-     s->ram_notifier.ram_block_removed = qemu_vfio_ram_block_removed;
-     ram_block_notifier_add(&s->ram_notifier);
--    s->low_water_mark = QEMU_VFIO_IOVA_MIN;
--    s->high_water_mark = QEMU_VFIO_IOVA_MAX;
-+    s->low_water_mark = s->min_iova;
-+    s->high_water_mark = s->max_iova;
-     qemu_ram_foreach_block(qemu_vfio_init_ramblock, s);
- }
- 
-@@ -734,7 +740,7 @@ int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s)
-         .argsz = sizeof(unmap),
-         .flags = 0,
-         .iova = s->high_water_mark,
--        .size = QEMU_VFIO_IOVA_MAX - s->high_water_mark,
-+        .size = s->max_iova - s->high_water_mark,
-     };
-     trace_qemu_vfio_dma_reset_temporary(s);
-     QEMU_LOCK_GUARD(&s->lock);
-@@ -742,7 +748,7 @@ int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s)
-         error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
-         return -errno;
-     }
--    s->high_water_mark = QEMU_VFIO_IOVA_MAX;
-+    s->high_water_mark = s->max_iova;
-     return 0;
- }
- 
+     if (iova) {
 -- 
 2.21.3
 
