@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15261278E79
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:30:35 +0200 (CEST)
-Received: from localhost ([::1]:55248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A11278E9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:32:16 +0200 (CEST)
+Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqcE-0005cl-2U
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:30:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47940)
+	id 1kLqdl-0007ZN-5O
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVR-0006hO-QI
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:33 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:50349)
+ id 1kLqUK-0005AC-GW
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:22:24 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:40384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kLqVQ-0006of-2M
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:23:33 -0400
-Received: by mail-wm1-x336.google.com with SMTP id e17so3637443wme.0
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:23:31 -0700 (PDT)
+ id 1kLqUI-0006iO-Dd
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:22:24 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id p15so3829476ejm.7
+ for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 09:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6jDfZ800Wl3nx3KWVZmGyBEziqyPjN03/nUW4cQFzOE=;
- b=Oem/5z2SGcWKYvmOaHULvPMdjmAL+XrLoA+HQUw9GQVDzFrcLPxgi5FJrIDPFzUUCb
- OlpzxDqA3JEU+c9bhuxvTB/w3aEkpDLaRsqidW8TBjknKbHUY7Q9jb3udt2AmjhleTsm
- +nRzKo+bfLzB4j8Mv869/uKohgDx/ko4lPYC0jCNe/5Cwl0dMG7k+cfaAVJWyoubKZj3
- G0NcU/pd2/uFnGcadaXxHBLlNZGIlpyyGKvmAE/lNpsaPWtT4aXhv5fuY0Fo7LE263//
- 6nzoJcSC1+iFePP28b5yAQW/90sLQsd7W2c/pQ6dJFXeQtRldoq5nPfKSx+qH1M0GE6Y
- ODgQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NkfhhgbnSJFP6m1lekGKiGHbvbxn8gAl7E+qJO4QD0g=;
+ b=Ol3Tz5oSy3ExfdV4XItsXUMzzPU/DTDXhH09EFYi+FmZvbi4+WBBTqAPrJyDslpNW+
+ sqXUzqZGFTuK7ikHJMuUqzAHnlismYseD2V3VbnDEeB4KFpU46KglNOHd5dPT8JRSbsC
+ h+H1cVruZYuUywWgGuR3ojjlwit/hvpvigYA/dsybFzBbgOYGHRtkph59R2JV+RKuA7s
+ vDDM7mvSGt2EXwazPsAOhlc+b/bCOwzKDy39GdrxmcxIcNHLmhC1ovIu8ZsFmXnGLWR+
+ qwMzE8Qb5wzMcHZwvCfgzXhPgjYAnwbThbSrh7HBW1EBZ8N6hJHGsVXddC5klYxmmkgq
+ OynQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6jDfZ800Wl3nx3KWVZmGyBEziqyPjN03/nUW4cQFzOE=;
- b=ql+g9PWzo3Q85axlv0zKQZMS0UrNeH/YLs0UrZ0Lt67jYWr9zFnGDBxhyfe4TPIgIF
- NrlAbwC9LxKaIo7Dqcgg7WNhRQIwadbd80ubNjbH0OTDqf/a0JxBy0UFMmawYN/AdI7G
- Nu4WFbb5InNPWdw/FkORZYBlrFLw8qM6EoXjsy0paheBhQp5VxDb2a65LRw5b+ueC9gW
- ZD5H+VhRNAwwdEynnWWZ2f4Uw4l3gd9YHDBOP/zN+/FbNu6M3JUXHcyV56cFiAK1cJLO
- 5+TdU7ppocDpYgl9ipCGExNPqRAfrvU1GMntA8VA6mpA1bRlz3pT8fczXUC08JBIpvoP
- 9WtQ==
-X-Gm-Message-State: AOAM531xr5U7D7AjHsOXiJZM5FI846s9zZVc/Wpfs06mByUrphe+pisU
- xsQa/r+SxZMjGAduP0DQlqSpK/XFyp6GnYcU
-X-Google-Smtp-Source: ABdhPJyU7qz9Cb4BVNMzPkQ50PH5uMTq6zv6xUzmiKgzda2qo5UxmiEInkwx20RM5ZcoXEIiBgrdtA==
-X-Received: by 2002:a1c:6a11:: with SMTP id f17mr3721924wmc.143.1601051010442; 
- Fri, 25 Sep 2020 09:23:30 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d6sm3565824wrq.67.2020.09.25.09.23.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Sep 2020 09:23:29 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/21] qapi: Use rST markup for literal blocks
-Date: Fri, 25 Sep 2020 17:23:05 +0100
-Message-Id: <20200925162316.21205-11-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200925162316.21205-1-peter.maydell@linaro.org>
-References: <20200925162316.21205-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NkfhhgbnSJFP6m1lekGKiGHbvbxn8gAl7E+qJO4QD0g=;
+ b=tySzU8INGyG9w5EV6YsqupDyD2I9hfvFVJ05qZDK3lHL8BUkKNm1Tvi356GDDLUjS+
+ RFTDXFTApJaVCbbq0kbPzVoHGQX2VdQ94G+L9yWN2zeYf3la66FFhgmSWtyEF11YRq4O
+ T+KDrj74GS2/X7msv5vIB6clLfU4Zq3I80oE/Xf02QY5PnFoE+1YomOtzgw35vcd/nmM
+ PJGKUFeAjarHfN01PmiwUZNDQ+ZX8ewYfcMRvVj2hzsW2D/VhCBIIWr0PKKH5ZdGE/Io
+ Kbx8RBxMQaDpXcNkAwfv58vsT7D5dacgjiH4laF1+2i2abIPXmkB3VLeMYwsIDOZik27
+ NRLw==
+X-Gm-Message-State: AOAM53375OakxZwr//TWZIKDRlikV9u/CHR7WcD5i9yFjva4P+gMxhdr
+ Y76W3vUu6MYRd7oJu6yhYlPZvj4VdNMPlJrCwhww6Q==
+X-Google-Smtp-Source: ABdhPJy7HM3ptpwbL8s3BcPniA+R7rxePZxBPwvM4XYdGt17ZqLOUTSYcvKzNJ1DRnhZh0x1nySO6fFyIUSAwWbKzTQ=
+X-Received: by 2002:a17:906:71c9:: with SMTP id
+ i9mr3455599ejk.250.1601050940358; 
+ Fri, 25 Sep 2020 09:22:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+References: <20200925120655.295142-1-dgilbert@redhat.com>
+In-Reply-To: <20200925120655.295142-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Sep 2020 17:22:09 +0100
+Message-ID: <CAFEAcA-O1MqE4dbJ=zqvMyTiLz-a-GJAf=i0U5UxaLLb+fjSAA@mail.gmail.com>
+Subject: Re: [PULL 00/26] migration and friends queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,78 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ hgcoin@gmail.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, zhengchuan@huawei.com,
+ dovmurik@linux.vnet.ibm.com, zhangjiachen.jaycee@bytedance.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, ann.zhuangyanying@huawei.com,
+ jinyan12@huawei.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are exactly two places in our json doc comments where we
-use the markup accepted by the texi doc generator where a '|' in
-the first line of a doc comment means the line should be emitted
-as a literal block (fixed-width font, whitespace preserved).
+On Fri, 25 Sep 2020 at 13:09, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit 8c1c07929feae876202ba26f07a540c5115c18cd:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-09-24 18:48:45 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dagrh/qemu.git tags/pull-migration-20200925a
+>
+> for you to fetch changes up to e12a0edafeb5019aac74114b62a4703f79c5c693:
+>
+>   virtiofsd: Add -o allow_direct_io|no_allow_direct_io options (2020-09-25 12:45:58 +0100)
+>
+> ----------------------------------------------------------------
+> Migration and virtiofsd pull
+>
+> Chuan Zheng's Dirtyrate and TLS changes, with small fixes from Dov and
+> Luarent and Peter.
+> Small virtiofs changes from Harry, Stefan, Vivek and Jiachen.
+> One HMP/monitor rework from me.
+>
 
-Since we use this syntax so rarely, instead of making the rST
-generator support it, instead just convert the two uses to
-rST-format literal blocks, which are indented and introduced
-with '::'.
 
-(The rST generator doesn't complain about the old style syntax,
-it just emits it with the '|' and with the whitespace not
-preserved, which looks odd, but means we can safely leave this
-change until after we've stopped generating texinfo.)
+Applied, thanks.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- qapi/block-core.json  | 16 +++++++++-------
- qapi/qapi-schema.json |  6 ++++--
- 2 files changed, 13 insertions(+), 9 deletions(-)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index dd77a91174c..86ed72ef9fa 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -570,13 +570,15 @@
- #        For the example above, @bins may be something like [3, 1, 5, 2],
- #        and corresponding histogram looks like:
- #
--# |      5|           *
--# |      4|           *
--# |      3| *         *
--# |      2| *         *    *
--# |      1| *    *    *    *
--# |       +------------------
--# |           10   50   100
-+# ::
-+#
-+#        5|           *
-+#        4|           *
-+#        3| *         *
-+#        2| *         *    *
-+#        1| *    *    *    *
-+#         +------------------
-+#             10   50   100
- #
- # Since: 4.0
- ##
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index f03ff91ceb5..6bafa81b727 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -21,8 +21,10 @@
- #
- # Example:
- #
--# | -> data issued by the Client
--# | <- Server data response
-+# ::
-+#
-+#   -> data issued by the Client
-+#   <- Server data response
- #
- # Please, refer to the QMP specification (docs/interop/qmp-spec.txt) for
- # detailed information on the Server command and response formats.
--- 
-2.20.1
-
+-- PMM
 
