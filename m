@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37CA278008
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 07:53:26 +0200 (CEST)
-Received: from localhost ([::1]:46408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FE227809B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 08:25:25 +0200 (CEST)
+Received: from localhost ([::1]:33462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLgfd-0001VC-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 01:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
+	id 1kLhAa-0001di-4x
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 02:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLge1-000131-TT
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 01:51:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kLgdz-0001GF-Lf
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 01:51:45 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601013102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bxHix8vbCCKj6liSLuZ8Breesi6xYlgfMyxQ0wtvNgM=;
- b=VzLQxL/ryzM9X2sPzSHMehIjIFDURxDBKoOk9hqPJOEO5/urszUm4Y0UPtSIiExv8fsm/B
- t5fyQqjja3dTgGe7FbkVAxqBdZ9JUBYMhzqfpk8bnuiDizbtxb08nql9f+li3Op7rTIOjf
- mWkF4iro4cpxxy2vU0BO+TEPDyjBYCk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194--XO8CUfDNMe45GDghyON1w-1; Fri, 25 Sep 2020 01:51:36 -0400
-X-MC-Unique: -XO8CUfDNMe45GDghyON1w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B453425DD;
- Fri, 25 Sep 2020 05:51:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
- [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57BDE5C1D7;
- Fri, 25 Sep 2020 05:51:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D851C113865F; Fri, 25 Sep 2020 07:51:33 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v5 09/20] docs/sphinx: Add new qapi-doc Sphinx extension
-References: <20200810195019.25427-1-peter.maydell@linaro.org>
- <20200810195019.25427-10-peter.maydell@linaro.org>
- <875z8t913t.fsf@dusky.pond.sub.org>
- <CAFEAcA_X6gA7XTAXwcCLa-08UWpwg_AhBVKyTfsDrq53R4rH0A@mail.gmail.com>
- <CAFEAcA-7BW-FabdC4YmnKbG0D9yUfbBcxOeFeKHac05qkUn9cQ@mail.gmail.com>
-Date: Fri, 25 Sep 2020 07:51:33 +0200
-In-Reply-To: <CAFEAcA-7BW-FabdC4YmnKbG0D9yUfbBcxOeFeKHac05qkUn9cQ@mail.gmail.com>
- (Peter Maydell's message of "Thu, 24 Sep 2020 17:30:37 +0100")
-Message-ID: <87eemq5rq2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <maxim.cournoyer@gmail.com>)
+ id 1kLdaL-0003tm-SW
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 22:35:45 -0400
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:36118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.cournoyer@gmail.com>)
+ id 1kLdaK-0006mE-2s
+ for qemu-devel@nongnu.org; Thu, 24 Sep 2020 22:35:45 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id q63so1538227qkf.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Sep 2020 19:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ygBnasl7QoVQUKFVpcjb38zHixZE+c8N2z51GZVXIxs=;
+ b=oWF5qjupA2nDJCcld3ut7W2FEH19wGGpBFXaYPN1+PUYjQJpXMUkafWm6u7ETciUw6
+ tLpYt1O7+GzOzNHIwwlu3jLTO7vyL/QN8p1BykxD2BdecZ4wSFkKnp92W9LpSlLfaj1X
+ xXrNCeNgds9huaZgWp/xDjhXTaIQk5LkWP1aCZukETe7b5wKw4Ghl/y6j2Glqic+acbe
+ pCZvZbtSrajQm7Dzh5d6ZJRZAhthoXBc2Y5HiFn8/QYYx8y4fIl9uTOtBnJA5R2me2sF
+ zbURWNLeNqoAzC2+YEiIwjeG6bDMhpHh51de8vk4Y6b/h9sbB7ZcmWeYlg31EEa2NDCo
+ /AKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ygBnasl7QoVQUKFVpcjb38zHixZE+c8N2z51GZVXIxs=;
+ b=Hde9pPJqe/FuAQOa1+exQ8j6nOPqwZxWIqk796HcR/63LMEZectliJIX4SjEie6eSP
+ PyLqj6tsRamFkpAqsXSG1NPyJhPDDkP/xvyHs8bnzOE95MNQgtrd5DPk8g4xFNtxoXXY
+ lOmTSBaM8HFE0kNpRpsYVElNx5xWlJYPYRZwAuXOAmWMU3HqeDaWQfTovCIpL2gO4o3a
+ lfk7tpF0/RJy23HH4Np0vGwEn1JBcCitkWCiEKuwJV0uSbMLvYDXLgxXKuxahoTJJUZL
+ +O0hvoYGwRSR8XMhZAx/7bHzf6XHwFaapWccPjYYRYiBWqdy6G1wkyYuFqzWrymlspMw
+ xfuQ==
+X-Gm-Message-State: AOAM532wyIlJ6/0W1IMzCkRkutkhXaaLk+kqY5UB1k1V1O4D3dICzf8x
+ VKAqTdxwOZfbdt3u3mwu6uxkCdEEjYHfnQ==
+X-Google-Smtp-Source: ABdhPJw92pZnoAJz+FD3L81VJXYywcl1nquMmR1Vr5776AbnB6vvwcRwxD/KVyejR49O+fp8689uAQ==
+X-Received: by 2002:a37:4c15:: with SMTP id z21mr2204658qka.194.1601001342674; 
+ Thu, 24 Sep 2020 19:35:42 -0700 (PDT)
+Received: from localhost.localdomain (dsl-10-130-151.b2b2c.ca. [72.10.130.151])
+ by smtp.gmail.com with ESMTPSA id g19sm906131qka.84.2020.09.24.19.35.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Sep 2020 19:35:42 -0700 (PDT)
+From: Maxim Cournoyer <maxim.cournoyer@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5.1.0] build: Build and install the info manual.
+Date: Thu, 24 Sep 2020 22:36:30 -0400
+Message-Id: <20200925023630.26301-1-maxim.cournoyer@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=maxim.cournoyer@gmail.com; helo=mail-qk1-x72b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 25 Sep 2020 02:23:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,52 +83,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Maxim Cournoyer <maxim.cournoyer@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Take advantage of the Sphinx texinfo backend to generate a QEMU info
+manual.  The texinfo format allows for more structure and info readers
+provide more advanced navigation capabilities compared to manpages
+readers.
 
-> On Mon, 21 Sep 2020 at 19:06, Peter Maydell <peter.maydell@linaro.org> wrote:
->> (I've just noticed that with Sphinx 1.6, which we still have
->> to support, the file/line info isn't passed through, so you get:
->>
->> Warning, treated as error:
->> /home/petmay01/linaro/qemu-from-laptop/qemu/docs/interop/qemu-qmp-ref.rst:7:Bullet
->> list ends without a blank line; unexpected unindent.
->>
->> The plugin has code borrowed from kerneldoc.py which is
->> *supposed* to handle the older API Sphinx 1.6 used, but it
->> looks like it's broken. I'll have a look and see if it
->> is fixable, but possibly we may have to live with people
->> developing on old distros getting suboptimal errors.)
->
-> Tracked down the cause of this -- it turns out that if you
-> feed nested_parse_with_titles() bogus rST then in some
-> cases it will detect the error with a line number that's
-> one off the end of the input text, eg on the 2 lines:
-> 0: * a bulleted list
-> 1: a misindented line
->
-> there's a syntax error here where line 1 is misindented,
-> but at least Sphinx 1.6 wants to attribute the error to a
-> nonexistent line 2, which then doesn't match in the
-> input-lines-to-source-info mapping for the fragment
-> and so gets reported for the next level out (the .rst file).
-> It just happened that the syntax error I used to test the
-> file/line reporting this time around was one of this kind.
+* configure (infodir): Add the --infodir option, which allows
+configuring the directory under which the info manuals are installed.
+* docs/index.rst: Include the top level documents to prevent
+warnings (treated as errors by sphinx-build).
+* Makefile (sphinxdocs-info, $(MANUAL_BUILDDIR)/QEMU.texi)): New targets.
+(info): Depend on sphinxdocs-info.
+(install-doc): Install the info manual.
+---
+ Makefile       | 13 +++++++++++--
+ configure      |  7 +++++++
+ docs/index.rst |  2 ++
+ 3 files changed, 20 insertions(+), 2 deletions(-)
 
-Lucky!
-
-> I assume Sphinx 3 either gets the line attribution more
-> accurate or is not using the same mechanism for finding
-> the input line in the source mapping.
->
-> The fix is just to always add a blank line at the end of
-> every .rst fragment we hand to the Sphinx parser, which
-> doesn't affect the generated output and does sidestep this
-> issue.
-
-Sounds good, as long as it has a comment explaining why we need this.
+diff --git a/Makefile b/Makefile
+index 13dd708c4a..da78612d85 100644
+--- a/Makefile
++++ b/Makefile
+@@ -864,12 +864,14 @@ endef
+ # Note that we deliberately do not install the "devel" manual: it is
+ # for QEMU developers, and not interesting to our users.
+ .PHONY: install-sphinxdocs
+-install-sphinxdocs: sphinxdocs
++install-sphinxdocs: sphinxdocs sphinxdocs-info
+ 	$(call install-manual,interop)
+ 	$(call install-manual,specs)
+ 	$(call install-manual,system)
+ 	$(call install-manual,tools)
+ 	$(call install-manual,user)
++	$(INSTALL_DIR) "$(DESTDIR)$(infodir)"
++	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/QEMU.info "$(DESTDIR)$(infodir)"
+ 
+ install-doc: $(DOCS) install-sphinxdocs
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+@@ -1067,6 +1069,13 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html \
+             $(MANUAL_BUILDDIR)/tools/index.html \
+             $(MANUAL_BUILDDIR)/user/index.html
+ 
++# Build the complete info manual.
++.PHONE: sphinxdocs-info
++sphinxdocs-info: $(MANUAL_BUILDDIR)/QEMU.info
++
++$(MANUAL_BUILDDIR)/QEMU.texi: $(call manual-deps,*) $(wildcard $(SRC_PATH)/docs/*.rst)
++	$(call build-manual,,texinfo)
++
+ # Canned command to build a single manual
+ # Arguments: $1 = manual name, $2 = Sphinx builder ('html' or 'man')
+ # Note the use of different doctree for each (manual, builder) tuple;
+@@ -1126,7 +1135,7 @@ docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
+ 	@cp -p $< $@
+ 
+ html: docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
+-info: docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
++info: docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info sphinxdocs-info
+ pdf: docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
+ txt: docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
+ 
+diff --git a/configure b/configure
+index 2acc4d1465..3691bd2e0c 100755
+--- a/configure
++++ b/configure
+@@ -415,6 +415,7 @@ LDFLAGS_SHARED="-shared"
+ modules="no"
+ module_upgrades="no"
+ prefix="/usr/local"
++infodir="\${prefix}/share/info"
+ mandir="\${prefix}/share/man"
+ datadir="\${prefix}/share"
+ firmwarepath="\${prefix}/share/qemu-firmware"
+@@ -987,6 +988,7 @@ if test "$mingw32" = "yes" ; then
+     LIBS="-liberty $LIBS"
+   fi
+   prefix="c:/Program Files/QEMU"
++  infodir="\${prefix}"
+   mandir="\${prefix}"
+   datadir="\${prefix}"
+   qemu_docdir="\${prefix}"
+@@ -1087,6 +1089,8 @@ for opt do
+     static="yes"
+     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
+   ;;
++  --infodir=*) infodir="$optarg"
++  ;;
+   --mandir=*) mandir="$optarg"
+   ;;
+   --bindir=*) bindir="$optarg"
+@@ -1780,6 +1784,7 @@ Advanced options (experts only):
+   --smbd=SMBD              use specified smbd [$smbd]
+   --with-git=GIT           use specified git [$git]
+   --static                 enable static build [$static]
++  --infodir=PATH           install info manual in PATH
+   --mandir=PATH            install man pages in PATH
+   --datadir=PATH           install firmware in PATH$confsuffix
+   --docdir=PATH            install documentation in PATH$confsuffix
+@@ -6836,6 +6841,7 @@ echo "include directory $(eval echo $includedir)"
+ echo "config directory  $(eval echo $sysconfdir)"
+ if test "$mingw32" = "no" ; then
+ echo "local state directory   $(eval echo $local_statedir)"
++echo "Info manual directory   $(eval echo $infodir)"
+ echo "Manual directory  $(eval echo $mandir)"
+ echo "ELF interp prefix $interp_prefix"
+ else
+@@ -7059,6 +7065,7 @@ echo "bindir=$bindir" >> $config_host_mak
+ echo "libdir=$libdir" >> $config_host_mak
+ echo "libexecdir=$libexecdir" >> $config_host_mak
+ echo "includedir=$includedir" >> $config_host_mak
++echo "infodir=$infodir" >> $config_host_mak
+ echo "mandir=$mandir" >> $config_host_mak
+ echo "sysconfdir=$sysconfdir" >> $config_host_mak
+ echo "qemu_confdir=$qemu_confdir" >> $config_host_mak
+diff --git a/docs/index.rst b/docs/index.rst
+index 763e3d0426..4f155b51d7 100644
+--- a/docs/index.rst
++++ b/docs/index.rst
+@@ -9,6 +9,7 @@ Welcome to QEMU's documentation!
+ .. toctree::
+    :maxdepth: 2
+    :caption: Contents:
++   :glob:
+ 
+    system/index
+    user/index
+@@ -16,3 +17,4 @@ Welcome to QEMU's documentation!
+    interop/index
+    specs/index
+    devel/index
++   *
+-- 
+2.28.0
 
 
