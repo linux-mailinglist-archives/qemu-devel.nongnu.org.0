@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF94278EC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:39:02 +0200 (CEST)
-Received: from localhost ([::1]:51138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B586278EE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 18:42:01 +0200 (CEST)
+Received: from localhost ([::1]:59232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLqkP-0007gz-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50398)
+	id 1kLqnI-0002up-5R
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 12:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLqer-0001pL-PP
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:33:17 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kLqep-0008Ec-Lc
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:33:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Mtlvd6/JfhA7bnxupmXQsyc+Nnh9ngRKS9o/dIotvbc=; b=IfClmXIutjsdqvoNX99L9xC3oe
- YCEz9m2MvrGsIjAAE+9uLZQaJlTfWO6hu3Z15E3qqCQBLfLags3LehZrwOh55bRQ6WnNTctMf1kmI
- jNMPvrU9XsxzcuJwvSptERsB4lxgL5exLWj10nwwaX3aXT4p3PYtStX2T9RpzqSfcbpZi1zJFVYlu
- qL/GEhy3Ljn7FH7uIAnjv4nJ4Ya8X7sRLKRb/GfXdLF5PyPrY9q/XYdILENhl+Ert6hb6UG1h5QsP
- 70emr140Mbq1fF7Gb3w3w0Ydbld7khu7PHN00UF/g+WYhRoOEEHy824BbkmqPXS407lJty2G5zLzR
- Lbng2wQA==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- "cdupontd@redhat.com" <cdupontd@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Shinde, Archana M" <archana.m.shinde@intel.com>,
- Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: virtiofs vs 9p performance(Re: tools/virtiofs: Multi threading
- seems to hurt performance)
-Date: Fri, 25 Sep 2020 18:33:08 +0200
-Message-ID: <1726614.lvKUr2j5NN@silver>
-In-Reply-To: <7085634.CctCyd8GvG@silver>
-References: <20200918213436.GA3520@redhat.com> <20200925130538.GK2873@work-vm>
- <7085634.CctCyd8GvG@silver>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLqfM-0002vJ-E3
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:33:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLqfK-0008Gm-Jr
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 12:33:48 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601051625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=njVxwsFBl5qqvocgMMqfLHI/WZSPERi0+KklB2rnKQA=;
+ b=LBGOjUHVazDsAQzGffw58EfJYvOsp4juvqlwH/IscKyZRVP0W0hMv0tEUBybaofAJzCg5U
+ hntz780Zh32kegXQPUDeJ0ECPLZz3sb+ni4MKm16QrsKmyhtT1nMhnVnxfg2PgWU6Z8QUt
+ 453RNrk9egp5rC3QFYzU7QqC9cHQkC4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-506--1TbFKiIOZONdUwNEv13tw-1; Fri, 25 Sep 2020 12:33:42 -0400
+X-MC-Unique: -1TbFKiIOZONdUwNEv13tw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 307A780734F;
+ Fri, 25 Sep 2020 16:33:41 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E6BE5C1D7;
+ Fri, 25 Sep 2020 16:33:37 +0000 (UTC)
+Subject: Re: [PATCH v2 28/38] qapi/gen.py: update write() to be more idiomatic
+To: Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-29-jsnow@redhat.com>
+ <20200923152624.GO3312949@habkost.net>
+ <c0b8ed9e-c66a-a6fa-43e1-c3c61581d928@redhat.com>
+ <20200924155959.GC191229@localhost.localdomain>
+ <87r1qqro8i.fsf@dusky.pond.sub.org> <20200925132607.GP3717385@habkost.net>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <73455868-86f9-e1a7-52e7-a61a8484a999@redhat.com>
+Date: Fri, 25 Sep 2020 12:33:37 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 11:47:23
+In-Reply-To: <20200925132607.GP3717385@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,36 +88,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 25. September 2020 18:05:17 CEST Christian Schoenebeck wrote:
-> On Freitag, 25. September 2020 15:05:38 CEST Dr. David Alan Gilbert wrote:
-> > > > 9p ( mount -t 9p -o trans=virtio kernel /mnt
-> > > > -oversion=9p2000.L,cache=mmap,msize=1048576 ) test: (g=0): rw=randrw,
-> > > 
-> > > Bottleneck ------------------------------^
-> > > 
-> > > By increasing 'msize' you would encounter better 9P I/O results.
-> > 
-> > OK, I thought that was bigger than the default;  what number should I
-> > use?
+On 9/25/20 9:26 AM, Eduardo Habkost wrote:
+> On Fri, Sep 25, 2020 at 03:15:57PM +0200, Markus Armbruster wrote:
+>> Cleber Rosa <crosa@redhat.com> writes:
+>>
+>>> On Wed, Sep 23, 2020 at 02:37:27PM -0400, John Snow wrote:
+>>>> On 9/23/20 11:26 AM, Eduardo Habkost wrote:
+>>>>> On Tue, Sep 22, 2020 at 05:00:51PM -0400, John Snow wrote:
+>>>>>> Make the file handling here just a tiny bit more idiomatic.
+>>>>>> (I realize this is heavily subjective.)
+>>>>>>
+>>>>>> Use exist_ok=True for os.makedirs and remove the exception,
+>>>>>> use fdopen() to wrap the file descriptor in a File-like object,
+>>>>>> and use a context manager for managing the file pointer.
+>>>>>>
+>>>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>>>
+>>>>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>>>>>
+>>>>> I really miss a comment below explaining why we use
+>>>>> open(os.open(pathname, ...), ...) instead of open(pathname, ...).
+>>
+>> This code:
+>>
+>>          fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+>>          f = open(fd, 'r+', encoding='utf-8')
+>>
+>>>> Not known to me. It was introduced in 907b846653 as part of an effort to
+>>>> reduce rebuild times. Maybe this avoids a modification time change if the
+>>>> file already exists?
+>>>>
+>>>> Markus?
+>>>
+>>> AFACIT the change on 907b846653 is effective because of the "is new
+>>> text different from old text?" conditional.  I can not see how the
+>>> separate/duplicate open/fdopen would contribute to that.
+>>>
+>>> But, let's hear from Markus.
+>>
+>> This was my best attempt to open the file read/write, creating it if it
+>> doesn't exist.
+>>
+>> Plain
+>>
+>>          f = open(pathname, "r+", encoding='utf-8')
+>>
+>> fails instead of creates, and
+>>
+>>          f = open(pathname, "w+", encoding='utf-8')
+>>
+>> truncates.
+>>
+>> If you know a better way, tell me!
 > 
-> It depends on the underlying storage hardware. In other words: you have to
-> try increasing the 'msize' value to a point where you no longer notice a
-> negative performance impact (or almost). Which is fortunately quite easy to
-> test on guest like:
+> Thanks for the explanation!
 > 
-> 	dd if=/dev/zero of=test.dat bs=1G count=12
-> 	time cat test.dat > /dev/null
+> Yeah, it looks like there's no combination of open() flags that
+> would get translated to O_RDWR|O_CREAT.
+> 
+> Using os.open() like you did seems more straightforward than
+> catching FileNotFoundError.
+> 
 
-I forgot: you should execute that 'dd' command and host side, and the 'cat' 
-command on guest side, to avoid any caching making the benchmark result look 
-better than it actually is. Because for finding a good 'msize' value you only 
-care about actual 9p data really being transmitted between host and guest.
+OK. Using fdopen works for us, so let's stick with it. I will add a 
+comment explaining our reasoning.
 
-Best regards,
-Christian Schoenebeck
+Thanks!
 
+--js
 
 
