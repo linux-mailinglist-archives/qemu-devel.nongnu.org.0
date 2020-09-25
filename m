@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46F0278AA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 16:14:02 +0200 (CEST)
-Received: from localhost ([::1]:42026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BBE278AB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Sep 2020 16:18:52 +0200 (CEST)
+Received: from localhost ([::1]:48630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLoU5-0004Dd-Um
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 10:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41066)
+	id 1kLoYl-0007Ls-E7
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 10:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLoSD-0002xm-Mm
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 10:12:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38395)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLoWc-0006d4-OX
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 10:16:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLoSB-0003iz-Pu
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 10:12:05 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kLoWb-0004S0-1q
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 10:16:38 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601043122;
+ s=mimecast20190719; t=1601043396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hiGgOlBDrtGKa0h8qZjIuHbTmwJLYa2yfpgUuMwsQ6M=;
- b=hTRxUyMB8VXXLV/DAzKiF6DZUDIsFxl/u9MOJ3Mi9yIoEYD+58z8qtfX475k8CbCeFEnHR
- 46gsBoHNsm83J8Q+5efplAmfowhUWq/AheaRYP91OkvsB36jFp0g0F279+/uN8jsl7EZI7
- BOQE15xLltzUMNLGOGOyDYdNWYLgDOQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-tf7Ln1opMNu3iW-g9omOYg-1; Fri, 25 Sep 2020 10:11:58 -0400
-X-MC-Unique: tf7Ln1opMNu3iW-g9omOYg-1
-Received: by mail-wr1-f72.google.com with SMTP id d9so1119315wrv.16
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 07:11:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hiGgOlBDrtGKa0h8qZjIuHbTmwJLYa2yfpgUuMwsQ6M=;
- b=nH0Z9P9u1HXtBXFO+Bpthr/Mdl3UppSASXAPSgG19ZJTM+7GbBMKfPeAz2ptWW5pUe
- jyrGar7Ozva0nXkISOEfCl1+uFQheZfG35NnJNdYDsKVrgSUaiUkrI+6QoRD4ZQ3acFN
- yzSiJzWhZUJEqQEDc7wdgG1UrDJpjPKufaRxqQq3b1AOQrTuMf+FLrZev7QqnQWAAHHv
- UBmujAvM5G/pFlIGPli9cV9uXMwfef2/plT1G7UlpTLJUdoQlVRilea55dnSpgw00Blu
- l8RVGI3y6TMgLW087q0zvt/2L28aMKY5EoMYad3nE7z+myG2cX3RkRW12kYHFmAnkzhi
- mkdQ==
-X-Gm-Message-State: AOAM533hEd/5Yu0jgdoEijq0lp8PMIilzI7eZPsTUSR3i4Q6eFIcXqbd
- LryP/1NjVP7/N9DOWHNDF1YiDBCguPsj3E9J6vJRV+UrTfZ5w8U3ZVaFtYLDjPRcKCpeLHIkH9P
- 8mwcbysJdjPT+i8M=
-X-Received: by 2002:a5d:40c4:: with SMTP id b4mr4755973wrq.151.1601043116421; 
- Fri, 25 Sep 2020 07:11:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGox8KPQ0OPgKBzEc5deDJluuhjRPeTYykl2hLl/xjTwA5rTpniReFNJyArQ8MtEzKTYG6MA==
-X-Received: by 2002:a5d:40c4:: with SMTP id b4mr4755948wrq.151.1601043116191; 
- Fri, 25 Sep 2020 07:11:56 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ec9b:111a:97e3:4baf?
- ([2001:b07:6468:f312:ec9b:111a:97e3:4baf])
- by smtp.gmail.com with ESMTPSA id k6sm2972034wmf.30.2020.09.25.07.11.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Sep 2020 07:11:55 -0700 (PDT)
-Subject: Re: [PATCH 3/4] block: move block exports to libblockdev
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20200925134229.246169-1-stefanha@redhat.com>
- <20200925134229.246169-4-stefanha@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <48e58e9a-0feb-66b4-0e41-9ee01e2e272f@redhat.com>
-Date: Fri, 25 Sep 2020 16:11:54 +0200
+ bh=rVgmWpYDftW3ZvE5cm+hXtpAkpJEniXpzLa9Xtzo4XU=;
+ b=LxjKdIVq4QKU2u92EZVK9NGIqH5S+ovPzsfpYvYVNp3bqDCqOjRoKIlnwiUADvXQl6P1do
+ /R4qakRdoSYRt4ZQSSxIPKbbXugNKH+aHblUQb4MFFDqQgjmUmFHGyYooVlb9x8HFP+nsY
+ Bgse97v6kTc68/LbhqxJqB/l1k0/LoA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-Dw9v2hYMNe2Rx-0FEb7YIw-1; Fri, 25 Sep 2020 10:16:34 -0400
+X-MC-Unique: Dw9v2hYMNe2Rx-0FEb7YIw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE8FB100857A;
+ Fri, 25 Sep 2020 14:16:32 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFEA85C22E;
+ Fri, 25 Sep 2020 14:16:31 +0000 (UTC)
+Subject: Re: [PATCH 16/16] qapi/expr.py: Use an expression checker dispatch
+ table
+To: Helio Loureiro <helio@loureiro.eng.br>
+References: <20200922211313.4082880-1-jsnow@redhat.com>
+ <20200922211313.4082880-17-jsnow@redhat.com>
+ <20200925011849.GI368253@localhost.localdomain>
+ <5a392d78-cf26-7c75-e00e-bf913607c0ac@redhat.com>
+ <CAPxLgJLSntAY5zaLJvJuPhA9bccGYpAe04j0nhcMdk94SSvtAA@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <52dfd3f1-c82a-e1e1-9f23-60bc15da76f1@redhat.com>
+Date: Fri, 25 Sep 2020 10:16:31 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200925134229.246169-4-stefanha@redhat.com>
+In-Reply-To: <CAPxLgJLSntAY5zaLJvJuPhA9bccGYpAe04j0nhcMdk94SSvtAA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 01:07:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -89,7 +74,7 @@ X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,143 +87,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/09/20 15:42, Stefan Hajnoczi wrote:
-> Block exports are used by softmmu, qemu-storage-daemon, and qemu-nbd.
-> They are not used by other programs and are not otherwise needed in
-> libblock.
+On 9/25/20 2:03 AM, Helio Loureiro wrote:
+> Hi,
 > 
-> Undo the recent move of blockdev-nbd.c from blockdev_ss into block_ss.
-> Two stubs are required to support this:
-> 1. bdrv_close_all() (libblock) calls blk_exp_close_all() (libblockdev).
-> 2. qemu_system_killed() is called by os-posix.c (libblockdev) and not
->    implemented in qemu-nbd.
+> I would replace the word variable "kind" by "category".
 > 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Another possibility is to call os_setup_signal_handling in qemu-nbd.c
-where we currently set the SIGTERM handler.  The existing
-termsig_handler can be repurposed as qemu_system_killed.
+Hi, welcome to the list!
 
-Paolo
+For patch reviews, we try to reply in-line, below the original post.
 
+I'm not attached to 'kind', but 'category' is perhaps too broad. 
+Category in this particular domain might refer to the difference between 
+a "Directive" (include, pragma) and a Definition (enum, struct, union, 
+alternate, command, event)
 
-> ---
->  stubs/blk-exp-close-all.c  |  7 +++++++
->  stubs/qemu-system-killed.c | 10 ++++++++++
->  block/export/meson.build   |  4 ++--
->  meson.build                |  4 ++--
->  nbd/meson.build            |  2 ++
->  stubs/meson.build          |  2 ++
->  6 files changed, 25 insertions(+), 4 deletions(-)
->  create mode 100644 stubs/blk-exp-close-all.c
->  create mode 100644 stubs/qemu-system-killed.c
+(For more information on the QAPI Schema Language that we are parsing 
+and validating here, see docs/devel/qapi-code-gen.txt if you are 
+curious. Ultimately it is a JSON-like format that permits multiple 
+objects per document and allows comments. We use these structures to 
+generate types and command interfaces for our API protocol, QMP.)
+
+Ultimately I am using 'kind' for the 'type of expression', but type is 
+an extremely overloaded word when parsing a language in another language!
+
+We also use 'meta' nearby for semantically the same thing, but with 
+different typing.
+
+Thanks for looking!
+--js
+
+> ./helio
 > 
-> diff --git a/stubs/blk-exp-close-all.c b/stubs/blk-exp-close-all.c
-> new file mode 100644
-> index 0000000000..1c71316763
-> --- /dev/null
-> +++ b/stubs/blk-exp-close-all.c
-> @@ -0,0 +1,7 @@
-> +#include "qemu/osdep.h"
-> +#include "block/export.h"
-> +
-> +/* Only used in programs that support block exports (libblockdev.fa) */
-> +void blk_exp_close_all(void)
-> +{
-> +}
-> diff --git a/stubs/qemu-system-killed.c b/stubs/qemu-system-killed.c
-> new file mode 100644
-> index 0000000000..9af131917b
-> --- /dev/null
-> +++ b/stubs/qemu-system-killed.c
-> @@ -0,0 +1,10 @@
-> +#include "qemu/osdep.h"
-> +#include "sysemu/runstate.h"
-> +
-> +/*
-> + * This function is needed by os-posix.c but only implemented by softmmu and
-> + * qemu-storage-daemon. Other programs may have no need for it.
-> + */
-> +void qemu_system_killed(int signal, pid_t pid)
-> +{
-> +}
-> diff --git a/block/export/meson.build b/block/export/meson.build
-> index 469a7aa0f5..a2772a0dce 100644
-> --- a/block/export/meson.build
-> +++ b/block/export/meson.build
-> @@ -1,2 +1,2 @@
-> -block_ss.add(files('export.c'))
-> -block_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user-blk-server.c'))
-> +blockdev_ss.add(files('export.c'))
-> +blockdev_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user-blk-server.c'))
-> diff --git a/meson.build b/meson.build
-> index 18d689b423..0e9528adab 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -835,7 +835,6 @@ subdir('dump')
->  
->  block_ss.add(files(
->    'block.c',
-> -  'blockdev-nbd.c',
->    'blockjob.c',
->    'job.c',
->    'qemu-io-cmds.c',
-> @@ -848,6 +847,7 @@ subdir('block')
->  
->  blockdev_ss.add(files(
->    'blockdev.c',
-> +  'blockdev-nbd.c',
->    'iothread.c',
->    'job-qmp.c',
->  ))
-> @@ -1171,7 +1171,7 @@ if have_tools
->    qemu_io = executable('qemu-io', files('qemu-io.c'),
->               dependencies: [block, qemuutil], install: true)
->    qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
-> -               dependencies: [block, qemuutil], install: true)
-> +               dependencies: [blockdev, qemuutil], install: true)
->  
->    subdir('storage-daemon')
->    subdir('contrib/rdmacm-mux')
-> diff --git a/nbd/meson.build b/nbd/meson.build
-> index 0c00a776d3..2baaa36948 100644
-> --- a/nbd/meson.build
-> +++ b/nbd/meson.build
-> @@ -1,5 +1,7 @@
->  block_ss.add(files(
->    'client.c',
->    'common.c',
-> +))
-> +blockdev_ss.add(files(
->    'server.c',
->  ))
-> diff --git a/stubs/meson.build b/stubs/meson.build
-> index e0b322bc28..60234571b1 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -1,6 +1,7 @@
->  stub_ss.add(files('arch_type.c'))
->  stub_ss.add(files('bdrv-next-monitor-owned.c'))
->  stub_ss.add(files('blk-commit-all.c'))
-> +stub_ss.add(files('blk-exp-close-all.c'))
->  stub_ss.add(files('blockdev-close-all-bdrv-states.c'))
->  stub_ss.add(files('change-state-handler.c'))
->  stub_ss.add(files('clock-warp.c'))
-> @@ -25,6 +26,7 @@ stub_ss.add(files('monitor.c'))
->  stub_ss.add(files('monitor-core.c'))
->  stub_ss.add(files('pci-bus.c'))
->  stub_ss.add(files('pci-host-piix.c'))
-> +stub_ss.add(files('qemu-system-killed.c'))
->  stub_ss.add(files('qemu-timer-notify-cb.c'))
->  stub_ss.add(files('qmp_memory_device.c'))
->  stub_ss.add(files('qtest.c'))
+> On Fri, Sep 25, 2020, 03:32 John Snow <jsnow@redhat.com 
+> <mailto:jsnow@redhat.com>> wrote:
+> 
+>     On 9/24/20 9:18 PM, Cleber Rosa wrote:
+>      > I have to say the style of this line bothers me, but it's just that,
+>      > style. So,
+> 
+>     What don't you like?
+> 
 > 
 
 
