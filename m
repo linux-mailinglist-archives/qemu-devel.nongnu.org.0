@@ -2,96 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80125279552
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Sep 2020 02:03:35 +0200 (CEST)
-Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2444527958F
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Sep 2020 02:26:45 +0200 (CEST)
+Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kLxga-0000xB-FR
-	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 20:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57116)
+	id 1kLy31-0005u3-MG
+	for lists+qemu-devel@lfdr.de; Fri, 25 Sep 2020 20:26:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLxfZ-0000XF-Ih
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 20:02:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kLxfX-0003JH-0Y
- for qemu-devel@nongnu.org; Fri, 25 Sep 2020 20:02:29 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601078545;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WQNfYduq9Qt3GYuCjVIaYqi/k4BVyWoOAqL/z+NmITQ=;
- b=GLXwJLf3n7dgsQN56U12Bd7iPmhckjlwg5uAy2depJXTHqWhvgtYpJHXvQ3fcr7h9Ttt7X
- Nkmdqp4SltCHTFzuuGIrxizLVCs0lOjQ83s4IX76aft+uyl5c7yNG7kzLTL3TdMiMJsyJW
- D7nOQM22VBo3D2QjfsN4qGCBX1O/KYk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-ZwNhK0PlMmCg61PBWUE5bg-1; Fri, 25 Sep 2020 20:02:23 -0400
-X-MC-Unique: ZwNhK0PlMmCg61PBWUE5bg-1
-Received: by mail-wm1-f72.google.com with SMTP id a25so282958wmb.2
- for <qemu-devel@nongnu.org>; Fri, 25 Sep 2020 17:02:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WQNfYduq9Qt3GYuCjVIaYqi/k4BVyWoOAqL/z+NmITQ=;
- b=RCE5j/8fXC6RqVhCaMi0Idea32FNjaqWJZLnhRHIENPGuCnUU2owlKV/xVFTqVR85t
- /RILitsfTxKxC32+YmiSufvVa6ba50Xrzx/TyUhkXXrAbebFody/jpTtqEK95zITTDe3
- hf7QqQ81iDnJjB1geoDor4F5wlElZ+xg64+id96dch0NqhYrt6p1T1TAZBSVpNmoXAkl
- LxJIBEqmACjeSvfVmNt/AK+vdE0cPoTTShy2bPmfSvsWkvpwFGfKnm/vHm+TxTet3Rtf
- GtnUKEw71zaQKHj7JeU9zsyB+8riSk2guKmiux6X+EVz73NFp+tEFUWuQB5t4E/0bAf9
- 07ow==
-X-Gm-Message-State: AOAM532mAfjO2a2hOLXwdIkkOgFyGPf2BTN7gHkb7E/PcClQNxwFfgmc
- jQADzS+a+65WTX3QTbx7kFlY9rrp9XatWK9iaYU70rxV3VlXw+4x1/UcFzgywK2qcgd26P4VtcL
- kH3gB48eykQGo7dg=
-X-Received: by 2002:a1c:4e02:: with SMTP id g2mr57416wmh.3.1601078542118;
- Fri, 25 Sep 2020 17:02:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzRF8+sTRpdzzqIriB/IaOmtmdMFVDYbVUWsOMb4ZGV8dXkFMuuOsLaso0xvrYVGr4rpKG7A==
-X-Received: by 2002:a1c:4e02:: with SMTP id g2mr57398wmh.3.1601078541816;
- Fri, 25 Sep 2020 17:02:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ec9b:111a:97e3:4baf?
- ([2001:b07:6468:f312:ec9b:111a:97e3:4baf])
- by smtp.gmail.com with ESMTPSA id f14sm631427wme.22.2020.09.25.17.02.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Sep 2020 17:02:21 -0700 (PDT)
-Subject: Re: SEV guest debugging support for Qemu
-To: Ashish Kalra <ashish.kalra@amd.com>
-References: <20200922201124.GA6606@ashkalra_ubuntu_server>
- <5a58509c-5838-f0aa-d9ab-4f85ca0ac35f@redhat.com>
- <20200925204607.GA10964@ashkalra_ubuntu_server>
- <e9b09c9b-4d4c-c6de-4cce-807effc38836@redhat.com>
- <20200925234841.GA11103@ashkalra_ubuntu_server>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6a0188c5-8dbc-e86c-6726-ba7bfb821697@redhat.com>
-Date: Sat, 26 Sep 2020 02:02:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kLy1t-0005Nl-N1
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 20:25:33 -0400
+Resent-Date: Fri, 25 Sep 2020 20:25:33 -0400
+Resent-Message-Id: <E1kLy1t-0005Nl-N1@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21307)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kLy1r-00061Q-Ft
+ for qemu-devel@nongnu.org; Fri, 25 Sep 2020 20:25:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1601079919; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Hz9JPHW4UuvEqdank2xDaTWt9VbVo4y3pu+e3qPqVrzrxGbCVi5+1Ao1p2nCBCXi2fhfz9NRtL56iRygCimA0CYALkve8OpXPG85s8/SMXbLf8DQgXI2BO/NXFh8SghqS5U1p1UtmslOJ0b7ob5rJdzyLvu15MJY63xqefGBrbY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1601079919;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=l+zBX/f3LMU893EA4EcJ6JKrHEjWfhqgKm+snhF8WO0=; 
+ b=LVl+UdBSf+51z4cOH8l/yM6M2rDv4RxHZhh/ZdiqOs6cnDoPGAXefL9e99OxJZ4A6F621DpRPJbrqsP9WG23r4ay/PDtPgjxy5IlgGCU6ATlei/p5qnypHb8IZyS9k8KL6k0njBuMlRP7sJ6caphbam3crPh0KXKbSViJyKEgOQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1601079917540256.5119746948046;
+ Fri, 25 Sep 2020 17:25:17 -0700 (PDT)
+Subject: Re: [PATCH] i386: Document when features can be added to
+ kvm_default_props
+Message-ID: <160107991616.10465.6574326558842522453@66eaa9a8a123>
+In-Reply-To: <20200925211021.4158567-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925234841.GA11103@ashkalra_ubuntu_server>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 02:48:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.238, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ehabkost@redhat.com
+Date: Fri, 25 Sep 2020 17:25:17 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/25 18:53:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,37 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, jon.grimm@amd.com, brijesh.singh@amd.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, rth@twiddle.net,
+ qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/09/20 01:48, Ashish Kalra wrote:
-> Thanks for your input, i have one additional query with reference to this support :
-> 
-> For all explicitly unecrypted guest memory regions such as S/W IOTLB bounce buffers,
-> dma_decrypted() allocated regions and for guest regions marked as "__bss_decrypted",
-> we need to ensure that DBG_DECRYPT API calls are bypassed for such
-> regions and those regions are dumped as un-encrypted.
-
-Yes those would be a bit different as they would be physical memory
-accesses.  Those currently go through address_space_read in memory_dump
-(monitor/misc.c), and would have to use the MemoryDebugOps instead.
-That is the place to hook into in order to read the KVM page encryption
-bitmap (which is not per-CPU, so another MemoryDebugOps entry
-get_phys_addr_attrs?); the MemTxAttrs can then be passed to the read
-function in the MemoryDebugOps.
-
-> This guest memory regions encryption status is found using KVM's page encryption bitmap
-> support which is part of the page encryption bitmap hypercall interface of the
-> KVM/QEMU SEV live migration patches.
-> 
-> As this additional debug support is dependent on the KVM's page encryption bitmap
-> support, are there any updates on KVM SEV live migration patches ?
-
-Sorry about that, I've been busy with QEMU.  I'll review them as soon as
-possible.
-
-Paolo
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyNTIxMTAyMS40MTU4
+NTY3LTEtZWhhYmtvc3RAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhl
+IGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5n
+IGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0
+YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBT
+Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0x
+IE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0x
+IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpDIGxpbmtlciBmb3IgdGhl
+IGhvc3QgbWFjaGluZTogY2MgbGQuYmZkIDIuMjctNDMKSG9zdCBtYWNoaW5lIGNwdSBmYW1pbHk6
+IHg4Nl82NApIb3N0IG1hY2hpbmUgY3B1OiB4ODZfNjQKLi4vc3JjL21lc29uLmJ1aWxkOjEwOiBX
+QVJOSU5HOiBNb2R1bGUgdW5zdGFibGUta2V5dmFsIGhhcyBubyBiYWNrd2FyZHMgb3IgZm9yd2Fy
+ZHMgY29tcGF0aWJpbGl0eSBhbmQgbWlnaHQgbm90IGV4aXN0IGluIGZ1dHVyZSByZWxlYXNlcy4K
+UHJvZ3JhbSBzaCBmb3VuZDogWUVTClByb2dyYW0gcHl0aG9uMyBmb3VuZDogWUVTICgvdXNyL2Jp
+bi9weXRob24zKQpDb25maWd1cmluZyBuaW5qYXRvb2wgdXNpbmcgY29uZmlndXJhdGlvbgotLS0K
+ICBURVNUICAgIGlvdGVzdC1xY293MjogMDI0CnNvY2tldF9hY2NlcHQgZmFpbGVkOiBSZXNvdXJj
+ZSB0ZW1wb3JhcmlseSB1bmF2YWlsYWJsZQoqKgpFUlJPUjouLi9zcmMvdGVzdHMvcXRlc3QvbGli
+cXRlc3QuYzozMDE6cXRlc3RfaW5pdF93aXRob3V0X3FtcF9oYW5kc2hha2U6IGFzc2VydGlvbiBm
+YWlsZWQ6IChzLT5mZCA+PSAwICYmIHMtPnFtcF9mZCA+PSAwKQouLi9zcmMvdGVzdHMvcXRlc3Qv
+bGlicXRlc3QuYzoxNjY6IGtpbGxfcWVtdSgpIHRyaWVkIHRvIHRlcm1pbmF0ZSBRRU1VIHByb2Nl
+c3MgYnV0IGVuY291bnRlcmVkIGV4aXQgc3RhdHVzIDEgKGV4cGVjdGVkIDApCkVSUk9SIHF0ZXN0
+LWFhcmNoNjQ6IGJpb3MtdGFibGVzLXRlc3QgLSBCYWlsIG91dCEgRVJST1I6Li4vc3JjL3Rlc3Rz
+L3F0ZXN0L2xpYnF0ZXN0LmM6MzAxOnF0ZXN0X2luaXRfd2l0aG91dF9xbXBfaGFuZHNoYWtlOiBh
+c3NlcnRpb24gZmFpbGVkOiAocy0+ZmQgPj0gMCAmJiBzLT5xbXBfZmQgPj0gMCkKbWFrZTogKioq
+IFtydW4tdGVzdC0xNTldIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQg
+am9icy4uLi4KICBURVNUICAgIGlvdGVzdC1xY293MjogMDI1CiAgVEVTVCAgICBpb3Rlc3QtcWNv
+dzI6IDAyNwotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1
+YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9j
+a2VyJywgJ3J1bicsICctLXJtJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD0x
+YmYxODAyZGY3ZDQ0MzkyOWI5MmU5NTM0ZTRhODNmZicsICctdScsICcxMDAzJywgJy0tc2VjdXJp
+dHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUn
+LCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUn
+LCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3Rt
+cC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNo
+ZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAt
+cTVjZ2k0Z3Avc3JjL2RvY2tlci1zcmMuMjAyMC0wOS0yNS0yMC4wNy4wMC4xMDIzNjovdmFyL3Rt
+cC9xZW11Onoscm8nLCAncWVtdS9jZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3Qt
+cXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVy
+PWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MWJmMTgwMmRmN2Q0NDM5MjliOTJlOTUzNGU0
+YTgzZmYKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcg
+ZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtcTVjZ2k0Z3Avc3JjJwptYWtl
+OiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDE4
+bTE1LjU4OHMKdXNlciAgICAwbTE2LjgzOHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0
+Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwOTI1MjExMDIxLjQxNTg1NjctMS1laGFia29z
+dEByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4K
+LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
+Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
+ZGhhdC5jb20=
 
