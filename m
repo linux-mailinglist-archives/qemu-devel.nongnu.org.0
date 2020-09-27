@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241D127A0BF
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:09:44 +0200 (CEST)
-Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1DE27A0DE
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:22:09 +0200 (CEST)
+Received: from localhost ([::1]:60810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMVUt-0003Us-8c
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
+	id 1kMVgu-0005LC-MS
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <e45214e28a9aacf59bc0d0793bedfb18d7520c1f@lizzy.crudebyte.com>)
- id 1kMVTe-00035Y-FY
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:08:26 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:53175)
+ id 1kMVfM-0004V7-HL
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:20:32 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:47299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <e45214e28a9aacf59bc0d0793bedfb18d7520c1f@lizzy.crudebyte.com>)
- id 1kMVTc-0005Zb-Lt
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:08:26 -0400
+ id 1kMVfK-0006sn-4H
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:20:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=F3pTxsN/2pAQD7vMAhPM2ora7rGRDB/qg/kX4EypVAo=; b=HNVyN
- nXD99AjkminRvPRGcDznViSReIoTG8I0FAvZv9VSKMEvmOiiU2N8b/l2QRxvYmrFjd82Dsac74Gx/
- Bi7qEI15AHmbuX+Iog1U1SFeykgjVtgBBgS7j3EjuMJz4G04Z6JZCU6PK4CLT72FBWpA/zAeUyhgx
- bvhviC2GUI8rM6DrONoa+SNjjYjkKZ5RYglbXJCLHuUHG0LmSXS00smC9Pvi44zFvfykYI392eklk
- IUHZ1EFrpQvNE3Ax8l/jE6ofeBItm0KNgIBMRuXB4KZKp2hWdlaFGwhHErhP2C74ccBnFZAApTsZ6
- +FsgerHjT2zB7b/PlPq2XFUIbCBQw==;
-Message-Id: <e45214e28a9aacf59bc0d0793bedfb18d7520c1f.1601203436.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1601203436.git.qemu_oss@crudebyte.com>
-References: <cover.1601203436.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=OCNQiyIpjk4CX+0bRYMlY1jnQeedcvytJU+K2tR9xgA=; b=mIUWY
+ V6UEvQPaBdRz/QeBgG+5I/NTFTE3YfPX2oW1lgQNEXys3MpQw0UHMCdf9l12cCO5kQ6e1engAUl9s
+ 7ZwMK9xHIlGWkTLfY464v5g+J2ARbMUM4eevwqy0a15MbvzVVYb0PKpICXFV5xpe/JHbkWvvSfvJG
+ ucaiq1Oa893bQO6VBsrSr2fdAb2UwpFDko0IllseydkHiVv+2adTiolbyVq3KSiOZGO8ZgrDhX50A
+ ZByKj7kH/QzleAfljZhQGF9mnHZb+Drfe6ROsTCg2OhOYHkGvQGobTXsQJ6zT5mt1vL4EkyWmuxKA
+ SPrnbYFifRkGRyIxyBJaBcXkOCbXw==;
+Message-Id: <cover.1601203436.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 27 Sep 2020 12:41:25 +0200
-Subject: [PATCH 12/12] tests/9pfs: add local Tmkdir test
+Date: Sun, 27 Sep 2020 12:43:56 +0200
+Subject: [PATCH 00/12] 9pfs: add tests using local fs driver
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -67,201 +65,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test case uses the 9pfs 'local' driver to create a directory
-and then checks if the expected directory was actually created on
-host side.
+The currently existing 9pfs test cases are all solely using the 9pfs 'synth'
+fileystem driver, which is a very simple and purely simulated (in RAM only)
+filesystem. There are issues though where the 'synth' fs driver is not
+sufficient. For example the following two bugs need test cases running the
+9pfs 'local' fs driver:
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 140 +++++++++++++++++++++++++++++++++++
- 1 file changed, 140 insertions(+)
+https://bugs.launchpad.net/qemu/+bug/1336794
+https://bugs.launchpad.net/qemu/+bug/1877384
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 88451f255f..c45c706d4f 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -18,6 +18,62 @@
- #define QVIRTIO_9P_TIMEOUT_US (10 * 1000 * 1000)
- static QGuestAllocator *alloc;
- 
-+/*
-+ * Used to auto generate new fids. Start with arbitrary high value to avoid
-+ * collision with hard coded fids in basic test code.
-+ */
-+static uint32_t fid_generator = 1000;
-+
-+static uint32_t genfid(void)
-+{
-+    return fid_generator++;
-+}
-+
-+/**
-+ * Splits the @a in string by @a delim into individual (non empty) strings
-+ * and outputs them to @a out. The output array @a out is NULL terminated.
-+ *
-+ * Output array @a out must be freed by calling split_free().
-+ *
-+ * @returns number of individual elements in output array @a out (without the
-+ *          final NULL terminating element)
-+ */
-+static int split(const char *in, const char *delim, char ***out)
-+{
-+    int n = 0, i = 0;
-+    char *tmp, *p;
-+
-+    tmp = g_strdup(in);
-+    for (p = strtok(tmp, delim); p != NULL; p = strtok(NULL, delim)) {
-+        if (strlen(p) > 0) {
-+            ++n;
-+        }
-+    }
-+    g_free(tmp);
-+
-+    *out = g_malloc0(n * sizeof(char *) + 1); /* last element NULL delimiter */
-+
-+    tmp = g_strdup(in);
-+    for (p = strtok(tmp, delim); p != NULL; p = strtok(NULL, delim)) {
-+        if (strlen(p) > 0) {
-+            (*out)[i++] = g_strdup(p);
-+        }
-+    }
-+    g_free(tmp);
-+
-+    return n;
-+}
-+
-+static void split_free(char ***out)
-+{
-+    int i;
-+    for (i = 0; (*out)[i]; ++i) {
-+        g_free((*out)[i]);
-+    }
-+    g_free(*out);
-+    *out = NULL;
-+}
-+
- static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-@@ -203,6 +259,7 @@ static const char *rmessage_name(uint8_t id)
-         id == P9_RWALK ? "RWALK" :
-         id == P9_RLOPEN ? "RLOPEN" :
-         id == P9_RWRITE ? "RWRITE" :
-+        id == P9_RMKDIR ? "RMKDIR" :
-         id == P9_RFLUSH ? "RFLUSH" :
-         id == P9_RREADDIR ? "READDIR" :
-         "<unknown>";
-@@ -580,6 +637,39 @@ static bool fs_dirents_contain_name(struct V9fsDirent *e, const char* name)
-     return false;
- }
- 
-+/* size[4] Tmkdir tag[2] dfid[4] name[s] mode[4] gid[4] */
-+static P9Req *v9fs_tmkdir(QVirtio9P *v9p, uint32_t dfid, const char *name,
-+                          uint32_t mode, uint32_t gid, uint16_t tag)
-+{
-+    P9Req *req;
-+
-+    uint32_t body_size = 4 + 4 + 4;
-+    uint16_t string_size = v9fs_string_size(name);
-+
-+    g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-+    body_size += string_size;
-+
-+    req = v9fs_req_init(v9p, body_size, P9_TMKDIR, tag);
-+    v9fs_uint32_write(req, dfid);
-+    v9fs_string_write(req, name);
-+    v9fs_uint32_write(req, mode);
-+    v9fs_uint32_write(req, gid);
-+    v9fs_req_send(req);
-+    return req;
-+}
-+
-+/* size[4] Rmkdir tag[2] qid[13] */
-+static void v9fs_rmkdir(P9Req *req, v9fs_qid *qid)
-+{
-+    v9fs_req_recv(req, P9_RMKDIR);
-+    if (qid) {
-+        v9fs_memread(req, qid, 13);
-+    } else {
-+        v9fs_memskip(req, 13);
-+    }
-+    v9fs_req_free(req);
-+}
-+
- /* basic readdir test where reply fits into a single response message */
- static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-@@ -879,6 +969,30 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wnames[0]);
- }
- 
-+static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
-+                     const char *path, const char *cname)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    char **wnames;
-+    char *const name = g_strdup(cname);
-+    P9Req *req;
-+    const uint32_t fid = genfid();
-+
-+    int nwnames = split(path, "/", &wnames);
-+
-+    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rwalk(req, NULL, NULL);
-+
-+    req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rmkdir(req, NULL);
-+
-+    g_free(name);
-+    split_free(&wnames);
-+}
-+
- static void fs_readdir_split_128(void *obj, void *data,
-                                  QGuestAllocator *t_alloc)
- {
-@@ -897,6 +1011,31 @@ static void fs_readdir_split_512(void *obj, void *data,
-     fs_readdir_split(obj, data, t_alloc, 512);
- }
- 
-+
-+/* tests using the 9pfs 'local' fs driver */
-+
-+static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    struct stat st;
-+    char *root_path = virtio_9p_test_path("");
-+    char *new_dir = virtio_9p_test_path("01");
-+
-+    g_assert(root_path != NULL);
-+
-+    fs_attach(v9p, NULL, t_alloc);
-+    fs_mkdir(v9p, data, t_alloc, "/", "01");
-+
-+    /* check if created directory really exists now ... */
-+    g_assert(stat(new_dir, &st) == 0);
-+    /* ... and is actually a directory */
-+    g_assert((st.st_mode & S_IFMT) == S_IFDIR);
-+
-+    g_free(new_dir);
-+    g_free(root_path);
-+}
-+
-+
- static void register_virtio_9p_test(void)
- {
-     /* selects the 9pfs 'synth' filesystem driver for the respective test */
-@@ -926,6 +1065,7 @@ static void register_virtio_9p_test(void)
-     const char *local_driver = "virtio-9p-local";
- 
-     qos_add_test("config", local_driver, pci_config, NULL);
-+    qos_add_test("fs/create_dir", local_driver, fs_create_dir, NULL);
- }
- 
- libqos_init(register_virtio_9p_test);
+This patch set for that reason introduces 9pfs test cases using the 9pfs
+'local' filesystem driver along to the already existing tests on 'synth'.
+It consists of 3 parts:
+
+1. Mandatory qos patches 1 and 2 lay the ground by removing a limitation of
+   the qtest/qos subsystem: support for more than one device using the same
+   (official) QEMU device name.
+
+2. Optional qos patches 3 to 6 were used for debugging the qtest framework.
+   I found them very useful to get insight how the qos graph is built, how
+   the generated QEMU commands looks like, and what environemnt variables are
+   already available in qtests. I thought they might helpful for other people
+   as well, either in suggested or some modified form. Especially as it's not
+   obvious sometimes why certain tests are simply ignored by the qtest
+   framework (e.g. because of a missing link in qos path from test node to
+   qos root node, or certain devices been auto marked as 'unavailable' after
+   QMP negotiation with QEMU). I introduced several new QTEST_* environment
+   variables for the individual debugging aspects; maybe they could simply
+   use one and the same variable like QTEST_DEBUG instead.
+   Note: patch 3 uses coloured output to mark the individual graph nodes as
+   either available or unavailable. It does not check for tty color support
+   right now. I'm not sure if there is already some QEMU util function that
+   could be used for that check.
+
+3. Patches 7 to 12 actually introduce 9pfs 'local' test cases using the qtest
+   framework. They only work in conjunction with qos patches 1 and 2. These
+   'local' tests are adding a test directory 'qtest-9p-local' inside the
+   current working directory (using get_current_dir()), which is typically the
+   build directory, before running the tests. That test directory is
+   automatically recreated next time the test suite is run again, to ensure
+   the 9pfs 'local' tests always run consistently on a clean test directory.
+   The test directory is used by the 'local' driver as root of its export
+   path. So it will add/read/write/delete real files and directories inside
+   that test directory.
+   Note: I was adding a bunch of basic util functions like split(),
+   concat_path() and strpr(). I am not sure if there are already public QEMU
+   util functions that I could instead of them.
+
+Christian Schoenebeck (12):
+  tests/qtest/qgraph: add qemu_name to QOSGraphNode
+  tests/qtest/qgraph: add qos_node_create_driver_named()
+  tests/qtest/qos: add qos_dump_graph()
+  tests/qtest/qos-test: new QTEST_DUMP_GRAPH environment variable
+  tests/qtest/qos-test: add QTEST_DUMP_ENV environment variable
+  tests/qtest/qos-test: add environment variable QTEST_DEBUG
+  test/9pfs: change export tag name to qtest-synth
+  tests/9pfs: refactor test names and test devices
+  tests/9pfs: introduce local tests
+  tests/9pfs: wipe local 9pfs test directory
+  tests/9pfs: add virtio_9p_test_path()
+  tests/9pfs: add local Tmkdir test
+
+ tests/qtest/libqos/qgraph.c          | 108 ++++++++++++++-
+ tests/qtest/libqos/qgraph.h          |  36 +++++
+ tests/qtest/libqos/qgraph_internal.h |   1 +
+ tests/qtest/libqos/virtio-9p.c       | 147 ++++++++++++++++++---
+ tests/qtest/libqos/virtio-9p.h       |   8 +-
+ tests/qtest/qos-test.c               |  15 ++-
+ tests/qtest/virtio-9p-test.c         | 188 ++++++++++++++++++++++++---
+ 7 files changed, 463 insertions(+), 40 deletions(-)
+
 -- 
 2.20.1
 
