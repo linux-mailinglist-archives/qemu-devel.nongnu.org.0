@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6840727A182
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 17:03:06 +0200 (CEST)
-Received: from localhost ([::1]:59134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA0C27A17E
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 17:01:41 +0200 (CEST)
+Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMYCf-0000X2-FO
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 11:03:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49152)
+	id 1kMYBI-0007fG-Ie
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 11:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kMY8k-000626-E1
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 10:59:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40913)
+ id 1kMY8y-0006QE-57
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 10:59:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kMY8i-0006UI-OT
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 10:59:02 -0400
+ id 1kMY8w-0006Vq-IQ
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 10:59:15 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601218740;
+ s=mimecast20190719; t=1601218754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b0l8qvWRrHwiSkIqmmCGlnK1Woq1I9l3yvB4ZPhG79Y=;
- b=P8OUdc5ivEovT5bgi6NFgWBCpdr5vFyXsw475jsnFGKDKTM4JANaR5z2oqhgTsFvBCfZJm
- PVC5+f9c/V81Vu+Hav2U4a50MjTdFW41avHVzAmrQBbyccRl1GEbMoPfVzyDXXJZn+5k7F
- fQzPDcLsq3P6ep1zwcqODjqK/lW9Ug8=
+ bh=EWT3eeP8M1S4mF5jrWBk/Kh6soLRKqtXBG4/bKeL4bg=;
+ b=Fq9ofA/1hqmSVobVHEsNCzIAVkfkjEh4laXgIwbbh5KFKEFSQemDW4rRlrI3aPnsSAycWl
+ cMliBkXCqWwO2sv1XSCI2hRDFQbuQVBqVPwYtw3MFF/O8WkpWn5GC6oUJtm86ERXvgFwwJ
+ cppe6Bdv7Q5WRQ8XXVUTFljrS+bSfXE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-z30i4VWZN4urGLAgNL5npQ-1; Sun, 27 Sep 2020 10:58:56 -0400
-X-MC-Unique: z30i4VWZN4urGLAgNL5npQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-381-Xq8ATs5mOLmMQx8X147b_g-1; Sun, 27 Sep 2020 10:59:09 -0400
+X-MC-Unique: Xq8ATs5mOLmMQx8X147b_g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BBA6186841E;
- Sun, 27 Sep 2020 14:58:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92680807322;
+ Sun, 27 Sep 2020 14:59:08 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0332110013C4;
- Sun, 27 Sep 2020 14:58:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BBFA78801;
+ Sun, 27 Sep 2020 14:58:59 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] spice: remove the single monitor config logic
-Date: Sun, 27 Sep 2020 18:57:49 +0400
-Message-Id: <20200927145751.365446-5-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 5/6] spice: get monitors physical dimension
+Date: Sun, 27 Sep 2020 18:57:50 +0400
+Message-Id: <20200927145751.365446-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20200927145751.365446-1-marcandre.lureau@redhat.com>
 References: <20200927145751.365446-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/27 10:58:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/27 10:58:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -36
 X-Spam_score: -3.7
@@ -89,50 +89,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Introduced in commit 9c956e646178fee8c14ce7dfae5a9d7cb901876c ("spice:
-prepare for upcoming spice-server change"), the new logic never
-materialized in the spice server source tree. Let's remove it for now,
-until it actually changes in Spice.
+With upcoming Spice server version 0.14.4, the monitor configuration can
+contain additional fields for the monitor physical dimensions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/spice-display.c | 26 ++++----------------------
- 1 file changed, 4 insertions(+), 22 deletions(-)
+ include/ui/console.h | 3 +++
+ ui/spice-display.c   | 7 +++++++
+ 2 files changed, 10 insertions(+)
 
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 353d2e49a1..e7303d8b98 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -119,6 +119,9 @@ typedef struct DisplaySurface {
+ } DisplaySurface;
+ 
+ typedef struct QemuUIInfo {
++    /* physical dimension */
++    uint16_t width_mm;
++    uint16_t height_mm;
+     /* geometry */
+     int       xoff;
+     int       yoff;
 diff --git a/ui/spice-display.c b/ui/spice-display.c
-index 625d9232b9..b304c13149 100644
+index b304c13149..0178d5766d 100644
 --- a/ui/spice-display.c
 +++ b/ui/spice-display.c
-@@ -674,28 +674,10 @@ static int interface_client_monitors_config(QXLInstance *sin,
- 
-     info = *dpy_get_ui_info(ssd->dcl.con);
- 
--    if (mc->num_of_monitors == 1) {
--        /*
--         * New spice-server version which filters the list of monitors
--         * to only include those that belong to our display channel.
--         *
--         * single-head configuration (where filtering doesn't matter)
--         * takes this code path too.
--         */
--        info.width  = mc->monitors[0].width;
--        info.height = mc->monitors[0].height;
--    } else {
--        /*
--         * Old spice-server which gives us all monitors, so we have to
--         * figure ourself which entry we need.  Array index is the
--         * channel_id, which is the qemu console index, see
--         * qemu_spice_add_display_interface().
--         */
--        head = qemu_console_get_index(ssd->dcl.con);
--        if (mc->num_of_monitors > head) {
--            info.width  = mc->monitors[head].width;
--            info.height = mc->monitors[head].height;
--        }
-+    head = qemu_console_get_index(ssd->dcl.con);
-+    if (mc->num_of_monitors > head) {
-+        info.width  = mc->monitors[head].width;
-+        info.height = mc->monitors[head].height;
+@@ -678,6 +678,13 @@ static int interface_client_monitors_config(QXLInstance *sin,
+     if (mc->num_of_monitors > head) {
+         info.width  = mc->monitors[head].width;
+         info.height = mc->monitors[head].height;
++#if SPICE_SERVER_VERSION >= 0x000e04 /* release 0.14.4 */
++        if (mc->flags & VD_AGENT_CONFIG_MONITORS_FLAG_PHYSICAL_SIZE) {
++            VDAgentMonitorMM *mm = (void *)&mc->monitors[mc->num_of_monitors];
++            info.width_mm = mm[head].width;
++            info.height_mm = mm[head].height;
++        }
++#endif
      }
  
      trace_qemu_spice_ui_info(ssd->qxl.id, info.width, info.height);
