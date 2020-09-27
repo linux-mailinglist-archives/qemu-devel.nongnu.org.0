@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19D8279F94
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 10:25:11 +0200 (CEST)
-Received: from localhost ([::1]:32794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB43279F8F
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 10:20:44 +0200 (CEST)
+Received: from localhost ([::1]:51072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMRzb-00013V-1p
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 04:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
+	id 1kMRvH-0005KD-4g
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 04:20:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kMRu0-0004Pa-Ld
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 04:19:24 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41928)
+ id 1kMRu3-0004U0-1d
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 04:19:27 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kMRtz-0005Kz-41
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 04:19:24 -0400
-Received: by mail-pf1-x442.google.com with SMTP id z19so6646965pfn.8
- for <qemu-devel@nongnu.org>; Sun, 27 Sep 2020 01:19:22 -0700 (PDT)
+ id 1kMRu1-0005LE-Gx
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 04:19:26 -0400
+Received: by mail-pl1-x634.google.com with SMTP id bd2so1694817plb.7
+ for <qemu-devel@nongnu.org>; Sun, 27 Sep 2020 01:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ftwAsBeI7Tx5KHajpgLxYQyV0gF6bUfHmuSitMUFQwc=;
- b=UKCC9rBNBi4KadBMXsX5KAXif+NhzbpJN3SU4kxg4ObJ0yRgv034oOpXaLv/Lbt5JQ
- 5ZHnpAgl28KDS1pUKdQVNxH7P++BVINAnym5Oc9SWQIMl+cn/XkSQFXjB8K8fx8RQwKR
- GPhquhi6HBwy2bVXcXSHBykkg7oGok/Ky8eqWwk8QtNAVaJK1awbs5y9XMDoz11660Ii
- UJpK1VR6Vt2xjSEywZJQsOJ7C4DoLfS7mhT2YBrHqFnuMeOKvHNNWMORBbi7HJT2Kd1N
- Fe1uISTEBlDTVgfhT2UpkFlUpNI+gAAdlGlBUny4LFdYlXMH3P8W5S0iEwLor8bK8WW/
- FDWQ==
+ bh=9ZjByY0MppOyobXen+0uddzbK8uVuelULUAbb8n9Gk0=;
+ b=qu6OHC7c2ED/mw8bC7edoJvHFYyXFJT7m9MMLDym+mPnzYN9EgIbTyCK/VclVaCg0M
+ qFPP+xl0ZlATwtCsBYb8fVa3QPKIQPRzNvtgq9+l70cLoQ3/U9/qBfXYlGl6H14BqH+Z
+ al1f3/I0K4Lm1hu0MgO61E7ubAPAl9MjshTHn/hkPodD5STAkHpRqjT2416UYu1jhogF
+ UrvrzADdR8ryAEtqrLAYn3geI7QbOvk1YhW6LMPnccqpRBleai7n3CGb0XBnAXKIXwcy
+ vgLGKglmqQvk80jiboHXtu2FH93Ig1Nm4kO7jkTeChcXCRui57mfUJlMULt1hYXuDKTk
+ xmrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ftwAsBeI7Tx5KHajpgLxYQyV0gF6bUfHmuSitMUFQwc=;
- b=Xw83splTBLFiIA2w28Y/f6Tm5n23rSmRVy8cDdHO13v7t9jgzJ8QpXRYZdAaYB8R4/
- yJMNMAXCtN9LLs2tLRxPw3l4JeiA/o5TWy6rlENR5eyG0XH26zPr5ZYIPB7V3fHOLMrJ
- tURG8QN8rbSpNCXyJk7a+uRhh+BIyeCVM586wzFvgz+WkE5C0gbPSaGzxPr/P69KR2XX
- uRZVhT2tpA5fwLiGI1WO6ugS0LcX0iI64aH0ZAnMFRh4S4hNrjCzyPwIKtuTSM8j3rhF
- 0iwiu+AjTphx4T7dfzH3K4XQDEHJMlsKAwI3IkbDoAHgS0YHkPwJGcbqxdDwVJugSymz
- rPOA==
-X-Gm-Message-State: AOAM530wVpFY4dVH0toDTWglGswmsFfZ5QSW2unlE3OeE78ABeaLL9AX
- B7i6sghaOd0ljI30Pb5DjbUGKX3wlpzysaj/
-X-Google-Smtp-Source: ABdhPJxPu1ohMkg6E8ZLWy+be8gV2/wh2yjoIkdEndHxaAPcF/C629bA/NtpKPVWk0QWFBZ4kfQNRw==
-X-Received: by 2002:aa7:8512:0:b029:13c:1611:653e with SMTP id
- v18-20020aa785120000b029013c1611653emr6322059pfn.16.1601194761270; 
- Sun, 27 Sep 2020 01:19:21 -0700 (PDT)
+ bh=9ZjByY0MppOyobXen+0uddzbK8uVuelULUAbb8n9Gk0=;
+ b=cKT4STASUZmghfmJHH5GUnacnpM/j5YLuwWwduw8kYINzNzESryRcxfyB0bRtHRlx3
+ A64IS7l616bsdI8STzGlshaJbdipom2Z52ELpkIFD7GnoeMKxcumxuhbtv21M5defb4x
+ tN5tT+mHP9nTUyQmSX3YfDWOReKA24W4Ldk9uFFdHbJf2yY3+eKT5N08h70GirljdeJn
+ FrzBh3xHWUeNVONOZ982lUaiv75MBXaaALRcJ6g12T4ixEV+ZD0+nnNCQ+GpP5prfp2u
+ ZuWwqGzxsZmNxA/lpp5xGsTTPDcFs6E3jji6m1qF/m45g2mABf+14Yfe/U7kyPa5zLnP
+ y2KQ==
+X-Gm-Message-State: AOAM531ao5789g38AiKeaFHjz2u4nnMKacHcT6DG13SMd/KfIf4MvQod
+ MNFPj87CW+PsetySnD9TLWpN41jC2s7UmdZ4
+X-Google-Smtp-Source: ABdhPJwtEvx0Zg7hcStOf9Cujcegykat0HlskXdyTn5/u4tBl6028kcm8x2K3TWCdMyTs/Y7V1czNw==
+X-Received: by 2002:a17:902:7489:b029:d2:439c:4e0e with SMTP id
+ h9-20020a1709027489b02900d2439c4e0emr6465168pll.71.1601194763832; 
+ Sun, 27 Sep 2020 01:19:23 -0700 (PDT)
 Received: from localhost.localdomain ([222.95.248.6])
- by smtp.googlemail.com with ESMTPSA id z22sm3317693pjq.2.2020.09.27.01.19.18
+ by smtp.googlemail.com with ESMTPSA id z22sm3317693pjq.2.2020.09.27.01.19.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Sep 2020 01:19:20 -0700 (PDT)
+ Sun, 27 Sep 2020 01:19:22 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] plugin: Fixes compiling errors on msys2/mingw
-Date: Sun, 27 Sep 2020 16:18:59 +0800
-Message-Id: <20200927081901.771-3-luoyonggang@gmail.com>
+Subject: [PATCH v2 3/4] cirrus: Enable plugin in cirrus for windows
+Date: Sun, 27 Sep 2020 16:19:00 +0800
+Message-Id: <20200927081901.771-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200927081901.771-1-luoyonggang@gmail.com>
 References: <20200927081901.771-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x634.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,53 +87,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=E8=8C=85e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- contrib/plugins/hotblocks.c | 2 +-
- tests/plugin/bb.c           | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .cirrus.yml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
-index 3942a2ca54..37435a3fc7 100644
---- a/contrib/plugins/hotblocks.c
-+++ b/contrib/plugins/hotblocks.c
-@@ -102,7 +102,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- {
-     ExecCount *cnt;
-     uint64_t pc = qemu_plugin_tb_vaddr(tb);
--    unsigned long insns = qemu_plugin_tb_n_insns(tb);
-+    size_t insns = qemu_plugin_tb_n_insns(tb);
-     uint64_t hash = pc ^ insns;
- 
-     g_mutex_lock(&lock);
-diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-index e4cc7fdd6e..de09bdde4e 100644
---- a/tests/plugin/bb.c
-+++ b/tests/plugin/bb.c
-@@ -72,7 +72,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
-     CPUCount *count = max_cpus ?
-         g_ptr_array_index(counts, cpu_index) : &inline_count;
- 
--    unsigned long n_insns = (unsigned long)udata;
-+    uintptr_t n_insns = (uintptr_t)udata;
-     g_mutex_lock(&count->lock);
-     count->insn_count += n_insns;
-     count->bb_count++;
-@@ -81,7 +81,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
- 
- static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- {
--    unsigned long n_insns = qemu_plugin_tb_n_insns(tb);
-+    size_t n_insns = qemu_plugin_tb_n_insns(tb);
- 
-     if (do_inline) {
-         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 86ea33926a..5363142373 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -104,7 +104,8 @@ windows_msys2_task:
+     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
+       --python=python3 --ninja=ninja
+-      --target-list-exclude=i386-softmmu,arm-softmmu,ppc-softmmu,mips-softmmu"
++      --target-list-exclude=i386-softmmu,arm-softmmu,ppc-softmmu,mips-softmmu
++      --enable-plugins"
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j$NUMBER_OF_PROCESSORS"
+   test_script:
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
 -- 
 2.28.0.windows.1
 
