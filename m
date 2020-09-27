@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF6227A0C9
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:14:09 +0200 (CEST)
-Received: from localhost ([::1]:41714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9CEA27A0DD
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:22:06 +0200 (CEST)
+Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMVZA-0005hh-Uz
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52162)
+	id 1kMVgr-0005HL-Td
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:22:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e6142a0af2050fa1355b8bc6de6162c4cd675812@lizzy.crudebyte.com>)
- id 1kMVYC-0005IT-VY
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:13:09 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47425)
+ (envelope-from <265f5d9a0fb10ce5e782455839d1baf678dbac48@lizzy.crudebyte.com>)
+ id 1kMVeL-0003bd-5z
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:19:29 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e6142a0af2050fa1355b8bc6de6162c4cd675812@lizzy.crudebyte.com>)
- id 1kMVYA-00066K-AU
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:13:08 -0400
+ (envelope-from <265f5d9a0fb10ce5e782455839d1baf678dbac48@lizzy.crudebyte.com>)
+ id 1kMVeJ-0006o8-Dn
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:19:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=cdYoMuk7yWJGGnSW3M/mg3s/OyEZ1H38EURPSLuhe2s=; b=jWSbJ
- UqYR0fso4+D8rbuSmOzADgIyvZziIdKgnyzdsXWQk59JKAGmELbAElMncpJ9aSrbnaiQKe8rxX6OF
- 9mPaF0+Ma8KaDBFuM9+DsgMW3Nqf3G3aH3V/mEPITngDa5MlNm3qvv7TyeBjaytkuQ61Cxzly8qlW
- y4xO93FlSUqwcz4X+rqq0G0bG63545K2KqZvfoyk2g1NkPC+awUuyr9N4kXyWE4sasboU1fzbmXs6
- sw8L7kXDQM3g8mzUaW6RzCQTebgJ9r/rufqouxg79c4wm8BeXaK7qauzrSm0YE7204Imr/pgLbw/t
- oR/mNkqalXfccnh0p7Vxtj3WzO5/g==;
-Message-Id: <e6142a0af2050fa1355b8bc6de6162c4cd675812.1601203436.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=JWoDBnO+yolHB04O/0j0yUtvrSSuKrhkfcd+BHmO3/0=; b=TqvZ2
+ ijjVaAt1vRlgfAVeuwU2FXL/fHor/PiL3MtR5iDZBvbtnkxmWKXm6F071mNhfOxvWoBl4GfkK/7qs
+ PRgU/0YnnCqw+3KgLbn0dQQhDaVqbTdUePB34qYgq0EXwXnXs4htFapSrPd2dqrXjZNxHXYCsQAB/
+ v8meCysIxYEu+fjbKn4EpLkQ1GPVTqjKOlVbnFfEq0eWlAJujJHR9ET0pcUjrC+JvqvoZrbky3yGk
+ nqIC9o5P9GHABYCFkugBDqZwaJS2DIEfJH233oGR2bqSog8LvR3v/912AYmNriW+nHm+E7gv9OkDu
+ 6dvnnFClSjI9RIa/RzMIVlelKkOoA==;
+Message-Id: <265f5d9a0fb10ce5e782455839d1baf678dbac48.1601203436.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1601203436.git.qemu_oss@crudebyte.com>
 References: <cover.1601203436.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 27 Sep 2020 12:40:21 +0200
-Subject: [PATCH 07/12] test/9pfs: change export tag name to qtest-synth
+Date: Sun, 27 Sep 2020 12:40:34 +0200
+Subject: [PATCH 08/12] tests/9pfs: refactor test names and test devices
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
  Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e6142a0af2050fa1355b8bc6de6162c4cd675812@lizzy.crudebyte.com;
+ envelope-from=265f5d9a0fb10ce5e782455839d1baf678dbac48@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/27 07:42:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,73 +67,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All existing 9pfs test cases are using the 'synth' fs driver so far, which
-means they are not accessing real files, but a purely simulated (in RAM
-only) file system.
+Rename all 9pfs tests and devices they create for running their tests
+from 'virtio*' -> 'virtio*-synth'.
 
-Let's start to make this clear with this and the following patch to pave
-the way for upcoming new tests going to use the 9pfs 'local' driver
-instead.
-
-This patch starts by changing the 9p tag name (which identifies one
-particular 9p exported file tree) from 'qtest' to 'qtest-synth' and also
-change the preprocessor macro used for this from TAG_NAME to TAG_NAME_SYNTH.
+In order for the tests still to work after this renaming, use the
+newly added function qos_node_create_driver_named() instead of
+qos_node_create_driver(). That new function allows to assign a name
+to a device that differs from the actual QEMU driver it's using.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 4 ++--
- tests/qtest/libqos/virtio-9p.h | 2 +-
- tests/qtest/virtio-9p-test.c   | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 29 ++++++++++++++-------------
+ tests/qtest/virtio-9p-test.c   | 36 +++++++++++++++++-----------------
+ 2 files changed, 33 insertions(+), 32 deletions(-)
 
 diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 2e300063e3..9f099737f9 100644
+index 9f099737f9..1bda5403ff 100644
 --- a/tests/qtest/libqos/virtio-9p.c
 +++ b/tests/qtest/libqos/virtio-9p.c
-@@ -148,8 +148,8 @@ static void *virtio_9p_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
- 
- static void virtio_9p_register_nodes(void)
+@@ -62,10 +62,10 @@ static void virtio_9p_device_start_hw(QOSGraphObject *obj)
+ static void *virtio_9p_get_driver(QVirtio9P *v_9p,
+                                          const char *interface)
  {
--    const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG;
--    const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG;
-+    const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG_SYNTH;
-+    const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG_SYNTH;
- 
-     QPCIAddress addr = {
-         .devfn = QPCI_DEVFN(4, 0),
-diff --git a/tests/qtest/libqos/virtio-9p.h b/tests/qtest/libqos/virtio-9p.h
-index b1e6badc4a..d9a815083f 100644
---- a/tests/qtest/libqos/virtio-9p.h
-+++ b/tests/qtest/libqos/virtio-9p.h
-@@ -27,7 +27,7 @@ typedef struct QVirtio9P QVirtio9P;
- typedef struct QVirtio9PPCI QVirtio9PPCI;
- typedef struct QVirtio9PDevice QVirtio9PDevice;
- 
--#define MOUNT_TAG "qtest"
-+#define MOUNT_TAG_SYNTH "qtest-synth"
- 
- struct QVirtio9P {
-     QVirtioDevice *vdev;
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index de30b717b6..f7505396f3 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -26,13 +26,13 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
-     char *tag;
-     int i;
- 
--    g_assert_cmpint(tag_len, ==, strlen(MOUNT_TAG));
-+    g_assert_cmpint(tag_len, ==, strlen(MOUNT_TAG_SYNTH));
- 
-     tag = g_malloc(tag_len);
-     for (i = 0; i < tag_len; i++) {
-         tag[i] = qvirtio_config_readb(v9p->vdev, i + 2);
+-    if (!g_strcmp0(interface, "virtio-9p")) {
++    if (!g_strcmp0(interface, "virtio-9p-synth")) {
+         return v_9p;
      }
--    g_assert_cmpmem(tag, tag_len, MOUNT_TAG, tag_len);
-+    g_assert_cmpmem(tag, tag_len, MOUNT_TAG_SYNTH, tag_len);
-     g_free(tag);
+-    if (!g_strcmp0(interface, "virtio")) {
++    if (!g_strcmp0(interface, "virtio-synth")) {
+         return v_9p->vdev;
+     }
+ 
+@@ -159,22 +159,23 @@ static void virtio_9p_register_nodes(void)
+         .before_cmd_line = "-fsdev synth,id=fsdev0",
+     };
+ 
+-    /* virtio-9p-device */
++    /* virtio-9p-device-synth */
+     opts.extra_device_opts = str_simple,
+-    qos_node_create_driver("virtio-9p-device", virtio_9p_device_create);
+-    qos_node_consumes("virtio-9p-device", "virtio-bus", &opts);
+-    qos_node_produces("virtio-9p-device", "virtio");
+-    qos_node_produces("virtio-9p-device", "virtio-9p");
++    qos_node_create_driver_named("virtio-9p-device-synth", "virtio-9p-device",
++                                 virtio_9p_device_create);
++    qos_node_consumes("virtio-9p-device-synth", "virtio-bus", &opts);
++    qos_node_produces("virtio-9p-device-synth", "virtio-synth");
++    qos_node_produces("virtio-9p-device-synth", "virtio-9p-synth");
+ 
+-    /* virtio-9p-pci */
++    /* virtio-9p-pci-synth */
+     opts.extra_device_opts = str_addr;
+     add_qpci_address(&opts, &addr);
+-    qos_node_create_driver("virtio-9p-pci", virtio_9p_pci_create);
+-    qos_node_consumes("virtio-9p-pci", "pci-bus", &opts);
+-    qos_node_produces("virtio-9p-pci", "pci-device");
+-    qos_node_produces("virtio-9p-pci", "virtio");
+-    qos_node_produces("virtio-9p-pci", "virtio-9p");
+-
++    qos_node_create_driver_named("virtio-9p-pci-synth", "virtio-9p-pci",
++                                 virtio_9p_pci_create);
++    qos_node_consumes("virtio-9p-pci-synth", "pci-bus", &opts);
++    qos_node_produces("virtio-9p-pci-synth", "pci-device");
++    qos_node_produces("virtio-9p-pci-synth", "virtio-synth");
++    qos_node_produces("virtio-9p-pci-synth", "virtio-9p-synth");
  }
  
+ libqos_init(virtio_9p_register_nodes);
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index f7505396f3..d46d675309 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -897,27 +897,27 @@ static void fs_readdir_split_512(void *obj, void *data,
+ 
+ static void register_virtio_9p_test(void)
+ {
+-    qos_add_test("config", "virtio-9p", pci_config, NULL);
+-    qos_add_test("fs/version/basic", "virtio-9p", fs_version, NULL);
+-    qos_add_test("fs/attach/basic", "virtio-9p", fs_attach, NULL);
+-    qos_add_test("fs/walk/basic", "virtio-9p", fs_walk, NULL);
+-    qos_add_test("fs/walk/no_slash", "virtio-9p", fs_walk_no_slash,
++    /* selects the 9pfs 'synth' filesystem driver for the respective test */
++    const char *synth_driver = "virtio-9p-synth";
++
++    qos_add_test("config", synth_driver, pci_config, NULL);
++    qos_add_test("fs/version/basic", synth_driver, fs_version, NULL);
++    qos_add_test("fs/attach/basic", synth_driver, fs_attach, NULL);
++    qos_add_test("fs/walk/basic", synth_driver, fs_walk, NULL);
++    qos_add_test("fs/walk/no_slash", synth_driver, fs_walk_no_slash, NULL);
++    qos_add_test("fs/walk/dotdot_from_root", synth_driver, fs_walk_dotdot,
+                  NULL);
+-    qos_add_test("fs/walk/dotdot_from_root", "virtio-9p",
+-                 fs_walk_dotdot, NULL);
+-    qos_add_test("fs/lopen/basic", "virtio-9p", fs_lopen, NULL);
+-    qos_add_test("fs/write/basic", "virtio-9p", fs_write, NULL);
+-    qos_add_test("fs/flush/success", "virtio-9p", fs_flush_success,
++    qos_add_test("fs/lopen/basic", synth_driver, fs_lopen, NULL);
++    qos_add_test("fs/write/basic", synth_driver, fs_write, NULL);
++    qos_add_test("fs/flush/success", synth_driver, fs_flush_success, NULL);
++    qos_add_test("fs/flush/ignored", synth_driver, fs_flush_ignored, NULL);
++    qos_add_test("fs/readdir/basic", synth_driver, fs_readdir, NULL);
++    qos_add_test("fs/readdir/split_512", synth_driver, fs_readdir_split_512,
+                  NULL);
+-    qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
++    qos_add_test("fs/readdir/split_256", synth_driver, fs_readdir_split_256,
++                 NULL);
++    qos_add_test("fs/readdir/split_128", synth_driver, fs_readdir_split_128,
+                  NULL);
+-    qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
+-    qos_add_test("fs/readdir/split_512", "virtio-9p",
+-                 fs_readdir_split_512, NULL);
+-    qos_add_test("fs/readdir/split_256", "virtio-9p",
+-                 fs_readdir_split_256, NULL);
+-    qos_add_test("fs/readdir/split_128", "virtio-9p",
+-                 fs_readdir_split_128, NULL);
+ }
+ 
+ libqos_init(register_virtio_9p_test);
 -- 
 2.20.1
 
