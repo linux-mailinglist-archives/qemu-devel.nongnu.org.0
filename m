@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F0327A0CA
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:15:54 +0200 (CEST)
-Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8F327A0BA
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:08:18 +0200 (CEST)
+Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMVar-0006a6-Ov
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:15:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52272)
+	id 1kMVTU-0002cU-Td
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0101be73855284d25a44e7d3051d515456db94b9@lizzy.crudebyte.com>)
- id 1kMVZD-00064a-Ca
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:14:11 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:51153)
+ (envelope-from <fcbcd16ad20daa20680665dd38942f01b3a310aa@lizzy.crudebyte.com>)
+ id 1kMVSb-0002CX-Tf
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:07:21 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0101be73855284d25a44e7d3051d515456db94b9@lizzy.crudebyte.com>)
- id 1kMVZC-0006Ib-2J
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:14:11 -0400
+ (envelope-from <fcbcd16ad20daa20680665dd38942f01b3a310aa@lizzy.crudebyte.com>)
+ id 1kMVSa-0005Zb-3t
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:07:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=GtJHuwyoegajjaKgnQ0LAhrlyUdI4zEzua7f4qjZ8wI=; b=GvNOp
- fH5t8mNUTu4srnb/TGDuOdPQLcfvpYVKtYDRrLVFOwX1+MI7tBNlu8ir1BXiBJARfUom7tFKA34Cs
- ZNV0WsWappRzgciEil/eGpLxdf0vziSeNtffSVyJA9nkPR5oNMrTXMBAA2q5GyfCUcpYtELG3F/jJ
- 5PBZDJRGGBprk9zanVU37QmJErOzrBQbA4LNrj6l8lTq76EmmeWx62N9SZFRYcvudZvCd1jBki1nj
- fhBr3CA+i171hcRhgwNRkrvwycEZPP91TjOYslz9lhjJ2wcL1espUVwG19wd4bKsXNN8/x++t60ec
- vZr+EZl3Je7rOymIMy3gRQtAEw5kA==;
-Message-Id: <0101be73855284d25a44e7d3051d515456db94b9.1601203436.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=801Pvm947DyXbU4TP1t/rbST7LiYXx1aSU7SF7Jmwnw=; b=mH6i+
+ gLeUEpTWIpbDriWXjmN8BDTgtZNEsICYwcck03PeHh0i8mJyTIe7pgdqk+fnLPxOIaZhghp/2aVzv
+ PQqouvxTljX4mAStDXQweZXXw6USammrenfZqwWNFvQvRV/ifZCb1GPzsExgxW+mOak8epgABwv9l
+ GcZydITUkc8L0hvlkFIRjcW/roR+3w/tt/QAoyFTeVdjy27nqitZn1yJ5fv5Y0X/as4llQ2R00l26
+ oBe48E/CISV1q9AUcGmpVaxIROBUqmwXE+pG8+db7t6zFwQ5gqPy5VNGdZJ4cWZ79b6EWj8N2dMGQ
+ BrGZKehyQY9M3zNpt9wBOOWnf0QJQ==;
+Message-Id: <fcbcd16ad20daa20680665dd38942f01b3a310aa.1601203436.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1601203436.git.qemu_oss@crudebyte.com>
 References: <cover.1601203436.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 27 Sep 2020 12:39:34 +0200
-Subject: [PATCH 04/12] tests/qtest/qos-test: new QTEST_DUMP_GRAPH environment
+Date: Sun, 27 Sep 2020 12:39:54 +0200
+Subject: [PATCH 05/12] tests/qtest/qos-test: add QTEST_DUMP_ENV environment
  variable
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
@@ -43,7 +43,7 @@ Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
  Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=0101be73855284d25a44e7d3051d515456db94b9@lizzy.crudebyte.com;
+ envelope-from=fcbcd16ad20daa20680665dd38942f01b3a310aa@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/27 07:42:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,31 +68,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting this new QTEST_DUMP_GRAPH environment variable causes qos-test
-to dump the created qos graph (all nodes and edges, along with their
-current individual availability status) to stdout.
-
-See API doc comment on function qos_dump_graph() for details.
+If this new QTEST_DUMP_ENV is set, it will cause all environment
+variables to be dumped to stdout.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/qos-test.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qtest/qos-test.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index 8fdf87b183..db667e16da 100644
+index db667e16da..4b1a1922fc 100644
 --- a/tests/qtest/qos-test.c
 +++ b/tests/qtest/qos-test.c
-@@ -322,6 +322,9 @@ int main(int argc, char **argv)
-     qos_set_machines_devices_available();
- 
-     qos_graph_foreach_test_path(walk_path);
-+    if (getenv("QTEST_DUMP_GRAPH") != NULL) {
-+        qos_dump_graph();
+@@ -313,8 +313,15 @@ static void walk_path(QOSGraphNode *orig_path, int len)
+  *   machine/drivers/test objects
+  * - Cleans up everything
+  */
+-int main(int argc, char **argv)
++int main(int argc, char **argv, char** envp)
+ {
++    if (getenv("QTEST_DUMP_ENV") != NULL) {
++        printf("ENVIRONMENT VARIABLES: {\n");
++        for (char **env = envp; *env != 0; env++) {
++            printf("\t%s\n", *env);
++        }
++        printf("}\n");
 +    }
-     g_test_run();
-     qtest_end();
-     qos_graph_destroy();
+     g_test_init(&argc, &argv, NULL);
+     qos_graph_init();
+     module_call_init(MODULE_INIT_QOM);
 -- 
 2.20.1
 
