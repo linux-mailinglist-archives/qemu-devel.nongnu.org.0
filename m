@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A5227A1E1
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 18:43:58 +0200 (CEST)
-Received: from localhost ([::1]:44750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2C927A225
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 19:55:16 +0200 (CEST)
+Received: from localhost ([::1]:33856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMZmI-0004ka-01
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 12:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38184)
+	id 1kMatH-0000LD-C7
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 13:55:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kMZiJ-0002Bf-DH
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 12:39:52 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54238)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kMasY-0008L4-Ss
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 13:54:30 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kMZiH-0005Iw-UB
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 12:39:51 -0400
-Received: by mail-wm1-x341.google.com with SMTP id x23so4056062wmi.3
- for <qemu-devel@nongnu.org>; Sun, 27 Sep 2020 09:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=v2AAXqYVbggYqD2O82lQGNTgT9BbKcX2OEontmBjDXk=;
- b=kcePoqC/il0PHMHBaHYw5MgQELKldh1nRgODSlIBuKx6G2WYyw3idFGnVwxnJFwG2T
- GbOmzBngiqtRUJmcn7gJJQOkT++H7HnZk2lFxcAk/TTrMLuf2Wr4p6JGTNI2n2PZLGpO
- kmd24enYnaMR/HMA8r2fWzlawbcGYYNHIbYyyuwIgjytMWEDJ6lKFZOFiSQ/qugNQJcT
- pfnyZkCdAscH8Aut237MZEG5IebugPjgh47IG4kUyIsuVcVc31Pees85r0vHpc7UqWUW
- 4lRTQFVHiEN5jsUFkBmBIWHO5wQSfiYSWRG1Hqbu26R1oLE7BGlrdJbO8s0nftQfJZ93
- XyaA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kMasX-00050R-2j
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 13:54:30 -0400
+Received: by mail-pg1-x542.google.com with SMTP id g29so6256336pgl.2
+ for <qemu-devel@nongnu.org>; Sun, 27 Sep 2020 10:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5dNc+/tH83QRCkbjC7Lhc++CK9QQAiNDtwEMQw9WJpI=;
+ b=lqYA8njHTLXlmGaayFbMEZDor11v0NWJijWCesKSagbS8slcbQIZ2R/7YN8UrNV6Tg
+ P60vq4guHOXBpnYjrUNooqTkBHP5O0VPAlKlNd76FWALt2lyvG905BhmrUY6lc9aJ2XM
+ K0LfsJdVHYWXPjRXOiskAeXdaKMXZMjdunFRRxxw9PPd10OvvOPhd9QjM7mQEhQfYy8T
+ TQqQ6Vuw8Wv394G30JkTb//rWRUTxpVwRq+P0zjo0M5E874EGjdXedkAa7P7/lJag8p7
+ GLvH/ImYUSTJxXDDjGvjQI2HJcKc5EFwoWwJjrTtD2gViQQc7gf/yRRYtJp3zaKZ5b9V
+ zNzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v2AAXqYVbggYqD2O82lQGNTgT9BbKcX2OEontmBjDXk=;
- b=PH+SqUUBbRo/oopB34Wg40iQtYonwJgJ0hFjLmKJT9QFtBS5+ZIoJbVsrt1AmQTFAo
- /iWH6O4NRT13Bk/qaG2kTSGp5uL8QGl4Lxm8ROGYquOCU6Z52j6KqmUlylKely3mgkN6
- K4HM8xnof2LV32wK30sUq+CMIfbaPCvDhy0wh/aszihHELJWoRrsq1A4veXut+GfYSKI
- boPYQd4c5BiCDtsEOfko5y+Tow9SwBhwwjU4IRL70W3AadyYXDFabCvNMNmRI8uU/TiQ
- ahO/HExSd0dNhgf6TXkglJyFHKKVxu6uDrnOw4/J8lU/2WR/FatbX6SZhdk2vx5vSc5/
- P/mw==
-X-Gm-Message-State: AOAM533EojzWwPHQVF5Mhe954LtRPSfrA2MFo5bpipE1mNlk3YEZo83j
- E48CYk0uGfqZo1bzWAIFB8VMXgy9IKU=
-X-Google-Smtp-Source: ABdhPJydbLG609apzb9XsDTaup4cXrqHD2NRV3RLa8xV3fimjfRKwQu71axI1dkCjKL7N9/JkmI7OQ==
-X-Received: by 2002:a05:600c:2054:: with SMTP id
- p20mr7475146wmg.173.1601224788309; 
- Sun, 27 Sep 2020 09:39:48 -0700 (PDT)
-Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id m10sm5820184wmi.9.2020.09.27.09.39.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Sep 2020 09:39:47 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/mips: Simplify code using ROUND_UP(INITRD_PAGE_SIZE)
-Date: Sun, 27 Sep 2020 18:39:43 +0200
-Message-Id: <20200927163943.614604-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200927163943.614604-1-f4bug@amsat.org>
-References: <20200927163943.614604-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5dNc+/tH83QRCkbjC7Lhc++CK9QQAiNDtwEMQw9WJpI=;
+ b=suCRZ1/9PYhLieLbDe34lAQ4/bbLynNEFAshgYuEqoUEMUYxXWlLFbN+G6tSqlo/y5
+ fBphgZExCH22GnnfUh/u8WnQeeNpnYKZWH3bihXw88GTvjCzgTQyEPpe8jBFDqcjcHjU
+ L8/nNKiI/SPSpiGcw+kYelKnOffWma156KW5UWdjv/db7FJfvfBlml4MKGV7VCFm+qFa
+ 4okyjDtHfLohshpl982MydQQPhT8gbWrE+L3YeiIQJPR4asI11jpmY0qvxe9DVgFzAkA
+ XDL+q6Ni1rwJLNQGs1DLf7sgs+/7A5dGiH/t82B3k6hoHwrsDz+2fL8wIvjw+Qq7jrUz
+ 28XA==
+X-Gm-Message-State: AOAM532LQPU3TK1Nxkig+7i1gmAWO29TIcD2aNd7JDRFZ32obyI1gZqH
+ o3cLMet4fU7G2BwDszalJQcs3EAEmkJMKQ==
+X-Google-Smtp-Source: ABdhPJx/TO3MGF5shQMM+ujvy4trdQanxlu36IHIAqgGYAx02ftefldRPonhaI1u08d3v1b53VUpyg==
+X-Received: by 2002:a63:a510:: with SMTP id n16mr4208147pgf.256.1601229266918; 
+ Sun, 27 Sep 2020 10:54:26 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id gj6sm4534452pjb.10.2020.09.27.10.54.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 27 Sep 2020 10:54:25 -0700 (PDT)
+Subject: Re: [PATCH] linux-user: i386: Use trapnr which returns from
+ cpu_exec() instead of exception_index
+To: chengang@emindsoft.com.cn, ehabkost@redhat.com,
+ marcel.apfelbaum@gmail.com, laurent@vivier.eu
+References: <20200926103956.28199-1-chengang@emindsoft.com.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0ef9553e-94fe-56fa-8c17-728741afcd9a@linaro.org>
+Date: Sun, 27 Sep 2020 10:54:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+In-Reply-To: <20200926103956.28199-1-chengang@emindsoft.com.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.078,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.011,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,104 +90,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using a INITRD_PAGE_MASK definition, use the
-simpler INITRD_PAGE_SIZE one which allows us to simplify
-the code by using directly the self-explicit ROUND_UP()
-macro.
+On 9/26/20 3:39 AM, chengang@emindsoft.com.cn wrote:
+> +++ b/include/hw/core/cpu.h
+> @@ -458,6 +458,8 @@ struct CPUState {
+>  
+>      /* track IOMMUs whose translations we've cached in the TCG TLB */
+>      GArray *iommu_notifiers;
+> +
+> +    int trapnr;
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/mips/mips.h | 4 +++-
- hw/mips/fuloong2e.c    | 3 +--
- hw/mips/malta.c        | 6 +++---
- hw/mips/mipssim.c      | 3 +--
- hw/mips/r4k.c          | 3 +--
- 5 files changed, 9 insertions(+), 10 deletions(-)
+Don't put this here.  It belongs in CPUX86State, possibly with #ifdef
+CONFIG_USER_ONLY.
 
-diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
-index 0af4c3d5d74..6c9c8805f3f 100644
---- a/include/hw/mips/mips.h
-+++ b/include/hw/mips/mips.h
-@@ -2,8 +2,10 @@
- #define HW_MIPS_H
- /* Definitions for mips board emulation.  */
- 
-+#include "qemu/units.h"
-+
- /* Kernels can be configured with 64KB pages */
--#define INITRD_PAGE_MASK (~((1 << 16) - 1))
-+#define INITRD_PAGE_SIZE (64 * KiB)
- 
- #include "exec/memory.h"
- 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index f28609976bf..ef5dbe97b7d 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -132,8 +132,7 @@ static int64_t load_kernel(CPUMIPSState *env)
-     if (loaderparams.initrd_filename) {
-         initrd_size = get_image_size(loaderparams.initrd_filename);
-         if (initrd_size > 0) {
--            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) &
--                            INITRD_PAGE_MASK;
-+            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
-             if (initrd_offset + initrd_size > ram_size) {
-                 error_report("memory too small for initial ram disk '%s'",
-                              loaderparams.initrd_filename);
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 4019c9dc1a8..5de5cb152eb 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1074,9 +1074,9 @@ static int64_t load_kernel(void)
-              * the initrd.  It takes at most 128kiB for 2GB RAM and 4kiB
-              * pages.
-              */
--            initrd_offset = (loaderparams.ram_low_size - initrd_size
--                             - (128 * KiB)
--                             - ~INITRD_PAGE_MASK) & INITRD_PAGE_MASK;
-+            initrd_offset = ROUND_UP(loaderparams.ram_low_size
-+                                     - (initrd_size + 128 * KiB),
-+                                     INITRD_PAGE_SIZE);
-             if (kernel_high >= initrd_offset) {
-                 error_report("memory too small for initial ram disk '%s'",
-                              loaderparams.initrd_filename);
-diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
-index 3aeb1207e1a..1862eeda396 100644
---- a/hw/mips/mipssim.c
-+++ b/hw/mips/mipssim.c
-@@ -89,8 +89,7 @@ static int64_t load_kernel(void)
-     if (loaderparams.initrd_filename) {
-         initrd_size = get_image_size(loaderparams.initrd_filename);
-         if (initrd_size > 0) {
--            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) &
--                            INITRD_PAGE_MASK;
-+            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
-             if (initrd_offset + initrd_size > loaderparams.ram_size) {
-                 error_report("memory too small for initial ram disk '%s'",
-                              loaderparams.initrd_filename);
-diff --git a/hw/mips/r4k.c b/hw/mips/r4k.c
-index 74f916a3982..24cee357f34 100644
---- a/hw/mips/r4k.c
-+++ b/hw/mips/r4k.c
-@@ -114,8 +114,7 @@ static int64_t load_kernel(void)
-     if (loaderparams.initrd_filename) {
-         initrd_size = get_image_size(loaderparams.initrd_filename);
-         if (initrd_size > 0) {
--            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) &
--                             INITRD_PAGE_MASK;
-+            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
-             if (initrd_offset + initrd_size > ram_size) {
-                 error_report("memory too small for initial ram disk '%s'",
-                              loaderparams.initrd_filename);
--- 
-2.26.2
 
+
+>  void cpu_loop(CPUX86State *env)
+>  {
+>      CPUState *cs = env_cpu(env);
+> -    int trapnr;
+
+Why are you removing the local variable?
+
+
+r~
 
