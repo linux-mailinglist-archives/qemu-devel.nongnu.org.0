@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A537327A12C
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 15:09:17 +0200 (CEST)
-Received: from localhost ([::1]:36186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250A227A127
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 15:06:59 +0200 (CEST)
+Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMWQW-0004QW-JD
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 09:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
+	id 1kMWOH-00013b-JF
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 09:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kMWMX-00081g-EL
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:09 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:60448 helo=huawei.com)
+ id 1kMWMR-0007qX-DZ
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:03 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:60242 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kMWMV-0003Nt-F2
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:09 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 03E51313DBA182BE1FC0;
- Sun, 27 Sep 2020 21:04:50 +0800 (CST)
-Received: from localhost (10.174.185.104) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Sun, 27 Sep 2020
- 21:04:41 +0800
+ id 1kMWMP-0003N3-5j
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:03 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id A1FD2B9EE6899670B86C;
+ Sun, 27 Sep 2020 21:04:48 +0800 (CST)
+Received: from localhost (10.174.185.104) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sun, 27 Sep 2020
+ 21:04:42 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 5/7] virtio-blk: disable I/O hang when resetting
-Date: Sun, 27 Sep 2020 21:04:18 +0800
-Message-ID: <20200927130420.1095-6-fangying1@huawei.com>
+Subject: [RFC PATCH 6/7] qemu-option: add I/O hang timeout option
+Date: Sun, 27 Sep 2020 21:04:19 +0800
+Message-ID: <20200927130420.1095-7-fangying1@huawei.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200927130420.1095-1-fangying1@huawei.com>
 References: <20200927130420.1095-1-fangying1@huawei.com>
@@ -66,42 +66,52 @@ Cc: kwolf@redhat.com, Ying Fang <fangying1@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All AIOs including the hanging AIOs need to be drained when resetting
-virtio-blk. So it is necessary to disable I/O hang before resetting
-and enable I/O hang again after resetting if I/O hang is enabled.
+I/O hang timeout should be different under different situations. So it is
+better to provide an option for user to determine I/O hang timeout for
+each block device.
 
-Signed-off-by: Ying Fang <fangying1@huawei.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- hw/block/virtio-blk.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ blockdev.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 2204ba149e..11837a54f5 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -892,6 +892,10 @@ static void virtio_blk_reset(VirtIODevice *vdev)
-     AioContext *ctx;
-     VirtIOBlockReq *req;
+diff --git a/blockdev.c b/blockdev.c
+index 7f2561081e..ff8cdcd497 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -500,6 +500,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+     BlockdevDetectZeroesOptions detect_zeroes =
+         BLOCKDEV_DETECT_ZEROES_OPTIONS_OFF;
+     const char *throttling_group = NULL;
++    int64_t iohang_timeout = 0;
  
-+    if (blk_iohang_is_enabled(s->blk)) {
-+        blk_rehandle_disable(s->blk);
-+    }
+     /* Check common options by copying from bs_opts to opts, all other options
+      * stay in bs_opts for processing by bdrv_open(). */
+@@ -622,6 +623,12 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+ 
+         bs->detect_zeroes = detect_zeroes;
+ 
++        /* init timeout value for I/O Hang */
++        iohang_timeout = qemu_opt_get_number(opts, "iohang-timeout", 0);
++        if (iohang_timeout > 0) {
++            blk_iohang_init(blk, iohang_timeout);
++        }
 +
-     ctx = blk_get_aio_context(s->blk);
-     aio_context_acquire(ctx);
-     blk_drain(s->blk);
-@@ -909,6 +913,10 @@ static void virtio_blk_reset(VirtIODevice *vdev)
+         block_acct_setup(blk_get_stats(blk), account_invalid, account_failed);
  
-     assert(!s->dataplane_started);
-     blk_set_enable_write_cache(s->blk, s->original_wce);
-+
-+    if (blk_iohang_is_enabled(s->blk)) {
-+        blk_rehandle_enable(s->blk);
-+    }
- }
- 
- /* coalesce internal state, copy to pci i/o region 0
+         if (!parse_stats_intervals(blk_get_stats(blk), interval_list, errp)) {
+@@ -3786,6 +3793,10 @@ QemuOptsList qemu_common_drive_opts = {
+             .type = QEMU_OPT_BOOL,
+             .help = "whether to account for failed I/O operations "
+                     "in the statistics",
++        },{
++            .name = "iohang-timeout",
++            .type = QEMU_OPT_NUMBER,
++            .help = "timeout value for I/O Hang",
+         },
+         { /* end of list */ }
+     },
 -- 
 2.23.0
 
