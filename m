@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3D327A0CB
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:16:35 +0200 (CEST)
-Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BD927A0D2
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 14:18:53 +0200 (CEST)
+Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMVbW-0007rI-U3
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:16:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
+	id 1kMVdk-0002T3-8W
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 08:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kMVZs-0006cw-KC
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:14:52 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:60455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kMVZr-0006O2-1s
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:14:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Jzw1/KRabcxEaqNqC1KBDx3WhsVlJkj13T/W///NaNA=; b=MLbpzQIO41v6DDPt+mpLK8/962
- B4vkjOVq4HFlL/L2Djl4s29R1SObNg9CUGt1r2Bkng7EaJTL1SB/0e25oWSoGYqiaTAomJU3B6lXe
- WJ/snIanzVn9RoJtvQQ+6u2Q4rtoHibqlU6qx3FHrM74rN9jqip1zjynHd/DTjBYNfS7pfbIT+1pM
- x3D4bUyZuOFCMbnvwNracb9YkkY7ekqVNkAKYU9gEAFFyA8iCmEJD8pZ0H7SA+xz4tnunD47ssAdK
- rck/u8ZqsihsgWcPi1JxX5Cm/DeUuzhsDNYDe3D9SwY7n8lyzSytLO8aIIga1bC5T+Bo3+kLIpzje
- xEp5jS5A==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- "cdupontd@redhat.com" <cdupontd@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Shinde, Archana M" <archana.m.shinde@intel.com>,
- Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: virtiofs vs 9p performance(Re: tools/virtiofs: Multi threading
- seems to hurt performance)
-Date: Sun, 27 Sep 2020 14:14:43 +0200
-Message-ID: <66718708.HdZnNlUTFG@silver>
-In-Reply-To: <20200925185147.GS2873@work-vm>
-References: <20200918213436.GA3520@redhat.com> <7085634.CctCyd8GvG@silver>
- <20200925185147.GS2873@work-vm>
+ (Exim 4.90_1) (envelope-from <zhangguoqing.kernel@bytedance.com>)
+ id 1kMVcN-00018K-H2
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:17:27 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:39989)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhangguoqing.kernel@bytedance.com>)
+ id 1kMVcI-0006jP-Pr
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 08:17:24 -0400
+Received: by mail-qt1-x841.google.com with SMTP id v54so6104847qtj.7
+ for <qemu-devel@nongnu.org>; Sun, 27 Sep 2020 05:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z1GUAq+ti25UnL/dTTl3O28NWch1eXaZ2DLFfmxfgwk=;
+ b=Bhlitspe4kEGPDJtMklUNAS1TFBmIGAuLU66Wz7gph92ECaQRGNUlgc6aYutvpXoDu
+ sulpILali+S3fKeHpij2uqaMbcbtH73J1UDHyIln7nAXM3zLjpIC2Vur+ipdaL9rK3ql
+ UBA8AkJ5VQ3JIFqgkEdihLZU2GP6RrY7KwMkX4D0hrnlKm/o0pk0yvzs22cd7pQwfzUn
+ g4Chc/NSu1i2tHsKz6QfbDfJLxRFBDpFy3C7QJtlqFYBgVLU6srC2c2ruEX4NfqsFj37
+ py7G37FZVdymrX3U0vzXYQARtBLxeCRzMThvoEVEoHIijpyF043XsVxbut92wzaap6ZB
+ p6WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z1GUAq+ti25UnL/dTTl3O28NWch1eXaZ2DLFfmxfgwk=;
+ b=r7PlYhTL1ZlOHrYsKcKZIc7OM5W+2n29emXEYf7pb0VVKfY/wDF0EB7S5+SY8TvZqo
+ 9UjKUPPbpI1ebi7ZeCXobonSTSDqtxB97ej84nJ1lMTja+7YcNb18mWFV8OfhRffB+kV
+ RUMyxaHQm8sGYRDBD+fhTXYPfKaOwmXzd+F8QfX3OiMezPYEAuP4FxKbwti+aVXTrIdA
+ C2xKdQm3X1HRY/ovcExeQ2BnCI7dipKUEC0YeLqk4onJrtU0DSeIV9JWxk9URYeU4gI0
+ lpiMhcm/tDqW9TFZxQEUomFcuhfn8srQKjcTbc8u2ICofPDq+lgacXbW9XLVf8CRP6zT
+ EpWg==
+X-Gm-Message-State: AOAM531je+rUfCZ+LvhQld8htQfmgZCY3eOF8YWq5y/A59UzxCvoEICK
+ ceXIJOgjeDoIWlFFh5OmBjAepO8pyz5fmYq3gDSaYw==
+X-Google-Smtp-Source: ABdhPJyg48ZF0m7355V+Wk0ld0fK8lSefESwLpt4278izTimKTbDYfzNcvAdNtpCTuYoVEh8/5zTdRWHGb7VgiCLkzg=
+X-Received: by 2002:ac8:474a:: with SMTP id k10mr8180516qtp.115.1601209040866; 
+ Sun, 27 Sep 2020 05:17:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/27 07:42:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200918111632.37354-1-zhangguoqing.kernel@bytedance.com>
+In-Reply-To: <20200918111632.37354-1-zhangguoqing.kernel@bytedance.com>
+From: Guoqing Zhang <zhangguoqing.kernel@bytedance.com>
+Date: Sun, 27 Sep 2020 20:17:10 +0800
+Message-ID: <CAP+YVmQMQ-zk59bdR5Wz4h-2QmOygS_DGnMOYwwLstVwcdWq2g@mail.gmail.com>
+Subject: Re: [PATCH] virtio-gpu-3d: fix abnormal display after a warm reboot
+To: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000017b2aa05b04a88cc"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
+ envelope-from=zhangguoqing.kernel@bytedance.com; helo=mail-qt1-x841.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,77 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Qi Liu <liuqi.16@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 25. September 2020 20:51:47 CEST Dr. David Alan Gilbert wrote:
-> * Christian Schoenebeck (qemu_oss@crudebyte.com) wrote:
-> > On Freitag, 25. September 2020 15:05:38 CEST Dr. David Alan Gilbert wrote:
-> > > > > 9p ( mount -t 9p -o trans=virtio kernel /mnt
-> > > > > -oversion=9p2000.L,cache=mmap,msize=1048576 ) test: (g=0):
-> > > > > rw=randrw,
-> > > > 
-> > > > Bottleneck ------------------------------^
-> > > > 
-> > > > By increasing 'msize' you would encounter better 9P I/O results.
-> > > 
-> > > OK, I thought that was bigger than the default;  what number should I
-> > > use?
-> > 
-> > It depends on the underlying storage hardware. In other words: you have to
-> > try increasing the 'msize' value to a point where you no longer notice a
-> > negative performance impact (or almost). Which is fortunately quite easy
-> > to test on> 
-> > guest like:
-> > 	dd if=/dev/zero of=test.dat bs=1G count=12
-> > 	time cat test.dat > /dev/null
-> > 
-> > I would start with an absolute minimum msize of 10MB. I would recommend
-> > something around 100MB maybe for a mechanical hard drive. With a PCIe
-> > flash
-> > you probably would rather pick several hundred MB or even more.
-> > 
-> > That unpleasant 'msize' issue is a limitation of the 9p protocol: client
-> > (guest) must suggest the value of msize on connection to server (host).
-> > Server can only lower, but not raise it. And the client in turn obviously
-> > cannot see host's storage device(s), so client is unable to pick a good
-> > value by itself. So it's a suboptimal handshake issue right now.
-> 
-> It doesn't seem to be making a vast difference here:
-> 
-> 
-> 
-> 9p mount -t 9p -o trans=virtio kernel /mnt
-> -oversion=9p2000.L,cache=mmap,msize=104857600
-> 
-> Run status group 0 (all jobs):
->    READ: bw=62.5MiB/s (65.6MB/s), 62.5MiB/s-62.5MiB/s (65.6MB/s-65.6MB/s),
-> io=3070MiB (3219MB), run=49099-49099msec WRITE: bw=20.9MiB/s (21.9MB/s),
-> 20.9MiB/s-20.9MiB/s (21.9MB/s-21.9MB/s), io=1026MiB (1076MB),
-> run=49099-49099msec
-> 
-> 9p mount -t 9p -o trans=virtio kernel /mnt
-> -oversion=9p2000.L,cache=mmap,msize=1048576000
-> 
-> Run status group 0 (all jobs):
->    READ: bw=65.2MiB/s (68.3MB/s), 65.2MiB/s-65.2MiB/s (68.3MB/s-68.3MB/s),
-> io=3070MiB (3219MB), run=47104-47104msec WRITE: bw=21.8MiB/s (22.8MB/s),
-> 21.8MiB/s-21.8MiB/s (22.8MB/s-22.8MB/s), io=1026MiB (1076MB),
-> run=47104-47104msec
-> 
-> 
-> Dave
+--00000000000017b2aa05b04a88cc
+Content-Type: text/plain; charset="UTF-8"
 
-Is that benchmark tool honoring 'iounit' to automatically run with max. I/O 
-chunk sizes? What's that benchmark tool actually? And do you also see no 
-improvement with a simple
+hello Gerd and Michael   Michael S. Tsirkin
 
-	time cat largefile.dat > /dev/null
+ping
 
-?
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=202680
 
-Best regards,
-Christian Schoenebeck
+On Fri, Sep 18, 2020 at 7:16 PM Guoqing Zhang <
+zhangguoqing.kernel@bytedance.com> wrote:
 
+> When resetting virtio-gpu, virgl_renderer_reset() should be
+> called to ensure that the virglrenderer status is correct.
+>
+> Signed-off-by: Guoqing Zhang <zhangguoqing.kernel@bytedance.com>
+> Reviewed-by: Qi Liu<liuqi.16@bytedance.com>
+> ---
+>  hw/display/virtio-gpu-3d.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
+> index 96621576c2..1bd33d7aed 100644
+> --- a/hw/display/virtio-gpu-3d.c
+> +++ b/hw/display/virtio-gpu-3d.c
+> @@ -595,7 +595,7 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
+>  {
+>      int i;
+>
+> -    /* virgl_renderer_reset() ??? */
+> +    virgl_renderer_reset();
+>      for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
+>          if (i != 0) {
+>              dpy_gfx_replace_surface(g->parent_obj.scanout[i].con, NULL);
+> --
+> 2.24.3 (Apple Git-128)
+>
+>
 
+--00000000000017b2aa05b04a88cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>hello=C2=A0Gerd and Michael=C2=A0 =
+=C2=A0Michael S. Tsirkin=C2=A0</div><div><br></div>ping<div><br></div><div>=
+<a href=3D"http://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D20=
+2680">http://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D202680<=
+/a><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Fri, Sep 18, 2020 at 7:16 PM Guoqing Zhang &lt;<a href=3D"m=
+ailto:zhangguoqing.kernel@bytedance.com">zhangguoqing.kernel@bytedance.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">W=
+hen resetting virtio-gpu, virgl_renderer_reset() should be<br>
+called to ensure that the virglrenderer status is correct.<br>
+<br>
+Signed-off-by: Guoqing Zhang &lt;<a href=3D"mailto:zhangguoqing.kernel@byte=
+dance.com" target=3D"_blank">zhangguoqing.kernel@bytedance.com</a>&gt;<br>
+Reviewed-by: Qi Liu&lt;<a href=3D"mailto:liuqi.16@bytedance.com" target=3D"=
+_blank">liuqi.16@bytedance.com</a>&gt;<br>
+---<br>
+=C2=A0hw/display/virtio-gpu-3d.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c<br>
+index 96621576c2..1bd33d7aed 100644<br>
+--- a/hw/display/virtio-gpu-3d.c<br>
++++ b/hw/display/virtio-gpu-3d.c<br>
+@@ -595,7 +595,7 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+<br>
+-=C2=A0 =C2=A0 /* virgl_renderer_reset() ??? */<br>
++=C2=A0 =C2=A0 virgl_renderer_reset();<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; g-&gt;parent_obj.conf.max_outputs;=
+ i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (i !=3D 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpy_gfx_replace_surface(g-&=
+gt;parent_obj.scanout[i].con, NULL);<br>
+-- <br>
+2.24.3 (Apple Git-128)<br>
+<br>
+</blockquote></div></div>
+
+--00000000000017b2aa05b04a88cc--
 
