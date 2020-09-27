@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250A227A127
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 15:06:59 +0200 (CEST)
-Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C744027A12E
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Sep 2020 15:11:18 +0200 (CEST)
+Received: from localhost ([::1]:40558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMWOH-00013b-JF
-	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 09:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
+	id 1kMWST-0006Ig-T9
+	for lists+qemu-devel@lfdr.de; Sun, 27 Sep 2020 09:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kMWMR-0007qX-DZ
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:03 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:60242 helo=huawei.com)
+ id 1kMWMU-0007so-Ac
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:06 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:60250 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kMWMP-0003N3-5j
- for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:03 -0400
+ id 1kMWMQ-0003N4-NT
+ for qemu-devel@nongnu.org; Sun, 27 Sep 2020 09:05:06 -0400
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id A1FD2B9EE6899670B86C;
+ by Forcepoint Email with ESMTP id 9CBBE948378066848F43;
  Sun, 27 Sep 2020 21:04:48 +0800 (CST)
 Received: from localhost (10.174.185.104) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sun, 27 Sep 2020
  21:04:42 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 6/7] qemu-option: add I/O hang timeout option
-Date: Sun, 27 Sep 2020 21:04:19 +0800
-Message-ID: <20200927130420.1095-7-fangying1@huawei.com>
+Subject: [RFC PATCH 7/7] qapi: add I/O hang and I/O hang timeout qapi event
+Date: Sun, 27 Sep 2020 21:04:20 +0800
+Message-ID: <20200927130420.1095-8-fangying1@huawei.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20200927130420.1095-1-fangying1@huawei.com>
 References: <20200927130420.1095-1-fangying1@huawei.com>
@@ -66,52 +66,77 @@ Cc: kwolf@redhat.com, Ying Fang <fangying1@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I/O hang timeout should be different under different situations. So it is
-better to provide an option for user to determine I/O hang timeout for
-each block device.
+Sometimes hypervisor management tools like libvirt may need to monitor
+I/O hang events. Let's report I/O hang and I/O hang timeout event via qapi.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- blockdev.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ block/block-backend.c |  3 +++
+ qapi/block-core.json  | 26 ++++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/blockdev.c b/blockdev.c
-index 7f2561081e..ff8cdcd497 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -500,6 +500,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
-     BlockdevDetectZeroesOptions detect_zeroes =
-         BLOCKDEV_DETECT_ZEROES_OPTIONS_OFF;
-     const char *throttling_group = NULL;
-+    int64_t iohang_timeout = 0;
- 
-     /* Check common options by copying from bs_opts to opts, all other options
-      * stay in bs_opts for processing by bdrv_open(). */
-@@ -622,6 +623,12 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
- 
-         bs->detect_zeroes = detect_zeroes;
- 
-+        /* init timeout value for I/O Hang */
-+        iohang_timeout = qemu_opt_get_number(opts, "iohang-timeout", 0);
-+        if (iohang_timeout > 0) {
-+            blk_iohang_init(blk, iohang_timeout);
-+        }
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 95b2d6a679..5dc5b11bcc 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2540,6 +2540,7 @@ static bool blk_iohang_handle(BlockBackend *blk, int new_status)
+             /* Case when I/O Hang is recovered */
+             blk->is_iohang_timeout = false;
+             blk->iohang_time = 0;
++            qapi_event_send_block_io_hang(false);
+         }
+         break;
+     case BLOCK_IO_HANG_STATUS_HANG:
+@@ -2547,12 +2548,14 @@ static bool blk_iohang_handle(BlockBackend *blk, int new_status)
+             /* Case when I/O hang is first triggered */
+             blk->iohang_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+             need_rehandle = true;
++            qapi_event_send_block_io_hang(true);
+         } else {
+             if (!blk->is_iohang_timeout) {
+                 now = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+                 if (now >= (blk->iohang_time + blk->iohang_timeout)) {
+                     /* Case when I/O hang is timeout */
+                     blk->is_iohang_timeout = true;
++                    qapi_event_send_block_io_hang_timeout(true);
+                 } else {
+                     /* Case when I/O hang is continued */
+                     need_rehandle = true;
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 3c16f1e11d..7bdf75c6d7 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5535,3 +5535,29 @@
+ { 'command': 'blockdev-snapshot-delete-internal-sync',
+   'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
+   'returns': 'SnapshotInfo' }
 +
-         block_acct_setup(blk_get_stats(blk), account_invalid, account_failed);
- 
-         if (!parse_stats_intervals(blk_get_stats(blk), interval_list, errp)) {
-@@ -3786,6 +3793,10 @@ QemuOptsList qemu_common_drive_opts = {
-             .type = QEMU_OPT_BOOL,
-             .help = "whether to account for failed I/O operations "
-                     "in the statistics",
-+        },{
-+            .name = "iohang-timeout",
-+            .type = QEMU_OPT_NUMBER,
-+            .help = "timeout value for I/O Hang",
-         },
-         { /* end of list */ }
-     },
++##
++# @BLOCK_IO_HANG:
++#
++# Emitted when device I/O hang trigger event begin or end
++#
++# @set: true if I/O hang begin; false if I/O hang end.
++#
++# Since: 5.2
++#
++##
++{ 'event': 'BLOCK_IO_HANG',
++  'data': { 'set': 'bool' }}
++
++##
++# @BLOCK_IO_HANG_TIMEOUT:
++#
++# Emitted when device I/O hang timeout event set or clear
++#
++# @set: true if set; false if clear.
++#
++# Since: 5.2
++#
++##
++{ 'event': 'BLOCK_IO_HANG_TIMEOUT',
++  'data': { 'set': 'bool' }}
 -- 
 2.23.0
 
