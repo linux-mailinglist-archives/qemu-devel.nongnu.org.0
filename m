@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF6C27B2B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:08:34 +0200 (CEST)
-Received: from localhost ([::1]:38212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6DA27B2E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:17:50 +0200 (CEST)
+Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMwdc-0007oI-Te
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:08:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
+	id 1kMwmZ-0005rf-Jq
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:17:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kMwc2-0006tT-4a
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:06:54 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38361)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kMwkg-0004B2-U2
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:15:50 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kMwc0-0004zE-1f
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:06:53 -0400
-Received: by mail-wm1-x342.google.com with SMTP id v12so1902921wmh.3
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 10:06:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kMwka-0006JA-2J
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:15:50 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id k10so2212153wru.6
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 10:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=rXMVHk49nFHuJjxOUAr1bU28spoOdRyOodFXEN5Zs8c=;
- b=swxdpPzonRwdMr1qsinOGSniERrXi7+4wK10mrtjzPrzCpdaXpSa4l30j48Omw8Lc/
- nb6HpSq7mfwJjxWFfhrmOQxATWbTOpvcTjhR0SW1FLIgRfJ/574fQho3VCPMMggp/SRp
- 4pBwM/XTFN/8PBP3INlR/hpU7rb/pG3L3cFp4yEKnSg6FwYRcOj1lFhgNRzIfFMHYSki
- WQon6952b5xGQ0FroYwZsz6XvAa35+TI9+x+1FiCO4+a1MAAxNw+eyt6HQ/LbV935rQE
- Sp3fU5duAV9RsZR7V/EqzetICMxoGYR+N27IH/K7PM/0gM8lNzMP0Nw4PBevQan4QHGh
- +lNg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OuV2lSj+vDl5vCymOXQwcqQAKlj2R1WhJymuq9BnH40=;
+ b=N9BbVSFBSdRWJLCzVMWKMBlQXVjppex6EqGcDIQ7uXF8A6x+UqDOueUqR6FzROmBj8
+ HUipa04B5dKAx0OiW16+JREok3JNFcTYUMyS2h0478LFaS6yX1sDjVyGJJw4sAyJqfM2
+ XhsimQUv3u6qop1qHh/YHV3Dk8QBkldq44u1VXa2b81bUogzgZy0pEuST+JEykKpDs2E
+ honiB0SeODYcEWPFftLuxnTcqPMasDxBzlzIlmSJRfbA8YAVrwGSaadh9YWNCy58Qqsy
+ UiDjyFl8irTmuo0z3c4FUOxzcrP9AiToRog+k3ZvPgeeXb1/eVbB1TrzW9fc1+izCEfd
+ bWWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rXMVHk49nFHuJjxOUAr1bU28spoOdRyOodFXEN5Zs8c=;
- b=uoOyvjuWR/Z6H7PTJe+ExE9MdIDtOGFL8zO2wSxoiLWE9gKLO2znqWFEE1qMWLHm8S
- daUYXn2+2Q7Es9q23uSmwoN2b+y3eoYtGKLBAbUy8dVKyTVey9zShHSCexwJrDhgOUN9
- x2u/2CwmDXMHJ4pcKJ0ukZnQShZrvQLz6XWI+FxVqq/bvdcLdvwGQ+C9n87erfITK5Fe
- mmpeJXb2knS626+PTaU246nE6rxAAzK6EF1I/TAtItw1SzA2m5OpDseLj04hLGAoepfu
- GDVnIbfdSrnAZO8OM2mI9ML3ZuUgktd9PbbCGsETRir4LoYB95grZlLmesNl9pWeokp+
- t7/A==
-X-Gm-Message-State: AOAM531/e/81rr91VBEqHcyQzxJspMHTqt419oEB6scNu1u7ZXlIeSbo
- ifh/1HJgc7L2mtQmrCrpZUM=
-X-Google-Smtp-Source: ABdhPJw0k4ExqIfzum4efV9QQr94tJ4QcOOfTEcgeWtDiWkuZfxUUetylS1mrCTZiHZxM8gd0Ostog==
-X-Received: by 2002:a7b:cbcb:: with SMTP id n11mr163372wmi.5.1601312810279;
- Mon, 28 Sep 2020 10:06:50 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id 91sm2373985wrq.9.2020.09.28.10.06.48
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=OuV2lSj+vDl5vCymOXQwcqQAKlj2R1WhJymuq9BnH40=;
+ b=BvwQ6diIsTjH3LBCbl3eb+NITYgvOWCUAr5CvwN6W+je+Jlas6aMv20ThRrz/utzuI
+ q+7N03Ca8IX66/D38P0T6YZprNWYOhgRMnv5XIwuc1etyrAVb2d63fXTB4ni1cFgP6Jg
+ 8stqCGsUJELeUSRrJZ6UI9GF3UaTvHPEbpeL81nNsF2iHOjr54xGnp5N0cm8RlLsfqCf
+ 5HIg1PbOtp21EcAje3hPfTWUghqXg6bhTkr2/nSyTdMieO/IVt/Lz3dqH0O4ysXAEaBU
+ fRzDzhIZU+l2QW8XIYxmTM22QNqXIPp0jCsA7JNICveFvl5ahr4+evl4xdf/O+zX+IXQ
+ oeXw==
+X-Gm-Message-State: AOAM531qJMoTdC1i/ARRjVpbauvxm9NTQKPvkKiV1igklDOUHbieXKZw
+ Ay/HpyNTrimjiyVOEhEwQKN5mmM2TnY=
+X-Google-Smtp-Source: ABdhPJwTliMfzuKWa2SpWQfOuI7WZ1vbqo/J1JTC0OV/aXBvCRQLk64tyQMnioB2hhe/NfJHNMoD6A==
+X-Received: by 2002:adf:9d44:: with SMTP id o4mr2792701wre.361.1601313341605; 
+ Mon, 28 Sep 2020 10:15:41 -0700 (PDT)
+Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id z67sm464787wme.41.2020.09.28.10.15.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Sep 2020 10:06:48 -0700 (PDT)
-Date: Mon, 28 Sep 2020 18:06:47 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH Kernel v24 4/8] vfio iommu: Add ioctl definition for
- dirty pages tracking
-Message-ID: <20200928170647.GB176159@stefanha-x1.localdomain>
-References: <1590697854-21364-1-git-send-email-kwankhede@nvidia.com>
- <1590697854-21364-5-git-send-email-kwankhede@nvidia.com>
+ Mon, 28 Sep 2020 10:15:40 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/16] hw/mips: Set CPU frequency
+Date: Mon, 28 Sep 2020 19:15:23 +0200
+Message-Id: <20200928171539.788309-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OwLcNYc0lM97+oe1"
-Content-Disposition: inline
-In-Reply-To: <1590697854-21364-5-git-send-email-kwankhede@nvidia.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x342.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.199,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,69 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
- Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, eauger@redhat.com, yi.l.liu@intel.com,
- eskultet@redhat.com, ziye.yang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, felipe@nutanix.com, Ken.Xue@amd.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- changpeng.liu@intel.com, cohuck@redhat.com, zhi.a.wang@intel.com,
- jonathan.davies@nutanix.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Cleber Rosa <crosa@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All the MIPS cores emulated by QEMU provides the Coproc#0
+'Count' register which can be used as a free running timer.
 
---OwLcNYc0lM97+oe1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Since it's introduction in 2005 this timer uses a fixed
+frequency of 100 MHz (for a CPU freq of 200 MHz).
+While this is not an issue with Linux guests, it makes
+some firmwares behave incorrectly.
 
-On Fri, May 29, 2020 at 02:00:50AM +0530, Kirti Wankhede wrote:
-> + * Calling the IOCTL with VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP flag set
-> + * returns the dirty pages bitmap for IOMMU container for a given IOVA range.
-> + * The user must specify the IOVA range and the pgsize through the structure
-> + * vfio_iommu_type1_dirty_bitmap_get in the data[] portion. This interface
-> + * supports getting a bitmap of the smallest supported pgsize only and can be
-> + * modified in future to get a bitmap of any specified supported pgsize. The
-> + * user must provide a zeroed memory area for the bitmap memory and specify its
-> + * size in bitmap.size. One bit is used to represent one page consecutively
+The Clock API allow propagating clocks. It is particularly
+useful when hardware dynamicly changes clock frequencies.
 
-Does "user must provide a zeroed memory area" actually means "the vendor
-driver sets bits for pages that are dirty and leaves bits unchanged for
-pages that were not dirtied"? That is more flexible and different from
-requiring userspace to zero memory.
+To be able to model such MIPS hardware, we need to refactor
+the MIPS hardware code to handle clocks.
 
-For example, if userspace doesn't actually have to zero memory then it
-can accumulate dirty pages from multiple devices by passing the same
-bitmap buffers to multiple VFIO devices.
+This series is organized as follow:
 
-If that's the intention, then the documentation shouldn't say "must"
-zero memory, because applications will need to violate that :). Instead
-the documentation should describe the behavior (setting dirty bits,
-leaving clean bits unmodified).
+- let all CPU have an input clock,
+- MIPS CPU get an input clock
+- when the clock is changed, CP0 timer is updated
+- set correct CPU frequencies to all boards
+- do not allow MIPS CPU without input clock
 
-> +struct vfio_iommu_type1_dirty_bitmap_get {
-> +	__u64              iova;	/* IO virtual address */
-> +	__u64              size;	/* Size of iova range */
-> +	struct vfio_bitmap bitmap;
-> +};
+I used a MIPSsim test suggested by Thomas. It is also included
+as bonus at the end.
 
-Can the user application efficiently seek to the next dirty bit or does
-this API force it to scan the entire iova space each time?
+Possible follow up:
+- QOM'ify the GIC
+- let the GIC handle dynamic clock changes
 
---OwLcNYc0lM97+oe1
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Phil.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9yGCcACgkQnKSrs4Gr
-c8iAiwf/T3SOKjt5I+60nMpQL/j9/X879c9B+2SOJdp7IgVUheVZ67VMcG64j7fJ
-pOV2bSPN3fufzEmBS9HrXCrKPFzG0Kq/OFl9ceC3Gsm8BIVTgK4KB/laENDEfMzd
-bCQWxthkGGbMmFTfWNhJCKyrXCjou3XSDiN0308OzKYYhkIvue+65Qlu10ae50Vm
-oXvd5ZyMwLXLoJLTLT7p6Lnszpw6VHS3U8t6Oa0d5c3hA7OdffYzCfZBcBasbuTR
-T8uwFPBjjhMP/nKAH3SKi9ILjyPc0+pZAq5hIOlmrkZuBWoZpJA5haD2ouaj3BLA
-Soyyd00/vJUTLGw+xUcaVBB/JM/mlg==
-=DWPv
------END PGP SIGNATURE-----
+Philippe Mathieu-Daudé (16):
+  hw/core/cpu: Let CPU object have a clock source
+  target/mips: Move cpu_mips_get_random() with CP0 helpers
+  target/mips/cp0_timer: Explicit unit in variable name
+  target/mips/cpu: Introduce mips_cpu_properties[]
+  target/mips/cpu: Set default CPU frequency to 200 MHz
+  target/mips: Keep CP0 counter in sync with the CPU frequency
+  hw/mips/r4k: Explicit CPU frequency is 200 MHz
+  hw/mips/fuloong2e: Set CPU frequency to 533 MHz
+  hw/mips/mipssim: Correct CPU frequency
+  hw/mips/jazz: Correct CPU frequencies
+  hw/mips/cps: Expose input clock and connect it to CPU cores
+  hw/mips/boston: Set CPU frequency to 1 GHz
+  hw/mips/malta: Set CPU frequency to 320 MHz
+  hw/mips/cps: Do not allow use without input clock
+  target/mips/cpu: Do not allow system-mode use without input clock
+  tests/acceptance: Test the MIPSsim machine
 
---OwLcNYc0lM97+oe1--
+ include/hw/core/cpu.h                    |  5 +++
+ include/hw/mips/cps.h                    |  2 +
+ target/mips/cpu.h                        |  9 ++++
+ target/mips/internal.h                   |  2 +-
+ hw/core/cpu.c                            | 12 +++++
+ hw/mips/boston.c                         | 13 ++++++
+ hw/mips/cps.c                            |  8 ++++
+ hw/mips/fuloong2e.c                      |  8 +++-
+ hw/mips/jazz.c                           | 16 ++++++-
+ hw/mips/malta.c                          | 20 +++++++--
+ hw/mips/mipssim.c                        | 12 ++++-
+ hw/mips/r4k.c                            |  8 +++-
+ target/mips/cp0_helper.c                 | 25 +++++++++++
+ target/mips/cp0_timer.c                  | 51 ++++++---------------
+ target/mips/cpu.c                        | 43 +++++++++++++++++-
+ MAINTAINERS                              |  1 +
+ tests/acceptance/machine_mips_mipssim.py | 56 ++++++++++++++++++++++++
+ 17 files changed, 244 insertions(+), 47 deletions(-)
+ create mode 100644 tests/acceptance/machine_mips_mipssim.py
+
+-- 
+2.26.2
+
 
