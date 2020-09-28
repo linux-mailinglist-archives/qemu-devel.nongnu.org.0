@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472C027AAC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:31:43 +0200 (CEST)
-Received: from localhost ([::1]:33374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F9A27AAD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:34:19 +0200 (CEST)
+Received: from localhost ([::1]:37990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpVW-0001Fl-Cn
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50098)
+	id 1kMpY3-0003Io-0N
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMpU6-0000Yg-BI
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:30:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55631)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMpUw-0000xN-Sk
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:31:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMpU4-00049G-Kj
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:30:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMpUv-0004OI-4v
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:31:06 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601285411;
+ s=mimecast20190719; t=1601285464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b2UAvGXo06NJb+lyRKiai5JPEiDc+8iAGjTtXZnC1fI=;
- b=GVphYr1HjrcHF/aXF9p0J6oxMYEZWGDLQL/8YMZsRXiQGdej19C3WV6GoS2LM4JtbT0u3O
- V7pbgkWeGWMKuhhzKbUiCW58tP1/s4YeEIIMckuY+nTJZmUVnkn2t55Uwyt58N4EVCPrcA
- O37ZpYmTP/Pfzb+KAbiCylooSz3aJ90=
+ bh=qjFSxgGPc4uJspVv/nn4QjkKEB+bvI8NQqu3idIZa3k=;
+ b=JFgD6xKXr7GVNvlEwE+Wsr4LzoYWFnfPy26LUbdh3P7jsDfTLbNe7XZXyYJaKPUL/fbETw
+ jOvhJpFWUp0XNPKlQvdqr40FarRpSjGyMwHghpV2bF/TVmhWkLEgXsIYT43w/7Zf1GS/Ug
+ OZMkqc3wRpRuvk8oBTvC3Vb1m0fxqWY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-G6vagvQ6M4ijh-aOzB7kdA-1; Mon, 28 Sep 2020 05:30:09 -0400
-X-MC-Unique: G6vagvQ6M4ijh-aOzB7kdA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-271-vXZOCL4FPOWoSlps0vhwig-1; Mon, 28 Sep 2020 05:31:01 -0400
+X-MC-Unique: vXZOCL4FPOWoSlps0vhwig-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CD6BEDA61
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 09:30:08 +0000 (UTC)
-Received: from localhost (ovpn-114-195.ams2.redhat.com [10.36.114.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8A0155798;
- Mon, 28 Sep 2020 09:30:07 +0000 (UTC)
-Date: Mon, 28 Sep 2020 10:30:06 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 01/10] qdev: add "check if address free" callback for buses
-Message-ID: <20200928093006.GB44353@stefanha-x1.localdomain>
-References: <20200925172604.2142227-1-pbonzini@redhat.com>
- <20200925172604.2142227-2-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 139BC1091067;
+ Mon, 28 Sep 2020 09:31:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
+ [10.36.112.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E4FD6715F;
+ Mon, 28 Sep 2020 09:30:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 24992113865F; Mon, 28 Sep 2020 11:30:55 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v7 00/13] monitor: Optionally run handlers in coroutines
+References: <20200909151149.490589-1-kwolf@redhat.com>
+ <20200910132439.GE45048@stefanha-x1.localdomain>
+ <20200925171541.GK5731@linux.fritz.box>
+Date: Mon, 28 Sep 2020 11:30:55 +0200
+In-Reply-To: <20200925171541.GK5731@linux.fritz.box> (Kevin Wolf's message of
+ "Fri, 25 Sep 2020 19:15:41 +0200")
+Message-ID: <87zh5ajlio.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200925172604.2142227-2-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4bRzO86E/ozDv8r1"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -36
 X-Spam_score: -3.7
@@ -81,42 +85,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mlevitsk@redhat.com
+Cc: qemu-block@nongnu.org, armbru@redhat.com, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, marcandre.lureau@gmail.com,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---4bRzO86E/ozDv8r1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Kevin Wolf <kwolf@redhat.com> writes:
 
-On Fri, Sep 25, 2020 at 01:25:55PM -0400, Paolo Bonzini wrote:
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 72064f4dd4..e62da68a26 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -217,6 +217,7 @@ struct BusClass {
->       */
->      char *(*get_fw_dev_path)(DeviceState *dev);
->      void (*reset)(BusState *bus);
-> +    bool (*check_address)(BusState *bus, DeviceState *dev, Error **errp);
+> Am 10.09.2020 um 15:24 hat Stefan Hajnoczi geschrieben:
+>> On Wed, Sep 09, 2020 at 05:11:36PM +0200, Kevin Wolf wrote:
+>> > Some QMP command handlers can block the main loop for a relatively lon=
+g
+>> > time, for example because they perform some I/O. This is quite nasty.
+>> > Allowing such handlers to run in a coroutine where they can yield (and
+>> > therefore release the BQL) while waiting for an event such as I/O
+>> > completion solves the problem.
+>> >=20
+>> > This series adds the infrastructure to allow this and switches
+>> > block_resize to run in a coroutine as a first example.
+>> >=20
+>> > This is an alternative solution to Marc-Andr=C3=A9's "monitor: add
+>> > asynchronous command type" series.
+>>=20
+>> Please clarify the following in the QAPI documentation:
+>>  * Is the QMP monitor suspended while the command is pending?
+>
+> Suspended as in monitor_suspend()? No.
 
-Please document this function.
+A suspended monitor doesn't read monitor input.
 
---4bRzO86E/ozDv8r1
-Content-Type: application/pgp-signature; name="signature.asc"
+We suspend
 
------BEGIN PGP SIGNATURE-----
+* a QMP monitor while the request queue is full
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9xrR4ACgkQnKSrs4Gr
-c8hnOgf/VDYmwybqAonJRBJem1z2yZ3xY2TIqXQgsFTnUqfjLcy+2CDhPK9x+IyO
-ztyPGyh2dSbclP8lG39uneBkgOKNApKD2uN5KB5uGJqwaZ94X/l+75PkLb/jQX8v
-XVCHPXD/nQ7kQye4V/cdUW/sCxfyo8BWl8FQ2OM+Mi2jiGt/kZ0aTgGeftsC1eZX
-94SyM8fZyLc8O1LjWk9Bqd5i7K0hdqZW1O7vybXBgJIN2+TaWfUhAWYV8ThMjzQm
-b1Y6AZZW2YTXg/kWmNioUfMXH+N/t4ExeweOagfRUMxqLfFvKdpqqOZ1a9jOaeKK
-RRkzAgbvxxShshsrwxz8fDvbGIImuA==
-=xmGv
------END PGP SIGNATURE-----
+* an HMP monitor while it executes a command
 
---4bRzO86E/ozDv8r1--
+* a multiplexed HMP monitor while the "mux-focus" is elsewhere
+
+* an HMP monitor when it executes command "quit", forever
+
+* an HMP monitor while it executes command "migrate" without -d
+
+Let me explain the first item in a bit more detail.  Before OOB, a QMP
+monitor was also suspended while it executed a command.  To make OOB
+work, we moved the QMP monitors to an I/O thread and added a request
+queue, drained by the main loop.  QMP monitors continue to read
+commands, execute right away if OOB, else queue, suspend when queue gets
+full, resume when it gets non-full.
+
+The "run command in coroutine context" feature does not affect any of
+this.
+
+qapi-code-gen.txt does not talk about monitor suspension at all.  It's
+instead discussed in qmp-spec.txt section 2.3.1 Out-of-band execution.
+
+Stefan, what would you like us to clarify, and where?
+
+>>  * Are QMP events reported while the command is pending?
+>
+> Hm, I don't know to be honest. But I think so.
+
+Yes, events should be reported while a command is being executed.
+
+Sending events takes locks.  Their critical sections are all
+short-lived.  Another possible delay is the underlying character device
+failing the send with EAGAIN.  That's all.
+
+Fine print: qapi_event_emit() takes @monitor_lock.  It sends to each QMP
+monitor with qmp_send_response(), which uses monitor_puts(), which takes
+the monitor's @mon_lock.
+
+The "run command in coroutine context" feature does not affect any of
+this.
+
+> Does it matter, though? I don't think events have a defined order
+> compared to command results, and the client can't respond to the event
+> anyway until the current command has completed.
+
+Stefan, what would you like us to clarify, and where?
 
 
