@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A3327AF7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:56:52 +0200 (CEST)
-Received: from localhost ([::1]:56188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDD827AF81
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:58:07 +0200 (CEST)
+Received: from localhost ([::1]:59968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMte6-0005vO-UW
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38628)
+	id 1kMtfK-0007Ut-Px
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kMtR3-0000R0-Kh
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:43:22 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:42651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kMtQz-0005sJ-A5
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:43:19 -0400
-Received: by mail-ed1-x543.google.com with SMTP id j2so1365539eds.9
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 06:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JIyCcUqU+I+2Q6OrPjcxk7PebAegazxlkvgzooDEyS0=;
- b=UduuD1oZ41IMzCVxyekoLdEuC6s1v2qIupImEzkI92R7gxN+FoXFlgNzYeLv5JWv0x
- ff272nqku6EMZRs/RtvURn6GcIi3h/brwxlXenlCU14G1K4m4yAGAaLrKW7F0zPcNW+V
- lyjDuWCf6KKWGuMwLJEyA2ewFP8UMriWUe6Utx0TwzjftOyBjvaBHLNk82KUA7pewNLi
- yxVJITWbCxzap9rrvOsI2yZouHTFBY/JjEx+YwANbwFgQI9+230fL7XU7TaPvifsOvQ6
- lsvu4qILwNB0S/inwkAN1BY8DaCTiGewhcnuvFnKH2ISrE3nAN+wUCZURcp1kW0E5ygi
- hHDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JIyCcUqU+I+2Q6OrPjcxk7PebAegazxlkvgzooDEyS0=;
- b=pgtGbZnW+GiHwFMz2XgNAc2YulB06/Z25wla33xdrxmxfk4ICSsIDhgJ40EpYIlLoa
- 1ELiBCsMeTh1gAkBDGe6gNYHZd+EKDZGuTLYwR1Qh8nk1E5Rr58I1guFYeijq7kcNb9i
- Ye8q+v7jY1WhaBndUdCnAKt3pgwSwpKENyMi8gadNxFWPo422O8vd8cRsLCfK7kxDalm
- fnfyPBWb7t4fcJyz3NcRJ6jf3ANHh604j2XJ23QwN7z1/E0jewBckVAyhD98Ye+wKt7R
- dLlRsUH+sOFDJWXKlA8GU/BefZ8s3rqpym5VwD8AfPTZ/bbVqzCgZQopzGhFKOt8+DWF
- ownQ==
-X-Gm-Message-State: AOAM530k20vgH8VHAB60DtWOx8K/WDWy2zg/Lwz8TSqG1DcN5hhFJlOX
- MwoMBpQNbIw5mAr3+JacphE1bG6D3Zh6p7ErZS2iJw==
-X-Google-Smtp-Source: ABdhPJzZZkKfaRsUyK/PzaRm4khVZhHPqqAtuqT3zDunbjxbyOoPIM3B0T+8RW8A2g/5yZN7Nxw+PVNpr/x6onGWO5c=
-X-Received: by 2002:a50:e68a:: with SMTP id z10mr1926827edm.100.1601300594518; 
- Mon, 28 Sep 2020 06:43:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kMtXz-0007pX-4Q
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:50:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kMtXv-0006gG-4p
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:50:30 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601301023;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type; bh=ipvPW611OrDCvB3SbdRMt8cKP/3naZupo4AIySzu3r8=;
+ b=ae/sKckrrbDThRj0ZpkfDyEzkZ4f7Aq4W/PuZgzveAAuzCtjvHPXbRV3mxaKbeS3sMoC6O
+ a5xcT41fRo2fm0FaZd23B71d8ldXTcZeLqcJTCBa1HuSUavqzgYf5G6DScMcHFMyfnkIKD
+ HwRXiF04/LCIQCjRKqzrjoNvf8l5xIs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-l659EukePbetM9mDxjpY8g-1; Mon, 28 Sep 2020 09:50:08 -0400
+X-MC-Unique: l659EukePbetM9mDxjpY8g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DCCE80733A;
+ Mon, 28 Sep 2020 13:50:07 +0000 (UTC)
+Received: from redhat.com (ovpn-114-24.ams2.redhat.com [10.36.114.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 500107366E;
+ Mon, 28 Sep 2020 13:50:02 +0000 (UTC)
+Date: Mon, 28 Sep 2020 14:49:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
+Subject: Publishing docs for formal releases
+Message-ID: <20200928134958.GG2230076@redhat.com>
 MIME-Version: 1.0
-References: <20200928125859.734287-1-philmd@redhat.com>
- <20200928125859.734287-2-philmd@redhat.com>
-In-Reply-To: <20200928125859.734287-2-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Sep 2020 14:43:03 +0100
-Message-ID: <CAFEAcA_Ga+155jEcGW0c0bcJ1m3h9xdRYeZH9tJF+7_z6KiGtw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] qemu/compiler: Simplify as all compilers support
- attribute 'gnu_printf'
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,47 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Sep 2020 at 14:37, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Since commit efc6c070aca ("configure: Add a test for the minimum
-> compiler version") the minimum compiler version required for GCC
-> is 4.8, which supports the gnu_printf attribute.
->
-> We can safely remove the code introduced in commit 9c9e7d51bf0
-> ("Move macros GCC_ATTR and GCC_FMT_ATTR to common header file").
+We currently have a cronjob publishing:
 
-clang doesn't support the gnu_printf attribute, though:
+   https://www.qemu.org/docs/master/
 
-$ clang --version
-clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
-Target: x86_64-pc-linux-gnu
-Thread model: posix
-InstalledDir: /usr/bin
-$ cat /tmp/zz9.c
-#include <stdio.h>
+The URL was chosen such that we would also publish docs for each release
+at URLs like
 
-int monitor_printf(void *mon, const char *fmt, ...)
-__attribute__((format(gnu_printf, 2, 3)));
+   https://www.qemu.org/docs/5.0.0
 
-int main(void) {
-  printf("hello\n");
-  return 0;
-}
-$ clang -Wall -o /tmp/zz9  /tmp/zz9.c
-/tmp/zz9.c:3:68: warning: 'format' attribute argument not supported:
-gnu_printf [-Wignored-attributes]
-int monitor_printf(void *mon, const char *fmt, ...)
-__attribute__((format(gnu_printf, 2, 3)));
-                                                                   ^
-1 warning generated.
+The latter part has not happened yet.
 
-thanks
--- PMM
+IIUC, we first introduced the new docs approach in 4.0.0, so ideally we
+would publish our historical docs for 4.0.0 releases onwards, including
+each minor point release on stable branches. So this means 4.0.0, 4.0.1
+4.1.0, 4.1.1, 4.2.0, 4.2.1, 5.0.0, 5.0.1 and 5.1.0.
+
+What needs to happen to turn this into reality ? On IRC it was sugggested
+that this be done as part of the release process handled by Michael Roth.
+
+Is there anything blocking this ?
+
+One we have docs publishing happening, then we'll want to also update
+
+  https://www.qemu.org/documentation/
+
+to link people to the docs for each release when making a release.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
