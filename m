@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704B127AEFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:22:08 +0200 (CEST)
-Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC5A27AF06
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:24:36 +0200 (CEST)
+Received: from localhost ([::1]:35866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMt6V-0002Wn-Hz
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55758)
+	id 1kMt8t-0005pm-Sy
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMsn9-0005L9-2C; Mon, 28 Sep 2020 09:02:08 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58840 helo=relay3.sw.ru)
+ id 1kMsnW-0005co-KB; Mon, 28 Sep 2020 09:02:30 -0400
+Received: from relay.sw.ru ([185.231.240.75]:58974 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMsn7-0000SJ-13; Mon, 28 Sep 2020 09:02:06 -0400
+ id 1kMsnU-0000Wy-LZ; Mon, 28 Sep 2020 09:02:30 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMsmY-001tba-Fm; Mon, 28 Sep 2020 16:01:30 +0300
+ id 1kMsmw-001tba-G6; Mon, 28 Sep 2020 16:01:54 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
  stefanha@redhat.com, fam@euphon.net, jsnow@redhat.com, armbru@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v9 4/9] copy-on-read: pass base node name to COR driver
-Date: Mon, 28 Sep 2020 15:59:56 +0300
-Message-Id: <1601298001-774096-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v9 5/9] copy-on-read: limit guest COR activity to base in COR
+ driver
+Date: Mon, 28 Sep 2020 15:59:57 +0300
+Message-Id: <1601298001-774096-6-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1601298001-774096-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1601298001-774096-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,61 +59,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-To limit the guest's COR operations by the base node in the backing
-chain during stream job, pass the base node name to the copy-on-read
-driver. The rest of the functionality will be implemented in the patch
-that follows.
+Limit the guest's COR operations by the base node in the backing chain
+when the base node name is given. It will be useful for a block stream
+job when the COR-filter is applied.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/copy-on-read.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ block/copy-on-read.c | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
 diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 3c8231f..e04092f 100644
+index e04092f..f53f7e0 100644
 --- a/block/copy-on-read.c
 +++ b/block/copy-on-read.c
-@@ -24,19 +24,23 @@
- #include "block/block_int.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qdict.h"
- #include "block/copy-on-read.h"
- 
- 
- typedef struct BDRVStateCOR {
-     bool active;
-+    BlockDriverState *base_bs;
- } BDRVStateCOR;
- 
- 
- static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-                     Error **errp)
+@@ -121,8 +121,42 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
+                                            size_t qiov_offset,
+                                            int flags)
  {
-+    BlockDriverState *base_bs = NULL;
-     BDRVStateCOR *state = bs->opaque;
-+    const char *base_node = qdict_get_try_str(options, "base");
- 
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
-@@ -52,7 +56,16 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-             bs->file->bs->supported_zero_flags);
- 
-+    if (base_node) {
-+        qdict_del(options, "base");
-+        base_bs = bdrv_lookup_bs(NULL, base_node, errp);
-+        if (!base_bs) {
-+            error_setg(errp, QERR_BASE_NOT_FOUND, base_node);
-+            return -EINVAL;
-+        }
+-    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
+-                               flags | BDRV_REQ_COPY_ON_READ);
++    int64_t n = 0;
++    int64_t size = offset + bytes;
++    int local_flags;
++    int ret;
++    BDRVStateCOR *state = bs->opaque;
++
++    if (!state->base_bs) {
++        return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
++                                   flags | BDRV_REQ_COPY_ON_READ);
 +    }
-     state->active = true;
-+    state->base_bs = base_bs;
++
++    while (offset < size) {
++        local_flags = flags;
++
++        /* In case of failure, try to copy-on-read anyway */
++        ret = bdrv_is_allocated(bs->file->bs, offset, bytes, &n);
++        if (!ret) {
++            ret = bdrv_is_allocated_above(bdrv_cow_bs(bs->file->bs),
++                                          state->base_bs, false, offset, n, &n);
++            if (ret > 0) {
++                local_flags |= BDRV_REQ_COPY_ON_READ;
++            }
++        }
++
++        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
++                                  local_flags);
++        if (ret < 0) {
++            return ret;
++        }
++
++        offset += n;
++        qiov_offset += n;
++        bytes -= n;
++    }
++
++    return 0;
+ }
  
-     /*
-      * We don't need to call bdrv_child_refresh_perms() now as the permissions
+ 
 -- 
 1.8.3.1
 
