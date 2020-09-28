@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B254927AA86
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:19:14 +0200 (CEST)
-Received: from localhost ([::1]:60810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A64427AA87
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:19:25 +0200 (CEST)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpJR-0005o8-Og
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47092)
+	id 1kMpJc-0005yk-Gq
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGg-0003rG-Cd; Mon, 28 Sep 2020 05:16:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:44089)
+ id 1kMpGc-0003pp-U9; Mon, 28 Sep 2020 05:16:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:47113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGc-0002Xr-Oz; Mon, 28 Sep 2020 05:16:21 -0400
+ id 1kMpGZ-0002XF-CL; Mon, 28 Sep 2020 05:16:18 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Movrq-1kmW6m2GR4-00qUMU; Mon, 28 Sep 2020 11:16:11 +0200
+ id 1Mcpz0-1kwRCL33li-00ZzAk; Mon, 28 Sep 2020 11:16:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/8] vhost-vdpa: remove useless variable
-Date: Mon, 28 Sep 2020 11:15:59 +0200
-Message-Id: <20200928091602.383870-6-laurent@vivier.eu>
+Subject: [PULL 6/8] timer: Fix timer_mod_anticipate() documentation
+Date: Mon, 28 Sep 2020 11:16:00 +0200
+Message-Id: <20200928091602.383870-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200928091602.383870-1-laurent@vivier.eu>
 References: <20200928091602.383870-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wJWrYVUu+QB9tF1t59MC8P8/2ARDgjDwbNMCs86f4jAoT24lCAv
- pFx6JizTH4bdFpvoY22YpxEXfhsv/2MKtbHjJ52HFsSCY7H/p+a2BnHbSzqvfuF0hPgJLD8
- rtLQzNrBEmpKA5DX7ZQ65oKNfSOowUrfnukRwJJ4TXs38mhgznWiAJIOvg68SXTRJ6Wv2BK
- MY3K9iSYPau5FRdlet2KA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KJJI/RSHP88=:aQ6dnUa2BA68BEthZ2ZHQX
- 79BmE2Uk6LOdoyKcD5ipvXrGWr72ubwY24YGy0dL5JQVykxcsefn0HFSDKPCd59WWgiVCsXdh
- pel1WM/ErdG3JED8xkZuIihmcR1T0brnTrTg1DZHyqwDETTiDJQegT/JE+R1GtjIm3GkaYHRv
- RaJw0KCG+icEg/GQyK2riYZkFwnjjt2uAoWQZu9OozMf7TH08Ab8qkOtgTXLrB5bd59qJVGzN
- /Xa7SQqNAmOMNKkT8br0BTsgU8SPXtQeeadpyiy6hgwF4n1J0ZrJ0A7pDRZhrJzXs2mv0iL8z
- cjLiqivYkvxvKlvZJU7bhx2suOzpUCTAyaGksWgB9qNa7T9QFX5ZqWEsiLpWlFyERjJZlsT2J
- t9D7RSedGCXjK0EFBZUoFflxxVnF26n7czUySjLmXpeRDcG3l9kPGgdi2Gre28fvoaqFbYidK
- FVF7pjbqBl3IFLxCNR2dL+62E1ewNUQBr06g4aEne4XMavNZdpDScTlh5Kh6c27WMtSt5mF/N
- gQT46GPQLZLALmn/6MZsfOXgnywlwSKatk10lBh0wVVyP+28mqNm9opmQ6ByDnjZK3bp2Ycu6
- 8fbE/tJ1Y7vGiyX0QYgU+oogSAkH2myoHpWow7n0VRHtRLzG2SoA5/80IElAxImZlecXdJez/
- z0GDcsx4SkBSGmBHnS0K9DEFDg6bbFm8UFOPor6f0KLVsvKvyaCebwVEyoGAFCixQrO5N4cBI
- ZRfVUl8UdPHWdqSCO4WwO1GIVDxKzOjLXMMYaEp6pK1ROvfcgWi42Q4p/OpWq7JHvMI58NgFy
- Mhxr8NlsCoesp7HbI6DaZNYOzuYi75+5gUfm7nW61AD7SXsDa21yh+zcGFsMTHdfwKVVmWb
+X-Provags-ID: V03:K1:E9M87k8ilxga7J2Kbq+H6vVR+koCd8hGomfw+KeNjO2JHx2wwEe
+ ygudZXPk3dcCs8FQdw41GFQ8Ir+pn+Br7BZ/i2kMoNqxV7r/GNp9m9wklpgevU6NqDU2WCJ
+ HkjPXRIADnWOVByx2aWzoJ7pezmC0VlCNN+pWgS07RDSjim+10ndEc32gw0+NGKaEU5E48p
+ YZ5Vecso7HUksaI0dEV9w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:J0DpAWLij7g=:9mtf+MbMYOo6TtETCJ+pdJ
+ 40C7SkWltLLtfMsd4rzCGt4zT3k84OCmwIAocHD79Qnaa6xg0EkvkoOCb3ffIp7MjduqPJrhU
+ 3T6ar8BHeLHnQ7SF67ljcSsEoHaZpnn8IKwySg4Ko71ris2UL8pbzPVy1wPXDH1KV++RJC6G1
+ 7wCFiyMJdEuk65BJgBW4op8idmqeW4YyGEhbqq6SNgFmMFbFObOynyKCy0P+Ov+Dg/b5hzHXY
+ j10IXvXEFcjAHD4E6WCde8l7Zs/5rhC71mtUs1NvHJVASa5x9u8JITmxGyY4fXfCRlJofS/D/
+ fNwUAKtsH5J/79uW+0IUBEkYI/JAeq543KsTcCuXX5i5PoJf24/QWdA8bhKno3523EZGPf/wb
+ oNM+XqyE+KUwfnpB60ujzXJ0cRerrWRZIMniKPRb5XQ6EKR4NGkAFApcH3M8oFkwCS2tpn0JR
+ lFIvHTE2JrVjvSLJgkhr2ah77fkTNA6SvYpPHD6lb/FVuxMpAMk/CdmwGEHfTT51PfO+Q4gRr
+ ravZ05angkc+W5OIUcZkpUMyYs1HZMxQHkxUBeXme01ukrJFWR5XMygkBj5+Sfu6WmZgDKVRg
+ EyL8xyxdDVdLkr6EFHrJVdzFUJSTkVd0HPw9rn4potCkVAoq6oh4Py0kZ8J0TmU8B9/ehfiS1
+ ZWtfItzEs1RfR7t6bcg2qcYW3DNQAbhbeMV/dBBUREcy07fWM2iMksUKkjCMkaM2o0sW2Jq6m
+ n6EA/Biqwp5ThfJqE5ccSoRC5BEIsJUQuGqY9PxOwXL2bnFUHlmBEhnIE9a+8yMYRcx3Zx+5t
+ wJijkt6B+9WjfTpfczv6kR1Gf6uDhv4X//LLoUZG3xjIR1mI9AHafNXMbU3E1ZfmHnlAtBn
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 05:16:13
@@ -70,54 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Li Qiang <liq3ea@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-in vhost_vdpa_listener_region_del(), try_unmap is always true and so,
-vhost_vdpa_dma_unmap() is always called. We can remove the variable
+timer_mod_anticipate() will be scaled to the timer unit,
+which is not always nanosecond. Fix the documentation.
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20200920152024.860172-1-lvivier@redhat.com>
+Fixes: add40e9777d ("timer: add timer_mod_anticipate*")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200920155042.400737-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/virtio/vhost-vdpa.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ include/qemu/timer.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 97f4b2e353ab..aedc52c4d791 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -153,7 +153,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-     hwaddr iova;
-     Int128 llend, llsize;
-     int ret;
--    bool try_unmap = true;
- 
-     if (vhost_vdpa_listener_skipped_section(section)) {
-         return;
-@@ -176,11 +175,9 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
- 
-     llsize = int128_sub(llend, int128_make64(iova));
- 
--    if (try_unmap) {
--        ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
--        if (ret) {
--            error_report("vhost_vdpa dma unmap error!");
--        }
-+    ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-+    if (ret) {
-+        error_report("vhost_vdpa dma unmap error!");
-     }
- 
-     memory_region_unref(section->mr);
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index 6a8b48b5a9d8..1dc880e94e76 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -679,7 +679,7 @@ void timer_mod(QEMUTimer *ts, int64_t expire_timer);
+ /**
+  * timer_mod_anticipate:
+  * @ts: the timer
+- * @expire_time: the expiry time in nanoseconds
++ * @expire_time: the expire time in the units associated with the timer
+  *
+  * Modify a timer to expire at @expire_time or the current time, whichever
+  * comes earlier, taking into account the scale associated with the timer.
 -- 
 2.26.2
 
