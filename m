@@ -2,58 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C3D27AD65
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 13:59:10 +0200 (CEST)
-Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808A027AD70
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 14:02:37 +0200 (CEST)
+Received: from localhost ([::1]:33598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMroD-0003ic-JV
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 07:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39876)
+	id 1kMrrY-00076Q-Jx
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 08:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kMrlW-0002l4-KE
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:56:22 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kMrlT-0000Qv-Vq
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:56:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=YL8i84GA34biQQKOy2ffYgwFfgkqerEw5D4jtLJFfK0=; b=ocgikygCASHt8Wj85D/nlpdf1z
- jHIpMyPPlJfJz9Iw3YR8QxA2rdCqW18137A5GYgi4vpgpJiYtXaPitYTf7oUEjz/F5BRIxVTy0lPX
- Fv1nL3mTWpWuHpH1V9sge2ftYMfPzSwc5xyC5naQHIlzY/ke7RdikbV64sQbCg/pC4Tkm1ROIoYBf
- OSr9VFMLNLli2IAYEm2dTVskUJafdHrmTJ42U2NMJDfzTONHq78V9ddNo0+DcVzjbjCWdbGsJtdij
- b/sgAbj5dyQ/bCLdAatWMpoVJFi6CP5XUdZ2rLTJJLpjLKV/Ry7FeMKkxZr4RZigYTtlip7lqJuqS
- JYJNR4wQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 08/12] tests/9pfs: refactor test names and test devices
-Date: Mon, 28 Sep 2020 13:56:12 +0200
-Message-ID: <3365834.oEZqtqHOuS@silver>
-In-Reply-To: <7aba6fc7-6d9b-25b5-9dbf-04e15314707c@redhat.com>
-References: <cover.1601203436.git.qemu_oss@crudebyte.com>
- <265f5d9a0fb10ce5e782455839d1baf678dbac48.1601203436.git.qemu_oss@crudebyte.com>
- <7aba6fc7-6d9b-25b5-9dbf-04e15314707c@redhat.com>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kMrqP-0006Yk-Jo
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:01:25 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kMrqK-0001J0-BD
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:01:23 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id kk9so522352pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 05:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2I9+DKPWB7x+ETdX8g0mejJT6CixeMfMBdWMM+11lGE=;
+ b=FOjTuEBRqraZ+YL8UPf6nVrBBvNRb/+0XM3u+H2k5N0OMpLJBcR+hCx/7GjLm5Eo9Q
+ E2WPfBMg3Bj3kU3kZq1tV7y7AeXw+u6Pfm4agzVsa0MisDwDYBX5Zjbu/DC8RR1i/0lx
+ lLaSASr/8wGm+rTf3DgwYXuKUXoUbE0TD8MfGHYu0A9Lkvq+NMNZ/O7Fbtu/rGjvL+Ro
+ UWmrMORaxihhV/bFoo/HDzTuRZ9O9bHDteH/gs7bC2Jfoxv+ytEBUj82eI1JXuwxcGMP
+ /6HW7/u4wqKUeWBg8fsX97H+9jS8ed9cQqJjv7uSKPVwHjDLKgIz8lB4qcbzJZsVa+3D
+ Tp6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2I9+DKPWB7x+ETdX8g0mejJT6CixeMfMBdWMM+11lGE=;
+ b=qNsy7ON4uHmlgiDVcjFGwYRXS7VgQX2OR2X4eoN5BZ1kc0mrng3ykUiOtDv2DGnWSK
+ +JSs+FGL317NtXM/W9vNKj2qXnkzPPWc0+j0tbwz2MMKiwvnFFEaD0w1DpV2tHilp1mI
+ AX1jeoD+BaQE6DngtieBya9j1RvrCUtwBskHuC3lx8XWscxuQ6onTumGsbe9eQt/MLRf
+ BJ7iwegDc88sCS6Qeotuko7zkFxld6ZjUR7GJxGpgvensvcg7Pj/MEHbQjKkrVfSiAxU
+ EpbjcoYVMOc+Wfnc7G1KEaS95h/PNzHP8cnJCurhYDu0yN1iDUHQzgjErEQsN/WjrgSZ
+ Tgiw==
+X-Gm-Message-State: AOAM531QQSM6HWivN3GxuX75PmTmh1h2gHWiIYCV0y08nNGHLWwWeoSh
+ GJh6lqX05H3aS5O7N/JzHU0mAxAal4yAMg==
+X-Google-Smtp-Source: ABdhPJyt/NGC4jfarZbXUn2trrGQCb4eSAibYhqIhNApj7u5sL4PhH3HFx5x9wWexdUuEUe2FbCwmg==
+X-Received: by 2002:a17:90a:db05:: with SMTP id
+ g5mr1085639pjv.22.1601294476900; 
+ Mon, 28 Sep 2020 05:01:16 -0700 (PDT)
+Received: from [10.2.24.220] ([61.120.150.77])
+ by smtp.gmail.com with ESMTPSA id x3sm1491328pfo.95.2020.09.28.05.01.14
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 28 Sep 2020 05:01:16 -0700 (PDT)
+Subject: PING: [PATCH v2 0/3] add MEMORY_FAILURE event
+To: pbonzini@redhat.com, peter.maydell@linaro.org
+References: <20200922095630.394893-1-pizhenwei@bytedance.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
+Message-ID: <10d89842-b1c2-35fa-4009-ad32b25e4c18@bytedance.com>
+Date: Mon, 28 Sep 2020 20:01:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 07:56:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <20200922095630.394893-1-pizhenwei@bytedance.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1032.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,185 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mtosatti@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 28. September 2020 10:37:52 CEST Paolo Bonzini wrote:
-> On 27/09/20 12:40, Christian Schoenebeck wrote:
-> > +    qos_node_consumes("virtio-9p-device-local", "virtio-bus", &opts);
-> > +    qos_node_produces("virtio-9p-device-local", "virtio-local");
+PING
+
+On 9/22/20 5:56 PM, zhenwei pi wrote:
+> v1->v2:
+> Suggested by Peter Maydell, rename events to make them
+> architecture-neutral:
+> 'PC-RAM' -> 'guest-memory'
+> 'guest-triple-fault' -> 'guest-mce-fatal'
 > 
-> This should produce "virtio", similar to what I remarked in the previous
-> patch.
-
-You're right, I missed that implied virtio test. That should be in the end:
-
-index 599b73a9d7..1df3da18e9 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -140,8 +140,7 @@ static void *virtio_9p_get_driver(QVirtio9P *v_9p,
-     {
-         return v_9p;
-     }
--    if (!g_strcmp0(interface, "virtio-synth") ||
--        !g_strcmp0(interface, "virtio-local"))
-+    if (!g_strcmp0(interface, "virtio"))
-     {
-         return v_9p->vdev;
-     }
-@@ -248,7 +247,7 @@ static void virtio_9p_register_nodes(void)
-     qos_node_create_driver_named("virtio-9p-device-synth", "virtio-9p-
-device",
-                                  virtio_9p_device_create);
-     qos_node_consumes("virtio-9p-device-synth", "virtio-bus", &opts);
--    qos_node_produces("virtio-9p-device-synth", "virtio-synth");
-+    qos_node_produces("virtio-9p-device-synth", "virtio");
-     qos_node_produces("virtio-9p-device-synth", "virtio-9p-synth");
- 
-     /* virtio-9p-pci-synth */
-@@ -258,7 +257,7 @@ static void virtio_9p_register_nodes(void)
-                                  virtio_9p_pci_create);
-     qos_node_consumes("virtio-9p-pci-synth", "pci-bus", &opts);
-     qos_node_produces("virtio-9p-pci-synth", "pci-device");
--    qos_node_produces("virtio-9p-pci-synth", "virtio-synth");
-+    qos_node_produces("virtio-9p-pci-synth", "virtio");
-     qos_node_produces("virtio-9p-pci-synth", "virtio-9p-synth");
- 
- 
-@@ -280,7 +279,7 @@ static void virtio_9p_register_nodes(void)
-     qos_node_create_driver_named("virtio-9p-device-local", "virtio-9p-
-device",
-                                  virtio_9p_device_create);
-     qos_node_consumes("virtio-9p-device-local", "virtio-bus", &opts);
--    qos_node_produces("virtio-9p-device-local", "virtio-local");
-+    qos_node_produces("virtio-9p-device-local", "virtio");
-     qos_node_produces("virtio-9p-device-local", "virtio-9p-local");
- 
-     /* virtio-9p-pci-local */
-@@ -290,7 +289,7 @@ static void virtio_9p_register_nodes(void)
-                                  virtio_9p_pci_create);
-     qos_node_consumes("virtio-9p-pci-local", "pci-bus", &opts);
-     qos_node_produces("virtio-9p-pci-local", "pci-device");
--    qos_node_produces("virtio-9p-pci-local", "virtio-local");
-+    qos_node_produces("virtio-9p-pci-local", "virtio");
-     qos_node_produces("virtio-9p-pci-local", "virtio-9p-local");
- }
-
-I already tested that. Both the implied "virtio" test and the 9p 'synth' and 
-'local' tests work as expected then.
-
-> > +    qos_node_produces("virtio-9p-device-local", "virtio-9p-local");
-> > +
-> > +    /* virtio-9p-pci-local */
-> > +    opts.extra_device_opts = local_str_addr;
-> > +    add_qpci_address(&opts, &addr);
-> > +    qos_node_create_driver_named("virtio-9p-pci-local", "virtio-9p-pci",
-> > +                                 virtio_9p_pci_create);
-> > +    qos_node_consumes("virtio-9p-pci-local", "pci-bus", &opts);
-> > +    qos_node_produces("virtio-9p-pci-local", "pci-device");
-> > +    qos_node_produces("virtio-9p-pci-local", "virtio-local");
-> > +    qos_node_produces("virtio-9p-pci-local", "virtio-9p-local");
-> > 
-> >  }
+> Suggested by Paolo, add more fields in event:
+> 'action-required': boolean type to distinguish a guest-mce is AR/AO.
+> 'recursive': boolean type. set true if: previous MCE in processing
+>               in guest, another AO MCE occurs.
 > 
-> The implementation in patches 1 and 2 is reasonable, but what is the
-> advantage of this as opposed to specifying the fsdev in the edge options
-> for the test (similar to virtio-net)?  I was expecting both
-> virtio-9p-device-synth and virtio-9p-device-local to produce virtio-9p,
-> so that the existing tests would be reused automatically by the qos
-> graph walk.
+> v1:
+> Although QEMU could catch signal BUS to handle hardware memory
+> corrupted event, sadly, QEMU just prints a little log and try to fix
+> it silently.
 > 
-> As things stand, I don't see any reason to have separate devices for
-> different backends.
+> In these patches, introduce a 'MEMORY_FAILURE' event with 4 detailed
+> actions of QEMU, then uplayer could know what situaction QEMU hit and
+> did. And further step we can do: if a host server hits a 'hypervisor-ignore'
+> or 'guest-mce', scheduler could migrate VM to another host; if hitting
+> 'hypervisor-stop' or 'guest-triple-fault', scheduler could select other
+> healthy servers to launch VM.
+> 
+> Zhenwei Pi (3):
+>    target-i386: seperate MCIP & MCE_MASK error reason
+>    qapi/run-state.json: introduce memory failure event
+>    target-i386: post memory failure event to uplayer
+> 
+>   qapi/run-state.json  | 67 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   target/i386/helper.c | 40 +++++++++++++++++++++++++------
+>   target/i386/kvm.c    |  7 +++++-
+>   3 files changed, 106 insertions(+), 8 deletions(-)
+> 
 
-I thought to fix the problem at its root, by removing that singular device 
-limitation in qos. That would also allow to cleanly separate tests suites that 
-are not related to each other instead of having to depend on each other, 
-taking care about other one's command line skeleton and more.
-
-Plus I just tried what you suggested as alternative:
-
--Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
-+Subproject commit 88f18909db731a627456f26d779445f84e449536
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index c45c706d4f..7f588a9a92 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1035,12 +1035,22 @@ static void fs_create_dir(void *obj, void *data, 
-QGuestAllocator *t_alloc)
-     g_free(root_path);
- }
- 
-+static void *modifycmdline(GString *cmd_line, void *arg)
-+{
-+    fprintf(stderr, "\n\nbefore modifycmdline(): '%s'\n\n", cmd_line->str);
-+    g_string_append(cmd_line, "MODIFYCMDLINE ");
-+    return arg;
-+}
- 
- static void register_virtio_9p_test(void)
- {
-     /* selects the 9pfs 'synth' filesystem driver for the respective test */
-     const char *synth_driver = "virtio-9p-synth";
- 
-+    QOSGraphTestOptions opts = {
-+        //.before = modifycmdline,
-+    };
-+
-     qos_add_test("config", synth_driver, pci_config, NULL);
-     qos_add_test("fs/version/basic", synth_driver, fs_version, NULL);
-     qos_add_test("fs/attach/basic", synth_driver, fs_attach, NULL);
-@@ -1064,8 +1074,13 @@ static void register_virtio_9p_test(void)
-     /* selects the 9pfs 'local' filesystem driver for the respective test */
-     const char *local_driver = "virtio-9p-local";
- 
--    qos_add_test("config", local_driver, pci_config, NULL);
--    qos_add_test("fs/create_dir", local_driver, fs_create_dir, NULL);
-+    opts.before = modifycmdline,
-+    opts.edge.extra_device_opts = "EXTRADEVICEOPTS";
-+    opts.edge.before_cmd_line = "BEFORECMDLINE";
-+    opts.edge.after_cmd_line = "AFTERCMDLINE";
-+
-+    qos_add_test("config", local_driver, pci_config, &opts);
-+    qos_add_test("fs/create_dir", local_driver, fs_create_dir, &opts);
- }
- 
-
-Output:
-
-
-QTEST_DEBUG=1 tests/qtest/qos-test
-...
-
-/x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci-local/virtio-9p-
-local/virtio-9p-local-tests/config: 
-
-before modifycmdline(): '-M pc  -fsdev local,id=fsdev1,path='/home/me/git/
-qemu/build/qtest-9p-local',security_model=mapped-xattr -device virtio-9p-
-pci,fsdev=fsdev1,addr=04.1,mount_tag=qtest-local BEFORECMDLINE,EXTRADEVICEOPTS 
-AFTERCMDLINE'
-
-run QEMU with: '-M pc  -fsdev local,id=fsdev1,path='/home/me/git/qemu/build/
-qtest-9p-local',security_model=mapped-xattr -device virtio-9p-
-pci,fsdev=fsdev1,addr=04.1,mount_tag=qtest-local BEFORECMDLINE,EXTRADEVICEOPTS 
-AFTERCMDLINEMODIFYCMDLINE '
-
-
-So your suggested solution is fine for appending extra arguments past the 
-command line. However I would not be able to prepend something (easily) in 
-front of '-device virtio-9p-pci'.
-
-So I would be forced to parse the existing command line in modifycmdline() 
-callback and then insert the required arguments appropriately. I would not 
-find that very clean.
-
-I mean yes, you might do hacks for making this patch set work without qos 
-patches 1 and 2, however somewhere in future you are probably back at square 
-one when facing this single device limitation again. So I still think this qos 
-change (patch 1 & 2) make sense.
-
-Best regards,
-Christian Schoenebeck
-
-
+-- 
+zhenwei pi
 
