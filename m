@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9654227AEBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:11:46 +0200 (CEST)
-Received: from localhost ([::1]:49690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA9927AEEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:17:53 +0200 (CEST)
+Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMswT-0004f7-LC
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55284)
+	id 1kMt2O-0004yz-7D
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kMsm8-0004hM-Uh
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:01:04 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:35066 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kMsm3-0000EF-IJ
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:01:04 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 8E0D6C31EF5B88D17BD7;
- Mon, 28 Sep 2020 21:00:44 +0800 (CST)
-Received: from [10.174.186.4] (10.174.186.4) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0;
- Mon, 28 Sep 2020 21:00:36 +0800
-Subject: Re: [PATCH] migration/dirtyrate: present dirty rate only when
- querying the rate has completed
-To: David Edmondson <david.edmondson@oracle.com>, <quintela@redhat.com>,
- <eblake@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
-References: <1601182520-130450-1-git-send-email-zhengchuan@huawei.com>
- <m2mu1af5uj.fsf@oracle.com>
-From: Zheng Chuan <zhengchuan@huawei.com>
-Message-ID: <a4a04f59-a230-08f7-96bf-9518e0e0ee8b@huawei.com>
-Date: Mon, 28 Sep 2020 21:00:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kMso1-0006FO-VS
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:03:08 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:33059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kMsnv-0000c3-MQ
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:03:00 -0400
+Received: by mail-ej1-x634.google.com with SMTP id j11so8422153ejk.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 06:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DcKo509pomPpPmZQnovWnnfku4Vpqk1HscjSoQVUsZE=;
+ b=Z66rwIrmWi1PHUDdm1n8dBfbah4Sg5+NrTTUBgqE00GGmg0flCzEIKWxcH3oW0LGRu
+ RErQ8kgGhNbf3uiQtPEzVphdC8NHtoiJ7Vp7x7fVX37m4dyOYFVIcDweSqjVzE/bMyVJ
+ IjU1z3X/vkKaatvBDOKCtQj/6YXmX+uUwzngsZ+827reQSBzFP0d8nNHMVeTV2syCTQ6
+ 8ihuyPtt3vfKnA4kpjuPrrF2my4Uwh+ViBC0N6T/Hrj/X7Pa1hCBu5EC5IdVKpFFGf+Z
+ FmqjFSVKmzbtLcZrD3ZBLLY4mcj3Imc5mDndMRxQwpNOFbjV5xs8Pe0TsMAetJlD4Gif
+ JWWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DcKo509pomPpPmZQnovWnnfku4Vpqk1HscjSoQVUsZE=;
+ b=FmfdCcY91L0NKCFmGzn3hNpdYM0gzauSz8JByOCdTn6aMEEmd/BRVxGunTuiUiQ3t6
+ lsRO5GC6+YpzHwYyrP1QYpYrEMYh1jr6rgSqdaNeewiK1VQutGVEJVaFOpHclN+WBLYG
+ apx6SZ5uCdr0qRwhg537FHjQSlrGgaxmvkSecffOOubkmexveK+XMxuHNj9FeVFxT6wl
+ X8+IFfSUWHjzfanJXNfIR3lnTu91bdv52nGGksOu5KPwW6/ZkaEaJtzninN303zxMurK
+ vGCnNl8oDS6h3LC+id9EHMFp+YEdk6X/FBSTvjV3q57PzWP5cW4ewJmhydPJPQFAhRDf
+ 5Q4Q==
+X-Gm-Message-State: AOAM532Rg0q2UiJ29wtJlWc8yngg7zz3G9/9LxcM9zOyIy/RCGsIsxTI
+ nPlZgc/xNSsL9T5L/OD7GBx0Xvr4xcQYCkiQ5Ee7lyGJV1RF1H9G
+X-Google-Smtp-Source: ABdhPJxj6mWE5mKxaWr55hlHzwF34LjU+67GQgRec22PxEcjdCT1TrIgUv80wjaCRsgXEt7SKaW5zd32Mu04Sn2cQLQ=
+X-Received: by 2002:a17:906:4a53:: with SMTP id
+ a19mr1631257ejv.56.1601298173932; 
+ Mon, 28 Sep 2020 06:02:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <m2mu1af5uj.fsf@oracle.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.4]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 09:00:45
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20200925232454.2185982-1-pbonzini@redhat.com>
+In-Reply-To: <20200925232454.2185982-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 28 Sep 2020 14:02:43 +0100
+Message-ID: <CAFEAcA8R4oVVsCyd6o1bFyHg=g8kz-uMeC=7AuOV3ftRTKVzvg@mail.gmail.com>
+Subject: Re: [PULL v7 00/87] Misc patches for 2020-09-24
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,99 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, wanghao232@huawei.com, zhang.zhanghailiang@huawei.com,
- xiexiangyou@huawei.com, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, 26 Sep 2020 at 00:26, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 8c1c07929feae876202ba26f07a540c5115c18=
+cd:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request'=
+ into staging (2020-09-24 18:48:45 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to a92d54785437140cb83d47190d5fcbc12c8ad9fc:
+>
+>   hw/net/can: Correct Kconfig dependencies (2020-09-25 19:01:51 -0400)
+>
+> ----------------------------------------------------------------
+> * SCSI fix (Dmitry, Li Feng, Li Qiang)
+> * memory API fixes (Eduardo)
+> * removal of deprecated '-numa node', 'cpu-add', '-smp' (Igor)
+> * ACPI fix for VMBus (Jon)
+> * relocatable install (myself)
+> * always remove docker containers (myself)
+> * serial cleanups (Philippe)
+> * vmware cpuid leaf for tsc and apic frequency (Sunil)
+> * KVM_FEATURE_ASYNC_PF_INT support (Vitaly)
+> * i386 XSAVE bugfix (Xiaoyao)
+> * QOM developer documentation in docs/devel (Eduardo)
+> * new checkpatch tests (Dov)
+> * x86_64 syscall fix (Douglas)
+> * interrupt-based APF fix (Vitaly)
+> * always create kvmclock (Vitaly)
+> * fix bios-tables-test (Eduardo)
+> * KVM PV features cleanup (myself)
+> * CAN FD (Pavel)
+>
+> meson:
+> * fixes (Marc-Andr=C3=A9, Max, Stefan, Alexander, myself)
+> * moved libmpathpersist, cocoa, malloc tests (myself)
+> * support for 0.56 introspected test dependencies (myself)
+>
+> ----------------------------------------------------------------
+
+This version has new meson warnings:
+Library util found: YES
+Dependency pixman-1 found: YES 0.38.4 (cached)
+Library aio found: YES
+Dependency zlib found: YES 1.2.11 (cached)
+Dependency xkbcommon found: YES 0.10.0 (cached)
+Library rt found: YES
+
+../../meson.build:274:3: ERROR: Unknown variable "have_softmmu".
+
+A full log can be found at /home/pm/qemu/build/all/meson-logs/meson-log.txt
+/usr/bin/python3 /home/pm/qemu/meson/meson.py --internal exe --capture
+qemu-version.h -- /home/pm/qemu/scripts/qemu-version.sh /home/pm/qemu
+'' 5.1.50 && if test -e qemu-version.h; then printf '%s\n'
+qemu-version.h > qemu-version.h.stamp; fi
+MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+G_TEST_SRCDIR=3D/home/pm/qemu/tests
+G_TEST_BUILDDIR=3D/home/pm/qemu/build/all/tests tests/check-block-qdict
+--tap -k
 
 
-On 2020/9/28 20:23, David Edmondson wrote:
-> On Sunday, 2020-09-27 at 12:55:20 +08, Chuan Zheng wrote:
-> 
->> Make dirty_rate field optional, present dirty rate only when querying
->> the rate has completed.
->> The qmp results is shown as follow:
->> @unstarted:
->> {"return":{"status":"unstarted","start-time":0,"calc-time":0},"id":"libvirt-12"}
->> @measuring:
->> {"return":{"status":"measuring","start-time":0,"calc-time":0},"id":"libvirt-14"}
-> 
-> Not this patch, but the "measuring" state could include both the
-> start-time and the calc-time, allowing a caller to determine when they
-> should expect to come back looking for a result.
-> 
-Hi, David.
-Yes, maybe we should record start-time and calc-time in reset_dirtyrate_stat() and move it forward just after
-setting CalculatingState status succeed in get_dirtyrate_thread.
+(Side question: can we make errors from Meson cause the build to fail?)
 
->> @measured:
->> {"return":{"status":"measured","dirty-rate":4,"start-time":150146,"calc-time":1},"id":"libvirt-15"}
->>
->> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-> 
-> With the minor wording changes below...
-> 
-> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-> 
->> ---
->>  migration/dirtyrate.c | 3 +--
->>  qapi/migration.json   | 9 ++++-----
->>  2 files changed, 5 insertions(+), 7 deletions(-)
->>
->> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
->> index 68577ef..9024b0f 100644
->> --- a/migration/dirtyrate.c
->> +++ b/migration/dirtyrate.c
->> @@ -69,9 +69,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
->>      struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
->>  
->>      if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
->> +        info->has_dirty_rate = true;
->>          info->dirty_rate = dirty_rate;
->> -    } else {
->> -        info->dirty_rate = -1;
->>      }
->>  
->>      info->status = CalculatingState;
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index ce2216c..6e428f7 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -1743,10 +1743,9 @@
->>  #
->>  # Information about current dirty page rate of vm.
->>  #
->> -# @dirty-rate: @dirtyrate describing the dirty page rate of vm
->> -#          in units of MB/s.
->> -#          If this field returns '-1', it means querying has not
->> -#          yet started or completed.
->> +# @dirty-rate: dirty-rate describing the dirty page rate of vm
->> +#              in units of MB/s, present only when querying the
->> +#              rate has completed.
-> 
-> How about:
-> 
-> @dirty-rate: an estimate of the dirty page rate of the VM in units of
-> 	     MB/s, present only when estimating the rate has completed.
-> 
-That's better, thanks.
-
->>  #
->>  # @status: status containing dirtyrate query status includes
->>  #          'unstarted' or 'measuring' or 'measured'
->> @@ -1759,7 +1758,7 @@
->>  #
->>  ##
->>  { 'struct': 'DirtyRateInfo',
->> -  'data': {'dirty-rate': 'int64',
->> +  'data': {'*dirty-rate': 'int64',
->>             'status': 'DirtyRateStatus',
->>             'start-time': 'int64',
->>             'calc-time': 'int64'} }
->> -- 
->> 1.8.3.1
-> 
-> dme.
-> 
+thanks
+-- PMM
 
