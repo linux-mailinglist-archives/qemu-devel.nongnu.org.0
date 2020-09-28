@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8FB27B07D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 17:03:28 +0200 (CEST)
-Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE8727B083
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 17:06:05 +0200 (CEST)
+Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMugZ-0001nZ-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 11:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38508)
+	id 1kMuj6-0003li-9G
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 11:06:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1kMudX-0000t6-1D
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 11:00:19 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1kMudT-0000pS-0r
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 11:00:18 -0400
-Received: by mail-ej1-x644.google.com with SMTP id p9so8980947ejf.6
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 08:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+P1cJUpjFfUK2LvWDv4ExnyUoiv/17NqVefDevSMn/I=;
- b=QLks5E8W9MN6pkWMdNpuA1wG899K5KEIr62evvkNWSjQ0RnBh2i5kO5/GN5Bwr7Mqz
- QIJeJ1MVIWR4pE8/0RE98dYfozJIFNCBBqTO1Rn0sOPX74tTBWtGpn+mnWWqCnl46E9H
- 6zJD7VpXewI5sl0qjaiTekHumbhZGxtrDFAEfh7lGKPu3BfBjudGc8RG5goKqJqjUye8
- ybF+OkGKZVcd/SkIpgpn1ioJQhCil/X27K+sRDVQoZj33eVzBs2WvfdTrp2pUyLxhwg+
- BTPmQYShhwyuL/S9cYHtnmn7JcSznmy2lldKkFYEpO3uw/B/kQwfTb3G1zIunEQrs92O
- MWWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+P1cJUpjFfUK2LvWDv4ExnyUoiv/17NqVefDevSMn/I=;
- b=qVvQB22ypiXrWty7qa601b1CRiiyHSLFk9MTZ4CkzZhiyjFFwc3OEQEvKFffKb71t8
- mdvgS/upqSVj9SMwqk84SX4GpteOTHwmRnBggVuhEszPfCB8xprFJUpc3Qw73koS3wGu
- YBMZNISPqOzE/Yts8iAQzgaEVs8tToZDZ9IkNHPwwX755I1KggxMn7vg2yKgoxT4lomj
- kq6mWcCFr3GlJG7pq77SsXFXr4mxaZqcRQV00ZJSa8uBrjsyRyKjCU+9i3rIClBQmT8K
- Zac4WqZRTEjF+Sw3L8fln/z0KOr089BmPcDAM74jvL3zFWPGQ6kcKEfXWnjP6Rk6cdYj
- E4pA==
-X-Gm-Message-State: AOAM530KOGhzUHgNqTDSWYttuOmHJ2xiEJC7VKzH+7t03gZQQnEMI2qC
- k26FbsjWrO80B1YW8Pdto+cpGGC2Pl/etNEE5pc=
-X-Google-Smtp-Source: ABdhPJwE3Qt6+rFu2LdlUz6uJNQtB4zrnPOQU0aSqMNpJKzbL4cwhvvpk3mwuW+hLI+YYp/cRd3PLtBjlSBj272M5AY=
-X-Received: by 2002:a17:907:417c:: with SMTP id
- oe20mr2014185ejb.322.1601305211297; 
- Mon, 28 Sep 2020 08:00:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kMuhv-0002wJ-D1
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 11:04:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kMuhr-0001ux-Hc
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 11:04:49 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601305486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8huOj2pB2E1Gau52ihS57DuDia1c2fR8llvH4ucTt1Q=;
+ b=L3un9NmT4f7vOyfaUuHQePk9xlkFoij0Wc9R9aFTAenWQvLXs6OLtV2HEMFjnoET8pU/Ib
+ i8TCLkc/pci/EbXuCKIvPTVINtfghC8Mrdz4JHsMH7EXsvKLyIs6WA08nlO9VSym9QWq+v
+ Gmyy4KAomAN5ojsuI6i2/Wv+DO7nC4M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-7Hny-5TFMMa9I1jlixd_yw-1; Mon, 28 Sep 2020 11:04:42 -0400
+X-MC-Unique: 7Hny-5TFMMa9I1jlixd_yw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82F5410BBEEC;
+ Mon, 28 Sep 2020 15:04:41 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D3C3619C4;
+ Mon, 28 Sep 2020 15:04:40 +0000 (UTC)
+Subject: Re: [PATCH v2 18/38] qapi/events.py: Move comments into docstrings
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200922210101.4081073-1-jsnow@redhat.com>
+ <20200922210101.4081073-19-jsnow@redhat.com>
+ <20200923144819.GE3312949@habkost.net> <87k0wit5ef.fsf@dusky.pond.sub.org>
+ <e9838231-f0b2-f953-448d-3c86e5b4f813@redhat.com>
+ <877dsei0jg.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <9644c70d-3fdb-646b-8824-1b3b661f32df@redhat.com>
+Date: Mon, 28 Sep 2020 11:04:39 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200928131934.739451-1-philmd@redhat.com>
- <20200928131934.739451-6-philmd@redhat.com>
- <CA+XhMqxdb9Y6HL_0Og4Px5OwdTqK5EKJcnKdafd790nJb8yYEQ@mail.gmail.com>
- <20200928141355.GI2230076@redhat.com>
-In-Reply-To: <20200928141355.GI2230076@redhat.com>
-From: David CARLIER <devnexen@gmail.com>
-Date: Mon, 28 Sep 2020 16:00:00 +0100
-Message-ID: <CA+XhMqzFPekKKY46teFgL9xGHcUApaPxF+BrpJFss1a5S2iHQw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] qemu/bswap: Use compiler __builtin_bswap() on Haiku
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=devnexen@gmail.com; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <877dsei0jg.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,82 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Carlo Arenas <carenas@gmail.com>,
- Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-errors as
-...
-expected '=3D',   ',', ';', 'asm' r "__attribute__' before "builtin_swap16'
-...
+On 9/28/20 7:49 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 9/25/20 8:19 AM, Markus Armbruster wrote:
+>>> What about:
+>>>       Generate a QAPI struct variable holding the event parameters,
+>>>       initialized with the function's arguments.
+>>
+>> Line length and style-guide limitations; docstrings need a one-liner
+>> summary.
+> 
+> They do!
+> 
+>> (Consistency is the hobgoblin, blah blah blah.)
+>>
+>> I am writing:
+>>
+>>      """
+>>      Generate a QAPI struct variable with an initializer.
+>>
+>>      The QAPI struct describes the event parameters, and the initializer
+>>      references the function arguments defined in `gen_event_send`.
+>>      """
+> 
+> Better.
+> 
+> My second try:
+> 
+>        Generate a struct variable holding the event parameters.
+> 
+>        Initialize it with the function arguments defined in in
+>        `gen_event_send`.
+> 
 
-base gcc 8.3
+You're the boss!
 
-On Mon, 28 Sep 2020 at 15:14, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> On Mon, Sep 28, 2020 at 03:09:01PM +0100, David CARLIER wrote:
-> > Unfortunately it breaks the build.
->
-> Can you provide details of the errors seen and toolchain versions.
->
-> I notice we don't have any CI support for Haiku right now, nor
-> any recipe in tests/vm/  for enabling users to setup a VM with
-> Haiku installed. This very much makes Haiku a second class
-> citizen right now in terms of QEMU's supported platforms, with
-> no expectation of whether it'll work at any point in time.
->
->
-> > On Mon, 28 Sep 2020 at 14:20, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com> wrote:
-> > >
-> > > Since commit efc6c070aca ("configure: Add a test for the minimum
-> > > compiler version") the minimum compiler version required for GCC
-> > > is 4.8, which supports __builtin_bswap().
-> > > Remove the Haiku specific ifdef'ry.
-> > >
-> > > This reverts commit 652a46ebba970017c7a23767dcc983265cdb8eb7
-> > > ("bswap.h: Include <endian.h> on Haiku for bswap operations").
-> > >
-> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > > ---
-> > > Cc: David Carlier <devnexen@gmail.com>
-> > > Cc: Carlo Arenas <carenas@gmail.com>
-> > > ---
-> > >  include/qemu/bswap.h | 2 --
-> > >  1 file changed, 2 deletions(-)
-> > >
-> > > diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-> > > index 55916670d39..719d620bfe6 100644
-> > > --- a/include/qemu/bswap.h
-> > > +++ b/include/qemu/bswap.h
-> > > @@ -8,8 +8,6 @@
-> > >  # include <machine/bswap.h>
-> > >  #elif defined(__FreeBSD__)
-> > >  # include <sys/endian.h>
-> > > -#elif defined(__HAIKU__)
-> > > -# include <endian.h>
-> > >  #else
-> > >  #undef  bswap16
-> > >  #define bswap16(_x) __builtin_bswap16(_x)
-> > > --
-> > > 2.26.2
-> > >
-> >
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+--js
+
 
