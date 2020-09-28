@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE91E27A905
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 09:51:01 +0200 (CEST)
-Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E2E27A929
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 09:57:48 +0200 (CEST)
+Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMnw4-0005gO-Ty
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 03:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56486)
+	id 1kMo2d-000164-Us
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 03:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1kMnur-0005FM-P7
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 03:49:45 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:36532)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kMnws-0006X6-21; Mon, 28 Sep 2020 03:51:51 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:57679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1kMnup-0000TY-4f
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 03:49:45 -0400
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id BCFA0C60F16;
- Mon, 28 Sep 2020 07:49:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1601279378;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4nFuGdeKpoqd6qfIdTNAisbjqTCYPVzUWG6ttJDpwME=;
- b=Hm5s4CupodsBkoxpjbyKQPKzajOav4a5PyNbxzSusVHGvKGSNfrtOL9TYhISheSREJXkIt
- wIeP4PDujXYZufxbzwI5HfsdiWx0fU07UUYueAc2SE2UjQ1joOPKW6Ta0Y52aTRoEL3M9I
- ijNytlA5va1O2joJlNhKkZTGohemFEEO7s4tbnNIhvMMVSyYBUR/NJgqxpS5Sg+xnnjGYy
- 1UnfA8MMxnVA8EYOHEGe16oAFngwaSqvoeBYb0u06dACuBfkF/1uhHrt+bmsG5tYw8h77H
- JFCsZb7cC8cTHWexqWsnCwYQSrtIeD/up5Wj5XCy0XO5b+uFStd1OVBll+zu+Q==
-Date: Mon, 28 Sep 2020 09:50:35 +0200
-From: Luc Michel <luc@lmichel.fr>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/3] util/cutils: Introduce freq_to_str() to display
- Hertz units
-Message-ID: <20200928075035.7faf4ccxvtfpira6@sekoia-pc.home.lmichel.fr>
-References: <20200927090820.61859-1-f4bug@amsat.org>
- <20200927090820.61859-2-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kMnwp-0000mn-Ap; Mon, 28 Sep 2020 03:51:49 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id CAACA580129;
+ Mon, 28 Sep 2020 03:51:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute7.internal (MEProxy); Mon, 28 Sep 2020 03:51:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=CpqnTLEdugbPMWpapaa1UpYzDyj
+ DwYAHkUpuLvhbAMQ=; b=Eo8ymBY5jzvIIzDjNmQZLd94wZd0F8keqV6yeUs+//j
+ KgalHVNanNlJo4uhIDyq8q2aroz78dfTuBqtTVkkpknJAge9dNJ+6Ij49wMietk1
+ AvqlsPXTQq3mr4Py0lH3uJWLCY0VPsoKwZHBFdyK8BUyXeNDrvf/8Aaldsk35ebJ
+ 5SCl284GG6bb+jmtitczztoaMyNHwYtEy62NWHAMX5EUPBGOTSkmLJJYiCz6q65j
+ 8P/GAAl6tNTNWWreeDdNmX4UIifUHz7CYwjxPSrpap7PWIKZkJobi9aMZKp02ufi
+ beX60Sc9Xo5HzGi/9bp2aOyVLqpJehM8NCMb6kF2vzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=CpqnTL
+ EdugbPMWpapaa1UpYzDyjDwYAHkUpuLvhbAMQ=; b=tiJnOTCMbvxzKzkP/rrb1E
+ 0WW9915brJ60wdC4EYdEs143wXb+/BArSJpkfhePW8l6C1j1OqjnurbNRjPLP5ct
+ uY6y3UtsxACA1Wyvguycihh6VhvBKQjy4GAKcvvXIg2Z8+veTfm1u89/qyetiQzc
+ ySy3wGI7iVQKm4Y9wtcRvfGtdP+p/+C/HPjYK0gwEObOX13KaQ19U548C0R6osW0
+ yNOzVQejkIJkUmfepO/3d47OPSt/0gp/CoKt85l1OKWjRuDwbHls9c44jJkB5v2m
+ 2OOP/4Pmof5xFZse9r7wiPSxAbr9Jzb23hEmLy7k/q5CdNpSUKHEfWQ+wcH35KKA
+ ==
+X-ME-Sender: <xms:D5ZxX7a3xwpe1QaRkNg4jNGr_nn5mKuJ-tf4aQUrnCaf_F4ZUmNX8Q>
+ <xme:D5ZxX6bY1H1_WUAT15buGQ9chcQ1n8ClJCYkMdMFDQNei8bXh5QVPYlkOHa61HMoX
+ M6tOOVTOC4E4mH88xE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgdduvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:D5ZxX9-6rXLUO1N4AAb-jMqVXWmyQDo-KqAo39fDg2BNoRNkf9JSkw>
+ <xmx:D5ZxXxpXVNZJ_9ZcdPSyUNg0rZaNmU9BKih-QOZn6NOROklT2SGeGg>
+ <xmx:D5ZxX2o2ZhwUkAYNq7OkcNZxejP9BhgqPoIb2TuhGbEwRJUjeERM_A>
+ <xmx:EZZxXzTb9KEkIUC91DmrPzQU9nDc0B0XlGyiHjOe8_ilyxTkQ2Q7VjTp6Xs>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1895C328005A;
+ Mon, 28 Sep 2020 03:51:41 -0400 (EDT)
+Date: Mon, 28 Sep 2020 09:51:40 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v5 13/14] hw/block/nvme: Use zone metadata file for
+ persistence
+Message-ID: <20200928075140.GC1967@apples.localdomain>
+References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
+ <20200928023528.15260-14-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uXxzq0nDebZQVNAZ"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200927090820.61859-2-f4bug@amsat.org>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
- s=pharaoh; t=1601279379;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4nFuGdeKpoqd6qfIdTNAisbjqTCYPVzUWG6ttJDpwME=;
- b=EGjIH6bSiFYGod8Dy2+OqZ4Kf8Fu9rNBxpRxN8fjAWH2X+OJJRZ9tz4bGElpm5bQAGa+Uh
- gJHdacUf6othJxpmd8nUc6FgDpeYj8t2g24+MBNej3mu0cTBqzJQdUg9jNWyed18b2iZO0
- POxidCj9MFTsD7JTl6qK7Wt1hJXW4Kz6ERjUGZ9EjNZr3/Af2q25Rdk5ZrS1yvRdw0qdgM
- MsMBil5SXulQfAVjjEToFRG+1S4gihQVhRhRwjA3aJ+oT7XHLUzU0DHW51It66/IR092dd
- O2ZG+Bkfzd/g3k8JunZGI9++kLWzngUQjbgUtQO2djqpuiy69tR+IwgKdwuF7g==
-ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601279379; a=rsa-sha256; cv=none;
- b=jlsWJMY7rtZeapj9aH8xABOa/HBko6rwzEdo6mqPak5Rz/+fWGDKj03cTQuWJGuw/v11FgkgM+kVXT7A8WdU2rC5eEmLVy1WmWqcUp0mBS9ACoFt3jtZ3UPfv/0wwcWlL2rdBx6x0xc6MawVw57ohio9+KkyL2DpoacqJIm4+gBIG1jlDhNeXfhBVKGDxXqFsgFN5ka/sFXtvqSUEZG1vmK5GVlJ2bSajjzJuEzQHUtWwUbtVeuS/JYmoS80dlYzCV84/DhjGV6bNk06+JlpLGUKzfXntYpYUe+5fu8Bkw9+/SedQMcYuIrK34B2VE1ChvihcEPr1NeJCr8hsCQCxw==
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sekoia smtp.mailfrom=luc@lmichel.fr
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:49:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200928023528.15260-14-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 02:36:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,91 +97,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
 
-On 11:08 Sun 27 Sep     , Philippe Mathieu-Daudé wrote:
-> Introduce freq_to_str() to convert frequency values in human
-> friendly units using the SI units for Hertz.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--uXxzq0nDebZQVNAZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sep 28 11:35, Dmitry Fomichev wrote:
+> A ZNS drive that is emulated by this module is currently initialized
+> with all zones Empty upon startup. However, actual ZNS SSDs save the
+> state and condition of all zones in their internal NVRAM in the event
+> of power loss. When such a drive is powered up again, it closes or
+> finishes all zones that were open at the moment of shutdown. Besides
+> that, the write pointer position as well as the state and condition
+> of all zones is preserved across power-downs.
+>=20
+> This commit adds the capability to have a persistent zone metadata
+> to the device. The new optional module property, "zone_file",
+> is introduced. If added to the command line, this property specifies
+> the name of the file that stores the zone metadata. If "zone_file" is
+> omitted, the device will be initialized with all zones empty, the same
+> as before.
+>=20
+> If zone metadata is configured to be persistent, then zone descriptor
+> extensions also persist across controller shutdowns.
+>=20
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 > ---
->  include/qemu/cutils.h | 12 ++++++++++++
->  util/cutils.c         | 10 ++++++++++
->  2 files changed, 22 insertions(+)
-> 
-> diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-> index eb59852dfdf..0186c846e9c 100644
-> --- a/include/qemu/cutils.h
-> +++ b/include/qemu/cutils.h
-> @@ -158,6 +158,18 @@ int qemu_strtosz_metric(const char *nptr, const char **end, uint64_t *result);
->  
->  char *size_to_str(uint64_t val);
->  
-> +/**
-> + * freq_to_str:
-> + * @freq_hz: frequency to stringify
-> + *
-> + * Return human readable string for frequency @freq_hz.
-> + * Use SI units like KHz, MHz, and so forth.
-> + *
-> + * The caller is responsible for releasing the value returned with g_free()
-> + * after use.
-> + */
-> +char *freq_to_str(uint64_t freq_hz);
+>  hw/block/nvme-ns.c    | 341 ++++++++++++++++++++++++++++++++++++++++--
+>  hw/block/nvme-ns.h    |  33 ++++
+>  hw/block/nvme.c       |   2 +
+>  hw/block/trace-events |   1 +
+>  4 files changed, 362 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index 47751f2d54..a94021da81 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -293,12 +421,180 @@ static void nvme_init_zone_meta(NvmeNamespace *ns)
+>              i--;
+>          }
+>      }
 > +
->  /* used to print char* safely */
->  #define STR_OR_NULL(str) ((str) ? (str) : "null")
->  
-> diff --git a/util/cutils.c b/util/cutils.c
-> index 36ce712271f..dab837fd8b8 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -885,6 +885,16 @@ char *size_to_str(uint64_t val)
->      return g_strdup_printf("%0.3g %sB", (double)val / div, suffixes[i]);
->  }
->  
-> +char *freq_to_str(uint64_t freq_hz)
-> +{
-> +    static const char *suffixes[] = { "", "K", "M", "G", "T", "P", "E" };
-> +    unsigned unit_index = log10(freq_hz) / 3;
-> +
-> +    return g_strdup_printf("%0.3g %sHz",
-> +                           freq_hz / pow(10.0, unit_index * 3.0),
-> +                           suffixes[unit_index]);
-
-You could end up going out of your 'suffixes' array if freq_hz is very
-high. Also, to avoid the complexity of log10/pow, maybe something like:
-
-    double freq = freq_hz;
-    size_t idx = 0;
-
-    while (freq >= 1000.0 && idx < ARRAY_LENGTH(suffixes)) {
-        freq /= 1000.0;
-        idx++;
-    }
-
-    return g_strdup_printf("%0.3g %sHz", freq, suffixes[idx]);
-
-is enough?
-
--- 
-Luc
-
+> +    if (ns->params.zone_file) {
+> +        nvme_set_zone_meta_dirty(ns);
+> +    }
 > +}
 > +
->  int qemu_pstrcmp0(const char **str1, const char **str2)
->  {
->      return g_strcmp0(*str1, *str2);
-> -- 
-> 2.26.2
-> 
+> +static int nvme_open_zone_file(NvmeNamespace *ns, bool *init_meta,
+> +                               Error **errp)
+> +{
+> +    Object *file_be;
+> +    HostMemoryBackend *fb;
+> +    struct stat statbuf;
+> +    int ret;
+> +
+> +    ret =3D stat(ns->params.zone_file, &statbuf);
+> +    if (ret && errno =3D=3D ENOENT) {
+> +        *init_meta =3D true;
+> +    } else if (!S_ISREG(statbuf.st_mode)) {
+> +        error_setg(errp, "\"%s\" is not a regular file",
+> +                   ns->params.zone_file);
+> +        return -1;
+> +    }
+> +
+> +    file_be =3D object_new(TYPE_MEMORY_BACKEND_FILE);
+> +    object_property_set_str(file_be, "mem-path", ns->params.zone_file,
+> +                            &error_abort);
+> +    object_property_set_int(file_be, "size", ns->meta_size, &error_abort=
+);
+> +    object_property_set_bool(file_be, "share", true, &error_abort);
+> +    object_property_set_bool(file_be, "discard-data", false, &error_abor=
+t);
+> +    if (!user_creatable_complete(USER_CREATABLE(file_be), errp)) {
+> +        object_unref(file_be);
+> +        return -1;
+> +    }
+> +    object_property_add_child(OBJECT(ns), "_fb", file_be);
+> +    object_unref(file_be);
+> +
+> +    fb =3D MEMORY_BACKEND(file_be);
+> +    ns->zone_mr =3D host_memory_backend_get_memory(fb);
+> +
+> +    return 0;
+> +}
+> +
+> +static int nvme_map_zone_file(NvmeNamespace *ns, bool *init_meta)
+> +{
+> +    ns->zone_meta =3D (void *)memory_region_get_ram_ptr(ns->zone_mr);
+
+I forgot that the HostMemoryBackend doesn't magically make the memory
+available to the device, so of course this is still needed.
+
+Anyway.
+
+No reason for me to keep complaining about this. I do not like it, I
+will not ACK it and I think I made my reasons pretty clear.
+
+--uXxzq0nDebZQVNAZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9xlgkACgkQTeGvMW1P
+Demyhwf+P5lQB3/Eq6yklOcWKJgypu34io55p/ONPMdj3KVaCYVeTcyriZSMwa7/
+8PaLgdRExYkoQwZolpiiWusmM9BERpvvBX1yiSjgI308KLz+PV6JP4ZTZC21WaP8
+z+mCf2s4KDO1cFJzH/0RdDjLQFwksU5O8x1j7dzRcFzAXsnOkvchiN0XZH7JS57+
+o6HbxWilLG7vfYZEVuTsYm9PntXPW4tOCHYCOPD2RFhsnYZ8NRogPls0KMx3aJPM
+uMtkJ7T+hlLiJ+RBjwvHC1PC3jOIpK1PBKeOZhJK38SkYWDfMjlQL2QGC518JkOk
+R0H/8Z5tuzqxXtjjbdr/o/yNZzpnQw==
+=e0JA
+-----END PGP SIGNATURE-----
+
+--uXxzq0nDebZQVNAZ--
 
