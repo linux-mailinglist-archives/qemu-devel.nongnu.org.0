@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9821627AC48
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:55:49 +0200 (CEST)
-Received: from localhost ([::1]:35462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C896227AC59
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:59:36 +0200 (CEST)
+Received: from localhost ([::1]:50360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMqou-0002TP-Fs
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:55:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44382)
+	id 1kMqsZ-0000Gj-UC
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:59:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1kMqeo-0002gU-Cq
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:45:22 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:45268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1kMqem-0006Vs-0U
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:45:21 -0400
-Received: from [172.16.11.103] (unknown [172.16.11.103])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 73E5221C3A;
- Mon, 28 Sep 2020 10:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1601289917;
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kMqrH-000888-0K
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:58:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kMqqN-00084p-0C
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:58:13 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601290637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7//spBWddOiCXkW45mWewK3nF5bO1KzCasLeaE0khzw=;
- b=29XnbIk39p+yY9DQEvKWSRHfbQkYD+kxOcbwc5P1iEx3IUrLWM0DFOonZ78I/TO+A6QPrt
- MRNG/aOapnzdp12cU4IZ327Qd5yGRv6yWGGV5pr0FrKYdZEPE590kbtGRRlrYsKBXvV1CC
- udMYzgd830dhSGf8aSrorQWT5dkIY30=
-Subject: Re: [PATCH 3/3] hw/qdev-clock: Display error hint when clock is
- missing from device
-To: Luc Michel <luc@lmichel.fr>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20200927090820.61859-1-f4bug@amsat.org>
- <20200927090820.61859-4-f4bug@amsat.org>
- <20200928075300.q5ngcywiz5fyu6du@sekoia-pc.home.lmichel.fr>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <20f0ab00-8ca4-1a8f-43de-3b86dacc2124@greensocs.com>
-Date: Mon, 28 Sep 2020 12:45:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=SGCxguFyh/Ui2C8+N8jFiAjBheF8ptz38fY8joy7zz4=;
+ b=Ddc6udEc/DSfIQfm+ZAfmdakfBH+y1X47iGvaLBmaDaFHJV2XjiEaakv+XW0KVu16lDC5Q
+ 5p+u1dkkIB3ie6XcL8mwqikXsxlL+v9vS2hR8p7bzexeQ3QXw3j7HfvpOT7OqbAGh5h1Bs
+ V5lfFL8rmqQtRPuoycYQz0kdrQVxmUw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-l34VLxV5OkeGySpesX5f9g-1; Mon, 28 Sep 2020 06:57:15 -0400
+X-MC-Unique: l34VLxV5OkeGySpesX5f9g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53A048015A4;
+ Mon, 28 Sep 2020 10:57:14 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-193.ams2.redhat.com [10.36.114.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B9D678437;
+ Mon, 28 Sep 2020 10:57:13 +0000 (UTC)
+Date: Mon, 28 Sep 2020 12:57:11 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 0/7] block-backend: Introduce I/O hang
+Message-ID: <20200928105711.GF5451@linux.fritz.box>
+References: <20200927130420.1095-1-fangying1@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200928075300.q5ngcywiz5fyu6du@sekoia-pc.home.lmichel.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 06:45:18
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200927130420.1095-1-fangying1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.011,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,72 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Havard Skinnemoen <hskinnemoen@google.com>, qemu-devel@nongnu.org,
- Tyrone Ting <kfting@nuvoton.com>, Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/28/20 9:53 AM, Luc Michel wrote:
-> On 11:08 Sun 27 Sep     , Philippe Mathieu-Daudé wrote:
->> Instead of directly aborting, display a hint to help the developer
->> figure out the problem (likely trying to connect a clock to a device
->> pre-dating the Clock API, thus not expecting clocks).
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Am 27.09.2020 um 15:04 hat Ying Fang geschrieben:
+> A VM in the cloud environment may use a virutal disk as the backend storage,
+> and there are usually filesystems on the virtual block device. When backend
+> storage is temporarily down, any I/O issued to the virtual block device will
+> cause an error. For example, an error occurred in ext4 filesystem would make
+> the filesystem readonly. However a cloud backend storage can be soon recovered.
+> For example, an IP-SAN may be down due to network failure and will be online
+> soon after network is recovered. The error in the filesystem may not be
+> recovered unless a device reattach or system restart. So an I/O rehandle is
+> in need to implement a self-healing mechanism.
 > 
-> Reviewed-by: Luc Michel <luc@lmichel.fr>
+> This patch series propose a feature called I/O hang. It can rehandle AIOs
+> with EIO error without sending error back to guest. From guest's perspective
+> of view it is just like an IO is hanging and not returned. Guest can get
+> back running smoothly when I/O is recovred with this feature enabled.
 
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+What is the problem with setting werror=stop and rerror=stop for the
+device? Is it that QEMU won't automatically retry, but management tool
+interaction is required to resume the guest?
 
-> 
->> ---
->>  hw/core/qdev-clock.c | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
->>
->> diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
->> index 47ecb5b4fae..33bd4a9d520 100644
->> --- a/hw/core/qdev-clock.c
->> +++ b/hw/core/qdev-clock.c
->> @@ -12,6 +12,7 @@
->>   */
->>  
->>  #include "qemu/osdep.h"
->> +#include "qemu/error-report.h"
->>  #include "hw/qdev-clock.h"
->>  #include "hw/qdev-core.h"
->>  #include "qapi/error.h"
->> @@ -153,6 +154,11 @@ Clock *qdev_get_clock_in(DeviceState *dev, const char *name)
->>      assert(name);
->>  
->>      ncl = qdev_get_clocklist(dev, name);
->> +    if (!ncl) {
->> +        error_report("can not find clock-in '%s' for device type '%s'",
->> +                     name, object_get_typename(OBJECT(dev)));
->> +        abort();
->> +    }
->>      assert(!ncl->output);
->>  
->>      return ncl->clock;
->> @@ -165,6 +171,11 @@ Clock *qdev_get_clock_out(DeviceState *dev, const char *name)
->>      assert(name);
->>  
->>      ncl = qdev_get_clocklist(dev, name);
->> +    if (!ncl) {
->> +        error_report("can not find clock-out '%s' for device type '%s'",
->> +                     name, object_get_typename(OBJECT(dev)));
->> +        abort();
->> +    }
->>      assert(ncl->output);
->>  
->>      return ncl->clock;
->> -- 
->> 2.26.2
->>
+I haven't checked your patches in detail yet, but implementing this
+functionality in the backend means that blk_drain() will hang (or if it
+doesn't hang, it doesn't do what it's supposed to do), making the whole
+QEMU process unresponsive until the I/O succeeds again. Amongst others,
+this would make it impossible to migrate away from a host with storage
+problems.
+
+Kevin
+
 
