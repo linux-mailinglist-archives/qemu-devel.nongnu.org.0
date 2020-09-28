@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7921A27AF07
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:24:39 +0200 (CEST)
-Received: from localhost ([::1]:35978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A66427AF0E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:29:07 +0200 (CEST)
+Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMt8w-0005sW-F5
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:24:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59232)
+	id 1kMtDG-0001ul-7q
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0U-0003QD-PD
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:15:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47728)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0o-0003cl-G3
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0P-0002BA-3X
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:15:54 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0m-0002Mc-V5
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:14 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601298946;
+ s=mimecast20190719; t=1601298971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ELbPUT56WE3t+U6IuK0HaFN17wtg0pFKQoWrviDgJ2w=;
- b=F7OoOhiXxWwqq7lPJxj90P6IeO2Im6GA1lOdcdoHbz0+jqm8kLY3bhLYG00wPCZfJRZmUv
- KhotDRA7LxcVDncG4i3NhNZ4JvKZKBJYW88RiEAI8+BgMdK6lOrZe6B2l9QcpZ/6v+Tca3
- FFZG2jD117WXaWZKwWOickwFr/yXNYg=
+ bh=d43fWDR8b1Cl+ncfjSQt6zla0jEieutuU3KRAkLgvoc=;
+ b=T7AZHGPwEqCYRhagpCEMSrbvFdtuv3x1ey55DEQYnNcxqLkEOwrV1D8q2NY+gHbrJpGM1w
+ dKuv3h+xzeWbf8CIqASeCYfT23lzlkbrQfwBfqrtF/jtKLsL8rfRCaEC9lctnGjhBlS9/T
+ hUKFIMp9wBEUX2Wiks5iqDXVRUDNl74=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-oyuSbUPFNl2AsHkZpNoHFg-1; Mon, 28 Sep 2020 09:15:40 -0400
-X-MC-Unique: oyuSbUPFNl2AsHkZpNoHFg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-364-J8nIASO8PfK1CT48nbsXCQ-1; Mon, 28 Sep 2020 09:16:09 -0400
+X-MC-Unique: J8nIASO8PfK1CT48nbsXCQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8280C8B8D17;
- Mon, 28 Sep 2020 13:15:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 089F7188C153;
+ Mon, 28 Sep 2020 13:15:44 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64A5875151;
- Mon, 28 Sep 2020 13:15:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEAF273666;
+ Mon, 28 Sep 2020 13:15:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4E4EC40827; Mon, 28 Sep 2020 15:15:17 +0200 (CEST)
-Date: Mon, 28 Sep 2020 15:15:17 +0200
+ id DB9BC40827; Mon, 28 Sep 2020 15:15:39 +0200 (CEST)
+Date: Mon, 28 Sep 2020 15:15:39 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-Subject: Re: [PATCH v10 7/7] Versal: Connect DWC3 controller with virt-versal
-Message-ID: <20200928131517.hmczcqisasv47tls@sirius.home.kraxel.org>
-References: <1600957256-6494-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1600957256-6494-8-git-send-email-sai.pavan.boddu@xilinx.com>
- <20200925183946.GP4142@toto>
+To: Amey Narkhede <ameynarkhede03@gmail.com>
+Subject: Re: [PATCH] hw/usb: Use lock guard macros
+Message-ID: <20200928131539.grogkdnwunlltiwu@sirius.home.kraxel.org>
+References: <20200923134327.576139-1-ameynarkhede03@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925183946.GP4142@toto>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200923134327.576139-1-ameynarkhede03@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,36 +80,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?utf-8?Q?'Marc-Andr=C3=A9?= Lureau' <marcandre.lureau@redhat.com>,
- Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- 'Philippe =?utf-8?Q?Mathieu-Daud=C3=A9'?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 25, 2020 at 08:39:46PM +0200, Edgar E. Iglesias wrote:
-> On Thu, Sep 24, 2020 at 07:50:56PM +0530, Sai Pavan Boddu wrote:
-> > From: Vikram Garhwal <fnu.vikram@xilinx.com>
-> > 
-> > Connect dwc3 controller and usb2-reg module to xlnx-versal SOC, its placed
-> > in iou of lpd domain and configure it as dual port host controller. Add the
-> > respective guest dts nodes for "xlnx-versal-virt" machine.
+On Wed, Sep 23, 2020 at 07:13:27PM +0530, Amey Narkhede wrote:
+> Use qemu LOCK_GUARD macros from "qemu/lockable.h" in
+> hw/usb/ccid-card-emulated.c, saves manual unlock calls.
 > 
-> Hi Sai,
-> 
-> One minor comment inline.
+> Signed-off-by: Amey Narkhede <ameynarkhede03@gmail.com>
 
-Cherry-picked patches 1-4 for the usb queue, leaving 5-7 for later (or
-maybe the arm queue).
+Added to usb queue.
 
-take care,
+thanks,
   Gerd
 
 
