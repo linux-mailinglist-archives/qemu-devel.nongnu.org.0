@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3703727AFDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 16:18:04 +0200 (CEST)
-Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFC027AFD2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 16:16:45 +0200 (CEST)
+Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtyd-0007x8-9G
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 10:18:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49196)
+	id 1kMtxM-0006k6-SC
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 10:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kMtuu-0005Kt-4E
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:14:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53285)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kMtup-0002A8-EK
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:14:10 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601302446;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8mcw5UTFKDFqElU3RM6vRFlJEDwYLMnK7nJc4IXK13g=;
- b=GFOAmWlBjmiMaaPWZhFvN/Yi/fNgHxCInDI5hDZe7V1ZJbYMOhfIePMoyzpxgEmvv4/DSB
- vQG3j+IRvUKD6chCda6khk7EQZLasn5MnrNa5PUfpikRBxpJlMOkM0FM08EeN243JNn9at
- vaUDygTJDLY4FM7dkwTu9/nUDrSrWt4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-FvmVHKE9M-un0-BUyRbGcQ-1; Mon, 28 Sep 2020 10:14:02 -0400
-X-MC-Unique: FvmVHKE9M-un0-BUyRbGcQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CDAF807356;
- Mon, 28 Sep 2020 14:14:00 +0000 (UTC)
-Received: from redhat.com (ovpn-114-24.ams2.redhat.com [10.36.114.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 214EC5C1BD;
- Mon, 28 Sep 2020 14:13:57 +0000 (UTC)
-Date: Mon, 28 Sep 2020 15:13:55 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David CARLIER <devnexen@gmail.com>
-Subject: Re: [PATCH v2 5/8] qemu/bswap: Use compiler __builtin_bswap() on Haiku
-Message-ID: <20200928141355.GI2230076@redhat.com>
-References: <20200928131934.739451-1-philmd@redhat.com>
- <20200928131934.739451-6-philmd@redhat.com>
- <CA+XhMqxdb9Y6HL_0Og4Px5OwdTqK5EKJcnKdafd790nJb8yYEQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kMtvg-0005fq-Tr
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:15:01 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:33419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kMtvf-0002Ei-48
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:15:00 -0400
+Received: by mail-ej1-x643.google.com with SMTP id j11so8781621ejk.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 07:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=47emkVqGuyCmgjuNMwSyh17QQFo2mKLDDHDOsUAB/RA=;
+ b=BbXC69PnFkb7458U3pQYI/IDGP8F4d1b9Hzl//pRn1FM4orqcOV88D6ss5Vcq4/UW0
+ IUfFoQSO4ywtCm7YXGTHIuint7zVl7zTQEnFKMAByC/S1gU4jq1a53XrJAv0VGDNZn4L
+ /Lfl0cAc54IwNpakwRZrnA0LN2HPmZlMqWs30abdPC7x4cIUQ7UYvaORihH+NPD6SpS+
+ 0veDsNGkrYHgXgYWbPkaQQD7GlT2acm/kaTumRM2lUKtDTsEF6wntRnWBLPOU90WofV/
+ D6LPuqH8SjFCnc+ulSKlZz1tRcds9UoyIFCYvNpDrqiag8rAf6Eny0Jk8mmSoTprb6Ct
+ HGXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=47emkVqGuyCmgjuNMwSyh17QQFo2mKLDDHDOsUAB/RA=;
+ b=DY6ook6aA/E2GPiwR263X5Kw+ZM0O/A1ob1IAbO+cp4CnW5SY2HPJdiZBvyqZyQuw2
+ 4JeKInrQnAGFVnG2gNFJi66neFeFq+/ABRotnl+Yjfew2T4fSG7xxzGbJbIt0o7E0daz
+ oTs5aOiY4C09J15ig45jqBDVoB8bXV0FV5Zkz2mVuAoXzZVTgylwqLI2B0ZW138PbLwH
+ rDXr9BiELjzRDK4EWBoPe1CWXv2omasuhWo4qccA1l3RGQHbC1WDVVx4cptOsmJNhyLl
+ Jko+P5dtDxka2v2AWEmiN8ye3NS0QaaQeFwZvLlYwsuBpt5UD0GyZjY+3YLSGO2w1f2h
+ m06A==
+X-Gm-Message-State: AOAM532uZW9b0yBz7siIayi6XJEWuHZ7hgjlci//MmY/sTlJiR2NPGEi
+ ZVRiHlwlm0/+Je3jjR54KeeN2H8GqrN9BEXNfKELLA==
+X-Google-Smtp-Source: ABdhPJzS/dEfS6gUVQ5uqN/lFrfeuMtMrU4DKUBLC2Kc4AO89ugqwSncUShMwMnFltP2bYpfJNPtZmuI4m8CDOd33p4=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr1800280ejb.85.1601302496616; 
+ Mon, 28 Sep 2020 07:14:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CA+XhMqxdb9Y6HL_0Og4Px5OwdTqK5EKJcnKdafd790nJb8yYEQ@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20200928125859.734287-1-philmd@redhat.com>
+ <20200928125859.734287-2-philmd@redhat.com>
+ <20200928140448.GH2230076@redhat.com>
+In-Reply-To: <20200928140448.GH2230076@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 28 Sep 2020 15:14:45 +0100
+Message-ID: <CAFEAcA9THz32JdqVF8JykQebw=ub50vY1RMNV+zLuzSHmAcP0g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] qemu/compiler: Simplify as all compilers support
+ attribute 'gnu_printf'
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,69 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Carlo Arenas <carenas@gmail.com>,
- Kamil Rytarowski <kamil@netbsd.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 28, 2020 at 03:09:01PM +0100, David CARLIER wrote:
-> Unfortunately it breaks the build.
+On Mon, 28 Sep 2020 at 15:06, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+> I think this can be simplified even more by using GLib's macros
+>
+>   #define GCC_FMT_ATTR(n, m)  G_GNUC_PRINTF(n, m)
 
-Can you provide details of the errors seen and toolchain versions.
+At least on my system G_GNUC_PRINTF() expands to
+__format__(__printf__,...), not gnu_printf, so it is
+not quite what we want. (The difference is that on Windows
+hosts we still want to mark up our our logging functions as
+taking the glibc style format handling, not whatever the
+MS C library format escapes happen to be.)
+At a minimum you'd need to keep in the "on Windows,
+redefine __printf__ to __gnu_printf__" logic.
 
-I notice we don't have any CI support for Haiku right now, nor
-any recipe in tests/vm/  for enabling users to setup a VM with
-Haiku installed. This very much makes Haiku a second class
-citizen right now in terms of QEMU's supported platforms, with
-no expectation of whether it'll work at any point in time.
+See also commit 95df51a4a02a853.
 
-
-> On Mon, 28 Sep 2020 at 14:20, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> >
-> > Since commit efc6c070aca ("configure: Add a test for the minimum
-> > compiler version") the minimum compiler version required for GCC
-> > is 4.8, which supports __builtin_bswap().
-> > Remove the Haiku specific ifdef'ry.
-> >
-> > This reverts commit 652a46ebba970017c7a23767dcc983265cdb8eb7
-> > ("bswap.h: Include <endian.h> on Haiku for bswap operations").
-> >
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> > Cc: David Carlier <devnexen@gmail.com>
-> > Cc: Carlo Arenas <carenas@gmail.com>
-> > ---
-> >  include/qemu/bswap.h | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-> > index 55916670d39..719d620bfe6 100644
-> > --- a/include/qemu/bswap.h
-> > +++ b/include/qemu/bswap.h
-> > @@ -8,8 +8,6 @@
-> >  # include <machine/bswap.h>
-> >  #elif defined(__FreeBSD__)
-> >  # include <sys/endian.h>
-> > -#elif defined(__HAIKU__)
-> > -# include <endian.h>
-> >  #else
-> >  #undef  bswap16
-> >  #define bswap16(_x) __builtin_bswap16(_x)
-> > --
-> > 2.26.2
-> >
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
