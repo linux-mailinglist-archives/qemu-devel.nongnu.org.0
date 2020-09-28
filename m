@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1487027A9EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:47:55 +0200 (CEST)
-Received: from localhost ([::1]:48950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A0727A9ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:48:42 +0200 (CEST)
+Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMop8-0004Lj-2w
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:47:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
+	id 1kMopt-0005CK-9y
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1kMojU-0001Gn-Uc; Mon, 28 Sep 2020 04:42:04 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39440)
+ id 1kMomT-000316-C3
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:45:09 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1kMojT-0006cQ-3G; Mon, 28 Sep 2020 04:42:04 -0400
+ id 1kMomR-000716-HD
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:45:08 -0400
 Received: from [172.16.11.103] (unknown [172.16.11.103])
- by beetle.greensocs.com (Postfix) with ESMTPSA id E548921C31;
- Mon, 28 Sep 2020 08:42:00 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id E4CA921C3A;
+ Mon, 28 Sep 2020 08:45:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1601282521;
+ s=mail; t=1601282705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wWXjV7DmwmcnRdVAwMT85HhjjlH/4iMcWRCXlKeY8sk=;
- b=kCaQoNDdDfD8DoQyHbbNlEShUebp0zP3p8urRDhkHkmXat7aeYtNjGZrSkpEt53h8YC+LY
- uY1Ai3xrPKkofsqUGMs/aC93el70OGF/562py43BGMznvJksL9ex6HH4mGXJymowV580l9
- 9V0bJmZHrp1Tga0U97Q1R3x5FuYnNVg=
-Subject: Re: [PATCH 02/14] hw/core/clock: trace clock values in Hz instead of
- ns
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
-References: <20200925101731.2159827-1-luc@lmichel.fr>
- <20200925101731.2159827-3-luc@lmichel.fr>
- <f5f6c8ca-d4f7-d06f-94d9-ded36ebf5753@amsat.org>
+ bh=Zvmd+9MFsza4wqZ1fI0GTSE3KfEuSScmfs1gO4a6hF4=;
+ b=LYV1nXtuatt4IbSV6Dh9LNt8bNVcWRYPTGgS5GVFiyogq8Lw9arXWDKPjQgVSHExqw8hcb
+ MImMPIZ52g9PmRD8uEFXB23XCv3dwWjOvfjm+Ddlz3Y5lGv6koofFeP4mIdSfnxoDjYUr/
+ LeJwHc4/nCAfxgz9U4IecV/0hB1QR9o=
+Subject: Re: [PATCH 2/3] qdev-monitor: Display frequencies scaled to SI unit
+To: Luc Michel <luc@lmichel.fr>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20200927090820.61859-1-f4bug@amsat.org>
+ <20200927090820.61859-3-f4bug@amsat.org>
+ <20200928075210.u6vh4py7vtozpbyw@sekoia-pc.home.lmichel.fr>
 From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <41490d3c-e497-dbab-6e30-446ea9bffefd@greensocs.com>
-Date: Mon, 28 Sep 2020 10:42:00 +0200
+Message-ID: <e54f19ec-6062-4848-757a-2d279d335d90@greensocs.com>
+Date: Mon, 28 Sep 2020 10:45:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <f5f6c8ca-d4f7-d06f-94d9-ded36ebf5753@amsat.org>
+In-Reply-To: <20200928075210.u6vh4py7vtozpbyw@sekoia-pc.home.lmichel.fr>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US-large
 Content-Transfer-Encoding: 8bit
@@ -69,92 +70,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, qemu-devel@nongnu.org,
+ Tyrone Ting <kfting@nuvoton.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 9/26/20 10:36 PM, Philippe Mathieu-Daudé wrote:
-> On 9/25/20 12:17 PM, Luc Michel wrote:
->> The nanosecond unit greatly limits the dynamic range we can display in
->> clock value traces, for values in the order of 1GHz and more. The
->> internal representation can go way beyond this value and it is quite
->> common for today's clocks to be within those ranges.
+On 9/28/20 9:52 AM, Luc Michel wrote:
+> On 11:08 Sun 27 Sep     , Philippe Mathieu-Daudé wrote:
+>> Since commit 9f2ff99c7f2 ("qdev-monitor: print the device's clock
+>> with info qtree") we can display the clock frequencies in the
+>> monitor. Use the recently introduced freq_to_str() to display
+>> the frequencies using the closest SI unit (human friendlier).
 >>
->> For example, a frequency between 500MHz+ and 1GHz will be displayed as
->> 1ns. Beyond 1GHz, it will show up as 0ns.
+>> Before:
 >>
->> Replace nanosecond periods traces with frequencies in the Hz unit
->> to have more dynamic range in the trace output.
-> 
-> I have a similar patch adding the freq but keeping the periods in
-> case, as it might be a matter of taste (for me too the frequency
-> is more meaningful).
-> 
+>>   (qemu) info qtree
+>>   [...]
+>>   dev: xilinx,zynq_slcr, id ""
+>>     clock-in "ps_clk" freq_hz=3.333333e+07
+>>     mmio 00000000f8000000/0000000000001000
 >>
->> Signed-off-by: Luc Michel <luc@lmichel.fr>
->> ---
->>  hw/core/clock.c      | 6 +++---
->>  hw/core/trace-events | 4 ++--
->>  2 files changed, 5 insertions(+), 5 deletions(-)
+>> After:
 >>
->> diff --git a/hw/core/clock.c b/hw/core/clock.c
->> index 7066282f7b..81184734e0 100644
->> --- a/hw/core/clock.c
->> +++ b/hw/core/clock.c
->> @@ -37,12 +37,12 @@ void clock_clear_callback(Clock *clk)
->>  bool clock_set(Clock *clk, uint64_t period)
->>  {
->>      if (clk->period == period) {
->>          return false;
->>      }
->> -    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_NS(clk->period),
->> -                    CLOCK_PERIOD_TO_NS(period));
->> +    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_HZ(clk->period),
->> +                    CLOCK_PERIOD_TO_HZ(period));
->>      clk->period = period;
->>  
->>      return true;
->>  }
->>  
->> @@ -52,11 +52,11 @@ static void clock_propagate_period(Clock *clk, bool call_callbacks)
->>  
->>      QLIST_FOREACH(child, &clk->children, sibling) {
->>          if (child->period != clk->period) {
->>              child->period = clk->period;
->>              trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
->> -                               CLOCK_PERIOD_TO_NS(clk->period),
->> +                               CLOCK_PERIOD_TO_HZ(clk->period),
->>                                 call_callbacks);
->>              if (call_callbacks && child->callback) {
->>                  child->callback(child->callback_opaque);
->>              }
->>              clock_propagate_period(child, call_callbacks);
->> diff --git a/hw/core/trace-events b/hw/core/trace-events
->> index 1ac60ede6b..6f96d8bfd0 100644
->> --- a/hw/core/trace-events
->> +++ b/hw/core/trace-events
->> @@ -29,8 +29,8 @@ resettable_phase_exit_end(void *obj, const char *objtype, unsigned count) "obj=%
->>  resettable_transitional_function(void *obj, const char *objtype) "obj=%p(%s)"
->>  
->>  # clock.c
->>  clock_set_source(const char *clk, const char *src) "'%s', src='%s'"
->>  clock_disconnect(const char *clk) "'%s'"
->> -clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', ns=%"PRIu64"->%"PRIu64
->> +clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', %"PRIu64"hz->%"PRIu64"hz"
+>>   dev: xilinx,zynq_slcr, id ""
+>>     clock-in "ps_clk" freq_hz=33.3 MHz
+>>     mmio 00000000f8000000/0000000000001000
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> Unit is spell 'Hz'.
-> 
->>  clock_propagate(const char *clk) "'%s'"
->> -clock_update(const char *clk, const char *src, uint64_t val, int cb) "'%s', src='%s', ns=%"PRIu64", cb=%d"
->> +clock_update(const char *clk, const char *src, uint64_t hz, int cb) "'%s', src='%s', val=%"PRIu64"hz cb=%d"
-> 
-> Ditto.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
+> Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> 
+>> ---
+>>  qdev-monitor.c | 8 +++++---
+>>  1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/qdev-monitor.c b/qdev-monitor.c
+>> index e9b7228480d..a0301cfca81 100644
+>> --- a/qdev-monitor.c
+>> +++ b/qdev-monitor.c
+>> @@ -747,11 +747,13 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
+>>          }
+>>      }
+>>      QLIST_FOREACH(ncl, &dev->clocks, node) {
+>> -        qdev_printf("clock-%s%s \"%s\" freq_hz=%e\n",
+>> +        g_autofree char *freq = NULL;
+>> +
+>> +        freq = freq_to_str(clock_get_hz(ncl->clock));
+>> +        qdev_printf("clock-%s%s \"%s\" freq_hz=%s\n",
+>>                      ncl->output ? "out" : "in",
+>>                      ncl->alias ? " (alias)" : "",
+>> -                    ncl->name,
+>> -                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
+>> +                    ncl->name, freq);
+>>      }
+>>      class = object_get_class(OBJECT(dev));
+>>      do {
+>> -- 
+>> 2.26.2
+>>
 
