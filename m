@@ -2,161 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23AAE27AC25
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:43:36 +0200 (CEST)
-Received: from localhost ([::1]:35056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5112B27AC4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:56:46 +0200 (CEST)
+Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMqd5-0007Or-4V
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:43:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
+	id 1kMqpp-000654-CS
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1kMqc2-0006Ti-Ce; Mon, 28 Sep 2020 06:42:30 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1kMqc0-0006CZ-AU; Mon, 28 Sep 2020 06:42:30 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08SAVYVa162207; Mon, 28 Sep 2020 06:42:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=WyQdDkVLfsiX4srfpW3IO0i5INrJl7zTrjReMV/yLUo=;
- b=IsbLfn0yECb0n3hE7KfuEcwkvfvn5OXMU5HByGvfqJk7P63XsyEvabuExbAgAGoJySI8
- ACjHvU/umNZt67p6ZwtCC3Xd/Fwwna7uaEZMiAqfsEyEAqNdBnGc9vEApKiZRIxhSus0
- 0OHk1ek+wiXy4067/PxfkaKPLSCResRmWdtF1rXeVSU0ZAH1pGw0grXcVsS2PFfF1G0u
- sNVZKH/ENdftatWmLMtCobK08/6kHFOV1eXT5HDCDeuBZsCkcuVkYtSx5nmQm0QwCeVf
- xXgm0aAMn9QWykgTjgi4svqEhYYk1fFyoxnHTZKtVvPXy0WZW5VNk1V6ZXG4rhA4Qoao 0g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33udnp95ba-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Sep 2020 06:42:25 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08SAW2d6163975;
- Mon, 28 Sep 2020 06:42:25 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33udnp95b1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Sep 2020 06:42:25 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08SAb5ki021138;
- Mon, 28 Sep 2020 10:42:24 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma03dal.us.ibm.com with ESMTP id 33sw98xjgr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Sep 2020 10:42:24 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08SAgNRC51708392
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Sep 2020 10:42:23 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 44EC76E04C;
- Mon, 28 Sep 2020 10:42:23 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AA0166E04E;
- Mon, 28 Sep 2020 10:42:22 +0000 (GMT)
-Received: from [9.160.97.73] (unknown [9.160.97.73])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 28 Sep 2020 10:42:22 +0000 (GMT)
-Subject: Re: [PATCH] vfio-ccw: plug memory leak while getting region info
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200928101701.13540-1-cohuck@redhat.com>
-From: Eric Farman <farman@linux.ibm.com>
-Autocrypt: addr=farman@linux.ibm.com; keydata=
- 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
-Message-ID: <b62f039a-642d-4371-3a4c-f9461ae3575c@linux.ibm.com>
-Date: Mon, 28 Sep 2020 06:42:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqcn-0007kp-Gg
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqci-0006HM-OI
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:17 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601289792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UDNSv99blgCXgYKAJW9DywzNbpAo3HN/zviB89rGwi0=;
+ b=K7My8h25eCpPj3MMXMxXW25AIm2efDZoBB6GEVI0jiQzGrxmP2HCEE/JV9kHnBkDMhAm1P
+ IlFjGtgNvJ04Na5q+ITRUsiUWDG9mjRR/q+Mb7RxZz6nH8PY8FUK+FEu+zGVZ1nsqPUr0Q
+ wZSxL9en5yy+gcR+rZ+bPrB76DzoKy8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-utlhAF7EMd6n-v3CKHbecw-1; Mon, 28 Sep 2020 06:43:08 -0400
+X-MC-Unique: utlhAF7EMd6n-v3CKHbecw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC9661DDF9;
+ Mon, 28 Sep 2020 10:43:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 217911002C08;
+ Mon, 28 Sep 2020 10:42:57 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 51B689CAE; Mon, 28 Sep 2020 12:42:56 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/12] microvm: add pcie support
+Date: Mon, 28 Sep 2020 12:42:44 +0200
+Message-Id: <20200928104256.9241-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200928101701.13540-1-cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-28_07:2020-09-24,
- 2020-09-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- suspectscore=2 priorityscore=1501 clxscore=1011 lowpriorityscore=0
- bulkscore=0 spamscore=0 impostorscore=0 malwarescore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009280080
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 06:42:25
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.011,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.462, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.576,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -169,74 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Radoslaw Biernacki <rad@semihalf.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Leif Lindholm <leif@nuviainc.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+v2:=0D
+ - move aml generator to gpex and have arm virt + microvm share it.=0D
+ - add 64bit window.=0D
+ - add testcase.=0D
+v3:=0D
+ - fix testcase: force tcg, disable on i386.=0D
+=0D
+Gerd Hoffmann (12):=0D
+  move MemMapEntry=0D
+  acpi: add acpi_dsdt_add_gpex=0D
+  arm: use acpi_dsdt_add_gpex=0D
+  microvm: add irq table=0D
+  microvm: add pcie support=0D
+  microvm/pcie: add 64bit mmio window=0D
+  tests/acpi: allow updates for expected data files=0D
+  tests/acpi: add empty tests/data/acpi/microvm/DSDT.pcie file=0D
+  tests/acpi: factor out common microvm test setup=0D
+  tests/acpi: add microvm pcie test=0D
+  acpi/gpex: no reason to use a method for _CRS=0D
+  tests/acpi: update expected data files=0D
+=0D
+ include/exec/hwaddr.h             |   5 +=0D
+ include/hw/arm/virt.h             |   5 -=0D
+ include/hw/i386/microvm.h         |  32 ++++++=0D
+ include/hw/pci-host/gpex.h        |  11 ++=0D
+ hw/arm/sbsa-ref.c                 |   5 -=0D
+ hw/arm/virt-acpi-build.c          | 175 ++---------------------------=0D
+ hw/i386/acpi-microvm.c            |  12 ++=0D
+ hw/i386/microvm.c                 |  93 ++++++++++++++++=0D
+ hw/pci-host/gpex-acpi.c           | 177 ++++++++++++++++++++++++++++++=0D
+ tests/qtest/bios-tables-test.c    |  30 ++++-=0D
+ hw/i386/Kconfig                   |   1 +=0D
+ hw/pci-host/meson.build           |   1 +=0D
+ tests/data/acpi/microvm/DSDT.pcie | Bin 0 -> 3023 bytes=0D
+ tests/data/acpi/virt/DSDT         | Bin 5200 -> 5196 bytes=0D
+ tests/data/acpi/virt/DSDT.memhp   | Bin 6561 -> 6557 bytes=0D
+ tests/data/acpi/virt/DSDT.numamem | Bin 5200 -> 5196 bytes=0D
+ 16 files changed, 366 insertions(+), 181 deletions(-)=0D
+ create mode 100644 hw/pci-host/gpex-acpi.c=0D
+ create mode 100644 tests/data/acpi/microvm/DSDT.pcie=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-
-On 9/28/20 6:17 AM, Cornelia Huck wrote:
-> vfio_get_dev_region_info() unconditionally allocates memory
-> for a passed-in vfio_region_info structure (and does not re-use
-> an already allocated structure). Therefore, we have to free
-> the structure we pass to that function in vfio_ccw_get_region()
-> for every region we successfully obtained information for.
-
-Ah, yes. This makes sense. A little messy, but hopefully we're done with
-new regions for the time being.
-
-> 
-> Reported-by: Alex Williamson <alex.williamson@redhat.com>
-> Fixes: 8fadea24de4e ("vfio-ccw: support async command subregion")
-> Fixes: 46ea3841edaf ("vfio-ccw: Add support for the schib region")
-> Fixes: f030532f2ad6 ("vfio-ccw: Add support for the CRW region and IRQ")
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
-
-> ---
->  hw/vfio/ccw.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index ff7f36977994..d2755d7fc5ca 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -491,6 +491,7 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
->  
->      vcdev->io_region_offset = info->offset;
->      vcdev->io_region = g_malloc0(info->size);
-> +    g_free(info);
->  
->      /* check for the optional async command region */
->      ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
-> @@ -503,6 +504,7 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
->          }
->          vcdev->async_cmd_region_offset = info->offset;
->          vcdev->async_cmd_region = g_malloc0(info->size);
-> +        g_free(info);
->      }
->  
->      ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
-> @@ -515,6 +517,7 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
->          }
->          vcdev->schib_region_offset = info->offset;
->          vcdev->schib_region = g_malloc(info->size);
-> +        g_free(info);
->      }
->  
->      ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
-> @@ -528,9 +531,9 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
->          }
->          vcdev->crw_region_offset = info->offset;
->          vcdev->crw_region = g_malloc(info->size);
-> +        g_free(info);
->      }
->  
-> -    g_free(info);
->      return;
->  
->  out_err:
-> 
 
