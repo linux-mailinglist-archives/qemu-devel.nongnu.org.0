@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3956527B2F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:20:01 +0200 (CEST)
-Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E5C27B2EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:17:50 +0200 (CEST)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMwoh-0000rA-V6
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:19:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45896)
+	id 1kMwmb-0005sp-Ev
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kMwki-0004BL-Ot
+ id 1kMwki-0004BM-QF
  for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:15:53 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39642)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kMwke-0006LX-0u
+ id 1kMwkf-0006Lo-Qf
  for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:15:51 -0400
-Received: by mail-wm1-x342.google.com with SMTP id b79so1928882wmb.4
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 10:15:47 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id k18so1926421wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 10:15:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2cYhkegMVCWJx5AY//3ZiHazS6O2MiBS34TtiHWp2eM=;
- b=hBmsFGLPnT0vkfFJZl2x2Cff7H3OCLzyPCG4Smvz+YK5XS9L7yRu33Wq5POaDbIgxY
- 83LEXlo5uRa7bEIzl7j1Ewej2LIwsVMBVvloWyrL3NjiEdG2NHtn2/b7//ktRGBHLJpQ
- mnafozIUFh5Fv7OutvCDar1ewUHwlqUehdvpQtilCqImqg/ny5KetLU1umb4xrE+RELI
- y68PnXq/1YYwJXshLtrZkm26P/Pi/T9lZrNS/nMbvE4XUxoW7wyu2Km4gDC/xrwqlTvb
- 84vsGbBZ6SO9hPdAi7XaxBbgFqD1NHqJ+i5/mXTqF5tREIcLNf5QxKMQSMYYHt0vuL1t
- xqZQ==
+ bh=kbD39lA/Bt4aiLOqktVNNjYJqK4efqGmJbNwuoiH4c0=;
+ b=gl9tzsEg/1a3PWr1gtKO5dRNe5Rwq9b9Bqvyl2OKozX5Y4MQfyZmaATkEhJbnjMbyv
+ /BLBgT9j1FRDffWxIjSsGzjTrvxUlnmG3vSI1VNIsZgxTDMovdpChAYly92RG8OGE2Ix
+ DOzgwkZCyvcoNQfxYw82ug+FjG8MZpw+LN8pJoougEXBr2VxCik/xBO3kJcPO8HzIjFS
+ Wdti+lg0X4lBu2+MsEtoaFpyQ1Fka7Rsb8NdcMm5NKOjrZbyUrpLmRWc4kvG0jUWFoc+
+ Lh4pBmqzhM4rEeisWgJ+nGJmADnQbEKooCatqpbmIwLWlZr4XFq7+gIGsVy5LFoYrJij
+ znTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2cYhkegMVCWJx5AY//3ZiHazS6O2MiBS34TtiHWp2eM=;
- b=VX+GNw5bAieKFKxNYDSEP8lPsoxD/xzDXqlXmmKtzvFYrh2MSu+eHQmCtiv7Vj6FY+
- mGApLRh+87r+mM3dsIw076VHNpRcdsDsujAuXY9ZbMEYhSTXW89IG+4MvkX4dc7SFOM1
- PDSryk1AJvEpgLtgTX86LgAqVZTmTw67BW9zqxF0I2o3slpv632dR0t5R2w0HKrHh898
- +25UW5sPC/B0M3n+0b/7TVL1p8BVVaIWySfyz5M+GWbRv/JsI6ZxMTPGXuRiUoIWY91m
- jyx9mLSw+ERCbyDEuKJs08lj0AMUt2pLkKtzEwmQ57/+DjGkD+yoc2/2SMJd1wrNiwGh
- PjWQ==
-X-Gm-Message-State: AOAM531zPrNbFy1dGcszLPzqykC82yfw0dSAmB2Mg3HKXcItnVal+qqK
- Yr8FcV/o9xy/qSV9CW3idjZVc/IC4jU=
-X-Google-Smtp-Source: ABdhPJwcX/2tzK7qBAUthfAlGDnkpGlZz46ahe7sj3kfWDWtu4Q+a+5C4tLuSHzfkdflDHuI/Umhng==
-X-Received: by 2002:a1c:7911:: with SMTP id l17mr168548wme.179.1601313346516; 
- Mon, 28 Sep 2020 10:15:46 -0700 (PDT)
+ bh=kbD39lA/Bt4aiLOqktVNNjYJqK4efqGmJbNwuoiH4c0=;
+ b=OTO7Wf8QioZJzMmtTxJyR7dVhENrA993EAZm0yQtT3nbRLBIaHeUk2vw44ZkS++QIC
+ dD7GZ4d/D94wDi5obd57ntlaWDwfnS21mWPHfdC6YeZ/jiI/xigkkvX15D6Aqtnf8jwP
+ ErDe5QCahKZnyL4ky+582vWD6t1/pUfX0ZpYViIVsNiulWHtha/Iu8VTjn/8tRCL1tcR
+ BonN9qXiCX6e59pu0DN6hi0yFjjKhXDbAlrVzmS1V6h8gvk/P5rH3MDT/sJof6nq1Lgh
+ AHDcHkjgloc6hC0NucPx686+01TcBj+GxysJzQVotGIzVuxCd0PShRS4z35MKDQinn71
+ dLIQ==
+X-Gm-Message-State: AOAM531qQxDlaC5GyE3ONEQRj3i5RWhJoN6AotpQj8ku32cJVEnMXuHf
+ qqhruHJM1NL8+A/0rwnzrke40n8MVqA=
+X-Google-Smtp-Source: ABdhPJzBovmNdBafTTruSAxg4RxwLabXLBhpBzcJwxkvx4ILGpkJHYpJ3UmnL9mhB525W4lzgfFCKg==
+X-Received: by 2002:a1c:9d42:: with SMTP id g63mr241626wme.20.1601313348296;
+ Mon, 28 Sep 2020 10:15:48 -0700 (PDT)
 Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id z67sm464787wme.41.2020.09.28.10.15.45
+ by smtp.gmail.com with ESMTPSA id z67sm464787wme.41.2020.09.28.10.15.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Sep 2020 10:15:45 -0700 (PDT)
+ Mon, 28 Sep 2020 10:15:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/16] target/mips/cp0_timer: Explicit unit in variable name
-Date: Mon, 28 Sep 2020 19:15:26 +0200
-Message-Id: <20200928171539.788309-4-f4bug@amsat.org>
+Subject: [PATCH 04/16] target/mips/cpu: Introduce mips_cpu_properties[]
+Date: Mon, 28 Sep 2020 19:15:27 +0200
+Message-Id: <20200928171539.788309-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200928171539.788309-1-f4bug@amsat.org>
 References: <20200928171539.788309-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -15
@@ -103,58 +103,47 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Name variables holding nanoseconds with the '_ns' suffix.
+To allow objects creating CPU objects to set non-default properties
+before qdev-realizing() it, add an empty mips_cpu_properties array
+in MIPSCPUClass.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cp0_timer.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ target/mips/cpu.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
-index 9c38e9da1c8..5194c967ae3 100644
---- a/target/mips/cp0_timer.c
-+++ b/target/mips/cp0_timer.c
-@@ -32,13 +32,14 @@
- /* MIPS R4K timer */
- static void cpu_mips_timer_update(CPUMIPSState *env)
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index e86cd065483..c1c0f2e12ba 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -26,7 +26,7 @@
+ #include "qemu/module.h"
+ #include "sysemu/kvm.h"
+ #include "exec/exec-all.h"
+-
++#include "hw/qdev-properties.h"
+ 
+ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
  {
--    uint64_t now, next;
-+    uint64_t now_ns, next_ns;
-     uint32_t wait;
- 
--    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--    wait = env->CP0_Compare - env->CP0_Count - (uint32_t)(now / TIMER_PERIOD);
--    next = now + (uint64_t)wait * TIMER_PERIOD;
--    timer_mod(env->timer, next);
-+    now_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    wait = env->CP0_Compare - env->CP0_Count -
-+           (uint32_t)(now_ns / TIMER_PERIOD);
-+    next_ns = now_ns + (uint64_t)wait * TIMER_PERIOD;
-+    timer_mod(env->timer, next_ns);
+@@ -181,6 +181,10 @@ static ObjectClass *mips_cpu_class_by_name(const char *cpu_model)
+     return oc;
  }
  
- /* Expire the timer.  */
-@@ -56,16 +57,16 @@ uint32_t cpu_mips_get_count(CPUMIPSState *env)
-     if (env->CP0_Cause & (1 << CP0Ca_DC)) {
-         return env->CP0_Count;
-     } else {
--        uint64_t now;
-+        uint64_t now_ns;
++static Property mips_cpu_properties[] = {
++    DEFINE_PROP_END_OF_LIST()
++};
++
+ static void mips_cpu_class_init(ObjectClass *c, void *data)
+ {
+     MIPSCPUClass *mcc = MIPS_CPU_CLASS(c);
+@@ -190,6 +194,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     device_class_set_parent_realize(dc, mips_cpu_realizefn,
+                                     &mcc->parent_realize);
+     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
++    device_class_set_props(dc, mips_cpu_properties);
  
--        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        now_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-         if (timer_pending(env->timer)
--            && timer_expired(env->timer, now)) {
-+            && timer_expired(env->timer, now_ns)) {
-             /* The timer has already expired.  */
-             cpu_mips_timer_expire(env);
-         }
- 
--        return env->CP0_Count + (uint32_t)(now / TIMER_PERIOD);
-+        return env->CP0_Count + (uint32_t)(now_ns / TIMER_PERIOD);
-     }
- }
- 
+     cc->class_by_name = mips_cpu_class_by_name;
+     cc->has_work = mips_cpu_has_work;
 -- 
 2.26.2
 
