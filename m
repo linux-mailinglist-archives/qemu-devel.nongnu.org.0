@@ -2,108 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF86127B5F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 22:09:13 +0200 (CEST)
-Received: from localhost ([::1]:33646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA30227B662
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 22:34:40 +0200 (CEST)
+Received: from localhost ([::1]:50188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMzSS-0000TH-Qp
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 16:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36470)
+	id 1kMzr5-0000Bs-AT
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 16:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
- id 1kMzPZ-0006Vw-Cb
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 16:06:14 -0400
-Received: from mail-mw2nam10on2065.outbound.protection.outlook.com
- ([40.107.94.65]:7990 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
- id 1kMzPW-0006yf-87
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 16:06:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FgCnxfLbw7qOX06/6OWP+4OD25Qyoivl1aftZceljhqcuT71uSuTX9DHsNYaW2gYyKU8GnH5PbJ4DMLpsPTsksw8wqnNtO5xy8EoFf00+qrzhDrvhOjRLEQjXVGeJ99ViLIJ69wKzRQNg0mmrfZDqRHjy/d0JYpwRLxLR5qeAZvrKelywEHVGbmUPsV9NZ+XN9kWx5B/lYlnmCHRUpo4b3DTWQ+db96NmAi4Qlk/NqzfVJJZQVEvMnnUIDSntnCQKEEmCr8i9eWrE88pGJAhMJOtXrKtCQTRLnbNUj/bo9e+6/5WsYG44ng1CSUSY6RgKkVsG2UmgMPh56y1UXRqUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CMe/pp6s+8dbhrTztejnvQj6XXscuz4gpO6YE2NMuwY=;
- b=hx2DTjACMmBeyMXgNPSdragU1YX+rjiNks7IrxYbzbfzXRxMgvV+jM6hdUc861ZuHQghD5uxdqSur99tVkAhhxlT5qPR7UrkKea+Rj2uBOy/51jMMXVzrHiGev4wf7R6ryvJjUUaX5jjEcfY/bE9ai4HE7cwd9XoLbcvPgQB97SiGns1DvRMuRkJ2UdHUvS2lZ/6JWyXoY9e1uv75eL/VsERYNB2o1OsVHWhfig9+qFtbE6ITI901in6ZXofWLCgAixryT5gKlyDJtVneU8/qkPVrysVKrPbMLpYa55oYfdUW0mpBNm4xWL2RTo1/nJXqTdz8HWRwxtHhh6PgUOHqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CMe/pp6s+8dbhrTztejnvQj6XXscuz4gpO6YE2NMuwY=;
- b=lWp6ytByxZtZdUgKfW0l2K+BCSi3pKhAQihv1yLXmB7dwc1+2H06vmH7tVDrhRt7xn4DWXFPKhI3yj6WSqX2jsbort9v8wZtTPUBWoN+JCgChAdntd8WwJfOiZAbiT+53iGT9iXktkjjLQIEJTvwbfzPBJpZjOyoWEHwdJWZhWU=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from CY4PR12MB1494.namprd12.prod.outlook.com (2603:10b6:910:f::22)
- by CY4PR1201MB0023.namprd12.prod.outlook.com (2603:10b6:910:1f::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21; Mon, 28 Sep
- 2020 20:05:51 +0000
-Received: from CY4PR12MB1494.namprd12.prod.outlook.com
- ([fe80::11f9:59c8:16c0:7718]) by CY4PR12MB1494.namprd12.prod.outlook.com
- ([fe80::11f9:59c8:16c0:7718%8]) with mapi id 15.20.3412.029; Mon, 28 Sep 2020
- 20:05:51 +0000
-From: Wei Huang <wei.huang2@amd.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH V1 3/3] amd-iommu: Fix amdvi_mmio_trace() to differentiate
- MMIO R/W
-Date: Mon, 28 Sep 2020 15:05:06 -0500
-Message-Id: <20200928200506.75441-4-wei.huang2@amd.com>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200928200506.75441-1-wei.huang2@amd.com>
-References: <20200928200506.75441-1-wei.huang2@amd.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [165.204.78.2]
-X-ClientProxiedBy: SN4PR0601CA0019.namprd06.prod.outlook.com
- (2603:10b6:803:2f::29) To CY4PR12MB1494.namprd12.prod.outlook.com
- (2603:10b6:910:f::22)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kMzq8-0007hW-WD
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 16:33:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57363)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kMzq6-0002Dt-0g
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 16:33:40 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601325214;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vPz6APpWCoxl1UibsooudA0bCD57PzP7LngryeyzQ/k=;
+ b=M2U9KaA+X8t3nt6qNruduPZJXOXdj40avKfnByz8D0P/25jUf1Ze29LWG9YV1uodH7UU8L
+ FMRTThkHRRUyxrYbaIaH8//A4QKkEHRUmCRL/S031O4cXyoRALoeEmI8jZjALhFJXEwfXG
+ bAODFgYAk15bhbFuRQhfy45LclRD9DM=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-0PXG0Ss4PIacoHfrmebDwA-1; Mon, 28 Sep 2020 16:33:29 -0400
+X-MC-Unique: 0PXG0Ss4PIacoHfrmebDwA-1
+Received: by mail-vs1-f71.google.com with SMTP id d21so817863vsf.16
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 13:33:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vPz6APpWCoxl1UibsooudA0bCD57PzP7LngryeyzQ/k=;
+ b=fuQGNBWoigJ4D/tTQRDSZrApb/mrc6P1wwfgVKHhd/0juJE15kYmdF1rrhheFkwEaB
+ Lop8VViA+B2N2NF7rF1BP09PnSiGvzizDDtx4iWzEzarr7h0ArNitR8fuXSawIAP8EKG
+ Wzv/MwCgJCpquWPitk5Km517b9uiKOemAfUdDI2xgkX7IEljEd7wwohSMIcx6RUBwUuJ
+ nYK4FgzVfeqq+n/bAl4zxqnZJ7/Lk6bZ+Y5WATnbCGP8TF3Rt82rl5dJxWRl46yaJreE
+ 1rC2nHCWZG1voTXjeVQPuwq547Tyx+Nt9kcr6zFkfn+pmR/E1BZOSjtNhwuA56wqgHsz
+ 2iKA==
+X-Gm-Message-State: AOAM530XlohhZ2aIa/2L2boa5hpIDw3STiScMUMz6V7hg7+o9EHP4hMx
+ f4vHJ+CPpQf9JtO7WDDQNk9Dld3ABw3+jENheTzo+yy9V7ZSWeh4ZJ4OG+4NoIUNqxFSlQZFdNY
+ Q+sOa/t3GHSnlOE/W2NRVAa0UT22mo9k=
+X-Received: by 2002:a1f:1e04:: with SMTP id e4mr839711vke.11.1601325208369;
+ Mon, 28 Sep 2020 13:33:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCNv8Kl6NNjrWnlPX9ogm25Eh6g5oAhVucdmw178jIuCFWnL1qNNh7nzgNcSgRV8P6KIQSI9fj6QTBzKOsQSc=
+X-Received: by 2002:a1f:1e04:: with SMTP id e4mr839694vke.11.1601325208047;
+ Mon, 28 Sep 2020 13:33:28 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ethanolx56bbhost.amd.com (165.204.78.2) by
- SN4PR0601CA0019.namprd06.prod.outlook.com (2603:10b6:803:2f::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
- Transport; Mon, 28 Sep 2020 20:05:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: df1c5895-fc15-4d61-d933-08d863e9e5bb
-X-MS-TrafficTypeDiagnostic: CY4PR1201MB0023:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CY4PR1201MB0023A750598A914819B68514CF350@CY4PR1201MB0023.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:155;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NdPPSilLvDDkSZTS9kpz6kwNKApGKM07VLuK3nUeloP/kFN1+DbEST3AEsOsgBmDdRRGqDI79+LglaVoXcul5L7vVxAMXbDLSWraxEts/LSmJwu6wz+YKcP9jG8C8iKr9rars1sw5N96IDe1Tuqm5rzlSE/SGe/khUoS9FUGlDSOFAHbAxIkWOxWv+iL+GK0qOaWhj8mx3sJWf7Mt8/wu3abU6rr4wHkzSUDLfSisC4fMezbAvWiaiglQl0i6PbBH0Y8ixBlJ5OAA1ns91i1H2ppP0mMNMp8YEpgqxRVITDRM3v5SMgDiKD2og2Jww8l6Fq6WH07pBRmer9OHzY5vwWZqJBj1E5FM0h82slzfMlq47CSyq0nl7xjVSf5XY4V
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR12MB1494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(376002)(346002)(396003)(136003)(6486002)(4326008)(316002)(2906002)(8676002)(86362001)(8936002)(6666004)(478600001)(16526019)(5660300002)(186003)(26005)(1076003)(6916009)(83380400001)(66946007)(2616005)(52116002)(7696005)(66476007)(956004)(36756003)(66556008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 7xWmsRiBxZ8ZyRv0ZoQnh4w7gwwWuxmjbwJTdbPpMinkD472vlA5vuET8uF0ylBHTfT6YH+ND7qvTvlHG+bVX3TdnXlXJSbF/7YAmU/PlzaBHUk0ZkxbU6UafXVmBVrutZ0ntfUokz4kL/bwQabm7H/FzVtw8L6f36rV2XGxcA2dgu6kwVcmClkyKbu3KfzMPNzsfhRs8ZI6/H4vwFX3A4XmId0rgS9zYWstzWhXNVEP58gPtK8NtV5xIhXwP/PCtjAMDGniyG1MKB3FoNQnwoYnmCunf+gV2xEmuNMPFDyWNtpRNi7Vzj7wpNpDcfgL6CGwelaCWRNXs9RyGr/Hn8ccUoUQ/YAZoKjr1XYVQHEip7lEs9ThZrlj5oSN27Llg8sEjo9rYSqBjUQ10pBqQqKIvHIfb8C/WRClQvF59W8y9xPvCqIepl43yMCM8YjmL68+6DfJP0I+mgl9bCexobqZgN/KGHLscW31T3WmwLWcE8W9hszYnVzEmTJaUt3eA0A2y4AqdL89PvyQMdr19EZ1pajYN3Ocmnnx1NQ+9MWI1xTYHwH245z9vzVwEQ3oHlOIsKkL5zx6dPhwokovhhPzIzA7PM353naP1gF6RWzADA1Jb4CVusUGX4D03RYO85tfYAI7zvezuTMjlmWxbw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df1c5895-fc15-4d61-d933-08d863e9e5bb
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1494.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 20:05:50.8497 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eI0Gkba9RYW3l7vm6ryNjnhTanww6qY3hTPERI1hiLuj7P8dqtP6cbfZ2l9IZdWY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0023
-Received-SPF: none client-ip=40.107.94.65; envelope-from=Wei.Huang2@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 16:06:01
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.614, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+References: <20200928171539.788309-1-f4bug@amsat.org>
+ <20200928171539.788309-17-f4bug@amsat.org>
+In-Reply-To: <20200928171539.788309-17-f4bug@amsat.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 28 Sep 2020 17:33:17 -0300
+Message-ID: <CAKJDGDbowgUtu8Ap7K6vm_sksW3-maHU0bk3uib7BNY-5YxMdQ@mail.gmail.com>
+Subject: Re: [PATCH 16/16] tests/acceptance: Test the MIPSsim machine
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,76 +92,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, wei.huang2@amd.com, peterx@redhat.com,
- alex.williamson@redhat.com, pbonzini@redhat.com, Suravee.Suthikulpanit@amd.com,
- rth@twiddle.net
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
+ Thomas Huth <huth@tuxfamily.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Cleber Rosa <crosa@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-amd-iommu MMIO trace function does not differentiate MMIO writes from
-reads. Let us extend it to support both types.
+On Mon, Sep 28, 2020 at 2:31 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Add a test for the mipssim machine, based on the recommended
+> test setup from Thomas Huth:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg606846.html
+>
+> The test is quick and can be run as:
+>
+>   $ avocado --show=3Dconsole run -t machine:mipssim tests/acceptance/
+>    (1/1) tests/acceptance/machine_mips_mipssim.py:MipsSimMachine.test_mip=
+ssim_linux_console:
+>   console: Linux version 3.6.11 (root@711bb8ba16a7) (gcc version 4.8.3 (B=
+uildroot 2014.11) ) #2 Sun Sep 27 13:39:35 UTC 2020
+>   console: Setting default memory size 0x02000000
+>   console: bootconsole [early0] enabled
+>   console: CPU revision is: 00019300 (MIPS 24Kc)
+>   console: FPU revision is: 00739300
+>   ...
+>   console: CPU frequency 12.00 MHz
+>   console: Calibrating delay loop... 950.27 BogoMIPS (lpj=3D4751360)
+>   ...
+>   console: MIPSNet Ethernet driver. Version: 2007-11-17. (c)2005 MIPS Tec=
+hnologies, Inc.
+>   ...
+>   console: Welcome to Buildroot
+>   console: buildroot login: root
+>   console: # root
+>   console: -sh: root: not found
+>   console: # ping -c 3 10.0.2.2
+>   console: PING 10.0.2.2 (10.0.2.2): 56 data bytes
+>   console: 64 bytes from 10.0.2.2: seq=3D0 ttl=3D255 time=3D48.231 ms
+>   console: 64 bytes from 10.0.2.2: seq=3D1 ttl=3D255 time=3D9.407 ms
+>   console: 64 bytes from 10.0.2.2: seq=3D2 ttl=3D255 time=3D2.298 ms
+>   console: --- 10.0.2.2 ping statistics ---
+>   console: 3 packets transmitted, 3 packets received, 0% packet loss
+>   PASS (7.99 s)
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Cc: Thomas Huth <huth@tuxfamily.org>
+> ---
+>  MAINTAINERS                              |  1 +
+>  tests/acceptance/machine_mips_mipssim.py | 56 ++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+)
+>  create mode 100644 tests/acceptance/machine_mips_mipssim.py
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5eed1e692b4..17d8a012b0e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -240,6 +240,7 @@ F: include/hw/misc/mips_*
+>  F: include/hw/timer/mips_gictimer.h
+>  F: tests/acceptance/linux_ssh_mips_malta.py
+>  F: tests/acceptance/machine_mips_malta.py
+> +F: tests/acceptance/machine_mips_mipssim.py
+>  F: tests/tcg/mips/
+>  K: ^Subject:.*(?i)mips
+>
+> diff --git a/tests/acceptance/machine_mips_mipssim.py b/tests/acceptance/=
+machine_mips_mipssim.py
+> new file mode 100644
+> index 00000000000..b2749917b08
+> --- /dev/null
+> +++ b/tests/acceptance/machine_mips_mipssim.py
+> @@ -0,0 +1,56 @@
+> +# Functional tests for the MIPS simulator (MIPSsim machine)
+> +#
+> +# Copyright (c) 2020 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+> +# See the COPYING file in the top-level directory.
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +import os
+> +import logging
+> +import time
+> +
+> +from avocado import skipUnless
+> +from avocado_qemu import Test
+> +from avocado_qemu import exec_command_and_wait_for_pattern
+> +from avocado_qemu import interrupt_interactive_console_until_pattern
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class MipsSimMachine(Test):
+> +
+> +    timeout =3D 30
+> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
+> +
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted co=
+de')
+> +    def test_mipssim_linux_console(self):
+> +        """
+> +        Boots the Linux kernel and checks that the console is operationa=
+l
+> +        :avocado: tags=3Darch:mipsel
+> +        :avocado: tags=3Dmachine:mipssim
+> +        :avocado: tags=3Ddevice:mipsnet
+> +        """
+> +        kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/raw=
+/'
+> +                      '32ea5764e1de8fffa0d59366c44822cd06d7c8e0/'
+> +                      'mips/mipssim/mipsel/vmlinux')
 
-Co-developed-by: Wei Huang <wei.huang2@amd.com>
-Signed-off-by: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
----
- hw/i386/amd_iommu.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+So, are you willing to maintain some images on your GitHub to avoid
+the image changes when they are not found?
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index 7604e2080595..827818b9f781 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -662,17 +662,28 @@ static void amdvi_cmdbuf_run(AMDVIState *s)
-     }
- }
- 
--static void amdvi_mmio_trace(hwaddr addr, unsigned size)
-+static void amdvi_mmio_trace(hwaddr addr, unsigned size, bool iswrite,
-+                             uint64_t val)
- {
-     uint8_t index = (addr & ~0x2000) / 8;
- 
-     if ((addr & 0x2000)) {
-         /* high table */
-         index = index >= AMDVI_MMIO_REGS_HIGH ? AMDVI_MMIO_REGS_HIGH : index;
--        trace_amdvi_mmio_read(amdvi_mmio_high[index], addr, size, addr & ~0x07);
-+        if (!iswrite)
-+            trace_amdvi_mmio_read(amdvi_mmio_high[index], addr, size,
-+                                  addr & ~0x07);
-+        else
-+            trace_amdvi_mmio_write(amdvi_mmio_high[index], addr, size, val,
-+                                   addr & ~0x07);
-     } else {
-         index = index >= AMDVI_MMIO_REGS_LOW ? AMDVI_MMIO_REGS_LOW : index;
--        trace_amdvi_mmio_read(amdvi_mmio_low[index], addr, size, addr & ~0x07);
-+        if (!iswrite)
-+            trace_amdvi_mmio_read(amdvi_mmio_low[index], addr, size,
-+                                  addr & ~0x07);
-+        else
-+            trace_amdvi_mmio_write(amdvi_mmio_low[index], addr, size, val,
-+                                   addr & ~0x07);
-     }
- }
- 
-@@ -693,7 +704,7 @@ static uint64_t amdvi_mmio_read(void *opaque, hwaddr addr, unsigned size)
-     } else if (size == 8) {
-         val = amdvi_readq(s, addr);
-     }
--    amdvi_mmio_trace(addr, size);
-+    amdvi_mmio_trace(addr, size, 0, val);
- 
-     return val;
- }
-@@ -840,7 +851,7 @@ static void amdvi_mmio_write(void *opaque, hwaddr addr, uint64_t val,
-         return;
-     }
- 
--    amdvi_mmio_trace(addr, size);
-+    amdvi_mmio_trace(addr, size, 1, val);
-     switch (addr & ~0x07) {
-     case AMDVI_MMIO_CONTROL:
-         amdvi_mmio_reg_write(s, size, val, addr);
--- 
-2.25.2
+> +        kernel_hash =3D '0f9aeca3a2e25b5b0cc4999571f39a7ad58cdc43'
+> +        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+> +
+> +        initrd_url =3D ('https://github.com/philmd/qemu-testing-blob/raw=
+/'
+> +                      '32ea5764e1de8fffa0d59366c44822cd06d7c8e0/'
+> +                      'mips/mipssim/mipsel/rootfs.cpio')
+> +        initrd_hash =3D 'b20359bdfae66387e5a17d6692686d59c189417b'
+> +        initrd_path =3D self.fetch_asset(initrd_url, asset_hash=3Dinitrd=
+_hash)
+> +
+> +        self.vm.set_console()
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-initrd', initrd_path,
+> +                         '-append', self.KERNEL_COMMON_COMMAND_LINE)
+> +        self.vm.launch()
+> +
+> +        wait_for_console_pattern(self, 'Welcome to Buildroot')
+> +        interrupt_interactive_console_until_pattern(self,
+> +                                                    interrupt_string=3D'=
+root\r',
+> +                                                    success_message=3D'#=
+')
+> +        pattern =3D '3 packets transmitted, 3 packets received, 0% packe=
+t loss'
+> +        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2', pa=
+ttern)
+> --
+> 2.26.2
+>
+>
+
+IMHO, although the solution of spreading images over personal
+repositories is not the best, I don't have a strong opinion to block
+this, so
+
+Reviewed-by: Willian Rampazzo (willianr@redhat.com)
 
 
