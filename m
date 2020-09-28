@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9153C27B3BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:55:32 +0200 (CEST)
-Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07B427B3FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 20:02:57 +0200 (CEST)
+Received: from localhost ([::1]:34048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMxN5-0008C2-L9
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:55:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50080)
+	id 1kMxUG-00071d-TY
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 14:02:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kMx2Q-0001bi-UC
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:34:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56705)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kMxGt-0001u2-1h
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:49:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kMx2O-0000DR-R2
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:34:10 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kMxGq-0002H3-SF
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:49:06 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601314448;
+ s=mimecast20190719; t=1601315343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZSMUSkgMhivYKnCvp9TJyLhNx1idYXalGpSr4VhUOkU=;
- b=G8uO5F0NbEk/69ln1hKXjuWAjBRcTQGPicCgiXpb/D9amUzdVpbmRDwixMo8gEQ6jaCGyZ
- L/wcZs8fhY1EI9L+WcMf+XYmF0/hm9LwhZp3C7BGU7lYvdnNXbgc60zRmkP1cxgdcFMw7V
- bgi15HcPq+VpBkM1u4uFUgKYU+MokdA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-gx3Z18cePXuzUw_wkZkzdA-1; Mon, 28 Sep 2020 13:32:59 -0400
-X-MC-Unique: gx3Z18cePXuzUw_wkZkzdA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5814D1074643;
- Mon, 28 Sep 2020 17:32:58 +0000 (UTC)
-Received: from thuth.remote.csb (unknown [10.40.192.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44C341A8EC;
- Mon, 28 Sep 2020 17:32:56 +0000 (UTC)
-Subject: Re: [PATCH v2 6/8] qemu/bswap: Use compiler __builtin_bswap() on
- FreeBSD
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200928131934.739451-1-philmd@redhat.com>
- <20200928131934.739451-7-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8d50a945-a6f6-b1f4-392a-867360c50882@redhat.com>
-Date: Mon, 28 Sep 2020 19:32:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=N+wk5azjipVwb/ehom8hAby13QOSHxndVwpdQUEw6bY=;
+ b=H+czfGtHpIa/XiUQTzZcI9tE/td5EWT6JXiM/SKhN1Hu1ecS+F5nipWDufeseMDtRm2t9U
+ Rxbd4WpdKcyKjIM/O87L1wMa2jGBE40wEvtDWLHqXQ2Pxoa7wmCsW+NHDZgULl3nO7iR4c
+ tF8edA9o+XCSaKJkOcIqFkV1zRT+OwY=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-1JWyu-N0PPCQ-q9HrI-pBQ-1; Mon, 28 Sep 2020 13:49:01 -0400
+X-MC-Unique: 1JWyu-N0PPCQ-q9HrI-pBQ-1
+Received: by mail-qt1-f198.google.com with SMTP id g44so1192778qtb.15
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 10:49:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=N+wk5azjipVwb/ehom8hAby13QOSHxndVwpdQUEw6bY=;
+ b=phGoIFTDpo73ui7YSh0jfr00wzoc2c4pGCB0QHEZHv64jJJiX9cWEjCvCs2jBsgfsI
+ X143ngVsgNc+nnXVzMV9WEKvDh2kMaDPMYHlRm5Y5gF9wa4spK2AlOvRd3UfIbt6ycd/
+ COah692e7yWMwUy3y2V2IABBQb4qnr2xxWGof2u2dLtLJR7+R1nX3QDaJpGkXqxnLQS0
+ Z+p45KewKMhxOin4iMeQ46kIE8f3PiHqVGdoKBN07O9D19+MdfyMLbSKMeMc0cAxWWZK
+ rCT1LdO6f1OUt5NkSHqP6AopxGKMFkbddIKxnH/oSUy1zThPigRlKWcagdeZHssWKS49
+ 4bkw==
+X-Gm-Message-State: AOAM531VOAXxDEJ91egvqMFEQog+WlYF4MjC049mJ6kz8mTqlcTaYuwV
+ bTey/PP5S6Je77dr58cvNHwm7R/58Z95T5PPFkDi44MkR5GUv+7Q/d4v1niiEhTA87SOirJg/qk
+ J2iItwymzwP5Xcus=
+X-Received: by 2002:a05:6214:1225:: with SMTP id
+ p5mr687487qvv.29.1601315341035; 
+ Mon, 28 Sep 2020 10:49:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwt4nWj6QmS003v1Bz6EuXFFkUACIVtJlUYYHIn28GP80jEsIUzaaKB5AWQoglE6syryUULQ==
+X-Received: by 2002:a05:6214:1225:: with SMTP id
+ p5mr687448qvv.29.1601315340679; 
+ Mon, 28 Sep 2020 10:49:00 -0700 (PDT)
+Received: from xz-x1 (bras-vprn-toroon474qw-lp130-11-70-53-122-15.dsl.bell.ca.
+ [70.53.122.15])
+ by smtp.gmail.com with ESMTPSA id u10sm1191583qkk.14.2020.09.28.10.48.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Sep 2020 10:48:59 -0700 (PDT)
+Date: Mon, 28 Sep 2020 13:48:57 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Subject: Re: [PATCH 5/5] memory: Skip bad range assertion if notifier is
+ DEVIOTLB_UNMAP type
+Message-ID: <20200928174857.GC59869@xz-x1>
+References: <20200625191651.5817-1-eperezma@redhat.com>
+ <20200903161446.29615-1-eperezma@redhat.com>
+ <20200903161446.29615-6-eperezma@redhat.com>
+ <d3e2098d-e150-7f99-a1ee-4a997daf4a5c@redhat.com>
+ <CAJaqyWfwGP7_Ex=NhG_po+A1BkN3OCV=+3Vwi8uhLJ_e4UA5NQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200928131934.739451-7-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <CAJaqyWfwGP7_Ex=NhG_po+A1BkN3OCV=+3Vwi8uhLJ_e4UA5NQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,9 +89,8 @@ X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,43 +103,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kamil Rytarowski <kamil@netbsd.org>, Ed Maste <emaste@freebsd.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ qemu-level <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Avi Kivity <avi@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/09/2020 15.19, Philippe Mathieu-Daudé wrote:
-> Since commit efc6c070aca ("configure: Add a test for the minimum
-> compiler version") the minimum compiler version required for GCC
-> is 4.8, which supports __builtin_bswap().
-> Remove the FreeBSD specific ifdef'ry.
+On Mon, Sep 28, 2020 at 11:05:01AM +0200, Eugenio Perez Martin wrote:
+> On Fri, Sep 4, 2020 at 6:34 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > On 2020/9/4 上午12:14, Eugenio Pérez wrote:
+> > > Device IOTLB invalidations can unmap arbitrary ranges, eiter outside of
+> > > the memory region or even [0, ~0ULL] for all the space. The assertion
+> > > could be hit by a guest, and rhel7 guest effectively hit it.
+> > >
+> > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > > Reviewed-by: Peter Xu <peterx@redhat.com>
+> > > Reviewed-by: Juan Quintela <quintela@redhat.com>
+> > > ---
+> > >   softmmu/memory.c | 13 +++++++++++--
+> > >   1 file changed, 11 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/softmmu/memory.c b/softmmu/memory.c
+> > > index 8694fc7cf7..e723fcbaa1 100644
+> > > --- a/softmmu/memory.c
+> > > +++ b/softmmu/memory.c
+> > > @@ -1895,6 +1895,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+> > >   {
+> > >       IOMMUTLBEntry *entry = &event->entry;
+> > >       hwaddr entry_end = entry->iova + entry->addr_mask;
+> > > +    IOMMUTLBEntry tmp = *entry;
+> > >
+> > >       if (event->type == IOMMU_NOTIFIER_UNMAP) {
+> > >           assert(entry->perm == IOMMU_NONE);
+> > > @@ -1908,10 +1909,18 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+> > >           return;
+> > >       }
+> > >
+> > > -    assert(entry->iova >= notifier->start && entry_end <= notifier->end);
+> > > +    if (notifier->notifier_flags & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
+> > > +        /* Crop (iova, addr_mask) to range */
+> > > +        tmp.iova = MAX(tmp.iova, notifier->start);
+> > > +        tmp.addr_mask = MIN(entry_end, notifier->end) - tmp.iova;
+> > > +        /* Confirm no underflow */
+> > > +        assert(MIN(entry_end, notifier->end) >= tmp.iova);
+> >
+> >
+> > It's still not clear to me why we need such assert. Consider
+> > notifier->end is the possible IOVA range but not possible device IOTLB
+> > invalidation range (e.g it allows [0, ULLONG_MAX]).
+> >
+> > Thanks
+> >
 > 
-> This reverts commit de03c3164accc21311c39327601fcdd95da301f3
-> ("bswap: Fix build on FreeBSD 10.0").
+> As far as I understood the device should admit that out of bounds
+> notifications in that case,
+> and the assert just makes sure that there was no underflow in
+> tmp.addr_mask, i.e., that something
+> very wrong that should never happen in production happened.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Cc: Ed Maste <emaste@freebsd.org>
-> ---
->  include/qemu/bswap.h | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-> index 719d620bfe6..1a297bfec22 100644
-> --- a/include/qemu/bswap.h
-> +++ b/include/qemu/bswap.h
-> @@ -6,8 +6,6 @@
->  #ifdef CONFIG_MACHINE_BSWAP_H
->  # include <sys/endian.h>
->  # include <machine/bswap.h>
-> -#elif defined(__FreeBSD__)
-> -# include <sys/endian.h>
+> Peter, would you mind to confirm/correct it?
 
-Ah, well, no I get it ... you're removing this stuff bit by bit. Quite
-confusing, IMHO, I'd remove them all in one patch instead.
+I think Jason is right - since we have checked at the entry that the two
+regions cross over each other:
 
- Thomas
+    /*
+     * Skip the notification if the notification does not overlap
+     * with registered range.
+     */
+    if (notifier->start > entry_end || notifier->end < entry->iova) {
+        return;
+    }
+
+Then I don't see how this assertion can fail any more.
+
+But imho not a big problem either, and it shouldn't hurt to even keep the
+assertion of above isn't that straightforward.
+
+> 
+> Is there anything else needed to pull this patch?
+
+I didn't post a pull for this only because I shouldn't :) - the plan was that
+all vt-d patches will still go via Michael's tree, iiuc.  Though at least to me
+I think this series is acceptable for merging.
+
+Though it would always be good too if Jason would still like to review it.
+
+Jason, what's your opinion?
+
+Thanks,
+
+-- 
+Peter Xu
 
 
