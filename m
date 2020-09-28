@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC5227AD4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 13:54:56 +0200 (CEST)
-Received: from localhost ([::1]:47604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9F527AD67
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 14:00:13 +0200 (CEST)
+Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMrk7-0000f9-3P
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 07:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38368)
+	id 1kMrpE-0004Ym-1a
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 08:00:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMrgF-00066B-9C
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:50:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24675)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMrjb-0000xb-Eo
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:54:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMrgD-0008F9-5o
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:50:54 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMrjW-0008WQ-Kd
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:54:22 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601293852;
+ s=mimecast20190719; t=1601294057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZYYRjkPwGDvrm82s+7h3JwDSu+/0Sok7+H9nMslg7AU=;
- b=OcfMYPsFkgcP2NhVxjj/0/7DiH8lG+xqJa8XSrLUzbJh92Xi9XSBMdl7rjxmxYUJjf9K9e
- /sZHD8SuxPPJutalklJE0BiTF3gxoN79yoPn0lM231KWJZLwD+WB0G/Rn9SnqaKUo2O4J7
- zC3Wl3pGwhpYYLYhvqLdGodoyNXaoHk=
+ bh=rrl+d4NnB7WdlwQCtrFx/LwYD6kTLIgNhqg96C7lHw0=;
+ b=e9F217RccZWnvvPqU2R1lf8KrnNk0TB6DLLhv7zwVOCCq01lFj8N09psUL57fBiovJmJ9n
+ BkN37IbbjUz2FJhi30CL0DtRgjd/Wf+GvH1MApZBw6cFEcLoL9jHVFwQHVGzujjz1Xr2I+
+ 0nwpyWEi+BJqxm/4wOxsdhgr659BZmc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-nmyLhB0gP7KmmJ1llaErXQ-1; Mon, 28 Sep 2020 07:50:50 -0400
-X-MC-Unique: nmyLhB0gP7KmmJ1llaErXQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-534-12Q4TxhIPauxRbotmO6i6g-1; Mon, 28 Sep 2020 07:54:15 -0400
+X-MC-Unique: 12Q4TxhIPauxRbotmO6i6g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 920111040C20;
- Mon, 28 Sep 2020 11:50:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D63961019625;
+ Mon, 28 Sep 2020 11:54:13 +0000 (UTC)
 Received: from [10.36.115.97] (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB4B87B7A2;
- Mon, 28 Sep 2020 11:50:47 +0000 (UTC)
-Subject: Re: [PATCH v1 5/8] s390x/tcg: Implement BRANCH INDIRECT ON CONDITION
- (BIC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C56EC60C11;
+ Mon, 28 Sep 2020 11:54:10 +0000 (UTC)
+Subject: Re: [PATCH v1 0/8] s390x/tcg: Implement some z14 facilities
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200922103129.12824-1-david@redhat.com>
- <20200922103129.12824-6-david@redhat.com>
- <06b8deaa-75c3-b95c-398b-8dac0efc6718@linaro.org>
+ <57838e84-d378-e71a-3844-60ed564d4f0e@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -92,13 +90,13 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat GmbH
-Message-ID: <07264f80-a729-8fd9-658c-23b69dbf86ac@redhat.com>
-Date: Mon, 28 Sep 2020 13:50:47 +0200
+Message-ID: <29b68b06-269f-ca0a-e62d-f53b0da04626@redhat.com>
+Date: Mon, 28 Sep 2020 13:54:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <06b8deaa-75c3-b95c-398b-8dac0efc6718@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <57838e84-d378-e71a-3844-60ed564d4f0e@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -117,7 +115,7 @@ X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -135,31 +133,23 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.09.20 23:45, Richard Henderson wrote:
+On 26.09.20 00:43, Richard Henderson wrote:
 > On 9/22/20 3:31 AM, David Hildenbrand wrote:
->> +/* BRANCH INDIRECT ON CONDITION */
->> +    C(0xe347, BIC,     RXY_b, MIE2,0, m2_64, 0, 0, bc, 0)
->>  /* BRANCH ON CONDITION */
->>      C(0x0700, BCR,     RR_b,  Z,   0, r2_nz, 0, 0, bc, 0)
->>      C(0x4700, BC,      RX_b,  Z,   0, a2, 0, 0, bc, 0)
->> diff --git a/target/s390x/translate.c b/target/s390x/translate.c
->> index b536491892..383edf7419 100644
->> --- a/target/s390x/translate.c
->> +++ b/target/s390x/translate.c
->> @@ -1626,6 +1626,11 @@ static DisasJumpType op_bc(DisasContext *s, DisasOps *o)
->>          return DISAS_NEXT;
->>      }
->>  
->> +    /* For BIC the address came from memory, we need to wrap it again. */
->> +    if (s->fields.op2 == 0x47) {
->> +        gen_addi_and_wrap_i64(s, o->in2, o->in2, 0);
->> +    }
+>> With this patchset, I can boot a kernel compiled for z14 (requiring
+>> Miscellaneous-Instruction-Extensions Facility 2) (using -cpu max).
 > 
-> I'm not keen on this sort of per-opcode checks.
+> Excellent.
 > 
-> I'd prefer to add an in2_m2_64w() helper that performs the load and then wraps.
+> Looks like it wouldn't take too much additional work for z15, if you're of a
+> mind while we're at it.
 
-Makes sense, thanks!
+Yes, on my todo list (however might take some time until I get to it).
+I'm focusing on z14 right now because next-gen distributions will most
+probably require at least z14 hw, so we're prepared for that.
+
+I'm still wrapping my head around how to best implement the crazy VECTOR
+FP MINIMUM / MAXIMUM stuff in the least ugly way (expressing all cases
+via if/else/switch is just horribly error-prone).
 
 
 -- 
