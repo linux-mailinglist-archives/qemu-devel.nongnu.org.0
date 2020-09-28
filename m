@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D1727AA0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:56:56 +0200 (CEST)
-Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989A127AA14
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:58:36 +0200 (CEST)
+Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMoxr-0007yS-Ig
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41468)
+	id 1kMozT-0002RW-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kMoss-0006n2-TD; Mon, 28 Sep 2020 04:51:46 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:48389)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kMosq-0007um-Qz; Mon, 28 Sep 2020 04:51:46 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 6E4905801D0;
- Mon, 28 Sep 2020 04:51:43 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Mon, 28 Sep 2020 04:51:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=GtLogJXpt5qbeKKcdtTIItnqTC0
- 8h3cxKcCKfEFprSc=; b=q+MKz7YMRajAm1U1gQD5IY4BR+QEC2YK8cicgo3xWlS
- /VT28TIK6nrjXb/MfvXiAeLH/Ak8SSEvHbJm5XvT8KG1QjmJRZdyf1aifl3abn7o
- z50xOYz/POezlLDdJcyQ10BVIww3+Ypx60lMBCJqoafN/l3EjREKMv10f5aQQ2RA
- aBeSSKq9nTHxqp7dRej15XqJSYFBS07RO+H/+77JfcVACQAvtIDf7qgJm5VKDEPJ
- 97kvhtqgtSA0NWTG+b4c7dV72PJ4HpHQirQP93LVez/7oG1ki71R3ayMaJ4n40/q
- rn7f348iT2ds6fGmqkT2oHDGD2gM09psGNBL8GT1kCw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GtLogJ
- Xpt5qbeKKcdtTIItnqTC08h3cxKcCKfEFprSc=; b=Axd3A0QeJLpORVMbwVsiZp
- Xy5coUDWJm71OIJguY02FZmXno69/hTB0JhvLVtNT7BC/xc+tctRzSek7zJ2hqMD
- bxyW+m/4FSdWnYg4jsgHKko5zXZ+fyzcSmPnVPHsqpDhUWjvCuLWVmFDKreR6X2r
- Xn23l+ukPtt2is7a0dcijMw8QzASTjvyyez70PBGDvhZwlZp91TU0uHXtXqSMXny
- rVHEPnib2IMYrt8vPrgoBPoH9//eKSCAjcW150f+yjx4rCNXuuGV8BuqaXCUaNcR
- KxpizoJ4Kd/jwgrTriyITJyU/kZUNQuKgXn2SNAP1hCf9TUaWGzOj9rumkGLLdiw
- ==
-X-ME-Sender: <xms:HaRxX_Wg99Y2vOlEtp0NRKmtg5egVhl9NqTPaGdNwc8RHVqzrvW6_Q>
- <xme:HaRxX3nC3SHrKdFNDm3e_TP_ZPmLiIlwqunn7y3s9dO6kj1Jk9ZPMDbycwTVTzqJH
- YZp76DaXKVkvB2F90M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeigddutdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:HaRxX7bbENVKTOayMoZzwnzT28JIJfcTPZdOj1vPdalj19_kCAHLeQ>
- <xmx:HaRxX6V8PoL-1ZTx9hQQM6nHrXxHIEKtP7KR6eEs5_ycOAYfnNStxg>
- <xmx:HaRxX5kU99K5FraX8WLONRChchPwij7jRsprou5cHt6j-ZxZks4bVg>
- <xmx:H6RxX_e1zrWifF2CRcez4bwA7tKgiLYzevuQ46rYWuNFfDg4evpd5FmQld0>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 220383064680;
- Mon, 28 Sep 2020 04:51:40 -0400 (EDT)
-Date: Mon, 28 Sep 2020 10:51:37 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v5 01/14] hw/block/nvme: Report actual LBA data shift in
- LBAF
-Message-ID: <20200928085137.GA33043@apples.localdomain>
-References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
- <20200928023528.15260-2-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMouv-0007Ix-Dp
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:53:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMour-00084K-CB
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:53:53 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601283226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bxkaSN3LHwX2xdIUDHRTOdegmXMBH6e1ByC8b5K5bPQ=;
+ b=O2kayQYWcecQZmoyyW7F4Vphbs/Gbtby9srzBHy+nW62gPY9P2vzj3PQtQinArz5pIccci
+ sGhgCVzSNINMYRMVIwNl6bMHXrq90ulHerMjYsj74m13L/4gYTL9fmV7ns14qn0dM1abl5
+ HipcdF2AVqCVBejH7wJQDY82+9qXAVY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-fg736u1iM8ul9KWWgP6soA-1; Mon, 28 Sep 2020 04:53:45 -0400
+X-MC-Unique: fg736u1iM8ul9KWWgP6soA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D78EB80EF8B;
+ Mon, 28 Sep 2020 08:53:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 473547366D;
+ Mon, 28 Sep 2020 08:53:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D729831E58; Mon, 28 Sep 2020 10:53:35 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] virtio-vga: fix blue boot console @ ppc
+Date: Mon, 28 Sep 2020 10:53:33 +0200
+Message-Id: <20200928085335.21961-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
-Content-Disposition: inline
-In-Reply-To: <20200928023528.15260-2-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 02:36:55
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.576,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,76 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+=0D
+=0D
+Gerd Hoffmann (2):=0D
+  virtio-vga: implement big-endian-framebuffer property=0D
+  ppc/pseries: enable big-endian-framebuffer quirk for bochs-display and=0D
+    virtio-vga=0D
+=0D
+ hw/display/virtio-vga.c | 19 +++++++++++++++++++=0D
+ hw/ppc/spapr_pci.c      |  4 +++-=0D
+ 2 files changed, 22 insertions(+), 1 deletion(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
---d6Gm4EdcadzBjdND
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sep 28 11:35, Dmitry Fomichev wrote:
-> Calculate the data shift value to report based on the set value of
-> logical_block_size device property.
->=20
-> In the process, use a local variable to calculate the LBA format
-> index instead of the hardcoded value 0. This makes the code more
-> readable and it will make it easier to add support for multiple LBA
-> formats in the future.
->=20
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/block/nvme-ns.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-> index 2ba0263dda..bbd7879492 100644
-> --- a/hw/block/nvme-ns.c
-> +++ b/hw/block/nvme-ns.c
-> @@ -47,6 +47,8 @@ static void nvme_ns_init(NvmeNamespace *ns)
-> =20
->  static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
->  {
-> +    int lba_index;
-> +
->      if (!blkconf_blocksizes(&ns->blkconf, errp)) {
->          return -1;
->      }
-> @@ -67,6 +69,9 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace =
-*ns, Error **errp)
->          n->features.vwc =3D 0x1;
->      }
-> =20
-> +    lba_index =3D NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-> +    ns->id_ns.lbaf[lba_index].ds =3D 31 - clz32(n->conf.logical_block_si=
-ze);
-
-You fix this later in the zoned support patch, but this should use
-ns->blkconf.conf.logical_block_size.
-
---d6Gm4EdcadzBjdND
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9xpBcACgkQTeGvMW1P
-DenIaQf/Z/aEZ1YwW9d7YbeWu/VqjYL6gJwGb96im6GSWf26vdgtkjyPXk+5IITg
-qsZjkuFw5saxeU/DQ7WPFkakct33O2bgbsEYTnrHST3tCOTDV7NX+NrudaJkRlQR
-RimVVF/HieDDAKRHhIrOtXy9hOPeR5qZZee4onWWj1WmP29LG2Ef7eLZ68nXwMQZ
-8qnzBQjaCdOkIloML4HXEDYLKjCIOe+gZrtefRYTpzdyb7cJFwJrYTBcBkBg52qu
-UGEsCi6NOsVtfIHn/XjtXt65E9gRtAGV5gTO3c3eupDWNuBkNbg7J0wYIjhJ2yVL
-G25xj/eNtJWRvQuBy9XhbHUphvTSVw==
-=Cuwt
------END PGP SIGNATURE-----
-
---d6Gm4EdcadzBjdND--
 
