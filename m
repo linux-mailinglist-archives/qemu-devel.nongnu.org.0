@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF4127A980
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:26:28 +0200 (CEST)
-Received: from localhost ([::1]:56752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A87427A98D
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:33:02 +0200 (CEST)
+Received: from localhost ([::1]:32940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMoUN-0002sr-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35130)
+	id 1kMoaj-0005Ln-Eu
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMoSj-0001Ug-Pu
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:24:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47263)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kMoZH-0004ru-3f
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:31:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMoSh-0004S1-Aq
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:24:45 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kMoZE-0005Oe-Dd
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:31:30 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601281481;
+ s=mimecast20190719; t=1601281886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=va5Yko21aZgYi0fHhb8xP7SNSYNsJ9g/+JqMJw8eyZs=;
- b=BRjjAXDn+kQ/081O3tdS82U1i2EVNUQmxRhx5dvQar+pqVM1zVauznE6GzizQHhXSg9AP7
- pXepancWtn9o/Kt2e0gqxbT4E5G0xjq+uYo7+C2zR6qhs0HVfrQjNBFhw/nUpuRfcdzBVv
- osmdai8Nzob3e8mae9EylwOQ90u4aZY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-wNJCgXdjMgq3yhwrMQvJRQ-1; Mon, 28 Sep 2020 04:24:38 -0400
-X-MC-Unique: wNJCgXdjMgq3yhwrMQvJRQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE892802B61;
- Mon, 28 Sep 2020 08:24:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
- [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A407B7A41F;
- Mon, 28 Sep 2020 08:24:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3DFAE113865F; Mon, 28 Sep 2020 10:24:33 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 09/13] qmp: Move dispatcher to a coroutine
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-10-kwolf@redhat.com>
- <87imcgml3w.fsf@dusky.pond.sub.org>
- <20200925153855.GH5731@linux.fritz.box>
-Date: Mon, 28 Sep 2020 10:24:33 +0200
-In-Reply-To: <20200925153855.GH5731@linux.fritz.box> (Kevin Wolf's message of
- "Fri, 25 Sep 2020 17:38:55 +0200")
-Message-ID: <87h7ril35q.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=V0rcwqohXWfokTxyHJDya1mIw8pUt6sv39tJMSIiYRk=;
+ b=KkFP71MFd+qOvOfDl+xzbs9xQuMuKUyRiddKtEw7WBxA3OBew4Xz3tZCNfPAL79Q5sxpPv
+ qmUpN0MFELEzVZ5okJRwWISEopnP35ucbLZ64Gc8Ru7DFX1Q7YAkPVHs3ATcb5c8GrIwcF
+ U5ByAH7pISsmid+fV34IlFU3cfzTICA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-WVozibzdMiGSTTaSwJj0Zw-1; Mon, 28 Sep 2020 04:31:24 -0400
+X-MC-Unique: WVozibzdMiGSTTaSwJj0Zw-1
+Received: by mail-wr1-f69.google.com with SMTP id a2so104620wrp.8
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 01:31:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=V0rcwqohXWfokTxyHJDya1mIw8pUt6sv39tJMSIiYRk=;
+ b=N8+lVklJPXNwMieI080RaC0fVkNaqds4cTxEtKpuDvppdMOVsrVAWKxm+Ea3hh+Pdm
+ 9SKGtkP6jy8Bkd/uyRVYAPX70jW/DKmr/8F3n7ivJnHdRm2nXDyr3tnlOJ8SrmR28W5R
+ fy5uVXOhPd4JXMSZt9VPXZdJ6QFewhL2lB6YUYwL8Abs67xN5WnF7qYLZQqTdlqnEfTr
+ jVMaI8a8w449d/MlRihW9Rc3gFli+VflWxwTtZnKMvs3rcOHRDZwRPCn0Rn1Pe1feMfS
+ YaXoV5hyz4y0Z8pecbeqAFlCWaWeb22+f05zr4V75yfYhTsdUq86DU7dUlIWK3kiFdUp
+ U+Cg==
+X-Gm-Message-State: AOAM530+4YmIqk3UAVp+kMxVag2jOL92BV+Tc+iWji2k0qFRvXGIm7Sq
+ 7e8o4bXVcQ/YQ9FpgmAjMKjIQBnup6h5aMCBe2ADsz9TsWgGktLQOIJeiZZyIEYpvuxr3+B9Rrs
+ PBkUC2dJOOzBRIYk=
+X-Received: by 2002:a7b:c210:: with SMTP id x16mr424673wmi.76.1601281883223;
+ Mon, 28 Sep 2020 01:31:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxL7vUAYc4wb0BbLAB58xedkxEeZBNv3vsJwU3i86kdk4S5JwOSXnBp3XpzK9ScNftOcikXIQ==
+X-Received: by 2002:a7b:c210:: with SMTP id x16mr424649wmi.76.1601281883030;
+ Mon, 28 Sep 2020 01:31:23 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:f4f8:dc3e:26e3:38c7?
+ ([2001:b07:6468:f312:f4f8:dc3e:26e3:38c7])
+ by smtp.gmail.com with ESMTPSA id k8sm419689wrl.42.2020.09.28.01.31.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Sep 2020 01:31:22 -0700 (PDT)
+Subject: Re: [PATCH 06/12] tests/qtest/qos-test: add environment variable
+ QTEST_DEBUG
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <cover.1601203436.git.qemu_oss@crudebyte.com>
+ <cc6109fcc03d47a68d01ceac5ade71fe8467a3f7.1601203436.git.qemu_oss@crudebyte.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2c5db347-4d17-c735-a153-3043566d7c21@redhat.com>
+Date: Mon, 28 Sep 2020 10:31:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <cc6109fcc03d47a68d01ceac5ade71fe8467a3f7.1601203436.git.qemu_oss@crudebyte.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
 X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.576,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.011, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,78 +103,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, dgilbert@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On 27/09/20 12:40, Christian Schoenebeck wrote:
+> For now this new environment variable QTEST_DEBUG will cause the
+> assembled qemu command line to be printed before running each test.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  tests/qtest/qos-test.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+> index 4b1a1922fc..571d1e140a 100644
+> --- a/tests/qtest/qos-test.c
+> +++ b/tests/qtest/qos-test.c
+> @@ -89,6 +89,9 @@ static void qos_set_machines_devices_available(void)
+>  
+>  static void restart_qemu_or_continue(char *path)
+>  {
+> +    if (getenv("QTEST_DEBUG") != NULL) {
+> +        printf("run QEMU with: '%s'\n", path);
+> +    }
+>      /* compares the current command line with the
+>       * one previously executed: if they are the same,
+>       * don't restart QEMU, if they differ, stop previous
+> 
 
-> Am 14.09.2020 um 17:30 hat Markus Armbruster geschrieben:
->> Kevin Wolf <kwolf@redhat.com> writes:
->> 
->> > This moves the QMP dispatcher to a coroutine and runs all QMP command
->> > handlers that declare 'coroutine': true in coroutine context so they
->> > can avoid blocking the main loop while doing I/O or waiting for other
->> > events.
->> >
->> > For commands that are not declared safe to run in a coroutine, the
->> > dispatcher drops out of coroutine context by calling the QMP command
->> > handler from a bottom half.
->> >
->> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
->> > ---
-[...]
->> > diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
->> > index 5677ba92ca..754f7b854c 100644
->> > --- a/qapi/qmp-dispatch.c
->> > +++ b/qapi/qmp-dispatch.c
-[...]
->> > @@ -153,12 +181,35 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
->> >          qobject_ref(args);
->> >      }
->> >  
->> > +    assert(!(oob && qemu_in_coroutine()));
->> >      assert(monitor_cur() == NULL);
->> > -    monitor_set_cur(qemu_coroutine_self(), cur_mon);
->> > -
->> > -    cmd->fn(args, &ret, &err);
->> > -
->> > -    monitor_set_cur(qemu_coroutine_self(), NULL);
->> > +    if (!!(cmd->options & QCO_COROUTINE) == qemu_in_coroutine()) {
->> > +        monitor_set_cur(qemu_coroutine_self(), cur_mon);
->> > +        cmd->fn(args, &ret, &err);
->> > +        monitor_set_cur(qemu_coroutine_self(), NULL);
->> > +    } else {
->> > +        /*
->> > +         * Not being in coroutine context implies that we're handling
->> > +         * an OOB command, which must not have QCO_COROUTINE.
->> > +         *
->> > +         * This implies that we are in coroutine context, but the
->> > +         * command doesn't have QCO_COROUTINE. We must drop out of
->> > +         * coroutine context for this one.
->> > +         */
->> 
->> I had to read this several times to get it.  The first sentence leads me
->> into coroutine context, and then the next sentence tells me the
->> opposite, throwing me into confusion.
->> 
->> Perhaps something like this:
->> 
->>            /*
->>             * Actual context doesn't match the one the command needs.
->>             * Case 1: we are in coroutine context, but command does not
->>             * have QCO_COROUTINE.  We need to drop out of coroutine
->>             * context for executing it.
->>             * Case 2: we are outside coroutine context, but command has
->>             * QCO_COROUTINE.  Can't actually happen, because we get here
->>             * outside coroutine context only when executing a command
->>             * out of band, and OOB commands never have QCO_COROUTINE.
->>             */
->
-> Works for me. Can you squash this in while applying?
+You can just use g_test_message for this and do it unconditionally.
 
-Sure!
+Paolo
 
 
