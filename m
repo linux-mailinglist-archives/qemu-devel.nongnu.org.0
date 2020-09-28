@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D50D27AF00
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:23:20 +0200 (CEST)
-Received: from localhost ([::1]:58336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 625BA27AEF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:19:28 +0200 (CEST)
+Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMt7f-0003Rr-H6
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
+	id 1kMt3v-00078B-Es
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:19:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangzhiqiang.bj@bytedance.com>)
- id 1kMpJ7-0006L3-I1
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:18:54 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46234)
+ id 1kMpRG-00070a-D9
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:27:18 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <wangzhiqiang.bj@bytedance.com>)
- id 1kMpJ3-0002lC-Bn
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:18:52 -0400
-Received: by mail-oi1-x243.google.com with SMTP id u126so553299oif.13
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 02:18:48 -0700 (PDT)
+ id 1kMpR8-0003qh-L5
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:27:16 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id b17so300624pji.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 02:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3qLrdCzFYgtP9BgQ7Rm5nWG5qkmajwgHh/VsOeGeiWE=;
- b=DQEOWlxK0yXLynLjaBRoOQkecEd+1secO6ximlmfXSPYd4HuR7Wkgj01H8WbXDbr00
- Fs1c5E12SPAVWmIENksQGcB3RZjXcX76YslO8/MlSpr+VjdP8rtQ7ifTWh9ybeCNDO3W
- wBJR7rOXr4xOyMq9aTIeFAsDN62V+EVxd+shklXA0gSMZU3/MEKbrAYZC2TlqzeNLEPn
- 3rAoa4KRrkGiNRIK44hoX4o7wz0HiLp6c9kSv+oj2GfX0zQ17QLE8QE032r239ZPbZKT
- qYw6zRr+itI26svsKt9fLHL/Zfsclk9dFZP2oAhMGm7i58hTQ2RaHdvdmycp92xbn1Pq
- PmKw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Y/kSum0EA/plO9SVgJExaxOoOw0fBp1exDKCZt+0Evg=;
+ b=MqbPYRpnKL/tgriF3GXia0hOVS5T5gfE1dnK21eg8v7quEuSKsJrgVTna+1eilRyBy
+ Yeg9uULxEq5pd01U0Tcpjh6aed9/PlFtRoJknf2PwrFvJhtwe/qDs31/lFC5Ug4ACmAi
+ de5k7S8bVdlgS8hGWLCd4wRbwTJFQkRPstViXlpQm3tK1jJ6Z+Tg+1gFG1zEcQcI2oYj
+ eBZANm2Ha2+tywrPJnKILu8gGRRjtkl0SuNcB21wSxeWJt5qcqSTiD23KMoXrCc6FZ7S
+ C8o0aiuWSG2iRMzcsDd0fjvvtWMWs1G3iT0xAAxYvhX5sBP7kqZsdUfBJkn4+kgO3Xac
+ PNrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3qLrdCzFYgtP9BgQ7Rm5nWG5qkmajwgHh/VsOeGeiWE=;
- b=g308XNhLi7xxa7YMjmaqtaN0YNnDOcpqKINuHxmsbJXrF8/XTZmhOz3XBUYwcJpCDl
- Q57QXNYJ/euCfh92S+lbkZOR50xJ0NkvHZkFsfFMit5NMzd1I/Zm8IcG6045b4hdv7HP
- LHqDkotRnODzdkrLTBra3vB/HbE/11dRotP25MMmNxLrdSnkYiWALw63bF5A3JpGenGu
- EDIPd3+2V65yZZPl6478EKG3Hm4vgZvFT1xba8ZJonN9tzSc4YKpJPisE/1YSr1vQXEf
- 9llHVRw+kBy+67A8MZWRgjskcqCBB8oOFcKfu9+BsLch+1J0otxW20UBsZoCX3qEBPO6
- ZoPg==
-X-Gm-Message-State: AOAM531PI02+VheLZvERbceOfsR6nORPIgKV4FZ6k9EchWSo4Sz4EOq2
- aZyq+HYmsx1tnYdmVTDEAve6RgoU/wNPRduIkwbpRA==
-X-Google-Smtp-Source: ABdhPJzEnkmCSBWYMfUgiB4419mKwon6DfWD0GEJXfsBw8noWi15CO2aW/FywZy1aGRCeEQTh+XqaDvTLvzT4/j7gY0=
-X-Received: by 2002:aca:bd8a:: with SMTP id n132mr323861oif.100.1601284727634; 
- Mon, 28 Sep 2020 02:18:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Y/kSum0EA/plO9SVgJExaxOoOw0fBp1exDKCZt+0Evg=;
+ b=bYnXPO/2oV1h9ARm/wPaWhIgkNyl0ierXIqAR0WJCVt0zir0KwS03Hjp2SRIh987cY
+ zE/PLPOE0A4vZiERAqeiO7rZ2pllNawsgerVUImzuJt+KoScuhNw9+i8QW6fjV0rWeTL
+ itJKolNmc7KS73F8+1eF6BCfsRvoDOfkWPgmr5GF6VnDD8EGePpMvMrspiD81XAtvQR8
+ q/8lsPYG2UFNfsKZVff4z6iSmZ/7SDbLEOjFnONY1fu7+riv6nE48ywM27ccl6tV7+py
+ pSytgRLyLUph1Ndh3wn9K+O/5KMoahmru1UbUesjOKcoOtMZJ0EjfFmOjIen4e0fdyi8
+ baxQ==
+X-Gm-Message-State: AOAM533YgOmdpWj1VILFGxtorhDnfaCumYLJWSxa9hLh1d26X1TUBuE7
+ 1NRexznefCrV7KLxBTvuhNVugQ==
+X-Google-Smtp-Source: ABdhPJwkJtjrHxxnaNSuf4yHXc0a8uKv8feNHI0vo74NZffrNOdDNzY/mLAwTGzKUiSxsL47H88t7Q==
+X-Received: by 2002:a17:90a:b00e:: with SMTP id
+ x14mr515547pjq.212.1601285228491; 
+ Mon, 28 Sep 2020 02:27:08 -0700 (PDT)
+Received: from localhost ([61.120.150.74])
+ by smtp.gmail.com with ESMTPSA id e10sm719178pgb.45.2020.09.28.02.27.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Sep 2020 02:27:08 -0700 (PDT)
+From: John Wang <wangzhiqiang.bj@bytedance.com>
+To: yulei.sh@bytedance.com,
+	xuxiaohan@bytedance.com
+Subject: [PATCH v2] aspeed: Add support for the g220a-bmc board
+Date: Mon, 28 Sep 2020 17:27:05 +0800
+Message-Id: <20200928092705.3730-1-wangzhiqiang.bj@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200928061201.1601-1-wangzhiqiang.bj@bytedance.com>
- <d6cf7464-a0bf-2748-7e4c-732208881711@kaod.org>
-In-Reply-To: <d6cf7464-a0bf-2748-7e4c-732208881711@kaod.org>
-From: =?UTF-8?B?546L5b+X5by6?= <wangzhiqiang.bj@bytedance.com>
-Date: Mon, 28 Sep 2020 17:18:37 +0800
-Message-ID: <CAH0XSJtDEPnf8qLNuT_Ev3TkGQw_68cZ5KGgY_aLBThMQwU9sQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] aspeed: Add support for the g220a-bmc board
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=wangzhiqiang.bj@bytedance.com; helo=mail-oi1-x243.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=wangzhiqiang.bj@bytedance.com; helo=mail-pj1-x1030.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -68,7 +71,7 @@ X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 28 Sep 2020 09:12:19 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,122 +86,86 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- yulei.sh@bytedance.com,
  "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- xuxiaohan@bytedance.com
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater,
+G220A is a 2 socket x86 motherboard supported by OpenBMC.
+Strapping configuration was obtained from hardware.
 
-Sorry, I did not reply to all, this email is the same as the previous one.
+Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>
+---
+v2:
+  - Add macs_mask
+---
+ hw/arm/aspeed.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index bdb981d2f8..1dcb72b315 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -120,6 +120,20 @@ struct AspeedMachineState {
+         SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
+         SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
+ 
++#define G220A_BMC_HW_STRAP1 (                                      \
++        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     \
++        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        \
++        SCU_AST2500_HW_STRAP_UART_DEBUG |                               \
++        SCU_AST2500_HW_STRAP_RESERVED28 |                               \
++        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              \
++        SCU_HW_STRAP_2ND_BOOT_WDT |                                     \
++        SCU_HW_STRAP_VGA_CLASS_CODE |                                   \
++        SCU_HW_STRAP_LPC_RESET_PIN |                                    \
++        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER) |                \
++        SCU_AST2500_HW_STRAP_SET_AXI_AHB_RATIO(AXI_AHB_RATIO_2_1) |     \
++        SCU_HW_STRAP_VGA_SIZE_SET(VGA_64M_DRAM) |                       \
++        SCU_AST2500_HW_STRAP_RESERVED1)
++
+ /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
+ #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
+ 
+@@ -798,6 +812,24 @@ static void aspeed_machine_tacoma_class_init(ObjectClass *oc, void *data)
+         aspeed_soc_num_cpus(amc->soc_name);
+ };
+ 
++static void aspeed_machine_g220a_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
++
++    mc->desc       = "Bytedance G220A BMC (ARM1176)";
++    amc->soc_name  = "ast2500-a1";
++    amc->hw_strap1 = G220A_BMC_HW_STRAP1;
++    amc->fmc_model = "n25q512a";
++    amc->spi_model = "mx25l25635e";
++    amc->num_cs    = 2;
++    amc->macs_mask  = ASPEED_MAC1_ON | ASPEED_MAC2_ON;
++    amc->i2c_init  = NULL;
++    mc->default_ram_size = 1024 * MiB;
++    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
++};
++
+ static const TypeInfo aspeed_machine_types[] = {
+     {
+         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+@@ -835,6 +867,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_tacoma_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("g220a-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_g220a_class_init,
+     }, {
+         .name          = TYPE_ASPEED_MACHINE,
+         .parent        = TYPE_MACHINE,
+-- 
+2.25.1
 
-On Mon, Sep 28, 2020 at 3:55 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> On 9/28/20 8:12 AM, John Wang wrote:
-> > G220A is a 2 socket x86 motherboard supported by OpenBMC.
-> > Strapping configuration was obtained from hardware.
-> >
-> > Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>> ---
-> >  hw/arm/aspeed.c | 35 +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> >
-> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> > index bdb981d2f8..1de61f7d4f 100644
-> > --- a/hw/arm/aspeed.c
-> > +++ b/hw/arm/aspeed.c
-> > @@ -120,6 +120,20 @@ struct AspeedMachineState {
-> >          SCU_AST2500_HW_STRAP_ACPI_ENABLE |                            =
-  \
-> >          SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
-> >
-> > +#define G220A_BMC_HW_STRAP1 (                                      \
-> > +        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                   =
-  \
-> > +        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                      =
-  \
-> > +        SCU_AST2500_HW_STRAP_UART_DEBUG |                             =
-  \
-> > +        SCU_AST2500_HW_STRAP_RESERVED28 |                             =
-  \
-> > +        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                            =
-  \
-> > +        SCU_HW_STRAP_2ND_BOOT_WDT |                                   =
-  \
-> > +        SCU_HW_STRAP_VGA_CLASS_CODE |                                 =
-  \
-> > +        SCU_HW_STRAP_LPC_RESET_PIN |                                  =
-  \
-> > +        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER) |              =
-  \
-> > +        SCU_AST2500_HW_STRAP_SET_AXI_AHB_RATIO(AXI_AHB_RATIO_2_1) |   =
-  \
-> > +        SCU_HW_STRAP_VGA_SIZE_SET(VGA_64M_DRAM) |                     =
-  \
-> > +        SCU_AST2500_HW_STRAP_RESERVED1)
-> > +
-> >  /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition)=
- */
-> >  #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
-> >
-> > @@ -798,6 +812,23 @@ static void aspeed_machine_tacoma_class_init(Objec=
-tClass *oc, void *data)
-> >          aspeed_soc_num_cpus(amc->soc_name);
-> >  };
-> >
-> > +static void aspeed_machine_g220a_class_init(ObjectClass *oc, void *dat=
-a)
-> > +{
-> > +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> > +    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
-> > +
-> > +    mc->desc       =3D "Bytedance G220A BMC (ARM1176)";
-> > +    amc->soc_name  =3D "ast2500-a1";
-> > +    amc->hw_strap1 =3D G220A_BMC_HW_STRAP1;
-> > +    amc->fmc_model =3D "n25q512a";
-> > +    amc->spi_model =3D "mx25l25635e";
-> > +    amc->num_cs    =3D 2;
->
-> 'macs_mask' is missing. You won't get network.
-
-Will Fix
-
-
->
-> > +    amc->i2c_init  =3D NULL;
->
-> Isn't it possible to add some default I2C devices ? temperature sensors ?
-
-hmm, G220A BMC uses emc1413 as the temperature sensor. I can not find
-it in qemu.
-I can't find an i2c chip that qemu has and that the g220a uses. :(
-
->
-> Thanks,
->
-> C.
->
-> > +    mc->default_ram_size =3D 1024 * MiB;
-> > +    mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D
-> > +        aspeed_soc_num_cpus(amc->soc_name);
-> > +};
-> > +
-> >  static const TypeInfo aspeed_machine_types[] =3D {
-> >      {
-> >          .name          =3D MACHINE_TYPE_NAME("palmetto-bmc"),
-> > @@ -835,6 +866,10 @@ static const TypeInfo aspeed_machine_types[] =3D {
-> >          .name          =3D MACHINE_TYPE_NAME("tacoma-bmc"),
-> >          .parent        =3D TYPE_ASPEED_MACHINE,
-> >          .class_init    =3D aspeed_machine_tacoma_class_init,
-> > +    }, {
-> > +        .name          =3D MACHINE_TYPE_NAME("g220a-bmc"),
-> > +        .parent        =3D TYPE_ASPEED_MACHINE,
-> > +        .class_init    =3D aspeed_machine_g220a_class_init,
-> >      }, {
-> >          .name          =3D TYPE_ASPEED_MACHINE,
-> >          .parent        =3D TYPE_MACHINE,
-> >
->
 
