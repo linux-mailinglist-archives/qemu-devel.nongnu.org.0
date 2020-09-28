@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4032227AF80
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:57:24 +0200 (CEST)
-Received: from localhost ([::1]:57382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA1027AF2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:37:58 +0200 (CEST)
+Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMted-0006PJ-B9
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:57:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60488)
+	id 1kMtLp-0001lZ-U0
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:37:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMt4W-0000ho-Hj
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:20:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59719)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMt4Y-0000ja-4b
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:20:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMt4Q-0002no-92
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:20:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMt4W-0002oP-D8
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:20:05 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601299196;
+ s=mimecast20190719; t=1601299201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/GuNNoh6nkdsrmjKbQNZ/H8CBCcsX4tPVisO++gKbE0=;
- b=NymI8jyUMD9t3Z4oqWb/HWUJfPuJwtj3X6PJPKu5YAG3DUC+YVxuAAVblxZSs8A1sTd5vN
- EVOpDL2pORJZCiwUd2Z0Mnd5JmDZsBdLH2oFFqNOzRMKfKTyCUcVg9cSTbWkjNVkwQqRVQ
- DiaayKuKZbqQgVZUt75Uc8c9rWHAEGM=
+ bh=IQxJXzhc1czKuYkocMWwWEQUckk+RWA2innt4R1BD+0=;
+ b=bV9QYbnWdfIbSI8+lKsblDtkZLOlSivKSwr8FqaeO3CxvFohfWHjyZuPZRxm21N8r6wrhg
+ iABrQRWRiAnirlQvKEUOj+v8JHalPNxk3D1CRPXNvwl3SNHTRiLCCzhMrm1cQ1an9KaM+S
+ Xe11iB79UHwyzQZTZwMd0MEJ3X5QQrI=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-MlqOGRoeMzyeJCfi71QOng-1; Mon, 28 Sep 2020 09:19:54 -0400
-X-MC-Unique: MlqOGRoeMzyeJCfi71QOng-1
-Received: by mail-wr1-f72.google.com with SMTP id d13so389425wrr.23
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 06:19:54 -0700 (PDT)
+ us-mta-248-x2rfnPbvM6KLpdrrQQ9ETw-1; Mon, 28 Sep 2020 09:19:59 -0400
+X-MC-Unique: x2rfnPbvM6KLpdrrQQ9ETw-1
+Received: by mail-wr1-f72.google.com with SMTP id 33so400922wrk.12
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 06:19:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/GuNNoh6nkdsrmjKbQNZ/H8CBCcsX4tPVisO++gKbE0=;
- b=qo7tW22pxSVOH81OETb74e6ySEyiU4XuRAZ+PLtwAlwiHXVUA5JtvG/Rw4RlwJjJ+Y
- HsUUv+UxxvVFcaJHx6SB/z9+647obDOqbib+RTIv2SkH/d8qfBVL1sHtI1lVRQ0T7QC+
- MJ+SOW+8KeUkZdg9S5/NyZ3ueaa78dwixswmZQOZhjJ+H/P2QKj6WZF+DE4gtsQ+SLZN
- vpNTPRMW38fXVFd1ZNgWiewejhRdTUgYJBK4kD0IIQA4XyMVmEhjHEucq3iPMlkhxOy7
- VAzvCengpC5NYM9rr4oYJ0jNewySMHqR0SSeBR/4cagNaRnKLGGTkPuHN2psniEh7yl7
- A1Zg==
-X-Gm-Message-State: AOAM5330MnRkwhwnZ4Yv++WFHRk6j5e5vPcy41xfGuyJGdVi0+Xpg0wn
- 3mKYCDNRYFOnZoRm2j0u5IwcipOEp+I6rIopT08oxz6hM4I4IBZ4SCdJvxbMDC+cmHsiktPyqeP
- jCKpixW8yyqacAi4=
-X-Received: by 2002:a7b:c84a:: with SMTP id c10mr1597334wml.139.1601299193214; 
- Mon, 28 Sep 2020 06:19:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyat1laQPxulibnFjOJctKDEtgKO4pKfyi/4oZgnhBrfdQVkb9kh6nVGm0ZFsSjsDUCiOH5sw==
-X-Received: by 2002:a7b:c84a:: with SMTP id c10mr1597319wml.139.1601299193024; 
- Mon, 28 Sep 2020 06:19:53 -0700 (PDT)
+ bh=IQxJXzhc1czKuYkocMWwWEQUckk+RWA2innt4R1BD+0=;
+ b=ASPS2V9u/6LNDlZ/bt92/j9jeORrcwQ2H+0cHveZjPuSWjdhXQV9I4Fl2LBMz1AsvP
+ xNcmZig5/aHBP+Y/LD/RaOyWsFtfq8h7cujr/aGWQ3Ur5A1ipuiA8pHBDolS5LWEWZfs
+ mliAKWhd/zNuR/BNBXg5f09it3CSJgNf0ZPV1BcJaFyYHc5xqwrUFtCgZj/DfluxX/Ec
+ Gh283sOugC2hY+yxYou1gsaviq3mzLiTez5Ug4+fDTyeKPOy8cH5kcSWsvYMC+f7tQ52
+ spQYqk7kh8kAJQTBPswJreV5AW9FDM8dW7cr8m8+HwQDY568YbCV6mU5zxJGoINzt/xb
+ 3hfA==
+X-Gm-Message-State: AOAM530tVzTKkcbM4262j/S6NNJgzaQOFMnc9K47grpV6eVAQzI29J7K
+ /K9hl9OJ5K42YWF4TfMvkz1q/ig/lpNcx/L+a1DAosb+Ssegoh4QfEQybTg3KzqQC3ifUw+PKT8
+ oHHMuag1SO9LKp7M=
+X-Received: by 2002:a5d:522d:: with SMTP id i13mr1818020wra.296.1601299198479; 
+ Mon, 28 Sep 2020 06:19:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzblxRHV4qk9P2hlAVjSPw3Wp0Nhe/xUUzTvRLnKirvlK6osBca2K+2+wIrV8HZYIs84O6bSA==
+X-Received: by 2002:a5d:522d:: with SMTP id i13mr1818005wra.296.1601299198312; 
+ Mon, 28 Sep 2020 06:19:58 -0700 (PDT)
 Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id z83sm1392284wmb.4.2020.09.28.06.19.51
+ by smtp.gmail.com with ESMTPSA id k6sm1201517wmi.1.2020.09.28.06.19.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Sep 2020 06:19:52 -0700 (PDT)
+ Mon, 28 Sep 2020 06:19:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] qemu/bswap: Replace bswapXXs() by compiler
- __builtin_bswap()
-Date: Mon, 28 Sep 2020 15:19:29 +0200
-Message-Id: <20200928131934.739451-4-philmd@redhat.com>
+Subject: [PATCH v2 4/8] qemu/bswap: Remove <byteswap.h> dependency
+Date: Mon, 28 Sep 2020 15:19:30 +0200
+Message-Id: <20200928131934.739451-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200928131934.739451-1-philmd@redhat.com>
 References: <20200928131934.739451-1-philmd@redhat.com>
@@ -73,9 +72,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -104,55 +103,78 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since commit efc6c070aca ("configure: Add a test for the minimum
+compiler version") the minimum compiler version required for GCC
+is 4.8, which supports __builtin_bswap().
+Drop the <byteswap.h> dependency.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qemu/bswap.h | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ configure            | 13 -------------
+ include/qemu/bswap.h | 17 -----------------
+ 2 files changed, 30 deletions(-)
 
+diff --git a/configure b/configure
+index e8e8e984f24..bff787daea7 100755
+--- a/configure
++++ b/configure
+@@ -4886,16 +4886,6 @@ if test "$docs" != "no" ; then
+   fi
+ fi
+ 
+-# Search for bswap_32 function
+-byteswap_h=no
+-cat > $TMPC << EOF
+-#include <byteswap.h>
+-int main(void) { return bswap_32(0); }
+-EOF
+-if compile_prog "" "" ; then
+-  byteswap_h=yes
+-fi
+-
+ # Search for bswap32 function
+ bswap_h=no
+ cat > $TMPC << EOF
+@@ -6789,9 +6779,6 @@ fi
+ if test "$st_atim" = "yes" ; then
+   echo "HAVE_STRUCT_STAT_ST_ATIM=y" >> $config_host_mak
+ fi
+-if test "$byteswap_h" = "yes" ; then
+-  echo "CONFIG_BYTESWAP_H=y" >> $config_host_mak
+-fi
+ if test "$bswap_h" = "yes" ; then
+   echo "CONFIG_MACHINE_BSWAP_H=y" >> $config_host_mak
+ fi
 diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 41131d3d76e..fed96dddd7a 100644
+index fed96dddd7a..55916670d39 100644
 --- a/include/qemu/bswap.h
 +++ b/include/qemu/bswap.h
-@@ -38,29 +38,31 @@ static inline uint64_t bswap64(uint64_t x)
- 
- static inline void bswap16s(uint16_t *s)
- {
--    *s = bswap16(*s);
-+    *s = __builtin_bswap16(*s);
- }
- 
- static inline void bswap32s(uint32_t *s)
- {
--    *s = bswap32(*s);
-+    *s = __builtin_bswap32(*s);
- }
- 
- static inline void bswap64s(uint64_t *s)
- {
--    *s = bswap64(*s);
-+    *s = __builtin_bswap64(*s);
- }
- 
- #if defined(HOST_WORDS_BIGENDIAN)
- #define be_bswap(v, size) (v)
--#define le_bswap(v, size) glue(bswap, size)(v)
-+#define le_bswap(v, size) glue(__builtin_bswap, size)(v)
- #define be_bswaps(v, size)
--#define le_bswaps(p, size) do { *p = glue(bswap, size)(*p); } while(0)
-+#define le_bswaps(p, size) \
-+            do { *p = glue(__builtin_bswap, size)(*p); } while (0)
+@@ -10,23 +10,6 @@
+ # include <sys/endian.h>
+ #elif defined(__HAIKU__)
+ # include <endian.h>
+-#elif defined(CONFIG_BYTESWAP_H)
+-# include <byteswap.h>
+-
+-static inline uint16_t bswap16(uint16_t x)
+-{
+-    return bswap_16(x);
+-}
+-
+-static inline uint32_t bswap32(uint32_t x)
+-{
+-    return bswap_32(x);
+-}
+-
+-static inline uint64_t bswap64(uint64_t x)
+-{
+-    return bswap_64(x);
+-}
  #else
- #define le_bswap(v, size) (v)
--#define be_bswap(v, size) glue(bswap, size)(v)
-+#define be_bswap(v, size) glue(__builtin_bswap, size)(v)
- #define le_bswaps(v, size)
--#define be_bswaps(p, size) do { *p = glue(bswap, size)(*p); } while(0)
-+#define be_bswaps(p, size) \
-+            do { *p = glue(__builtin_bswap, size)(*p); } while (0)
- #endif
- 
- /**
+ #undef  bswap16
+ #define bswap16(_x) __builtin_bswap16(_x)
 -- 
 2.26.2
 
