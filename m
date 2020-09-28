@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E6527AAD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:34:05 +0200 (CEST)
-Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EE227AAE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:37:13 +0200 (CEST)
+Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpXo-0002sY-F9
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50538)
+	id 1kMpaq-00069l-CM
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kMpVW-0001ax-A5
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:31:42 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:37164)
+ (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
+ id 1kMpZe-0005aq-DY
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:35:58 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kMpVT-0004Tw-Nh
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:31:41 -0400
-Received: by mail-io1-xd43.google.com with SMTP id y13so424970iow.4
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 02:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m3ukiYrDWk4x2oC/NjhUqCrEPN24kl8Py9Zb2Jq6Dz0=;
- b=VXWWcaimyPj/8CSKB1zP/fNqLSNlI6Hxi/dXng9hdP21imVmrFRir7KAzhpCoLVlj1
- uU5B5xriaBT+75luknCVDzYacc2AKnvPwxaU2G17XUKysLiI2poFzASEirmqmdfos3Yq
- sqhXneMvLjQjsejxRW14EVNnJ5WPt4iQl6g0LBetx/eQbC/9I4rKejzyF2SgAbCa5ECt
- veurWaRQhylECjULRraQ1dIkjWYM/NpdvI/k1cSfPadHDJ5eYRRSmNy/pmPFPqCMnJKj
- IEJf7Dcvk/8yM6xdqN3wWg8UPcW/HwQW5NeiYHiohn9gK5FvzF1MxjzhRWPt+hUAAgxa
- Pmnw==
+ (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
+ id 1kMpZb-00052R-Sv
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:35:58 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a9so411772wmm.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 02:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=ynyAuloBqMxpWXLnS0x1CRYgjLxv7glQL157MRYGbaQ=;
+ b=NOm68y4GdOW95blTIQOEA3PlCVuKuVXVjrKBDXAbxFjkC7fgtvoxvgRK2DeuGk3dJx
+ vKJcauN1XSCD7BLZv/H4dlw2UQ8Zqpm0kx5m5/tk7RC31JkmbYBhulp372x7e4fxXqSA
+ D1BiAS9UHDx9UPtoIb17zkfcyWniYZOf1QA5dmRtof6VG3Z/ueIkcRBoCs+ZNjz0R8zk
+ oP343K+HiO46/LmGCESPKE69Y2+a1xF+ebx884SU8lYvtSbrKb02bbUWG588CtHMIyxH
+ KieOIFuPzAJ8p7WY5moIx163tHSxHHEF/GTu5vNjpNMmkdHCVdo7VP0LwKEYXvEwMSNM
+ syBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m3ukiYrDWk4x2oC/NjhUqCrEPN24kl8Py9Zb2Jq6Dz0=;
- b=ZOqkdbZvalwn3AiEjB/P3OIiYXvOEN6b7HOzRBazCjzMIJwCbfWh3nHtS6P71V52bO
- vBe6MwdKVdocMqkN6TEDQv0VNjkt7ZnqKE3aDD9ABCFGoS9onPDimPaIXzbCf+DL5a8c
- L4RgYw3OK+1QPOQrDThpeMKK+mQWbUsDBF20HnuWDQ8LW6zJj6s+tEk3BVkCLUuId7zn
- bShPwsx37A6Mfwh3UAvIqqcOFE/ll0Fh5IQTNVpbQ6al+JOih8vjvchcOciV/PwR0LuL
- u1C8dxREVg0Y2f9L4rfmPfb0C6/JzEIESVr1zmMbZZT91C87EgfIyMCAYf9ISSu3TeKm
- QKxg==
-X-Gm-Message-State: AOAM5301uC1dJe4BjDOAy8hGlgWhOIDW1ZcCoID/4IYkZAz+1z155wnr
- CfA2OytlyZdo2IwO7Pz9uRjoL3ZVFWHUiMnqh3I=
-X-Google-Smtp-Source: ABdhPJzrBCKqXdCKtl8DO3cf+Kyeby+5gKfypnewxRtyrPW3Saxr3i0D8XNNGfNCJA4rkOJVmuO/12W5upWaOtz28ao=
-X-Received: by 2002:a6b:d603:: with SMTP id w3mr6429017ioa.29.1601285498303;
- Mon, 28 Sep 2020 02:31:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ynyAuloBqMxpWXLnS0x1CRYgjLxv7glQL157MRYGbaQ=;
+ b=tiJIeP/UXP32csErpn9p5xzSpR3AFK+z0yrFXcIKgVWou5554RLTiXNHxtg5nlhwrN
+ ms6gxxf5v9FhMvUEG90Y3D6vRjnpiMFJ0LVTrpUqSmWi3VhP5mJe3qB4Qt3yazayqvtS
+ dangLDPZD9OZ+Pdl/sxQZCq3a+vUpfr9OoplkIzGJ9offH5l6aGeejVyyNAl4bhEfI/B
+ 6R0a2b/HBJZF0Ha2dhHl/VJGgHd5Rg+1CMtie//SouvHUi8C3hU2VVYHhrhPXbopIqDd
+ pGrckYsqf8VTlwn5EdzP93HKjvP5oZ/xhvAZerw89jhwn91yF2Sj25lPeh9VTDPgcvUE
+ zwtg==
+X-Gm-Message-State: AOAM531V4GCe7VKbucOZSYGG6WSjDpPvb4ld9bdN9GFIoBYt/5H9UYdd
+ zW7uXtCF0N8SFMQF4591onSEUQ==
+X-Google-Smtp-Source: ABdhPJxujOKGhgndeeleUHszQoLOrCfkJ/3Hvd9F9W+vJezWEA3CL0ZPdZysVuunxFesYXnzl1wg6w==
+X-Received: by 2002:a7b:c090:: with SMTP id r16mr734026wmh.56.1601285753984;
+ Mon, 28 Sep 2020 02:35:53 -0700 (PDT)
+Received: from xora-monster ([2a02:8010:64d6::1d89])
+ by smtp.gmail.com with ESMTPSA id d13sm672886wrp.44.2020.09.28.02.35.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Sep 2020 02:35:53 -0700 (PDT)
+Date: Mon, 28 Sep 2020 10:35:50 +0100
+From: Graeme Gregory <graeme@nuviainc.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] hw/arm/sbsa-ref : Fix SMMUv3 Initialisation
+Message-ID: <20200928093550.epbudrvdk2v47bct@xora-monster>
+References: <20200925133902.28349-1-graeme@nuviainc.com>
+ <f67b75fe-c5ce-8b95-e19b-fc4ce2217b31@redhat.com>
+ <e548848c-75ac-e82e-f40d-7c1ae70a6e02@amsat.org>
 MIME-Version: 1.0
-References: <20200923113900.72718-1-david@redhat.com>
- <20200923113900.72718-2-david@redhat.com>
- <CAM9Jb+gJkzW3_d-JxG+o6eYttSXHPGxCGDhzLgpyb_okOG+xXA@mail.gmail.com>
- <21b7facd-0801-f90e-8806-ccfa3d1730fa@redhat.com>
-In-Reply-To: <21b7facd-0801-f90e-8806-ccfa3d1730fa@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Mon, 28 Sep 2020 11:31:27 +0200
-Message-ID: <CAM9Jb+jG9hhWZ_QAG_LddannRh1zQzTB9nYf7GOVHZo44pKL9Q@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] virtio-mem: Probe THP size to determine default
- block size
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd43.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e548848c-75ac-e82e-f40d-7c1ae70a6e02@amsat.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=graeme@nuviainc.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,122 +88,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Wei Yang <richardw.yang@linux.intel.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peter.maydell@linaro.org, jamie@nuviainc.com, rad@semihalf.com,
+ qemu-devel@nongnu.org, Auger Eric <eric.auger@redhat.com>, qemu-arm@nongnu.org,
+ leif@nuviainc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> >> Let's allow a minimum block size of 1 MiB in all configurations. Use
-> >> a default block size based on the THP size, and warn if something
-> >> smaller is configured by the user.
+On Sat, Sep 26, 2020 at 09:45:24AM +0200, Philippe Mathieu-Daudé wrote:
+> Hi Gregory,
+> 
+> On 9/25/20 4:00 PM, Auger Eric wrote:
+> > Hi Gregory,
+> > 
+> > On 9/25/20 3:39 PM, Graeme Gregory wrote:
+> >> SMMUv3 has an error in previous patch where a i was transposed to a 1
+> >> meaning interrupts would not have been correctly assigned to the SMMUv3
+> >> instance.
+> 
+> This is a first issue, fixing 48ba18e6d3f3.
+> 
 > >>
-> >> VIRTIO_MEM only supports Linux (depends on LINUX), so we can probe the
-> >> THP size unconditionally.
+> >> The code also contained an error in that the IRQs were never allocated
+> >> in the irqmap.
+> 
+> This is another issue, not well explained. IIUC IRQs *are* allocated as
+> IRQ #0, right?
+> 
+> This fixes commit e9fdf453240 ("hw/arm: Add arm SBSA reference machine,
+> devices part"). Can you split this in another patch please? Eventually
+> Cc'ing qemu-stable@nongnu.org as suggested by Peter.
+> 
+
+Ok I will split and issue v2 ASAP
+
+Thanks
+
+Graeme
+
 > >>
-> >> For now we only support virtio-mem on x86-64 - there isn't a user-visiable
-> >> change (x86-64 only supports 2 MiB THP on the PMD level) - the default
-> >> was, and will be 2 MiB.
-> >>
-> >> If we ever have THP on the PUD level (e.g., 1 GiB THP on x86-64), we
-> >> expect to have a trigger to explicitly opt-in for the new THP granularity.
-> >>
-> >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> >> Cc: Wei Yang <richardw.yang@linux.intel.com>
-> >> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >> Cc: Igor Mammedov <imammedo@redhat.com>
-> >> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> >> Signed-off-by: David Hildenbrand <david@redhat.com>
+> >> Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
+> >> Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+> > Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> > 
+> > Thanks
+> > 
+> > Eric
+> > 
 > >> ---
-> >>  hw/virtio/virtio-mem.c | 82 +++++++++++++++++++++++++++++++++++++++---
-> >>  1 file changed, 78 insertions(+), 4 deletions(-)
+> >>  hw/arm/sbsa-ref.c | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
 > >>
-> >> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> >> index 8fbec77ccc..58098686ee 100644
-> >> --- a/hw/virtio/virtio-mem.c
-> >> +++ b/hw/virtio/virtio-mem.c
-> >> @@ -33,10 +33,70 @@
-> >>  #include "trace.h"
+> >> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> >> index 257ada9425..9109fb58be 100644
+> >> --- a/hw/arm/sbsa-ref.c
+> >> +++ b/hw/arm/sbsa-ref.c
+> >> @@ -138,6 +138,7 @@ static const int sbsa_ref_irqmap[] = {
+> >>      [SBSA_SECURE_UART_MM] = 9,
+> >>      [SBSA_AHCI] = 10,
+> >>      [SBSA_EHCI] = 11,
+> >> +    [SBSA_SMMU] = 12, /* ... to 15 */
+> >>  };
+> >>  
+> >>  static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+> >> @@ -530,7 +531,7 @@ static void create_smmu(const SBSAMachineState *sms, PCIBus *bus)
+> >>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+> >>      for (i = 0; i < NUM_SMMU_IRQS; i++) {
+> >>          sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+> >> -                           qdev_get_gpio_in(sms->gic, irq + 1));
+> >> +                           qdev_get_gpio_in(sms->gic, irq + i));
+> 
+> BTW this fix is already in Peter's queue:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg732819.html
+> 
+> Thanks,
+> 
+> Phil.
+> 
+> >>      }
+> >>  }
+> >>  
 > >>
-> >>  /*
-> >> - * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
-> >> - * memory (e.g., 2MB on x86_64).
-> >> + * Let's not allow blocks smaller than 1 MiB, for example, to keep the tracking
-> >> + * bitmap small.
-> >>   */
-> >> -#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)QEMU_VMALLOC_ALIGN)
-> >> +#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
-> >> +
-> >> +/*
-> >> + * We want to have a reasonable default block size such that
-> >> + * 1. We avoid splitting THPs when unplugging memory, which degrades
-> >> + *    performance.
-> >> + * 2. We avoid placing THPs for plugged blocks that also cover unplugged
-> >> + *    blocks.
-> >> + *
-> >> + * The actual THP size might differ between Linux kernels, so we try to probe
-> >> + * it. In the future (if we ever run into issues regarding 2.), we might want
-> >> + * to disable THP in case we fail to properly probe the THP size, or if the
-> >> + * block size is configured smaller than the THP size.
-> >> + */
-> >> +static uint32_t default_block_size;
-> >> +
-> >> +#define HPAGE_PMD_SIZE_PATH "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
-> >> +static uint32_t virtio_mem_default_block_size(void)
-> >> +{
-> >> +    gchar *content = NULL;
-> >> +    const char *endptr;
-> >> +    uint64_t tmp;
-> >> +
-> >> +    if (default_block_size) {
-> >> +        return default_block_size;
-> >> +    }
-> >> +
-> >> +    /*
-> >> +     * Try to probe the actual THP size, fallback to (sane but eventually
-> >> +     * incorrect) default sizes.
-> >> +     */
-> >> +    if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
-> >> +        !qemu_strtou64(content, &endptr, 0, &tmp) &&
-> >> +        (!endptr || *endptr == '\n')) {
-> >> +        /*
-> >> +         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
-> >> +         * pages) or weird, fallback to something smaller.
-> >> +         */
-> >> +        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
-> >> +            warn_report("Detected a THP size of %" PRIx64
-> >> +                        " MiB, falling back to 1 MiB.", tmp / MiB);
-> >> +            default_block_size = 1 * MiB;
-> >
-> > Probably use macro "VIRTIO_MEM_MIN_BLOCK_SIZE"
->
-> Indeed.
->
-> >> +        } else {
-> >> +            default_block_size = tmp;
-> >> +        }
-> >> +    } else {
-> >> +#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
-> >> +    defined(__powerpc64__)
-> >> +        default_block_size = 2 * MiB;
-> >> +#else
-> >> +        /* fallback to 1 MiB (e.g., the THP size on s390x) */
-> >> +        default_block_size = 1 * MiB;
-> >> +#endif
-> >
-> > Maybe we can declare this macro near to "VIRTIO_MEM_MIN_BLOCK_SIZE
-> > ((uint32_t)(1 * MiB))"
-> > or club into one, just a thought.
->
-> I decided to not use VIRTIO_MEM_MIN_BLOCK_SIZE here to not accidentally
-> mess up the s390x THP size when ever wanting to decrease
-> VIRTIO_MEM_MIN_BLOCK_SIZE. But as we have a comment here, people should
-> know whats happening when ever changing VIRTIO_MEM_MIN_BLOCK_SIZE.
-
-Thanks for answering. Makes sense.
-
-Overall the patch looks good to me.
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> > 
+> 
 
