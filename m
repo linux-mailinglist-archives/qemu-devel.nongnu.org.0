@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F9027AA36
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:07:27 +0200 (CEST)
-Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FE827AA91
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:21:18 +0200 (CEST)
+Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMp82-000189-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:07:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44606)
+	id 1kMpLR-0000Sc-70
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMp65-0008Rz-Al
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:05:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60011)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMp62-000173-NA
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:05:24 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601283920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=E+qPHymmZZgak8j6DknFIgLQvvcB1g1s01Pzx3xn78c=;
- b=WF8FCAilb44Q2pZUxN0KHkJ53CeQ2qD7Jw9ejMX/FkZT2upsCggo/3dSpbYRZZvDZlfdGi
- lS7QWl185kjdpAv+zWLPTpFs0F0gwD5z64JSbnf2oNFlUJybcYa2Ox9DT7FxvU10fFBiuu
- KAXki2Y0PZMmy/dZ1nFyay5yXsA/oD0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-IWRxUbjYMim9GrotE4T_Gg-1; Mon, 28 Sep 2020 05:05:17 -0400
-X-MC-Unique: IWRxUbjYMim9GrotE4T_Gg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2437064080;
- Mon, 28 Sep 2020 09:05:16 +0000 (UTC)
-Received: from localhost (ovpn-114-195.ams2.redhat.com [10.36.114.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FB2C27BDD;
- Mon, 28 Sep 2020 09:05:15 +0000 (UTC)
-Date: Mon, 28 Sep 2020 10:05:14 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 13/13] block: Convert 'block_resize' to coroutine
-Message-ID: <20200928090514.GE43571@stefanha-x1.localdomain>
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-14-kwolf@redhat.com>
- <20200915145733.GF629589@stefanha-x1.localdomain>
- <20200925160750.GJ5731@linux.fritz.box>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kMpGZ-0003p6-RX; Mon, 28 Sep 2020 05:16:16 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:39553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kMpGV-0002Vx-9u; Mon, 28 Sep 2020 05:16:15 -0400
+Received: from localhost.localdomain ([82.252.129.222]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M9ZRc-1kJY0I1yg0-005ZpY; Mon, 28 Sep 2020 11:16:06 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/8] Trivial branch for 5.2 patches
+Date: Mon, 28 Sep 2020 11:15:54 +0200
+Message-Id: <20200928091602.383870-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200925160750.GJ5731@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jKBxcB1XkHIR0Eqt"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.576,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:XJL1WKLlklttVz9H5VoBhwdgplly6dQFyqrny4G2V+AK3Ogz/8X
+ h+ysfzPXFeEumWZRKVa1Siepr6/LNB+B2lsVzqzeLFZ4VOTu1YljheUUkm5F6Oy0uK3yxGL
+ buaYXqri90PqkNLpjvPib/hw7kn+qCXV8NNBQ6Fgzu8pKuzkyo9n2AZJb1aP0y7If4mkz/b
+ bsu6gkZ930LB+/Tj+pr4Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6gXmBrqpW7I=:M6AU5LHhlQJzuXVq2oD6SS
+ fOr+kRuynZ5nECMioRNf5bkIX8AT2P5OuOPEizs1MAIQ2yz86hQTFoPZmQnZQAhrGKhiQQ0LX
+ nec5rrmty0uCxcRogqdpTsTj/2dgFzOnUsf7uSqvk0jE/ahfpv6/6zDEU4zVUWHDEJPqPzwmI
+ DoIi9SizGGtZyVo+WZ0+aX63uAWCX+OGeuk+IFXWuI3N7qfsRlaOAyJtl1VPjlfZmhcmW8ppL
+ PBz4CSJfcer69COME0ae+PcY1bcWJU8Tr3pVyR2PQ/e51nHmqdTBQWDalAHT1tIYSOKSyFr4P
+ 9UpRH5tG1LHtrQLBe1KqfAJYB7hI0VWXnTrHrkMqycjVCOov+QMdrmLOZtg/Oa24HzXiXbhHx
+ GXqHunubiziVZHseqRtc49KOSxOiSGrCYb4ft4HR5gfFaxfbXqP+0IloCZOKgSZ2ztJp9oCuc
+ xymmU2W0hrX+wPB4PEGy7RDXAEMLe9Zy0LxqwgSDu3sZeioT9UpqMIthBqgkH8YSfo+X/KKt+
+ +wre/LYqNaBZBK9qc7NtWNDefciejr56nDdARbl7XhQAWLhUO6qY79U5qSexWnBy+WeUFye1n
+ SocmhCnaUZwHH7nxlP9Rxr8AoKzoSNT1H1zkzgIgsYAJUZ7YJnIwC2+eTQa2rW7LSn013g/VP
+ Im93LcDF8SIvG87vFZcHoKnRevQcV2Ue1dRj2wRdVCxAKyVo9m7eaL4DgRd37HsJ0PUvs0Dvg
+ 1bQpU8304I6AVgoZ+A5giWX3YR/YL60BVP786NITncBQvPxPnxLIMbcqX8qCXudy7NKEbRsn2
+ +VfvlckP19Ykg8ucBEEk4DcqflgAYt70SZgyb6waXrMoAC/K2XeFVD7FT8TSo8mLTwGc+2e
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 05:16:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.462, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,97 +68,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, armbru@redhat.com,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---jKBxcB1XkHIR0Eqt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 25, 2020 at 06:07:50PM +0200, Kevin Wolf wrote:
-> Am 15.09.2020 um 16:57 hat Stefan Hajnoczi geschrieben:
-> > On Wed, Sep 09, 2020 at 05:11:49PM +0200, Kevin Wolf wrote:
-> > > @@ -2456,8 +2456,7 @@ void qmp_block_resize(bool has_device, const ch=
-ar *device,
-> > >          return;
-> > >      }
-> > > =20
-> > > -    aio_context =3D bdrv_get_aio_context(bs);
-> > > -    aio_context_acquire(aio_context);
-> > > +    old_ctx =3D bdrv_co_move_to_aio_context(bs);
-> > > =20
-> > >      if (size < 0) {
-> > >          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0=
- size");
-> >=20
-> > Is it safe to call blk_new() outside the BQL since it mutates global st=
-ate?
-> >=20
-> > In other words, could another thread race with us?
->=20
-> Hm, probably not.
->=20
-> Would it be safer to have the bdrv_co_move_to_aio_context() call only
-> immediately before the drain?
-
-Yes, sounds good.
-
-> > > @@ -2479,8 +2478,8 @@ void qmp_block_resize(bool has_device, const ch=
-ar *device,
-> > >      bdrv_drained_end(bs);
-> > > =20
-> > >  out:
-> > > +    aio_co_reschedule_self(old_ctx);
-> > >      blk_unref(blk);
-> > > -    aio_context_release(aio_context);
-> >=20
-> > The following precondition is violated by the blk_unref -> bdrv_drain -=
->
-> > AIO_WAIT_WHILE() call if blk->refcnt is 1 here:
-> >=20
-> >  * The caller's thread must be the IOThread that owns @ctx or the main =
-loop
-> >  * thread (with @ctx acquired exactly once).
-> >=20
-> > blk_unref() is called from the main loop thread without having acquired
-> > blk's AioContext.
-> >=20
-> > Normally blk->refcnt will be > 1 so bdrv_drain() won't be called, but
-> > I'm not sure if that can be guaranteed.
-> >=20
-> > The following seems safer although it's uglier:
-> >=20
-> >   aio_context =3D bdrv_get_aio_context(bs);
-> >   aio_context_acquire(aio_context);
-> >   blk_unref(blk);
-> >   aio_context_release(aio_context);
->=20
-> May we actually acquire aio_context if blk is in the main thread? I
-> think we must only do this if it's in a different iothread because we'd
-> end up with a recursive lock and drain would hang.
-
-Right :). Maybe an aio_context_acquire_once() API would help.
-
-Stefan
-
---jKBxcB1XkHIR0Eqt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9xp0oACgkQnKSrs4Gr
-c8jswggAgh6+YUld//Dtk1c5XMd2IQ/W0QkOBEzD9WNkhJzLJCv8DDnykmQhK7BY
-uD3vWsVpIFUe8mjI3QdfCytj+RkLmYRJLK3lV4swQJrYxRtSNZy8r6NG61CYPQn4
-OnZYMA0351uXfx0lg/MDEViJ65rbbREvFZutII+pcZ96xsMrfbRZ/paalkkM/fiu
-x/6WCmqZh24xMQ8Y46IcqxE7A8VXQXC7BlvTe1/+xuiEbWg4yQ9RK7efg6qQCk/E
-scTZio6nJUnCeUwyk8EuA3RJlWS8+BWhBVA7WpZ/L77d9flpzPetU4jcH0G/LdDe
-njqYnY9e+HLTa2KYXBDwOoERVX6EOQ==
-=ogav
------END PGP SIGNATURE-----
-
---jKBxcB1XkHIR0Eqt--
-
+The following changes since commit c122bca9cd7b986be4d473240a4fec6315b7a2c2=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-bitmaps-2020-09-21'=
+ i=3D=0D
+nto staging (2020-09-23 15:11:38 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-request=
+=0D
+=0D
+for you to fetch changes up to c66790b5dfc2430c04bf5876cf485e1f538af7f2:=0D
+=0D
+  docs/system/deprecated: Move lm32 and unicore32 to the right section (202=
+0-=3D=0D
+09-23 19:19:57 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Trivial Patches Pull request 20200928=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Laurent Vivier (2):=0D
+  meson: fix static flag summary=0D
+  vhost-vdpa: remove useless variable=0D
+=0D
+Li Qiang (1):=0D
+  virtio: vdpa: omit check return of g_malloc=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (2):=0D
+  timer: Fix timer_mod_anticipate() documentation=0D
+  migration/multifd: Remove superfluous semicolons=0D
+=0D
+Stefano Garzarella (1):=0D
+  vhost-vdpa: fix indentation in vdpa_ops=0D
+=0D
+Thomas Huth (2):=0D
+  Add *.pyc back to the .gitignore file=0D
+  docs/system/deprecated: Move lm32 and unicore32 to the right section=0D
+=0D
+ .gitignore                 |  1 +=0D
+ docs/system/deprecated.rst | 32 ++++++++++++++++----------------=0D
+ hw/virtio/vhost-vdpa.c     | 20 ++++++--------------=0D
+ include/qemu/timer.h       |  2 +-=0D
+ meson.build                |  2 +-=0D
+ migration/multifd.c        |  2 +-=0D
+ 6 files changed, 26 insertions(+), 33 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
