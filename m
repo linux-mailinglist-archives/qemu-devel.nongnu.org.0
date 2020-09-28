@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AF727AC43
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:52:57 +0200 (CEST)
-Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BF227AC39
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:49:32 +0200 (CEST)
+Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMqm8-0000ye-KD
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:52:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43846)
+	id 1kMqip-0006rA-76
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqcn-0007kl-Gb
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43135)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqcm-0007iH-Ii
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqci-0006H5-6k
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:17 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqci-0006H3-0q
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:16 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601289791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x0No8/lNHDWses2JAiQOSnCsiaQe0Jlum0U1EgQFNxA=;
- b=fpIQ4P9blHRLN9UkiLhUSycNjBa31beviY/TCHJwWXmR4ux1JLwgmZNxJ8dQG8CwF2fc8L
- dQPLb9aMjsHgyF0SGVyofEPYByMk7LX5OPIL581GZPrpcl+BmzXd+asoVP+DriEvUYySi9
- dyEPmuWUM/VFfkK952c2xQaLo2bPBeM=
+ bh=DzuHHKR6tmXSjEbMqJkV/4p/aqbq2kdpVntF34U3/qo=;
+ b=Wit0VfQGnEqiRVtx34H3KC0QuxPrY/2ofaIk124iI5/9mSc2N3HnxyuUmAOlgy590hP3qA
+ 6YkrlAiyOezTD65mPQG4/aWGraC7u9IqXJ9neMN1VcDyXOS+uEgmvDMPxwNfXI5DZbpzZN
+ KwkJFEannqjtUqHTK20W39Sa0HXlm9g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-ChHKRiu2MGmPSBwv7sJs2A-1; Mon, 28 Sep 2020 06:43:09 -0400
-X-MC-Unique: ChHKRiu2MGmPSBwv7sJs2A-1
+ us-mta-64-9fh5eRzZPgmUg5OydNU0uQ-1; Mon, 28 Sep 2020 06:43:09 -0400
+X-MC-Unique: 9fh5eRzZPgmUg5OydNU0uQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23D9B1074657;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E27D1DDFE;
  Mon, 28 Sep 2020 10:43:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4A291002C03;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFDD81002C26;
  Mon, 28 Sep 2020 10:43:07 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B7D0A40DCF; Mon, 28 Sep 2020 12:42:56 +0200 (CEST)
+ id C104140DD0; Mon, 28 Sep 2020 12:42:56 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/12] tests/acpi: add microvm pcie test
-Date: Mon, 28 Sep 2020 12:42:54 +0200
-Message-Id: <20200928104256.9241-11-kraxel@redhat.com>
+Subject: [PATCH v3 11/12] acpi/gpex: no reason to use a method for _CRS
+Date: Mon, 28 Sep 2020 12:42:55 +0200
+Message-Id: <20200928104256.9241-12-kraxel@redhat.com>
 In-Reply-To: <20200928104256.9241-1-kraxel@redhat.com>
 References: <20200928104256.9241-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -92,45 +92,48 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+... just to return something which is constant anyway.
+
+-            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+-            {
+-                Return (ResourceTemplate ()
+-                {
+-                    WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
+[ ... ]
+
++            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
++            {
++                WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
+[ ... ]
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/pci-host/gpex-acpi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index cc4579d914e7..bf34be5decf3 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1063,6 +1063,18 @@ static void test_acpi_microvm_tcg(void)
-     free_test_data(&data);
- }
+diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+index 6fb951a0c19f..dbb350a837f8 100644
+--- a/hw/pci-host/gpex-acpi.c
++++ b/hw/pci-host/gpex-acpi.c
+@@ -57,7 +57,6 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     aml_append(method, aml_return(aml_int(cfg->ecam.base)));
+     aml_append(dev, method);
  
-+static void test_acpi_microvm_pcie_tcg(void)
-+{
-+    test_data data;
-+
-+    test_acpi_microvm_prepare(&data);
-+    data.variant = ".pcie";
-+    data.tcg_only = true; /* need constant host-phys-bits */
-+    test_acpi_one(" -machine microvm,acpi=on,rtc=off,pcie=on",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
- static void test_acpi_virt_tcg_numamem(void)
- {
-     test_data data = {
-@@ -1181,6 +1193,9 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-         qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-+        if (strcmp(arch, "x86_64") == 0) {
-+            qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-+        }
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+-    method = aml_method("_CRS", 0, AML_NOTSERIALIZED);
+     Aml *rbuf = aml_resource_template();
+     aml_append(rbuf,
+         aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+@@ -89,8 +88,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+                                     0x0000,
+                                     cfg->mmio64.size));
+     }
+-    aml_append(method, aml_return(rbuf));
+-    aml_append(dev, method);
++    aml_append(dev, aml_name_decl("_CRS", rbuf));
+ 
+     /* Declare an _OSC (OS Control Handoff) method */
+     aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
 -- 
 2.27.0
 
