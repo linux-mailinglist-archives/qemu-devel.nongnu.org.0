@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A66427AF0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:29:07 +0200 (CEST)
-Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D3527AF01
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:23:31 +0200 (CEST)
+Received: from localhost ([::1]:59514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtDG-0001ul-7q
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59408)
+	id 1kMt7q-0003vu-VY
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0o-0003cl-G3
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27697)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1S-0004w1-25
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0m-0002Mc-V5
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:14 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1Q-0002W5-5k
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:53 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601298971;
+ s=mimecast20190719; t=1601299011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d43fWDR8b1Cl+ncfjSQt6zla0jEieutuU3KRAkLgvoc=;
- b=T7AZHGPwEqCYRhagpCEMSrbvFdtuv3x1ey55DEQYnNcxqLkEOwrV1D8q2NY+gHbrJpGM1w
- dKuv3h+xzeWbf8CIqASeCYfT23lzlkbrQfwBfqrtF/jtKLsL8rfRCaEC9lctnGjhBlS9/T
- hUKFIMp9wBEUX2Wiks5iqDXVRUDNl74=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nPBvf8cnPQnyLQ5LMRfJYGRdGAZqON273lEcntug720=;
+ b=UpclP505oXqWCEkuZdEQY+nTQ67v6UFEuK+gYaNxRahqK/3AO2/EuQ6gzdQjT8tddMMPiY
+ yoNyXxh5CYT3zNUs3CvpBnEYCt+JTMjw2ARRpXJ5+U283N8OKPFVR3xaVDHpmMpj/OOXA3
+ CT+nOZNMkzCRiI3qenAa+uPo1gW3jTI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-J8nIASO8PfK1CT48nbsXCQ-1; Mon, 28 Sep 2020 09:16:09 -0400
-X-MC-Unique: J8nIASO8PfK1CT48nbsXCQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-577-MtMPWPBPMISrchc5_uqe3w-1; Mon, 28 Sep 2020 09:16:49 -0400
+X-MC-Unique: MtMPWPBPMISrchc5_uqe3w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 089F7188C153;
- Mon, 28 Sep 2020 13:15:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B53FB10219ED
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 13:16:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BEAF273666;
- Mon, 28 Sep 2020 13:15:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68EE260CD0;
+ Mon, 28 Sep 2020 13:16:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DB9BC40827; Mon, 28 Sep 2020 15:15:39 +0200 (CEST)
-Date: Mon, 28 Sep 2020 15:15:39 +0200
+ id 4F55140827; Mon, 28 Sep 2020 15:16:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Amey Narkhede <ameynarkhede03@gmail.com>
-Subject: Re: [PATCH] hw/usb: Use lock guard macros
-Message-ID: <20200928131539.grogkdnwunlltiwu@sirius.home.kraxel.org>
-References: <20200923134327.576139-1-ameynarkhede03@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] Usb 20200928 patches
+Date: Mon, 28 Sep 2020 15:16:33 +0200
+Message-Id: <20200928131638.9486-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200923134327.576139-1-ameynarkhede03@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,19 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 23, 2020 at 07:13:27PM +0530, Amey Narkhede wrote:
-> Use qemu LOCK_GUARD macros from "qemu/lockable.h" in
-> hw/usb/ccid-card-emulated.c, saves manual unlock calls.
-> 
-> Signed-off-by: Amey Narkhede <ameynarkhede03@gmail.com>
-
-Added to usb queue.
-
-thanks,
-  Gerd
+The following changes since commit 8d16e72f2d4df2c9e631393adf1669a1da7efe8a=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-202009=
+25a' into staging (2020-09-25 14:46:18 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/usb-20200928-pull-request=0D
+=0D
+for you to fetch changes up to 5c43b603a2e3f77f41e0cf339e72bee2077bfe61:=0D
+=0D
+  hw/usb: Use lock guard macros (2020-09-28 13:13:58 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+usb: xhci sysbus support.=0D
+usb: use lock guards.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Amey Narkhede (1):=0D
+  hw/usb: Use lock guard macros=0D
+=0D
+Sai Pavan Boddu (4):=0D
+  usb/hcd-xhci: Make dma read/writes hooks pci free=0D
+  usb/hcd-xhci: Move qemu-xhci device to hcd-xhci-pci.c=0D
+  usb/hcd-xhci: Split pci wrapper for xhci base model=0D
+  usb: hcd-xhci-sysbus: Attach xhci to sysbus device=0D
+=0D
+ hw/usb/hcd-xhci-pci.h       |  44 ++++++=0D
+ hw/usb/hcd-xhci-sysbus.h    |  32 +++++=0D
+ hw/usb/hcd-xhci.h           |  21 ++-=0D
+ hw/usb/ccid-card-emulated.c |  54 +++----=0D
+ hw/usb/hcd-xhci-nec.c       |  18 +--=0D
+ hw/usb/hcd-xhci-pci.c       | 261 ++++++++++++++++++++++++++++++++++=0D
+ hw/usb/hcd-xhci-sysbus.c    | 109 +++++++++++++++=0D
+ hw/usb/hcd-xhci.c           | 271 ++++++++----------------------------=0D
+ hw/usb/Kconfig              |  11 ++=0D
+ hw/usb/meson.build          |   2 +=0D
+ 10 files changed, 564 insertions(+), 259 deletions(-)=0D
+ create mode 100644 hw/usb/hcd-xhci-pci.h=0D
+ create mode 100644 hw/usb/hcd-xhci-sysbus.h=0D
+ create mode 100644 hw/usb/hcd-xhci-pci.c=0D
+ create mode 100644 hw/usb/hcd-xhci-sysbus.c=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
