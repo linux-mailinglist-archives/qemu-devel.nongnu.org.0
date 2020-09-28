@@ -2,74 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1348927A9E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:47:54 +0200 (CEST)
-Received: from localhost ([::1]:51156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D1727AA0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:56:56 +0200 (CEST)
+Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMop7-0005FX-56
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39938)
+	id 1kMoxr-0007yS-Ig
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMona-0003xE-Gm
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:46:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMonX-0007Ft-6Y
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:46:18 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601282774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5pUPnPPHY0f4Xpne8qRtp9TmvHORxcrmhWFETEYoHqM=;
- b=OFTbPOMNYnx2PLz1uOqjZR1/FytlCJT/5mDcJdYi9857QMbo6Pj/v+oC3VLqpeOY/xrmzi
- CQ1uMcN/S8mLrkDocOJYMvar8S+VoKn1zlxE0eyUG216CyQ8bbnGpZuREuhzsbGRpFauoy
- khyuu4ayO+o4ObmT1rHytcGZcYvZdaw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-4Bj18WYTMAK2LJ1Yb_YeYA-1; Mon, 28 Sep 2020 04:46:11 -0400
-X-MC-Unique: 4Bj18WYTMAK2LJ1Yb_YeYA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78F7359;
- Mon, 28 Sep 2020 08:46:10 +0000 (UTC)
-Received: from localhost (ovpn-114-195.ams2.redhat.com [10.36.114.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D6005C1A3;
- Mon, 28 Sep 2020 08:46:09 +0000 (UTC)
-Date: Mon, 28 Sep 2020 09:46:09 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 00/13] monitor: Optionally run handlers in coroutines
-Message-ID: <20200928084609.GC43571@stefanha-x1.localdomain>
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200910132439.GE45048@stefanha-x1.localdomain>
- <20200925171541.GK5731@linux.fritz.box>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kMoss-0006n2-TD; Mon, 28 Sep 2020 04:51:46 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:48389)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kMosq-0007um-Qz; Mon, 28 Sep 2020 04:51:46 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6E4905801D0;
+ Mon, 28 Sep 2020 04:51:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Mon, 28 Sep 2020 04:51:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=GtLogJXpt5qbeKKcdtTIItnqTC0
+ 8h3cxKcCKfEFprSc=; b=q+MKz7YMRajAm1U1gQD5IY4BR+QEC2YK8cicgo3xWlS
+ /VT28TIK6nrjXb/MfvXiAeLH/Ak8SSEvHbJm5XvT8KG1QjmJRZdyf1aifl3abn7o
+ z50xOYz/POezlLDdJcyQ10BVIww3+Ypx60lMBCJqoafN/l3EjREKMv10f5aQQ2RA
+ aBeSSKq9nTHxqp7dRej15XqJSYFBS07RO+H/+77JfcVACQAvtIDf7qgJm5VKDEPJ
+ 97kvhtqgtSA0NWTG+b4c7dV72PJ4HpHQirQP93LVez/7oG1ki71R3ayMaJ4n40/q
+ rn7f348iT2ds6fGmqkT2oHDGD2gM09psGNBL8GT1kCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GtLogJ
+ Xpt5qbeKKcdtTIItnqTC08h3cxKcCKfEFprSc=; b=Axd3A0QeJLpORVMbwVsiZp
+ Xy5coUDWJm71OIJguY02FZmXno69/hTB0JhvLVtNT7BC/xc+tctRzSek7zJ2hqMD
+ bxyW+m/4FSdWnYg4jsgHKko5zXZ+fyzcSmPnVPHsqpDhUWjvCuLWVmFDKreR6X2r
+ Xn23l+ukPtt2is7a0dcijMw8QzASTjvyyez70PBGDvhZwlZp91TU0uHXtXqSMXny
+ rVHEPnib2IMYrt8vPrgoBPoH9//eKSCAjcW150f+yjx4rCNXuuGV8BuqaXCUaNcR
+ KxpizoJ4Kd/jwgrTriyITJyU/kZUNQuKgXn2SNAP1hCf9TUaWGzOj9rumkGLLdiw
+ ==
+X-ME-Sender: <xms:HaRxX_Wg99Y2vOlEtp0NRKmtg5egVhl9NqTPaGdNwc8RHVqzrvW6_Q>
+ <xme:HaRxX3nC3SHrKdFNDm3e_TP_ZPmLiIlwqunn7y3s9dO6kj1Jk9ZPMDbycwTVTzqJH
+ YZp76DaXKVkvB2F90M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeigddutdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:HaRxX7bbENVKTOayMoZzwnzT28JIJfcTPZdOj1vPdalj19_kCAHLeQ>
+ <xmx:HaRxX6V8PoL-1ZTx9hQQM6nHrXxHIEKtP7KR6eEs5_ycOAYfnNStxg>
+ <xmx:HaRxX5kU99K5FraX8WLONRChchPwij7jRsprou5cHt6j-ZxZks4bVg>
+ <xmx:H6RxX_e1zrWifF2CRcez4bwA7tKgiLYzevuQ46rYWuNFfDg4evpd5FmQld0>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 220383064680;
+ Mon, 28 Sep 2020 04:51:40 -0400 (EDT)
+Date: Mon, 28 Sep 2020 10:51:37 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v5 01/14] hw/block/nvme: Report actual LBA data shift in
+ LBAF
+Message-ID: <20200928085137.GA33043@apples.localdomain>
+References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
+ <20200928023528.15260-2-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925171541.GK5731@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="V88s5gaDVPzZ0KCq"
+ protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+In-Reply-To: <20200928023528.15260-2-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 02:36:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.576,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,75 +97,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, armbru@redhat.com,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---V88s5gaDVPzZ0KCq
-Content-Type: text/plain; charset=iso-8859-1
+
+--d6Gm4EdcadzBjdND
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 25, 2020 at 07:15:41PM +0200, Kevin Wolf wrote:
-> Am 10.09.2020 um 15:24 hat Stefan Hajnoczi geschrieben:
-> > On Wed, Sep 09, 2020 at 05:11:36PM +0200, Kevin Wolf wrote:
-> > > Some QMP command handlers can block the main loop for a relatively lo=
-ng
-> > > time, for example because they perform some I/O. This is quite nasty.
-> > > Allowing such handlers to run in a coroutine where they can yield (an=
-d
-> > > therefore release the BQL) while waiting for an event such as I/O
-> > > completion solves the problem.
-> > >=20
-> > > This series adds the infrastructure to allow this and switches
-> > > block_resize to run in a coroutine as a first example.
-> > >=20
-> > > This is an alternative solution to Marc-Andr=E9's "monitor: add
-> > > asynchronous command type" series.
-> >=20
-> > Please clarify the following in the QAPI documentation:
-> >  * Is the QMP monitor suspended while the command is pending?
+On Sep 28 11:35, Dmitry Fomichev wrote:
+> Calculate the data shift value to report based on the set value of
+> logical_block_size device property.
 >=20
-> Suspended as in monitor_suspend()? No.
+> In the process, use a local variable to calculate the LBA format
+> index instead of the hardcoded value 0. This makes the code more
+> readable and it will make it easier to add support for multiple LBA
+> formats in the future.
 >=20
-> >  * Are QMP events reported while the command is pending?
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme-ns.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 >=20
-> Hm, I don't know to be honest. But I think so.
->=20
-> Does it matter, though? I don't think events have a defined order
-> compared to command results, and the client can't respond to the event
-> anyway until the current command has completed.
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index 2ba0263dda..bbd7879492 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -47,6 +47,8 @@ static void nvme_ns_init(NvmeNamespace *ns)
+> =20
+>  static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+>  {
+> +    int lba_index;
+> +
+>      if (!blkconf_blocksizes(&ns->blkconf, errp)) {
+>          return -1;
+>      }
+> @@ -67,6 +69,9 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace =
+*ns, Error **errp)
+>          n->features.vwc =3D 0x1;
+>      }
+> =20
+> +    lba_index =3D NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+> +    ns->id_ns.lbaf[lba_index].ds =3D 31 - clz32(n->conf.logical_block_si=
+ze);
 
-You're right, I don't think it matters because the client must expect
-QMP events at any time.
+You fix this later in the zoned support patch, but this should use
+ns->blkconf.conf.logical_block_size.
 
-I was trying to understand the semantics of coroutine monitor commands
-from two perspectives:
-
-1. The QMP client - do coroutine commands behave differently from
-   non-coroutine commands? I think the answer is no. The monitor will
-   not process more commands until the coroutine finishes?
-
-2. The command implementation - which thread does the coroutine run in?
-   I guess it runs in the main loop thread with the BQL and the
-   AioContext acquired?
-
---V88s5gaDVPzZ0KCq
+--d6Gm4EdcadzBjdND
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9xotEACgkQnKSrs4Gr
-c8iB0Af+O+TXfoIRz+TJxzcKJQO2vAyN/nFiP9+4DNwft0930rsibtgPotzcxc3u
-gpjFItg7Ux/kw7UAv9XBgD+5ZjSG61ttWdGEXyf80UyCoGOGE2ArCa0gUHsVJJx9
-SbR7ATdTxwV9/J91I+VD8KpfVtY0hfWzMcAhetL3FRmte43vmu0OFHNiaSqyFcKY
-3n7A5cwIpE9XR5Hgde+lO6DuGgS/0P7GYCyNOmkQzfJHO25M0lExtWK5vdHIk3Ww
-eDY8ZHrXWeMFYoAbVWqf08TOthvnCWqumQmJc87zJZMM3LXFNF6AYQEisvBBuHuL
-YF2dqFWeOu60oIdE8PulKNDP7CWJfQ==
-=1ZMN
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9xpBcACgkQTeGvMW1P
+DenIaQf/Z/aEZ1YwW9d7YbeWu/VqjYL6gJwGb96im6GSWf26vdgtkjyPXk+5IITg
+qsZjkuFw5saxeU/DQ7WPFkakct33O2bgbsEYTnrHST3tCOTDV7NX+NrudaJkRlQR
+RimVVF/HieDDAKRHhIrOtXy9hOPeR5qZZee4onWWj1WmP29LG2Ef7eLZ68nXwMQZ
+8qnzBQjaCdOkIloML4HXEDYLKjCIOe+gZrtefRYTpzdyb7cJFwJrYTBcBkBg52qu
+UGEsCi6NOsVtfIHn/XjtXt65E9gRtAGV5gTO3c3eupDWNuBkNbg7J0wYIjhJ2yVL
+G25xj/eNtJWRvQuBy9XhbHUphvTSVw==
+=Cuwt
 -----END PGP SIGNATURE-----
 
---V88s5gaDVPzZ0KCq--
-
+--d6Gm4EdcadzBjdND--
 
