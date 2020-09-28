@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A9027AF4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:43:44 +0200 (CEST)
-Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED78D27AF56
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:47:00 +0200 (CEST)
+Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtRP-00080S-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60164)
+	id 1kMtUZ-0002cI-Sm
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kMt3M-0007Fm-N3
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:18:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31588)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMt4A-0000ZM-QG
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:19:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kMt3K-0002hd-QS
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:18:52 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMt49-0002md-10
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:19:42 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601299129;
+ s=mimecast20190719; t=1601299180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FybpakMfQz8tUuXexUBRnrsGqrrwdYiLeR0A3fLIHtI=;
- b=QvSJnqBSXfAVYJsIzYrwnMKmwqAJ3ECfvpKnm1JJKN+k9N/6mDqtDS5a0VQ07thZgAo6Wd
- DAHzLqqA8uRtIJbYk3goB+R8xOX1z6llzVGxOB7i27TwFsU4I7lMj7U1uUnolGl9MER0Y1
- u+j17E5D47WGq73G/RRLdIcRb8BfMx4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-rOIdV-XhMSKbdOscP9iSDw-1; Mon, 28 Sep 2020 09:18:25 -0400
-X-MC-Unique: rOIdV-XhMSKbdOscP9iSDw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46A61809B66;
- Mon, 28 Sep 2020 13:18:24 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-193.ams2.redhat.com [10.36.114.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5393C78437;
- Mon, 28 Sep 2020 13:18:23 +0000 (UTC)
-Date: Mon, 28 Sep 2020 15:18:21 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] qemu-io-cmds: Simplify help_oneline
-Message-ID: <20200928131821.GG5451@linux.fritz.box>
-References: <20200824102914.105619-1-dgilbert@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+FPpktj5THBEK2/QYdCd2kiR5oibLPS/OVWFHv6de4o=;
+ b=JdLVr2xGG9GpkVZc1oNRGuI309D7ehgnFvj9KYQpaLYn4D75blGUJ6l25D5Y7IPq3WtGlY
+ WnJr0CWYbVVK/rA4IYceXoSq7cjuU6voZpv03Ux6jpLtg3FgjivrRYDd+SERIFVxcqnpCy
+ RZG7uWCn9hX7JBgByHnP5IidcT7FRdk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-VOo2GQmHOtKkBTg8kKdTIQ-1; Mon, 28 Sep 2020 09:19:38 -0400
+X-MC-Unique: VOo2GQmHOtKkBTg8kKdTIQ-1
+Received: by mail-wm1-f69.google.com with SMTP id b14so345463wmj.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 06:19:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+FPpktj5THBEK2/QYdCd2kiR5oibLPS/OVWFHv6de4o=;
+ b=CfG7WjaqNcp07uYH27Vf5t42IERQhO9LxhiD+8nPsV7pq8yF1e4JpnSb/RjmAYqi86
+ /fNFdyuEb2qHENUKPbwj+kj52zh0D03WHPMlbxKJqiI9F3GroaZjlVOuOPk+4vOmSPnk
+ r+yopB20aDbqE3M52yN6N0ZKOFP+Ucriaf43d2L7hxpTP5sabpncaExARBfYM7E2IQDI
+ Q4dloaza1eu7i11Ja52wd0GUIcTW5d7PX2sPCqraZ0aMHDBYyROeT0JZrVn7Vvv1gSv+
+ 7ncvqWesrWlDnYHBKgSIFm4etxtIpG9nt4s6/L1NUDF4qOYmemG41DPWizy6maFyuR2e
+ Kj/g==
+X-Gm-Message-State: AOAM532NCca7qrWO1vAoTMO+hID1eRAvALfo0tJEPSxPJ0bO9aUrX5hW
+ bcqNFwI6m9sZuOeTm/t5UIK8HdJGvMGUBLSn1pnT7vVOdSer+U0QTKOq5I6hrayGpSYOXL+cJNd
+ KDJH8GeLTikmEvAc=
+X-Received: by 2002:a1c:7215:: with SMTP id n21mr1720360wmc.154.1601299177406; 
+ Mon, 28 Sep 2020 06:19:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwdMqjqkMzycwHv7g2uqjOhInjyuyFkPZe57OXnWZZ4SLLwHTMl2i+2Oqr9ydys7nGcitUV0w==
+X-Received: by 2002:a1c:7215:: with SMTP id n21mr1720340wmc.154.1601299177219; 
+ Mon, 28 Sep 2020 06:19:37 -0700 (PDT)
+Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id k8sm1549945wrl.42.2020.09.28.06.19.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Sep 2020 06:19:36 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/8] qemu/bswap: Use compiler __builtin_bswap()
+Date: Mon, 28 Sep 2020 15:19:26 +0200
+Message-Id: <20200928131934.739451-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200824102914.105619-1-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,47 +92,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 24.08.2020 um 12:29 hat Dr. David Alan Gilbert (git) geschrieben:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> help_oneline is declared and starts as:
-> 
->   static void help_oneline(const char *cmd, const cmdinfo_t *ct)
->   {
->       if (cmd) {
->           printf("%s ", cmd);
->       } else {
->           printf("%s ", ct->name);
->           if (ct->altname) {
->               printf("(or %s) ", ct->altname);
->           }
->       }
-> 
-> However, there are only two routes to help_oneline being called:
-> 
->    help_f -> help_all -> help_oneline(ct->name, ct)
-> 
->    help_f -> help_onecmd(argv[1], ct)
-> 
-> In the first case, 'cmd' and 'ct->name' are the same thing,
-> so it's impossible for the if (cmd) to be false and then validly
-> print ct->name - this is upsetting gcc
-> ( https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96739 )
-> 
-> In the second case, cmd is argv[1] and we know we've got argv[1]
-> so again (cmd) is non-NULL.
-> 
-> Simplify help_oneline by just printing cmd.
-> (Also strengthen argc check just to be pedantic)
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Implement Richard's suggestion to use __builtin_bswap().
 
-Thanks, applied to the block branch.
+const_XX() not updated. We could use le_bswap() definitions
+but they are undefined, not sure yet what is the best way.
+Meanwhile I figure this out, these patches are ready for review.
 
-Kevin
+Since v1:
+- Remove the Haiku/BSD ifdef'ry (Peter)
+- Include the Haiku VM image from Alexander
+
+Alexander von Gluck IV (1):
+  tests/vm: Add Haiku test based on their vagrant images
+
+Philippe Mathieu-Daudé (7):
+  qemu/bswap: Remove unused qemu_bswap_len()
+  qemu/bswap: Replace bswapXX() by compiler __builtin_bswap()
+  qemu/bswap: Replace bswapXXs() by compiler __builtin_bswap()
+  qemu/bswap: Remove <byteswap.h> dependency
+  qemu/bswap: Use compiler __builtin_bswap() on Haiku
+  qemu/bswap: Use compiler __builtin_bswap() on FreeBSD
+  qemu/bswap: Use compiler __builtin_bswap() on NetBSD
+
+ configure                 |  28 ---------
+ include/qemu/bswap.h      |  79 +++++---------------------
+ tests/keys/vagrant        |  27 +++++++++
+ tests/keys/vagrant.pub    |   1 +
+ tests/vm/Makefile.include |   3 +-
+ tests/vm/basevm.py        |   5 +-
+ tests/vm/haiku.x86_64     | 116 ++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 164 insertions(+), 95 deletions(-)
+ create mode 100644 tests/keys/vagrant
+ create mode 100644 tests/keys/vagrant.pub
+ create mode 100755 tests/vm/haiku.x86_64
+
+-- 
+2.26.2
 
 
