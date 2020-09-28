@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1214527AEFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:20:23 +0200 (CEST)
-Received: from localhost ([::1]:50396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7921A27AF07
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:24:39 +0200 (CEST)
+Received: from localhost ([::1]:35978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMt4o-0008Ry-1x
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56558)
+	id 1kMt8w-0005sW-F5
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMspn-0007IN-4T
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:04:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49171)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0U-0003QD-PD
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:15:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMsph-0000pV-No
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:04:50 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt0P-0002BA-3X
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:15:54 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601298285;
+ s=mimecast20190719; t=1601298946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=j9eXQH222IF4z/5+ryWHdc3O+aVHS/WKifvlWGjCSSU=;
- b=N4QxoJ8LL7stjGrroGOfQr9Fu4B3FZUUc1t2Z+488NfBRXqWxYNlGlfN2AWpnoX0yRdNxM
- gck5cqKadH/ZFZRgw991Z8oRDZpQ6NfxHZyU5xkP28/o3HHADuwZRKLxJuoZjRDoeBy3AQ
- kuW7LU648uVfd125OREOQhUDwu+i5ho=
+ bh=ELbPUT56WE3t+U6IuK0HaFN17wtg0pFKQoWrviDgJ2w=;
+ b=F7OoOhiXxWwqq7lPJxj90P6IeO2Im6GA1lOdcdoHbz0+jqm8kLY3bhLYG00wPCZfJRZmUv
+ KhotDRA7LxcVDncG4i3NhNZ4JvKZKBJYW88RiEAI8+BgMdK6lOrZe6B2l9QcpZ/6v+Tca3
+ FFZG2jD117WXaWZKwWOickwFr/yXNYg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-oGLH_cG3Nf2dXwAWA1JEkQ-1; Mon, 28 Sep 2020 09:04:42 -0400
-X-MC-Unique: oGLH_cG3Nf2dXwAWA1JEkQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-56-oyuSbUPFNl2AsHkZpNoHFg-1; Mon, 28 Sep 2020 09:15:40 -0400
+X-MC-Unique: oyuSbUPFNl2AsHkZpNoHFg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8B73873112;
- Mon, 28 Sep 2020 13:04:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
- [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84A9C183AB;
- Mon, 28 Sep 2020 13:04:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0E00C113865F; Mon, 28 Sep 2020 15:04:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 00/21] Convert QAPI doc comments to generate rST
- instead of texinfo
-References: <20200925162316.21205-1-peter.maydell@linaro.org>
- <160106193961.10465.12078546060105198824@66eaa9a8a123>
- <CAFEAcA8uWY+MCDToz9an+zsrMVrctkBmgpMV82iUR2ZZOgA3Vg@mail.gmail.com>
-Date: Mon, 28 Sep 2020 15:04:40 +0200
-In-Reply-To: <CAFEAcA8uWY+MCDToz9an+zsrMVrctkBmgpMV82iUR2ZZOgA3Vg@mail.gmail.com>
- (Peter Maydell's message of "Fri, 25 Sep 2020 22:37:56 +0100")
-Message-ID: <87h7rif3x3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8280C8B8D17;
+ Mon, 28 Sep 2020 13:15:37 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64A5875151;
+ Mon, 28 Sep 2020 13:15:18 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4E4EC40827; Mon, 28 Sep 2020 15:15:17 +0200 (CEST)
+Date: Mon, 28 Sep 2020 15:15:17 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Subject: Re: [PATCH v10 7/7] Versal: Connect DWC3 controller with virt-versal
+Message-ID: <20200928131517.hmczcqisasv47tls@sirius.home.kraxel.org>
+References: <1600957256-6494-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1600957256-6494-8-git-send-email-sai.pavan.boddu@xilinx.com>
+ <20200925183946.GP4142@toto>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200925183946.GP4142@toto>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,43 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?utf-8?Q?'Marc-Andr=C3=A9?= Lureau' <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ 'Philippe =?utf-8?Q?Mathieu-Daud=C3=A9'?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On Fri, Sep 25, 2020 at 08:39:46PM +0200, Edgar E. Iglesias wrote:
+> On Thu, Sep 24, 2020 at 07:50:56PM +0530, Sai Pavan Boddu wrote:
+> > From: Vikram Garhwal <fnu.vikram@xilinx.com>
+> > 
+> > Connect dwc3 controller and usb2-reg module to xlnx-versal SOC, its placed
+> > in iou of lpd domain and configure it as dual port host controller. Add the
+> > respective guest dts nodes for "xlnx-versal-virt" machine.
+> 
+> Hi Sai,
+> 
+> One minor comment inline.
 
-> On Fri, 25 Sep 2020 at 20:25, <no-reply@patchew.org> wrote:
->
->> In file included from ../src/qapi/qapi-schema.json:78:
->> ../src/qapi/migration.json:1747:1: unexpected de-indent (expected at least 13 spaces)
->
-> This is yet another mis-indented line in a change to the QAPI
-> doc-comments (commit 4c437254b807). It hit master in the
-> latest migration pull after I'd sent out this patchseries
-> but before patchew got round to testing..
+Cherry-picked patches 1-4 for the usb queue, leaving 5-7 for later (or
+maybe the arm queue).
 
-Obvious fixup for your PATCH 01:
-
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 7d9342c064..7f5e6fd681 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1744,9 +1744,9 @@
- # Information about current dirty page rate of vm.
- #
- # @dirty-rate: @dirtyrate describing the dirty page rate of vm
--#          in units of MB/s.
--#          If this field returns '-1', it means querying has not
--#          yet started or completed.
-+#              in units of MB/s.
-+#              If this field returns '-1', it means querying has not
-+#              yet started or completed.
- #
- # @status: status containing dirtyrate query status includes
- #          'unstarted' or 'measuring' or 'measured'
-
-Happy to fix it up in my tree.
+take care,
+  Gerd
 
 
