@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225BF27AF50
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:44:59 +0200 (CEST)
-Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D590227AF5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:48:43 +0200 (CEST)
+Received: from localhost ([::1]:34542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtSc-0001FY-5t
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55130)
+	id 1kMtWE-0004vr-UL
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMslk-0004YH-Lv; Mon, 28 Sep 2020 09:00:41 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58252 helo=relay3.sw.ru)
+ id 1kMsnv-0006F0-P3; Mon, 28 Sep 2020 09:03:00 -0400
+Received: from relay.sw.ru ([185.231.240.75]:59132 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMsld-0000BQ-OO; Mon, 28 Sep 2020 09:00:39 -0400
+ id 1kMsns-0000bG-CG; Mon, 28 Sep 2020 09:02:55 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMsl0-001tba-EP; Mon, 28 Sep 2020 15:59:54 +0300
+ id 1kMsnK-001tba-GQ; Mon, 28 Sep 2020 16:02:18 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
  stefanha@redhat.com, fam@euphon.net, jsnow@redhat.com, armbru@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v9 0/9] Apply COR-filter to the block-stream permanently
-Date: Mon, 28 Sep 2020 15:59:52 +0300
-Message-Id: <1601298001-774096-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v9 6/9] copy-on-read: skip non-guest reads if no copy needed
+Date: Mon, 28 Sep 2020 15:59:58 +0300
+Message-Id: <1601298001-774096-7-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1601298001-774096-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1601298001-774096-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 09:00:28
@@ -56,51 +58,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Despite the patch "freeze link to base node..." has been removed from the
-series in the current version 9, the iotest case test_stream_parallel does
-not pass after the COR-filter is inserted into the backing chain. As the
-test case may not be initialized, it does not make a sense and was removed
-again.
-The check with bdrv_is_allocated_above() takes place in the COR-filter and
-in the block-stream job both. An optimization of the block-stream job based
-on the filter functionality may be made in a separate series.
+If the flag BDRV_REQ_PREFETCH was set, pass it further to the
+COR-driver to skip unneeded reading. It can be taken into account for
+the COR-algorithms optimization. That check is being made during the
+block stream job by the moment.
 
-v9:
-  02: Refactored.
-  04: Base node name is used instead of the file name.
-  05: New implementation based on Max' review.
-  06: New.
-  07: New. The patch "freeze link to base node..." was deleted.
-  08: New.
-  09: The filter node options are initialized.
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ block/copy-on-read.c | 14 ++++++++++----
+ block/io.c           |  2 +-
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-The v8 Message-Id:
-<1598633579-221780-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-
-Andrey Shinkevich (9):
-  copy-on-read: Support preadv/pwritev_part functions
-  copy-on-read: add filter append/drop functions
-  qapi: add filter-node-name to block-stream
-  copy-on-read: pass base node name to COR driver
-  copy-on-read: limit guest COR activity to base in COR driver
-  copy-on-read: skip non-guest reads if no copy needed
-  stream: skip filters when writing backing file name to QCOW2 header
-  block: remove unused parameter backing-file name
-  block: apply COR-filter to block-stream jobs
-
- block/copy-on-read.c           | 165 ++++++++++++++++++++++++++++++++++++++---
- block/io.c                     |   2 +-
- block/monitor/block-hmp-cmds.c |   6 +-
- block/stream.c                 | 112 +++++++++++++++++-----------
- blockdev.c                     |  21 +-----
- include/block/block_int.h      |   9 ++-
- qapi/block-core.json           |  23 ++----
- tests/qemu-iotests/030         |  51 ++-----------
- tests/qemu-iotests/030.out     |   4 +-
- tests/qemu-iotests/141.out     |   2 +-
- tests/qemu-iotests/245         |  19 +++--
- 11 files changed, 267 insertions(+), 147 deletions(-)
-
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index f53f7e0..5389dca 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -145,10 +145,16 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
+             }
+         }
+ 
+-        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
+-                                  local_flags);
+-        if (ret < 0) {
+-            return ret;
++        if ((flags & BDRV_REQ_PREFETCH) &
++            !(local_flags & BDRV_REQ_COPY_ON_READ)) {
++            /* Skip non-guest reads if no copy needed */
++        } else {
++
++            ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
++                                      local_flags);
++            if (ret < 0) {
++                return ret;
++            }
+         }
+ 
+         offset += n;
+diff --git a/block/io.c b/block/io.c
+index 11df188..62b75a5 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1388,7 +1388,7 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(BdrvChild *child,
+             qemu_iovec_init_buf(&local_qiov, bounce_buffer, pnum);
+ 
+             ret = bdrv_driver_preadv(bs, cluster_offset, pnum,
+-                                     &local_qiov, 0, 0);
++                                     &local_qiov, 0, flags & BDRV_REQ_PREFETCH);
+             if (ret < 0) {
+                 goto err;
+             }
 -- 
 1.8.3.1
 
