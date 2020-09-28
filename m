@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E29627AAFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:41:32 +0200 (CEST)
-Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDB227AB05
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:44:33 +0200 (CEST)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpf1-0000ft-Hd
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
+	id 1kMphw-000304-QY
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kMpdo-0008SH-Ia
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:40:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58293)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kMph9-0002H8-IN
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:43:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kMpdm-0005Mc-21
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:40:16 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kMph8-0005rP-3C
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:43:43 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601286012;
+ s=mimecast20190719; t=1601286221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3sgWirXt0XwvzfTJzWs5tRHhds1gDxWEEEa0ORVy/F0=;
- b=HwYOr/nhPK6DfXjle25GfbCjZXWaWEuGoQZWjmJck1c92GamWgMsABUpJnRy7O1CrBcD59
- MLHNAvIDwd3vtdQ/riAya39e1Vj9sdZ3WfLJwiTOMlqcHu0RI3Bq9qEhgKZc0wtSuYAl0b
- CDqsPUjgqFrNku1x+1tG9XESnkCguvA=
+ bh=sTo3TAQunM09AhUIkXVcbxoe47DKLpEAeu/DwoPiEZ0=;
+ b=SOMffuuJme/dV1ei0GUIENxlKHJe0Kb3UHePwsM4hpfIB3vDMXgUbkpBKLlHTcVuOB7HdA
+ m5hw+Z4yneA4+bJZ7CoIG6QbPEKyZ7aALgSz1b4A1ngBWQ1ocmBSRy2D/rVwtSB6Id06Qr
+ Y+R0ubLdalF68Au1clxZGU8EAgbfYF0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-b2OCJkcyMvi2BP3K_cCyoQ-1; Mon, 28 Sep 2020 05:40:08 -0400
-X-MC-Unique: b2OCJkcyMvi2BP3K_cCyoQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-133-gOEhlM9vO5iN63K4lVV39g-1; Mon, 28 Sep 2020 05:43:38 -0400
+X-MC-Unique: gOEhlM9vO5iN63K4lVV39g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8E6E85C705;
- Mon, 28 Sep 2020 09:40:03 +0000 (UTC)
-Received: from gondolin (ovpn-113-21.ams2.redhat.com [10.36.113.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 310B227BDC;
- Mon, 28 Sep 2020 09:39:52 +0000 (UTC)
-Date: Mon, 28 Sep 2020 11:39:49 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v26 04/17] vfio: Add migration region initialization and
- finalize function
-Message-ID: <20200928113949.43844e9b.cohuck@redhat.com>
-In-Reply-To: <20200925142006.2b62f856@x1.home>
-References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
- <1600817059-26721-5-git-send-email-kwankhede@nvidia.com>
- <20200925142006.2b62f856@x1.home>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95D6D1074641
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 09:43:37 +0000 (UTC)
+Received: from localhost (ovpn-114-195.ams2.redhat.com [10.36.114.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2897C614F5;
+ Mon, 28 Sep 2020 09:43:37 +0000 (UTC)
+Date: Mon, 28 Sep 2020 10:43:36 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 02/10] scsi: switch to bus->check_address
+Message-ID: <20200928094336.GC44353@stefanha-x1.localdomain>
+References: <20200925172604.2142227-1-pbonzini@redhat.com>
+ <20200925172604.2142227-3-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200925172604.2142227-3-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Qbvjkv9qwOGw/5Fx"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -36
 X-Spam_score: -3.7
@@ -82,35 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
- shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, yi.l.liu@intel.com,
- quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
- zhi.a.wang@intel.com, kevin.tian@intel.com, yan.y.zhao@intel.com,
- dgilbert@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
- Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Sep 2020 14:20:06 -0600
-Alex Williamson <alex.williamson@redhat.com> wrote:
+--Qbvjkv9qwOGw/5Fx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> On Wed, 23 Sep 2020 04:54:06 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+On Fri, Sep 25, 2020 at 01:25:56PM -0400, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/scsi/scsi-bus.c | 122 ++++++++++++++++++++++++++++-----------------
+>  1 file changed, 75 insertions(+), 47 deletions(-)
 
-> > +int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-> > +{
-> > +    struct vfio_region_info *info = NULL;  
-> 
-> Not sure this initialization is strictly necessary either, but it also
-> seems to be a common convention for this function, so either way.
-> 
-> Connie, does vfio_ccw_get_region() leak this?  It appears to call
-> vfio_get_dev_region_info() and vfio_get_region_info() several times with
-> the same pointer without freeing it between uses.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Ugh, indeed, info is reallocated without freeing it inbetween. I'll
-cook up a patch, thanks for spotting.
+--Qbvjkv9qwOGw/5Fx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9xsEgACgkQnKSrs4Gr
+c8hd4QgArr3MpymtGN22KgYZUlZcBcvJYVyJMt/77PVKSGrLzlIxe9rpQEmVJUJ/
+98bycu10JfCYrMyFktFsSyJiun8zi32kW0yvHsB5kk7kuvYb7S0sokrpT28Irj4g
+72uXYtoR6l9rdVRWyyJ09NQ0aSXs2Luxz6hGjYcjfPXTm5292+RVtJlDxS6tJZvf
+U6lCvD6+KKcKlu6zmIQNReeneBGswP+DeVFOTG5AN7WXNvlBI2xDmxbg7VW9gmYI
+lSOeEsY4SGUUH9IuDDa5yKf9/rjttvAf5IBvI9qGyixAWyyah3fgXqjRAJYucl0N
+hJfLqL17UpiFFrR15zmaTbzLWqCrPg==
+=/AbS
+-----END PGP SIGNATURE-----
+
+--Qbvjkv9qwOGw/5Fx--
 
 
