@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DFD27AA2E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:02:52 +0200 (CEST)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6EA27AA38
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:07:49 +0200 (CEST)
+Received: from localhost ([::1]:51592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMp3b-0005O8-8e
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43096)
+	id 1kMp8P-0001Oc-0M
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMp0C-0003gA-B5
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:59:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41736)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kMp6N-0000Ga-R9
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:05:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kMp09-0000LO-RC
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:59:20 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kMp6M-0001Br-3X
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 05:05:43 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601283557;
+ s=mimecast20190719; t=1601283940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=epdoEx4lbS6+UznSrOBmPfv9JsF2WKhf2aGACkImCxo=;
- b=RTwr1aYQxTon7il5f0ZISdw2KESFhgpBt9v21uJUDTMOICM/qjmLMXI9Y/A+ikk2yJrtR/
- DYTBMRathhw99HC8MN9yoCxDnhmjWdObL/tYY0kgYUyd6Yi/+h0f9nW+/RBAgZEmWJ7AtC
- zuEXhI2lN0PeUorZYNY9yrcmEAPiKFc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-rDks4f9jM9G2B64s_l4apg-1; Mon, 28 Sep 2020 04:59:14 -0400
-X-MC-Unique: rDks4f9jM9G2B64s_l4apg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADA691868437;
- Mon, 28 Sep 2020 08:59:12 +0000 (UTC)
-Received: from localhost (ovpn-114-195.ams2.redhat.com [10.36.114.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E8F510013D7;
- Mon, 28 Sep 2020 08:59:12 +0000 (UTC)
-Date: Mon, 28 Sep 2020 09:59:11 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 12/13] block: Add bdrv_co_move_to_aio_context()
-Message-ID: <20200928085911.GD43571@stefanha-x1.localdomain>
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-13-kwolf@redhat.com>
- <20200915143142.GE629589@stefanha-x1.localdomain>
- <20200925160051.GI5731@linux.fritz.box>
+ bh=aSt6WEPX6H6arXqRj+mcB74HYWVBtA4o6zZCZbr+014=;
+ b=AYXLQjkzT0FUXnZh0et2q//09h2F7zbHsUL1aWjRTECLc6cyExoc5Yeyx8kIlmkQtfblg0
+ xDngbRtL4BpDCNrZC5aXx3ZV/5VODuweoq3aKjhHk7ntmrK4mm24a9L6BVic+Er7x1HSpz
+ 3TsklESpFiiMNTZwYfm/sqRcW/EgcAE=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-zIOkishVOLeo3lA7FEXdlQ-1; Mon, 28 Sep 2020 05:05:38 -0400
+X-MC-Unique: zIOkishVOLeo3lA7FEXdlQ-1
+Received: by mail-qt1-f197.google.com with SMTP id h31so172722qtd.14
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 02:05:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aSt6WEPX6H6arXqRj+mcB74HYWVBtA4o6zZCZbr+014=;
+ b=I0s4NIquCsKQZopwuF7DkwB61jHe8RxCBGoAbTUsghp3T7z6YC6Oan63xDhkbPS0bB
+ V36jQtWyXvug+/7Cgc9qhNTUlNHz4SMGB/bkRjyWdwwQ4XZByeB8pSCqKxue98ZOeggo
+ BGopqD6rGwXxmbhrOuqUyaQ8NW/uReY1B9tnWEVlB+dF/Z5JOdIuvQJyvbsvOFMoCXJ2
+ IxHVQtxXi+IkzGHW8vNgZHJbLnOL0QFbF7QvpCyVGnjR2o6sPdDsP/1IhTPgeE1mFNzJ
+ s9bpw4Q9m82ClN7l4eCta7zIwH4P3rIoJw8ljfBPDrw/LHORA6GfKs0Fdncm7Go9C09N
+ wG5w==
+X-Gm-Message-State: AOAM530uFZS7F5LskZ4jY0z0/YDgoVlDz9o6VE4cjsA78lLE1SXWz+xy
+ ex8C/S+LfDZ48fXC/MNGQLTR0ZFm6DtiKrFJg5fdQ1By+DVaOYM9vLOdoPnGM18AFBWsfAujGKe
+ 4JSFOQsO5A5vTd0M6BHnLSMWsItgSbyo=
+X-Received: by 2002:a05:6214:a11:: with SMTP id
+ dw17mr10564622qvb.62.1601283938227; 
+ Mon, 28 Sep 2020 02:05:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaJe7tL4dTrpA/8apQljDcxoY2E90q6gbGssn1TbUY8BUgNOTQzfsXd1NeddjBXkPKwVVx7+HfeS+6V6MqlVs=
+X-Received: by 2002:a05:6214:a11:: with SMTP id
+ dw17mr10564590qvb.62.1601283937959; 
+ Mon, 28 Sep 2020 02:05:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200925160051.GI5731@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20200625191651.5817-1-eperezma@redhat.com>
+ <20200903161446.29615-1-eperezma@redhat.com>
+ <20200903161446.29615-6-eperezma@redhat.com>
+ <d3e2098d-e150-7f99-a1ee-4a997daf4a5c@redhat.com>
+In-Reply-To: <d3e2098d-e150-7f99-a1ee-4a997daf4a5c@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 28 Sep 2020 11:05:01 +0200
+Message-ID: <CAJaqyWfwGP7_Ex=NhG_po+A1BkN3OCV=+3Vwi8uhLJ_e4UA5NQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] memory: Skip bad range assertion if notifier is
+ DEVIOTLB_UNMAP type
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UfEAyuTBtIjiZzX6"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.576,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +97,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, armbru@redhat.com,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---UfEAyuTBtIjiZzX6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Sep 4, 2020 at 6:34 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2020/9/4 =E4=B8=8A=E5=8D=8812:14, Eugenio P=C3=A9rez wrote:
+> > Device IOTLB invalidations can unmap arbitrary ranges, eiter outside of
+> > the memory region or even [0, ~0ULL] for all the space. The assertion
+> > could be hit by a guest, and rhel7 guest effectively hit it.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > Reviewed-by: Peter Xu <peterx@redhat.com>
+> > Reviewed-by: Juan Quintela <quintela@redhat.com>
+> > ---
+> >   softmmu/memory.c | 13 +++++++++++--
+> >   1 file changed, 11 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/softmmu/memory.c b/softmmu/memory.c
+> > index 8694fc7cf7..e723fcbaa1 100644
+> > --- a/softmmu/memory.c
+> > +++ b/softmmu/memory.c
+> > @@ -1895,6 +1895,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier=
+ *notifier,
+> >   {
+> >       IOMMUTLBEntry *entry =3D &event->entry;
+> >       hwaddr entry_end =3D entry->iova + entry->addr_mask;
+> > +    IOMMUTLBEntry tmp =3D *entry;
+> >
+> >       if (event->type =3D=3D IOMMU_NOTIFIER_UNMAP) {
+> >           assert(entry->perm =3D=3D IOMMU_NONE);
+> > @@ -1908,10 +1909,18 @@ void memory_region_notify_iommu_one(IOMMUNotifi=
+er *notifier,
+> >           return;
+> >       }
+> >
+> > -    assert(entry->iova >=3D notifier->start && entry_end <=3D notifier=
+->end);
+> > +    if (notifier->notifier_flags & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
+> > +        /* Crop (iova, addr_mask) to range */
+> > +        tmp.iova =3D MAX(tmp.iova, notifier->start);
+> > +        tmp.addr_mask =3D MIN(entry_end, notifier->end) - tmp.iova;
+> > +        /* Confirm no underflow */
+> > +        assert(MIN(entry_end, notifier->end) >=3D tmp.iova);
+>
+>
+> It's still not clear to me why we need such assert. Consider
+> notifier->end is the possible IOVA range but not possible device IOTLB
+> invalidation range (e.g it allows [0, ULLONG_MAX]).
+>
+> Thanks
+>
 
-On Fri, Sep 25, 2020 at 06:00:51PM +0200, Kevin Wolf wrote:
-> Am 15.09.2020 um 16:31 hat Stefan Hajnoczi geschrieben:
-> > On Wed, Sep 09, 2020 at 05:11:48PM +0200, Kevin Wolf wrote:
-> > > Add a function to move the current coroutine to the AioContext of a
-> > > given BlockDriverState.
-> > >=20
-> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > > ---
-> > >  include/block/block.h |  6 ++++++
-> > >  block.c               | 10 ++++++++++
-> > >  2 files changed, 16 insertions(+)
-> > >=20
-> > > diff --git a/include/block/block.h b/include/block/block.h
-> > > index 981ab5b314..80ab322f11 100644
-> > > --- a/include/block/block.h
-> > > +++ b/include/block/block.h
-> > > @@ -626,6 +626,12 @@ bool bdrv_debug_is_suspended(BlockDriverState *b=
-s, const char *tag);
-> > >   */
-> > >  AioContext *bdrv_get_aio_context(BlockDriverState *bs);
-> > > =20
-> > > +/**
-> > > + * Move the current coroutine to the AioContext of @bs and return th=
-e old
-> > > + * AioContext of the coroutine.
-> > > + */
-> > > +AioContext *coroutine_fn bdrv_co_move_to_aio_context(BlockDriverStat=
-e *bs);
-> >=20
-> > I'm not sure this function handles all cases:
-> > 1. Being called without the BQL (i.e. from an IOThread).
-> > 2. Being called while a device stops using its IOThread.
-> >=20
-> > The races that come to mind are fetching the AioContext for bs and then
-> > scheduling a BH. The BH is executed later on by the event loop. There
-> > might be cases where the AioContext for bs is updated before the BH
-> > runs.
+As far as I understood the device should admit that out of bounds
+notifications in that case,
+and the assert just makes sure that there was no underflow in
+tmp.addr_mask, i.e., that something
+very wrong that should never happen in production happened.
 
-The scenario I'm thinking about is where bs' AioContext changes while we
-are trying to move there.
+Peter, would you mind to confirm/correct it?
 
-There is a window of time between fetching bs' AioContext, scheduling a
-BH in our old AioContext (not in bs' AioContext), and then scheduling
-the coroutine into the AioContext we previously fetched for bs.
+Is there anything else needed to pull this patch?
 
-Is it possible for the AioContext value we stashed to be outdated by the
-time we use it?
+Thanks!
 
-I think the answer is that it's safe to use this function from the main
-loop thread under the BQL. That way nothing else will change bs'
-AioContext while we're running. But it's probably not safe to use this
-function from an arbitrary IOThread (without the BQL).
-
-I think this limitation is okay but it needs to be documented. Maybe an
-assertion can verify that it holds.
-
-Stefan
-
---UfEAyuTBtIjiZzX6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9xpd4ACgkQnKSrs4Gr
-c8g/6Af/arrpIXYyb2tkKVu5eA9xNy4Kp+z9BMnJ5gkfBSsV5UK7kAmMNfEO6slF
-GbKnF3ZmcJlr3XW+g4TgwFNNb0a2to/udT61X6M+xJiO1qea8RUM0ERepVhQ/0nj
-wEZ+4TJFK+2HUajAexux9qttqJTE5crxnXG9gVPS8dQtBc453yYz2PCI/0LveUFi
-PLdyTXZhH1lhYYvdf5ewmBi905+onGRVYvpPzGsXXwDQwKoLcjAAyIFCxUd0pYhf
-opoCJZdzZUJI//YI2XjWPn9k+k+nADuL8Rt7rOuHYrEGVi5FiGBbGVlmtIgJBgyz
-BiSCpH1OTmBLVIsuIaHmLLJfT26jcw==
-=crrh
------END PGP SIGNATURE-----
-
---UfEAyuTBtIjiZzX6--
+>
+> > +    } else {
+> > +        assert(entry->iova >=3D notifier->start && entry_end <=3D noti=
+fier->end);
+> > +    }
+> >
+> >       if (event->type & notifier->notifier_flags) {
+> > -        notifier->notify(notifier, entry);
+> > +        notifier->notify(notifier, &tmp);
+> >       }
+> >   }
+> >
+>
 
 
