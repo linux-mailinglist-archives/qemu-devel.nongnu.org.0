@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C5C27AAAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:24:37 +0200 (CEST)
-Received: from localhost ([::1]:47428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F22227AA98
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:22:10 +0200 (CEST)
+Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpOe-0003U2-FH
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47098)
+	id 1kMpMH-00017W-2V
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGg-0003rZ-Fx; Mon, 28 Sep 2020 05:16:24 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:48021)
+ id 1kMpGe-0003r2-Ni; Mon, 28 Sep 2020 05:16:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:41627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGc-0002YB-RE; Mon, 28 Sep 2020 05:16:22 -0400
+ id 1kMpGZ-0002XI-Pj; Mon, 28 Sep 2020 05:16:20 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M2Plu-1kQfoc3G7q-003wD4; Mon, 28 Sep 2020 11:16:08 +0200
+ id 1MHVWT-1k9Kjw3AXZ-00Dahp; Mon, 28 Sep 2020 11:16:09 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] virtio: vdpa: omit check return of g_malloc
-Date: Mon, 28 Sep 2020 11:15:57 +0200
-Message-Id: <20200928091602.383870-4-laurent@vivier.eu>
+Subject: [PULL 4/8] Add *.pyc back to the .gitignore file
+Date: Mon, 28 Sep 2020 11:15:58 +0200
+Message-Id: <20200928091602.383870-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200928091602.383870-1-laurent@vivier.eu>
 References: <20200928091602.383870-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:prN8HB6UaU6hDQgdKIbe3aQiPbzmL42/lAKCeIa+G9BG00vDvGC
- N2fTIQz9ux5+8biCr2NGF6pWEL89qCf12kcAwvZiKXIZQVrm8XRPLxN2My5iAgyxtFr9iFC
- vJKtw6jBV6N2VgCMyDHsqj9ktMjMiKcNiYV4IHrpNUzOY6QHM5Q9GvCfQt639qBk82NJExH
- /ymZxiYIybLDEJhKS8wuQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LEvot/+3Nb8=:/M7mXZzHudAZgOi9PEvtPN
- 50zMSNrglY9ZXofj8vZFmYHp+Eo932LtH6d0dsYcmqd7ftR6PKlgxDxLqup2g4bjxGmPpXlsm
- LhC7ktvm7sFDBYE2hiiCM6zes95WU3ThgE43i3SJHzAi/XWgev9xzsQl5GPaFxsXoT8yL0+ke
- 26adkRAxnqAxTJ66MEvAJ18ulE09Min8FZ2v17cygKnbfnNTWG17yp1PvXXqzDF97q4rOKEHx
- 9nwb8YE95fqr7PEbzovV1YdHFpkYYoC0E+x+eviFN14233eI0CrQk7UZNv8tNlHK6kCYlinI1
- U/CxQOUEa9yEhV5aYQjm7jAv4WygKiDxU3nC9CTTHFLgwDKFhMOVXDyOPmC29U9pkdSkZjmaz
- EEdGjNeSyyP3KuH2EsBlRYircasCQ8G8/CUPBGfwPa7EHUuXpmSBVRrEp5hhb3HxANaOABj4D
- zEGojHhqqEr5y+m235vzroOw3gpzGaTe5VuB4+O7bfNT5be7yEjCCtbzMRF7jVVvIa7P6WsZK
- irflZxLHgcSvpwQreDMhy0w5q2t5WqmBj5i5XfMHoh7XOzSRhD7B24DFeihY3pDeXVS8JYOBs
- qw6/8LysoXlYZmrFbg5ZI0H1rAp/dO6uBz5kp4Kh6ZokxHvjc6lDMC0g2aLg8PaeUakkKgeFA
- 5DZ6EkEphcz9+JD1ldwdDFHDc+RFHKCuQwfeiVdQPAltAQ6lFoPJTmbg6HQLHZ8glYwS/MxcP
- LD+aH33l+1na+1T4zZzMdzM3awiIKAPTonbYhASysmklcxLhxCCLuG857bhJjGShEYAypKkUH
- msKFMAGbwdmMCq790AZKK0Bt3gRv1CKm3bgPcl5eo9zplvrhe7bTIp9I2ySyMhevxiFh2iM
+X-Provags-ID: V03:K1:ZJYK1rFyvYfcc1RY9shQRugdD/I2fgxXiA5GSPXHDWik7DtpDjJ
+ o4naIrgY093fD8n/YDr8+FdVkdYd0sLGeFzzXvGKhtj8C1Tf6Jhwl6W1zxVTI6H6oAYCXF7
+ YwSrdhBC8Ge3dMaL7US6KJhbtFyimqf0VC7KConAmbVzvdt9csL34qrEeIJyiUHDmgOzFoO
+ M4zjSD7MUsQqAcN4OH30g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sHi8vO6LAyw=:b5I++VPdeCqL1djMULZwhH
+ zeNdBpBsGL4XtKnjqnvvR3c1huKZ2Ljlkoj13TIf/MIGziBKfRdI1dYSKGNWSa07NmXeP2sSx
+ YeyBZl/4JBOBHCkIt5r4ocSrflqmrIdbqeJ3vtwmlpWqacTs/9zJysEmVCE9gMBFYQfyd42v9
+ mY0h0M1yJt9cor8EyMDqYyXpd+nPQ3eHTBI3fR0Q98opCFSCaIlwZQFh51swmqvhye3ugob9Y
+ AoxqriFaJML8wJ/Hn4ul3paDF7kf9n1P//ZGH0ySYG5NSuuswTGsiZZnPyu7fnv3Z8lyVTUlk
+ HVTa4KAH2BoisufgWchRJlMoceh2jS7g+OXZhwrQ64ysGjBtAPeqJp+EkdLweTZRuJ4bEF4/C
+ KrTPL2VKUDR18QFd/aTAe55ybKaaQ4mewsssFVWNsHqdbWJeVG/7IEd/N70sS7aosLTm8a6ER
+ vrs3Sdx2+/2W57JwKyHT8z4taBgJDfYsX+3mpmUvM0ojryXAR6AQlFcqbU1yWe1DYb5WrRvam
+ yNJAPidMibtU3Td4OAgNIqf2LhM9iZ1SvWHy9vGW/WUNaU3yMRG4XsGkUZEtWmr6So8bR2Wir
+ P6ydG2Oliw0yg3d4oKvHF08xKEPpfSXbIhheuFqABIP60uIJhgu02LTJNz5ykNW59zIM/1wGx
+ m0ZQeFJf5Xy/0/2ojJctHm5YOBi8n6yU5tohWEKUdtXG6HmC7nJTO6Fq0xsRzzT58U/gUocoJ
+ Erszr3nJ7/9BpGOaMRVJ9XmIssTE8kiwbaYC3rv2MA7wcpMqn/kck8Fg0YlNQ6sk2dAYQOuyV
+ YsaWaChNhaWjXA0/lkfRDeMK04q9icFMQXk0rmDR3KnE/0QDF5hX7hlBvRsinJ2wpdZCuYu
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 05:16:14
@@ -70,53 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Li Qiang <liq3ea@163.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
  Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: Thomas Huth <thuth@redhat.com>
 
-If g_malloc fails, the application will be terminated.
-No need to check the return value of g_malloc.
+Python still dumps its bytecode into the source directory, so
+we should continue to ignore the *.pyc files.
 
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200819144309.67579-1-liq3ea@163.com>
+Fixes: 0e72b7df4d ("Simplify the .gitignore file")
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200919101859.28739-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/virtio/vhost-vdpa.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index e123837a55de..97f4b2e353ab 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -320,10 +320,8 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
-     struct vhost_vdpa_config *config;
-     int ret;
-     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
-+
-     config = g_malloc(size + config_size);
--    if (config == NULL) {
--        return -1;
--    }
-     config->off = offset;
-     config->len = size;
-     memcpy(config->buf, data, size);
-@@ -340,9 +338,6 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
-     int ret;
- 
-     v_config = g_malloc(config_len + config_size);
--    if (v_config == NULL) {
--        return -1;
--    }
-     v_config->len = config_len;
-     v_config->off = 0;
-     ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
+diff --git a/.gitignore b/.gitignore
+index 5515f595e67c..b32bca1315e1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,5 +1,6 @@
+ /GNUmakefile
+ /build/
++*.pyc
+ .sdk
+ .stgit-*
+ .git-submodule-status
 -- 
 2.26.2
 
