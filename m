@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FE827AA91
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:21:18 +0200 (CEST)
-Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A76D27AA85
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:19:09 +0200 (CEST)
+Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpLR-0000Sc-70
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:21:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
+	id 1kMpJL-0005Xu-M4
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGZ-0003p6-RX; Mon, 28 Sep 2020 05:16:16 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39553)
+ id 1kMpGY-0003om-Ra; Mon, 28 Sep 2020 05:16:14 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:34017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGV-0002Vx-9u; Mon, 28 Sep 2020 05:16:15 -0400
+ id 1kMpGW-0002WX-Ke; Mon, 28 Sep 2020 05:16:14 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M9ZRc-1kJY0I1yg0-005ZpY; Mon, 28 Sep 2020 11:16:06 +0200
+ id 1MV2Sk-1jy7Np0ROg-00S6t8; Mon, 28 Sep 2020 11:16:07 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/8] Trivial branch for 5.2 patches
-Date: Mon, 28 Sep 2020 11:15:54 +0200
-Message-Id: <20200928091602.383870-1-laurent@vivier.eu>
+Subject: [PULL 1/8] vhost-vdpa: fix indentation in vdpa_ops
+Date: Mon, 28 Sep 2020 11:15:55 +0200
+Message-Id: <20200928091602.383870-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200928091602.383870-1-laurent@vivier.eu>
+References: <20200928091602.383870-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XJL1WKLlklttVz9H5VoBhwdgplly6dQFyqrny4G2V+AK3Ogz/8X
- h+ysfzPXFeEumWZRKVa1Siepr6/LNB+B2lsVzqzeLFZ4VOTu1YljheUUkm5F6Oy0uK3yxGL
- buaYXqri90PqkNLpjvPib/hw7kn+qCXV8NNBQ6Fgzu8pKuzkyo9n2AZJb1aP0y7If4mkz/b
- bsu6gkZ930LB+/Tj+pr4Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6gXmBrqpW7I=:M6AU5LHhlQJzuXVq2oD6SS
- fOr+kRuynZ5nECMioRNf5bkIX8AT2P5OuOPEizs1MAIQ2yz86hQTFoPZmQnZQAhrGKhiQQ0LX
- nec5rrmty0uCxcRogqdpTsTj/2dgFzOnUsf7uSqvk0jE/ahfpv6/6zDEU4zVUWHDEJPqPzwmI
- DoIi9SizGGtZyVo+WZ0+aX63uAWCX+OGeuk+IFXWuI3N7qfsRlaOAyJtl1VPjlfZmhcmW8ppL
- PBz4CSJfcer69COME0ae+PcY1bcWJU8Tr3pVyR2PQ/e51nHmqdTBQWDalAHT1tIYSOKSyFr4P
- 9UpRH5tG1LHtrQLBe1KqfAJYB7hI0VWXnTrHrkMqycjVCOov+QMdrmLOZtg/Oa24HzXiXbhHx
- GXqHunubiziVZHseqRtc49KOSxOiSGrCYb4ft4HR5gfFaxfbXqP+0IloCZOKgSZ2ztJp9oCuc
- xymmU2W0hrX+wPB4PEGy7RDXAEMLe9Zy0LxqwgSDu3sZeioT9UpqMIthBqgkH8YSfo+X/KKt+
- +wre/LYqNaBZBK9qc7NtWNDefciejr56nDdARbl7XhQAWLhUO6qY79U5qSexWnBy+WeUFye1n
- SocmhCnaUZwHH7nxlP9Rxr8AoKzoSNT1H1zkzgIgsYAJUZ7YJnIwC2+eTQa2rW7LSn013g/VP
- Im93LcDF8SIvG87vFZcHoKnRevQcV2Ue1dRj2wRdVCxAKyVo9m7eaL4DgRd37HsJ0PUvs0Dvg
- 1bQpU8304I6AVgoZ+A5giWX3YR/YL60BVP786NITncBQvPxPnxLIMbcqX8qCXudy7NKEbRsn2
- +VfvlckP19Ykg8ucBEEk4DcqflgAYt70SZgyb6waXrMoAC/K2XeFVD7FT8TSo8mLTwGc+2e
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:77b7UHhIOGlSHExCgtdoqDOYMOVylEBGVMeCX20yI9eIcnBjVpn
+ nxAlv5HMRSFdLkffrBfk50EwFop2c8xkpsfJzq7UjfcrY39LcMVyAL6qzNJU4LjJSaH+oTv
+ Aw2hMPf8y19ovABjDeNwFsH8D9dHOUrqmGxZHzCuNRlpJisLVLwqCXe4WIECIL1Dzd24m3V
+ Q5ZM5xo3I4hepHhvqhJrQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BZqoKIMwtQg=:Bq4UVQ5Cjj7yu8IqbOwdHy
+ i2Jbj4zQGshLBCZpEq9JqW+4dCCOy1w8cQpv4z8K8vVyjYQT52hxUHycnKARI+qCpwM8WULcN
+ GEPL/Noq7jOlvHRPR2uhUCVQf5dKWfWq2hmRl0qz1EyR9ik62bR/L/V+gCetAPFEZPmg3q8Ac
+ LENZfloTGmF0vFb8YHUa+rTpfU7DoduJ2pc9GXE6emzOYkvDT5qjOf0Swrs91CTyZ2VsjaFC7
+ DVDUJXSiPpkZfWLIu0JgVvgg8e2Fo/4LxsdN2xyal3goqGDI7xmdw+1HMNSuWjEprwdmZBqXx
+ 5UT+RMeJvQ8CQIMFgaxApCO/XL1OlDwup5KK/EpTwIJTXotAsGMgzxokHI1XcBMNZo4JRQxBk
+ MVABTXzEZB4Fa4tEGw9QElbIi8kCl7mJt89clCY6iATUhXLsMS1MStCP59ZX1EVOczHkDRpON
+ +7CuKsjItwMVCtRgm60bmixtDLZntGJfFF/6hncXhPcZZozo6WU3E2MDMuMq/7Lr2vH/S0y6q
+ b9orJDf/30ggwQOUmJUBT/o/gOAL4/81rR+fEcH6PnYpldC8cLbIPY2GeiWYH1R+w2e39ld67
+ E3BXqe+7aCh77sLC6bGCZCVZinhNnTdBbhkEdqVBAi9XjriMUprkON1KuBZu3Lvg3UHlb3gKe
+ f/N+IWq8bsEXa37rbwXfbVhKg5ZO+H4IWOt1W+5rkZU+UVgXS7e4lh17UXF6xWGz5+Sjh3ByG
+ HMHeEsiVAYYAQ1rRL5flhOc9erJ12tDaP68gbPPf59PLD8Pq6kSgTtEEzfDRvozhOTT/G2BVU
+ qPO39Z5YY88CvYiCtPNW3k084sY33HD0/XNaw9U8FieZAGNF8Muo0TMfhDXt6g10s2gI2Dj
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 05:16:07
@@ -68,61 +69,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c122bca9cd7b986be4d473240a4fec6315b7a2c2=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-bitmaps-2020-09-21'=
- i=3D=0D
-nto staging (2020-09-23 15:11:38 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-request=
-=0D
-=0D
-for you to fetch changes up to c66790b5dfc2430c04bf5876cf485e1f538af7f2:=0D
-=0D
-  docs/system/deprecated: Move lm32 and unicore32 to the right section (202=
-0-=3D=0D
-09-23 19:19:57 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-Trivial Patches Pull request 20200928=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Laurent Vivier (2):=0D
-  meson: fix static flag summary=0D
-  vhost-vdpa: remove useless variable=0D
-=0D
-Li Qiang (1):=0D
-  virtio: vdpa: omit check return of g_malloc=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (2):=0D
-  timer: Fix timer_mod_anticipate() documentation=0D
-  migration/multifd: Remove superfluous semicolons=0D
-=0D
-Stefano Garzarella (1):=0D
-  vhost-vdpa: fix indentation in vdpa_ops=0D
-=0D
-Thomas Huth (2):=0D
-  Add *.pyc back to the .gitignore file=0D
-  docs/system/deprecated: Move lm32 and unicore32 to the right section=0D
-=0D
- .gitignore                 |  1 +=0D
- docs/system/deprecated.rst | 32 ++++++++++++++++----------------=0D
- hw/virtio/vhost-vdpa.c     | 20 ++++++--------------=0D
- include/qemu/timer.h       |  2 +-=0D
- meson.build                |  2 +-=0D
- migration/multifd.c        |  2 +-=0D
- 6 files changed, 26 insertions(+), 33 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Stefano Garzarella <sgarzare@redhat.com>
+
+This patch fixes wrong indentation of some vdpa_ops fields introduced
+with the initial commit 108a64818e ("vhost-vdpa: introduce vhost-vdpa
+backend")
+
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200916152634.56917-1-sgarzare@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/virtio/vhost-vdpa.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 4580f3efd8a2..e123837a55de 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -469,6 +469,6 @@ const VhostOps vdpa_ops = {
+         .vhost_send_device_iotlb_msg = NULL,
+         .vhost_dev_start = vhost_vdpa_dev_start,
+         .vhost_get_device_id = vhost_vdpa_get_device_id,
+-         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+-         .vhost_force_iommu = vhost_vdpa_force_iommu,
++        .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
++        .vhost_force_iommu = vhost_vdpa_force_iommu,
+ };
+-- 
+2.26.2
+
 
