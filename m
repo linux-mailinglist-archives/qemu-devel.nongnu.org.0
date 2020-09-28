@@ -2,73 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B83D27B525
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 21:19:33 +0200 (CEST)
-Received: from localhost ([::1]:40540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4584927B625
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 22:22:06 +0200 (CEST)
+Received: from localhost ([::1]:40968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMygO-0004X3-No
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 15:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53388)
+	id 1kMzet-0004Gg-Ch
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 16:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kMyek-0003h2-Dw
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 15:17:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kMyei-0008HZ-FE
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 15:17:50 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601320667;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V1ga7OFZ/sAzylxOBqjSQ4DGiWMhaTiF3OKIU1qzq7A=;
- b=b2KIYqT/56JfpGrOfpw4ozEpJIec+0mVWeuCWZzqwUly8urpgHxV+i+ktn19zban5ogOED
- e3+4enUxFgNo2jRvYrXUM8gvfQ1NtNDk9PKZ61c2pPWjAkwjuUCbUVB0o0dpvS/CBH/7Ph
- oXmD/j3K3oNYPEACCXi0Lw3EFhvoK6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-HNxXrqwYN-uSAzjV37nQ6g-1; Mon, 28 Sep 2020 15:17:45 -0400
-X-MC-Unique: HNxXrqwYN-uSAzjV37nQ6g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A35F8D6443;
- Mon, 28 Sep 2020 19:17:44 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-138.ams2.redhat.com
- [10.36.113.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1190C60DA0;
- Mon, 28 Sep 2020 19:17:37 +0000 (UTC)
-Subject: Re: [PATCH v6] hw/i386/pc: add max combined fw size as machine
- configuration option
-To: Erich Mcmillan <erich.mcmillan@hp.com>, qemu-devel@nongnu.org
-References: <20200925175751.4017-1-erich.mcmillan@hp.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <05c27a62-e4b4-94a8-6e5c-a05b988ec809@redhat.com>
-Date: Mon, 28 Sep 2020 21:17:36 +0200
-MIME-Version: 1.0
-In-Reply-To: <20200925175751.4017-1-erich.mcmillan@hp.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
+ id 1kMzdP-0003p7-MR
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 16:20:32 -0400
+Received: from mail-co1nam11on2041.outbound.protection.outlook.com
+ ([40.107.220.41]:7040 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
+ id 1kMzdK-0000QR-6t
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 16:20:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bfikRbiDENHAlDnJWDW9XoPXe1w4CSEMN2dMXtiBSSpsbEATF/JPb0xa6CTkBTCglHYhSsl1giii7roFn1XrNVF5haUJNZfv38XY0fBNAvDq0G65O6Llj2kt0h7jdwDSQ0wHZJ+cQnKMOiSle3p+/BOmMZLNBbrwWB5MfO+ARqonC/jD8VBJmqVzGDPLSG+FlqEaFM6v65u9EaiuQW5Ktc2eNQ/Ohcqix6/WlQN5ZKD9Ro4yLh71YzufANq1yl2SRs3XpVVHzGVt8nWjop0VkTYlVDCFzZ1TSDqtJoUUIx2Yo8xKKzoZH1CSVZPRLmy7lpsj8tbJZ9FMgDsknY+ZDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bfu5gvPSJleXMGxtvvjKZJGXXpS7+4jcMiKOU6XgrLs=;
+ b=kkQfyGAzQ6gDt8BzHBDTLIOQFHSaaiMutOHrGXw4/c+WJYTG54FRpwf65YVGgl8+O9MitVWPlXUzYbNUrJY0ErY4P9/RCCcMfAtrm38oHf5ENd7lOSCvxcs2YPZZ9BN+T92MgiMfmgC3MQAepeOXAEFt/gtTxNO3/2FjtwBg2LAAyvQSm2Zu8G3YYIDdf6ygJLwGcKjjraSEvsV95n/IlhfeFEQFtPltzoT9UJUD2hn9c4HsE8Lfodht4BRwxrIUoxKQEVN3oGuKDN3ivjq7iE8lpo8mIFuOTvgzrvsRojwcmNYEmq0V+xZnT9fCMepq3tGegKyPLsOL+Ylrerq1ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bfu5gvPSJleXMGxtvvjKZJGXXpS7+4jcMiKOU6XgrLs=;
+ b=Gze7BgCR0OavRnJN4XX+8RXpIxJdJGBD1r9WWdmdAyMZizESQ0xo5Z7LZV0eqU/1UK7GW4k2x6aBwmBHlTT/ELJS724kreLO3GbT9HxZvkffrfhxToeea734ZVRgWeGkkLUZrxwu2F16gQRRp/zswAqWwoGyJ03d7eoLZkZjjkw=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from CY4PR12MB1494.namprd12.prod.outlook.com (2603:10b6:910:f::22)
+ by CY4PR1201MB0023.namprd12.prod.outlook.com (2603:10b6:910:1f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.21; Mon, 28 Sep
+ 2020 20:05:14 +0000
+Received: from CY4PR12MB1494.namprd12.prod.outlook.com
+ ([fe80::11f9:59c8:16c0:7718]) by CY4PR12MB1494.namprd12.prod.outlook.com
+ ([fe80::11f9:59c8:16c0:7718%8]) with mapi id 15.20.3412.029; Mon, 28 Sep 2020
+ 20:05:14 +0000
+From: Wei Huang <wei.huang2@amd.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH V1 0/3] Passthru device support under emulated amd-iommu
+Date: Mon, 28 Sep 2020 15:05:03 -0500
+Message-Id: <20200928200506.75441-1-wei.huang2@amd.com>
+X-Mailer: git-send-email 2.25.2
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [165.204.78.2]
+X-ClientProxiedBy: DM3PR11CA0017.namprd11.prod.outlook.com
+ (2603:10b6:0:54::27) To CY4PR12MB1494.namprd12.prod.outlook.com
+ (2603:10b6:910:f::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ethanolx56bbhost.amd.com (165.204.78.2) by
+ DM3PR11CA0017.namprd11.prod.outlook.com (2603:10b6:0:54::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3412.20 via Frontend Transport; Mon, 28 Sep 2020 20:05:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 5501c452-7c73-4e2c-0eee-08d863e9cfad
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0023:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB00236A053095ACDC48422C07CF350@CY4PR1201MB0023.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pokUtKDw1iGZ7k8FElW+AVadzs+gqa/saGe1HZu1wxVXAGmPUacox2PUTjAy3FbqUkBO7xc9P1h5pK5nSg0ijIl/+dirAU6rIjhwVD4YREwaEkBUoe7nRK2LxGQhZn1bL7G9zoOSM34Xw92SaaDY0S+Jw3TEGWsBNY/wHaE+Jm8sh2mUP8VppaGPFCfei23CGkawo99ocNaHRBXdi+4C9xeyKBj2cKUVgPSC4Bmy3dR+VwHJMUkzfd5YHILPgjelBvpyslIzOIWrYjnAhBBS8nK2A3GzBag2Ig3Owik5v2EpzHMOKDCmpJ5bVI9L0rGYUTmiVe9Is12anJdgWDXzdlp/OK8pCrCjHW2+oQA8GOeWl08FOUjsv0AJJZZp+62P
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR12MB1494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(376002)(346002)(396003)(136003)(6486002)(4326008)(316002)(2906002)(8676002)(86362001)(8936002)(6666004)(4744005)(478600001)(16526019)(5660300002)(186003)(26005)(1076003)(6916009)(83380400001)(66946007)(2616005)(52116002)(7696005)(66476007)(956004)(36756003)(66556008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: XaHFa5xrP83s40TS2n6/NuRzz9qXfCMnSoBdmRHGYs0wNlnatMPRpcREn1lRer+xu7yIQKxyAH83Wc+vvyLKWCgbslQW2RJ/myyoi3a6CTks0ZhfmCtCIhnrjOk+05xoimMj3sEq8ZvKMTGlwVc4SNpsYf40vftdJXzuIQFywFnMxX3YH2Qr9t2qJyv8gienHRZilQm0rDEXhSFQ+sWzAwCWC2gQywoLvAqzS4izmK+tp6pOr1hyirPJb8RgvQnPqyTmk79PXCJN5JNLJAyIryW2fgcjiDk8Yalvb9Y5bZonHwqZmpDgfNV3t4KZm2FTbfZpBv/mEqN+XGM4g30SqYSOa1u3//Bz0KQhWtzbdpK+/44NuTBcEnpicuhcom1pjeWJmr+0Gcv2V4wLmLlPinyec8tEXt+aewCY0bYtI68eqnCgH2U62lHCQn4KeqGwOvLaZRFcgodFnWb550485YVNVe1BDQHVTatUUHeDvNH92VyBgrvmSO+rujQs2KvE/kOeoBablPsl+MZ/JxZZTBFw8mvitspc8F8M6ZTYSFW4/YviT961GVcudmUG4ZCqK3/ueNKCGSRDS1xhiTEHT/r7kzlUjJqnPW3IehNO/iM0TLFOSRHwJjNeLiNSwLTpsHRNaIpf3BKExPZ/SeUOag==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5501c452-7c73-4e2c-0eee-08d863e9cfad
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 20:05:13.8618 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pykm0Iklkqs4LyK53ocCIO775aqwX1asEIzEC+KcrKoZVEjU5hnuwlylCXVIxvjb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0023
+Received-SPF: none client-ip=40.107.220.41; envelope-from=Wei.Huang2@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 16:20:18
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.614, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,159 +112,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, kraxel@redhat.com, dgilbert@redhat.com, mst@redhat.com
+Cc: ehabkost@redhat.com, mst@redhat.com, wei.huang2@amd.com, peterx@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, Suravee.Suthikulpanit@amd.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/25/20 19:57, Erich Mcmillan wrote:
-> From: Erich McMillan <erich.mcmillan@hp.com>
-> 
-> At Hewlett Packard Inc. we have a need for increased fw size to enable testing of our custom fw.
-> Move return statement for early return
-> 
-> Signed-off-by: Erich McMillan <erich.mcmillan@hp.com>
-> ---
-> 
-> Changes since v5:
-> 
->      Move return statement for pc_machine_set_max_fw_size() to follow error_setg() as early return.
-> 
->  hw/i386/pc.c         | 51 ++++++++++++++++++++++++++++++++++++++++++++
->  hw/i386/pc_sysfw.c   | 13 ++---------
->  include/hw/i386/pc.h |  2 ++
->  3 files changed, 55 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index d11daacc23..70c8c9adcf 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1869,6 +1869,50 @@ static void pc_machine_set_max_ram_below_4g(Object *obj, Visitor *v,
->      pcms->max_ram_below_4g = value;
->  }
->  
-> +static void pc_machine_get_max_fw_size(Object *obj, Visitor *v,
-> +                                       const char *name, void *opaque,
-> +                                       Error **errp)
-> +{
-> +    PCMachineState *pcms = PC_MACHINE(obj);
-> +    uint64_t value = pcms->max_fw_size;
-> +
-> +    visit_type_size(v, name, &value, errp);
-> +}
-> +
-> +static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
-> +                                       const char *name, void *opaque,
-> +                                       Error **errp)
-> +{
-> +    PCMachineState *pcms = PC_MACHINE(obj);
-> +    Error *error = NULL;
-> +    uint64_t value;
-> +
-> +    visit_type_size(v, name, &value, &error);
-> +    if (error) {
-> +        error_propagate(errp, error);
-> +        return;
-> +    }
-> +
-> +    /*
-> +    * We don't have a theoretically justifiable exact lower bound on the base
-> +    * address of any flash mapping. In practice, the IO-APIC MMIO range is
-> +    * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving free
-> +    * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB in
-> +    * size.
-> +    */
-> +    if (value > 16 * MiB) {
-> +        error_setg(errp,
-> +                   "User specified max allowed firmware size %" PRIu64 " is "
-> +                   "greater than 16MiB. If combined firwmare size exceeds "
-> +                   "16MiB the system may not boot, or experience intermittent"
-> +                   "stability issues.",
-> +                   value);
-> +        return;
-> +    }
-> +
-> +    pcms->max_fw_size = value;
-> +}
-> +
->  static void pc_machine_initfn(Object *obj)
->  {
->      PCMachineState *pcms = PC_MACHINE(obj);
-> @@ -1884,6 +1928,7 @@ static void pc_machine_initfn(Object *obj)
->      pcms->smbus_enabled = true;
->      pcms->sata_enabled = true;
->      pcms->pit_enabled = true;
-> +    pcms->max_fw_size = 8 * MiB;
->  
->      pc_system_flash_create(pcms);
->      pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
-> @@ -2004,6 +2049,12 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->  
->      object_class_property_add_bool(oc, PC_MACHINE_PIT,
->          pc_machine_get_pit, pc_machine_set_pit);
-> +
-> +    object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
-> +        pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
-> +        NULL, NULL);
-> +    object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
-> +        "Maximum combined firmware size");
->  }
->  
->  static const TypeInfo pc_machine_info = {
-> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-> index b6c0822fe3..22450ba0ef 100644
-> --- a/hw/i386/pc_sysfw.c
-> +++ b/hw/i386/pc_sysfw.c
-> @@ -39,15 +39,6 @@
->  #include "hw/block/flash.h"
->  #include "sysemu/kvm.h"
->  
-> -/*
-> - * We don't have a theoretically justifiable exact lower bound on the base
-> - * address of any flash mapping. In practice, the IO-APIC MMIO range is
-> - * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving free
-> - * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB in
-> - * size.
-> - */
-> -#define FLASH_SIZE_LIMIT (8 * MiB)
-> -
->  #define FLASH_SECTOR_SIZE 4096
->  
->  static void pc_isa_bios_init(MemoryRegion *rom_memory,
-> @@ -182,10 +173,10 @@ static void pc_system_flash_map(PCMachineState *pcms,
->          }
->          if ((hwaddr)size != size
->              || total_size > HWADDR_MAX - size
-> -            || total_size + size > FLASH_SIZE_LIMIT) {
-> +            || total_size + size > pcms->max_fw_size) {
->              error_report("combined size of system firmware exceeds "
->                           "%" PRIu64 " bytes",
-> -                         FLASH_SIZE_LIMIT);
-> +                         pcms->max_fw_size);
->              exit(1);
->          }
->  
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index fe52e165b2..f7c8e7cbfe 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -43,6 +43,7 @@ struct PCMachineState {
->      bool smbus_enabled;
->      bool sata_enabled;
->      bool pit_enabled;
-> +    uint64_t max_fw_size;
->  
->      /* NUMA information: */
->      uint64_t numa_nodes;
-> @@ -59,6 +60,7 @@ struct PCMachineState {
->  #define PC_MACHINE_SMBUS            "smbus"
->  #define PC_MACHINE_SATA             "sata"
->  #define PC_MACHINE_PIT              "pit"
-> +#define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
->  
->  /**
->   * PCMachineClass:
-> 
+This patchset adds support for passthru devices to run inside VMs under
+the management of an emulated amd-iommu device (vIOMMU). This feature
+has a variety of benefits, including enhanced I/O security and user-mode
+driver support, for guest VMs.
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+This patchset has been tested with both 1G and 10G NICs on AMD boxes.
+
+Thanks,
+-Wei
+
+Wei Huang (3):
+  amd-iommu: Add address space notifier and replay support
+  amd-iommu: Sync IOVA-to-GPA translation during page invalidation
+  amd-iommu: Fix up amdvi_mmio_trace() to differentiate MMIO R/W
+
+ hw/i386/amd_iommu.c | 243 ++++++++++++++++++++++++++++++++++++++++++--
+ hw/i386/amd_iommu.h |  13 +++
+ hw/vfio/common.c    |   3 +-
+ 3 files changed, 247 insertions(+), 12 deletions(-)
+
+-- 
+2.25.2
 
 
