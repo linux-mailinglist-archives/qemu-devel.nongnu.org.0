@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D40427AA04
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:55:26 +0200 (CEST)
-Received: from localhost ([::1]:56960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ECB827AA0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 10:57:01 +0200 (CEST)
+Received: from localhost ([::1]:59628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMowP-00086W-HV
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42090)
+	id 1kMoxw-0000v0-DE
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 04:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMouw-0007JI-Sw
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMouv-0007J6-Ll
  for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52672)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMour-00084G-BR
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:53:54 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMour-00084H-BZ
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 04:53:53 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601283226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rbdnwc1BoU23D39gfSZYPX7/LGT2qxMLOhuC7RWoYOA=;
- b=EdOeUtzNHx3MZEYjCNIpOi5iqVZmKAF9l/EXLanJxkTfrF9UaSr4aMLloCbcP8fWzIhjbn
- lQtolTh/L2yEfwNEr6NaKUufo55F+ittpocROGM2Sf2+0pjewkTB/bY25q2RfYlSED0dLa
- PNET904u/EhyXm3DcUdrldd1/DOLK3c=
+ bh=UFyHNHvs9r+SCwKd6zBciY/nA0IU0OnRlizxrn4liac=;
+ b=fdoo2b+GUWJwTWpZjOeEsnf6fpNtuKTVS86YEcuGyjlOtW4L7VoXmLdL67yqeZbctigDXg
+ zKX5gw8TcOHvUjWQOjAjzkiy5hsZ9HcU1wN2ctuVsM7zaqTKgwsnzU8AyTwHlKrDST/V7K
+ MSnQ/KIm6DZIGe3SqXroKdpmYSZBDD8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-P3QrcgV3NeyRIXBODAjHcA-1; Mon, 28 Sep 2020 04:53:44 -0400
-X-MC-Unique: P3QrcgV3NeyRIXBODAjHcA-1
+ us-mta-459-Tb-qOvuzMHioC0bvmGQ6DQ-1; Mon, 28 Sep 2020 04:53:44 -0400
+X-MC-Unique: Tb-qOvuzMHioC0bvmGQ6DQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 345091084D68;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37AB0188C123;
  Mon, 28 Sep 2020 08:53:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 23DC85D9CA;
- Mon, 28 Sep 2020 08:53:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 471535D9CD;
+ Mon, 28 Sep 2020 08:53:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DFE1431E66; Mon, 28 Sep 2020 10:53:35 +0200 (CEST)
+ id E920F31FCE; Mon, 28 Sep 2020 10:53:35 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] virtio-vga: implement big-endian-framebuffer property
-Date: Mon, 28 Sep 2020 10:53:34 +0200
-Message-Id: <20200928085335.21961-2-kraxel@redhat.com>
+Subject: [PATCH 2/2] ppc/pseries: enable big-endian-framebuffer quirk for
+ bochs-display and virtio-vga
+Date: Mon, 28 Sep 2020 10:53:35 +0200
+Message-Id: <20200928085335.21961-3-kraxel@redhat.com>
 In-Reply-To: <20200928085335.21961-1-kraxel@redhat.com>
 References: <20200928085335.21961-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -86,51 +87,31 @@ Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allows to switch the (vga mode) framebuffer into bigendian mode
-by setting the property, simliar to stdvga.
+Already done for stdvga and secondary-vga, bochs-display and virtio-vga
+support the big-endian-framebuffer property too.  Fixes blue console
+background at boot (offb firmware console).
 
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1881912
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/virtio-vga.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/ppc/spapr_pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index f9410a0c2e61..81f776ee36e7 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -168,6 +168,20 @@ static void virtio_vga_base_reset(DeviceState *dev)
-     vga_dirty_log_start(&vvga->vga);
- }
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 4d97ff6c70f2..5db912b48c41 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -2464,7 +2464,9 @@ static int spapr_switch_one_vga(DeviceState *dev, void *opaque)
+     bool be = *(bool *)opaque;
  
-+static bool virtio_vga_get_big_endian_fb(Object *obj, Error **errp)
-+{
-+    VirtIOVGABase *d = VIRTIO_VGA_BASE(obj);
-+
-+    return d->vga.big_endian_fb;
-+}
-+
-+static void virtio_vga_set_big_endian_fb(Object *obj, bool value, Error **errp)
-+{
-+    VirtIOVGABase *d = VIRTIO_VGA_BASE(obj);
-+
-+    d->vga.big_endian_fb = value;
-+}
-+
- static Property virtio_vga_base_properties[] = {
-     DEFINE_VIRTIO_GPU_PCI_PROPERTIES(VirtIOPCIProxy),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -190,6 +204,11 @@ static void virtio_vga_base_class_init(ObjectClass *klass, void *data)
-     k->realize = virtio_vga_base_realize;
-     pcidev_k->romfile = "vgabios-virtio.bin";
-     pcidev_k->class_id = PCI_CLASS_DISPLAY_VGA;
-+
-+    /* Expose framebuffer byteorder via QOM */
-+    object_class_property_add_bool(klass, "big-endian-framebuffer",
-+                                   virtio_vga_get_big_endian_fb,
-+                                   virtio_vga_set_big_endian_fb);
- }
- 
- static TypeInfo virtio_vga_base_info = {
+     if (object_dynamic_cast(OBJECT(dev), "VGA")
+-        || object_dynamic_cast(OBJECT(dev), "secondary-vga")) {
++        || object_dynamic_cast(OBJECT(dev), "secondary-vga")
++        || object_dynamic_cast(OBJECT(dev), "bochs-display")
++        || object_dynamic_cast(OBJECT(dev), "virtio-vga")) {
+         object_property_set_bool(OBJECT(dev), "big-endian-framebuffer", be,
+                                  &error_abort);
+     }
 -- 
 2.27.0
 
