@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5112B27AC4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:56:46 +0200 (CEST)
-Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B161227AC44
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 12:54:21 +0200 (CEST)
+Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMqpp-000654-CS
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
+	id 1kMqnU-0002Yj-O9
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 06:54:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqcn-0007kp-Gg
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60267)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqct-00080r-P7
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqci-0006HM-OI
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:17 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMqcr-0006Jw-NK
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 06:43:23 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601289792;
+ s=mimecast20190719; t=1601289800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UDNSv99blgCXgYKAJW9DywzNbpAo3HN/zviB89rGwi0=;
- b=K7My8h25eCpPj3MMXMxXW25AIm2efDZoBB6GEVI0jiQzGrxmP2HCEE/JV9kHnBkDMhAm1P
- IlFjGtgNvJ04Na5q+ITRUsiUWDG9mjRR/q+Mb7RxZz6nH8PY8FUK+FEu+zGVZ1nsqPUr0Q
- wZSxL9en5yy+gcR+rZ+bPrB76DzoKy8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0+ic4XYc4a38mwCG7bGYIrFsYTNeEPqO632utFxp4Gc=;
+ b=Dlyr2J51UB7uohJwxj9q2vTqNQkTimC2uxhTEq0pnE/9E2sagLKlWmRHfSm2T99CmnAAab
+ OLrS9O3KUH5E7r9ynVMg7nyZfDEV43DntWc0oSdp7skaGE5wkoY5LNzzWzZE/64Qc1Ti6z
+ UGWKmx+0MeGPvCcz9+1VYB5sdgsybug=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-utlhAF7EMd6n-v3CKHbecw-1; Mon, 28 Sep 2020 06:43:08 -0400
-X-MC-Unique: utlhAF7EMd6n-v3CKHbecw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-482-via2PX4WMLC7482Gq1Sy6w-1; Mon, 28 Sep 2020 06:43:17 -0400
+X-MC-Unique: via2PX4WMLC7482Gq1Sy6w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC9661DDF9;
- Mon, 28 Sep 2020 10:43:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A674F1DDF4;
+ Mon, 28 Sep 2020 10:43:15 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 217911002C08;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2903F5C1A3;
  Mon, 28 Sep 2020 10:42:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 51B689CAE; Mon, 28 Sep 2020 12:42:56 +0200 (CEST)
+ id 5D12140825; Mon, 28 Sep 2020 12:42:56 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/12] microvm: add pcie support
-Date: Mon, 28 Sep 2020 12:42:44 +0200
-Message-Id: <20200928104256.9241-1-kraxel@redhat.com>
+Subject: [PATCH v3 01/12] move MemMapEntry
+Date: Mon, 28 Sep 2020 12:42:45 +0200
+Message-Id: <20200928104256.9241-2-kraxel@redhat.com>
+In-Reply-To: <20200928104256.9241-1-kraxel@redhat.com>
+References: <20200928104256.9241-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
@@ -89,49 +92,64 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:=0D
- - move aml generator to gpex and have arm virt + microvm share it.=0D
- - add 64bit window.=0D
- - add testcase.=0D
-v3:=0D
- - fix testcase: force tcg, disable on i386.=0D
-=0D
-Gerd Hoffmann (12):=0D
-  move MemMapEntry=0D
-  acpi: add acpi_dsdt_add_gpex=0D
-  arm: use acpi_dsdt_add_gpex=0D
-  microvm: add irq table=0D
-  microvm: add pcie support=0D
-  microvm/pcie: add 64bit mmio window=0D
-  tests/acpi: allow updates for expected data files=0D
-  tests/acpi: add empty tests/data/acpi/microvm/DSDT.pcie file=0D
-  tests/acpi: factor out common microvm test setup=0D
-  tests/acpi: add microvm pcie test=0D
-  acpi/gpex: no reason to use a method for _CRS=0D
-  tests/acpi: update expected data files=0D
-=0D
- include/exec/hwaddr.h             |   5 +=0D
- include/hw/arm/virt.h             |   5 -=0D
- include/hw/i386/microvm.h         |  32 ++++++=0D
- include/hw/pci-host/gpex.h        |  11 ++=0D
- hw/arm/sbsa-ref.c                 |   5 -=0D
- hw/arm/virt-acpi-build.c          | 175 ++---------------------------=0D
- hw/i386/acpi-microvm.c            |  12 ++=0D
- hw/i386/microvm.c                 |  93 ++++++++++++++++=0D
- hw/pci-host/gpex-acpi.c           | 177 ++++++++++++++++++++++++++++++=0D
- tests/qtest/bios-tables-test.c    |  30 ++++-=0D
- hw/i386/Kconfig                   |   1 +=0D
- hw/pci-host/meson.build           |   1 +=0D
- tests/data/acpi/microvm/DSDT.pcie | Bin 0 -> 3023 bytes=0D
- tests/data/acpi/virt/DSDT         | Bin 5200 -> 5196 bytes=0D
- tests/data/acpi/virt/DSDT.memhp   | Bin 6561 -> 6557 bytes=0D
- tests/data/acpi/virt/DSDT.numamem | Bin 5200 -> 5196 bytes=0D
- 16 files changed, 366 insertions(+), 181 deletions(-)=0D
- create mode 100644 hw/pci-host/gpex-acpi.c=0D
- create mode 100644 tests/data/acpi/microvm/DSDT.pcie=0D
-=0D
---=20=0D
-2.27.0=0D
-=0D
+It is defined twice already.  Move to a common header file to
+remove duplication and make it available to everybody.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/exec/hwaddr.h | 5 +++++
+ include/hw/arm/virt.h | 5 -----
+ hw/arm/sbsa-ref.c     | 5 -----
+ 3 files changed, 5 insertions(+), 10 deletions(-)
+
+diff --git a/include/exec/hwaddr.h b/include/exec/hwaddr.h
+index a71c93cc810a..8f16d179a885 100644
+--- a/include/exec/hwaddr.h
++++ b/include/exec/hwaddr.h
+@@ -18,4 +18,9 @@ typedef uint64_t hwaddr;
+ #define HWADDR_PRIx PRIx64
+ #define HWADDR_PRIX PRIX64
+ 
++typedef struct MemMapEntry {
++    hwaddr base;
++    hwaddr size;
++} MemMapEntry;
++
+ #endif
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index d018a4f29788..655b895d5eba 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -111,11 +111,6 @@ typedef enum VirtGICType {
+     VIRT_GIC_VERSION_NOSEL,
+ } VirtGICType;
+ 
+-typedef struct MemMapEntry {
+-    hwaddr base;
+-    hwaddr size;
+-} MemMapEntry;
+-
+ struct VirtMachineClass {
+     MachineClass parent;
+     bool disallow_affinity_adjustment;
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 257ada942550..9c3a893bedfd 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -80,11 +80,6 @@ enum {
+     SBSA_EHCI,
+ };
+ 
+-typedef struct MemMapEntry {
+-    hwaddr base;
+-    hwaddr size;
+-} MemMapEntry;
+-
+ struct SBSAMachineState {
+     MachineState parent;
+     struct arm_boot_info bootinfo;
+-- 
+2.27.0
 
 
