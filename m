@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EFC27B393
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:48:24 +0200 (CEST)
-Received: from localhost ([::1]:54500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A0B27B3AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:52:41 +0200 (CEST)
+Received: from localhost ([::1]:37786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMxGB-0008Dp-Ez
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49012)
+	id 1kMxKK-0004eE-Ln
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kMwyC-0003Lj-PR
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:29:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50099)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kMwyY-000498-07
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:30:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kMwy9-00081D-83
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:29:48 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kMwyU-00085Q-IW
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:30:09 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601314181;
+ s=mimecast20190719; t=1601314205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VKk46sdFk/P7SA14/DSbPrreDC+Np0hWeiYURj4cHNY=;
- b=WVIP2hOpn7JiOpMDuklCEWSb/AYA3FwdAslfbI73Yc2Hk7xw9UCB31Y9LaeNQ0sJz/B5f5
- xeeDsvzoTky98tidJ+PmbUvvyq91kRbeBPUI7POXyISnQDlMVYqxji+3CpriScu7Svmk65
- cRhCU9mEpU9JK7jgHNdu0cWZ2l6U8nI=
+ bh=sv5KBhPzbq8cWDn168wKeIjyNQJ0aN7ztE+0NCkqQ6I=;
+ b=ZmnAnibtCLLpwpAP22O7lqSb8GCLEFUvJk+CAKZpTPqRK/7dMMqHLqSBB3MBSLkvWWiDUK
+ 3PurlbvGwOX5xZA/MnZCTG9MPcaNVhIkW/jmJTVhYsmBXNA/m2tdAB7W8VtwO9aetawYSF
+ y9aDCVW8pXxlVjOyoSwHKv7EUUBhHoY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-8sdpYu-oOpaZtLCNKlG6vA-1; Mon, 28 Sep 2020 13:29:37 -0400
-X-MC-Unique: 8sdpYu-oOpaZtLCNKlG6vA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-381-Kw8QkXbHNAqRfDIB-CoL_A-1; Mon, 28 Sep 2020 13:30:01 -0400
+X-MC-Unique: Kw8QkXbHNAqRfDIB-CoL_A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B347A80572E;
- Mon, 28 Sep 2020 17:29:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E127E100CA8C;
+ Mon, 28 Sep 2020 17:29:59 +0000 (UTC)
 Received: from thuth.remote.csb (unknown [10.40.192.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D19A573666;
- Mon, 28 Sep 2020 17:29:34 +0000 (UTC)
-Subject: Re: [PATCH v2 3/8] qemu/bswap: Replace bswapXXs() by compiler
- __builtin_bswap()
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E40710013C0;
+ Mon, 28 Sep 2020 17:29:56 +0000 (UTC)
+Subject: Re: [PATCH v2 5/8] qemu/bswap: Use compiler __builtin_bswap() on Haiku
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200928131934.739451-1-philmd@redhat.com>
- <20200928131934.739451-4-philmd@redhat.com>
+ <20200928131934.739451-6-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <82d583fa-6c71-2e79-2af7-b2ccdfe07b3a@redhat.com>
-Date: Mon, 28 Sep 2020 19:29:33 +0200
+Message-ID: <0da7bfb2-50c2-2ef6-7a88-0fa96a339c3d@redhat.com>
+Date: Mon, 28 Sep 2020 19:29:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200928131934.739451-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200928131934.739451-6-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,9 +60,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,63 +86,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  Richard Henderson <richard.henderson@linaro.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Carlo Arenas <carenas@gmail.com>,
+ David Carlier <devnexen@gmail.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 28/09/2020 15.19, Philippe Mathieu-Daudé wrote:
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Since commit efc6c070aca ("configure: Add a test for the minimum
+> compiler version") the minimum compiler version required for GCC
+> is 4.8, which supports __builtin_bswap().
+> Remove the Haiku specific ifdef'ry.
+> 
+> This reverts commit 652a46ebba970017c7a23767dcc983265cdb8eb7
+> ("bswap.h: Include <endian.h> on Haiku for bswap operations").
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  include/qemu/bswap.h | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+> Cc: David Carlier <devnexen@gmail.com>
+> Cc: Carlo Arenas <carenas@gmail.com>
+> ---
+>  include/qemu/bswap.h | 2 --
+>  1 file changed, 2 deletions(-)
 > 
 > diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-> index 41131d3d76e..fed96dddd7a 100644
+> index 55916670d39..719d620bfe6 100644
 > --- a/include/qemu/bswap.h
 > +++ b/include/qemu/bswap.h
-> @@ -38,29 +38,31 @@ static inline uint64_t bswap64(uint64_t x)
->  
->  static inline void bswap16s(uint16_t *s)
->  {
-> -    *s = bswap16(*s);
-> +    *s = __builtin_bswap16(*s);
->  }
->  
->  static inline void bswap32s(uint32_t *s)
->  {
-> -    *s = bswap32(*s);
-> +    *s = __builtin_bswap32(*s);
->  }
->  
->  static inline void bswap64s(uint64_t *s)
->  {
-> -    *s = bswap64(*s);
-> +    *s = __builtin_bswap64(*s);
->  }
->  
->  #if defined(HOST_WORDS_BIGENDIAN)
->  #define be_bswap(v, size) (v)
-> -#define le_bswap(v, size) glue(bswap, size)(v)
-> +#define le_bswap(v, size) glue(__builtin_bswap, size)(v)
->  #define be_bswaps(v, size)
-> -#define le_bswaps(p, size) do { *p = glue(bswap, size)(*p); } while(0)
-> +#define le_bswaps(p, size) \
-> +            do { *p = glue(__builtin_bswap, size)(*p); } while (0)
+> @@ -8,8 +8,6 @@
+>  # include <machine/bswap.h>
+>  #elif defined(__FreeBSD__)
+>  # include <sys/endian.h>
+> -#elif defined(__HAIKU__)
+> -# include <endian.h>
 >  #else
->  #define le_bswap(v, size) (v)
-> -#define be_bswap(v, size) glue(bswap, size)(v)
-> +#define be_bswap(v, size) glue(__builtin_bswap, size)(v)
->  #define le_bswaps(v, size)
-> -#define be_bswaps(p, size) do { *p = glue(bswap, size)(*p); } while(0)
-> +#define be_bswaps(p, size) \
-> +            do { *p = glue(__builtin_bswap, size)(*p); } while (0)
->  #endif
+>  #undef  bswap16
+>  #define bswap16(_x) __builtin_bswap16(_x)
 
-What's the advantage of the renaming here if bswap is already #defined
-to the builtin function (or another useful function from a system
-header)? This just looks like code churn to me?
+Why don't we simply always use the builtin functions on all systems? I
+assume the compiler can handle these the best in all cases... or do you
+see any advantage in using <machine/bswap.h> or <sys/endian.h> in
+certain cases?
+
+ Thomas
+
 
  Thomas
 
