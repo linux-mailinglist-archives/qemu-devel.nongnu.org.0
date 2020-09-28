@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C335427AF2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:37:30 +0200 (CEST)
-Received: from localhost ([::1]:36362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B843D27AF36
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:40:14 +0200 (CEST)
+Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtLN-0001DZ-Pd
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
+	id 1kMtO1-0004ni-LQ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:40:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMskL-0003VY-Qb
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:59:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22951)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMskW-0003c5-3n
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:59:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMskK-0008QD-1e
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:59:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kMskU-0008Qv-C6
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:59:23 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601297950;
+ s=mimecast20190719; t=1601297961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bU29bJZTMasQeNNiJs3vBtDqyXAGJWgpUOEt6l9XHtE=;
- b=BC75JjSZ5lYHl9BVMcvNEjY7HRJHJYy7e80hK6W96AFsCh9rzMh6woSnK3Ly8DbufooicU
- ISK7xq8Zi8lIH4jIMm1Sls0oPf/cqLUp/s/j6le+ovmwijn6jEWmU572QFRICuVHLDoQqZ
- 36vDqVPB3+NU7/Uolv7IriMxlJGN0ik=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-yHvfQN3cNhK-1Wp9JsJlxw-1; Mon, 28 Sep 2020 08:59:09 -0400
-X-MC-Unique: yHvfQN3cNhK-1Wp9JsJlxw-1
-Received: by mail-wr1-f71.google.com with SMTP id o6so388378wrp.1
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 05:59:08 -0700 (PDT)
+ bh=lNLoWuf3VWBMLbz8iFaGpHLsud63gIf1tGgS+8bafOY=;
+ b=AYgFVU8JRVl+5HPS1Dtlc9sB+d0XXxBX4Dt7ZLzQwUinQOaXKU6ZKtNM0U/I7e3fwayq2N
+ XQ4p39nixTqQ1re6y3CG6hp1SwFc9Qd0kNa+ecU0GTdRyJi+vxmj8JAK4qM5aTKx0+bDY0
+ P/kegB7KDrM/7UnxShE7VNjwGsMb5lg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-NqNJUSGEM5WjiqJ6gcZdQQ-1; Mon, 28 Sep 2020 08:59:19 -0400
+X-MC-Unique: NqNJUSGEM5WjiqJ6gcZdQQ-1
+Received: by mail-wm1-f70.google.com with SMTP id c204so321396wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 05:59:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bU29bJZTMasQeNNiJs3vBtDqyXAGJWgpUOEt6l9XHtE=;
- b=m8JnF6VopScxiiGQYU1xYrIojupkP3PUujCDaRQkJpNK4+VtttjUZARRN0SLFuuYLI
- viM246eL2y1W0VeLvvPXXwuzrP7lXLjYqQH+KxQ679/IoyyEXFRJ52TUvddhsNJSi4ow
- kOYFPACkYgFWHLsQ343aMBOxU6V9f6JoVBmVcNx3FgqNbQXQo4anqplpNmfcxMkVAW0v
- RrKTqq/R7Q/YuIww3QAjtGSF0m/QzM9CqJlHtgwG49nR7aAIzKCnkdNFYyS2qMW/f96C
- E78Vc0vpD9ZSWc1e57yrFcsmAKEGmwdNvKXloXDArXojUQEPv5kCLKIAtWXNvoyFm2/X
- L4CQ==
-X-Gm-Message-State: AOAM532uycOxAxKrufxHqYygQ0LdRD+KWwbfjzn2XYHFmFVVuWvJhEvK
- NZV1lkpTWwUDVNZNXWK5ulOXOJspcU7TZa0uXMo7IKfehMRQvUTvJMt2ICiglZ/CTbOv0lEsxdw
- EAZv7tmE40w6XWHY=
-X-Received: by 2002:a05:6000:124d:: with SMTP id
- j13mr1702597wrx.182.1601297947712; 
- Mon, 28 Sep 2020 05:59:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHP9xoNeu6jyrNE81jWruhebydXnrMPVCLnP0CexOt3GmUwsUBAtmmDtx1HP6Vjschk7wS7g==
-X-Received: by 2002:a05:6000:124d:: with SMTP id
- j13mr1702580wrx.182.1601297947495; 
- Mon, 28 Sep 2020 05:59:07 -0700 (PDT)
+ bh=lNLoWuf3VWBMLbz8iFaGpHLsud63gIf1tGgS+8bafOY=;
+ b=LuEOCphDNLoYYtKNyZYxy3PJPab0blazhIMbYGSJogR8+3EfEraI/vlcNx2Z1jFRML
+ lZ8pPGS9qfHnQPJ3Z7j7nIH+XPpusDECQWCEtJEtNmiQj+nMEXVkv9Ri2zLGOvZw/BQo
+ C93zUeQ1MlJSqKg/gNuGzM7G9aO+TteGvA2PQITKytb2q2HcaDJRPbtQqJhNW+6Rra5p
+ r4aMdvCyGDk335Ju+Ltip6BT6P7k7mNiazseSypP+FDJqmfGa0zhnrR1Q2rfPIjeCUrZ
+ cnFbLneBQGqlsRbmSdNwJj7J1PIwNIrEn44Hfoi3KN3WYg4FxsrSBd6omLvIQJASkGKn
+ 4DUg==
+X-Gm-Message-State: AOAM531CqDg3JZ5Jm7vzIJw6TyC261KrjZS9Wk7Q2Ui0jo1gkREuFI15
+ 9N4IrjbsEVfyGMD6y1zHBnM21zCzUeECYsordFxnuB+RTbkHXnPOaJWNSw9TSvKW0y4b4yS21on
+ 23yLjhfuXr3OQSEA=
+X-Received: by 2002:a5d:5602:: with SMTP id l2mr1710765wrv.410.1601297957999; 
+ Mon, 28 Sep 2020 05:59:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0Dv01edvAvpJmhJDT9ncCo9xT2GQjpsNpprD/jVFhfQiV2PfWTdwUtIcF6CUX0ulciThpQg==
+X-Received: by 2002:a5d:5602:: with SMTP id l2mr1710753wrv.410.1601297957839; 
+ Mon, 28 Sep 2020 05:59:17 -0700 (PDT)
 Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id d19sm996387wmd.0.2020.09.28.05.59.06
+ by smtp.gmail.com with ESMTPSA id h204sm1227917wmf.35.2020.09.28.05.59.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Sep 2020 05:59:06 -0700 (PDT)
+ Mon, 28 Sep 2020 05:59:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] qemu/compiler: Simplify as all compilers support
- attribute 'gnu_printf'
-Date: Mon, 28 Sep 2020 14:58:57 +0200
-Message-Id: <20200928125859.734287-2-philmd@redhat.com>
+Subject: [PATCH 3/3] accel/tcg: Remove special case for GCC < 4.6
+Date: Mon, 28 Sep 2020 14:58:59 +0200
+Message-Id: <20200928125859.734287-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200928125859.734287-1-philmd@redhat.com>
 References: <20200928125859.734287-1-philmd@redhat.com>
@@ -75,9 +72,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -105,48 +102,33 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit efc6c070aca ("configure: Add a test for the minimum
-compiler version") the minimum compiler version required for GCC
-is 4.8, which supports the gnu_printf attribute.
+Since commit efc6c070aca ("configure: Add a test for the
+minimum compiler version") the minimum compiler version
+required for GCC is 4.8.
 
-We can safely remove the code introduced in commit 9c9e7d51bf0
-("Move macros GCC_ATTR and GCC_FMT_ATTR to common header file").
+We can safely remove the special case for GCC 4.6 introduced
+in commit 0448f5f8b81 ("cpu-exec: Fix compiler warning
+(-Werror=clobbered)").
+No change for Clang as we don't know.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qemu/compiler.h | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ accel/tcg/cpu-exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index c76281f3540..207e3bd4feb 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -104,17 +104,14 @@
-                                    sizeof(QEMU_BUILD_BUG_ON_STRUCT(x)))
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index e10b46283cc..bf149bb824e 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -703,7 +703,7 @@ int cpu_exec(CPUState *cpu)
  
- #if defined __GNUC__
--# if !QEMU_GNUC_PREREQ(4, 4)
--   /* gcc versions before 4.4.x don't support gnu_printf, so use printf. */
--#  define GCC_FMT_ATTR(n, m) __attribute__((format(printf, n, m)))
--# else
--   /* Use gnu_printf when supported (qemu uses standard format strings). */
--#  define GCC_FMT_ATTR(n, m) __attribute__((format(gnu_printf, n, m)))
--#  if defined(_WIN32)
--    /* Map __printf__ to __gnu_printf__ because we want standard format strings
--     * even when MinGW or GLib include files use __printf__. */
--#   define __printf__ __gnu_printf__
--#  endif
-+  /* Use gnu_printf when supported (qemu uses standard format strings). */
-+# define GCC_FMT_ATTR(n, m) __attribute__((format(gnu_printf, n, m)))
-+# if defined(_WIN32)
-+   /*
-+    * Map __printf__ to __gnu_printf__ because we want standard format strings
-+    * even when MinGW or GLib include files use __printf__.
-+    */
-+#  define __printf__ __gnu_printf__
- # endif
- #else
- #define GCC_FMT_ATTR(n, m)
+     /* prepare setjmp context for exception handling */
+     if (sigsetjmp(cpu->jmp_env, 0) != 0) {
+-#if defined(__clang__) || !QEMU_GNUC_PREREQ(4, 6)
++#if defined(__clang__)
+         /* Some compilers wrongly smash all local variables after
+          * siglongjmp. There were bug reports for gcc 4.5.0 and clang.
+          * Reload essential local variables here for those compilers.
 -- 
 2.26.2
 
