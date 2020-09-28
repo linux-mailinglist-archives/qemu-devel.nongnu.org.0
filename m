@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EE627AFC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 16:14:08 +0200 (CEST)
-Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3703727AFDA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 16:18:04 +0200 (CEST)
+Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtup-0004hp-OL
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 10:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48712)
+	id 1kMtyd-0007x8-9G
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 10:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kMttO-0003od-OS
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50746)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kMtuu-0005Kt-4E
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:14:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kMttM-00021R-Dp
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:12:38 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kMtup-0002A8-EK
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:14:10 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601302354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1601302446;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ai/OZEB9D06J/gCOEHXhqd03HTxxeOYLvBemG2ruPXs=;
- b=Tf164XzKlvRuEsYYkvZSzq+LAoiMTT3Uv1T0lDpiwYssJqEgjjde481VkpmWbxlys+s5VG
- 4Sv3TepRwJIl+fJhSvBewhNa9jbOo0Yos+MVouiZfdPk1e6+6Fhje2Q1n38DQ/z2DJS/qm
- yz/YHi1PX1HCUmyGOA6syEPwrKcQVvk=
+ bh=8mcw5UTFKDFqElU3RM6vRFlJEDwYLMnK7nJc4IXK13g=;
+ b=GFOAmWlBjmiMaaPWZhFvN/Yi/fNgHxCInDI5hDZe7V1ZJbYMOhfIePMoyzpxgEmvv4/DSB
+ vQG3j+IRvUKD6chCda6khk7EQZLasn5MnrNa5PUfpikRBxpJlMOkM0FM08EeN243JNn9at
+ vaUDygTJDLY4FM7dkwTu9/nUDrSrWt4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-Azq3hd8cPcajYz85HC1UHA-1; Mon, 28 Sep 2020 10:12:30 -0400
-X-MC-Unique: Azq3hd8cPcajYz85HC1UHA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-263-FvmVHKE9M-un0-BUyRbGcQ-1; Mon, 28 Sep 2020 10:14:02 -0400
+X-MC-Unique: FvmVHKE9M-un0-BUyRbGcQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 327F6192AB6E;
- Mon, 28 Sep 2020 14:12:29 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E832E55763;
- Mon, 28 Sep 2020 14:12:28 +0000 (UTC)
-Date: Mon, 28 Sep 2020 10:12:28 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: "Kang, Luwei" <luwei.kang@intel.com>
-Subject: Re: [PATCH v1 1/3] i386: Remove the limitation of IP payloads for
- Intel PT
-Message-ID: <20200928141228.GW3717385@habkost.net>
-References: <1582580312-19864-2-git-send-email-luwei.kang@intel.com>
- <20200925161539.GS3717385@habkost.net>
- <MW3PR11MB46655375CAECC74BA2D7CAECF2360@MW3PR11MB4665.namprd11.prod.outlook.com>
- <20200925165415.GT3717385@habkost.net>
- <036ba624-670c-d6b7-721c-ad5c9d648c1f@redhat.com>
- <20200925202956.GV3717385@habkost.net>
- <db31a0fa-c6cf-4730-6d64-f81228948d30@redhat.com>
- <CY4PR11MB1447C4CA6B6D455EE33F724D80350@CY4PR11MB1447.namprd11.prod.outlook.com>
- <d85a3245-c774-5098-5d14-2e3b3a2eda18@redhat.com>
- <CY4PR11MB1447BB55E8AF4915CD56655980350@CY4PR11MB1447.namprd11.prod.outlook.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CDAF807356;
+ Mon, 28 Sep 2020 14:14:00 +0000 (UTC)
+Received: from redhat.com (ovpn-114-24.ams2.redhat.com [10.36.114.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 214EC5C1BD;
+ Mon, 28 Sep 2020 14:13:57 +0000 (UTC)
+Date: Mon, 28 Sep 2020 15:13:55 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David CARLIER <devnexen@gmail.com>
+Subject: Re: [PATCH v2 5/8] qemu/bswap: Use compiler __builtin_bswap() on Haiku
+Message-ID: <20200928141355.GI2230076@redhat.com>
+References: <20200928131934.739451-1-philmd@redhat.com>
+ <20200928131934.739451-6-philmd@redhat.com>
+ <CA+XhMqxdb9Y6HL_0Og4Px5OwdTqK5EKJcnKdafd790nJb8yYEQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CY4PR11MB1447BB55E8AF4915CD56655980350@CY4PR11MB1447.namprd11.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CA+XhMqxdb9Y6HL_0Og4Px5OwdTqK5EKJcnKdafd790nJb8yYEQ@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -89,56 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, "Strong,
- Beeman" <beeman.strong@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Carlo Arenas <carenas@gmail.com>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 28, 2020 at 12:42:37PM +0000, Kang, Luwei wrote:
-> > >>>> No, it's not possible.  KVM doesn't have a say on what the
-> > >>>> processor writes in the tracing packets.
-> > >>> Can KVM refuse to enable packet generation if CSbase is not zero and
-> > >>> CPUID.(EAX=14H,ECX=0)[bit 31] seen by guest is different from host?
-> > >>
-> > >> Yes, but the processor could change operating mode (and hence CSbase)
-> > >> while tracing is active.  This is very unlikely, since it would
-> > >> require nonzero CS-base and a 32-bit host, but in principle not
-> > >> impossible (could be a firmware call, for example).
-> > >>
-> > >> The only solution is for KVM to accept both, and for QEMU to refuse a
-> > >> setting that does not match the host.
-> > >>
-> > >
-> > > So I need to add a patch in KVM to disabled the Intel PT when the
-> > > CSbase is not zero and the guest LIP different from the host. And this
-> > > limitation in qemu (disabled the PT when LIP is enabled in the host)
-> > > can be remove. Is that right?
-> > 
-> > No, if a feature cannot be emulated, that means it cannot be enabled unless it
-> > matches the host.  That's generally not a problem since Intel PT is usually used
-> > only with "-cpu host".
-> > 
+On Mon, Sep 28, 2020 at 03:09:01PM +0100, David CARLIER wrote:
+> Unfortunately it breaks the build.
+
+Can you provide details of the errors seen and toolchain versions.
+
+I notice we don't have any CI support for Haiku right now, nor
+any recipe in tests/vm/  for enabling users to setup a VM with
+Haiku installed. This very much makes Haiku a second class
+citizen right now in terms of QEMU's supported platforms, with
+no expectation of whether it'll work at any point in time.
+
+
+> On Mon, 28 Sep 2020 at 14:20, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> >
+> > Since commit efc6c070aca ("configure: Add a test for the minimum
+> > compiler version") the minimum compiler version required for GCC
+> > is 4.8, which supports __builtin_bswap().
+> > Remove the Haiku specific ifdef'ry.
+> >
+> > This reverts commit 652a46ebba970017c7a23767dcc983265cdb8eb7
+> > ("bswap.h: Include <endian.h> on Haiku for bswap operations").
+> >
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > ---
+> > Cc: David Carlier <devnexen@gmail.com>
+> > Cc: Carlo Arenas <carenas@gmail.com>
+> > ---
+> >  include/qemu/bswap.h | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+> > index 55916670d39..719d620bfe6 100644
+> > --- a/include/qemu/bswap.h
+> > +++ b/include/qemu/bswap.h
+> > @@ -8,8 +8,6 @@
+> >  # include <machine/bswap.h>
+> >  #elif defined(__FreeBSD__)
+> >  # include <sys/endian.h>
+> > -#elif defined(__HAIKU__)
+> > -# include <endian.h>
+> >  #else
+> >  #undef  bswap16
+> >  #define bswap16(_x) __builtin_bswap16(_x)
+> > --
+> > 2.26.2
+> >
 > 
-> The limitation of LIP in qemu will mask off the Intel PT in KVM
-> guest even with "-cpu host". e.g. This bit will be set in
-> SnowRidge HW and later.
 
-This behavior can and should be changed.
-
-> 
-> How about "-cpu cpu_model, +intel-pt" use case? The current
-> value of Intel PT CPUID is a constant. Can we make the ICX
-> CPUID as basic inforation(LIP is 0) and using "+intel-pt-lip"
-> to make Intel PT work on the CPU which LIP is 1 on the host? As
-> you mentioned before, Intel PT cannot be enabled in guest
-> unless it matches the host.
-
-This makes sense, but you can also make each CPU model set a
-default for the LIP bit.  "-cpu SnowRidge,+intel-pt" could set
-LIP=1 by default.
-
+Regards,
+Daniel
 -- 
-Eduardo
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
