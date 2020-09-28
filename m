@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F22227AA98
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:22:10 +0200 (CEST)
-Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B254927AA86
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:19:14 +0200 (CEST)
+Received: from localhost ([::1]:60810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpMH-00017W-2V
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47066)
+	id 1kMpJR-0005o8-Og
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:19:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGe-0003r2-Ni; Mon, 28 Sep 2020 05:16:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:41627)
+ id 1kMpGg-0003rG-Cd; Mon, 28 Sep 2020 05:16:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:44089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGZ-0002XI-Pj; Mon, 28 Sep 2020 05:16:20 -0400
+ id 1kMpGc-0002Xr-Oz; Mon, 28 Sep 2020 05:16:21 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MHVWT-1k9Kjw3AXZ-00Dahp; Mon, 28 Sep 2020 11:16:09 +0200
+ id 1Movrq-1kmW6m2GR4-00qUMU; Mon, 28 Sep 2020 11:16:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/8] Add *.pyc back to the .gitignore file
-Date: Mon, 28 Sep 2020 11:15:58 +0200
-Message-Id: <20200928091602.383870-5-laurent@vivier.eu>
+Subject: [PULL 5/8] vhost-vdpa: remove useless variable
+Date: Mon, 28 Sep 2020 11:15:59 +0200
+Message-Id: <20200928091602.383870-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200928091602.383870-1-laurent@vivier.eu>
 References: <20200928091602.383870-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZJYK1rFyvYfcc1RY9shQRugdD/I2fgxXiA5GSPXHDWik7DtpDjJ
- o4naIrgY093fD8n/YDr8+FdVkdYd0sLGeFzzXvGKhtj8C1Tf6Jhwl6W1zxVTI6H6oAYCXF7
- YwSrdhBC8Ge3dMaL7US6KJhbtFyimqf0VC7KConAmbVzvdt9csL34qrEeIJyiUHDmgOzFoO
- M4zjSD7MUsQqAcN4OH30g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sHi8vO6LAyw=:b5I++VPdeCqL1djMULZwhH
- zeNdBpBsGL4XtKnjqnvvR3c1huKZ2Ljlkoj13TIf/MIGziBKfRdI1dYSKGNWSa07NmXeP2sSx
- YeyBZl/4JBOBHCkIt5r4ocSrflqmrIdbqeJ3vtwmlpWqacTs/9zJysEmVCE9gMBFYQfyd42v9
- mY0h0M1yJt9cor8EyMDqYyXpd+nPQ3eHTBI3fR0Q98opCFSCaIlwZQFh51swmqvhye3ugob9Y
- AoxqriFaJML8wJ/Hn4ul3paDF7kf9n1P//ZGH0ySYG5NSuuswTGsiZZnPyu7fnv3Z8lyVTUlk
- HVTa4KAH2BoisufgWchRJlMoceh2jS7g+OXZhwrQ64ysGjBtAPeqJp+EkdLweTZRuJ4bEF4/C
- KrTPL2VKUDR18QFd/aTAe55ybKaaQ4mewsssFVWNsHqdbWJeVG/7IEd/N70sS7aosLTm8a6ER
- vrs3Sdx2+/2W57JwKyHT8z4taBgJDfYsX+3mpmUvM0ojryXAR6AQlFcqbU1yWe1DYb5WrRvam
- yNJAPidMibtU3Td4OAgNIqf2LhM9iZ1SvWHy9vGW/WUNaU3yMRG4XsGkUZEtWmr6So8bR2Wir
- P6ydG2Oliw0yg3d4oKvHF08xKEPpfSXbIhheuFqABIP60uIJhgu02LTJNz5ykNW59zIM/1wGx
- m0ZQeFJf5Xy/0/2ojJctHm5YOBi8n6yU5tohWEKUdtXG6HmC7nJTO6Fq0xsRzzT58U/gUocoJ
- Erszr3nJ7/9BpGOaMRVJ9XmIssTE8kiwbaYC3rv2MA7wcpMqn/kck8Fg0YlNQ6sk2dAYQOuyV
- YsaWaChNhaWjXA0/lkfRDeMK04q9icFMQXk0rmDR3KnE/0QDF5hX7hlBvRsinJ2wpdZCuYu
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:wJWrYVUu+QB9tF1t59MC8P8/2ARDgjDwbNMCs86f4jAoT24lCAv
+ pFx6JizTH4bdFpvoY22YpxEXfhsv/2MKtbHjJ52HFsSCY7H/p+a2BnHbSzqvfuF0hPgJLD8
+ rtLQzNrBEmpKA5DX7ZQ65oKNfSOowUrfnukRwJJ4TXs38mhgznWiAJIOvg68SXTRJ6Wv2BK
+ MY3K9iSYPau5FRdlet2KA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KJJI/RSHP88=:aQ6dnUa2BA68BEthZ2ZHQX
+ 79BmE2Uk6LOdoyKcD5ipvXrGWr72ubwY24YGy0dL5JQVykxcsefn0HFSDKPCd59WWgiVCsXdh
+ pel1WM/ErdG3JED8xkZuIihmcR1T0brnTrTg1DZHyqwDETTiDJQegT/JE+R1GtjIm3GkaYHRv
+ RaJw0KCG+icEg/GQyK2riYZkFwnjjt2uAoWQZu9OozMf7TH08Ab8qkOtgTXLrB5bd59qJVGzN
+ /Xa7SQqNAmOMNKkT8br0BTsgU8SPXtQeeadpyiy6hgwF4n1J0ZrJ0A7pDRZhrJzXs2mv0iL8z
+ cjLiqivYkvxvKlvZJU7bhx2suOzpUCTAyaGksWgB9qNa7T9QFX5ZqWEsiLpWlFyERjJZlsT2J
+ t9D7RSedGCXjK0EFBZUoFflxxVnF26n7czUySjLmXpeRDcG3l9kPGgdi2Gre28fvoaqFbYidK
+ FVF7pjbqBl3IFLxCNR2dL+62E1ewNUQBr06g4aEne4XMavNZdpDScTlh5Kh6c27WMtSt5mF/N
+ gQT46GPQLZLALmn/6MZsfOXgnywlwSKatk10lBh0wVVyP+28mqNm9opmQ6ByDnjZK3bp2Ycu6
+ 8fbE/tJ1Y7vGiyX0QYgU+oogSAkH2myoHpWow7n0VRHtRLzG2SoA5/80IElAxImZlecXdJez/
+ z0GDcsx4SkBSGmBHnS0K9DEFDg6bbFm8UFOPor6f0KLVsvKvyaCebwVEyoGAFCixQrO5N4cBI
+ ZRfVUl8UdPHWdqSCO4WwO1GIVDxKzOjLXMMYaEp6pK1ROvfcgWi42Q4p/OpWq7JHvMI58NgFy
+ Mhxr8NlsCoesp7HbI6DaZNYOzuYi75+5gUfm7nW61AD7SXsDa21yh+zcGFsMTHdfwKVVmWb
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 05:16:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 05:16:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -70,39 +70,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Li Qiang <liq3ea@gmail.com>,
  Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-Python still dumps its bytecode into the source directory, so
-we should continue to ignore the *.pyc files.
+in vhost_vdpa_listener_region_del(), try_unmap is always true and so,
+vhost_vdpa_dma_unmap() is always called. We can remove the variable
 
-Fixes: 0e72b7df4d ("Simplify the .gitignore file")
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200919101859.28739-1-thuth@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <20200920152024.860172-1-lvivier@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- .gitignore | 1 +
- 1 file changed, 1 insertion(+)
+ hw/virtio/vhost-vdpa.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 5515f595e67c..b32bca1315e1 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -1,5 +1,6 @@
- /GNUmakefile
- /build/
-+*.pyc
- .sdk
- .stgit-*
- .git-submodule-status
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 97f4b2e353ab..aedc52c4d791 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -153,7 +153,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+     hwaddr iova;
+     Int128 llend, llsize;
+     int ret;
+-    bool try_unmap = true;
+ 
+     if (vhost_vdpa_listener_skipped_section(section)) {
+         return;
+@@ -176,11 +175,9 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+ 
+     llsize = int128_sub(llend, int128_make64(iova));
+ 
+-    if (try_unmap) {
+-        ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+-        if (ret) {
+-            error_report("vhost_vdpa dma unmap error!");
+-        }
++    ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
++    if (ret) {
++        error_report("vhost_vdpa dma unmap error!");
+     }
+ 
+     memory_region_unref(section->mr);
 -- 
 2.26.2
 
