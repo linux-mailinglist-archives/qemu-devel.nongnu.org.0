@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D7327B00C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 16:36:45 +0200 (CEST)
-Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD6627B012
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 16:38:08 +0200 (CEST)
+Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMuGi-0006HL-Jx
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 10:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55598)
+	id 1kMuI3-0008Ht-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 10:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kMuDf-00052R-1P
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:33:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30956)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kMuEt-0005qM-7v
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:34:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kMuDc-0004vb-Qc
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:33:34 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kMuEr-00053q-MV
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 10:34:50 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601303610;
+ s=mimecast20190719; t=1601303686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W7fK/NQPPePoj8L/gqsYMkyYNYN5zy779blewpwgWb8=;
- b=Iwa72SCDu2iYEK8mVzK3COQQllnG2pxO5OYzC53prSczbXVmD/y/ZUMW0nDKqA2PUp+qYV
- KzGm2a2qLcZ4Gc5QeodkesBD0RHOxUfzrPX5TdVDy4x3RQAuvb2vyqrnhQPen5DsH99NGT
- Vd38fiJKNqsy47YqupZVE2w5hJCv33c=
+ bh=XGIKjTyscA10UKsqxfBriDI7dSHJkqrTRqyf/5NHv0U=;
+ b=eoXlyutMdD3qQOAv1UnqrDk7fuoCFp5og4wEYTuX5lQpe+QN0F17/bvcblfItuHvaqoV9A
+ WL8d+7925zQW7O5sr8+VVU4VetzLwLTC4Cja4hqYxZgToGpOdasO4yLv8Q78n++v/JWSrv
+ AkTuX/XpRFplBEmn9YjPOw/cnN9gTdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-wPVAIw2tOwCpqLwvU_mJww-1; Mon, 28 Sep 2020 10:33:28 -0400
-X-MC-Unique: wPVAIw2tOwCpqLwvU_mJww-1
+ us-mta-393-JEOPC9uUOlml-WKB_BjhKQ-1; Mon, 28 Sep 2020 10:34:44 -0400
+X-MC-Unique: JEOPC9uUOlml-WKB_BjhKQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49E4880572E;
- Mon, 28 Sep 2020 14:33:26 +0000 (UTC)
-Received: from [10.3.112.208] (ovpn-112-208.phx2.redhat.com [10.3.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9D055C1BB;
- Mon, 28 Sep 2020 14:33:22 +0000 (UTC)
-Subject: Re: [PATCH 2/3] nbd: Add new qemu:allocation-depth metacontext
-To: "Richard W.M. Jones" <rjones@redhat.com>
-References: <20200925203249.155705-1-eblake@redhat.com>
- <20200925203249.155705-3-eblake@redhat.com>
- <20200926073308.GV3888@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d0290138-f9d9-86a1-faf7-34f3ef4218c2@redhat.com>
-Date: Mon, 28 Sep 2020 09:33:22 -0500
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5584A1084D77
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 14:34:43 +0000 (UTC)
+Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8FA25C1BB;
+ Mon, 28 Sep 2020 14:34:42 +0000 (UTC)
+Subject: Re: [PATCH v3 12/47] qapi: enforce import order/styling with isort
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200925002900.465855-1-jsnow@redhat.com>
+ <20200925002900.465855-13-jsnow@redhat.com>
+ <87imc2w6uf.fsf@dusky.pond.sub.org>
+ <8baab976-1dfd-a7b4-1a1e-47480cf0c4b6@redhat.com>
+ <87tuvigkuf.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <a2bd875a-b158-3c64-e6b6-7238e1e7c7d9@redhat.com>
+Date: Mon, 28 Sep 2020 10:34:42 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200926073308.GV3888@redhat.com>
+In-Reply-To: <87tuvigkuf.fsf@dusky.pond.sub.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,56 +86,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, vsementsov@virtuozzo.com
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/20 2:33 AM, Richard W.M. Jones wrote:
-> On Fri, Sep 25, 2020 at 03:32:48PM -0500, Eric Blake wrote:
->> +The second is related to exposing the source of various extents within
->> +the image, with a single context named:
->> +
->> +    qemu:allocation-depth
->> +
->> +In the allocation depth context, bits 0 and 1 form a tri-state value:
->> +
->> +    bits 0-1 clear: NBD_STATE_DEPTH_UNALLOC, means the extent is unallocated
->> +    bit 0 set: NBD_STATE_DEPTH_LOCAL, the extent is allocated in this image
->> +    bit 1 set: NBD_STATE_DEPTH_BACKING, the extent is inherited from a
->> +               backing layer
+On 9/28/20 8:13 AM, Markus Armbruster wrote:
+> PEP 8: "Surround top-level function and class definitions with two blank
+> lines."
 > 
->>From the cover description I imagined it would show the actual depth, ie:
+> [...]
 > 
->           top -> backing -> backing -> backing
->   depth:   1        2         3   ....          (0 = unallocated)
 > 
-> I wonder if that is possible?  (Perhaps there's something I don't
-> understand here.)
 
-The real reason I don't want to do a straight depth number is that 
-'qemu-img map' combined with x-dirty-bitmap is still a very convenient 
-way to get at bits 0 and 1 (even if it requires decoding).  But if we 
-plumb in a way for bdrv_get_status to return depth counts (rather than 
-reimplementing the depth count ourselves), I would have no problem with 
-returning a struct:
+Yep, but flake8 does not complain about the first definitions that occur 
+below imports. Why not? I don't know.
 
-bits 31-4: the depth of the chain
-bits 3-2: reserved (to make reading hex values easier...)
-bits 1-0: tri-state of unalloc, local, or backing
+Regardless, I can change it and fold the changes in; they won't affect 
+much here.
 
-where it would look like:
-
-0x0000 -> unallocated
-0x0011 -> depth 1, local
-0x0022 -> depth 2, from the first backing layer
-0x0032 -> depth 3, from the second backing layer
-0x0042 ...
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+--js
 
 
