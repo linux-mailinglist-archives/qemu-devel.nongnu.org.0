@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9F127ADCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 14:30:38 +0200 (CEST)
-Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFC827ADEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 14:36:12 +0200 (CEST)
+Received: from localhost ([::1]:51444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMsIf-0004jd-UX
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 08:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47580)
+	id 1kMsO3-0002gd-Fg
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 08:36:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMsFr-0002to-Q4
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:27:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60848)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMsGG-0003Vv-0T
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:28:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMsFp-0004b1-3o
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:27:43 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMsGD-0004d1-EB
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:28:07 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601296058;
+ s=mimecast20190719; t=1601296080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IQEk9XmgZVar258X+nzLlG/DpgykIhb38UjHzbs9aXs=;
- b=VrBpwJFuDLgZUt/cShhB0tfEJ0fMXt3Hz/6me+wzgH9v8uR0K3h8BRENPRw/gvAlXQMFJy
- AIGuOmLlDw+neGcDFeyLEMKDsvelDj6RtQd//WA1yYaldTflOO5/zeqa8R/wJK2ykr1XhI
- KiY0o61PokfR6IFcDbIAE+n4eio48Fo=
+ bh=CvBC7XXH9sliuNYBXtu1LitcomD7RGGTGS/iRPIqHZ4=;
+ b=MUlQ+v1V1gX+o+Eau2EcXRuXtapKYVXlE7aDrGapZT/Q/6Wy4PD58SIk4Z4FchGXH2CD4d
+ noWdtdxvG8vNDQ5xqB4tDyqTu5KPaQuD1pO8FkhRxewj4sGl00KXHVNt8vUVrXlfIQYbLa
+ JpglSZQdjyyx+Xv/wYUWivYA4QOguU8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-aO-DskZSMB2nc8qXZsX8Vw-1; Mon, 28 Sep 2020 08:27:34 -0400
-X-MC-Unique: aO-DskZSMB2nc8qXZsX8Vw-1
+ us-mta-10-xwCeeVjrMDuzsbumAHtnjQ-1; Mon, 28 Sep 2020 08:27:40 -0400
+X-MC-Unique: xwCeeVjrMDuzsbumAHtnjQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4358B1084D65;
- Mon, 28 Sep 2020 12:27:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 802AA801F9B;
+ Mon, 28 Sep 2020 12:27:39 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27EFE60C11;
- Mon, 28 Sep 2020 12:27:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 447DF60C11;
+ Mon, 28 Sep 2020 12:27:33 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/9] s390x/tcg: Implement ADD HALFWORD (AGH)
-Date: Mon, 28 Sep 2020 14:27:10 +0200
-Message-Id: <20200928122717.30586-3-david@redhat.com>
+Subject: [PATCH v2 3/9] s390x/tcg: Implement SUBTRACT HALFWORD (SGH)
+Date: Mon, 28 Sep 2020 14:27:11 +0200
+Message-Id: <20200928122717.30586-4-david@redhat.com>
 In-Reply-To: <20200928122717.30586-1-david@redhat.com>
 References: <20200928122717.30586-1-david@redhat.com>
 MIME-Version: 1.0
@@ -84,40 +84,27 @@ Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Easy, just like ADD HALFWORD IMMEDIATE (AGHI).
+Easy to wire up.
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
  target/s390x/insn-data.def | 1 +
- target/s390x/translate.c   | 1 +
- 2 files changed, 2 insertions(+)
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index d79ae9e3f1..8dbeaf8c49 100644
+index 8dbeaf8c49..e851e9df5e 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -52,6 +52,7 @@
- /* ADD HALFWORD */
-     C(0x4a00, AH,      RX_a,  Z,   r1, m2_16s, new, r1_32, add, adds32)
-     C(0xe37a, AHY,     RXY_a, LD,  r1, m2_16s, new, r1_32, add, adds32)
-+    C(0xe338, AGH,     RXY_a, MIE2,r1, m2_16s, r1, 0, add, adds64)
- /* ADD HALFWORD IMMEDIATE */
-     C(0xa70a, AHI,     RI_a,  Z,   r1, i2, new, r1_32, add, adds32)
-     C(0xa70b, AGHI,    RI_a,  Z,   r1, i2, r1, 0, add, adds64)
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index a777343821..3b433caf46 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -6098,6 +6098,7 @@ enum DisasInsnEnum {
- #define FAC_AIS         S390_FEAT_ADAPTER_INT_SUPPRESSION
- #define FAC_V           S390_FEAT_VECTOR /* vector facility */
- #define FAC_VE          S390_FEAT_VECTOR_ENH /* vector enhancements facility 1 */
-+#define FAC_MIE2        S390_FEAT_MISC_INSTRUCTION_EXT2 /* miscellaneous-instruction-extensions facility 2 */
- 
- static const DisasInsn insn_info[] = {
- #include "insn-data.def"
+@@ -883,6 +883,7 @@
+ /* SUBTRACT HALFWORD */
+     C(0x4b00, SH,      RX_a,  Z,   r1, m2_16s, new, r1_32, sub, subs32)
+     C(0xe37b, SHY,     RXY_a, LD,  r1, m2_16s, new, r1_32, sub, subs32)
++    C(0xe339, SGH,     RXY_a, MIE2,r1, m2_16s, r1, 0, sub, subs64)
+ /* SUBTRACT HIGH */
+     C(0xb9c9, SHHHR,   RRF_a, HW,  r2_sr32, r3_sr32, new, r1_32h, sub, subs32)
+     C(0xb9d9, SHHLR,   RRF_a, HW,  r2_sr32, r3, new, r1_32h, sub, subs32)
 -- 
 2.26.2
 
