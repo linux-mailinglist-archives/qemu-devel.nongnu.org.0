@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927DA27AE6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 14:56:57 +0200 (CEST)
-Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD24227AE82
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 14:59:47 +0200 (CEST)
+Received: from localhost ([::1]:55824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMsi8-0007no-J4
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 08:56:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50412)
+	id 1kMsks-0002sO-VJ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 08:59:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMsR2-00073M-GK
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:39:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56153)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMsUW-0001z1-T1
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:42:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMsR0-0005uZ-5P
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:39:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMsUT-0006Nw-8q
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 08:42:52 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601296752;
+ s=mimecast20190719; t=1601296967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3B1q05j8TnSPoBzAIhwENAcloRoNu5q/RAbciPJmdDE=;
- b=bea79AqQpsr5ZOoF5/x0Ie26BkK7NT3bNo+mPhOph3WvfFI8HGiXTQH//zUmrAu8tQP0FG
- oFXXKy5hHvWeDphRzKkrwN2KzDH2vtpSloFh8DblS3XSi4cAMqQ1zDFgqcTt3WM9eQH8rZ
- NJdlxXWUEK2+3sDpAxel3461AXwJCJ8=
+ bh=v//IpFrvYFp3qzHpKZFXcWzZwc7p5ysBAGy1UZCHuQo=;
+ b=ViTRx9P2NGWKAq2LhHzRzwVeGn+RYQ6+7hGdrVs1mhd2BMbHjaKNhZci9cLT/+ssVRrRy8
+ i/YRSn5qcUOSjxx00VsiLrQFrgPsJYhq8xLwLeaas5t+Q7vhhWfjOR7ne7ntG0LvMoc2Lo
+ YFjN4FRgkWo5dlAhnbCTswSZGyc+zDc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-uy5BplWYN76MbzY6yIRMHA-1; Mon, 28 Sep 2020 08:39:10 -0400
-X-MC-Unique: uy5BplWYN76MbzY6yIRMHA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-520-3RgwwCXlN2uIK3p0XlQX-g-1; Mon, 28 Sep 2020 08:42:45 -0400
+X-MC-Unique: 3RgwwCXlN2uIK3p0XlQX-g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9276E1091061;
- Mon, 28 Sep 2020 12:39:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D6B01074678;
+ Mon, 28 Sep 2020 12:42:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
  [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65B3060CD0;
- Mon, 28 Sep 2020 12:39:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D42085C1BB;
+ Mon, 28 Sep 2020 12:42:33 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D1207113865F; Mon, 28 Sep 2020 14:39:07 +0200 (CEST)
+ id 87080113865F; Mon, 28 Sep 2020 14:42:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 01/21] qapi: Fix doc comment indentation again
+Subject: Re: [PATCH v6 02/21] qapi/block.json: Add newline after "Example:"
+ for block-latency-histogram-set
 References: <20200925162316.21205-1-peter.maydell@linaro.org>
- <20200925162316.21205-2-peter.maydell@linaro.org>
-Date: Mon, 28 Sep 2020 14:39:07 +0200
-In-Reply-To: <20200925162316.21205-2-peter.maydell@linaro.org> (Peter
- Maydell's message of "Fri, 25 Sep 2020 17:22:56 +0100")
-Message-ID: <87wo0ef53o.fsf@dusky.pond.sub.org>
+ <20200925162316.21205-3-peter.maydell@linaro.org>
+Date: Mon, 28 Sep 2020 14:42:32 +0200
+In-Reply-To: <20200925162316.21205-3-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Fri, 25 Sep 2020 17:22:57 +0100")
+Message-ID: <87sgb2f4xz.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -88,49 +89,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
-> In commit 26ec4e53f2 and similar commits we fixed the indentation
-> for doc comments in our qapi json files to follow a new stricter
-> standard for indentation, which permits only:
->     @arg: description line 1
->           description line 2
+> The block-latency-histogram-set command is the only one which uses
+> the Example/Examples section with the first line of the documentation
+> immediately following the ':'. Bring it into line with the rest.
 >
-> or:
->     @arg:
->     line 1
->     line 2
+> This allows us to avoid special-casing the indentation handling for
+> "Examples" sections; instead for Examples as for any other section
+> header these two indentations will be equivalent:
+
+I figure you're talking about PATCH 5 here.  Correct?
+
+If yes, I'd like to tweak this to "This will allow us".  Okay?
+
 >
-> but because the script updates that enforce this are not yet in the
-> tree we have had a steady trickle of subsequent changes which didn't
-> follow the new rules.
+> Examples:
+> Line one
+> Line two
 >
-> Fix the latest round of mis-indented doc comments.
+> Examples: Line one
+>           Line two
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  qapi/block-core.json |   4 +-
->  qapi/migration.json  | 102 +++++++++++++++++++++----------------------
->  2 files changed, 53 insertions(+), 53 deletions(-)
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 3c16f1e11d6..dd77a91174c 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -4316,8 +4316,8 @@
->  # @data-file-raw: True if the external data file must stay valid as a
->  #                 standalone (read-only) raw image without looking at qcow2
->  #                 metadata (default: false; since: 4.0)
-> -# @extended-l2      True to make the image have extended L2 entries
-> -#                   (default: false; since 5.2)
-> +# @extended-l2: True to make the image have extended L2 entries
-> +#               (default: false; since 5.2)
->  # @size: Size of the virtual disk in bytes
->  # @version: Compatibility level (default: v3)
->  # @backing-file: File name of the backing file if a backing file
-
-Fixes a missing colon in addition to indentation.
-
-[...]
-
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
