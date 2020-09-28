@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D061727AF70
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:53:43 +0200 (CEST)
-Received: from localhost ([::1]:48060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5124727AF19
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:32:34 +0200 (CEST)
+Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtb4-0002Qp-T4
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56920)
+	id 1kMtGb-0005Vn-BO
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:32:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kMsqw-00089W-EZ
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:06:02 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:43566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kMsqu-00014T-9W
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:06:02 -0400
-Received: by mail-ed1-x542.google.com with SMTP id n13so1211696edo.10
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 06:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6ZfFrJJxeX4KzCfpX1TEiuYfvDOPxHkGBnf252tKC48=;
- b=CqLu9BcXoixyNmDodIRHyKK0cHkKBeGBGWkecVX5liPWerSeP0NMt8fFt+rTuz0aOL
- UXMiAiFPRWCjV0UiIU2iWF6eV8Fy0pfDQYhbn1rjCtNha7Eg1nDwvjf3+7hJFFemElSR
- mb/PHgTO0wWwMuS9EJM9ghnF4X0RFo4fp1hwOkGjV5pgkZtmS0YfybkM4pGsM6Nh3DOl
- hISgodF0YHWlDuqqU/4sZvT0w6qn7miMRUZag3QgranG7shbm/++5aGxzw9pzflvNNOk
- 12dR44NBNbEmsys7Ub8RDvZ4DtrjdQlKxJBNILLSnBy/PqqTk8EWZpGBkOTe3TJV1Xcu
- R8kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6ZfFrJJxeX4KzCfpX1TEiuYfvDOPxHkGBnf252tKC48=;
- b=YAr8fe4x8LnR+pezmjUOV2w3SNzDuIvnUzl1j2T/Vf0ovpUhQ/5sT+MLRHOvSShfcy
- hWYM2yDNGBb0svm+ZhYTZncdda8voQpbNHCsy1tozJR6vY7XjMv/08/9gO8UZOoowPU3
- sBJB1fxe1DPOasFKl626TLmsrGM/GtV0YSsCkvJbjpnX4MILuj+aUbf5WF1r8MyKah1g
- 1TuU3nu7OLFTiex50fh/xW5SJtk3wXownWRTz566XAbfccWJrQ4k9KWMWM8EfK7KkStC
- 7GQIHYVuzRQUHnKRu5PsBO+alMVGTCBYFxdnfIzjWPXzHrvWXrkGArl6Y/cdU3YdNF7D
- dWtg==
-X-Gm-Message-State: AOAM532tXeO/4fuorSdAZOcN80490sVN3xYUuxfvPfgsocMt1n85n9dl
- jVA4+rs3ca2/jE9lT+wPrzjnUgyZ7aM3CvmTNnxRvg==
-X-Google-Smtp-Source: ABdhPJzbwLRyoNoHkqeeLCZCbPopnA67pxhtd0QLbuNS+KK0MOBrpDPgrjUV4rJouiB0K1LZh2ZZ8YlHD7lDFpx92wU=
-X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr1574937edw.251.1601298357617; 
- Mon, 28 Sep 2020 06:05:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1O-0004n9-IA
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1M-0002Vh-BL
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:50 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601299007;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+aw3n+SUA1rcEWZ1AuT1xh5fxTYW7c7q5skyURMwx7k=;
+ b=hWrSldjANJRy4yMr9kWtz1FwXbTn71If5PbKUT0LYU0aql8bxhBPQmACFCFj1e+15nlvi1
+ /XxRhKhje12fQv5ZGRy5LzAGI9HBEaY8Zlhoea9wztSs77fGCGZxIHR362k3KdARUQG9sL
+ FSaedIKWMzcblGtvWDZLPiUwQJdQ8iQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-E8rbvN3dPN-Ck1seOOtAHw-1; Mon, 28 Sep 2020 09:16:43 -0400
+X-MC-Unique: E8rbvN3dPN-Ck1seOOtAHw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC656AD514;
+ Mon, 28 Sep 2020 13:16:39 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53A2960C11;
+ Mon, 28 Sep 2020 13:16:39 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 59F0140830; Mon, 28 Sep 2020 15:16:38 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 1/5] usb/hcd-xhci: Make dma read/writes hooks pci free
+Date: Mon, 28 Sep 2020 15:16:34 +0200
+Message-Id: <20200928131638.9486-2-kraxel@redhat.com>
+In-Reply-To: <20200928131638.9486-1-kraxel@redhat.com>
+References: <20200928131638.9486-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20200925162316.21205-1-peter.maydell@linaro.org>
- <160106193961.10465.12078546060105198824@66eaa9a8a123>
- <CAFEAcA8uWY+MCDToz9an+zsrMVrctkBmgpMV82iUR2ZZOgA3Vg@mail.gmail.com>
- <87h7rif3x3.fsf@dusky.pond.sub.org>
-In-Reply-To: <87h7rif3x3.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Sep 2020 14:05:46 +0100
-Message-ID: <CAFEAcA9TdEPAHECmLAA3nOzUBEzcpis=OL7MFmMv-76e4yS6+g@mail.gmail.com>
-Subject: Re: [PATCH v6 00/21] Convert QAPI doc comments to generate rST
- instead of texinfo
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +81,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Sep 2020 at 14:04, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Fri, 25 Sep 2020 at 20:25, <no-reply@patchew.org> wrote:
-> >
-> >> In file included from ../src/qapi/qapi-schema.json:78:
-> >> ../src/qapi/migration.json:1747:1: unexpected de-indent (expected at least 13 spaces)
-> >
-> > This is yet another mis-indented line in a change to the QAPI
-> > doc-comments (commit 4c437254b807). It hit master in the
-> > latest migration pull after I'd sent out this patchseries
-> > but before patchew got round to testing..
->
-> Obvious fixup for your PATCH 01:
->
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 7d9342c064..7f5e6fd681 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1744,9 +1744,9 @@
->  # Information about current dirty page rate of vm.
->  #
->  # @dirty-rate: @dirtyrate describing the dirty page rate of vm
-> -#          in units of MB/s.
-> -#          If this field returns '-1', it means querying has not
-> -#          yet started or completed.
-> +#              in units of MB/s.
-> +#              If this field returns '-1', it means querying has not
-> +#              yet started or completed.
->  #
->  # @status: status containing dirtyrate query status includes
->  #          'unstarted' or 'measuring' or 'measured'
->
-> Happy to fix it up in my tree.
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 
-Yes, please.
+This patch starts making the hcd-xhci.c pci free, as part of this
+restructuring dma read/writes are handled without passing pci object.
 
-thanks
--- PMM
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 1600957256-6494-2-git-send-email-sai.pavan.boddu@xilinx.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/hcd-xhci.h |  1 +
+ hw/usb/hcd-xhci.c | 24 +++++++++++-------------
+ 2 files changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
+index c3dfc1440590..c8a8ae4c34eb 100644
+--- a/hw/usb/hcd-xhci.h
++++ b/hw/usb/hcd-xhci.h
+@@ -188,6 +188,7 @@ struct XHCIState {
+ 
+     USBBus bus;
+     MemoryRegion mem;
++    AddressSpace *as;
+     MemoryRegion mem_cap;
+     MemoryRegion mem_oper;
+     MemoryRegion mem_runtime;
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 46a2186d912a..254cf1ead4b5 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -495,7 +495,7 @@ static inline void xhci_dma_read_u32s(XHCIState *xhci, dma_addr_t addr,
+ 
+     assert((len % sizeof(uint32_t)) == 0);
+ 
+-    pci_dma_read(PCI_DEVICE(xhci), addr, buf, len);
++    dma_memory_read(xhci->as, addr, buf, len);
+ 
+     for (i = 0; i < (len / sizeof(uint32_t)); i++) {
+         buf[i] = le32_to_cpu(buf[i]);
+@@ -515,7 +515,7 @@ static inline void xhci_dma_write_u32s(XHCIState *xhci, dma_addr_t addr,
+     for (i = 0; i < n; i++) {
+         tmp[i] = cpu_to_le32(buf[i]);
+     }
+-    pci_dma_write(PCI_DEVICE(xhci), addr, tmp, len);
++    dma_memory_write(xhci->as, addr, tmp, len);
+ }
+ 
+ static XHCIPort *xhci_lookup_port(XHCIState *xhci, struct USBPort *uport)
+@@ -644,7 +644,6 @@ static void xhci_die(XHCIState *xhci)
+ 
+ static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     XHCIInterrupter *intr = &xhci->intr[v];
+     XHCITRB ev_trb;
+     dma_addr_t addr;
+@@ -663,7 +662,7 @@ static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
+                                ev_trb.status, ev_trb.control);
+ 
+     addr = intr->er_start + TRB_SIZE*intr->er_ep_idx;
+-    pci_dma_write(pci_dev, addr, &ev_trb, TRB_SIZE);
++    dma_memory_write(xhci->as, addr, &ev_trb, TRB_SIZE);
+ 
+     intr->er_ep_idx++;
+     if (intr->er_ep_idx >= intr->er_size) {
+@@ -720,12 +719,11 @@ static void xhci_ring_init(XHCIState *xhci, XHCIRing *ring,
+ static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
+                                dma_addr_t *addr)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     uint32_t link_cnt = 0;
+ 
+     while (1) {
+         TRBType type;
+-        pci_dma_read(pci_dev, ring->dequeue, trb, TRB_SIZE);
++        dma_memory_read(xhci->as, ring->dequeue, trb, TRB_SIZE);
+         trb->addr = ring->dequeue;
+         trb->ccs = ring->ccs;
+         le64_to_cpus(&trb->parameter);
+@@ -762,7 +760,6 @@ static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
+ 
+ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+ {
+-    PCIDevice *pci_dev = PCI_DEVICE(xhci);
+     XHCITRB trb;
+     int length = 0;
+     dma_addr_t dequeue = ring->dequeue;
+@@ -773,7 +770,7 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
+ 
+     while (1) {
+         TRBType type;
+-        pci_dma_read(pci_dev, dequeue, &trb, TRB_SIZE);
++        dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE);
+         le64_to_cpus(&trb.parameter);
+         le32_to_cpus(&trb.status);
+         le32_to_cpus(&trb.control);
+@@ -828,7 +825,7 @@ static void xhci_er_reset(XHCIState *xhci, int v)
+         xhci_die(xhci);
+         return;
+     }
+-    pci_dma_read(PCI_DEVICE(xhci), erstba, &seg, sizeof(seg));
++    dma_memory_read(xhci->as, erstba, &seg, sizeof(seg));
+     le32_to_cpus(&seg.addr_low);
+     le32_to_cpus(&seg.addr_high);
+     le32_to_cpus(&seg.size);
+@@ -1440,7 +1437,7 @@ static int xhci_xfer_create_sgl(XHCITransfer *xfer, int in_xfer)
+     int i;
+ 
+     xfer->int_req = false;
+-    pci_dma_sglist_init(&xfer->sgl, PCI_DEVICE(xhci), xfer->trb_count);
++    qemu_sglist_init(&xfer->sgl, DEVICE(xhci), xfer->trb_count, xhci->as);
+     for (i = 0; i < xfer->trb_count; i++) {
+         XHCITRB *trb = &xfer->trbs[i];
+         dma_addr_t addr;
+@@ -2104,7 +2101,7 @@ static TRBCCode xhci_address_slot(XHCIState *xhci, unsigned int slotid,
+     assert(slotid >= 1 && slotid <= xhci->numslots);
+ 
+     dcbaap = xhci_addr64(xhci->dcbaap_low, xhci->dcbaap_high);
+-    poctx = ldq_le_pci_dma(PCI_DEVICE(xhci), dcbaap + 8 * slotid);
++    poctx = ldq_le_dma(xhci->as, dcbaap + 8 * slotid);
+     ictx = xhci_mask64(pictx);
+     octx = xhci_mask64(poctx);
+ 
+@@ -2442,7 +2439,7 @@ static TRBCCode xhci_get_port_bandwidth(XHCIState *xhci, uint64_t pctx)
+     /* TODO: actually implement real values here */
+     bw_ctx[0] = 0;
+     memset(&bw_ctx[1], 80, xhci->numports); /* 80% */
+-    pci_dma_write(PCI_DEVICE(xhci), ctx, bw_ctx, sizeof(bw_ctx));
++    dma_memory_write(xhci->as, ctx, bw_ctx, sizeof(bw_ctx));
+ 
+     return CC_SUCCESS;
+ }
+@@ -3434,6 +3431,7 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
+     }
+ 
+     usb_xhci_init(xhci);
++    xhci->as = pci_get_address_space(dev);
+     xhci->mfwrap_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, xhci_mfwrap_timer, xhci);
+ 
+     memory_region_init(&xhci->mem, OBJECT(xhci), "xhci", LEN_REGS);
+@@ -3534,7 +3532,7 @@ static int usb_xhci_post_load(void *opaque, int version_id)
+             continue;
+         }
+         slot->ctx =
+-            xhci_mask64(ldq_le_pci_dma(pci_dev, dcbaap + 8 * slotid));
++            xhci_mask64(ldq_le_dma(xhci->as, dcbaap + 8 * slotid));
+         xhci_dma_read_u32s(xhci, slot->ctx, slot_ctx, sizeof(slot_ctx));
+         slot->uport = xhci_lookup_uport(xhci, slot_ctx);
+         if (!slot->uport) {
+-- 
+2.27.0
+
 
