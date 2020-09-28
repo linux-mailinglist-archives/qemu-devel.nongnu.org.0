@@ -2,67 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1220127A877
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 09:21:37 +0200 (CEST)
-Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A37327A8BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 09:36:42 +0200 (CEST)
+Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMnTZ-00079Y-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 03:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50946)
+	id 1kMniC-0000vC-Tr
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 03:36:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kMnSj-0006hM-MI
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 03:20:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kMnSh-0005Z7-Fj
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 03:20:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kMnSf-0005NH-FX
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 07:20:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6ED2C2E8053
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 07:20:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kMnhS-0000VC-IE
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 03:35:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kMnhQ-0007Hi-C4
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 03:35:53 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601278550;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5FVO6WB4o3G6sA9GfTk9b6cbkeMgKVW5wuX96gGvwwg=;
+ b=Dof0L+QTD7XPKn995+BpuGz7kF9DQLDSwX93S7X/c4BhMK2jP8MC/ixuvEJoxxx6one7vS
+ l0sZsGcPubAGoCMZ0wzcJziDe06o8/fBZpyBTm89AwJyON+Zr5xEsZ2Q/399ozw9/HE+o6
+ SXSiQ3nUdzZ6XgZ6oBYZCcqJE+Vo7Wc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-567-e89l8gCnPK-BEV9L18-qyQ-1; Mon, 28 Sep 2020 03:35:45 -0400
+X-MC-Unique: e89l8gCnPK-BEV9L18-qyQ-1
+Received: by mail-wr1-f72.google.com with SMTP id v5so37636wrs.17
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 00:35:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5FVO6WB4o3G6sA9GfTk9b6cbkeMgKVW5wuX96gGvwwg=;
+ b=NrdPwOHnY5Rr88tSQVyGNX2vHrhgvTVZcf4m9WFGEyWjZcC8+QJBkc7460vYbvlm5i
+ InYcqTQ3YHPaCR7JvcIikN9m2r8YKCKrQ31U9iCyqgLAPgVPExC6Wvwp7tn6u7x9CN/A
+ XdkqsrAAWH5pggD26tAfXlLzLeGB+MGdj8Tdp535HuvkjgfANguXIwsiinjsmDrxVg/h
+ O6Mk5QGrItlxU5toPg7x6Xa7AvSfS1kd+7MAIOIHeuWgfg0pzCv98OwN0ffm6ow/sOdq
+ iewCk9F5um8PUpQK/YsD9R7JMuaZmYOTqw9gyWK8VcfeRwMboyFnfJtWMmrefhDQvhJ/
+ YFgA==
+X-Gm-Message-State: AOAM5325qu3m+LrfCtEmNjivs4PoQh5IIctRMNd9clfd9p63aW86IA76
+ c125zi3JqdxfhkvLfjezjZmOCy8gBEeoLpObANBX2z7pgDxpoJIcTefJuWugv1QBJ9+Mhd9/mn+
+ cEhBQDLY688YA5NY=
+X-Received: by 2002:a1c:f608:: with SMTP id w8mr155056wmc.161.1601278543895;
+ Mon, 28 Sep 2020 00:35:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQJFD+3AAhA2EGKGcHw+/FBnRq3g2oqVWni9G2/x37ZWOT4BiqZ8Z8nV3Onq4dwlKZAqdyCA==
+X-Received: by 2002:a1c:f608:: with SMTP id w8mr155039wmc.161.1601278543692;
+ Mon, 28 Sep 2020 00:35:43 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:18a0:e78d:6703:1066?
+ ([2001:b07:6468:f312:18a0:e78d:6703:1066])
+ by smtp.gmail.com with ESMTPSA id y68sm58393wmd.39.2020.09.28.00.35.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Sep 2020 00:35:43 -0700 (PDT)
+Subject: Re: [PATCH v1 1/3] i386: Remove the limitation of IP payloads for
+ Intel PT
+To: "Kang, Luwei" <luwei.kang@intel.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <1582580312-19864-1-git-send-email-luwei.kang@intel.com>
+ <1582580312-19864-2-git-send-email-luwei.kang@intel.com>
+ <20200925161539.GS3717385@habkost.net>
+ <MW3PR11MB46655375CAECC74BA2D7CAECF2360@MW3PR11MB4665.namprd11.prod.outlook.com>
+ <20200925165415.GT3717385@habkost.net>
+ <036ba624-670c-d6b7-721c-ad5c9d648c1f@redhat.com>
+ <20200925202956.GV3717385@habkost.net>
+ <db31a0fa-c6cf-4730-6d64-f81228948d30@redhat.com>
+ <CY4PR11MB1447C4CA6B6D455EE33F724D80350@CY4PR11MB1447.namprd11.prod.outlook.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d85a3245-c774-5098-5d14-2e3b3a2eda18@redhat.com>
+Date: Mon, 28 Sep 2020 09:35:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 28 Sep 2020 07:15:04 -0000
-From: Teodori Serge <1815721@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bmeng-cn rtos.pharos teodori-serge
-X-Launchpad-Bug-Reporter: RTOS Pharos (rtos.pharos)
-X-Launchpad-Bug-Modifier: Teodori Serge (teodori-serge)
-References: <155004342499.19242.14077661245921319117.malonedeb@soybean.canonical.com>
-Message-Id: <160127730458.12748.1569963738240456264.malone@soybean.canonical.com>
-Subject: [Bug 1815721] Re: RISC-V PLIC enable interrupt for multicore
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a314d157ca9be8d00eae0214fc0d7dff1cd406e4"; Instance="production"
-X-Launchpad-Hash: fae988fa7bd3a7447f461a5e158b3cdcc7b8fe45
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:20:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.078, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CY4PR11MB1447C4CA6B6D455EE33F724D80350@CY4PR11MB1447.namprd11.prod.outlook.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.576,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.011, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,54 +110,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1815721 <1815721@bugs.launchpad.net>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Strong,
+ Beeman" <beeman.strong@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello as far as I can tell, there is a major problem with PLIC
-implementation. When decompiling DTB on virt board with X harts, I see
-that hartid 0 has MEI and SEI, hartid 1 has MEI and SEI, etc... But when
-configuring context 1 (hartid 0 SEI) no interrupt is generated, but
-context 0, 2, 4 etc... work. So for me the problem is within PLIC or
-RISC-V implementation... If anyone wants to correct it, I can help. Best
-regards. Serge Teodori
+On 28/09/20 07:19, Kang, Luwei wrote:
+>>>> No, it's not possible.  KVM doesn't have a say on what the processor
+>>>> writes in the tracing packets.
+>>> Can KVM refuse to enable packet generation if CSbase is not zero and
+>>> CPUID.(EAX=14H,ECX=0)[bit 31] seen by guest is different from host?
+>>
+>> Yes, but the processor could change operating mode (and hence CSbase) while
+>> tracing is active.  This is very unlikely, since it would require nonzero CS-base
+>> and a 32-bit host, but in principle not impossible (could be a firmware call, for
+>> example).
+>>
+>> The only solution is for KVM to accept both, and for QEMU to refuse a setting
+>> that does not match the host.
+>>
+> 
+> So I need to add a patch in KVM to disabled the Intel PT when the
+> CSbase is not zero and the guest LIP different from the host. And this
+> limitation in qemu (disabled the PT when LIP is enabled in the host) can
+> be remove. Is that right?
 
--- =
+No, if a feature cannot be emulated, that means it cannot be enabled
+unless it matches the host.  That's generally not a problem since Intel
+PT is usually used only with "-cpu host".
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1815721
+Paolo
 
-Title:
-  RISC-V PLIC enable interrupt for multicore
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello all,
-
-  There is a bug in Qemu related to the enabling of external interrupts
-  for multicores (Virt machine).
-
-  After correcting Qemu as described in #1815078
-  (https://bugs.launchpad.net/qemu/+bug/1815078), when we try to enable
-  interrupts for core 1 at address 0x0C00_2080 we don't seem to be able
-  to trigger an external interrupt  (e.g. UART0).
-
-  This works perfectly for core 0, but fore core 1 it does not work at
-  all. I assume that given bug #1815078 does not enable any external
-  interrupt then this feature has not been tested. I tried to look at
-  the qemu source code but with no luck so far.
-
-  I guess the problem is related to function parse_hart_config (in
-  sfive_plic.c) that initializes incorrectly the
-  plic->addr_config[addrid].hartid, which is later on read in
-  sifive_plic_update. But this is a guess.
-
-  Best regards,
-  Pharos team
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1815721/+subscriptions
 
