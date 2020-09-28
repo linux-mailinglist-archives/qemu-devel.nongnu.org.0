@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4020427AA99
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:22:10 +0200 (CEST)
-Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AE527AAAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 11:24:39 +0200 (CEST)
+Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMpMH-00018G-Az
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
+	id 1kMpOg-0003WQ-3W
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 05:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGi-0003t3-KK; Mon, 28 Sep 2020 05:16:24 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:46023)
+ id 1kMpGi-0003se-F9; Mon, 28 Sep 2020 05:16:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:55429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kMpGZ-0002XL-T6; Mon, 28 Sep 2020 05:16:24 -0400
+ id 1kMpGc-0002YH-TG; Mon, 28 Sep 2020 05:16:22 -0400
 Received: from localhost.localdomain ([82.252.129.222]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MxHLs-1kcADc1asy-00xXMi; Mon, 28 Sep 2020 11:16:12 +0200
+ id 1MW9zm-1jup3n02pO-00XaX8; Mon, 28 Sep 2020 11:16:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] migration/multifd: Remove superfluous semicolons
-Date: Mon, 28 Sep 2020 11:16:01 +0200
-Message-Id: <20200928091602.383870-8-laurent@vivier.eu>
+Subject: [PULL 8/8] docs/system/deprecated: Move lm32 and unicore32 to the
+ right section
+Date: Mon, 28 Sep 2020 11:16:02 +0200
+Message-Id: <20200928091602.383870-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200928091602.383870-1-laurent@vivier.eu>
 References: <20200928091602.383870-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TDv8xBk1ThJ7knLw+EZGmeA0WjIMds6uExppLuBUybg5NiLUPul
- BZ3GoLl8ROIvSO34Dxz15rlVBT2NMUY1kSKD8oFp1FGiuZrI6HXWWSs1KxKG2lVkqhfqkmZ
- YwYonHlWXMV0P9pneRyETtcnjdRxinPDOGQdXnQv4wnM3lEZulSNBcevOEoAjkjsCIRrUbS
- vC+6Ysws2MSAxnWIZdYyA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JAWtdgVEnlU=:ZSLNwbrpxEAI6B3TkxQkV5
- As1vfzDuYkdAS94JZQehSzuX86k46IBz7KDavzMxlrUFC4EcpXMeQI+0BCwO85QO/DnwyABkr
- zktP/oJe2dRrCdaNEyJqQ7EM/JCGmh2SfqYquuQ02Hq6oEkqTwn+MNJoJapUkxA+qGybtMVaD
- Nz5tddzYC9/3oWq/NWcE2YrF90xI+l7uTba3ZcZb4TL1bSh+kED3XEkdGbevVFKDvaR7QwXbU
- Lt4NG9F7nf3tzkxfUZN61y4Rx7ScYNAQOTWDb3uCnJWLslpRcu406lpOKJhypi2CZAzsGg03L
- Ncqb/GMxz0scJN7hJmb0suFi5r2h5McvOEx8Rgh1nw6faWASSofBZ1WXpHaKPqXpaCMtGNe6u
- wocEsyALefKA/Gg9lKzaz2u7ncCD9E0iby3U+exNgropy80wAZvYikObd2zq6h9PgyBfmfTm8
- huLTTLWsRwhtjyGDIY8zbl176Ocye30OfI2xOV9nS+LI7Z6wAWpEMfImh2eSR8GLb0X9/7vU4
- Ese1CAhu8EX/Kkd9FMb03HeS3AZkMR/E4EQlqmbf2cIC43z4VTqD0ZmV1hvlGxHNAoe3JcR2a
- lvOXpR2ONvVKZ+BuVQ/YCAXIVqIp/GPQSIxZoexYFfbtr8275DlMBWxwJb78bl/MERghM7me0
- 6e2WWoOKAzQISjMZIT58C90eJkZgZQu6I64j0La9n5lxNPu1V29QVVso6290UtLbrvR8Oe/x0
- R5S54nnL7Q6mo7+cCqnOOOJiEslOvf6hnKPGuEfg563It8fC9IgEdZd7Ela1stNjg1SZKUBIX
- 1Qyca7SCL4grxa1rz8K2PmrRswKXnKO9SZI7bLKpZR7liHfkNmIvOJednSMhsgxROLqvjxn
+X-Provags-ID: V03:K1:+3XyjQWo7hbvEPBru/BIEmw8goeduKyoLSR4CTlx92oDFQVw2ml
+ NR1gX7hzergWncNMRveL2CACFimtJUX6fzYWn2U0dGw/nJHOqVL4AtvvruHLqPxvJekReOu
+ GxihtdHsM9+cC/B367MLBa4HZaH8cxeVv7rRiuBrI4J3GAIIhM4uSCqRM16GcyRiRnVUF0D
+ 0Dqxj6d2fzXDuggDNad5A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RWQxJRov2v8=:5s51v1Dha6ArO2nVmmD7RU
+ 86pX49GSKqthT26sVblwYHfLXW1c0WfvT/8tYm2MseBvWJzcn019LjUeX2/a3oX6eRU+ENcaG
+ 8WUPvx3UmDcgf4zZKoHBJQOLuMLTGzfKbgSf78nj3ViJneAWMA2LsNJT1dBy/kL8kd1g6K+2p
+ cYH6rCLCRB+2MK+KAKUIu8Y1seagQnsnADm6Pyb+8mwEctaAddRlaHYBs0kfmQoAV6w/CNM79
+ ddretTxNNkbEUa4v8LGTG+lI/jZMMK1/p9P0kHj+x0Q+icTlh97RTIUbTYvEl4InmZR0wo0g0
+ /8HmYn33tbuIyw7pcHALeSClcquW9d1Bj86f/qF/SBo0GDf+AV4ZiumuviFsbBMRIjMfdyShC
+ z9y6IkHTYhQVljCKyBK8pcV55B8mxUzW8t5rfSgJFGpC7Gnr8cgDBonbF7Z9D1WmN6qI02HCv
+ UVf7varNDdbkuVBIP/55tOVCF1NU29LqO9qzGcbCYxpHe1RAnkYpH8iRod4QjF7Uq+s9L8SB/
+ qip2nispfkg0DPrwvvY2GXqWnXV54o4h4gGJ9WJKFsJcUEtk5qYOTZ+/7laj6g/9WzmD+W1fj
+ 4RbS51g/BE4Mt8iCyIR2wMu9cGd8VwvDvR0zFhjOoWG/41jm15SJiYJzhmJkcjnU0r/Fkp/qP
+ KnmJ62clwMBpnarhBhBDfDVt6YmjncvwWco453uBy6gQjKU5wmif3Gkee5TFrwsy+BeFjsbwj
+ M+l2SUtTPnKJNdH3mzJE2xzc/GFRZwZ67J7JQ9IoiN2q+qAW7OqT15sfKbHT3w1yvC/HP1WxI
+ TLstW3SMjDQB9DDlMA9JBOp/zzHUBC7sF2myZzixzOiOsrHnXMTk4dQitOX3I8SvtFcIU45
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 05:16:07
@@ -70,44 +71,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Li Qiang <liq3ea@gmail.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
 
-checkpatch.pl report superfluous semicolons since commit
-ee0f3c09e01, but this one was missed:
+lm32 and unicore32 are softmmut targets, and not linux-user targets.
 
-  scripts/checkpatch.pl d32ca5ad798~..d32ca5ad798
-  ERROR: superfluous trailing semicolon
-  #498: FILE: migration/multifd.c:308:
-  +    ram_counters.transferred += transferred;;
-  total: 1 errors, 1 warnings, 2073 lines checked
-
-Fixes: d32ca5ad798 ("multifd: Split multifd code into its own file")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20200921040231.437653-1-f4bug@amsat.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200923080015.77373-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- migration/multifd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/deprecated.rst | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index ac84a61797f3..2de5263c3263 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -447,7 +447,7 @@ static int multifd_send_pages(QEMUFile *f)
-                 + p->packet_len;
-     qemu_file_update_transfer(f, transferred);
-     ram_counters.multifd_bytes += transferred;
--    ram_counters.transferred += transferred;;
-+    ram_counters.transferred += transferred;
-     qemu_mutex_unlock(&p->mutex);
-     qemu_sem_post(&p->sem);
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 808c334fe74d..b2f383ce52e4 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -329,6 +329,22 @@ The ``compat`` property used to set backwards compatibility modes for
+ the processor has been deprecated. The ``max-cpu-compat`` property of
+ the ``pseries`` machine type should be used instead.
+ 
++``lm32`` CPUs (since 5.2.0)
++'''''''''''''''''''''''''''
++
++The ``lm32`` guest CPU support is deprecated and will be removed in
++a future version of QEMU. The only public user of this architecture
++was the milkymist project, which has been dead for years; there was
++never an upstream Linux port.
++
++``unicore32`` CPUs (since 5.2.0)
++''''''''''''''''''''''''''''''''
++
++The ``unicore32`` guest CPU support is deprecated and will be removed in
++a future version of QEMU. Support for this CPU was removed from the
++upstream Linux kernel, and there is no available upstream toolchain
++to build binaries for it.
++
+ System emulator devices
+ -----------------------
+ 
+@@ -408,22 +424,6 @@ The above, converted to the current supported format::
+ linux-user mode CPUs
+ --------------------
+ 
+-``lm32`` CPUs (since 5.2.0)
+-'''''''''''''''''''''''''''
+-
+-The ``lm32`` guest CPU support is deprecated and will be removed in
+-a future version of QEMU. The only public user of this architecture
+-was the milkymist project, which has been dead for years; there was
+-never an upstream Linux port.
+-
+-``unicore32`` CPUs (since 5.2.0)
+-''''''''''''''''''''''''''''''''
+-
+-The ``unicore32`` guest CPU support is deprecated and will be removed in
+-a future version of QEMU. Support for this CPU was removed from the
+-upstream Linux kernel, and there is no available upstream toolchain
+-to build binaries for it.
+-
+ ``tilegx`` CPUs (since 5.1.0)
+ '''''''''''''''''''''''''''''
  
 -- 
 2.26.2
