@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371F327AF5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:48:44 +0200 (CEST)
-Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5621327AF3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:41:14 +0200 (CEST)
+Received: from localhost ([::1]:46950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtWF-0004u0-7N
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
+	id 1kMtOz-0005nd-9t
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kMtJb-0000Xe-E2
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:35:39 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:56739)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kMtKL-0001M2-Kg; Mon, 28 Sep 2020 09:36:26 -0400
+Resent-Date: Mon, 28 Sep 2020 09:36:25 -0400
+Resent-Message-Id: <E1kMtKL-0001M2-Kg@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kMtJT-0004py-Np
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:35:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Vjl2y5hmP0OR0/obOCmJkeUf/SHoy5w4FKtOsO4BFgY=; b=cuX8185pvNKPZReQH43EUZBtbC
- BpXYgMQ21uTWilEfy1fGYen9z0jYJ2L+6jcy99CVZMdegpaSpvgmqLgza6y4tHh/py6PHutHxBBkM
- HbTFHYh/WX6ZIvwE3kbGoYoIG6OYaVRxw2UKxYMlq0MBtNTDoULM1CnQKfc7abzBzs0i7FdBaJ1Gh
- 4vlx9XduUfJ0yzNCf9n0L+pVJANt47S/agpreROpxPUFktAoBcP3SIx7P+DKeURkocFAK8I5+POrl
- gnsmKwgJiYdHuC8PrIc9iH+fIRjJmEplY9W8jagWkHir7yeqTWgZmLkkPNVcDgHTBOfMXkMV9HXs8
- 9HHa8enA==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 08/12] tests/9pfs: refactor test names and test devices
-Date: Mon, 28 Sep 2020 15:35:26 +0200
-Message-ID: <9648157.mzsJ5Dm3EP@silver>
-In-Reply-To: <95ef57d0-b35e-f16a-f957-06bc3692cb7c@redhat.com>
-References: <cover.1601203436.git.qemu_oss@crudebyte.com>
- <3365834.oEZqtqHOuS@silver> <95ef57d0-b35e-f16a-f957-06bc3692cb7c@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kMtKJ-00056f-59; Mon, 28 Sep 2020 09:36:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1601300165; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WEoRGMsLWPsdCCLB60bCaDaLx+WB1B3cEIhRJoRiJ075Qc6d6WOuWxRiI8YR9SJzO+bBI7VOsUF2vCyLixLNKOivp8wzKbBc+7/Pt3bISbCwTLSkbnjvcsd+1JLT1UOs983d/tu2WMz9kEBtiR87x1NSw747CU6cT9JDgPuAhs8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1601300165;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=y5mZEDPuXkxPnzBJGInpwafJQWHIWlBuq89DLfAS3UY=; 
+ b=njhZQoTdW8FkHbHSq+qcAP5WU5trsJpl51xLdcszeWjJHCn+j2v5SS2XvEKcU84GBlZQKjwZoHqPrMbaKwW+jmSfD2A7Zd95wR3I5HHZv3OTfi/x1tAA6lAsKlhcUiEDFqkttLgtLqkFBcXmGmhU89aYAQn/uQLAEX9bCtr8mQM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1601300162939502.83080742976983;
+ Mon, 28 Sep 2020 06:36:02 -0700 (PDT)
+Subject: Re: [PATCH v2 0/9] s390x/tcg: Implement some z14 facilities
+Message-ID: <160130016121.10465.5676018291318875903@66eaa9a8a123>
+In-Reply-To: <20200928122717.30586-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 07:56:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: david@redhat.com
+Date: Mon, 28 Sep 2020 06:36:02 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 09:36:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.614, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,74 +67,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 28. September 2020 14:42:48 CEST Paolo Bonzini wrote:
-> On 28/09/20 13:56, Christian Schoenebeck wrote:
-> >> The implementation in patches 1 and 2 is reasonable, but what is the
-> >> advantage of this as opposed to specifying the fsdev in the edge options
-> >> for the test (similar to virtio-net)?  I was expecting both
-> >> virtio-9p-device-synth and virtio-9p-device-local to produce virtio-9p,
-> >> so that the existing tests would be reused automatically by the qos
-> >> graph walk.
-> >> 
-> >> As things stand, I don't see any reason to have separate devices for
-> >> different backends.
-> > 
-> > I thought to fix the problem at its root, by removing that singular device
-> > limitation in qos. That would also allow to cleanly separate tests suites
-> > that are not related to each other instead of having to depend on each
-> > other, taking care about other one's command line skeleton and more.
-> 
-> As I said, the first two patches make total sense.  They would be useful
-> for testing both packed and split virtqueues, for example.  However, I
-> think the (useful) feature is being misused here.
-
-I haven't understood why my suggested mult-device use case imposes a misusage, 
-but okay, unless I hear different opinions, I'll prepare a v2 with that (IMO 
-hackish) CL fiddling instead in couple days or so.
-
-@Greg: If that's the way to go, then I probably change the test names, e.g.
-
-	"fs/version/basic" -> "synth/version/basic"
-	...
-	"fs/create_dir" -> "local/create_dir"
-
-to be able to easily distinguish 'synth' driver tests from 'local' driver 
-tests, as they would then popup with the same device name in v2, unlike in 
-this v1 where they have separate device names.
-
-> > So your suggested solution is fine for appending extra arguments past the
-> > command line. However I would not be able to prepend something (easily) in
-> > front of '-device virtio-9p-pci'.
-> > 
-> > So I would be forced to parse the existing command line in modifycmdline()
-> > callback and then insert the required arguments appropriately. I would not
-> > find that very clean.
-> 
-> IIRC -fsdev can be added to the end of the command line and it still
-> works.  But if you think that is ugly, you can also use g_string_prepend.
-
-Yes, "-fsdev ..." and "-device ..." sequence could theoretically be flipped, 
-qemu would accept it that is.
-
-> Also, looking at future plans for qgraph, adding a generic "plug/socket"
-> mechanism to QOSGraph was an idea that we couldn't do in time for GSoC.
-> With that model, virtio-9p would provide a "socket" of type fsdev and
-> the tests would have to provide a "plug" of the same type.  Likewise
-> there would be sockets of type disk or network.  QOSGraphEdgeOpts fits
-> better with that plan, compared to duplicating the devices.
-
-Sounds like that would require huge changes for all existing qtests on initial 
-thought at least.
-
-I find the suggested multi-device approach much simpler, as it does not 
-require changes to existing tests, nor people having to get used to a new 
-qtest model.
-
-Best regards,
-Christian Schoenebeck
-
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyODEyMjcxNy4zMDU4
+Ni0xLWRhdmlkQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMDkyODEyMjcxNy4zMDU4Ni0x
+LWRhdmlkQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIHYyIDAvOV0gczM5MHgvdGNnOiBJbXBs
+ZW1lbnQgc29tZSB6MTQgZmFjaWxpdGllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
+aW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
+YW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9z
+Y3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVO
+RCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQK
+RnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRh
+dGVdICAgICAgcGF0Y2hldy8yMDIwMDkyNTE2MjMxNi4yMTIwNS0xLXBldGVyLm1heWRlbGxAbGlu
+YXJvLm9yZyAtPiBwYXRjaGV3LzIwMjAwOTI1MTYyMzE2LjIxMjA1LTEtcGV0ZXIubWF5ZGVsbEBs
+aW5hcm8ub3JnCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDA5MjgwNjEyMDEuMTYw
+MS0xLXdhbmd6aGlxaWFuZy5iakBieXRlZGFuY2UuY29tIC0+IHBhdGNoZXcvMjAyMDA5MjgwNjEy
+MDEuMTYwMS0xLXdhbmd6aGlxaWFuZy5iakBieXRlZGFuY2UuY29tCiAqIFtuZXcgdGFnXSAgICAg
+ICAgIHBhdGNoZXcvMjAyMDA5MjgwOTI3MDUuMzczMC0xLXdhbmd6aGlxaWFuZy5iakBieXRlZGFu
+Y2UuY29tIC0+IHBhdGNoZXcvMjAyMDA5MjgwOTI3MDUuMzczMC0xLXdhbmd6aGlxaWFuZy5iakBi
+eXRlZGFuY2UuY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDA5MjgxMjU4NTku
+NzM0Mjg3LTEtcGhpbG1kQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMDkyODEyNTg1OS43MzQy
+ODctMS1waGlsbWRAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAw
+OTI4MTMxOTM0LjczOTQ1MS0xLXBoaWxtZEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDA5Mjgx
+MzE5MzQuNzM5NDUxLTEtcGhpbG1kQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNo
+ICd0ZXN0Jwo5ZDQyYzZiIHMzOTB4L3RjZzogSW1wbGVtZW50IENJUEhFUiBNRVNTQUdFIFdJVEgg
+QVVUSEVOVElDQVRJT04gKEtNQSkKMzNiYjQyNiBzMzkweC90Y2c6IFdlIHN1cHBvcnQgTWlzY2Vs
+bGFuZW91cy1JbnN0cnVjdGlvbi1FeHRlbnNpb25zIEZhY2lsaXR5IDIKNzQ5ZjE4MyBzMzkweC90
+Y2c6IEltcGxlbWVudCBNVUxUSVBMWSBTSU5HTEUgKE1TQywgTVNHQywgTVNHUktDLCBNU1JLQykK
+NDhkODVlNiBzMzkweC90Y2c6IEltcGxlbWVudCBCUkFOQ0ggSU5ESVJFQ1QgT04gQ09ORElUSU9O
+IChCSUMpCmNlMDRlNzcgczM5MHgvdGNnOiBJbXBsZW1lbnQgTVVMVElQTFkgSEFMRldPUkQgKE1H
+SCkKOTZmOWM5YyBzMzkweC90Y2c6IEltcGxlbWVudCBNVUxUSVBMWSAoTUcsIE1HUkspCmZmNWIw
+NDcgczM5MHgvdGNnOiBJbXBsZW1lbnQgU1VCVFJBQ1QgSEFMRldPUkQgKFNHSCkKMThmMjA1NSBz
+MzkweC90Y2c6IEltcGxlbWVudCBBREQgSEFMRldPUkQgKEFHSCkKNzUzM2Q4ZiBzMzkweC9jcHVf
+bW9kZWw6IFMzOTBfRkVBVF9NSVNDX0lOU1RSVUNUSU9OX0VYVCAtPiBTMzkwX0ZFQVRfTUlTQ19J
+TlNUUlVDVElPTl9FWFQyCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzkgQ2hlY2tpbmcgY29tbWl0
+IDc1MzNkOGZkN2NhMSAoczM5MHgvY3B1X21vZGVsOiBTMzkwX0ZFQVRfTUlTQ19JTlNUUlVDVElP
+Tl9FWFQgLT4gUzM5MF9GRUFUX01JU0NfSU5TVFJVQ1RJT05fRVhUMikKMi85IENoZWNraW5nIGNv
+bW1pdCAxOGYyMDU1NWVkNmYgKHMzOTB4L3RjZzogSW1wbGVtZW50IEFERCBIQUxGV09SRCAoQUdI
+KSkKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMzNDogRklMRTogdGFyZ2V0L3MzOTB4
+L3RyYW5zbGF0ZS5jOjYxMDE6CisjZGVmaW5lIEZBQ19NSUUyICAgICAgICBTMzkwX0ZFQVRfTUlT
+Q19JTlNUUlVDVElPTl9FWFQyIC8qIG1pc2NlbGxhbmVvdXMtaW5zdHJ1Y3Rpb24tZXh0ZW5zaW9u
+cyBmYWNpbGl0eSAyICovCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE0IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDIvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
+bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
+IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy85IENoZWNraW5n
+IGNvbW1pdCBmZjViMDQ3NjEyNWMgKHMzOTB4L3RjZzogSW1wbGVtZW50IFNVQlRSQUNUIEhBTEZX
+T1JEIChTR0gpKQo0LzkgQ2hlY2tpbmcgY29tbWl0IDk2ZjljOWNhYzBlNyAoczM5MHgvdGNnOiBJ
+bXBsZW1lbnQgTVVMVElQTFkgKE1HLCBNR1JLKSkKNS85IENoZWNraW5nIGNvbW1pdCBjZTA0ZTc3
+MzczZGIgKHMzOTB4L3RjZzogSW1wbGVtZW50IE1VTFRJUExZIEhBTEZXT1JEIChNR0gpKQo2Lzkg
+Q2hlY2tpbmcgY29tbWl0IDQ4ZDg1ZTY0MzZiYiAoczM5MHgvdGNnOiBJbXBsZW1lbnQgQlJBTkNI
+IElORElSRUNUIE9OIENPTkRJVElPTiAoQklDKSkKNy85IENoZWNraW5nIGNvbW1pdCA3NDlmMTgz
+YjliZTQgKHMzOTB4L3RjZzogSW1wbGVtZW50IE1VTFRJUExZIFNJTkdMRSAoTVNDLCBNU0dDLCBN
+U0dSS0MsIE1TUktDKSkKOC85IENoZWNraW5nIGNvbW1pdCAzM2JiNDI2NDY5ZmQgKHMzOTB4L3Rj
+ZzogV2Ugc3VwcG9ydCBNaXNjZWxsYW5lb3VzLUluc3RydWN0aW9uLUV4dGVuc2lvbnMgRmFjaWxp
+dHkgMikKOS85IENoZWNraW5nIGNvbW1pdCA5ZDQyYzZiN2YxZjggKHMzOTB4L3RjZzogSW1wbGVt
+ZW50IENJUEhFUiBNRVNTQUdFIFdJVEggQVVUSEVOVElDQVRJT04gKEtNQSkpCj09PSBPVVRQVVQg
+RU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cg
+aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwOTI4MTIyNzE3LjMw
+NTg2LTEtZGF2aWRAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
+LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
+Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
+ZGhhdC5jb20=
 
