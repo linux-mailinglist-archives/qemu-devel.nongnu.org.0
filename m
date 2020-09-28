@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5124727AF19
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:32:34 +0200 (CEST)
-Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9124427AF27
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:37:10 +0200 (CEST)
+Received: from localhost ([::1]:35202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMtGb-0005Vn-BO
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:32:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59640)
+	id 1kMtL3-0000kt-Ck
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1O-0004n9-IA
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26690)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1X-00058O-2e
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1M-0002Vh-BL
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:50 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kMt1U-0002Wf-R6
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:16:58 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601299007;
+ s=mimecast20190719; t=1601299016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+aw3n+SUA1rcEWZ1AuT1xh5fxTYW7c7q5skyURMwx7k=;
- b=hWrSldjANJRy4yMr9kWtz1FwXbTn71If5PbKUT0LYU0aql8bxhBPQmACFCFj1e+15nlvi1
- /XxRhKhje12fQv5ZGRy5LzAGI9HBEaY8Zlhoea9wztSs77fGCGZxIHR362k3KdARUQG9sL
- FSaedIKWMzcblGtvWDZLPiUwQJdQ8iQ=
+ bh=KcMH1Z9iD7wiLLoErtbSM8e7hIQfnJtCz/BdBnjIoDE=;
+ b=E9hXj/ttOOKVUCJG6roNSkkTk8AnquaBKgaze5C7IfMgcrf37nDuoW+18NLxDSOAxZb4Si
+ DeRqeuwLimqYpl14P32V178NwM3KUSTKJ+WWgzWgb8orkp2HGjx4Y6CLfOq83n1kt5L3Re
+ TLGwyaCTI5GqokblaDJbQMteUA+/YwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-E8rbvN3dPN-Ck1seOOtAHw-1; Mon, 28 Sep 2020 09:16:43 -0400
-X-MC-Unique: E8rbvN3dPN-Ck1seOOtAHw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-594-Id_Xj7YtP72JGDc9kX_n4A-1; Mon, 28 Sep 2020 09:16:52 -0400
+X-MC-Unique: Id_Xj7YtP72JGDc9kX_n4A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC656AD514;
- Mon, 28 Sep 2020 13:16:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50C161835A00;
+ Mon, 28 Sep 2020 13:16:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53A2960C11;
- Mon, 28 Sep 2020 13:16:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BFABD55771;
+ Mon, 28 Sep 2020 13:16:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 59F0140830; Mon, 28 Sep 2020 15:16:38 +0200 (CEST)
+ id 9353E40845; Mon, 28 Sep 2020 15:16:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] usb/hcd-xhci: Make dma read/writes hooks pci free
-Date: Mon, 28 Sep 2020 15:16:34 +0200
-Message-Id: <20200928131638.9486-2-kraxel@redhat.com>
+Subject: [PULL 5/5] hw/usb: Use lock guard macros
+Date: Mon, 28 Sep 2020 15:16:38 +0200
+Message-Id: <20200928131638.9486-6-kraxel@redhat.com>
 In-Reply-To: <20200928131638.9486-1-kraxel@redhat.com>
 References: <20200928131638.9486-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
@@ -81,161 +81,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+Cc: Amey Narkhede <ameynarkhede03@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+From: Amey Narkhede <ameynarkhede03@gmail.com>
 
-This patch starts making the hcd-xhci.c pci free, as part of this
-restructuring dma read/writes are handled without passing pci object.
+Use qemu LOCK_GUARD macros from "qemu/lockable.h" in
+hw/usb/ccid-card-emulated.c, saves manual unlock calls.
 
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 1600957256-6494-2-git-send-email-sai.pavan.boddu@xilinx.com
+Signed-off-by: Amey Narkhede <ameynarkhede03@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200923134327.576139-1-ameynarkhede03@gmail.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-xhci.h |  1 +
- hw/usb/hcd-xhci.c | 24 +++++++++++-------------
- 2 files changed, 12 insertions(+), 13 deletions(-)
+ hw/usb/ccid-card-emulated.c | 54 ++++++++++++++++++-------------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
-index c3dfc1440590..c8a8ae4c34eb 100644
---- a/hw/usb/hcd-xhci.h
-+++ b/hw/usb/hcd-xhci.h
-@@ -188,6 +188,7 @@ struct XHCIState {
+diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
+index 5e4649d36700..2d566f7db104 100644
+--- a/hw/usb/ccid-card-emulated.c
++++ b/hw/usb/ccid-card-emulated.c
+@@ -30,6 +30,7 @@
+ #include <libcacard.h>
  
-     USBBus bus;
-     MemoryRegion mem;
-+    AddressSpace *as;
-     MemoryRegion mem_cap;
-     MemoryRegion mem_oper;
-     MemoryRegion mem_runtime;
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 46a2186d912a..254cf1ead4b5 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -495,7 +495,7 @@ static inline void xhci_dma_read_u32s(XHCIState *xhci, dma_addr_t addr,
- 
-     assert((len % sizeof(uint32_t)) == 0);
- 
--    pci_dma_read(PCI_DEVICE(xhci), addr, buf, len);
-+    dma_memory_read(xhci->as, addr, buf, len);
- 
-     for (i = 0; i < (len / sizeof(uint32_t)); i++) {
-         buf[i] = le32_to_cpu(buf[i]);
-@@ -515,7 +515,7 @@ static inline void xhci_dma_write_u32s(XHCIState *xhci, dma_addr_t addr,
-     for (i = 0; i < n; i++) {
-         tmp[i] = cpu_to_le32(buf[i]);
-     }
--    pci_dma_write(PCI_DEVICE(xhci), addr, tmp, len);
-+    dma_memory_write(xhci->as, addr, tmp, len);
- }
- 
- static XHCIPort *xhci_lookup_port(XHCIState *xhci, struct USBPort *uport)
-@@ -644,7 +644,6 @@ static void xhci_die(XHCIState *xhci)
- 
- static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
- {
--    PCIDevice *pci_dev = PCI_DEVICE(xhci);
-     XHCIInterrupter *intr = &xhci->intr[v];
-     XHCITRB ev_trb;
-     dma_addr_t addr;
-@@ -663,7 +662,7 @@ static void xhci_write_event(XHCIState *xhci, XHCIEvent *event, int v)
-                                ev_trb.status, ev_trb.control);
- 
-     addr = intr->er_start + TRB_SIZE*intr->er_ep_idx;
--    pci_dma_write(pci_dev, addr, &ev_trb, TRB_SIZE);
-+    dma_memory_write(xhci->as, addr, &ev_trb, TRB_SIZE);
- 
-     intr->er_ep_idx++;
-     if (intr->er_ep_idx >= intr->er_size) {
-@@ -720,12 +719,11 @@ static void xhci_ring_init(XHCIState *xhci, XHCIRing *ring,
- static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
-                                dma_addr_t *addr)
- {
--    PCIDevice *pci_dev = PCI_DEVICE(xhci);
-     uint32_t link_cnt = 0;
- 
-     while (1) {
-         TRBType type;
--        pci_dma_read(pci_dev, ring->dequeue, trb, TRB_SIZE);
-+        dma_memory_read(xhci->as, ring->dequeue, trb, TRB_SIZE);
-         trb->addr = ring->dequeue;
-         trb->ccs = ring->ccs;
-         le64_to_cpus(&trb->parameter);
-@@ -762,7 +760,6 @@ static TRBType xhci_ring_fetch(XHCIState *xhci, XHCIRing *ring, XHCITRB *trb,
- 
- static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
- {
--    PCIDevice *pci_dev = PCI_DEVICE(xhci);
-     XHCITRB trb;
-     int length = 0;
-     dma_addr_t dequeue = ring->dequeue;
-@@ -773,7 +770,7 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
- 
-     while (1) {
-         TRBType type;
--        pci_dma_read(pci_dev, dequeue, &trb, TRB_SIZE);
-+        dma_memory_read(xhci->as, dequeue, &trb, TRB_SIZE);
-         le64_to_cpus(&trb.parameter);
-         le32_to_cpus(&trb.status);
-         le32_to_cpus(&trb.control);
-@@ -828,7 +825,7 @@ static void xhci_er_reset(XHCIState *xhci, int v)
-         xhci_die(xhci);
-         return;
-     }
--    pci_dma_read(PCI_DEVICE(xhci), erstba, &seg, sizeof(seg));
-+    dma_memory_read(xhci->as, erstba, &seg, sizeof(seg));
-     le32_to_cpus(&seg.addr_low);
-     le32_to_cpus(&seg.addr_high);
-     le32_to_cpus(&seg.size);
-@@ -1440,7 +1437,7 @@ static int xhci_xfer_create_sgl(XHCITransfer *xfer, int in_xfer)
-     int i;
- 
-     xfer->int_req = false;
--    pci_dma_sglist_init(&xfer->sgl, PCI_DEVICE(xhci), xfer->trb_count);
-+    qemu_sglist_init(&xfer->sgl, DEVICE(xhci), xfer->trb_count, xhci->as);
-     for (i = 0; i < xfer->trb_count; i++) {
-         XHCITRB *trb = &xfer->trbs[i];
-         dma_addr_t addr;
-@@ -2104,7 +2101,7 @@ static TRBCCode xhci_address_slot(XHCIState *xhci, unsigned int slotid,
-     assert(slotid >= 1 && slotid <= xhci->numslots);
- 
-     dcbaap = xhci_addr64(xhci->dcbaap_low, xhci->dcbaap_high);
--    poctx = ldq_le_pci_dma(PCI_DEVICE(xhci), dcbaap + 8 * slotid);
-+    poctx = ldq_le_dma(xhci->as, dcbaap + 8 * slotid);
-     ictx = xhci_mask64(pictx);
-     octx = xhci_mask64(poctx);
- 
-@@ -2442,7 +2439,7 @@ static TRBCCode xhci_get_port_bandwidth(XHCIState *xhci, uint64_t pctx)
-     /* TODO: actually implement real values here */
-     bw_ctx[0] = 0;
-     memset(&bw_ctx[1], 80, xhci->numports); /* 80% */
--    pci_dma_write(PCI_DEVICE(xhci), ctx, bw_ctx, sizeof(bw_ctx));
-+    dma_memory_write(xhci->as, ctx, bw_ctx, sizeof(bw_ctx));
- 
-     return CC_SUCCESS;
- }
-@@ -3434,6 +3431,7 @@ static void usb_xhci_realize(struct PCIDevice *dev, Error **errp)
-     }
- 
-     usb_xhci_init(xhci);
-+    xhci->as = pci_get_address_space(dev);
-     xhci->mfwrap_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, xhci_mfwrap_timer, xhci);
- 
-     memory_region_init(&xhci->mem, OBJECT(xhci), "xhci", LEN_REGS);
-@@ -3534,7 +3532,7 @@ static int usb_xhci_post_load(void *opaque, int version_id)
-             continue;
+ #include "qemu/thread.h"
++#include "qemu/lockable.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "ccid.h"
+@@ -244,34 +245,34 @@ static void *handle_apdu_thread(void* arg)
+             card->quit_apdu_thread = 0; /* debugging */
+             break;
          }
-         slot->ctx =
--            xhci_mask64(ldq_le_pci_dma(pci_dev, dcbaap + 8 * slotid));
-+            xhci_mask64(ldq_le_dma(xhci->as, dcbaap + 8 * slotid));
-         xhci_dma_read_u32s(xhci, slot->ctx, slot_ctx, sizeof(slot_ctx));
-         slot->uport = xhci_lookup_uport(xhci, slot_ctx);
-         if (!slot->uport) {
+-        qemu_mutex_lock(&card->vreader_mutex);
+-        while (!QSIMPLEQ_EMPTY(&card->guest_apdu_list)) {
+-            event = QSIMPLEQ_FIRST(&card->guest_apdu_list);
+-            assert((unsigned long)event > 1000);
+-            QSIMPLEQ_REMOVE_HEAD(&card->guest_apdu_list, entry);
+-            if (event->p.data.type != EMUL_GUEST_APDU) {
+-                DPRINTF(card, 1, "unexpected message in handle_apdu_thread\n");
++        WITH_QEMU_LOCK_GUARD(&card->vreader_mutex) {
++            while (!QSIMPLEQ_EMPTY(&card->guest_apdu_list)) {
++                event = QSIMPLEQ_FIRST(&card->guest_apdu_list);
++                assert((unsigned long)event > 1000);
++                QSIMPLEQ_REMOVE_HEAD(&card->guest_apdu_list, entry);
++                if (event->p.data.type != EMUL_GUEST_APDU) {
++                    DPRINTF(card, 1, "unexpected message in handle_apdu_thread\n");
++                    g_free(event);
++                    continue;
++                }
++                if (card->reader == NULL) {
++                    DPRINTF(card, 1, "reader is NULL\n");
++                    g_free(event);
++                    continue;
++                }
++                recv_len = sizeof(recv_data);
++                reader_status = vreader_xfr_bytes(card->reader,
++                        event->p.data.data, event->p.data.len,
++                        recv_data, &recv_len);
++                DPRINTF(card, 2, "got back apdu of length %d\n", recv_len);
++                if (reader_status == VREADER_OK) {
++                    emulated_push_response_apdu(card, recv_data, recv_len);
++                } else {
++                    emulated_push_error(card, reader_status);
++                }
+                 g_free(event);
+-                continue;
+             }
+-            if (card->reader == NULL) {
+-                DPRINTF(card, 1, "reader is NULL\n");
+-                g_free(event);
+-                continue;
+-            }
+-            recv_len = sizeof(recv_data);
+-            reader_status = vreader_xfr_bytes(card->reader,
+-                    event->p.data.data, event->p.data.len,
+-                    recv_data, &recv_len);
+-            DPRINTF(card, 2, "got back apdu of length %d\n", recv_len);
+-            if (reader_status == VREADER_OK) {
+-                emulated_push_response_apdu(card, recv_data, recv_len);
+-            } else {
+-                emulated_push_error(card, reader_status);
+-            }
+-            g_free(event);
+         }
+-        qemu_mutex_unlock(&card->vreader_mutex);
+     }
+     return NULL;
+ }
+@@ -365,7 +366,7 @@ static void card_event_handler(EventNotifier *notifier)
+     EmulEvent *event, *next;
+ 
+     event_notifier_test_and_clear(&card->notifier);
+-    qemu_mutex_lock(&card->event_list_mutex);
++    QEMU_LOCK_GUARD(&card->event_list_mutex);
+     QSIMPLEQ_FOREACH_SAFE(event, &card->event_list, entry, next) {
+         DPRINTF(card, 2, "event %s\n", emul_event_to_string(event->p.gen.type));
+         switch (event->p.gen.type) {
+@@ -398,7 +399,6 @@ static void card_event_handler(EventNotifier *notifier)
+         g_free(event);
+     }
+     QSIMPLEQ_INIT(&card->event_list);
+-    qemu_mutex_unlock(&card->event_list_mutex);
+ }
+ 
+ static int init_event_notifier(EmulatedState *card, Error **errp)
 -- 
 2.27.0
 
