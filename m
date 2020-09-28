@@ -2,45 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E564B27AEEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:17:44 +0200 (CEST)
-Received: from localhost ([::1]:41360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9654227AEBF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 15:11:46 +0200 (CEST)
+Received: from localhost ([::1]:49690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMt2F-0004jr-UP
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:17:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56312)
+	id 1kMswT-0004f7-LC
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 09:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMsoi-0006gR-PQ; Mon, 28 Sep 2020 09:03:44 -0400
-Received: from relay.sw.ru ([185.231.240.75]:59402 helo=relay3.sw.ru)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kMsm8-0004hM-Uh
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:01:04 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:35066 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMsog-0000id-6n; Mon, 28 Sep 2020 09:03:44 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kMso6-001tba-H5; Mon, 28 Sep 2020 16:03:06 +0300
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
- stefanha@redhat.com, fam@euphon.net, jsnow@redhat.com, armbru@redhat.com,
- eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
- andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v9 8/9] block: remove unused backing-file name parameter
-Date: Mon, 28 Sep 2020 16:00:00 +0300
-Message-Id: <1601298001-774096-9-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1601298001-774096-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1601298001-774096-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 09:00:28
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kMsm3-0000EF-IJ
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 09:01:04 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 8E0D6C31EF5B88D17BD7;
+ Mon, 28 Sep 2020 21:00:44 +0800 (CST)
+Received: from [10.174.186.4] (10.174.186.4) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0;
+ Mon, 28 Sep 2020 21:00:36 +0800
+Subject: Re: [PATCH] migration/dirtyrate: present dirty rate only when
+ querying the rate has completed
+To: David Edmondson <david.edmondson@oracle.com>, <quintela@redhat.com>,
+ <eblake@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
+References: <1601182520-130450-1-git-send-email-zhengchuan@huawei.com>
+ <m2mu1af5uj.fsf@oracle.com>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <a4a04f59-a230-08f7-96bf-9518e0e0ee8b@huawei.com>
+Date: Mon, 28 Sep 2020 21:00:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <m2mu1af5uj.fsf@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.4]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 09:00:45
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,187 +65,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alex.chen@huawei.com, wanghao232@huawei.com, zhang.zhanghailiang@huawei.com,
+ xiexiangyou@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-The block stream QMP parameter backing-file is in use no more. It
-designates a backing file name to set in QCOW2 image header after the
-block stream job finished. The base file name is used instead.
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- block/monitor/block-hmp-cmds.c |  2 +-
- block/stream.c                 |  6 +-----
- blockdev.c                     | 17 +----------------
- include/block/block_int.h      |  2 +-
- qapi/block-core.json           | 17 +----------------
- 5 files changed, 5 insertions(+), 39 deletions(-)
 
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index 4e66775..5f19499 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -506,7 +506,7 @@ void hmp_block_stream(Monitor *mon, const QDict *qdict)
-     int64_t speed = qdict_get_try_int(qdict, "speed", 0);
- 
-     qmp_block_stream(true, device, device, base != NULL, base, false, NULL,
--                     false, NULL, qdict_haskey(qdict, "speed"), speed, true,
-+                     qdict_haskey(qdict, "speed"), speed, true,
-                      BLOCKDEV_ON_ERROR_REPORT, false, NULL, false, false, false,
-                      false, &error);
- 
-diff --git a/block/stream.c b/block/stream.c
-index b0719e9..fe2663f 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -34,7 +34,6 @@ typedef struct StreamBlockJob {
-     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
-     BlockDriverState *above_base;   /* Node directly above the base */
-     BlockdevOnError on_error;
--    char *backing_file_str;
-     bool bs_read_only;
-     bool chain_frozen;
- } StreamBlockJob;
-@@ -103,8 +102,6 @@ static void stream_clean(Job *job)
-         blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
-         bdrv_reopen_set_read_only(bs, true, NULL);
-     }
--
--    g_free(s->backing_file_str);
- }
- 
- static int coroutine_fn stream_run(Job *job, Error **errp)
-@@ -220,7 +217,7 @@ static const BlockJobDriver stream_job_driver = {
- };
- 
- void stream_start(const char *job_id, BlockDriverState *bs,
--                  BlockDriverState *base, const char *backing_file_str,
-+                  BlockDriverState *base,
-                   int creation_flags, int64_t speed,
-                   BlockdevOnError on_error,
-                   const char *filter_node_name,
-@@ -295,7 +292,6 @@ void stream_start(const char *job_id, BlockDriverState *bs,
- 
-     s->base_overlay = base_overlay;
-     s->above_base = above_base;
--    s->backing_file_str = g_strdup(backing_file_str);
-     s->bs_read_only = bs_read_only;
-     s->chain_frozen = true;
- 
-diff --git a/blockdev.c b/blockdev.c
-index d719c47..b223601 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2486,7 +2486,6 @@ out:
- void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-                       bool has_base, const char *base,
-                       bool has_base_node, const char *base_node,
--                      bool has_backing_file, const char *backing_file,
-                       bool has_speed, int64_t speed,
-                       bool has_on_error, BlockdevOnError on_error,
-                       bool has_filter_node_name, const char *filter_node_name,
-@@ -2498,7 +2497,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-     BlockDriverState *base_bs = NULL;
-     AioContext *aio_context;
-     Error *local_err = NULL;
--    const char *base_name = NULL;
-     int job_flags = JOB_DEFAULT;
- 
-     if (!has_on_error) {
-@@ -2526,7 +2524,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-             goto out;
-         }
-         assert(bdrv_get_aio_context(base_bs) == aio_context);
--        base_name = base;
-     }
- 
-     if (has_base_node) {
-@@ -2541,7 +2538,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         }
-         assert(bdrv_get_aio_context(base_bs) == aio_context);
-         bdrv_refresh_filename(base_bs);
--        base_name = base_bs->filename;
-     }
- 
-     /* Check for op blockers in the whole chain between bs and base */
-@@ -2553,17 +2549,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         }
-     }
- 
--    /* if we are streaming the entire chain, the result will have no backing
--     * file, and specifying one is therefore an error */
--    if (base_bs == NULL && has_backing_file) {
--        error_setg(errp, "backing file specified, but streaming the "
--                         "entire chain");
--        goto out;
--    }
--
--    /* backing_file string overrides base bs filename */
--    base_name = has_backing_file ? backing_file : base_name;
--
-     if (has_auto_finalize && !auto_finalize) {
-         job_flags |= JOB_MANUAL_FINALIZE;
-     }
-@@ -2571,7 +2556,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         job_flags |= JOB_MANUAL_DISMISS;
-     }
- 
--    stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
-+    stream_start(has_job_id ? job_id : NULL, bs, base_bs,
-                  job_flags, has_speed ? speed : 0, on_error,
-                  filter_node_name, &local_err);
-     if (local_err) {
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index f782737..bbe2ee6 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1147,7 +1147,7 @@ int is_windows_drive(const char *filename);
-  * BlockDriverState.
-  */
- void stream_start(const char *job_id, BlockDriverState *bs,
--                  BlockDriverState *base, const char *backing_file_str,
-+                  BlockDriverState *base,
-                   int creation_flags, int64_t speed,
-                   BlockdevOnError on_error,
-                   const char *filter_node_name,
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 32fb097..6358606 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2512,21 +2512,6 @@
- # @base-node: the node name of the backing file.
- #             It cannot be set if @base is also set. (Since 2.8)
- #
--# @backing-file: The backing file string to write into the top
--#                image. This filename is not validated.
--#
--#                If a pathname string is such that it cannot be
--#                resolved by QEMU, that means that subsequent QMP or
--#                HMP commands must use node-names for the image in
--#                question, as filename lookup methods will fail.
--#
--#                If not specified, QEMU will automatically determine
--#                the backing file string to use, or error out if there
--#                is no obvious choice.  Care should be taken when
--#                specifying the string, to specify a valid filename or
--#                protocol.
--#                (Since 2.1)
--#
- # @speed: the maximum speed, in bytes per second
- #
- # @on-error: the action to take on an error (default report).
-@@ -2566,7 +2551,7 @@
- ##
- { 'command': 'block-stream',
-   'data': { '*job-id': 'str', 'device': 'str', '*base': 'str',
--            '*base-node': 'str', '*backing-file': 'str', '*speed': 'int',
-+            '*base-node': 'str', '*speed': 'int',
-             '*on-error': 'BlockdevOnError',
-             '*filter-node-name': 'str',
-             '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
--- 
-1.8.3.1
+On 2020/9/28 20:23, David Edmondson wrote:
+> On Sunday, 2020-09-27 at 12:55:20 +08, Chuan Zheng wrote:
+> 
+>> Make dirty_rate field optional, present dirty rate only when querying
+>> the rate has completed.
+>> The qmp results is shown as follow:
+>> @unstarted:
+>> {"return":{"status":"unstarted","start-time":0,"calc-time":0},"id":"libvirt-12"}
+>> @measuring:
+>> {"return":{"status":"measuring","start-time":0,"calc-time":0},"id":"libvirt-14"}
+> 
+> Not this patch, but the "measuring" state could include both the
+> start-time and the calc-time, allowing a caller to determine when they
+> should expect to come back looking for a result.
+> 
+Hi, David.
+Yes, maybe we should record start-time and calc-time in reset_dirtyrate_stat() and move it forward just after
+setting CalculatingState status succeed in get_dirtyrate_thread.
 
+>> @measured:
+>> {"return":{"status":"measured","dirty-rate":4,"start-time":150146,"calc-time":1},"id":"libvirt-15"}
+>>
+>> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+> 
+> With the minor wording changes below...
+> 
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+> 
+>> ---
+>>  migration/dirtyrate.c | 3 +--
+>>  qapi/migration.json   | 9 ++++-----
+>>  2 files changed, 5 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+>> index 68577ef..9024b0f 100644
+>> --- a/migration/dirtyrate.c
+>> +++ b/migration/dirtyrate.c
+>> @@ -69,9 +69,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+>>      struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
+>>  
+>>      if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
+>> +        info->has_dirty_rate = true;
+>>          info->dirty_rate = dirty_rate;
+>> -    } else {
+>> -        info->dirty_rate = -1;
+>>      }
+>>  
+>>      info->status = CalculatingState;
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index ce2216c..6e428f7 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -1743,10 +1743,9 @@
+>>  #
+>>  # Information about current dirty page rate of vm.
+>>  #
+>> -# @dirty-rate: @dirtyrate describing the dirty page rate of vm
+>> -#          in units of MB/s.
+>> -#          If this field returns '-1', it means querying has not
+>> -#          yet started or completed.
+>> +# @dirty-rate: dirty-rate describing the dirty page rate of vm
+>> +#              in units of MB/s, present only when querying the
+>> +#              rate has completed.
+> 
+> How about:
+> 
+> @dirty-rate: an estimate of the dirty page rate of the VM in units of
+> 	     MB/s, present only when estimating the rate has completed.
+> 
+That's better, thanks.
+
+>>  #
+>>  # @status: status containing dirtyrate query status includes
+>>  #          'unstarted' or 'measuring' or 'measured'
+>> @@ -1759,7 +1758,7 @@
+>>  #
+>>  ##
+>>  { 'struct': 'DirtyRateInfo',
+>> -  'data': {'dirty-rate': 'int64',
+>> +  'data': {'*dirty-rate': 'int64',
+>>             'status': 'DirtyRateStatus',
+>>             'start-time': 'int64',
+>>             'calc-time': 'int64'} }
+>> -- 
+>> 1.8.3.1
+> 
+> dme.
+> 
 
