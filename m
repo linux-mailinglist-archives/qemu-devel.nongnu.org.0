@@ -2,144 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044F627A6E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 07:20:21 +0200 (CEST)
-Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAAA27A798
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 08:35:16 +0200 (CEST)
+Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMlaD-0003JN-1b
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 01:20:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55702)
+	id 1kMmkl-0007Tc-71
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 02:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luwei.kang@intel.com>)
- id 1kMlZB-0002t9-RH
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 01:19:13 -0400
-Received: from mga01.intel.com ([192.55.52.88]:6349)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kMmjD-0006Q9-AX
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 02:33:39 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53431 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luwei.kang@intel.com>)
- id 1kMlZ9-0008Bn-3j
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 01:19:13 -0400
-IronPort-SDR: fZOG20uTffqWqCYJu93SBV749Yy57mKOegFzQ1INOIR4YVSt8GN52IDTcthgLfmfumvWohJ9z8
- Kib2iHFkh2BA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9757"; a="180096693"
-X-IronPort-AV: E=Sophos;i="5.77,312,1596524400"; d="scan'208";a="180096693"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2020 22:19:04 -0700
-IronPort-SDR: Df4gDXJqi08DE/Mfp28+PM5DkwvDtSyFpCQXWEjUlCLoWhrcSxYYtYhxt5uUPJBQpJXjRld5tC
- lNUTWmuKoDyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,312,1596524400"; d="scan'208";a="349724033"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by FMSMGA003.fm.intel.com with ESMTP; 27 Sep 2020 22:19:04 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 27 Sep 2020 22:19:04 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 27 Sep 2020 22:19:03 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Sun, 27 Sep 2020 22:19:03 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Sun, 27 Sep 2020 22:19:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PO034Q5G2jA2GGVpwdhNxqlacCY8hdl1nMMEpIjBGYxv66KC3Wg0SC19M+EbbefQipuKHEEqf4JNvycsprNl7k8LI4Cp8VFEEB9rHu+QY9IXoJ9qWfBqMqyQO1RzUUjCM6F7uEb4km2LuvJi8+cN0rewbIy1G3iCfSz9eXnPlRftf9T7pW4oDiPnJLGGOONngiRw4dBoG8ef2p6OFClgpNuDFK3KOkSr3xrD34oh7XEI9aDndqDR1UuyY2guliiOQO6Gt02LOKghujeaYOO+5yCKNaIfLPeOiPWD374BtfK7hJ2V+Ts1g1/10PmzJa4oijc+zR+L54PGX7VG5xDqvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8clcFagS9u4IUVqiTfwbavStG1QwdwT6vS9tkJEX+gI=;
- b=djDxDgopvgPPMhzK8Zd2VF+UO+ewMuXk7mxsyt2IVyRBMhw7OKTBa+hi1py346QUE0aaeXAD51i/ROy/DhGHecLsQze7D+4obCKMow3O3HnvOGD7ONJOLuL2GT9GErsumey7/E9FXa+jSiE7xg8WncPzMiBMBMep4SG3oeTsteVnqk/GX8u9F7sdTRVHXHHX2N2mfAzNTBWlsn/Yay6DfTdLTTIwgvgBj+slesigjcZdRhQeGj6L8ZfdgPjZjDcPnukxl0sLTyBCUS3eyIx0eA8BWyuRcaavfpyem2m3uPOxQVUAEY4L66419OQBW7seKkhMdN3DksgI/WU3nn+Csg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8clcFagS9u4IUVqiTfwbavStG1QwdwT6vS9tkJEX+gI=;
- b=sEW5EY5OJ784oaxQSrwsWkH6G+nqasOgwTGDXc+hsDymW37dA85M6yLUpFoOHdkNAWkOFHzVH5yR9fri6B2I68Iu8/u0I0qRS7IF77AX64EWAg9NmDGmA/90aeOwdYng6xOjG5KjxKb7l9JMcflKzNHJPEP11j+roSwr3cNPvgY=
-Received: from CY4PR11MB1447.namprd11.prod.outlook.com (2603:10b6:910:10::16)
- by CY4PR11MB1446.namprd11.prod.outlook.com (2603:10b6:910:a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20; Mon, 28 Sep
- 2020 05:19:02 +0000
-Received: from CY4PR11MB1447.namprd11.prod.outlook.com
- ([fe80::e973:a623:3d68:7669]) by CY4PR11MB1447.namprd11.prod.outlook.com
- ([fe80::e973:a623:3d68:7669%4]) with mapi id 15.20.3412.028; Mon, 28 Sep 2020
- 05:19:02 +0000
-From: "Kang, Luwei" <luwei.kang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: RE: [PATCH v1 1/3] i386: Remove the limitation of IP payloads for
- Intel PT
-Thread-Topic: [PATCH v1 1/3] i386: Remove the limitation of IP payloads for
- Intel PT
-Thread-Index: AQHV6xftvSMRfFRc8kimWdtr0uia4ql62AeAgAAHfACAAANNgIAAOo2AgAABtgCAAAL4AIADspyA
-Date: Mon, 28 Sep 2020 05:19:01 +0000
-Message-ID: <CY4PR11MB1447C4CA6B6D455EE33F724D80350@CY4PR11MB1447.namprd11.prod.outlook.com>
-References: <1582580312-19864-1-git-send-email-luwei.kang@intel.com>
- <1582580312-19864-2-git-send-email-luwei.kang@intel.com>
- <20200925161539.GS3717385@habkost.net>
- <MW3PR11MB46655375CAECC74BA2D7CAECF2360@MW3PR11MB4665.namprd11.prod.outlook.com>
- <20200925165415.GT3717385@habkost.net>
- <036ba624-670c-d6b7-721c-ad5c9d648c1f@redhat.com>
- <20200925202956.GV3717385@habkost.net>
- <db31a0fa-c6cf-4730-6d64-f81228948d30@redhat.com>
-In-Reply-To: <db31a0fa-c6cf-4730-6d64-f81228948d30@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.55.46.36]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 363196a0-332b-46b0-b49d-08d8636e02f9
-x-ms-traffictypediagnostic: CY4PR11MB1446:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR11MB14463FBBBFE1E285A4B4A0E080350@CY4PR11MB1446.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: punhQ7goFviL2AbH+3aMWMoJ2WfiYqMUgbMxjJsa4lYN41R7C+ZaCjouZMBri8rj/95DCgqPUSG+sggVBoLpEdgyTa0dcgP6sW2aW9MoYRWLuChY+YmSFqiRtpxbIr2+VwH/4MQQl5iCfyfue3lMdg5RLx5Mvk/WdfZOlGYYWYF5RsZ83KhLxebfbkB9sIXFU8UMBzTGKY2grsGX9wbx2E3/wRUfAGVgcQdxNVk4BrN2i6W/je/eFIZcZ4xCB0jp/R2LacJN9J3FANBjSzGZVebKdu7cDrp9zuCxKb2azYTDSn9Tv0wAp9OJrEEByeFBMIbYrL4PqMeTCM4I2blrh3vtZg7c2OqZWKEEP8tJURhg9SMx8Vu7nelVeESeiHS4
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR11MB1447.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(376002)(136003)(346002)(366004)(76116006)(66446008)(64756008)(4326008)(8676002)(4744005)(66556008)(66476007)(66946007)(83380400001)(54906003)(7696005)(55016002)(8936002)(316002)(9686003)(52536014)(478600001)(186003)(26005)(110136005)(5660300002)(86362001)(71200400001)(33656002)(6506007)(2906002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: zS7JPgYSJRgvbVUIYxXS0ugy/c/azzS2o4sbiSpBw8G7SXuWOEPkrdprjWrON4P2XeryOK4G8bq4WlMGw9pgPJw6w4EReRlirBR+ol+ugmBTQ/b2j0u4q/GattVbUUpbf4n3d31MNMz5tbYHNJ68qLnlm1TRyO7QHVv170HyQQj2T9mqX5L9Xv+ZapvqC4Q8nZIeJmOtJQfp/9x9LXLXyFnvmixuimug9DRddmMYAVCbgHVxxzu4wCdyxOCUUe/A22XsKWZSkY+oniRQDac9iqpcoIEk4hF053AlaVkMW0wcDPf/tFav4WcX3tOdxWs3Q9U0/FjR8XZmyEZ1BGHlJcf6QmJJcKXGuaJ4FERwKVQUapu4C6WvTAwNVbhKvWDc4PXplWM0+IcOQyaOHSF6eqcNRrk6MHsBiCGUQuV+4Cp62zUAX4tQWZM0gA6j+0mzEb4U8ZO0nI4gEOvFOKR5ktLgZhVmJtSXkhiXb7BZTrsgWUMofqxlCJSr5v/uB35MzZt71kGYbdtZGP9lKG+tBnEQUKV4a8LdW5WZzvfbq+4TY5yQRUt9DEICbZG/fWotQwvK3Gb7aZJkhRpORaZwdTV1VSTftMZqRDS6cc45hjPPpJ/e9BM2/SsyVtIu5uKS/b/u2U92J60/8KGCHJx7fg==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kMmj9-0008Rv-2p
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 02:33:38 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4C0CQ76YkRz9sSJ; Mon, 28 Sep 2020 16:33:19 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1601274799;
+ bh=ITLREggAh4PGqLtAXcvlaTKws4QHnttnhRpgvWJXmS4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=meqDv+M8hxLXjdiEiYDeo902GntZE0DFrMgHLlwwnZbyFeD4Zn5q6dOUJLHh4SZs+
+ 5W5qACDmOtmWGEd5L8YWswalaftzqE8LE+12q7vJ4QS4bdL/ZakLM0PMokCG4AwW/6
+ kkFSuluFEfA26XdiTfzFy/2yKxE+8XRSDTTkXDhM=
+Date: Mon, 28 Sep 2020 16:23:43 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] vhost: Ignore vrings in dirty log when using a vIOMMU
+Message-ID: <20200928062343.GA501872@yekko.fritz.box>
+References: <160105498386.68108.2145229309875282336.stgit@bahia.lan>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1447.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 363196a0-332b-46b0-b49d-08d8636e02f9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2020 05:19:01.9517 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uNVxpRUtkLOpX851vrTEyw9LiauNDbsIKqvUdQfGkaM2drrr/ZzJ2TOxyFYrPP0UyUEU97vOlsDzBOU7crQJzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1446
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=luwei.kang@intel.com;
- helo=mga01.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 01:19:07
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HcAYCG3uE/tztfnV"
+Content-Disposition: inline
+In-Reply-To: <160105498386.68108.2145229309875282336.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.078,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -152,25 +61,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Strong,
- Beeman" <beeman.strong@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiA+PiBObywgaXQncyBub3QgcG9zc2libGUuICBLVk0gZG9lc24ndCBoYXZlIGEgc2F5IG9uIHdo
-YXQgdGhlIHByb2Nlc3Nvcg0KPiA+PiB3cml0ZXMgaW4gdGhlIHRyYWNpbmcgcGFja2V0cy4NCj4g
-PiBDYW4gS1ZNIHJlZnVzZSB0byBlbmFibGUgcGFja2V0IGdlbmVyYXRpb24gaWYgQ1NiYXNlIGlz
-IG5vdCB6ZXJvIGFuZA0KPiA+IENQVUlELihFQVg9MTRILEVDWD0wKVtiaXQgMzFdIHNlZW4gYnkg
-Z3Vlc3QgaXMgZGlmZmVyZW50IGZyb20gaG9zdD8NCj4gDQo+IFllcywgYnV0IHRoZSBwcm9jZXNz
-b3IgY291bGQgY2hhbmdlIG9wZXJhdGluZyBtb2RlIChhbmQgaGVuY2UgQ1NiYXNlKSB3aGlsZQ0K
-PiB0cmFjaW5nIGlzIGFjdGl2ZS4gIFRoaXMgaXMgdmVyeSB1bmxpa2VseSwgc2luY2UgaXQgd291
-bGQgcmVxdWlyZSBub256ZXJvIENTLWJhc2UNCj4gYW5kIGEgMzItYml0IGhvc3QsIGJ1dCBpbiBw
-cmluY2lwbGUgbm90IGltcG9zc2libGUgKGNvdWxkIGJlIGEgZmlybXdhcmUgY2FsbCwgZm9yDQo+
-IGV4YW1wbGUpLg0KPiANCj4gVGhlIG9ubHkgc29sdXRpb24gaXMgZm9yIEtWTSB0byBhY2NlcHQg
-Ym90aCwgYW5kIGZvciBRRU1VIHRvIHJlZnVzZSBhIHNldHRpbmcNCj4gdGhhdCBkb2VzIG5vdCBt
-YXRjaCB0aGUgaG9zdC4NCj4gDQoNClNvIEkgbmVlZCB0byBhZGQgYSBwYXRjaCBpbiBLVk0gdG8g
-ZGlzYWJsZWQgdGhlIEludGVsIFBUIHdoZW4gdGhlIENTYmFzZSBpcyBub3QgemVybyBhbmQgdGhl
-IGd1ZXN0IExJUCBkaWZmZXJlbnQgZnJvbSB0aGUgaG9zdC4gQW5kIHRoaXMgbGltaXRhdGlvbiBp
-biBxZW11IChkaXNhYmxlZCB0aGUgUFQgd2hlbiBMSVAgaXMgZW5hYmxlZCBpbiB0aGUgaG9zdCkg
-Y2FuIGJlIHJlbW92ZS4gSXMgdGhhdCByaWdodD8NCg0KVGhhbmtzLA0KTHV3ZWkgS2FuZyANCg0K
+
+--HcAYCG3uE/tztfnV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Sep 25, 2020 at 07:29:43PM +0200, Greg Kurz wrote:
+> When a vIOMMU is present, any address comming from the guest is an IO
+> virtual address, including those of the vrings. The backend's accesses
+> to the vrings happen through vIOMMU translation : the backend hence
+> only logs the final guest physical address, not the IO virtual one.
+> It thus doesn't make sense to make room for the vring addresses in the
+> dirty log in this case.
+>=20
+> This fixes a crash of the source when migrating a guest using in-kernel
+> vhost-net and iommu_platform=3Don on POWER, because DMA regions are put
+> at very high addresses and the resulting log size is likely to cause
+> g_malloc0() to abort.
+>=20
+> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1879349
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+I'm a little confused as to what's going on here.  Obviously
+allocating dirty bitmaps in IOVA space doesn't make much sense.
+But.. in all cases isn't the ring ending up in guest memory, whether
+translated or not.  So why do specific addresses of the ring make a
+difference in *any* case.
+
+> ---
+>  hw/virtio/vhost.c |   38 ++++++++++++++++++++++++--------------
+>  1 file changed, 24 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 1a1384e7a642..0b83d6b8e65e 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -106,6 +106,20 @@ static void vhost_dev_sync_region(struct vhost_dev *=
+dev,
+>      }
+>  }
+> =20
+> +static int vhost_dev_has_iommu(struct vhost_dev *dev)
+> +{
+> +    VirtIODevice *vdev =3D dev->vdev;
+> +
+> +    /*
+> +     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
+> +     * incremental memory mapping API via IOTLB API. For platform that
+> +     * does not have IOMMU, there's no need to enable this feature
+> +     * which may cause unnecessary IOTLB miss/update trnasactions.
+> +     */
+> +    return vdev->dma_as !=3D &address_space_memory &&
+> +           virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> +}
+> +
+>  static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
+>                                     MemoryRegionSection *section,
+>                                     hwaddr first,
+> @@ -130,6 +144,11 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev =
+*dev,
+>                                range_get_last(reg->guest_phys_addr,
+>                                               reg->memory_size));
+>      }
+> +
+> +    if (vhost_dev_has_iommu(dev)) {
+> +        return 0;
+> +    }
+> +
+>      for (i =3D 0; i < dev->nvqs; ++i) {
+>          struct vhost_virtqueue *vq =3D dev->vqs + i;
+> =20
+> @@ -172,6 +191,11 @@ static uint64_t vhost_get_log_size(struct vhost_dev =
+*dev)
+>                                         reg->memory_size);
+>          log_size =3D MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+>      }
+> +
+> +    if (vhost_dev_has_iommu(dev)) {
+> +        return log_size;
+> +    }
+> +
+>      for (i =3D 0; i < dev->nvqs; ++i) {
+>          struct vhost_virtqueue *vq =3D dev->vqs + i;
+> =20
+> @@ -287,20 +311,6 @@ static inline void vhost_dev_log_resize(struct vhost=
+_dev *dev, uint64_t size)
+>      dev->log_size =3D size;
+>  }
+> =20
+> -static int vhost_dev_has_iommu(struct vhost_dev *dev)
+> -{
+> -    VirtIODevice *vdev =3D dev->vdev;
+> -
+> -    /*
+> -     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
+> -     * incremental memory mapping API via IOTLB API. For platform that
+> -     * does not have IOMMU, there's no need to enable this feature
+> -     * which may cause unnecessary IOTLB miss/update trnasactions.
+> -     */
+> -    return vdev->dma_as !=3D &address_space_memory &&
+> -           virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> -}
+> -
+>  static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+>                                hwaddr *plen, bool is_write)
+>  {
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--HcAYCG3uE/tztfnV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl9xgW0ACgkQbDjKyiDZ
+s5IL8w//Uf1RV4h+wJcixaDGyaoK0AfEDKYa2x7bw/wJNF9cCGaLtZEdiUY7Ved1
+b3dFtMUO5FVeGYY8GhbehGcVRGp7B3xGpxCmWoVF8dWEiDfs0+B2vlzlOP46K9md
+lpc4oHkV+W8b4BXpYb34Vpib3i1b5AsBpvLkBYHm3JUnDtq1z3HDS5COkX04PC5b
+y63ROF3KsqFpQsYcZ7aY4cAQT3r+CYSWiiVi5nxKWag/GOEeIPkRrviLzsxPbiJP
+xU+64H+eYmrLqoP6unv2LELlIZUdWUlEOCdbBtcYSUPGRoYzGxEVf8TdCT+G1Wk/
+UnDLkWp/MxydEGpTEcsho8UX0TE9M9k6gxwAtgQ/zp3boUzMxXY0IurmdbYMwTG/
+OxizQmsX69fXYx/jfN5JuWZXf+oIDn5mF87j6cQXXNnL4KsnNDdqqdqJl+nmWoDk
+Wewzjk8404u7VIn2WbE2yz9/4+HvqM9V20vvhVYFUukkSbLb8Re9Aqv3dz96SAZh
+0h7p8l5vJKZ/XMsI6fhc471PQKc5Dqy1gGY54PTY1tpyBQfw3mJaaeNCrgOlVTMt
+GQDy+C2vLyFinZSurzvF0TNNlqKjCGswsbEf5KLSr17o4QH1hwgBZnzuHNUqJmk8
+nSCCFp7RrHHDgdU1TKcw6l4l5QvGVWt4NU1rSHfh/ZxzxVyB22k=
+=Trzw
+-----END PGP SIGNATURE-----
+
+--HcAYCG3uE/tztfnV--
 
