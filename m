@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADE127B1AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 18:19:37 +0200 (CEST)
-Received: from localhost ([::1]:53450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B3227B1C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 18:25:08 +0200 (CEST)
+Received: from localhost ([::1]:58278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMvsG-0003D3-JI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 12:19:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51428)
+	id 1kMvxb-0005gp-5D
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 12:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kMvqn-0001wD-6g
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 12:18:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kMvqj-0006R6-1l
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 12:18:02 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601309879;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MJqs61XpTMU8IbiDJZRxuDfgRkI0vvURgaitP0ZLsQQ=;
- b=bQj2vNhtcLSJRXf9EaORWwGU2gc0pINfvKjvrtu7fvMgWnzuDU3BHeUP4kREWuzhyCqCWh
- bYHSJhEMlZFzqs8352YIlXJ0/ymgGy0i9dBHwGEcx838hHQZxGpUAjSN5I1y/yjxIJ0FdV
- 5lqoyji7A2EjALhrfNN6TZYskzZC8KE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-dWxVSEuUMP2EnjZ2kIH7kA-1; Mon, 28 Sep 2020 12:17:47 -0400
-X-MC-Unique: dWxVSEuUMP2EnjZ2kIH7kA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5517800683;
- Mon, 28 Sep 2020 16:17:46 +0000 (UTC)
-Received: from localhost (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6CCC1002C01;
- Mon, 28 Sep 2020 16:17:45 +0000 (UTC)
-Date: Mon, 28 Sep 2020 17:17:45 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 2/3] nbd: Add new qemu:allocation-depth metacontext
-Message-ID: <20200928161745.GB30079@redhat.com>
-References: <20200925203249.155705-1-eblake@redhat.com>
- <20200925203249.155705-3-eblake@redhat.com>
- <20200926073308.GV3888@redhat.com>
- <d0290138-f9d9-86a1-faf7-34f3ef4218c2@redhat.com>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kMvwP-00058d-8i; Mon, 28 Sep 2020 12:23:53 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:43246)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kMvwN-00075N-0S; Mon, 28 Sep 2020 12:23:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=IoaT5jp+b0vzUhfQ6esOGTbBoedlkbWQPeidq+Vn7/c=; 
+ b=FeDB7fn22s2nO3etf6YzO1o6G/FF8NhOHvluREPEpXSV8I1F0XspvLaOz4n15nE2JiBE0ro5bBRxsvMYluyvfNtwSzoGk615is1kpXRJ4eG+jYRpU6WsZlpLULAyxbxo9zDsUKH2NqoHTVsrN37nbhfUWZ+g/cVcDNUebTTSe3VSKXixTyrj6BetQYm4YxaLmIVIe0K7fNJ5iVYI5oBW8zxFcJRQSVD4bqPcGkU84E4ogmAF1f3WeGreDZCN/8/qsczZYzgM22gztJFKukcV1jOhKxMg0JqWHGBUHrgPuO9n2Ft4o3y94p5vjO4eEA+8rKdyEHfAZovVV+h7nYhPQA==;
+Received: from [81.0.34.134] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1kMvwK-00035E-5t; Mon, 28 Sep 2020 18:23:48 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1kMvw7-0003vL-46; Mon, 28 Sep 2020 18:23:35 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qcow2: Use L1E_SIZE in qcow2_write_l1_entry()
+Date: Mon, 28 Sep 2020 18:23:33 +0200
+Message-Id: <20200928162333.14998-1-berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <d0290138-f9d9-86a1-faf7-34f3ef4218c2@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 11:34:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,66 +59,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, vsementsov@virtuozzo.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 28, 2020 at 09:33:22AM -0500, Eric Blake wrote:
-> On 9/26/20 2:33 AM, Richard W.M. Jones wrote:
-> >On Fri, Sep 25, 2020 at 03:32:48PM -0500, Eric Blake wrote:
-> >>+The second is related to exposing the source of various extents within
-> >>+the image, with a single context named:
-> >>+
-> >>+    qemu:allocation-depth
-> >>+
-> >>+In the allocation depth context, bits 0 and 1 form a tri-state value:
-> >>+
-> >>+    bits 0-1 clear: NBD_STATE_DEPTH_UNALLOC, means the extent is unallocated
-> >>+    bit 0 set: NBD_STATE_DEPTH_LOCAL, the extent is allocated in this image
-> >>+    bit 1 set: NBD_STATE_DEPTH_BACKING, the extent is inherited from a
-> >>+               backing layer
-> >
-> >>From the cover description I imagined it would show the actual depth, ie:
-> >
-> >          top -> backing -> backing -> backing
-> >  depth:   1        2         3   ....          (0 = unallocated)
-> >
-> >I wonder if that is possible?  (Perhaps there's something I don't
-> >understand here.)
-> 
-> The real reason I don't want to do a straight depth number is that
-> 'qemu-img map' combined with x-dirty-bitmap is still a very
-> convenient way to get at bits 0 and 1 (even if it requires
-> decoding).  But if we plumb in a way for bdrv_get_status to return
-> depth counts (rather than reimplementing the depth count ourselves),
-> I would have no problem with returning a struct:
-> 
-> bits 31-4: the depth of the chain
-> bits 3-2: reserved (to make reading hex values easier...)
-> bits 1-0: tri-state of unalloc, local, or backing
-> 
-> where it would look like:
-> 
-> 0x0000 -> unallocated
-> 0x0011 -> depth 1, local
-> 0x0022 -> depth 2, from the first backing layer
-> 0x0032 -> depth 3, from the second backing layer
-> 0x0042 ...
+We overlooked these in 02b1ecfa100e7ecc2306560cd27a4a2622bfeb04
 
-This looks nice too.  However I was only bikeshedding so if any of
-this is hard to do then don't worry too much.
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ block/qcow2-cluster.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Would like to add support for this map to nbdinfo too :-)
-
-Rich.
-
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 9acc6ce4ae..aa87d3e99b 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -240,14 +240,14 @@ int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
+     }
+ 
+     ret = qcow2_pre_write_overlap_check(bs, QCOW2_OL_ACTIVE_L1,
+-            s->l1_table_offset + 8 * l1_start_index, bufsize, false);
++            s->l1_table_offset + L1E_SIZE * l1_start_index, bufsize, false);
+     if (ret < 0) {
+         return ret;
+     }
+ 
+     BLKDBG_EVENT(bs->file, BLKDBG_L1_UPDATE);
+     ret = bdrv_pwrite_sync(bs->file,
+-                           s->l1_table_offset + 8 * l1_start_index,
++                           s->l1_table_offset + L1E_SIZE * l1_start_index,
+                            buf, bufsize);
+     if (ret < 0) {
+         return ret;
 -- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-p2v converts physical machines to virtual machines.  Boot with a
-live CD or over the network (PXE) and turn machines into KVM guests.
-http://libguestfs.org/virt-v2v
+2.20.1
 
 
