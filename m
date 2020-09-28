@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904CE27AD2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 13:47:31 +0200 (CEST)
-Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AE427AD36
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 13:51:50 +0200 (CEST)
+Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMrcw-0003Xa-K1
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 07:47:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36348)
+	id 1kMrh7-0005ro-EH
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 07:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMrau-0002kj-0E
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:45:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33650)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMreu-0004EU-EM
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:49:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kMram-0007Cn-0H
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:45:21 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kMrer-0007uk-AA
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 07:49:30 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601293511;
+ s=mimecast20190719; t=1601293768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=M4AwA/KpCXa0tcOBrSASYgJyFe3NXGarXr1NKun6Pw4=;
- b=RDJ+1dmZsQ6o/caA0wxadJFDrnc/TxiTpzpqm6Tj8+SBSru2FH2QKSL+WfLOE51RMe7CXk
- eBs1YhDskXKdUYdHMeJS846N+pZQEw8UjrOZX75RboJYAOdoG8U1qPASBO6AkKnTYhc0LH
- PCAASzTNOp/jo5K45zo/liSCpuPyYig=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GTGTPdbE73adVAy/3Xay5CjnCozVV2CicUh/zlZ/Gzs=;
+ b=UJNGKvfhZl4Qs9Oh7x4HHku9wX7uFXYocgclQ4zI0lHj9YpTa6iSKvR9n6RZeubW2nRZYN
+ Gssx2Bb6bSw+JIDTZ86we5FsNqHWSg2r0Os6t8R6LYeJa+44LUbC1t45mKuzXK+DH6er8K
+ Stzpy0mdoekAml06oe+FuBm7esj55P8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-XJaLIVcJMhGJ_3TC0Gq-jQ-1; Mon, 28 Sep 2020 07:45:09 -0400
-X-MC-Unique: XJaLIVcJMhGJ_3TC0Gq-jQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-396-nVVUQnHbNU2UtY0qG1gw7g-1; Mon, 28 Sep 2020 07:49:24 -0400
+X-MC-Unique: nVVUQnHbNU2UtY0qG1gw7g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCBA2186DD20;
- Mon, 28 Sep 2020 11:45:07 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-70.ams2.redhat.com
- [10.36.112.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5F4778828;
- Mon, 28 Sep 2020 11:45:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5A109113865F; Mon, 28 Sep 2020 13:45:06 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 02/38] qapi-gen: Separate arg-parsing from generation
-References: <20200922210101.4081073-1-jsnow@redhat.com>
- <20200922210101.4081073-3-jsnow@redhat.com>
- <20200923000031.GB191229@localhost.localdomain>
- <87zh5et7hx.fsf@dusky.pond.sub.org>
- <c38cbc07-4878-ae05-8871-8cb1c46acde2@redhat.com>
-Date: Mon, 28 Sep 2020 13:45:06 +0200
-In-Reply-To: <c38cbc07-4878-ae05-8871-8cb1c46acde2@redhat.com> (John Snow's
- message of "Fri, 25 Sep 2020 11:37:10 -0400")
-Message-ID: <87blhqi0ql.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14B518018A9;
+ Mon, 28 Sep 2020 11:49:23 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-97.ams2.redhat.com [10.36.115.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 604C72C31E;
+ Mon, 28 Sep 2020 11:49:11 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] virtio-mem: block size and address-assignment
+ optimizations
+Date: Mon, 28 Sep 2020 13:49:04 +0200
+Message-Id: <20200928114909.20791-1-david@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:29:35
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 03:47:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,85 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Let's try to detect the actual THP size and use it as default block size
+(unless the page size of the backend indicates that THP don't apply).
+Always allow to set a block size of 1 MiB, but warn if the configured block
+size is smaller than the default. Handle large block sizes better, avoiding
+a virtio-spec violation and optimizing address auto-detection.
 
-> On 9/25/20 7:34 AM, Markus Armbruster wrote:
->> Cleber Rosa <crosa@redhat.com> writes:
->> 
->>> On Tue, Sep 22, 2020 at 05:00:25PM -0400, John Snow wrote:
->>>> This is a minor re-work of the entrypoint script. It isolates a
->>>> generate() method from the actual command-line mechanism.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
-[...]
->>>> +def generate(schema_file: str,
->>>> +             output_dir: str,
->>>> +             prefix: str,
->>>> +             unmask: bool = False,
->>>> +             builtins: bool = False) -> None:
->>>> +    """
->>>> +    generate uses a given schema to produce C code in the target directory.
->>>> +
->>>> +    :param schema_file: The primary QAPI schema file.
->>>> +    :param output_dir: The output directory to store generated code.
->>>> +    :param prefix: Optional C-code prefix for symbol names.
->>>> +    :param unmask: Expose non-ABI names through introspection?
->>>> +    :param builtins: Generate code for built-in types?
->>>> +
->>>> +    :raise QAPIError: On failures.
->>>> +    """
->>>> +    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
->>>> +    if match and match.end() != len(prefix):
->>>
->>> Nice catch with the extra check here.  Maybe worth mentioning and/or
->>> splitting the change?
->>
->> Please do not sneak additional checking into patches advertized as pure
->> refactoring.  It makes me look for more sneakery with a microscope.
->> 
->> This re.match() cannot possibly fail.  Three cases:
->> 
->> * First character is funny
->> 
->>   The regexp matches the empty string.  There's a reason the regexp ends
->>   with '?'.
->> 
->> * Non-first character is funny
->> 
->>   The regexp matches the non-funny prefix.
->> 
->> * No character is funny
->> 
->>   The regexp matches the complete string.
->> 
->> Checking impossible conditions as if they were possible is confusing.
->> Please drop the additional check.
->> 
->> We can talk about checking this impossible condition with
->> 
->>         assert(match)
->> 
->> if you believe it makes the code easier to understand (it does not
->> improve its behavior).
->
-> My use of strict_optional=False is what prevents this from exhibiting
-> as an error in mypy. An assert will help convince mypy that 'match'
-> cannot possibly be 'None'.
+For existing setups (x86-64), the default block size won't change (was, and
+will be 2 MiB on anonymous memory). For existing x86-64 setups, the address
+auto-detection won't change in relevant setups (esp., anonymous memory
+and hugetlbfs with 2 MiB pages and no manual configuration of the block
+size). I don't see the need for compatibility handling (especially, as
+virtio-mem is still not considered production-ready).
 
-Adding assertions to help mypy along is okay.
+Most of this is a preparation for future architectures, using hugetlbfs
+to full extend, and using manually configured, larger block sizes
+(relevant for vfio in the future).
 
-> eh, well. I will fix this when I remove strict_optional, so I will
-> just remove this additional check for now to avoid adding another
-> patch to this series.
+v1 -> v2:
+- Tweak some patch descriptions
+- "virtio-mem: Probe THP size to determine default block size"
+-- Beautify THP detection a bit.
+-- Assume THP might only get used if the memory backend page size corresponds
+   to the real hostpage size.
+-- Use virtio_mem_default_block_size(RAMBlock *rb) to handle selection
+   of the default block size for a RAMBlock.
+-- Implement virtio_mem_get_block_size() as preparation for patch #5
+- "memory-device: Add get_min_alignment() callback"
+-- Simplify documentation.
+- "virito-mem: Implement get_min_alignment()"
+-- Simplify due to changes in patch #1.
 
-Makes sense to me.
+David Hildenbrand (5):
+  virtio-mem: Probe THP size to determine default block size
+  virtio-mem: Check that "memaddr" is multiples of the block size
+  memory-device: Support big alignment requirements
+  memory-device: Add get_min_alignment() callback
+  virito-mem: Implement get_min_alignment()
+
+ hw/mem/memory-device.c         |  20 ++++--
+ hw/virtio/virtio-mem-pci.c     |   7 +++
+ hw/virtio/virtio-mem.c         | 110 +++++++++++++++++++++++++++++++--
+ include/hw/mem/memory-device.h |  10 +++
+ 4 files changed, 137 insertions(+), 10 deletions(-)
+
+-- 
+2.26.2
 
 
