@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6DA27B2E9
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFE427B2EC
 	for <lists+qemu-devel@lfdr.de>; Mon, 28 Sep 2020 19:17:50 +0200 (CEST)
-Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kMwmZ-0005rf-Jq
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:17:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
+	id 1kMwmb-0005sY-V3
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 13:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kMwkg-0004B2-U2
+ id 1kMwkg-0004B1-TQ
  for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:15:50 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39312)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kMwka-0006JA-2J
+ id 1kMwka-0006KO-RW
  for qemu-devel@nongnu.org; Mon, 28 Sep 2020 13:15:50 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id k10so2212153wru.6
- for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 10:15:43 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id k10so2212262wru.6
+ for <qemu-devel@nongnu.org>; Mon, 28 Sep 2020 10:15:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OuV2lSj+vDl5vCymOXQwcqQAKlj2R1WhJymuq9BnH40=;
- b=N9BbVSFBSdRWJLCzVMWKMBlQXVjppex6EqGcDIQ7uXF8A6x+UqDOueUqR6FzROmBj8
- HUipa04B5dKAx0OiW16+JREok3JNFcTYUMyS2h0478LFaS6yX1sDjVyGJJw4sAyJqfM2
- XhsimQUv3u6qop1qHh/YHV3Dk8QBkldq44u1VXa2b81bUogzgZy0pEuST+JEykKpDs2E
- honiB0SeODYcEWPFftLuxnTcqPMasDxBzlzIlmSJRfbA8YAVrwGSaadh9YWNCy58Qqsy
- UiDjyFl8irTmuo0z3c4FUOxzcrP9AiToRog+k3ZvPgeeXb1/eVbB1TrzW9fc1+izCEfd
- bWWg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tEiQnyrePNI+SA5QcWB5N9e6IHcTd69FaWZKVkP2uZM=;
+ b=R+Khkhq6C3muXCn8UA/xx8ZuX0GdytX17BoZpEA83SH+ZrjpJ36yP61wvjIYhFA6WE
+ cyHo94UlCKVPD1WuBBXQwhA5N6ez3uzah64J+ncpM8+FSRvnVtGu07dPsU1QyH+JT9FU
+ ddNIgX1bZmAQHoiEFEB8SpYEOoxTuDbfOAKNeek8wUPXzjcaPUtkKVNudNBA2UwOqpz8
+ nJWRurXXF1DDy5uhrN/K6OAltTuLfsRI/7q+pzCgjTTGHjnDTlfuaqttmXJOhVBWVW3e
+ lWOLe600k6960nqcgAGb+tbY0yVxRRujLMB/U73mG3VjUbL0PueyEpLsv/K1KGiHMwB7
+ IAlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=OuV2lSj+vDl5vCymOXQwcqQAKlj2R1WhJymuq9BnH40=;
- b=BvwQ6diIsTjH3LBCbl3eb+NITYgvOWCUAr5CvwN6W+je+Jlas6aMv20ThRrz/utzuI
- q+7N03Ca8IX66/D38P0T6YZprNWYOhgRMnv5XIwuc1etyrAVb2d63fXTB4ni1cFgP6Jg
- 8stqCGsUJELeUSRrJZ6UI9GF3UaTvHPEbpeL81nNsF2iHOjr54xGnp5N0cm8RlLsfqCf
- 5HIg1PbOtp21EcAje3hPfTWUghqXg6bhTkr2/nSyTdMieO/IVt/Lz3dqH0O4ysXAEaBU
- fRzDzhIZU+l2QW8XIYxmTM22QNqXIPp0jCsA7JNICveFvl5ahr4+evl4xdf/O+zX+IXQ
- oeXw==
-X-Gm-Message-State: AOAM531qJMoTdC1i/ARRjVpbauvxm9NTQKPvkKiV1igklDOUHbieXKZw
- Ay/HpyNTrimjiyVOEhEwQKN5mmM2TnY=
-X-Google-Smtp-Source: ABdhPJwTliMfzuKWa2SpWQfOuI7WZ1vbqo/J1JTC0OV/aXBvCRQLk64tyQMnioB2hhe/NfJHNMoD6A==
-X-Received: by 2002:adf:9d44:: with SMTP id o4mr2792701wre.361.1601313341605; 
- Mon, 28 Sep 2020 10:15:41 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=tEiQnyrePNI+SA5QcWB5N9e6IHcTd69FaWZKVkP2uZM=;
+ b=AC7IeB2Z4imZ2G7X+dldEfhqz8/o8boVKW5rzWqMDChddSA/diaUxJtHmK2dlfhiHU
+ V/rRddU05t7kY6PUpEa6nhFb6BUYLRNihGszLpaHTMuafA51feSzYNkRdMPicb4NS7ww
+ M2X5WukOCJLayVMCWfrIKdKgNRJJG2wbmqIMQZ1TKjTevnMCcIW/P7O9+/DxOPGWWcbt
+ fZUzHyFZ2R62DX5jOQ3bC1ucnbStr/pB+lAamPr8glu/izecYFhScmjaDlqgfF+mivfQ
+ iec8F91jDklm/O5enKvc07JuJuzWucW+I+aJg8WdEh+byK8v+LqKei4o4fdTzsUNW8bX
+ 4uLw==
+X-Gm-Message-State: AOAM530iGS8Uj50VdO5qrIOlLrUzlS/ouYyejzpaydhlYjaQ6i35e9Eo
+ 20+EBHR2SpYYFHcAiINdw+fajiUZmH4=
+X-Google-Smtp-Source: ABdhPJz8H+WYfCEcF040REWDSx5gl2HXfOX3SOuwGT5J909C4q0wNdhCusE7/uXn0b8x34T4rf0dpg==
+X-Received: by 2002:adf:d089:: with SMTP id y9mr2705178wrh.234.1601313343215; 
+ Mon, 28 Sep 2020 10:15:43 -0700 (PDT)
 Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id z67sm464787wme.41.2020.09.28.10.15.39
+ by smtp.gmail.com with ESMTPSA id z67sm464787wme.41.2020.09.28.10.15.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Sep 2020 10:15:40 -0700 (PDT)
+ Mon, 28 Sep 2020 10:15:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/16] hw/mips: Set CPU frequency
-Date: Mon, 28 Sep 2020 19:15:23 +0200
-Message-Id: <20200928171539.788309-1-f4bug@amsat.org>
+Subject: [PATCH 01/16] hw/core/cpu: Let CPU object have a clock source
+Date: Mon, 28 Sep 2020 19:15:24 +0200
+Message-Id: <20200928171539.788309-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200928171539.788309-1-f4bug@amsat.org>
+References: <20200928171539.788309-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -15
@@ -100,77 +103,99 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the MIPS cores emulated by QEMU provides the Coproc#0
-'Count' register which can be used as a free running timer.
+Let CPUState have a clock source (named 'clk') and CPUClass
+have a clock_update() callback. The clock can be optionally
+set Using qdev_connect_clock_in() from the Clock API.
+If the clock changes, the optional clock_update() will be
+called.
 
-Since it's introduction in 2005 this timer uses a fixed
-frequency of 100 MHz (for a CPU freq of 200 MHz).
-While this is not an issue with Linux guests, it makes
-some firmwares behave incorrectly.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/core/cpu.h |  5 +++++
+ hw/core/cpu.c         | 12 ++++++++++++
+ 2 files changed, 17 insertions(+)
 
-The Clock API allow propagating clocks. It is particularly
-useful when hardware dynamicly changes clock frequencies.
-
-To be able to model such MIPS hardware, we need to refactor
-the MIPS hardware code to handle clocks.
-
-This series is organized as follow:
-
-- let all CPU have an input clock,
-- MIPS CPU get an input clock
-- when the clock is changed, CP0 timer is updated
-- set correct CPU frequencies to all boards
-- do not allow MIPS CPU without input clock
-
-I used a MIPSsim test suggested by Thomas. It is also included
-as bonus at the end.
-
-Possible follow up:
-- QOM'ify the GIC
-- let the GIC handle dynamic clock changes
-
-Regards,
-
-Phil.
-
-Philippe Mathieu-Daudé (16):
-  hw/core/cpu: Let CPU object have a clock source
-  target/mips: Move cpu_mips_get_random() with CP0 helpers
-  target/mips/cp0_timer: Explicit unit in variable name
-  target/mips/cpu: Introduce mips_cpu_properties[]
-  target/mips/cpu: Set default CPU frequency to 200 MHz
-  target/mips: Keep CP0 counter in sync with the CPU frequency
-  hw/mips/r4k: Explicit CPU frequency is 200 MHz
-  hw/mips/fuloong2e: Set CPU frequency to 533 MHz
-  hw/mips/mipssim: Correct CPU frequency
-  hw/mips/jazz: Correct CPU frequencies
-  hw/mips/cps: Expose input clock and connect it to CPU cores
-  hw/mips/boston: Set CPU frequency to 1 GHz
-  hw/mips/malta: Set CPU frequency to 320 MHz
-  hw/mips/cps: Do not allow use without input clock
-  target/mips/cpu: Do not allow system-mode use without input clock
-  tests/acceptance: Test the MIPSsim machine
-
- include/hw/core/cpu.h                    |  5 +++
- include/hw/mips/cps.h                    |  2 +
- target/mips/cpu.h                        |  9 ++++
- target/mips/internal.h                   |  2 +-
- hw/core/cpu.c                            | 12 +++++
- hw/mips/boston.c                         | 13 ++++++
- hw/mips/cps.c                            |  8 ++++
- hw/mips/fuloong2e.c                      |  8 +++-
- hw/mips/jazz.c                           | 16 ++++++-
- hw/mips/malta.c                          | 20 +++++++--
- hw/mips/mipssim.c                        | 12 ++++-
- hw/mips/r4k.c                            |  8 +++-
- target/mips/cp0_helper.c                 | 25 +++++++++++
- target/mips/cp0_timer.c                  | 51 ++++++---------------
- target/mips/cpu.c                        | 43 +++++++++++++++++-
- MAINTAINERS                              |  1 +
- tests/acceptance/machine_mips_mipssim.py | 56 ++++++++++++++++++++++++
- 17 files changed, 244 insertions(+), 47 deletions(-)
- create mode 100644 tests/acceptance/machine_mips_mipssim.py
-
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 6c34798c8b3..6989d90c193 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -31,6 +31,7 @@
+ #include "qemu/thread.h"
+ #include "qemu/plugin.h"
+ #include "qom/object.h"
++#include "hw/clock.h"
+ 
+ typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
+                                      void *opaque);
+@@ -155,6 +156,7 @@ struct TranslationBlock;
+  * @disas_set_info: Setup architecture specific components of disassembly info
+  * @adjust_watchpoint_address: Perform a target-specific adjustment to an
+  * address before attempting to match it against watchpoints.
++ * @clock_update: Callback for input clock changes
+  *
+  * Represents a CPU family or model.
+  */
+@@ -176,6 +178,7 @@ struct CPUClass {
+                                   unsigned size, MMUAccessType access_type,
+                                   int mmu_idx, MemTxAttrs attrs,
+                                   MemTxResult response, uintptr_t retaddr);
++    void (*clock_update)(CPUState *cpu);
+     bool (*virtio_is_big_endian)(CPUState *cpu);
+     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+                            uint8_t *buf, int len, bool is_write);
+@@ -316,6 +319,7 @@ struct qemu_work_item;
+  *   QOM parent.
+  * @nr_cores: Number of cores within this CPU package.
+  * @nr_threads: Number of threads within this CPU.
++ * @clock: this CPU source clock (an output clock of another device)
+  * @running: #true if CPU is currently running (lockless).
+  * @has_waiter: #true if a CPU is currently waiting for the cpu_exec_end;
+  * valid under cpu_list_lock.
+@@ -400,6 +404,7 @@ struct CPUState {
+     int num_ases;
+     AddressSpace *as;
+     MemoryRegion *memory;
++    Clock *clock;
+ 
+     void *env_ptr; /* CPUArchState */
+     IcountDecr *icount_decr_ptr;
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index c55c09f734c..37fcff3ec64 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -30,6 +30,7 @@
+ #include "qemu/qemu-print.h"
+ #include "sysemu/tcg.h"
+ #include "hw/boards.h"
++#include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
+ #include "trace/trace-root.h"
+ #include "qemu/plugin.h"
+@@ -247,6 +248,16 @@ void cpu_reset(CPUState *cpu)
+     trace_guest_cpu_reset(cpu);
+ }
+ 
++static void cpu_clk_update(void *opaque)
++{
++    CPUState *cpu = opaque;
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (cc->clock_update) {
++        cc->clock_update(cpu);
++    }
++}
++
+ static void cpu_common_reset(DeviceState *dev)
+ {
+     CPUState *cpu = CPU(dev);
+@@ -367,6 +378,7 @@ static void cpu_common_initfn(Object *obj)
+     /* the default value is changed by qemu_init_vcpu() for softmmu */
+     cpu->nr_cores = 1;
+     cpu->nr_threads = 1;
++    cpu->clock = qdev_init_clock_in(DEVICE(obj), "clk", cpu_clk_update, cpu);
+ 
+     qemu_mutex_init(&cpu->work_mutex);
+     QSIMPLEQ_INIT(&cpu->work_list);
 -- 
 2.26.2
 
