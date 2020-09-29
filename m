@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CAA27CC3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:35:54 +0200 (CEST)
-Received: from localhost ([::1]:48286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A197027CC68
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:36:24 +0200 (CEST)
+Received: from localhost ([::1]:50146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNErJ-0008Mr-Co
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51532)
+	id 1kNErn-0000o7-Mp
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kNEol-0006kQ-Pr
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:33:15 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40288)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNEpI-0007WL-E8
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:33:49 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kNEoj-00080r-M7
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:33:15 -0400
-Received: by mail-wm1-x341.google.com with SMTP id k18so4608853wmj.5
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 05:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNEpE-000862-0b
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:33:48 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id z23so14683769ejr.13
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 05:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BcdOSVvfRAW3bQwdkI9C8PXtwhA9sHVv4HcWT4aAZ9U=;
- b=utZe8Kx1lX3pZCpAxHH5cl+JlG0bN/i9fw2YshXyGG0czPvsZSAtE78r93d4/lsQst
- LS0yHR+qonLyXgjtjBvu2ERROed3kNWcVffc3hLwJXo/0dJ61KP3V8HnUoaxtW77CdfM
- 3a99+kzH9bOWggJpyqgreUS7sgNihVK4t7FB6szFHmsAf0baSlYj6NUgrT9JURU0y82M
- WZOVq7sfcjuurGrXsdZHXt90iCVsWX3maDe/azKFG5mWXJlDWTuOMpZkhjMK2jn80MJ/
- zCrkVb0dkMN/uh7bJ3KeY3VhmoARqvvDgadC9ePAYrtBYA4gAuAMB8yxh1nG4Gtus1vx
- ySDw==
+ :cc; bh=WUF6ivkworUJzlWH/TIDlvdb2/bOEjpzYYmcavvhOr4=;
+ b=TXu3wz5YW9qcSQahbvC365q57APBdpzu7mpgFb5HVg/wHBt7GKGEH5JsEiEEp97uDO
+ GdeYwitJxUCp1gUag7VhnkmbzSV8PoyjRVXnQLTmhN7zoJm4BAnuDc8tiyNAZwllx8MP
+ tnaKIzj8a72iA9abP8kzN435bnEkq2PtJBg4A8/z61MtUoD+qyzR9cNCJbQe/Rq+uUuC
+ iQwcrXJebH2CP7NGzhkiD0uBhQ0I2LiLLKZgJTycf/1nWZzAS43noRPl7kD/m5Mw+M8R
+ LvktfMEpOXXU/+ZiXWC9yoru+rW2TUc2FknVJEsiSDT7bRja3R0Nsr1N53ECCyoO9C8b
+ 8jAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BcdOSVvfRAW3bQwdkI9C8PXtwhA9sHVv4HcWT4aAZ9U=;
- b=pWuxuX9IQkwDX6uDGTWTGhv9aeQEgNM9Kophz8QeUSAT+j1m1L74JBvVofEdgGOIQH
- CXx4TVeZT5/dkpX4rp7+Mi0OIBPUEuIRn+Y9ZPcRvAi9uP8JtB3v+/wFgYkuZCwkLSfu
- +OJA5lA0U5alApAo7joFHOL4hkYgVaG4nvnprd58Vb2k/2zZSZWeG41o+U2xBsWSTqwR
- RHJHbqukCauhxJQt8djXbY+GjQlR1I6BijwncPHGpFy+hB0cYW3KFGhmBoHspUOrqbWx
- lUs2rVlC31IaqBUooL5oJ4xmEeboZJUdrYXWFa8KMtAfvsPR/GpO5BtXN4wSItflC7uA
- I8bg==
-X-Gm-Message-State: AOAM531ttUA0dsTNOCPcJDsxOBAO98057ooiqyFOr36hqs5xSfGB8IvK
- +ifG+efq+GTmgx1Tr9SDfCeTaAY1n7b91dpBH74W5w==
-X-Google-Smtp-Source: ABdhPJyvRcjOkRPkb0Y/680lZIUPBFzzPqt4pEaPT56tROd0axx8XSGa4otQzs4cFAIHoDFmmMcZf14LZzP+ptF9KDk=
-X-Received: by 2002:a1c:7405:: with SMTP id p5mr4309306wmc.35.1601382791862;
- Tue, 29 Sep 2020 05:33:11 -0700 (PDT)
+ bh=WUF6ivkworUJzlWH/TIDlvdb2/bOEjpzYYmcavvhOr4=;
+ b=b021UA8As+fUupBiL9lcrICHPjppcAVsTw+jgIy4y00IK1xqZGgDfXdazA6609Yxfy
+ h3/47dfyDOzoUj9kzA3FkxdR2I/t71GDArx3GTF9GL5wqoUdEIjGSUlzg9q+piYyNLU4
+ n+CQlZY6iU7B6+I6HeTxmgFGgKhc9RD2SAd6udk/GHnCUOBNrS6Jgfkx4TY0153HZAjQ
+ eC2J3FUll/sppvubFRydMhF6fx8Bscui3WSwkZvAmHRNMq5sCMF7j5LCkc/ouXkQRr0J
+ 1hYMYsQZPCsYKEGzblpYFqzFvy9r5UcXZLui3sjIm8kkXSt19M/OfN0aqRVWHKYiH0Q9
+ f0jQ==
+X-Gm-Message-State: AOAM5334CYuTflzsgSG1EiZmTF/EUjHrOGvPv0pw+yzkx7hvLAjXckgo
+ HwdDjcyadyAvK6ccaAd4hFQsPHCQ+sUCa+cuIHpCfg==
+X-Google-Smtp-Source: ABdhPJzszE5VP5USwL0rV4Uqozer5w4sKg4juPL1ZHRGKPbocrnnJH3HJiXh0OuaTwSQTPRD6OD/HEoAapJLui7j6rk=
+X-Received: by 2002:a17:906:4a53:: with SMTP id
+ a19mr3794341ejv.56.1601382822312; 
+ Tue, 29 Sep 2020 05:33:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200929053823-mutt-send-email-mst@kernel.org>
- <CAARzgwxBcTDkK7QhHP=_mpYoAYYgRY+d6o+2SCSP-haBPDttwA@mail.gmail.com>
- <CAARzgwy8QNw=OD6cOEkDY-x9mC10ry+NTdCH2gNKuLXp8bAAyg@mail.gmail.com>
- <CAARzgwyNPZB5PGc-B9vDn9V-uEwVCiCvXgvamMaGTvBCPJQiCg@mail.gmail.com>
- <20200929063539-mutt-send-email-mst@kernel.org>
- <CAARzgwz6iTsO9Z1ACAHmbSteGYfetDgnSRYc-xnaqjYyJ4yEHA@mail.gmail.com>
- <20200929064858-mutt-send-email-mst@kernel.org>
- <CAARzgwwFeSPd=JGjdk-uj=uuLb+HcfMfGTe1_GmbFRTkP-jZdQ@mail.gmail.com>
- <20200929071412-mutt-send-email-mst@kernel.org>
- <CAARzgwzdYfVn6Kdic+rj7xSxdvP6RAM48wr8Pt_MpDwuYvDSiw@mail.gmail.com>
- <20200929073523-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200929073523-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 29 Sep 2020 18:03:00 +0530
-Message-ID: <CAARzgwyNHnG_dzhD9mZbico2V3-c=XL-fNo7xO=rP2jfVMqtdw@mail.gmail.com>
-Subject: Re: [PATCH v10 13/13] tests/acpi: add DSDT.hpbrroot DSDT table blob
- to test global i440fx hotplug
-To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200925162316.21205-1-peter.maydell@linaro.org>
+ <20200925162316.21205-16-peter.maydell@linaro.org>
+ <877dscvkp5.fsf@dusky.pond.sub.org>
+In-Reply-To: <877dscvkp5.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 29 Sep 2020 13:33:30 +0100
+Message-ID: <CAFEAcA_fQPYbf4TG3TayQ5Y5NBJCOq6wuBiqXZMp3MUVj7XFrA@mail.gmail.com>
+Subject: Re: [PATCH v6 15/21] tests/qapi-schema: Add test of the rST QAPI
+ doc-comment outputn
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::341;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,128 +82,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 29, 2020 at 5:05 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, 29 Sep 2020 at 13:20, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> On Tue, Sep 29, 2020 at 04:58:03PM +0530, Ani Sinha wrote:
-> > On Tue, Sep 29, 2020 at 4:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Tue, Sep 29, 2020 at 04:35:50PM +0530, Ani Sinha wrote:
-> > > > On Tue, Sep 29, 2020 at 4:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > >
-> > > > > On Tue, Sep 29, 2020 at 04:11:45PM +0530, Ani Sinha wrote:
-> > > > > > On Tue, Sep 29, 2020 at 4:07 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > > > >
-> > > > > > > On Tue, Sep 29, 2020 at 04:02:07PM +0530, Ani Sinha wrote:
-> > > > > > > > On Tue, Sep 29, 2020 at 4:00 PM Ani Sinha <ani@anisinha.ca> wrote:
-> > > > > > > > >
-> > > > > > > > > In your pull request the following patch is completely screwed up:
-> > > > > > > > >
-> > > > > > > > > commit cda2006eded0ed91974e1d9e7f9f288e65812a3e
-> > > > > > > > > Author: Ani Sinha <ani@anisinha.ca>
-> > > > > > > > > Date:   Tue Sep 29 03:22:52 2020 -0400
-> > > > > > > > >
-> > > > > > > > >     tests/acpi: update golden master DSDT binary table blobs for q35
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > This is not my patch. It has all sorts of changes which does not
-> > > > > > > > > belong there. Can you please check?
-> > > > > > > >
-> > > > > > > > See https://patchew.org/QEMU/20200929071948.281157-1-mst@redhat.com/20200929071948.281157-46-mst@redhat.com/
-> > > > > > >
-> > > > > > >
-> > > > > > > I had to regenerate the binary, yes. That's par for the course.
-> > > > > > > But it looks like I added disasssembled files. Will fix up and drop,
-> > > > > > > thanks for noticing this.
-> > > > >
-> > > > > OK I pushed out a fixed variant. Pls take a look.
-> > > >
-> > > > OK I am not used to this workflow. How am I supposed to get it? Which tag?
-> > >
-> > > New for_upstream tag - I just sent in a pull request.
+> In subject, s/outputn/output/
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > Add a test of the rST output from the QAPI doc-comment generator,
+> > similar to what we currently have that tests the Texinfo output.
 > >
-> > Can you please point me to your tree?
+> > This is a bit more awkward with Sphinx, because the generated
+> > output is not 100% under our control the way the QAPI-to-Texinfo
+> > generator was. However, in practice Sphinx's plaintext output
+> > generation has been identical between at least Sphinx 1.6 and
+> > 3.0, so we use that. (The HTML output has had changes across
+> > versions). We use an exact-match comparison check, with the
+> > understanding that perhaps changes in a future Sphinx version
+> > might require us to implement something more clever to cope
+> > with variation in the output.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 >
+> It's not just the potential Sphinx version dependence that makes this
+> awkward.
 >
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> We can no longer check what our doc generator does (at least not without
+> substantial additional coding), we can only check what it does together
+> with Sphinx.  We do so for one output format.
+>
+> Our doc generator output could change in ways that are not visible in
+> the Sphinx output format we test, but are visible in some other output
+> format.
+>
+> We choose to test plain text, because it has the lowest risk of unwanted
+> Sphinx version dependence, even though it probably has the highest risk
+> of "rendering stuff invisible".
+>
+> Certainly better than nothing, and probably the best we can do now, but
+> let's capture the tradeoff in the commit message.  Perhaps:
+>
+>   This is a bit more awkward with Sphinx, because the generated output
+>   is not 100% under our control the way the QAPI-to-Texinfo generator
+>   was. We can't observe the data we generate, only the Sphinx
+>   output. Two issues.
+>
+>   One, the output can vary with the Sphinx version.  In practice
+>   Sphinx's plaintext output generation has been identical between at
+>   least Sphinx 1.6 and 3.0, so we use that. (The HTML output has had
+>   changes across versions). We use an exact-match comparison check, with
+>   the understanding that perhaps changes in a future Sphinx version
+>   might require us to implement something more clever to cope with
+>   variation in the output.
+>
+>   Two, the test can only protect us from changes in the data we generate
+>   that are visible in plain text.
+>
+> What do you think?
 
-I have sent the updated patches based on your pull request tag. I just
-had to regenrated the blob for tests/data/acpi/pc/DSDT.hpbrroot.
+Yes, seems worth recording that in the commit message (especially
+now you've written the text :-)).
 
-make && make check-qtest-x86_64 V=1 passes.
+> > +# Test the document-comment document generation code by running a test schema
+> > +# file through Sphinx's plain-text builder and comparing the result against
+> > +# a golden reference. This is in theory susceptible to failures if Sphinx
+> > +# changes its output, but the text output has historically been very stable
+> > +# (no changes between Sphinx 1.6 and 3.0), so it is a better bet than
+> > +# texinfo or HTML generation, both of which have had changes. We might
+>
+> Texinfo
+>
+> > +# need to add more sophisticated logic here in future for some sort of
+> > +# fuzzy comparison if future Sphinx versions produce different text,
+> > +# but for now the simple comparison suffices.
+> > +qapi_doc_out = custom_target('QAPI rST doc',
+> > +                             output: ['doc-good.txt'],
+> > +                             input: files('doc-good.json', 'doc-good.rst'),
+>
+> Gawk at my Meson ignorance...
+>
+> Looks like this builds doc-good.txt from doc.good.json and doc-good.rst.
+>
+> doc-good.txt is also a source file.  Works, because we use a separate
+> build tree.  Might be confusing, though.
 
-The diff looks good.
+Yes. We could change the name of the reference source file that
+we have checked into the git repo if you wanted. (The output file
+written by Sphinx has to be the same name as the input .rst file AFAICT.)
 
-Can you please send a pull request with these two patches ASAP?
+> > +                             build_by_default: build_docs,
+> > +                             depend_files: sphinx_extn_depends,
+> > +                             # We use -E to suppress Sphinx's caching, because
+> > +                             # we want it to always really run the QAPI doc
+> > +                             # generation code. It also means we don't
+> > +                             # clutter up the build dir with the cache.
+> > +                             command: [SPHINX_ARGS,
+> > +                                       '-b', 'text', '-E',
+> > +                                       '-c', meson.source_root() / 'docs',
+> > +                                       '-D', 'master_doc=doc-good',
+> > +                                       meson.current_source_dir(),
+> > +                                       meson.current_build_dir()])
+> > +
+> > +# Fix possible inconsistency in line endings in generated output and
+> > +# in the golden reference (which could otherwise cause test failures
+> > +# on Windows hosts). Unfortunately diff --strip-trailing-cr
+> > +# is GNU-diff only. The odd-looking perl is because we must avoid
+> > +# using an explicit '\' character in the command arguments to
+> > +# a custom_target(), as Meson will unhelpfully replace it with a '/'
+> > +# (https://github.com/mesonbuild/meson/issues/1564)
+>
+> Rather disappointing.
+>
+> > +qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
+> > +                                  output: ['doc-good.txt.nocr'],
+> > +                                  input: qapi_doc_out[0],
+> > +                                  build_by_default: build_docs,
+> > +                                  command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
+> > +                                  capture: true)
+>
+> I figure this strips \r from the build tree's doc-good.txt.
 
+Close; it turns either CRLF or LF into the host OS's
+line-ending sequence (see below).
+
+> > +qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
+> > +                                  output: ['doc-good.ref.nocr'],
+> > +                                  input: files('doc-good.txt'),
+> > +                                  build_by_default: build_docs,
+> > +                                  command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
+> > +                                  capture: true)
 >
->
->
-> > >
-> > > >
-> > > > >
-> > > > > > I think DSDT.hbridge is wrong. The checksum looks weird:
-> > > > > >
-> > > > > >
-> > > > > > + *     Length           0x00000B89 (2953)
-> > > > > >   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-> > > > > > - *     Checksum         0x05
-> > > > >
-> > > > > What is weird about it?
-> > > > >
-> > > > > >
-> > > > > > This file should be introduced just by one patch. my patch.
-> > > > >
-> > > > > I just re-run rebuild-expected-aml, no changes.
-> > > > >
-> > > > > I have this:
-> > > > > commit 5e3a486211f02d9ecb18939ca21087515ec81883
-> > > > > Author: Ani Sinha <ani@anisinha.ca>
-> > > > > Date:   Fri Sep 18 14:11:05 2020 +0530
-> > > > >
-> > > > >     tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support' bridge flag
-> > > > >
-> > > > >     This change adds a new unit test for the global flag
-> > > > >     'acpi-pci-hotplug-with-bridge-support' which is available for cold plugged pci
-> > > > >     bridges in i440fx. The flag can be used to turn off ACPI based hotplug support
-> > > > >     on all pci bridges.
-> > > > >
-> > > > >
-> > > > > Here is the full DSDT header, attached:
-> > > > >
-> > > > > /*
-> > > > >  * Intel ACPI Component Architecture
-> > > > >  * AML/ASL+ Disassembler version 20190509 (64-bit version)
-> > > > >  * Copyright (c) 2000 - 2019 Intel Corporation
-> > > > >  *
-> > > > >  * Disassembling to symbolic ASL+ operators
-> > > > >  *
-> > > > >  * Disassembly of tests/data/acpi/pc/DSDT.hpbridge, Tue Sep 29 06:51:03 2020
-> > > > >  *
-> > > > >  * Original Table Header:
-> > > > >  *     Signature        "DSDT"
-> > > > >  *     Length           0x0000139D (5021)
-> > > > >  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-> > > > >  *     Checksum         0x05
-> > > > >  *     OEM ID           "BOCHS "
-> > > > >  *     OEM Table ID     "BXPCDSDT"
-> > > > >  *     OEM Revision     0x00000001 (1)
-> > > > >  *     Compiler ID      "BXPC"
-> > > > >  *     Compiler Version 0x00000001 (1)
-> > > > >  */
-> > > > > DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-> > > > >
-> > > > > --
-> > > > > MST
-> > > > >
-> > >
->
+> Uh, this strips it from the source tree's doc-good.txt, right?  Why is
+> that necessary?
+
+This is in case the user has a setup that eg has git
+doing line-ending conversion on checkout somehow. As a
+non-Windows user I opted to be belt-and-braces about
+converting both files to a known-consistent line ending.
+It's also necessary because the perl rune isn't really
+"delete \r"; it's "delete any \r and then output the
+line with the OS line ending" because the files it processes
+are being read and written in text mode. So the output
+will be \r\n on Windows and \n on Unix; the test passes
+in both cases because both files have the same
+line endings after conversion.
+
+thanks
+-- PMM
 
