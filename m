@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612CC27DC58
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:54:46 +0200 (CEST)
-Received: from localhost ([::1]:54820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FCE27DC60
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:58:59 +0200 (CEST)
+Received: from localhost ([::1]:36268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNOWD-00087U-4B
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32828)
+	id 1kNOaI-0004EQ-TR
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMn-0006UF-5c
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:45:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42118)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMt-0006gP-Cu
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:45:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMj-0004dn-Ll
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:45:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMq-0004gj-Sr
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:45:07 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601419497;
+ s=mimecast20190719; t=1601419504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mwQAv7GT5EoZ2YwHLMCVUEVsXLr1pwlweOoW7BxG2J0=;
- b=gkkc6MuVVkg8IntSrsYZxzjw2QpnvUv3rVhqunb2QZb9FzwDamE7fG9aYmSacamT52d1bk
- kTWR4VO1Dj67bEOkLAPvHZnWhFeWI39XJ08mVcdhrhHKTvhRQRKSb4u1i39Ad/DH+DfPFu
- XvJfWUmthmuTHz2ILOBiNOiC3hOzkgo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-ScTBRYe9MQmxcsKtTC0o7A-1; Tue, 29 Sep 2020 18:44:55 -0400
-X-MC-Unique: ScTBRYe9MQmxcsKtTC0o7A-1
-Received: by mail-wr1-f71.google.com with SMTP id v12so2362207wrm.9
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:44:55 -0700 (PDT)
+ bh=LDAC3FC/MEaPD4LUvl2bkbirLPCAiqLo/YtDEMBCclM=;
+ b=R5Jwe8wix09pVIeYCw+Jtdse4VcVJmmF9cw4E+SJX+F0bWR6wQQdZChe0K5knG54Yg2Nxo
+ jyaybuhtCBRKXg1HO19DuFYD/LCbVA0HiZhWtSCBl8YsDHWOWUV4MqXFoUJJ5vHhxmEPks
+ JU8Fh0nxWNAAk5pkuMsKessdg42gptQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-xmtR7E0UNbO2yWjc0OCAAw-1; Tue, 29 Sep 2020 18:45:00 -0400
+X-MC-Unique: xmtR7E0UNbO2yWjc0OCAAw-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so2326292wrs.17
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:45:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mwQAv7GT5EoZ2YwHLMCVUEVsXLr1pwlweOoW7BxG2J0=;
- b=aMHL56yWgeE/1uhSizV5GxCSv3p+K0lxl1WJ/E0TGt90/xl/sMBl/pBaBHMPZDJDHb
- X3BtdppVsog3Ymnmj+KfxJmdrUT6sP++ssEYC5sWYaLOrX8Xm2laoJrrAA9jCd8Nsa/F
- OE4pCtTk3IK1ZWmzJlbSEs0VLq0ko28K5ofqJ0lywSdzuULx7qd2gL9UyugsToVGGmmt
- LF2/duZ7lLdbQN0GCpom9uid0dgZeUYEs3sOmjzF8RizT1ySOrf7e4sUJWIzC0a26q5E
- EO8ZOnH3iWD25t1Z9YLKB77fJ1009zbHQTbPZ3KDvNVaFk/BkDxawMpBVYGwZaN3NOBN
- NcKg==
-X-Gm-Message-State: AOAM530gMsMzhEQo3ALljlbCS3twopxhUiaOFphj781HNXCfuwzCkZ+g
- UJQHbc41ykM2PjCAndS2l58XdzCRaOXUmkHQfMzlGXOO1sXc84YZnoHVA0Fn9zrWC25zXCxqwRn
- 3p5tiFHpg7EbhCgA=
-X-Received: by 2002:a5d:680b:: with SMTP id w11mr7120263wru.73.1601419494004; 
- Tue, 29 Sep 2020 15:44:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwaezhlYa4iLWEZHwZ0kS7XLDzMCgEOlneNy29+EtQChDtpMkw2+jc9ZW303waN+0a4Rlb8Xw==
-X-Received: by 2002:a5d:680b:: with SMTP id w11mr7120247wru.73.1601419493850; 
- Tue, 29 Sep 2020 15:44:53 -0700 (PDT)
+ bh=LDAC3FC/MEaPD4LUvl2bkbirLPCAiqLo/YtDEMBCclM=;
+ b=Xcg6wliLArvw9SzekdtWBlTYiiHYO4uWqEy3xrreBe90LafLVedwnCpNLNzzmPVY4l
+ SCFoDIIBGiQtLlm3ChnD/USEypJI8kJGZg2z6AxJ9r9mHVTvUSlI4b+dqycCEwpSlI66
+ fE6dmv0hoIaYBy7MrMoJxqhCiMecCFGhWlPIAKcZJGB/tWroGXi/BpxvYcavLkJ3cL7d
+ +ghDRaDNeaiJKw904Pw5j8bxaSD5uUTz0dLna1KXoq80Yud68jh3KftwwS1dtJikxO/K
+ 7ozMtl4z/F51AE9K32L88YnFU1CvVx2Rs5sXC7LypXEanqsIh2rEs2LQLE31byoKWnq3
+ RGig==
+X-Gm-Message-State: AOAM531W8W8S4r14KaPyVR+EhGQ5dRly99tPGx0b8J29k0uBtv2MLN3N
+ GjXyrfEWtM4DDNAB1/wtJTUf2TLpBgEMID/EJvjgECsHmb0PW4/E4D3vzFwJjdTR+ZA20HIthiq
+ 9ccdLQMKEKchDrpU=
+X-Received: by 2002:a5d:43cf:: with SMTP id v15mr6808328wrr.269.1601419499107; 
+ Tue, 29 Sep 2020 15:44:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwH+Rg1xe9gd9DlTZs7Ar3VzsQvPodRcCF6Ci4iIpufBqC6fONYRBje8t5F8NeD4ocLB3USiA==
+X-Received: by 2002:a5d:43cf:: with SMTP id v15mr6808303wrr.269.1601419498855; 
+ Tue, 29 Sep 2020 15:44:58 -0700 (PDT)
 Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id u66sm15214592wme.1.2020.09.29.15.44.52
+ by smtp.gmail.com with ESMTPSA id 76sm7666468wma.42.2020.09.29.15.44.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 15:44:53 -0700 (PDT)
+ Tue, 29 Sep 2020 15:44:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/12] target/arm: Reorder meson.build rules
-Date: Wed, 30 Sep 2020 00:43:54 +0200
-Message-Id: <20200929224355.1224017-12-philmd@redhat.com>
+Subject: [PATCH v4 12/12] .travis.yml: Add a KVM-only Aarch64 job
+Date: Wed, 30 Sep 2020 00:43:55 +0200
+Message-Id: <20200929224355.1224017-13-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200929224355.1224017-1-philmd@redhat.com>
 References: <20200929224355.1224017-1-philmd@redhat.com>
@@ -72,9 +72,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,71 +105,66 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reorder the rules to make this file easier to modify.
+Add a job to build QEMU on Aarch64 with TCG disabled, so
+this configuration won't bitrot over time.
+
+We explicitly modify default-configs/aarch64-softmmu.mak to
+only select the 'virt' and 'SBSA-REF' machines.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-I prefer to not squash that with the previous patch,
-as it makes it harder to review.
+Job ran for 7 min 30 sec
+https://travis-ci.org/github/philmd/qemu/jobs/731428859
 ---
- target/arm/meson.build | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ .travis.yml | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 9b7727d4bb..341af8f2ca 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -14,6 +14,7 @@ gen = [
+diff --git a/.travis.yml b/.travis.yml
+index c75221dca3..cad65cf181 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -402,6 +402,41 @@ jobs:
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS}"
+         - UNRELIABLE=true
  
- arm_ss = ss.source_set()
- arm_ss.add(gen)
-+arm_ss.add(zlib)
- arm_ss.add(files(
-   'cpu.c',
-   'gdbstub.c',
-@@ -21,6 +22,13 @@ arm_ss.add(files(
-   'vfp_helper.c',
- ))
- 
-+arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
++    - name: "[aarch64] GCC (disable-tcg)"
++      arch: arm64
++      dist: bionic
++      addons:
++        apt_packages:
++          - libaio-dev
++          - libattr1-dev
++          - libcap-ng-dev
++          - libgcrypt20-dev
++          - libgnutls28-dev
++          - libiscsi-dev
++          - liblttng-ust-dev
++          - libnfs-dev
++          - libnss3-dev
++          - libpixman-1-dev
++          - libpng-dev
++          - librados-dev
++          - libseccomp-dev
++          - liburcu-dev
++          - libusb-1.0-0-dev
++          - libvdeplug-dev
++          - libvte-2.91-dev
++          # Tests dependencies
++          - genisoimage
++      env:
++        - CONFIG="--disable-containers --disable-tcg --enable-kvm --disable-tools"
++        - TEST_CMD="make check-unit"
++        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-aarch64"
++      before_script:
++        # Only use the 'virt' and 'sbsa-ref' machine which don't need TCG.
++        - echo CONFIG_ARM_VIRT=y > default-configs/aarch64-softmmu.mak
++        - echo CONFIG_SBSA_REF=y >> default-configs/aarch64-softmmu.mak
++        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
++        - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
 +
-+arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-+  'cpu64.c',
-+  'gdbstub64.c',
-+))
-+
- arm_tcg_ss = ss.source_set()
- arm_tcg_ss.add(files(
-   'arm-semi.c',
-@@ -35,26 +43,16 @@ arm_tcg_ss.add(files(
-   'vec_helper.c',
- ))
- 
--arm_tcg_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('m_helper.c'), if_false: files('m_helper-stub.c'))
--
--arm_ss.add(zlib)
--
- arm_ss.add(when: 'CONFIG_TCG', if_false: files('m_helper-stub.c'))
--
--arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
--
--arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
--  'cpu64.c',
--  'gdbstub64.c',
--))
-+arm_tcg_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('m_helper.c'), if_false: files('m_helper-stub.c'))
- 
- arm_tcg_ss.add(when: 'TARGET_AARCH64', if_true: files(
-   'helper-a64.c',
-   'mte_helper.c',
-   'pauth_helper.c',
--  'sve_helper.c',
-   'translate-a64.c',
-   'translate-sve.c',
-+  'sve_helper.c',
- ))
- 
- arm_ss.add_all(when: 'CONFIG_TCG', if_true: arm_tcg_ss)
+     - name: "[ppc64] GCC check-tcg"
+       arch: ppc64le
+       dist: xenial
 -- 
 2.26.2
 
