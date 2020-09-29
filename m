@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2994627D7B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:10:29 +0200 (CEST)
-Received: from localhost ([::1]:43038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE77627D77C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:02:15 +0200 (CEST)
+Received: from localhost ([::1]:52418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNLxE-0004KN-91
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45624)
+	id 1kNLpG-0004CQ-Ns
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:02:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kNL0D-0008TC-AU
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:09:32 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33509)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kNL07-0002YV-Ad
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:09:28 -0400
-Received: by mail-pf1-x441.google.com with SMTP id q123so5552174pfb.0
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 12:09:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=XI3sKczohciBsZgnmxAfhEd2fKi5Y9uKTWUghLaMHXA=;
- b=ZQhE9NsGUsuhKkZasb4VSRERQYh52kk6iMFmbJ72EpaeZ4QjKo65D973PlyPT6XiMv
- 1gY9Dre9n/t/eq+m0wZzPjkZA3bmimPF2s6wcNzr1nQwVWbdRCRJX2daw/I0okv49DZ6
- CCDGcB2eXQWV62RMEqkM3nn0ZnzFdUsE2U20pDkSYAyCYK7My4mQJI3QdigaSb1if5eF
- r/pgrySMYlNR7an2ZMztFAHgI1b0P1iDCEj8TvnNuwERE03afP9rBecOwISFgtBx6hVt
- HrgmmU2dwcLlzhsx7ZFMl+23E8JSrqmlTIVRkc1i7tikAoQte2H8DsUgB1JnztJU3UYG
- bL4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=XI3sKczohciBsZgnmxAfhEd2fKi5Y9uKTWUghLaMHXA=;
- b=OFKks474du7WEr0PAmtTR20yj4Kv7YTYJT2H5mlGYlU8a8ApER+655VpgMywVd5Dyh
- A6dC+BkeLb8VgP5JJY4xul2nmalrg23aMlurCAnkxaoVBu1tujyKpv+kc9P6bJa//PrN
- jdwvUXy2cFJMz0gczlfshkGmSsOInDiF/QkMaFuyLJnhpN8vLHynJxCdvY3ea4cCv79k
- sEKyYi3WCFQw7S9zR6aLqfJcwdSQuYd189IBypA6y2mORgVKPzbqMAe+00vEWFJlImYJ
- VJEezMwfOhxbpaI6kftaHGP4RuSEx4MCgf81Q0RPD9j/Lj6nvgLndGVN9MIneCDzPP6l
- TfXg==
-X-Gm-Message-State: AOAM532t/wXHzKzYfv4/bwpzN/JHFQHCoSjA4fMix+oFus4NgdIL23io
- 8q8OcWeC5fH328gpQN9KjTrob92yKF8g7A==
-X-Google-Smtp-Source: ABdhPJxuCkJJbwUe8Kx2i8YITOSsTf5hVWKqb/2oADOIZAqvbLvaMkl4bAYK9gEiZKv7BKDLwSoCag==
-X-Received: by 2002:a63:db44:: with SMTP id x4mr4290588pgi.435.1601406561700; 
- Tue, 29 Sep 2020 12:09:21 -0700 (PDT)
-Received: from localhost.localdomain (122-116-72-36.HINET-IP.hinet.net.
- [122.116.72.36])
- by smtp.gmail.com with ESMTPSA id v8sm6003950pgg.58.2020.09.29.12.09.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 12:09:21 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v5 68/68] target/riscv: trigger illegal instruction exception if
- frm is not valid
-Date: Wed, 30 Sep 2020 03:04:43 +0800
-Message-Id: <20200929190448.31116-69-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200929190448.31116-1-frank.chang@sifive.com>
-References: <20200929190448.31116-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kNLCW-00052K-Pe; Tue, 29 Sep 2020 15:22:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kNLCS-0004Gx-0O; Tue, 29 Sep 2020 15:22:12 -0400
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id F2C3E207F7;
+ Tue, 29 Sep 2020 19:22:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601407325;
+ bh=yOA+xfDYc13/YPqMI4hV6/oJw6w45MTvlLG5uZlqcu4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KZdHv9L1/QlSc/vzNcc8PDK1wUUsIzzl24MeHBSMbVdzuYf8YeHny30UPF+8VCw5r
+ XI0gjuGJdkFHdOXdnb0e650Sun9E7tY5ljNv8TOwPafw+N5oakCNnlcHltTRaGzT0E
+ J2pAR9pE///SCFaQMyTwCMLzcy1QEey+QCjInX2s=
+Date: Tue, 29 Sep 2020 12:22:01 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
+ Zoned Namespace Command Set
+Message-ID: <20200929192201.GE477114@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+ <20200924210751.GD1738917@apples.localdomain>
+ <MN2PR04MB59515B1EA1238861DFF3236AE1350@MN2PR04MB5951.namprd04.prod.outlook.com>
+ <20200928063648.GA1967@apples.localdomain>
+ <MN2PR04MB5951A1DAC6A607732A35B968E1320@MN2PR04MB5951.namprd04.prod.outlook.com>
+ <20200929183911.GF286786@apples.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200929183911.GF286786@apples.localdomain>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 13:29:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,109 +68,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Niklas Cassel <Niklas.Cassel@wdc.com>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+All,
 
-If the frm field contains an invalid rounding mode (101-111),
-attempting to execute any vector floating-point instruction, even
-those that do not depend on the rounding mode, will raise an illegal
-instruction exception.
+Let's de-escalate this, please. There's no reason to doubt Klaus wants
+to see this to work well, just as everyone else does. We unfortunately
+have conflicting proposals posted, and everyone is passionate enough
+about their work, but please simmer down.
 
-Call gen_set_rm() with DYN rounding mode to check and trigger illegal
-instruction exception if frm field contains invalid value at run-time
-for vector floating-point instructions.
-
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/insn_trans/trans_rvv.c.inc | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 7a1571cee8..7d4ce9e092 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2624,8 +2624,11 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
-                     int rm)
- {
-     if (checkfn(s, a)) {
-+        if (rm != RISCV_FRM_DYN) {
-+            gen_set_rm(s, RISCV_FRM_DYN);
-+        }
-+
-         uint32_t data = 0;
--        gen_set_rm(s, RISCV_FRM_DYN);
-         TCGLabel *over = gen_new_label();
-         gen_set_rm(s, rm);
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-@@ -2710,6 +2713,8 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
-         require_rvf(s) &&
-         vext_check_isa_ill(s) &&
-         require_align(a->rd, s->lmul)) {
-+        gen_set_rm(s, RISCV_FRM_DYN);
-+
-         TCGv_i64 t1;
- 
-         if (s->vl_eq_vlmax) {
-@@ -2792,6 +2797,10 @@ static bool opfv_widen_check(DisasContext *s, arg_rmr *a)
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
-     if (opfv_widen_check(s, a)) {                                  \
-+        if (FRM != RISCV_FRM_DYN) {                                \
-+            gen_set_rm(s, RISCV_FRM_DYN);                          \
-+        }                                                          \
-+                                                                   \
-         uint32_t data = 0;                                         \
-         static gen_helper_gvec_3_ptr * const fns[2] = {            \
-             gen_helper_##HELPER##_h,                               \
-@@ -2877,6 +2886,10 @@ static bool opfv_narrow_check(DisasContext *s, arg_rmr *a)
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
-     if (opfv_narrow_check(s, a)) {                                 \
-+        if (FRM != RISCV_FRM_DYN) {                                \
-+            gen_set_rm(s, RISCV_FRM_DYN);                          \
-+        }                                                          \
-+                                                                   \
-         uint32_t data = 0;                                         \
-         static gen_helper_gvec_3_ptr * const fns[2] = {            \
-             gen_helper_##HELPER##_h,                               \
-@@ -2917,6 +2930,10 @@ static bool opxfv_narrow_check(DisasContext *s, arg_rmr *a)
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
-     if (opxfv_narrow_check(s, a)) {                                \
-+        if (FRM != RISCV_FRM_DYN) {                                \
-+            gen_set_rm(s, RISCV_FRM_DYN);                          \
-+        }                                                          \
-+                                                                   \
-         uint32_t data = 0;                                         \
-         static gen_helper_gvec_3_ptr * const fns[3] = {            \
-             gen_helper_##HELPER##_b,                               \
-@@ -3386,6 +3403,8 @@ static bool trans_vfmv_f_s(DisasContext *s, arg_vfmv_f_s *a)
-     if (require_rvv(s) &&
-         require_rvf(s) &&
-         vext_check_isa_ill(s)) {
-+        gen_set_rm(s, RISCV_FRM_DYN);
-+
-         unsigned int ofs = (8 << s->sew);
-         unsigned int len = 64 - ofs;
-         TCGv_i64 t_nan;
-@@ -3411,6 +3430,8 @@ static bool trans_vfmv_s_f(DisasContext *s, arg_vfmv_s_f *a)
-     if (require_rvv(s) &&
-         require_rvf(s) &&
-         vext_check_isa_ill(s)) {
-+        gen_set_rm(s, RISCV_FRM_DYN);
-+
-         /* The instructions ignore LMUL and vector register group. */
-         TCGv_i64 t1;
-         TCGLabel *over = gen_new_label();
--- 
-2.17.1
-
+As I mentioned earlier, I'd like to refocus on the basic implementation
+and save the persistent state discussion once the core is solid. After
+going through it all, I feel there's enough to discuss there to keep us
+busy for little while longer. Additional comments on the code will be
+coming from me later today.
 
