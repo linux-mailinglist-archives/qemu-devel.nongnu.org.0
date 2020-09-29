@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21D827C183
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:44:17 +0200 (CEST)
-Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D2327C1BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:53:57 +0200 (CEST)
+Received: from localhost ([::1]:47526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNCBE-0006ws-NG
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34588)
+	id 1kNCKa-0000Qw-5P
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNC9Q-0005pL-4R
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:42:24 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33479)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kNCHb-0006A4-K5
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:50:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNC9O-0006iE-Ib
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:42:23 -0400
-Received: by mail-wr1-x434.google.com with SMTP id m6so4631527wrn.0
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 02:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dOzA/ubchZe7PsWAM4pH4k4+3NEeY6vyl2jglNRXqqE=;
- b=tH9TcONFxvbAhtjC43sF2COrH8cFSy6kau/ijWjoloWzWiPCNGSL+vngQ6+wZsUjny
- fdksrRC9TiCaHFuMagLtIByp4eUMhJ6M22LIELiydl66x3SUOvuOgAAL3QQg4DDWxcvU
- CaGeP7pjnia0VPnGHTNKHhlU2REZXUA0rmHs7zWeytQ4YBSCu2AwNjkWa6omd8jbysQP
- CBc4ajaNltqsNsDFbR5GgP0e1G2t0y15oKRGNY/S0THnGQuKU8iqGs3gyUMocfGph2E2
- ED5yFvs7PNu0CEFxxiIXxN7oHpoJpa2R3E1d8jI4V36Y4n/Df1gkMkqM59W6vW4npYiJ
- nBDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dOzA/ubchZe7PsWAM4pH4k4+3NEeY6vyl2jglNRXqqE=;
- b=HVHNi3bJzC298yOpbT1uio1y+SUflzq3vX88imqIAJxnCOf3j8kdSwLvuVe/zFBwdw
- C0LA7R9r7Mp+EN2b3XUSjAEsZMg+DLiU4bhMB8jV7uin6io3Es99+ZlSICgUrMEtw+i7
- y94yVL3Q8m3PtgFsD56SHYWvze/8l9jc6lPZHurUTdPqeiRKvKtL29FNtO2/K2cggznW
- kLncoume6PYIeNz/4qOyC4gqSqAbSfyBbRYM3OPdhiD1h1effhIGQEq6yLLnAz2LtNPZ
- wGRpWGSldU6GLZFwZ2Z5U+dqh0sS5qzvU3NeVa3Q1ZcYCj2C+KQXEPyvbyEjJxEgxWw7
- ZNQA==
-X-Gm-Message-State: AOAM530fgiM/Dwa5UUj3NmG1yrAEWrOPQnCMZ9mpN1EVCHS8Jtqq+C8x
- Zk901/vPKFHSisdSo9Dsf+y61UZFfME=
-X-Google-Smtp-Source: ABdhPJyI9E0mCY0xF7r4tbgoqq/Ud36M5xOQQNep7KCqZoUthNF9b/SpC4geNJjRZlBsSWoVSnu08g==
-X-Received: by 2002:adf:e7ca:: with SMTP id e10mr3155524wrn.236.1601372540855; 
- Tue, 29 Sep 2020 02:42:20 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id c14sm5212957wrm.64.2020.09.29.02.42.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 02:42:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kNCHT-0008Af-WE
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:50:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kNCHR-0001U1-RO
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 09:50:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CD2692E80DB
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 09:50:41 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 29 Sep 2020 09:42:19 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1897680@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd pmaydell zpzigi
+X-Launchpad-Bug-Reporter: Changho Choi (zpzigi)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <160136265426.22784.9778102281742505477.malonedeb@gac.canonical.com>
+Message-Id: <dccffac2-4cf4-c8b1-a253-baa257e6ced7@amsat.org>
 Subject: Re: [Bug 1897680] [NEW] memory address over 0x2000_7ffc is not
  accessible in mps2-an505
-To: Bug 1897680 <1897680@bugs.launchpad.net>, qemu-devel@nongnu.org
-References: <160136265426.22784.9778102281742505477.malonedeb@gac.canonical.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <dccffac2-4cf4-c8b1-a253-baa257e6ced7@amsat.org>
-Date: Tue, 29 Sep 2020 11:42:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <160136265426.22784.9778102281742505477.malonedeb@gac.canonical.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.199, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d685c0a40836eb9844ed835c9700f20633c1d7af"; Instance="production"
+X-Launchpad-Hash: a9b22c1e913410e913a071fb9e64440add4b2061
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 03:05:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.199, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,18 +73,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1897680 <1897680@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/29/20 8:57 AM, Changho Choi wrote:
 > Public bug reported:
-> 
+> =
+
 > I currently run qemu with the following options
 > `qemu-system-aarch64 -machine mps2-an505 -cpu cortex-m33 -m 16`
-> 
+> =
+
 > For some reason, memory address over 0x2000_7ffc is not accessible.
 > It can be tested in gdb as follow.
-> 
+> =
+
 > (gdb) x/x 0x20007ffc
 > 0x20007ffc:	0x00000000
 > (gdb) x/x 0x20007ffd
@@ -136,10 +122,39 @@ initialized to SRAM_ADDR_WIDTH bits, which is 15 by default:
 
 So this MPC downstream region is a 32KB SRAM. The size looks correct.
 
-> 
+> =
+
 > ** Affects: qemu
 >      Importance: Undecided
 >          Status: New
-> 
+>
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1897680
+
+Title:
+  memory address over 0x2000_7ffc is not accessible in mps2-an505
+
+Status in QEMU:
+  New
+
+Bug description:
+  I currently run qemu with the following options
+  `qemu-system-aarch64 -machine mps2-an505 -cpu cortex-m33 -m 16`
+
+  For some reason, memory address over 0x2000_7ffc is not accessible.
+  It can be tested in gdb as follow.
+
+  (gdb) x/x 0x20007ffc
+  0x20007ffc:	0x00000000
+  (gdb) x/x 0x20007ffd
+  0x20007ffd:	Cannot access memory at address 0x20007ffd
+  (gdb) x/x 0x20008000
+  0x20008000:	Cannot access memory at address 0x20008000
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1897680/+subscriptions
 
