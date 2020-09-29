@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85F127BE17
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:35:18 +0200 (CEST)
-Received: from localhost ([::1]:49084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756AA27BE4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:44:59 +0200 (CEST)
+Received: from localhost ([::1]:58832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAAP-0002Vj-Mt
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:35:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
+	id 1kNAJm-0001gB-HG
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:44:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xR-0003Q1-3M
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55404)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNA0f-0007Yo-K5
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:25:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xO-0001eL-5D
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNA0Z-0002Bb-GL
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:25:13 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364106;
+ s=mimecast20190719; t=1601364304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=a786MUSR1WUsxT6yLnmGt75QDVKzHhELF+cVxNM9LLE=;
- b=WNrxndPXHsKLi4N5FlDLwFpeQ4LX78DIpghfSx6GdHRMisN+miXdEDa/zPOKII2/AtTcC+
- Xryp2D9wVuO3xfqmB90Fbt0tsIiYH9HqkQjM7uj2nUpqoMnUjuFdzvSTNurr4K2Mrd0Mc+
- g0YQuU4u18O+MblfqJAwEJDJzKQvdGI=
+ bh=OtuDJIdJ5w4UGc1V2cVEinxPVBCkF805rxImr5K61RY=;
+ b=UBdLF+z6FtFVw+PIIRH6ktegkEQ3+Wt6N1PeEndh1vXtDvE7M+v6PHpRyk6Le2zBTTp6Yw
+ EGz3lXet+C+HUoV9F1OYT2sof3KqPMI7m6DO+DMhvvTyBTvjBT/IEnDAOR67R/alLSXJye
+ EYvhNxyVSoXYz8xfXnioba7rDEHmYKI=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-iFwJ4_ClNZe3B_2032DZsA-1; Tue, 29 Sep 2020 03:21:44 -0400
-X-MC-Unique: iFwJ4_ClNZe3B_2032DZsA-1
-Received: by mail-wr1-f71.google.com with SMTP id b2so1353390wrs.7
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:44 -0700 (PDT)
+ us-mta-181-utD7RgCQNR-E-B5AVqupwQ-1; Tue, 29 Sep 2020 03:21:49 -0400
+X-MC-Unique: utD7RgCQNR-E-B5AVqupwQ-1
+Received: by mail-wr1-f71.google.com with SMTP id g6so1375728wrv.3
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=a786MUSR1WUsxT6yLnmGt75QDVKzHhELF+cVxNM9LLE=;
- b=NX+ZsJHRvyF5e9r0kjSoTP9dNlCQIxcMq0fe8vm9+gUrm1c4eUVXDSExEl5FW5/ttQ
- pmNIHkT0oPQp2/vj8wrkkGb4HnOhee1reuxH8LRvnOnfMBi1bklOI2Z8wv6kaT7DyZ7J
- N1dUPuvJ5uYgL3mVwJyEiMvMH2FxRFhHOLpYn+WVcxXSolZ2JwnN+6gXYwTk8I3gyRyT
- hvtuRPnLE4DHX8wL5tF7HXOoBL95179PS/Buw3FhbGYUVOSFFXvfO3eFwZ6QctEQD9pI
- Z4xdFBGEcHLbYtkibjL/nxXDrEo9tB7Ut5qVbywMbShIx3KRlB9MmgyvnGCCUxMXFGTT
- niDQ==
-X-Gm-Message-State: AOAM533kKbfCXqOasmBg0FFkQHX/AYiq7nLdDhwzUcCbLt0hPQd62dcR
- yOOtfCyjDU/IKABHw7Etriw/wUOqYJM1qcO4fFNnrQnxbLVD29MyX8HvmI3jNeTsGgXkW9u4SKy
- KZLMcyoNj+ACOgaY=
-X-Received: by 2002:adf:e84a:: with SMTP id d10mr2739238wrn.66.1601364102775; 
- Tue, 29 Sep 2020 00:21:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4Ly6oaV6foSvnNnH2TrkXm0O+KmWY5MpbF5572KH/vwGLIdQI3ZIpT+YIOe2DtmFXyGHRsQ==
-X-Received: by 2002:adf:e84a:: with SMTP id d10mr2739217wrn.66.1601364102632; 
- Tue, 29 Sep 2020 00:21:42 -0700 (PDT)
+ bh=OtuDJIdJ5w4UGc1V2cVEinxPVBCkF805rxImr5K61RY=;
+ b=OCUjzrtgkm/dWDb08hJE5vC1YDInLEVoUB90aQpTasvxcaHPloANwLNOxpsVS81Fan
+ wziEOe3Wp1bVjWUPPPAV3K/lkyE8hhMj+OR8lBrxAVokDAwEbZgUK85SuFLsfVQ0IW/V
+ kp8do0Yjnq13X5xO1QRqgeKzWqWBX6wT1jYkFUgNR9NAWAe8+56bb69H0v0ZqRzTdX0G
+ 4EBORjAbC6q0XBmKZx9FdOvtU9IBYmdzuVDCYSEKgAxUtesu/8pkVD7oskTfeKpUMV7+
+ 6UXNBgS45k//Dxx9yCHJkofzpQFoefDbi19zFgw8zqKnLC/QvT850rg8KAkqHtv3CIFS
+ h56A==
+X-Gm-Message-State: AOAM532FOYvpEK7hqxtltKLyZj7JVUA70hAC0xIlp9Gas6hN5RmV0HTm
+ e/EvuI0TYGgMJeuoua91OJ3mbXwsx1nQXxztkwWgWoCmzu5ULD/LtiAsiuAoPKbMJJL3fP2YCPp
+ TKFDqlMdKzHr+oJE=
+X-Received: by 2002:adf:a35d:: with SMTP id d29mr2523763wrb.307.1601364108456; 
+ Tue, 29 Sep 2020 00:21:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkNrZWMqxoVjiN9DBOVuxj00BgGz1FN9YDiZfN3ysMzveoaymFmRZPTBLJ2jezhq7Sh7ECsA==
+X-Received: by 2002:adf:a35d:: with SMTP id d29mr2523742wrb.307.1601364108298; 
+ Tue, 29 Sep 2020 00:21:48 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id e1sm4912033wrp.49.2020.09.29.00.21.40
+ by smtp.gmail.com with ESMTPSA id a10sm4125449wmj.38.2020.09.29.00.21.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:21:42 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:21:40 -0400
+ Tue, 29 Sep 2020 00:21:47 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:21:45 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 18/48] vhost-user-vsock-pci: force virtio version 1
-Message-ID: <20200929071948.281157-19-mst@redhat.com>
+Subject: [PULL v4 20/48] virtio: update MemoryRegionCaches when guest set bad
+ features
+Message-ID: <20200929071948.281157-21-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -81,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,63 +95,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- qemu-stable@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Li Qiang <liq3ea@163.com>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Li Qiang <liq3ea@163.com>
 
-Commit 9b3a35ec82 ("virtio: verify that legacy support is not
-accidentally on") added a safety check that requires to set
-'disable-legacy=on' on vhost-user-vsock-pci device:
+Current the 'virtio_set_features' only update the 'MemorRegionCaches'
+when the 'virtio_set_features_nocheck' return '0' which means it is
+not bad features. However the guest can still trigger the access of the
+used vring after set bad features. In this situation it will cause assert
+failure in 'ADDRESS_SPACE_ST_CACHED'.
 
-    $ ./qemu-system-x86_64 ... \
-    -chardev socket,id=char0,reconnect=0,path=/tmp/vhost4.socket \
-    -device vhost-user-vsock-pci,chardev=char0
-        qemu-system-x86_64: -device vhost-user-vsock-pci,chardev=char0:
-        device is modern-only, use disable-legacy=on
-
-virtio-vsock was introduced after the release of VIRTIO 1.0
-specifications, so it should be 'modern-only'.
-
-This patch forces virtio version 1 and removes the 'transitional_name'
-property, as done for vhost-vsock-pci, removing the need to specify
-'disable-legacy=on' on vhost-user-vsock-pci device.
-
-Cc: qemu-stable@nongnu.org
-Suggested-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200921122506.82515-4-sgarzare@redhat.com>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1890333
+Fixes: db812c4073c7 ("virtio: update MemoryRegionCaches when guest negotiates features")
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Message-Id: <20200919082706.6703-1-liq3ea@163.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-user-vsock-pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/virtio/virtio.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
-index 763f89984e..72a96199cd 100644
---- a/hw/virtio/vhost-user-vsock-pci.c
-+++ b/hw/virtio/vhost-user-vsock-pci.c
-@@ -41,6 +41,9 @@ static void vhost_user_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     VHostUserVSockPCI *dev = VHOST_USER_VSOCK_PCI(vpci_dev);
-     DeviceState *vdev = DEVICE(&dev->vdev);
- 
-+    /* unlike vhost-vsock, we do not need to care about pre-5.1 compat */
-+    virtio_pci_force_virtio_1(vpci_dev);
-+
-     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
- 
-@@ -69,7 +72,6 @@ static void vhost_user_vsock_pci_instance_init(Object *obj)
- static const VirtioPCIDeviceTypeInfo vhost_user_vsock_pci_info = {
-     .base_name             = TYPE_VHOST_USER_VSOCK_PCI,
-     .generic_name          = "vhost-user-vsock-pci",
--    .transitional_name     = "vhost-user-vsock-pci-transitional",
-     .non_transitional_name = "vhost-user-vsock-pci-non-transitional",
-     .instance_size = sizeof(VHostUserVSockPCI),
-     .instance_init = vhost_user_vsock_pci_instance_init,
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index a2edb4f386..6f8f865aff 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2963,17 +2963,16 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
+         return -EINVAL;
+     }
+     ret = virtio_set_features_nocheck(vdev, val);
+-    if (!ret) {
+-        if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
+-            /* VIRTIO_RING_F_EVENT_IDX changes the size of the caches.  */
+-            int i;
+-            for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+-                if (vdev->vq[i].vring.num != 0) {
+-                    virtio_init_region_cache(vdev, i);
+-                }
++    if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
++        /* VIRTIO_RING_F_EVENT_IDX changes the size of the caches.  */
++        int i;
++        for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
++            if (vdev->vq[i].vring.num != 0) {
++                virtio_init_region_cache(vdev, i);
+             }
+         }
+-
++    }
++    if (!ret) {
+         if (!virtio_device_started(vdev, vdev->status) &&
+             !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+             vdev->start_on_kick = true;
 -- 
 MST
 
