@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85C127BE48
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:43:39 +0200 (CEST)
-Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A047C27BE4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:44:31 +0200 (CEST)
+Received: from localhost ([::1]:56640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAIU-0007i2-Oe
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
+	id 1kNAJK-0000lv-N6
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:44:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y8-0004KD-F2
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25823)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9yG-0004ME-5W
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y4-0001mH-5i
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:36 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9yA-0001np-5c
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:43 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364151;
+ s=mimecast20190719; t=1601364157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FFSe8S+d7sfyg/qRmOaCuy2aqdJJ66OVOFjNgQL5r2g=;
- b=cPKIO6bN/daQe7SHG873lP5w+LogGS+mhVzoUYC4BwzCdQ/xA5vvLLwvpngbhHW+bDXee5
- UdwYXhlz2IXWIhWDo1YX9oTmi9pULNO2RlzauwNAFDmbZ1huwd/Z76K/XejYj9FWzIW1OK
- kSWreMrqKZBMpoKIFftG/HUTwu55D8o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-1o8DDa_dMvK6dCtegbW8sg-1; Tue, 29 Sep 2020 03:22:29 -0400
-X-MC-Unique: 1o8DDa_dMvK6dCtegbW8sg-1
-Received: by mail-wm1-f70.google.com with SMTP id m19so1454750wmg.6
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:29 -0700 (PDT)
+ bh=V8Xci8HnNkfgeQV1Okxnuws7AtEIZPnWRoO72+kZyuo=;
+ b=dJOOacNHwQCFcsIiMHF967a2lgIzAGa3aI6IluBTnxvSCKzImerRvDXdYuo1U8Yf6hckJ8
+ 5RWVkuvaMnCn/CEqVYGMltE38/R7cOxIPzBOuyZRuPveG1T70mWKtjiUOjUJSE1YTnnhfK
+ IyBsx5I7NdmD3KJRVQhJxKIr46SV9mA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-bUlQJ4ZXPWSo-bPWS4Nyiw-1; Tue, 29 Sep 2020 03:22:32 -0400
+X-MC-Unique: bUlQJ4ZXPWSo-bPWS4Nyiw-1
+Received: by mail-wr1-f69.google.com with SMTP id d9so1356199wrv.16
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=FFSe8S+d7sfyg/qRmOaCuy2aqdJJ66OVOFjNgQL5r2g=;
- b=HxOMlbNXgT0Gv4WWw/o5FekVd1Wz1s2A5jab2aTMIvVglzX05XNbk+fX0tZenc7zUH
- Jfg9obu3Z83eQ1cufIQusscfPxj3PWuSYmqnLYm/z4NU6DGICi9MHVHSQb5SW6/77lXW
- V+sPW6MB6PZqtDponSiT87VI3x1YN9ComHJiPGO4pf9nZRkU4OMcVRlWW7T3vmrjyvys
- w+9DZVCd5I7kYkALs1YQpC0iyT5ApXGWkskCTOOfpDKXFkILYyft9Ny/5Km9be9H8fAl
- QUcAQSku4A95y5ahd6+8Ms1tBeT4t5z+tD5Fy+yOb57OYCY69yzWfbDcyyOUfDCNpO4w
- +awA==
-X-Gm-Message-State: AOAM5309DE6ZjkSUkHnromjgA2TwxEEacHuWlPRIEfllF3IgvwkVIaqb
- NXck/ANxj9YRLGfwmYOslY29N4HwEwA+dvvICIQp0gpVWhX86DOghUNR//2AN9+Ysp6Yn32OM5t
- y5v4Z52GWaPXMhH8=
-X-Received: by 2002:adf:e74d:: with SMTP id c13mr2460377wrn.45.1601364148151; 
- Tue, 29 Sep 2020 00:22:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTruZnO4rFJhXVLkLMPvLRqZSt46cAvWatLRa9X6ObWqp6xcT8Yrg1d1H92SB0riVZ+W6/zw==
-X-Received: by 2002:adf:e74d:: with SMTP id c13mr2460362wrn.45.1601364147985; 
- Tue, 29 Sep 2020 00:22:27 -0700 (PDT)
+ bh=V8Xci8HnNkfgeQV1Okxnuws7AtEIZPnWRoO72+kZyuo=;
+ b=ScePLuIIMO9rZlihaO1dxrkVzGC2rANSaf6FPh0L8Zr67r9Keju/IXS/QUgFJRr6kQ
+ oy3AHx4azMed71JKLX4MQUK1ia788DfNm+aoE3zHhJOkRRqIuWg0lML1PFRiL4ISNTJx
+ gCemDLT/rw2T6yv/y4Z7KKnqhA+7EO5B928eoSfXXTQ5Dfauk84JGJYNpr1QkJDnMaIT
+ A52ftrVwJIwA/MyUzemZywCzNwoBNXqusr61IqbhL6elNxjOy+Mu7wJrtdxg5UyMv5v3
+ O8MH0kYbaq1DfG+oBDTB1yen/9xeY+oW4ORapSXSLFiVTQWeS5QlHreX3aV5tNiD/CKv
+ 9e2Q==
+X-Gm-Message-State: AOAM5339sx/waVyb3HLZAXovZ5zcfvGlisTEcGRXUpgyvLk4xqELl+z6
+ 6kmL5HsMOeo5fNmcO5+ZUkth0d+6abtTiYOOibRG66dBKzU1G1czPq+4RkZXuB0piS6wL5kCXkG
+ ZfkF8b0mLSmn1+k0=
+X-Received: by 2002:a7b:c84a:: with SMTP id c10mr2943730wml.139.1601364150937; 
+ Tue, 29 Sep 2020 00:22:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtPc7cVi5KpkCB0m3RlGR7hA4yvw4BikMZePW/sdUVVYU+CepNgS0+llTi5uWF6No6EQL9dw==
+X-Received: by 2002:a7b:c84a:: with SMTP id c10mr2943710wml.139.1601364150774; 
+ Tue, 29 Sep 2020 00:22:30 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id h2sm4662989wrp.69.2020.09.29.00.22.26
+ by smtp.gmail.com with ESMTPSA id u186sm4212160wmu.34.2020.09.29.00.22.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:22:27 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:22:25 -0400
+ Tue, 29 Sep 2020 00:22:30 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:22:28 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 35/48] tests/acpi: mark addition of table DSDT.roothp for
- unit testing root pci hotplug
-Message-ID: <20200929071948.281157-36-mst@redhat.com>
+Subject: [PULL v4 36/48] tests/acpi: add new unit test to test hotplug off/on
+ feature on the root pci bus
+Message-ID: <20200929071948.281157-37-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -95,38 +95,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ani Sinha <ani@anisinha.ca>
 
-A new binary acpi table tests/data/acpi/pc/DSDT.roothp is added in order to
-unit test the feature flag that can disable/enable root pci bus hotplug on
-i440fx. This feature was added with the commit:
-3d7e78aa7777f0 ("Introduce a new flag for i440fx to disable PCI hotplug on
-the root bus")
+Ability to turn hotplug off on the pci root bus for i440fx was added in commit:
+3d7e78aa7777f0 ("Introduce a new flag for i440fx to disable PCI hotplug on the
+root bus")
 
-This change documents the fact that this new file addition was made as a part
-of the unit test change.
+This change adds a unit test in order to test this feature.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200918084111.15339-2-ani@anisinha.ca>
+Message-Id: <20200918084111.15339-3-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/bios-tables-test.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..ac864fc982 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT.roothp",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index a9c8d478ae..bc932d0b9f 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -742,6 +742,20 @@ static void test_acpi_piix4_tcg_bridge(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_piix4_no_root_hotplug(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_PC;
++    data.variant = ".roothp";
++    data.required_struct_types = base_required_struct_types;
++    data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
++    test_acpi_one("-global PIIX4_PM.acpi-root-pci-hotplug=off "
++                  "-device pci-bridge,chassis_nr=1", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg(void)
+ {
+     test_data data;
+@@ -1160,6 +1174,8 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
+         qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+         qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
++        qtest_add_func("acpi/piix4/pci-hotplug/no_root_hotplug",
++                       test_acpi_piix4_no_root_hotplug);
+         qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+         qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+         qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
 -- 
 MST
 
