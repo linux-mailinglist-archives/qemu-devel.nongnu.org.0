@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B4927DC56
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:52:53 +0200 (CEST)
-Received: from localhost ([::1]:51146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5648B27DC5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:57:09 +0200 (CEST)
+Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNOUO-0006Q9-9I
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
+	id 1kNOYW-0002SL-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:57:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMf-0006R8-79
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59427)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMn-0006UD-22
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:45:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMa-0004cj-1X
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:52 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMh-0004dZ-3r
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:59 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601419487;
+ s=mimecast20190719; t=1601419494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p7uLIKQXb5D6cyBHRbAjul4kYmamhdwITN6LVBpYWc0=;
- b=U7kHhnTuuN+eHfGW+yfg9PTjCe4QEaHHVwZUZRgwxlSLEqkFkA51yJNw6Em77Q3WSG4wPe
- pbOtTCmyFgD9O+oeV6SOTzajVAVBH3OSFPVAAl0jUyXVBmoH3f9+MOL5vTxIocTU/AFvej
- ioUjGmda4Jf+dl3WaTZkNa2M+xPuMtY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-ZewTTowgOOeVyhl0lZoVwg-1; Tue, 29 Sep 2020 18:44:45 -0400
-X-MC-Unique: ZewTTowgOOeVyhl0lZoVwg-1
-Received: by mail-wm1-f70.google.com with SMTP id 73so553607wma.5
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:44:45 -0700 (PDT)
+ bh=HavTR5jlyYY+4DgutSw3BluUcAU3B5yxPF0wWIdw1vM=;
+ b=B3vaolFATMUgiN6x4OmWtIzi0Q1ltMBGFSnW73IW8hn8KOPjLR3145Spc6SJRJzo4kua2d
+ 7Z+UjR2yPXB36rvyKQJ4afFRsQm1qDB+khtS0ZKURRJm76fYLpzdoy224heAuG5cFhnNKW
+ nJ42VBYy1dVLiN4YXMEiXgBBrG9+UqE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-565--R2Wd9FxN_6L0vuCZ0uLzg-1; Tue, 29 Sep 2020 18:44:50 -0400
+X-MC-Unique: -R2Wd9FxN_6L0vuCZ0uLzg-1
+Received: by mail-wr1-f72.google.com with SMTP id 33so2342102wrk.12
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:44:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p7uLIKQXb5D6cyBHRbAjul4kYmamhdwITN6LVBpYWc0=;
- b=nkn1RD+4yBmd2FKAIlqLH1KAMNijYfpnd9rOefymPxqoUpzK/cMztryPIqITejsoIm
- XKPaYU3s1VxFbSrkblYBDMgtw/2BF32G8/uS8e1xPtjD9FMLzTVUvK/4JOgLzsSeE7RY
- uI3yBwGmx+sHnc9QWKQTAV35WPGNEGW85acwQKGwIsDD+jHFypKWfLe6qk5/3SXij60h
- 4S24q8OKsoHEcPaZq/sK7shaA2jcBo/jrIskrHG1Bd1SyU5Ar+2tRWvLJiHkUzXlA1X/
- N4eqpVlfCWgcPm5JSVtMZFlUflqpW0cStCihIvIGsbDkrsVddHvzMfYyJJP1fLOHcyV9
- j5zg==
-X-Gm-Message-State: AOAM532QjyWNH4+rm4/MlKP7kYLRBTjBcXGw5pPh88/oEfcF0bvLaM8R
- Mhu0piy9bbtsh6PHsPtm46LqJVnC9PF0Js4uJyRyfWTMAgNthkBqpwGWrOqWXAhVDTqmfUdzyh6
- 7zBtqHnnjqRpHSt8=
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr7195524wmc.154.1601419483974; 
- Tue, 29 Sep 2020 15:44:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9RqoWhYxxMGceyGdVBz1Ep153XBWsJa08idXxAaedi/xi2UMsikdfSG5GMUTBNffkCC6uig==
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr7195501wmc.154.1601419483746; 
- Tue, 29 Sep 2020 15:44:43 -0700 (PDT)
+ bh=HavTR5jlyYY+4DgutSw3BluUcAU3B5yxPF0wWIdw1vM=;
+ b=KI5JMUzeBl7GRTgMkbgOIRy1wR/JnStUBxmyYsxvLljhO8v9o//Tf/G3lCJN46siQY
+ 6B3DzjlAgp9cE/45bJeggA7k28VkNtcZYQyY7KvzorSr3XtHxlLE4hoYgzq/XUjnu+xr
+ ZbrreFblUM6KupIOBaoSqs5o/WUZsPMwhd7ExlNnNN1hoGSSYPbBd1v85YxCNGli0pRE
+ gGJjKPcs27vICL7P0SYfqKcVbkKJjKaEDdyFR3ov30v1FQNqrzcKP+IvBi4Gc2B8P8nc
+ 6uwq/oF9jlDJcfk74foujbuPub+bv4sqMbqMDtNKcjq0q0bnEL05ItXUzI8fE1RKYDF7
+ 0vVQ==
+X-Gm-Message-State: AOAM530RjcWzEEHwX+faiI8e2U7MbL07atdXT6yupiKJ+uVVBA/i+kyr
+ rxdcYNd2u7FmEtFbfFPzHuwuoNGqjUtHkByc4T68o8sz0YngA3ob5DX/9yPOrp4xpGhgFuAtstV
+ oAl4Tbv8efOLSd0E=
+X-Received: by 2002:adf:f552:: with SMTP id j18mr7126144wrp.128.1601419489040; 
+ Tue, 29 Sep 2020 15:44:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8PSYX9/XyNa0d4ovucJYi4QupKVwuKDBSqVqoLbQhr626hwpDLMGmdduFj20kYY9OEgIMog==
+X-Received: by 2002:adf:f552:: with SMTP id j18mr7126125wrp.128.1601419488887; 
+ Tue, 29 Sep 2020 15:44:48 -0700 (PDT)
 Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id 70sm7516873wme.15.2020.09.29.15.44.42
+ by smtp.gmail.com with ESMTPSA id t4sm8074682wrr.26.2020.09.29.15.44.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 15:44:43 -0700 (PDT)
+ Tue, 29 Sep 2020 15:44:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/12] target/arm: Make m_helper.c optional via
- CONFIG_ARM_V7M
-Date: Wed, 30 Sep 2020 00:43:52 +0200
-Message-Id: <20200929224355.1224017-10-philmd@redhat.com>
+Subject: [PATCH v4 10/12] target/arm: Do not build TCG objects when TCG is off
+Date: Wed, 30 Sep 2020 00:43:53 +0200
+Message-Id: <20200929224355.1224017-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200929224355.1224017-1-philmd@redhat.com>
 References: <20200929224355.1224017-1-philmd@redhat.com>
@@ -73,9 +72,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,7 +96,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+ Thomas Huth <thuth@redhat.com>, Samuel Ortiz <sameo@linux.intel.com>,
+ kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -106,213 +106,86 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Samuel Ortiz <sameo@linux.intel.com>
 
-We've already got the CONFIG_ARM_V7M switch, but it currently can
-not be disabled yet. The m_helper.c code should not be compiled
-into the binary if the switch is not enabled. We also have to
-provide some stubs in a separate file to make sure that we still
-can link the other code without CONFIG_ARM_V7M.
+We can now safely turn all TCG dependent build off when CONFIG_TCG is
+off. This allows building ARM binaries with --disable-tcg.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190903154810.27365-4-thuth@redhat.com>
-[PMD: Keep m_helper-stub.c but extend it, rewrite the rest]
+Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
+[PMD: Heavily rebased during almost 2 years then finally rewritten =) ]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Rewrite since v3, therefore removed Richard R-b tag.
----
- target/arm/cpu.h           | 12 -------
- target/arm/cpu_tcg.c       |  4 ++-
- target/arm/helper.c        |  7 ----
- target/arm/m_helper-stub.c | 73 ++++++++++++++++++++++++++++++++++++++
- target/arm/meson.build     |  4 ++-
- 5 files changed, 79 insertions(+), 21 deletions(-)
- create mode 100644 target/arm/m_helper-stub.c
+ target/arm/meson.build | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 6036f61d60..c5f4c1b181 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2117,12 +2117,6 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
- /* Interface between CPU and Interrupt controller.  */
- #ifndef CONFIG_USER_ONLY
- bool armv7m_nvic_can_take_pending_exception(void *opaque);
--#else
--static inline bool armv7m_nvic_can_take_pending_exception(void *opaque)
--{
--    return true;
--}
--#endif
- /**
-  * armv7m_nvic_set_pending: mark the specified exception as pending
-  * @opaque: the NVIC
-@@ -2228,13 +2222,7 @@ int armv7m_nvic_raw_execution_priority(void *opaque);
-  * @secure: the security state to test
-  * This corresponds to the pseudocode IsReqExecPriNeg().
-  */
--#ifndef CONFIG_USER_ONLY
- bool armv7m_nvic_neg_prio_requested(void *opaque, bool secure);
--#else
--static inline bool armv7m_nvic_neg_prio_requested(void *opaque, bool secure)
--{
--    return false;
--}
- #endif
- 
- /* Interface for defining coprocessor registers.
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 00b0e08f33..563b0e82bc 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -15,6 +15,7 @@
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
- 
-+#ifndef CONFIG_USER_ONLY
- static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
-     CPUClass *cc = CPU_GET_CLASS(cs);
-@@ -38,6 +39,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     }
-     return ret;
- }
-+#endif /* CONFIG_USER_ONLY */
- 
- static void arm926_initfn(Object *obj)
- {
-@@ -602,9 +604,9 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
-     acc->info = data;
- #ifndef CONFIG_USER_ONLY
-     cc->do_interrupt = arm_v7m_cpu_do_interrupt;
-+    cc->cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt;
- #endif
- 
--    cc->cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt;
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 88bd9dd35d..5196a17bdb 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -12653,13 +12653,6 @@ int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
-     }
- }
- 
--#ifndef CONFIG_TCG
--ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
--{
--    g_assert_not_reached();
--}
--#endif
--
- ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
- {
-     if (arm_feature(env, ARM_FEATURE_M)) {
-diff --git a/target/arm/m_helper-stub.c b/target/arm/m_helper-stub.c
-new file mode 100644
-index 0000000000..6d751424e8
---- /dev/null
-+++ b/target/arm/m_helper-stub.c
-@@ -0,0 +1,73 @@
-+/*
-+ * ARM V7M related stubs.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+#include "internals.h"
-+
-+void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-+{
-+    g_assert_not_reached();
-+}
-+
-+uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-+{
-+    g_assert_not_reached();
-+}
-+
-+uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
-+{
-+    g_assert_not_reached();
-+}
-+
-+ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
-+{
-+    g_assert_not_reached();
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+
-+bool armv7m_nvic_can_take_pending_exception(void *opaque)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void arm_v7m_cpu_do_interrupt(CPUState *cs)
-+{
-+    g_assert_not_reached();
-+}
-+
-+#endif /* CONFIG_USER_ONLY */
 diff --git a/target/arm/meson.build b/target/arm/meson.build
-index f5de2a77b8..f6a88297a8 100644
+index f6a88297a8..9b7727d4bb 100644
 --- a/target/arm/meson.build
 +++ b/target/arm/meson.build
-@@ -21,7 +21,6 @@ arm_ss.add(files(
+@@ -16,24 +16,29 @@ arm_ss = ss.source_set()
+ arm_ss.add(gen)
+ arm_ss.add(files(
+   'cpu.c',
+-  'crypto_helper.c',
+-  'debug_helper.c',
    'gdbstub.c',
    'helper.c',
++  'vfp_helper.c',
++))
++
++arm_tcg_ss = ss.source_set()
++arm_tcg_ss.add(files(
++  'arm-semi.c',
++  'cpu_tcg.c',
++  'crypto_helper.c',
++  'debug_helper.c',
    'iwmmxt_helper.c',
--  'm_helper.c',
    'neon_helper.c',
    'op_helper.c',
    'tlb_helper.c',
-@@ -30,9 +29,12 @@ arm_ss.add(files(
-   'vfp_helper.c',
-   'cpu_tcg.c',
+   'translate.c',
+   'vec_helper.c',
+-  'vfp_helper.c',
+-  'cpu_tcg.c',
  ))
-+arm_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('m_helper.c'), if_false: files('m_helper-stub.c'))
+-arm_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('m_helper.c'), if_false: files('m_helper-stub.c'))
 +
++arm_tcg_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('m_helper.c'), if_false: files('m_helper-stub.c'))
+ 
  arm_ss.add(zlib)
  
- arm_ss.add(when: 'CONFIG_TCG', if_true: files('arm-semi.c'))
-+arm_ss.add(when: 'CONFIG_TCG', if_false: files('m_helper-stub.c'))
+-arm_ss.add(when: 'CONFIG_TCG', if_true: files('arm-semi.c'))
+ arm_ss.add(when: 'CONFIG_TCG', if_false: files('m_helper-stub.c'))
  
  arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
+@@ -41,6 +46,9 @@ arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: fil
+ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'cpu64.c',
+   'gdbstub64.c',
++))
++
++arm_tcg_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'helper-a64.c',
+   'mte_helper.c',
+   'pauth_helper.c',
+@@ -49,14 +57,16 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'translate-sve.c',
+ ))
  
++arm_ss.add_all(when: 'CONFIG_TCG', if_true: arm_tcg_ss)
++
+ arm_softmmu_ss = ss.source_set()
+ arm_softmmu_ss.add(files(
+   'arch_dump.c',
+   'arm-powerctl.c',
+   'machine.c',
+   'monitor.c',
+-  'psci.c',
+ ))
++arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('psci.c'))
+ 
+ target_arch += {'arm': arm_ss}
+ target_softmmu_arch += {'arm': arm_softmmu_ss}
 -- 
 2.26.2
 
