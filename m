@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A163527CF24
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:29:44 +0200 (CEST)
-Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAD627CFBC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:47:09 +0200 (CEST)
+Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNFhP-0003Bo-Nq
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:29:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38028)
+	id 1kNFyG-00071I-MW
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kNFg3-0002QR-Po
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:28:19 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:59341)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kNFfv-0007uv-1D
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:28:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=bSiqQA0MZWWf8S7+gK7PaBB451xMzG1qTgaiycXHH6A=; b=blxJ7Pfo3BKDaAK8gqyKFj2evj
- H7X6GywcluTHEGctSXgJHLYzJWBsavAAo04zoZloDzX0h28yr/B++2RwFumSckXHF8JYcpnZcT+EV
- 0bxtWWxNCidKq0xo4kV1U4acDsqZsIbq8ANBsH5eAqMyF1joMPUAZrRFb1Fz9SkhHqRFJR5dwJvaZ
- i6l2yIqCV0MiMIfyEZT3ZRO3mpQBFUwG3rAymigOyZr0Ag+3JChfplEOKLnNecG1/4CNyWuoT7a//
- IOkRFHEgpTUZyEex4UzGHIdVXunCN3nlaSYTFty9cTuUe34O4lopNYEIhShhhewXwDcMW3VtpOCw7
- sAfpiPdMEdCY/pOVI1FGZKHWRwl4Aoft+vYJjcYwfDqpJvO95jU48QriW8KfpgKNkkBWmhvrIc/YO
- F0ZKuHicnNxqCGhaCczs2Ee9tO1RwR7bLu2ykeFW/7vQ+UbQqQFi5Xlk5X0RHVNolMWAZkDQm1c6C
- nG+ZlDlUKYBZCwTgTwROJvKhfNJF/98qbpbUxzNxZtYODSbXhubdBzt0UDdMOhJXmb/lTVF8/MQwx
- qUI1Hqt4E0j2khmFu9QyXBrl33FhY6/QQWaOOPGhnxA8iPEL/yTAUA37NAbcTbJ29kpQZrwBqBknN
- qIh1hpUN9YUbVXBr30W7KT7oTYP4AGUEzKvWbn7tw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Vivek Goyal <vgoyal@redhat.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- "cdupontd@redhat.com" <cdupontd@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Shinde, Archana M" <archana.m.shinde@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: virtiofs vs 9p performance(Re: tools/virtiofs: Multi threading
- seems to hurt performance)
-Date: Tue, 29 Sep 2020 15:28:06 +0200
-Message-ID: <2302525.O3mciSdnpG@silver>
-In-Reply-To: <20200929130325.GA220516@redhat.com>
-References: <20200918213436.GA3520@redhat.com> <66718708.HdZnNlUTFG@silver>
- <20200929130325.GA220516@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kNFsL-0001Rl-2B
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:41:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kNFsH-0001eM-IB
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:41:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kNFsF-00063h-IX
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 13:40:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6F0B02E80EC
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 13:40:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 09:28:09
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 29 Sep 2020 13:31:18 -0000
+From: Laurent Vivier <1895053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier pauldzim petunia2000
+X-Launchpad-Bug-Reporter: Petunia (petunia2000)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
+ <160138475272.22198.16883666175855868814.malone@gac.canonical.com>
+Message-Id: <b4766038-860e-6d39-69c5-10ca2b03d280@vivier.eu>
+Subject: Re: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to
+ start Journal Service.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d685c0a40836eb9844ed835c9700f20633c1d7af"; Instance="production"
+X-Launchpad-Hash: 3c0948209cac3584973344b298d64c1950acff65
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 09:06:02
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.199, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,124 +74,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 29. September 2020 15:03:25 CEST Vivek Goyal wrote:
-> On Sun, Sep 27, 2020 at 02:14:43PM +0200, Christian Schoenebeck wrote:
-> > On Freitag, 25. September 2020 20:51:47 CEST Dr. David Alan Gilbert wrote:
-> > > * Christian Schoenebeck (qemu_oss@crudebyte.com) wrote:
-> > > > On Freitag, 25. September 2020 15:05:38 CEST Dr. David Alan Gilbert 
-wrote:
-> > > > > > > 9p ( mount -t 9p -o trans=virtio kernel /mnt
-> > > > > > > -oversion=9p2000.L,cache=mmap,msize=1048576 ) test: (g=0):
-> > > > > > > rw=randrw,
-> > > > > > 
-> > > > > > Bottleneck ------------------------------^
-> > > > > > 
-> > > > > > By increasing 'msize' you would encounter better 9P I/O results.
-> > > > > 
-> > > > > OK, I thought that was bigger than the default;  what number should
-> > > > > I
-> > > > > use?
-> > > > 
-> > > > It depends on the underlying storage hardware. In other words: you
-> > > > have to
-> > > > try increasing the 'msize' value to a point where you no longer notice
-> > > > a
-> > > > negative performance impact (or almost). Which is fortunately quite
-> > > > easy
-> > > > to test on>
-> > > > 
-> > > > guest like:
-> > > > 	dd if=/dev/zero of=test.dat bs=1G count=12
-> > > > 	time cat test.dat > /dev/null
-> > > > 
-> > > > I would start with an absolute minimum msize of 10MB. I would
-> > > > recommend
-> > > > something around 100MB maybe for a mechanical hard drive. With a PCIe
-> > > > flash
-> > > > you probably would rather pick several hundred MB or even more.
-> > > > 
-> > > > That unpleasant 'msize' issue is a limitation of the 9p protocol:
-> > > > client
-> > > > (guest) must suggest the value of msize on connection to server
-> > > > (host).
-> > > > Server can only lower, but not raise it. And the client in turn
-> > > > obviously
-> > > > cannot see host's storage device(s), so client is unable to pick a
-> > > > good
-> > > > value by itself. So it's a suboptimal handshake issue right now.
-> > > 
-> > > It doesn't seem to be making a vast difference here:
-> > > 
-> > > 
-> > > 
-> > > 9p mount -t 9p -o trans=virtio kernel /mnt
-> > > -oversion=9p2000.L,cache=mmap,msize=104857600
-> > > 
-> > > Run status group 0 (all jobs):
-> > >    READ: bw=62.5MiB/s (65.6MB/s), 62.5MiB/s-62.5MiB/s
-> > >    (65.6MB/s-65.6MB/s),
-> > > 
-> > > io=3070MiB (3219MB), run=49099-49099msec WRITE: bw=20.9MiB/s (21.9MB/s),
-> > > 20.9MiB/s-20.9MiB/s (21.9MB/s-21.9MB/s), io=1026MiB (1076MB),
-> > > run=49099-49099msec
-> > > 
-> > > 9p mount -t 9p -o trans=virtio kernel /mnt
-> > > -oversion=9p2000.L,cache=mmap,msize=1048576000
-> > > 
-> > > Run status group 0 (all jobs):
-> > >    READ: bw=65.2MiB/s (68.3MB/s), 65.2MiB/s-65.2MiB/s
-> > >    (68.3MB/s-68.3MB/s),
-> > > 
-> > > io=3070MiB (3219MB), run=47104-47104msec WRITE: bw=21.8MiB/s (22.8MB/s),
-> > > 21.8MiB/s-21.8MiB/s (22.8MB/s-22.8MB/s), io=1026MiB (1076MB),
-> > > run=47104-47104msec
-> > > 
-> > > 
-> > > Dave
-> > 
-> > Is that benchmark tool honoring 'iounit' to automatically run with max.
-> > I/O
-> > chunk sizes? What's that benchmark tool actually? And do you also see no
-> > improvement with a simple
-> > 
-> > 	time cat largefile.dat > /dev/null
-> 
-> I am assuming that msize only helps with sequential I/O and not random
-> I/O.
-> 
-> Dave is running random read and random write mix and probably that's why
-> he is not seeing any improvement with msize increase.
-> 
-> If we run sequential workload (as "cat largefile.dat"), that should
-> see an improvement with msize increase.
-> 
-> Thanks
-> Vivek
-
-Depends on what's randomized. If read chunk size is randomized, then yes, you 
-would probably see less performance increase compared to a simple
-'cat foo.dat'.
-
-If only the read position is randomized, but the read chunk size honors 
-iounit, a.k.a. stat's st_blksize (i.e. reading with the most efficient block 
-size advertised by 9P), then I would assume still seeing a performance 
-increase. Because seeking is a no/low cost factor in this case. The guest OS 
-seeking does not transmit a 9p message. The offset is rather passed with any 
-Tread message instead:
-https://github.com/chaos/diod/blob/master/protocol.md
-
-I mean, yes, random seeks reduce I/O performance in general of course, but in 
-direct performance comparison, the difference in overhead of the 9p vs. 
-virtiofs network controller layer is most probably the most relevant aspect if 
-large I/O chunk sizes are used.
-
-But OTOH: I haven't optimized anything in Tread handling in 9p (yet).
-
-Best regards,
-Christian Schoenebeck
+Le 29/09/2020 =C3=A0 15:05, Petunia a =C3=A9crit=C2=A0:
+> Is that of any help?
+> =
 
 
+We need also the content of /mnt/var/log/syslog that contains the
+straces for systemd.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1895053
+
+Title:
+  Cannot nspawn raspbian 10 [FAILED] Failed to start Journal Service.
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi, I'm using nspawn and asked the question @systemd-devel. They redirect=
+ed me to you, guessing that nspawn calls a syscall or ioctl qemu isnt aware=
+ of and can't implement properly?
+  They were like: "Sorry, that's not my department." ^^
+
+  Maybe you can reproduce the issue or help me investigating whats wrong
+  or put the ball right back into their court? :D
+
+  Testscript:
+  wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -o r.zip
+  unzip r.zip
+  LOOP=3D$(losetup --show -Pf *raspios-buster-armhf-lite.img)
+  mount ${LOOP}p2 /mnt
+  mount ${LOOP}p1 /mnt/boot
+  systemd-nspawn --bind /usr/bin/qemu-arm-static --boot --directory=3D/mnt =
+-- systemd.log_level=3Ddebug
+
+  Output:
+  see attachment
+
+  System:
+  uname -a
+  Linux MArch 5.8.7-arch1-1 #1 SMP PREEMPT Sat, 05 Sep 2020 12:31:32 +0000
+  x86_64 GNU/Linux
+
+  qemu-arm-static --version
+  qemu-arm version 5.1.0
+
+  systemd-nspawn --version
+  systemd 246 (246.4-1-arch)
+  +PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP +LIBCRYPTSETUP
+  +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2=
+ -IDN
+  +PCRE2 default-hierarchy=3Dhybrid
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1895053/+subscriptions
 
