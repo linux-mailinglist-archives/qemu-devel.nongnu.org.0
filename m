@@ -2,100 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A34727C332
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:05:47 +0200 (CEST)
-Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B562127C317
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:03:32 +0200 (CEST)
+Received: from localhost ([::1]:38090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNDS6-00073u-LK
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56504)
+	id 1kNDPv-0003xU-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:03:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNDNc-0002Mu-R8
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNDNa-0002YU-QD
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:08 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601377265;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GjbuKTo8zbjx5ifTPlt4UM+4ebqCnC9ciETKQazC03I=;
- b=fHoRdWV+G1hoRRSWo0R/ozkWOqKZq0zxDOYW25NYRz9huelb2d13FibkzjRQCty4itkarW
- EKWlkwZ/lmzITNidI50GEDt7B7snD46kJrarpNAX/gxYsrUB9YB8yiTUW9tAzWTsbtEgEA
- 1xhVik0I4+5BIqyZdBz+hLe4V86c+a0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-6MQ1yI2ENBWqwbt1Aq3fqw-1; Tue, 29 Sep 2020 07:01:02 -0400
-X-MC-Unique: 6MQ1yI2ENBWqwbt1Aq3fqw-1
-Received: by mail-wm1-f72.google.com with SMTP id c200so1679455wmd.5
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:01:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GjbuKTo8zbjx5ifTPlt4UM+4ebqCnC9ciETKQazC03I=;
- b=CGdxiz7XpkH8QZOmhCmpl3JaOreTPwbZ9QoOyIVNr8080d9OZaS6jb2vmKUpeLXmfU
- yk0onydOx5e1P57ceEdjNqDtCACcDbieaP2l2p4kXTvTQE8W2+h6tXdySwuPq/JGjU+Q
- dZ83qBQcaWq9UBVSzbSakYQWDDS7gnJy/HN+9RGiQbaNNFj48mDdOeKReQX7TrSpwHt1
- FUOxCiHOyqazU7XPnJ1e6x7wm74pN6DCEc+I45uOj8cRE/4gps551AfbttGMjRKgf1lH
- QXHXuLJwbQFxdWOsTjf7kKjBYczge/H6GEenYMkjRo2FCgmhnrf5MKEcx7nD1A1aZcK2
- vzPQ==
-X-Gm-Message-State: AOAM53121vF0xiDn6YfuIhPuSoQxN5VAUF5ou/3BVqnqba7luNx8h21Y
- 0Ik+21/X1ZNcsOWnxe1brRBaEOAtlkzSogBruy8VydXlqXDrGU6Csu5BKu5QgkuGgOKMgzsjCai
- nTcOyf9MiwF5lb4Q=
-X-Received: by 2002:adf:e410:: with SMTP id g16mr3624660wrm.76.1601377260597; 
- Tue, 29 Sep 2020 04:01:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8etp3w2m6FNOtKivOe+uZXZ9aJ8Rro/iH5klUHl1/dpEScYAAbNQEFn+oTP4YzUwrFpH+Ng==
-X-Received: by 2002:adf:e410:: with SMTP id g16mr3624626wrm.76.1601377260340; 
- Tue, 29 Sep 2020 04:01:00 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:9dbe:2c91:3d1b:58c6?
- ([2001:b07:6468:f312:9dbe:2c91:3d1b:58c6])
- by smtp.gmail.com with ESMTPSA id e18sm5535449wrx.50.2020.09.29.04.00.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 04:00:59 -0700 (PDT)
-Subject: Re: [PATCH] PoC: Rust binding for QAPI (qemu-ga only, for now)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <20200910174850.716104-1-marcandre.lureau@redhat.com>
- <87mu1j8p7p.fsf@dusky.pond.sub.org>
- <CAMxuvayvRfjUMYDiB5fm5QBD76kfD8-G1wTEucQTBbZUtnwXrA@mail.gmail.com>
- <874knpluez.fsf@dusky.pond.sub.org>
- <CAJ+F1CLCT3RpZF8JDYayqkKxFu76vy+q6GUjofZV3JF_YDvxng@mail.gmail.com>
- <9d6215d4-d0cd-67e4-3048-77127194f7e8@redhat.com>
- <CAJ+F1CLowpdHaJ58Vt7GYukAYvYAfuEJvnuw_ZM5kO_4=gh9XA@mail.gmail.com>
- <8c1783d1-70f4-d751-3d5d-83459cb1db45@redhat.com>
- <CAJ+F1CJgEe3++UHDfT3iOGyu+r1tM4A_9jRXoKC0P-k-Mhq29w@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fb20f8e4-6bc9-3518-a983-86fad1915e49@redhat.com>
-Date: Tue, 29 Sep 2020 13:00:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kNDNh-0002RG-Ko
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:13 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:35018)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kNDNf-0002YT-0W
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:13 -0400
+Received: from [127.0.1.1] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id B77C740F9AAE;
+ Tue, 29 Sep 2020 11:01:04 +0000 (UTC)
+Subject: [PATCH v6 00/14] Reverse debugging
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: qemu-devel@nongnu.org
+Date: Tue, 29 Sep 2020 14:01:04 +0300
+Message-ID: <160137726426.31007.12061315974029139983.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJgEe3++UHDfT3iOGyu+r1tM4A_9jRXoKC0P-k-Mhq29w@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 07:01:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,90 +52,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "P. Berrange, Daniel" <berrange@redhat.com>,
- Sergio Lopez Pascual <slp@redhat.com>, "Hajnoczi, Stefan" <stefanha@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- John Snow <jsnow@redhat.com>
+Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
+ ehabkost@redhat.com, alex.bennee@linaro.org, mtosatti@redhat.com,
+ armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, philmd@redhat.com, zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/09/20 12:34, Marc-André Lureau wrote:
->     That would not be backwards compatible as you would have to set all
->     optional fields.  Every time the command grows a new optional argument,
->     all clients would have to specify it; if a command becomes optional,
->     you'd have to add Some() around it.  So I would say that...
-> 
-> 
-> Not necessarily, with ..default::Default()
+GDB remote protocol supports reverse debugging of the targets.
+It includes 'reverse step' and 'reverse continue' operations.
+The first one finds the previous step of the execution,
+and the second one is intended to stop at the last breakpoint that
+would happen when the program is executed normally.
 
-That's true, I always forget about .. (though you'd still have to add
-Some() for now-optional fields).
+Reverse debugging is possible in the replay mode, when at least
+one snapshot was created at the record or replay phase.
+QEMU can use these snapshots for travelling back in time with GDB.
 
->     > Less idiomatic, but it also works around the optional arguments and
->     > ordering issue.
-> 
->     ...  the builder pattern is not a workaround: it's the best and most
->     common Rust idiom to achieve what QAPI expresses as optional fields.
->     Likewise for keyword-only arguments in Python.
-> 
-> Except QAPI makes all fields potentially optional (and unordered),
-> that's not idiomatic.
+Running the execution in replay mode allows using GDB reverse debugging
+commands:
+ - reverse-stepi (or rsi): Steps one instruction to the past.
+   QEMU loads on of the prior snapshots and proceeds to the desired
+   instruction forward. When that step is reaches, execution stops.
+ - reverse-continue (or rc): Runs execution "backwards".
+   QEMU tries to find breakpoint or watchpoint by loaded prior snapshot
+   and replaying the execution. Then QEMU loads snapshots again and
+   replays to the latest breakpoint. When there are no breakpoints in
+   the examined section of the execution, QEMU finds one more snapshot
+   and tries again. After the first snapshot is processed, execution
+   stops at this snapshot.
 
-Yes, for some APIs you can always add hand-written, more idiomatic
-versions.  Or you could mark them as fixed-arguments in the schema and
-let the code generator do that (but then you need to add a compatibility
-check).  But that would be an explicit choice, not something required by
-the transport.
+The set of patches include the following modifications:
+ - gdbstub update for reverse debugging support
+ - functions that automatically perform reverse step and reverse
+   continue operations
+ - hmp/qmp commands for manipulating the replay process
+ - improvement of the snapshotting for saving the execution step
+   in the snapshot parameters
+ - avocado-based acceptance tests for reverse debugging
 
-> D-Bus is machine-level oriented, it's easy to bind to various languages,
-> it can be pretty efficient too. It's not designed to be a good network
-> RPC. QMP tries to be a bit of both, but is perhaps not good enough in
-> either.
+The patches are available in the repository:
+https://github.com/ispras/qemu/tree/rr-200901
 
-No, only tries to be a good network RPC; not a particularly efficient
-one, but future-proof.  And it mostly succeeds at that---with one
-notable exception: JSON parsers that mess up with numbers bigger than 2^53.
+v6 changes:
+ - removed passing err variable without checking it's value after
+v5 changes:
+ - disabled reverse debugging tests for gitlab-based testing
+   due to the unidentified timeout problem
+v4 changes:
+ - added VM snapshot creation on gdb connect (suggested by Alex Bennée)
+ - removed useless calls to error_free
+ - updated poll interrupt processing
+ - minor changes
+v3 changes:
+ - rebased to support the new build system
+ - bumped avocado framework version for using fixed remote gdb client
+v2 changes:
+ - rebased to the latest upstream version
+ - fixed replaying of the POLL interrupts after the latest debug changes
 
->     If you want to "reinvent" QMP, instead of focusing on D-Bus you should
->     take a look at alternative IDLs and protocols (D-Bus is one but there's
->     also Protobuf and Flexbuffers), see how QAPI declarations would map to
->     those protocols, see how you would deal with extensibility, and rank
->     them according to various criteria.  For example:
-> 
->     * JSON "just works" but needs a custom code generator and imposes some
->     extra complexity on the clients for the simplest commands
-> 
->     * D-Bus has a good ecosystem and would keep simple commands simpler but
->     has issues with upgrade paths and is uglier for complex commands
-> 
->     * Protobufs probably would also just work and would have better code
->     generators, but would require some kind of lint to ensure
->     backwards-compatibility
-> 
-> Again, the issues we are discussing are not specific to binding QMP over
-> D-Bus. Binding QMP to various languages has similar problems.
+---
 
-Marc-André, we are totally in agreement about that!  The problem is that
-you have already decided what the solution looks like, and that's what
-I'm not sure about because your solution also implies completely
-revisiting the schema.
+Pavel Dovgaluk (11):
+      replay: provide an accessor for rr filename
+      qcow2: introduce icount field for snapshots
+      qapi: introduce replay.json for record/replay-related stuff
+      replay: introduce info hmp/qmp command
+      replay: introduce breakpoint at the specified step
+      replay: implement replay-seek command
+      replay: flush rr queue before loading the vmstate
+      gdbstub: add reverse step support in replay mode
+      gdbstub: add reverse continue support in replay mode
+      replay: describe reverse debugging in docs/replay.txt
+      tests/acceptance: add reverse debugging test
 
-I say there are many candidates (the ones I know are Protobuf and
-Flexbuffers) for serialization and many candidates for transport (REST
-and gRPC to begin with) in addition to the two {QMP,JSON} and
-{DBus,DBus} tuples.  We should at least look at how they do code
-generation before deciding that JSON is bad and DBus is good.
+Pavel Dovgalyuk (3):
+      replay: don't record interrupt poll
+      migration: introduce icount field for snapshots
+      replay: create temporary snapshot at debugger connection
 
-> I would rather make those problems solved at the server level, that
-> doesn't require any change to QMP today, just a more careful
-> consideration when making changes (and probably some tools to help
-> enforce some stability).
 
-Problem is, "more careful consideration when making changes" is not a
-small thing.  And other RPCs have evolved in a completely different
-space (REST APIs for web services) that have chosen the same tradeoffs
-as QMP, so why should we not learn from them?
+ MAINTAINERS                           |    2 
+ accel/tcg/cpu-exec.c                  |   21 ++
+ accel/tcg/translator.c                |    1 
+ block/qapi.c                          |   18 +-
+ block/qcow2-snapshot.c                |    9 +
+ block/qcow2.h                         |    3 
+ blockdev.c                            |   10 +
+ docs/interop/qcow2.txt                |    5 
+ docs/replay.txt                       |   46 +++++
+ exec.c                                |    8 +
+ gdbstub.c                             |   64 ++++++
+ hmp-commands-info.hx                  |   11 +
+ hmp-commands.hx                       |   50 +++++
+ include/block/snapshot.h              |    1 
+ include/monitor/hmp.h                 |    4 
+ include/sysemu/replay.h               |   26 +++
+ migration/savevm.c                    |   17 +-
+ qapi/block-core.json                  |   11 +
+ qapi/meson.build                      |    1 
+ qapi/misc.json                        |   18 --
+ qapi/qapi-schema.json                 |    1 
+ qapi/replay.json                      |  121 ++++++++++++
+ replay/meson.build                    |    1 
+ replay/replay-debugging.c             |  332 +++++++++++++++++++++++++++++++++
+ replay/replay-events.c                |    4 
+ replay/replay-internal.h              |    6 -
+ replay/replay.c                       |   22 ++
+ softmmu/cpus.c                        |   19 ++
+ stubs/replay.c                        |   15 +
+ tests/acceptance/reverse_debugging.py |  208 +++++++++++++++++++++
+ tests/qemu-iotests/267.out            |   48 ++---
+ 31 files changed, 1039 insertions(+), 64 deletions(-)
+ create mode 100644 qapi/replay.json
+ create mode 100644 replay/replay-debugging.c
+ create mode 100644 tests/acceptance/reverse_debugging.py
 
-Paolo
-
+--
+Pavel Dovgalyuk
 
