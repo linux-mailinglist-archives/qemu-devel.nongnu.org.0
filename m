@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8364827C318
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:03:35 +0200 (CEST)
-Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207DC27C333
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:06:00 +0200 (CEST)
+Received: from localhost ([::1]:46310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNDPy-0003y9-L1
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56588)
+	id 1kNDSJ-0007GE-7l
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kNDNn-0002SQ-9I
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:19 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:35038)
+ id 1kNDNs-0002St-UX
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:25 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:35060)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kNDNg-0002Zb-PB
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:18 -0400
+ id 1kNDNn-0002bH-Cw
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:24 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 96048413C33E;
- Tue, 29 Sep 2020 11:01:10 +0000 (UTC)
-Subject: [PATCH v6 01/14] replay: don't record interrupt poll
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5ECE640F9AAE;
+ Tue, 29 Sep 2020 11:01:16 +0000 (UTC)
+Subject: [PATCH v6 02/14] replay: provide an accessor for rr filename
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Tue, 29 Sep 2020 14:01:10 +0300
-Message-ID: <160137727030.31007.8507949116622549670.stgit@pasha-ThinkPad-X280>
+Date: Tue, 29 Sep 2020 14:01:16 +0300
+Message-ID: <160137727608.31007.16035900039781330896.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <160137726426.31007.12061315974029139983.stgit@pasha-ThinkPad-X280>
 References: <160137726426.31007.12061315974029139983.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -61,69 +61,45 @@ Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Interrupt poll is not a real interrupt event. It is needed only for
-thread safety. This interrupt is used for i386 and converted
-to hardware interrupt by cpu_handle_interrupt function.
-Therefore it is not needed to be recorded, because hardware
-interrupt will be recorded after converting.
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+
+This patch adds an accessor function for the name of the record/replay
+log file. Adding an accessor instead of making variable global,
+prevents accidental modification of this variable by other modules.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
---
-
-v4 changes:
- - Condition check refactoring (suggested by Alex Bennée)
 ---
- accel/tcg/cpu-exec.c |   21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ include/sysemu/replay.h |    2 ++
+ replay/replay.c         |    5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index e10b46283c..a2b913c72f 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -430,8 +430,7 @@ static inline bool cpu_handle_halt(CPUState *cpu)
- {
-     if (cpu->halted) {
- #if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
--        if ((cpu->interrupt_request & CPU_INTERRUPT_POLL)
--            && replay_interrupt()) {
-+        if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
-             X86CPU *x86_cpu = X86_CPU(cpu);
-             qemu_mutex_lock_iothread();
-             apic_poll_irq(x86_cpu->apic_state);
-@@ -527,6 +526,20 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-     return false;
- }
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index 5471bb514d..c9c896ae8d 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -72,6 +72,8 @@ void replay_start(void);
+ void replay_finish(void);
+ /*! Adds replay blocker with the specified error description */
+ void replay_add_blocker(Error *reason);
++/* Returns name of the replay log file */
++const char *replay_get_filename(void);
  
-+/*
-+ * CPU_INTERRUPT_POLL is a virtual event which gets converted into a
-+ * "real" interrupt event later. It does not need to be recorded for
-+ * replay purposes.
-+ */
-+static inline bool need_replay_interrupt(int interrupt_request)
-+{
-+#if defined(TARGET_I386)
-+    return !(interrupt_request & CPU_INTERRUPT_POLL);
-+#else
-+    return true;
-+#endif
-+}
-+
- static inline bool cpu_handle_interrupt(CPUState *cpu,
-                                         TranslationBlock **last_tb)
+ /* Processing the instructions */
+ 
+diff --git a/replay/replay.c b/replay/replay.c
+index 83ed9e0e24..42e82f7bc7 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -399,3 +399,8 @@ void replay_add_blocker(Error *reason)
  {
-@@ -588,7 +601,9 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-            and via longjmp via cpu_loop_exit.  */
-         else {
-             if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
--                replay_interrupt();
-+                if (need_replay_interrupt(interrupt_request)) {
-+                    replay_interrupt();
-+                }
-                 /*
-                  * After processing the interrupt, ensure an EXCP_DEBUG is
-                  * raised when single-stepping so that GDB doesn't miss the
+     replay_blockers = g_slist_prepend(replay_blockers, reason);
+ }
++
++const char *replay_get_filename(void)
++{
++    return replay_filename;
++}
 
 
