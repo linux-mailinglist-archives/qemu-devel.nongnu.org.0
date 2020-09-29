@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D511627CFB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:45:11 +0200 (CEST)
-Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E00D27CFBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:47:07 +0200 (CEST)
+Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNFwM-0004G5-Tk
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:45:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40760)
+	id 1kNFyE-0006tU-I2
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kNFqK-0007ZM-4g; Tue, 29 Sep 2020 09:38:57 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:33592)
+ id 1kNFqK-0007ZN-Lo; Tue, 29 Sep 2020 09:38:57 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:34614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kNFqG-0001DJ-BB; Tue, 29 Sep 2020 09:38:55 -0400
-Received: by mail-qk1-x744.google.com with SMTP id s131so4300775qke.0;
- Tue, 29 Sep 2020 06:38:51 -0700 (PDT)
+ id 1kNFqI-0001Db-Dy; Tue, 29 Sep 2020 09:38:56 -0400
+Received: by mail-qk1-x744.google.com with SMTP id c62so4303193qke.1;
+ Tue, 29 Sep 2020 06:38:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AQnMhIcD5eYV/9ZgfONZjp6v86/KsVMWHA6TpQLzrRY=;
- b=oHcI2m1UOanbEY0l9aI8ELePzBDuNy4oPomABTk6xvZaM/nYynP/QvErAj/cSOa4Io
- LzZTteJMBI0+FoCEJ8/ZcULe3GQjFaUNonqGurnUaMyMxyU76fLcMbCYHW8IV+1Vy0HR
- nPGDqhmVH1NmabEGm13NrLoEGqOeALBq0oRpIz/jZFKNlI3LnrQaMLpIrnElYeef/ytL
- KKMyb2jfMABbxqJiupBHCQxn1XeKZTaxj1u2Le0r7BcUcVXg943F40+XPe9UTtIIpyq/
- vNQbEuG3zKw/2241j4vi2ak9wqMA6LvVNe+EvHvKGafPyx8d0GVLFxxbOTV7pgUs2wy8
- 8aSw==
+ bh=jijcRPvylkUY2TozcNpYKw9C8qqxbdoidV8N19tjEm4=;
+ b=dPDTaKwZtQTJfQYvuPYpUl+Irb8UZ3NOao1kHBopyQx/+Q9bJFc7IIwSTPfBShfbqa
+ wgrxPnFHZ80dr610BbiS4i3IurQymTfur3Oojmmr4Myy7VvATNlLQdEa+BhDvkf/Pd3T
+ bOB/80p4v5KXBqjTQxlGvktuWAIXU6fB5+Kel1ZV69OQYTLjrga7zGOcnyL+fwv78pnX
+ EOjdQ//5f515kZcGpCpQRUaxKjAzxpjFHkYFrrFTGLCV0L/3quX33WT43X8pd+dRDqVA
+ qjhBVNqNRWYcN+7z84+jXceGbU5t3ESEWpIUUxCm0B2bvky3QAaeixOq663WbTJE3GcS
+ kDkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AQnMhIcD5eYV/9ZgfONZjp6v86/KsVMWHA6TpQLzrRY=;
- b=t1mQ1cRT8E5p7sKuAxYhRzTkkJkMlKNVad5+4hPNonzGh68S5nGKVbFlwoR1nYU6Bh
- vfTBFL4mbBFWcEtKfr36+wcg12PEKeIk6Rs/0UBFtlyOHwMktbhAAGettJthH2ZhnqZH
- D3svW9KTIhqAOKQfGZ7PJCLKdv7a5LVYgEcdGnNGlJY61qhq+7qnLozNW8NI7qLdXvtk
- sgtG0HShPZqbamjrRCC1zeg06JO7aptWrBN7LSScNYpdzPHu2xFQ0Ec+KXrE0+ZO4jE6
- q4g4vwjHN3bBDzgP3WpsEFx05rs4rWtiArhzz+B1Zv+CmGQWvP8wp4X0GHFmDXh8ubK7
- BqUg==
-X-Gm-Message-State: AOAM530fdG6HcXkd7dRWip03rtVC2/QiAxsLHyEaZPwdvu3TDftNBUAL
- AZLOx5wND++8x9/MoPolOj6fjaJ46Uw=
-X-Google-Smtp-Source: ABdhPJyuCxV56CQXLdRjkidI84GUVNG/t4Dm7bu7s7zqnt85ZmMWPBjQzcEBbdsJSE1wxn1RujBQ9w==
-X-Received: by 2002:a37:4e45:: with SMTP id c66mr4548828qkb.36.1601386730318; 
- Tue, 29 Sep 2020 06:38:50 -0700 (PDT)
+ bh=jijcRPvylkUY2TozcNpYKw9C8qqxbdoidV8N19tjEm4=;
+ b=kf4dgA9d02iT3G+lbhyhWH1d3xyAJeoly+Yv6ti62DslkDe66IHEjt+mzhJLmYRj3b
+ l3/k6ZH2F8NseAxOWOlmJBi7cpIUlaHADBsmMcT1EL47TEj/slwtts/A+fRNOgLSTqXH
+ wAVdltFHO0nNuvRqPC8Xi6FW7aKIxiG5NzFYA8pQhOfZirt7CI6+9AMjq/6ck3xMM3cC
+ q21lo7umd/sEryAiREUDG2QLF6+Hnjmi7Xxg5jtW7rUueUb/4c6KQ2zD3KhTYw1xuSVf
+ 9MI2uwxRIVjB4TddTdFFfgC1qNyLOjMiZzULiv+qe+qwqnkVIpZOlnwuR9iG458JKRSs
+ aW2g==
+X-Gm-Message-State: AOAM533uA7Ld/goZxZ7Q/WJ1IwWx/sHRKYLr1N0r+/hGAGL4asgohzud
+ aFCbdk6lUovEZvtADfOTT7KKwFTHQ9c=
+X-Google-Smtp-Source: ABdhPJyvaH1zhujglLKoZrXU3wefcyWi8IBxw+5RJ6ecGEWvlZkrfzElu2+O7jgT2s9mjax2WPeYGA==
+X-Received: by 2002:a05:620a:231:: with SMTP id
+ u17mr4553983qkm.166.1601386732262; 
+ Tue, 29 Sep 2020 06:38:52 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:c625:6c0e:4720:8228:5f68])
- by smtp.gmail.com with ESMTPSA id j88sm5239938qte.96.2020.09.29.06.38.48
+ by smtp.gmail.com with ESMTPSA id j88sm5239938qte.96.2020.09.29.06.38.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 06:38:49 -0700 (PDT)
+ Tue, 29 Sep 2020 06:38:51 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/5] spapr_numa: consider user input when defining
- associativity
-Date: Tue, 29 Sep 2020 10:38:16 -0300
-Message-Id: <20200929133817.560278-5-danielhb413@gmail.com>
+Subject: [PATCH v3 5/5] specs/ppc-spapr-numa: update with new NUMA support
+Date: Tue, 29 Sep 2020 10:38:17 -0300
+Message-Id: <20200929133817.560278-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200929133817.560278-1-danielhb413@gmail.com>
 References: <20200929133817.560278-1-danielhb413@gmail.com>
@@ -89,205 +89,234 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch puts all the pieces together to finally allow user
-input when defining the NUMA topology of the spapr guest.
-
-For each NUMA node A, starting at node id 0, the new
-spapr_numa_define_associativity_domains() will:
-
-- get the distance between node A and B = A + 1
-- get the correspondent NUMA level for this distance
-- assign the associativity domain for A and B for the given
-NUMA level, using the lowest associativity domain value between
-them
-- if there is more NUMA nodes, increment B and repeat
-
-Since we always start at the first node (id = 0) and go in
-ascending order, we are prioritizing any previous associativity
-already calculated. This is necessary because neither QEMU, nor
-the pSeries kernel, supports multiple associativity domains for
-each resource, meaning that we have to decide which associativity
-relation is relevant. Another side effect is that the first
-NUMA node, node 0, will always have an associativity array
-full of zeroes. This is intended - in fact, the Linux kernel
-expects it (see [1] for more info).
-
-Ultimately, all of this results in a best effort approximation for
-the actual NUMA distances the user input in the command line. Given
-the nature of how PAPR itself interprets NUMA distances versus the
-expectations risen by how ACPI SLIT works, there might be better
-algorithms but, in the end, it'll also result in another way to
-approximate what the user really wanted.
-
-To keep this commit message no longer than it already is, the next
-patch will update the existing documentation in ppc-spapr-numa.rst
-with more in depth details and design considerations/drawbacks.
-
-[1] https://lore.kernel.org/linuxppc-dev/5e8fbea3-8faf-0951-172a-b41a2138fbcf@gmail.com/
+This update provides more in depth information about the
+choices and drawbacks of the new NUMA support for the
+spapr machine.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_numa.c | 120 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 119 insertions(+), 1 deletion(-)
+ docs/specs/ppc-spapr-numa.rst | 206 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 205 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 16badb1f4b..f3d43ceb1e 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -37,12 +37,118 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
-     return true;
- }
+diff --git a/docs/specs/ppc-spapr-numa.rst b/docs/specs/ppc-spapr-numa.rst
+index e762038022..6dd13bf97b 100644
+--- a/docs/specs/ppc-spapr-numa.rst
++++ b/docs/specs/ppc-spapr-numa.rst
+@@ -158,9 +158,213 @@ kernel tree). This results in the following distances:
+ * resources four NUMA levels apart: 160
  
-+/*
-+ * This function will translate the user distances into
-+ * what the kernel understand as possible values: 10
-+ * (local distance), 20, 40, 80 and 160, and return the equivalent
-+ * NUMA level for each. Current heuristic is:
-+ *  - local distance (10) returns numa_level = 0x4
-+ *  - distances between 11 and 30 inclusive -> rounded to 20,
-+ *    numa_level = 0x3
-+ *  - distances between 31 and 60 inclusive -> rounded to 40,
-+ *    numa_level = 0x2
-+ *  - distances between 61 and 120 inclusive -> rounded to 80,
-+ *    numa_level = 0x1
-+ *  - everything above 120 returns numa_level = 0 to indicate that
-+ *    there is no match. This will be calculated as disntace = 160
-+ *    by the kernel (as of v5.9)
-+ */
-+static uint8_t spapr_numa_get_numa_level(uint8_t distance)
-+{
-+    uint8_t rounded_distance = 160;
-+    uint8_t numa_level;
-+
-+    if (distance > 11 && distance <= 30) {
-+        rounded_distance = 20;
-+    } else if (distance > 31 && distance <= 60) {
-+        rounded_distance = 40;
-+    } else if (distance > 61 && distance <= 120) {
-+        rounded_distance = 80;
-+    }
-+
-+    switch (rounded_distance) {
-+    case 10:
-+        numa_level = 0x4;
-+        break;
-+    case 20:
-+        numa_level = 0x3;
-+        break;
-+    case 40:
-+        numa_level = 0x2;
-+        break;
-+    case 80:
-+        numa_level = 0x1;
-+        break;
-+    default:
-+        numa_level = 0;
-+    }
-+
-+    return numa_level;
-+}
-+
-+static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr)
-+{
-+    MachineState *ms = MACHINE(spapr);
-+    NodeInfo *numa_info = ms->numa_state->nodes;
-+    int nb_numa_nodes = ms->numa_state->num_nodes;
-+    int src, dst;
-+
-+    for (src = 0; src < nb_numa_nodes; src++) {
-+        for (dst = src; dst < nb_numa_nodes; dst++) {
-+            /*
-+             * This is how the associativity domain between A and B
-+             * is calculated:
-+             *
-+             * - get the distance between them
-+             * - get the correspondent NUMA level for this distance
-+             * - the arrays were initialized with their own numa_ids,
-+             * and we're calculating the distance in node_id ascending order,
-+             * starting from node 0. This will have a cascade effect in the
-+             * algorithm because the associativity domains that node 0 defines
-+             * will be carried over to the other nodes, and node 1
-+             * associativities will be carried over unless there's already a
-+             * node 0 associativity assigned, and so on. This happens because
-+             * we'll assign assoc_src as the associativity domain of dst
-+             * as well, for the given NUMA level.
-+             *
-+             * The PPC kernel expects the associativity domains of node 0 to
-+             * be always 0, and this algorithm will grant that by default.
-+             */
-+            uint8_t distance = numa_info[src].distance[dst];
-+            uint8_t n_level = spapr_numa_get_numa_level(distance);
-+            uint32_t assoc_src;
-+
-+            /*
-+             * n_level = 0 means that the distance is greater than our last
-+             * rounded value (120). In this case there is no NUMA level match
-+             * between src and dst and we can skip the remaining of the loop.
-+             *
-+             * The Linux kernel will assume that the distance between src and
-+             * dst, in this case of no match, is 10 (local distance) doubled
-+             * for each NUMA it didn't match. We have MAX_DISTANCE_REF_POINTS
-+             * levels (4), so this gives us 10*2*2*2*2 = 160.
-+             *
-+             * This logic can be seen in the Linux kernel source code, as of
-+             * v5.9, in arch/powerpc/mm/numa.c, function __node_distance().
-+             */
-+            if (n_level == 0) {
-+                continue;
-+            }
-+
-+            assoc_src = spapr->numa_assoc_array[src][n_level];
-+            spapr->numa_assoc_array[dst][n_level] = assoc_src;
-+        }
-+    }
-+
-+}
-+
- void spapr_numa_associativity_init(SpaprMachineState *spapr,
-                                    MachineState *machine)
- {
-     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-     int nb_numa_nodes = machine->numa_state->num_nodes;
-     int i, j, max_nodes_with_gpus;
-+    bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
  
-     /*
-      * For all associativity arrays: first position is the size,
-@@ -56,6 +162,17 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-     for (i = 0; i < nb_numa_nodes; i++) {
-         spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-         spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+-Consequences for QEMU NUMA tuning
++pseries NUMA mechanics
++======================
 +
-+        /*
-+         * Fill all associativity domains of non-zero NUMA nodes with
-+         * node_id. This is required because the default value (0) is
-+         * considered a match with associativity domains of node 0.
-+         */
-+        if (!using_legacy_numa && i != 0) {
-+            for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
-+                spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
-+            }
-+        }
-     }
++Starting in QEMU 5.2, the pseries machine considers user input when setting NUMA
++topology of the guest. The following changes were made:
++
++* ibm,associativity-reference-points was changed to {0x4, 0x3, 0x2, 0x1}, allowing
++  for 4 distinct NUMA distance values based on the NUMA levels
++
++* ibm,max-associativity-domains was changed to support multiple associativity
++  domains in all NUMA levels. This is needed to ensure user flexibility
++
++* ibm,associativity for all resources now varies with user input
++
++These changes are only effective for pseries-5.2 and newer machines that are
++created with more than one NUMA node (disconsidering NUMA nodes created by
++the machine itself, e.g. NVLink 2 GPUs). The now legacy support has been
++around for such a long time, with users seeing NUMA distances 10 and 40
++(and 80 if using NVLink2 GPUs), and there is no need to disrupt the
++existing experience of those guests.
++
++To bring the user experience x86 users have when tuning up NUMA, we had
++to operate under the current pseries Linux kernel logic described in
++`How the pseries Linux guest calculates NUMA distances`_. The result
++is that we needed to translate NUMA distance user input to pseries
++Linux kernel input.
++
++Translating user distance to kernel distance
++--------------------------------------------
++
++User input for NUMA distance can vary from 10 to 254. We need to translate
++that to the values that the Linux kernel operates on (10, 20, 40, 80, 160).
++This is how it is being done:
++
++* user distance 11 to 30 will be interpreted as 20
++* user distance 31 to 60 will be interpreted as 40
++* user distance 61 to 120 will be interpreted as 80
++* user distance 121 and beyond will be interpreted as 160
++* user distance 10 stays 10
++
++The reasoning behind this aproximation is to avoid any round up to the local
++distance (10), keeping it exclusive to the 4th NUMA level (which is still
++exclusive to the node_id). All other ranges were chosen under the developer
++discretion of what would be (somewhat) sensible considering the user input.
++Any other strategy can be used here, but in the end the reality is that we'll
++have to accept that a large array of values will be translated to the same
++NUMA topology in the guest, e.g. this user input:
++
++::
++
++      0   1   2
++  0  10  31 120
++  1  31  10  30
++  2 120  30  10
++
++And this other user input:
++
++::
++
++      0   1   2
++  0  10  60  61
++  1  60  10  11
++  2  61  11  10
++
++Will both be translated to the same values internally:
++
++::
++
++      0   1   2
++  0  10  40  80
++  1  40  10  20
++  2  80  20  10
++
++Users are encouraged to use only the kernel values in the NUMA definition to
++avoid being taken by surprise with that the guest is actually seeing in the
++topology. There are enough potential surprises that are inherent to the
++associativity domain assignment process, discussed below.
++
++
++How associativity domains are assigned
++--------------------------------------
++
++LOPAPR allows more than one associativity array (or 'string') per allocated
++resource. This would be used to represent that the resource has multiple
++connections with the board, and then the operational system, when deciding
++NUMA distancing, should consider the associativity information that provides
++the shortest distance.
++
++The spapr implementation does not support multiple associativity arrays per
++resource, neither does the pseries Linux kernel. We'll have to represent the
++NUMA topology using one associativity per resource, which means that choices
++and compromises are going to be made.
++
++Consider the following NUMA topology entered by user input:
++
++::
++
++      0   1   2   3
++  0  10  40  20  40
++  1  40  10  80  40
++  2  20  80  10  20
++  3  40  40  20  10
++
++Honoring just the relative distances of node 0 to every other node, one possible
++value for all associativity arrays would be:
++
++* node 0: 0 0 0 0
++* node 1: 1 0 1 1
++* node 2: 2 2 0 2
++* node 3: 3 0 3 3
++
++With the reference points {0x4, 0x3, 0x2, 0x1}, for node 0:
++
++* distance from 0 to 1 is 40 (no match at 0x4 and 0x3, will match
++  at 0x2)
++* distance from 0 to 2 is 20 (no match at 0x4, will match at 0x3)
++* distance from 0 to 3 is 40 (no match at 0x4 and 0x3, will match
++  at 0x2)
++
++The distances related to node 0 are accounted for. For node 1, and keeping
++in mind that we don't need to revisit node 0 again, the distance from
++node 1 to 2 is 80, matching at 0x4, and distance from 1 to 3 is 40,
++match in 0x3:
++
++* node 0: 0 0 0 0
++* node 1: 1 0 1 1
++* node 2: 1 2 0 2
++* node 3: 3 0 3 3
++
++In the last step we will analyze just nodes 2 and 3. The desired distance
++between 2 and 3 is 20, i.e. a match in 0x3. Node 2 already has a
++domain assigned in 0x3, 0. We'll preserve it to avoid dissolving the
++association between node 0 and node 2, and use it as a domain for
++0x3 as well:
++
++* node 0: 0 0 0 0
++* node 1: 1 0 1 1
++* node 2: 1 2 0 2
++* node 3: 3 0 0 3
++
++
++The kernel will read these arrays and will calculate the following NUMA topology for
++the guest:
++
++::
++
++      0   1   2   3
++  0  10  40  20  20
++  1  40  10  80  40
++  2  20  80  10  20
++  3  20  40  20  10
++
++Note that this is not what the user wanted - the desired distance between
++0 and 3 is 40, we calculated it as 20. This is what the current logic and
++implementation constraints of the kernel and QEMU will provide inside the
++LOPAPR specification.
++
++
++Users are welcome to use this knowledge and experiment with the input to get
++the NUMA topology they want, or as closer as they want. The important thing
++is to keep expectations up to par with what we are capable of provide at this
++moment: an approximation.
++
++Limitations of the implementation
+ ---------------------------------
  
-     /*
-@@ -85,7 +202,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-      * 1 NUMA node) will not benefit from anything we're going to do
-      * after this point.
-      */
--    if (spapr_machine_using_legacy_numa(spapr)) {
-+    if (using_legacy_numa) {
-         return;
-     }
- 
-@@ -95,6 +212,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-         exit(EXIT_FAILURE);
-     }
- 
-+    spapr_numa_define_associativity_domains(spapr);
- }
- 
- void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
++As mentioned above, the pSeries NUMA distance logic is, in fact, a way to approximate
++user choice. The Linux kernel, and PAPR itself, does not provide QEMU with the ways
++to fully map user input to actual NUMA distance the guest will use. These limitations
++creates two notable limitations in our support:
++
++* Asymmetrical topologies aren't supported. We only support NUMA topologies where
++  the distance from node A to B is always the same as B to A. We do not support
++  any A-B pair where the distance back and forth is asymmetric. For example, the
++  following topology isn't supported and the pSeries guest will not boot with this
++  user input:
++
++::
++
++      0   1
++  0  10  40
++  1  20  10
++
++
++* 'non-transitive' topologies will be poorly translated to the guest. This is the
++  kind of topology where the distance from a node A to B is X, B to C is X, but
++  the distance A to C is not X. E.g.:
++
++::
++
++      0   1   2   3
++  0  10  20  20  40
++  1  20  10  80  40
++  2  20  80  10  20
++  3  40  40  20  10
++
++  In the example above, distance 0 to 2 is 20, 2 to 3 is 20, but 0 to 3 is 40.
++  The kernel will always match with the shortest associativity domain possible,
++  and we're attempting to retain the previous established relations between the
++  nodes. This means that a distance equal to 20 between nodes 0 and 2 and the
++  same distance 20 between nodes 2 and 3 will cause the distance between 0 and 3
++  to also be 20.
++
++
++Legacy (5.1 and older) pseries NUMA mechanics
++=============================================
++
+ The way the pseries Linux guest calculates NUMA distances has a direct effect
+ on what QEMU users can expect when doing NUMA tuning. As of QEMU 5.1, this is
+ the default ibm,associativity-reference-points being used in the pseries
 -- 
 2.26.2
 
