@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371B627DC43
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:46:05 +0200 (CEST)
-Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F6627DC4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:48:57 +0200 (CEST)
+Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNONn-0006nt-Pj
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:46:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60702)
+	id 1kNOQb-0001XE-18
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOLx-0004yq-Rx
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20740)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOM1-000556-LM
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOLv-0004Z0-Be
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:09 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOLz-0004ZY-Vn
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601419446;
+ s=mimecast20190719; t=1601419451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=66DSIrlhCeV+xyo2otn2L+hQAxSXyWg/ic5Sp/vZwto=;
- b=P2gRsD4zgeBbihXz4fdnsT263Af1b1iWdxljRPd2Imco4dBS/Q97k+XbZjEvctfXCOp+BI
- ErFSt0zN/xtYeIgiPkbAYakV7L5o9vvFA30drPAr221/duEBx6LopbDz5XMS2XUD2eX6Wi
- mSw05E4yybQ1YlC4YHpdYERyC9wgkes=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-ABZxz2n9PNSPWjI_cnOcRg-1; Tue, 29 Sep 2020 18:44:04 -0400
-X-MC-Unique: ABZxz2n9PNSPWjI_cnOcRg-1
-Received: by mail-wr1-f70.google.com with SMTP id w7so2370078wrp.2
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:44:04 -0700 (PDT)
+ bh=fnVaKlxSjgosYNWUZ3C9BB5KnUFHrX+zW6dbopznvYU=;
+ b=MVZaWTj3uuEWiAJX7mnLgvCR1qJdqbNF7Nh0l4y4x/JPJrz8tRNUAuG6j33lDKNGvmWG2G
+ daNojlzfhWL7Kmw6Pq3P6/F8zJ90dEURNaiaEeB+rcIrVqXHwbZ7nUxo76h2bXdHpavGdR
+ mrDR+0DUrG8Yr5Fo45KvI9Bd2gamV4o=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-Bn0Rml5nPHqAneVBULJ8tQ-1; Tue, 29 Sep 2020 18:44:09 -0400
+X-MC-Unique: Bn0Rml5nPHqAneVBULJ8tQ-1
+Received: by mail-wr1-f69.google.com with SMTP id s8so2338449wrb.15
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:44:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=66DSIrlhCeV+xyo2otn2L+hQAxSXyWg/ic5Sp/vZwto=;
- b=s9sB1aYHwhYRY+j7rq9jcsl3nz3nu1INSV8smQRYzDHkgoC57KAi/Kr72b0Szxz0mf
- thQDoIoo+0KQJNI13O5C3F9g4hP5dqxQLrK/KKI5n8AUv/3sz0SkfHKopLY9dC0bunHe
- e2z/89vWONnNe82L80lBC3xj7qOR95aByPOz3tclibW5OOxjpAGzUToykDGOsFLPbC70
- xwFBAt6LuffnJ68nxAv3nqhpYfK12KXvHnos1Zhi9UidmZzP+xNTfFSgqp9faz4nBPoQ
- UWlHpK1ZQkJkZZsXQTtWUAjeR5Idr/beAf78Va73t7eIpKUPWRof2/mh6Tl1erRZwsLs
- /9gQ==
-X-Gm-Message-State: AOAM531W8g2/YzMlQ0AKwQpnS+ZekHBiMNZMSC3iks3GtIt44WK9is2T
- eMURvM+4JRhxV73DJJm2LPUti/J2nKLS8zcpoPExgvqpq+0h97QCh774DM0OfOIXCK9KhcVKogr
- oDdIdGnRrCZlML38=
-X-Received: by 2002:adf:efc9:: with SMTP id i9mr6933044wrp.187.1601419443279; 
- Tue, 29 Sep 2020 15:44:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/JFirmQq0FLOkZYRppQAwyrCFiFhW/sOaJqe1ygyRV//BqkXnJHjtm0eIPBJooqWr+G3TNQ==
-X-Received: by 2002:adf:efc9:: with SMTP id i9mr6933012wrp.187.1601419442929; 
- Tue, 29 Sep 2020 15:44:02 -0700 (PDT)
+ bh=fnVaKlxSjgosYNWUZ3C9BB5KnUFHrX+zW6dbopznvYU=;
+ b=hECtpd/exQx+0ZCyPxqB8zQ/XIUzH+d5BuEdoeACFVIA7dXX+DgWD5iqMoX8dIvBsi
+ EwnXT/UX33/IEkzNFFiMq8Rl8gmBwk7lCKi4bKgnLUFuZKgHdE4IlI6OdYVQxtjgH2UR
+ y2YUJbr8+s3UamAE77bUjjlEWkn0wpAL9qsBqo9R0egP1ZQO8vgRttjQb0r25bQ2rsBB
+ 7oZtnqN4xXR9ApKthSQ1Wvp0RjT8o/IeOZBG0fDlxphjHYTNOqwxTFtGmPbphumoSB7z
+ nnTFxKTV9Dgu6Q48k/I5sBzyYwhI4bvFRjGy0/BUb/ibS78nvoe9HWIu3k9515iFUBNK
+ HUwg==
+X-Gm-Message-State: AOAM532GAJiivnlZs6UKIQjkhQJ5bRHqp3ORzjl1vaydKj1Ydjy+C05t
+ xYfGmacko09A7ctQmyo/PiqTGIqPQJTm4cb1IuZ+PXu6Nz44SoPeGZuhhGdRBQi4UUETOMaiLmD
+ wyFpekl05vp6u008=
+X-Received: by 2002:adf:f2d0:: with SMTP id d16mr6386597wrp.332.1601419448303; 
+ Tue, 29 Sep 2020 15:44:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz32LQg/FraBPNB2aGTQWNffth7R+ByzmBlrprh0rhJbQuVc73LtYh8e6YQu2ibVKmeTxTjoQ==
+X-Received: by 2002:adf:f2d0:: with SMTP id d16mr6386570wrp.332.1601419448124; 
+ Tue, 29 Sep 2020 15:44:08 -0700 (PDT)
 Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id t202sm7798963wmt.14.2020.09.29.15.44.01
+ by smtp.gmail.com with ESMTPSA id e13sm8276536wre.60.2020.09.29.15.44.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 15:44:02 -0700 (PDT)
+ Tue, 29 Sep 2020 15:44:07 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/12] accel/tcg: Add stub for cpu_loop_exit()
-Date: Wed, 30 Sep 2020 00:43:44 +0200
-Message-Id: <20200929224355.1224017-2-philmd@redhat.com>
+Subject: [PATCH v4 02/12] meson: Allow optional target/${ARCH}/Kconfig
+Date: Wed, 30 Sep 2020 00:43:45 +0200
+Message-Id: <20200929224355.1224017-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200929224355.1224017-1-philmd@redhat.com>
 References: <20200929224355.1224017-1-philmd@redhat.com>
@@ -72,9 +72,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,45 +98,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Keith Packard <keithp@keithp.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the support of SYS_READC in commit 8de702cb67 the
-semihosting code is strongly depedent of the TCG accelerator
-via a call to cpu_loop_exit().
+Extend the generic Meson script to pass optional target Kconfig
+file to the minikconf script.
 
-Ideally we would only build semihosting support when TCG
-is available, but unfortunately this is not trivial because
-semihosting is used by many targets in different configurations.
-For now add a simple stub to avoid link failure when building
-with --disable-tcg:
-
-  hw/semihosting/console.c:160: undefined reference to `cpu_loop_exit'
-
-Cc: Keith Packard <keithp@keithp.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- accel/stubs/tcg-stub.c | 5 +++++
- 1 file changed, 5 insertions(+)
+We could use fs.exists() but is_file() is more specific
+(can not be a directory).
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index e4bbf997aa..1eec7fb90e 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -29,3 +29,8 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
-      /* Handled by hardware accelerator. */
-      g_assert_not_reached();
- }
-+
-+void cpu_loop_exit(CPUState *cpu)
-+{
-+    g_assert_not_reached();
-+}
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>
+---
+ meson.build | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index d36dd085b5..9ab5d514d7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -529,6 +529,7 @@ kconfig_external_symbols = [
+ ]
+ ignored = ['TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_DIRS']
+ 
++fs = import('fs')
+ foreach target : target_dirs
+   config_target = keyval.load(meson.current_build_dir() / target / 'config-target.mak')
+ 
+@@ -569,8 +570,13 @@ foreach target : target_dirs
+     endforeach
+ 
+     config_devices_mak = target + '-config-devices.mak'
++    target_kconfig = 'target' / config_target['TARGET_BASE_ARCH'] / 'Kconfig'
++    minikconf_input = ['default-configs' / target + '.mak', 'Kconfig']
++    if fs.is_file(target_kconfig)
++      minikconf_input += [target_kconfig]
++    endif
+     config_devices_mak = configure_file(
+-      input: ['default-configs' / target + '.mak', 'Kconfig'],
++      input: minikconf_input,
+       output: config_devices_mak,
+       depfile: config_devices_mak + '.d',
+       capture: true,
 -- 
 2.26.2
 
