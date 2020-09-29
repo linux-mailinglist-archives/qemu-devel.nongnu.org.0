@@ -2,95 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE1927D566
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:06:31 +0200 (CEST)
-Received: from localhost ([::1]:56892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C61F27D571
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:08:26 +0200 (CEST)
+Received: from localhost ([::1]:34178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNK1F-0006ea-Pf
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55146)
+	id 1kNK37-0000k4-Fo
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNJvH-0005Kg-Fd; Tue, 29 Sep 2020 14:00:19 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:50959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNJvB-0000hg-S0; Tue, 29 Sep 2020 14:00:19 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 0D5F4152D;
- Tue, 29 Sep 2020 14:00:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 29 Sep 2020 14:00:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=EjlJMO0VmEYmrtvHr2pVdLtr412
- KFF9Lds6YNa95mFI=; b=jgLIMBDoBJZl5pfux7v6OHBYjwMKiNq+mJXEUfd/bi/
- LwQVLc4ikrdDi4iuuIxuu+Z29sbLfxnc8q6TyHeJqRcfx8f16PP/h3w5MyiKCK1H
- CCCzQ5IjFWz7hBJesn8snZAE054/DyFjX5TVxN22+iTmJSO4kB67gtvG3/4ixPeq
- FNFagTzgvRK01I7EitK4hb9I/+vhn10eK9DdP2Ahugyw1K93tj3q+Ny1xFGXTgwq
- uHHd/cUpN1RRe64jDStaeKMI5D7rrrUAnTZS606d5xb1joxhkmeMPDNSibZ1WsDG
- 4PdKkvQVn4lA/ZEjD+pKwl5A9ejVhQT81VqPD38TtZg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=EjlJMO
- 0VmEYmrtvHr2pVdLtr412KFF9Lds6YNa95mFI=; b=fJo7OiAosBGk7RKE9ZtSY0
- jiiGAGVnAtHJgoCwGWeL0fA9K/h3M41wxd3D8BcESmJZt7HWG6vHnwXtqmwbKDuG
- C+a0hkKSHgxz8vPWUZHsaho+hXGqr2A2TUkA5KAh9epBKg9OFuSqmj6GQeSyh+1Q
- OW6Cnmu4VSDr2UiQUljy5IWbrvFFIt8WcN0GZb+BWgm4bJhG+/X0dW0eIUmns0a1
- SN1JWRrHeDxYPCpHaaX43slHFRxJGH55njpv541N7h61OH0EEshw+yZmtg6LfA/N
- 02bbvcakMHPasZp7RIimlr+bSz0Be7eSQIxy/CJ/dTYf3R2POKVqx1RSfCGrT+UQ
- ==
-X-ME-Sender: <xms:KHZzX_1ZxcxGJpxUu2L7kq4XuIkikXutA3Xps3Vofn7sUkYi1kjBZQ>
- <xme:KHZzX-G6EiKD-vp6PImkCcBf9fhRyPb9QXQLMsctDoN-pOZ-DKF2uzqtgmrbj4Uxv
- MSZ4dU3QHM3jAYkm_I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdekgdduudelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:KHZzX_4PrLLRqchRWVe1iJwp08R21qDnaw5bRJCjRh98MO1QzmAygg>
- <xmx:KHZzX01vrPBl-BUBEyuXbV7SbHcFIohT0qBezmgE7CtVzMNtEQGyGg>
- <xmx:KHZzXyFWqgIg-C7ImUefnpmVcsDlbNBZsi3f6kBTfPVnShapnFyo0A>
- <xmx:KnZzX1D9n-D6ZJSrxW5oxEPctfB2CcFbszDB9wPCYFs326hGbhTxBO3tCNBHZ1ek>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1F6483280070;
- Tue, 29 Sep 2020 14:00:07 -0400 (EDT)
-Date: Tue, 29 Sep 2020 20:00:04 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
- Zoned Namespace Command Set
-Message-ID: <20200929180004.GC286786@apples.localdomain>
-References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
- <20200924210751.GD1738917@apples.localdomain>
- <MN2PR04MB59515B1EA1238861DFF3236AE1350@MN2PR04MB5951.namprd04.prod.outlook.com>
- <20200928063648.GA1967@apples.localdomain>
- <20200928212541.GC227320@dhcp-10-100-145-180.wdl.wdc.com>
- <CY4PR04MB3751997C2ED1D5EFB69E32ACE7350@CY4PR04MB3751.namprd04.prod.outlook.com>
- <20200929104633.GA179147@apples.localdomain>
- <20200929172944.GB477114@dhcp-10-100-145-180.wdl.wdc.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
-Content-Disposition: inline
-In-Reply-To: <20200929172944.GB477114@dhcp-10-100-145-180.wdl.wdc.com>
-Received-SPF: pass client-ip=64.147.123.17; envelope-from=its@irrelevant.dk;
- helo=wnew3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 12:36:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kNJz6-0006nV-VW
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:04:16 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:42296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kNJz3-0001LJ-OE
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:04:16 -0400
+Received: by mail-qt1-x832.google.com with SMTP id y11so4306574qtn.9
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 11:04:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=+h69EmieUbWvODNNCpUiSWzZcoG0tS7XdI1g16MM+WE=;
+ b=ZbgeoCG/qDIswEqh85pjfQIIgtqGWD0Y8F0l735YR4M1qQ0aF+HMrAzX4K9M9IONDl
+ hEuhkeMXPkdovnvdAPoKSJpO8f/Xcp5aqFQgAt8Rr+bK7fSUtGOXpjKRHHvx/BnDE6um
+ Zs0V3TsVx9i5FIVqfmEwqaqk0uFnwIAUQ96ymqHSxuPkBhMaq1FwJ9hd6G7wQCrsfF0+
+ EYToxYKwNyyR6t+EYdN6B0/H2gflecNJqO+fezMqKaooipAi7WBE4e7jhGW95aVHV7Db
+ Zdm7T+3xkbnZbBdKUioej80URhx9p68AAXPoFe/C3eoSw4Cb35jeSXDlMT3zunL0Q0VV
+ hCxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=+h69EmieUbWvODNNCpUiSWzZcoG0tS7XdI1g16MM+WE=;
+ b=bxPk3me8L54OyflEtN5VyMSNqbydOCPToXjFN24aS6Rz3S68GoOnch/UBu7mX8rdxG
+ gJQesl+9xzb+qFUlWemvRmpS1sBf6U1PsRlb9AmCm5tGSEJ6Q65Uyl3Y4jmsO7vC27N3
+ vOi1i1c/B6LtHLn4xIdc9VlHZZC+LkrcYclLnwXCgb2f2vVl1qfcp5G3TAPhPw1UqBdM
+ TY1GA/7ZM8OK2l1yKCbJm5PgwyFkgyyhdsDGLZXpABDCjMKg8surzBiC4loDRBk29FKc
+ kO1MjOichRGbWbcL4o/mTe+6w6qz2dhOj90NREfZbyX6ThRy2I9mrUT+wH/Db1utOpxr
+ 7eEg==
+X-Gm-Message-State: AOAM5338Yt7RiewC7E7WhaY7eyYz9gnQIjZbiNmLDq1qMHndppzz7dc4
+ LAw54YEFf5OQsgxsZCiby+QNYg==
+X-Google-Smtp-Source: ABdhPJyhI9UDK/xKL2HdEiZWE58Zmr8DHFA9yJ63Ul0BJiLpXsTlY+5Bp6lVktzjQDmtAm0Jk929ww==
+X-Received: by 2002:aed:29a6:: with SMTP id o35mr4616608qtd.123.1601402652116; 
+ Tue, 29 Sep 2020 11:04:12 -0700 (PDT)
+Received: from master.hitronhub.home ([2607:fea8:e2a0:e950::661])
+ by smtp.googlemail.com with ESMTPSA id n7sm6600337qtf.27.2020.09.29.11.04.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 11:04:11 -0700 (PDT)
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: peter.maydell@linaro.org,
+	leif@nuviainc.com,
+	rad@semihalf.com
+Subject: [PATCH v2 0/2] Add watchdog support for SbsaQemu
+Date: Tue, 29 Sep 2020 14:04:08 -0400
+Message-Id: <20200929180410.33058-1-shashi.mallela@linaro.org>
+X-Mailer: git-send-email 2.18.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x832.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,99 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Niklas Cassel <Niklas.Cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <Matias.Bjorling@wdc.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch series adds watchdog timer support for SbsaQemu platform.
 
---L6iaP+gRLNZHKoI4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The watchdog timer has been implemented first based on the generic
+watchdog timer specifications from ARM BSA v0.9 and then used 
+in the SbsaQemu reference platform
 
-On Sep 29 10:29, Keith Busch wrote:
-> On Tue, Sep 29, 2020 at 12:46:33PM +0200, Klaus Jensen wrote:
-> > It is unmistakably clear that you are invalidating my arguments about
-> > portability and endianness issues by suggesting that we just remove
-> > persistent state and deal with it later, but persistence is the killer
-> > feature that sets the QEMU emulated device apart from other emulation
-> > options. It is not about using emulation in production (because yeah,
-> > why would you?), but persistence is what makes it possible to develop
-> > and test "zoned FTLs" or something that requires recovery at power up.
-> > This is what allows testing of how your host software deals with opened
-> > zones being transitioned to FULL on power up and the persistent tracking
-> > of LBA allocation (in my series) can be used to properly test error
-> > recovery if you lost state in the app.
->=20
-> Hold up -- why does an OPEN zone transition to FULL on power up? The
-> spec suggests it should be CLOSED. The spec does appear to support going
-> to FULL on a NVM Subsystem Reset, though. Actually, now that I'm looking
-> at this part of the spec, these implicit transitions seem a bit less
-> clear than I expected. I'm not sure it's clear enough to evaluate qemu's
-> compliance right now.
->=20
-> But I don't see what testing these transitions has to do with having a
-> persistent state. You can reboot your VM without tearing down the
-> running QEMU instance. You can also unbind the driver or shutdown the
-> controller within the running operating system. That should make those
-> implicit state transitions reachable in order to exercise your FTL's
-> recovery.
->=20
+Changes in v2:
+  - split the previous single patch into 2
+  - addressed the fprintf replace review comment
 
-Oh dear - don't "spec" with me ;)
+Shashi Mallela (2):
+  hw/watchdog: Implement SBSA watchdog device
+  hw/arm/sbsa-ref: add SBSA watchdog device
 
-NVMe v1.4 Section 7.3.1:
+ hw/arm/Kconfig                      |   1 +
+ hw/arm/sbsa-ref.c                   |  23 ++
+ hw/watchdog/Kconfig                 |   4 +
+ hw/watchdog/meson.build             |   1 +
+ hw/watchdog/wdt_sbsa_gwdt.c         | 344 ++++++++++++++++++++++++++++
+ include/hw/watchdog/wdt_sbsa_gwdt.h |  68 ++++++
+ 6 files changed, 441 insertions(+)
+ create mode 100644 hw/watchdog/wdt_sbsa_gwdt.c
+ create mode 100644 include/hw/watchdog/wdt_sbsa_gwdt.h
 
-    An NVM Subsystem Reset is initiated when:
-      * Main power is applied to the NVM subsystem;
-      * A value of 4E564D64h ("NVMe") is written to the NSSR.NSSRC
-        field;
-      * Requested using a method defined in the NVMe Management
-        Interface specification; or
-      * A vendor specific event occurs.
+-- 
+2.18.4
 
-In the context of QEMU, "Main power" is tearing down QEMU and starting
-it from scratch. Just like on a "real" host, unbinding the driver,
-rebooting or shutting down the controller does not cause a subsystem
-reset (and does not cause the zones to change state). And since the
-device does not indicate support for the optional NSSR.NSSRC register,
-that way to initiate a subsystem cannot be used.
-
-The reason for moving to FULL is that write pointer updates are not
-persisted on each advancement, only when the zone state changes. So
-zones that were opened might have valid data, but invalid write pointer.
-So the device transitions them to FULL as it is allowed to.
-
-                                                        QED.
-
-> I agree the persistent state provides conveniences for developers. I
-> just don't want to gate ZNS enabling on it either since the core design
-> doesn't depend on it.
-
-I just don't see why we cant have the icing on the cake when it is
-already there :)
-
---L6iaP+gRLNZHKoI4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9zdiIACgkQTeGvMW1P
-DelMggf+KpkZZVuJjTRZ7LONGYYG69813iRtknujgxYcKk3e8IsrLtw2c930boyJ
-xDzFkBZeXgDSgP+zn/4vHN2TRN8FqwAChvSYgAd2RRNpVPgI/cJk6i7JCI/ifEzg
-Zb2hPtFadxYSxJSwRBHkD/2aC/JJ/B+2fR3Z9WVaSBnrJxN/qgroVQRpRfL9PFTk
-Z4Wf/q2M1NZj4bMAZQ+8CVA0lMaU9SnJR4Y0r15ilL29Mdcnb/J6HEoIAG8Y2L63
-oUQM2xhdMDS0ZvXYgBTOVOSeOiLRlJ9jvg4utcAco5gKr9mvG1s33th0Ot5HFka5
-nHKzKm56fdYnKz89PlhADhBqQo19oQ==
-=gF7e
------END PGP SIGNATURE-----
-
---L6iaP+gRLNZHKoI4--
 
