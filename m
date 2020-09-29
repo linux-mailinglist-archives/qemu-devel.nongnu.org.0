@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E753827D308
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 17:46:38 +0200 (CEST)
-Received: from localhost ([::1]:36742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA3C27D31E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 17:50:30 +0200 (CEST)
+Received: from localhost ([::1]:43942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNHpt-0005CI-Tj
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 11:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47850)
+	id 1kNHtd-0008IY-DT
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 11:50:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kNHnn-0003lb-Qk
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:44:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53012)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kNHqL-0006oQ-3U
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:47:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kNHnk-0004OX-So
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:44:27 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kNHqJ-0004qp-7h
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:47:04 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601394259;
+ s=mimecast20190719; t=1601394422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eu0JbI1trYTq4bfHFn40negxWJX7LAQ5375dSsESbDM=;
- b=eYyjtTsoG8Z06WIhZI13q/Kwjx5dxxBjzGgNfJ4uEUV5K1vcXSiw0Ny6thfIJSVzJT68f1
- LDaRX8uS0auQE37EC6AS8umWWQXQv9pWF8czEWmT9xAnf2CFbGUJme8s/vuDno4Wc86u4v
- BJIpBmKGSeapfp3hdBcRSJb2tfBWkRo=
+ bh=xCpT0oW5kURicF7ko7bJp3ydxIDzRjl2M1kN7WnGS7I=;
+ b=VhjUcNbyrmFVC1S0joRdJQSll97V73UMR1Nq1Flx3tha7ierouNQGqCDZmyclvYNez56cm
+ wqyyqqTpUx1CkdW5AHTzlugy6SKcDK/H0YqT8TczXuro9Gr1hU3KKmHWWuvzfMOm7eJp8e
+ NlbkWFKYcrHiB7dWCA8CBfko+CZL4QQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-i5usrRmnNFyIPlwQXM8DpQ-1; Tue, 29 Sep 2020 11:44:16 -0400
-X-MC-Unique: i5usrRmnNFyIPlwQXM8DpQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-551-_iTxSlGlPa-mxaLK69HrDg-1; Tue, 29 Sep 2020 11:46:59 -0400
+X-MC-Unique: _iTxSlGlPa-mxaLK69HrDg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2706807356;
- Tue, 29 Sep 2020 15:44:15 +0000 (UTC)
-Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C1697EEDA;
- Tue, 29 Sep 2020 15:44:08 +0000 (UTC)
-Date: Tue, 29 Sep 2020 16:44:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 4/4] block/export: add iothread and fixed-iothread
- options
-Message-ID: <20200929154407.GA191675@stefanha-x1.localdomain>
-References: <20200929125516.186715-1-stefanha@redhat.com>
- <20200929125516.186715-5-stefanha@redhat.com>
- <7f99e542-c6a1-cec4-26f9-30ce4e271c65@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E90881084D6A;
+ Tue, 29 Sep 2020 15:46:57 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-115-44.ams2.redhat.com [10.36.115.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2258F75130;
+ Tue, 29 Sep 2020 15:46:52 +0000 (UTC)
+Date: Tue, 29 Sep 2020 17:46:51 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL 5/5] crypto/tls-cipher-suites: Produce fw_cfg consumable
+ blob
+Message-ID: <20200929154651.GC4398@linux.fritz.box>
+References: <20200704163927.28188-1-philmd@redhat.com>
+ <20200704163927.28188-6-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7f99e542-c6a1-cec4-26f9-30ce4e271c65@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200704163927.28188-6-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -70,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,114 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Coiby Xu <Coiby.Xu@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---IJpNTDwzlM2Ie8A6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 04.07.2020 um 18:39 hat Philippe Mathieu-Daudé geschrieben:
+> Since our format is consumable by the fw_cfg device,
+> we can implement the FW_CFG_DATA_GENERATOR interface.
+> 
+> Example of use to dump the cipher suites (if tracing enabled):
+> 
+>   $ qemu-system-x86_64 -S \
+>     -object tls-cipher-suites,id=mysuite1,priority=@SYSTEM \
+>     -fw_cfg name=etc/path/to/ciphers,gen_id=mysuite1 \
+>     -trace qcrypto\*
+>   1590664444.197123:qcrypto_tls_cipher_suite_priority priority: @SYSTEM
+>   1590664444.197219:qcrypto_tls_cipher_suite_info data=[0x13,0x02] version=TLS1.3 name=TLS_AES_256_GCM_SHA384
+>   1590664444.197228:qcrypto_tls_cipher_suite_info data=[0x13,0x03] version=TLS1.3 name=TLS_CHACHA20_POLY1305_SHA256
+>   1590664444.197233:qcrypto_tls_cipher_suite_info data=[0x13,0x01] version=TLS1.3 name=TLS_AES_128_GCM_SHA256
+>   1590664444.197236:qcrypto_tls_cipher_suite_info data=[0x13,0x04] version=TLS1.3 name=TLS_AES_128_CCM_SHA256
+>   1590664444.197240:qcrypto_tls_cipher_suite_info data=[0xc0,0x30] version=TLS1.2 name=TLS_ECDHE_RSA_AES_256_GCM_SHA384
+>   1590664444.197245:qcrypto_tls_cipher_suite_info data=[0xcc,0xa8] version=TLS1.2 name=TLS_ECDHE_RSA_CHACHA20_POLY1305
+>   1590664444.197250:qcrypto_tls_cipher_suite_info data=[0xc0,0x14] version=TLS1.0 name=TLS_ECDHE_RSA_AES_256_CBC_SHA1
+>   1590664444.197254:qcrypto_tls_cipher_suite_info data=[0xc0,0x2f] version=TLS1.2 name=TLS_ECDHE_RSA_AES_128_GCM_SHA256
+>   1590664444.197258:qcrypto_tls_cipher_suite_info data=[0xc0,0x13] version=TLS1.0 name=TLS_ECDHE_RSA_AES_128_CBC_SHA1
+>   1590664444.197261:qcrypto_tls_cipher_suite_info data=[0xc0,0x2c] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_GCM_SHA384
+>   1590664444.197266:qcrypto_tls_cipher_suite_info data=[0xcc,0xa9] version=TLS1.2 name=TLS_ECDHE_ECDSA_CHACHA20_POLY1305
+>   1590664444.197270:qcrypto_tls_cipher_suite_info data=[0xc0,0xad] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_256_CCM
+>   1590664444.197274:qcrypto_tls_cipher_suite_info data=[0xc0,0x0a] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_256_CBC_SHA1
+>   1590664444.197278:qcrypto_tls_cipher_suite_info data=[0xc0,0x2b] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_GCM_SHA256
+>   1590664444.197283:qcrypto_tls_cipher_suite_info data=[0xc0,0xac] version=TLS1.2 name=TLS_ECDHE_ECDSA_AES_128_CCM
+>   1590664444.197287:qcrypto_tls_cipher_suite_info data=[0xc0,0x09] version=TLS1.0 name=TLS_ECDHE_ECDSA_AES_128_CBC_SHA1
+>   1590664444.197291:qcrypto_tls_cipher_suite_info data=[0x00,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_GCM_SHA384
+>   1590664444.197296:qcrypto_tls_cipher_suite_info data=[0xc0,0x9d] version=TLS1.2 name=TLS_RSA_AES_256_CCM
+>   1590664444.197300:qcrypto_tls_cipher_suite_info data=[0x00,0x35] version=TLS1.0 name=TLS_RSA_AES_256_CBC_SHA1
+>   1590664444.197304:qcrypto_tls_cipher_suite_info data=[0x00,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_GCM_SHA256
+>   1590664444.197308:qcrypto_tls_cipher_suite_info data=[0xc0,0x9c] version=TLS1.2 name=TLS_RSA_AES_128_CCM
+>   1590664444.197312:qcrypto_tls_cipher_suite_info data=[0x00,0x2f] version=TLS1.0 name=TLS_RSA_AES_128_CBC_SHA1
+>   1590664444.197316:qcrypto_tls_cipher_suite_info data=[0x00,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_GCM_SHA384
+>   1590664444.197320:qcrypto_tls_cipher_suite_info data=[0xcc,0xaa] version=TLS1.2 name=TLS_DHE_RSA_CHACHA20_POLY1305
+>   1590664444.197325:qcrypto_tls_cipher_suite_info data=[0xc0,0x9f] version=TLS1.2 name=TLS_DHE_RSA_AES_256_CCM
+>   1590664444.197329:qcrypto_tls_cipher_suite_info data=[0x00,0x39] version=TLS1.0 name=TLS_DHE_RSA_AES_256_CBC_SHA1
+>   1590664444.197333:qcrypto_tls_cipher_suite_info data=[0x00,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_GCM_SHA256
+>   1590664444.197337:qcrypto_tls_cipher_suite_info data=[0xc0,0x9e] version=TLS1.2 name=TLS_DHE_RSA_AES_128_CCM
+>   1590664444.197341:qcrypto_tls_cipher_suite_info data=[0x00,0x33] version=TLS1.0 name=TLS_DHE_RSA_AES_128_CBC_SHA1
+>   1590664444.197345:qcrypto_tls_cipher_suite_count count: 29
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Acked-by: Laszlo Ersek <lersek@redhat.com>
+> Message-Id: <20200623172726.21040-6-philmd@redhat.com>
 
-On Tue, Sep 29, 2020 at 08:07:38AM -0500, Eric Blake wrote:
-> On 9/29/20 7:55 AM, Stefan Hajnoczi wrote:
-> > Make it possible to specify the iothread where the export will run. By
-> > default the block node can be moved to other AioContexts later and the
-> > export will follow. The fixed-iothread option forces strict behavior
-> > that prevents changing AioContext while the export is active. See the
-> > QAPI docs for details.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> > Note the x-blockdev-set-iothread QMP command can be used to do the same=
-,
-> > but not from the command-line. And it requires sending an additional
-> > command.
-> >=20
-> > In the long run vhost-user-blk will support per-virtqueue iothread
-> > mappings. But for now a single iothread makes sense and most other
-> > transports will just use one iothread anyway.
-> > ---
-> >   qapi/block-export.json               | 11 ++++++++++
-> >   block/export/export.c                | 31 +++++++++++++++++++++++++++=
--
-> >   block/export/vhost-user-blk-server.c |  5 ++++-
-> >   nbd/server.c                         |  2 --
-> >   4 files changed, 45 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/qapi/block-export.json b/qapi/block-export.json
-> > index 87ac5117cd..e2cb21f5f1 100644
-> > --- a/qapi/block-export.json
-> > +++ b/qapi/block-export.json
-> > @@ -219,11 +219,22 @@
-> >   #                export before completion is signalled. (since: 5.2;
-> >   #                default: false)
-> >   #
-> > +# @iothread: The name of the iothread object where the export will run=
-. The
-> > +#            default is to use the thread currently associated with th=
-e #
->=20
-> Stray #
->=20
-> > +#            block node. (since: 5.2)
-> > +#
-> > +# @fixed-iothread: True prevents the block node from being moved to an=
-other
-> > +#                  thread while the export is active. If true and @iot=
-hread is
-> > +#                  given, export creation fails if the block node cann=
-ot be
-> > +#                  moved to the iothread. The default is false.
-> > +#
->=20
-> Missing a '(since 5.2)' tag.  (Hmm, we're inconsistent on whether it is
-> 'since 5.2' or 'since: 5.2' inside () parentheticals; Markus, is that
-> something we should be cleaning up as part of the conversion to rST?)
->=20
-> > @@ -63,10 +64,11 @@ static const BlockExportDriver *blk_exp_find_driver=
-(BlockExportType type)
-> >   BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-> >   {
-> > +    bool fixed_iothread =3D export->has_fixed_iothread && export->fixe=
-d_iothread;
->=20
-> Technically, our QAPI code guarantees that export->fixed_iothread is fals=
-e
-> if export->has_fixed_iothread is false.  And someday I'd love to let QAPI
-> express default values for bools so that we don't need a has_FOO field wh=
-en
-> a default has been expressed.  But neither of those points affect this
-> patch; what you have is correct even if it is verbose.
->=20
-> Otherwise looks reasonable.
+I noticed only now that this breaks '--object help' in
+qemu-storage-daemon:
 
-Great, thanks for pointing this out.
+$ qemu-storage-daemon --object help
+List of user creatable objects:
+qemu-storage-daemon: missing interface 'fw_cfg-data-generator' for object 'tls-creds'
+Aborted (core dumped)
 
-I'll wait for comments from Kevin. These things could be fixed when
-merging.
+The reason is that we don't (and can't) link hw/nvram/fw_cfg.c into the
+storage daemon because it requires other system emulator stuff.
 
-Stefan
-
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9zVkcACgkQnKSrs4Gr
-c8hhVgf/cghg6s8wFfICddOTm5IvkG2DYptFLUFU4JGu3SQQBxRPOYcTLnsAn7WK
-EnyQHGTnjqAa3QHzJH+f39P441PrKhdfFsdgUGy/03+fVkbSW+9Uv1oNw6G4m9IF
-fW2rKHvDIIjyZxFZAQVX1IRbt9M+HVYIVzE88VmskTAUcO276tPkFOBnklq7q3Q8
-7/3XA4nXczoQ5f0Ho2ZtXwBhebTnu8WyssNLjTEktmgW9KpQ2tDYSuMly5mxtBom
-Wx5UZ1g+qqySLOHR9kl9/59MRQCJz5rn3TpM2O22jewnncrUPDj9zUEiabduNe7z
-BqLuZiPQlv/REw8lroghW6PzYucXDA==
-=DUBP
------END PGP SIGNATURE-----
-
---IJpNTDwzlM2Ie8A6--
+Kevin
 
 
