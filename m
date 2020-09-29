@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B8027DC49
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:48:01 +0200 (CEST)
-Received: from localhost ([::1]:34006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310DB27DC42
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:46:05 +0200 (CEST)
+Received: from localhost ([::1]:33084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNOPg-00078t-BE
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:48:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60520)
+	id 1kNONn-0006le-So
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNOKt-0004Qx-PY; Tue, 29 Sep 2020 18:43:03 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:43407)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNOKn-0004Rk-4a; Tue, 29 Sep 2020 18:43:01 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 03ADBE95;
- Tue, 29 Sep 2020 18:42:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 29 Sep 2020 18:42:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=yJy2qHVCJqwal7pE3dQcnTpWriP
- Q8Ee2PsuOqAqUNAk=; b=lR0AaOaYrAE9Q/wmBugoOWGu1ChcB6u2jhcfyRtB/uP
- 5/1Pyhqe1y7dS1jhMQJClFs7ueBeIaQYMjPOSlcLh3f/hDkI8rVrkojs7bR9MPU5
- 15Vb6UbEDrOrbXOn5KveAro8SWcU4gZ+RRkBo4V3F6XXJNVpuc+pQFMnH88Jshju
- +Se+AyTpp7tE8r6Aq5uEhSzMfccCrrbgQTlbqSJbEt82NGK+p4qWyG4zfDs56570
- Hp34uPMT1PCk8GKKHS6rX3PcX/FEerKpijbS2jJG2SWYHuSnZLEy3j5UYiXIKTN6
- UJdkrWwyAkqoqwc1XidHvA2QCIs/qo3hy5NCHNPM7EQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yJy2qH
- VCJqwal7pE3dQcnTpWriPQ8Ee2PsuOqAqUNAk=; b=uIPOsaf0xyc4lhKRepNqNt
- iWmsTQeJPVJ7cD/2KztWtp16yGLLA6gxjCcVrQkWNQA4NMvZil03mptBdI4sgP2e
- Ama39spcGcl5DzZ+CVVfbXySKF38A5/0fbXRxld2gawc5mNB+zT6NGFuXOiRRuP9
- jDzb3jxrTvWiCQWj2lp05Ru8l1wnzUukSzj27MH7N8APcxd5IVgoqk5yjwJMXndL
- AQ0k4AzDCXG9seCXPKPSlvTygs0niYgmM1ggy0bzS1slq/Af8BhF0I+IeUjSDKE5
- fimu46bTMhhaEdRhQnV4WdDIgSV4UE8VNrQlSpLGdo4j2DWWl2codQ88C4yHVpHg
- ==
-X-ME-Sender: <xms:a7hzXzD7l5kAOCl4gs4HvuoADr-GCbdf0ghr1rgCUbmOgT6-PPrPrg>
- <xme:a7hzX5gvmWkMD-FPfb_9vnUHcOss1jRocJnU834h5oQW8kxxKFeocq2YQHeiHnH7d
- BO8D-6Ng79kY5m9nuU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedtgddutdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:a7hzX-krfD5gdiJDUyzpA45W1p439SYphf4REUF5p5y6UWxs_0yNWw>
- <xmx:a7hzX1x0AfhWK-9DcQR0Q-Jvm5_9MDGDR4lJxk77-fPQUf4HNgEPbg>
- <xmx:a7hzX4T3PDCEjySnDj0YkN3Sjxk7EoM1hdpmZAyd_9cWNpRRPfAKtg>
- <xmx:bbhzXx9kDFIjaKdQ7lOvEEj58zSGKrQfB5ywfdzjbt1iqra9wFbPyZlS9Ibk9y3s>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3C6603280059;
- Tue, 29 Sep 2020 18:42:50 -0400 (EDT)
-Date: Wed, 30 Sep 2020 00:42:48 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v3 07/18] hw/block/nvme: add support for the get log page
- command
-Message-ID: <20200929224248.GB377237@apples.localdomain>
-References: <20200706061303.246057-1-its@irrelevant.dk>
- <20200706061303.246057-8-its@irrelevant.dk>
- <CAFEAcA8dqNBm1YqLPjoJ=79K=6z=SxYHvcvnZiY3MJMvv1n1BQ@mail.gmail.com>
- <20200929214600.GA377237@apples.localdomain>
- <20200929223420.GB508696@dhcp-10-100-145-180.wdl.wdc.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOLx-0004yX-6B
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOLv-0004Yf-70
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:44:08 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601419444;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Sm3Gm34Jjn5EWoNbFg1uRbBUxTP1yXhpa0ydpRV9pWQ=;
+ b=ED7QQA2rWIU0fTxWhINiZA5zsDQCCThTQJvCS0++m87/ixd8uuRkg05jGTv6mIwrKW9zfp
+ eadt2E0fZQaMH3rrcZtKzW10M0hWrARXnbLbEF1Mqm8E/hdP39veNYJAmDBsy8hLqK6/b6
+ YCQ/UTS6Lg7bKosaOXITI2pbGyaBTAc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-EV1Ge4SsMXm9yEeA4xvxOA-1; Tue, 29 Sep 2020 18:43:59 -0400
+X-MC-Unique: EV1Ge4SsMXm9yEeA4xvxOA-1
+Received: by mail-wm1-f70.google.com with SMTP id m25so2428694wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:43:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Sm3Gm34Jjn5EWoNbFg1uRbBUxTP1yXhpa0ydpRV9pWQ=;
+ b=fraObKfU7UzJkB4WJ2ZFzeq6ehgwslvXJHFh9VZ9zl1G2TBG/vPy+h8MBJgY6S/v9w
+ WaFtlmvmuxJF5bZ5rsuuSDnrodMwYMLLUVcrkoTsn5JynFGpK7/IEE9uxxK+a7dYCKhw
+ 43mklbgTZZ+OAZKJQg34jN/37imJ8846FAbOHYedG0xFF1J8lKZdxLv6et6D7vpnCvaj
+ hSumU6tZq+B2pJGvctEWWxst8CD8PZ+/emCqYBmExQW7ZsgDKMIpDPJqfm8V9J03SgSO
+ tFfyhuvIgNyZvhx15TrZMuK5l3qY/gG+RxID+yg7HrWCofSyNKBSh4pqqBZ3+2IBaMVi
+ mzjA==
+X-Gm-Message-State: AOAM530BNwOMgH/9QdHBV0Q7nyXyb7sc6YJ4OpnED6HKp5+8QRY2JA+L
+ X7fe42YsjdCYoYia/BXya+2N90iykWL034D9OftLal92xaAKf9J3T5nXsm3QEuXq1WRMwh3t1hL
+ lKDUkXwzxWr5fTVU=
+X-Received: by 2002:a05:600c:2053:: with SMTP id
+ p19mr6799105wmg.50.1601419438012; 
+ Tue, 29 Sep 2020 15:43:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzytBklMSd+mcQkWT4fWwubovRHL78gH/20a8RlxC2MfpeBb4ay504uDGUwZsnPRbVg7dNQwQ==
+X-Received: by 2002:a05:600c:2053:: with SMTP id
+ p19mr6799082wmg.50.1601419437666; 
+ Tue, 29 Sep 2020 15:43:57 -0700 (PDT)
+Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id t17sm8129443wrx.82.2020.09.29.15.43.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 15:43:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/12] Support disabling TCG on ARM (part 2)
+Date: Wed, 30 Sep 2020 00:43:43 +0200
+Message-Id: <20200929224355.1224017-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
-Content-Disposition: inline
-In-Reply-To: <20200929223420.GB508696@dhcp-10-100-145-180.wdl.wdc.com>
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
- helo=wnew2-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 17:46:07
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,96 +94,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cover from Samuel Ortiz from (part 1) [1]:
 
---cvVnyQ+4j833TQvp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  This patchset allows for building and running ARM targets with TCG
+  disabled. [...]
 
-On Sep 29 15:34, Keith Busch wrote:
-> On Tue, Sep 29, 2020 at 11:46:00PM +0200, Klaus Jensen wrote:
-> > On Sep 29 14:11, Peter Maydell wrote:
-> > > > +static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32=
-_t buf_len,
-> > > > +                                 uint64_t off, NvmeRequest *req)
-> > > > +{
-> > > > +    uint32_t trans_len;
-> > > > +    uint64_t prp1 =3D le64_to_cpu(cmd->dptr.prp1);
-> > > > +    uint64_t prp2 =3D le64_to_cpu(cmd->dptr.prp2);
-> > > > +    NvmeFwSlotInfoLog fw_log =3D {
-> > > > +        .afi =3D 0x1,
-> > > > +    };
-> > > > +
-> > > > +    strpadcpy((char *)&fw_log.frs1, sizeof(fw_log.frs1), "1.0", ' =
-');
-> > > > +
-> > > > +    if (off > sizeof(fw_log)) {
-> > > > +        return NVME_INVALID_FIELD | NVME_DNR;
-> > > > +    }
-> > > > +
-> > > > +    trans_len =3D MIN(sizeof(fw_log) - off, buf_len);
-> > > > +
-> > > > +    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_l=
-en, prp1,
-> > > > +                             prp2);
-> > >=20
-> > > Coverity warns about the same structure here (CID 1432411).
-> > >=20
-> > > thanks
-> > > -- PMM
-> >=20
-> > Hi Peter,
-> >=20
-> > Thanks. This is somewhere in the middle of a bunch of patches I got
-> > merged I think, commit 94a7897c41db? I just requested Coverity access.
-> >=20
-> > What happens is that nvme_dma_read_prp will call into nvme_map_prp which
-> > wont map anything because len is 0. This will cause the statically
-> > allocated QEMUSGList and QEMUIOVector in the request to be
-> > uninitialized. Returning from nvme_map_prp, nvme_dma_read_prp will
-> > notice that req->qsg.nsg is zero so it will default to the iov and move
-> > into qemu_iovec_{to,from}_buf(&req->iov, ...). In there we actually pass
-> > the NULL struct iovec, but since there is a __builtin_constant_p(bytes)
-> > condition at the end of it all, we never follow it.
-> >=20
-> > Not "serious" I think, but definitely not good. We will of course fix
-> > this up.
-> >=20
-> > @keith, do you agree with my analysis?
->=20
-> Yeah, looks safe as-is, but we're missing out on returning the spec
-> required 'Invalid Field'.
+  The rationale behind this work comes from the NEMU project where we're
+  trying to only support x86 and ARM 64-bit architectures, without
+  including the TCG code base. We can only do so if we can build and run
+  ARM binaries with TCG disabled.
 
-I can't see where it says that we should do that? Invalid Field in
-Command if offset is *greater* than the size of the log page.
+v4 almost 2 years later... [2]:
+- Rebased on Meson
+- Addressed Richard review comments
+- Addressed Claudio review comments
 
-Some dynamic log pages have side-effects of being read, so while this is
-a super wierd way of specifying that we want nothing returned, I think
-it is valid?
+v3 almost 18 months later [3]:
+- Rebased
+- Addressed Thomas review comments
+- Added Travis-CI job to keep building --disable-tcg on ARM
 
---cvVnyQ+4j833TQvp
-Content-Type: application/pgp-signature; name="signature.asc"
+v2 [4]:
+- Addressed review comments from Richard and Thomas from v1 [1]
 
------BEGIN PGP SIGNATURE-----
+Regards,
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9zuGYACgkQTeGvMW1P
-Denm1gf/XaZHL4LA8aPsGZoJlVoHxb4gL43ED4+jjNoQ5eskES2jZwJ2mwQSixxg
-b8cVKhsQaCS2rz+rgb3qGGA6SrdXZSQMVLut5jKmnE6QQSR/mUQg60e/YwmPGfch
-bgPTmDJ71hYFRuvcmieJxdls3i/x5JrFQoOcym2f4OCs9XkxBd4iD4Bn+wCbfEPV
-gxDZgnocjCwajQytT3KGHFNtmUIf9HHPsocBsKdznWzgo39KM3MDTn5nf41fGgky
-UJLxZUBR2vbfNAa+S5J7o4aM+v+z0xfpMqpbNpvr/oGj1keFWTSDgHDx1IP/t01K
-gZmUqqxR7KzAn6oyJ8UeXtcNkhwkJQ==
-=yoH9
------END PGP SIGNATURE-----
+Phil.
 
---cvVnyQ+4j833TQvp--
+[1]: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg641796.html
+[4]: https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05003.html
+
+Green CI:
+- https://cirrus-ci.com/build/4572961761918976
+- https://gitlab.com/philmd/qemu/-/pipelines/196047779
+- https://travis-ci.org/github/philmd/qemu/builds/731370972
+
+Based-on: <20200929125609.1088330-1-philmd@redhat.com>
+"hw/arm: Restrict APEI tables generation to the 'virt' machine"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg745792.html
+
+Philippe Mathieu-Daudé (10):
+  accel/tcg: Add stub for cpu_loop_exit()
+  meson: Allow optional target/${ARCH}/Kconfig
+  target/arm: Select SEMIHOSTING if TCG is available
+  target/arm: Restrict ARMv4 cpus to TCG accel
+  target/arm: Restrict ARMv5 cpus to TCG accel
+  target/arm: Restrict ARMv6 cpus to TCG accel
+  target/arm: Restrict ARMv7 R-profile cpus to TCG accel
+  target/arm: Restrict ARMv7 M-profile cpus to TCG accel
+  target/arm: Reorder meson.build rules
+  .travis.yml: Add a KVM-only Aarch64 job
+
+Samuel Ortiz (1):
+  target/arm: Do not build TCG objects when TCG is off
+
+Thomas Huth (1):
+  target/arm: Make m_helper.c optional via CONFIG_ARM_V7M
+
+ default-configs/arm-softmmu.mak |  3 --
+ meson.build                     |  8 +++-
+ target/arm/cpu.h                | 12 ------
+ accel/stubs/tcg-stub.c          |  5 +++
+ target/arm/cpu_tcg.c            |  4 +-
+ target/arm/helper.c             |  7 ----
+ target/arm/m_helper-stub.c      | 73 +++++++++++++++++++++++++++++++++
+ .travis.yml                     | 35 ++++++++++++++++
+ hw/arm/Kconfig                  | 32 +++++++++++++++
+ target/arm/Kconfig              |  4 ++
+ target/arm/meson.build          | 40 +++++++++++-------
+ 11 files changed, 184 insertions(+), 39 deletions(-)
+ create mode 100644 target/arm/m_helper-stub.c
+ create mode 100644 target/arm/Kconfig
+
+-- 
+2.26.2
+
 
