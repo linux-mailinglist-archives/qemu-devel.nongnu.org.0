@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6ECD27BB97
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 05:35:47 +0200 (CEST)
-Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69FE27BB94
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 05:34:22 +0200 (CEST)
+Received: from localhost ([::1]:57138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kN6Qd-0008WB-1T
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 23:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33090)
+	id 1kN6PF-0006F8-QI
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 23:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kN6ND-0004Z5-2O
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:32:15 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5151 helo=huawei.com)
+ id 1kN6N9-0004SS-St
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:32:11 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5152 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kN6NB-0001h0-5a
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:32:14 -0400
+ id 1kN6N7-0001h1-JR
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:32:11 -0400
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 053F286570BA55C08746;
- Tue, 29 Sep 2020 11:32:05 +0800 (CST)
+ by Forcepoint Email with ESMTP id F3CB7CB6FDBEFCDFBD6E;
+ Tue, 29 Sep 2020 11:32:04 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS406-HUB.china.huawei.com
  (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Tue, 29 Sep 2020
- 11:31:55 +0800
+ 11:31:56 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
  <berrange@redhat.com>
-Subject: [PATCH v2 0/2] migration/dirtyrate: optimizations for showing of
- querying dirtyrate
-Date: Tue, 29 Sep 2020 11:42:16 +0800
-Message-ID: <1601350938-128320-1-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v2 1/2] migration/dirtyrate: record start_time and calc_time
+ while at the measuring state
+Date: Tue, 29 Sep 2020 11:42:17 +0800
+Message-ID: <1601350938-128320-2-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1601350938-128320-1-git-send-email-zhengchuan@huawei.com>
+References: <1601350938-128320-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.101.6]
@@ -64,20 +66,65 @@ Cc: alex.chen@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series include two optimizations showing of dirtyrate against v1
-1) show start_time and calc_time when query while at the measuring state
-2) do not show dirtyrate when measuring is not finished
+Querying could include both the start-time and the calc-time while at the measuring
+state, allowing a caller to determine when they should expect to come back looking
+for a result.
 
-Chuan Zheng (2):
-  migration/dirtyrate: record start_time and calc_time while at the
-    measuring state
-  migration/dirtyrate: present dirty rate only when querying the rate
-    has completed
+Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+---
+ migration/dirtyrate.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
- migration/dirtyrate.c | 16 ++++++++++------
- qapi/migration.json   |  8 +++-----
- 2 files changed, 13 insertions(+), 11 deletions(-)
-
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 68577ef..40e41e7 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -83,14 +83,14 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+     return info;
+ }
+ 
+-static void reset_dirtyrate_stat(void)
++static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
+ {
+     DirtyStat.total_dirty_samples = 0;
+     DirtyStat.total_sample_count = 0;
+     DirtyStat.total_block_mem_MB = 0;
+     DirtyStat.dirty_rate = -1;
+-    DirtyStat.start_time = 0;
+-    DirtyStat.calc_time = 0;
++    DirtyStat.start_time = start_time;
++    DirtyStat.calc_time = calc_time;
+ }
+ 
+ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
+@@ -335,7 +335,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+     int64_t initial_time;
+ 
+     rcu_register_thread();
+-    reset_dirtyrate_stat();
+     rcu_read_lock();
+     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
+@@ -365,6 +364,8 @@ void *get_dirtyrate_thread(void *arg)
+ {
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
+     int ret;
++    int64_t start_time;
++    int64_t calc_time;
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -373,6 +374,10 @@ void *get_dirtyrate_thread(void *arg)
+         return NULL;
+     }
+ 
++    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
++    calc_time = config.sample_period_seconds;
++    init_dirtyrate_stat(start_time, calc_time);
++
+     calculate_dirtyrate(config);
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
 -- 
 1.8.3.1
 
