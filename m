@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B7D27BE18
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:35:20 +0200 (CEST)
-Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B97627BE3C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:41:10 +0200 (CEST)
+Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAAR-0002cH-Kr
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57954)
+	id 1kNAG5-0004DR-1Y
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:41:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9yI-0004Oe-MD
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48544)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y6-0004IY-7o
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9yF-0001nz-Rd
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y3-0001m2-ED
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:33 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364159;
+ s=mimecast20190719; t=1601364149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0g5K5CUjVa2QgPkjnSBYRFmkoKQ6IkhV7beBCx5g004=;
- b=U08m/YGbUbIBEflUJn4W6qR5OIvGjgweWI6ZeXZ3rK+Fp29e2pslXbkhF1HPEN+/kN0zIo
- l0pzxDvYTh0sdyLL1rGnaAI2uIMm0V7ukHaivBSnyc0DvkDqNtyySoIdfNsJnjcwe0pkgz
- rsIsHaXhSnFGvX6R2ADd7intQUzpmuQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-77_-JigrPXiT0CPXiY5bjQ-1; Tue, 29 Sep 2020 03:22:24 -0400
-X-MC-Unique: 77_-JigrPXiT0CPXiY5bjQ-1
-Received: by mail-wm1-f71.google.com with SMTP id t8so1351281wmj.6
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:24 -0700 (PDT)
+ bh=IvSRqOV7AyzLJJ7CwX/r6Msv2rBJl4LszOMA3rdKsI8=;
+ b=LHjyjFJo2L/GZr6UaMPPXiF1NaxXQss13X2GCuqS8UZXFN4zj+P+ndGmA/2LU9Ue87M+9M
+ xQ7qDjhJvcuWogFXsP5mIuuGkE3DJs8WSgp42/5nap/YqDgI1bCqCsnNB44EctRlqlvcz+
+ 6fm/6uTa9KxYUliBiba5suQ3ZQQC18Q=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-h7j-MmaGPN-a3qFar59Rmg-1; Tue, 29 Sep 2020 03:22:27 -0400
+X-MC-Unique: h7j-MmaGPN-a3qFar59Rmg-1
+Received: by mail-wm1-f69.google.com with SMTP id a7so1463220wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=0g5K5CUjVa2QgPkjnSBYRFmkoKQ6IkhV7beBCx5g004=;
- b=EgLAc0nVzVGv8evhhE77dqW3NjKSbovkio9Wit/ejmhbDyOiesZyua9YUFEPBgfwEi
- 4P6PBoqBefSrwHzrre3n9aZ/tStxjvjQ38TfNuQH44ArNt4hLhkVwNMQMS16319oGkb+
- Ciy3xHmwPjlF59DMNn/O0owkgJTYGqyq9s7z9Xf+v893INxNs3rzSTjdY6wcBI2gwpCC
- YNf/Qqg6EeVpvOfAFk3F0OKLtf8cdYobw71s1+EWmIhk3G+YFPKEartmlFe5Zc/dHtOt
- TKvdne+8Ch5RKDuCAaDQVBevVP/t8OUprKB3dQh2WgUNd1ZJTRTPWS1LXuPRWp4gENfq
- J4ZQ==
-X-Gm-Message-State: AOAM533kyfKvcpG8CmYev4hbqFcfez2l1W20d4eLgl16cvs0VBwfFhar
- dEaPqWngtMHCgGmqKpI0Ixuh5FwosJz03z2xBnus3GhgM8bHmtn59os66g2pS441afi5PzVZgWe
- j0YxhAGnJkQahYgs=
-X-Received: by 2002:a1c:9c13:: with SMTP id f19mr2816210wme.97.1601364143313; 
- Tue, 29 Sep 2020 00:22:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFsX0A/bvXO21sl053FhSgqTPGx6izlNDDAouB7BwmFc4SnRNBBxBMAs8Jkie4/8Nc83quWg==
-X-Received: by 2002:a1c:9c13:: with SMTP id f19mr2816192wme.97.1601364143057; 
- Tue, 29 Sep 2020 00:22:23 -0700 (PDT)
+ bh=IvSRqOV7AyzLJJ7CwX/r6Msv2rBJl4LszOMA3rdKsI8=;
+ b=b5ybGfiBxf9ZrfQ+efaGBv4OfFIRvsPNFy3UsYCxoT5nB0d1gD1Y9Kur11sOvDhWg4
+ wtbWiOsw++esM0IPAayHpxEExu0+RXRo89YITmcSKr/RsPtJst9dE+G8fq86d8ZdC3Be
+ TFNvvkBBlw76NmzUoeKeJ4KJ08qbISPvRTooOlH8WZaoGE4e43QdyxcRYDqVGb91HCOT
+ iAeesD1K4nXGZ4T4YLMSZCKHXeSx1nM6lPIveC4SX5FaFmwMuPOlCu5v0i06eWVzAhtD
+ p2Qi5FEv98aWc+R/OJlheEG3qpqCkOUKbpPKifDV4d6j1p+wQaOSjxfx4MawzdP4VAhO
+ YVeQ==
+X-Gm-Message-State: AOAM532jiYCZrCTMlvokKD8vl0JQUtEXj9NZr0I4mYCVV98GEsEsGin3
+ /0gTptXYtlbD5ySTBoexD/mTGWoKEJ6dpIxFf73g31e/srjrUb0bAxFQezVUwzvRJTE/xWf6B+f
+ 5VH2t+yM9TC6zbOU=
+X-Received: by 2002:a5d:5281:: with SMTP id c1mr2538273wrv.184.1601364145669; 
+ Tue, 29 Sep 2020 00:22:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNlhYxI6UECrpLOVhbDMNQCUnQ4KKKdG9GdxYE1jDeVR4ZgNN0hEoqpABFe28BQVnnnS9huw==
+X-Received: by 2002:a5d:5281:: with SMTP id c1mr2538252wrv.184.1601364145463; 
+ Tue, 29 Sep 2020 00:22:25 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id u66sm4144303wmg.44.2020.09.29.00.22.21
+ by smtp.gmail.com with ESMTPSA id y1sm4342644wmi.36.2020.09.29.00.22.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:22:22 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:22:20 -0400
+ Tue, 29 Sep 2020 00:22:24 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:22:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 33/48] qemu-options: document SMBIOS type 11 settings
-Message-ID: <20200929071948.281157-34-mst@redhat.com>
+Subject: [PULL v4 34/48] vhost-user: save features of multiqueues if chardev
+ is closed
+Message-ID: <20200929071948.281157-35-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -74,18 +75,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,82 +99,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?utf-8?B?aGFpYmluemhhbmco5byg5rW35paMKQ==?= <haibinzhang@tencent.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: haibinzhang(张海斌) <haibinzhang@tencent.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200923133804.2089190-4-berrange@redhat.com>
+Fore-commit(c6beefd674) only saves features of queue0,
+this makes wrong features of other queues in multiqueues
+situation.
+For examples:
+  qemu-system-aarch64 ... \
+  -chardev socket,id=charnet0,path=/var/run/vhost_sock \
+  -netdev vhost-user,chardev=charnet0,queues=2,id=hostnet0 \
+  ...
+There are two queues in nic assocated with one chardev.
+When chardev is reconnected, it is necessary to save and
+restore features of all queues.
+
+Signed-of-by: Haibin Zhang <haibinzhang@tencent.com>
+Message-Id: <46CBC206-E0CA-4249-81CD-10F75DA30441@tencent.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- qemu-options.hx | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ net/vhost-user.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 47f64be0c0..3564c2303f 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2296,6 +2296,8 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
-     "-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str]\n"
-     "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
-     "                specify SMBIOS type 4 fields\n"
-+    "-smbios type=11[,value=str][,path=filename]\n"
-+    "                specify SMBIOS type 11 fields\n"
-     "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
-     "               [,asset=str][,part=str][,speed=%d]\n"
-     "                specify SMBIOS type 17 fields\n",
-@@ -2319,6 +2321,45 @@ SRST
- ``-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str][,asset=str][,part=str]``
-     Specify SMBIOS type 4 fields
+diff --git a/net/vhost-user.c b/net/vhost-user.c
+index 17532daaf3..ffbd94d944 100644
+--- a/net/vhost-user.c
++++ b/net/vhost-user.c
+@@ -226,7 +226,7 @@ static void chr_closed_bh(void *opaque)
+     NetClientState *ncs[MAX_QUEUE_NUM];
+     NetVhostUserState *s;
+     Error *err = NULL;
+-    int queues;
++    int queues, i;
  
-+``-smbios type=11[,value=str][,path=filename]``
-+    Specify SMBIOS type 11 fields
+     queues = qemu_find_net_clients_except(name, ncs,
+                                           NET_CLIENT_DRIVER_NIC,
+@@ -235,8 +235,12 @@ static void chr_closed_bh(void *opaque)
+ 
+     s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
+ 
+-    if (s->vhost_net) {
+-        s->acked_features = vhost_net_get_acked_features(s->vhost_net);
++    for (i = queues -1; i >= 0; i--) {
++        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
 +
-+    This argument can be repeated multiple times, and values are added in the order they are parsed.
-+    Applications intending to use OEM strings data are encouraged to use their application name as
-+    a prefix for the value string. This facilitates passing information for multiple applications
-+    concurrently.
-+
-+    The ``value=str`` syntax provides the string data inline, while the ``path=filename`` syntax
-+    loads data from a file on disk. Note that the file is not permitted to contain any NUL bytes.
-+
-+    Both the ``value`` and ``path`` options can be repeated multiple times and will be added to
-+    the SMBIOS table in the order in which they appear.
-+
-+    Note that on the x86 architecture, the total size of all SMBIOS tables is limited to 65535
-+    bytes. Thus the OEM strings data is not suitable for passing large amounts of data into the
-+    guest. Instead it should be used as a indicator to inform the guest where to locate the real
-+    data set, for example, by specifying the serial ID of a block device.
-+
-+    An example passing three strings is
-+
-+    .. parsed-literal::
-+
-+        -smbios type=11,value=cloud-init:ds=nocloud-net;s=http://10.10.0.1:8000/,\\
-+                        value=anaconda:method=http://dl.fedoraproject.org/pub/fedora/linux/releases/25/x86_64/os,\\
-+                        path=/some/file/with/oemstringsdata.txt
-+
-+    In the guest OS this is visible with the ``dmidecode`` command
-+
-+     .. parsed-literal::
-+
-+         $ dmidecode -t 11
-+         Handle 0x0E00, DMI type 11, 5 bytes
-+         OEM Strings
-+              String 1: cloud-init:ds=nocloud-net;s=http://10.10.0.1:8000/
-+              String 2: anaconda:method=http://dl.fedoraproject.org/pub/fedora/linux/releases/25/x86_64/os
-+              String 3: myapp:some extra data
-+
-+
- ``-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str][,asset=str][,part=str][,speed=%d]``
-     Specify SMBIOS type 17 fields
- ERST
++        if (s->vhost_net) {
++            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
++        }
+     }
+ 
+     qmp_set_link(name, false, &err);
 -- 
 MST
 
