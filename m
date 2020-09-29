@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E8827BEB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 10:02:55 +0200 (CEST)
-Received: from localhost ([::1]:39662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF8327BF06
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 10:17:13 +0200 (CEST)
+Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAb8-0000k5-3t
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 04:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
+	id 1kNAoy-00048o-5O
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 04:17:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNA3P-000394-5K
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:28:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49598)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNAX2-0006jL-O5
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:58:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNA3N-0002pg-ET
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:28:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNAWu-0006yr-VF
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:58:40 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364480;
+ s=mimecast20190719; t=1601366310;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uEK8I/FGG3j53B+4b6RsOT7X9rvIJgBnm8LqJyACgd8=;
- b=gUG6REvbhGKHh3EbL4H4Hwywpp2+9Tv3e7UwYiU1AFmNCt6ObJWLFSmdLEJF0zpuTX10vX
- T7cE4JedkajTr7ikfoq88j96VEaKkU4hCIpvLtO97QRGdXxWtZFiqZbyvr2a4ogoLyVL3T
- ypwPPvy5EYi8gRrDVGdhJIJjHsny2eA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XGX51FhzlIjBbFwFd9c49yTkQcvN1XAuBQ4U/e9L9uM=;
+ b=LZFu1R3+q6sMdeHU8MEwc8dS3s+NVHoi9u0kvIgZGdMqZf/tCFh0r1MjzfnGOy3jtPMkzL
+ DnVLYs8PGtFfqKcI9Zvs2CjjtTCEY6GcvLmeRHuqyX5LhqdBy8odjuoA/8zIHhvYUea9f7
+ C2mOYXbRYUIfpuxvpeiqTJQAaxify9Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-q5ReYIHIMZWWCgnLmzWyXg-1; Tue, 29 Sep 2020 03:27:58 -0400
-X-MC-Unique: q5ReYIHIMZWWCgnLmzWyXg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-45-GL2WojBpPdGf8IbgFVdUmw-1; Tue, 29 Sep 2020 03:58:27 -0400
+X-MC-Unique: GL2WojBpPdGf8IbgFVdUmw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F155B1084D64;
- Tue, 29 Sep 2020 07:27:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A21F3782;
- Tue, 29 Sep 2020 07:27:51 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6F28B1750A; Tue, 29 Sep 2020 09:27:50 +0200 (CEST)
-Date: Tue, 29 Sep 2020 09:27:50 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v3 0/6] Add physical display dimensions to spice/virtio-gpu
-Message-ID: <20200929072750.uvddsvf325hkvpb7@sirius.home.kraxel.org>
-References: <20200927145751.365446-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24EF0640B9;
+ Tue, 29 Sep 2020 07:58:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8FEF5C1D0;
+ Tue, 29 Sep 2020 07:58:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 72C59113864A; Tue, 29 Sep 2020 09:58:24 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Update leftover comments that mention Texinfo
+Date: Tue, 29 Sep 2020 09:58:22 +0200
+Message-Id: <20200929075824.1517969-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200927145751.365446-1-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,27 +78,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: spice-devel@lists.freedesktop.org, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 27, 2020 at 06:57:45PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Hi,
-> 
-> This series improves the support for HiDPI displays with Spice.
-> The related spice series have already been merged.
-> 
-> v3:
->  - simplify the handling of Spice monitor configuration (Frediano)
-> v2:
->  - add a patch to "spice: remove the single monitor config logic" (Gerd)
+Markus Armbruster (2):
+  qemu-img-cmds.hx: Update comment that mentions Texinfo
+  target/i386/cpu: Update comment that mentions Texinfo
 
-Series queued up now.
+ target/i386/cpu.c | 3 ++-
+ qemu-img-cmds.hx  | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-thanks,
-  Gerd
+-- 
+2.26.2
 
 
