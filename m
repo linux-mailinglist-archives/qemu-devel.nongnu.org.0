@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660C127C1E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 12:07:54 +0200 (CEST)
-Received: from localhost ([::1]:49150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD6B27C1DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 12:06:18 +0200 (CEST)
+Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNCY5-000578-Ge
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 06:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39498)
+	id 1kNCWX-0003Kf-7D
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 06:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNCOA-0002rJ-Ez
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:57:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57127)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNCO9-0002ou-NQ
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:57:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNCO7-0000sY-Vk
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:57:38 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNCO8-0000sc-2N
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:57:37 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601373455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ak0SQ/thDlDdunDhe0gDqIoOHO6Ju9dm+uxYES+slTk=;
- b=Urk+x0c88ZdqMewM//jHU0mkcqKr0QXf9PtSi48dHOAEBWaNb8rcAdnwhMk7rodyVbkjOh
- EfsuCzJWCNSOz9tGj6pW1VijonjZc8T0XEW34fCJQJ3t9f2VidwFuh9zwkFh7nY/6OG/dE
- tXU0Y5QTlNK9arKtN/ZgL1eCiXpBkJw=
+ bh=cDgOTF722Tnr9qf/sX0cySEoHobwdrhfgZYLnSfUis8=;
+ b=Af1XooOLQW4hJfLVn8f5TcWbMvEOyg44yld907yHCmvMjYAVeO0ewfc8mZwZMmSMWQJuH1
+ lXKlDVCSdRZ6ZzRx1EymS+EUBTNI/xIpQpI5jw0g3nKip4Ev//NwOKQeUzuTR+R26mSTmM
+ 9g0X74jfEbRiu/lQ1eSxO9oTjlu+EZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-gKucPc5IMQyryvap22cEcw-1; Tue, 29 Sep 2020 05:57:33 -0400
-X-MC-Unique: gKucPc5IMQyryvap22cEcw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-537-lR1Kjf4fOO6vFJCbTeWKeA-1; Tue, 29 Sep 2020 05:57:33 -0400
+X-MC-Unique: lR1Kjf4fOO6vFJCbTeWKeA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 060AD1DDF3;
- Tue, 29 Sep 2020 09:57:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB8531007283;
+ Tue, 29 Sep 2020 09:57:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD46255774;
- Tue, 29 Sep 2020 09:57:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2A745C1BD;
+ Tue, 29 Sep 2020 09:57:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CAFE231E22; Tue, 29 Sep 2020 11:57:17 +0200 (CEST)
+ id D403C31E23; Tue, 29 Sep 2020 11:57:17 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] virtio-gpu: set physical dimensions for EDID
-Date: Tue, 29 Sep 2020 11:57:15 +0200
-Message-Id: <20200929095717.26745-8-kraxel@redhat.com>
+Subject: [PULL 8/9] virtio-vga: implement big-endian-framebuffer property
+Date: Tue, 29 Sep 2020 11:57:16 +0200
+Message-Id: <20200929095717.26745-9-kraxel@redhat.com>
 In-Reply-To: <20200929095717.26745-1-kraxel@redhat.com>
 References: <20200929095717.26745-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,61 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Allows to switch the (vga mode) framebuffer into bigendian mode
+by setting the property, simliar to stdvga.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20200927145751.365446-7-marcandre.lureau@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20200928085335.21961-2-kraxel@redhat.com
 ---
- include/hw/virtio/virtio-gpu.h | 1 +
- hw/display/virtio-gpu-base.c   | 2 ++
- hw/display/virtio-gpu.c        | 2 ++
- 3 files changed, 5 insertions(+)
+ hw/display/virtio-vga.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 455e0a743350..1aed7275c824 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -62,6 +62,7 @@ struct virtio_gpu_scanout {
- };
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index f9410a0c2e61..81f776ee36e7 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -168,6 +168,20 @@ static void virtio_vga_base_reset(DeviceState *dev)
+     vga_dirty_log_start(&vvga->vga);
+ }
  
- struct virtio_gpu_requested_state {
-+    uint16_t width_mm, height_mm;
-     uint32_t width, height;
-     int x, y;
- };
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index aeb87235420a..40ccd00f9421 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -82,6 +82,8 @@ static int virtio_gpu_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
-     g->req_state[idx].y = info->yoff;
-     g->req_state[idx].width = info->width;
-     g->req_state[idx].height = info->height;
-+    g->req_state[idx].width_mm = info->width_mm;
-+    g->req_state[idx].height_mm = info->height_mm;
++static bool virtio_vga_get_big_endian_fb(Object *obj, Error **errp)
++{
++    VirtIOVGABase *d = VIRTIO_VGA_BASE(obj);
++
++    return d->vga.big_endian_fb;
++}
++
++static void virtio_vga_set_big_endian_fb(Object *obj, bool value, Error **errp)
++{
++    VirtIOVGABase *d = VIRTIO_VGA_BASE(obj);
++
++    d->vga.big_endian_fb = value;
++}
++
+ static Property virtio_vga_base_properties[] = {
+     DEFINE_VIRTIO_GPU_PCI_PROPERTIES(VirtIOPCIProxy),
+     DEFINE_PROP_END_OF_LIST(),
+@@ -190,6 +204,11 @@ static void virtio_vga_base_class_init(ObjectClass *klass, void *data)
+     k->realize = virtio_vga_base_realize;
+     pcidev_k->romfile = "vgabios-virtio.bin";
+     pcidev_k->class_id = PCI_CLASS_DISPLAY_VGA;
++
++    /* Expose framebuffer byteorder via QOM */
++    object_class_property_add_bool(klass, "big-endian-framebuffer",
++                                   virtio_vga_get_big_endian_fb,
++                                   virtio_vga_set_big_endian_fb);
+ }
  
-     if (info->width && info->height) {
-         g->enabled_output_bitmask |= (1 << idx);
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 90be4e3ed719..f3b71fa9c7c3 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -212,6 +212,8 @@ virtio_gpu_generate_edid(VirtIOGPU *g, int scanout,
- {
-     VirtIOGPUBase *b = VIRTIO_GPU_BASE(g);
-     qemu_edid_info info = {
-+        .width_mm = b->req_state[scanout].width_mm,
-+        .height_mm = b->req_state[scanout].height_mm,
-         .prefx = b->req_state[scanout].width,
-         .prefy = b->req_state[scanout].height,
-     };
+ static TypeInfo virtio_vga_base_info = {
 -- 
 2.27.0
 
