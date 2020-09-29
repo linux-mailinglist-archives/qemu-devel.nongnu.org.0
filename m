@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756AA27BE4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:44:59 +0200 (CEST)
-Received: from localhost ([::1]:58832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25B827BE1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:37:12 +0200 (CEST)
+Received: from localhost ([::1]:57420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAJm-0001gB-HG
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58984)
+	id 1kNACF-00060Y-To
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNA0f-0007Yo-K5
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:25:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36780)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xa-0003UZ-DY
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNA0Z-0002Bb-GL
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:25:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xU-0001fM-F1
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:02 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364304;
+ s=mimecast20190719; t=1601364114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OtuDJIdJ5w4UGc1V2cVEinxPVBCkF805rxImr5K61RY=;
- b=UBdLF+z6FtFVw+PIIRH6ktegkEQ3+Wt6N1PeEndh1vXtDvE7M+v6PHpRyk6Le2zBTTp6Yw
- EGz3lXet+C+HUoV9F1OYT2sof3KqPMI7m6DO+DMhvvTyBTvjBT/IEnDAOR67R/alLSXJye
- EYvhNxyVSoXYz8xfXnioba7rDEHmYKI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-utD7RgCQNR-E-B5AVqupwQ-1; Tue, 29 Sep 2020 03:21:49 -0400
-X-MC-Unique: utD7RgCQNR-E-B5AVqupwQ-1
-Received: by mail-wr1-f71.google.com with SMTP id g6so1375728wrv.3
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:49 -0700 (PDT)
+ bh=XP1uoqzxcM1hmJV5OQbd/+8s4eonWOchAJJaT/NifAw=;
+ b=UOjNSRHUJ0NuViOLbJymz9Wq7a7Sa+9simJIHtxZZ7VZhp0k09IbDSsdPhAYOPB4s0KQx6
+ yC73GX/QndgSGCOI2jcqzcmf3U27ySu/0884QK5VgMFpzTCjNU4GFK8YcLLScUuZOmQG/E
+ h7mEUvzc8+U1btKFxLcPN4BE83PHqY8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-RLF2rPzPPd-youJCCE8Baw-1; Tue, 29 Sep 2020 03:21:52 -0400
+X-MC-Unique: RLF2rPzPPd-youJCCE8Baw-1
+Received: by mail-wm1-f70.google.com with SMTP id m19so1454160wmg.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=OtuDJIdJ5w4UGc1V2cVEinxPVBCkF805rxImr5K61RY=;
- b=OCUjzrtgkm/dWDb08hJE5vC1YDInLEVoUB90aQpTasvxcaHPloANwLNOxpsVS81Fan
- wziEOe3Wp1bVjWUPPPAV3K/lkyE8hhMj+OR8lBrxAVokDAwEbZgUK85SuFLsfVQ0IW/V
- kp8do0Yjnq13X5xO1QRqgeKzWqWBX6wT1jYkFUgNR9NAWAe8+56bb69H0v0ZqRzTdX0G
- 4EBORjAbC6q0XBmKZx9FdOvtU9IBYmdzuVDCYSEKgAxUtesu/8pkVD7oskTfeKpUMV7+
- 6UXNBgS45k//Dxx9yCHJkofzpQFoefDbi19zFgw8zqKnLC/QvT850rg8KAkqHtv3CIFS
- h56A==
-X-Gm-Message-State: AOAM532FOYvpEK7hqxtltKLyZj7JVUA70hAC0xIlp9Gas6hN5RmV0HTm
- e/EvuI0TYGgMJeuoua91OJ3mbXwsx1nQXxztkwWgWoCmzu5ULD/LtiAsiuAoPKbMJJL3fP2YCPp
- TKFDqlMdKzHr+oJE=
-X-Received: by 2002:adf:a35d:: with SMTP id d29mr2523763wrb.307.1601364108456; 
- Tue, 29 Sep 2020 00:21:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkNrZWMqxoVjiN9DBOVuxj00BgGz1FN9YDiZfN3ysMzveoaymFmRZPTBLJ2jezhq7Sh7ECsA==
-X-Received: by 2002:adf:a35d:: with SMTP id d29mr2523742wrb.307.1601364108298; 
- Tue, 29 Sep 2020 00:21:48 -0700 (PDT)
+ bh=XP1uoqzxcM1hmJV5OQbd/+8s4eonWOchAJJaT/NifAw=;
+ b=KyEPP25NxnlIu6dVDDwtCz4KdT8mulTyh9TASolZ9nO1HNo9BIE7yoj1wnTNvGCmxC
+ Qll5vohYlu1IWnO/5Dw8tbLQ/Z8UOS8Z8vmfjXY4glY9ZvQOaW1e8GJOm1V8co9lQFp1
+ sCRcpJnzWjQyigabzntcRoSJ80xSnvi+RmAYN+/OYIm27uX5sNjocB9C0xEiwOQv9HEZ
+ Eh/ETp1Hx21HcrbLD4RT4mCCf8wf9howhvivHeV42oUoDDOi2YPiRwVtdADpk4fiXSxo
+ arRDVFyyFh2BJcwzlYYsDauayDCNepQa3UYMrWgnBO2aWSbnSJkw6d5T3rFZ6orzfEY0
+ ROPQ==
+X-Gm-Message-State: AOAM533xDzFWxJS2IiPm+wuhgkW1eqkXkHoHBPRzEN8LjShhruw8ZFaV
+ FmPINKdqijK03x6Sb+j3u2qWrbsRCcjyutwiEPO56pISs1GdpnKemD4hH2KFtk9o7c9+6bidxID
+ 4brzOSd93XC7nDdM=
+X-Received: by 2002:a1c:4455:: with SMTP id r82mr2918096wma.60.1601364111330; 
+ Tue, 29 Sep 2020 00:21:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbaXUMUQwo0oS1R6LyOyt/qJo+Eun0eQsgrYjqyd+DfdV/KFP1Lbz2V4KjiVsCIGj4ivUedg==
+X-Received: by 2002:a1c:4455:: with SMTP id r82mr2918084wma.60.1601364111114; 
+ Tue, 29 Sep 2020 00:21:51 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id a10sm4125449wmj.38.2020.09.29.00.21.46
+ by smtp.gmail.com with ESMTPSA id g8sm3949827wmd.12.2020.09.29.00.21.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:21:47 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:21:45 -0400
+ Tue, 29 Sep 2020 00:21:50 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:21:48 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 20/48] virtio: update MemoryRegionCaches when guest set bad
- features
-Message-ID: <20200929071948.281157-21-mst@redhat.com>
+Subject: [PULL v4 21/48] x86: lpc9: let firmware negotiate 'CPU hotplug with
+ SMI' features
+Message-ID: <20200929071948.281157-22-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -96,61 +96,93 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Li Qiang <liq3ea@163.com>,
- Alexander Bulekov <alxndr@bu.edu>
+ Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-Current the 'virtio_set_features' only update the 'MemorRegionCaches'
-when the 'virtio_set_features_nocheck' return '0' which means it is
-not bad features. However the guest can still trigger the access of the
-used vring after set bad features. In this situation it will cause assert
-failure in 'ADDRESS_SPACE_ST_CACHED'.
+It will allow firmware to notify QEMU that firmware requires SMI
+being triggered on CPU hot[un]plug, so that it would be able to account
+for hotplugged CPU and relocate it to new SMM base and/or safely remove
+CPU on unplug.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1890333
-Fixes: db812c4073c7 ("virtio: update MemoryRegionCaches when guest negotiates features")
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Message-Id: <20200919082706.6703-1-liq3ea@163.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Using negotiated features, follow up patches will insert SMI upcall
+into AML code, to make sure that firmware processes hotplug before
+guest OS would attempt to use new CPU.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Tested-by: Laszlo Ersek <lersek@redhat.com>
+Message-Id: <20200923094650.1301166-2-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ include/hw/i386/ich9.h |  2 ++
+ hw/i386/pc.c           |  4 +++-
+ hw/isa/lpc_ich9.c      | 13 +++++++++++++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index a2edb4f386..6f8f865aff 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2963,17 +2963,16 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
-         return -EINVAL;
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 48b442bc0b..703d56036a 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -247,5 +247,7 @@ struct ICH9LPCState {
+ 
+ /* bit positions used in fw_cfg SMI feature negotiation */
+ #define ICH9_LPC_SMI_F_BROADCAST_BIT            0
++#define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
++#define ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT       2
+ 
+ #endif /* HW_ICH9_H */
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 50e8317342..2c6194e57f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -97,7 +97,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
+ 
+-GlobalProperty pc_compat_5_1[] = {};
++GlobalProperty pc_compat_5_1[] = {
++    { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
++};
+ const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
+ 
+ GlobalProperty pc_compat_5_0[] = {
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 3303d2eab6..a54b3ec8bd 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -373,6 +373,15 @@ static void smi_features_ok_callback(void *opaque)
+         /* guest requests invalid features, leave @features_ok at zero */
+         return;
      }
-     ret = virtio_set_features_nocheck(vdev, val);
--    if (!ret) {
--        if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
--            /* VIRTIO_RING_F_EVENT_IDX changes the size of the caches.  */
--            int i;
--            for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--                if (vdev->vq[i].vring.num != 0) {
--                    virtio_init_region_cache(vdev, i);
--                }
-+    if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
-+        /* VIRTIO_RING_F_EVENT_IDX changes the size of the caches.  */
-+        int i;
-+        for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-+            if (vdev->vq[i].vring.num != 0) {
-+                virtio_init_region_cache(vdev, i);
-             }
-         }
--
++    if (!(guest_features & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT)) &&
++        guest_features & (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
++                          BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
++        /*
++         * cpu hot-[un]plug with SMI requires SMI broadcast,
++         * leave @features_ok at zero
++         */
++        return;
 +    }
-+    if (!ret) {
-         if (!virtio_device_started(vdev, vdev->status) &&
-             !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-             vdev->start_on_kick = true;
+ 
+     /* valid feature subset requested, lock it down, report success */
+     lpc->smi_negotiated_features = guest_features;
+@@ -747,6 +756,10 @@ static Property ich9_lpc_properties[] = {
+     DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
+     DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
+                       ICH9_LPC_SMI_F_BROADCAST_BIT, true),
++    DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
++                      ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
++    DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState, smi_host_features,
++                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 MST
 
