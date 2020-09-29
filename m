@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C722227BDF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:26:13 +0200 (CEST)
-Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDC127BDF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:26:10 +0200 (CEST)
+Received: from localhost ([::1]:49676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNA1c-0007kQ-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57056)
+	id 1kNA1Z-0007Y9-HL
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9wm-0002I6-0p
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37479)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9wn-0002Jb-6d
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9wh-0001Xk-LZ
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:11 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9wl-0001Xv-Ci
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:12 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364066;
+ s=mimecast20190719; t=1601364069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Msq8goiUIrREy947KknDtEH1ZqD2k0E/AfsZQGv/SGY=;
- b=erNmToZPnusoNK3G3u2yBlJYlp4Z2CxPFvr8ezd7x7H68gO21HCb/5Zf546L8aabaUcr6D
- wxGXH/wQ+DFDWBsoXpF4NJoee48Ko88ieFodAQyz3aGtpvfwfPbXtF64vU8eSEyXB87z7l
- frg772hB4ew+cFkNRvZcXyY4tXDlXVw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-T1acoe7kMdKUCWVhkclJRw-1; Tue, 29 Sep 2020 03:21:04 -0400
-X-MC-Unique: T1acoe7kMdKUCWVhkclJRw-1
-Received: by mail-wm1-f69.google.com with SMTP id m19so1453462wmg.6
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:04 -0700 (PDT)
+ bh=5hYvdz2qitSdqwuTuePQGMPUpQ1ZwS4Y5kaurOk3sFU=;
+ b=URoAfhEUUBaJWMDXZ4G+b3cogb1ShTocxfJMbbou9hsK2G4rNgvfxWGERbL0Myg1WdahLY
+ Mw4/4DkLRNbKIyydH3dJCUc6gns+keWOaO+lljlhUnDjQsgCTVvp5tyaUrUJ76JpJCd9t7
+ WF8xE21jQpTpY+KgZvwfca3hvD13qHs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-XShBTN8UOuGp6WfF4OSzow-1; Tue, 29 Sep 2020 03:21:07 -0400
+X-MC-Unique: XShBTN8UOuGp6WfF4OSzow-1
+Received: by mail-wr1-f72.google.com with SMTP id a2so1359292wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Msq8goiUIrREy947KknDtEH1ZqD2k0E/AfsZQGv/SGY=;
- b=ZKZdoIty36yq11e79lPUT3S1NHMgkRD1KDYLzEZsXXfR/GhbIDA43lJyUJK/C8pMhb
- t+kaVS1RMNgkVAG5SX0UHyU/0eGOXENQCuT67GfN+DE+hicGDzKsFqITq9lcnmhOPbg7
- Jbiu9kj9VhpimO7xZmOy+9gQ1kcoW39InYBXURCUw8c8W03M1fNxSOXt5vZdcR4kKG/M
- vyWTz/LX9+Fjh5eWLj7EWXeLJJ2n7ICQVMe8Z68xpCVj6AV0cVEZtOEWhT5mnF5SDmVS
- iWWG88oaXino90gKSm+75/RPs46cJxRdxO3Wh6E4AqfwPBeoVH+ziOjqg0+Lh7/eCO/L
- /Mzw==
-X-Gm-Message-State: AOAM530cRVH5LVWeeXCTbwd77ZylWMK1y/IOAcJPfbXcYor6qKXUrl60
- yPOkLERm853889bJWaP2FAVUcPPzWZjdv3A19NikxV9D24GyJeG72+4Ys2a/AUmNjBuNDucVvDU
- A2bg0yoW34SmTwPY=
-X-Received: by 2002:adf:fd12:: with SMTP id e18mr2627960wrr.96.1601364063200; 
- Tue, 29 Sep 2020 00:21:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOimFGDiWuDMXon/kWYFUIvYCNDyv5BtqrebWujLQLnAVXzVsmidBkr20zCZHrHhvYaJeMMA==
-X-Received: by 2002:adf:fd12:: with SMTP id e18mr2627945wrr.96.1601364063005; 
- Tue, 29 Sep 2020 00:21:03 -0700 (PDT)
+ bh=5hYvdz2qitSdqwuTuePQGMPUpQ1ZwS4Y5kaurOk3sFU=;
+ b=dkQEJO4yvFKIVK4ejh3oDzyo1FNsn7GK3OxJowxLWHTfjNECeGxOzA0ORHt2xtMA0X
+ 0CcyhENh9H+7QxW60f12UavmO/pabshGg3ks/kNEx3loLk9CcKf0Lysf78+z/rxpQYRZ
+ SR/oephUDt7d2A6myxwFmiayebV13RUi/tEMMkZdDkhyjzOiT4mHbzI6OZcNaYFqfJnI
+ s2Hx8hSLO5U4UeMFuKGlmVsw2OgKo5mXaMIJhU3svgNJofGEgTA3MJ/vz/fnnRr+kf9E
+ +t/mjz7JZ8d69Ls0/bEj3LDyQHaYcrjYJwSnZv+apigaQ0q5r7s33cexpEjoSL9uVPIl
+ h8ig==
+X-Gm-Message-State: AOAM530zzVdP4Nr21n8Srho4j53qbOCMtFpXyXIvAJKRoXcoP0PRXWYs
+ pciSNeYVsLBTRYejfcEyCrz8jGSfceTttaUSQBXtIQurjD/L3SAJuY04wEX0SdRmy3EhVFe9fAC
+ 7gILScU+R+gwEZ0U=
+X-Received: by 2002:a7b:cb17:: with SMTP id u23mr2874662wmj.166.1601364066062; 
+ Tue, 29 Sep 2020 00:21:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw038PMrUfQxrZwp6QqdMJLGtJUZqHHI00XqSVIWGDSl2KecsY0CfXYohRowwBaNwOwM4torg==
+X-Received: by 2002:a7b:cb17:: with SMTP id u23mr2874640wmj.166.1601364065867; 
+ Tue, 29 Sep 2020 00:21:05 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id a13sm3905305wme.26.2020.09.29.00.21.01
+ by smtp.gmail.com with ESMTPSA id x16sm4634190wrq.62.2020.09.29.00.21.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:21:02 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:21:00 -0400
+ Tue, 29 Sep 2020 00:21:05 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:21:03 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 04/48] virtio-mem: detach the element from the virtqueue
- when error occurs
-Message-ID: <20200929071948.281157-5-mst@redhat.com>
+Subject: [PULL v4 05/48] pc: fix
+ auto_enable_numa_with_memhp/auto_enable_numa_with_memdev for the 5.0 machine
+Message-ID: <20200929071948.281157-6-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -95,55 +95,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Li Qiang <liq3ea@163.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-stable@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: David Hildenbrand <david@redhat.com>
 
-If error occurs while processing the virtio request we should call
-'virtqueue_detach_element' to detach the element from the virtqueue
-before free the elem.
+Unfortunately, a typo sneeked in: we want to set
+auto_enable_numa_with_memdev to false, not auto_enable_numa_with_memhp.
 
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Message-Id: <20200816142245.17556-1-liq3ea@163.com>
-Fixes: 910b25766b ("virtio-mem: Paravirtualized memory hot(un)plug")
-Acked-by: David Hildenbrand <david@redhat.com>
+Cc: qemu-stable@nongnu.org # v5.1
+Fixes: 195784a0cfad (numa: Auto-enable NUMA when any memory devices are possible)
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200820094828.30348-1-david@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/i386/pc_q35.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 8fbec77ccc..7c8ca9f28b 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -318,6 +318,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
-         if (iov_to_buf(elem->out_sg, elem->out_num, 0, &req, len) < len) {
-             virtio_error(vdev, "virtio-mem protocol violation: invalid request"
-                          " size: %d", len);
-+            virtqueue_detach_element(vq, elem, 0);
-             g_free(elem);
-             return;
-         }
-@@ -327,6 +328,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
-             virtio_error(vdev, "virtio-mem protocol violation: not enough space"
-                          " for response: %zu",
-                          iov_size(elem->in_sg, elem->in_num));
-+            virtqueue_detach_element(vq, elem, 0);
-             g_free(elem);
-             return;
-         }
-@@ -348,6 +350,7 @@ static void virtio_mem_handle_request(VirtIODevice *vdev, VirtQueue *vq)
-         default:
-             virtio_error(vdev, "virtio-mem protocol violation: unknown request"
-                          " type: %d", type);
-+            virtqueue_detach_element(vq, elem, 0);
-             g_free(elem);
-             return;
-         }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 622d039717..e1c415f57d 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -382,7 +382,7 @@ static void pc_q35_5_0_machine_options(MachineClass *m)
+     m->numa_mem_supported = true;
+     compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
+-    m->auto_enable_numa_with_memhp = false;
++    m->auto_enable_numa_with_memdev = false;
+ }
+ 
+ DEFINE_Q35_MACHINE(v5_0, "pc-q35-5.0", NULL,
 -- 
 MST
 
