@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1335227D7CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:13:47 +0200 (CEST)
-Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7599827D7C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:12:32 +0200 (CEST)
+Received: from localhost ([::1]:46532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNM0Q-0008AI-4T
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
+	id 1kNLzD-0005tR-HZ
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNLPR-0003dT-RC
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:35:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNLPP-0005zA-PT
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:35:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kNLPN-0004Bu-NR
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 19:35:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B06B12E80AB
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 19:35:29 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kNLOR-0002ZN-8l
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:34:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43922)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kNLON-0005np-8x
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:34:30 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601408065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H9VQbT8ap250nIQPCuR7hoymORQXtVlGWEfSVmZfmhc=;
+ b=Wxd8eunYwaTWE4bxhENZdEWbRHgev1MVS/G7mx/fJCPB+Y1xddIjuuHhTVwFmkrfhyRcCb
+ mO4MAN8TO751v1UBp/QL7ov+1c5dDLJelwlqJNBSnTp8VJOVRHKodYwv291rwM2Siu3MIY
+ yAr50hNLBJi++7g1FOA0qOinqFYW0Ag=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-437-oOHXZOB0NnavgxZILIEGeA-1; Tue, 29 Sep 2020 15:34:23 -0400
+X-MC-Unique: oOHXZOB0NnavgxZILIEGeA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6835164147;
+ Tue, 29 Sep 2020 19:34:22 +0000 (UTC)
+Received: from x1.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1CFA5D9DC;
+ Tue, 29 Sep 2020 19:34:14 +0000 (UTC)
+Date: Tue, 29 Sep 2020 13:34:14 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Wei Huang <wei.huang2@amd.com>
+Subject: Re: [PATCH V1 2/3] amd-iommu: Sync IOVA-to-GPA translation during
+ page invalidation
+Message-ID: <20200929133414.41982c53@x1.home>
+In-Reply-To: <20200928200506.75441-3-wei.huang2@amd.com>
+References: <20200928200506.75441-1-wei.huang2@amd.com>
+ <20200928200506.75441-3-wei.huang2@amd.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Sep 2020 19:27:11 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1897783@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <160140299141.23116.14910893698614529826.malonedeb@wampee.canonical.com>
-Message-Id: <160140763174.1960.13965128156269537352.malone@chaenomeles.canonical.com>
-Subject: [Bug 1897783] Re: avocado tests not running on aarch64 host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d685c0a40836eb9844ed835c9700f20633c1d7af"; Instance="production"
-X-Launchpad-Hash: 59789cf830576ab0ac758fcf86190d2416699acf
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 14:15:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.199, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,55 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1897783 <1897783@bugs.launchpad.net>
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, pbonzini@redhat.com, Suravee.Suthikulpanit@amd.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Auger suggested the fix: 'pip install wheel'.
+On Mon, 28 Sep 2020 15:05:05 -0500
+Wei Huang <wei.huang2@amd.com> wrote:
 
--- =
+> Add support to sync the IOVA-to-GPA translation at the time of IOMMU
+> page invalidation. This function is called when two IOMMU commands,
+> AMDVI_CMD_INVAL_AMDVI_PAGES and AMDVI_CMD_INVAL_AMDVI_ALL, are
+> intercepted. Address space notifiers are called accordingly.
+> 
+> Co-developed-by: Wei Huang <wei.huang2@amd.com>
+> Signed-off-by: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
+> ---
+>  hw/i386/amd_iommu.c | 177 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/i386/amd_iommu.h |  10 +++
+>  hw/vfio/common.c    |   3 +-
+>  3 files changed, 189 insertions(+), 1 deletion(-)
+...
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 13471ae29436..243216499ce0 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -346,7 +346,8 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+>       * the VGA ROM space.
+>       */
+>      if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0 ||
+> -        (errno == EBUSY && vfio_dma_unmap(container, iova, size) == 0 &&
+> +        ((errno == EEXIST || errno == EBUSY) &&
+> +         vfio_dma_unmap(container, iova, size) == 0 &&
+>           ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0)) {
+>          return 0;
+>      }
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1897783
 
-Title:
-  avocado tests not running on aarch64 host
+This seems like it should be a separate patch.  AFAICT the commit log
+doesn't even hint at why this change is necessary.  I think the -EBUSY
+error pre-dates vIOMMU as well.  Responding the same for an -EEXIST
+almost suggests a coherency issue between QEMU and the kernel, or a
+direct mapping replacement without an invalidation, which doesn't seem
+to be what this patch is implementing.  Thanks,
 
-Status in QEMU:
-  New
+Alex
 
-Bug description:
-  $ lsb_release -a
-  No LSB modules are available.
-  Distributor ID: Ubuntu
-  Description:    Ubuntu 20.04.1 LTS
-  Release:        20.04
-  Codename:       focal
-
-  $ make check-venv
-    VENV    /home/phil/qemu/build/tests/venv
-    PIP     /home/phil/qemu/tests/requirements.txt
-    ERROR: Command errored out with exit status 1:
-     command: /home/phil/qemu/build/tests/venv/bin/python -u -c 'import sys=
-, setuptools, tokenize; sys.argv[0] =3D '"'"'/tmp/pip-install-w1h2bh4a/pycd=
-lib/setup.py'"'"'; __file__=3D'"'"'/tmp/pip-install-w1h2bh4a/pycdlib/setup.=
-py'"'"';f=3Dgetattr(tokenize, '"'"'open'"'"', open)(__file__);code=3Df.read=
-().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __fil=
-e__, '"'"'exec'"'"'))' bdist_wheel -d /tmp/pip-wheel-ic25ctcg
-         cwd: /tmp/pip-install-w1h2bh4a/pycdlib/
-    Complete output (6 lines):
-    usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
-       or: setup.py --help [cmd1 cmd2 ...]
-       or: setup.py --help-commands
-       or: setup.py cmd --help
-    =
-
-    error: invalid command 'bdist_wheel'
-    ----------------------------------------
-    ERROR: Failed building wheel for pycdlib
-  $
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1897783/+subscriptions
 
