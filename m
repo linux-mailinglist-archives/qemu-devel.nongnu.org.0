@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A79B27D29C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 17:24:04 +0200 (CEST)
-Received: from localhost ([::1]:53468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBD827D2B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 17:27:58 +0200 (CEST)
+Received: from localhost ([::1]:59462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNHU1-0003px-I3
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 11:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41970)
+	id 1kNHXp-0006ni-18
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 11:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kNHSP-000311-Lm
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:22:22 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:42224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kNHSM-0000bi-TU
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:22:21 -0400
-Received: by mail-ed1-x542.google.com with SMTP id j2so6760378eds.9
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 08:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l9zJeE1NhhnAGrqEhGM8u6+63MpQQfWplPtINlwjK1g=;
- b=k141A5UoHu3Q7NKdx1e2TBFoSng5ujwaZEeHZl72xGnoWUZ/0xgpYPHumD+/cKnEsK
- 4Mt+tvr1s8OIrT2YDIhvGm7LCO4KnvcUmrZCLvSju3zwlW7GhS8HFvmzqWLi3lXGYVGw
- eERpJ4b49SbXEyd0U54JNS4GZtJQjp7GqxoZSV7s1MVL2P4ZNZOwEm8JYsAUYDvJGLSM
- ybUJdvrj7H6VKDJmy142nuo1QLGVm3SYrkCWa/3fFZyLTkYfyKGFt5zfPDQJapeOx60w
- T2GG38FpzfR8NPJo9mmi0piUKyaVeVoLtRUf1Kf6anT8Sfm/Ad+UkA/Z4c4siLnlA2RF
- KDSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l9zJeE1NhhnAGrqEhGM8u6+63MpQQfWplPtINlwjK1g=;
- b=BdyIIe/IQnLPe3LIuPaegfNvvT5gE3f1560t5wt21ShWQ5J/SnQG8L/vvJsP2pwKuK
- m60kmXp0HQNZubdO4GzAd+CYBq/TDCMGPWCFEBViraVGqGMY7mOAkqbEs2r7C96bnwFp
- AnPGHOyAKVVWgyRMmIJQw7cqQZhKqV/lw0FE48QcXw7sarqtRDGfgSy5WQxZ3Tm4MG61
- EgLaAaOfReRMqqBctCnXNrRpkfRO0v/0u+Xj/lXVkneXBglVPVwSIG7B8KGn6kGaTTi1
- HOVWAlS5CeZqLyP0hoVTAwQFLetZiUZcip/GyQt/3Hz3oCcLOBEwc82wMeooNUpGLrl8
- gEfA==
-X-Gm-Message-State: AOAM5319w8qNrKlWiAsH28TWH/bryDvoapnvQCGBLkIiBOjMrZu6bcEM
- LJEEMWvJfelw5T8Wr7llH2Yl0RIYXKiSkNz6IkwMGzjPKwQ=
-X-Google-Smtp-Source: ABdhPJzKvEUdLGHmXKeYqEOt7f51wyX9GvKlOeF+5VltVWztzZ1I6tmEfx2pMa0i371NLA/8BvE3YvwuGqX60bAPy38=
-X-Received: by 2002:a50:fc08:: with SMTP id i8mr3949615edr.257.1601392936692; 
- Tue, 29 Sep 2020 08:22:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNHWT-0006Nh-Db
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:26:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNHWQ-0001FS-RD
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 11:26:32 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601393188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H9l/r8aHWshoEU456JQomRcp4iNj8f0KoAkHAPxjjLA=;
+ b=Top+F9cZdpiO/lfOVaHn5+3/wRHS471fjr1bK9vS3LUWTJjjw9sGE6rkFq5rVZpCqpCKAb
+ sy2gvBo8LJv17e5CtShrkcu58Re6L8d0+MM+oqgA43Klm6Yf4ZLi/9morL3NVVR8JiSneX
+ rNn7oL+0B7MTH10QWbROFj9y9bAFXOI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-nSJcNDhPPme5-7c674F9dQ-1; Tue, 29 Sep 2020 11:26:26 -0400
+X-MC-Unique: nSJcNDhPPme5-7c674F9dQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61C23801F9A;
+ Tue, 29 Sep 2020 15:26:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3080D60C13;
+ Tue, 29 Sep 2020 15:26:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A9A97113864A; Tue, 29 Sep 2020 17:26:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 00/21] Convert QAPI doc comments to generate rST
+ instead of texinfo
+References: <20200925162316.21205-1-peter.maydell@linaro.org>
+ <160106193961.10465.12078546060105198824@66eaa9a8a123>
+ <CAFEAcA8uWY+MCDToz9an+zsrMVrctkBmgpMV82iUR2ZZOgA3Vg@mail.gmail.com>
+ <87h7rif3x3.fsf@dusky.pond.sub.org>
+ <CAFEAcA9TdEPAHECmLAA3nOzUBEzcpis=OL7MFmMv-76e4yS6+g@mail.gmail.com>
+Date: Tue, 29 Sep 2020 17:26:23 +0200
+In-Reply-To: <CAFEAcA9TdEPAHECmLAA3nOzUBEzcpis=OL7MFmMv-76e4yS6+g@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 28 Sep 2020 14:05:46 +0100")
+Message-ID: <87imbwob8g.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <cover.1599470071.git.tgolembi@redhat.com>
- <d8573ee72572ba586c285472789243b37527e2b9.1599470071.git.tgolembi@redhat.com>
-In-Reply-To: <d8573ee72572ba586c285472789243b37527e2b9.1599470071.git.tgolembi@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 29 Sep 2020 19:22:04 +0400
-Message-ID: <CAJ+F1CL_Ax=tPZu-nV=5xQAxVqYhZ+L7csvdTnE12F44egOcLQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] qga: add command guest-get-disks
-To: =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000232e8e05b0755992"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,233 +86,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000232e8e05b0755992
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-On Mon, Sep 7, 2020 at 1:16 PM Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@=
-redhat.com>
-wrote:
+> On Mon, 28 Sep 2020 at 14:04, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>
+>> > On Fri, 25 Sep 2020 at 20:25, <no-reply@patchew.org> wrote:
+>> >
+>> >> In file included from ../src/qapi/qapi-schema.json:78:
+>> >> ../src/qapi/migration.json:1747:1: unexpected de-indent (expected at least 13 spaces)
+>> >
+>> > This is yet another mis-indented line in a change to the QAPI
+>> > doc-comments (commit 4c437254b807). It hit master in the
+>> > latest migration pull after I'd sent out this patchseries
+>> > but before patchew got round to testing..
+>>
+>> Obvious fixup for your PATCH 01:
+>>
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index 7d9342c064..7f5e6fd681 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -1744,9 +1744,9 @@
+>>  # Information about current dirty page rate of vm.
+>>  #
+>>  # @dirty-rate: @dirtyrate describing the dirty page rate of vm
+>> -#          in units of MB/s.
+>> -#          If this field returns '-1', it means querying has not
+>> -#          yet started or completed.
+>> +#              in units of MB/s.
+>> +#              If this field returns '-1', it means querying has not
+>> +#              yet started or completed.
+>>  #
+>>  # @status: status containing dirtyrate query status includes
+>>  #          'unstarted' or 'measuring' or 'measured'
+>>
+>> Happy to fix it up in my tree.
+>
+> Yes, please.
 
-> Add API and stubs for new guest-get-disks command.
->
-> The command guest-get-fsinfo can be used to list information about disks
-> and partitions but it is limited only to mounted disks with filesystem.
-> This new command should allow listing information about disks of the VM
-> regardles whether they are mounted or not. This can be usefull for
-> management applications for mapping virtualized devices or pass-through
-> devices to device names in the guest OS.
->
-> Signed-off-by: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
->
+One more issue:
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+    /work/armbru/qemu/docs/../qapi/machine.json:1000: WARNING: Unexpected indentation.
+    /work/armbru/qemu/docs/../qapi/machine.json:1000: WARNING: Block quote ends without a blank line; unexpected unindent.
 
----
->  qga/commands-posix.c |  6 ++++++
->  qga/commands-win32.c |  6 ++++++
->  qga/qapi-schema.json | 29 +++++++++++++++++++++++++++++
->  3 files changed, 41 insertions(+)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 744c2b5a5d..f99731af51 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -3042,3 +3042,9 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
->
->      return info;
->  }
-> +
-> +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-> +{
-> +    error_setg(errp, QERR_UNSUPPORTED);
-> +    return NULL;
-> +}
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index aaa71f147b..e9976a0c46 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -2229,3 +2229,9 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
->
->      return info;
->  }
-> +
-> +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-> +{
-> +    error_setg(errp, QERR_UNSUPPORTED);
-> +    return NULL;
-> +}
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 408a662ea5..70b54e0d07 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -862,6 +862,35 @@
->             'bus': 'int', 'target': 'int', 'unit': 'int',
->             '*serial': 'str', '*dev': 'str'} }
->
-> +##
-> +# @GuestDiskInfo:
-> +#
-> +# @name: device node (Linux) or device UNC (Windows)
-> +# @partition: whether this is a partition or disk
-> +# @slaves: list of slave devices (Linux)
-> +# @address: disk address information (only for non-virtual devices)
-> +# @alias: optional alias assigned to the disk, on Linux this is a name
-> assigned
-> +#         by device mapper
-> +#
-> +# Since 5.2
-> +##
-> +{ 'struct': 'GuestDiskInfo',
-> +  'data': {'name': 'str', 'partition': 'bool', 'slaves': ['str'],
-> +           '*address': 'GuestDiskAddress', '*alias': 'str'} }
-> +
-> +##
-> +# @guest-get-disks:
-> +#
-> +# Returns: The list of disks in the guest. For Windows these are only th=
-e
-> +#          physical disks. On Linux these are all root block devices of
-> +#          non-zero size including e.g. removable devices, loop devices,
-> +#          NBD, etc.
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'command': 'guest-get-disks',
-> +  'returns': ['GuestDiskInfo'] }
-> +
->  ##
->  # @GuestFilesystemInfo:
->  #
-> --
-> 2.25.0
->
->
->
+Line 1000 is at the beginning of a comment block.  Suboptimal.
 
---=20
-Marc-Andr=C3=A9 Lureau
+After a bit of guessing, I arrived at this fix:
 
---000000000000232e8e05b0755992
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 7c9e69a9f5..756dacb06f 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1001,9 +1001,11 @@
+ #
+ # Request the balloon driver to change its balloon size.
+ #
+-# @value: the target logical size of the VM in bytes
++# @value: the target logical size of the VM in bytes.
+ #         We can deduce the size of the balloon using this formula:
++#
+ #            logical_vm_size = vm_ram_size - balloon_size
++#
+ #         From it we have: balloon_size = vm_ram_size - @value
+ #
+ # Returns: - Nothing on success
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 7, 2020 at 1:16 PM Tom=C3=
-=A1=C5=A1 Golembiovsk=C3=BD &lt;<a href=3D"mailto:tgolembi@redhat.com" targ=
-et=3D"_blank">tgolembi@redhat.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Add API and stubs for new guest-get-disks =
-command.<br>
-<br>
-The command guest-get-fsinfo can be used to list information about disks<br=
->
-and partitions but it is limited only to mounted disks with filesystem.<br>
-This new command should allow listing information about disks of the VM<br>
-regardles whether they are mounted or not. This can be usefull for<br>
-management applications for mapping virtualized devices or pass-through<br>
-devices to device names in the guest OS.<br>
-<br>
-Signed-off-by: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD &lt;<a href=3D"mailto:tgol=
-embi@redhat.com" target=3D"_blank">tgolembi@redhat.com</a>&gt;<br></blockqu=
-ote><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"=
-mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redh=
-at.com</a>&gt;=C2=A0 <br></div><div><br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">
----<br>
-=C2=A0qga/commands-posix.c |=C2=A0 6 ++++++<br>
-=C2=A0qga/commands-win32.c |=C2=A0 6 ++++++<br>
-=C2=A0qga/qapi-schema.json | 29 +++++++++++++++++++++++++++++<br>
-=C2=A03 files changed, 41 insertions(+)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 744c2b5a5d..f99731af51 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -3042,3 +3042,9 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return info;<br>
-=C2=A0}<br>
-+<br>
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+}<br>
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index aaa71f147b..e9976a0c46 100644<br>
---- a/qga/commands-win32.c<br>
-+++ b/qga/commands-win32.c<br>
-@@ -2229,3 +2229,9 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return info;<br>
-=C2=A0}<br>
-+<br>
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-+=C2=A0 =C2=A0 return NULL;<br>
-+}<br>
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json<br>
-index 408a662ea5..70b54e0d07 100644<br>
---- a/qga/qapi-schema.json<br>
-+++ b/qga/qapi-schema.json<br>
-@@ -862,6 +862,35 @@<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;bus&#39;: &#39;int&#39;, &#3=
-9;target&#39;: &#39;int&#39;, &#39;unit&#39;: &#39;int&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*serial&#39;: &#39;str&#39;,=
- &#39;*dev&#39;: &#39;str&#39;} }<br>
-<br>
-+##<br>
-+# @GuestDiskInfo:<br>
-+#<br>
-+# @name: device node (Linux) or device UNC (Windows)<br>
-+# @partition: whether this is a partition or disk<br>
-+# @slaves: list of slave devices (Linux)<br>
-+# @address: disk address information (only for non-virtual devices)<br>
-+# @alias: optional alias assigned to the disk, on Linux this is a name ass=
-igned<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0by device mapper<br>
-+#<br>
-+# Since 5.2<br>
-+##<br>
-+{ &#39;struct&#39;: &#39;GuestDiskInfo&#39;,<br>
-+=C2=A0 &#39;data&#39;: {&#39;name&#39;: &#39;str&#39;, &#39;partition&#39;=
-: &#39;bool&#39;, &#39;slaves&#39;: [&#39;str&#39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;*address&#39;: &#39;GuestDis=
-kAddress&#39;, &#39;*alias&#39;: &#39;str&#39;} }<br>
-+<br>
-+##<br>
-+# @guest-get-disks:<br>
-+#<br>
-+# Returns: The list of disks in the guest. For Windows these are only the<=
-br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 physical disks. On Linux these are all=
- root block devices of<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 non-zero size including e.g. removable=
- devices, loop devices,<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NBD, etc.<br>
-+#<br>
-+# Since: 5.2<br>
-+##<br>
-+{ &#39;command&#39;: &#39;guest-get-disks&#39;,<br>
-+=C2=A0 &#39;returns&#39;: [&#39;GuestDiskInfo&#39;] }<br>
-+<br>
-=C2=A0##<br>
-=C2=A0# @GuestFilesystemInfo:<br>
-=C2=A0#<br>
--- <br>
-2.25.0<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
+Looks good?
 
---000000000000232e8e05b0755992--
 
