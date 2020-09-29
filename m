@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2614C27D7F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:21:59 +0200 (CEST)
-Received: from localhost ([::1]:60220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC71227D803
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:25:02 +0200 (CEST)
+Received: from localhost ([::1]:42976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNM8M-0003aX-5I
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59622)
+	id 1kNMBJ-0008Bq-Vs
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:25:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM66-0001lQ-5r
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23763)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM69-0001np-L4
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM62-0003Su-EF
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM64-0003UV-G7
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:41 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601410773;
+ s=mimecast20190719; t=1601410774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RUESf4c7tu9j2EpuNq5laxTXxEk8TmEK8eJ9ksZ2j9Q=;
- b=OlaomrJglw1P09LEL7aDDLJTRsh2IqyqJyZZCU6H1LF7qxi/T3FR87bMZ+IStHK/eJ3LuB
- 36X/nfNK/oVPw9pLeOdqerI1oGYrMT6z0Wk071SJlB1jX4mSoqhQlh9jdOCHFwSK7D7Cou
- Nx1bb1xBfLt/RPv7YBr8r5N5lVF/OS0=
+ bh=1wd6JHXx4E4iQnRlGQrgtI1OqrWGnVvKRipq4pNljDA=;
+ b=TnJBEGUmSMaa4geElA/qhzTFNG8PQ2JSPkpd+qOr56aOHZjNMEingy3WpEhhc16L7+1+4Z
+ nGAFkWfpQp/kblQvnxNawYgbLiEttZh0hZPPgQt480qypsNTilA3qOV6jsolSMqsi+h/UE
+ EknWQYI8BHl8McjEQMnv8/nYdsJDBAI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-tQz5bF8FNcO7Kpioj_c6bw-1; Tue, 29 Sep 2020 16:19:30 -0400
-X-MC-Unique: tQz5bF8FNcO7Kpioj_c6bw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-95-oB9M1F9TPvutS4k67C_PBA-1; Tue, 29 Sep 2020 16:19:32 -0400
+X-MC-Unique: oB9M1F9TPvutS4k67C_PBA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E370318BE164;
- Tue, 29 Sep 2020 20:19:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FA161040C24;
+ Tue, 29 Sep 2020 20:19:31 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B70A578807;
- Tue, 29 Sep 2020 20:19:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1105B19C4F;
+ Tue, 29 Sep 2020 20:19:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B282F11358C0; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
+ id B6AFE11358C2; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/29] qapi/block.json: Add newline after "Example:" for
- block-latency-histogram-set
-Date: Tue, 29 Sep 2020 22:19:07 +0200
-Message-Id: <20200929201926.2155622-11-armbru@redhat.com>
+Subject: [PULL 11/29] tests/qapi/doc-good.json: Prepare for qapi-doc Sphinx
+ extension
+Date: Tue, 29 Sep 2020 22:19:08 +0200
+Message-Id: <20200929201926.2155622-12-armbru@redhat.com>
 In-Reply-To: <20200929201926.2155622-1-armbru@redhat.com>
 References: <20200929201926.2155622-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,80 +82,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The block-latency-histogram-set command is the only one which uses
-the Example/Examples section with the first line of the documentation
-immediately following the ':'. Bring it into line with the rest.
+doc-good.json tests doc comment parser corner cases.  We're about to
+largely replace it by a Sphinx extension, which will have different
+corner cases.  Tweak the test so it passes both with the old parser
+and the Sphinx extension, by making it match the more restrictive
+rST syntax:
 
-This will allow us to avoid special-casing the indentation handling
-for "Examples" sections; instead for Examples as for any other section
-header these two indentations will be equivalent:
+ * in a single list the bullet types must all match
+ * lists must have leading and following blank lines
+ * the rules on when and where indentation matters differ
+ * the '|' example syntax is going to go away entirely, so stop
+   testing it
 
-Examples:
-Line one
-Line two
+This will avoid the tests spuriously breaking when we tighten up the
+parser code in the following commits.
 
-Examples: Line one
-          Line two
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200925162316.21205-3-peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Commit message tweaked]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200925162316.21205-4-peter.maydell@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block.json | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ tests/qapi-schema/doc-good.json | 25 +++++++++++++------------
+ tests/qapi-schema/doc-good.out  | 12 ++++++------
+ tests/qapi-schema/doc-good.texi | 12 +++---------
+ 3 files changed, 22 insertions(+), 27 deletions(-)
 
-diff --git a/qapi/block.json b/qapi/block.json
-index c54a393cf3..a009f7d3a2 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -528,7 +528,8 @@
+diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
+index 9da72a1f55..c6822145c4 100644
+--- a/tests/qapi-schema/doc-good.json
++++ b/tests/qapi-schema/doc-good.json
+@@ -12,25 +12,25 @@
  #
- # Since: 4.0
+ # *strong* _with emphasis_
+ # @var {in braces}
++#
+ # * List item one
+-# - Two, multiple
++# * Two, multiple
+ #   lines
  #
--# Example: set new histograms for all io types with intervals
-+# Example:
-+# set new histograms for all io types with intervals
- # [0, 10), [10, 50), [50, 100), [100, +inf):
+-# 3. Three
+-# Still in list
++# * Three
++#   Still in list
++#
++# Not in list
  #
- # -> { "execute": "block-latency-histogram-set",
-@@ -536,7 +537,8 @@
- #                     "boundaries": [10, 50, 100] } }
- # <- { "return": {} }
+-#   Not in list
+ # - Second list
+-# Note: still in list
++#   Note: still in list
  #
--# Example: set new histogram only for write, other histograms will remain
-+# Example:
-+# set new histogram only for write, other histograms will remain
- # not changed (or not created):
+ # Note: not in list
++#
+ # 1. Third list
+ #    is numbered
  #
- # -> { "execute": "block-latency-histogram-set",
-@@ -544,7 +546,8 @@
- #                     "boundaries-write": [10, 50, 100] } }
- # <- { "return": {} }
+-# - another item
+-#
+-# | example
+-# | multiple lines
++# 2. another item
  #
--# Example: set new histograms with the following intervals:
-+# Example:
-+# set new histograms with the following intervals:
- #   read, flush: [0, 10), [10, 50), [50, 100), [100, +inf)
- #   write: [0, 1000), [1000, 5000), [5000, +inf)
+ # Returns: the King
+ # Since: the first age
+@@ -68,7 +68,7 @@
+ ##
+ # @Base:
+ # @base1:
+-#   the first member
++# the first member
+ ##
+ { 'struct': 'Base', 'data': { 'base1': 'Enum' } }
+ 
+@@ -116,7 +116,7 @@
+ ##
+ # @Alternate:
+ # @i: an integer
+-# @b is undocumented
++#     @b is undocumented
  #
-@@ -554,7 +557,8 @@
- #                     "boundaries-write": [1000, 5000] } }
- # <- { "return": {} }
+ # Features:
+ # @alt-feat: a feature
+@@ -134,7 +134,7 @@
+ # @arg1: the first argument
  #
--# Example: remove all latency histograms:
-+# Example:
-+# remove all latency histograms:
+ # @arg2: the second
+-# argument
++#        argument
  #
- # -> { "execute": "block-latency-histogram-set",
- #      "arguments": { "id": "drive0" } }
+ # Features:
+ # @cmd-feat1: a feature
+@@ -143,6 +143,7 @@
+ # Returns: @Object
+ # TODO: frobnicate
+ # Notes:
++#
+ # - Lorem ipsum dolor sit amet
+ # - Ut enim ad minim veniam
+ #
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+index d78a424cd9..acb00ade17 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -75,25 +75,25 @@ doc freeform
+ 
+ *strong* _with emphasis_
+ @var {in braces}
++
+ * List item one
+-- Two, multiple
++* Two, multiple
+ lines
+ 
+-3. Three
++* Three
+ Still in list
+ 
+ Not in list
++
+ - Second list
+ Note: still in list
+ 
+ Note: not in list
++
+ 1. Third list
+ is numbered
+ 
+-- another item
+-
+-| example
+-| multiple lines
++2. another item
+ 
+ Returns: the King
+ Since: the first age
+diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good.texi
+index 7f28fb7a0f..12808989ff 100644
+--- a/tests/qapi-schema/doc-good.texi
++++ b/tests/qapi-schema/doc-good.texi
+@@ -6,6 +6,7 @@
+ 
+ @strong{strong} @emph{with emphasis}
+ @code{var} @{in braces@}
++
+ @itemize @bullet
+ @item
+ List item one
+@@ -20,6 +21,7 @@ Still in list
+ @end itemize
+ 
+ Not in list
++
+ @itemize @minus
+ @item
+ Second list
+@@ -28,6 +30,7 @@ Note: still in list
+ @end itemize
+ 
+ Note: not in list
++
+ @enumerate
+ @item
+ Third list
+@@ -36,15 +39,6 @@ is numbered
+ @item
+ another item
+ 
+-@example
+-example
+-@end example
+-
+-@example
+-multiple lines
+-@end example
+-
+-
+ @end enumerate
+ 
+ Returns: the King
 -- 
 2.26.2
 
