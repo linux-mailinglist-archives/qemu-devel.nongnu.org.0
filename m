@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE8627BE0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:32:31 +0200 (CEST)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39D527BE0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:32:21 +0200 (CEST)
+Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNA7i-0007bO-17
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57610)
+	id 1kNA7Y-0007Gm-Mq
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xi-0003ku-8c
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56140)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xn-0003nz-DL
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xe-0001hA-L2
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:09 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xh-0001hX-B8
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:15 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364125;
+ s=mimecast20190719; t=1601364128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QLwvk9fkTOPvGrodUi3C/eYGo7pFdPB9SJ+itSbjHRk=;
- b=XCoUTTUqU59QtAyQS0ojeIJkwORRWZy+D+ivnqfj2Vs8v8nPPuO4e3ZForVDXL7lX0+14j
- mLt1jXfoKzVzum24GXZjA0F212041NM55AocCeTX5KLgS9YzoSiMYVA0qE2NBfQMZfjNqJ
- a7wdP90RIQMy/goAGW1eGxAwRaI8Qgk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-BZZyN2MWNmWegOmifwxm5g-1; Tue, 29 Sep 2020 03:22:03 -0400
-X-MC-Unique: BZZyN2MWNmWegOmifwxm5g-1
-Received: by mail-wr1-f72.google.com with SMTP id o6so1364564wrp.1
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:03 -0700 (PDT)
+ bh=0AUFLU81iOp/XrSwN46eEGvmLgBLas9P1ExOqq2lcnE=;
+ b=PYbwWM3uux5L+avoayb6/tuOthJ7xwjeXTKjoEa/JcU8CBciXdB2FhJugyJmDRMnWdHx7B
+ euMMAL5+Jy4/tVvpoz73zI6DQ3icD3ktGNsobNjdmls4lQHc1G5FZtST0TLOY7BUzsS1+l
+ rl6jAq+ufkkIE+d02aZrcg17JWHPAE4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-2JB0ufBEOXqqPGJF9VzJhg-1; Tue, 29 Sep 2020 03:22:06 -0400
+X-MC-Unique: 2JB0ufBEOXqqPGJF9VzJhg-1
+Received: by mail-wm1-f72.google.com with SMTP id u5so1460020wme.3
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=QLwvk9fkTOPvGrodUi3C/eYGo7pFdPB9SJ+itSbjHRk=;
- b=qyHbVglXafFgUunHfvvaLXpAUF4w31omS1j9YZdb6cUC0HTeHNDmx7T9TjH2FBwz8L
- GA+lQrawacGemZpWxzxUQ31pN5mGjJPWKmNtq5uKOuO6+00zHbiaILzzS3aBX79WNOEz
- SQKtXCyqtkIg2e90jYUd3AbqygnVxZ9pt3jy0kAqrhbgvXs90DniumYmkD3jyNLLJAjI
- L46QBl40l7blo39NyRp/aLxJSO/NQthBeXPgpvMfZxAcCRuwU4JNIJU+EswrBgEb8NIY
- 22Xzp2yGlLyFkFOVhwjjM4yvz5YU2vlQchnxcA02i8Ix7/kci855bTpTQwHdVBSz3wCI
- JHfQ==
-X-Gm-Message-State: AOAM531DzZzLeqHXYD0d8DOks7ovVh3V+q9Kq1J5dVtu8U9fYl+VRJtT
- NEGSs2jXdaRxvjiJtJbInVF239/zyvLSXMekE/RHfSXQuM++mXEKRO/BziTiQC9/CtUlU75slFI
- ZePVWVVZCQpy5g3E=
-X-Received: by 2002:a5d:4a0c:: with SMTP id m12mr2554705wrq.83.1601364122210; 
- Tue, 29 Sep 2020 00:22:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3WYl/x0vBgTWQbH8yuNw+783BZ5qGir1sop2x3jv6G/OOS/0jk1n7BwMOvNDjDfRqRAcs6Q==
-X-Received: by 2002:a5d:4a0c:: with SMTP id m12mr2554691wrq.83.1601364122058; 
- Tue, 29 Sep 2020 00:22:02 -0700 (PDT)
+ bh=0AUFLU81iOp/XrSwN46eEGvmLgBLas9P1ExOqq2lcnE=;
+ b=Soim/fZ6KsxUxfEPOkTKF+3XtJMlP8O2oi7wgBBoIOm7P1fHDFyiloV7BHflA4YYin
+ 2hGm+GhFUoIAcbRhY5ScBY7pIC2+MNNpNyhou0ydZLrpRW8ShBORXw366o95p/7RvluP
+ uZQs3Hk8z2n3KU72kUeZrciPUlPrvCVHcu2mDJf3HObOhlLbkcJ8burNoiQWy8vAc+K/
+ CValo+lrzgqejVf+EdvxG5vgcIOGClOyTihlqXAFk72JLlaCfpDVcy1BDr4l2P5pykA9
+ IDYkKkhn21sd3vtqQzglqZ9b2EuXw9Me9WpcT3o04Xg8cy461DpRmXRSS9+C5Qylo4Nx
+ durQ==
+X-Gm-Message-State: AOAM530SWNnqv1Y2tZHR3Eju0YjFJOomPVIcsaUqeY0QMppGD9TdlUza
+ tCVGaBuBTmLbDcGYe37q0ppHuirClYIjjDkwniluNsrZKLbrwxgWHyWulYpXQHbsB7UrwronKa2
+ ooU5xjuA7roiQAx8=
+X-Received: by 2002:adf:f190:: with SMTP id h16mr2563581wro.202.1601364124894; 
+ Tue, 29 Sep 2020 00:22:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzc993OvPHddEyqxoNNk5BuaTX7ySdm7mjWUJVJLc9Je7JCQAdpDEl2WTJGZux8+pfvnHMg/Q==
+X-Received: by 2002:adf:f190:: with SMTP id h16mr2563564wro.202.1601364124754; 
+ Tue, 29 Sep 2020 00:22:04 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id m13sm2273771wml.5.2020.09.29.00.22.00
+ by smtp.gmail.com with ESMTPSA id d5sm4915313wrb.28.2020.09.29.00.22.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:22:01 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:21:59 -0400
+ Tue, 29 Sep 2020 00:22:04 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:22:02 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 25/48] tests: acpi: mark to be changed tables in
- bios-tables-test-allowed-diff
-Message-ID: <20200929071948.281157-26-mst@redhat.com>
+Subject: [PULL v4 26/48] x86: ich9: expose "smi_negotiated_features" as a QOM
+ property
+Message-ID: <20200929071948.281157-27-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -95,48 +95,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Laszlo Ersek <lersek@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-... to let tests pass until binary blobs are updated with new AML
+Expose the "smi_negotiated_features" field of ICH9LPCState as
+a QOM property.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200923094650.1301166-6-imammedo@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Tested-by: Laszlo Ersek <lersek@redhat.com>
+Message-Id: <20200923094650.1301166-7-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/hw/i386/ich9.h | 2 ++
+ hw/isa/lpc_ich9.c      | 3 +++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..dba32d5613 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,20 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.tis",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.acpihmat",
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 703d56036a..294024be5f 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -245,6 +245,8 @@ struct ICH9LPCState {
+ #define ICH9_SMB_HST_D1                         0x06
+ #define ICH9_SMB_HOST_BLOCK_DB                  0x07
+ 
++#define ICH9_LPC_SMI_NEGOTIATED_FEAT_PROP "x-smi-negotiated-features"
++
+ /* bit positions used in fw_cfg SMI feature negotiation */
+ #define ICH9_LPC_SMI_F_BROADCAST_BIT            0
+ #define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index a54b3ec8bd..04e5323140 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -647,6 +647,9 @@ static void ich9_lpc_initfn(Object *obj)
+                                   &acpi_enable_cmd, OBJ_PROP_FLAG_READ);
+     object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_DISABLE_CMD,
+                                   &acpi_disable_cmd, OBJ_PROP_FLAG_READ);
++    object_property_add_uint64_ptr(obj, ICH9_LPC_SMI_NEGOTIATED_FEAT_PROP,
++                                   &lpc->smi_negotiated_features,
++                                   OBJ_PROP_FLAG_READ);
+ 
+     ich9_pm_add_properties(obj, &lpc->pm);
+ }
 -- 
 MST
 
