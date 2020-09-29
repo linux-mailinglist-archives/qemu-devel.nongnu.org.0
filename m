@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D847F27D93A
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:48:24 +0200 (CEST)
-Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C749127D838
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:32:24 +0200 (CEST)
+Received: from localhost ([::1]:36200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNMXv-0008SO-2X
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59924)
+	id 1kNMIR-0000jo-P2
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6a-0002BR-GM
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:20:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45519)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6I-0001v2-5M
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6U-0003Y1-R2
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:20:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM68-0003Vi-4g
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:49 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601410801;
+ s=mimecast20190719; t=1601410778;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YVSrCysKbzt+1NRPXHbRfcvQNuRqv2Gw4RqG79mhiPA=;
- b=J4ppQen4Ovg8qq+UUV1oxBiecxBoa6aBb13lvi2T7GzGh+JkRyIhG7Vih1Q2vG4JW1uZHL
- qeypVanAYf3sus6QbN2XH1kmDG7BI3h4+aL3FopGOvxemsqo+1Qd2SS+VP61FYrMDvOH3C
- +H0gkfj3baLVzkRHKnfP3J15GJqINNY=
+ bh=nvxuauxtmIrz8mXp8WmGjf5Zvqj/tWEjYO7gCi8qjIU=;
+ b=Sw1NgBSjjxvkj1gw0Rykx7dkcxXx40y7C90SlfPHiWx0lkjzgIDswlDENDawRhAbzXUENQ
+ 1XSVwEIk6w3ld8CGH4Ho7RvzpvyrI+aVPmjoH80soiKOx9a4omPs4YmGYsWa/UJDLC+Jjv
+ yZAsCQC2hvGJG6ZQNWEusCpVove8FKY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-VKYWt6XwO2qQrnmna6UVcg-1; Tue, 29 Sep 2020 16:19:32 -0400
-X-MC-Unique: VKYWt6XwO2qQrnmna6UVcg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-229-wb-cTkCSPf20JQEtG-0EAg-1; Tue, 29 Sep 2020 16:19:32 -0400
+X-MC-Unique: wb-cTkCSPf20JQEtG-0EAg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C97061040C28;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABED11040C27;
  Tue, 29 Sep 2020 20:19:31 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DDCC19C4F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 57F3878807;
  Tue, 29 Sep 2020 20:19:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C639B11358C7; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
+ id C9D8F11358CA; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/29] docs/sphinx: Add new qapi-doc Sphinx extension
-Date: Tue, 29 Sep 2020 22:19:12 +0200
-Message-Id: <20200929201926.2155622-16-armbru@redhat.com>
+Subject: [PULL 16/29] docs/interop: Convert qemu-ga-ref to rST
+Date: Tue, 29 Sep 2020 22:19:13 +0200
+Message-Id: <20200929201926.2155622-17-armbru@redhat.com>
 In-Reply-To: <20200929201926.2155622-1-armbru@redhat.com>
 References: <20200929201926.2155622-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,640 +81,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Some of our documentation is auto-generated from documentation
-comments in the JSON schema.
+Convert qemu-ga-ref to rST format. This includes dropping
+the plain-text, pdf and info format outputs for this document;
+as with all our other Sphinx-based documentation, we provide
+HTML and manpage only.
 
-For Sphinx, rather than creating a file to include, the most natural
-way to handle this is to have a small custom Sphinx extension which
-processes the JSON file and inserts documentation into the rST
-file being processed.
+The qemu-ga-ref.rst is somewhat more stripped down than
+the .texi was, because we do not (currently) attempt to
+generate indexes for the commands, events and data types
+being documented.
 
-This is the same approach that kerneldoc and hxtool use.
+As the GA ref is now part of the Sphinx 'interop' manual,
+we can delete the direct link from index.html.in.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200925162316.21205-8-peter.maydell@linaro.org>
+Message-Id: <20200925162316.21205-9-peter.maydell@linaro.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Comment and doc string formatting tweaked, unused method dropped,
-a few line breaks tweaked to follow PEP 8 more closely, MAINTAINERS
-section QAPI updated]
+[Unicode legacy literal dumbed down to plain string literal, TODO
+comment on displaying QEMU version added]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/conf.py           |   6 +-
- docs/sphinx/qapidoc.py | 549 +++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS            |   2 +
- 3 files changed, 556 insertions(+), 1 deletion(-)
- create mode 100644 docs/sphinx/qapidoc.py
+ docs/index.html.in            |  1 -
+ docs/interop/conf.py          |  2 +
+ docs/interop/index.rst        |  1 +
+ docs/interop/qemu-ga-ref.rst  | 13 ++++++
+ docs/interop/qemu-ga-ref.texi | 80 -----------------------------------
+ docs/meson.build              |  1 +
+ meson.build                   |  3 --
+ MAINTAINERS                   |  2 +-
+ qga/meson.build               |  3 +-
+ 9 files changed, 19 insertions(+), 87 deletions(-)
+ create mode 100644 docs/interop/qemu-ga-ref.rst
+ delete mode 100644 docs/interop/qemu-ga-ref.texi
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 0dbd90dc11..606f623211 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -52,7 +52,10 @@ except NameError:
- # add these directories to sys.path here. If the directory is relative to the
- # documentation root, use an absolute path starting from qemu_docdir.
- #
-+# Our extensions are in docs/sphinx; the qapidoc extension requires
-+# the QAPI modules from scripts/.
- sys.path.insert(0, os.path.join(qemu_docdir, "sphinx"))
-+sys.path.insert(0, os.path.join(qemu_docdir, "../scripts"))
- 
- 
- # -- General configuration ------------------------------------------------
-@@ -67,7 +70,7 @@ needs_sphinx = '1.6'
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile']
-+extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc']
- 
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
-@@ -241,3 +244,4 @@ texinfo_documents = [
- kerneldoc_bin = os.path.join(qemu_docdir, '../scripts/kernel-doc')
- kerneldoc_srctree = os.path.join(qemu_docdir, '..')
- hxtool_srctree = os.path.join(qemu_docdir, '..')
-+qapidoc_srctree = os.path.join(qemu_docdir, '..')
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+diff --git a/docs/index.html.in b/docs/index.html.in
+index ca28047881..5b0f4e2bc2 100644
+--- a/docs/index.html.in
++++ b/docs/index.html.in
+@@ -13,7 +13,6 @@
+             <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
+             <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
+             <li><a href="interop/qemu-qmp-ref.html">QMP Reference Manual</a></li>
+-            <li><a href="interop/qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
+         </ul>
+     </body>
+ </html>
+diff --git a/docs/interop/conf.py b/docs/interop/conf.py
+index 42ce7e3d36..4e5bbbbf95 100644
+--- a/docs/interop/conf.py
++++ b/docs/interop/conf.py
+@@ -19,4 +19,6 @@ html_theme_options['description'] = u'System Emulation Management and Interopera
+ man_pages = [
+     ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
+      ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
++    ('qemu-ga-ref', 'qemu-ga-ref', 'QEMU Guest Agent Protocol Reference',
++     [], 7),
+ ]
+diff --git a/docs/interop/index.rst b/docs/interop/index.rst
+index 006f986420..738cdbe185 100644
+--- a/docs/interop/index.rst
++++ b/docs/interop/index.rst
+@@ -18,6 +18,7 @@ Contents:
+    live-block-operations
+    pr-helper
+    qemu-ga
++   qemu-ga-ref
+    vhost-user
+    vhost-user-gpu
+    vhost-vdpa
+diff --git a/docs/interop/qemu-ga-ref.rst b/docs/interop/qemu-ga-ref.rst
 new file mode 100644
-index 0000000000..6944ffa6aa
+index 0000000000..3f1c4f908f
 --- /dev/null
-+++ b/docs/sphinx/qapidoc.py
-@@ -0,0 +1,549 @@
-+# coding=utf-8
-+#
-+# QEMU qapidoc QAPI file parsing extension
-+#
-+# Copyright (c) 2020 Linaro
-+#
-+# This work is licensed under the terms of the GNU GPLv2 or later.
-+# See the COPYING file in the top-level directory.
-+
-+"""
-+qapidoc is a Sphinx extension that implements the qapi-doc directive
-+
-+The purpose of this extension is to read the documentation comments
-+in QAPI schema files, and insert them all into the current document.
-+
-+It implements one new rST directive, "qapi-doc::".
-+Each qapi-doc:: directive takes one argument, which is the
-+pathname of the schema file to process, relative to the source tree.
-+
-+The docs/conf.py file must set the qapidoc_srctree config value to
-+the root of the QEMU source tree.
-+
-+The Sphinx documentation on writing extensions is at:
-+https://www.sphinx-doc.org/en/master/development/index.html
-+"""
-+
-+import os
-+import re
-+
-+from docutils import nodes
-+from docutils.statemachine import ViewList
-+from docutils.parsers.rst import directives, Directive
-+from sphinx.errors import ExtensionError
-+from sphinx.util.nodes import nested_parse_with_titles
-+import sphinx
-+from qapi.gen import QAPISchemaVisitor
-+from qapi.schema import QAPIError, QAPISemError, QAPISchema
-+
-+
-+# Sphinx up to 1.6 uses AutodocReporter; 1.7 and later
-+# use switch_source_input. Check borrowed from kerneldoc.py.
-+Use_SSI = sphinx.__version__[:3] >= '1.7'
-+if Use_SSI:
-+    from sphinx.util.docutils import switch_source_input
-+else:
-+    from sphinx.ext.autodoc import AutodocReporter
-+
-+
-+__version__ = '1.0'
-+
-+
-+# Function borrowed from pydash, which is under the MIT license
-+def intersperse(iterable, separator):
-+    """Yield the members of *iterable* interspersed with *separator*."""
-+    iterable = iter(iterable)
-+    yield next(iterable)
-+    for item in iterable:
-+        yield separator
-+        yield item
-+
-+
-+class QAPISchemaGenRSTVisitor(QAPISchemaVisitor):
-+    """A QAPI schema visitor which generates docutils/Sphinx nodes
-+
-+    This class builds up a tree of docutils/Sphinx nodes corresponding
-+    to documentation for the various QAPI objects. To use it, first
-+    create a QAPISchemaGenRSTVisitor object, and call its
-+    visit_begin() method.  Then you can call one of the two methods
-+    'freeform' (to add documentation for a freeform documentation
-+    chunk) or 'symbol' (to add documentation for a QAPI symbol). These
-+    will cause the visitor to build up the tree of document
-+    nodes. Once you've added all the documentation via 'freeform' and
-+    'symbol' method calls, you can call 'get_document_nodes' to get
-+    the final list of document nodes (in a form suitable for returning
-+    from a Sphinx directive's 'run' method).
-+    """
-+    def __init__(self, sphinx_directive):
-+        self._cur_doc = None
-+        self._sphinx_directive = sphinx_directive
-+        self._top_node = nodes.section()
-+        self._active_headings = [self._top_node]
-+
-+    def _make_dlitem(self, term, defn):
-+        """Return a dlitem node with the specified term and definition.
-+
-+        term should be a list of Text and literal nodes.
-+        defn should be one of:
-+        - a string, which will be handed to _parse_text_into_node
-+        - a list of Text and literal nodes, which will be put into
-+          a paragraph node
-+        """
-+        dlitem = nodes.definition_list_item()
-+        dlterm = nodes.term('', '', *term)
-+        dlitem += dlterm
-+        if defn:
-+            dldef = nodes.definition()
-+            if isinstance(defn, list):
-+                dldef += nodes.paragraph('', '', *defn)
-+            else:
-+                self._parse_text_into_node(defn, dldef)
-+            dlitem += dldef
-+        return dlitem
-+
-+    def _make_section(self, title):
-+        """Return a section node with optional title"""
-+        section = nodes.section(ids=[self._sphinx_directive.new_serialno()])
-+        if title:
-+            section += nodes.title(title, title)
-+        return section
-+
-+    def _nodes_for_ifcond(self, ifcond, with_if=True):
-+        """Return list of Text, literal nodes for the ifcond
-+
-+        Return a list which gives text like ' (If: cond1, cond2, cond3)', where
-+        the conditions are in literal-text and the commas are not.
-+        If with_if is False, we don't return the "(If: " and ")".
-+        """
-+        condlist = intersperse([nodes.literal('', c) for c in ifcond],
-+                               nodes.Text(', '))
-+        if not with_if:
-+            return condlist
-+
-+        nodelist = [nodes.Text(' ('), nodes.strong('', 'If: ')]
-+        nodelist.extend(condlist)
-+        nodelist.append(nodes.Text(')'))
-+        return nodelist
-+
-+    def _nodes_for_one_member(self, member):
-+        """Return list of Text, literal nodes for this member
-+
-+        Return a list of doctree nodes which give text like
-+        'name: type (optional) (If: ...)' suitable for use as the
-+        'term' part of a definition list item.
-+        """
-+        term = [nodes.literal('', member.name)]
-+        if member.type.doc_type():
-+            term.append(nodes.Text(': '))
-+            term.append(nodes.literal('', member.type.doc_type()))
-+        if member.optional:
-+            term.append(nodes.Text(' (optional)'))
-+        if member.ifcond:
-+            term.extend(self._nodes_for_ifcond(member.ifcond))
-+        return term
-+
-+    def _nodes_for_variant_when(self, variants, variant):
-+        """Return list of Text, literal nodes for variant 'when' clause
-+
-+        Return a list of doctree nodes which give text like
-+        'when tagname is variant (If: ...)' suitable for use in
-+        the 'variants' part of a definition list.
-+        """
-+        term = [nodes.Text(' when '),
-+                nodes.literal('', variants.tag_member.name),
-+                nodes.Text(' is '),
-+                nodes.literal('', '"%s"' % variant.name)]
-+        if variant.ifcond:
-+            term.extend(self._nodes_for_ifcond(variant.ifcond))
-+        return term
-+
-+    def _nodes_for_members(self, doc, what, base=None, variants=None):
-+        """Return list of doctree nodes for the table of members"""
-+        dlnode = nodes.definition_list()
-+        for section in doc.args.values():
-+            term = self._nodes_for_one_member(section.member)
-+            # TODO drop fallbacks when undocumented members are outlawed
-+            if section.text:
-+                defn = section.text
-+            elif (variants and variants.tag_member == section.member
-+                  and not section.member.type.doc_type()):
-+                values = section.member.type.member_names()
-+                defn = [nodes.Text('One of ')]
-+                defn.extend(intersperse([nodes.literal('', v) for v in values],
-+                                        nodes.Text(', ')))
-+            else:
-+                defn = [nodes.Text('Not documented')]
-+
-+            dlnode += self._make_dlitem(term, defn)
-+
-+        if base:
-+            dlnode += self._make_dlitem([nodes.Text('The members of '),
-+                                         nodes.literal('', base.doc_type())],
-+                                        None)
-+
-+        if variants:
-+            for v in variants.variants:
-+                if v.type.is_implicit():
-+                    assert not v.type.base and not v.type.variants
-+                    for m in v.type.local_members:
-+                        term = self._nodes_for_one_member(m)
-+                        term.extend(self._nodes_for_variant_when(variants, v))
-+                        dlnode += self._make_dlitem(term, None)
-+                else:
-+                    term = [nodes.Text('The members of '),
-+                            nodes.literal('', v.type.doc_type())]
-+                    term.extend(self._nodes_for_variant_when(variants, v))
-+                    dlnode += self._make_dlitem(term, None)
-+
-+        if not dlnode.children:
-+            return []
-+
-+        section = self._make_section(what)
-+        section += dlnode
-+        return [section]
-+
-+    def _nodes_for_enum_values(self, doc):
-+        """Return list of doctree nodes for the table of enum values"""
-+        seen_item = False
-+        dlnode = nodes.definition_list()
-+        for section in doc.args.values():
-+            termtext = [nodes.literal('', section.member.name)]
-+            if section.member.ifcond:
-+                termtext.extend(self._nodes_for_ifcond(section.member.ifcond))
-+            # TODO drop fallbacks when undocumented members are outlawed
-+            if section.text:
-+                defn = section.text
-+            else:
-+                defn = [nodes.Text('Not documented')]
-+
-+            dlnode += self._make_dlitem(termtext, defn)
-+            seen_item = True
-+
-+        if not seen_item:
-+            return []
-+
-+        section = self._make_section('Values')
-+        section += dlnode
-+        return [section]
-+
-+    def _nodes_for_arguments(self, doc, boxed_arg_type):
-+        """Return list of doctree nodes for the arguments section"""
-+        if boxed_arg_type:
-+            assert not doc.args
-+            section = self._make_section('Arguments')
-+            dlnode = nodes.definition_list()
-+            dlnode += self._make_dlitem(
-+                [nodes.Text('The members of '),
-+                 nodes.literal('', boxed_arg_type.name)],
-+                None)
-+            section += dlnode
-+            return [section]
-+
-+        return self._nodes_for_members(doc, 'Arguments')
-+
-+    def _nodes_for_features(self, doc):
-+        """Return list of doctree nodes for the table of features"""
-+        seen_item = False
-+        dlnode = nodes.definition_list()
-+        for section in doc.features.values():
-+            dlnode += self._make_dlitem([nodes.literal('', section.name)],
-+                                        section.text)
-+            seen_item = True
-+
-+        if not seen_item:
-+            return []
-+
-+        section = self._make_section('Features')
-+        section += dlnode
-+        return [section]
-+
-+    def _nodes_for_example(self, exampletext):
-+        """Return list of doctree nodes for a code example snippet"""
-+        return [nodes.literal_block(exampletext, exampletext)]
-+
-+    def _nodes_for_sections(self, doc):
-+        """Return list of doctree nodes for additional sections"""
-+        nodelist = []
-+        for section in doc.sections:
-+            snode = self._make_section(section.name)
-+            if section.name and section.name.startswith('Example'):
-+                snode += self._nodes_for_example(section.text)
-+            else:
-+                self._parse_text_into_node(section.text, snode)
-+            nodelist.append(snode)
-+        return nodelist
-+
-+    def _nodes_for_if_section(self, ifcond):
-+        """Return list of doctree nodes for the "If" section"""
-+        nodelist = []
-+        if ifcond:
-+            snode = self._make_section('If')
-+            snode += self._nodes_for_ifcond(ifcond, with_if=False)
-+            nodelist.append(snode)
-+        return nodelist
-+
-+    def _add_doc(self, typ, sections):
-+        """Add documentation for a command/object/enum...
-+
-+        We assume we're documenting the thing defined in self._cur_doc.
-+        typ is the type of thing being added ("Command", "Object", etc)
-+
-+        sections is a list of nodes for sections to add to the definition.
-+        """
-+
-+        doc = self._cur_doc
-+        snode = nodes.section(ids=[self._sphinx_directive.new_serialno()])
-+        snode += nodes.title('', '', *[nodes.literal(doc.symbol, doc.symbol),
-+                                       nodes.Text(' (' + typ + ')')])
-+        self._parse_text_into_node(doc.body.text, snode)
-+        for s in sections:
-+            if s is not None:
-+                snode += s
-+        self._add_node_to_current_heading(snode)
-+
-+    def visit_enum_type(self, name, info, ifcond, features, members, prefix):
-+        doc = self._cur_doc
-+        self._add_doc('Enum',
-+                      self._nodes_for_enum_values(doc)
-+                      + self._nodes_for_features(doc)
-+                      + self._nodes_for_sections(doc)
-+                      + self._nodes_for_if_section(ifcond))
-+
-+    def visit_object_type(self, name, info, ifcond, features,
-+                          base, members, variants):
-+        doc = self._cur_doc
-+        if base and base.is_implicit():
-+            base = None
-+        self._add_doc('Object',
-+                      self._nodes_for_members(doc, 'Members', base, variants)
-+                      + self._nodes_for_features(doc)
-+                      + self._nodes_for_sections(doc)
-+                      + self._nodes_for_if_section(ifcond))
-+
-+    def visit_alternate_type(self, name, info, ifcond, features, variants):
-+        doc = self._cur_doc
-+        self._add_doc('Alternate',
-+                      self._nodes_for_members(doc, 'Members')
-+                      + self._nodes_for_features(doc)
-+                      + self._nodes_for_sections(doc)
-+                      + self._nodes_for_if_section(ifcond))
-+
-+    def visit_command(self, name, info, ifcond, features, arg_type,
-+                      ret_type, gen, success_response, boxed, allow_oob,
-+                      allow_preconfig):
-+        doc = self._cur_doc
-+        self._add_doc('Command',
-+                      self._nodes_for_arguments(doc,
-+                                                arg_type if boxed else None)
-+                      + self._nodes_for_features(doc)
-+                      + self._nodes_for_sections(doc)
-+                      + self._nodes_for_if_section(ifcond))
-+
-+    def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-+        doc = self._cur_doc
-+        self._add_doc('Event',
-+                      self._nodes_for_arguments(doc,
-+                                                arg_type if boxed else None)
-+                      + self._nodes_for_features(doc)
-+                      + self._nodes_for_sections(doc)
-+                      + self._nodes_for_if_section(ifcond))
-+
-+    def symbol(self, doc, entity):
-+        """Add documentation for one symbol to the document tree
-+
-+        This is the main entry point which causes us to add documentation
-+        nodes for a symbol (which could be a 'command', 'object', 'event',
-+        etc). We do this by calling 'visit' on the schema entity, which
-+        will then call back into one of our visit_* methods, depending
-+        on what kind of thing this symbol is.
-+        """
-+        self._cur_doc = doc
-+        entity.visit(self)
-+        self._cur_doc = None
-+
-+    def _start_new_heading(self, heading, level):
-+        """Start a new heading at the specified heading level
-+
-+        Create a new section whose title is 'heading' and which is placed
-+        in the docutils node tree as a child of the most recent level-1
-+        heading. Subsequent document sections (commands, freeform doc chunks,
-+        etc) will be placed as children of this new heading section.
-+        """
-+        if len(self._active_headings) < level:
-+            raise QAPISemError(self._cur_doc.info,
-+                               'Level %d subheading found outside a '
-+                               'level %d heading'
-+                               % (level, level - 1))
-+        snode = self._make_section(heading)
-+        self._active_headings[level - 1] += snode
-+        self._active_headings = self._active_headings[:level]
-+        self._active_headings.append(snode)
-+
-+    def _add_node_to_current_heading(self, node):
-+        """Add the node to whatever the current active heading is"""
-+        self._active_headings[-1] += node
-+
-+    def freeform(self, doc):
-+        """Add a piece of 'freeform' documentation to the document tree
-+
-+        A 'freeform' document chunk doesn't relate to any particular
-+        symbol (for instance, it could be an introduction).
-+
-+        If the freeform document starts with a line of the form
-+        '= Heading text', this is a section or subsection heading, with
-+        the heading level indicated by the number of '=' signs.
-+        """
-+
-+        # QAPIDoc documentation says free-form documentation blocks
-+        # must have only a body section, nothing else.
-+        assert not doc.sections
-+        assert not doc.args
-+        assert not doc.features
-+        self._cur_doc = doc
-+
-+        text = doc.body.text
-+        if re.match(r'=+ ', text):
-+            # Section/subsection heading (if present, will always be
-+            # the first line of the block)
-+            (heading, _, text) = text.partition('\n')
-+            (leader, _, heading) = heading.partition(' ')
-+            self._start_new_heading(heading, len(leader))
-+            if text == '':
-+                return
-+
-+        node = self._make_section(None)
-+        self._parse_text_into_node(text, node)
-+        self._add_node_to_current_heading(node)
-+        self._cur_doc = None
-+
-+    def _parse_text_into_node(self, doctext, node):
-+        """Parse a chunk of QAPI-doc-format text into the node
-+
-+        The doc comment can contain most inline rST markup, including
-+        bulleted and enumerated lists.
-+        As an extra permitted piece of markup, @var will be turned
-+        into ``var``.
-+        """
-+
-+        # Handle the "@var means ``var`` case
-+        doctext = re.sub(r'@([\w-]+)', r'``\1``', doctext)
-+
-+        rstlist = ViewList()
-+        for line in doctext.splitlines():
-+            # The reported line number will always be that of the start line
-+            # of the doc comment, rather than the actual location of the error.
-+            # Being more precise would require overhaul of the QAPIDoc class
-+            # to track lines more exactly within all the sub-parts of the doc
-+            # comment, as well as counting lines here.
-+            rstlist.append(line, self._cur_doc.info.fname,
-+                           self._cur_doc.info.line)
-+        # Append a blank line -- in some cases rST syntax errors get
-+        # attributed to the line after one with actual text, and if there
-+        # isn't anything in the ViewList corresponding to that then Sphinx
-+        # 1.6's AutodocReporter will then misidentify the source/line location
-+        # in the error message (usually attributing it to the top-level
-+        # .rst file rather than the offending .json file). The extra blank
-+        # line won't affect the rendered output.
-+        rstlist.append("", self._cur_doc.info.fname, self._cur_doc.info.line)
-+        self._sphinx_directive.do_parse(rstlist, node)
-+
-+    def get_document_nodes(self):
-+        """Return the list of docutils nodes which make up the document"""
-+        return self._top_node.children
-+
-+
-+class QAPISchemaGenDepVisitor(QAPISchemaVisitor):
-+    """A QAPI schema visitor which adds Sphinx dependencies each module
-+
-+    This class calls the Sphinx note_dependency() function to tell Sphinx
-+    that the generated documentation output depends on the input
-+    schema file associated with each module in the QAPI input.
-+    """
-+    def __init__(self, env, qapidir):
-+        self._env = env
-+        self._qapidir = qapidir
-+
-+    def visit_module(self, name):
-+        if name is not None:
-+            qapifile = self._qapidir + '/' + name
-+            self._env.note_dependency(os.path.abspath(qapifile))
-+        super().visit_module(name)
-+
-+
-+class QAPIDocDirective(Directive):
-+    """Extract documentation from the specified QAPI .json file"""
-+    required_argument = 1
-+    optional_arguments = 1
-+    option_spec = {
-+        'qapifile': directives.unchanged_required
-+    }
-+    has_content = False
-+
-+    def new_serialno(self):
-+        """Return a unique new ID string suitable for use as a node's ID"""
-+        env = self.state.document.settings.env
-+        return 'qapidoc-%d' % env.new_serialno('qapidoc')
-+
-+    def run(self):
-+        env = self.state.document.settings.env
-+        qapifile = env.config.qapidoc_srctree + '/' + self.arguments[0]
-+        qapidir = os.path.dirname(qapifile)
-+
-+        try:
-+            schema = QAPISchema(qapifile)
-+
-+            # First tell Sphinx about all the schema files that the
-+            # output documentation depends on (including 'qapifile' itself)
-+            schema.visit(QAPISchemaGenDepVisitor(env, qapidir))
-+
-+            vis = QAPISchemaGenRSTVisitor(self)
-+            vis.visit_begin(schema)
-+            for doc in schema.docs:
-+                if doc.symbol:
-+                    vis.symbol(doc, schema.lookup_entity(doc.symbol))
-+                else:
-+                    vis.freeform(doc)
-+            return vis.get_document_nodes()
-+        except QAPIError as err:
-+            # Launder QAPI parse errors into Sphinx extension errors
-+            # so they are displayed nicely to the user
-+            raise ExtensionError(str(err))
-+
-+    def do_parse(self, rstlist, node):
-+        """Parse rST source lines and add them to the specified node
-+
-+        Take the list of rST source lines rstlist, parse them as
-+        rST, and add the resulting docutils nodes as children of node.
-+        The nodes are parsed in a way that allows them to include
-+        subheadings (titles) without confusing the rendering of
-+        anything else.
-+        """
-+        # This is from kerneldoc.py -- it works around an API change in
-+        # Sphinx between 1.6 and 1.7. Unlike kerneldoc.py, we use
-+        # sphinx.util.nodes.nested_parse_with_titles() rather than the
-+        # plain self.state.nested_parse(), and so we can drop the saving
-+        # of title_styles and section_level that kerneldoc.py does,
-+        # because nested_parse_with_titles() does that for us.
-+        if Use_SSI:
-+            with switch_source_input(self.state, rstlist):
-+                nested_parse_with_titles(self.state, rstlist, node)
-+        else:
-+            save = self.state.memo.reporter
-+            self.state.memo.reporter = AutodocReporter(
-+                rstlist, self.state.memo.reporter)
-+            try:
-+                nested_parse_with_titles(self.state, rstlist, node)
-+            finally:
-+                self.state.memo.reporter = save
-+
-+
-+def setup(app):
-+    """ Register qapi-doc directive with Sphinx"""
-+    app.add_config_value('qapidoc_srctree', None, 'env')
-+    app.add_directive('qapi-doc', QAPIDocDirective)
-+
-+    return dict(
-+        version=__version__,
-+        parallel_read_safe=True,
-+        parallel_write_safe=True
-+    )
++++ b/docs/interop/qemu-ga-ref.rst
+@@ -0,0 +1,13 @@
++QEMU Guest Agent Protocol Reference
++===================================
++
++..
++   TODO: the old Texinfo manual used to note that this manual
++   is GPL-v2-or-later. We should make that reader-visible
++   both here and in our Sphinx manuals more generally.
++
++..
++   TODO: display the QEMU version, both here and in our Sphinx manuals
++   more generally.
++
++.. qapi-doc:: qga/qapi-schema.json
+diff --git a/docs/interop/qemu-ga-ref.texi b/docs/interop/qemu-ga-ref.texi
+deleted file mode 100644
+index a23cc2ed7f..0000000000
+--- a/docs/interop/qemu-ga-ref.texi
++++ /dev/null
+@@ -1,80 +0,0 @@
+-\input texinfo
+-@setfilename qemu-ga-ref.info
+-
+-@include version.texi
+-
+-@exampleindent 0
+-@paragraphindent 0
+-
+-@settitle QEMU Guest Agent Protocol Reference
+-
+-@iftex
+-@center @image{docs/qemu_logo}
+-@end iftex
+-
+-@copying
+-This is the QEMU Guest Agent Protocol reference manual.
+-
+-Copyright @copyright{} 2016 The QEMU Project developers
+-
+-@quotation
+-This manual is free documentation: you can redistribute it and/or
+-modify it under the terms of the GNU General Public License as
+-published by the Free Software Foundation, either version 2 of the
+-License, or (at your option) any later version.
+-
+-This manual is distributed in the hope that it will be useful, but
+-WITHOUT ANY WARRANTY; without even the implied warranty of
+-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-General Public License for more details.
+-
+-You should have received a copy of the GNU General Public License
+-along with this manual.  If not, see http://www.gnu.org/licenses/.
+-@end quotation
+-@end copying
+-
+-@dircategory QEMU
+-@direntry
+-* QEMU-GA-Ref: (qemu-ga-ref).   QEMU Guest Agent Protocol Reference
+-@end direntry
+-
+-@titlepage
+-@title Guest Agent Protocol Reference Manual
+-@subtitle QEMU version @value{VERSION}
+-@page
+-@vskip 0pt plus 1filll
+-@insertcopying
+-@end titlepage
+-
+-@contents
+-
+-@ifnottex
+-@node Top
+-@top QEMU Guest Agent protocol reference
+-@end ifnottex
+-
+-@menu
+-* API Reference::
+-* Commands and Events Index::
+-* Data Types Index::
+-@end menu
+-
+-@node API Reference
+-@chapter API Reference
+-
+-@c for texi2pod:
+-@c man begin DESCRIPTION
+-
+-@include qga/qga-qapi-doc.texi
+-
+-@c man end
+-
+-@node Commands and Events Index
+-@unnumbered Commands and Events Index
+-@printindex fn
+-
+-@node Data Types Index
+-@unnumbered Data Types Index
+-@printindex tp
+-
+-@bye
+diff --git a/docs/meson.build b/docs/meson.build
+index 50f367349b..2569dd52ad 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -15,6 +15,7 @@ if build_docs
+   man_pages = {
+     'interop' : {
+         'qemu-ga.8': (have_tools ? 'man8' : ''),
++        'qemu-ga-ref.7': 'man7',
+     },
+     'tools': {
+         'qemu-img.1': (have_tools ? 'man1' : ''),
+diff --git a/meson.build b/meson.build
+index d36dd085b5..c18764a408 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1221,9 +1221,6 @@ if build_docs
+   texi = {
+     'qemu-qmp-ref': ['docs/interop/qemu-qmp-ref.texi', qapi_doc_texi, version_texi],
+   }
+-  if 'CONFIG_GUEST_AGENT' in config_host
+-    texi += {'qemu-ga-ref': ['docs/interop/qemu-ga-ref.texi', qga_qapi_doc_texi, version_texi]}
+-  endif
+ 
+   if makeinfo.found()
+     cmd = [
 diff --git a/MAINTAINERS b/MAINTAINERS
-index be0a8e648c..ac3e4e465c 100644
+index ac3e4e465c..e1e8ae277d 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2387,6 +2387,7 @@ F: tests/test-qmp-*.c
- F: tests/test-visitor-serialization.c
- F: scripts/qapi-gen.py
- F: scripts/qapi/*
-+F: docs/sphinx/qapidoc.py
- F: docs/devel/qapi*
- T: git https://repo.or.cz/qemu/armbru.git qapi-next
- 
-@@ -3151,6 +3152,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
+@@ -2421,9 +2421,9 @@ M: Michael Roth <mdroth@linux.vnet.ibm.com>
  S: Maintained
- F: docs/conf.py
- F: docs/*/conf.py
-+F: docs/sphinx/
+ F: qga/
+ F: docs/interop/qemu-ga.rst
++F: docs/interop/qemu-ga-ref.rst
+ F: scripts/qemu-guest-agent/
+ F: tests/test-qga.c
+-F: docs/interop/qemu-ga-ref.texi
+ T: git https://github.com/mdroth/qemu.git qga
  
- Miscellaneous
- -------------
+ QOM
+diff --git a/qga/meson.build b/qga/meson.build
+index e5c5778a3e..1c312b50cc 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -16,7 +16,7 @@ qga_qapi_outputs = [
+ ]
+ 
+ qga_qapi_files = custom_target('QGA QAPI files',
+-                               output: qga_qapi_outputs + ['qga-qapi-doc.texi'],
++                               output: qga_qapi_outputs,
+                                input: 'qapi-schema.json',
+                                command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@' ],
+                                depend_files: qapi_gen_depends)
+@@ -27,7 +27,6 @@ foreach output: qga_qapi_outputs
+   qga_ss.add(qga_qapi_files[i])
+   i = i + 1
+ endforeach
+-qga_qapi_doc_texi = qga_qapi_files[i]
+ 
+ qga_ss.add(files(
+   'commands.c',
 -- 
 2.26.2
 
