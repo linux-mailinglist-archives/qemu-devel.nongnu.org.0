@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895A427D0AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 16:10:38 +0200 (CEST)
-Received: from localhost ([::1]:38952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C26727D05F
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 16:02:09 +0200 (CEST)
+Received: from localhost ([::1]:45044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNGKz-00079B-Ja
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 10:10:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41896)
+	id 1kNGCl-00062i-9W
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 10:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
- id 1kNFve-0004Tb-SC; Tue, 29 Sep 2020 09:44:28 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:41742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
- id 1kNFvd-00021p-6L; Tue, 29 Sep 2020 09:44:26 -0400
-Received: by mail-lf1-x143.google.com with SMTP id y17so5559758lfa.8;
- Tue, 29 Sep 2020 06:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lw7q8JMfWE+xGRF9smlHcFZJ7vnKa3DVE40AlcveyFI=;
- b=K2oz8r07jEcqxoWWaqVC23k0qUlMysRIG+wlBHrvD2qL4H01Qj+ykPzTHOaBtHaXIu
- t8/U3N/OkHQd44tIzjvzKWDKqe+sJQYzew6cfQe4jdwKNIXHVtdVSHYOfQpxjq+m/o9w
- fiuwUbnMiQrNWSv1trm/P75FNWkBwlnqS2J8rPFUM+I6blYn8TeLz4b0vrd4A32k5hnk
- O0hmkAaEwbna0nNY5uG3dS3t7R0hnm2l8bTqCUGhOQBgQN08LuvxNynz8yP0REnh/zkA
- lVbexkQeoTeD16bxK22c+dlCVGk1ZDL08Vj9BZTBxwmeOcIGVlYxPSp/Mr4kHLVtW+w2
- zZSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lw7q8JMfWE+xGRF9smlHcFZJ7vnKa3DVE40AlcveyFI=;
- b=bPdF+0FfvYOejUDdOaPaw8msRAWMhfX/3sML9c5BQGbedpYLIOhrkCjg0R41yb1ZxN
- sjTPqhX1RpH1FQxIbnicgfE/ELXMkUGgDwCZfQIzICvrda2F9+HQydFJV4NnjbgQ0p38
- MzP1f0w9l6vctkiiptvClrZlAVbCPp3XfbuQrg9ONw/0VZ50W1wsk+QkjHCZgvjWem//
- bkH6NHAWuvsCPmWyZN//Kh4rrptQSHMgP5BRPDc1v69RpXOpcuQGYukFA8HNlN0ANET9
- b+81yFCxSbSS5Nl2M2XnPcmUHciXabWJ43PVok5vW4GgUpIAXHfB6cLfsHIkmM1UBOFT
- mhyg==
-X-Gm-Message-State: AOAM530c2zcQYe/r0/+vI9v7I2v3p39EbDrSRIFNcNCDMKIE0vP/znVF
- oQrHF0MNYzoO5lTUlG0Tyk8=
-X-Google-Smtp-Source: ABdhPJw38pLLqWUOjQ/m/khKEQm2yNRLGw3Ijc813UDT3/YJNgmkqv4jZSjuDtF1+30A2HGPuzYR+g==
-X-Received: by 2002:a19:6d5:: with SMTP id 204mr1336188lfg.109.1601387060653; 
- Tue, 29 Sep 2020 06:44:20 -0700 (PDT)
-Received: from localhost.localdomain (37-145-186-126.broadband.corbina.ru.
- [37.145.186.126])
- by smtp.gmail.com with ESMTPSA id 144sm3226281lfj.35.2020.09.29.06.44.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 06:44:20 -0700 (PDT)
-From: Elena Afanasova <eafanasova@gmail.com>
-To: jsnow@redhat.com
-Subject: [PATCH] job: delete job_{lock,
- unlock} functions and replace them with lock guard
-Date: Tue, 29 Sep 2020 06:42:14 -0700
-Message-Id: <20200929134214.4103-1-eafanasova@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kNGAS-0005DN-Ia
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:59:44 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:34899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kNGAQ-0004A0-Ky
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:59:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=/6jbIRjUAtVZGGk6gEYrACTLQuHei87M+7UfjHxjsLs=; b=nGUS9tRipgxyuo3hpvpRsY8ETE
+ 3hFpqgb614l0CQZNokZh+gDGqtw+VH8g/VPhtZpvLDlBV5QT7knBTPMJsKiLVsvx2He4oXpz9aWyR
+ IgamL7pKWnzD89L0Z+8LQeTGWQNFw/w/aqpZCl0haVCss2uHNDMuujIViEAXMQhE7RFTlSEenmHKr
+ aRC6DIB6pSEkJ9Lylpf/gocxrX/yz7orjg/mgpXDYv0e3m9vMx5KGeLRYN7a1b5B6/Ln5EVEpJUwA
+ kpAg5uyqXnKch6qpHxmx1axAkHSNDiEzhQ1GuYr3w054LpDA1JLEN8g50j7jo9A+BFAY9+6xrJEAD
+ gRvKeqO3uvgWsIg14kv3/5dzXIlz0IKK5hZ3vZhYj0ZIUCtf4j+8Kw2FNvPlT8NkxyesNkSn1slb+
+ uhMyyzjgvvBnVgiepNPZ4jfipnThTzHUenB16p2mvxwLLjqtMbVMA57lyOrnbNyNvBdMzXMCIZcJ5
+ 1oKOImZocRc4jVN0LGMXkKvpxNpuVhgKJwiKN74E/rcp+tu8CLxPCsb0tO52sT7qR0CnvnV9/5vj3
+ IsMNRoI1IZ/ycOw+CKs6d7zH5N1gspyDawemnIQBLiLaoo5kLGfxehtdx4EaA6t3XEHeQIXd0M3oi
+ mvkXPErL245YI/9aSCKHNvrQbQY/KO7oIXND+xvfc=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vivek Goyal <vgoyal@redhat.com>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
+ "cdupontd@redhat.com" <cdupontd@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Shinde, Archana M" <archana.m.shinde@intel.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: virtiofs vs 9p performance(Re: tools/virtiofs: Multi threading
+ seems to hurt performance)
+Date: Tue, 29 Sep 2020 15:59:34 +0200
+Message-ID: <6044656.UxkCsAYsKb@silver>
+In-Reply-To: <20200929134942.GC220516@redhat.com>
+References: <20200918213436.GA3520@redhat.com> <2302525.O3mciSdnpG@silver>
+ <20200929134942.GC220516@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=eafanasova@gmail.com; helo=mail-lf1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 09:28:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 29 Sep 2020 10:08:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,91 +73,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Elena Afanasova <eafanasova@gmail.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
----
- job.c | 46 +++++++++++++++++-----------------------------
- 1 file changed, 17 insertions(+), 29 deletions(-)
+On Dienstag, 29. September 2020 15:49:42 CEST Vivek Goyal wrote:
+> > Depends on what's randomized. If read chunk size is randomized, then yes,
+> > you would probably see less performance increase compared to a simple
+> > 'cat foo.dat'.
+> 
+> We are using "fio" for testing and read chunk size is not being
+> randomized. chunk size (block size) is fixed at 4K size for these tests.
 
-diff --git a/job.c b/job.c
-index 8fecf38960..89ceb53434 100644
---- a/job.c
-+++ b/job.c
-@@ -79,16 +79,6 @@ struct JobTxn {
-  * job_enter. */
- static QemuMutex job_mutex;
- 
--static void job_lock(void)
--{
--    qemu_mutex_lock(&job_mutex);
--}
--
--static void job_unlock(void)
--{
--    qemu_mutex_unlock(&job_mutex);
--}
--
- static void __attribute__((__constructor__)) job_init(void)
- {
-     qemu_mutex_init(&job_mutex);
-@@ -437,21 +427,19 @@ void job_enter_cond(Job *job, bool(*fn)(Job *job))
-         return;
-     }
- 
--    job_lock();
--    if (job->busy) {
--        job_unlock();
--        return;
--    }
-+    WITH_QEMU_LOCK_GUARD(&job_mutex) {
-+        if (job->busy) {
-+            return;
-+        }
- 
--    if (fn && !fn(job)) {
--        job_unlock();
--        return;
--    }
-+        if (fn && !fn(job)) {
-+            return;
-+        }
- 
--    assert(!job->deferred_to_main_loop);
--    timer_del(&job->sleep_timer);
--    job->busy = true;
--    job_unlock();
-+        assert(!job->deferred_to_main_loop);
-+        timer_del(&job->sleep_timer);
-+        job->busy = true;
-+    }
-     aio_co_enter(job->aio_context, job->co);
- }
- 
-@@ -468,13 +456,13 @@ void job_enter(Job *job)
-  * called explicitly. */
- static void coroutine_fn job_do_yield(Job *job, uint64_t ns)
- {
--    job_lock();
--    if (ns != -1) {
--        timer_mod(&job->sleep_timer, ns);
-+    WITH_QEMU_LOCK_GUARD(&job_mutex) {
-+        if (ns != -1) {
-+            timer_mod(&job->sleep_timer, ns);
-+        }
-+        job->busy = false;
-+        job_event_idle(job);
-     }
--    job->busy = false;
--    job_event_idle(job);
--    job_unlock();
-     qemu_coroutine_yield();
- 
-     /* Set by job_enter_cond() before re-entering the coroutine.  */
--- 
-2.25.1
+Good to know, thanks!
+
+> > If only the read position is randomized, but the read chunk size honors
+> > iounit, a.k.a. stat's st_blksize (i.e. reading with the most efficient
+> > block size advertised by 9P), then I would assume still seeing a
+> > performance increase.
+> 
+> Yes, we are randomizing read position. But there is no notion of looking
+> at st_blksize. Its fixed at 4K. (notice option --bs=4k in fio
+> commandline).
+
+Ah ok, then the results make sense.
+
+With these block sizes you will indeed suffer a performance issue with 9p, due 
+to several thread hops in Tread handling, which is due to be fixed.
+
+Best regards,
+Christian Schoenebeck
+
 
 
