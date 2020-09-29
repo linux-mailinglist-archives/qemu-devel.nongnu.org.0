@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C749127D838
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:32:24 +0200 (CEST)
-Received: from localhost ([::1]:36200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 736CA27D888
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:37:24 +0200 (CEST)
+Received: from localhost ([::1]:50812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNMIR-0000jo-P2
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59836)
+	id 1kNMNH-0007AO-Gu
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6I-0001v2-5M
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39009)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6L-0001xq-MU
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM68-0003Vi-4g
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:49 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM68-0003VY-61
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:52 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601410778;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nvxuauxtmIrz8mXp8WmGjf5Zvqj/tWEjYO7gCi8qjIU=;
- b=Sw1NgBSjjxvkj1gw0Rykx7dkcxXx40y7C90SlfPHiWx0lkjzgIDswlDENDawRhAbzXUENQ
- 1XSVwEIk6w3ld8CGH4Ho7RvzpvyrI+aVPmjoH80soiKOx9a4omPs4YmGYsWa/UJDLC+Jjv
- yZAsCQC2hvGJG6ZQNWEusCpVove8FKY=
+ bh=L5W3k18ZSTfgsiYylaOMUpqXy7MXAVSmY6xPiu5ylFg=;
+ b=V3GQyWrhwvLWU0vLy5VWRtuaWcEcM4xuKQQhJvxV618z/Q1i3DzkZjCQSrGFlJuvwrN8sw
+ v4Jd/gbdVj6MbluldXl2KDtIR88MiH9IB24Dzx9ufcPyTwAYywjP2mmhA/oxvpdX8XPXWq
+ 3vyhzLFxKZenBAjubJd7QNlqVsgaTC0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-wb-cTkCSPf20JQEtG-0EAg-1; Tue, 29 Sep 2020 16:19:32 -0400
-X-MC-Unique: wb-cTkCSPf20JQEtG-0EAg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-317-B-BWC0uSNxuB1DqinS4Qcg-1; Tue, 29 Sep 2020 16:19:33 -0400
+X-MC-Unique: B-BWC0uSNxuB1DqinS4Qcg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABED11040C27;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC4E6801AEA;
  Tue, 29 Sep 2020 20:19:31 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57F3878807;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 684116715F;
  Tue, 29 Sep 2020 20:19:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C9D8F11358CA; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
+ id CDC0B11358CB; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/29] docs/interop: Convert qemu-ga-ref to rST
-Date: Tue, 29 Sep 2020 22:19:13 +0200
-Message-Id: <20200929201926.2155622-17-armbru@redhat.com>
+Subject: [PULL 17/29] docs/interop: Convert qemu-qmp-ref to rST
+Date: Tue, 29 Sep 2020 22:19:14 +0200
+Message-Id: <20200929201926.2155622-18-armbru@redhat.com>
 In-Reply-To: <20200929201926.2155622-1-armbru@redhat.com>
 References: <20200929201926.2155622-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,89 +81,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Convert qemu-ga-ref to rST format. This includes dropping
+Convert qemu-qmp-ref to rST format. This includes dropping
 the plain-text, pdf and info format outputs for this document;
 as with all our other Sphinx-based documentation, we provide
 HTML and manpage only.
 
-The qemu-ga-ref.rst is somewhat more stripped down than
+The qemu-qmp-ref.rst is somewhat more stripped down than
 the .texi was, because we do not (currently) attempt to
 generate indexes for the commands, events and data types
 being documented.
 
-As the GA ref is now part of the Sphinx 'interop' manual,
-we can delete the direct link from index.html.in.
+Again, we drop the direct link from index.html.in now that
+the QMP ref is part of the interop manual.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This commit removes the code from the root meson.build file that
+handled the various Texinfo-based outputs, because we no longer
+generate any documentation except for the Sphinx HTML manuals and the
+manpages, and the code can't handle having an empty list of files
+to process.. We'll do further cleanup of the remainders of
+Texinfo support in subsequent commits.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200925162316.21205-9-peter.maydell@linaro.org>
+Message-Id: <20200925162316.21205-10-peter.maydell@linaro.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 [Unicode legacy literal dumbed down to plain string literal, TODO
-comment on displaying QEMU version added]
+comment on displaying QEMU version added, "make html" fixed,
+storage-daemon/qapi/meson.build updated]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/index.html.in            |  1 -
- docs/interop/conf.py          |  2 +
- docs/interop/index.rst        |  1 +
- docs/interop/qemu-ga-ref.rst  | 13 ++++++
- docs/interop/qemu-ga-ref.texi | 80 -----------------------------------
- docs/meson.build              |  1 +
- meson.build                   |  3 --
- MAINTAINERS                   |  2 +-
- qga/meson.build               |  3 +-
- 9 files changed, 19 insertions(+), 87 deletions(-)
- create mode 100644 docs/interop/qemu-ga-ref.rst
- delete mode 100644 docs/interop/qemu-ga-ref.texi
+ docs/index.html.in              |  1 -
+ docs/interop/conf.py            |  2 +
+ docs/interop/index.rst          |  1 +
+ docs/interop/qemu-qmp-ref.rst   | 13 ++++++
+ docs/interop/qemu-qmp-ref.texi  | 80 --------------------------------
+ docs/meson.build                |  2 +
+ Makefile                        |  2 +-
+ meson.build                     | 82 ---------------------------------
+ qapi/meson.build                |  4 +-
+ storage-daemon/qapi/meson.build |  2 +-
+ 10 files changed, 21 insertions(+), 168 deletions(-)
+ create mode 100644 docs/interop/qemu-qmp-ref.rst
+ delete mode 100644 docs/interop/qemu-qmp-ref.texi
 
 diff --git a/docs/index.html.in b/docs/index.html.in
-index ca28047881..5b0f4e2bc2 100644
+index 5b0f4e2bc2..33db4396ac 100644
 --- a/docs/index.html.in
 +++ b/docs/index.html.in
-@@ -13,7 +13,6 @@
+@@ -12,7 +12,6 @@
+             <li><a href="tools/index.html">Tools Guide</a></li>
              <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
              <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
-             <li><a href="interop/qemu-qmp-ref.html">QMP Reference Manual</a></li>
--            <li><a href="interop/qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
+-            <li><a href="interop/qemu-qmp-ref.html">QMP Reference Manual</a></li>
          </ul>
      </body>
  </html>
 diff --git a/docs/interop/conf.py b/docs/interop/conf.py
-index 42ce7e3d36..4e5bbbbf95 100644
+index 4e5bbbbf95..2634ca3410 100644
 --- a/docs/interop/conf.py
 +++ b/docs/interop/conf.py
-@@ -19,4 +19,6 @@ html_theme_options['description'] = u'System Emulation Management and Interopera
- man_pages = [
-     ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
+@@ -21,4 +21,6 @@ man_pages = [
       ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
-+    ('qemu-ga-ref', 'qemu-ga-ref', 'QEMU Guest Agent Protocol Reference',
+     ('qemu-ga-ref', 'qemu-ga-ref', 'QEMU Guest Agent Protocol Reference',
+      [], 7),
++    ('qemu-qmp-ref', 'qemu-qmp-ref', 'QEMU QMP Reference Manual',
 +     [], 7),
  ]
 diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index 006f986420..738cdbe185 100644
+index 738cdbe185..cd78d679d8 100644
 --- a/docs/interop/index.rst
 +++ b/docs/interop/index.rst
-@@ -18,6 +18,7 @@ Contents:
-    live-block-operations
+@@ -19,6 +19,7 @@ Contents:
     pr-helper
     qemu-ga
-+   qemu-ga-ref
+    qemu-ga-ref
++   qemu-qmp-ref
     vhost-user
     vhost-user-gpu
     vhost-vdpa
-diff --git a/docs/interop/qemu-ga-ref.rst b/docs/interop/qemu-ga-ref.rst
+diff --git a/docs/interop/qemu-qmp-ref.rst b/docs/interop/qemu-qmp-ref.rst
 new file mode 100644
-index 0000000000..3f1c4f908f
+index 0000000000..c8abaaf8e3
 --- /dev/null
-+++ b/docs/interop/qemu-ga-ref.rst
++++ b/docs/interop/qemu-qmp-ref.rst
 @@ -0,0 +1,13 @@
-+QEMU Guest Agent Protocol Reference
-+===================================
++QEMU QMP Reference Manual
++=========================
 +
 +..
 +   TODO: the old Texinfo manual used to note that this manual
@@ -174,29 +182,29 @@ index 0000000000..3f1c4f908f
 +   TODO: display the QEMU version, both here and in our Sphinx manuals
 +   more generally.
 +
-+.. qapi-doc:: qga/qapi-schema.json
-diff --git a/docs/interop/qemu-ga-ref.texi b/docs/interop/qemu-ga-ref.texi
++.. qapi-doc:: qapi/qapi-schema.json
+diff --git a/docs/interop/qemu-qmp-ref.texi b/docs/interop/qemu-qmp-ref.texi
 deleted file mode 100644
-index a23cc2ed7f..0000000000
---- a/docs/interop/qemu-ga-ref.texi
+index ea1d7fe6c2..0000000000
+--- a/docs/interop/qemu-qmp-ref.texi
 +++ /dev/null
 @@ -1,80 +0,0 @@
 -\input texinfo
--@setfilename qemu-ga-ref.info
+-@setfilename qemu-qmp-ref.info
 -
 -@include version.texi
 -
 -@exampleindent 0
 -@paragraphindent 0
 -
--@settitle QEMU Guest Agent Protocol Reference
+-@settitle QEMU QMP Reference Manual
 -
 -@iftex
 -@center @image{docs/qemu_logo}
 -@end iftex
 -
 -@copying
--This is the QEMU Guest Agent Protocol reference manual.
+-This is the QEMU QMP reference manual.
 -
 -Copyright @copyright{} 2016 The QEMU Project developers
 -
@@ -218,11 +226,11 @@ index a23cc2ed7f..0000000000
 -
 -@dircategory QEMU
 -@direntry
--* QEMU-GA-Ref: (qemu-ga-ref).   QEMU Guest Agent Protocol Reference
+-* QEMU-QMP-Ref: (qemu-qmp-ref). QEMU QMP Reference Manual
 -@end direntry
 -
 -@titlepage
--@title Guest Agent Protocol Reference Manual
+-@title QMP Reference Manual
 -@subtitle QEMU version @value{VERSION}
 -@page
 -@vskip 0pt plus 1filll
@@ -233,7 +241,7 @@ index a23cc2ed7f..0000000000
 -
 -@ifnottex
 -@node Top
--@top QEMU Guest Agent protocol reference
+-@top QEMU QMP reference
 -@end ifnottex
 -
 -@menu
@@ -248,7 +256,7 @@ index a23cc2ed7f..0000000000
 -@c for texi2pod:
 -@c man begin DESCRIPTION
 -
--@include qga/qga-qapi-doc.texi
+-@include qapi/qapi-doc.texi
 -
 -@c man end
 -
@@ -262,67 +270,160 @@ index a23cc2ed7f..0000000000
 -
 -@bye
 diff --git a/docs/meson.build b/docs/meson.build
-index 50f367349b..2569dd52ad 100644
+index 2569dd52ad..663bdb9073 100644
 --- a/docs/meson.build
 +++ b/docs/meson.build
-@@ -15,6 +15,7 @@ if build_docs
-   man_pages = {
+@@ -16,6 +16,7 @@ if build_docs
      'interop' : {
          'qemu-ga.8': (have_tools ? 'man8' : ''),
-+        'qemu-ga-ref.7': 'man7',
+         'qemu-ga-ref.7': 'man7',
++        'qemu-qmp-ref.7': 'man7',
      },
      'tools': {
          'qemu-img.1': (have_tools ? 'man1' : ''),
+@@ -70,5 +71,6 @@ if build_docs
+     endif
+   endforeach
+   alias_target('sphinxdocs', sphinxdocs)
++  alias_target('html', sphinxdocs)
+   alias_target('man', sphinxmans)
+ endif
+diff --git a/Makefile b/Makefile
+index 7c60b9dcb8..7b2655db08 100644
+--- a/Makefile
++++ b/Makefile
+@@ -280,7 +280,7 @@ endif
+ 	$(call print-help,vm-help,Help about targets running tests inside VM)
+ 	@echo  ''
+ 	@echo  'Documentation targets:'
+-	$(call print-help,html info pdf txt man,Build documentation in specified format)
++	$(call print-help,html man,Build documentation in specified format)
+ 	@echo  ''
+ ifdef CONFIG_WIN32
+ 	@echo  'Windows targets:'
 diff --git a/meson.build b/meson.build
-index d36dd085b5..c18764a408 100644
+index c18764a408..7eb2c9c01a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1221,9 +1221,6 @@ if build_docs
-   texi = {
-     'qemu-qmp-ref': ['docs/interop/qemu-qmp-ref.texi', qapi_doc_texi, version_texi],
-   }
--  if 'CONFIG_GUEST_AGENT' in config_host
--    texi += {'qemu-ga-ref': ['docs/interop/qemu-ga-ref.texi', qga_qapi_doc_texi, version_texi]}
+@@ -1204,88 +1204,6 @@ if 'CONFIG_GTK' in config_host
+   subdir('po')
+ endif
+ 
+-if build_docs
+-  makeinfo = find_program('makeinfo', required: build_docs)
+-
+-  docs_inc = [
+-    '-I', meson.current_source_dir(),
+-    '-I', meson.current_build_dir() / 'docs',
+-    '-I', '@OUTDIR@',
+-  ]
+-
+-  version_texi = configure_file(output: 'version.texi',
+-                              input: 'version.texi.in',
+-                              configuration: {'VERSION': meson.project_version(),
+-                                              'qemu_confdir': config_host['qemu_confdir']})
+-
+-  texi = {
+-    'qemu-qmp-ref': ['docs/interop/qemu-qmp-ref.texi', qapi_doc_texi, version_texi],
+-  }
+-
+-  if makeinfo.found()
+-    cmd = [
+-      'env', 'LC_ALL=C', makeinfo, '--no-split', '--number-sections', docs_inc,
+-      '@INPUT0@', '-o', '@OUTPUT@',
+-    ]
+-    foreach ext, args: {
+-        'info': [],
+-        'html': ['--no-headers', '--html'],
+-        'txt': ['--no-headers', '--plaintext'],
+-    }
+-      t = []
+-      foreach doc, input: texi
+-        output = doc + '.' + ext
+-        t += custom_target(output,
+-                      input: input,
+-                      output: output,
+-                      install: true,
+-                      install_dir: qemu_docdir / 'interop',
+-                      command: cmd + args)
+-      endforeach
+-      alias_target(ext, t)
+-    endforeach
 -  endif
+-
+-  texi2pdf = find_program('texi2pdf', required: false)
+-
+-  if texi2pdf.found()
+-    pdfs = []
+-    foreach doc, input: texi
+-      output = doc + '.pdf'
+-      pdfs += custom_target(output,
+-                    input: input,
+-                    output: output,
+-                    command: [texi2pdf, '-q', docs_inc, '@INPUT0@', '-o', '@OUTPUT@'],
+-                    build_by_default: false)
+-    endforeach
+-    alias_target('pdf', pdfs)
+-  endif
+-
+-  texi2pod = find_program('scripts/texi2pod.pl')
+-  pod2man = find_program('pod2man', required: build_docs)
+-
+-  if pod2man.found()
+-    foreach doc, input: texi
+-      man = doc + '.7'
+-      pod = custom_target(man + '.pod',
+-                          input: input,
+-                          output: man + '.pod',
+-                          command: [texi2pod,
+-                                    '-DVERSION="' + meson.project_version() + '"',
+-                                    '-DCONFDIR="' + config_host['qemu_confdir'] + '"',
+-                                    '@INPUT0@', '@OUTPUT@'])
+-      man = custom_target(man,
+-                          input: pod,
+-                          output: man,
+-                          capture: true,
+-                          install: true,
+-                          install_dir: get_option('mandir') / 'man7',
+-                          command: [pod2man, '--utf8', '--section=7', '--center=" "',
+-                                    '--release=" "', '@INPUT@'])
+-    endforeach
+-  endif
+-endif
+-
+ if host_machine.system() == 'windows'
+   nsis_cmd = [
+     find_program('scripts/nsis.py'),
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 298b510492..7c4a89a882 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -99,7 +99,7 @@ foreach module : qapi_all_modules
+ endforeach
  
-   if makeinfo.found()
-     cmd = [
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ac3e4e465c..e1e8ae277d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2421,9 +2421,9 @@ M: Michael Roth <mdroth@linux.vnet.ibm.com>
- S: Maintained
- F: qga/
- F: docs/interop/qemu-ga.rst
-+F: docs/interop/qemu-ga-ref.rst
- F: scripts/qemu-guest-agent/
- F: tests/test-qga.c
--F: docs/interop/qemu-ga-ref.texi
- T: git https://github.com/mdroth/qemu.git qga
- 
- QOM
-diff --git a/qga/meson.build b/qga/meson.build
-index e5c5778a3e..1c312b50cc 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -16,7 +16,7 @@ qga_qapi_outputs = [
- ]
- 
- qga_qapi_files = custom_target('QGA QAPI files',
--                               output: qga_qapi_outputs + ['qga-qapi-doc.texi'],
-+                               output: qga_qapi_outputs,
-                                input: 'qapi-schema.json',
-                                command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@' ],
-                                depend_files: qapi_gen_depends)
-@@ -27,7 +27,6 @@ foreach output: qga_qapi_outputs
-   qga_ss.add(qga_qapi_files[i])
+ qapi_files = custom_target('shared QAPI source files',
+-  output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs + ['qapi-doc.texi'],
++  output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs,
+   input: [ files('qapi-schema.json') ],
+   command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@' ],
+   depend_files: [ qapi_inputs, qapi_gen_depends ])
+@@ -123,5 +123,3 @@ foreach output : qapi_specific_outputs + qapi_nonmodule_outputs
+   specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
    i = i + 1
  endforeach
--qga_qapi_doc_texi = qga_qapi_files[i]
- 
- qga_ss.add(files(
-   'commands.c',
+-
+-qapi_doc_texi = qapi_files[i]
+diff --git a/storage-daemon/qapi/meson.build b/storage-daemon/qapi/meson.build
+index cea618bec0..cd064ac578 100644
+--- a/storage-daemon/qapi/meson.build
++++ b/storage-daemon/qapi/meson.build
+@@ -1,5 +1,5 @@
+ qsd_qapi_files = custom_target('QAPI files for qemu-storage-daemon',
+-                               output: qapi_nonmodule_outputs + ['qapi-doc.texi'],
++                               output: qapi_nonmodule_outputs,
+                                input: [ files('qapi-schema.json') ],
+                                command: [ qapi_gen, '-o', 'storage-daemon/qapi', '@INPUT@' ],
+                                depend_files: [ qapi_inputs, qapi_gen_depends ])
 -- 
 2.26.2
 
