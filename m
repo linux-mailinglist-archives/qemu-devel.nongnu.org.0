@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CC327C1B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:53:05 +0200 (CEST)
-Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35F527C1C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:55:04 +0200 (CEST)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNCJk-00073k-4e
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:53:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36992)
+	id 1kNCLf-0001Rz-EC
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNCHG-0005VZ-PD
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:50:30 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40641)
+ id 1kNCIO-0006oR-3N; Tue, 29 Sep 2020 05:51:40 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNCHA-00081T-Jf
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:50:26 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j2so4618625wrx.7
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 02:50:22 -0700 (PDT)
+ id 1kNCIJ-0008KK-Ne; Tue, 29 Sep 2020 05:51:39 -0400
+Received: by mail-wr1-x444.google.com with SMTP id k10so4631766wru.6;
+ Tue, 29 Sep 2020 02:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VvDwgqqBVsDX6ZSTgq2sLKindWShDx4wt2crfE89Ew0=;
- b=WTrcHAaoEjW8jkV/07q5O923AToffinx3tVwBUnTwqyjAAfhV/iTmTXAG0NC453jqo
- KaYT8uHFUBz7vHzX6z8hRbMafu3neL4yHiuH6bfKgfyo9mD+m40cMqE8WnjXHSlco7oQ
- wtHGKaGbEd4d3r1lef7z8Ku1/iqNe/2MlNaDdjde72gNeOCCOhex0PevfmTcnH04MiEX
- BjW7/muVtpHrq2DaeLkVj7nu34tbl5cYAm6GdnNcdzqU2S4OsYfa9CV1hfovndqdE8lE
- PPMq/EYx32IM5VEYsWKZF8DSZImTfRLbuk5OAIrjTLPItL5Gl5N5jgjKpue8Sv4FECkT
- GJpA==
+ bh=3wKhAnfsqGMoQNrr+7FobEXUOX/yULAy0h+HY70NG4M=;
+ b=rL1ayDDVcHQXGYdRloLOB6xW3hS905NDLd1rqlGnLSTtdF3WAjWv9cxIPHqOHnZYEo
+ PIvr1eEj35jju1Xt0zilhAVZxSaMbb2s0hAkt2Uprr8fOtm6cKOLEXRhimK8j4svWz+6
+ Cy56Hq/PdtqQ6lbAxCNdGB8dzvyeYO8d1Rb2d1upNn7aDh6QPjEpJApeVVjerLy/G0Yg
+ FQr0S3oZzxxhMDvadO2JB/60Ssc4I5XZr28rui5qEjv5HQWu2T729eH4nEt2E2KJbsqN
+ hGGXqG3XU3+zkhNnVDmK+X2N+79PyOmBx3m5JiK2cbDbEXfyvLdgiJvCcUfb7Qr1OEzd
+ 4gNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VvDwgqqBVsDX6ZSTgq2sLKindWShDx4wt2crfE89Ew0=;
- b=B8MD/+ZjlcS16VMdnPIgNaCyxlZa02MbGomTLnmelvRnj03KyXpzmGaYpzyS0gXSJw
- iz0yR5o6ildMrFXXRgGJoz7cp9WuDAsai1La8ZoMnpef4qm+G+iKyiWnP7Ktj5rPxWaI
- p3uC9FY80MDdPJLM4Zah/VqHMAM644EAalfUfpl4VM6q3s/SiQrLEN0/LCFpFULTR80I
- waDGTZh2ZlmU9rNtVite5n6EQhc4pWw9vGmOjDG7SiKDf2KKugnBRommDNMiKG/LKl2/
- ua5alaWChf9Nv/HNBW6bURBnvBxtH+kUi0An7GZlkIc2KDj77SB5sPUG4RG1vlY92T63
- NGSg==
-X-Gm-Message-State: AOAM532dGlRjUaEo/dKPkdfB0qdAjhAJG6AwPsz/tPnv4Jb4zb4d5i9L
- 2r/33OlnF1ySMUPg+Pn/wdg=
-X-Google-Smtp-Source: ABdhPJyTc47UeXS3GHZolMfkVqDnXwcdDl+J6D1oLtpPnI2Q/OGZDlNoHJg+p25tioBoyuAPLVWBSw==
-X-Received: by 2002:adf:f6cd:: with SMTP id y13mr3231134wrp.161.1601373021991; 
- Tue, 29 Sep 2020 02:50:21 -0700 (PDT)
+ bh=3wKhAnfsqGMoQNrr+7FobEXUOX/yULAy0h+HY70NG4M=;
+ b=d+358cVTmUojgWZNVythYuaUms9PgvbdSf+KD+qg0Lf0TZgfjnANiDoa0gSLYFLOo5
+ G+ZdB1yrc6+QUD31Uo3vottozXeLxuowmLYX3aXfo3OZntOpvxwkHwB1t1K2m52eqK0M
+ fQM8UVtVTBNmUcEA6j2x5nqhNZCidnywdk9jlQq4q+ypVQVDHr7r1gLOB8gK0+OnIvaM
+ mKUGzXhhPI2HLSdxSmqDI1ZTprKKC/Y1MvVFBRG1YgspTbKOPSZKvmze1Yeb3d4ZugEP
+ u6ERSojQD0PxsGV/wLLK0E2BcTHP2goTw9n4PC/egusDO3ydJL/hzjt0Med+wzS+8CTC
+ pu/A==
+X-Gm-Message-State: AOAM530cRoNbQQOP+inD7abtzA7CDm9GFrEQbtKtE/ZK7WftftJz6x9V
+ rBCDNJ9fGog+j2Qcz9Hi5/c=
+X-Google-Smtp-Source: ABdhPJyfDqCVIgbDGl9ElZRoR0P3ouR8MG+oQ3BhKH7SOIG/cw3j0mZISQABleYvk/gZVlhEM3pQLg==
+X-Received: by 2002:a5d:4842:: with SMTP id n2mr3314854wrs.260.1601373092602; 
+ Tue, 29 Sep 2020 02:51:32 -0700 (PDT)
 Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id j14sm5345316wrr.66.2020.09.29.02.50.20
+ by smtp.gmail.com with ESMTPSA id z83sm5050385wmb.4.2020.09.29.02.51.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 02:50:21 -0700 (PDT)
-Subject: Re: [PATCH 16/16] tests/acceptance: Test the MIPSsim machine
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200928171539.788309-1-f4bug@amsat.org>
- <20200928171539.788309-17-f4bug@amsat.org>
- <CAKJDGDbowgUtu8Ap7K6vm_sksW3-maHU0bk3uib7BNY-5YxMdQ@mail.gmail.com>
- <105e7a4e-adee-284e-cf20-31b1a2781720@amsat.org> <87r1qkq5wp.fsf@linaro.org>
+ Tue, 29 Sep 2020 02:51:32 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/arm/sbsa-ref : allocate IRQs for SMMUv3
+To: Graeme Gregory <graeme@nuviainc.com>, qemu-arm@nongnu.org
+References: <20200929094251.151722-1-graeme@nuviainc.com>
+ <20200929094251.151722-3-graeme@nuviainc.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <49ee3fe3-b814-6b36-a857-b42788b44db5@amsat.org>
-Date: Tue, 29 Sep 2020 11:50:20 +0200
+Message-ID: <644e6a2a-c71e-365e-50dc-ad098e115713@amsat.org>
+Date: Tue, 29 Sep 2020 11:51:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87r1qkq5wp.fsf@linaro.org>
+In-Reply-To: <20200929094251.151722-3-graeme@nuviainc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -15
@@ -93,224 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
- Thomas Huth <huth@tuxfamily.org>, qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Huacai Chen <chenhc@lemote.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, jamie@nuviainc.com, rad@semihalf.com,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org, leif@nuviainc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/20 11:38 AM, Alex Bennée wrote:
+On 9/29/20 11:42 AM, Graeme Gregory wrote:
+> Original commit did not allocate IRQs for the SMMUv3 in the irqmap
+> effectively using irq 0->3 (shared with other devices). Assuming
+> original intent was to allocate unique IRQs then add an allocation
+> to the irqmap.
 > 
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
->> +Alex/Daniel
->>
->> On 9/28/20 10:33 PM, Willian Rampazzo wrote:
->>> On Mon, Sep 28, 2020 at 2:31 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>
->>>> Add a test for the mipssim machine, based on the recommended
->>>> test setup from Thomas Huth:
->>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg606846.html
->>>>
->>>> The test is quick and can be run as:
->>>>
->>>>   $ avocado --show=console run -t machine:mipssim tests/acceptance/
->>>>    (1/1) tests/acceptance/machine_mips_mipssim.py:MipsSimMachine.test_mipssim_linux_console:
->>>>   console: Linux version 3.6.11 (root@711bb8ba16a7) (gcc version 4.8.3 (Buildroot 2014.11) ) #2 Sun Sep 27 13:39:35 UTC 2020
->>>>   console: Setting default memory size 0x02000000
->>>>   console: bootconsole [early0] enabled
->>>>   console: CPU revision is: 00019300 (MIPS 24Kc)
->>>>   console: FPU revision is: 00739300
->>>>   ...
->>>>   console: CPU frequency 12.00 MHz
->>>>   console: Calibrating delay loop... 950.27 BogoMIPS (lpj=4751360)
->>>>   ...
->>>>   console: MIPSNet Ethernet driver. Version: 2007-11-17. (c)2005 MIPS Technologies, Inc.
->>>>   ...
->>>>   console: Welcome to Buildroot
->>>>   console: buildroot login: root
->>>>   console: # root
->>>>   console: -sh: root: not found
->>>>   console: # ping -c 3 10.0.2.2
->>>>   console: PING 10.0.2.2 (10.0.2.2): 56 data bytes
->>>>   console: 64 bytes from 10.0.2.2: seq=0 ttl=255 time=48.231 ms
->>>>   console: 64 bytes from 10.0.2.2: seq=1 ttl=255 time=9.407 ms
->>>>   console: 64 bytes from 10.0.2.2: seq=2 ttl=255 time=2.298 ms
->>>>   console: --- 10.0.2.2 ping statistics ---
->>>>   console: 3 packets transmitted, 3 packets received, 0% packet loss
->>>>   PASS (7.99 s)
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>> ---
->>>> Cc: Thomas Huth <huth@tuxfamily.org>
->>>> ---
->>>>  MAINTAINERS                              |  1 +
->>>>  tests/acceptance/machine_mips_mipssim.py | 56 ++++++++++++++++++++++++
->>>>  2 files changed, 57 insertions(+)
->>>>  create mode 100644 tests/acceptance/machine_mips_mipssim.py
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index 5eed1e692b4..17d8a012b0e 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -240,6 +240,7 @@ F: include/hw/misc/mips_*
->>>>  F: include/hw/timer/mips_gictimer.h
->>>>  F: tests/acceptance/linux_ssh_mips_malta.py
->>>>  F: tests/acceptance/machine_mips_malta.py
->>>> +F: tests/acceptance/machine_mips_mipssim.py
->>>>  F: tests/tcg/mips/
->>>>  K: ^Subject:.*(?i)mips
->>>>
->>>> diff --git a/tests/acceptance/machine_mips_mipssim.py b/tests/acceptance/machine_mips_mipssim.py
->>>> new file mode 100644
->>>> index 00000000000..b2749917b08
->>>> --- /dev/null
->>>> +++ b/tests/acceptance/machine_mips_mipssim.py
->>>> @@ -0,0 +1,56 @@
->>>> +# Functional tests for the MIPS simulator (MIPSsim machine)
->>>> +#
->>>> +# Copyright (c) 2020 Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>> +#
->>>> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
->>>> +# See the COPYING file in the top-level directory.
->>>> +#
->>>> +# SPDX-License-Identifier: GPL-2.0-or-later
->>>> +
->>>> +import os
->>>> +import logging
->>>> +import time
->>>> +
->>>> +from avocado import skipUnless
->>>> +from avocado_qemu import Test
->>>> +from avocado_qemu import exec_command_and_wait_for_pattern
->>>> +from avocado_qemu import interrupt_interactive_console_until_pattern
->>>> +from avocado_qemu import wait_for_console_pattern
->>>> +
->>>> +class MipsSimMachine(Test):
->>>> +
->>>> +    timeout = 30
->>>> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->>>> +
->>>> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
->>>> +    def test_mipssim_linux_console(self):
->>>> +        """
->>>> +        Boots the Linux kernel and checks that the console is operational
->>>> +        :avocado: tags=arch:mipsel
->>>> +        :avocado: tags=machine:mipssim
->>>> +        :avocado: tags=device:mipsnet
->>>> +        """
->>>> +        kernel_url = ('https://github.com/philmd/qemu-testing-blob/raw/'
->>>> +                      '32ea5764e1de8fffa0d59366c44822cd06d7c8e0/'
->>>> +                      'mips/mipssim/mipsel/vmlinux')
->>>
->>> So, are you willing to maintain some images on your GitHub to avoid
->>> the image changes when they are not found?
->>
->> No, I am not willing to do that.
->>
->> But I see it pointless to have everyone (including CI) to spend 1h
->> building this image, when the sources and build recipe is available,
->> making the built image reproducible.
-> 
-> I agree we don't want to build from scratch each time. However as we
-> move from relying on third parties (which outside of the major distros
-> has proved very flaky) we are getting to the point of managing our GPL
-> liabilities.
-> 
-> After a bit of digging in your branches I see this is a buildroot
-> recipe running in Docker. Are they fully reproducible?
+> Fixes: e9fdf453240 ("hw/arm: Add arm SBSA reference machine, devices part")
+> Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
 
-Yes, I wrote this Dockerfile to 1/ allow others to use/test but also
-2/ so I don't have to manually do this again.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-BTW Thomas suggested to add a 'make legal-info' final step, since
-buildroot provides it (I was not aware of that):
-https://buildroot.org/downloads/manual/manual.html#legal-info
-
-> Could we have a:
+> ---
+>  hw/arm/sbsa-ref.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->   make acceptance-image-mipsel
-> 
-> which built the same blob that gets inserted into the avocado cache
-> should your github url ever disappear?
-
-Yes but that would mean add this Dockerfile into the QEMU repository,
-right? Where to put the .config, QEMU repo too? Then keep the *built*
-image + sources + legal-info out of tree. Finally the Avocado test
-containing the image SHA1 in QEMU tree. Is that OK?
-
-> 
->> I'm not sure we need to run all the tests all the time, but I'd like
->> to have the tests:
->>
->> 1/ provided with a series, so reviewer are free to rebuild the image
->>    and test this series works as expected,
->> 2/ committed in the repository, so maintainers can verify future changes
->>    doesn't introduce regression.
-> 
-> Yes these are great goals - my only worry is the shifting sands some of
-> these images seem to exist on.
-> 
->>>
->>>> +        kernel_hash = '0f9aeca3a2e25b5b0cc4999571f39a7ad58cdc43'
->>>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->>>> +
->>>> +        initrd_url = ('https://github.com/philmd/qemu-testing-blob/raw/'
->>>> +                      '32ea5764e1de8fffa0d59366c44822cd06d7c8e0/'
->>>> +                      'mips/mipssim/mipsel/rootfs.cpio')
->>>> +        initrd_hash = 'b20359bdfae66387e5a17d6692686d59c189417b'
->>>> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
->>>> +
->>>> +        self.vm.set_console()
->>>> +        self.vm.add_args('-kernel', kernel_path,
->>>> +                         '-initrd', initrd_path,
->>>> +                         '-append', self.KERNEL_COMMON_COMMAND_LINE)
->>>> +        self.vm.launch()
->>>> +
->>>> +        wait_for_console_pattern(self, 'Welcome to Buildroot')
->>>> +        interrupt_interactive_console_until_pattern(self,
->>>> +                                                    interrupt_string='root\r',
->>>> +                                                    success_message='#')
->>>> +        pattern = '3 packets transmitted, 3 packets received, 0% packet loss'
->>>> +        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2', pattern)
->>>> --
->>>> 2.26.2
->>>>
->>>>
->>>
->>> IMHO, although the solution of spreading images over personal
->>> repositories is not the best, I don't have a strong opinion to block
->>> this, so
->>
->> If the URL is stable (stable commit or even better, tag) it should
->> be OK.
->>
->> tag is used in the quanta-gsj tests, see commit 4fe986dd448
->> ("tests/acceptance: console boot tests for quanta-gsj"):
->>
->>   image_url = (
->>           'https://github.com/hskinnemoen/openbmc/releases/download/'
->>           '20200711-gsj-qemu-0/obmc-phosphor-image-gsj.static.mtd.gz')
->>   image_hash = '14895e634923345cb5c8776037ff7876df96f6b1'
->>
->>>
->>> Reviewed-by: Willian Rampazzo (willianr@redhat.com)
->>>
->>
->> Thanks!
->>
->> Phil.
-> 
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index 47e83252c1..9109fb58be 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -138,6 +138,7 @@ static const int sbsa_ref_irqmap[] = {
+>      [SBSA_SECURE_UART_MM] = 9,
+>      [SBSA_AHCI] = 10,
+>      [SBSA_EHCI] = 11,
+> +    [SBSA_SMMU] = 12, /* ... to 15 */
+>  };
+>  
+>  static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
 > 
 
