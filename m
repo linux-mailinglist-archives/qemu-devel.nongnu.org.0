@@ -2,53 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E7427BB95
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 05:34:22 +0200 (CEST)
-Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7650827BBA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 05:51:05 +0200 (CEST)
+Received: from localhost ([::1]:44346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kN6PF-0006Ee-SA
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 23:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1kN6fP-0005TF-0x
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 23:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kN6N9-0004S9-ML
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:32:11 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5153 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kN6N7-0001gz-C9
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:32:11 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 0A41F46028A857E4E8CB;
- Tue, 29 Sep 2020 11:32:05 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Tue, 29 Sep 2020
- 11:31:57 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
- <berrange@redhat.com>
-Subject: [PATCH v2 2/2] migration/dirtyrate: present dirty rate only when
- querying the rate has completed
-Date: Tue, 29 Sep 2020 11:42:18 +0800
-Message-ID: <1601350938-128320-3-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1601350938-128320-1-git-send-email-zhengchuan@huawei.com>
-References: <1601350938-128320-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kN6eY-0004vX-9g
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:50:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kN6eV-0004Ls-W6
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:50:09 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601351406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iEmfgCSa2/cfGOnDBcc0Qq53X6A1RbXfAkDvON98i6o=;
+ b=DiadMN74IGVu+MPIyLsUlRb9PbUIZwDe844m2BEr2nUMVT5Qae4BMCiQY45tgo29zsYsjT
+ nTUyDhO+MDCU5Fr0xvGtn194CJLNzO8KxfNNcLMwa3y/dbs44jZCIjDnM+ilkflD7kzxU3
+ sS8yMOJUhimnP2kK+65HJX20zWMs/c0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-twANpK5ZPsySI8AXka-4Ew-1; Mon, 28 Sep 2020 23:45:00 -0400
+X-MC-Unique: twANpK5ZPsySI8AXka-4Ew-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF0D6801AE3;
+ Tue, 29 Sep 2020 03:44:58 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C3C8277DB;
+ Tue, 29 Sep 2020 03:44:58 +0000 (UTC)
+Date: Mon, 28 Sep 2020 23:44:56 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Kang, Luwei" <luwei.kang@intel.com>
+Subject: Re: [PATCH v1 1/3] i386: Remove the limitation of IP payloads for
+ Intel PT
+Message-ID: <20200929034456.GH3717385@habkost.net>
+References: <MW3PR11MB46655375CAECC74BA2D7CAECF2360@MW3PR11MB4665.namprd11.prod.outlook.com>
+ <20200925165415.GT3717385@habkost.net>
+ <036ba624-670c-d6b7-721c-ad5c9d648c1f@redhat.com>
+ <20200925202956.GV3717385@habkost.net>
+ <db31a0fa-c6cf-4730-6d64-f81228948d30@redhat.com>
+ <CY4PR11MB1447C4CA6B6D455EE33F724D80350@CY4PR11MB1447.namprd11.prod.outlook.com>
+ <d85a3245-c774-5098-5d14-2e3b3a2eda18@redhat.com>
+ <CY4PR11MB1447BB55E8AF4915CD56655980350@CY4PR11MB1447.namprd11.prod.outlook.com>
+ <20200928141228.GW3717385@habkost.net>
+ <CY4PR11MB1447410A5DFEDEEEC51A2A9780320@CY4PR11MB1447.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhengchuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 23:32:05
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CY4PR11MB1447410A5DFEDEEEC51A2A9780320@CY4PR11MB1447.namprd11.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,70 +89,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, david.edmondson@oracle.com, wanghao232@huawei.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Strong,
+ Beeman" <beeman.strong@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make dirty_rate field optional, present dirty rate only when querying
-the rate has completed.
-The qmp results is shown as follow:
-@unstarted:
-{"return":{"status":"unstarted","start-time":0,"calc-time":0},"id":"libvirt-12"}
-@measuring:
-{"return":{"status":"measuring","start-time":102931,"calc-time":1},"id":"libvirt-85"}
-@measured:
-{"return":{"status":"measured","dirty-rate":4,"start-time":150146,"calc-time":1},"id":"libvirt-15"}
+On Tue, Sep 29, 2020 at 02:28:48AM +0000, Kang, Luwei wrote:
+> > > > >>>> No, it's not possible.  KVM doesn't have a say on what the
+> > > > >>>> processor writes in the tracing packets.
+> > > > >>> Can KVM refuse to enable packet generation if CSbase is not zero
+> > > > >>> and CPUID.(EAX=14H,ECX=0)[bit 31] seen by guest is different from
+> > host?
+> > > > >>
+> > > > >> Yes, but the processor could change operating mode (and hence
+> > > > >> CSbase) while tracing is active.  This is very unlikely, since it
+> > > > >> would require nonzero CS-base and a 32-bit host, but in principle
+> > > > >> not impossible (could be a firmware call, for example).
+> > > > >>
+> > > > >> The only solution is for KVM to accept both, and for QEMU to
+> > > > >> refuse a setting that does not match the host.
+> > > > >>
+> > > > >
+> > > > > So I need to add a patch in KVM to disabled the Intel PT when the
+> > > > > CSbase is not zero and the guest LIP different from the host. And
+> > > > > this limitation in qemu (disabled the PT when LIP is enabled in
+> > > > > the host) can be remove. Is that right?
+> > > >
+> > > > No, if a feature cannot be emulated, that means it cannot be enabled
+> > > > unless it matches the host.  That's generally not a problem since
+> > > > Intel PT is usually used only with "-cpu host".
+> > > >
+> > >
+> > > The limitation of LIP in qemu will mask off the Intel PT in KVM guest
+> > > even with "-cpu host". e.g. This bit will be set in SnowRidge HW and
+> > > later.
+> > 
+> > This behavior can and should be changed.
+> > 
+> > >
+> > > How about "-cpu cpu_model, +intel-pt" use case? The current value of
+> > > Intel PT CPUID is a constant. Can we make the ICX CPUID as basic
+> > > inforation(LIP is 0) and using "+intel-pt-lip"
+> > > to make Intel PT work on the CPU which LIP is 1 on the host? As you
+> > > mentioned before, Intel PT cannot be enabled in guest unless it
+> > > matches the host.
+> > 
+> > This makes sense, but you can also make each CPU model set a default for the
+> > LIP bit.  "-cpu SnowRidge,+intel-pt" could set
+> > LIP=1 by default.
+> 
+> I have a question on how to set LIP=1 in SnowRidge by default. 
+> 1. Set LIP in "builtin_x86_defs[]" SnowRidge CPU model. The LIP included in CPUID.(eax=14x,ecx=0)ecx[bit31] and a new leaf needs to be added.
+> 2. Checking the CPU model in the later software flow and set the LIP bit if the CPU model is Snowridge. And we also need to add more CPU model's checking for new CPUs.
+> 
+> What is your opinion?
+> 
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
----
- migration/dirtyrate.c | 3 +--
- qapi/migration.json   | 8 +++-----
- 2 files changed, 4 insertions(+), 7 deletions(-)
+1 is preferred.  Any CPU-model-specific data should be
+represented as data inside builtin_x86_defs, not code.
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 40e41e7..ab9e130 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -69,9 +69,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
- 
-     if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-+        info->has_dirty_rate = true;
-         info->dirty_rate = dirty_rate;
--    } else {
--        info->dirty_rate = -1;
-     }
- 
-     info->status = CalculatingState;
-diff --git a/qapi/migration.json b/qapi/migration.json
-index ce2216c..715c210 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1743,10 +1743,8 @@
- #
- # Information about current dirty page rate of vm.
- #
--# @dirty-rate: @dirtyrate describing the dirty page rate of vm
--#          in units of MB/s.
--#          If this field returns '-1', it means querying has not
--#          yet started or completed.
-+# @dirty-rate: an estimate of the dirty page rate of the VM in units of
-+#              MB/s, present only when estimating the rate has completed.
- #
- # @status: status containing dirtyrate query status includes
- #          'unstarted' or 'measuring' or 'measured'
-@@ -1759,7 +1757,7 @@
- #
- ##
- { 'struct': 'DirtyRateInfo',
--  'data': {'dirty-rate': 'int64',
-+  'data': {'*dirty-rate': 'int64',
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
-            'calc-time': 'int64'} }
 -- 
-1.8.3.1
+Eduardo
 
 
