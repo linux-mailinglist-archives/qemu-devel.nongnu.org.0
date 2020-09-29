@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9C627CE97
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:09:34 +0200 (CEST)
-Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B50A27CEC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:14:39 +0200 (CEST)
+Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNFNt-0004mB-PK
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:09:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60792)
+	id 1kNFSo-00081o-9X
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNFMD-0003DK-LX
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:07:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNFMB-0004oR-09
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:07:49 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601384865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bh5+rFpDlwWIGJXDQ7F+rsB5fJEu4LPWKzjd45Zyx+M=;
- b=hXd323rWvhav9J5j/DehWs5BargS4ZNNzrh3+A15SK5jQ40x46jY6TB1y9WnY/8im/b2BS
- GPtOXPH5RIAAs76Yz/SEPsYgq4opsFOPD1dtILwLTpUOUB00jkT634Y+7diOzETN0WWWMv
- VWqR0Q3OauwePWHh6KOzJwcLZr80N9E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-l3mfjjPCNLC0e3lCXzOQyA-1; Tue, 29 Sep 2020 09:07:43 -0400
-X-MC-Unique: l3mfjjPCNLC0e3lCXzOQyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B31A710BBEC0;
- Tue, 29 Sep 2020 13:07:42 +0000 (UTC)
-Received: from [10.3.112.208] (ovpn-112-208.phx2.redhat.com [10.3.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FD2360DA0;
- Tue, 29 Sep 2020 13:07:39 +0000 (UTC)
-Subject: Re: [PATCH v2 4/4] block/export: add iothread and fixed-iothread
- options
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20200929125516.186715-1-stefanha@redhat.com>
- <20200929125516.186715-5-stefanha@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <7f99e542-c6a1-cec4-26f9-30ce4e271c65@redhat.com>
-Date: Tue, 29 Sep 2020 08:07:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNFPe-0005bh-PM
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:11:22 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNFPY-0005MI-1t
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:11:22 -0400
+Received: by mail-ej1-x641.google.com with SMTP id dd13so2190131ejb.5
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 06:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Dx1mpqyCOs9x0lMYsS2iP7NJwewXov4FO+WfX5qjdJg=;
+ b=tGE2JdV8y5Pue4Rvbv08AdCMzfdXC1947FiUwlpijZbp5MfzA+dZKYcChpbehxaU22
+ QqiLmOLpMRjft9sOCgZj5HsDjmi0fsoFPOfDnXQgl0v1Jzi9nNzYiRDoM0Ah4SNw8qLD
+ GRWXB7neGfXItHVrfe/R+/ZLF2Uc8QQUuSpkWASpIWuR8BVkUv8Po8gm9PL28iVFEdHM
+ O+Hjv/n4qU35ESgRTojkOGuPAibU+/jqa+TykTEik1fRYKo38vgx9sx5w4tUlP8Hmk6a
+ mMeB8oaYEITSBBWxjf/mZ873a+ou4zkJoLL7Er6Qg67gVxMR42OEiZtLRBRG6Dh3lLIt
+ 6TQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dx1mpqyCOs9x0lMYsS2iP7NJwewXov4FO+WfX5qjdJg=;
+ b=BZvbpuLee2JAjnCLe2B4DsnvrnnoGMhyyHq3XLCLQ5GsXdCjag5bKlLMQpJmC84Sc3
+ RcL1LCMlr7PpA8cdKgWEfOzCBxbyTIvU8nOA6KnYID+hFSJ3XPcDf+COrDMyIZyFNFQ2
+ smd716I1qtynBHIL2couzLAXYWtzsHs4h+nWm5ByYEAfdo9h2xDfsIQ3WCZzxOUiMGdU
+ GZSjMRgd4VcWykMVPnPEAYEUApIBP8jh7eRcm1NJYCB1zE8ZQigNuLXoVNjE9fFTdicy
+ LaINCGnhPykjU9xVBsm6tM0v6nusSPOTdkwa/gmdlGJS0rtLiLXcWu3E0I0ewPCyHh3l
+ UqtQ==
+X-Gm-Message-State: AOAM531LZcWO16CVPWnN/l0+iE2MC0zRws5MB2DL5q9zxWInzBoR6pvj
+ BZs56zf03sfwE6ZVRmS2IX9f25PNZF0YLnOZdSylkw==
+X-Google-Smtp-Source: ABdhPJxO4u6X82azA5BzOKBoqjgklWSwMXAKiqo++3Pdob9FHxWSt5L6zTqA56jZFnlIeijAdOljIw9zPDd/DGS/co0=
+X-Received: by 2002:a17:906:24d6:: with SMTP id
+ f22mr3665273ejb.85.1601385074356; 
+ Tue, 29 Sep 2020 06:11:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200929125516.186715-5-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20200706061303.246057-1-its@irrelevant.dk>
+ <20200706061303.246057-8-its@irrelevant.dk>
+In-Reply-To: <20200706061303.246057-8-its@irrelevant.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 29 Sep 2020 14:11:03 +0100
+Message-ID: <CAFEAcA8dqNBm1YqLPjoJ=79K=6z=SxYHvcvnZiY3MJMvv1n1BQ@mail.gmail.com>
+Subject: Re: [PATCH v3 07/18] hw/block/nvme: add support for the get log page
+ command
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,78 +81,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/20 7:55 AM, Stefan Hajnoczi wrote:
-> Make it possible to specify the iothread where the export will run. By
-> default the block node can be moved to other AioContexts later and the
-> export will follow. The fixed-iothread option forces strict behavior
-> that prevents changing AioContext while the export is active. See the
-> QAPI docs for details.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> Note the x-blockdev-set-iothread QMP command can be used to do the same,
-> but not from the command-line. And it requires sending an additional
-> command.
-> 
-> In the long run vhost-user-blk will support per-virtqueue iothread
-> mappings. But for now a single iothread makes sense and most other
-> transports will just use one iothread anyway.
-> ---
->   qapi/block-export.json               | 11 ++++++++++
->   block/export/export.c                | 31 +++++++++++++++++++++++++++-
->   block/export/vhost-user-blk-server.c |  5 ++++-
->   nbd/server.c                         |  2 --
->   4 files changed, 45 insertions(+), 4 deletions(-)
-> 
-> diff --git a/qapi/block-export.json b/qapi/block-export.json
-> index 87ac5117cd..e2cb21f5f1 100644
-> --- a/qapi/block-export.json
-> +++ b/qapi/block-export.json
-> @@ -219,11 +219,22 @@
->   #                export before completion is signalled. (since: 5.2;
->   #                default: false)
->   #
-> +# @iothread: The name of the iothread object where the export will run. The
-> +#            default is to use the thread currently associated with the #
+On Mon, 6 Jul 2020 at 07:15, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Add support for the Get Log Page command and basic implementations of
+> the mandatory Error Information, SMART / Health Information and Firmware
+> Slot Information log pages.
+>
+> In violation of the specification, the SMART / Health Information log
+> page does not persist information over the lifetime of the controller
+> because the device has no place to store such persistent state.
+>
+> Note that the LPA field in the Identify Controller data structure
+> intentionally has bit 0 cleared because there is no namespace specific
+> information in the SMART / Health information log page.
+>
+> Required for compliance with NVMe revision 1.3d. See NVM Express 1.3d,
+> Section 5.14 ("Get Log Page command").
 
-Stray #
+Hi; Coverity reports a potential issue in this code
+(CID 1432413):
 
-> +#            block node. (since: 5.2)
-> +#
-> +# @fixed-iothread: True prevents the block node from being moved to another
-> +#                  thread while the export is active. If true and @iothread is
-> +#                  given, export creation fails if the block node cannot be
-> +#                  moved to the iothread. The default is false.
-> +#
+> +static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> +                                uint64_t off, NvmeRequest *req)
+> +{
+> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> +    uint32_t nsid = le32_to_cpu(cmd->nsid);
+> +
+> +    uint32_t trans_len;
+> +    time_t current_ms;
+> +    uint64_t units_read = 0, units_written = 0;
+> +    uint64_t read_commands = 0, write_commands = 0;
+> +    NvmeSmartLog smart;
+> +    BlockAcctStats *s;
+> +
+> +    if (nsid && nsid != 0xffffffff) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    s = blk_get_stats(n->conf.blk);
+> +
+> +    units_read = s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
+> +    units_written = s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
+> +    read_commands = s->nr_ops[BLOCK_ACCT_READ];
+> +    write_commands = s->nr_ops[BLOCK_ACCT_WRITE];
+> +
+> +    if (off > sizeof(smart)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
 
-Missing a '(since 5.2)' tag.  (Hmm, we're inconsistent on whether it is 
-'since 5.2' or 'since: 5.2' inside () parentheticals; Markus, is that 
-something we should be cleaning up as part of the conversion to rST?)
+Here we check for off > sizeof(smart), which means that we allow
+off == sizeof(smart)...
 
-> @@ -63,10 +64,11 @@ static const BlockExportDriver *blk_exp_find_driver(BlockExportType type)
->   
->   BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
->   {
-> +    bool fixed_iothread = export->has_fixed_iothread && export->fixed_iothread;
+> +
+> +    trans_len = MIN(sizeof(smart) - off, buf_len);
 
-Technically, our QAPI code guarantees that export->fixed_iothread is 
-false if export->has_fixed_iothread is false.  And someday I'd love to 
-let QAPI express default values for bools so that we don't need a 
-has_FOO field when a default has been expressed.  But neither of those 
-points affect this patch; what you have is correct even if it is verbose.
+> +    return nvme_dma_read_prp(n, (uint8_t *) &smart + off, trans_len, prp1,
+> +                             prp2);
 
-Otherwise looks reasonable.
+...in which case the pointer we pass to nvme_dma_read_prp() will
+be off the end of the 'smart' object.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Now we are passing 0 as the trans_len, so I *think* this function
+will not actually read the buffer (Coverity is not smart
+enough to see this); so I could just close the Coverity issue as
+a false-positive. But maybe there is a clearer-to-humans as well
+as clearer-to-Coverity way to write this. What do you think ?
 
+> +static uint16_t nvme_fw_log_info(NvmeCtrl *n, NvmeCmd *cmd, uint32_t buf_len,
+> +                                 uint64_t off, NvmeRequest *req)
+> +{
+> +    uint32_t trans_len;
+> +    uint64_t prp1 = le64_to_cpu(cmd->dptr.prp1);
+> +    uint64_t prp2 = le64_to_cpu(cmd->dptr.prp2);
+> +    NvmeFwSlotInfoLog fw_log = {
+> +        .afi = 0x1,
+> +    };
+> +
+> +    strpadcpy((char *)&fw_log.frs1, sizeof(fw_log.frs1), "1.0", ' ');
+> +
+> +    if (off > sizeof(fw_log)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    trans_len = MIN(sizeof(fw_log) - off, buf_len);
+> +
+> +    return nvme_dma_read_prp(n, (uint8_t *) &fw_log + off, trans_len, prp1,
+> +                             prp2);
+
+Coverity warns about the same structure here (CID 1432411).
+
+thanks
+-- PMM
 
