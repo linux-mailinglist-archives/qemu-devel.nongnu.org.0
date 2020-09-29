@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFC727C188
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:45:04 +0200 (CEST)
-Received: from localhost ([::1]:56156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DEEA27C19F
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:48:42 +0200 (CEST)
+Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNCBz-0000TV-1Q
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
+	id 1kNCFV-0003PA-Ef
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
- id 1kNCAC-0006lu-Jp
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:43:12 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46514)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNCDj-0002so-51
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:46:51 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
- id 1kNCA9-0006pn-Tw
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:43:12 -0400
-Received: by mail-wr1-x443.google.com with SMTP id o5so4556334wrn.13
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 02:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QDUv3dcjFWN3ygber7QxqtPNAs8gzuomgpWrmGLr5Rs=;
- b=GqWPJvrLgfArS+dwd2kylKzls0AMYrGW519QAwUsZ/SLN1hIUV01Z6sZwcdw+Yh3wP
- Tp0yPH6p3Q9+y89r4kF7O7XVeeZ0GBjo8id25sqx947B90bhM0SgOOd2z2e4pxBZMO08
- bR9TCnb45hGg5c3OyOEqUtL03AA1zNMvym/0ey1qEQ8GTHh4y+xKvZcNSJ9m2MoKnz9S
- 7bqHLEFAXsGEROILAW2nGlf2iEzEPq7fre0kW1/EnfQVXZCJYkexXiMv00IHdgtvS0n8
- HLI3iVbxeq79xVEIeC3siyudzA/zVAvPgObCabxyPTmxLVbyxXs6Zwuibt8tSyIRrrVq
- soxg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNCDh-0007QA-Jg
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:46:50 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id t16so5639049edw.7
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 02:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=U76VoLZf10TV3eHcBj7AQrGneonbap0nwOf6yviLb/o=;
+ b=u4UWpxwbcQg0aWF5ut0uKiDJhw5+8q+COQFX5dDTen2p+T2dqXveiR+rfw32bwgFos
+ 2L2GWGGOPz3f3eKoJEOOuKQ+a2PYrLzq1C6oiTmaoT0MHjTHSE+q3xPJCHhZEKFf48F8
+ 7PC2NY0gWjDLIb5SIgM3L6HEUXFKV0jTM3zviRS3UDfsrblizUVnl1E+i1qZnNQIzVr6
+ ZJHw3168aO77zp16kYuJujcssP6JS18jEO22bWP5gLuJBGCyPTS9FlqYtVyjdijK6RsT
+ fonYh0rlBAoZdidVOGZ5tSd2+TYyH6OLHZj6lRO2v1qig0ptjUoyjx9scqLlj2Sjbbs4
+ bxCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QDUv3dcjFWN3ygber7QxqtPNAs8gzuomgpWrmGLr5Rs=;
- b=sklrIYiNp6OJsmq1oQi94/oAmpL8tGWS6k3Lq0hTriWMGOXweano8FFBXP8OUZo/7x
- aw92tU/qZDDdeC8lLGFFkfGdeYU8/xy6JaqT8CQ5352vtLk37QczKrz+JfhxbxfmB+OF
- G4ki8sui2VqKn7zX6N0ecl2kPERqrVluMY6b5oZkZmZ5OXclEWG1BEp0xDnZhWfUEXEP
- KVZs37NsVyFNAXWHk+BLYsu8zdGx8mn8Vkj4IwvvmdGjxzJM96fcHQ8dPsWp1+i6inrY
- ykMv6m6NHYoBt0w5vy44lDfuL6poGBpc9MoH2eYnihHErZhlekLSWXP7ZBVRaGSViHwd
- pWaw==
-X-Gm-Message-State: AOAM531A7hjk8COZBmtQVDFLFzX5H8h2fbmIRYZsYSVdHqrzYCeNKLjC
- yYgMEot/+bqMcWM8Up8s0H08gg==
-X-Google-Smtp-Source: ABdhPJykEz8acd39FrdYVsWfN8tSqnI53ZpQARo435SCZHKpc2gZzJ6OWovEWdCwUZdjJxaZytahAg==
-X-Received: by 2002:adf:9124:: with SMTP id j33mr3255862wrj.272.1601372588589; 
- Tue, 29 Sep 2020 02:43:08 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8010:64d6::1d89])
- by smtp.gmail.com with ESMTPSA id t6sm5887797wre.30.2020.09.29.02.43.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 02:43:07 -0700 (PDT)
-From: Graeme Gregory <graeme@nuviainc.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH 2/2] hw/arm/sbsa-ref : allocate IRQs for SMMUv3
-Date: Tue, 29 Sep 2020 10:42:51 +0100
-Message-Id: <20200929094251.151722-3-graeme@nuviainc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200929094251.151722-1-graeme@nuviainc.com>
-References: <20200929094251.151722-1-graeme@nuviainc.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U76VoLZf10TV3eHcBj7AQrGneonbap0nwOf6yviLb/o=;
+ b=oya7yxBNUpgoBqXu7kvw0X9W/xVv0TltcfNvK3orlOkZLdwLIu/leJ5VA6ODWCov9A
+ T2KOfVHzfKWvnbFhzBc2QR2uA5ASmefGibor/OG9K889m9M8JtfQV25IthKu5VZvGX3H
+ 24cE6z1x2VLF9mqBA6iH8/ueaNOwWGdO8wWP4ByhpvV+WjwHaJpvEGGYuY3+qRNvNyxN
+ ZboMo0jX5FmIW1S4y7ebJ2qVmrYAEeA9Bu8m9pBd5/l+spGu0SSRT1tLEobWLShEhJsz
+ EzAXbgoKj7T/0EnAgttj7AqmYQHdhoyG7FWix813oz10f4+vDMtMvwiUYWuJW2CnB7V0
+ R5Aw==
+X-Gm-Message-State: AOAM532XtR8a0lMaVeWWf0qqlz0CduRRJW2Yt8z7HdU6zEAZl6yTOVFr
+ KXP6yYjB80xqj060w5+a/r4xZRp13lazx41c0HnrJQ==
+X-Google-Smtp-Source: ABdhPJyueXjCFsz0HqnCf/zzO+JStM49Twk4HZkESaDbOzJbQSDZyf9MObvDvlHyH+wClTe3klWVXB1NVkg7qJ/uqdg=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr2383844edm.100.1601372807837; 
+ Tue, 29 Sep 2020 02:46:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=graeme@nuviainc.com; helo=mail-wr1-x443.google.com
+References: <20200925162316.21205-1-peter.maydell@linaro.org>
+ <20200925162316.21205-10-peter.maydell@linaro.org>
+ <87ft71ynw9.fsf@dusky.pond.sub.org>
+In-Reply-To: <87ft71ynw9.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 29 Sep 2020 10:46:37 +0100
+Message-ID: <CAFEAcA-b_-wG2ip7-+aS8PKcjofBrLXfwX68Xxt0pMF0HGC3Nw@mail.gmail.com>
+Subject: Re: [PATCH v6 09/21] docs/interop: Convert qemu-qmp-ref to rST
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,36 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Graeme Gregory <graeme@nuviainc.com>, peter.maydell@linaro.org,
- jamie@nuviainc.com, rad@semihalf.com, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, leif@nuviainc.com, f4bug@amsat.org
+Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Original commit did not allocate IRQs for the SMMUv3 in the irqmap
-effectively using irq 0->3 (shared with other devices). Assuming
-original intent was to allocate unique IRQs then add an allocation
-to the irqmap.
+On Tue, 29 Sep 2020 at 09:42, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Appears to break documented make target html:
+>
+> $ make -C bld-x86 html
+> make: Entering directory '/work/armbru/qemu/bld-x86'
+> make: *** No rule to make target 'html'.  Stop.
+> make: Leaving directory '/work/armbru/qemu/bld-x86'
 
-Fixes: e9fdf453240 ("hw/arm: Add arm SBSA reference machine, devices part")
-Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
----
- hw/arm/sbsa-ref.c | 1 +
- 1 file changed, 1 insertion(+)
+Whoops. Should be fixable by adding
+  alias_target('html', sphinxdocs)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 47e83252c1..9109fb58be 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -138,6 +138,7 @@ static const int sbsa_ref_irqmap[] = {
-     [SBSA_SECURE_UART_MM] = 9,
-     [SBSA_AHCI] = 10,
-     [SBSA_EHCI] = 11,
-+    [SBSA_SMMU] = 12, /* ... to 15 */
- };
- 
- static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
--- 
-2.25.1
+under the other two alias_target() calls at the bottom of
+docs/meson.build, I think.
 
+Looking at the code I think it also breaks the 'info',
+'pdf' and 'txt' targets, which I propose that we fix
+by removing them from the documentation, since not providing
+info, pdf or txt output is an intentional change. I believe that
+the only documentation we would need to update is the
+        $(call print-help,html info pdf txt man,Build documentation in
+specified format)
+line in Makefile.
+
+thanks
+-- PMM
 
