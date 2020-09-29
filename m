@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22ED627C4E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:18:43 +0200 (CEST)
-Received: from localhost ([::1]:52156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D69727C3D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:09:18 +0200 (CEST)
+Received: from localhost ([::1]:56602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNDec-0004xD-4Y
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:18:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56958)
+	id 1kNDVV-00038j-Do
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:09:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kNDOp-0003bP-OL
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:02:23 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:35280)
+ id 1kNDOr-0003fJ-DE
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:02:25 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:35304)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kNDOi-0002gu-HN
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:02:23 -0400
+ id 1kNDOp-0002i1-Dm
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:02:24 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 802E540F9AAE;
- Tue, 29 Sep 2020 11:02:14 +0000 (UTC)
-Subject: [PATCH v6 12/14] replay: describe reverse debugging in docs/replay.txt
+ by mail.ispras.ru (Postfix) with ESMTPSA id 4ED2E413C33E;
+ Tue, 29 Sep 2020 11:02:20 +0000 (UTC)
+Subject: [PATCH v6 13/14] replay: create temporary snapshot at debugger
+ connection
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Tue, 29 Sep 2020 14:02:14 +0300
-Message-ID: <160137733419.31007.3169574970691780173.stgit@pasha-ThinkPad-X280>
+Date: Tue, 29 Sep 2020 14:02:20 +0300
+Message-ID: <160137734000.31007.4668841178583344264.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <160137726426.31007.12061315974029139983.stgit@pasha-ThinkPad-X280>
 References: <160137726426.31007.12061315974029139983.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -61,86 +62,71 @@ Cc: kwolf@redhat.com, wrampazz@redhat.com, pavel.dovgalyuk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-
-This patch updates the documentation and describes usage of the reverse
-debugging in QEMU+GDB.
+When record/replay does not uses overlays for storing the snapshots,
+user is not capable of issuing reverse debugging commands.
+This patch adds creation of the VM snapshot on the temporary
+overlay image, when the debugger connects to QEMU.
+Therefore the execution can be rewind to the moment
+of the debugger connection while debugging the virtual machine.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 
 --
 
-v4 changes:
- - added an example of the command line for reverse debugging of
-   the diskless machine
+v6:
+ - dropped unused error processing (suggested by Philippe Mathieu-Daudé)
 ---
- docs/replay.txt |   46 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ gdbstub.c                 |    1 +
+ include/sysemu/replay.h   |    2 ++
+ replay/replay-debugging.c |   14 ++++++++++++++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/docs/replay.txt b/docs/replay.txt
-index 70c27edb36..39fe5e9740 100644
---- a/docs/replay.txt
-+++ b/docs/replay.txt
-@@ -265,6 +265,16 @@ of the original disk image, use overlay files linked to the original images.
- Therefore all new snapshots (including the starting one) will be saved in
- overlays and the original image remains unchanged.
+diff --git a/gdbstub.c b/gdbstub.c
+index ac92273018..f19f98ab1a 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3321,6 +3321,7 @@ static void gdb_chr_event(void *opaque, QEMUChrEvent event)
+         s->g_cpu = s->c_cpu;
  
-+When you need to use snapshots with diskless virtual machine,
-+it must be started with 'orphan' qcow2 image. This image will be used
-+for storing VM snapshots. Here is the example of the command line for this:
-+
-+  qemu-system-i386 -icount shift=3,rr=replay,rrfile=record.bin,rrsnapshot=init \
-+    -net none -drive file=empty.qcow2,if=none,id=rr
-+
-+empty.qcow2 drive does not connected to any virtual block device and used
-+for VM snapshots only.
-+
- Network devices
- ---------------
+         vm_stop(RUN_STATE_PAUSED);
++        replay_gdb_attached();
+         gdb_has_xml = false;
+         break;
+     default:
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index b6cac175c4..2aa34b8919 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -94,6 +94,8 @@ bool replay_reverse_continue(void);
+ bool replay_running_debug(void);
+ /* Called in reverse debugging mode to collect breakpoint information */
+ void replay_breakpoint(void);
++/* Called when gdb is attached to gdbstub */
++void replay_gdb_attached(void);
  
-@@ -294,6 +304,42 @@ for recording and replaying must contain identical number of ports in record
- and replay modes, but their backends may differ.
- E.g., '-serial stdio' in record mode, and '-serial null' in replay mode.
+ /* Processing the instructions */
  
-+Reverse debugging
-+-----------------
+diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
+index d02d4e0766..a55715ba0a 100644
+--- a/replay/replay-debugging.c
++++ b/replay/replay-debugging.c
+@@ -316,3 +316,17 @@ void replay_breakpoint(void)
+     assert(replay_mode == REPLAY_MODE_PLAY);
+     replay_last_breakpoint = replay_get_current_icount();
+ }
 +
-+Reverse debugging allows "executing" the program in reverse direction.
-+GDB remote protocol supports "reverse step" and "reverse continue"
-+commands. The first one steps single instruction backwards in time,
-+and the second one finds the last breakpoint in the past.
-+
-+Recorded executions may be used to enable reverse debugging. QEMU can't
-+execute the code in backwards direction, but can load a snapshot and
-+replay forward to find the desired position or breakpoint.
-+
-+The following GDB commands are supported:
-+ - reverse-stepi (or rsi) - step one instruction backwards
-+ - reverse-continue (or rc) - find last breakpoint in the past
-+
-+Reverse step loads the nearest snapshot and replays the execution until
-+the required instruction is met.
-+
-+Reverse continue may include several passes of examining the execution
-+between the snapshots. Each of the passes include the following steps:
-+ 1. loading the snapshot
-+ 2. replaying to examine the breakpoints
-+ 3. if breakpoint or watchpoint was met
-+    - loading the snaphot again
-+    - replaying to the required breakpoint
-+ 4. else
-+    - proceeding to the p.1 with the earlier snapshot
-+
-+Therefore usage of the reverse debugging requires at least one snapshot
-+created in advance. This can be done by omitting 'snapshot' option
-+for the block drives and adding 'rrsnapshot' for both record and replay
-+command lines.
-+See the "Snapshotting" section to learn more about running record/replay
-+and creating the snapshot in these modes.
-+
- Replay log format
- -----------------
- 
++void replay_gdb_attached(void)
++{
++    /*
++     * Create VM snapshot on temporary overlay to allow reverse
++     * debugging even if snapshots were not enabled.
++     */
++    if (replay_mode == REPLAY_MODE_PLAY
++        && !replay_snapshot) {
++        if (save_snapshot("start_debugging", NULL) != 0) {
++            /* Can't create the snapshot. Continue conventional debugging. */
++        }
++    }
++}
 
 
