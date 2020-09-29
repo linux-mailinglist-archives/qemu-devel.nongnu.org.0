@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096F927D81A
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:29:48 +0200 (CEST)
-Received: from localhost ([::1]:57054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977F727D7F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:21:58 +0200 (CEST)
+Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNMFv-0005j4-0H
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59736)
+	id 1kNM8L-0003Xw-JM
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6D-0001rZ-71
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25976)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM63-0001kV-1i
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM62-0003UN-Ns
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:44 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM60-0003Sj-Pg
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:34 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601410774;
+ s=mimecast20190719; t=1601410771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RAh/+Z79QZE+7tQXu1BHzxDmVPA050uB6hwncY90Umk=;
- b=S1ztcqGOpm2DR+8v6RgK/snCLLGeBEG7wurD9C+1aqjW3igTh2uDcxyGw39R57hz+tQNq5
- 7hF2dq0nqoSRYniodFw0I5KuCcKhLYlGoanxUiVgRKloygImz8oxlyTzX87+O+KTsmRlnp
- WxDTlJya6vmbZOK1z8qEnbQgGJVUM10=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=by3mjscHzH8BrvrziJQjGxD6sRKUaSNInuuU6bh+wgE=;
+ b=TbhFWeImOdJgysY3DdWhHrS/CopOrdIpCsLf+lj20NlPrksi5Ngk/mpeFsO6yhXQ5avFt2
+ Mdfojyyzk+bJVXI6GRsS5+t7JNxqFc23dTWzkqpXHRUXxQjZzDBkfTOf+E8+plZyvqeq8C
+ kHoYAD/6Q2NQcpedkpYfbPHZDR1NIVE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-ao7UIYEcMEeUh0c1nC9znw-1; Tue, 29 Sep 2020 16:19:29 -0400
-X-MC-Unique: ao7UIYEcMEeUh0c1nC9znw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-168-I6Tb2dknOKuk81D5jRqiuw-1; Tue, 29 Sep 2020 16:19:29 -0400
+X-MC-Unique: I6Tb2dknOKuk81D5jRqiuw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5713910BBECD;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DC9118BE160;
  Tue, 29 Sep 2020 20:19:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02D6D7366D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0783D19C4F;
  Tue, 29 Sep 2020 20:19:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8CBDC113864A; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
+ id 8F11B11386A0; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/29] QAPI patches patches for 2020-09-29
-Date: Tue, 29 Sep 2020 22:18:57 +0200
-Message-Id: <20200929201926.2155622-1-armbru@redhat.com>
+Subject: [PULL 01/29] qapi: Restrict LostTickPolicy enum to machine code
+Date: Tue, 29 Sep 2020 22:18:58 +0200
+Message-Id: <20200929201926.2155622-2-armbru@redhat.com>
+In-Reply-To: <20200929201926.2155622-1-armbru@redhat.com>
+References: <20200929201926.2155622-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,147 +81,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b150cb8f67bf491a49a1cb1c7da151eeacbdbcc9:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-09-29 13:18:54 +0100)
+Restricting LostTickPolicy to machine.json pulls slightly less
+QAPI-generated code into user-mode.
 
-are available in the Git repository at:
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200913195348.1064154-2-philmd@redhat.com>
+[Add rationale to commit message]
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/machine.json            | 32 ++++++++++++++++++++++++++++++++
+ qapi/misc.json               | 32 --------------------------------
+ include/hw/rtc/mc146818rtc.h |  2 +-
+ hw/core/qdev-properties.c    |  1 +
+ hw/i386/kvm/i8254.c          |  2 +-
+ 5 files changed, 35 insertions(+), 34 deletions(-)
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-09-29
-
-for you to fetch changes up to 7cd77fb02b9a2117a56fed172f09a1820fcd6b0b:
-
-  Remove texinfo dependency from docker and CI configs (2020-09-29 17:55:39 +0200)
-
-----------------------------------------------------------------
-QAPI patches patches for 2020-09-29
-
-----------------------------------------------------------------
-Peter Maydell (21):
-      qapi: Fix doc comment indentation again
-      qapi/block.json: Add newline after "Example:" for block-latency-histogram-set
-      tests/qapi/doc-good.json: Prepare for qapi-doc Sphinx extension
-      scripts/qapi: Move doc-comment whitespace stripping to doc.py
-      scripts/qapi/parser.py: improve doc comment indent handling
-      qapi/machine.json: Escape a literal '*' in doc comment
-      docs/sphinx: Add new qapi-doc Sphinx extension
-      docs/interop: Convert qemu-ga-ref to rST
-      docs/interop: Convert qemu-qmp-ref to rST
-      qapi: Use rST markup for literal blocks
-      qga/qapi-schema.json: Add some headings
-      tests/qapi-schema: Convert doc-good.json to rST-style strong/emphasis
-      meson.build: Move SPHINX_ARGS to top level meson.build file
-      meson.build: Make manuals depend on source to Sphinx extensions
-      tests/qapi-schema: Add test of the rST QAPI doc-comment output
-      scripts/qapi: Remove texinfo generation support
-      docs/devel/qapi-code-gen.txt: Update to new rST backend conventions
-      scripts/texi2pod: Delete unused script
-      Remove Texinfo related line from git.orderfile
-      configure: Drop texinfo requirement
-      Remove texinfo dependency from docker and CI configs
-
-Philippe Mathieu-Daudé (8):
-      qapi: Restrict LostTickPolicy enum to machine code
-      qapi: Correct balloon documentation
-      qapi: Restrict balloon-related commands to machine code
-      qapi: Restrict query-vm-generation-id command to machine code
-      qapi: Restrict query-uuid command to machine code
-      qapi: Restrict device memory commands to machine code
-      qapi: Extract ACPI commands to 'acpi.json'
-      qapi: Extract PCI commands to 'pci.json'
-
- docs/conf.py                               |   6 +-
- docs/devel/qapi-code-gen.txt               | 106 ++--
- docs/index.html.in                         |   2 -
- docs/interop/conf.py                       |   4 +
- docs/interop/index.rst                     |   2 +
- docs/interop/qemu-ga-ref.rst               |  13 +
- docs/interop/qemu-ga-ref.texi              |  80 ---
- docs/interop/qemu-qmp-ref.rst              |  13 +
- docs/interop/qemu-qmp-ref.texi             |  80 ---
- docs/meson.build                           |  12 +-
- docs/sphinx/qapidoc.py                     | 549 +++++++++++++++++++
- tests/qapi-schema/doc-good.rst             |   5 +
- configure                                  |  12 +-
- Makefile                                   |   2 +-
- meson.build                                | 103 +---
- qapi/acpi.json                             | 141 +++++
- qapi/block-core.json                       |  20 +-
- qapi/block.json                            |  12 +-
- qapi/machine.json                          | 392 +++++++++++++-
- qapi/migration.json                        | 108 ++--
- qapi/misc.json                             | 820 -----------------------------
- qapi/pci.json                              | 316 +++++++++++
- qapi/qapi-schema.json                      |   8 +-
- qga/qapi-schema.json                       |   8 +-
- include/hw/acpi/acpi_dev_interface.h       |   2 +-
- include/hw/mem/memory-device.h             |   2 +-
- include/hw/rtc/mc146818rtc.h               |   2 +-
- include/hw/virtio/virtio-pmem.h            |   2 +-
- include/sysemu/balloon.h                   |   2 +-
- block/iscsi.c                              |   2 +-
- hw/acpi/core.c                             |   2 +-
- hw/acpi/cpu.c                              |   2 +-
- hw/acpi/memory_hotplug.c                   |   3 +-
- hw/acpi/vmgenid.c                          |   2 +-
- hw/core/qdev-properties.c                  |   1 +
- hw/i386/kvm/i8254.c                        |   2 +-
- hw/pci/pci-stub.c                          |   2 +-
- hw/pci/pci.c                               |   2 +-
- hw/virtio/virtio-balloon.c                 |   2 +-
- hw/virtio/virtio-mem-pci.c                 |   1 +
- monitor/hmp-cmds.c                         |   2 +
- monitor/qmp-cmds.c                         |   1 +
- softmmu/balloon.c                          |   2 +-
- stubs/uuid.c                               |   2 +-
- stubs/vmgenid.c                            |   2 +-
- .travis.yml                                |   1 -
- MAINTAINERS                                |   6 +-
- qapi/meson.build                           |   6 +-
- qga/meson.build                            |   3 +-
- scripts/checkpatch.pl                      |   2 +-
- scripts/coverity-scan/coverity-scan.docker |   1 -
- scripts/git.orderfile                      |   1 -
- scripts/qapi-gen.py                        |   2 -
- scripts/qapi/doc.py                        | 301 -----------
- scripts/qapi/gen.py                        |   7 -
- scripts/qapi/parser.py                     | 105 +++-
- scripts/texi2pod.pl                        | 536 -------------------
- storage-daemon/qapi/meson.build            |   2 +-
- tests/docker/dockerfiles/debian10.docker   |   1 -
- tests/docker/dockerfiles/fedora.docker     |   1 -
- tests/docker/dockerfiles/ubuntu.docker     |   1 -
- tests/docker/dockerfiles/ubuntu1804.docker |   1 -
- tests/docker/dockerfiles/ubuntu2004.docker |   1 -
- tests/qapi-schema/doc-bad-indent.err       |   1 +
- tests/qapi-schema/doc-bad-indent.json      |   8 +
- tests/qapi-schema/doc-bad-indent.out       |   0
- tests/qapi-schema/doc-good.json            |  27 +-
- tests/qapi-schema/doc-good.out             |  24 +-
- tests/qapi-schema/doc-good.texi            | 319 -----------
- tests/qapi-schema/doc-good.txt             | 288 ++++++++++
- tests/qapi-schema/meson.build              |  63 ++-
- 71 files changed, 2113 insertions(+), 2449 deletions(-)
- create mode 100644 docs/interop/qemu-ga-ref.rst
- delete mode 100644 docs/interop/qemu-ga-ref.texi
- create mode 100644 docs/interop/qemu-qmp-ref.rst
- delete mode 100644 docs/interop/qemu-qmp-ref.texi
- create mode 100644 docs/sphinx/qapidoc.py
- create mode 100644 tests/qapi-schema/doc-good.rst
- create mode 100644 qapi/acpi.json
- create mode 100644 qapi/pci.json
- delete mode 100644 scripts/qapi/doc.py
- delete mode 100755 scripts/texi2pod.pl
- create mode 100644 tests/qapi-schema/doc-bad-indent.err
- create mode 100644 tests/qapi-schema/doc-bad-indent.json
- create mode 100644 tests/qapi-schema/doc-bad-indent.out
- delete mode 100644 tests/qapi-schema/doc-good.texi
- create mode 100644 tests/qapi-schema/doc-good.txt
-
+diff --git a/qapi/machine.json b/qapi/machine.json
+index d8ed096e9a..8e2164a0b6 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -402,6 +402,38 @@
+ ##
+ { 'command': 'query-target', 'returns': 'TargetInfo' }
+ 
++##
++# @LostTickPolicy:
++#
++# Policy for handling lost ticks in timer devices.  Ticks end up getting
++# lost when, for example, the guest is paused.
++#
++# @discard: throw away the missed ticks and continue with future injection
++#           normally.  The guest OS will see the timer jump ahead by a
++#           potentially quite significant amount all at once, as if the
++#           intervening chunk of time had simply not existed; needless to
++#           say, such a sudden jump can easily confuse a guest OS which is
++#           not specifically prepared to deal with it.  Assuming the guest
++#           OS can deal correctly with the time jump, the time in the guest
++#           and in the host should now match.
++#
++# @delay: continue to deliver ticks at the normal rate.  The guest OS will
++#         not notice anything is amiss, as from its point of view time will
++#         have continued to flow normally.  The time in the guest should now
++#         be behind the time in the host by exactly the amount of time during
++#         which ticks have been missed.
++#
++# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
++#        The guest OS will not notice anything is amiss, as from its point
++#        of view time will have continued to flow normally.  Once the timer
++#        has managed to catch up with all the missing ticks, the time in
++#        the guest and in the host should match.
++#
++# Since: 2.0
++##
++{ 'enum': 'LostTickPolicy',
++  'data': ['discard', 'delay', 'slew' ] }
++
+ ##
+ # @NumaOptionsType:
+ #
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 8cf6ebe67c..b21963a176 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -8,38 +8,6 @@
+ 
+ { 'include': 'common.json' }
+ 
+-##
+-# @LostTickPolicy:
+-#
+-# Policy for handling lost ticks in timer devices.  Ticks end up getting
+-# lost when, for example, the guest is paused.
+-#
+-# @discard: throw away the missed ticks and continue with future injection
+-#           normally.  The guest OS will see the timer jump ahead by a
+-#           potentially quite significant amount all at once, as if the
+-#           intervening chunk of time had simply not existed; needless to
+-#           say, such a sudden jump can easily confuse a guest OS which is
+-#           not specifically prepared to deal with it.  Assuming the guest
+-#           OS can deal correctly with the time jump, the time in the guest
+-#           and in the host should now match.
+-#
+-# @delay: continue to deliver ticks at the normal rate.  The guest OS will
+-#         not notice anything is amiss, as from its point of view time will
+-#         have continued to flow normally.  The time in the guest should now
+-#         be behind the time in the host by exactly the amount of time during
+-#         which ticks have been missed.
+-#
+-# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
+-#        The guest OS will not notice anything is amiss, as from its point
+-#        of view time will have continued to flow normally.  Once the timer
+-#        has managed to catch up with all the missing ticks, the time in
+-#        the guest and in the host should match.
+-#
+-# Since: 2.0
+-##
+-{ 'enum': 'LostTickPolicy',
+-  'data': ['discard', 'delay', 'slew' ] }
+-
+ ##
+ # @add_client:
+ #
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 6224b5276a..5b45b22924 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -9,7 +9,7 @@
+ #ifndef HW_RTC_MC146818RTC_H
+ #define HW_RTC_MC146818RTC_H
+ 
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qemu/queue.h"
+ #include "qemu/timer.h"
+ #include "hw/isa/isa.h"
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 098298c78e..343c824da0 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -4,6 +4,7 @@
+ #include "qapi/error.h"
+ #include "hw/pci/pci.h"
+ #include "qapi/qapi-types-block.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qapi/qapi-types-misc.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/ctype.h"
+diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+index e18fd337fa..40d84734e7 100644
+--- a/hw/i386/kvm/i8254.c
++++ b/hw/i386/kvm/i8254.c
+@@ -25,7 +25,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include <linux/kvm.h>
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
 -- 
 2.26.2
 
