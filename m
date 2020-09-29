@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7652527BE3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:41:14 +0200 (CEST)
-Received: from localhost ([::1]:45552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCD727BE15
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:35:11 +0200 (CEST)
+Received: from localhost ([::1]:48506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAG9-0004PY-IC
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57686)
+	id 1kNAAI-0002HV-5H
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:35:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xo-0003qU-BO
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39489)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xp-0003se-6h
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xm-0001hx-A8
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:15 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xn-0001in-19
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:16 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364131;
+ s=mimecast20190719; t=1601364134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wRDcvukq68plAW9qSOLeFsCLVUWLBF3/01C54Ke/hXI=;
- b=E+d4WIV19pUAHwcdGnCwWl+Gcj3CNIY+ZKZmP4EqMa+o7q7fJGo9Y1wxRn1eHptKle0xPP
- E1lgH1c5iZuNbWMaCUWgqnC8ynNckphQh2F3OKpmSk5lQgQba2pbPZDg/VXEaIgwiQscUb
- Ue+wWjjxBXDwfGxi+Nr8t3S4HBept9k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-XpaYprbdMG-PV9Hv1LDQQg-1; Tue, 29 Sep 2020 03:22:09 -0400
-X-MC-Unique: XpaYprbdMG-PV9Hv1LDQQg-1
-Received: by mail-wm1-f69.google.com with SMTP id y18so1355353wma.4
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:08 -0700 (PDT)
+ bh=lNJ6FXWMCX2j0lKt+KziOzsAG/P8oH2Ou8qDxyL/5Co=;
+ b=S3H9NpxAxV2rjMcKkHtWAjFH3LZbvMDWp9PCLN2Brh/51X46Q0ZT5OjiAXbKwm7L/Ao8dA
+ 1farcJzDKKVtyaYGzwPEz5jOGbh15SWtY5qR7nqVxbUyZrefOsPxOAXxUiO2ozYlo2+spc
+ j+qyzCnmkK9YWK+xP8AVhVt4wcnw0Ys=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-9Hz8gZ2EPgCsOsikx2ktDA-1; Tue, 29 Sep 2020 03:22:11 -0400
+X-MC-Unique: 9Hz8gZ2EPgCsOsikx2ktDA-1
+Received: by mail-wr1-f72.google.com with SMTP id v12so1369968wrm.9
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wRDcvukq68plAW9qSOLeFsCLVUWLBF3/01C54Ke/hXI=;
- b=mSo1EGIOdqJS1Z4WgZ1zL9I0khgpd9zfiAKwBaiCw3+7SfKpI2wO1WLAXgDgBbvct1
- zHxeBVcBG/PZAQKHL2xbNgpSpgaRIcUxumMDmvopZcns08uZGMyMCAhbC5R0gnCCrmi6
- Jql2to2qlD24Jka5RB7dMHZbVVqxNLErMw6UwbaRVe+5CemxBA/HveoN1b90Q+K42eNj
- FLFEN7w1lLda+Z2GV7iDlDD5GFe4UieLHmAINqFwq66Q+jJnO9u7SOVjG7uxYedL/Y31
- xcmNbmSTPqmPVTEOqPyyUkdjnLdnzJbXw+1PltX118nrXTAjCQhzrcYiL77sJwxF3vIY
- QIJA==
-X-Gm-Message-State: AOAM531TcB6/fbxEGzfvbYqwE6qAp4E3+Moy8ZTmbCb7NSokQbL8s6Zo
- I2egCqaZ91TRdpOC96ZatUJnoAY/OaChrvncoPuAmdGG9U4u1WoEgC3AEybOJrVu3t0yK2udKuA
- 7eearwiV7eOd69Vw=
-X-Received: by 2002:a1c:7f8b:: with SMTP id a133mr3120960wmd.155.1601364127669; 
- Tue, 29 Sep 2020 00:22:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYn6LeHtMiBsMSFTKoFEIIK2S/8wHprmvy+6N3uIYoUSoQlE3gK/6+3qJjcR6i2tbFG526uQ==
-X-Received: by 2002:a1c:7f8b:: with SMTP id a133mr3120947wmd.155.1601364127506; 
- Tue, 29 Sep 2020 00:22:07 -0700 (PDT)
+ bh=lNJ6FXWMCX2j0lKt+KziOzsAG/P8oH2Ou8qDxyL/5Co=;
+ b=YfVODJkn/vZ/y+sv/vWF2mulguXTVmqXLCJckSwWfVA7VOUAyZOk4+vJ3DupqLeVuW
+ T3rh7i34MKXsufircLAC35MVRXBSb6BRt1SyxF3We9cz+8hsdGSgm4W5p1jtKLleAhcX
+ tv5B2JooDKD7OYtX9JspTpyZJYvGh8s+Go2l2RS1pgYxIorm3ppfSjFrk65SdAgYDLpU
+ YCQuXJsXGV2fsmsLPSPuCP9xdFbvquF70KQTA/QrmgRUef2JshPECxvmjC4IUuIKdokT
+ 0bw2L+vWD57bXzWeIASoAbREUToKQ0n80EqsaZD/9R95TfRcoFanx6tn9Bm80jeMNeda
+ 4ccw==
+X-Gm-Message-State: AOAM533EDutDNPm7vPNGwy+vqtLmCwW7fwbgYgPCL4D7i1Ki+Qji46vP
+ MZfA5fLVj0XGrk4SjRA+uQnlbQnbznc2b0GgiAwM+1DAWSVt9S6CaAp8eVAzqzGVmoTApqE+pvx
+ Tv6yp88hiBOBn3R8=
+X-Received: by 2002:adf:e488:: with SMTP id i8mr2730306wrm.116.1601364130399; 
+ Tue, 29 Sep 2020 00:22:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzj/wRVQrKynUYWWxm2ZjvCobmkrSBMSUclhGePth/QWLWTF5vT193/r1AoRLOJOq9gllApIw==
+X-Received: by 2002:adf:e488:: with SMTP id i8mr2730287wrm.116.1601364130216; 
+ Tue, 29 Sep 2020 00:22:10 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id h8sm4382128wrw.68.2020.09.29.00.22.05
+ by smtp.gmail.com with ESMTPSA id 70sm4245329wme.15.2020.09.29.00.22.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:22:06 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:22:05 -0400
+ Tue, 29 Sep 2020 00:22:09 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:22:07 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 27/48] x86: acpi: introduce AcpiPmInfo::smi_on_cpuhp
-Message-ID: <20200929071948.281157-28-mst@redhat.com>
+Subject: [PULL v4 28/48] x86: acpi: introduce the PCI0.SMI0 ACPI device
+Message-ID: <20200929071948.281157-29-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -71,9 +71,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,56 +103,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Translate the "CPU hotplug with SMI" feature bit, from the property
-added in the last patch, to a dedicated boolean in AcpiPmInfo.
+When CPU hotplug with SMI has been negotiated, describe the SMI
+register block in the DSDT. Pass the ACPI name of the SMI control
+register to build_cpus_aml(), so that CPU_SCAN_METHOD can access the
+register in the next patch.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Tested-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <20200923094650.1301166-8-imammedo@redhat.com>
+Message-Id: <20200923094650.1301166-9-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/acpi/cpu.h |  1 +
+ hw/i386/acpi-build.c  | 29 ++++++++++++++++++++++++++++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
+index 62f0278ba2..0eeedaa491 100644
+--- a/include/hw/acpi/cpu.h
++++ b/include/hw/acpi/cpu.h
+@@ -50,6 +50,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object *owner,
+ typedef struct CPUHotplugFeatures {
+     bool acpi_1_compatible;
+     bool has_legacy_cphp;
++    const char *smi_path;
+ } CPUHotplugFeatures;
+ 
+ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 0e0535d2e3..b408d62560 100644
+index b408d62560..b49d360ab2 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -95,6 +95,7 @@ typedef struct AcpiPmInfo {
-     bool s3_disabled;
-     bool s4_disabled;
-     bool pcihp_bridge_en;
-+    bool smi_on_cpuhp;
-     uint8_t s4_val;
-     AcpiFadtData fadt;
-     uint16_t cpu_hp_io_base;
-@@ -194,6 +195,7 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-     pm->cpu_hp_io_base = 0;
-     pm->pcihp_io_base = 0;
-     pm->pcihp_io_len = 0;
-+    pm->smi_on_cpuhp = false;
+@@ -1521,6 +1521,32 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+         aml_append(dev, build_q35_osc_method());
+         aml_append(sb_scope, dev);
++
++        if (pm->smi_on_cpuhp) {
++            /* reserve SMI block resources, IO ports 0xB2, 0xB3 */
++            dev = aml_device("PCI0.SMI0");
++            aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A06")));
++            aml_append(dev, aml_name_decl("_UID", aml_string("SMI resources")));
++            crs = aml_resource_template();
++            aml_append(crs,
++                aml_io(
++                       AML_DECODE16,
++                       ACPI_PORT_SMI_CMD,
++                       ACPI_PORT_SMI_CMD,
++                       1,
++                       2)
++            );
++            aml_append(dev, aml_name_decl("_CRS", crs));
++            aml_append(dev, aml_operation_region("SMIR", AML_SYSTEM_IO,
++                aml_int(ACPI_PORT_SMI_CMD), 2));
++            field = aml_field("SMIR", AML_BYTE_ACC, AML_NOLOCK,
++                              AML_WRITE_AS_ZEROS);
++            aml_append(field, aml_named_field("SMIC", 8));
++            aml_append(field, aml_reserved_field(8));
++            aml_append(dev, field);
++            aml_append(sb_scope, dev);
++        }
++
+         aml_append(dsdt, sb_scope);
  
-     assert(obj);
-     init_common_fadt_data(machine, obj, &pm->fadt);
-@@ -207,12 +209,16 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-             object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
-     }
-     if (lpc) {
-+        uint64_t smi_features = object_property_get_uint(lpc,
-+            ICH9_LPC_SMI_NEGOTIATED_FEAT_PROP, NULL);
-         struct AcpiGenericAddress r = { .space_id = AML_AS_SYSTEM_IO,
-             .bit_width = 8, .address = ICH9_RST_CNT_IOPORT };
-         pm->fadt.reset_reg = r;
-         pm->fadt.reset_val = 0xf;
-         pm->fadt.flags |= 1 << ACPI_FADT_F_RESET_REG_SUP;
-         pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
-+        pm->smi_on_cpuhp =
-+            !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT));
-     }
- 
-     /* The above need not be conditional on machine type because the reset port
+         build_hpet_aml(dsdt);
+@@ -1536,7 +1562,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
+     } else {
+         CPUHotplugFeatures opts = {
+-            .acpi_1_compatible = true, .has_legacy_cphp = true
++            .acpi_1_compatible = true, .has_legacy_cphp = true,
++            .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" : NULL,
+         };
+         build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
+                        "\\_SB.PCI0", "\\_GPE._E02");
 -- 
 MST
 
