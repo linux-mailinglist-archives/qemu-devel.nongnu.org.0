@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445F227DC9D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 01:24:21 +0200 (CEST)
-Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D730227DCAF
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 01:30:36 +0200 (CEST)
+Received: from localhost ([::1]:56010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNOyp-0002Vz-9Q
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 19:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38994)
+	id 1kNP4t-0006qx-Pk
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 19:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNOu8-0000VG-VN; Tue, 29 Sep 2020 19:19:28 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:46811)
+ id 1kNOu9-0000Vk-V1; Tue, 29 Sep 2020 19:19:29 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:35191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNOu6-000086-SF; Tue, 29 Sep 2020 19:19:28 -0400
+ id 1kNOu8-00008E-0k; Tue, 29 Sep 2020 19:19:29 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id D1427E24;
- Tue, 29 Sep 2020 19:19:24 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id 1D8DCB7B;
+ Tue, 29 Sep 2020 19:19:26 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 29 Sep 2020 19:19:25 -0400
+ by compute4.internal (MEProxy); Tue, 29 Sep 2020 19:19:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- qEKNIM+lPRA0c0RxRX/s4SVmBXPBiqyjUZhRX090gXI=; b=l1TchkFscnMD7Nt1
- EybcOUdB1GWedUrAwj3GGAo3MXibBTpXmt0EYlh/tJilIvYw0pXf/h6kWPg7Ahu8
- v1p8/r2q+QzsavrPJKVLkcS8dXgUSeMlyCb1jdo6CRzoRkwlbY4pxp8/BUtASsPx
- egdYG49M/GOeB8CwCt63WVqKm7vXlz3jkYVnpyEIwIjHLvzjKtOVYJrt3BPR+WcX
- ZvenpOMGZneoPR7ho81EcQcuhfJVlhUle30UxzN/4hrrpwaK+irbXtQLIQhV3j3P
- buqCbOeC3NgYrUxjTQeriSwbXMoOroDUfVhCqG5MdQQvLNJffYjKWnZxGaSg5PU5
- iQTTkQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=WbPXCy/OFaknh
+ L9vreyycHOBgrvUUYu9WIgBvZGZ6+E=; b=I9LeHaDj1bT4y+MdxzVBm9ALVqGbF
+ N7kOp4ftAucjVHgjGcuip/IZxFYmqpQXCeULkPlm7JB5jZplN8vJ3VGMIwU/s6jF
+ kHSiDlzpWkd/07ihz9FGKa75410bc5pgA74xjjhstCw2lJ82Cmdy0FGURZES7A3y
+ CzPYjMU+wgcSymfr9zhjxpfZXvTyPXPAtMbc8BzpWdz8dAXOgMsBeUigZWuhB0Vf
+ SR+X+D9jIdf6sJQ3rYsIF7bSySNckH/8aI6tn+7U7FawYY7dUJahS3ByhA5IEOaR
+ I3c/potZZnU/VRgj11guBEnkj/l2Rp3ln+RsYTe+h7KL/CS5t3CZTi4BA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=qEKNIM+lPRA0c0RxRX/s4SVmBXPBiqyjUZhRX090g
- XI=; b=RRC83CP6odk0QRqRYL7hcNeuVWO8wmkIuUVCwCOFo7rXMm8wfjOTL86Xc
- S9YIlEWpZrg+In64dO3O53+k3JSyJgJzwYYiJiBTblP9RhbLK6N1kZdwzCNkXTTO
- t1TwQFqT2wD++kTxpAJ2XttFZroXBSSl1Hfd3omPZ93he8IQye4/dTEtUnZPVQVL
- ozlCIjPz7TOfeaV5KMBRFgUcFmu4VGgdBncza0BNs4abUc8qBi6gBQxrrggGYEXm
- oJ+pezfe6EfL1gwn+9TYq5U6ZOFsxqNDUZ5LH+g4bQ+UZ2q8qoh4ih5NkRInt+g9
- uVDf+lwEG/JaeOga3diamPVRbTRpQ==
-X-ME-Sender: <xms:_MBzX8HMEuVWspjSC1NKMPWUfdktojQ-FqI5gRNdNPzQ6V1pT7J27w>
- <xme:_MBzX1Ww2NQlYsDlNui5-JavLs-HSv4RaSPGb9UD6InM8xom-nnxBwhRrMxlsvC7w
- Pu2QFlymTz6Qq5gtDQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=WbPXCy/OFaknhL9vreyycHOBgrvUUYu9WIgBvZGZ6+E=; b=KL2Mpv7u
+ p1cDSxAxlmW5B5dlPNZoDfwnoiyK9UD504dwSAXqwYd0JPJz+9gXOEtMVvA0Ssnp
+ iQmdZYY1GW/abY2jwnPnt5llBHg8yDbi79tyCnDNCaHVZ7z3aQC5FOHRSrkhxIWu
+ bFR5MEcH/AD0csaMRRt+mEXCFhOJo38zJSm6YbAqbVFiPp89X8mLvMhONXyWzKgw
+ BJVsav1TJuM0ZBiHa3AtkArCo3ljUtlZwn7Jou/D7wOA7U7OVPhmqD2G3mwkViFW
+ 0fK4cuuSx9CIV6d9AiDowPJQO7xDAmt8uQdm8Iuf45ZxHJ9dkXswOcySEJ5EokB+
+ xtLAxP5AeNTTMw==
+X-ME-Sender: <xms:_cBzX5SpQZuwjkpHTXZ-MSD5lUd4LpUjfT5BKUyyaxuMhHwlKnnDLw>
+ <xme:_cBzXyxItg1vDBvHgI7hrTsJckivnmqp87vbwgtwQ1xdxeJE9GwtoNELtkNTPfrcU
+ 37v_Ffi78jfuV4SdEc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedtgddujecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeetveeuudegveeiheegieelueeftedvtdekteefleegheduhfejueelvdfhffdt
- geenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:_MBzX2LKa4rbCKoT1uhJAGsvjlwdTJ3kmP3xMzUgbPN73ndvnY4ZdQ>
- <xmx:_MBzX-Gj9JqHb-Z_H1FhZXewRSClkUCefuh09nA0eqCpXrKavDa1hw>
- <xmx:_MBzXyWxFTMFgP2BF4rabQflIOM6PcgwTAPYAcIBI7D154eWpSp84g>
- <xmx:_MBzX9H5UnWgXUfkMTcX-ASOAEjbvnjvNu78qYu9tiEdTfAYeRDiInFPJ88>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepvdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:_cBzX-2aZEPvBAA08lj5f8ZhgMltVRmohujcRQ_CagIJRh9osnb-BQ>
+ <xmx:_cBzXxBRZrKG_xa_Jm0T1UZHfh9xRQ2MfLjeZY4dfa6JC0mgc6GSVw>
+ <xmx:_cBzXyioaLnDq_7bZqW4UtDw1LV_ONQ3SnbtxAwUDpmSUQZLYANz6g>
+ <xmx:_cBzX0b1iXy3gIiUuft0rMHl0eB2RVQWx_zK5FayIkszvvmOKZEIpT2wyFk>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E9B253280068;
- Tue, 29 Sep 2020 19:19:22 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6BBE4328005D;
+ Tue, 29 Sep 2020 19:19:24 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/14] hw/block/nvme: make lba data size configurable
-Date: Wed, 30 Sep 2020 01:19:06 +0200
-Message-Id: <20200929231917.433586-4-its@irrelevant.dk>
+Subject: [PATCH v2 04/14] hw/block/nvme: reject io commands if only admin
+ command set selected
+Date: Wed, 30 Sep 2020 01:19:07 +0200
+Message-Id: <20200929231917.433586-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200929231917.433586-1-its@irrelevant.dk>
 References: <20200929231917.433586-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
  helo=wnew2-smtp.messagingengine.com
@@ -99,105 +98,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, Maxim Levitsky <mlevitsk@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Allos the LBA data size (lbads) to be set between 9 and 12.
+If the host sets CC.CSS to 111b, all commands submitted to I/O queues
+should be completed with status Invalid Command Opcode.
+
+Note that this is technically a v1.4 feature, but it does not hurt to
+implement before we finally bump the reported version implemented.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- docs/specs/nvme.txt | 11 ++++++++++-
- hw/block/nvme-ns.h  |  1 +
- hw/block/nvme-ns.c  |  8 +++++++-
- hw/block/nvme.c     |  1 +
- 4 files changed, 19 insertions(+), 2 deletions(-)
+ include/block/nvme.h | 5 +++++
+ hw/block/nvme.c      | 4 ++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/docs/specs/nvme.txt b/docs/specs/nvme.txt
-index 56d393884e7a..438ca50d698c 100644
---- a/docs/specs/nvme.txt
-+++ b/docs/specs/nvme.txt
-@@ -1,7 +1,16 @@
- NVM Express Controller
- ======================
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 58647bcdad0b..7a30cf285ae0 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -110,6 +110,11 @@ enum NvmeCcMask {
+ #define NVME_CC_IOSQES(cc) ((cc >> CC_IOSQES_SHIFT) & CC_IOSQES_MASK)
+ #define NVME_CC_IOCQES(cc) ((cc >> CC_IOCQES_SHIFT) & CC_IOCQES_MASK)
  
--The nvme device (-device nvme) emulates an NVM Express Controller.
-+The nvme device (-device nvme) emulates an NVM Express Controller. It is used
-+together with nvme-ns devices (-device nvme-ns) which emulates an NVM Express
-+Namespace.
++enum NvmeCcCss {
++    NVME_CC_CSS_NVM        = 0x0,
++    NVME_CC_CSS_ADMIN_ONLY = 0x7,
++};
 +
-+nvme-ns Options
-+---------------
-+
-+  `lbads`; The "LBA Data Size (LBADS)" indicates the LBA data size used by the
-+     namespace. It is specified in terms of a power of two. Only values between
-+     9 and 12 (both inclusive) are supported.
- 
- 
- Reference Specifications
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index 83734f4606e1..78b0d1a00672 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -21,6 +21,7 @@
- 
- typedef struct NvmeNamespaceParams {
-     uint32_t nsid;
-+    uint8_t  lbads;
- } NvmeNamespaceParams;
- 
- typedef struct NvmeNamespace {
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 2ba0263ddaca..576c7486f45b 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -36,7 +36,7 @@ static void nvme_ns_init(NvmeNamespace *ns)
-         ns->id_ns.dlfeat = 0x9;
-     }
- 
--    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
-+    id_ns->lbaf[0].ds = ns->params.lbads;
- 
-     id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(ns));
- 
-@@ -77,6 +77,11 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
-+    if (ns->params.lbads < 9 || ns->params.lbads > 12) {
-+        error_setg(errp, "unsupported lbads (supported: 9-12)");
-+        return -1;
-+    }
-+
-     return 0;
- }
- 
-@@ -125,6 +130,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
- static Property nvme_ns_props[] = {
-     DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
-     DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
-+    DEFINE_PROP_UINT8("lbads", NvmeNamespace, params.lbads, BDRV_SECTOR_BITS),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+ enum NvmeCstsShift {
+     CSTS_RDY_SHIFT      = 0,
+     CSTS_CFS_SHIFT      = 1,
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 3cbc3c7b75b1..758f58c88026 100644
+index 758f58c88026..27af2f0b38d5 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2812,6 +2812,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     if (n->namespace.blkconf.blk) {
-         ns = &n->namespace;
-         ns->params.nsid = 1;
-+        ns->params.lbads = BDRV_SECTOR_BITS;
+@@ -1065,6 +1065,10 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_io_cmd(nvme_cid(req), nsid, nvme_sqid(req),
+                           req->cmd.opcode, nvme_io_opc_str(req->cmd.opcode));
  
-         if (nvme_ns_setup(n, ns, errp)) {
-             return;
++    if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_ADMIN_ONLY) {
++        return NVME_INVALID_OPCODE | NVME_DNR;
++    }
++
+     if (!nvme_nsid_valid(n, nsid)) {
+         return NVME_INVALID_NSID | NVME_DNR;
+     }
 -- 
 2.28.0
 
