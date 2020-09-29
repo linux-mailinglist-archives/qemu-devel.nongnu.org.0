@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E107327BE82
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:56:59 +0200 (CEST)
-Received: from localhost ([::1]:56028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F1C27BEC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 10:04:58 +0200 (CEST)
+Received: from localhost ([::1]:45300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAVO-00045J-V9
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:56:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35566)
+	id 1kNAd7-00035I-9P
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 04:04:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNALJ-0003xv-IW
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:46:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20226)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9za-0005qU-L5
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:24:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNALE-0005Vf-Sx
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:46:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9zY-00021j-OL
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:24:06 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601365588;
+ s=mimecast20190719; t=1601364243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=W0Qyela3obkqdVoSXZB5QwIQuNEHecxRZxrJfFaj+mc=;
- b=XwXQhEkpI27ncQrKo0c/ErIU4topLgksG2wKrr/MfQhtnGU9f41rwxZ+3h6fr1VcDBzuXW
- qndBQMnr6xioFj/VPUfRJEnnjITiz/WZTU04v5meqdYYG76oBalkx29hc9AjSitohoDISK
- AQ9gl9J7C4CumDjoKaG3p2yYyBn3GU4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-ho1ZmhdmONibNPX7Z363Zw-1; Tue, 29 Sep 2020 03:46:24 -0400
-X-MC-Unique: ho1ZmhdmONibNPX7Z363Zw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A25A1868421;
- Tue, 29 Sep 2020 07:46:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
- [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA01A19D6C;
- Tue, 29 Sep 2020 07:46:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3E0A8113864A; Tue, 29 Sep 2020 09:46:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH] trace/simple: Enable tracing on startup only if the
- user specifies a trace option
-References: <20200816174610.20253-1-josh@joshdubois.com>
- <20200911100805.GB81586@stefanha-x1.localdomain>
-Date: Tue, 29 Sep 2020 09:46:21 +0200
-In-Reply-To: <20200911100805.GB81586@stefanha-x1.localdomain> (Stefan
- Hajnoczi's message of "Fri, 11 Sep 2020 11:08:05 +0100")
-Message-ID: <87lfgt3u0i.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=Ah7mc5RocJKu5k38pc3bIhhlNP7PQMywKwtP1B1qEw0=;
+ b=AoCtnw1vEYc63i/qwNLO69tmBgTVtdhdk12dpVmI2VDhoVOfwJoViqkCunSolHsjeQG5q8
+ zxYjx2rKEUFuYJHHpDC7XPOXAGwcglxNpMG42AsWV69y1LydvJABiVIpigc2yRFlPpdNtF
+ X8FyY3maSXUcnK+fTmlujVKj0TkrzdE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-pg3dWQO6MTCVTZhYQNmRWA-1; Tue, 29 Sep 2020 03:21:27 -0400
+X-MC-Unique: pg3dWQO6MTCVTZhYQNmRWA-1
+Received: by mail-wm1-f69.google.com with SMTP id a7so1462323wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ah7mc5RocJKu5k38pc3bIhhlNP7PQMywKwtP1B1qEw0=;
+ b=mmpmxkYFvRfkHEgRRrAAPGYOEuBTVe0LECf/EkWJ4T1ZP9AVpssfSOsnmYlEbtjT6z
+ RhkzYP72O0JNXxRybMGIoCgdJW8iWlK9uX1Q4fbhU/ZD6my4TJQrkLbKn29IcIiHQTyk
+ 9uGiExKid8LJuX14LbmUk/tIwO5fqAQK333v2xygPyjdym4VOn3l+oXFuEct09tugUCI
+ joGtR9Qfuan9q9N/HXfw4wl/PBpis9b0y7FaRG1b+B2AaPimo6+kSzmoipHD5/KHYnDf
+ 84rKWWB/oIVMdry4hwPswx5kq9nxNFIc6X4OlfMqIi/BG9Xiw/FugXuYQ/VS41EarEix
+ R9Ug==
+X-Gm-Message-State: AOAM533ptW3Pg+62FKNXkIpi+7R665+DPVUfpCxlbsDHm5BddOhJh3by
+ yxhId03AsszwatZ7rfq2yjZoYRcavZ6Qss+iMjJgw6wt5UAbr9KHTwBWQbv5/mVXFhtl4fxS5Y7
+ 7YIX2FQbNL8grvd8=
+X-Received: by 2002:a5d:6a42:: with SMTP id t2mr2429767wrw.425.1601364085685; 
+ Tue, 29 Sep 2020 00:21:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRbMwRFZ9pWhOHmAUD+WFik+UvC0HK0qS4MxnIZyQjRLoVoM6g/oegQBIBIONjlXDkU8xRhw==
+X-Received: by 2002:a5d:6a42:: with SMTP id t2mr2429751wrw.425.1601364085536; 
+ Tue, 29 Sep 2020 00:21:25 -0700 (PDT)
+Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
+ by smtp.gmail.com with ESMTPSA id g8sm3948392wmd.12.2020.09.29.00.21.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 00:21:24 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:21:23 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v4 12/48] virtio-pmem-pci: force virtio version 1
+Message-ID: <20200929071948.281157-13-mst@redhat.com>
+References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -83,41 +94,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, duboisj@gmail.com, qemu-devel@nongnu.org,
- Josh DuBois <josh@joshdubois.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 
-> On Sun, Aug 16, 2020 at 12:46:10PM -0500, duboisj@gmail.com wrote:
->> From: Josh DuBois <josh@joshdubois.com>
->> 
->> Tracing can be enabled at the command line or via the
->> monitor. Command-line trace options are recorded during
->> trace_opt_parse(), but tracing is not enabled until the various
->> front-ends later call trace_init_file(). If the user passes a trace
->> option on the command-line, remember that and enable tracing during
->> trace_init_file().  Otherwise, trace_init_file() should record the
->> trace file specified by the frontend and avoid enabling traces
->> until the user requests them via the monitor.
->> 
->> This fixes 1b7157be3a8c4300fc8044d40f4b2e64a152a1b4 and also
->> db25d56c014aa1a96319c663e0a60346a223b31e, by allowing the user
->> to enable traces on the command line and also avoiding
->> unwanted trace-<pid> files when the user has not asked for them.
->> 
->> Fixes: 1b7157be3a8c4300fc8044d40f4b2e64a152a1b4
->> Signed-off-by: Josh DuBois <josh@joshdubois.com>
->> ---
->>  trace/control.c | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> Thanks, applied to my tracing-next tree:
-> https://github.com/stefanha/qemu/commits/tracing-next
->
-> Stefan
+ Qemu fails with below error when trying to run with virtio pmem:
 
-Pull request?
+ (qemu) qemu-system-x86_64: -device virtio-pmem-pci,memdev=mem1,id=nv1:
+  device is modern-only, use disable-legacy=on
+
+ This patch fixes this by forcing virtio 1 with virtio-pmem.
+
+fixes: adf0748a49 ("virtio-pci: Proxy for virtio-pmem")
+Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Message-Id: <20200925102251.7216-1-pankaj.gupta.linux@gmail.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/virtio/virtio-pmem-pci.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/virtio/virtio-pmem-pci.c b/hw/virtio/virtio-pmem-pci.c
+index 21a457d151..2b2a0b1eae 100644
+--- a/hw/virtio/virtio-pmem-pci.c
++++ b/hw/virtio/virtio-pmem-pci.c
+@@ -22,6 +22,7 @@ static void virtio_pmem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     VirtIOPMEMPCI *pmem_pci = VIRTIO_PMEM_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&pmem_pci->vdev);
+ 
++    virtio_pci_force_virtio_1(vpci_dev);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+ 
+-- 
+MST
 
 
