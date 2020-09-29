@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1742627CFF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:52:02 +0200 (CEST)
-Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D42527D00C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:56:57 +0200 (CEST)
+Received: from localhost ([::1]:40898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNG2y-00014e-Sw
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43484)
+	id 1kNG7k-000448-9Y
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kNG13-0000Tm-Oq
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:50:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kNG0y-0002ol-WB
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:50:01 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601387395;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q2EDcwo/GW93AbMsozV3g6GE45QuCtBnpVFWjGfrNe8=;
- b=aaxBqxzbbJS3tQ2Hxif04JMJ1JDAc47mbYiJn9ZV/t+IoDXAB1elYHj4II20krBXHtED2o
- EpEyP46kHqqJHoliEh/gZ16dCPcJvBLi544qCdxciZ0PRt7w8VD8p0YoLhBLRRfz2SUb73
- jTGTzXO42x4ZboAkUGi4ZNbx/EJwe2c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-GKrcjiCENNas9fTXcnMJ7w-1; Tue, 29 Sep 2020 09:49:51 -0400
-X-MC-Unique: GKrcjiCENNas9fTXcnMJ7w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2CB1102121B;
- Tue, 29 Sep 2020 13:49:49 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-167.rdu2.redhat.com [10.10.116.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87AA978831;
- Tue, 29 Sep 2020 13:49:43 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id E6207220203; Tue, 29 Sep 2020 09:49:42 -0400 (EDT)
-Date: Tue, 29 Sep 2020 09:49:42 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: virtiofs vs 9p performance(Re: tools/virtiofs: Multi threading
- seems to hurt performance)
-Message-ID: <20200929134942.GC220516@redhat.com>
-References: <20200918213436.GA3520@redhat.com> <66718708.HdZnNlUTFG@silver>
- <20200929130325.GA220516@redhat.com> <2302525.O3mciSdnpG@silver>
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kNG61-0003Xb-G0
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:55:09 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:34102)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kNG5z-0003P1-FV
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:55:09 -0400
+Received: by mail-io1-xd42.google.com with SMTP id m17so4887816ioo.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 06:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3cRA83Rhsba1TWiKfaiOtkGeJwZiZdakcfDaVmX+98I=;
+ b=GrujzkTM14q71E41dGv9RRqLV4HT9SW+zk9mrAWIJ7yKdeZ5ZcvhUhn47FQElVpC1k
+ QFPlbVd0XyT2W2taOCcy7GsfpVS8r5Szqxu3w5W12A96AV3/3zm4abyIhp1N/Kh3+rxG
+ p6Dw5qEmJVMgZvmvb89/InLiHdCTK+P3TC/vJmv4qvJV3jzL1YBhIsGsJ46+hM62IMd7
+ duz4cMAmM1iqqgqeZKJ5IFwtepIZLslZCIEVO+eTWWZtrSDuQEq6y66bClC+QdWKVyld
+ q0FBHL9aoVx1fqx/zqOLvTZ3CDdA4cajOXXMx2+jy6WW9MaiO3erPz6y89V5U/J/E9Ur
+ mHFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3cRA83Rhsba1TWiKfaiOtkGeJwZiZdakcfDaVmX+98I=;
+ b=Tdw3+qGiKB4MqLoiCkEA6knRCJlfVZvsNFJ12S+30WSCB1JxUdg2rVl9toHtvCimC+
+ eHibqNBE+T5vQZu3Il2pglgYe+SGNLy1HqtB5m+G60/YPSEvMPStsGiPyVtEHmjFPt9D
+ BY0QX1ko2jea0uW6hE8s35yj5XKydLv/Mk2RuAkkGhMXp+PTLVYrWVoby+q1UDJy8izY
+ 8fnek4po29diHZtRKbqFU7Mh0AeVLKZnUR02ugWz7peyVMZ1IjHSOqpS38cwkZ8T4vNo
+ /zzKtnX+uIOWpGFcwu5Dj+mZZ/5yWxBk/yvZa79dfFl3E0br0YkbwQaK6WTYRHHVgK5a
+ 0w+w==
+X-Gm-Message-State: AOAM532i0LATLRcBAyiu/Wl31Iyw4QhYejDpLjV00wkmPrT/yxXFlXWo
+ xg53ev+VhQxjtWet84V/rPZJQAD/FdYoi+a77kw=
+X-Google-Smtp-Source: ABdhPJxh8V17DNd/+L5medXqhTpMvWOX0z6ZgtJgI1q50VJ9qk3XsTJTUlf9bdEtjSUkC0qGQ4h3MBSKFl18iuUQ6XU=
+X-Received: by 2002:a05:6638:d02:: with SMTP id
+ q2mr2967149jaj.98.1601387704843; 
+ Tue, 29 Sep 2020 06:55:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2302525.O3mciSdnpG@silver>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20200928114909.20791-1-david@redhat.com>
+ <20200928114909.20791-2-david@redhat.com>
+In-Reply-To: <20200928114909.20791-2-david@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Tue, 29 Sep 2020 15:54:53 +0200
+Message-ID: <CAM9Jb+gdf+n+Poa_kZRRTchcB8D33FDuuTyn4tB4TjWyAah9Hw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] virtio-mem: Probe THP size to determine default
+ block size
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,142 +81,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Venegas Munoz, Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- qemu-devel@nongnu.org, "cdupontd@redhat.com" <cdupontd@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Shinde, Archana M" <archana.m.shinde@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 29, 2020 at 03:28:06PM +0200, Christian Schoenebeck wrote:
-> On Dienstag, 29. September 2020 15:03:25 CEST Vivek Goyal wrote:
-> > On Sun, Sep 27, 2020 at 02:14:43PM +0200, Christian Schoenebeck wrote:
-> > > On Freitag, 25. September 2020 20:51:47 CEST Dr. David Alan Gilbert wrote:
-> > > > * Christian Schoenebeck (qemu_oss@crudebyte.com) wrote:
-> > > > > On Freitag, 25. September 2020 15:05:38 CEST Dr. David Alan Gilbert 
-> wrote:
-> > > > > > > > 9p ( mount -t 9p -o trans=virtio kernel /mnt
-> > > > > > > > -oversion=9p2000.L,cache=mmap,msize=1048576 ) test: (g=0):
-> > > > > > > > rw=randrw,
-> > > > > > > 
-> > > > > > > Bottleneck ------------------------------^
-> > > > > > > 
-> > > > > > > By increasing 'msize' you would encounter better 9P I/O results.
-> > > > > > 
-> > > > > > OK, I thought that was bigger than the default;  what number should
-> > > > > > I
-> > > > > > use?
-> > > > > 
-> > > > > It depends on the underlying storage hardware. In other words: you
-> > > > > have to
-> > > > > try increasing the 'msize' value to a point where you no longer notice
-> > > > > a
-> > > > > negative performance impact (or almost). Which is fortunately quite
-> > > > > easy
-> > > > > to test on>
-> > > > > 
-> > > > > guest like:
-> > > > > 	dd if=/dev/zero of=test.dat bs=1G count=12
-> > > > > 	time cat test.dat > /dev/null
-> > > > > 
-> > > > > I would start with an absolute minimum msize of 10MB. I would
-> > > > > recommend
-> > > > > something around 100MB maybe for a mechanical hard drive. With a PCIe
-> > > > > flash
-> > > > > you probably would rather pick several hundred MB or even more.
-> > > > > 
-> > > > > That unpleasant 'msize' issue is a limitation of the 9p protocol:
-> > > > > client
-> > > > > (guest) must suggest the value of msize on connection to server
-> > > > > (host).
-> > > > > Server can only lower, but not raise it. And the client in turn
-> > > > > obviously
-> > > > > cannot see host's storage device(s), so client is unable to pick a
-> > > > > good
-> > > > > value by itself. So it's a suboptimal handshake issue right now.
-> > > > 
-> > > > It doesn't seem to be making a vast difference here:
-> > > > 
-> > > > 
-> > > > 
-> > > > 9p mount -t 9p -o trans=virtio kernel /mnt
-> > > > -oversion=9p2000.L,cache=mmap,msize=104857600
-> > > > 
-> > > > Run status group 0 (all jobs):
-> > > >    READ: bw=62.5MiB/s (65.6MB/s), 62.5MiB/s-62.5MiB/s
-> > > >    (65.6MB/s-65.6MB/s),
-> > > > 
-> > > > io=3070MiB (3219MB), run=49099-49099msec WRITE: bw=20.9MiB/s (21.9MB/s),
-> > > > 20.9MiB/s-20.9MiB/s (21.9MB/s-21.9MB/s), io=1026MiB (1076MB),
-> > > > run=49099-49099msec
-> > > > 
-> > > > 9p mount -t 9p -o trans=virtio kernel /mnt
-> > > > -oversion=9p2000.L,cache=mmap,msize=1048576000
-> > > > 
-> > > > Run status group 0 (all jobs):
-> > > >    READ: bw=65.2MiB/s (68.3MB/s), 65.2MiB/s-65.2MiB/s
-> > > >    (68.3MB/s-68.3MB/s),
-> > > > 
-> > > > io=3070MiB (3219MB), run=47104-47104msec WRITE: bw=21.8MiB/s (22.8MB/s),
-> > > > 21.8MiB/s-21.8MiB/s (22.8MB/s-22.8MB/s), io=1026MiB (1076MB),
-> > > > run=47104-47104msec
-> > > > 
-> > > > 
-> > > > Dave
-> > > 
-> > > Is that benchmark tool honoring 'iounit' to automatically run with max.
-> > > I/O
-> > > chunk sizes? What's that benchmark tool actually? And do you also see no
-> > > improvement with a simple
-> > > 
-> > > 	time cat largefile.dat > /dev/null
-> > 
-> > I am assuming that msize only helps with sequential I/O and not random
-> > I/O.
-> > 
-> > Dave is running random read and random write mix and probably that's why
-> > he is not seeing any improvement with msize increase.
-> > 
-> > If we run sequential workload (as "cat largefile.dat"), that should
-> > see an improvement with msize increase.
-> > 
-> > Thanks
-> > Vivek
-> 
-> Depends on what's randomized. If read chunk size is randomized, then yes, you 
-> would probably see less performance increase compared to a simple
-> 'cat foo.dat'.
+> Let's allow a minimum block size of 1 MiB in all configurations. Select
+> the default block size based on
+> - The page size of the memory backend.
+> - The THP size if the memory backend size corresponds to the real hsot
 
-We are using "fio" for testing and read chunk size is not being
-randomized. chunk size (block size) is fixed at 4K size for these tests.
+s/hsot/host
+>   page size.
+> - The global minimum of 1 MiB.
+> and warn if something smaller is configured by the user.
+>
+> VIRTIO_MEM only supports Linux (depends on LINUX), so we can probe the
+> THP size unconditionally.
+>
+> For now we only support virtio-mem on x86-64 - there isn't a user-visiable
 
-> 
-> If only the read position is randomized, but the read chunk size honors 
-> iounit, a.k.a. stat's st_blksize (i.e. reading with the most efficient block 
-> size advertised by 9P), then I would assume still seeing a performance 
-> increase.
+s/visiable/visible
+> change (x86-64 only supports 2 MiB THP on the PMD level) - the default
+> was, and will be 2 MiB.
+>
+> If we ever have THP on the PUD level (e.g., 1 GiB THP on x86-64), we
+> expect to have a trigger to explicitly opt-in for the new THP granularity.
+>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Wei Yang <richardw.yang@linux.intel.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/virtio/virtio-mem.c | 105 +++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 101 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index 8fbec77ccc..9b1461cf9d 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -33,10 +33,83 @@
+>  #include "trace.h"
+>
+>  /*
+> - * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
+> - * memory (e.g., 2MB on x86_64).
+> + * Let's not allow blocks smaller than 1 MiB, for example, to keep the tracking
+> + * bitmap small.
+>   */
+> -#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)QEMU_VMALLOC_ALIGN)
+> +#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
+> +
+> +#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
+> +    defined(__powerpc64__)
+> +#define VIRTIO_MEM_DEFAULT_THP_SIZE ((uint32_t)(2 * MiB))
+> +#else
+> +        /* fallback to 1 MiB (e.g., the THP size on s390x) */
+> +#define VIRTIO_MEM_DEFAULT_THP_SIZE VIRTIO_MEM_MIN_BLOCK_SIZE
+> +#endif
+> +
+> +/*
+> + * We want to have a reasonable default block size such that
+> + * 1. We avoid splitting THPs when unplugging memory, which degrades
+> + *    performance.
+> + * 2. We avoid placing THPs for plugged blocks that also cover unplugged
+> + *    blocks.
+> + *
+> + * The actual THP size might differ between Linux kernels, so we try to probe
+> + * it. In the future (if we ever run into issues regarding 2.), we might want
+> + * to disable THP in case we fail to properly probe the THP size, or if the
+> + * block size is configured smaller than the THP size.
+> + */
+> +static uint32_t thp_size;
+> +
+> +#define HPAGE_PMD_SIZE_PATH "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
+> +static uint32_t virtio_mem_thp_size(void)
+> +{
+> +    gchar *content = NULL;
+> +    const char *endptr;
+> +    uint64_t tmp;
+> +
+> +    if (thp_size) {
+> +        return thp_size;
+> +    }
+> +
+> +    /*
+> +     * Try to probe the actual THP size, fallback to (sane but eventually
+> +     * incorrect) default sizes.
+> +     */
+> +    if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
+> +        !qemu_strtou64(content, &endptr, 0, &tmp) &&
+> +        (!endptr || *endptr == '\n')) {
+> +        /*
+> +         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
+> +         * pages) or weird, fallback to something smaller.
+> +         */
+> +        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
+> +            warn_report("Read unsupported THP size: %" PRIx64, tmp);
+> +        } else {
+> +            thp_size = tmp;
+> +        }
+> +    }
+> +
+> +    if (!thp_size) {
+> +        thp_size = VIRTIO_MEM_DEFAULT_THP_SIZE;
+> +        warn_report("Could not detect THP size, falling back to %" PRIx64
+> +                    "  MiB.", thp_size / MiB);
+> +    }
+> +
+> +    g_free(content);
+> +    return thp_size;
+> +}
+> +
+> +static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
+> +{
+> +    const uint64_t page_size = qemu_ram_pagesize(rb);
+> +
+> +    /* We can have hugetlbfs with a page size smaller than the THP size. */
+> +    if (page_size == qemu_real_host_page_size) {
+> +        return MAX(page_size, virtio_mem_thp_size());
+> +    }
 
-Yes, we are randomizing read position. But there is no notion of looking
-at st_blksize. Its fixed at 4K. (notice option --bs=4k in fio
-commandline).
+This condition is special, can think of hugetlbfs smaller in size than THP size
+configured.
+> +    return MAX(page_size, VIRTIO_MEM_MIN_BLOCK_SIZE);
 
-> Because seeking is a no/low cost factor in this case. The guest OS 
-> seeking does not transmit a 9p message. The offset is rather passed with any 
-> Tread message instead:
-> https://github.com/chaos/diod/blob/master/protocol.md
-> 
-> I mean, yes, random seeks reduce I/O performance in general of course, but in 
-> direct performance comparison, the difference in overhead of the 9p vs. 
-> virtiofs network controller layer is most probably the most relevant aspect if 
-> large I/O chunk sizes are used.
-> 
-
-Agreed that large I/O chunk size will help with the perfomance numbers.
-But idea is to intentonally use smaller I/O chunk size with some of
-the tests to measure how efficient communication path is.
-
-Thanks
-Vivek
-
+Do we still need this? Or we can have only one return for both the cases?
+Probably, I am missing something here.
+> +}
+> +
+>  /*
+>   * Size the usable region bigger than the requested size if possible. Esp.
+>   * Linux guests will only add (aligned) memory blocks in case they fully
+> @@ -437,10 +510,23 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+>      rb = vmem->memdev->mr.ram_block;
+>      page_size = qemu_ram_pagesize(rb);
+>
+> +    /*
+> +     * If the block size wasn't configured by the user, use a sane default. This
+> +     * allows using hugetlbfs backends of any page size without manual
+> +     * intervention.
+> +     */
+> +    if (!vmem->block_size) {
+> +        vmem->block_size = virtio_mem_default_block_size(rb);
+> +    }
+> +
+>      if (vmem->block_size < page_size) {
+>          error_setg(errp, "'%s' property has to be at least the page size (0x%"
+>                     PRIx64 ")", VIRTIO_MEM_BLOCK_SIZE_PROP, page_size);
+>          return;
+> +    } else if (vmem->block_size < virtio_mem_default_block_size(rb)) {
+> +        warn_report("'%s' property is smaller than the default block size (%"
+> +                    PRIx64 " MiB)", VIRTIO_MEM_BLOCK_SIZE_PROP,
+> +                    virtio_mem_default_block_size(rb) / MiB);
+>      } else if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
+>          error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
+>                     ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
+> @@ -731,6 +817,18 @@ static void virtio_mem_get_block_size(Object *obj, Visitor *v, const char *name,
+>      const VirtIOMEM *vmem = VIRTIO_MEM(obj);
+>      uint64_t value = vmem->block_size;
+>
+> +    /*
+> +     * If not configured by the user (and we're not realized yet), use the
+> +     * default block size we would use with the current memory backend.
+> +     */
+> +    if (!value) {
+> +        if (vmem->memdev && memory_region_is_ram(&vmem->memdev->mr)) {
+> +            value = virtio_mem_default_block_size(vmem->memdev->mr.ram_block);
+> +        } else {
+> +            value = virtio_mem_thp_size();
+> +        }
+> +    }
+> +
+>      visit_type_size(v, name, &value, errp);
+>  }
+>
+> @@ -810,7 +908,6 @@ static void virtio_mem_instance_init(Object *obj)
+>  {
+>      VirtIOMEM *vmem = VIRTIO_MEM(obj);
+>
+> -    vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
+>      notifier_list_init(&vmem->size_change_notifiers);
+>      vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
 
