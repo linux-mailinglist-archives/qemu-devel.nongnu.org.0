@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5241527D7F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:22:03 +0200 (CEST)
-Received: from localhost ([::1]:60488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C2C27D7FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:24:33 +0200 (CEST)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNM8Q-0003h8-8q
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59660)
+	id 1kNMAq-00072F-8m
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM68-0001nB-D9
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM66-0001mD-Ge
  for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21599)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM62-0003TZ-Dq
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM62-0003Ty-EM
  for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:38 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601410773;
@@ -23,35 +23,35 @@ Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MgitbMqeM3f1gxlb1eMc97YNGzeiuZxcB+VxofU9rrY=;
- b=dU5xZ8YADZBlS6Sg0gXwHHw0sIuoYgqKBsa14/3AXrLLqLXCyguNoDndjfLWzgUxbSzGLh
- A60fv/mHkzbTN5jGM5Hdsy/8sCRNp9kN3/T7j7Wk+9oM2HhRS+a4s3r/JjH8Aak3JUGP/p
- HY8MVdmdtsrnSaFTYaP87ZXxHFmFoJM=
+ bh=MBM/bVem2B9Oad7cMaVnTEsGxanjQ4A5fE9lM3vi2ps=;
+ b=TgCm20UWgAnhu4Hwb8T7x9REtg7aGFJZ24tent+Z47FXFa+OCzI18EPPXUyfJiF9HqEhlZ
+ AP3Fjn6Sfct+iRU4+BhmU0mad1VV2vZ3TsHmUN1xUcRf2+ceMa210B6RBNMLxS8a6mLkvG
+ jA840wZbJrWdsde9MFTSEkWViRehUd8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-D7wt7LcRNZm38h7zIUV9rg-1; Tue, 29 Sep 2020 16:19:31 -0400
-X-MC-Unique: D7wt7LcRNZm38h7zIUV9rg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-348-H5RWRhJUNNSsBYeeIJboVg-1; Tue, 29 Sep 2020 16:19:31 -0400
+X-MC-Unique: H5RWRhJUNNSsBYeeIJboVg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EF8B1DDF3;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 335B21040C22;
  Tue, 29 Sep 2020 20:19:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A54FA19D7D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD31D7BE49;
  Tue, 29 Sep 2020 20:19:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A2C4D113639D; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
+ id A744411358BC; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/29] qapi: Restrict device memory commands to machine code
-Date: Tue, 29 Sep 2020 22:19:03 +0200
-Message-Id: <20200929201926.2155622-7-armbru@redhat.com>
+Subject: [PULL 07/29] qapi: Extract ACPI commands to 'acpi.json'
+Date: Tue, 29 Sep 2020 22:19:04 +0200
+Message-Id: <20200929201926.2155622-8-armbru@redhat.com>
 In-Reply-To: <20200929201926.2155622-1-armbru@redhat.com>
 References: <20200929201926.2155622-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,533 +93,426 @@ Only qemu-system-FOO and qemu-storage-daemon provide QMP
 monitors, therefore such declarations and definitions are
 irrelevant for user-mode emulation.
 
-Restricting the memory commands to machine.json pulls less
-QAPI-generated code into user-mode.
+Extracting the ACPI commands to their own schema reduces the size of
+the qapi-misc* headers generated, and pulls less QAPI-generated code
+into user-mode.
 
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Acked-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200913195348.1064154-7-philmd@redhat.com>
+Message-Id: <20200913195348.1064154-8-philmd@redhat.com>
 [Commit message tweaked]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json               | 216 +++++++++++++++++++++++++++++++
- qapi/misc.json                  | 217 --------------------------------
- include/hw/mem/memory-device.h  |   2 +-
- include/hw/virtio/virtio-pmem.h |   2 +-
- hw/acpi/memory_hotplug.c        |   1 +
- hw/virtio/virtio-mem-pci.c      |   1 +
- 6 files changed, 220 insertions(+), 219 deletions(-)
+ qapi/acpi.json                       | 141 +++++++++++++++++++++++++++
+ qapi/misc.json                       | 131 -------------------------
+ qapi/qapi-schema.json                |   1 +
+ include/hw/acpi/acpi_dev_interface.h |   2 +-
+ hw/acpi/core.c                       |   2 +-
+ hw/acpi/cpu.c                        |   2 +-
+ hw/acpi/memory_hotplug.c             |   2 +-
+ monitor/qmp-cmds.c                   |   1 +
+ MAINTAINERS                          |   1 +
+ qapi/meson.build                     |   1 +
+ 10 files changed, 149 insertions(+), 135 deletions(-)
+ create mode 100644 qapi/acpi.json
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 5e5ddd7a5e..c061cce0e4 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1085,3 +1085,219 @@
- ##
- { 'event': 'BALLOON_CHANGE',
-   'data': { 'actual': 'int' } }
+diff --git a/qapi/acpi.json b/qapi/acpi.json
+new file mode 100644
+index 0000000000..51f0d55db7
+--- /dev/null
++++ b/qapi/acpi.json
+@@ -0,0 +1,141 @@
++# -*- Mode: Python -*-
++# vim: filetype=python
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or later.
++# See the COPYING file in the top-level directory.
++# SPDX-License-Identifier: GPL-2.0-or-later
 +
 +##
-+# @MemoryInfo:
-+#
-+# Actual memory information in bytes.
-+#
-+# @base-memory: size of "base" memory specified with command line
-+#               option -m.
-+#
-+# @plugged-memory: size of memory that can be hot-unplugged. This field
-+#                  is omitted if target doesn't support memory hotplug
-+#                  (i.e. CONFIG_MEM_DEVICE not defined at build time).
-+#
-+# Since: 2.11.0
++# = ACPI
 +##
-+{ 'struct': 'MemoryInfo',
-+  'data'  : { 'base-memory': 'size', '*plugged-memory': 'size' } }
 +
 +##
-+# @query-memory-size-summary:
++# @AcpiTableOptions:
 +#
-+# Return the amount of initially allocated and present hotpluggable (if
-+# enabled) memory in bytes.
++# Specify an ACPI table on the command line to load.
 +#
-+# Example:
++# At most one of @file and @data can be specified. The list of files specified
++# by any one of them is loaded and concatenated in order. If both are omitted,
++# @data is implied.
 +#
-+# -> { "execute": "query-memory-size-summary" }
-+# <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 } }
++# Other fields / optargs can be used to override fields of the generic ACPI
++# table header; refer to the ACPI specification 5.0, section 5.2.6 System
++# Description Table Header. If a header field is not overridden, then the
++# corresponding value from the concatenated blob is used (in case of @file), or
++# it is filled in with a hard-coded value (in case of @data).
 +#
-+# Since: 2.11.0
++# String fields are copied into the matching ACPI member from lowest address
++# upwards, and silently truncated / NUL-padded to length.
++#
++# @sig: table signature / identifier (4 bytes)
++#
++# @rev: table revision number (dependent on signature, 1 byte)
++#
++# @oem_id: OEM identifier (6 bytes)
++#
++# @oem_table_id: OEM table identifier (8 bytes)
++#
++# @oem_rev: OEM-supplied revision number (4 bytes)
++#
++# @asl_compiler_id: identifier of the utility that created the table
++#                   (4 bytes)
++#
++# @asl_compiler_rev: revision number of the utility that created the
++#                    table (4 bytes)
++#
++# @file: colon (:) separated list of pathnames to load and
++#        concatenate as table data. The resultant binary blob is expected to
++#        have an ACPI table header. At least one file is required. This field
++#        excludes @data.
++#
++# @data: colon (:) separated list of pathnames to load and
++#        concatenate as table data. The resultant binary blob must not have an
++#        ACPI table header. At least one file is required. This field excludes
++#        @file.
++#
++# Since: 1.5
 +##
-+{ 'command': 'query-memory-size-summary', 'returns': 'MemoryInfo' }
++{ 'struct': 'AcpiTableOptions',
++  'data': {
++    '*sig':               'str',
++    '*rev':               'uint8',
++    '*oem_id':            'str',
++    '*oem_table_id':      'str',
++    '*oem_rev':           'uint32',
++    '*asl_compiler_id':   'str',
++    '*asl_compiler_rev':  'uint32',
++    '*file':              'str',
++    '*data':              'str' }}
 +
 +##
-+# @PCDIMMDeviceInfo:
++# @ACPISlotType:
 +#
-+# PCDIMMDevice state information
++# @DIMM: memory slot
++# @CPU: logical CPU slot (since 2.7)
++##
++{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
++
++##
++# @ACPIOSTInfo:
 +#
-+# @id: device's ID
++# OSPM Status Indication for a device
++# For description of possible values of @source and @status fields
++# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
 +#
-+# @addr: physical address, where device is mapped
++# @device: device ID associated with slot
 +#
-+# @size: size of memory that the device provides
++# @slot: slot ID, unique per slot of a given @slot-type
 +#
-+# @slot: slot number at which device is plugged in
++# @slot-type: type of the slot
 +#
-+# @node: NUMA node number where device is plugged in
++# @source: an integer containing the source event
 +#
-+# @memdev: memory backend linked with device
-+#
-+# @hotplugged: true if device was hotplugged
-+#
-+# @hotpluggable: true if device if could be added/removed while machine is running
++# @status: an integer containing the status code
 +#
 +# Since: 2.1
 +##
-+{ 'struct': 'PCDIMMDeviceInfo',
-+  'data': { '*id': 'str',
-+            'addr': 'int',
-+            'size': 'int',
-+            'slot': 'int',
-+            'node': 'int',
-+            'memdev': 'str',
-+            'hotplugged': 'bool',
-+            'hotpluggable': 'bool'
-+          }
-+}
++{ 'struct': 'ACPIOSTInfo',
++  'data'  : { '*device': 'str',
++              'slot': 'str',
++              'slot-type': 'ACPISlotType',
++              'source': 'int',
++              'status': 'int' } }
 +
 +##
-+# @VirtioPMEMDeviceInfo:
++# @query-acpi-ospm-status:
 +#
-+# VirtioPMEM state information
-+#
-+# @id: device's ID
-+#
-+# @memaddr: physical address in memory, where device is mapped
-+#
-+# @size: size of memory that the device provides
-+#
-+# @memdev: memory backend linked with device
-+#
-+# Since: 4.1
-+##
-+{ 'struct': 'VirtioPMEMDeviceInfo',
-+  'data': { '*id': 'str',
-+            'memaddr': 'size',
-+            'size': 'size',
-+            'memdev': 'str'
-+          }
-+}
-+
-+##
-+# @VirtioMEMDeviceInfo:
-+#
-+# VirtioMEMDevice state information
-+#
-+# @id: device's ID
-+#
-+# @memaddr: physical address in memory, where device is mapped
-+#
-+# @requested-size: the user requested size of the device
-+#
-+# @size: the (current) size of memory that the device provides
-+#
-+# @max-size: the maximum size of memory that the device can provide
-+#
-+# @block-size: the block size of memory that the device provides
-+#
-+# @node: NUMA node number where device is assigned to
-+#
-+# @memdev: memory backend linked with the region
-+#
-+# Since: 5.1
-+##
-+{ 'struct': 'VirtioMEMDeviceInfo',
-+  'data': { '*id': 'str',
-+            'memaddr': 'size',
-+            'requested-size': 'size',
-+            'size': 'size',
-+            'max-size': 'size',
-+            'block-size': 'size',
-+            'node': 'int',
-+            'memdev': 'str'
-+          }
-+}
-+
-+##
-+# @MemoryDeviceInfo:
-+#
-+# Union containing information about a memory device
-+#
-+# nvdimm is included since 2.12. virtio-pmem is included since 4.1.
-+# virtio-mem is included since 5.1.
-+#
-+# Since: 2.1
-+##
-+{ 'union': 'MemoryDeviceInfo',
-+  'data': { 'dimm': 'PCDIMMDeviceInfo',
-+            'nvdimm': 'PCDIMMDeviceInfo',
-+            'virtio-pmem': 'VirtioPMEMDeviceInfo',
-+            'virtio-mem': 'VirtioMEMDeviceInfo'
-+          }
-+}
-+
-+##
-+# @query-memory-devices:
-+#
-+# Lists available memory devices and their state
++# Return a list of ACPIOSTInfo for devices that support status
++# reporting via ACPI _OST method.
 +#
 +# Since: 2.1
 +#
 +# Example:
 +#
-+# -> { "execute": "query-memory-devices" }
-+# <- { "return": [ { "data":
-+#                       { "addr": 5368709120,
-+#                         "hotpluggable": true,
-+#                         "hotplugged": true,
-+#                         "id": "d1",
-+#                         "memdev": "/objects/memX",
-+#                         "node": 0,
-+#                         "size": 1073741824,
-+#                         "slot": 0},
-+#                    "type": "dimm"
-+#                  } ] }
++# -> { "execute": "query-acpi-ospm-status" }
++# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "source": 1, "status": 0},
++#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "status": 0},
++#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "status": 0},
++#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "status": 0}
++#    ]}
 +#
 +##
-+{ 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
++{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
 +
 +##
-+# @MEMORY_DEVICE_SIZE_CHANGE:
++# @ACPI_DEVICE_OST:
 +#
-+# Emitted when the size of a memory device changes. Only emitted for memory
-+# devices that can actually change the size (e.g., virtio-mem due to guest
-+# action).
++# Emitted when guest executes ACPI _OST method.
 +#
-+# @id: device's ID
-+# @size: the new size of memory that the device provides
++# @info: OSPM Status Indication
 +#
-+# Note: this event is rate-limited.
-+#
-+# Since: 5.1
++# Since: 2.1
 +#
 +# Example:
 +#
-+# <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
-+#      "data": { "id": "vm0", "size": 1073741824},
-+#      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
++# <- { "event": "ACPI_DEVICE_OST",
++#      "data": { "device": "d1", "slot": "0",
++#                "slot-type": "DIMM", "source": 1, "status": 0 } }
 +#
 +##
-+{ 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
-+  'data': { '*id': 'str', 'size': 'size' } }
-+
-+
-+##
-+# @MEM_UNPLUG_ERROR:
-+#
-+# Emitted when memory hot unplug error occurs.
-+#
-+# @device: device name
-+#
-+# @msg: Informative message
-+#
-+# Since: 2.4
-+#
-+# Example:
-+#
-+# <- { "event": "MEM_UNPLUG_ERROR"
-+#      "data": { "device": "dimm1",
-+#                "msg": "acpi: device unplug for unsupported device"
-+#      },
-+#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
-+#
-+##
-+{ 'event': 'MEM_UNPLUG_ERROR',
-+  'data': { 'device': 'str', 'msg': 'str' } }
++{ 'event': 'ACPI_DEVICE_OST',
++     'data': { 'info': 'ACPIOSTInfo' } }
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 05db6295fe..71d11365ea 100644
+index 71d11365ea..4b00b18e54 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -826,39 +826,6 @@
+@@ -970,64 +970,6 @@
  ##
- { 'command': 'closefd', 'data': {'fdname': 'str'} }
+ { 'command': 'query-fdsets', 'returns': ['FdsetInfo'] }
  
 -##
--# @MemoryInfo:
+-# @AcpiTableOptions:
 -#
--# Actual memory information in bytes.
+-# Specify an ACPI table on the command line to load.
 -#
--# @base-memory: size of "base" memory specified with command line
--#               option -m.
+-# At most one of @file and @data can be specified. The list of files specified
+-# by any one of them is loaded and concatenated in order. If both are omitted,
+-# @data is implied.
 -#
--# @plugged-memory: size of memory that can be hot-unplugged. This field
--#                  is omitted if target doesn't support memory hotplug
--#                  (i.e. CONFIG_MEM_DEVICE not defined at build time).
+-# Other fields / optargs can be used to override fields of the generic ACPI
+-# table header; refer to the ACPI specification 5.0, section 5.2.6 System
+-# Description Table Header. If a header field is not overridden, then the
+-# corresponding value from the concatenated blob is used (in case of @file), or
+-# it is filled in with a hard-coded value (in case of @data).
 -#
--# Since: 2.11.0
+-# String fields are copied into the matching ACPI member from lowest address
+-# upwards, and silently truncated / NUL-padded to length.
+-#
+-# @sig: table signature / identifier (4 bytes)
+-#
+-# @rev: table revision number (dependent on signature, 1 byte)
+-#
+-# @oem_id: OEM identifier (6 bytes)
+-#
+-# @oem_table_id: OEM table identifier (8 bytes)
+-#
+-# @oem_rev: OEM-supplied revision number (4 bytes)
+-#
+-# @asl_compiler_id: identifier of the utility that created the table
+-#                   (4 bytes)
+-#
+-# @asl_compiler_rev: revision number of the utility that created the
+-#                    table (4 bytes)
+-#
+-# @file: colon (:) separated list of pathnames to load and
+-#        concatenate as table data. The resultant binary blob is expected to
+-#        have an ACPI table header. At least one file is required. This field
+-#        excludes @data.
+-#
+-# @data: colon (:) separated list of pathnames to load and
+-#        concatenate as table data. The resultant binary blob must not have an
+-#        ACPI table header. At least one file is required. This field excludes
+-#        @file.
+-#
+-# Since: 1.5
 -##
--{ 'struct': 'MemoryInfo',
--  'data'  : { 'base-memory': 'size', '*plugged-memory': 'size' } }
--
--##
--# @query-memory-size-summary:
--#
--# Return the amount of initially allocated and present hotpluggable (if
--# enabled) memory in bytes.
--#
--# Example:
--#
--# -> { "execute": "query-memory-size-summary" }
--# <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 } }
--#
--# Since: 2.11.0
--##
--{ 'command': 'query-memory-size-summary', 'returns': 'MemoryInfo' }
--
+-{ 'struct': 'AcpiTableOptions',
+-  'data': {
+-    '*sig':               'str',
+-    '*rev':               'uint8',
+-    '*oem_id':            'str',
+-    '*oem_table_id':      'str',
+-    '*oem_rev':           'uint32',
+-    '*asl_compiler_id':   'str',
+-    '*asl_compiler_rev':  'uint32',
+-    '*file':              'str',
+-    '*data':              'str' }}
 -
  ##
- # @AddfdInfo:
+ # @CommandLineParameterType:
  #
-@@ -1154,190 +1121,6 @@
+@@ -1121,79 +1063,6 @@
   'returns': ['CommandLineOptionInfo'],
   'allow-preconfig': true }
  
 -##
--# @PCDIMMDeviceInfo:
+-# @ACPISlotType:
 -#
--# PCDIMMDevice state information
+-# @DIMM: memory slot
+-# @CPU: logical CPU slot (since 2.7)
+-##
+-{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
+-
+-##
+-# @ACPIOSTInfo:
 -#
--# @id: device's ID
+-# OSPM Status Indication for a device
+-# For description of possible values of @source and @status fields
+-# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
 -#
--# @addr: physical address, where device is mapped
+-# @device: device ID associated with slot
 -#
--# @size: size of memory that the device provides
+-# @slot: slot ID, unique per slot of a given @slot-type
 -#
--# @slot: slot number at which device is plugged in
+-# @slot-type: type of the slot
 -#
--# @node: NUMA node number where device is plugged in
+-# @source: an integer containing the source event
 -#
--# @memdev: memory backend linked with device
--#
--# @hotplugged: true if device was hotplugged
--#
--# @hotpluggable: true if device if could be added/removed while machine is running
+-# @status: an integer containing the status code
 -#
 -# Since: 2.1
 -##
--{ 'struct': 'PCDIMMDeviceInfo',
--  'data': { '*id': 'str',
--            'addr': 'int',
--            'size': 'int',
--            'slot': 'int',
--            'node': 'int',
--            'memdev': 'str',
--            'hotplugged': 'bool',
--            'hotpluggable': 'bool'
--          }
--}
+-{ 'struct': 'ACPIOSTInfo',
+-  'data'  : { '*device': 'str',
+-              'slot': 'str',
+-              'slot-type': 'ACPISlotType',
+-              'source': 'int',
+-              'status': 'int' } }
 -
 -##
--# @VirtioPMEMDeviceInfo:
+-# @query-acpi-ospm-status:
 -#
--# VirtioPMEM state information
--#
--# @id: device's ID
--#
--# @memaddr: physical address in memory, where device is mapped
--#
--# @size: size of memory that the device provides
--#
--# @memdev: memory backend linked with device
--#
--# Since: 4.1
--##
--{ 'struct': 'VirtioPMEMDeviceInfo',
--  'data': { '*id': 'str',
--            'memaddr': 'size',
--            'size': 'size',
--            'memdev': 'str'
--          }
--}
--
--##
--# @VirtioMEMDeviceInfo:
--#
--# VirtioMEMDevice state information
--#
--# @id: device's ID
--#
--# @memaddr: physical address in memory, where device is mapped
--#
--# @requested-size: the user requested size of the device
--#
--# @size: the (current) size of memory that the device provides
--#
--# @max-size: the maximum size of memory that the device can provide
--#
--# @block-size: the block size of memory that the device provides
--#
--# @node: NUMA node number where device is assigned to
--#
--# @memdev: memory backend linked with the region
--#
--# Since: 5.1
--##
--{ 'struct': 'VirtioMEMDeviceInfo',
--  'data': { '*id': 'str',
--            'memaddr': 'size',
--            'requested-size': 'size',
--            'size': 'size',
--            'max-size': 'size',
--            'block-size': 'size',
--            'node': 'int',
--            'memdev': 'str'
--          }
--}
--
--##
--# @MemoryDeviceInfo:
--#
--# Union containing information about a memory device
--#
--# nvdimm is included since 2.12. virtio-pmem is included since 4.1.
--# virtio-mem is included since 5.1.
--#
--# Since: 2.1
--##
--{ 'union': 'MemoryDeviceInfo',
--  'data': { 'dimm': 'PCDIMMDeviceInfo',
--            'nvdimm': 'PCDIMMDeviceInfo',
--            'virtio-pmem': 'VirtioPMEMDeviceInfo',
--            'virtio-mem': 'VirtioMEMDeviceInfo'
--          }
--}
--
--##
--# @query-memory-devices:
--#
--# Lists available memory devices and their state
+-# Return a list of ACPIOSTInfo for devices that support status
+-# reporting via ACPI _OST method.
 -#
 -# Since: 2.1
 -#
 -# Example:
 -#
--# -> { "execute": "query-memory-devices" }
--# <- { "return": [ { "data":
--#                       { "addr": 5368709120,
--#                         "hotpluggable": true,
--#                         "hotplugged": true,
--#                         "id": "d1",
--#                         "memdev": "/objects/memX",
--#                         "node": 0,
--#                         "size": 1073741824,
--#                         "slot": 0},
--#                    "type": "dimm"
--#                  } ] }
+-# -> { "execute": "query-acpi-ospm-status" }
+-# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "source": 1, "status": 0},
+-#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "status": 0},
+-#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "status": 0},
+-#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "status": 0}
+-#    ]}
 -#
 -##
--{ 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
+-{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
 -
 -##
--# @MEMORY_DEVICE_SIZE_CHANGE:
+-# @ACPI_DEVICE_OST:
 -#
--# Emitted when the size of a memory device changes. Only emitted for memory
--# devices that can actually change the size (e.g., virtio-mem due to guest
--# action).
+-# Emitted when guest executes ACPI _OST method.
 -#
--# @id: device's ID
--# @size: the new size of memory that the device provides
+-# @info: OSPM Status Indication
 -#
--# Note: this event is rate-limited.
--#
--# Since: 5.1
+-# Since: 2.1
 -#
 -# Example:
 -#
--# <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
--#      "data": { "id": "vm0", "size": 1073741824},
--#      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
+-# <- { "event": "ACPI_DEVICE_OST",
+-#      "data": { "device": "d1", "slot": "0",
+-#                "slot-type": "DIMM", "source": 1, "status": 0 } }
 -#
 -##
--{ 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
--  'data': { '*id': 'str', 'size': 'size' } }
--
--
--##
--# @MEM_UNPLUG_ERROR:
--#
--# Emitted when memory hot unplug error occurs.
--#
--# @device: device name
--#
--# @msg: Informative message
--#
--# Since: 2.4
--#
--# Example:
--#
--# <- { "event": "MEM_UNPLUG_ERROR"
--#      "data": { "device": "dimm1",
--#                "msg": "acpi: device unplug for unsupported device"
--#      },
--#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
--#
--##
--{ 'event': 'MEM_UNPLUG_ERROR',
--  'data': { 'device': 'str', 'msg': 'str' } }
+-{ 'event': 'ACPI_DEVICE_OST',
+-     'data': { 'info': 'ACPIOSTInfo' } }
 -
  ##
- # @ACPISlotType:
+ # @ReplayMode:
  #
-diff --git a/include/hw/mem/memory-device.h b/include/hw/mem/memory-device.h
-index cde52e83c9..30d7e99f52 100644
---- a/include/hw/mem/memory-device.h
-+++ b/include/hw/mem/memory-device.h
-@@ -14,7 +14,7 @@
- #define MEMORY_DEVICE_H
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index f03ff91ceb..4d8b3a9afe 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -85,3 +85,4 @@
+ { 'include': 'misc.json' }
+ { 'include': 'misc-target.json' }
+ { 'include': 'audio.json' }
++{ 'include': 'acpi.json' }
+diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
+index 9adf1e4706..769ff55c7e 100644
+--- a/include/hw/acpi/acpi_dev_interface.h
++++ b/include/hw/acpi/acpi_dev_interface.h
+@@ -1,7 +1,7 @@
+ #ifndef ACPI_DEV_INTERFACE_H
+ #define ACPI_DEV_INTERFACE_H
  
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-acpi.h"
+ #include "qom/object.h"
+ #include "hw/boards.h"
  #include "hw/qdev-core.h"
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qom/object.h"
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index ac06db3450..ade9158cbf 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -27,7 +27,7 @@
+ #include "qapi/error.h"
+ #include "qapi/opts-visitor.h"
+ #include "qapi/qapi-events-run-state.h"
+-#include "qapi/qapi-visit-misc.h"
++#include "qapi/qapi-visit-acpi.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+index 8dd4d8ebbf..f099b50927 100644
+--- a/hw/acpi/cpu.c
++++ b/hw/acpi/cpu.c
+@@ -3,7 +3,7 @@
+ #include "migration/vmstate.h"
+ #include "hw/acpi/cpu.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-events-misc.h"
++#include "qapi/qapi-events-acpi.h"
+ #include "trace.h"
+ #include "sysemu/numa.h"
  
- #define TYPE_MEMORY_DEVICE "memory-device"
-diff --git a/include/hw/virtio/virtio-pmem.h b/include/hw/virtio/virtio-pmem.h
-index 66b590821e..fc4fd1f7fe 100644
---- a/include/hw/virtio/virtio-pmem.h
-+++ b/include/hw/virtio/virtio-pmem.h
-@@ -15,7 +15,7 @@
- #define HW_VIRTIO_PMEM_H
- 
- #include "hw/virtio/virtio.h"
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qom/object.h"
- 
- #define TYPE_VIRTIO_PMEM "virtio-pmem"
 diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-index 8d2e82240f..dfe57af429 100644
+index dfe57af429..f2552b2a46 100644
 --- a/hw/acpi/memory_hotplug.c
 +++ b/hw/acpi/memory_hotplug.c
-@@ -7,6 +7,7 @@
+@@ -7,8 +7,8 @@
  #include "migration/vmstate.h"
  #include "trace.h"
  #include "qapi/error.h"
-+#include "qapi/qapi-events-machine.h"
- #include "qapi/qapi-events-misc.h"
++#include "qapi/qapi-events-acpi.h"
+ #include "qapi/qapi-events-machine.h"
+-#include "qapi/qapi-events-misc.h"
  
  #define MEMORY_SLOTS_NUMBER          "MDNR"
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-index 590cec041b..913f4a3326 100644
---- a/hw/virtio/virtio-mem-pci.c
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -14,6 +14,7 @@
- #include "virtio-mem-pci.h"
- #include "hw/mem/memory-device.h"
+ #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 864cbfa32e..0ab5b78580 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -30,6 +30,7 @@
+ #include "sysemu/blockdev.h"
+ #include "sysemu/block-backend.h"
  #include "qapi/error.h"
-+#include "qapi/qapi-events-machine.h"
- #include "qapi/qapi-events-misc.h"
++#include "qapi/qapi-commands-acpi.h"
+ #include "qapi/qapi-commands-block.h"
+ #include "qapi/qapi-commands-control.h"
+ #include "qapi/qapi-commands-machine.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5eed1e692b..f99b5db940 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1632,6 +1632,7 @@ F: hw/acpi/*
+ F: hw/smbios/*
+ F: hw/i386/acpi-build.[hc]
+ F: hw/arm/virt-acpi-build.c
++F: qapi/acpi.json
+ F: tests/qtest/bios-tables-test*
+ F: tests/qtest/acpi-utils.[hc]
+ F: tests/data/acpi/
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 2b2872a41d..f57acc2402 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -14,6 +14,7 @@ util_ss.add(files(
+ ))
  
- static void virtio_mem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+ qapi_all_modules = [
++  'acpi',
+   'audio',
+   'authz',
+   'block-core',
 -- 
 2.26.2
 
