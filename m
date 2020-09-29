@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EBB27CEBB
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:13:58 +0200 (CEST)
-Received: from localhost ([::1]:56720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132AB27CED6
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:16:36 +0200 (CEST)
+Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNFS9-00076B-MD
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:13:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1kNFUh-0001pE-4I
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNFQM-0005la-Cp
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:12:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57123)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNFQm-0006Fs-Hl
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:12:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNFQI-0005Ry-5E
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:12:05 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNFQj-0005WD-UZ
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:12:32 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601385120;
+ s=mimecast20190719; t=1601385149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pBO1mueCqYNQQMRtYYtrBf5yCJiJeh+3d560PNeF6bw=;
- b=TFG+9Kr/aSTpD5DVs4ccuzZPk+C6zM4nC16x6wmISODn70k7zKQxJJdZMAo2a5CzUf/t3h
- pb2F6V05jkzgpNpLlfiRitQFSA8pzstW8Xtlwjpgfi7ZxNdLsm/TYOxR4Hqicre0OXoGso
- IMSagEpE+re0ur/JPknolW2crrE9KcA=
+ bh=iHIYL9jcqPkDBb38xKqQlZ6LW2YgqIK9pnW+fJMF89E=;
+ b=MyXtNg32MUDC6j47dB/fiYM/38TEhfTtKzQvHN3ElumreLObTUWwnWQnp3WS+Vd2YTN7EA
+ XS2y3oloKyGWmml/4XQ9/co6bCXnOYP+kkmeZkIePuRPik/y5gmqId47kcbOwXpZVXMoCz
+ Zr+6ELgIcSQ8nmhfgLaWpKZd3Nw3pOc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-ds--Gr7gNOy1N8UWPE6s5Q-1; Tue, 29 Sep 2020 09:11:58 -0400
-X-MC-Unique: ds--Gr7gNOy1N8UWPE6s5Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-94-WRfsUplOOByDlmNzuHzNbg-1; Tue, 29 Sep 2020 09:12:27 -0400
+X-MC-Unique: WRfsUplOOByDlmNzuHzNbg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9281018B9ED7;
- Tue, 29 Sep 2020 13:11:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30EA818BA29E;
+ Tue, 29 Sep 2020 13:12:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 428EC2AA86;
- Tue, 29 Sep 2020 13:11:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0243B81C45;
+ Tue, 29 Sep 2020 13:12:26 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BB9D6113864A; Tue, 29 Sep 2020 15:11:55 +0200 (CEST)
+ id 91E32113864A; Tue, 29 Sep 2020 15:12:24 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 08/21] docs/interop: Convert qemu-ga-ref to rST
+Subject: Re: [PATCH v6 09/21] docs/interop: Convert qemu-qmp-ref to rST
 References: <20200925162316.21205-1-peter.maydell@linaro.org>
- <20200925162316.21205-9-peter.maydell@linaro.org>
- <87tuvh0zaf.fsf@dusky.pond.sub.org>
- <CAFEAcA90L2YEOU70S_B-o+ZQNz+NJKtRd4UU48RBcqe=Z=eSAw@mail.gmail.com>
-Date: Tue, 29 Sep 2020 15:11:55 +0200
-In-Reply-To: <CAFEAcA90L2YEOU70S_B-o+ZQNz+NJKtRd4UU48RBcqe=Z=eSAw@mail.gmail.com>
- (Peter Maydell's message of "Tue, 29 Sep 2020 10:26:50 +0100")
-Message-ID: <87k0wcsp5w.fsf@dusky.pond.sub.org>
+ <20200925162316.21205-10-peter.maydell@linaro.org>
+ <87a6x90yy8.fsf@dusky.pond.sub.org>
+ <CAFEAcA9RauKyN2XfECOwqhT02FsmZdxbQkRa89=QGcq+z0Oorw@mail.gmail.com>
+Date: Tue, 29 Sep 2020 15:12:24 +0200
+In-Reply-To: <CAFEAcA9RauKyN2XfECOwqhT02FsmZdxbQkRa89=QGcq+z0Oorw@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 29 Sep 2020 10:41:01 +0100")
+Message-ID: <87ft70sp53.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -90,68 +90,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On Tue, 29 Sep 2020 at 09:20, Markus Armbruster <armbru@redhat.com> wrote:
+> On Tue, 29 Sep 2020 at 09:28, Markus Armbruster <armbru@redhat.com> wrote:
 >>
 >> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->> > Convert qemu-ga-ref to rST format. This includes dropping
->> > the plain-text, pdf and info format outputs for this document;
->> > as with all our other Sphinx-based documentation, we provide
->> > HTML and manpage only.
+>> > diff --git a/qapi/meson.build b/qapi/meson.build
+>> > index 2b2872a41d8..a287ca5d9d7 100644
+>> > --- a/qapi/meson.build
+>> > +++ b/qapi/meson.build
+>> > @@ -97,7 +97,7 @@ foreach module : qapi_all_modules
+>> >  endforeach
 >> >
+>> >  qapi_files = custom_target('shared QAPI source files',
+>> > -  output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs + ['qapi-doc.texi'],
+>> > +  output: qapi_util_outputs + qapi_specific_outputs + qapi_nonmodule_outputs,
+>> >    input: [ files('qapi-schema.json') ],
+>> >    command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@' ],
+>> >    depend_files: [ qapi_inputs, qapi_gen_depends ])
+>> > @@ -121,5 +121,3 @@ foreach output : qapi_specific_outputs + qapi_nonmodule_outputs
+>> >    specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
+>> >    i = i + 1
+>> >  endforeach
+>> > -
+>> > -qapi_doc_texi = qapi_files[i]
+>>
+>> Doesn't storage-daemon/qapi/meson.build need a similar update?
 >
->> > --- a/docs/interop/conf.py
->> > +++ b/docs/interop/conf.py
->> > @@ -19,4 +19,6 @@ html_theme_options['description'] = u'System Emulation Management and Interopera
->> >  man_pages = [
->> >      ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
->> >       ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
->> > +    ('qemu-ga-ref', 'qemu-ga-ref', u'QEMU Guest Agent Protocol Reference',
->> > +     [], 7),
->> >  ]
->>
->> Why do you make the description a unicode legacy literal?  I see it
->> matches existing entries.  I'd like to know regardless :)
->
-> I was probably just copying some other example of how to
-> write the man_pages[] definition. This also all used to have
-> to work with Python 2.7, which might or might not be relevant here.
+> I was previously unaware of storage-daemon/qapi...
+> It looks like we don't actually do anything with the generated
+> qapi-doc.texi there, so I'm not sure why we were listing it as an output.
+> I think we should only need to remove the " + ['qapi-doc.texi']"
+> in storage-daemon/qapi/meson.build, and that should be a separate
+> change after this one and before we remove scripts/qapi/doc.py.
 
-Let's switch to plain string.  Can do in my tree.
-
->> > -@titlepage
->> > -@title Guest Agent Protocol Reference Manual
->> > -@subtitle QEMU version @value{VERSION}
->>
->> There is no obvious equivalent to @value{VERSION} in
->> docs/interop/qemu-ga-ref.rst.
->>
->> The manual page generated from it has the version in the footer.  Good.
->>
->> I can't find it in the generated HTML.  Not so good, but it wasn't there
->> before the patch, either.
->>
->> The generated PDF had it on the title page.
->>
->> Suggest to add a TODO comment like the one about the licensing
->> information.
->
-> So the version is in the manual page, as it was before the conversion,
-> and it's not in the HTML version, which it wasn't before the
-> conversion. That doesn't sound to me like there's anything here
-> to do...
-
-I think readers of the HTML version will appreciate the version
-information.
-
-Similar situation as for the licensing information: your patch doesn't
-make things worse[*], but we found something to improve during review.
-
->          You can add a TODO if you want one, of course.
-
-Thanks!
-
-
-[*] I guess it would for PDF, if we still supported PDF.
+I'll give it a try.
 
 
