@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B44F27D5C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:27:53 +0200 (CEST)
-Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCAF527D5CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:32:32 +0200 (CEST)
+Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNKLw-0004EF-7r
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33146)
+	id 1kNKQR-0007Hp-9m
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNKJw-00035E-RB
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:25:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52366)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNKF4-0008De-OT
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:20:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNKJv-0004RA-2h
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:25:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNKF3-0003qM-0u
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:20:46 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601403946;
+ s=mimecast20190719; t=1601403643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fmM4krDyGvanpoAaAqLDnTDLnK6BSk4w1VQYyA5jMDU=;
- b=RcRcU1j5XESxOzl/Hz4vr4fneLcG09b6upNn0gLK5hvFADAtG8CJDvtDa0GNGqgmMylW6N
- HtJHtuJ0xLIkXC671YRrnFFIiXofqybkTSUjW8GpiUyzH/VIbwWSH9y/cl0HnozEgUjt/9
- ELUNZF0+Cp9G0AgkSpVFcvmZXLp7FL8=
+ bh=1/Pm/3Hbr6ZAAdq0lv+qLAHB6qWffvsQZ3V9hXzsE4E=;
+ b=LBa+w4hSuOdkr9u4gzoxhdlW2nhO7Eu9j7AFEGOFMIDkkaLFx6/7L4yZtJ3g4Z3/kTBnJ2
+ 9DTIHkZCeN0CcNJwD5BEr7cOQ3uFDnVCKpRWvCdkz8e+wyHJq58NhNKWD9quNqJydEZIuG
+ JNXg/Iyd/HAcSmaY0w0kvALbTOYsYJU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-boJzqqQNMTWhiP0gAYEuqw-1; Tue, 29 Sep 2020 14:25:44 -0400
-X-MC-Unique: boJzqqQNMTWhiP0gAYEuqw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-575-WVI-NK51NSWktS16Db0cFg-1; Tue, 29 Sep 2020 14:20:40 -0400
+X-MC-Unique: WVI-NK51NSWktS16Db0cFg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B4ED106B494
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 18:25:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C84F1009DA
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 18:20:34 +0000 (UTC)
 Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF4EE5C1D7;
- Tue, 29 Sep 2020 18:25:37 +0000 (UTC)
-Subject: Re: [PATCH v3 05/47] qapi/doc.py: Change code templates from function
- to string
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1EC7578806;
+ Tue, 29 Sep 2020 18:20:33 +0000 (UTC)
+Subject: Re: [PATCH v3 03/47] [DO-NOT-MERGE] docs/sphinx: change default role
+ to "any"
 To: Cleber Rosa <crosa@redhat.com>
 References: <20200925002900.465855-1-jsnow@redhat.com>
- <20200925002900.465855-6-jsnow@redhat.com>
- <20200929035113.GF700868@localhost.localdomain>
+ <20200925002900.465855-4-jsnow@redhat.com>
+ <20200929033000.GD700868@localhost.localdomain>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <9f22e424-f514-efc6-4719-f3396453f858@redhat.com>
-Date: Tue, 29 Sep 2020 14:25:37 -0400
+Message-ID: <69b24826-0898-6da3-4369-6022ba2ce84f@redhat.com>
+Date: Tue, 29 Sep 2020 14:20:32 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200929035113.GF700868@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200929033000.GD700868@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,54 +90,46 @@ Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/20 11:51 PM, Cleber Rosa wrote:
-> On Thu, Sep 24, 2020 at 08:28:18PM -0400, John Snow wrote:
->> For whatever reason, when these are stored as functions instead of
->> strings, it confuses sphinx-autodoc into believing them to be
->> docstrings, and it chokes on the syntax.
->>
-> 
-> Interesting...
-> 
->> Keeping them as dumb strings instead avoids the problem.
->>
-> 
-> I actually think it's a more honest approach, and easier to read.
-> 
+On 9/28/20 11:30 PM, Cleber Rosa wrote:
+> On Thu, Sep 24, 2020 at 08:28:16PM -0400, John Snow wrote:
 >> Signed-off-by: John Snow <jsnow@redhat.com>
 >> ---
->>   scripts/qapi/doc.py | 40 ++++++++++++++++++++--------------------
->>   1 file changed, 20 insertions(+), 20 deletions(-)
+>>   docs/conf.py | 3 +++
+>>   1 file changed, 3 insertions(+)
 >>
->> diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
->> index c41e9d29f5..d12eda9e1e 100644
->> --- a/scripts/qapi/doc.py
->> +++ b/scripts/qapi/doc.py
->> @@ -8,26 +8,26 @@
->>   from qapi.gen import QAPIGenDoc, QAPISchemaVisitor
+>> diff --git a/docs/conf.py b/docs/conf.py
+>> index 0dbd90dc11..a68f616d5a 100644
+>> --- a/docs/conf.py
+>> +++ b/docs/conf.py
+>> @@ -81,6 +81,9 @@
+>>   # The master toctree document.
+>>   master_doc = 'index'
 >>   
->>   
->> -MSG_FMT = """
->> +_MSG = '''
->>   @deftypefn {type} {{}} {name}
->>   
->>   {body}{members}{features}{sections}
->>   @end deftypefn
->>   
->> -""".format
->> +'''
+>> +# Interpret `this` to be a cross-reference to "anything".
+>> +default_role = 'any'
+>> +
+>>   # General information about the project.
+>>   project = u'QEMU'
+>>   copyright = u'2020, The QEMU Project Developers'
+>> -- 
+>> 2.26.2
 >>
 > 
-> I know it doesn't make syntactic difference, but is there a reson for
-> also changing the quote style?
+> After this I get:
+> 
+>    qemu/docs/cpu-hotplug.rst:81: WARNING: 'any' reference target not found: query-cpus-fast
+> 
+> So I missed it during the review of the first patch ("docs: replace
+> single backtick (`) with double-backtick (``)").
 > 
 > - Cleber.
 > 
 
-Was just trying to differentiate it from docstrings to see if it helped. 
-It didn't, but it also didn't hurt, so I left it.
+What are you invoking to get this to fail?
 
-Luckily, this patch won't matter after Peter Maydell's series goes in, 
-so whatever!
+I am typing "make sphinxdocs".
+
+It doesn't look like this document is actually built as part of the 
+manual for me.
 
 
