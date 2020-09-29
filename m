@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1713727C4A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:15:56 +0200 (CEST)
-Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FDE27C4DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:18:15 +0200 (CEST)
+Received: from localhost ([::1]:51098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNDbv-0002D2-4x
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:15:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
+	id 1kNDeA-0004Ue-62
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNDTX-0001V8-CE
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:07:15 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:40529)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kNDWd-00067W-0W
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:10:29 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNDTV-0003N1-MZ
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:07:15 -0400
-Received: by mail-ej1-x641.google.com with SMTP id p15so14359174ejm.7
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:07:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kNDWY-0003gl-Fd
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:10:26 -0400
+Received: by mail-wr1-x443.google.com with SMTP id z1so4924572wrt.3
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RT04pNx78VMA9LPYMm5j9UMmMpAB7NyDUIvXtnkc47g=;
- b=s0i748YnK6JbxHTtID/0vQnTV7q49BvDrii+Dtk/EwehhE0PSiVPp0AtxkCUAJ4Ull
- JcjO3UNlCUNSsK3Li0pSd3MT32Z2+DwGGwzaFC5m9ykSIIDgaagsDgFyr/NWgJhbdLq2
- 7HTH1a8ZUx9+8ZQrYrxezhW92Q7ArFPSet1Lhf4N+YWxZzb09AoxNvqmI+uPk392yncN
- oKhK64KU78sifOeq0LcsRSlwFyyKptHH29SUVNM3rIuZgB/BnWf+N8p3KBl4XmCoCITo
- lvasG55vj+0XC30q6Pl+yXFVjg+1dRgDaHO7OQV5R6bzseUY7vNuzn7rXzNZ/yfzGfHV
- 2O1w==
+ :cc; bh=1UdY5OqsQ+Can+bRpsaxh1QpgPhjT2IysX/4V2tpIgw=;
+ b=enKuV/fE+phv7JwqwbVI2WtkeKWWBKlhvX2wc8VdDvlmTONtz4YnuqKqYBFicREqnN
+ UyUFf5zKaLRbYxquNOMvcREG2ThfXjUaVYFOeWoD6b8F6g8+ss+99UQKYdRKYfvw2jsU
+ L5vBgaQr4qq5U1Sx7qOCOWxE/W8ndo3xgK/9FbJ6mb7uucuWnr9fEIqwz493E/c0yzjL
+ o03vfH3oaHl40o0DJabtrg8sexD2P/QMSuf+OMnuzSgGsRBU+gDOpPhMUSUWNWPpQxa+
+ 9l1gIVhQKzMSileZwRQCzkqkcmYChDy5m7VttinD/WThI2sMHetqsvPHXTW+77e9sgh3
+ JUJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RT04pNx78VMA9LPYMm5j9UMmMpAB7NyDUIvXtnkc47g=;
- b=o79diksP/kFek7Ut/AEMmWUsUjdJZRcOxvDx+EXmQJ2EW+H1I7Zjv43pVCG+Mr/Smc
- eV5RDf1+y/KXJ0VGdtT9BTd9mcVIcyfpNgQtmLRYy2myUhhlaVyztlqomCYt1PU523s/
- GK9gbScm4CYs3N5pnCi4KaqF5TFdS/63ZKJkOBjrtp8JgCUgelAB62Cvyh5r4E7Iipmw
- 56K071eHRCJzGJbsPQIvuBALxgVyGxqPloHTcdLhaIZ11x96oNcJe3hZqHlXj5gviCS5
- 5XmimntIY8E94Eam9v5jjSYBcOYvJNWCkxL+5yd3qFkm4V525X94HdPlYJgAQ+IHCJxp
- 2gjA==
-X-Gm-Message-State: AOAM5313cOhfY9AIUO2Ei4eh5kx3gEECLxoQFPMzO8W8Il0v6NJWnJMg
- Lvl65CiBUZVcyoZnkNGgqF70U1XDWXl0ls5OC9z34bighNGLLdVJ
-X-Google-Smtp-Source: ABdhPJxJK+ay5zto+Z6I1cFb1d9t2bMA6+2P0DqQiM9l2s3GxV8wdF+wfXvKMLH7JF/5G1yby+rz8DpjQ8csKm8H6Lo=
-X-Received: by 2002:a17:906:d936:: with SMTP id
- rn22mr3352634ejb.4.1601377632019; 
- Tue, 29 Sep 2020 04:07:12 -0700 (PDT)
+ bh=1UdY5OqsQ+Can+bRpsaxh1QpgPhjT2IysX/4V2tpIgw=;
+ b=Pq9i3eXC70YwkleSwPp6t5GpZE4hfqlF3nT4pNIRLI1tfMgiPA0shNbyZZpiMxMPph
+ BpUaDY2EABNxnc7oy87IAazODU1M5jWMiA8Zwxy4actVCifODwkzWdzpKc9Jdi8cxVBl
+ nrhRLFQQYZp1r8Jmn+eMnHHzxxEwxynsydzqywpdfUNWwcWZotn8Swj4BKpYjeP/bVDL
+ 9+0dU7uANs76Ti647mMUQtUphXBOxqIjksg86+HooP+91Q8hY8CJYIrx6ZqTslrO7O3H
+ rZov81B78NvOQOJaleyRfi1MihnxLSRzgKuwAsw9ATr/3YSwKF+MP/vpsfEOUXuUm6bY
+ ANWQ==
+X-Gm-Message-State: AOAM532g0VootOnOzSMy173LdqlVfs6VYBzBg6/ie87LNNLRInni8pMV
+ jkZW+4tWPgWtWRM89ME0RI2ZLFmUuHNPeSOdSwaRHw==
+X-Google-Smtp-Source: ABdhPJwTBLnu4XKysJz7VpvaaOiKoBvE1p0NkJ9iy6n9dWfvNr9xPyzCx78lb1AcEANeiGl8EzwaIrAvkRiuaF4fjIg=
+X-Received: by 2002:adf:e3cf:: with SMTP id k15mr3410250wrm.291.1601377820985; 
+ Tue, 29 Sep 2020 04:10:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200929071948.281157-1-mst@redhat.com>
- <20200929070322-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200929070322-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Sep 2020 12:07:01 +0100
-Message-ID: <CAFEAcA_D+qM6jW9LeB4gpU-A9skUv8mpWWQJ1uu9xMjw7nwxOA@mail.gmail.com>
-Subject: Re: [PULL v4 00/48] virtio,pc,acpi: fixes, tests
+References: <20200929032619-mutt-send-email-mst@kernel.org>
+ <CAARzgwz7x6uinPQ+oC+yAuFCbQEWhQuDmGU73E5NZ2WCH_C_kA@mail.gmail.com>
+ <CAARzgwwxjjCAVsFB6_987pa1Z_in2G50rViYiRGVae-c_wn6xQ@mail.gmail.com>
+ <20200929053823-mutt-send-email-mst@kernel.org>
+ <CAARzgwxBcTDkK7QhHP=_mpYoAYYgRY+d6o+2SCSP-haBPDttwA@mail.gmail.com>
+ <CAARzgwy8QNw=OD6cOEkDY-x9mC10ry+NTdCH2gNKuLXp8bAAyg@mail.gmail.com>
+ <CAARzgwyNPZB5PGc-B9vDn9V-uEwVCiCvXgvamMaGTvBCPJQiCg@mail.gmail.com>
+ <20200929063539-mutt-send-email-mst@kernel.org>
+ <CAARzgwz6iTsO9Z1ACAHmbSteGYfetDgnSRYc-xnaqjYyJ4yEHA@mail.gmail.com>
+ <CAARzgwwvuFi94dva6tvHtk9uFBDVYNOaGs1CFP6kwN3ezipd9w@mail.gmail.com>
+ <20200929065602-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200929065602-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 29 Sep 2020 16:40:09 +0530
+Message-ID: <CAARzgwwZPMtP-F6UTyiPt+neRzy70++r=DmC1u4JJe7QS4TAcg@mail.gmail.com>
+Subject: Re: [PATCH v10 13/13] tests/acpi: add DSDT.hpbrroot DSDT table blob
+ to test global i440fx hotplug
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::443;
+ envelope-from=ani@anisinha.ca; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,35 +87,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Sep 2020 at 12:04, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, Sep 29, 2020 at 4:28 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> On Tue, Sep 29, 2020 at 03:20:52AM -0400, Michael S. Tsirkin wrote:
-> > Changes from v3:
-> > - dropped reconnect tests
-> > - added more fixes, an smbios feature
+> On Tue, Sep 29, 2020 at 04:20:15PM +0530, Ani Sinha wrote:
+> >  as
 > >
-> > The following changes since commit 74504514b154ebebdff577d88e4bf5c13074e9ed:
+> > On Tue, Sep 29, 2020 at 4:11 PM Ani Sinha <ani@anisinha.ca> wrote:
+> > >
+> > > On Tue, Sep 29, 2020 at 4:07 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Tue, Sep 29, 2020 at 04:02:07PM +0530, Ani Sinha wrote:
+> > > > > On Tue, Sep 29, 2020 at 4:00 PM Ani Sinha <ani@anisinha.ca> wrote:
+> > > > > >
+> > > > > > In your pull request the following patch is completely screwed up:
+> > > > > >
+> > > > > > commit cda2006eded0ed91974e1d9e7f9f288e65812a3e
+> > > > > > Author: Ani Sinha <ani@anisinha.ca>
+> > > > > > Date:   Tue Sep 29 03:22:52 2020 -0400
+> > > > > >
+> > > > > >     tests/acpi: update golden master DSDT binary table blobs for q35
+> > > > > >
+> > > > > >
+> > > > > > This is not my patch. It has all sorts of changes which does not
+> > > > > > belong there. Can you please check?
+> > > > >
+> > > > > See https://patchew.org/QEMU/20200929071948.281157-1-mst@redhat.com/20200929071948.281157-46-mst@redhat.com/
+> > > >
+> > > >
+> > > > I had to regenerate the binary, yes. That's par for the course.
+> > > > But it looks like I added disasssembled files. Will fix up and drop,
+> > > > thanks for noticing this.
 > >
-> >   Merge remote-tracking branch 'remotes/alistair/tags/pull-register-20200927' into staging (2020-09-28 16:49:10 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 8138405528c29af2a850cd672a8f8a0b33b7ab40:
+> > It's probably worthwhile to regenerate DSDT.hpbrroot as well and then
+> > do the diff and compare.
 >
-> Ani Sinha pointed out that this included unnecessary files, I pushed out
-> a new commit 192d48b4ae4216f0dc40fba35e8edf3b92713aa7 which should be
-> ok.
+> They are all regenerated by tests/data/acpi/rebuild-expected-aml.sh
+>
+> What is important is to check the changes and not trust them blindly.
 
-Oops, I just merged 8138405528c before reading this mail. Could
-you send another pullreq which makes the fixes as changes to master,
-please?
+Yes what I meant was if you are regenerating the source blob with
+which you are diff-ing, you should generate the destination blob as
+well so that we can compare apples to apples.
 
-thanks
--- PMM
+>
+> Do you see anything unexpected? It is easy to run
+>
+> tests/data/acpi/disassemle-aml.sh -o <output directory>
+>
+> on multiple versions and see what is going on.
+> Care to do this?
+>
+>
+> --
+> MST
+>
 
