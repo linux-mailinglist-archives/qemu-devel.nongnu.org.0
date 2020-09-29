@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FCE27DC60
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:58:59 +0200 (CEST)
-Received: from localhost ([::1]:36268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A47827DC5A
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 00:56:16 +0200 (CEST)
+Received: from localhost ([::1]:58304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNOaI-0004EQ-TR
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32862)
+	id 1kNOXf-0001O4-D4
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 18:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMt-0006gP-Cu
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:45:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49122)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOQk-0002rb-8B
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:49:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOMq-0004gj-Sr
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:45:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNOQh-00053s-HS
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 18:49:05 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601419504;
+ s=mimecast20190719; t=1601419742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LDAC3FC/MEaPD4LUvl2bkbirLPCAiqLo/YtDEMBCclM=;
- b=R5Jwe8wix09pVIeYCw+Jtdse4VcVJmmF9cw4E+SJX+F0bWR6wQQdZChe0K5knG54Yg2Nxo
- jyaybuhtCBRKXg1HO19DuFYD/LCbVA0HiZhWtSCBl8YsDHWOWUV4MqXFoUJJ5vHhxmEPks
- JU8Fh0nxWNAAk5pkuMsKessdg42gptQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-xmtR7E0UNbO2yWjc0OCAAw-1; Tue, 29 Sep 2020 18:45:00 -0400
-X-MC-Unique: xmtR7E0UNbO2yWjc0OCAAw-1
-Received: by mail-wr1-f70.google.com with SMTP id v5so2326292wrs.17
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:45:00 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vdf7bQWqpFNs3r3ydPMxG1ARTKmwVNGr5rEsk2E5fdY=;
+ b=UyVNuqZbcbl3QPcSe8e0A2/MAMAl8fB3fqgNadGbvycFx2692J7lf9jnp83szJkHv0J7aK
+ PbFpGrMCMiNBXlTYKmy5SaYhUkaB6Zw6wsenhliL8XcHKx6TAaCOzKXfjvrBVlWK/AoduT
+ BnlVJeT7THQI4N22l8O1fTthqC0sOK4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-nRA3uT9XNn2b72aGC9ufPA-1; Tue, 29 Sep 2020 18:49:01 -0400
+X-MC-Unique: nRA3uT9XNn2b72aGC9ufPA-1
+Received: by mail-wm1-f72.google.com with SMTP id a7so2428630wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 15:49:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LDAC3FC/MEaPD4LUvl2bkbirLPCAiqLo/YtDEMBCclM=;
- b=Xcg6wliLArvw9SzekdtWBlTYiiHYO4uWqEy3xrreBe90LafLVedwnCpNLNzzmPVY4l
- SCFoDIIBGiQtLlm3ChnD/USEypJI8kJGZg2z6AxJ9r9mHVTvUSlI4b+dqycCEwpSlI66
- fE6dmv0hoIaYBy7MrMoJxqhCiMecCFGhWlPIAKcZJGB/tWroGXi/BpxvYcavLkJ3cL7d
- +ghDRaDNeaiJKw904Pw5j8bxaSD5uUTz0dLna1KXoq80Yud68jh3KftwwS1dtJikxO/K
- 7ozMtl4z/F51AE9K32L88YnFU1CvVx2Rs5sXC7LypXEanqsIh2rEs2LQLE31byoKWnq3
- RGig==
-X-Gm-Message-State: AOAM531W8W8S4r14KaPyVR+EhGQ5dRly99tPGx0b8J29k0uBtv2MLN3N
- GjXyrfEWtM4DDNAB1/wtJTUf2TLpBgEMID/EJvjgECsHmb0PW4/E4D3vzFwJjdTR+ZA20HIthiq
- 9ccdLQMKEKchDrpU=
-X-Received: by 2002:a5d:43cf:: with SMTP id v15mr6808328wrr.269.1601419499107; 
- Tue, 29 Sep 2020 15:44:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwH+Rg1xe9gd9DlTZs7Ar3VzsQvPodRcCF6Ci4iIpufBqC6fONYRBje8t5F8NeD4ocLB3USiA==
-X-Received: by 2002:a5d:43cf:: with SMTP id v15mr6808303wrr.269.1601419498855; 
- Tue, 29 Sep 2020 15:44:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vdf7bQWqpFNs3r3ydPMxG1ARTKmwVNGr5rEsk2E5fdY=;
+ b=UJlBReGm+LFhudsPElml8qSv5hJkPhPxD742nPgMmYGKEsKzB5bMi/EXcMeKEyTVkw
+ 7H3TNZZSDOWZSvKLe0oHOY43w8GRTndI7UNH8TJZK5L2Y32KoFPNt9pWZ7nUxTiVtTXE
+ oh3Nl2cUJQKBaWvmTfMGPvkN9KsXxuhn1kE5yYALlNLoOFO6chA9oCMNn2ziWokzm+xt
+ FGoRWpSBGVC+TkXHkwY3/HWzFNtnaczaObQeTkL4rIQ3LCzUI0AQsMVRuvLTcnHCrpBK
+ ETxits18PPB99rmCnM9iS9IpuH1V3NdK1O8jEfdpQl8/l/qBABI2OrUlRHHVfgWNGmRA
+ jRfw==
+X-Gm-Message-State: AOAM531k/AxWdli9Tg3mvikd+6Zn1q3pdbd0leHytYIEClv86EAwhxSs
+ gUxBfTMXHZL5W1AMdg+VXvCdU8y4oroRGEojJ8QC4TT6Vy1OmnYj7NFjodMhh3B8p9DIiyo7bYh
+ 3rMRdeuhJVvplZ3k=
+X-Received: by 2002:adf:ec90:: with SMTP id z16mr6425276wrn.145.1601419739732; 
+ Tue, 29 Sep 2020 15:48:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyLScYkTDMq6GtwalMPsp6ayjvi5OOnjIeMdWpRM2KQWL1xXvCzST9zHz4XHP73C54/J+1EIg==
+X-Received: by 2002:adf:ec90:: with SMTP id z16mr6425264wrn.145.1601419739579; 
+ Tue, 29 Sep 2020 15:48:59 -0700 (PDT)
 Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id 76sm7666468wma.42.2020.09.29.15.44.57
+ by smtp.gmail.com with ESMTPSA id e7sm7740685wrm.6.2020.09.29.15.48.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 15:44:58 -0700 (PDT)
+ Tue, 29 Sep 2020 15:48:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/12] .travis.yml: Add a KVM-only Aarch64 job
-Date: Wed, 30 Sep 2020 00:43:55 +0200
-Message-Id: <20200929224355.1224017-13-philmd@redhat.com>
+Subject: [PATCH] tests/acceptance: Add a 'virt_kvm' test using the GICv3
+Date: Wed, 30 Sep 2020 00:48:57 +0200
+Message-Id: <20200929224857.1225107-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200929224355.1224017-1-philmd@redhat.com>
-References: <20200929224355.1224017-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -95,76 +92,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a job to build QEMU on Aarch64 with TCG disabled, so
-this configuration won't bitrot over time.
+The current 'virt_kvm' test is restricted to GICv2, but can also
+work with a GICv3. Duplicate it but add a GICv3 test which can be
+tested on some hardware.
 
-We explicitly modify default-configs/aarch64-softmmu.mak to
-only select the 'virt' and 'SBSA-REF' machines.
+Noticed while running:
+
+ $ avocado --show=app run -t machine:virt tests/acceptance/
+ ...
+ (2/6) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm: ERROR: Unexpected empty reply from server (1.82 s)
+
+The job.log content is:
+
+  L0351 DEBUG| Output: 'qemu-system-aarch64: host does not support in-kernel GICv2 emulation\n'
+
+With this patch:
+
+ $ avocado --show=app run -t device:gicv3 tests/acceptance/
+ (1/1) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gicv3: PASS (55.10 s)
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Job ran for 7 min 30 sec
-https://travis-ci.org/github/philmd/qemu/jobs/731428859
----
- .travis.yml | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ tests/acceptance/boot_linux.py | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index c75221dca3..cad65cf181 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -402,6 +402,41 @@ jobs:
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS}"
-         - UNRELIABLE=true
+diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+index 0055dc7cee..c743e231f4 100644
+--- a/tests/acceptance/boot_linux.py
++++ b/tests/acceptance/boot_linux.py
+@@ -182,10 +182,11 @@ def test_virt_tcg(self):
+         self.add_common_args()
+         self.launch_and_wait()
  
-+    - name: "[aarch64] GCC (disable-tcg)"
-+      arch: arm64
-+      dist: bionic
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-+      env:
-+        - CONFIG="--disable-containers --disable-tcg --enable-kvm --disable-tools"
-+        - TEST_CMD="make check-unit"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-aarch64"
-+      before_script:
-+        # Only use the 'virt' and 'sbsa-ref' machine which don't need TCG.
-+        - echo CONFIG_ARM_VIRT=y > default-configs/aarch64-softmmu.mak
-+        - echo CONFIG_SBSA_REF=y >> default-configs/aarch64-softmmu.mak
-+        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-+        - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
+-    def test_virt_kvm(self):
++    def test_virt_kvm_gicv2(self):
+         """
+         :avocado: tags=accel:kvm
+         :avocado: tags=cpu:host
++        :avocado: tags=device:gicv2
+         """
+         if not kvm_available(self.arch, self.qemu_bin):
+             self.cancel(KVM_NOT_AVAILABLE)
+@@ -195,6 +196,20 @@ def test_virt_kvm(self):
+         self.add_common_args()
+         self.launch_and_wait()
+ 
++    def test_virt_kvm_gicv3(self):
++        """
++        :avocado: tags=accel:kvm
++        :avocado: tags=cpu:host
++        :avocado: tags=device:gicv3
++        """
++        if not kvm_available(self.arch, self.qemu_bin):
++            self.cancel(KVM_NOT_AVAILABLE)
++        self.vm.add_args("-accel", "kvm")
++        self.vm.add_args("-cpu", "host")
++        self.vm.add_args("-machine", "virt,gic-version=3")
++        self.add_common_args()
++        self.launch_and_wait()
 +
-     - name: "[ppc64] GCC check-tcg"
-       arch: ppc64le
-       dist: xenial
+ 
+ class BootLinuxPPC64(BootLinux):
+     """
 -- 
 2.26.2
 
