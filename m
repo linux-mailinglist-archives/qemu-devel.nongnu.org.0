@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B97627BE3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:41:10 +0200 (CEST)
-Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85C127BE48
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:43:39 +0200 (CEST)
+Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNAG5-0004DR-1Y
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:41:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57878)
+	id 1kNAIU-0007i2-Oe
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y6-0004IY-7o
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58677)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y8-0004KD-F2
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y3-0001m2-ED
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:33 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y4-0001mH-5i
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:36 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364149;
+ s=mimecast20190719; t=1601364151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IvSRqOV7AyzLJJ7CwX/r6Msv2rBJl4LszOMA3rdKsI8=;
- b=LHjyjFJo2L/GZr6UaMPPXiF1NaxXQss13X2GCuqS8UZXFN4zj+P+ndGmA/2LU9Ue87M+9M
- xQ7qDjhJvcuWogFXsP5mIuuGkE3DJs8WSgp42/5nap/YqDgI1bCqCsnNB44EctRlqlvcz+
- 6fm/6uTa9KxYUliBiba5suQ3ZQQC18Q=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-h7j-MmaGPN-a3qFar59Rmg-1; Tue, 29 Sep 2020 03:22:27 -0400
-X-MC-Unique: h7j-MmaGPN-a3qFar59Rmg-1
-Received: by mail-wm1-f69.google.com with SMTP id a7so1463220wmc.2
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:26 -0700 (PDT)
+ bh=FFSe8S+d7sfyg/qRmOaCuy2aqdJJ66OVOFjNgQL5r2g=;
+ b=cPKIO6bN/daQe7SHG873lP5w+LogGS+mhVzoUYC4BwzCdQ/xA5vvLLwvpngbhHW+bDXee5
+ UdwYXhlz2IXWIhWDo1YX9oTmi9pULNO2RlzauwNAFDmbZ1huwd/Z76K/XejYj9FWzIW1OK
+ kSWreMrqKZBMpoKIFftG/HUTwu55D8o=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-77-1o8DDa_dMvK6dCtegbW8sg-1; Tue, 29 Sep 2020 03:22:29 -0400
+X-MC-Unique: 1o8DDa_dMvK6dCtegbW8sg-1
+Received: by mail-wm1-f70.google.com with SMTP id m19so1454750wmg.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=IvSRqOV7AyzLJJ7CwX/r6Msv2rBJl4LszOMA3rdKsI8=;
- b=b5ybGfiBxf9ZrfQ+efaGBv4OfFIRvsPNFy3UsYCxoT5nB0d1gD1Y9Kur11sOvDhWg4
- wtbWiOsw++esM0IPAayHpxEExu0+RXRo89YITmcSKr/RsPtJst9dE+G8fq86d8ZdC3Be
- TFNvvkBBlw76NmzUoeKeJ4KJ08qbISPvRTooOlH8WZaoGE4e43QdyxcRYDqVGb91HCOT
- iAeesD1K4nXGZ4T4YLMSZCKHXeSx1nM6lPIveC4SX5FaFmwMuPOlCu5v0i06eWVzAhtD
- p2Qi5FEv98aWc+R/OJlheEG3qpqCkOUKbpPKifDV4d6j1p+wQaOSjxfx4MawzdP4VAhO
- YVeQ==
-X-Gm-Message-State: AOAM532jiYCZrCTMlvokKD8vl0JQUtEXj9NZr0I4mYCVV98GEsEsGin3
- /0gTptXYtlbD5ySTBoexD/mTGWoKEJ6dpIxFf73g31e/srjrUb0bAxFQezVUwzvRJTE/xWf6B+f
- 5VH2t+yM9TC6zbOU=
-X-Received: by 2002:a5d:5281:: with SMTP id c1mr2538273wrv.184.1601364145669; 
- Tue, 29 Sep 2020 00:22:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNlhYxI6UECrpLOVhbDMNQCUnQ4KKKdG9GdxYE1jDeVR4ZgNN0hEoqpABFe28BQVnnnS9huw==
-X-Received: by 2002:a5d:5281:: with SMTP id c1mr2538252wrv.184.1601364145463; 
- Tue, 29 Sep 2020 00:22:25 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=FFSe8S+d7sfyg/qRmOaCuy2aqdJJ66OVOFjNgQL5r2g=;
+ b=HxOMlbNXgT0Gv4WWw/o5FekVd1Wz1s2A5jab2aTMIvVglzX05XNbk+fX0tZenc7zUH
+ Jfg9obu3Z83eQ1cufIQusscfPxj3PWuSYmqnLYm/z4NU6DGICi9MHVHSQb5SW6/77lXW
+ V+sPW6MB6PZqtDponSiT87VI3x1YN9ComHJiPGO4pf9nZRkU4OMcVRlWW7T3vmrjyvys
+ w+9DZVCd5I7kYkALs1YQpC0iyT5ApXGWkskCTOOfpDKXFkILYyft9Ny/5Km9be9H8fAl
+ QUcAQSku4A95y5ahd6+8Ms1tBeT4t5z+tD5Fy+yOb57OYCY69yzWfbDcyyOUfDCNpO4w
+ +awA==
+X-Gm-Message-State: AOAM5309DE6ZjkSUkHnromjgA2TwxEEacHuWlPRIEfllF3IgvwkVIaqb
+ NXck/ANxj9YRLGfwmYOslY29N4HwEwA+dvvICIQp0gpVWhX86DOghUNR//2AN9+Ysp6Yn32OM5t
+ y5v4Z52GWaPXMhH8=
+X-Received: by 2002:adf:e74d:: with SMTP id c13mr2460377wrn.45.1601364148151; 
+ Tue, 29 Sep 2020 00:22:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTruZnO4rFJhXVLkLMPvLRqZSt46cAvWatLRa9X6ObWqp6xcT8Yrg1d1H92SB0riVZ+W6/zw==
+X-Received: by 2002:adf:e74d:: with SMTP id c13mr2460362wrn.45.1601364147985; 
+ Tue, 29 Sep 2020 00:22:27 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id y1sm4342644wmi.36.2020.09.29.00.22.24
+ by smtp.gmail.com with ESMTPSA id h2sm4662989wrp.69.2020.09.29.00.22.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:22:24 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:22:23 -0400
+ Tue, 29 Sep 2020 00:22:27 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:22:25 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 34/48] vhost-user: save features of multiqueues if chardev
- is closed
-Message-ID: <20200929071948.281157-35-mst@redhat.com>
+Subject: [PULL v4 35/48] tests/acpi: mark addition of table DSDT.roothp for
+ unit testing root pci hotplug
+Message-ID: <20200929071948.281157-36-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -72,12 +70,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -98,61 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- =?utf-8?B?aGFpYmluemhhbmco5byg5rW35paMKQ==?= <haibinzhang@tencent.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: haibinzhang(张海斌) <haibinzhang@tencent.com>
+From: Ani Sinha <ani@anisinha.ca>
 
-Fore-commit(c6beefd674) only saves features of queue0,
-this makes wrong features of other queues in multiqueues
-situation.
-For examples:
-  qemu-system-aarch64 ... \
-  -chardev socket,id=charnet0,path=/var/run/vhost_sock \
-  -netdev vhost-user,chardev=charnet0,queues=2,id=hostnet0 \
-  ...
-There are two queues in nic assocated with one chardev.
-When chardev is reconnected, it is necessary to save and
-restore features of all queues.
+A new binary acpi table tests/data/acpi/pc/DSDT.roothp is added in order to
+unit test the feature flag that can disable/enable root pci bus hotplug on
+i440fx. This feature was added with the commit:
+3d7e78aa7777f0 ("Introduce a new flag for i440fx to disable PCI hotplug on
+the root bus")
 
-Signed-of-by: Haibin Zhang <haibinzhang@tencent.com>
-Message-Id: <46CBC206-E0CA-4249-81CD-10F75DA30441@tencent.com>
+This change documents the fact that this new file addition was made as a part
+of the unit test change.
+
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20200918084111.15339-2-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/vhost-user.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index 17532daaf3..ffbd94d944 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -226,7 +226,7 @@ static void chr_closed_bh(void *opaque)
-     NetClientState *ncs[MAX_QUEUE_NUM];
-     NetVhostUserState *s;
-     Error *err = NULL;
--    int queues;
-+    int queues, i;
- 
-     queues = qemu_find_net_clients_except(name, ncs,
-                                           NET_CLIENT_DRIVER_NIC,
-@@ -235,8 +235,12 @@ static void chr_closed_bh(void *opaque)
- 
-     s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
- 
--    if (s->vhost_net) {
--        s->acked_features = vhost_net_get_acked_features(s->vhost_net);
-+    for (i = queues -1; i >= 0; i--) {
-+        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
-+
-+        if (s->vhost_net) {
-+            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
-+        }
-     }
- 
-     qmp_set_link(name, false, &err);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..ac864fc982 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT.roothp",
 -- 
 MST
 
