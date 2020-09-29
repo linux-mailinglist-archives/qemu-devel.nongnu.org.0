@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941CA27BE1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:37:21 +0200 (CEST)
-Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE0E27BE0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:32:15 +0200 (CEST)
+Received: from localhost ([::1]:39572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNACO-0006Lk-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57348)
+	id 1kNA7S-00071f-E6
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xI-0003Hn-3Z
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56378)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xO-0003Mi-G1
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xG-0001dV-0D
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:43 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xI-0001dy-Jt
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:50 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364101;
+ s=mimecast20190719; t=1601364103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PR4qBN07x4Vimn0/QnAKwqdBvmtmgl6PaVSJGqhqqO8=;
- b=Og0KA9CCQhbzNIdMj20G5JP3+PK4JyX63D2hAXlFvnGKx3gU0kGSfF2Dsu7VjLbnEC5chW
- v+gXm0dhCEANc7PW6m61dQznNxW9KWkK/ZVNjvIo0CpPcz237vMJ8yvMfqh+mmwLNFerW6
- Ba4v3TxPP47+HbrKR+hW/dHJeN7ghs4=
+ bh=X1yDyZXpOOWHIzToKkllj4/vreLm2qhWQ36IujdOoK4=;
+ b=GzK3+ECCiz6+fSNxE6SmoYiMHK2aFxCCg2gwmWoMdOq2GEK6DccM+0W90Rid7Ax7cnQvGH
+ t2Q0zznCOx4CauaL8310MPqDpzvyYCqLuQ/HZZEQ/3UMd6Ii9TFlIrWr8eUzi7o3IWec01
+ xBFrdbzDEdClbQoT2D1zQzvkvv7sNIc=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-dgsB_uKBOlaoX_sJZmP2AA-1; Tue, 29 Sep 2020 03:21:39 -0400
-X-MC-Unique: dgsB_uKBOlaoX_sJZmP2AA-1
-Received: by mail-wm1-f70.google.com with SMTP id t8so1350605wmj.6
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:38 -0700 (PDT)
+ us-mta-378-d7Y8n_LcNbu46iElpzZk1w-1; Tue, 29 Sep 2020 03:21:41 -0400
+X-MC-Unique: d7Y8n_LcNbu46iElpzZk1w-1
+Received: by mail-wm1-f70.google.com with SMTP id b20so3037761wmj.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PR4qBN07x4Vimn0/QnAKwqdBvmtmgl6PaVSJGqhqqO8=;
- b=Rtsdu567uN2Egc1mgob/p0TyLKIhCuHqOks8vy9tnqjnoEl8viQDKjLoMVbnp/kJuo
- 17y8x+2mOGA1G+Luqm7mWnPcuMfzrF6IG5GwriTO5zY/Qu4bIZ2GYkWWq5mCIbpnArp4
- zl7yKgg3zDhHmQJm8X7aG4ZChMcI0i9afooA0BTFOgFMvKEODVNiw6cHSAjyzhlcQiu0
- pkRbyJdz6ePCbe24pwEc5tJ5sB1Lq7H9JiXmCtgP4Iwa1cgRIjxlcFQOs2n3BwUm6zQ9
- nDL3cCpFjYiyJ4GZWCM5jG2JHFksz9qEk+faWa3OZ78ha8qFV5H7eJDttf8a5am8pu7H
- rm8Q==
-X-Gm-Message-State: AOAM5309u6li/qSsQ9R9huAzcVwk0u9AZ9j2bH21DM4XcqBRsnRqrQzz
- Ss8HqxkLaeK19gw5py8tkXjxnGF4BpwUWhV9cwHfY8AW1bRhjvfni8tXO5V1Xwiya74ckFmUh5y
- y+56AmRKOlUTOQPk=
-X-Received: by 2002:adf:ff83:: with SMTP id j3mr2603284wrr.135.1601364097307; 
- Tue, 29 Sep 2020 00:21:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6A2FCngV/MxsTJmlORuF1rJtRCg7o7Uju2aFW83BXOtmrM6s02RaDTCvOJKWRrB0ea91yGQ==
-X-Received: by 2002:adf:ff83:: with SMTP id j3mr2603255wrr.135.1601364097104; 
- Tue, 29 Sep 2020 00:21:37 -0700 (PDT)
+ bh=X1yDyZXpOOWHIzToKkllj4/vreLm2qhWQ36IujdOoK4=;
+ b=fiLEyNlgblf8ntoPc4mw37w5Ajw4p71reNN64yy0KqANh/I2jpMZjjZaL2gRW6iKYU
+ nfjADORhFnQLIthBrNoKbyfzRCHMPdwHl0/PX+zO1Z0bM+77QbSR0s+h1JxLzn7y3PUM
+ qI69nB/w+7+HOwQ0BAdpx1ONAgbjfWpGkkDwMeWmNO3Mky4nmPSkTvJMgmWGSFdrOxkr
+ hYJcJrw5ibqQhNnSEeDD1jt87Iw1aPBT9esBhYBV/8pPETKBN2WguTxACwg8rxEUKP+a
+ zQ7b7jrDFAkQPqDJjOfmBFR9AaH34nIoxYgTAJa83a/+pFKfBSaOUgDigF7OEfGHMX8m
+ 44Jw==
+X-Gm-Message-State: AOAM530Bum8wPqnIK89UelS9hkqkTDSjdtwgCXLcPmo8ObHqzTrAcJc4
+ peEstpUDR5RlSXN6iwdF1ePKVBA9eAYGN9t8jLOQJu9Hk8NFs6KJFondPNmenBPTdzc8ip39dua
+ gGtiva6mIfutjHEo=
+X-Received: by 2002:a05:600c:24d:: with SMTP id
+ 13mr3051430wmj.86.1601364099924; 
+ Tue, 29 Sep 2020 00:21:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVhUX72Ub6AhqW48ZVjgnWFDZr4wpJcWdx9C8pNrJH0aE6QPeEPw4FQHrXIPeo6yxy7+nIiQ==
+X-Received: by 2002:a05:600c:24d:: with SMTP id
+ 13mr3051412wmj.86.1601364099719; 
+ Tue, 29 Sep 2020 00:21:39 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id l126sm4248502wmf.39.2020.09.29.00.21.35
+ by smtp.gmail.com with ESMTPSA id q68sm2035885wme.25.2020.09.29.00.21.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:21:36 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:21:34 -0400
+ Tue, 29 Sep 2020 00:21:39 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:21:37 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 16/48] virtio: skip legacy support check on machine types
- less than 5.1
-Message-ID: <20200929071948.281157-17-mst@redhat.com>
+Subject: [PULL v4 17/48] vhost-vsock-pci: force virtio version 1
+Message-ID: <20200929071948.281157-18-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -95,153 +96,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Qinghua Cheng <qcheng@redhat.com>,
+ Qian Cai <caiqian@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-stable@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Garzarella <sgarzare@redhat.com>
 
-Commit 9b3a35ec82 ("virtio: verify that legacy support is not accidentally
-on") added a check that returns an error if legacy support is on, but the
-device does not support legacy.
+Commit 9b3a35ec82 ("virtio: verify that legacy support is not
+accidentally on") added a safety check that requires to set
+'disable-legacy=on' on vhost-vsock-pci device:
 
-Unfortunately some devices were wrongly declared legacy capable even if
-they were not (e.g vhost-vsock).
+    $ ./qemu-system-x86_64 ... -device vhost-vsock-pci,guest-cid=5
+        qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=5:
+        device is modern-only, use disable-legacy=on
 
-To avoid migration issues, we add a virtio-device property
-(x-disable-legacy-check) to skip the legacy error, printing a warning
-instead, for machine types < 5.1.
+virtio-vsock was introduced after the release of VIRTIO 1.0
+specifications, so it should be 'modern-only'.
+In addition Cornelia verified that forcing a legacy mode on
+vhost-vsock-pci device using x86-64 host and s390x guest, so with
+different endianness, produces strange behaviours.
+
+This patch forces virtio version 1 and removes the 'transitional_name'
+property removing the need to specify 'disable-legacy=on' on
+vhost-vsock-pci device.
+
+To avoid migration issues, we force virtio version 1 only when
+legacy check is enabled in the new machine types (>= 5.1).
+
+As the transitional device name is not commonly used, we do not
+provide compatibility handling for it.
 
 Cc: qemu-stable@nongnu.org
-Fixes: 9b3a35ec82 ("virtio: verify that legacy support is not accidentally on")
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reported-by: Qian Cai <caiqian@redhat.com>
+Reported-by: Qinghua Cheng <qcheng@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1868449
 Suggested-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200921122506.82515-2-sgarzare@redhat.com>
+Message-Id: <20200921122506.82515-3-sgarzare@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio.h |  2 ++
- hw/core/machine.c          |  1 +
- hw/s390x/virtio-ccw.c      | 15 ++++++++++++---
- hw/virtio/virtio-pci.c     | 14 ++++++++++++--
- hw/virtio/virtio.c         |  7 +++++++
- 5 files changed, 34 insertions(+), 5 deletions(-)
+ hw/virtio/vhost-vsock-pci.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 28cf3b9120..b7ece7a6a8 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -101,6 +101,7 @@ struct VirtIODevice
-     bool use_started;
-     bool started;
-     bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
-+    bool disable_legacy_check;
-     VMChangeStateEntry *vmstate;
-     char *bus_name;
-     uint8_t device_endian;
-@@ -394,5 +395,6 @@ static inline bool virtio_device_disabled(VirtIODevice *vdev)
- }
- 
- bool virtio_legacy_allowed(VirtIODevice *vdev);
-+bool virtio_legacy_check_disabled(VirtIODevice *vdev);
- 
- #endif
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 9b02fb2f5e..d7f4a0d259 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -44,6 +44,7 @@ GlobalProperty hw_compat_5_0[] = {
-     { "vmport", "x-signal-unsupported-cmd", "off" },
-     { "vmport", "x-report-vmx-type", "off" },
-     { "vmport", "x-cmds-v2", "off" },
-+    { "virtio-device", "x-disable-legacy-check", "true" },
- };
- const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
- 
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 8d140dc50f..4582e94ae7 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -1122,9 +1122,18 @@ static void virtio_ccw_device_plugged(DeviceState *d, Error **errp)
-     }
- 
-     if (!virtio_ccw_rev_max(dev) && !virtio_legacy_allowed(vdev)) {
--        error_setg(errp, "Invalid value of property max_rev "
--                   "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
--        return;
-+        /*
-+         * To avoid migration issues, we allow legacy mode when legacy
-+         * check is disabled in the old machine types (< 5.1).
-+         */
-+        if (virtio_legacy_check_disabled(vdev)) {
-+            warn_report("device requires revision >= 1, but for backward "
-+                        "compatibility max_revision=0 is allowed");
-+        } else {
-+            error_setg(errp, "Invalid value of property max_rev "
-+                       "(is %d expected >= 1)", virtio_ccw_rev_max(dev));
-+            return;
-+        }
-     }
- 
-     if (virtio_get_num_queues(vdev) > VIRTIO_QUEUE_MAX) {
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 02790e3237..36524a5728 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1597,8 +1597,18 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
- 
-     if (legacy) {
-         if (!virtio_legacy_allowed(vdev)) {
--            error_setg(errp, "device is modern-only, use disable-legacy=on");
--            return;
-+            /*
-+             * To avoid migration issues, we allow legacy mode when legacy
-+             * check is disabled in the old machine types (< 5.1).
-+             */
-+            if (virtio_legacy_check_disabled(vdev)) {
-+                warn_report("device is modern-only, but for backward "
-+                            "compatibility legacy is allowed");
-+            } else {
-+                error_setg(errp,
-+                           "device is modern-only, use disable-legacy=on");
-+                return;
-+            }
-         }
-         if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-             error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 3a3d012d9f..a2edb4f386 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3304,6 +3304,11 @@ bool virtio_legacy_allowed(VirtIODevice *vdev)
-     }
- }
- 
-+bool virtio_legacy_check_disabled(VirtIODevice *vdev)
-+{
-+    return vdev->disable_legacy_check;
-+}
-+
- hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n)
+diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
+index e56067b427..205da8d1f5 100644
+--- a/hw/virtio/vhost-vsock-pci.c
++++ b/hw/virtio/vhost-vsock-pci.c
+@@ -44,6 +44,15 @@ static void vhost_vsock_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
  {
-     return vdev->vq[n].vring.desc;
-@@ -3713,6 +3718,8 @@ static Property virtio_properties[] = {
-     DEFINE_VIRTIO_COMMON_FEATURES(VirtIODevice, host_features),
-     DEFINE_PROP_BOOL("use-started", VirtIODevice, use_started, true),
-     DEFINE_PROP_BOOL("use-disabled-flag", VirtIODevice, use_disabled_flag, true),
-+    DEFINE_PROP_BOOL("x-disable-legacy-check", VirtIODevice,
-+                     disable_legacy_check, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+     VHostVSockPCI *dev = VHOST_VSOCK_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
++    VirtIODevice *virtio_dev = VIRTIO_DEVICE(vdev);
++
++    /*
++     * To avoid migration issues, we force virtio version 1 only when
++     * legacy check is enabled in the new machine types (>= 5.1).
++     */
++    if (!virtio_legacy_check_disabled(virtio_dev)) {
++        virtio_pci_force_virtio_1(vpci_dev);
++    }
  
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+ }
+@@ -73,7 +82,6 @@ static void vhost_vsock_pci_instance_init(Object *obj)
+ static const VirtioPCIDeviceTypeInfo vhost_vsock_pci_info = {
+     .base_name             = TYPE_VHOST_VSOCK_PCI,
+     .generic_name          = "vhost-vsock-pci",
+-    .transitional_name     = "vhost-vsock-pci-transitional",
+     .non_transitional_name = "vhost-vsock-pci-non-transitional",
+     .instance_size = sizeof(VHostVSockPCI),
+     .instance_init = vhost_vsock_pci_instance_init,
 -- 
 MST
 
