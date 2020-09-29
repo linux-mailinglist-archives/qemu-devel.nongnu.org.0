@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220E627D7FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:24:37 +0200 (CEST)
-Received: from localhost ([::1]:40554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1384027D7FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:24:32 +0200 (CEST)
+Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNMAu-0007Cw-6C
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
+	id 1kNMAp-000704-41
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM68-0001nI-GI
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26342)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6B-0001oR-Eu
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM62-0003UF-NR
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:40 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM62-0003Sv-Dv
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:43 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601410773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hcxMoybGVAVk+zhb7G9oVk0b12g9DqOFO6UWlKHtzto=;
- b=Sof5tra3hyNGSlCI7NJSOVPG4Tt4aPJii4iyiE9Xy5/dqxOVDlcW5iYdNoQ+AqA2Z3tSfB
- egGVVnBBYiA4VcERDjXbpYn++WQiosXVJW5D5oHSH4T8HPo1pinsIUXUq9o/d9ms8b95cn
- ZMefcIsiwvTh4iO6efC5cR1r3TdhGGM=
+ bh=5lGTelQT9KRDYB0pvFHIOCxQ4Sh/H0ePPpMQppP0IWM=;
+ b=RDVb3eJpdyvsrI4R9E86q+K7ME8n/jEXimV9dDpS6NnOJFavSNjj1YLRh9Cn9gOKHVJpjJ
+ D17oBBg0t9bSmZ/9+kR0SZCVxHId2Tuul/uGBvhyiqrxDNMSLx5mZYyv5vRSiatM1B2C4o
+ xZsENIXMa7XRGeKXI14v1yIzrv4qsWE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-QxlwWTU5Pz2GL62hGrfENg-1; Tue, 29 Sep 2020 16:19:31 -0400
-X-MC-Unique: QxlwWTU5Pz2GL62hGrfENg-1
+ us-mta-400-apRKzlRNNxe4fhw8aNlhag-1; Tue, 29 Sep 2020 16:19:31 -0400
+X-MC-Unique: apRKzlRNNxe4fhw8aNlhag-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B62D801AE2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12A538030B4;
  Tue, 29 Sep 2020 20:19:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B310F5C1C4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3CDA5C1CF;
  Tue, 29 Sep 2020 20:19:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AB3A611358BE; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
+ id AF01511358BF; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/29] qapi: Extract PCI commands to 'pci.json'
-Date: Tue, 29 Sep 2020 22:19:05 +0200
-Message-Id: <20200929201926.2155622-9-armbru@redhat.com>
+Subject: [PULL 09/29] qapi: Fix doc comment indentation again
+Date: Tue, 29 Sep 2020 22:19:06 +0200
+Message-Id: <20200929201926.2155622-10-armbru@redhat.com>
 In-Reply-To: <20200929201926.2155622-1-armbru@redhat.com>
 References: <20200929201926.2155622-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -56,11 +56,11 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,751 +81,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Only qemu-system-FOO and qemu-storage-daemon provide QMP
-monitors, therefore such declarations and definitions are
-irrelevant for user-mode emulation.
+In commit 26ec4e53f2 and similar commits we fixed the indentation
+for doc comments in our qapi json files to follow a new stricter
+standard for indentation, which permits only:
+    @arg: description line 1
+          description line 2
 
-Extracting the PCI commands to their own schema reduces the size of
-the qapi-misc* headers generated, and pulls less QAPI-generated code
-into user-mode.
+or:
+    @arg:
+    line 1
+    line 2
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200913195348.1064154-9-philmd@redhat.com>
-[Commit message tweaked]
+but because the script updates that enforce this are not yet in the
+tree we have had a steady trickle of subsequent changes which didn't
+follow the new rules.
+
+Fix the latest round of mis-indented doc comments.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200925162316.21205-2-peter.maydell@linaro.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+[Updated for commit 4c437254b807 and a83e24ba1a5]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/misc.json        | 306 ----------------------------------------
- qapi/pci.json         | 316 ++++++++++++++++++++++++++++++++++++++++++
- qapi/qapi-schema.json |   1 +
- hw/pci/pci-stub.c     |   2 +-
- hw/pci/pci.c          |   2 +-
- monitor/hmp-cmds.c    |   1 +
- MAINTAINERS           |   1 +
- qapi/meson.build      |   1 +
- 8 files changed, 322 insertions(+), 308 deletions(-)
- create mode 100644 qapi/pci.json
+ qapi/block-core.json |   4 +-
+ qapi/machine.json    |   4 +-
+ qapi/migration.json  | 108 +++++++++++++++++++++----------------------
+ 3 files changed, 59 insertions(+), 57 deletions(-)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 4b00b18e54..694d2142f3 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -157,312 +157,6 @@
- { 'command': 'query-iothreads', 'returns': ['IOThreadInfo'],
-   'allow-preconfig': true }
- 
--##
--# @PciMemoryRange:
--#
--# A PCI device memory region
--#
--# @base: the starting address (guest physical)
--#
--# @limit: the ending address (guest physical)
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciMemoryRange', 'data': {'base': 'int', 'limit': 'int'} }
--
--##
--# @PciMemoryRegion:
--#
--# Information about a PCI device I/O region.
--#
--# @bar: the index of the Base Address Register for this region
--#
--# @type: - 'io' if the region is a PIO region
--#        - 'memory' if the region is a MMIO region
--#
--# @size: memory size
--#
--# @prefetch: if @type is 'memory', true if the memory is prefetchable
--#
--# @mem_type_64: if @type is 'memory', true if the BAR is 64-bit
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciMemoryRegion',
--  'data': {'bar': 'int', 'type': 'str', 'address': 'int', 'size': 'int',
--           '*prefetch': 'bool', '*mem_type_64': 'bool' } }
--
--##
--# @PciBusInfo:
--#
--# Information about a bus of a PCI Bridge device
--#
--# @number: primary bus interface number.  This should be the number of the
--#          bus the device resides on.
--#
--# @secondary: secondary bus interface number.  This is the number of the
--#             main bus for the bridge
--#
--# @subordinate: This is the highest number bus that resides below the
--#               bridge.
--#
--# @io_range: The PIO range for all devices on this bridge
--#
--# @memory_range: The MMIO range for all devices on this bridge
--#
--# @prefetchable_range: The range of prefetchable MMIO for all devices on
--#                      this bridge
--#
--# Since: 2.4
--##
--{ 'struct': 'PciBusInfo',
--  'data': {'number': 'int', 'secondary': 'int', 'subordinate': 'int',
--           'io_range': 'PciMemoryRange',
--           'memory_range': 'PciMemoryRange',
--           'prefetchable_range': 'PciMemoryRange' } }
--
--##
--# @PciBridgeInfo:
--#
--# Information about a PCI Bridge device
--#
--# @bus: information about the bus the device resides on
--#
--# @devices: a list of @PciDeviceInfo for each device on this bridge
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciBridgeInfo',
--  'data': {'bus': 'PciBusInfo', '*devices': ['PciDeviceInfo']} }
--
--##
--# @PciDeviceClass:
--#
--# Information about the Class of a PCI device
--#
--# @desc: a string description of the device's class
--#
--# @class: the class code of the device
--#
--# Since: 2.4
--##
--{ 'struct': 'PciDeviceClass',
--  'data': {'*desc': 'str', 'class': 'int'} }
--
--##
--# @PciDeviceId:
--#
--# Information about the Id of a PCI device
--#
--# @device: the PCI device id
--#
--# @vendor: the PCI vendor id
--#
--# @subsystem: the PCI subsystem id (since 3.1)
--#
--# @subsystem-vendor: the PCI subsystem vendor id (since 3.1)
--#
--# Since: 2.4
--##
--{ 'struct': 'PciDeviceId',
--  'data': {'device': 'int', 'vendor': 'int', '*subsystem': 'int',
--            '*subsystem-vendor': 'int'} }
--
--##
--# @PciDeviceInfo:
--#
--# Information about a PCI device
--#
--# @bus: the bus number of the device
--#
--# @slot: the slot the device is located in
--#
--# @function: the function of the slot used by the device
--#
--# @class_info: the class of the device
--#
--# @id: the PCI device id
--#
--# @irq: if an IRQ is assigned to the device, the IRQ number
--#
--# @irq_pin: the IRQ pin, zero means no IRQ (since 5.1)
--#
--# @qdev_id: the device name of the PCI device
--#
--# @pci_bridge: if the device is a PCI bridge, the bridge information
--#
--# @regions: a list of the PCI I/O regions associated with the device
--#
--# Notes: the contents of @class_info.desc are not stable and should only be
--#        treated as informational.
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciDeviceInfo',
--  'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
--           'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
--           '*irq': 'int', 'irq_pin': 'int', 'qdev_id': 'str',
--           '*pci_bridge': 'PciBridgeInfo', 'regions': ['PciMemoryRegion'] }}
--
--##
--# @PciInfo:
--#
--# Information about a PCI bus
--#
--# @bus: the bus index
--#
--# @devices: a list of devices on this bus
--#
--# Since: 0.14.0
--##
--{ 'struct': 'PciInfo', 'data': {'bus': 'int', 'devices': ['PciDeviceInfo']} }
--
--##
--# @query-pci:
--#
--# Return information about the PCI bus topology of the guest.
--#
--# Returns: a list of @PciInfo for each PCI bus. Each bus is
--#          represented by a json-object, which has a key with a json-array of
--#          all PCI devices attached to it. Each device is represented by a
--#          json-object.
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "query-pci" }
--# <- { "return": [
--#          {
--#             "bus": 0,
--#             "devices": [
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 0,
--#                   "class_info": {
--#                      "class": 1536,
--#                      "desc": "Host bridge"
--#                   },
--#                   "id": {
--#                      "device": 32902,
--#                      "vendor": 4663
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 1,
--#                   "class_info": {
--#                      "class": 1537,
--#                      "desc": "ISA bridge"
--#                   },
--#                   "id": {
--#                      "device": 32902,
--#                      "vendor": 28672
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 1,
--#                   "class_info": {
--#                      "class": 257,
--#                      "desc": "IDE controller"
--#                   },
--#                   "id": {
--#                      "device": 32902,
--#                      "vendor": 28688
--#                   },
--#                   "function": 1,
--#                   "regions": [
--#                      {
--#                         "bar": 4,
--#                         "size": 16,
--#                         "address": 49152,
--#                         "type": "io"
--#                      }
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "slot": 2,
--#                   "class_info": {
--#                      "class": 768,
--#                      "desc": "VGA controller"
--#                   },
--#                   "id": {
--#                      "device": 4115,
--#                      "vendor": 184
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                      {
--#                         "prefetch": true,
--#                         "mem_type_64": false,
--#                         "bar": 0,
--#                         "size": 33554432,
--#                         "address": 4026531840,
--#                         "type": "memory"
--#                      },
--#                      {
--#                         "prefetch": false,
--#                         "mem_type_64": false,
--#                         "bar": 1,
--#                         "size": 4096,
--#                         "address": 4060086272,
--#                         "type": "memory"
--#                      },
--#                      {
--#                         "prefetch": false,
--#                         "mem_type_64": false,
--#                         "bar": 6,
--#                         "size": 65536,
--#                         "address": -1,
--#                         "type": "memory"
--#                      }
--#                   ]
--#                },
--#                {
--#                   "bus": 0,
--#                   "qdev_id": "",
--#                   "irq": 11,
--#                   "slot": 4,
--#                   "class_info": {
--#                      "class": 1280,
--#                      "desc": "RAM controller"
--#                   },
--#                   "id": {
--#                      "device": 6900,
--#                      "vendor": 4098
--#                   },
--#                   "function": 0,
--#                   "regions": [
--#                      {
--#                         "bar": 0,
--#                         "size": 32,
--#                         "address": 49280,
--#                         "type": "io"
--#                      }
--#                   ]
--#                }
--#             ]
--#          }
--#       ]
--#    }
--#
--# Note: This example has been shortened as the real response is too long.
--#
--##
--{ 'command': 'query-pci', 'returns': ['PciInfo'] }
--
- ##
- # @stop:
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 3c16f1e11d..dd77a91174 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4316,8 +4316,8 @@
+ # @data-file-raw: True if the external data file must stay valid as a
+ #                 standalone (read-only) raw image without looking at qcow2
+ #                 metadata (default: false; since: 4.0)
+-# @extended-l2      True to make the image have extended L2 entries
+-#                   (default: false; since 5.2)
++# @extended-l2: True to make the image have extended L2 entries
++#               (default: false; since 5.2)
+ # @size: Size of the virtual disk in bytes
+ # @version: Compatibility level (default: v3)
+ # @backing-file: File name of the backing file if a backing file
+diff --git a/qapi/machine.json b/qapi/machine.json
+index c061cce0e4..2c237563ea 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1001,9 +1001,11 @@
  #
-diff --git a/qapi/pci.json b/qapi/pci.json
-new file mode 100644
-index 0000000000..b79cbd787b
---- /dev/null
-+++ b/qapi/pci.json
-@@ -0,0 +1,316 @@
-+# -*- Mode: Python -*-
-+# vim: filetype=python
+ # Request the balloon driver to change its balloon size.
+ #
+-# @value: the target logical size of the VM in bytes
++# @value: the target logical size of the VM in bytes.
+ #         We can deduce the size of the balloon using this formula:
 +#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+##
-+# = PCI
-+##
-+
-+##
-+# @PciMemoryRange:
+ #            logical_vm_size = vm_ram_size - balloon_size
 +#
-+# A PCI device memory region
-+#
-+# @base: the starting address (guest physical)
-+#
-+# @limit: the ending address (guest physical)
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciMemoryRange', 'data': {'base': 'int', 'limit': 'int'} }
-+
-+##
-+# @PciMemoryRegion:
-+#
-+# Information about a PCI device I/O region.
-+#
-+# @bar: the index of the Base Address Register for this region
-+#
-+# @type: - 'io' if the region is a PIO region
-+#        - 'memory' if the region is a MMIO region
-+#
-+# @size: memory size
-+#
-+# @prefetch: if @type is 'memory', true if the memory is prefetchable
-+#
-+# @mem_type_64: if @type is 'memory', true if the BAR is 64-bit
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciMemoryRegion',
-+  'data': {'bar': 'int', 'type': 'str', 'address': 'int', 'size': 'int',
-+           '*prefetch': 'bool', '*mem_type_64': 'bool' } }
-+
-+##
-+# @PciBusInfo:
-+#
-+# Information about a bus of a PCI Bridge device
-+#
-+# @number: primary bus interface number.  This should be the number of the
-+#          bus the device resides on.
-+#
-+# @secondary: secondary bus interface number.  This is the number of the
-+#             main bus for the bridge
-+#
-+# @subordinate: This is the highest number bus that resides below the
-+#               bridge.
-+#
-+# @io_range: The PIO range for all devices on this bridge
-+#
-+# @memory_range: The MMIO range for all devices on this bridge
-+#
-+# @prefetchable_range: The range of prefetchable MMIO for all devices on
-+#                      this bridge
-+#
-+# Since: 2.4
-+##
-+{ 'struct': 'PciBusInfo',
-+  'data': {'number': 'int', 'secondary': 'int', 'subordinate': 'int',
-+           'io_range': 'PciMemoryRange',
-+           'memory_range': 'PciMemoryRange',
-+           'prefetchable_range': 'PciMemoryRange' } }
-+
-+##
-+# @PciBridgeInfo:
-+#
-+# Information about a PCI Bridge device
-+#
-+# @bus: information about the bus the device resides on
-+#
-+# @devices: a list of @PciDeviceInfo for each device on this bridge
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciBridgeInfo',
-+  'data': {'bus': 'PciBusInfo', '*devices': ['PciDeviceInfo']} }
-+
-+##
-+# @PciDeviceClass:
-+#
-+# Information about the Class of a PCI device
-+#
-+# @desc: a string description of the device's class
-+#
-+# @class: the class code of the device
-+#
-+# Since: 2.4
-+##
-+{ 'struct': 'PciDeviceClass',
-+  'data': {'*desc': 'str', 'class': 'int'} }
-+
-+##
-+# @PciDeviceId:
-+#
-+# Information about the Id of a PCI device
-+#
-+# @device: the PCI device id
-+#
-+# @vendor: the PCI vendor id
-+#
-+# @subsystem: the PCI subsystem id (since 3.1)
-+#
-+# @subsystem-vendor: the PCI subsystem vendor id (since 3.1)
-+#
-+# Since: 2.4
-+##
-+{ 'struct': 'PciDeviceId',
-+  'data': {'device': 'int', 'vendor': 'int', '*subsystem': 'int',
-+            '*subsystem-vendor': 'int'} }
-+
-+##
-+# @PciDeviceInfo:
-+#
-+# Information about a PCI device
-+#
-+# @bus: the bus number of the device
-+#
-+# @slot: the slot the device is located in
-+#
-+# @function: the function of the slot used by the device
-+#
-+# @class_info: the class of the device
-+#
-+# @id: the PCI device id
-+#
-+# @irq: if an IRQ is assigned to the device, the IRQ number
-+#
-+# @irq_pin: the IRQ pin, zero means no IRQ (since 5.1)
-+#
-+# @qdev_id: the device name of the PCI device
-+#
-+# @pci_bridge: if the device is a PCI bridge, the bridge information
-+#
-+# @regions: a list of the PCI I/O regions associated with the device
-+#
-+# Notes: the contents of @class_info.desc are not stable and should only be
-+#        treated as informational.
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciDeviceInfo',
-+  'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
-+           'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
-+           '*irq': 'int', 'irq_pin': 'int', 'qdev_id': 'str',
-+           '*pci_bridge': 'PciBridgeInfo', 'regions': ['PciMemoryRegion'] }}
-+
-+##
-+# @PciInfo:
-+#
-+# Information about a PCI bus
-+#
-+# @bus: the bus index
-+#
-+# @devices: a list of devices on this bus
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'PciInfo', 'data': {'bus': 'int', 'devices': ['PciDeviceInfo']} }
-+
-+##
-+# @query-pci:
-+#
-+# Return information about the PCI bus topology of the guest.
-+#
-+# Returns: a list of @PciInfo for each PCI bus. Each bus is
-+#          represented by a json-object, which has a key with a json-array of
-+#          all PCI devices attached to it. Each device is represented by a
-+#          json-object.
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "query-pci" }
-+# <- { "return": [
-+#          {
-+#             "bus": 0,
-+#             "devices": [
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 0,
-+#                   "class_info": {
-+#                      "class": 1536,
-+#                      "desc": "Host bridge"
-+#                   },
-+#                   "id": {
-+#                      "device": 32902,
-+#                      "vendor": 4663
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 1,
-+#                   "class_info": {
-+#                      "class": 1537,
-+#                      "desc": "ISA bridge"
-+#                   },
-+#                   "id": {
-+#                      "device": 32902,
-+#                      "vendor": 28672
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 1,
-+#                   "class_info": {
-+#                      "class": 257,
-+#                      "desc": "IDE controller"
-+#                   },
-+#                   "id": {
-+#                      "device": 32902,
-+#                      "vendor": 28688
-+#                   },
-+#                   "function": 1,
-+#                   "regions": [
-+#                      {
-+#                         "bar": 4,
-+#                         "size": 16,
-+#                         "address": 49152,
-+#                         "type": "io"
-+#                      }
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "slot": 2,
-+#                   "class_info": {
-+#                      "class": 768,
-+#                      "desc": "VGA controller"
-+#                   },
-+#                   "id": {
-+#                      "device": 4115,
-+#                      "vendor": 184
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                      {
-+#                         "prefetch": true,
-+#                         "mem_type_64": false,
-+#                         "bar": 0,
-+#                         "size": 33554432,
-+#                         "address": 4026531840,
-+#                         "type": "memory"
-+#                      },
-+#                      {
-+#                         "prefetch": false,
-+#                         "mem_type_64": false,
-+#                         "bar": 1,
-+#                         "size": 4096,
-+#                         "address": 4060086272,
-+#                         "type": "memory"
-+#                      },
-+#                      {
-+#                         "prefetch": false,
-+#                         "mem_type_64": false,
-+#                         "bar": 6,
-+#                         "size": 65536,
-+#                         "address": -1,
-+#                         "type": "memory"
-+#                      }
-+#                   ]
-+#                },
-+#                {
-+#                   "bus": 0,
-+#                   "qdev_id": "",
-+#                   "irq": 11,
-+#                   "slot": 4,
-+#                   "class_info": {
-+#                      "class": 1280,
-+#                      "desc": "RAM controller"
-+#                   },
-+#                   "id": {
-+#                      "device": 6900,
-+#                      "vendor": 4098
-+#                   },
-+#                   "function": 0,
-+#                   "regions": [
-+#                      {
-+#                         "bar": 0,
-+#                         "size": 32,
-+#                         "address": 49280,
-+#                         "type": "io"
-+#                      }
-+#                   ]
-+#                }
-+#             ]
-+#          }
-+#       ]
-+#    }
-+#
-+# Note: This example has been shortened as the real response is too long.
-+#
-+##
-+{ 'command': 'query-pci', 'returns': ['PciInfo'] }
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 4d8b3a9afe..54c8ba6444 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -86,3 +86,4 @@
- { 'include': 'misc-target.json' }
- { 'include': 'audio.json' }
- { 'include': 'acpi.json' }
-+{ 'include': 'pci.json' }
-diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
-index cc2a2e1f73..3a027c42e4 100644
---- a/hw/pci/pci-stub.c
-+++ b/hw/pci/pci-stub.c
-@@ -22,7 +22,7 @@
- #include "sysemu/sysemu.h"
- #include "monitor/monitor.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-pci.h"
- #include "qapi/qmp/qerror.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/msi.h"
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index fce725474b..3c8f10b461 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -46,7 +46,7 @@
- #include "hw/hotplug.h"
- #include "hw/boards.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-pci.h"
- #include "qemu/cutils.h"
- 
- //#define DEBUG_PCI
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index de01ba2084..dc0de39219 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -36,6 +36,7 @@
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
-+#include "qapi/qapi-commands-pci.h"
- #include "qapi/qapi-commands-rocker.h"
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-tpm.h"
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f99b5db940..be0a8e648c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1617,6 +1617,7 @@ F: include/hw/pci/*
- F: hw/misc/pci-testdev.c
- F: hw/pci/*
- F: hw/pci-bridge/*
-+F: qapi/pci.json
- F: docs/pci*
- F: docs/specs/*pci*
- F: default-configs/pci.mak
-diff --git a/qapi/meson.build b/qapi/meson.build
-index f57acc2402..298b510492 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -35,6 +35,7 @@ qapi_all_modules = [
-   'net',
-   'pragma',
-   'qdev',
-+  'pci',
-   'qom',
-   'rdma',
-   'rocker',
+ #         From it we have: balloon_size = vm_ram_size - @value
+ #
+ # Returns: - Nothing on success
+diff --git a/qapi/migration.json b/qapi/migration.json
+index ce2216cfea..7f5e6fd681 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -681,23 +681,23 @@
+ #                      Defaults to 1. (Since 5.0)
+ #
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+-#          aliases for the purpose of dirty bitmap migration.  Such
+-#          aliases may for example be the corresponding names on the
+-#          opposite site.
+-#          The mapping must be one-to-one, but not necessarily
+-#          complete: On the source, unmapped bitmaps and all bitmaps
+-#          on unmapped nodes will be ignored.  On the destination,
+-#          encountering an unmapped alias in the incoming migration
+-#          stream will result in a report, and all further bitmap
+-#          migration data will then be discarded.
+-#          Note that the destination does not know about bitmaps it
+-#          does not receive, so there is no limitation or requirement
+-#          regarding the number of bitmaps received, or how they are
+-#          named, or on which nodes they are placed.
+-#          By default (when this parameter has never been set), bitmap
+-#          names are mapped to themselves.  Nodes are mapped to their
+-#          block device name if there is one, and to their node name
+-#          otherwise. (Since 5.2)
++#                        aliases for the purpose of dirty bitmap migration.  Such
++#                        aliases may for example be the corresponding names on the
++#                        opposite site.
++#                        The mapping must be one-to-one, but not necessarily
++#                        complete: On the source, unmapped bitmaps and all bitmaps
++#                        on unmapped nodes will be ignored.  On the destination,
++#                        encountering an unmapped alias in the incoming migration
++#                        stream will result in a report, and all further bitmap
++#                        migration data will then be discarded.
++#                        Note that the destination does not know about bitmaps it
++#                        does not receive, so there is no limitation or requirement
++#                        regarding the number of bitmaps received, or how they are
++#                        named, or on which nodes they are placed.
++#                        By default (when this parameter has never been set), bitmap
++#                        names are mapped to themselves.  Nodes are mapped to their
++#                        block device name if there is one, and to their node name
++#                        otherwise. (Since 5.2)
+ #
+ # Since: 2.4
+ ##
+@@ -841,23 +841,23 @@
+ #                      Defaults to 1. (Since 5.0)
+ #
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+-#          aliases for the purpose of dirty bitmap migration.  Such
+-#          aliases may for example be the corresponding names on the
+-#          opposite site.
+-#          The mapping must be one-to-one, but not necessarily
+-#          complete: On the source, unmapped bitmaps and all bitmaps
+-#          on unmapped nodes will be ignored.  On the destination,
+-#          encountering an unmapped alias in the incoming migration
+-#          stream will result in a report, and all further bitmap
+-#          migration data will then be discarded.
+-#          Note that the destination does not know about bitmaps it
+-#          does not receive, so there is no limitation or requirement
+-#          regarding the number of bitmaps received, or how they are
+-#          named, or on which nodes they are placed.
+-#          By default (when this parameter has never been set), bitmap
+-#          names are mapped to themselves.  Nodes are mapped to their
+-#          block device name if there is one, and to their node name
+-#          otherwise. (Since 5.2)
++#                        aliases for the purpose of dirty bitmap migration.  Such
++#                        aliases may for example be the corresponding names on the
++#                        opposite site.
++#                        The mapping must be one-to-one, but not necessarily
++#                        complete: On the source, unmapped bitmaps and all bitmaps
++#                        on unmapped nodes will be ignored.  On the destination,
++#                        encountering an unmapped alias in the incoming migration
++#                        stream will result in a report, and all further bitmap
++#                        migration data will then be discarded.
++#                        Note that the destination does not know about bitmaps it
++#                        does not receive, so there is no limitation or requirement
++#                        regarding the number of bitmaps received, or how they are
++#                        named, or on which nodes they are placed.
++#                        By default (when this parameter has never been set), bitmap
++#                        names are mapped to themselves.  Nodes are mapped to their
++#                        block device name if there is one, and to their node name
++#                        otherwise. (Since 5.2)
+ #
+ # Since: 2.4
+ ##
+@@ -1037,23 +1037,23 @@
+ #                      Defaults to 1. (Since 5.0)
+ #
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+-#          aliases for the purpose of dirty bitmap migration.  Such
+-#          aliases may for example be the corresponding names on the
+-#          opposite site.
+-#          The mapping must be one-to-one, but not necessarily
+-#          complete: On the source, unmapped bitmaps and all bitmaps
+-#          on unmapped nodes will be ignored.  On the destination,
+-#          encountering an unmapped alias in the incoming migration
+-#          stream will result in a report, and all further bitmap
+-#          migration data will then be discarded.
+-#          Note that the destination does not know about bitmaps it
+-#          does not receive, so there is no limitation or requirement
+-#          regarding the number of bitmaps received, or how they are
+-#          named, or on which nodes they are placed.
+-#          By default (when this parameter has never been set), bitmap
+-#          names are mapped to themselves.  Nodes are mapped to their
+-#          block device name if there is one, and to their node name
+-#          otherwise. (Since 5.2)
++#                        aliases for the purpose of dirty bitmap migration.  Such
++#                        aliases may for example be the corresponding names on the
++#                        opposite site.
++#                        The mapping must be one-to-one, but not necessarily
++#                        complete: On the source, unmapped bitmaps and all bitmaps
++#                        on unmapped nodes will be ignored.  On the destination,
++#                        encountering an unmapped alias in the incoming migration
++#                        stream will result in a report, and all further bitmap
++#                        migration data will then be discarded.
++#                        Note that the destination does not know about bitmaps it
++#                        does not receive, so there is no limitation or requirement
++#                        regarding the number of bitmaps received, or how they are
++#                        named, or on which nodes they are placed.
++#                        By default (when this parameter has never been set), bitmap
++#                        names are mapped to themselves.  Nodes are mapped to their
++#                        block device name if there is one, and to their node name
++#                        otherwise. (Since 5.2)
+ #
+ # Since: 2.4
+ ##
+@@ -1744,9 +1744,9 @@
+ # Information about current dirty page rate of vm.
+ #
+ # @dirty-rate: @dirtyrate describing the dirty page rate of vm
+-#          in units of MB/s.
+-#          If this field returns '-1', it means querying has not
+-#          yet started or completed.
++#              in units of MB/s.
++#              If this field returns '-1', it means querying has not
++#              yet started or completed.
+ #
+ # @status: status containing dirtyrate query status includes
+ #          'unstarted' or 'measuring' or 'measured'
 -- 
 2.26.2
 
