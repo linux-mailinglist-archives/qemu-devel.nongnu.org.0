@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30CD27CCB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:38:33 +0200 (CEST)
-Received: from localhost ([::1]:56428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B72C27CD20
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:42:08 +0200 (CEST)
+Received: from localhost ([::1]:36384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNEts-0003Sv-VB
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51808)
+	id 1kNExL-000787-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:42:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNEpv-0007oa-Vk
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:34:28 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNEpu-00088S-9K
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:34:27 -0400
-Received: by mail-wr1-x442.google.com with SMTP id s12so5160291wrw.11
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 05:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yngDcTBzkCuQ1f+ETCd/m8NKY53h5+um/hQYqBM3GHI=;
- b=UzuP1NiX7sPiE3DV8Fe8PeD22iUVSq1gNdWsI/PUJqYr5StpszaptVLPMa1RurplNt
- rmGgpgGHTL4xby//AuU3fHXyg26s3yScx5cMexelE9kEhwD14TSaOGLUGM4KfTtucpco
- 2Wj2NSBL+QjlOB22ZbmSlw13wUqJGzyAxa9EtWyiyojlzU0aY7SpGAoxCMfT0BMmkhg/
- iuNS1BEgL06iqlMJrwusU7ZtIBWWsTLNnvbYuXB71nDjzo1R7vj+qqsx6byb13Mht4ZG
- TkWF/85bpQQCbqDw/cOyTCtkrm50ngfPARUMw6oU27TKLx3mHpxRB/MUBdYN6qjJubzp
- RnpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yngDcTBzkCuQ1f+ETCd/m8NKY53h5+um/hQYqBM3GHI=;
- b=FH0b2APyJgma/4c8m2F0hm59xiUhzfTkkJjeUnAWikIICcy+AcUqDWZqQzcaN1uFzU
- inpgeUqel/pCauYAeVGwfx+ICOprTOynr1B1cykiINR3ftpiAvNcWB21R4L05pwKTUg2
- O8FMYh0Mvb4LUEU0ZdiiVltev58k8va5SKntCEyiQIkPAntv3QMspQJOnh4k7Epn2c9C
- HlG38zEjZb2u4OFvlAUhF38xOhIt/vl3Tm8NPlTy6/k7U2rDHV2LOMkCXKZd1tgfjGDL
- ci0ZAKgsPrOlgUv2wCsETTc2VU21Vf9INxfWjfImbztPkQBNCyp9K1JjriAMetGhquxK
- qIHA==
-X-Gm-Message-State: AOAM532pWyKWMMlCX5Rvb1fzJSm+MGgI8Wfb6d7T4+sH6yWdOPATagqO
- VXsYh5GF8ruoj3484OR5qaY=
-X-Google-Smtp-Source: ABdhPJy63Jh+1rqSC6YesyTUKP4troJM6PDYKd0AbUGg4pRbBN5jEzLKP86WBMklIUznrqq/H40lQg==
-X-Received: by 2002:adf:aadb:: with SMTP id i27mr4039912wrc.258.1601382864729; 
- Tue, 29 Sep 2020 05:34:24 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id n3sm5425912wmn.28.2020.09.29.05.34.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 05:34:24 -0700 (PDT)
-Subject: Re: [RFC PATCH v4 22/29] Hexagon (target/hexagon) macros
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1601314138-9930-1-git-send-email-tsimpson@quicinc.com>
- <1601314138-9930-23-git-send-email-tsimpson@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <36baca58-2129-7875-7a58-52454d8f2d0b@amsat.org>
-Date: Tue, 29 Sep 2020 14:34:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNErE-000137-DE
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:35:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNErB-0008M5-MI
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:35:47 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601382944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dQ3wsfy5KsplaynrJMJyjMESYjSUlnklpCwwhnKYOoQ=;
+ b=NpJrfZAjiIXEe50HZTFZ7pqiBuGW8Vc7Ajp/6TAp8DkAQU6gxUYrsYpOg31eaQMiB0bq6Y
+ ddNPmoDE/vCV4BKkYZENmUIqdxLV2n0lan36L2yRUvye2oL83tRRm9VZti+sHKtF6DqOYB
+ rKLaNLA780ih0aAFmsVUUeR6Ux2Rouk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-GTXIMTrCNx2-ScKVqg2sng-1; Tue, 29 Sep 2020 08:35:42 -0400
+X-MC-Unique: GTXIMTrCNx2-ScKVqg2sng-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A411418C89C3;
+ Tue, 29 Sep 2020 12:35:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E8125578B;
+ Tue, 29 Sep 2020 12:35:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D1D28113864A; Tue, 29 Sep 2020 14:35:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 17/21] docs/devel/qapi-code-gen.txt: Update to new
+ rST backend conventions
+References: <20200925162316.21205-1-peter.maydell@linaro.org>
+ <20200925162316.21205-18-peter.maydell@linaro.org>
+Date: Tue, 29 Sep 2020 14:35:39 +0200
+In-Reply-To: <20200925162316.21205-18-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Fri, 25 Sep 2020 17:23:12 +0100")
+Message-ID: <87wo0cu5es.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1601314138-9930-23-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.199, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,58 +83,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, riku.voipio@iki.fi, richard.henderson@linaro.org,
- laurent@vivier.eu, aleksandar.m.mail@gmail.com
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/20 7:28 PM, Taylor Simpson wrote:
-> macros to interface with the generator
-> macros referenced in instruction semantics
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> Update the documentation of QAPI document comment syntax to match
+> the new rST backend requirements. The principal changes are:
+>  * whitespace is now significant,
+
+Well, differently significant :)  Anyway, close enough.
+
+>                                   and multiline definitions
+>    must have their second and subsequent lines indented to
+>    match the first line
+>  * general rST format markup is permitted, not just the small
+>    set of markup the old texinfo generator handled. For most
+>    things (notably bulleted and itemized lists) the old format
+>    is the same as rST was.
+
+"was the same as rST is"?
+
+>  * Specific things that might trip people up:
+>    - instead of *bold* and _italic_ rST has **bold** and *italic*
+>    - lists need a preceding and following blank line
+>    - a lone literal '*' will need to be backslash-escaped to
+>      avoid a rST syntax error
+>  * the old leading '|' for example (literal text) blocks is
+>    replaced by the standard rST '::' literal block.
+>  * we support arbitrary levels of sub- and sub-sub-heading, not
+>    just a main and sub-heading like the old texinfo generator
+
+Possibly noteworthy: lists can now be nested.  Can add that in my tree.
+
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/hexagon/macros.h | 654 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 654 insertions(+)
->  create mode 100644 target/hexagon/macros.h
-> 
-> diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
-> new file mode 100644
-> index 0000000..34831d4
-> --- /dev/null
-> +++ b/target/hexagon/macros.h
-> @@ -0,0 +1,654 @@
-> +/*
-> + *  Copyright(c) 2019-2020 Qualcomm Innovation Center, Inc. All Rights Reserved.
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
+>  docs/devel/qapi-code-gen.txt | 83 +++++++++++++++++++++++-------------
+>  1 file changed, 53 insertions(+), 30 deletions(-)
+>
+> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+> index 69eaffac376..7d2479dde82 100644
+> --- a/docs/devel/qapi-code-gen.txt
+> +++ b/docs/devel/qapi-code-gen.txt
+> @@ -824,23 +824,37 @@ See below for more on definition documentation.
+>  Free-form documentation may be used to provide additional text and
+>  structuring content.
+>  
+> +==== Headings and subheadings ====
 > +
-> +#ifndef HEXAGON_MACROS_H
-> +#define HEXAGON_MACROS_H
+> +A free-form documentation comment containing a line which starts with
+> +some '=' symbols and then a space defines a section heading:
 > +
-> +#include "qemu/osdep.h"
-
-Please do not include "qemu/osdep.h" in header.
-
-> +#include "qemu/host-utils.h"
-
-"qemu/host-utils.h" doesn't seem used.
-
-> +#include "cpu.h"
-> +#include "hex_regs.h"
-> +#include "reg_fields.h"
+> +    ##
+> +    # = This is a top level heading
+> +    #
+> +    # This is a free-form comment which will go under the
+> +    # top level heading.
+> +    ##
 > +
-[...]
+> +    ##
+> +    # == This is a second level heading
+> +    ##
+> +
+> +A heading line must be the first line of the documentation
+> +comment block.
+> +
+> +Section headings must always be correctly nested, so you can only
+> +define a third-level heading inside a second-level heading, and so on.
+>  
+>  ==== Documentation markup ====
+>  
+> -Comment text starting with '=' is a section title:
+> +Documentation comments can use most rST markup.  In particular,
+> +a '::' literal block can be used for examples:
+>  
+> -    # = Section title
+> -
+> -Double the '=' for a subsection title:
+> -
+> -    # == Subsection title
+> -
+> -Both are only permitted in free-form documentation.
+> -
+> -'|' denotes examples:
+> -
+> -    # | Text of the example, may span
+> -    # | multiple lines
+> +    # ::
+> +    #
+> +    #   Text of the example, may span
+> +    #   multiple lines
+>  
+>  '*' starts an itemized list:
+>  
+> @@ -856,34 +870,33 @@ A decimal number followed by '.' starts a numbered list:
+>      #    multiple lines
+>      # 2. Second item
+>  
+> -The actual number doesn't matter.  You could even use '*' instead of
+> -'2.' for the second item.
+> +The actual number doesn't matter.
+>  
+> -Lists can't be nested.  Blank lines are currently not supported within
+> -lists.
+> +Lists of either kind must be preceded and followed by a blank line.
+> +If a list item's text spans multiple lines, then the second and
+> +subsequent lines must be correctly indented to line up with the
+> +first character of the first line.
+>  
+> -Additional whitespace between the initial '#' and the comment text is
+> -permitted.
+> -
+> -*foo* and _foo_ are for strong and emphasis styles respectively (they
+> -do not work over multiple lines).  @foo is used to reference a name in
+> -the schema.
+> +The usual '**strong**', '*emphasised*' and '``literal``' markup should
+> +be used.  If you need a single literal '*' you will need to
+> +backslash-escape it.  As an extension beyond the usual rST syntax, you
+> +can also use '@foo' to reference a name in the schema; this is
+> +rendered the same way as '``foo``'.
+>  
+>  Example:
+>  
+>  ##
+> -# = Section
+> -# == Subsection
+> -#
+> -# Some text foo with *strong* and _emphasis_
+> +# Some text foo with **bold** and *emphasis*
+>  # 1. with a list
+>  # 2. like that
+>  #
+>  # And some code:
+> -# | $ echo foo
+> -# | -> do this
+> -# | <- get that
+>  #
+> +# ::
+> +#
+> +#   $ echo foo
+> +#   -> do this
+> +#   <- get that
+>  ##
+>  
+>  
+
+v5 had
+
+  @@ -899,6 +915,12 @@ commands and events), member (for structs and unions), branch (for
+   alternates), or value (for enums), and finally optional tagged
+   sections.
+   
+  +Descriptions of arguments can span multiple lines; if they
+  +do then the second and subsequent lines must be indented
+  +to line up with the first character of the first line of the
+  +description. The parser will report a syntax error if there
+  +is insufficient indentation.
+  +
+   FIXME: the parser accepts these things in almost any order.
+   FIXME: union branches should be described, too.
+   
+I questioned the value of the last sentence.  You dropped both.
+Intentional?
+
+> @@ -937,6 +950,16 @@ multiline argument descriptions.
+>  A 'Since: x.y.z' tagged section lists the release that introduced the
+>  definition.
+>  
+> +The text of a section can start on a new line, in
+> +which case it must not be indented at all.  It can also start
+> +on the same line as the 'Note:', 'Returns:', etc tag.  In this
+> +case if it spans multiple lines then second and subsequent
+> +lines must be indented to match the first.
+> +
+> +An 'Example' or 'Examples' section is automatically rendered
+> +entirely as literal fixed-width text.  In other sections,
+> +the text is formatted, and rST markup can be used.
+> +
+>  For example:
+>  
+>  ##
+
 
