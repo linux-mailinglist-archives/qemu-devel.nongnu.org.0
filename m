@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4BF027C4EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:20:08 +0200 (CEST)
-Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF92D27C50F
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:30:10 +0200 (CEST)
+Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNDfu-0006VQ-VH
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59720)
+	id 1kNDph-0002qX-UU
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDZz-0000fj-TW
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:13:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43888)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDb5-00024O-Kq
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:15:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDZy-0004Ji-5O
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:13:55 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDb3-0004Pe-7f
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:15:03 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601378033;
+ s=mimecast20190719; t=1601378100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=v3CbcWt6VrrefnqFfH2cnDr2js7uKVn/Ji4CIA8AoOc=;
- b=EwC38GN20OYhYrhzMDNGWhBRyzOy4RuPLbppYRJG7QiEUv/lQgBryum+4MH8nFl6fuDQqN
- sC8A2zA9Wnc/68+JpR00oYShklPv7LAuEcX1gJ+tqDbmKLhtrdWt1kbu5GXaqcYUdFpE3K
- aRMoS18fzrZfWgHruchA1nYBlWGZtVM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-L7gBtIE0Mh65kRfaRVPX4w-1; Tue, 29 Sep 2020 07:13:51 -0400
-X-MC-Unique: L7gBtIE0Mh65kRfaRVPX4w-1
-Received: by mail-wm1-f72.google.com with SMTP id t8so1573759wmj.6
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:13:51 -0700 (PDT)
+ bh=U90gmN+Gaq44papNIsP8r0dpxsRqGvyvz7WDV0MGLZQ=;
+ b=AibuKRMD6/GI5GkferEH1CU3xgG/YR0aqUIwcvc9oyjT4addWoxzWAi52kaubCoVOBtQ8M
+ YXZUJ42eNEChVrsgTBgEi0bT9BlTOkO4ecoPmxi9oy2IeLMkNvLd0/JrDx9SWgkV8xSuDi
+ XfQaWFy5M49syFO0Z5ABEO5wL4iSuYY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-Pumr6lKqOe2Ei5VcQv1LeQ-1; Tue, 29 Sep 2020 07:14:39 -0400
+X-MC-Unique: Pumr6lKqOe2Ei5VcQv1LeQ-1
+Received: by mail-wm1-f69.google.com with SMTP id x6so1701740wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:14:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=v3CbcWt6VrrefnqFfH2cnDr2js7uKVn/Ji4CIA8AoOc=;
- b=owK+7vtzqPs8T0XpldqCtOKGzKFpVsKcsJLtOMr5sYe3tPdzcx5+jhZibXjPKLysBl
- obvloEXILV4nZVjxKDZ/ZBmbuJHqxkqtA5X7wkP3/pLz74yCWreHnGXqvfk/jjE/eGK7
- krY6lQp0vnR37Vs8hNnUSlvygYdmx4qGC+oUoKgwBPtbRNTOjcp1EOQKIY82hnNDfN+X
- pWf2xlK6C/Sz01FfMuK770UrGiS3i4Hyn3Cdz82kkHFNA5Q9lsLb+cDD2wA/4mSK2Tag
- 3OFM7rendBvaEK5bwA5sEnnoEGql1kuDaS3GKp6p6ENIkBpbsS6XqFT3w+v1rd7ZRZ3L
- uKkA==
-X-Gm-Message-State: AOAM5337uQbj/HJeUOVg3QdnC66TWNiNToYdLa4j7Fi/XGKF9c2T5eKi
- WmHA0toA25r8LHim8G8nQNbc7YZihq29UMyIMxQAXSzLOIayjDfECmamWrl8gHA7f9rKVKQygbn
- Dur/1bwfOequ66OQ=
-X-Received: by 2002:adf:df05:: with SMTP id y5mr4004956wrl.39.1601378029564;
- Tue, 29 Sep 2020 04:13:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyG8ZRrQjdQ9KEx8Vmt3sejqJnj9vhQm/3GvuVnrj2hb08GMvRfEw+0gpvJlLjKRiLmWkQapA==
-X-Received: by 2002:adf:df05:: with SMTP id y5mr4004927wrl.39.1601378029297;
- Tue, 29 Sep 2020 04:13:49 -0700 (PDT)
+ bh=U90gmN+Gaq44papNIsP8r0dpxsRqGvyvz7WDV0MGLZQ=;
+ b=G8O7lyovLiy8c2lQXTnsVKLLq/FzDMPPNDn//24ajSHA64Pp4bcTnudA6jXs5XufEh
+ sIxMJofO9s1s2ULD28LAdbTA8AMtkxBY1ap8FeaXIes+UnyvvMD4OHT4SFakQt94TL2V
+ 3wtRQFYD2Qsz3R488s4oLC1W4cxRz095d8g0MUcj8bwaw3IW3T+oK77249NRzP5qFeyu
+ 8DVzAr7oFY2acTt1ZYizfICSdqo0upPI3b30lQ8d86RLOY+1nyvopc7yWmbvHpTMPMXA
+ P9eZrqy8dvDYXE2dcU+g7dFHoS8YTG3lu8PvFc1qPmZOjbKsXexRhgb0SjibVtW1r/8s
+ cGMg==
+X-Gm-Message-State: AOAM530dOOi5c/cN8ty8+mKYmLNxYnHemUUjbuQCoP44WjLLzSbXCuz8
+ lSLGtxb2KPBFBF21sJT/fKFIidizIGNPB8vv6jsFHzuvGGrm43D/ho+t82g2R/OmSmzYmSqsBWm
+ ya4foKMi9GLYTqIg=
+X-Received: by 2002:adf:db4d:: with SMTP id f13mr3693196wrj.155.1601378078088; 
+ Tue, 29 Sep 2020 04:14:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXdr6qCCOaSprVwLZ5u2jApXuhAVJFYNUH+CYlRvJMhPWEoUk6mKEJ+JDk8elxTI72pCYVtQ==
+X-Received: by 2002:adf:db4d:: with SMTP id f13mr3693167wrj.155.1601378077819; 
+ Tue, 29 Sep 2020 04:14:37 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id s11sm5490966wrt.43.2020.09.29.04.13.48
+ by smtp.gmail.com with ESMTPSA id q13sm5872928wra.93.2020.09.29.04.14.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 04:13:48 -0700 (PDT)
-Date: Tue, 29 Sep 2020 07:13:46 -0400
+ Tue, 29 Sep 2020 04:14:37 -0700 (PDT)
+Date: Tue, 29 Sep 2020 07:14:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v4 00/48] virtio,pc,acpi: fixes, tests
-Message-ID: <20200929071323-mutt-send-email-mst@kernel.org>
-References: <20200929071948.281157-1-mst@redhat.com>
- <20200929070322-mutt-send-email-mst@kernel.org>
- <CAFEAcA_D+qM6jW9LeB4gpU-A9skUv8mpWWQJ1uu9xMjw7nwxOA@mail.gmail.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v10 13/13] tests/acpi: add DSDT.hpbrroot DSDT table blob
+ to test global i440fx hotplug
+Message-ID: <20200929071412-mutt-send-email-mst@kernel.org>
+References: <CAARzgwz7x6uinPQ+oC+yAuFCbQEWhQuDmGU73E5NZ2WCH_C_kA@mail.gmail.com>
+ <CAARzgwwxjjCAVsFB6_987pa1Z_in2G50rViYiRGVae-c_wn6xQ@mail.gmail.com>
+ <20200929053823-mutt-send-email-mst@kernel.org>
+ <CAARzgwxBcTDkK7QhHP=_mpYoAYYgRY+d6o+2SCSP-haBPDttwA@mail.gmail.com>
+ <CAARzgwy8QNw=OD6cOEkDY-x9mC10ry+NTdCH2gNKuLXp8bAAyg@mail.gmail.com>
+ <CAARzgwyNPZB5PGc-B9vDn9V-uEwVCiCvXgvamMaGTvBCPJQiCg@mail.gmail.com>
+ <20200929063539-mutt-send-email-mst@kernel.org>
+ <CAARzgwz6iTsO9Z1ACAHmbSteGYfetDgnSRYc-xnaqjYyJ4yEHA@mail.gmail.com>
+ <20200929064858-mutt-send-email-mst@kernel.org>
+ <CAARzgwwFeSPd=JGjdk-uj=uuLb+HcfMfGTe1_GmbFRTkP-jZdQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_D+qM6jW9LeB4gpU-A9skUv8mpWWQJ1uu9xMjw7nwxOA@mail.gmail.com>
+In-Reply-To: <CAARzgwwFeSPd=JGjdk-uj=uuLb+HcfMfGTe1_GmbFRTkP-jZdQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,42 +102,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 29, 2020 at 12:07:01PM +0100, Peter Maydell wrote:
-> On Tue, 29 Sep 2020 at 12:04, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, Sep 29, 2020 at 04:35:50PM +0530, Ani Sinha wrote:
+> On Tue, Sep 29, 2020 at 4:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 > >
-> > On Tue, Sep 29, 2020 at 03:20:52AM -0400, Michael S. Tsirkin wrote:
-> > > Changes from v3:
-> > > - dropped reconnect tests
-> > > - added more fixes, an smbios feature
-> > >
-> > > The following changes since commit 74504514b154ebebdff577d88e4bf5c13074e9ed:
-> > >
-> > >   Merge remote-tracking branch 'remotes/alistair/tags/pull-register-20200927' into staging (2020-09-28 16:49:10 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> > >
-> > > for you to fetch changes up to 8138405528c29af2a850cd672a8f8a0b33b7ab40:
+> > On Tue, Sep 29, 2020 at 04:11:45PM +0530, Ani Sinha wrote:
+> > > On Tue, Sep 29, 2020 at 4:07 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Tue, Sep 29, 2020 at 04:02:07PM +0530, Ani Sinha wrote:
+> > > > > On Tue, Sep 29, 2020 at 4:00 PM Ani Sinha <ani@anisinha.ca> wrote:
+> > > > > >
+> > > > > > In your pull request the following patch is completely screwed up:
+> > > > > >
+> > > > > > commit cda2006eded0ed91974e1d9e7f9f288e65812a3e
+> > > > > > Author: Ani Sinha <ani@anisinha.ca>
+> > > > > > Date:   Tue Sep 29 03:22:52 2020 -0400
+> > > > > >
+> > > > > >     tests/acpi: update golden master DSDT binary table blobs for q35
+> > > > > >
+> > > > > >
+> > > > > > This is not my patch. It has all sorts of changes which does not
+> > > > > > belong there. Can you please check?
+> > > > >
+> > > > > See https://patchew.org/QEMU/20200929071948.281157-1-mst@redhat.com/20200929071948.281157-46-mst@redhat.com/
+> > > >
+> > > >
+> > > > I had to regenerate the binary, yes. That's par for the course.
+> > > > But it looks like I added disasssembled files. Will fix up and drop,
+> > > > thanks for noticing this.
 > >
-> > Ani Sinha pointed out that this included unnecessary files, I pushed out
-> > a new commit 192d48b4ae4216f0dc40fba35e8edf3b92713aa7 which should be
-> > ok.
+> > OK I pushed out a fixed variant. Pls take a look.
 > 
-> Oops, I just merged 8138405528c before reading this mail. Could
-> you send another pullreq which makes the fixes as changes to master,
-> please?
+> OK I am not used to this workflow. How am I supposed to get it? Which tag?
+
+New for_upstream tag - I just sent in a pull request.
+
 > 
-> thanks
-> -- PMM
-
-Done. Sorry about making this mess.
-
--- 
-MST
+> >
+> > > I think DSDT.hbridge is wrong. The checksum looks weird:
+> > >
+> > >
+> > > + *     Length           0x00000B89 (2953)
+> > >   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> > > - *     Checksum         0x05
+> >
+> > What is weird about it?
+> >
+> > >
+> > > This file should be introduced just by one patch. my patch.
+> >
+> > I just re-run rebuild-expected-aml, no changes.
+> >
+> > I have this:
+> > commit 5e3a486211f02d9ecb18939ca21087515ec81883
+> > Author: Ani Sinha <ani@anisinha.ca>
+> > Date:   Fri Sep 18 14:11:05 2020 +0530
+> >
+> >     tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support' bridge flag
+> >
+> >     This change adds a new unit test for the global flag
+> >     'acpi-pci-hotplug-with-bridge-support' which is available for cold plugged pci
+> >     bridges in i440fx. The flag can be used to turn off ACPI based hotplug support
+> >     on all pci bridges.
+> >
+> >
+> > Here is the full DSDT header, attached:
+> >
+> > /*
+> >  * Intel ACPI Component Architecture
+> >  * AML/ASL+ Disassembler version 20190509 (64-bit version)
+> >  * Copyright (c) 2000 - 2019 Intel Corporation
+> >  *
+> >  * Disassembling to symbolic ASL+ operators
+> >  *
+> >  * Disassembly of tests/data/acpi/pc/DSDT.hpbridge, Tue Sep 29 06:51:03 2020
+> >  *
+> >  * Original Table Header:
+> >  *     Signature        "DSDT"
+> >  *     Length           0x0000139D (5021)
+> >  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> >  *     Checksum         0x05
+> >  *     OEM ID           "BOCHS "
+> >  *     OEM Table ID     "BXPCDSDT"
+> >  *     OEM Revision     0x00000001 (1)
+> >  *     Compiler ID      "BXPC"
+> >  *     Compiler Version 0x00000001 (1)
+> >  */
+> > DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
+> >
+> > --
+> > MST
+> >
 
 
