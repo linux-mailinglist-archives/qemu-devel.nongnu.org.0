@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FB927D7F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:22:00 +0200 (CEST)
-Received: from localhost ([::1]:60274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB8627D816
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:29:40 +0200 (CEST)
+Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNM8N-0003bq-NE
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59598)
+	id 1kNMFn-0005PG-Co
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:29:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM64-0001lC-Q2
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43283)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM6I-0001v3-79
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM61-0003Si-4k
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNM69-0003W1-C2
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 16:19:49 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601410771;
+ s=mimecast20190719; t=1601410780;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nx5fqRl9E4W0g2eJkBKZ759n+CO2rmYE/zk+htF+dvU=;
- b=YvTI3AEltW8lMQhcFzV58hxV1jGaTSK5vmEkY7t1L8zcAcTM/ak/4iXREMP0Drxt925RHa
- nOLvzzdghd/YGIbzDyIN3QR6J8t0cWJJh+wOgmGbORx/AcTK9DkCuVvQBsiRkTte7kwzi/
- rJ2CP/Lx0I4s9hpZaTCNQ2vxNyLU6g4=
+ bh=IpaPO/xyASpAHb6Tn9VNSQDlYnAL6prIqxyflpicY3k=;
+ b=KihsvI+9oCO2SxK5M3ppljGX8phcjVb0IbDgeOAS2Fn8MH/EeresYQSdnIWX9DOz1SpHLU
+ Sl7Gr1x12IYbqLtCQkXwkadB0ePaeGBq3rmmTmLXBY5w+6DQneO7W/U6YJgQOtWw+kYdCm
+ HrshslLA5oRJ94OOWmRc4HIs367xD94=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-Y8atyhpDNky-Mhf3bMtuZQ-1; Tue, 29 Sep 2020 16:19:29 -0400
-X-MC-Unique: Y8atyhpDNky-Mhf3bMtuZQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-297-boDGIgE1PdehE1ACTDIkBg-1; Tue, 29 Sep 2020 16:19:30 -0400
+X-MC-Unique: boDGIgE1PdehE1ACTDIkBg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43D1910BBEC3;
- Tue, 29 Sep 2020 20:19:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAF3D801AE5;
+ Tue, 29 Sep 2020 20:19:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1204B2C31E;
- Tue, 29 Sep 2020 20:19:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C5E66198E;
+ Tue, 29 Sep 2020 20:19:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9B41E11385C3; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
+ id 9EEFB11384A5; Tue, 29 Sep 2020 22:19:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/29] qapi: Restrict query-vm-generation-id command to machine
- code
-Date: Tue, 29 Sep 2020 22:19:01 +0200
-Message-Id: <20200929201926.2155622-5-armbru@redhat.com>
+Subject: [PULL 05/29] qapi: Restrict query-uuid command to machine code
+Date: Tue, 29 Sep 2020 22:19:02 +0200
+Message-Id: <20200929201926.2155622-6-armbru@redhat.com>
 In-Reply-To: <20200929201926.2155622-1-armbru@redhat.com>
 References: <20200929201926.2155622-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,9 +81,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,108 +93,128 @@ Only qemu-system-FOO and qemu-storage-daemon provide QMP
 monitors, therefore such declarations and definitions are
 irrelevant for user-mode emulation.
 
-Restricting the query-vm-generation-id command to machine.json pulls
-less QAPI-generated code into user-mode.
+Restricting the query-uuid command to machine.json pulls less
+QAPI-generated code into user-mode.
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Markus Armbruster <armbru@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200913195348.1064154-5-philmd@redhat.com>
+Message-Id: <20200913195348.1064154-6-philmd@redhat.com>
 [Commit message tweaked]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json | 20 ++++++++++++++++++++
- qapi/misc.json    | 21 ---------------------
- hw/acpi/vmgenid.c |  2 +-
- stubs/vmgenid.c   |  2 +-
- 4 files changed, 22 insertions(+), 23 deletions(-)
+ qapi/machine.json | 30 ++++++++++++++++++++++++++++++
+ qapi/misc.json    | 30 ------------------------------
+ block/iscsi.c     |  2 +-
+ stubs/uuid.c      |  2 +-
+ 4 files changed, 32 insertions(+), 32 deletions(-)
 
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 2accb3c4d2..15c8d606ab 100644
+index 15c8d606ab..5e5ddd7a5e 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -402,6 +402,26 @@
+@@ -402,6 +402,36 @@
  ##
  { 'command': 'query-target', 'returns': 'TargetInfo' }
  
 +##
-+# @GuidInfo:
++# @UuidInfo:
 +#
-+# GUID information.
++# Guest UUID information (Universally Unique Identifier).
 +#
-+# @guid: the globally unique identifier
++# @UUID: the UUID of the guest
 +#
-+# Since: 2.9
++# Since: 0.14.0
++#
++# Notes: If no UUID was specified for the guest, a null UUID is returned.
 +##
-+{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
++{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
 +
 +##
-+# @query-vm-generation-id:
++# @query-uuid:
 +#
-+# Show Virtual Machine Generation ID
++# Query the guest UUID information.
 +#
-+# Since: 2.9
++# Returns: The @UuidInfo for the guest
++#
++# Since: 0.14.0
++#
++# Example:
++#
++# -> { "execute": "query-uuid" }
++# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
++#
 +##
-+{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
++{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': true }
 +
  ##
- # @LostTickPolicy:
+ # @GuidInfo:
  #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 7a14c50094..edcc91e106 100644
+index edcc91e106..05db6295fe 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -1479,24 +1479,3 @@
- #
+@@ -98,36 +98,6 @@
  ##
- { 'command': 'xen-load-devices-state', 'data': {'filename': 'str'} }
--
--##
--# @GuidInfo:
--#
--# GUID information.
--#
--# @guid: the globally unique identifier
--#
--# Since: 2.9
--##
--{ 'struct': 'GuidInfo', 'data': {'guid': 'str'} }
--
--##
--# @query-vm-generation-id:
--#
--# Show Virtual Machine Generation ID
--#
--# Since: 2.9
--##
--{ 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
--
-diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
-index 53db6af75d..2c8152d508 100644
---- a/hw/acpi/vmgenid.c
-+++ b/hw/acpi/vmgenid.c
-@@ -12,7 +12,7 @@
+ { 'command': 'query-kvm', 'returns': 'KvmInfo' }
  
- #include "qemu/osdep.h"
+-##
+-# @UuidInfo:
+-#
+-# Guest UUID information (Universally Unique Identifier).
+-#
+-# @UUID: the UUID of the guest
+-#
+-# Since: 0.14.0
+-#
+-# Notes: If no UUID was specified for the guest, a null UUID is returned.
+-##
+-{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
+-
+-##
+-# @query-uuid:
+-#
+-# Query the guest UUID information.
+-#
+-# Returns: The @UuidInfo for the guest
+-#
+-# Since: 0.14.0
+-#
+-# Example:
+-#
+-# -> { "execute": "query-uuid" }
+-# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
+-#
+-##
+-{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': true }
+-
+ ##
+ # @IOThreadInfo:
+ #
+diff --git a/block/iscsi.c b/block/iscsi.c
+index bd2122a3a4..e30a7e3606 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -42,7 +42,7 @@
+ #include "qemu/uuid.h"
+ #include "sysemu/replay.h"
  #include "qapi/error.h"
 -#include "qapi/qapi-commands-misc.h"
 +#include "qapi/qapi-commands-machine.h"
- #include "qemu/module.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/aml-build.h"
-diff --git a/stubs/vmgenid.c b/stubs/vmgenid.c
-index 568e42b064..bfad656c6c 100644
---- a/stubs/vmgenid.c
-+++ b/stubs/vmgenid.c
-@@ -1,6 +1,6 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qstring.h"
+ #include "crypto/secret.h"
+diff --git a/stubs/uuid.c b/stubs/uuid.c
+index 67f182fa3a..e5112eb3f6 100644
+--- a/stubs/uuid.c
++++ b/stubs/uuid.c
+@@ -1,5 +1,5 @@
  #include "qemu/osdep.h"
- #include "qapi/error.h"
 -#include "qapi/qapi-commands-misc.h"
 +#include "qapi/qapi-commands-machine.h"
- #include "qapi/qmp/qerror.h"
+ #include "qemu/uuid.h"
  
- GuidInfo *qmp_query_vm_generation_id(Error **errp)
+ UuidInfo *qmp_query_uuid(Error **errp)
 -- 
 2.26.2
 
