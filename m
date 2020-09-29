@@ -2,76 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B279327D5CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:33:29 +0200 (CEST)
-Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B9F27D5F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:42:17 +0200 (CEST)
+Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNKRM-0000BA-On
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:33:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34342)
+	id 1kNKZs-00033E-DT
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNKOp-0007LJ-3f
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:30:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51925)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNKOm-0005Cf-MZ
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:30:50 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601404246;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/O8CZwKo7fTI6l1OOOv7CqIVDiU6UcznG/egraVFIB0=;
- b=Qn7FeO33ifoVzgph4iog4/gEMB+2eYtoSJ69bwtInxlLkdAbjV6X0LVhKMMx2wRl/hDzEm
- Twb9MbwccRwwHHZ+qu9TDDwYL5NMN2Uk/3FsGh8Kc7HkA0We3yXjaFIw4RGtzm4VP9NdTC
- 7/FaelS5K6DwjEbwBwAw3ME4H5X0rCI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-gmtWOhnbMAqTOYxiAPhbRw-1; Tue, 29 Sep 2020 14:30:42 -0400
-X-MC-Unique: gmtWOhnbMAqTOYxiAPhbRw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 005A01021208
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 18:30:41 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CA905C1C4;
- Tue, 29 Sep 2020 18:30:39 +0000 (UTC)
-Subject: Re: [PATCH v3 06/47] [DO-NOT-MERGE] docs: enable sphinx-autodoc for
- scripts/qapi
-To: Cleber Rosa <crosa@redhat.com>
-References: <20200925002900.465855-1-jsnow@redhat.com>
- <20200925002900.465855-7-jsnow@redhat.com>
- <20200929040027.GG700868@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <fe300f2f-274e-0859-36d3-96a5868a5074@redhat.com>
-Date: Tue, 29 Sep 2020 14:30:39 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kNKUO-0001pO-7b; Tue, 29 Sep 2020 14:36:36 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:36025)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kNKUK-0005wW-Ut; Tue, 29 Sep 2020 14:36:35 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 86E11EC7;
+ Tue, 29 Sep 2020 14:36:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 29 Sep 2020 14:36:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=BO1+/YH3omON5wdZE3F3vGUFJCj
+ P2OaiiVkCbvOrQeA=; b=s078oeux65deHMF+/1SQ8cg9tNMq+alLgdbrFtKn1Te
+ LGhpm8LkoRSuaJDWhstBHOlJaewvtHadmBCO3/93d1l81errLdKzj9JfhfkUNdBo
+ BeGmqXM7UX2fl+p8n45ZCpX8oQ9wqN8u7ws2aqlGD5HiEpdgOjBNYdA5XUMyWr33
+ LDkjwCRLQ0t6geNM1FsjQgcOq3O5ZvVNhemDiMfNgAKZNs4ftVyJGou3Qm0nY7NX
+ SUqRug06Ectw/BIh3LHl2E/MvGn9cRmiZcy8sHTDMsdhZowsmUKW6oi/0i56MSXT
+ wEc+PbYzBhTYdAm1AXvWkYCrO3AuHmESi1mm89SXKeg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=BO1+/Y
+ H3omON5wdZE3F3vGUFJCjP2OaiiVkCbvOrQeA=; b=ZWqO6Fnm1nF/QGMcukxwlu
+ CRRFltKKikjNyCdGqwmgOEGDH1yOG63MydP/ssL6Ug9594iziSHYxgbnOQaUL+rm
+ D/7R+0QoAAPs8G1bJOHfBF89xIcdW4rsrJrBoEHXUmmQYfcEGvp5/vx2eP1LbL9S
+ zyl5j7KIRHbqVWHiv7+fPV3ouzhJhAPYAAlJUMqPN4xF3cFJN0FFrD+jHrTrrTRl
+ G2mDmek8NikeOosNFb4BIRPynmtaORV2gcaswsWZF0lQZOsPla/Rc+AfTzy3U0K9
+ kUALGIVP97V7H/3E6mENXTZHn1I2k/l+rJofeYbb+EsIhTCF4tuLWIsxUC+7CXcQ
+ ==
+X-ME-Sender: <xms:qX5zXyLN5K-1JpdNMxD-35TfXmTuOPKqF3YeGzls9qE_wLdzJZTr4A>
+ <xme:qX5zX6L_BVRmzG8saqX7BKDRDxL5aeUnEyD6R7cma7hsqkMocUkdog9WW_a4mbAIZ
+ OH3gEf6-5-xCAeMc-w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdekgdduvdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:qX5zXyu88UY_dcQNgoCQX2sNdt4nGVibCnJCltWxJ0eg8o6kIsa-kQ>
+ <xmx:qX5zX3Ysg2o-at8eGvarsT5nb3X8b2RMw3u1L0nuMzwmjJO3kC0esg>
+ <xmx:qX5zX5a218AyrF6vRaS-6Iynh5qQtjYDBG_17pA_hvpe-wfdOrqzEw>
+ <xmx:qn5zX7lWNJRD5xZpK2mWdWdKJHcjHv6632jpBhL7alZptMmBzah2KbEIgaDQ48PU>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 83DB73064610;
+ Tue, 29 Sep 2020 14:36:23 -0400 (EDT)
+Date: Tue, 29 Sep 2020 20:36:21 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Matias Bjorling <Matias.Bjorling@wdc.com>
+Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
+ Zoned Namespace Command Set
+Message-ID: <20200929183621.GE286786@apples.localdomain>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+ <20200924210751.GD1738917@apples.localdomain>
+ <MN2PR04MB59515B1EA1238861DFF3236AE1350@MN2PR04MB5951.namprd04.prod.outlook.com>
+ <20200928063648.GA1967@apples.localdomain>
+ <20200928212541.GC227320@dhcp-10-100-145-180.wdl.wdc.com>
+ <CY4PR04MB3751997C2ED1D5EFB69E32ACE7350@CY4PR04MB3751.namprd04.prod.outlook.com>
+ <20200929104633.GA179147@apples.localdomain>
+ <20200929172944.GB477114@dhcp-10-100-145-180.wdl.wdc.com>
+ <20200929180004.GC286786@apples.localdomain>
+ <MN2PR04MB62232F2E33E3FCC880E47472F1320@MN2PR04MB6223.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200929040027.GG700868@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZInfyf7laFu/Kiw7"
+Content-Disposition: inline
+In-Reply-To: <MN2PR04MB62232F2E33E3FCC880E47472F1320@MN2PR04MB6223.namprd04.prod.outlook.com>
+Received-SPF: pass client-ip=64.147.123.17; envelope-from=its@irrelevant.dk;
+ helo=wnew3-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 12:36:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,252 +105,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Niklas Cassel <Niklas.Cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/20 12:00 AM, Cleber Rosa wrote:
-> On Thu, Sep 24, 2020 at 08:28:19PM -0400, John Snow wrote:
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   docs/conf.py                          |  6 +++++-
->>   docs/devel/index.rst                  |  1 +
->>   docs/devel/python/index.rst           |  7 +++++++
->>   docs/devel/python/qapi.commands.rst   |  7 +++++++
->>   docs/devel/python/qapi.common.rst     |  7 +++++++
->>   docs/devel/python/qapi.doc.rst        |  7 +++++++
->>   docs/devel/python/qapi.error.rst      |  7 +++++++
->>   docs/devel/python/qapi.events.rst     |  7 +++++++
->>   docs/devel/python/qapi.expr.rst       |  7 +++++++
->>   docs/devel/python/qapi.gen.rst        |  7 +++++++
->>   docs/devel/python/qapi.introspect.rst |  7 +++++++
->>   docs/devel/python/qapi.parser.rst     |  8 ++++++++
->>   docs/devel/python/qapi.rst            | 26 ++++++++++++++++++++++++++
->>   docs/devel/python/qapi.schema.rst     |  7 +++++++
->>   docs/devel/python/qapi.source.rst     |  7 +++++++
->>   docs/devel/python/qapi.types.rst      |  7 +++++++
->>   docs/devel/python/qapi.visit.rst      |  7 +++++++
->>   17 files changed, 131 insertions(+), 1 deletion(-)
->>   create mode 100644 docs/devel/python/index.rst
->>   create mode 100644 docs/devel/python/qapi.commands.rst
->>   create mode 100644 docs/devel/python/qapi.common.rst
->>   create mode 100644 docs/devel/python/qapi.doc.rst
->>   create mode 100644 docs/devel/python/qapi.error.rst
->>   create mode 100644 docs/devel/python/qapi.events.rst
->>   create mode 100644 docs/devel/python/qapi.expr.rst
->>   create mode 100644 docs/devel/python/qapi.gen.rst
->>   create mode 100644 docs/devel/python/qapi.introspect.rst
->>   create mode 100644 docs/devel/python/qapi.parser.rst
->>   create mode 100644 docs/devel/python/qapi.rst
->>   create mode 100644 docs/devel/python/qapi.schema.rst
->>   create mode 100644 docs/devel/python/qapi.source.rst
->>   create mode 100644 docs/devel/python/qapi.types.rst
->>   create mode 100644 docs/devel/python/qapi.visit.rst
->>
->> diff --git a/docs/conf.py b/docs/conf.py
->> index a68f616d5a..d03ef465a6 100644
->> --- a/docs/conf.py
->> +++ b/docs/conf.py
->> @@ -54,6 +54,9 @@
->>   #
->>   sys.path.insert(0, os.path.join(qemu_docdir, "sphinx"))
->>   
->> +# Make scripts/qapi module available for autodoc
->> +sys.path.insert(0, os.path.join(qemu_docdir, "../scripts"))
->> +
-> 
-> Do I hear qapi asking to moved out of "scripts" and becoming more like
-> "python/qemu"?
-> 
 
-Once all six parts of this series goes in I will move it to the python 
-folder, but you're about 150 patches early.
+--ZInfyf7laFu/Kiw7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->>   
->>   # -- General configuration ------------------------------------------------
->>   
->> @@ -67,7 +70,8 @@
->>   # Add any Sphinx extension module names here, as strings. They can be
->>   # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
->>   # ones.
->> -extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile']
->> +extensions = ['kerneldoc', 'qmp_lexer', 'hxtool',
->> +              'depfile', 'sphinx.ext.autodoc']
->>   
->>   # Add any paths that contain templates here, relative to this directory.
->>   templates_path = ['_templates']
->> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
->> index 04773ce076..04726ca787 100644
->> --- a/docs/devel/index.rst
->> +++ b/docs/devel/index.rst
->> @@ -31,3 +31,4 @@ Contents:
->>      reset
->>      s390-dasd-ipl
->>      clocks
->> +   python/index
->> diff --git a/docs/devel/python/index.rst b/docs/devel/python/index.rst
->> new file mode 100644
->> index 0000000000..31c470154b
->> --- /dev/null
->> +++ b/docs/devel/python/index.rst
->> @@ -0,0 +1,7 @@
->> +qapi
->> +====
->> +
->> +.. toctree::
->> +   :maxdepth: 4
->> +
->> +   qapi
->> diff --git a/docs/devel/python/qapi.commands.rst b/docs/devel/python/qapi.commands.rst
->> new file mode 100644
->> index 0000000000..018f7b08a9
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.commands.rst
->> @@ -0,0 +1,7 @@
->> +qapi.commands module
->> +====================
->> +
->> +.. automodule:: qapi.commands
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.common.rst b/docs/devel/python/qapi.common.rst
->> new file mode 100644
->> index 0000000000..128a90d74b
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.common.rst
->> @@ -0,0 +1,7 @@
->> +qapi.common module
->> +==================
->> +
->> +.. automodule:: qapi.common
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.doc.rst b/docs/devel/python/qapi.doc.rst
->> new file mode 100644
->> index 0000000000..556c2bca1f
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.doc.rst
->> @@ -0,0 +1,7 @@
->> +qapi.doc module
->> +===============
->> +
->> +.. automodule:: qapi.doc
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.error.rst b/docs/devel/python/qapi.error.rst
->> new file mode 100644
->> index 0000000000..980e32b63d
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.error.rst
->> @@ -0,0 +1,7 @@
->> +qapi.error module
->> +=================
->> +
->> +.. automodule:: qapi.error
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.events.rst b/docs/devel/python/qapi.events.rst
->> new file mode 100644
->> index 0000000000..1fce85b044
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.events.rst
->> @@ -0,0 +1,7 @@
->> +qapi.events module
->> +==================
->> +
->> +.. automodule:: qapi.events
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.expr.rst b/docs/devel/python/qapi.expr.rst
->> new file mode 100644
->> index 0000000000..0660270629
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.expr.rst
->> @@ -0,0 +1,7 @@
->> +qapi.expr module
->> +================
->> +
->> +.. automodule:: qapi.expr
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.gen.rst b/docs/devel/python/qapi.gen.rst
->> new file mode 100644
->> index 0000000000..7b495fd4bf
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.gen.rst
->> @@ -0,0 +1,7 @@
->> +qapi.gen module
->> +===============
->> +
->> +.. automodule:: qapi.gen
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.introspect.rst b/docs/devel/python/qapi.introspect.rst
->> new file mode 100644
->> index 0000000000..f65ebfccd1
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.introspect.rst
->> @@ -0,0 +1,7 @@
->> +qapi.introspect module
->> +======================
->> +
->> +.. automodule:: qapi.introspect
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> diff --git a/docs/devel/python/qapi.parser.rst b/docs/devel/python/qapi.parser.rst
->> new file mode 100644
->> index 0000000000..1a8f7b347e
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.parser.rst
->> @@ -0,0 +1,8 @@
->> +qapi.parser module
->> +==================
->> +
->> +.. automodule:: qapi.parser
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> +   :private-members:
->> diff --git a/docs/devel/python/qapi.rst b/docs/devel/python/qapi.rst
->> new file mode 100644
->> index 0000000000..24fbf34981
->> --- /dev/null
->> +++ b/docs/devel/python/qapi.rst
->> @@ -0,0 +1,26 @@
->> +qapi package
->> +============
->> +
->> +.. automodule:: qapi
->> +   :members:
->> +   :undoc-members:
->> +   :show-inheritance:
->> +
-> 
-> This renders *very* timidly, ending up almost invisible.  Also,
-> there's no useful introduction to what this "qapi" when you enter this
-> section.
-> 
-> Maybe create a "API reference" section, explaining it first?
-> 
+On Sep 29 18:17, Matias Bjorling wrote:
+>=20
+>=20
+> > -----Original Message-----
+> > From: Klaus Jensen <its@irrelevant.dk>
+> > Sent: Tuesday, 29 September 2020 20.00
+> > To: Keith Busch <kbusch@kernel.org>
+> > Cc: Damien Le Moal <Damien.LeMoal@wdc.com>; Fam Zheng
+> > <fam@euphon.net>; Kevin Wolf <kwolf@redhat.com>; qemu-
+> > block@nongnu.org; Niklas Cassel <Niklas.Cassel@wdc.com>; Klaus Jensen
+> > <k.jensen@samsung.com>; qemu-devel@nongnu.org; Alistair Francis
+> > <Alistair.Francis@wdc.com>; Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>;
+> > Matias Bjorling <Matias.Bjorling@wdc.com>
+> > Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
+> > Zoned Namespace Command Set
+> >=20
+> > On Sep 29 10:29, Keith Busch wrote:
+> > > On Tue, Sep 29, 2020 at 12:46:33PM +0200, Klaus Jensen wrote:
+> > > > It is unmistakably clear that you are invalidating my arguments
+> > > > about portability and endianness issues by suggesting that we just
+> > > > remove persistent state and deal with it later, but persistence is
+> > > > the killer feature that sets the QEMU emulated device apart from
+> > > > other emulation options. It is not about using emulation in
+> > > > production (because yeah, why would you?), but persistence is what
+> > > > makes it possible to develop and test "zoned FTLs" or something that
+> > requires recovery at power up.
+> > > > This is what allows testing of how your host software deals with
+> > > > opened zones being transitioned to FULL on power up and the
+> > > > persistent tracking of LBA allocation (in my series) can be used to
+> > > > properly test error recovery if you lost state in the app.
+> > >
+> > > Hold up -- why does an OPEN zone transition to FULL on power up? The
+> > > spec suggests it should be CLOSED. The spec does appear to support
+> > > going to FULL on a NVM Subsystem Reset, though. Actually, now that I'm
+> > > looking at this part of the spec, these implicit transitions seem a
+> > > bit less clear than I expected. I'm not sure it's clear enough to
+> > > evaluate qemu's compliance right now.
+> > >
+> > > But I don't see what testing these transitions has to do with having a
+> > > persistent state. You can reboot your VM without tearing down the
+> > > running QEMU instance. You can also unbind the driver or shutdown the
+> > > controller within the running operating system. That should make those
+> > > implicit state transitions reachable in order to exercise your FTL's
+> > > recovery.
+> > >
+> >=20
+> > Oh dear - don't "spec" with me ;)
+> >=20
+> > NVMe v1.4 Section 7.3.1:
+> >=20
+> >     An NVM Subsystem Reset is initiated when:
+> >       * Main power is applied to the NVM subsystem;
+> >       * A value of 4E564D64h ("NVMe") is written to the NSSR.NSSRC
+> >         field;
+> >       * Requested using a method defined in the NVMe Management
+> >         Interface specification; or
+> >       * A vendor specific event occurs.
+> >=20
+> > In the context of QEMU, "Main power" is tearing down QEMU and starting =
+it
+> > from scratch. Just like on a "real" host, unbinding the driver, rebooti=
+ng or
+> > shutting down the controller does not cause a subsystem reset (and does=
+ not
+> > cause the zones to change state). And since the device does not indicate
+> > support for the optional NSSR.NSSRC register, that way to initiate a su=
+bsystem
+> > cannot be used.
+> >=20
+> > The reason for moving to FULL is that write pointer updates are not per=
+sisted
+> > on each advancement, only when the zone state changes. So zones that we=
+re
+> > opened might have valid data, but invalid write pointer.
+> > So the device transitions them to FULL as it is allowed to.
+> >=20
+>=20
+> How about when one must also recover from intermediate states (i.e.,
+> open/closed upon power loss). For example, I don't hope a real SSD
+> implementation transition zones to full when it has thousands of open
+> simultaneously. That could be a disaster for the PE cycles, and a lot
+> of media going to waste. One would want applications to support that
+> kind of failure mode as well.=20
 
-Respectfully, "DO NOT MERGE" is written in large capital letters in the 
-subject of this patch.
+Christ. The WDC Strike Force is really jumping out of lightspeed here.
+I'm afraid I don't have an opposing force to engage with. So I'll be
+your only boxing bag for the evening.
 
-You are free to try to format the manual as you please at a later date, 
-but it's not something that I will be doing right now. The purpose of 
-this patch is solely to prove that my docstring formatting adheres to 
-some kind of standard, and the method to prove it is nontrivial, hence 
-these patches.
+As Keith just said, "Opened" is not a valid intial state. Didn't you
+write the spec? ;) As for Closed, they will be brought up as is.
 
---js
+With that in mind, I'm not sure what you specifically refer to? I'll
+gently remind you that the QEMU nvme device is not a real SSD and does
+not deal with NAND so it does not really do any "recovering" of
+intermediate states on power on if that is what you refer to?
 
+--ZInfyf7laFu/Kiw7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9zfqMACgkQTeGvMW1P
+Dem+Vwf/e71wzfkRkKz5KpW2QAHNJdT7mVfPk6n6fb1Ln8VnwT57qGQ6dUus33WF
+xEkE5+7esx28bCj55829g0Z0T/XeacgA50K5MIpymXrMOpjiS4eYam3IziwRXzsQ
+lyxeAp1T5S4FK7dzkFhHdDOYbQ07PS9ho71i+R0X8UAcEDUmYAUAg30qIqZGwL3E
+QsAnaqDN5opSO9plaN9/EdAWVJlr6/K1xDjMF8mHIhwn+ZoQpboIwlj3p8ee3VOg
+P3bgo/unvvf5mxP14RodGznLKhogZlZPLDPvKx0ElnduY4ZL3GjOL40YljOFvTPT
+YSuGIWulcTx/RBou7CTh23Oy+9QOQQ==
+=8Cqy
+-----END PGP SIGNATURE-----
+
+--ZInfyf7laFu/Kiw7--
 
