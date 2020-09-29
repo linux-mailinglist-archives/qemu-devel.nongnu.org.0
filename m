@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A43627C59D
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:38:21 +0200 (CEST)
-Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C5C27C609
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:41:44 +0200 (CEST)
+Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNDxc-0001XS-8E
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35936)
+	id 1kNE0t-0003Eb-Ki
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDuY-00086V-FL
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:35:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47911)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDv4-0000IJ-Eq
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:35:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDuU-0007FN-LI
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:35:09 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNDv2-0007U4-Cg
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:35:42 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601379305;
+ s=mimecast20190719; t=1601379339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O9Gw/mCCvGDtFXAvYIB9OON/RW0VJR9vIGjCv4DeDLE=;
- b=KwUeTjxqJn9i+520aus4iaQQjAnvCOMFWqhJyQHL3raacWW12y0YkkKHD9NCwEj10+LNi8
- Rrtdm5AoGVsfTK3m5DLzpUJJEURppmadZ0Z7Yv0FynmXNLaVdUuqlpM4NYZSlLuZP3+4vI
- RW2dAodBiTYAGkYZNfrP2nCladkvr5A=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-H7q_MeyoN2CAO8FmGAKqQA-1; Tue, 29 Sep 2020 07:35:03 -0400
-X-MC-Unique: H7q_MeyoN2CAO8FmGAKqQA-1
-Received: by mail-wm1-f69.google.com with SMTP id s24so1604953wmh.1
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:35:02 -0700 (PDT)
+ bh=I8BlxGwyQ4QpYj88qQ7HHirsp3Nn86At1bpfvTLsiV8=;
+ b=fo/dO0f5PYJJvBTeldZKRUKIAfFDoPJuzDvVLA/YMFKHMNHALMfX5VrCO6asrgONIQzNMR
+ TmUCq5gIw1ot0fuU89Q3mhusBjfNQj+YjkfWrTvK3RdTE2cu8ciIkNdbCqIdAdv5iGT5lU
+ 7CmOt7Ew/AoGuwCX9QS3Qz+EPRhT608=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-Z-hcV1qGPB6H9G4WBtSHAQ-1; Tue, 29 Sep 2020 07:35:37 -0400
+X-MC-Unique: Z-hcV1qGPB6H9G4WBtSHAQ-1
+Received: by mail-wr1-f72.google.com with SMTP id l17so1617117wrw.11
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:35:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=O9Gw/mCCvGDtFXAvYIB9OON/RW0VJR9vIGjCv4DeDLE=;
- b=iRYfwSH9aqyAizY1OHN2lVAq5EzMOhWdamUJ4iMrmptCvYE1WyQbhS34rHLU7SfRjA
- gx9rp3eqOndTS6CaG/U9m479Jjp8AgRzva3oDkRaODPtzS9JRMt7G3Wp77cgevX8tq1m
- Wzf/cYG1V6vgss9eFGnCwoGwCgxjOwkofzq6lqOibZlQCgdNOrbkRHa3Uj6YMnvR9T8n
- FX4d4rbz8NXt6XSmbWG0Pr4OaR1taTROG8KZMTRS2A1A4/rtC0qoZql8Qj6jA8A499MI
- BP9ZKE3XmoRots2Oes1EGlfZoSj7O61B4vWkGxXHb+JCfBolHhIgNXb9JvOB8R9frOT2
- xbqA==
-X-Gm-Message-State: AOAM533t5BkZuG8Xr0nTsi38F5PC58K6Lipj39tYElNqWkWjK7GL0j/j
- Z0I6/OcD9/IvoEVoHJYbtjLOrKB2GwhG+RSIN+PvBZVFceqEHLVpsU9tZCxOYY0w2U83gIPxvmC
- 719/oFD1XQsAEHqo=
-X-Received: by 2002:adf:f890:: with SMTP id u16mr3628019wrp.183.1601379301270; 
- Tue, 29 Sep 2020 04:35:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxxtvmAWN4pY0fYaPn0EUbmL3Q01RocC+BhpNDjtC0YL1UWkp85UZ7bDmD6uMKsA+h4w0hngA==
-X-Received: by 2002:adf:f890:: with SMTP id u16mr3627990wrp.183.1601379300959; 
- Tue, 29 Sep 2020 04:35:00 -0700 (PDT)
+ bh=I8BlxGwyQ4QpYj88qQ7HHirsp3Nn86At1bpfvTLsiV8=;
+ b=a/BiR5QOVYffAvF4jgt0P+gZD1aaRF+kcpYqL2Oy24JBY/7wjtvA5J+Y9eOVO3QXLb
+ 8a0DXNkFbGyvEwE0KPqVzuW6aZ7D8ysd4rXP06issNuBL8DxW71KPqK9lepOB9/QYzhB
+ DDOl62p6nReYoDR8377N1ArMTC0F23blGnBQV/UlJV2zmuzwAt4bUBDujicExwD9+tp8
+ 5HVySUeoOnZ1eds+5EaI8+6H+Z/c7HXB1pMHPaXwonsHlWOGR2fOBwHFY4HthnQ+fr2R
+ 725vsV9+VWA2mIp/jnHU61ICN4NQjmI+QEFAVFk+lzT37GMPHO9a09FOflAO+Gve1rMP
+ j+IQ==
+X-Gm-Message-State: AOAM531+xmWbARw32BuiNXpkzFGhEXmAp3K8hxNHKyhimfERpYPBxSqB
+ 9j4g0aaMfVVouO0elcxePX3DnCydTNaN3zPCE9OVllrDF+4MtE1ariC7qJInQzqTv2cGpWV6u3f
+ vgTWC953JZeP0Qgs=
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr4051177wmr.179.1601379336496; 
+ Tue, 29 Sep 2020 04:35:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwt/01c8MUqr2Pip6ovQyvLqKwwF+CBXySn1rhc00Yu0cUStRXKr7sE0fLBXk97+zt8ChqweQ==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr4051143wmr.179.1601379336221; 
+ Tue, 29 Sep 2020 04:35:36 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id o4sm5533607wrv.86.2020.09.29.04.34.59
+ by smtp.gmail.com with ESMTPSA id r206sm5195207wma.47.2020.09.29.04.35.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 04:34:59 -0700 (PDT)
-Date: Tue, 29 Sep 2020 07:34:57 -0400
+ Tue, 29 Sep 2020 04:35:35 -0700 (PDT)
+Date: Tue, 29 Sep 2020 07:35:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PULL 1/1] tests/acpi: drop unnecessary files
-Message-ID: <20200929073247-mutt-send-email-mst@kernel.org>
-References: <20200929111255.381871-1-mst@redhat.com>
- <20200929111255.381871-2-mst@redhat.com>
- <8cfaa1ed-a6c5-d286-bb05-421ca3d6d7ed@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v10 13/13] tests/acpi: add DSDT.hpbrroot DSDT table blob
+ to test global i440fx hotplug
+Message-ID: <20200929073523-mutt-send-email-mst@kernel.org>
+References: <20200929053823-mutt-send-email-mst@kernel.org>
+ <CAARzgwxBcTDkK7QhHP=_mpYoAYYgRY+d6o+2SCSP-haBPDttwA@mail.gmail.com>
+ <CAARzgwy8QNw=OD6cOEkDY-x9mC10ry+NTdCH2gNKuLXp8bAAyg@mail.gmail.com>
+ <CAARzgwyNPZB5PGc-B9vDn9V-uEwVCiCvXgvamMaGTvBCPJQiCg@mail.gmail.com>
+ <20200929063539-mutt-send-email-mst@kernel.org>
+ <CAARzgwz6iTsO9Z1ACAHmbSteGYfetDgnSRYc-xnaqjYyJ4yEHA@mail.gmail.com>
+ <20200929064858-mutt-send-email-mst@kernel.org>
+ <CAARzgwwFeSPd=JGjdk-uj=uuLb+HcfMfGTe1_GmbFRTkP-jZdQ@mail.gmail.com>
+ <20200929071412-mutt-send-email-mst@kernel.org>
+ <CAARzgwzdYfVn6Kdic+rj7xSxdvP6RAM48wr8Pt_MpDwuYvDSiw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <8cfaa1ed-a6c5-d286-bb05-421ca3d6d7ed@redhat.com>
+In-Reply-To: <CAARzgwzdYfVn6Kdic+rj7xSxdvP6RAM48wr8Pt_MpDwuYvDSiw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -94,310 +102,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 29, 2020 at 01:27:35PM +0200, Thomas Huth wrote:
-> On 29/09/2020 13.13, Michael S. Tsirkin wrote:
-> > The last pull added a ton of useless files by mistake.
-> > Drop them all.
-> > 
-> > Fixes: 0ed93f4c05896 ("update golden master DSDT binary table blobs for q35")
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >  tests/test-qapi-event.c                       |  198 -
-> >  tests/test-qmp-introspect.c                   |   58 -
-> >  tests/test-qmp-marshal.c                      |  383 --
-> >  tests/.vhost-user-test.c.swo                  |  Bin 16384 -> 0 bytes
-> >  tests/Makefile.include.orig                   | 1012 -----
-> >  tests/Makefile.orig                           |  569 ---
-> >  tests/bios-tables-test.c.orig                 |  925 -----
-> >  tests/data/acpi/diff-aml.sh                   |    0
-> >  tests/data/acpi/disassemle-aml.py             |   21 -
-> >  tests/data/acpi/microvm/APIC.dsl              |   56 -
-> >  tests/data/acpi/microvm/DSDT.dsl              |  121 -
-> >  tests/data/acpi/microvm/FACP.dsl              |  196 -
-> >  tests/data/acpi/pc/APIC.acpihmat.dsl          |  112 -
-> >  tests/data/acpi/pc/APIC.bridge                |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/pc/APIC.bridge.dsl            |  104 -
-> >  tests/data/acpi/pc/APIC.cphp.dsl              |  146 -
-> >  tests/data/acpi/pc/APIC.dimmpxm.dsl           |  129 -
-> >  tests/data/acpi/pc/APIC.dsl                   |  104 -
-> >  tests/data/acpi/pc/APIC.hpbridge              |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/pc/APIC.ipmikcs               |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/pc/APIC.ipmikcs.dsl           |  104 -
-> >  tests/data/acpi/pc/APIC.memhp                 |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/pc/APIC.memhp.dsl             |  104 -
-> >  tests/data/acpi/pc/APIC.numamem               |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/pc/APIC.numamem.dsl           |  104 -
-> >  tests/data/acpi/pc/APIC.roothp                |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/pc/DSDT.acpihmat.dsl          | 1619 --------
-> >  tests/data/acpi/pc/DSDT.bridge.dsl            | 1800 ---------
-> >  tests/data/acpi/pc/DSDT.cphp.dsl              | 1466 -------
-> >  tests/data/acpi/pc/DSDT.dimmpxm.dsl           | 1719 --------
-> >  tests/data/acpi/pc/DSDT.dsl                   | 1407 -------
-> >  tests/data/acpi/pc/DSDT.ipmikcs.dsl           | 1337 -------
-> >  tests/data/acpi/pc/DSDT.memhp.dsl             | 1625 --------
-> >  tests/data/acpi/pc/DSDT.numamem.dsl           | 1321 ------
-> >  tests/data/acpi/pc/FACP.acpihmat              |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.acpihmat.dsl          |   99 -
-> >  tests/data/acpi/pc/FACP.bridge                |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.bridge.dsl            |   99 -
-> >  tests/data/acpi/pc/FACP.cphp                  |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.cphp.dsl              |   99 -
-> >  tests/data/acpi/pc/FACP.dimmpxm               |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.dimmpxm.dsl           |   99 -
-> >  tests/data/acpi/pc/FACP.dsl                   |   99 -
-> >  tests/data/acpi/pc/FACP.hpbridge              |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.ipmikcs               |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.ipmikcs.dsl           |   99 -
-> >  tests/data/acpi/pc/FACP.memhp                 |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.memhp.dsl             |   99 -
-> >  tests/data/acpi/pc/FACP.numamem               |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACP.numamem.dsl           |   99 -
-> >  tests/data/acpi/pc/FACP.roothp                |  Bin 116 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.acpihmat              |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.acpihmat.dsl          |   32 -
-> >  tests/data/acpi/pc/FACS.bridge                |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.bridge.dsl            |   32 -
-> >  tests/data/acpi/pc/FACS.cphp                  |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.cphp.dsl              |   32 -
-> >  tests/data/acpi/pc/FACS.dimmpxm               |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.dimmpxm.dsl           |   32 -
-> >  tests/data/acpi/pc/FACS.dsl                   |   32 -
-> >  tests/data/acpi/pc/FACS.hpbridge              |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.ipmikcs               |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.ipmikcs.dsl           |   32 -
-> >  tests/data/acpi/pc/FACS.memhp                 |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.memhp.dsl             |   32 -
-> >  tests/data/acpi/pc/FACS.numamem               |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/FACS.numamem.dsl           |   32 -
-> >  tests/data/acpi/pc/FACS.roothp                |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/pc/HMAT.acpihmat.dsl          |  132 -
-> >  tests/data/acpi/pc/HMAT.dsl                   |  132 -
-> >  tests/data/acpi/pc/HPET.acpihmat              |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.acpihmat.dsl          |   43 -
-> >  tests/data/acpi/pc/HPET.bridge                |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.bridge.dsl            |   43 -
-> >  tests/data/acpi/pc/HPET.cphp                  |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.cphp.dsl              |   43 -
-> >  tests/data/acpi/pc/HPET.dimmpxm               |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.dimmpxm.dsl           |   43 -
-> >  tests/data/acpi/pc/HPET.dsl                   |   43 -
-> >  tests/data/acpi/pc/HPET.hpbridge              |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.ipmikcs               |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.ipmikcs.dsl           |   43 -
-> >  tests/data/acpi/pc/HPET.memhp                 |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.memhp.dsl             |   43 -
-> >  tests/data/acpi/pc/HPET.numamem               |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/HPET.numamem.dsl           |   43 -
-> >  tests/data/acpi/pc/HPET.roothp                |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/pc/NFIT.dimmpxm.dsl           |  115 -
-> >  tests/data/acpi/pc/NFIT.dsl                   |  115 -
-> >  tests/data/acpi/pc/SLIT.cphp.dsl              |   31 -
-> >  tests/data/acpi/pc/SLIT.dsl                   |   31 -
-> >  tests/data/acpi/pc/SLIT.memhp.dsl             |   31 -
-> >  tests/data/acpi/pc/SRAT.acpihmat.dsl          |  137 -
-> >  tests/data/acpi/pc/SRAT.cphp.dsl              |  168 -
-> >  tests/data/acpi/pc/SRAT.dimmpxm.dsl           |  194 -
-> >  tests/data/acpi/pc/SRAT.dsl                   |  108 -
-> >  tests/data/acpi/pc/SRAT.memhp.dsl             |  125 -
-> >  tests/data/acpi/pc/SRAT.numamem.dsl           |  108 -
-> >  tests/data/acpi/pc/SSDT.dsl                   |  205 -
-> >  tests/data/acpi/pc/WAET.acpihmat              |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.acpihmat.dsl          |   31 -
-> >  tests/data/acpi/pc/WAET.bridge                |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.bridge.dsl            |   31 -
-> >  tests/data/acpi/pc/WAET.cphp                  |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.cphp.dsl              |   31 -
-> >  tests/data/acpi/pc/WAET.dimmpxm               |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.dimmpxm.dsl           |   31 -
-> >  tests/data/acpi/pc/WAET.dsl                   |   31 -
-> >  tests/data/acpi/pc/WAET.hpbridge              |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.ipmikcs               |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.ipmikcs.dsl           |   31 -
-> >  tests/data/acpi/pc/WAET.memhp                 |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.memhp.dsl             |   31 -
-> >  tests/data/acpi/pc/WAET.numamem               |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/pc/WAET.numamem.dsl           |   31 -
-> >  tests/data/acpi/pc/WAET.roothp                |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/APIC.acpihmat.dsl         |  112 -
-> >  tests/data/acpi/q35/APIC.bridge               |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/q35/APIC.bridge.dsl           |  104 -
-> >  tests/data/acpi/q35/APIC.cphp.dsl             |  146 -
-> >  tests/data/acpi/q35/APIC.dimmpxm.dsl          |  129 -
-> >  tests/data/acpi/q35/APIC.dsl                  |  104 -
-> >  tests/data/acpi/q35/APIC.ipmibt               |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/q35/APIC.ipmibt.dsl           |  104 -
-> >  tests/data/acpi/q35/APIC.memhp                |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/q35/APIC.memhp.dsl            |  104 -
-> >  tests/data/acpi/q35/APIC.mmio64               |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/q35/APIC.mmio64.dsl           |  104 -
-> >  tests/data/acpi/q35/APIC.numamem              |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/q35/APIC.numamem.dsl          |  104 -
-> >  tests/data/acpi/q35/APIC.tis                  |  Bin 120 -> 0 bytes
-> >  tests/data/acpi/q35/APIC.tis.dsl              |  104 -
-> >  tests/data/acpi/q35/DSDT.acpihmat.dsl         | 3436 ----------------
-> >  tests/data/acpi/q35/DSDT.bridge.dsl           | 3141 ---------------
-> >  tests/data/acpi/q35/DSDT.cphp.dsl             | 3283 ---------------
-> >  tests/data/acpi/q35/DSDT.dimmpxm.dsl          | 3535 -----------------
-> >  tests/data/acpi/q35/DSDT.dsl                  | 3351 ----------------
-> >  tests/data/acpi/q35/DSDT.ipmibt.dsl           | 3156 ---------------
-> >  tests/data/acpi/q35/DSDT.memhp.dsl            | 3442 ----------------
-> >  tests/data/acpi/q35/DSDT.mmio64.dsl           | 3377 ----------------
-> >  tests/data/acpi/q35/DSDT.numamem.dsl          | 3138 ---------------
-> >  tests/data/acpi/q35/DSDT.tis.dsl              | 3321 ----------------
-> >  tests/data/acpi/q35/FACP.acpihmat             |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.acpihmat.dsl         |  179 -
-> >  tests/data/acpi/q35/FACP.bridge               |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.bridge.dsl           |  179 -
-> >  tests/data/acpi/q35/FACP.cphp                 |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.cphp.dsl             |  179 -
-> >  tests/data/acpi/q35/FACP.dimmpxm              |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.dimmpxm.dsl          |  179 -
-> >  tests/data/acpi/q35/FACP.dsl                  |  179 -
-> >  tests/data/acpi/q35/FACP.ipmibt               |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.ipmibt.dsl           |  179 -
-> >  tests/data/acpi/q35/FACP.memhp                |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.memhp.dsl            |  179 -
-> >  tests/data/acpi/q35/FACP.mmio64               |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.mmio64.dsl           |  179 -
-> >  tests/data/acpi/q35/FACP.numamem              |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.numamem.dsl          |  179 -
-> >  tests/data/acpi/q35/FACP.tis                  |  Bin 244 -> 0 bytes
-> >  tests/data/acpi/q35/FACP.tis.dsl              |  179 -
-> >  tests/data/acpi/q35/FACS.acpihmat             |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.acpihmat.dsl         |   32 -
-> >  tests/data/acpi/q35/FACS.bridge               |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.bridge.dsl           |   32 -
-> >  tests/data/acpi/q35/FACS.cphp                 |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.cphp.dsl             |   32 -
-> >  tests/data/acpi/q35/FACS.dimmpxm              |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.dimmpxm.dsl          |   32 -
-> >  tests/data/acpi/q35/FACS.dsl                  |   32 -
-> >  tests/data/acpi/q35/FACS.ipmibt               |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.ipmibt.dsl           |   32 -
-> >  tests/data/acpi/q35/FACS.memhp                |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.memhp.dsl            |   32 -
-> >  tests/data/acpi/q35/FACS.mmio64               |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.mmio64.dsl           |   32 -
-> >  tests/data/acpi/q35/FACS.numamem              |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.numamem.dsl          |   32 -
-> >  tests/data/acpi/q35/FACS.tis                  |  Bin 64 -> 0 bytes
-> >  tests/data/acpi/q35/FACS.tis.dsl              |   32 -
-> >  tests/data/acpi/q35/HMAT.acpihmat.dsl         |  132 -
-> >  tests/data/acpi/q35/HMAT.dsl                  |  132 -
-> >  tests/data/acpi/q35/HPET.acpihmat             |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.acpihmat.dsl         |   43 -
-> >  tests/data/acpi/q35/HPET.bridge               |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.bridge.dsl           |   43 -
-> >  tests/data/acpi/q35/HPET.cphp                 |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.cphp.dsl             |   43 -
-> >  tests/data/acpi/q35/HPET.dimmpxm              |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.dimmpxm.dsl          |   43 -
-> >  tests/data/acpi/q35/HPET.dsl                  |   43 -
-> >  tests/data/acpi/q35/HPET.ipmibt               |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.ipmibt.dsl           |   43 -
-> >  tests/data/acpi/q35/HPET.memhp                |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.memhp.dsl            |   43 -
-> >  tests/data/acpi/q35/HPET.mmio64               |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.mmio64.dsl           |   43 -
-> >  tests/data/acpi/q35/HPET.numamem              |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.numamem.dsl          |   43 -
-> >  tests/data/acpi/q35/HPET.tis                  |  Bin 56 -> 0 bytes
-> >  tests/data/acpi/q35/HPET.tis.dsl              |   43 -
-> >  tests/data/acpi/q35/MCFG.acpihmat             |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.acpihmat.dsl         |   36 -
-> >  tests/data/acpi/q35/MCFG.bridge               |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.bridge.dsl           |   36 -
-> >  tests/data/acpi/q35/MCFG.cphp                 |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.cphp.dsl             |   36 -
-> >  tests/data/acpi/q35/MCFG.dimmpxm              |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.dimmpxm.dsl          |   36 -
-> >  tests/data/acpi/q35/MCFG.dsl                  |   36 -
-> >  tests/data/acpi/q35/MCFG.ipmibt               |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.ipmibt.dsl           |   36 -
-> >  tests/data/acpi/q35/MCFG.memhp                |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.memhp.dsl            |   36 -
-> >  tests/data/acpi/q35/MCFG.mmio64               |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.mmio64.dsl           |   36 -
-> >  tests/data/acpi/q35/MCFG.numamem              |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.numamem.dsl          |   36 -
-> >  tests/data/acpi/q35/MCFG.tis                  |  Bin 60 -> 0 bytes
-> >  tests/data/acpi/q35/MCFG.tis.dsl              |   36 -
-> >  tests/data/acpi/q35/NFIT.dimmpxm.dsl          |  115 -
-> >  tests/data/acpi/q35/NFIT.dsl                  |  115 -
-> >  tests/data/acpi/q35/SLIT.cphp.dsl             |   31 -
-> >  tests/data/acpi/q35/SLIT.dsl                  |   31 -
-> >  tests/data/acpi/q35/SLIT.memhp.dsl            |   31 -
-> >  tests/data/acpi/q35/SRAT.acpihmat.dsl         |  137 -
-> >  tests/data/acpi/q35/SRAT.cphp.dsl             |  168 -
-> >  tests/data/acpi/q35/SRAT.dimmpxm.dsl          |  194 -
-> >  tests/data/acpi/q35/SRAT.dsl                  |  108 -
-> >  tests/data/acpi/q35/SRAT.memhp.dsl            |  125 -
-> >  tests/data/acpi/q35/SRAT.mmio64.dsl           |  108 -
-> >  tests/data/acpi/q35/SRAT.numamem.dsl          |  108 -
-> >  tests/data/acpi/q35/SSDT.dsl                  |  205 -
-> >  tests/data/acpi/q35/TPM2.dsl                  |   38 -
-> >  tests/data/acpi/q35/TPM2.tis.dsl              |   38 -
-> >  tests/data/acpi/q35/WAET.acpihmat             |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.acpihmat.dsl         |   31 -
-> >  tests/data/acpi/q35/WAET.bridge               |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.bridge.dsl           |   31 -
-> >  tests/data/acpi/q35/WAET.cphp                 |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.cphp.dsl             |   31 -
-> >  tests/data/acpi/q35/WAET.dimmpxm              |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.dimmpxm.dsl          |   31 -
-> >  tests/data/acpi/q35/WAET.dsl                  |   31 -
-> >  tests/data/acpi/q35/WAET.ipmibt               |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.ipmibt.dsl           |   31 -
-> >  tests/data/acpi/q35/WAET.memhp                |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.memhp.dsl            |   31 -
-> >  tests/data/acpi/q35/WAET.mmio64               |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.mmio64.dsl           |   31 -
-> >  tests/data/acpi/q35/WAET.numamem              |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.numamem.dsl          |   31 -
-> >  tests/data/acpi/q35/WAET.tis                  |  Bin 40 -> 0 bytes
-> >  tests/data/acpi/q35/WAET.tis.dsl              |   31 -
-> >  tests/data/acpi/virt/APIC.dsl                 |   78 -
-> >  tests/data/acpi/virt/APIC.memhp.dsl           |   78 -
-> >  tests/data/acpi/virt/APIC.numamem.dsl         |   78 -
-> >  tests/data/acpi/virt/DSDT.dsl                 | 1906 ---------
-> >  tests/data/acpi/virt/DSDT.memhp.dsl           | 2215 -----------
-> >  tests/data/acpi/virt/DSDT.numamem.dsl         | 1906 ---------
-> >  tests/data/acpi/virt/FACP.dsl                 |  196 -
-> >  tests/data/acpi/virt/FACP.memhp.dsl           |  196 -
-> >  tests/data/acpi/virt/FACP.numamem.dsl         |  196 -
-> >  tests/data/acpi/virt/GTDT.dsl                 |   61 -
-> >  tests/data/acpi/virt/GTDT.memhp.dsl           |   61 -
-> >  tests/data/acpi/virt/GTDT.numamem.dsl         |   61 -
-> >  tests/data/acpi/virt/MCFG.dsl                 |   36 -
-> >  tests/data/acpi/virt/MCFG.memhp.dsl           |   36 -
-> >  tests/data/acpi/virt/MCFG.numamem.dsl         |   36 -
-> >  tests/data/acpi/virt/NFIT.dsl                 |  103 -
-> >  tests/data/acpi/virt/NFIT.memhp.dsl           |  103 -
-> >  tests/data/acpi/virt/SLIT.dsl                 |   31 -
-> >  tests/data/acpi/virt/SLIT.memhp.dsl           |   31 -
-> >  tests/data/acpi/virt/SPCR.dsl                 |   57 -
-> >  tests/data/acpi/virt/SPCR.memhp.dsl           |   57 -
-> >  tests/data/acpi/virt/SPCR.numamem.dsl         |   57 -
-> >  tests/data/acpi/virt/SRAT.dsl                 |   57 -
-> >  tests/data/acpi/virt/SRAT.memhp.dsl           |  107 -
-> >  tests/data/acpi/virt/SRAT.numamem.dsl         |   57 -
-> >  tests/data/acpi/virt/SSDT.dsl                 |  205 -
-> >  .../bios-tables-test.x86_64.iso.raw           |  Bin 425984 -> 0 bytes
-> Hmm, how could that happen? Why were these generated in the source
-> directory, and not in the build directory?
+On Tue, Sep 29, 2020 at 04:58:03PM +0530, Ani Sinha wrote:
+> On Tue, Sep 29, 2020 at 4:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Tue, Sep 29, 2020 at 04:35:50PM +0530, Ani Sinha wrote:
+> > > On Tue, Sep 29, 2020 at 4:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Tue, Sep 29, 2020 at 04:11:45PM +0530, Ani Sinha wrote:
+> > > > > On Tue, Sep 29, 2020 at 4:07 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > > >
+> > > > > > On Tue, Sep 29, 2020 at 04:02:07PM +0530, Ani Sinha wrote:
+> > > > > > > On Tue, Sep 29, 2020 at 4:00 PM Ani Sinha <ani@anisinha.ca> wrote:
+> > > > > > > >
+> > > > > > > > In your pull request the following patch is completely screwed up:
+> > > > > > > >
+> > > > > > > > commit cda2006eded0ed91974e1d9e7f9f288e65812a3e
+> > > > > > > > Author: Ani Sinha <ani@anisinha.ca>
+> > > > > > > > Date:   Tue Sep 29 03:22:52 2020 -0400
+> > > > > > > >
+> > > > > > > >     tests/acpi: update golden master DSDT binary table blobs for q35
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > This is not my patch. It has all sorts of changes which does not
+> > > > > > > > belong there. Can you please check?
+> > > > > > >
+> > > > > > > See https://patchew.org/QEMU/20200929071948.281157-1-mst@redhat.com/20200929071948.281157-46-mst@redhat.com/
+> > > > > >
+> > > > > >
+> > > > > > I had to regenerate the binary, yes. That's par for the course.
+> > > > > > But it looks like I added disasssembled files. Will fix up and drop,
+> > > > > > thanks for noticing this.
+> > > >
+> > > > OK I pushed out a fixed variant. Pls take a look.
+> > >
+> > > OK I am not used to this workflow. How am I supposed to get it? Which tag?
+> >
+> > New for_upstream tag - I just sent in a pull request.
 > 
->  Thomas
+> Can you please point me to your tree?
 
-Because I run tests/data/acpi/disassemle-aml.sh in the source
-directory, then did git add tests/ ...
-Verified a clean checkout passes make check but did not look
-at the list of files added :(
 
--- 
-MST
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+
+
+> >
+> > >
+> > > >
+> > > > > I think DSDT.hbridge is wrong. The checksum looks weird:
+> > > > >
+> > > > >
+> > > > > + *     Length           0x00000B89 (2953)
+> > > > >   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> > > > > - *     Checksum         0x05
+> > > >
+> > > > What is weird about it?
+> > > >
+> > > > >
+> > > > > This file should be introduced just by one patch. my patch.
+> > > >
+> > > > I just re-run rebuild-expected-aml, no changes.
+> > > >
+> > > > I have this:
+> > > > commit 5e3a486211f02d9ecb18939ca21087515ec81883
+> > > > Author: Ani Sinha <ani@anisinha.ca>
+> > > > Date:   Fri Sep 18 14:11:05 2020 +0530
+> > > >
+> > > >     tests/acpi: unit test for 'acpi-pci-hotplug-with-bridge-support' bridge flag
+> > > >
+> > > >     This change adds a new unit test for the global flag
+> > > >     'acpi-pci-hotplug-with-bridge-support' which is available for cold plugged pci
+> > > >     bridges in i440fx. The flag can be used to turn off ACPI based hotplug support
+> > > >     on all pci bridges.
+> > > >
+> > > >
+> > > > Here is the full DSDT header, attached:
+> > > >
+> > > > /*
+> > > >  * Intel ACPI Component Architecture
+> > > >  * AML/ASL+ Disassembler version 20190509 (64-bit version)
+> > > >  * Copyright (c) 2000 - 2019 Intel Corporation
+> > > >  *
+> > > >  * Disassembling to symbolic ASL+ operators
+> > > >  *
+> > > >  * Disassembly of tests/data/acpi/pc/DSDT.hpbridge, Tue Sep 29 06:51:03 2020
+> > > >  *
+> > > >  * Original Table Header:
+> > > >  *     Signature        "DSDT"
+> > > >  *     Length           0x0000139D (5021)
+> > > >  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> > > >  *     Checksum         0x05
+> > > >  *     OEM ID           "BOCHS "
+> > > >  *     OEM Table ID     "BXPCDSDT"
+> > > >  *     OEM Revision     0x00000001 (1)
+> > > >  *     Compiler ID      "BXPC"
+> > > >  *     Compiler Version 0x00000001 (1)
+> > > >  */
+> > > > DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
+> > > >
+> > > > --
+> > > > MST
+> > > >
+> >
 
 
