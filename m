@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE2B27CE7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:08:05 +0200 (CEST)
-Received: from localhost ([::1]:45366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422DD27CE62
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:05:50 +0200 (CEST)
+Received: from localhost ([::1]:39146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNFMS-00024V-1F
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59230)
+	id 1kNFKH-0007vV-B7
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:05:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNFI3-0006Lw-6M
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:03:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47222)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kNFIF-0006Vq-1H
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNFHz-00048o-Lg
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:03:30 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kNFIB-0004Bt-9v
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:03:42 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601384602;
+ s=mimecast20190719; t=1601384618;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6gGeoydA5hKcdQscexQIqjs2fIiDAHEEkQXwlIkuWWc=;
- b=RYq5nRFuaHTsPkK5Cofo/ddsopx/lGeOaLUPLUHz/AaCEQmum1qKOPLdTLLYrikpcATJfJ
- OnWyQdH1/MGN/HBVdjbClgkMmWnRY+6isT2vSz9PwmYRgl7TuBSWpCsLLQ/6rPIZ1R29u5
- P+n6lBW8bJgTgcRUeCgObPCe6fvZ3/g=
+ bh=NfiO0ti7rl+OV1wRgx68hiNRtMKaf0SPSuWY/q6uP3Q=;
+ b=Jg90KVfJ//Jpl325youijaFMdTPSMLyKuCP7AQuIDBPP4N/V4jUP3hJ0jQuiEGTSuKolnk
+ 61IHK6En8I9HJicFMgOaEcxR1lvqlyJD1QSn3w0Sx6BpCCMwSqEFpYQzhY4C9JYKb66pz1
+ 3kocUMu3U4iETN003NKk9v/N/UzvARI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-b0GHYu2bOYiQ3H-33xFXdg-1; Tue, 29 Sep 2020 09:03:15 -0400
-X-MC-Unique: b0GHYu2bOYiQ3H-33xFXdg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-304-0yDdH20hNcGKKVV2D8x1pw-1; Tue, 29 Sep 2020 09:03:34 -0400
+X-MC-Unique: 0yDdH20hNcGKKVV2D8x1pw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC41A8C1CCA;
- Tue, 29 Sep 2020 13:03:13 +0000 (UTC)
-Received: from [10.3.112.208] (ovpn-112-208.phx2.redhat.com [10.3.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 892F95C1CF;
- Tue, 29 Sep 2020 13:03:09 +0000 (UTC)
-Subject: Re: [PATCH v2 3/4] block: move block exports to libblockdev
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20200929125516.186715-1-stefanha@redhat.com>
- <20200929125516.186715-4-stefanha@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <7f87a6b5-0ceb-f9ba-5ecd-29086ca3bda2@redhat.com>
-Date: Tue, 29 Sep 2020 08:03:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C9A98C1CC0;
+ Tue, 29 Sep 2020 13:03:33 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-167.rdu2.redhat.com [10.10.116.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03A615D9CA;
+ Tue, 29 Sep 2020 13:03:25 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 6CA9F220203; Tue, 29 Sep 2020 09:03:25 -0400 (EDT)
+Date: Tue, 29 Sep 2020 09:03:25 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: virtiofs vs 9p performance(Re: tools/virtiofs: Multi threading
+ seems to hurt performance)
+Message-ID: <20200929130325.GA220516@redhat.com>
+References: <20200918213436.GA3520@redhat.com> <7085634.CctCyd8GvG@silver>
+ <20200925185147.GS2873@work-vm> <66718708.HdZnNlUTFG@silver>
 MIME-Version: 1.0
-In-Reply-To: <20200929125516.186715-4-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <66718708.HdZnNlUTFG@silver>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,39 +81,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Venegas Munoz, Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
+ "cdupontd@redhat.com" <cdupontd@redhat.com>, qemu-devel@nongnu.org,
+ virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Shinde, Archana M" <archana.m.shinde@intel.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/20 7:55 AM, Stefan Hajnoczi wrote:
-> Block exports are used by softmmu, qemu-storage-daemon, and qemu-nbd.
-> They are not used by other programs and are not otherwise needed in
-> libblock.
+On Sun, Sep 27, 2020 at 02:14:43PM +0200, Christian Schoenebeck wrote:
+> On Freitag, 25. September 2020 20:51:47 CEST Dr. David Alan Gilbert wrote:
+> > * Christian Schoenebeck (qemu_oss@crudebyte.com) wrote:
+> > > On Freitag, 25. September 2020 15:05:38 CEST Dr. David Alan Gilbert wrote:
+> > > > > > 9p ( mount -t 9p -o trans=virtio kernel /mnt
+> > > > > > -oversion=9p2000.L,cache=mmap,msize=1048576 ) test: (g=0):
+> > > > > > rw=randrw,
+> > > > > 
+> > > > > Bottleneck ------------------------------^
+> > > > > 
+> > > > > By increasing 'msize' you would encounter better 9P I/O results.
+> > > > 
+> > > > OK, I thought that was bigger than the default;  what number should I
+> > > > use?
+> > > 
+> > > It depends on the underlying storage hardware. In other words: you have to
+> > > try increasing the 'msize' value to a point where you no longer notice a
+> > > negative performance impact (or almost). Which is fortunately quite easy
+> > > to test on> 
+> > > guest like:
+> > > 	dd if=/dev/zero of=test.dat bs=1G count=12
+> > > 	time cat test.dat > /dev/null
+> > > 
+> > > I would start with an absolute minimum msize of 10MB. I would recommend
+> > > something around 100MB maybe for a mechanical hard drive. With a PCIe
+> > > flash
+> > > you probably would rather pick several hundred MB or even more.
+> > > 
+> > > That unpleasant 'msize' issue is a limitation of the 9p protocol: client
+> > > (guest) must suggest the value of msize on connection to server (host).
+> > > Server can only lower, but not raise it. And the client in turn obviously
+> > > cannot see host's storage device(s), so client is unable to pick a good
+> > > value by itself. So it's a suboptimal handshake issue right now.
+> > 
+> > It doesn't seem to be making a vast difference here:
+> > 
+> > 
+> > 
+> > 9p mount -t 9p -o trans=virtio kernel /mnt
+> > -oversion=9p2000.L,cache=mmap,msize=104857600
+> > 
+> > Run status group 0 (all jobs):
+> >    READ: bw=62.5MiB/s (65.6MB/s), 62.5MiB/s-62.5MiB/s (65.6MB/s-65.6MB/s),
+> > io=3070MiB (3219MB), run=49099-49099msec WRITE: bw=20.9MiB/s (21.9MB/s),
+> > 20.9MiB/s-20.9MiB/s (21.9MB/s-21.9MB/s), io=1026MiB (1076MB),
+> > run=49099-49099msec
+> > 
+> > 9p mount -t 9p -o trans=virtio kernel /mnt
+> > -oversion=9p2000.L,cache=mmap,msize=1048576000
+> > 
+> > Run status group 0 (all jobs):
+> >    READ: bw=65.2MiB/s (68.3MB/s), 65.2MiB/s-65.2MiB/s (68.3MB/s-68.3MB/s),
+> > io=3070MiB (3219MB), run=47104-47104msec WRITE: bw=21.8MiB/s (22.8MB/s),
+> > 21.8MiB/s-21.8MiB/s (22.8MB/s-22.8MB/s), io=1026MiB (1076MB),
+> > run=47104-47104msec
+> > 
+> > 
+> > Dave
 > 
-> Undo the recent move of blockdev-nbd.c from blockdev_ss into block_ss.
-> Since bdrv_close_all() (libblock) calls blk_exp_close_all()
-> (libblockdev) a stub function is required..
+> Is that benchmark tool honoring 'iounit' to automatically run with max. I/O 
+> chunk sizes? What's that benchmark tool actually? And do you also see no 
+> improvement with a simple
 > 
-> Make qemu-ndb.c use signal handling utility functions instead of
+> 	time cat largefile.dat > /dev/null
 
-nbd
+I am assuming that msize only helps with sequential I/O and not random
+I/O.
 
-> duplicating the code. This helps because os-posix.c is in libblockdev
-> and it depends on a qemu_system_killed() symbol that qemu-nbd.c lacks.
-> Once we use the signal handling utility functions we also end up
-> providing the necessary symbol.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
+Dave is running random read and random write mix and probably that's why
+he is not seeing any improvement with msize increase.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+If we run sequential workload (as "cat largefile.dat"), that should
+see an improvement with msize increase.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Thanks
+Vivek
 
 
