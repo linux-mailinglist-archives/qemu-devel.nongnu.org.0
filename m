@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F0C27BE1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:37:07 +0200 (CEST)
-Received: from localhost ([::1]:56814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7206527BE28
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:38:48 +0200 (CEST)
+Received: from localhost ([::1]:36876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNACA-0005ji-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1kNADn-0000lg-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xw-0004Ac-LW
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31598)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y3-0004G7-Nv
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xu-0001kx-9g
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:24 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xx-0001lb-72
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:31 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364141;
+ s=mimecast20190719; t=1601364144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xSxMXzNX3S9fhMB/ZxOtFmJyYfynnqlA4EJjVlHl23s=;
- b=PCrc2EAiz04N8/HSwZp0316RJ4VF4qcXZHKHTuEm3HI2HPSTabHP/jaeHgEFHbiU3vUjVH
- z/HWzEwrCdfI7bCWeunVhyfuCdbaEsmMjeX3WiPP6doKwqNq41VHsg3VAnDOCwqCV+/HiT
- 1wZvFzpQ4wgnFEdl5DotQzczpIKcyMU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-LnH4FjoYOAGmVuyrv-jBCw-1; Tue, 29 Sep 2020 03:22:19 -0400
-X-MC-Unique: LnH4FjoYOAGmVuyrv-jBCw-1
-Received: by mail-wr1-f72.google.com with SMTP id w7so1375770wrp.2
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:19 -0700 (PDT)
+ bh=gkUx6b1cSk9kEji0PxARO6FKoBMVB3jc1oddzWmGMC8=;
+ b=GdCX3e7NaBilBiJ34LRLD8ECyO2cntX2XM88bnaUsKuf5uyFo0I/m22Z8VI0Fv/6s6afjP
+ UhCgjmqoCCO9KWYmjra4pgWQBdT23EqKFUZ7D0gV7WXIgByOAbwtapG2bGXshi+rJrFk6y
+ KsN+1atTyBp3EXgxfGwjzoj0OrM76/Y=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-pnAh2eOhMFSNuhNiEvyhfQ-1; Tue, 29 Sep 2020 03:22:22 -0400
+X-MC-Unique: pnAh2eOhMFSNuhNiEvyhfQ-1
+Received: by mail-wm1-f71.google.com with SMTP id r83so1031184wma.8
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=xSxMXzNX3S9fhMB/ZxOtFmJyYfynnqlA4EJjVlHl23s=;
- b=Es3X0Kd3KhDOG97x5Qp9t+VugKPVJ7lrBUqGvkAzI69CQwFyxUZ1KlL3E0LphqZsFe
- LhvyMxjHYaxCw1MylmB/fy8aesRRlKD77Fm5H7G8PhYYSTdIi0ULaK9/qT9rrVWIuQI5
- 5OOd+TRq+l0T7OdCFk/zfgZoeuMaWE4EktwQlRvPUHV9gRz4GeypDJK7s5avlkUQHFhQ
- ijdYXuPPFY7Mwy9nXmuwxdoD7r+EPiV70s/SpKxXc8AX4Dj73llHoFw2wz2Qz4RsesVJ
- BkiulF1046oF3Eha4yC2yCUO52W1rTNAb9pRPtZ/fB6uaamIxF+NpTIhGs0+YTT43A1r
- gpJQ==
-X-Gm-Message-State: AOAM533M4Dcaq7wADiseDNyjzNryQraS7TKYLk4zkZkBii6+3sck1Lj1
- 8zhJ5D/rBNnsAnHFVYecXCQYsvuvne/J1d0t5tNI3Avv+UJtYtDIiWzTjmSMRIzQn/q6yvSexVh
- 4qESDZ9rBftEsFRE=
-X-Received: by 2002:adf:ef4a:: with SMTP id c10mr2432024wrp.13.1601364138145; 
- Tue, 29 Sep 2020 00:22:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXXePR+4x4z89DZa12KGo00Ugf91GiMQtubJGwWqqoekrPp2m52itphSXnv9SRapq93Ur8kg==
-X-Received: by 2002:adf:ef4a:: with SMTP id c10mr2431996wrp.13.1601364137969; 
- Tue, 29 Sep 2020 00:22:17 -0700 (PDT)
+ bh=gkUx6b1cSk9kEji0PxARO6FKoBMVB3jc1oddzWmGMC8=;
+ b=GTIDc8YeMBvZZR/0D9BJMt+BYEFKFIaL/5RogZeQ3mfHjWst5a4+im7xK5UIapFi87
+ Oz6SF7na0iU6fvktYPi5/NbmWrU6PhkqmkrKcaNjESvUXKYqO/Xrjnp3Qpg+NGk+yaqe
+ dzkoiwvU7eOTOTkI1+jrf+2Mt5NpsW+PyqIE7HrO/PGheWD9heBEv0ezMhw74QFSK8LR
+ erYuMU/NqNRp6XwQ5fdJC5XhfmElR1GPc58ls6phq9ndzpb7vaPbsX7wuDkgSh56cJ5M
+ EVI2RU+oBtTt4fJhX4zBOL4zrax8Jyy6ksSL2pYhaYICh2SyAY/qTgjGN7bmHtkcOvCE
+ x4Ug==
+X-Gm-Message-State: AOAM5334MO26MV8k1HVjg+s/bHc0P5LO7tBwYxfRGRS5G/6XHihTVg2R
+ oShZALYd1C9fcm/YRYYN3BO520OMmCUU7P8JOcHr/aNlwhaGBCp3voTl+cDpdxtqMisdvFOqLP9
+ Fqw+FRcxrPlme504=
+X-Received: by 2002:a5d:5306:: with SMTP id e6mr2617201wrv.156.1601364140757; 
+ Tue, 29 Sep 2020 00:22:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwujlSBY2x3DesO5EzaeCJPnztN0ViQYzUQrwHLatJxkVVp0o40ICJF1ih0k3amh6t2q5hCrQ==
+X-Received: by 2002:a5d:5306:: with SMTP id e6mr2617182wrv.156.1601364140538; 
+ Tue, 29 Sep 2020 00:22:20 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id v4sm3930341wml.46.2020.09.29.00.22.16
+ by smtp.gmail.com with ESMTPSA id q13sm4920163wra.93.2020.09.29.00.22.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:22:17 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:22:15 -0400
+ Tue, 29 Sep 2020 00:22:19 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:22:18 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 31/48] hw/smbios: support loading OEM strings values from a
- file
-Message-ID: <20200929071948.281157-32-mst@redhat.com>
+Subject: [PULL v4 32/48] hw/smbios: report error if table size is too large
+Message-ID: <20200929071948.281157-33-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -99,176 +98,72 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Laszlo Ersek <lersek@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Some applications want to pass quite large values for the OEM strings
-entries. Rather than having huge strings on the command line, it would
-be better to load them from a file, as supported with -fw_cfg.
+The SMBIOS 2.1 entry point uses a uint16 data type for reporting the
+total length of the tables. If the user passes -smbios configuration to
+QEMU that causes the table size to exceed this limit then various bad
+behaviours result, including
 
-This introduces the "path" parameter allowing for:
+ - firmware hangs in an infinite loop
+ - firmware triggers a KVM crash on bad memory access
+ - firmware silently discards user's SMBIOS data replacing it with
+   a generic data set.
 
-  $ echo -n "thisthing" > mydata.txt
-  $ qemu-system-x86_64 \
-    -smbios type=11,value=something \
-    -smbios type=11,path=mydata.txt \
-    -smbios type=11,value=somemore \
-    ...other args...
+Limiting the size to 0xffff in QEMU avoids triggering most of these
+problems. There is a remaining bug in SeaBIOS which tries to prepend its
+own data for table 0, and does not check whether there is sufficient
+space before attempting this.
 
-Now in the guest
-
-$ dmidecode -t 11
-Getting SMBIOS data from sysfs.
-SMBIOS 2.8 present.
-
-Handle 0x0E00, DMI type 11, 5 bytes
-OEM Strings
-	String 1: something
-	String 2: thisthing
-	String 3: somemore
-
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200923133804.2089190-2-berrange@redhat.com>
+Message-Id: <20200923133804.2089190-3-berrange@redhat.com>
 Tested-by: Laszlo Ersek <lersek@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/smbios/smbios.c | 71 +++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 58 insertions(+), 13 deletions(-)
+ hw/smbios/smbios.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 7cc950b41c..d993448087 100644
+index d993448087..8b30906e50 100644
 --- a/hw/smbios/smbios.c
 +++ b/hw/smbios/smbios.c
-@@ -110,7 +110,7 @@ static struct {
+@@ -365,6 +365,13 @@ static void smbios_register_config(void)
  
- static struct {
-     size_t nvalues;
--    const char **values;
-+    char **values;
- } type11;
+ opts_init(smbios_register_config);
  
- static struct {
-@@ -314,6 +314,11 @@ static const QemuOptDesc qemu_smbios_type11_opts[] = {
-         .type = QEMU_OPT_STRING,
-         .help = "OEM string data",
-     },
-+    {
-+        .name = "path",
-+        .type = QEMU_OPT_STRING,
-+        .help = "OEM string data from file",
-+    },
- };
- 
- static const QemuOptDesc qemu_smbios_type17_opts[] = {
-@@ -641,6 +646,8 @@ static void smbios_build_type_11_table(void)
- 
-     for (i = 0; i < type11.nvalues; i++) {
-         SMBIOS_TABLE_SET_STR_LIST(11, type11.values[i]);
-+        g_free(type11.values[i]);
-+        type11.values[i] = NULL;
-     }
- 
-     SMBIOS_BUILD_TABLE_POST;
-@@ -940,9 +947,8 @@ static void save_opt(const char **dest, QemuOpts *opts, const char *name)
- 
- 
- struct opt_list {
--    const char *name;
-     size_t *ndest;
--    const char ***dest;
-+    char ***dest;
- };
- 
- static int save_opt_one(void *opaque,
-@@ -951,23 +957,60 @@ static int save_opt_one(void *opaque,
++/*
++ * The SMBIOS 2.1 "structure table length" field in the
++ * entry point uses a 16-bit integer, so we're limited
++ * in total table size
++ */
++#define SMBIOS_21_MAX_TABLES_LEN 0xffff
++
+ static void smbios_validate_table(MachineState *ms)
  {
-     struct opt_list *opt = opaque;
- 
--    if (!g_str_equal(name, opt->name)) {
--        return 0;
-+    if (g_str_equal(name, "path")) {
-+        g_autoptr(GByteArray) data = g_byte_array_new();
-+        g_autofree char *buf = g_new(char, 4096);
-+        ssize_t ret;
-+        int fd = qemu_open(value, O_RDONLY, errp);
-+        if (fd < 0) {
-+            return -1;
-+        }
-+
-+        while (1) {
-+            ret = read(fd, buf, 4096);
-+            if (ret == 0) {
-+                break;
-+            }
-+            if (ret < 0) {
-+                error_setg(errp, "Unable to read from %s: %s",
-+                           value, strerror(errno));
-+                return -1;
-+            }
-+            if (memchr(buf, '\0', ret)) {
-+                error_setg(errp, "NUL in OEM strings value in %s", value);
-+                return -1;
-+            }
-+            g_byte_array_append(data, (guint8 *)buf, ret);
-+        }
-+
-+        close(fd);
-+
-+        *opt->dest = g_renew(char *, *opt->dest, (*opt->ndest) + 1);
-+        (*opt->dest)[*opt->ndest] = (char *)g_byte_array_free(data,  FALSE);
-+        (*opt->ndest)++;
-+        data = NULL;
-+   } else if (g_str_equal(name, "value")) {
-+        *opt->dest = g_renew(char *, *opt->dest, (*opt->ndest) + 1);
-+        (*opt->dest)[*opt->ndest] = g_strdup(value);
-+        (*opt->ndest)++;
-+    } else if (!g_str_equal(name, "type")) {
-+        error_setg(errp, "Unexpected option %s", name);
-+        return -1;
+     uint32_t expect_t4_count = smbios_legacy ?
+@@ -375,6 +382,13 @@ static void smbios_validate_table(MachineState *ms)
+                      expect_t4_count, smbios_type4_count);
+         exit(1);
      }
- 
--    *opt->dest = g_renew(const char *, *opt->dest, (*opt->ndest) + 1);
--    (*opt->dest)[*opt->ndest] = value;
--    (*opt->ndest)++;
-     return 0;
- }
- 
--static void save_opt_list(size_t *ndest, const char ***dest,
--                          QemuOpts *opts, const char *name)
-+static bool save_opt_list(size_t *ndest, char ***dest, QemuOpts *opts,
-+                          Error **errp)
- {
-     struct opt_list opt = {
--        name, ndest, dest,
-+        ndest, dest,
-     };
--    qemu_opt_foreach(opts, save_opt_one, &opt, NULL);
-+    if (!qemu_opt_foreach(opts, save_opt_one, &opt, errp)) {
-+        return false;
++
++    if (smbios_ep_type == SMBIOS_ENTRY_POINT_21 &&
++        smbios_tables_len > SMBIOS_21_MAX_TABLES_LEN) {
++        error_report("SMBIOS 2.1 table length %zu exceeds %d",
++                     smbios_tables_len, SMBIOS_21_MAX_TABLES_LEN);
++        exit(1);
 +    }
-+    return true;
  }
  
- void smbios_entry_add(QemuOpts *opts, Error **errp)
-@@ -1149,7 +1192,9 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
-             if (!qemu_opts_validate(opts, qemu_smbios_type11_opts, errp)) {
-                 return;
-             }
--            save_opt_list(&type11.nvalues, &type11.values, opts, "value");
-+            if (!save_opt_list(&type11.nvalues, &type11.values, opts, errp)) {
-+                return;
-+            }
-             return;
-         case 17:
-             if (!qemu_opts_validate(opts, qemu_smbios_type17_opts, errp)) {
+ 
 -- 
 MST
 
