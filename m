@@ -2,69 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DE527C30E
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:03:01 +0200 (CEST)
-Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A34727C332
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 13:05:47 +0200 (CEST)
+Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNDPQ-0003XU-CV
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56374)
+	id 1kNDS6-00073u-LK
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 07:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNDNU-0002GI-9o
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNDNO-0002RD-4A
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:00:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kNDNK-00015P-Hz
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 11:00:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 854942E8053
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 11:00:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kNDNc-0002Mu-R8
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kNDNa-0002YU-QD
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 07:01:08 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601377265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GjbuKTo8zbjx5ifTPlt4UM+4ebqCnC9ciETKQazC03I=;
+ b=fHoRdWV+G1hoRRSWo0R/ozkWOqKZq0zxDOYW25NYRz9huelb2d13FibkzjRQCty4itkarW
+ EKWlkwZ/lmzITNidI50GEDt7B7snD46kJrarpNAX/gxYsrUB9YB8yiTUW9tAzWTsbtEgEA
+ 1xhVik0I4+5BIqyZdBz+hLe4V86c+a0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-6MQ1yI2ENBWqwbt1Aq3fqw-1; Tue, 29 Sep 2020 07:01:02 -0400
+X-MC-Unique: 6MQ1yI2ENBWqwbt1Aq3fqw-1
+Received: by mail-wm1-f72.google.com with SMTP id c200so1679455wmd.5
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:01:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GjbuKTo8zbjx5ifTPlt4UM+4ebqCnC9ciETKQazC03I=;
+ b=CGdxiz7XpkH8QZOmhCmpl3JaOreTPwbZ9QoOyIVNr8080d9OZaS6jb2vmKUpeLXmfU
+ yk0onydOx5e1P57ceEdjNqDtCACcDbieaP2l2p4kXTvTQE8W2+h6tXdySwuPq/JGjU+Q
+ dZ83qBQcaWq9UBVSzbSakYQWDDS7gnJy/HN+9RGiQbaNNFj48mDdOeKReQX7TrSpwHt1
+ FUOxCiHOyqazU7XPnJ1e6x7wm74pN6DCEc+I45uOj8cRE/4gps551AfbttGMjRKgf1lH
+ QXHXuLJwbQFxdWOsTjf7kKjBYczge/H6GEenYMkjRo2FCgmhnrf5MKEcx7nD1A1aZcK2
+ vzPQ==
+X-Gm-Message-State: AOAM53121vF0xiDn6YfuIhPuSoQxN5VAUF5ou/3BVqnqba7luNx8h21Y
+ 0Ik+21/X1ZNcsOWnxe1brRBaEOAtlkzSogBruy8VydXlqXDrGU6Csu5BKu5QgkuGgOKMgzsjCai
+ nTcOyf9MiwF5lb4Q=
+X-Received: by 2002:adf:e410:: with SMTP id g16mr3624660wrm.76.1601377260597; 
+ Tue, 29 Sep 2020 04:01:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8etp3w2m6FNOtKivOe+uZXZ9aJ8Rro/iH5klUHl1/dpEScYAAbNQEFn+oTP4YzUwrFpH+Ng==
+X-Received: by 2002:adf:e410:: with SMTP id g16mr3624626wrm.76.1601377260340; 
+ Tue, 29 Sep 2020 04:01:00 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9dbe:2c91:3d1b:58c6?
+ ([2001:b07:6468:f312:9dbe:2c91:3d1b:58c6])
+ by smtp.gmail.com with ESMTPSA id e18sm5535449wrx.50.2020.09.29.04.00.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Sep 2020 04:00:59 -0700 (PDT)
+Subject: Re: [PATCH] PoC: Rust binding for QAPI (qemu-ga only, for now)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <20200910174850.716104-1-marcandre.lureau@redhat.com>
+ <87mu1j8p7p.fsf@dusky.pond.sub.org>
+ <CAMxuvayvRfjUMYDiB5fm5QBD76kfD8-G1wTEucQTBbZUtnwXrA@mail.gmail.com>
+ <874knpluez.fsf@dusky.pond.sub.org>
+ <CAJ+F1CLCT3RpZF8JDYayqkKxFu76vy+q6GUjofZV3JF_YDvxng@mail.gmail.com>
+ <9d6215d4-d0cd-67e4-3048-77127194f7e8@redhat.com>
+ <CAJ+F1CLowpdHaJ58Vt7GYukAYvYAfuEJvnuw_ZM5kO_4=gh9XA@mail.gmail.com>
+ <8c1783d1-70f4-d751-3d5d-83459cb1db45@redhat.com>
+ <CAJ+F1CJgEe3++UHDfT3iOGyu+r1tM4A_9jRXoKC0P-k-Mhq29w@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <fb20f8e4-6bc9-3518-a983-86fad1915e49@redhat.com>
+Date: Tue, 29 Sep 2020 13:00:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Sep 2020 10:46:18 -0000
-From: Peter Maydell <1897680@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd pmaydell zpzigi
-X-Launchpad-Bug-Reporter: Changho Choi (zpzigi)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160136265426.22784.9778102281742505477.malonedeb@gac.canonical.com>
-Message-Id: <160137637930.23317.10335996850351908964.launchpad@wampee.canonical.com>
-Subject: [Bug 1897680] Re: memory address over 0x2000_7ffc is not accessible
- in mps2-an505
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d685c0a40836eb9844ed835c9700f20633c1d7af"; Instance="production"
-X-Launchpad-Hash: 565094de03f449844539b259aacee3f4fea4a356
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 03:05:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.199, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJ+F1CJgEe3++UHDfT3iOGyu+r1tM4A_9jRXoKC0P-k-Mhq29w@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,39 +109,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1897680 <1897680@bugs.launchpad.net>
+Cc: "P. Berrange, Daniel" <berrange@redhat.com>,
+ Sergio Lopez Pascual <slp@redhat.com>, "Hajnoczi, Stefan" <stefanha@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+On 29/09/20 12:34, Marc-André Lureau wrote:
+>     That would not be backwards compatible as you would have to set all
+>     optional fields.  Every time the command grows a new optional argument,
+>     all clients would have to specify it; if a command becomes optional,
+>     you'd have to add Some() around it.  So I would say that...
+> 
+> 
+> Not necessarily, with ..default::Default()
 
--- =
+That's true, I always forget about .. (though you'd still have to add
+Some() for now-optional fields).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1897680
+>     > Less idiomatic, but it also works around the optional arguments and
+>     > ordering issue.
+> 
+>     ...  the builder pattern is not a workaround: it's the best and most
+>     common Rust idiom to achieve what QAPI expresses as optional fields.
+>     Likewise for keyword-only arguments in Python.
+> 
+> Except QAPI makes all fields potentially optional (and unordered),
+> that's not idiomatic.
 
-Title:
-  memory address over 0x2000_7ffc is not accessible in mps2-an505
+Yes, for some APIs you can always add hand-written, more idiomatic
+versions.  Or you could mark them as fixed-arguments in the schema and
+let the code generator do that (but then you need to add a compatibility
+check).  But that would be an explicit choice, not something required by
+the transport.
 
-Status in QEMU:
-  Invalid
+> D-Bus is machine-level oriented, it's easy to bind to various languages,
+> it can be pretty efficient too. It's not designed to be a good network
+> RPC. QMP tries to be a bit of both, but is perhaps not good enough in
+> either.
 
-Bug description:
-  I currently run qemu with the following options
-  `qemu-system-aarch64 -machine mps2-an505 -cpu cortex-m33 -m 16`
+No, only tries to be a good network RPC; not a particularly efficient
+one, but future-proof.  And it mostly succeeds at that---with one
+notable exception: JSON parsers that mess up with numbers bigger than 2^53.
 
-  For some reason, memory address over 0x2000_7ffc is not accessible.
-  It can be tested in gdb as follow.
+>     If you want to "reinvent" QMP, instead of focusing on D-Bus you should
+>     take a look at alternative IDLs and protocols (D-Bus is one but there's
+>     also Protobuf and Flexbuffers), see how QAPI declarations would map to
+>     those protocols, see how you would deal with extensibility, and rank
+>     them according to various criteria.  For example:
+> 
+>     * JSON "just works" but needs a custom code generator and imposes some
+>     extra complexity on the clients for the simplest commands
+> 
+>     * D-Bus has a good ecosystem and would keep simple commands simpler but
+>     has issues with upgrade paths and is uglier for complex commands
+> 
+>     * Protobufs probably would also just work and would have better code
+>     generators, but would require some kind of lint to ensure
+>     backwards-compatibility
+> 
+> Again, the issues we are discussing are not specific to binding QMP over
+> D-Bus. Binding QMP to various languages has similar problems.
 
-  (gdb) x/x 0x20007ffc
-  0x20007ffc:	0x00000000
-  (gdb) x/x 0x20007ffd
-  0x20007ffd:	Cannot access memory at address 0x20007ffd
-  (gdb) x/x 0x20008000
-  0x20008000:	Cannot access memory at address 0x20008000
+Marc-André, we are totally in agreement about that!  The problem is that
+you have already decided what the solution looks like, and that's what
+I'm not sure about because your solution also implies completely
+revisiting the schema.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1897680/+subscriptions
+I say there are many candidates (the ones I know are Protobuf and
+Flexbuffers) for serialization and many candidates for transport (REST
+and gRPC to begin with) in addition to the two {QMP,JSON} and
+{DBus,DBus} tuples.  We should at least look at how they do code
+generation before deciding that JSON is bad and DBus is good.
+
+> I would rather make those problems solved at the server level, that
+> doesn't require any change to QMP today, just a more careful
+> consideration when making changes (and probably some tools to help
+> enforce some stability).
+
+Problem is, "more careful consideration when making changes" is not a
+small thing.  And other RPCs have evolved in a completely different
+space (REST APIs for web services) that have chosen the same tradeoffs
+as QMP, so why should we not learn from them?
+
+Paolo
+
 
