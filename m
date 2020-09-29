@@ -2,60 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7814B27D74C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 21:52:18 +0200 (CEST)
-Received: from localhost ([::1]:52912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C563D27D77E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:02:37 +0200 (CEST)
+Received: from localhost ([::1]:53768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNLfd-0000ZZ-IX
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 15:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51096)
+	id 1kNLpc-0004rX-SZ
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kNLS6-0007H2-NB; Tue, 29 Sep 2020 15:38:19 -0400
-Resent-Date: Tue, 29 Sep 2020 15:38:18 -0400
-Resent-Message-Id: <E1kNLS6-0007H2-NB@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21715)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kNLS2-0006Lh-Gy; Tue, 29 Sep 2020 15:38:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1601408274; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RKjj4dFBTKwuT+q9vvay+H3y689XxSiUBmNIlfVWR9iIM+RlDlBOdhO9/n/sC5MRyr3kliWoMaUbGbpO09WixagTp6RxpAPoFU7d+sNltCUtHS3S7aV94qaeMhCubjoBPcvXezlwJVH2d3zfdqnCNtfkI3FygDq69cHH6cmQqmI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1601408274;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=YMGDiCUEQOZ3Ey/R64NzljF8pZ5otYS65UYfrZ21Gog=; 
- b=F6wypmcuMGPkrg/4t4sELk+EYRZqdg3jEJTiJ7mu8hqs39CawmG7rw1Tbh7wFH9nRGV3FWYNL8pfu0uGKdmAln8tov+2V7u17R3V22zBDUU7CSeRxq+RtbxUIV3mouyD3BGyBNTGA9L+R4hO7S5l69EW6MDV1OuHmb7XY89Xvag=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1601408271936393.3642552315698;
- Tue, 29 Sep 2020 12:37:51 -0700 (PDT)
-Subject: Re: [PATCH] hw/arm: Restrict APEI tables generation to the 'virt'
- machine
-Message-ID: <160140826997.29860.6237618789435428416@66eaa9a8a123>
-In-Reply-To: <20200929125609.1088330-1-philmd@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Tue, 29 Sep 2020 12:37:51 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 15:38:10
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kNKzi-00087P-Gk
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:08:59 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:41590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kNKzd-0002UU-Jb
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:08:56 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 197so4632769pge.8
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 12:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=nFsmPNq/ck49eBPGc4jXF3GRanUseMFLPF8CW+narY0=;
+ b=MrLwxrO/p9Q7o49D4H4OBszg0PSV2cK17hIf+NYNGGprEauuY5wBVoJq5LNFwZi/3j
+ Q7kfbBnDCKWhlzuFliDB7M1S9cm+EOyCs3fObm/n1xurvE8o9kOrKy1JqZfMWnSHdY8F
+ JOaDqgG45fuQlNkzPSJwRgIfs98gg1YdfJc1IagkNDqnWHUbgj3D5NXgvfJ+c3xSIeeW
+ 0v+WYUOvhyJTaB4k3OW+ZbDZhCcwqvxUY2e66bF3JatLjP5ZXIglz9XpJJagWEf6e63T
+ VXCnR0dzn7J/MSCW+qfRCjYTjiEHlYYRTxeWY9jHlCseYruk7Ri6n6Mg/ge1u00t5YAv
+ RxWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=nFsmPNq/ck49eBPGc4jXF3GRanUseMFLPF8CW+narY0=;
+ b=EzeBrBSnC8jQRXQeTA3MhctY//YqtFDCO7TlP0EYxsw0SZfsMY/czByPUEhEQiDWVI
+ fx3ar4aenvVkhs8WrIYSHDbHKXPz3m+j9hnjPZTCNprlcbY6+vTZMqXyC2rvwPbjqzP4
+ hSlm3szPdvOtJXF+0xRpNuLdey5Uq9UCwliYrCTk/sJP5H+GpgwdMh8Wmp6GP6HdSxY5
+ OBS1ahfG4SILWKsvpx/PaBEZ+Y7zZZ3MMQ+r7NNQ+b68NVksWB+E91rsUqnJx1mMGoYM
+ SLTSIkWVaWcq72TR/w9BS/6QcPWl+Dlc/LtEFqem2wAbLaCHd76lFjLwDhHkdqEXwN9C
+ NIVQ==
+X-Gm-Message-State: AOAM532M34WKJTjScFmY3bv/nIu90xANmpAm3TEGGEuJu+CbrWGWuNqY
+ 8gFArDhyyoOo2qS0bOcegFcqeTsaekGdbw==
+X-Google-Smtp-Source: ABdhPJwWXEM3OKHaAEv+eV/wqpVFM04fgI6E8AeMYI6Cx/TB6KREFo19/0Le1SNZ55YallBENTe25A==
+X-Received: by 2002:a63:d046:: with SMTP id s6mr4435952pgi.76.1601406532019;
+ Tue, 29 Sep 2020 12:08:52 -0700 (PDT)
+Received: from localhost.localdomain (122-116-72-36.HINET-IP.hinet.net.
+ [122.116.72.36])
+ by smtp.gmail.com with ESMTPSA id v8sm6003950pgg.58.2020.09.29.12.08.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 12:08:51 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [RFC v5 60/68] target/riscv: rvv-1.0: floating-point/integer
+ type-convert instructions
+Date: Wed, 30 Sep 2020 03:04:35 +0800
+Message-Id: <20200929190448.31116-61-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200929190448.31116-1-frank.chang@sifive.com>
+References: <20200929190448.31116-1-frank.chang@sifive.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.614, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,113 +84,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, mst@redhat.com, lersek@redhat.com,
- qemu-devel@nongnu.org, gengdongjiu@huawei.com, zhengxiang9@huawei.com,
- qemu-arm@nongnu.org, Jonathan.Cameron@huawei.com, imammedo@redhat.com,
- philmd@redhat.com
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Frank Chang <frank.chang@sifive.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkyOTEyNTYwOS4xMDg4
-MzMwLTEtcGhpbG1kQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
-b2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBO
-RVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBK
-PTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKQyBsaW5rZXIgZm9yIHRoZSBo
-b3N0IG1hY2hpbmU6IGNjIGxkLmJmZCAyLjI3LTQzCkhvc3QgbWFjaGluZSBjcHUgZmFtaWx5OiB4
-ODZfNjQKSG9zdCBtYWNoaW5lIGNwdTogeDg2XzY0Ci4uL3NyYy9tZXNvbi5idWlsZDoxMDogV0FS
-TklORzogTW9kdWxlIHVuc3RhYmxlLWtleXZhbCBoYXMgbm8gYmFja3dhcmRzIG9yIGZvcndhcmRz
-IGNvbXBhdGliaWxpdHkgYW5kIG1pZ2h0IG5vdCBleGlzdCBpbiBmdXR1cmUgcmVsZWFzZXMuClBy
-b2dyYW0gc2ggZm91bmQ6IFlFUwpQcm9ncmFtIHB5dGhvbjMgZm91bmQ6IFlFUyAoL3Vzci9iaW4v
-cHl0aG9uMykKQ29uZmlndXJpbmcgbmluamF0b29sIHVzaW5nIGNvbmZpZ3VyYXRpb24KLS0tClJ1
-bm5pbmcgdGVzdCBxdGVzdC1hYXJjaDY0OiB0cG0tdGlzLWRldmljZS10ZXN0CkNvdWxkIG5vdCBh
-bGxvY2F0ZSBkeW5hbWljIHRyYW5zbGF0b3IgYnVmZmVyCioqCkVSUk9SOi4uL3NyYy90ZXN0cy9x
-dGVzdC90cG0tZW11LmM6OTc6dHBtX2VtdV9jdHJsX3RocmVhZDogYXNzZXJ0aW9uIGZhaWxlZCAo
-Y21kID09IENNRF9TRVRfREFUQUZEKTogKDAgPT0gMTYpCi4uL3NyYy90ZXN0cy9xdGVzdC9saWJx
-dGVzdC5jOjE2Njoga2lsbF9xZW11KCkgdHJpZWQgdG8gdGVybWluYXRlIFFFTVUgcHJvY2VzcyBi
-dXQgZW5jb3VudGVyZWQgZXhpdCBzdGF0dXMgMSAoZXhwZWN0ZWQgMCkKRVJST1IgcXRlc3QtYWFy
-Y2g2NDogdHBtLXRpcy1kZXZpY2UtdGVzdCAtIEJhaWwgb3V0ISBFUlJPUjouLi9zcmMvdGVzdHMv
-cXRlc3QvdHBtLWVtdS5jOjk3OnRwbV9lbXVfY3RybF90aHJlYWQ6IGFzc2VydGlvbiBmYWlsZWQg
-KGNtZCA9PSBDTURfU0VUX0RBVEFGRCk6ICgwID09IDE2KQptYWtlOiAqKiogW3J1bi10ZXN0LTE2
-MF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgpzb2Nr
-ZXRfYWNjZXB0IGZhaWxlZDogUmVzb3VyY2UgdGVtcG9yYXJpbHkgdW5hdmFpbGFibGUKKioKRVJS
-T1I6Li4vc3JjL3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0LmM6MzAxOnF0ZXN0X2luaXRfd2l0aG91dF9x
-bXBfaGFuZHNoYWtlOiBhc3NlcnRpb24gZmFpbGVkOiAocy0+ZmQgPj0gMCAmJiBzLT5xbXBfZmQg
-Pj0gMCkKLi4vc3JjL3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0LmM6MTY2OiBraWxsX3FlbXUoKSB0cmll
-ZCB0byB0ZXJtaW5hdGUgUUVNVSBwcm9jZXNzIGJ1dCBlbmNvdW50ZXJlZCBleGl0IHN0YXR1cyAx
-IChleHBlY3RlZCAwKQpFUlJPUiBxdGVzdC14ODZfNjQ6IHB4ZS10ZXN0IC0gQmFpbCBvdXQhIEVS
-Uk9SOi4uL3NyYy90ZXN0cy9xdGVzdC9saWJxdGVzdC5jOjMwMTpxdGVzdF9pbml0X3dpdGhvdXRf
-cW1wX2hhbmRzaGFrZTogYXNzZXJ0aW9uIGZhaWxlZDogKHMtPmZkID49IDAgJiYgcy0+cW1wX2Zk
-ID49IDApCm1ha2U6ICoqKiBbcnVuLXRlc3QtMTEwXSBFcnJvciAxCnNvY2tldF9hY2NlcHQgZmFp
-bGVkOiBSZXNvdXJjZSB0ZW1wb3JhcmlseSB1bmF2YWlsYWJsZQoqKgpFUlJPUjouLi9zcmMvdGVz
-dHMvcXRlc3QvbGlicXRlc3QuYzozMDE6cXRlc3RfaW5pdF93aXRob3V0X3FtcF9oYW5kc2hha2U6
-IGFzc2VydGlvbiBmYWlsZWQ6IChzLT5mZCA+PSAwICYmIHMtPnFtcF9mZCA+PSAwKQpFUlJPUiBx
-dGVzdC14ODZfNjQ6IGJvb3Qtc2VyaWFsLXRlc3QgLSBCYWlsIG91dCEgRVJST1I6Li4vc3JjL3Rl
-c3RzL3F0ZXN0L2xpYnF0ZXN0LmM6MzAxOnF0ZXN0X2luaXRfd2l0aG91dF9xbXBfaGFuZHNoYWtl
-OiBhc3NlcnRpb24gZmFpbGVkOiAocy0+ZmQgPj0gMCAmJiBzLT5xbXBfZmQgPj0gMCkKLi4vc3Jj
-L3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0LmM6MTY2OiBraWxsX3FlbXUoKSB0cmllZCB0byB0ZXJtaW5h
-dGUgUUVNVSBwcm9jZXNzIGJ1dCBlbmNvdW50ZXJlZCBleGl0IHN0YXR1cyAxIChleHBlY3RlZCAw
-KQptYWtlOiAqKiogW3J1bi10ZXN0LTExNV0gRXJyb3IgMQpzb2NrZXRfYWNjZXB0IGZhaWxlZDog
-UmVzb3VyY2UgdGVtcG9yYXJpbHkgdW5hdmFpbGFibGUKKioKRVJST1I6Li4vc3JjL3Rlc3RzL3F0
-ZXN0L2xpYnF0ZXN0LmM6MzAxOnF0ZXN0X2luaXRfd2l0aG91dF9xbXBfaGFuZHNoYWtlOiBhc3Nl
-cnRpb24gZmFpbGVkOiAocy0+ZmQgPj0gMCAmJiBzLT5xbXBfZmQgPj0gMCkKLi4vc3JjL3Rlc3Rz
-L3F0ZXN0L2xpYnF0ZXN0LmM6MTY2OiBraWxsX3FlbXUoKSB0cmllZCB0byB0ZXJtaW5hdGUgUUVN
-VSBwcm9jZXNzIGJ1dCBlbmNvdW50ZXJlZCBleGl0IHN0YXR1cyAxIChleHBlY3RlZCAwKQpFUlJP
-UiBxdGVzdC14ODZfNjQ6IGJpb3MtdGFibGVzLXRlc3QgLSBCYWlsIG91dCEgRVJST1I6Li4vc3Jj
-L3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0LmM6MzAxOnF0ZXN0X2luaXRfd2l0aG91dF9xbXBfaGFuZHNo
-YWtlOiBhc3NlcnRpb24gZmFpbGVkOiAocy0+ZmQgPj0gMCAmJiBzLT5xbXBfZmQgPj0gMCkKbWFr
-ZTogKioqIFtydW4tdGVzdC0xMzhdIEVycm9yIDEKc29ja2V0X2FjY2VwdCBmYWlsZWQ6IFJlc291
-cmNlIHRlbXBvcmFyaWx5IHVuYXZhaWxhYmxlCioqCkVSUk9SOi4uL3NyYy90ZXN0cy9xdGVzdC9s
-aWJxdGVzdC5jOjMwMTpxdGVzdF9pbml0X3dpdGhvdXRfcW1wX2hhbmRzaGFrZTogYXNzZXJ0aW9u
-IGZhaWxlZDogKHMtPmZkID49IDAgJiYgcy0+cW1wX2ZkID49IDApCkVSUk9SIHF0ZXN0LXg4Nl82
-NDogdm1nZW5pZC10ZXN0IC0gQmFpbCBvdXQhIEVSUk9SOi4uL3NyYy90ZXN0cy9xdGVzdC9saWJx
-dGVzdC5jOjMwMTpxdGVzdF9pbml0X3dpdGhvdXRfcW1wX2hhbmRzaGFrZTogYXNzZXJ0aW9uIGZh
-aWxlZDogKHMtPmZkID49IDAgJiYgcy0+cW1wX2ZkID49IDApCi4uL3NyYy90ZXN0cy9xdGVzdC9s
-aWJxdGVzdC5jOjE2Njoga2lsbF9xZW11KCkgdHJpZWQgdG8gdGVybWluYXRlIFFFTVUgcHJvY2Vz
-cyBidXQgZW5jb3VudGVyZWQgZXhpdCBzdGF0dXMgMSAoZXhwZWN0ZWQgMCkKbWFrZTogKioqIFty
-dW4tdGVzdC0xNDddIEVycm9yIDEKc29ja2V0X2FjY2VwdCBmYWlsZWQ6IFJlc291cmNlIHRlbXBv
-cmFyaWx5IHVuYXZhaWxhYmxlCioqCkVSUk9SOi4uL3NyYy90ZXN0cy9xdGVzdC9saWJxdGVzdC5j
-OjMwMTpxdGVzdF9pbml0X3dpdGhvdXRfcW1wX2hhbmRzaGFrZTogYXNzZXJ0aW9uIGZhaWxlZDog
-KHMtPmZkID49IDAgJiYgcy0+cW1wX2ZkID49IDApCi4uL3NyYy90ZXN0cy9xdGVzdC9saWJxdGVz
-dC5jOjE2Njoga2lsbF9xZW11KCkgdHJpZWQgdG8gdGVybWluYXRlIFFFTVUgcHJvY2VzcyBidXQg
-ZW5jb3VudGVyZWQgZXhpdCBzdGF0dXMgMSAoZXhwZWN0ZWQgMCkKRVJST1IgcXRlc3QteDg2XzY0
-OiBtaWdyYXRpb24tdGVzdCAtIEJhaWwgb3V0ISBFUlJPUjouLi9zcmMvdGVzdHMvcXRlc3QvbGli
-cXRlc3QuYzozMDE6cXRlc3RfaW5pdF93aXRob3V0X3FtcF9oYW5kc2hha2U6IGFzc2VydGlvbiBm
-YWlsZWQ6IChzLT5mZCA+PSAwICYmIHMtPnFtcF9mZCA+PSAwKQptYWtlOiAqKiogW3J1bi10ZXN0
-LTE0OF0gRXJyb3IgMQpzb2NrZXRfYWNjZXB0IGZhaWxlZDogUmVzb3VyY2UgdGVtcG9yYXJpbHkg
-dW5hdmFpbGFibGUKRVJST1IgcXRlc3QtYWFyY2g2NDogYmlvcy10YWJsZXMtdGVzdCAtIEJhaWwg
-b3V0ISBFUlJPUjouLi9zcmMvdGVzdHMvcXRlc3QvbGlicXRlc3QuYzozMDE6cXRlc3RfaW5pdF93
-aXRob3V0X3FtcF9oYW5kc2hha2U6IGFzc2VydGlvbiBmYWlsZWQ6IChzLT5mZCA+PSAwICYmIHMt
-PnFtcF9mZCA+PSAwKQoqKgpFUlJPUjouLi9zcmMvdGVzdHMvcXRlc3QvbGlicXRlc3QuYzozMDE6
-cXRlc3RfaW5pdF93aXRob3V0X3FtcF9oYW5kc2hha2U6IGFzc2VydGlvbiBmYWlsZWQ6IChzLT5m
-ZCA+PSAwICYmIHMtPnFtcF9mZCA+PSAwKQouLi9zcmMvdGVzdHMvcXRlc3QvbGlicXRlc3QuYzox
-NjY6IGtpbGxfcWVtdSgpIHRyaWVkIHRvIHRlcm1pbmF0ZSBRRU1VIHByb2Nlc3MgYnV0IGVuY291
-bnRlcmVkIGV4aXQgc3RhdHVzIDEgKGV4cGVjdGVkIDApCm1ha2U6ICoqKiBbcnVuLXRlc3QtMTU5
-XSBFcnJvciAxClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rl
-c3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDcwOSwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0
-KG1haW4oKSkKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpz
-dWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2Rv
-Y2tlcicsICdydW4nLCAnLS1ybScsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9
-OTljNDlhZTU5YjBjNDc5NGI2MjE5YjlmMjA0MjVjNzQnLCAnLXUnLCAnMTAwMycsICctLXNlY3Vy
-aXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1l
-JywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1l
-JywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90
-bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2Fj
-aGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
-LWRycGYyZW1iL3NyYy9kb2NrZXItc3JjLjIwMjAtMDktMjktMTUuMjguNDUuMjU4MTY6L3Zhci90
-bXAvcWVtdTp6LHJvJywgJ3FlbXUvY2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0
-LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRl
-cj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTk5YzQ5YWU1OWIwYzQ3OTRiNjIxOWI5ZjIw
-NDI1Yzc0Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5n
-IGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWRycGYyZW1iL3NyYycKbWFr
-ZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICA5
-bTMuMjQzcwp1c2VyICAgIDBtMTMuODM2cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQK
-aHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA5MjkxMjU2MDkuMTA4ODMzMC0xLXBoaWxtZEBy
-ZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+From: Frank Chang <frank.chang@sifive.com>
+
+Add the following instructions:
+
+* vfcvt.rtz.xu.f.v
+* vfcvt.rtz.x.f.v
+
+Also adjust GEN_OPFV_TRANS() to accept multiple floating-point rounding
+modes.
+
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+---
+ target/riscv/insn32.decode              | 11 ++--
+ target/riscv/insn_trans/trans_rvv.c.inc | 83 ++++++++++++++++---------
+ 2 files changed, 60 insertions(+), 34 deletions(-)
+
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index c3d9ef4fe1..88d8f0eb0b 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -560,10 +560,13 @@ vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
+ vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
+ vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
+ vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
+-vfcvt_xu_f_v    100010 . ..... 00000 001 ..... 1010111 @r2_vm
+-vfcvt_x_f_v     100010 . ..... 00001 001 ..... 1010111 @r2_vm
+-vfcvt_f_xu_v    100010 . ..... 00010 001 ..... 1010111 @r2_vm
+-vfcvt_f_x_v     100010 . ..... 00011 001 ..... 1010111 @r2_vm
++
++vfcvt_xu_f_v       010010 . ..... 00000 001 ..... 1010111 @r2_vm
++vfcvt_x_f_v        010010 . ..... 00001 001 ..... 1010111 @r2_vm
++vfcvt_f_xu_v       010010 . ..... 00010 001 ..... 1010111 @r2_vm
++vfcvt_f_x_v        010010 . ..... 00011 001 ..... 1010111 @r2_vm
++vfcvt_rtz_xu_f_v   010010 . ..... 00110 001 ..... 1010111 @r2_vm
++vfcvt_rtz_x_f_v    010010 . ..... 00111 001 ..... 1010111 @r2_vm
+ vfwcvt_xu_f_v   100010 . ..... 01000 001 ..... 1010111 @r2_vm
+ vfwcvt_x_f_v    100010 . ..... 01001 001 ..... 1010111 @r2_vm
+ vfwcvt_f_xu_v   100010 . ..... 01010 001 ..... 1010111 @r2_vm
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index 01ef472413..452447e5ed 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -2618,33 +2618,42 @@ static bool opfv_check(DisasContext *s, arg_rmr *a)
+            vext_check_ss(s, a->rd, a->rs2, a->vm);
+ }
+ 
+-#define GEN_OPFV_TRANS(NAME, CHECK)                                \
+-static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+-{                                                                  \
+-    if (CHECK(s, a)) {                                             \
+-        uint32_t data = 0;                                         \
+-        static gen_helper_gvec_3_ptr * const fns[3] = {            \
+-            gen_helper_##NAME##_h,                                 \
+-            gen_helper_##NAME##_w,                                 \
+-            gen_helper_##NAME##_d,                                 \
+-        };                                                         \
+-        TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, RISCV_FRM_DYN);                              \
+-        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+-                                                                   \
+-        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+-        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+-        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
+-                           vreg_ofs(s, a->rs2), cpu_env, 0,        \
+-                           s->vlen / 8, data, fns[s->sew - 1]);    \
+-        mark_vs_dirty(s);                                          \
+-        gen_set_label(over);                                       \
+-        return true;                                               \
+-    }                                                              \
+-    return false;                                                  \
++static bool do_opfv(DisasContext *s, arg_rmr *a,
++                    gen_helper_gvec_3_ptr *fn,
++                    bool (*checkfn)(DisasContext *, arg_rmr *),
++                    int rm)
++{
++    if (checkfn(s, a)) {
++        uint32_t data = 0;
++        gen_set_rm(s, RISCV_FRM_DYN);
++        TCGLabel *over = gen_new_label();
++        gen_set_rm(s, rm);
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++
++        data = FIELD_DP32(data, VDATA, VM, a->vm);
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
++        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
++                vreg_ofs(s, a->rs2), cpu_env, 0,
++                s->vlen / 8, data, fn);
++        mark_vs_dirty(s);
++        gen_set_label(over);
++        return true;
++    }
++    return false;
++}
++
++#define GEN_OPFV_TRANS(NAME, CHECK, FRM)               \
++static bool trans_##NAME(DisasContext *s, arg_rmr *a)  \
++{                                                      \
++    static gen_helper_gvec_3_ptr * const fns[3] = {    \
++        gen_helper_##NAME##_h,                         \
++        gen_helper_##NAME##_w,                         \
++        gen_helper_##NAME##_d                          \
++    };                                                 \
++    return do_opfv(s, a, fns[s->sew - 1], CHECK, FRM); \
+ }
+ 
+-GEN_OPFV_TRANS(vfsqrt_v, opfv_check)
++GEN_OPFV_TRANS(vfsqrt_v, opfv_check, RISCV_FRM_DYN)
+ 
+ /* Vector Floating-Point MIN/MAX Instructions */
+ GEN_OPFVV_TRANS(vfmin_vv, opfvv_check)
+@@ -2690,7 +2699,7 @@ GEN_OPFVF_TRANS(vmfgt_vf, opfvf_cmp_check)
+ GEN_OPFVF_TRANS(vmfge_vf, opfvf_cmp_check)
+ 
+ /* Vector Floating-Point Classify Instruction */
+-GEN_OPFV_TRANS(vfclass_v, opfv_check)
++GEN_OPFV_TRANS(vfclass_v, opfv_check, RISCV_FRM_DYN)
+ 
+ /* Vector Floating-Point Merge Instruction */
+ GEN_OPFVF_TRANS(vfmerge_vfm,  opfvf_check)
+@@ -2745,10 +2754,24 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
+ }
+ 
+ /* Single-Width Floating-Point/Integer Type-Convert Instructions */
+-GEN_OPFV_TRANS(vfcvt_xu_f_v, opfv_check)
+-GEN_OPFV_TRANS(vfcvt_x_f_v, opfv_check)
+-GEN_OPFV_TRANS(vfcvt_f_xu_v, opfv_check)
+-GEN_OPFV_TRANS(vfcvt_f_x_v, opfv_check)
++#define GEN_OPFV_CVT_TRANS(NAME, HELPER, FRM)               \
++static bool trans_##NAME(DisasContext *s, arg_rmr *a)       \
++{                                                           \
++    static gen_helper_gvec_3_ptr * const fns[3] = {         \
++        gen_helper_##HELPER##_h,                            \
++        gen_helper_##HELPER##_w,                            \
++        gen_helper_##HELPER##_d                             \
++    };                                                      \
++    return do_opfv(s, a, fns[s->sew - 1], opfv_check, FRM); \
++}
++
++GEN_OPFV_CVT_TRANS(vfcvt_xu_f_v, vfcvt_xu_f_v, RISCV_FRM_DYN)
++GEN_OPFV_CVT_TRANS(vfcvt_x_f_v, vfcvt_x_f_v, RISCV_FRM_DYN)
++GEN_OPFV_CVT_TRANS(vfcvt_f_xu_v, vfcvt_f_xu_v, RISCV_FRM_DYN)
++GEN_OPFV_CVT_TRANS(vfcvt_f_x_v, vfcvt_f_x_v, RISCV_FRM_DYN)
++/* Reuse the helper functions from vfcvt.xu.f.v and vfcvt.x.f.v */
++GEN_OPFV_CVT_TRANS(vfcvt_rtz_xu_f_v, vfcvt_xu_f_v, RISCV_FRM_RTZ)
++GEN_OPFV_CVT_TRANS(vfcvt_rtz_x_f_v, vfcvt_x_f_v, RISCV_FRM_RTZ)
+ 
+ /* Widening Floating-Point/Integer Type-Convert Instructions */
+ 
+-- 
+2.17.1
+
 
