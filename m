@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B0A27C185
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:44:59 +0200 (CEST)
-Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2711E27C191
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 11:46:35 +0200 (CEST)
+Received: from localhost ([::1]:60488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNCBu-0000Jz-LX
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34758)
+	id 1kNCDS-0002Lr-91
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 05:46:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
- id 1kNCA1-0006cZ-7G
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:43:01 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55787)
+ id 1kNCA8-0006hA-Rt
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:43:08 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
- id 1kNC9y-0006oW-Va
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:43:00 -0400
-Received: by mail-wm1-x343.google.com with SMTP id d4so3933085wmd.5
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 02:42:58 -0700 (PDT)
+ id 1kNCA7-0006pC-7s
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 05:43:08 -0400
+Received: by mail-wm1-x343.google.com with SMTP id t17so1443361wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 02:43:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hCyV2VoP+/J+PVZ3ArpNT9NKpKtACsKPbdEw4weObvo=;
- b=gXXaUSIT7jEN38OqRCjIEnp+1iskFTKnH9RP/pPW5b4KP3cB3xwiQPyDsblKFLIvZ7
- 3geo7aX6Q29tfsGgZ1WfWtJk9+SQiRTlTw3UVZNs5r+XlhyOyOEcqzm5afp1E4XewSI8
- 4ATd1mrivgwHecdFDkhltx9/Ac1gcumVmPbPGNU7MH8TVN5jecKr53MAflCtgDof6vTS
- FjOpwUbmw6/k2fP7wsit43gKqiJ6pMvAAto5fPjlXKL/zBfoXGjeADiPGNLruj/nhPAH
- snym6tiP9SNep2TUpwGZoAohEoe/AjujUiAGz4Pfzptyw2Q93o76E6V68ZK8ge9onMcw
- tVHQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OdqFefkl4maWCp9vvcc70mZR+cDjhhDDVOWkpRFdv+A=;
+ b=lg6y/3mWBcMche6SvRrPGMI6wPdHN6q5WCNia8LqacOUHfXahU07EmM+AKWo7LmAey
+ ETmqnBqMWz3/JnuY8SjrkKbsIzSug9OERSMwZ0NbsIwNwNbd2BJWllR6VaTh7AMtfoEL
+ NW4xhnYkOSDa4xlWhVp4f0ghqfKKA5wJEHj92K+Q2M5zzJuOkf+Mu9s5Gl3ovdwDup3/
+ pOjNBSy8NOjLXK04VDg8FnbHXaMEIgsVZWzmK/pXOooyX5XVKSvHzYmvigHmVVQdGIKc
+ 44+7D0QrOFBu918qtyN7n2yoNkRV39/X0T0RG7+WNnf2MQDXxlnyZeOEwSyEtD0+jGCA
+ ld+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hCyV2VoP+/J+PVZ3ArpNT9NKpKtACsKPbdEw4weObvo=;
- b=nETl8SPT5cJwQfGbjdjoyPed6Zzq5ucu23b73AM5KeGq7akxsT994r2GLglJgd2D/v
- ukJFzxsCJ5i0DNjhLjxQH3mhHac5/Mm9+GmYGByGjTLNGC2JAacupNb7V6J0m8Lv/O7D
- W3O6ClzT3ZR7q496HTU0NAX9Qyrhs9zPGlOA9ZNX2SDs1zK3ZztP4WF8x/tF/yYqk4Mt
- 9MfusNbRNGuRhPQdPf5ZqpkOmaPbG0IyyxarDff9y/vUGeebH0kPfxEjkWGW4oo5anSD
- CzThyPTvLTcWLbO5ffEYARjaWEGK9hdVBjBeg9Xm59luiRZD3JXOYuCLMFZpNft6vBFg
- 5tgQ==
-X-Gm-Message-State: AOAM533eyCjuAEFc6yDDnD6jS1tt6NnQ4Ejd7eqaMuhDPJT66W0Sdo9C
- 5HDIeJUPPq3AoopAWWXWFHf+ng==
-X-Google-Smtp-Source: ABdhPJw8XRRGlzVvUhAQ0D3Tzo5DyD7bZrqoV+l288dd0PrzDq0fLOR2YYxVgWBi5FUk+/aNPYs+Yw==
-X-Received: by 2002:a1c:a988:: with SMTP id s130mr3500762wme.31.1601372577119; 
- Tue, 29 Sep 2020 02:42:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OdqFefkl4maWCp9vvcc70mZR+cDjhhDDVOWkpRFdv+A=;
+ b=MD550d1W1wBYwM7UV6Iz6/7tvSHsCe7++djzdMpY8nvE5YGIU4UZZVBMiFtvRWljBq
+ AQ/TZJNcGb0Us46GUqe8h4nodiYKabDNguRXt4OUwb/6lXsTxmZglCsszck8mHexr1Gf
+ gZyYzFY0uPgDS877QPcqfy2B7hg6P/Zz9oZxdHBec4Wyui3owlgY0v7ZcwV3XfUeMefT
+ Dkn+JIDJkYe+sXCJvaMHqWzSeR2DadUOX8Wm38gY1h/+OP32bRmTp6PqBbSYrn8d+6P5
+ A/FIyGGgtNi8L8d/DBoUQn9stJYDwNLw27QG9STJNHZCSNPzIKJGo3u9dveTETUoexbv
+ l7vg==
+X-Gm-Message-State: AOAM5331U3uUa+ARDG9ALYFaU07pn+FDsQMviF6g+Qu3AmraVvkJKODs
+ YEFUUXN/tl8FhPx+FuGe6mW53S8oORAcGxQi
+X-Google-Smtp-Source: ABdhPJx2d4wV2ZtLPLP/NkEZGAMlBZUUgFN1uSD8ZMke1v9H/jY8jYy7Y4sUCTH+fg7OJOYu2JH99A==
+X-Received: by 2002:a7b:c3c8:: with SMTP id t8mr3566696wmj.101.1601372586006; 
+ Tue, 29 Sep 2020 02:43:06 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8010:64d6::1d89])
- by smtp.gmail.com with ESMTPSA id t6sm5887797wre.30.2020.09.29.02.42.56
+ by smtp.gmail.com with ESMTPSA id t6sm5887797wre.30.2020.09.29.02.43.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 02:42:56 -0700 (PDT)
+ Tue, 29 Sep 2020 02:43:05 -0700 (PDT)
 From: Graeme Gregory <graeme@nuviainc.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH 0/2] hw/arm/sbsa-ref : small fixes to smmuv3 initialisation
-Date: Tue, 29 Sep 2020 10:42:49 +0100
-Message-Id: <20200929094251.151722-1-graeme@nuviainc.com>
+Subject: [PATCH 1/2] hw/arm/sbsa-ref : Fix SMMUv3 Initialisation
+Date: Tue, 29 Sep 2020 10:42:50 +0100
+Message-Id: <20200929094251.151722-2-graeme@nuviainc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200929094251.151722-1-graeme@nuviainc.com>
+References: <20200929094251.151722-1-graeme@nuviainc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::343;
@@ -88,17 +90,29 @@ Cc: Graeme Gregory <graeme@nuviainc.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix two issues with the smmuv3 initialisation, first where a previous
-patch had transposed an i to a 1. The second an assumption that the
-IRQs allocated were meant to be unique and not 0 based.
+SMMUv3 has an error in previous patch where a i was transposed to a 1
+meaning interrupts would not have been correctly assigned to the SMMUv3
+instance.
 
-Graeme Gregory (2):
-  hw/arm/sbsa-ref : Fix SMMUv3 Initialisation
-  hw/arm/sbsa-ref : allocate IRQs for SMMUv3
+Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
+Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+---
+ hw/arm/sbsa-ref.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- hw/arm/sbsa-ref.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 257ada9425..47e83252c1 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -530,7 +530,7 @@ static void create_smmu(const SBSAMachineState *sms, PCIBus *bus)
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+     for (i = 0; i < NUM_SMMU_IRQS; i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+-                           qdev_get_gpio_in(sms->gic, irq + 1));
++                           qdev_get_gpio_in(sms->gic, irq + i));
+     }
+ }
+ 
 -- 
 2.25.1
 
