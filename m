@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF7127D3F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 18:53:17 +0200 (CEST)
-Received: from localhost ([::1]:38060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3524527D42B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 19:10:42 +0200 (CEST)
+Received: from localhost ([::1]:54488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNIsM-0004G5-QY
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 12:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
+	id 1kNJ9F-0004K8-6c
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 13:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNImR-0003Mr-17; Tue, 29 Sep 2020 12:47:07 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:41917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNImN-0006Yr-F1; Tue, 29 Sep 2020 12:47:06 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 0DAE6412;
- Tue, 29 Sep 2020 12:46:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 29 Sep 2020 12:46:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=hDAMa3Mm1h3cu6CcxY5rx6n3wrM
- hWUc4o/XpKzecEDI=; b=vi8/wEtDhXx7UDmGiVBzdDSasML8kXMRQ0CtsDjnDug
- 9XAuWM8V5aHFYWXXqUAk8w59MbkirS7qMAPuK8OFJYy60s9h6q5VyAEP3iXWBncQ
- Ih4oPlWIjBj785Y9tcTZOB6pGXBKqapNQJ0Z7BWqKuHW2QLMN2eurO9qKETUPlhN
- 83jWyzfFAq1HYcZedalv9fm5Df1aYn+qWnKBJVHR9o+GaPqis4Q1mP7HTbh3iBpg
- 5YHnrN3f52+/JppkDPsOqwN+cMsuuQgNoglYSr9l0Xp6GJ70dE//kaFBjsww+JjG
- EPCz1+ERmlM8vy7RA+AIj3eL7JCnoW3JXdWxZOp1YhQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=hDAMa3
- Mm1h3cu6CcxY5rx6n3wrMhWUc4o/XpKzecEDI=; b=d3PmW3ckCwC+zPCKo6aFAU
- QhCRFx/mDj78dhC/Iq++7v4E/ZbYgsQjbpeC1K53ZoFkDP34a9LetU0efuEMBkXW
- 40sCxke/6U0s5kLYEVV+W5ljkGiyllL5vsfQcYse6FglaHrldpSC47U+C/eCfMbb
- lRqyxo2ulacx5+OfubU0m7HP/Dvw8NiOH2anjbgkv3UZV1KdEvNCkBNuS+8wi+ao
- 4RjBCRr4rZqcPNluXilnnLdaqWaNvkF0w6vQOxadgYGdRqnkf5r/fYNTfmLV9B4z
- dGY6DabU06mc4I2GSlV9fGQSNNKgKiVbADb2mb/vmve987edfGHhT6ZRPXB2JDgA
- ==
-X-ME-Sender: <xms:-GRzXx2K06r9Az6x81oBGS3PPdzmu0u_72II0wgicGLeDiZqypqKqQ>
- <xme:-GRzX4H42YoaQ3scWTH5awdbnHGgZGGskDfWk9FZ6qvxZ7KGk2-M-U5eBwqwPSmSw
- 9FmHSdlFdnk4CL36ts>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdekgddutdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:-GRzXx4NX-BoLX36UBJM2ubPDNTSHjdie-bhekW-U_GZwKwc16u0Vw>
- <xmx:-GRzX-31zE4WpKMROnLMgrbV5CLX1ERX5dQ_6a3dOSaihG2tiBGv0Q>
- <xmx:-GRzX0Fo9yp6esbBeXH8pzROuhkwu1CGedsYDwx1lz5tDZKKSD6Kyw>
- <xmx:-mRzX8-MfAV9ZZZGAJAhyVxtCYgcTNvZhylL1EbYPUaSvx4JzuA-Q2g5IXEhaSY6>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 186F53280060;
- Tue, 29 Sep 2020 12:46:46 -0400 (EDT)
-Date: Tue, 29 Sep 2020 18:46:45 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-Subject: Re: [PATCH v5 13/14] hw/block/nvme: Use zone metadata file for
- persistence
-Message-ID: <20200929164645.GB286786@apples.localdomain>
-References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
- <20200928023528.15260-14-dmitry.fomichev@wdc.com>
- <20200928075140.GC1967@apples.localdomain>
- <MN2PR04MB59511B0C4F1DB91B38085DB0E1320@MN2PR04MB5951.namprd04.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kNJ7D-0002tL-CW; Tue, 29 Sep 2020 13:08:35 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:45239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kNJ7B-0001Vq-61; Tue, 29 Sep 2020 13:08:35 -0400
+Received: by mail-io1-xd44.google.com with SMTP id y74so5558758iof.12;
+ Tue, 29 Sep 2020 10:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DNBwPFMLUoO7rt5kJgWSz5VhMG3EnZGZ0j3RtajindI=;
+ b=XjoylxmqJ3U+sj3LKcRoBoSvnA3Oc21JSZzdmyDppPZlzE1EEsCt8lKtyty82VS4pl
+ b1oo08dxozHX+Ah9+HyhYUTfnJYuVKeXfuOGyt16/1FIl1BctQUK3xlwqGfpdgPCa8lf
+ 7RrKkbNNvfY0tcHcInmZ5V1amtaSPqiYNZDrJ/0WmHzWLrjCv6X4efxamFS7SBj5KAVr
+ Z+jUN2bCsgBFfORg793Xqs/e3kfF7K+IeGQWF2VnYpXyydgnozdI80AGS+Rfu6Oxbmpm
+ 7YHeuCpzuTjcDp6rjleD0FIWY/2+LvU7DdDP54LfJooqUx+x+TACoSmt6aCLVWHfL+Rp
+ SUVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DNBwPFMLUoO7rt5kJgWSz5VhMG3EnZGZ0j3RtajindI=;
+ b=rW2spKUsrPetpUTm8RXoSKgJ2Fc34A2KkaxOIEcWA1/FTqCnYQCH+fG4Qfb66UodOg
+ aBMdzmsV56617whjKej4dNwm7k5mnZxc0Epuc+Z2RnbeX9CtVFpQgkDguBjrrsPTq7mQ
+ pUVWlg3SNGRAv7bZjENRoAzzsaF/6Ifyf3EFJfcJdpKH3+3enPdGfFiKv3chCCbM1fD8
+ N9xNDo/Qzqcx/UZRp5peLHqqX/sLDV0sZVOCPKTKVsWZg8aUmlLZPgFrD4nHXvqLQGtL
+ O4cHyZRo51tm7hBtlLnFOCnM1zcO9kATaDbCEc1ov7hJxYMrqyc183XC2j0wDTNC3d6P
+ CISA==
+X-Gm-Message-State: AOAM5332PXey7NTDGWR19JZcLLWJ7UGDwCnWZDejkRYiE+6nmzhQlZEd
+ 6Z6KJN276ZaCdKWvlMAf5GJv3vepDyOaFrDzmq4=
+X-Google-Smtp-Source: ABdhPJzziuJrEFR18v9j+x5S9AILe8JrsBJ0NUsm1m4qt5Y0Sj2LPeR5yUl9l5hXo9/GyjbOZVGtGTI7DYPj8Suh4hg=
+X-Received: by 2002:a6b:3e84:: with SMTP id l126mr3255941ioa.118.1601399310384; 
+ Tue, 29 Sep 2020 10:08:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="z6Eq5LdranGa6ru8"
-Content-Disposition: inline
-In-Reply-To: <MN2PR04MB59511B0C4F1DB91B38085DB0E1320@MN2PR04MB5951.namprd04.prod.outlook.com>
-Received-SPF: pass client-ip=64.147.123.17; envelope-from=its@irrelevant.dk;
- helo=wnew3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 12:36:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20200901154711.18457-1-green.wan@sifive.com>
+ <20200901154711.18457-3-green.wan@sifive.com>
+ <CAKmqyKOqQgE0X3T100Zzi6_8X5d9XVEjam01bhCZSU=-FL-ecw@mail.gmail.com>
+ <CAJivOr4xLP1n4eVFyWHi=ckg17C_j76f=+o+YPztsYuaPDwCCw@mail.gmail.com>
+In-Reply-To: <CAJivOr4xLP1n4eVFyWHi=ckg17C_j76f=+o+YPztsYuaPDwCCw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 29 Sep 2020 09:57:09 -0700
+Message-ID: <CAKmqyKPFbfbXSryWW40kW=RF-mx4V_nVqmdOveQ-fuLQgFbARQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v5 2/2] hw/riscv: sifive_u: Add backend drive support
+To: Green Wan <green.wan@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,167 +80,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Niklas Cassel <Niklas.Cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <Matias.Bjorling@wdc.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Sep 28, 2020 at 2:18 AM Green Wan <green.wan@sifive.com> wrote:
+>
+> Hi Alistair,
+>
+> Thanks for the review. See the reply inline below.
+>
+>
+> On Sat, Sep 26, 2020 at 5:52 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Tue, Sep 1, 2020 at 8:49 AM Green Wan <green.wan@sifive.com> wrote:
+> > >
+> > > Add '-drive' support to OTP device. Allow users to assign a raw file
+> > > as OTP image.
+> >
+> > Do you mind writing an example command line argument in the commit message?
+> >
+> > Also, do you have a test case for this? I would like to add it to my CI.
+> >
+>
+> Do you mean qtest? I run uboot and use uboot driver to test it and
+> didn't create a qemu test case.
 
---z6Eq5LdranGa6ru8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No, I just mean how are you running and testing this.
 
-On Sep 29 15:43, Dmitry Fomichev wrote:
->=20
->=20
-> > -----Original Message-----
-> > From: Klaus Jensen <its@irrelevant.dk>
-> > Sent: Monday, September 28, 2020 3:52 AM
-> > To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-> > Cc: Keith Busch <kbusch@kernel.org>; Klaus Jensen
-> > <k.jensen@samsung.com>; Kevin Wolf <kwolf@redhat.com>; Philippe
-> > Mathieu-Daud=C3=A9 <philmd@redhat.com>; Maxim Levitsky
-> > <mlevitsk@redhat.com>; Fam Zheng <fam@euphon.net>; Niklas Cassel
-> > <Niklas.Cassel@wdc.com>; Damien Le Moal <Damien.LeMoal@wdc.com>;
-> > qemu-block@nongnu.org; qemu-devel@nongnu.org; Alistair Francis
-> > <Alistair.Francis@wdc.com>; Matias Bjorling <Matias.Bjorling@wdc.com>
-> > Subject: Re: [PATCH v5 13/14] hw/block/nvme: Use zone metadata file for
-> > persistence
-> >=20
-> > On Sep 28 11:35, Dmitry Fomichev wrote:
-> > > A ZNS drive that is emulated by this module is currently initialized
-> > > with all zones Empty upon startup. However, actual ZNS SSDs save the
-> > > state and condition of all zones in their internal NVRAM in the event
-> > > of power loss. When such a drive is powered up again, it closes or
-> > > finishes all zones that were open at the moment of shutdown. Besides
-> > > that, the write pointer position as well as the state and condition
-> > > of all zones is preserved across power-downs.
+So you are booting U-Boot, then how do you test it in U-Boot?
+
+> Here is the command I use:
+>
+> $ qemu-system-riscv64 -M sifive_u -m 256M -nographic -bios none
+> -kernel ../opensbi/build/platform/sifive/fu540/firmware/fw_payload.elf
+> -d guest_errors -drive if=none,format=raw,file=otp.img
+>
+> I'll check how to create a test case but maybe not that soon in the next patch.
+>
 > > >
-> > > This commit adds the capability to have a persistent zone metadata
-> > > to the device. The new optional module property, "zone_file",
-> > > is introduced. If added to the command line, this property specifies
-> > > the name of the file that stores the zone metadata. If "zone_file" is
-> > > omitted, the device will be initialized with all zones empty, the same
-> > > as before.
-> > >
-> > > If zone metadata is configured to be persistent, then zone descriptor
-> > > extensions also persist across controller shutdowns.
-> > >
-> > > Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> > > Signed-off-by: Green Wan <green.wan@sifive.com>
 > > > ---
-> > >  hw/block/nvme-ns.c    | 341
-> > ++++++++++++++++++++++++++++++++++++++++--
-> > >  hw/block/nvme-ns.h    |  33 ++++
-> > >  hw/block/nvme.c       |   2 +
-> > >  hw/block/trace-events |   1 +
-> > >  4 files changed, 362 insertions(+), 15 deletions(-)
+> > >  hw/riscv/sifive_u_otp.c         | 50 +++++++++++++++++++++++++++++++++
+> > >  include/hw/riscv/sifive_u_otp.h |  2 ++
+> > >  2 files changed, 52 insertions(+)
 > > >
-> > > diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-> > > index 47751f2d54..a94021da81 100644
-> > > --- a/hw/block/nvme-ns.c
-> > > +++ b/hw/block/nvme-ns.c
-> > > @@ -293,12 +421,180 @@ static void
-> > nvme_init_zone_meta(NvmeNamespace *ns)
-> > >              i--;
+> > > diff --git a/hw/riscv/sifive_u_otp.c b/hw/riscv/sifive_u_otp.c
+> > > index b8369e9035..477c54c7b8 100644
+> > > --- a/hw/riscv/sifive_u_otp.c
+> > > +++ b/hw/riscv/sifive_u_otp.c
+> > > @@ -24,6 +24,8 @@
+> > >  #include "qemu/log.h"
+> > >  #include "qemu/module.h"
+> > >  #include "hw/riscv/sifive_u_otp.h"
+> > > +#include "sysemu/blockdev.h"
+> > > +#include "sysemu/block-backend.h"
+> > >
+> > >  #define WRITTEN_BIT_ON 0x1
+> > >
+> > > @@ -54,6 +56,16 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+> > >          if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
+> > >              (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
+> > >              (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
+> > > +
+> > > +            /* read from backend */
+> > > +            if (s->blk) {
+> > > +                int32_t buf;
+> > > +
+> > > +                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
+> > > +                          SIFIVE_U_OTP_FUSE_WORD);
+> > > +                return buf;
+> > > +            }
+> > > +
+> > >              return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
+> > >          } else {
+> > >              return 0xff;
+> > > @@ -145,6 +157,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+> > >              /* write bit data */
+> > >              SET_FUSEARRAY_BIT(s->fuse, s->pa, s->paio, s->pdin);
+> > >
+> > > +            /* write to backend */
+> > > +            if (s->blk) {
+> > > +                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &val32,
+> > > +                           SIFIVE_U_OTP_FUSE_WORD, 0);
+> > > +            }
+> > > +
+> > >              /* update written bit */
+> > >              SET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio, WRITTEN_BIT_ON);
 > > >          }
-> > >      }
+> > > @@ -168,16 +186,48 @@ static const MemoryRegionOps sifive_u_otp_ops = {
+> > >
+> > >  static Property sifive_u_otp_properties[] = {
+> > >      DEFINE_PROP_UINT32("serial", SiFiveUOTPState, serial, 0),
+> > > +    DEFINE_PROP_DRIVE("drive", SiFiveUOTPState, blk),
+> > >      DEFINE_PROP_END_OF_LIST(),
+> > >  };
+> > >
+> > >  static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+> > >  {
+> > >      SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
+> > > +    DriveInfo *dinfo;
+> > >
+> > >      memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s,
+> > >                            TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
+> > >      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
 > > > +
-> > > +    if (ns->params.zone_file) {
-> > > +        nvme_set_zone_meta_dirty(ns);
+> > > +    dinfo = drive_get_next(IF_NONE);
+> > > +    if (dinfo) {
+> > > +        int ret;
+> > > +        uint64_t perm;
+> > > +        int filesize;
+> > > +        BlockBackend *blk;
+> > > +
+> > > +        blk = blk_by_legacy_dinfo(dinfo);
+> >
+> > I think this should be:
+> >
+> > blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
+> >
+>
+> The previous code, "if (dinfo)", should check NULL already. But we can
+> add more checks for blk such as qdev_prop_set_drive_err().
+
+You are right, but I don't see a fallback if !dinfo
+
+>
+> > > +        filesize = SIFIVE_U_OTP_NUM_FUSES * SIFIVE_U_OTP_FUSE_WORD;
+> > > +        if (blk_getlength(blk) < filesize) {
+> > > +            qemu_log_mask(LOG_GUEST_ERROR, "OTP drive size < 16K\n");
+> >
+> > You should probably be setting errp instead.
+> >
+> > If a user specified a -drive argument, they probably want to error if
+> > we aren't going to use it.
+> >
+>
+> Will set an errp.
+
+Great!
+
+>
+> > > +            return;
+> > > +        }
+> > > +
+> > > +        qdev_prop_set_drive(dev, "drive", blk);
+> > > +
+> > > +        perm = BLK_PERM_CONSISTENT_READ |
+> > > +                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
+> > > +        ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
+> > > +        if (ret < 0) {
+> > > +            qemu_log_mask(LOG_GUEST_ERROR, "set perm error.");
+> >
+> > Is it worth printing the error?
+> >
+> Probably add it when I test it. Will remove it.
+
+Thanks
+
+Alistair
+
+>
+> > > +        }
+> > > +
+> > > +        if (blk_pread(s->blk, 0, s->fuse, filesize) != filesize) {
+> > > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > > +                          "failed to read the initial flash content");
+> > > +            return;
+> >
+> > You don't need a return here.
+> >
+> k, will remove it and set errp.
+>
+> > Is this error fatal?
+> >
+> This shouldn't be fatal but it might lead to unknown state if the
+> content is read partially.
+> But the checking, "filesize < 16K", is fatal. It leads qemu to abort.
+>
+>
+> > Alistair
+> >
+> > > +        }
 > > > +    }
-> > > +}
-> > > +
-> > > +static int nvme_open_zone_file(NvmeNamespace *ns, bool *init_meta,
-> > > +                               Error **errp)
-> > > +{
-> > > +    Object *file_be;
-> > > +    HostMemoryBackend *fb;
-> > > +    struct stat statbuf;
-> > > +    int ret;
-> > > +
-> > > +    ret =3D stat(ns->params.zone_file, &statbuf);
-> > > +    if (ret && errno =3D=3D ENOENT) {
-> > > +        *init_meta =3D true;
-> > > +    } else if (!S_ISREG(statbuf.st_mode)) {
-> > > +        error_setg(errp, "\"%s\" is not a regular file",
-> > > +                   ns->params.zone_file);
-> > > +        return -1;
-> > > +    }
-> > > +
-> > > +    file_be =3D object_new(TYPE_MEMORY_BACKEND_FILE);
-> > > +    object_property_set_str(file_be, "mem-path", ns->params.zone_fil=
-e,
-> > > +                            &error_abort);
-> > > +    object_property_set_int(file_be, "size", ns->meta_size, &error_a=
-bort);
-> > > +    object_property_set_bool(file_be, "share", true, &error_abort);
-> > > +    object_property_set_bool(file_be, "discard-data", false, &error_=
-abort);
-> > > +    if (!user_creatable_complete(USER_CREATABLE(file_be), errp)) {
-> > > +        object_unref(file_be);
-> > > +        return -1;
-> > > +    }
-> > > +    object_property_add_child(OBJECT(ns), "_fb", file_be);
-> > > +    object_unref(file_be);
-> > > +
-> > > +    fb =3D MEMORY_BACKEND(file_be);
-> > > +    ns->zone_mr =3D host_memory_backend_get_memory(fb);
-> > > +
-> > > +    return 0;
-> > > +}
-> > > +
-> > > +static int nvme_map_zone_file(NvmeNamespace *ns, bool *init_meta)
-> > > +{
-> > > +    ns->zone_meta =3D (void *)memory_region_get_ram_ptr(ns->zone_mr);
-> >=20
-> > I forgot that the HostMemoryBackend doesn't magically make the memory
-> > available to the device, so of course this is still needed.
-> >=20
-> > Anyway.
-> >=20
-> > No reason for me to keep complaining about this. I do not like it, I
-> > will not ACK it and I think I made my reasons pretty clear.
->=20
-> So, memory_region_msync() is ok, but memory_region_get_ram_ptr() is not??
-> This is the same API! You are really splitting hairs here to suit your ag=
-enda.
-> Moving goal posts again....
->=20
-> The "I do not like it" part is priceless. It is great that we have mail a=
-rchives available.
->=20
-
-If you read my review again, its pretty clear that I am calling out the
-abstraction. I was clear that if it *really* had to be mmap based, then
-it should use hostmem. Sorry for moving your patchset forward by
-suggesting an improvement.
-
-But again, I also made it pretty clear that I did not agree with the
-abstraction. And that I very much disliked that it was non-portable. And
-had endiannes issues. I made it SUPER clear that that was why I "did not
-like it".
-
---z6Eq5LdranGa6ru8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9zZPMACgkQTeGvMW1P
-DenNIgf/fDQHE5b2p/6/07ZmfmmP/QSISNkWQR9SJpVKMYO3XXka8GLmLT3apvvq
-L295ZT2a+f06cZnpEYcCoCoqQyCez+c1pZgSuXAJRjMcZ40PVUtNe7LWaVVAx7ea
-Ep7uL9ND86Bx0YSRe3tIF1VHlawt2xdBhb7rrVxplJm624H0W/AjJ/vs3kkLerzD
-8Cnzxzrz+kHP0Y0EK3pw8n/v8qQur60ZnLG81maivN+aMu3qrRtT+0Vou2QdYaDj
-zaisYxOWGymenNCskLlgyCYa5iHBSf36LSn9AWuMbKedPT/zYiMftXR8ABTtXL1e
-qXOSkvHfI/bEGr1OOm33VLufqmabAA==
-=QJC8
------END PGP SIGNATURE-----
-
---z6Eq5LdranGa6ru8--
+> > >  }
+> > >
+> > >  static void sifive_u_otp_reset(DeviceState *dev)
+> > > diff --git a/include/hw/riscv/sifive_u_otp.h b/include/hw/riscv/sifive_u_otp.h
+> > > index 4a5a0acf48..9bc781fd4f 100644
+> > > --- a/include/hw/riscv/sifive_u_otp.h
+> > > +++ b/include/hw/riscv/sifive_u_otp.h
+> > > @@ -45,6 +45,7 @@
+> > >
+> > >  #define SIFIVE_U_OTP_PA_MASK        0xfff
+> > >  #define SIFIVE_U_OTP_NUM_FUSES      0x1000
+> > > +#define SIFIVE_U_OTP_FUSE_WORD      4
+> > >  #define SIFIVE_U_OTP_SERIAL_ADDR    0xfc
+> > >
+> > >  #define SIFIVE_U_OTP_REG_SIZE       0x1000
+> > > @@ -78,6 +79,7 @@ typedef struct SiFiveUOTPState {
+> > >      uint32_t fuse_wo[SIFIVE_U_OTP_NUM_FUSES];
+> > >      /* config */
+> > >      uint32_t serial;
+> > > +    BlockBackend *blk;
+> > >  } SiFiveUOTPState;
+> > >
+> > >  #endif /* HW_SIFIVE_U_OTP_H */
+> > > --
+> > > 2.17.1
+> > >
+> > >
 
