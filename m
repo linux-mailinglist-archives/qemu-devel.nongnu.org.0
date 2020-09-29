@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C8627BDF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:26:24 +0200 (CEST)
-Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B1027BDFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:29:00 +0200 (CEST)
+Received: from localhost ([::1]:59272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNA1n-0008B2-CT
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:26:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57284)
+	id 1kNA4J-0003KZ-BA
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xD-00035I-CH
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xD-00036x-VI
  for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25295)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xB-0001bh-Bd
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xB-0001cx-Ce
  for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:21:39 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364092;
+ s=mimecast20190719; t=1601364095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vL6e+MeW+Nv0E1LF2S75siP/B/2vecSaAD0WcRAqZJg=;
- b=BUPW9tkYGlXPhXOGMgQNgOXAc8+1Hi0nswblvHM+uF5GspicYwSwAJ374Ln/lqxoWi7UBs
- fTRJSwuxqDdalBqFyV6dH8RqZJfX4bVjGejROjR+3AXervDTXL3Ef/Sr3yAaK89CIkUWET
- HyEsMH+wGX1oab0q75mhdYDYBuWi9Gw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-7Pm3p_cLP8aSMZLxSvoJIQ-1; Tue, 29 Sep 2020 03:21:30 -0400
-X-MC-Unique: 7Pm3p_cLP8aSMZLxSvoJIQ-1
-Received: by mail-wm1-f72.google.com with SMTP id c200so1454284wmd.5
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:29 -0700 (PDT)
+ bh=nwXzjoB3abzuE2fXE5hCIG97lYiB5tKKngurg8k59Ao=;
+ b=YsKLULbVN0q7NpvIgrKv/esVvr7DEg/tFwBf1Vv4X1KI53U563z8fuXd+4Z55SLM5IXeAN
+ tmHsTOzPV7czL+ow20F7YOt0LyElSOZzcwaMzR8xhniTnGxf44Icz5RLDzaWdkBza4Vtid
+ ySUJEKarLmOKOLI0KXrBJI2m5LCA+0Q=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-Ff9oSvbNOGy_lXkmVMf7hQ-1; Tue, 29 Sep 2020 03:21:32 -0400
+X-MC-Unique: Ff9oSvbNOGy_lXkmVMf7hQ-1
+Received: by mail-wr1-f71.google.com with SMTP id b7so1368870wrn.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:21:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=vL6e+MeW+Nv0E1LF2S75siP/B/2vecSaAD0WcRAqZJg=;
- b=Hjt7ZBbvCi/gBh+cPxjCF5lifHbhdCCWq0oRr2XBZUA1C/cu2RdLUQEQiKdhDLTLMb
- alCkBi8U8audbnc+miBroTht+Imm5I0NhsZmf0hTlUjSpzOsKjW8MxHWmVeR8vQhWord
- TCuSs+n1Wy4Lgadv0ODjraQtR0iRiCynBhwSQbGG7LWKMlY1wvxZc12BsUxgFArRvsM7
- X0IZL8LmCvahynQjD+672gin/nc2jO6lGpfKTq6RVQwKPB43vgV7qVH+/8d5rWXZuw36
- paLNgq4m5mGbMwn+mzIvabBLxvyuQupNWSakYOqymbz7ykT5S2dKZ0UYCLwBiQSfEfBc
- WGmg==
-X-Gm-Message-State: AOAM532divM1xKAEZobapOoDcs7u3KxmDWpwlzRPbh2TkgzYpA6ebK8q
- bj7XXOn92Q6IpcOTLQP0qgC7btrzcc8P0VMOxOz5NMF1JDlpzTV9212fNFwlEIlRXmif1/yV5ty
- bfg4WuGQFxlue3b0=
-X-Received: by 2002:a05:600c:2246:: with SMTP id
- a6mr3103593wmm.38.1601364088479; 
- Tue, 29 Sep 2020 00:21:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwB+ys3EkYfbJNmxhvAIYyRZ2kP1ZdnqYeSkAh+yWSBZ621U2BT7PAO5dZTujZu4+1PZyxrPA==
-X-Received: by 2002:a05:600c:2246:: with SMTP id
- a6mr3103577wmm.38.1601364088308; 
- Tue, 29 Sep 2020 00:21:28 -0700 (PDT)
+ bh=nwXzjoB3abzuE2fXE5hCIG97lYiB5tKKngurg8k59Ao=;
+ b=HUajU7y/h4KgQHLePmBUicSJD2MFvzmN/atYF2Glu9e4xXbfL8bZq0On4nsD5pucks
+ oo/cMr+dGO8tQ+yA2N6LbDy305d8oiRjZ63IR4rEm0qd9/w6cGt+Cb/eNV/uxxwSghGZ
+ Du6le4VJozr8seozI4naCMII6iDND2W80WiVBdOmXWtYulz7TIiDImWqBPjEEzxuZLnv
+ 8BQzfHFnWLzcXlEb8oKLi3sstTdx002ur69KaK0KtmtnzhiMO5aEAVm0Hx8jbSZDe4IJ
+ we/1FWcdq/v6aM9hEYd7iI8/4pcroKBJHkif4Yv3aXpXUFM1kAOr+m/VAYqRvPVdJZo2
+ BpfA==
+X-Gm-Message-State: AOAM532XPqpPZryOqfKBJOBCO7HFQ44uBgB0GpgTcrlBWeyHNCEASfxR
+ ZLX+60ybN6ngVc3faftr5R+nVFQ6Ruum4Mbe1rJzMsb8DLpl5ChJKzP6vf8sD/V7wqbiymMG9iZ
+ 6AsurDnnqlbYsBsw=
+X-Received: by 2002:a7b:ca56:: with SMTP id m22mr2825231wml.12.1601364091240; 
+ Tue, 29 Sep 2020 00:21:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcdHWyMjo8LJzhKcTmwXguSuyzyxTQ3DHwoo8XB9h2A/heltXdMW2iGY6mSY25zcFVDlCmFQ==
+X-Received: by 2002:a7b:ca56:: with SMTP id m22mr2825215wml.12.1601364090986; 
+ Tue, 29 Sep 2020 00:21:30 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id e1sm4910976wrp.49.2020.09.29.00.21.26
+ by smtp.gmail.com with ESMTPSA id d2sm4518759wro.34.2020.09.29.00.21.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:21:27 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:21:25 -0400
+ Tue, 29 Sep 2020 00:21:30 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:21:28 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 13/48] util/hexdump: introduce qemu_hexdump_line()
-Message-ID: <20200929071948.281157-14-mst@redhat.com>
+Subject: [PULL v4 14/48] vhost-vdpa: add trace-events
+Message-ID: <20200929071948.281157-15-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -73,9 +71,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,123 +95,363 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>, Li Qiang <liq3ea@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-Dumping one line of hexadecimal/ASCII from a buffer is often needed.
-Move this part from qemu_hexdump() and use it
+Add trace functions in vhost-vdpa.c.
+
+All traces from this file can be enabled with '-trace vhost_vdpa*'.
 
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20200925091055.186023-2-lvivier@redhat.com>
+Message-Id: <20200925091055.186023-3-lvivier@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/qemu-common.h |  8 +++++++
- util/hexdump.c        | 54 +++++++++++++++++++++++++++----------------
- 2 files changed, 42 insertions(+), 20 deletions(-)
+ hw/virtio/vhost-vdpa.c | 92 +++++++++++++++++++++++++++++++++++++++---
+ hw/virtio/trace-events | 31 ++++++++++++++
+ 2 files changed, 118 insertions(+), 5 deletions(-)
 
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 9cfd62669b..cc902b690d 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -134,6 +134,14 @@ void os_setup_early_signal_handling(void);
- char *os_find_datadir(void);
- int os_parse_cmd_args(int index, const char *optarg);
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index dbf2643ff7..4f1039910a 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -20,6 +20,8 @@
+ #include "hw/virtio/vhost-vdpa.h"
+ #include "qemu/main-loop.h"
+ #include "cpu.h"
++#include "trace.h"
++#include "qemu-common.h"
  
-+/*
-+ * Hexdump a line of a byte buffer into a hexadecimal/ASCII buffer
-+ */
-+#define QEMU_HEXDUMP_LINE_BYTES 16 /* Number of bytes to dump */
-+#define QEMU_HEXDUMP_LINE_LEN 75   /* Number of characters in line */
-+void qemu_hexdump_line(char *line, unsigned int b, const void *bufptr,
-+                       unsigned int len, bool ascii);
-+
- /*
-  * Hexdump a buffer to a file. An optional string prefix is added to every line
-  */
-diff --git a/util/hexdump.c b/util/hexdump.c
-index 0b4662e701..2c105a8846 100644
---- a/util/hexdump.c
-+++ b/util/hexdump.c
-@@ -16,36 +16,50 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- 
--void qemu_hexdump(FILE *fp, const char *prefix,
--                  const void *bufptr, size_t size)
-+void qemu_hexdump_line(char *line, unsigned int b, const void *bufptr,
-+                       unsigned int len, bool ascii)
+ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
  {
-     const char *buf = bufptr;
--    unsigned int b, len, i, c;
-+    int i, c;
+@@ -48,6 +50,9 @@ static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+     msg.iotlb.perm = readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
+     msg.iotlb.type = VHOST_IOTLB_UPDATE;
  
--    for (b = 0; b < size; b += 16) {
--        len = size - b;
--        if (len > 16) {
--            len = 16;
-+    if (len > QEMU_HEXDUMP_LINE_BYTES) {
-+        len = QEMU_HEXDUMP_LINE_BYTES;
-+    }
++   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb.size,
++                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb.type);
 +
-+    line += snprintf(line, 6, "%04x:", b);
-+    for (i = 0; i < QEMU_HEXDUMP_LINE_BYTES; i++) {
-+        if ((i % 4) == 0) {
-+            *line++ = ' ';
-         }
--        fprintf(fp, "%s: %04x:", prefix, b);
--        for (i = 0; i < 16; i++) {
--            if ((i % 4) == 0) {
--                fprintf(fp, " ");
--            }
--            if (i < len) {
--                fprintf(fp, " %02x", (unsigned char)buf[b + i]);
--            } else {
--                fprintf(fp, "   ");
--            }
-+        if (i < len) {
-+            line += sprintf(line, " %02x", (unsigned char)buf[b + i]);
-+        } else {
-+            line += sprintf(line, "   ");
-         }
--        fprintf(fp, " ");
-+    }
-+    if (ascii) {
-+        *line++ = ' ';
-         for (i = 0; i < len; i++) {
-             c = buf[b + i];
-             if (c < ' ' || c > '~') {
-                 c = '.';
-             }
--            fprintf(fp, "%c", c);
-+            *line++ = c;
-         }
--        fprintf(fp, "\n");
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+             fd, errno, strerror(errno));
+@@ -69,6 +74,9 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+     msg.iotlb.size = size;
+     msg.iotlb.type = VHOST_IOTLB_INVALIDATE;
+ 
++    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
++                               msg.iotlb.size, msg.iotlb.type);
++
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+             fd, errno, strerror(errno));
+@@ -154,6 +162,9 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+             section->offset_within_region +
+             (iova - section->offset_within_address_space);
+ 
++    trace_vhost_vdpa_listener_region_add(v, iova, int128_get64(llend),
++                                         vaddr, section->readonly);
++
+     llsize = int128_sub(llend, int128_make64(iova));
+ 
+     ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+@@ -209,6 +220,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+     llend = int128_add(llend, section->size);
+     llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+ 
++    trace_vhost_vdpa_listener_region_del(v, iova, int128_get64(llend));
++
+     if (int128_ge(int128_make64(iova), llend)) {
+         return;
      }
-+    *line = '\0';
-+}
-+
-+void qemu_hexdump(FILE *fp, const char *prefix,
-+                  const void *bufptr, size_t size)
+@@ -249,6 +262,7 @@ static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+ {
+     uint8_t s;
+ 
++    trace_vhost_vdpa_add_status(dev, status);
+     if (vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s)) {
+         return;
+     }
+@@ -263,6 +277,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
+     struct vhost_vdpa *v;
+     uint64_t features;
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
++    trace_vhost_vdpa_init(dev, opaque);
+ 
+     v = opaque;
+     v->dev = dev;
+@@ -283,6 +298,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+     struct vhost_vdpa *v;
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+     v = dev->opaque;
++    trace_vhost_vdpa_cleanup(dev, v);
+     memory_listener_unregister(&v->listener);
+ 
+     dev->opaque = NULL;
+@@ -291,13 +307,25 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+ 
+ static int vhost_vdpa_memslots_limit(struct vhost_dev *dev)
+ {
++    trace_vhost_vdpa_memslots_limit(dev, INT_MAX);
+     return INT_MAX;
+ }
+ 
+ static int vhost_vdpa_set_mem_table(struct vhost_dev *dev,
+                                     struct vhost_memory *mem)
+ {
+-
++    trace_vhost_vdpa_set_mem_table(dev, mem->nregions, mem->padding);
++    if (trace_event_get_state_backends(TRACE_VHOST_VDPA_SET_MEM_TABLE) &&
++        trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_REGIONS)) {
++        int i;
++        for (i = 0; i < mem->nregions; i++) {
++            trace_vhost_vdpa_dump_regions(dev, i,
++                                          mem->regions[i].guest_phys_addr,
++                                          mem->regions[i].memory_size,
++                                          mem->regions[i].userspace_addr,
++                                          mem->regions[i].flags_padding);
++        }
++    }
+     if (mem->padding) {
+         return -1;
+     }
+@@ -309,6 +337,7 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
+                                    uint64_t features)
+ {
+     int ret;
++    trace_vhost_vdpa_set_features(dev, features);
+     ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
+     uint8_t status = 0;
+     if (ret) {
+@@ -345,26 +374,34 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+ int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+                                    uint32_t *device_id)
+ {
+-    return vhost_vdpa_call(dev, VHOST_VDPA_GET_DEVICE_ID, device_id);
++    int ret;
++    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_DEVICE_ID, device_id);
++    trace_vhost_vdpa_get_device_id(dev, *device_id);
++    return ret;
+ }
+ 
+ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+ {
++    int ret;
+     uint8_t status = 0;
+ 
+-    return vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
++    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
++    trace_vhost_vdpa_reset_device(dev, status);
++    return ret;
+ }
+ 
+ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+ {
+     assert(idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs);
+ 
++    trace_vhost_vdpa_get_vq_index(dev, idx, idx - dev->vq_index);
+     return idx - dev->vq_index;
+ }
+ 
+ static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+ {
+     int i;
++    trace_vhost_vdpa_set_vring_ready(dev);
+     for (i = 0; i < dev->nvqs; ++i) {
+         struct vhost_vring_state state = {
+             .index = dev->vq_index + i,
+@@ -375,6 +412,19 @@ static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+     return 0;
+ }
+ 
++static void vhost_vdpa_dump_config(struct vhost_dev *dev, const uint8_t *config,
++                                   uint32_t config_len)
 +{
-+    unsigned int b, len;
++    int b, len;
 +    char line[QEMU_HEXDUMP_LINE_LEN];
 +
-+    for (b = 0; b < size; b += QEMU_HEXDUMP_LINE_BYTES) {
-+        len = size - b;
-+        qemu_hexdump_line(line, b, bufptr, len, true);
-+        fprintf(fp, "%s: %s\n", prefix, line);
++    for (b = 0; b < config_len; b += 16) {
++        len = config_len - b;
++        qemu_hexdump_line(line, b, config, len, false);
++        trace_vhost_vdpa_dump_config(dev, line);
 +    }
++}
 +
+ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
+                                    uint32_t offset, uint32_t size,
+                                    uint32_t flags)
+@@ -383,10 +433,15 @@ static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
+     int ret;
+     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+ 
++    trace_vhost_vdpa_set_config(dev, offset, size, flags);
+     config = g_malloc(size + config_size);
+     config->off = offset;
+     config->len = size;
+     memcpy(config->buf, data, size);
++    if (trace_event_get_state_backends(TRACE_VHOST_VDPA_SET_CONFIG) &&
++        trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
++        vhost_vdpa_dump_config(dev, data, size);
++    }
+     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG, config);
+     g_free(config);
+     return ret;
+@@ -399,18 +454,24 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+     int ret;
+ 
++    trace_vhost_vdpa_get_config(dev, config, config_len);
+     v_config = g_malloc(config_len + config_size);
+     v_config->len = config_len;
+     v_config->off = 0;
+     ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, v_config);
+     memcpy(config, v_config->buf, config_len);
+     g_free(v_config);
++    if (trace_event_get_state_backends(TRACE_VHOST_VDPA_GET_CONFIG) &&
++        trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_CONFIG)) {
++        vhost_vdpa_dump_config(dev, config, config_len);
++    }
+     return ret;
+  }
+ 
+ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ {
+     struct vhost_vdpa *v = dev->opaque;
++    trace_vhost_vdpa_dev_start(dev, started);
+     if (started) {
+         uint8_t status = 0;
+         memory_listener_register(&v->listener, &address_space_memory);
+@@ -432,53 +493,72 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+                                      struct vhost_log *log)
+ {
++    trace_vhost_vdpa_set_log_base(dev, base, log->size, log->refcnt, log->fd,
++                                  log->log);
+     return vhost_vdpa_call(dev, VHOST_SET_LOG_BASE, &base);
  }
+ 
+ static int vhost_vdpa_set_vring_addr(struct vhost_dev *dev,
+                                        struct vhost_vring_addr *addr)
+ {
++    trace_vhost_vdpa_set_vring_addr(dev, addr->index, addr->flags,
++                                    addr->desc_user_addr, addr->used_user_addr,
++                                    addr->avail_user_addr,
++                                    addr->log_guest_addr);
+     return vhost_vdpa_call(dev, VHOST_SET_VRING_ADDR, addr);
+ }
+ 
+ static int vhost_vdpa_set_vring_num(struct vhost_dev *dev,
+                                       struct vhost_vring_state *ring)
+ {
++    trace_vhost_vdpa_set_vring_num(dev, ring->index, ring->num);
+     return vhost_vdpa_call(dev, VHOST_SET_VRING_NUM, ring);
+ }
+ 
+ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
+                                        struct vhost_vring_state *ring)
+ {
++    trace_vhost_vdpa_set_vring_base(dev, ring->index, ring->num);
+     return vhost_vdpa_call(dev, VHOST_SET_VRING_BASE, ring);
+ }
+ 
+ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
+                                        struct vhost_vring_state *ring)
+ {
+-    return vhost_vdpa_call(dev, VHOST_GET_VRING_BASE, ring);
++    int ret;
++
++    ret = vhost_vdpa_call(dev, VHOST_GET_VRING_BASE, ring);
++    trace_vhost_vdpa_get_vring_base(dev, ring->index, ring->num);
++    return ret;
+ }
+ 
+ static int vhost_vdpa_set_vring_kick(struct vhost_dev *dev,
+                                        struct vhost_vring_file *file)
+ {
++    trace_vhost_vdpa_set_vring_kick(dev, file->index, file->fd);
+     return vhost_vdpa_call(dev, VHOST_SET_VRING_KICK, file);
+ }
+ 
+ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+                                        struct vhost_vring_file *file)
+ {
++    trace_vhost_vdpa_set_vring_call(dev, file->index, file->fd);
+     return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
+ }
+ 
+ static int vhost_vdpa_get_features(struct vhost_dev *dev,
+                                      uint64_t *features)
+ {
+-    return vhost_vdpa_call(dev, VHOST_GET_FEATURES, features);
++    int ret;
++
++    ret = vhost_vdpa_call(dev, VHOST_GET_FEATURES, features);
++    trace_vhost_vdpa_get_features(dev, *features);
++    return ret;
+ }
+ 
+ static int vhost_vdpa_set_owner(struct vhost_dev *dev)
+ {
++    trace_vhost_vdpa_set_owner(dev);
+     return vhost_vdpa_call(dev, VHOST_SET_OWNER, NULL);
+ }
+ 
+@@ -489,6 +569,8 @@ static int vhost_vdpa_vq_get_addr(struct vhost_dev *dev,
+     addr->desc_user_addr = (uint64_t)(unsigned long)vq->desc_phys;
+     addr->avail_user_addr = (uint64_t)(unsigned long)vq->avail_phys;
+     addr->used_user_addr = (uint64_t)(unsigned long)vq->used_phys;
++    trace_vhost_vdpa_vq_get_addr(dev, vq, addr->desc_user_addr,
++                                 addr->avail_user_addr, addr->used_user_addr);
+     return 0;
+ }
+ 
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 845200bf10..cf1e59de30 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -22,6 +22,37 @@ vhost_user_postcopy_waker(const char *rb, uint64_t rb_offset) "%s + 0x%"PRIx64
+ vhost_user_postcopy_waker_found(uint64_t client_addr) "0x%"PRIx64
+ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"PRIx64
+ 
++# vhost-vdpa.c
++vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
++vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
++vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
++vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
++vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
++vhost_vdpa_init(void *dev, void *vdpa) "dev: %p vdpa: %p"
++vhost_vdpa_cleanup(void *dev, void *vdpa) "dev: %p vdpa: %p"
++vhost_vdpa_memslots_limit(void *dev, int ret) "dev: %p = 0x%x"
++vhost_vdpa_set_mem_table(void *dev, uint32_t nregions, uint32_t padding) "dev: %p nregions: %"PRIu32" padding: 0x%"PRIx32
++vhost_vdpa_dump_regions(void *dev, int i, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, uint64_t flags_padding) "dev: %p %d: guest_phys_addr: 0x%"PRIx64" memory_size: 0x%"PRIx64" userspace_addr: 0x%"PRIx64" flags_padding: 0x%"PRIx64
++vhost_vdpa_set_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
++vhost_vdpa_get_device_id(void *dev, uint32_t device_id) "dev: %p device_id %"PRIu32
++vhost_vdpa_reset_device(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
++vhost_vdpa_get_vq_index(void *dev, int idx, int vq_idx) "dev: %p idx: %d vq idx: %d"
++vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
++vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
++vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, uint32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags: 0x%"PRIx32
++vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len) "dev: %p config: %p config_len: %"PRIu32
++vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
++vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long long size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64" size: %llu refcnt: %d fd: %d log: %p"
++vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned int flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t avail_user_addr, uint64_t log_guest_addr) "dev: %p index: %u flags: 0x%x desc_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" log_guest_addr: 0x%"PRIx64
++vhost_vdpa_set_vring_num(void *dev, unsigned int index, unsigned int num) "dev: %p index: %u num: %u"
++vhost_vdpa_set_vring_base(void *dev, unsigned int index, unsigned int num) "dev: %p index: %u num: %u"
++vhost_vdpa_get_vring_base(void *dev, unsigned int index, unsigned int num) "dev: %p index: %u num: %u"
++vhost_vdpa_set_vring_kick(void *dev, unsigned int index, int fd) "dev: %p index: %u fd: %d"
++vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index: %u fd: %d"
++vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
++vhost_vdpa_set_owner(void *dev) "dev: %p"
++vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
++
+ # virtio.c
+ virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
+ virtqueue_fill(void *vq, const void *elem, unsigned int len, unsigned int idx) "vq %p elem %p len %u idx %u"
 -- 
 MST
 
