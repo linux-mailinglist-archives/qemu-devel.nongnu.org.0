@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7162C27BBDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 06:23:19 +0200 (CEST)
-Received: from localhost ([::1]:44090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1DA27BC3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 06:58:55 +0200 (CEST)
+Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kN7Ac-000230-IN
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 00:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43198)
+	id 1kN7j4-0007NL-1Q
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 00:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kN79s-0001bE-GG
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 00:22:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24816)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kN7hz-0006y0-TI
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 00:57:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kN79q-0000F8-KV
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 00:22:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kN7hy-0006ME-77
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 00:57:47 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601353349;
+ s=mimecast20190719; t=1601355465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CDGINeFU3Q+7Kz09epGxvjOeaedDndmflFyoAJsK4gs=;
- b=eiSMLHDzoWoa9LK5SOedrwYlF3EJc/z5R1GqGf3jnCuhQ/zAFzDPY3PEtm42yCGaLY9Oja
- jBx8XApvD0N/ZPyGhwdsIXE3GiQ6aa+OpCPB3LPBgzMIRbGmvs4zBAsYjg7Dd9JcvmMdfo
- BULhzNeIv+5yk1Q8SR5UgoK9wMgu5Zo=
+ bh=ymmWkHsXwSf0Aj+CkY7Q9g2XP7rXrYTCQobcFqutIN8=;
+ b=jFWAoR1qsae4c4uk2fATIhB2al3iDDpFj3YMjUIO9XiP+nSLX4tjoiGx/0pNx+L6+P2h2q
+ F/l5Wxr31pUz/Lrq5M4S/sDGmi6R/2yoAlPkgPwMomdl6HjAHe5nIr7O21Ds0/4HEmwvVo
+ GSOjUwIxOnaOouw6Iq9/o1kGsiV/Aww=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-A4bmu44VOCiHNlo4Ofd1Lw-1; Tue, 29 Sep 2020 00:22:26 -0400
-X-MC-Unique: A4bmu44VOCiHNlo4Ofd1Lw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-554-9A3KjVtsMTWz69ZQ_bmlCg-1; Tue, 29 Sep 2020 00:57:43 -0400
+X-MC-Unique: 9A3KjVtsMTWz69ZQ_bmlCg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9148E1005E61
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 04:22:25 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AC4F5C1BD;
- Tue, 29 Sep 2020 04:22:25 +0000 (UTC)
-Date: Tue, 29 Sep 2020 00:22:23 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 31/47] qapi/gen.py: Fix edge-case of _is_user_module
-Message-ID: <20200929042223.GM700868@localhost.localdomain>
-References: <20200925002900.465855-1-jsnow@redhat.com>
- <20200925002900.465855-32-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DB3D186DD22;
+ Tue, 29 Sep 2020 04:57:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCB0773661;
+ Tue, 29 Sep 2020 04:57:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6CDF8113865F; Tue, 29 Sep 2020 06:57:40 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 06/21] qapi/machine.json: Escape a literal '*' in doc
+ comment
+References: <20200925162316.21205-1-peter.maydell@linaro.org>
+ <20200925162316.21205-7-peter.maydell@linaro.org>
+Date: Tue, 29 Sep 2020 06:57:40 +0200
+In-Reply-To: <20200925162316.21205-7-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Fri, 25 Sep 2020 17:23:01 +0100")
+Message-ID: <87k0wd6uyj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200925002900.465855-32-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RNRUMt0ZF5Yaq/Aq"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 23:30:14
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,44 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---RNRUMt0ZF5Yaq/Aq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-On Thu, Sep 24, 2020 at 08:28:44PM -0400, John Snow wrote:
-> The edge case is that if the name is '', this expression returns a
-> string instead of a bool, which violates our declared type.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> For rST, '*' is a kind of inline markup (for emphasis), so
+> "*-softmmu" is a syntax error because of the missing closing '*'.
+> Escape the '*' with a '\'.
+>
+> The texinfo document generator will leave the '\' in the
+> output, which is not ideal, but that generator is going to
+> go away in a subsequent commit.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Yes, in PATCH 09.  Tolerable.
 
---RNRUMt0ZF5Yaq/Aq
-Content-Type: application/pgp-signature; name="signature.asc"
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  qapi/machine.json | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 0ac1880e4a4..9c45b04363c 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -13,7 +13,7 @@
+>  #
+>  # The comprehensive enumeration of QEMU system emulation ("softmmu")
+>  # targets. Run "./configure --help" in the project root directory, and
+> -# look for the *-softmmu targets near the "--target-list" option. The
+> +# look for the \*-softmmu targets near the "--target-list" option. The
+>  # individual target constants are not documented here, for the time
+>  # being.
+>  #
 
------BEGIN PGP SIGNATURE-----
+A better markup might be 
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9ytn8ACgkQZX6NM6Xy
-CfOvLA//WXBkR/bcUw+nOAM3RceRTpMlAwcJAasxQwNKj5tO7U/6Pu75cK3+FSPz
-AkrLCbjrgFiq+RIrcIH7iMgN1j+JWWeQ9EICf2YcMhSwRUBTwjRrUrcuePIRq0sZ
-FV+Obyv9YFWWpJeuu12fz7q2ofPdDkKGuEOMiqeX2MkQucMf9ICtVZqsz1EIv5w8
-x6H6l6diLXSgVmd01BCw2tsreYJmsAkz/T/zzAuVm0ppXlG753nsstRKeEgEdaka
-EdW8+neo3SBNC/uBRLaThy/hJgNz3dXnz+hcw9pgzxhCrX7UE3cu55GpLqJ3DG8M
-xTrdH8vlI4Y2BhMmgpGqtweN9scWdBNrWwbNIxsCjiDnJtiuNo2y2tnX44xQSK3H
-8xq6+SwwZJxHOHofkrS3zxU3GeYViOaAUJofq6609Rb4Auqx004Qu2EfCs/Dt56z
-VAEuJAUuLUbEIOtcawRDUhxcWYDGtiJFsuaew+nSXbR0CzcoT9n49upl/71lqYzf
-gsPT8nLJi0uLe5FOOzHGTrXoVZQnui1vvTQsKvwCqNH/03ZJySDwZHiqB/p9gwB+
-5V9f60Q/JQX6xo7KI56upvfyYVYzJRs1/9sKSb0msnrs+HrNCjkgOr8hTmk+12xD
-2DJKXZKW5BxW/ANkjjelW+HFZcOZE7Y0nsT+kXqiYgZG/7GyusY=
-=J+Qm
------END PGP SIGNATURE-----
+    # The comprehensive enumeration of QEMU system emulation ("softmmu")
+    # targets. Run ``./configure --help`` in the project root directory, and
+    # look for the ``*-softmmu`` targets near the ``--target-list``
+    # option. The individual target constants are not documented here, for
+    # the time being.
 
---RNRUMt0ZF5Yaq/Aq--
+But that should be done systematically, not just here, which makes it
+worse than your patch at this point of the conversion.
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
