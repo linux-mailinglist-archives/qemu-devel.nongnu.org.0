@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67F127CD68
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:44:12 +0200 (CEST)
-Received: from localhost ([::1]:41136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C90927CE0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:48:53 +0200 (CEST)
+Received: from localhost ([::1]:55112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNEzK-0000jo-15
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52900)
+	id 1kNF3s-0006jd-Ih
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNEua-0005d0-Gt
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:39:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44633)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNEvf-0006rc-4j
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:40:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNEuY-0000Iv-C4
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:39:16 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNEvd-0000RG-CS
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 08:40:22 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601383151;
+ s=mimecast20190719; t=1601383219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S4GPfftbfQWadRXcNmAUDD2lz6lBLoATuApaFvYG8WA=;
- b=TS+N4G11BNqFKKJbrRyzjT9OcZyBTo/4fQH/La8ethYF18ho+AsRWPwfePGSL0imZM04pS
- RSUgil30psbo0QejHM1DG0ViuFC/q4mbfAUUksrfMQO6AzeijuPC6yEMMee1ySYjPU/Lx+
- b/Bwy8rRxo6zx+rJl0NiT66mDjac1K4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-Y2825JGUO1-UpVhgWR4PSw-1; Tue, 29 Sep 2020 08:39:10 -0400
-X-MC-Unique: Y2825JGUO1-UpVhgWR4PSw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10CE31019625;
- Tue, 29 Sep 2020 12:39:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
- [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D657381C6C;
- Tue, 29 Sep 2020 12:39:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6C4B5113864A; Tue, 29 Sep 2020 14:39:04 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 21/21] Remove texinfo dependency from docker and CI
- configs
-References: <20200925162316.21205-1-peter.maydell@linaro.org>
- <20200925162316.21205-22-peter.maydell@linaro.org>
-Date: Tue, 29 Sep 2020 14:39:04 +0200
-In-Reply-To: <20200925162316.21205-22-peter.maydell@linaro.org> (Peter
- Maydell's message of "Fri, 25 Sep 2020 17:23:16 +0100")
-Message-ID: <87ft70u593.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=13PK4Ssg5BzCyVg+1FPKTBVp7+n3837igy5oAPUIZpw=;
+ b=Kiy4toQXm3BzzR8an4fIV8G1gpPPF7UoEyCWReE2UEju1YDcvVpMYwfmhu3JjP+85wpICO
+ 1rggc/esf5gVPcqbeGTjrxe015QEEy6jSipyRs1crr6Fvpi4IF4ag3iDpoLICMQ0sLKONN
+ oWwm5cKA7rDqmsjBNaiE+vuxrnSbKtk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-xEzJsAKhM26z9wuEoD1BeQ-1; Tue, 29 Sep 2020 08:40:17 -0400
+X-MC-Unique: xEzJsAKhM26z9wuEoD1BeQ-1
+Received: by mail-wr1-f72.google.com with SMTP id o6so1705238wrp.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 05:40:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QAlP+ij8tfJHvxKOp3BUIiXO/b6YWfeSbmy1Ysd4Ny4=;
+ b=OKRmmi08nHsmO2s2ORaau/mZr391m/yQUj5gQGrbdQ1mG7X84X91HfevtFgJb9AJ8f
+ tfdleZOaxDeEbYMm61QgWlRVkxKlcU+utioHuRvb++uEolAm/YuPB/JqoBY7FcFiRMA0
+ SZaFYKn0lVowOTiAXb8vM/MJYdWaPffHCO1zihd81Sifguo+QGKQY2B9cZiiMx9NOuYN
+ n4qA10ilAWlQTFtNhUyMuiFEKSI39mnKM6O81nkYmDAMcisMM81NX/xT5dlh4A6jceHK
+ XP376kC5olWQ1qYAhrSXTADVTZoVw4t61+dJLca/Cm+Z+HRFHFCZhOK76foWDy25oHtE
+ gihg==
+X-Gm-Message-State: AOAM530rXDavgfQ7zBUg/4OyvUm7bPho+GbN3BmALaCafj2VlWboI0bm
+ Unv/EZes6GAAJrwoS5Bbg7DSS8u0eTn54Qtqhel9tVTaA0VqEtBtZB7rRlT933tHV+w5hfrgATs
+ 7eK2BDqDtZeviQD8=
+X-Received: by 2002:adf:ec47:: with SMTP id w7mr4396691wrn.175.1601383216737; 
+ Tue, 29 Sep 2020 05:40:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFCmxwtB4O6OEUfrh6r3XsxYR3JwkdMbLFg15zKQ7+lCyquBa3AnUMwEBqKX/A7KkLolVqBw==
+X-Received: by 2002:adf:ec47:: with SMTP id w7mr4396673wrn.175.1601383216547; 
+ Tue, 29 Sep 2020 05:40:16 -0700 (PDT)
+Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
+ by smtp.gmail.com with ESMTPSA id i33sm6542861wri.79.2020.09.29.05.40.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Sep 2020 05:40:15 -0700 (PDT)
+Date: Tue, 29 Sep 2020 08:40:12 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL 0/1] acpi: fixup
+Message-ID: <20200929084000-mutt-send-email-mst@kernel.org>
+References: <20200929111255.381871-1-mst@redhat.com>
+ <ed9c633d-63c0-4e84-4eb1-adf634416bec@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <ed9c633d-63c0-4e84-4eb1-adf634416bec@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,17 +96,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On Tue, Sep 29, 2020 at 02:36:09PM +0200, Philippe Mathieu-Daudé wrote:
+> On 9/29/20 1:13 PM, Michael S. Tsirkin wrote:
+> > The following changes since commit 213057383c9f73a17cfe635b204d88e11f918df1:
+> > 
+> >   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-09-29 11:10:29 +0100)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> > 
+> > for you to fetch changes up to f142e4ede72853aaa7d306bc79b099caed45769b:
+> > 
+> >   tests/acpi: drop unnecessary files (2020-09-29 07:10:37 -0400)
+> > 
+> > ----------------------------------------------------------------
+> > acpi: fixup
+> > 
+> > My last pull included a ton of useless files by mistake.
+> > Drop them all.
+> > 
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> It might be cleaner to directly apply this as a "buildsys fix",
+> sometimes Peter accepts to do it.
 
-> We don't need texinfo to build the docs any more, so we can
-> drop that dependency from our docker and other CI configs.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Hmm I do not know how to generate this ...
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+-- 
+MST
 
 
