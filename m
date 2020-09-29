@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3108627CE10
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:51:08 +0200 (CEST)
-Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B28127CDF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 14:48:16 +0200 (CEST)
+Received: from localhost ([::1]:53152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNF63-0001GY-6t
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53400)
+	id 1kNF3H-0005sa-D5
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 08:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kNEwf-0007wv-L1; Tue, 29 Sep 2020 08:41:25 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35052 helo=relay3.sw.ru)
+ id 1kNEx8-0008Ib-NW; Tue, 29 Sep 2020 08:41:56 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35160 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kNEwa-0000hc-AB; Tue, 29 Sep 2020 08:41:25 -0400
+ id 1kNEx0-0000jj-SC; Tue, 29 Sep 2020 08:41:54 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kNEw0-002EOe-Nx; Tue, 29 Sep 2020 15:40:44 +0300
+ id 1kNEwO-002EOe-OH; Tue, 29 Sep 2020 15:41:08 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
  stefanha@redhat.com, fam@euphon.net, jsnow@redhat.com, armbru@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v10 6/9] copy-on-read: skip non-guest reads if no copy needed
-Date: Tue, 29 Sep 2020 15:38:26 +0300
-Message-Id: <1601383109-110988-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v10 7/9] stream: skip filters when writing backing file name
+ to QCOW2 header
+Date: Tue, 29 Sep 2020 15:38:27 +0300
+Message-Id: <1601383109-110988-8-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1601383109-110988-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1601383109-110988-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,55 +59,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-If the flag BDRV_REQ_PREFETCH was set, pass it further to the
-COR-driver to skip unneeded reading. It can be taken into account for
-the COR-algorithms optimization. That check is being made during the
-block stream job by the moment.
+Avoid writing a filter JSON-name to QCOW2 image when the backing file
+is changed after the block stream job.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/copy-on-read.c | 14 ++++++++++----
- block/io.c           |  2 +-
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ block/stream.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index f53f7e0..5389dca 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -145,10 +145,16 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
+diff --git a/block/stream.c b/block/stream.c
+index e0540ee..b0719e9 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -65,6 +65,7 @@ static int stream_prepare(Job *job)
+     BlockDriverState *bs = blk_bs(bjob->blk);
+     BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
++    BlockDriverState *base_metadata = bdrv_skip_filters(base);
+     Error *local_err = NULL;
+     int ret = 0;
+ 
+@@ -73,10 +74,10 @@ static int stream_prepare(Job *job)
+ 
+     if (bdrv_cow_child(unfiltered_bs)) {
+         const char *base_id = NULL, *base_fmt = NULL;
+-        if (base) {
+-            base_id = s->backing_file_str;
+-            if (base->drv) {
+-                base_fmt = base->drv->format_name;
++        if (base_metadata) {
++            base_id = base_metadata->filename;
++            if (base_metadata->drv) {
++                base_fmt = base_metadata->drv->format_name;
              }
          }
- 
--        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
--                                  local_flags);
--        if (ret < 0) {
--            return ret;
-+        if ((flags & BDRV_REQ_PREFETCH) &
-+            !(local_flags & BDRV_REQ_COPY_ON_READ)) {
-+            /* Skip non-guest reads if no copy needed */
-+        } else {
-+
-+            ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
-+                                      local_flags);
-+            if (ret < 0) {
-+                return ret;
-+            }
-         }
- 
-         offset += n;
-diff --git a/block/io.c b/block/io.c
-index 11df188..62b75a5 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1388,7 +1388,7 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(BdrvChild *child,
-             qemu_iovec_init_buf(&local_qiov, bounce_buffer, pnum);
- 
-             ret = bdrv_driver_preadv(bs, cluster_offset, pnum,
--                                     &local_qiov, 0, 0);
-+                                     &local_qiov, 0, flags & BDRV_REQ_PREFETCH);
-             if (ret < 0) {
-                 goto err;
-             }
+         bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
 -- 
 1.8.3.1
 
