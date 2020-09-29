@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4046127C034
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 10:58:09 +0200 (CEST)
-Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDCE27C038
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 10:58:30 +0200 (CEST)
+Received: from localhost ([::1]:34210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNBSa-0001sH-29
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 04:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52596)
+	id 1kNBSv-0002Qg-Nm
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 04:58:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNBQW-0000ix-Et
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 04:56:00 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:37762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNBQU-0000Co-Dt
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 04:56:00 -0400
-Received: by mail-ej1-x643.google.com with SMTP id nw23so13897480ejb.4
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 01:55:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5ji1dTE1I97brwx0qpiobtzBbzL3U5aVsJ6aTbj8YFo=;
- b=rKdgir/zhFv9y/qT7X2Mw29dgqw659FVW7a2NGVJPQ9h2Vmf/MnnKXDUvBYEKoI7FJ
- 90+i2cnepAiX3arejXs2zcETaFdpEg0w4tdrSMhWeHPlc6bI2q8aV5oDaBXTxP08pBcx
- x8iV+uCTSbTf5KE5ElIvc5RiBXuxTVq2+EK8p7LgbHR4J8penujuZKfgsNFaL6OBfric
- OrNEiluK5kHk8G77F459MmbNgBoenXlNqlSKhCQQZKld6tDefIATjMOiKH52MAQTqrb5
- h0DK8NVR2oaDHIEv5GdE6cMbuGlbtE6MzXqyaEISsxAKLl8uTTvlOEIwxOWJou+erT1z
- ZUqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5ji1dTE1I97brwx0qpiobtzBbzL3U5aVsJ6aTbj8YFo=;
- b=IpQZmT+5OORfIi2wihPajO8FBPzWOZinpiGPZVW3rOM1CH5F/vybFxEkhaHAcEe9+s
- 06qd5S1akdFR7wDD2PLDC1ehtgOmKK9eOAAG+vxIoCtrzEY2JE521O9vqET+KQp7gedc
- crk1weBsWCdKz3RqxfcKw0Vf68Uubic6eoUTTn8UQrf7ZoKRr2ExVkjZq8m534PEWOma
- 1f7I2aB98rUcUWjQ2FWwBk+3/+Ioa8/7TWhnK3L8SKsxn7gMSdNZXYrj/n7cBZFSiHar
- /i5/NjJTV7te2IfKOGQnmXQu1wp4p9EpCJiV1uIHFjL/cMRuWK8BIy+YodKNGhO6ouRF
- cOuw==
-X-Gm-Message-State: AOAM531rF70Hb25MQObscbaEgGGXpbouYvLV6drAm86t3JZc9V/cXMQ5
- 4YRawsLniPWi9LVcIst9Rrg/XEtX5a9khTUoh+UOuQ==
-X-Google-Smtp-Source: ABdhPJw+h9fIOuCsg1nrZL+aMvnNnH0b/OtGYD2yB61YxWbMC3JHpiw8nqHgWiwXmzNn7+8i+Y3PG2ll/DCAjPSNgho=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr2706731ejk.407.1601369756450; 
- Tue, 29 Sep 2020 01:55:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kNBQj-0000uc-1N
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 04:56:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45148)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kNBQh-0000E8-2q
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 04:56:12 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601369770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=u/J84kmOSP7AfNvh9mEFkOHuirkAtr85pDh5FYd6++Y=;
+ b=Gj/nEIpaRBhX89GYutyxJJZzrIXTe2nv6nKd3mpE5NkoOswmRJme+FH9KPPCubcaU/zgCA
+ LZE3j4r98DmTA3FIC30Z1muY7pC5GTitRJGBEeunFeyZduhDUr4LbsRsMTiVAcQxZF/Mxr
+ xj0/3uQUoBapnDmpB2kBqJs+P3eWTAE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-4CM3dNo7PcG31xkYascORQ-1; Tue, 29 Sep 2020 04:56:08 -0400
+X-MC-Unique: 4CM3dNo7PcG31xkYascORQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7C9A9CC02;
+ Tue, 29 Sep 2020 08:56:06 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-113-210.ams2.redhat.com [10.36.113.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2BDB3782;
+ Tue, 29 Sep 2020 08:55:54 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, stefanha@redhat.com, fam@euphon.net,
+ philmd@redhat.com, alex.williamson@redhat.com
+Subject: [PATCH v2 0/2] NVMe passthrough: Take into account host IOVA reserved
+ regions
+Date: Tue, 29 Sep 2020 10:55:48 +0200
+Message-Id: <20200929085550.30926-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <20200925162316.21205-1-peter.maydell@linaro.org>
- <20200925162316.21205-6-peter.maydell@linaro.org>
- <874knhbtm8.fsf@dusky.pond.sub.org>
-In-Reply-To: <874knhbtm8.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Sep 2020 09:55:45 +0100
-Message-ID: <CAFEAcA94vOAbk_SkRZwyp3GsyknzWQ9GkvVPKYzW2MSL3KO2Pg@mail.gmail.com>
-Subject: Re: [PATCH v6 05/21] scripts/qapi/parser.py: improve doc comment
- indent handling
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,32 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, kwolf@redhat.com, cohuck@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Sep 2020 at 20:16, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > +Descriptions of arguments can span multiple lines. The description
-> > +text can start on the line following the '@argname:', in which case
-> > +it must not be indented at all. It can also start on the same line
-> > +as the '@argname:'. In this case if it spans multiple lines then
-> > +second and subsequent lines must be indented to line up with the
-> > +first character of the first line of the description:
->
-> Please put two spaces after sentence-ending punctuation, for local
-> consistency, and to keep Emacs sentence commands working.
+The current IOVA allocator allocates within the [0x10000, 1ULL << 39]
+window, without paying attention to the host IOVA reserved regions.
+This prevents NVMe passthtrough from working on ARM as the fixed
+IOVAs rapidly grow up to the MSI reserved region [0x8000000, 0x8100000]
+causing some VFIO MAP DMA failures. This series collects the usable
+IOVA regions using VFIO GET_INFO (this requires the host to support
+VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE) and rework the fixed and
+temporary IOVA allocators to avoid those latter.
 
-Is there a python lint program that can auto-check this?
-Otherwise I am going to continue to put single-spaces at
-least some of the time, because that's the way I write all
-the other English text I write...
+For the time being we do not change the arbitrary min/max IOVAs.
+In theory they could be dynamically determined but the kernel
+currently fails to expose some HW limitations described in the ACPI
+tables (such as PCI root complex Device Memory Address Size Limit).
+See kernel thread related to "[RFC 0/3] iommu: Reserved regions for
+IOVAs beyond dma_mask and iommu aperture" for more details:
+https://lkml.org/lkml/2020/9/28/1102
 
-> Can touch this up in my tree, of course.
+Best Regards
 
-That would certainly be easier for me :-)
+Eric
 
-thanks
--- PMM
+This series can be found at:
+https://github.com/eauger/qemu/tree/nvme_resv_v2
+
+This was tested on ARM only.
+
+History:
+v1 -> v2:
+- remove "util/vfio-helpers: Dynamically compute the min/max IOVA" to
+  relax the kernel dependency
+- Fix cabapbility enumeration loop
+- set s->usable_iova_ranges=NULL to avoid double free
+- handle possible u64 wrap
+
+Eric Auger (2):
+  util/vfio-helpers: Collect IOVA reserved regions
+  util/vfio-helpers: Rework the IOVA allocator to avoid IOVA reserved
+    regions
+
+ util/vfio-helpers.c | 129 +++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 123 insertions(+), 6 deletions(-)
+
+-- 
+2.21.3
+
 
