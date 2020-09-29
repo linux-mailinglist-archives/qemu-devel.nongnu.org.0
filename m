@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FA527C293
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 12:44:03 +0200 (CEST)
-Received: from localhost ([::1]:34116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1DB27C2D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 12:52:45 +0200 (CEST)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kND74-0006vQ-L8
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 06:44:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52062)
+	id 1kNDFT-0002Vc-Vv
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 06:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kND5I-0005os-32
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 06:42:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49804)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kND5G-00085V-As
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 06:42:11 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601376127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gQfO+k45ztxhBiKJHNWsb6qOC+W1Z1rhGuPT/tXZ6Qg=;
- b=fICObV2hJsF8S7waxsHT0dmD6RAyku2nq/mz2QcboYgvvZOaJZqiKvSS5xcqDEgIq5ig/g
- aE8L2sgixcKEOcdS1SdS4kHwz00TfczhXa5ZyPuZJbdcD07KkvRyTjNQrlhYvcIXeKOpkN
- ZW1bbyRJAuijU7+ImvDhIQkrYZyRjs0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-5loiDFbTMSKtp1zmQK64wQ-1; Tue, 29 Sep 2020 06:42:03 -0400
-X-MC-Unique: 5loiDFbTMSKtp1zmQK64wQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C661801F9B;
- Tue, 29 Sep 2020 10:42:01 +0000 (UTC)
-Received: from localhost (ovpn-112-247.ams2.redhat.com [10.36.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD79810013C0;
- Tue, 29 Sep 2020 10:41:54 +0000 (UTC)
-Date: Tue, 29 Sep 2020 11:41:54 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thanos Makatos <thanos.makatos@nutanix.com>
-Subject: Re: [PATCH v4] introduce vfio-user protocol specification
-Message-ID: <20200929104154.GC181609@stefanha-x1.localdomain>
-References: <1594984851-59327-1-git-send-email-thanos.makatos@nutanix.com>
- <1600180157-74760-1-git-send-email-thanos.makatos@nutanix.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kND9k-0000rd-B1; Tue, 29 Sep 2020 06:46:52 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:38755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kND9g-0000LE-AO; Tue, 29 Sep 2020 06:46:48 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B22BB58082F;
+ Tue, 29 Sep 2020 06:46:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 29 Sep 2020 06:46:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=KxATW4Ukxmag59jSi/FYL1zDTSj
+ 6I8Vz44Mxnen6mkU=; b=SFKW8mC9UQOAYz7eK85MzfR3RmP3MSNjrW2dYhjt3UJ
+ yZMl/o8T3VPD6tpZBE76c9RA2mCY8avL81S+6Smxqhq1XkU+jDBdmusBZUekOhHU
+ xfVw1chIq+P0u0u5UAgg2hHjNvMlfWRxfmpAkggaf0+qGDM0cG9b3c4J0HqkQRMQ
+ zcou6pYVtDqiKv7g5JOX4HhfO8ZOAdvgUtsgQo89AN9xvy2Y/YG56xX8i43a2yRX
+ 9CnI5X9vYYmd586HR6+IbVpgXaeDDqcpCD9ZAQ28TV4HHvQYoYxqRHG30Tth0fWn
+ DRmgUQ+1yWwa61JA7LYL6nNcKKwkGPX5KiYqUmZHB7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KxATW4
+ Ukxmag59jSi/FYL1zDTSj6I8Vz44Mxnen6mkU=; b=bPIqGocoqU4ACBzxoYc+wd
+ 7ztUjcMZs9wHERkmiOqDok3oZCbr/LhgB3NuFLgPVTsl+f+ta5BwlMT/8QOKGL0Z
+ jtztt8zYsLLovkFatcMTBh+oLsIDA8beBxbAZiHLnMn7R6Ydy4XjIqAHwKUO3quE
+ qZw/DFG6jGoDo6a+mNHCIUvWC99eU3vz+vXNYzFVnKq4m1Vsye7cQOoB3XYFCk1Q
+ BwD6/0HhMP9zBbgupKt2j6ka8MO82v5+/CKfo1+4uKnzRYSMjrQOXcKZgVFkzzQ9
+ x55RxE7as80KMLkQ42kQM/HcywpsPurmRgoI4YrBapCa58GAwS49kwzJGOBTIKMw
+ ==
+X-ME-Sender: <xms:jRBzX_05frbj4C9hDhDyzJDn-k28-dY9tgNcXqhM6ue-Qiw7fa_SHA>
+ <xme:jRBzX-EaCj9bYA3q1nmm3fNC3KQlhsckWVMCZsR5KhFdMz0WP0DUegwbSvn2D7bSH
+ VN18yu-LC-HFps1f9U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdekgdeffecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:jRBzX_7vP8ipI9BGp8MihgYAoTbmEenwpKhOyW35FwhXKDsyhtGaeg>
+ <xmx:jRBzX03P4nsUSCKTPe7D7Ol9BjkcZfV6j8YT_v0bD89yJLTLlbOHhQ>
+ <xmx:jRBzXyE2EaPt1pPz2BXhiMs270wPKNcQlROsChw34vIxI7kJ6wJg5Q>
+ <xmx:jhBzX1BdLiY205YeCkOk8KZdGyjYOIn6NYyXgI_3sop8dcEncNg0YY8f9RM>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BD189306467E;
+ Tue, 29 Sep 2020 06:46:35 -0400 (EDT)
+Date: Tue, 29 Sep 2020 12:46:33 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
+ Zoned Namespace Command Set
+Message-ID: <20200929104633.GA179147@apples.localdomain>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+ <20200924210751.GD1738917@apples.localdomain>
+ <MN2PR04MB59515B1EA1238861DFF3236AE1350@MN2PR04MB5951.namprd04.prod.outlook.com>
+ <20200928063648.GA1967@apples.localdomain>
+ <20200928212541.GC227320@dhcp-10-100-145-180.wdl.wdc.com>
+ <CY4PR04MB3751997C2ED1D5EFB69E32ACE7350@CY4PR04MB3751.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <1600180157-74760-1-git-send-email-thanos.makatos@nutanix.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="f0KYrhQ4vYSV2aJu"
+ protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+In-Reply-To: <CY4PR04MB3751997C2ED1D5EFB69E32ACE7350@CY4PR04MB3751.namprd04.prod.outlook.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 06:46:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +101,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: benjamin.walker@intel.com, elena.ufimtseva@oracle.com,
- tomassetti.andrea@gmail.com, John G Johnson <john.g.johnson@oracle.com>,
- jag.raman@oracle.com, james.r.harris@intel.com, swapnil.ingle@nutanix.com,
- konrad.wilk@oracle.com, yuvalkashtan@gmail.com, qemu-devel@nongnu.org,
- raphael.norwitz@nutanix.com, ismael@linux.com, alex.williamson@redhat.com,
- Kanth.Ghatraju@oracle.com, felipe@nutanix.com, xiuchun.lu@intel.com,
- marcandre.lureau@redhat.com, tina.zhang@intel.com, changpeng.liu@intel.com,
- dgilbert@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Niklas Cassel <Niklas.Cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---f0KYrhQ4vYSV2aJu
-Content-Type: text/plain; charset=us-ascii
+
+--y0ulUmNC+osPPQO6
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 15, 2020 at 07:29:17AM -0700, Thanos Makatos wrote:
-> This patch introduces the vfio-user protocol specification (formerly
-> known as VFIO-over-socket), which is designed to allow devices to be
-> emulated outside QEMU, in a separate process. vfio-user reuses the
-> existing VFIO defines, structs and concepts.
+On Sep 28 22:54, Damien Le Moal wrote:
+> On 2020/09/29 6:25, Keith Busch wrote:
+> > On Mon, Sep 28, 2020 at 08:36:48AM +0200, Klaus Jensen wrote:
+> >> On Sep 28 02:33, Dmitry Fomichev wrote:
+> >>> You are making it sound like the entire WDC series relies on this app=
+roach.
+> >>> Actually, the persistency is introduced in the second to last patch i=
+n the
+> >>> series and it only adds a couple of lines of code in the i/o path to =
+mark
+> >>> zones dirty. This is possible because of using mmap() and I find the =
+way
+> >>> it is done to be quite elegant, not ugly :)
+> >>>
+> >>
+> >> No, I understand that your implementation works fine without
+> >> persistance, but persistance is key. That is why my series adds it in
+> >> the first patch. Without persistence it is just a toy. And the QEMU
+> >> device is not just an "NVMe-version" of null_blk.
+> >=20
+> > I really think we should be a bit more cautious of commiting to an
+> > on-disk format for the persistent state. Both this and Klaus' persistent
+> > state feels a bit ad-hoc, and with all the other knobs provided, it
+> > looks too easy to have out-of-sync states, or just not being able to
+> > boot at all if a qemu versions have different on-disk formats.
+> >=20
+> > Is anyone really considering zone emulation for production level stuff
+> > anyway? I can't imagine a real scenario where you'd want put yourself
+> > through that: you are just giving yourself all the downsides of a zoned
+> > block device and none of the benefits. AFAIK, this is provided as a
+> > development vehicle, closer to a "toy".
+> >=20
+> > I think we should consider trimming this down to a more minimal set that
+> > we *do* agree on and commit for inclusion ASAP. We can iterate all the
+> > bells & whistles and flush out the meta data's data marshalling scheme
+> > for persistence later.
 >=20
-> It has been earlier discussed as an RFC in:
-> "RFC: use VFIO over a UNIX domain socket to implement device offloading"
+> +1 on this. Removing the persistence also removes the debate on endianess=
+=2E With
+> that out of the way, it should be straightforward to get agreement on a s=
+eries
+> that can be merged quickly to get developers started with testing ZNS sof=
+tware
+> with QEMU. That is the most important goal here. 5.9 is around the corner=
+, we
+> need something for people to get started with ZNS quickly.
 >=20
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Thanos Makatos <thanos.makatos@nutanix.com>
 
-I reviewed the recently-added kernel VFIO_IOMMU_DIRTY_PAGES ioctl and
-VFIO_REGION_TYPE_MIGRATION features. They enable live migration and
-device state save/load.
+Wait. What. No. Stop!
 
-Including them early would be good because it's difficult to retrofit
-live migration into existing code later.
+It is unmistakably clear that you are invalidating my arguments about
+portability and endianness issues by suggesting that we just remove
+persistent state and deal with it later, but persistence is the killer
+feature that sets the QEMU emulated device apart from other emulation
+options. It is not about using emulation in production (because yeah,
+why would you?), but persistence is what makes it possible to develop
+and test "zoned FTLs" or something that requires recovery at power up.
+This is what allows testing of how your host software deals with opened
+zones being transitioned to FULL on power up and the persistent tracking
+of LBA allocation (in my series) can be used to properly test error
+recovery if you lost state in the app.
 
-Stefan
+Please, work with me on this instead of just removing such an essential
+feature. Since persistence seems to be the only thing we are really
+discussing, we should have plenty of time until the soft-freeze to come
+up with a proper solution on that.
 
---f0KYrhQ4vYSV2aJu
+I agree that my version had a format that was pretty ad-hoc and that
+won't fly - it needs magic and version capabilities like in Dmitry's
+series, which incidentially looks a lot like what we did in the
+OpenChannel implementation, so I agree with the strategy.
+
+ZNS-wise, the only thing my implementation stores is the zone
+descriptors (in spec-native little-endian format) and the zone
+descriptor extensions. So there are no endian issues with those. The
+allocation tracking bitmap is always stored in little endian, but
+converted to big-endian if running on a big-endian host.
+
+Let me just conjure something up.
+
+    #define NVME_PSTATE_MAGIC ...
+    #define NVME_PSTATE_V1    1
+
+    typedef struct NvmePstateHeader {
+        uint32_t magic;
+        uint32_t version;
+
+        uint64_t blk_len;
+
+        uint8_t  lbads;
+        uint8_t  iocs;
+
+        uint8_t  rsvd18[3054];
+
+        struct {
+            uint64_t zsze;
+            uint8_t  zdes;
+        } QEMU_PACKED zns;
+
+        uint8_t  rsvd3089[1007];
+    } QEMU_PACKED NvmePstateHeader;
+
+With such a header we have all we need. We can bail out if any
+parameters do not match and similar to nvme data structures it contains
+reserved areas for future use. I'll be posting a v2 with this. If this
+still feels too ad-hoc, we can be inspired by QCOW2 and the "extension"
+feature.
+
+I can agree that we drop other optional features like zone excursions
+and the reset/finish recommended limit simulation, but PLEASE DO NOT
+remove persistence and upstream a half-baked version when we are so
+close and have time to get it right.
+
+--y0ulUmNC+osPPQO6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9zD3EACgkQnKSrs4Gr
-c8gvCggAkCv1be+K0JEg+YdCyJxExpNwP/bAdCb1KWGLbv14ZsNyTccxZsitorbl
-nvOSdUvlPo32/lwif1CUlOnaVvhFBLvkpRS6/ZkUkwjxg2tC6AfNt/bXYhbl2Le2
-JVyU3tVS5KXBeSC4EC++ostE3wrDsLaD9RH5Su/Rt8aZxgH1dAwxGfaeB6aTybXZ
-HC9jTUDIpRmaZ8MR/tYRosUSMnwpEeekCODyB5L8S4ZoBih9qTkesAbO9OsrznT/
-noKbQZjC+ILxsfd4ESt9i/l6TcwjZxVclhufLEx+3gT+oyknDAfYEGUvDdxTdBoW
-Xrqkj83JqWRuOtJ37Gm/gP0qKCFhPQ==
-=Ux3r
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9zEIUACgkQTeGvMW1P
+Den2iggAtA5Pp6+wOstKhrIztC3VHrQxkZEBDWw2N4ZhbzDCrII/NW5p2c5LRYFw
+hUFdneQcEznvFYXF6LkowVrwi7LuxdhGE29MX9z06aFvKN15fYtUx65+uNVNagyr
+GPzT/U9fjcRAVOGIaCyWDNliuEaNr/EX5kDcNmQAgoH1bhjLHDqajU2lqdSMxEnF
+ZqstV5U0Mk2DiYs5f8iOI5y6J3hiF6bS0UAYB3XJdcoeQkpxCbfDk9bS1ZEVvh9L
+CLX0ZZYpmSJIqZm1R+7lOCLcBrtTzxmYyy0T9hKt0j+shtA7aZzTYPK41wNoEc7B
+Y9ekNvhchx30LRpQOxXinpzUEaLGeg==
+=NgDk
 -----END PGP SIGNATURE-----
 
---f0KYrhQ4vYSV2aJu--
-
+--y0ulUmNC+osPPQO6--
 
