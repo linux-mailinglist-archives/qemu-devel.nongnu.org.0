@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFBA27D788
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:05:40 +0200 (CEST)
-Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F343227D796
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 22:07:19 +0200 (CEST)
+Received: from localhost ([::1]:35180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNLsZ-0006yS-4h
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:05:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
+	id 1kNLuB-0000kF-2N
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 16:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kNKzn-00089e-QM
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:09:04 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:51276)
+ id 1kNKzu-0008Eb-BX
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:09:10 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:36351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kNKzk-0002V0-KX
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:09:03 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id l18so48985pjz.1
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 12:09:00 -0700 (PDT)
+ id 1kNKzs-0002Wp-NJ
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 15:09:10 -0400
+Received: by mail-pf1-x441.google.com with SMTP id d9so5550710pfd.3
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 12:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pvN8Om/RgBOsGrGBRFmFDJLUCxKzek2s7iLbr+SMo5Q=;
- b=i4Ipab4//u63l2OOiskP/9LaE4srJBFX7SM7OP+G7f872nADh6wrasqsWgzPOPjgwt
- o5ZWi4D8p7Kc/J48B8rjaJi/574gdUuqNtB0GWudPLUKunLUYJqXeTRBwN/e3GicU/U3
- lQDmkeDirak7USEHmqoJut/Wpwj9aRuXxHxh5kMaehQzNEgS7bUg+KdufrxB+bljamKV
- LgAaXFcvqyqPlMYz/cXbElZ+Ra6lSRexGB9TDk7dTlBznOhmMobMpy+ihwVwMMgIxTYS
- x2vk/cc5b9n8Yk+kSdEJNaHWPNxHd2f7Qj06cui87X6Zi+4/qNfr96c0HcqFBW7fE2Pi
- VCkA==
+ bh=W1RnwHdcfPqUNeQK0zvGYuf3hB9xeHXDqfa7SIUjDuo=;
+ b=KwEYdBgtpMNJOx/cj77iAtoIb5CneK1nbmpzGIGRJPYffVLScnX6zvs9OYm0i9JZQK
+ WWl7pEZDavHD48GDDzZn9ppUX6K7Ngewa1DJZ4WCKmaKyubJ2gBH5L0q0YHLIYs9dG7P
+ zGzBHTgvALrm2b7S5c2gnVA5CiT0LxppPTTlM+vVFT3Kdgu4BjgH8DQpO4z10iDg4RwI
+ GYkCxybTy/b9wj4Y92gF9NLm5v48z5kVl69xBvewaSmgO/ZyiQ6OJ2ygXnZ75rmFQKsS
+ bM7CoGrgv9Je9wwAzMArxHqXaF5iDhGVH1b0qD3jhMH2noBgoIYBUIOev1JZtEsH4Os1
+ obgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=pvN8Om/RgBOsGrGBRFmFDJLUCxKzek2s7iLbr+SMo5Q=;
- b=eWw3F4VcvHRj69VTgUHElo15dDRSr6zm8gfqJeoPlt4FeLLh8S+wxYfbOhfAkKzpAs
- fLgPWgARrORb1/qRGuqeaTGQ/gCmBgEO4eAKNazw3brtk2YFdiU7lMQBbul5s2uUXe10
- DW9tOOaC36rFhufoqdlgr5JTxINv6V7c5eeLeb7sCjj7y6Svxsqdj6FqN7gg14zZSH/C
- dQDHqq4XNkWn7+8bDiKebFeUYqckjnBmuyF/ZqfY/aOw2YEe0TYjWh/8WBJVwEP/eG5M
- +ev51r771Ec9TrrVT7pJ5Xjicg3n3fqlmNERAOeJkqsEu6gfjmI0hlAqs9sxqFKdfrm5
- /Y/A==
-X-Gm-Message-State: AOAM533ZUlY3usmZ9YGfUL5Dn8ytpF1eKrOIFMfXa4lfr9ZUPPuITNEv
- PKZTG9xQxRi3jyydi4TqWzJs24aCNdCeRw==
-X-Google-Smtp-Source: ABdhPJwwtZsoMhoLCFTRbjPDnhbOR+hd+3qNU+tpfsrb2oZlNVqEBZgGK5z1HdFIra4Gaq46V37R4g==
-X-Received: by 2002:a17:90a:4b0e:: with SMTP id
- g14mr2317124pjh.140.1601406539237; 
- Tue, 29 Sep 2020 12:08:59 -0700 (PDT)
+ bh=W1RnwHdcfPqUNeQK0zvGYuf3hB9xeHXDqfa7SIUjDuo=;
+ b=mYs7/Pqi+kZa6doOOtVCJY/iXjT27/ydmwZL5O+CEwJyTI2PmcMQo3lNFeC+dIumM0
+ 5SWIi8d7r30fAEx0X1lsatd3BAKNjz2MLZNmXOrfF6G7bvkSO08p9/FfJDY3gOIETs3w
+ QIVy3yOJgF7iXSE4yZe8Ho4B03I0TXlyw2Gs/4t4VlAVTmo3fsISbzrxwRujKxTxzja/
+ 145laPfm/7MdfgSOkQJV35LYzdUnJtdvqYVGhaAeKv1IjDBYaUfKZpJ2zsM128b2MBMS
+ JdkOeap02p5juqgqOQASX3x+HOKln4Af/5ImdyNHtkxTq79pJguQx7ol7rZPi7R4aFfM
+ rHgw==
+X-Gm-Message-State: AOAM531wRbW9RYHqYZRIHZUI2PoYJk0Rg+VUKl1aZ0vzr32nmcRGZa3r
+ szvouzX54DkdWEYEK420qTRxxxUrOPGIRw==
+X-Google-Smtp-Source: ABdhPJyPcD0QtMAPSqvqWHHV41sujCrP5LwrHoX1s/vQJkhd6rI/XUIEHQHDmE53ypjRcSGsVouD8Q==
+X-Received: by 2002:a63:1b44:: with SMTP id b4mr4264053pgm.175.1601406547270; 
+ Tue, 29 Sep 2020 12:09:07 -0700 (PDT)
 Received: from localhost.localdomain (122-116-72-36.HINET-IP.hinet.net.
  [122.116.72.36])
- by smtp.gmail.com with ESMTPSA id v8sm6003950pgg.58.2020.09.29.12.08.57
+ by smtp.gmail.com with ESMTPSA id v8sm6003950pgg.58.2020.09.29.12.09.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 12:08:58 -0700 (PDT)
+ Tue, 29 Sep 2020 12:09:06 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v5 62/68] target/riscv: add "set round to odd" rounding mode
- helper function
-Date: Wed, 30 Sep 2020 03:04:37 +0800
-Message-Id: <20200929190448.31116-63-frank.chang@sifive.com>
+Subject: [RFC v5 64/68] target/riscv: rvv-1.0: relax RV_VLEN_MAX to 1024-bits
+Date: Wed, 30 Sep 2020 03:04:39 +0800
+Message-Id: <20200929190448.31116-65-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200929190448.31116-1-frank.chang@sifive.com>
 References: <20200929190448.31116-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,91 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Frank Chang <frank.chang@sifive.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-helper_set_rounding_mode() is responsible for SIGILL, and "round to odd"
-should be an interface private to translation, so add a new independent
-helper_set_rod_rounding_mode().
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+
+--
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/fpu_helper.c | 5 +++++
- target/riscv/helper.h     | 1 +
- target/riscv/internals.h  | 1 +
- target/riscv/translate.c  | 5 +++++
- 4 files changed, 12 insertions(+)
+ target/riscv/cpu.h                      | 2 +-
+ target/riscv/insn_trans/trans_rvv.c.inc | 4 ++--
+ target/riscv/vector_helper.c            | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 3850146fec..b37e1d08a2 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -81,6 +81,11 @@ void helper_set_rounding_mode(CPURISCVState *env, uint32_t rm)
-     set_float_rounding_mode(softrm, &env->fp_status);
- }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 930607de24..ca78b7f352 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -92,7 +92,7 @@ typedef struct CPURISCVState CPURISCVState;
  
-+void helper_set_rod_rounding_mode(CPURISCVState *env)
-+{
-+    set_float_rounding_mode(float_round_to_odd, &env->fp_status);
-+}
-+
- static uint64_t do_fmadd_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2,
-                            uint64_t rs3, int flags)
+ #include "pmp.h"
+ 
+-#define RV_VLEN_MAX 256
++#define RV_VLEN_MAX 1024
+ 
+ FIELD(VTYPE, VLMUL, 0, 3)
+ FIELD(VTYPE, VSEW, 3, 3)
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index db6c3d9bdf..576d20c6eb 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -631,8 +631,8 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
+     base = tcg_temp_new();
+ 
+     /*
+-     * As simd_desc supports at most 256 bytes, and in this implementation,
+-     * the max vector group length is 2048 bytes. So split it into two parts.
++     * As simd_desc supports at most 2048 bytes, and in this implementation,
++     * the max vector group length is 4096 bytes. So split it into two parts.
+      *
+      * The first part is vlen in bytes, encoded in maxsz of simd_desc.
+      * The second part is lmul, encoded in data of simd_desc.
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 8d389af4b7..16331939b6 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -129,7 +129,7 @@ static uint32_t vext_wd(uint32_t desc)
+ static inline uint32_t vext_max_elems(uint32_t desc, uint32_t esz)
  {
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 2a31c7bba1..32edc77858 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -3,6 +3,7 @@ DEF_HELPER_2(raise_exception, noreturn, env, i32)
- 
- /* Floating Point - rounding mode */
- DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_WG, void, env, i32)
-+DEF_HELPER_FLAGS_1(set_rod_rounding_mode, TCG_CALL_NO_WG, void, env)
- 
- /* Floating Point - fused */
- DEF_HELPER_FLAGS_4(fmadd_s, TCG_CALL_NO_RWG, i64, env, i64, i64, i64)
-diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-index 55bcd84e39..f0705a796b 100644
---- a/target/riscv/internals.h
-+++ b/target/riscv/internals.h
-@@ -39,6 +39,7 @@ enum {
-     RISCV_FRM_RUP = 3,  /* Round Up */
-     RISCV_FRM_RMM = 4,  /* Round to Nearest, ties to Max Magnitude */
-     RISCV_FRM_DYN = 7,  /* Dynamic rounding mode */
-+    RISCV_FRM_ROD = 8,  /* Round to Odd */
- };
- 
- static inline uint64_t nanbox_s(float32 f)
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 2d12b8adc4..e6f4a662f5 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -30,6 +30,7 @@
- #include "exec/log.h"
- 
- #include "instmap.h"
-+#include "internals.h"
- 
- /* global register indices */
- static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
-@@ -583,6 +584,10 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-         return;
-     }
-     ctx->frm = rm;
-+    if (rm == RISCV_FRM_ROD) {
-+        gen_helper_set_rod_rounding_mode(cpu_env);
-+        return;
-+    }
-     t0 = tcg_const_i32(rm);
-     gen_helper_set_rounding_mode(cpu_env, t0);
-     tcg_temp_free_i32(t0);
+     /*
+-     * As simd_desc support at most 256 bytes, the max vlen is 256 bits.
++     * As simd_desc support at most 2048 bytes, the max vlen is 1024 bits.
+      * so vlen in bytes (vlenb) is encoded as maxsz.
+      */
+     uint32_t vlenb = simd_maxsz(desc);
 -- 
 2.17.1
 
