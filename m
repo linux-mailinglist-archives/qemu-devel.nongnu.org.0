@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F05727CFB3
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:45:18 +0200 (CEST)
-Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DE227CFF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:52:28 +0200 (CEST)
+Received: from localhost ([::1]:37904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNFwT-0004WH-Kt
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:45:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41688)
+	id 1kNG3P-0001zw-K5
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kNFuE-0002vY-Su
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:42:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49032)
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1kNG24-00011x-BT
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:51:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kNFuA-0001ty-H7
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:42:58 -0400
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1kNG22-00034o-LZ
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:51:03 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601386972;
+ s=mimecast20190719; t=1601387461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uLp5DdtvmB6vsh4yIzv08S3P+pTEWvxcN50qsarYzeM=;
- b=KexGCTMEBd/y7kZsJbFXmVkFAQh8Q0HgdHy4utCwMKjNW8ZBjD0AMMnE3OpVNys/CDXfCm
- 0TJ+DOP374vMAfhnj1cHYVNSpwDJX2nnTaFVjHGqWyUiqKcica7BeJz/L4ftwot2f5vqOo
- Hfko3J9awa8oBsl7IadqyC8CLlFSlTA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-BrOYk4ECOVWvDsthjbzSYg-1; Tue, 29 Sep 2020 09:42:50 -0400
-X-MC-Unique: BrOYk4ECOVWvDsthjbzSYg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6895100CF81
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 13:42:42 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57186925C4;
- Tue, 29 Sep 2020 13:42:40 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build-sys: fix git version from -version
-Date: Tue, 29 Sep 2020 17:42:37 +0400
-Message-Id: <20200929134237.514286-1-marcandre.lureau@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=rtSFUYByHhQaoMaVJTnkOkgKM4EJfs4sYnhnO0cykzs=;
+ b=CHkLACquDbINVPgPbh4HtChQDWwCkweWZ8hIHOyv3/CQdjmiTjDZK/MhQwaw6AjFZrxkCS
+ arda9D8mg9fyiE7s7gL3TtXsoPXPgUZVDDZUn1kSEt5Zjipp/x34MZh/d4gNdPvDNsCUjE
+ 8rdmyqHjSVlX/Y/tnEvmWS9CH6JktDE=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-Dyxm4IbQN7KW6yfd6eAm7A-1; Tue, 29 Sep 2020 09:49:16 -0400
+X-MC-Unique: Dyxm4IbQN7KW6yfd6eAm7A-1
+Received: by mail-qt1-f197.google.com with SMTP id 60so2991791qtf.21
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 06:49:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rtSFUYByHhQaoMaVJTnkOkgKM4EJfs4sYnhnO0cykzs=;
+ b=uYawku2IiNnxk6mVPNxo8unokTqVgnV0E2FzI8Bf5oyIaRPC6Hg8dsYEwmnG3b3OqJ
+ xkKOsNgQ1LwQipkfxR8LwuCD31mOfTAC3fI6hE0xGqfylIupmi5dokeTuvGAis+HdBPl
+ fdXiwC/KicPOODQWLasWaY6Q2qB2vBrnDR9ZMBsfXCJfW1vwW2/32SDkphwlYIVHebUB
+ 5ZNHVUtheafeY/pFD7Ynb4gn+xqvxjVc3uIHgRMzBpAMtfWB8LHA/tVlPV500w4ENr7t
+ yvLOG2/nJCow+B39gZSqoJELBnUdJ+dHsevIVjLCf9exzX2T7gbuWNDDiSIv9SjmBTF0
+ VIng==
+X-Gm-Message-State: AOAM531CczWmyugmhbeoA/8N1DhTWqouK1K6gyW4IZLKlGC8PqEaKdGf
+ voJDrAXKQhr/HItTdBe7+fXpo/C07iX7PfW0jA2HwrZV7FBNwDw7nkhkw5pjqoQqz10ioe4+Kp/
+ YFU7HtIBDLGyEl0ff75QvfgFenQiW7NY=
+X-Received: by 2002:aed:3245:: with SMTP id y63mr3368690qtd.324.1601387355575; 
+ Tue, 29 Sep 2020 06:49:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJym6ANQBU/+dCvVfDHDKuw5Mo/kSFqtt9Qbpjhaf3tKQ+xHFuyd8gY/9zUJ39qwiFwBoWALJQYbir+7HHUM7VE=
+X-Received: by 2002:aed:3245:: with SMTP id y63mr3368666qtd.324.1601387355387; 
+ Tue, 29 Sep 2020 06:49:15 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20200918213436.GA3520@redhat.com> <20200921153243.GK3221@work-vm>
+ <20200922102531.GA2837@work-vm> <20200922174733.GD57620@redhat.com>
+ <46D726A6-72F3-40FE-9382-A189513F783D@intel.com>
+ <20200924221023.GB132653@redhat.com>
+ <20200925124139.GJ2873@work-vm> <20200929131753.GB220516@redhat.com>
+In-Reply-To: <20200929131753.GB220516@redhat.com>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Tue, 29 Sep 2020 15:49:04 +0200
+Message-ID: <CAOssrKcVNs=uiU2U1-ScowogFan8W=iw7kyTCnaz-vL8r9gLmw@mail.gmail.com>
+Subject: Re: [Virtio-fs] virtiofs vs 9p performance(Re: tools/virtiofs: Multi
+ threading seems to hurt performance)
+To: Vivek Goyal <vgoyal@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mszeredi@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,35 +94,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, lersek@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
+ "cdupontd@redhat.com" <cdupontd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, "Shinde,
+ Archana M" <archana.m.shinde@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Tue, Sep 29, 2020 at 3:18 PM Vivek Goyal <vgoyal@redhat.com> wrote:
 
-Typo introduced with the script.
+> - virtiofs cache=none mode is faster than cache=auto mode for this
+>   workload.
 
-Fixes: 2c273f32d3 ("meson: generate qemu-version.h")
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- scripts/qemu-version.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Not sure why.  One cause could be that readahead is not perfect at
+detecting the random pattern.  Could we compare total I/O on the
+server vs. total I/O by fio?
 
-diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-index 03128c56a2..430a7fc581 100755
---- a/scripts/qemu-version.sh
-+++ b/scripts/qemu-version.sh
-@@ -9,7 +9,7 @@ version="$3"
- if [ -z "$pkgversion" ]; then
-     cd "$dir"
-     if [ -e .git ]; then
--        pkgversion=$(git describe --match 'v*' --dirty | echo "")
-+        pkgversion=$(git describe --match 'v*' --dirty || echo "")
-     fi
- fi
- 
--- 
-2.26.2
+Thanks,
+Millos
 
 
