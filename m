@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A4027CEC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:14:41 +0200 (CEST)
-Received: from localhost ([::1]:59326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B6F27CED7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:16:39 +0200 (CEST)
+Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNFSq-0008Bx-Bo
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34034)
+	id 1kNFUk-0001vD-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:16:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNFQu-0006Wt-6x
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:12:40 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:46005)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNFQs-0005Xp-Cj
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:12:39 -0400
-Received: by mail-ed1-x541.google.com with SMTP id l17so6254570edq.12
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 06:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JLgkXTJa6H4z68GskkgNHNy8FRqTuYI1/2tEJ5ixUCw=;
- b=nWm6+yVlndyw6UoUXKZfkLTPYx6GSRL3/INvboXJHwN9H88ITGsPc6pdpHd0sxpT7t
- u9ieGJdmrXozrrNYVIiq+pYmNBocFQ/2meac+Vyg+6mpSnESvSndCQrQ03MKCNpEShr4
- 41mTl9vu7E0/aQ+JEnmuYH5V/4Ui1sPkpYySibVcS4/8eAqveCX3JgAVKNdo0yg7yc1G
- eMujE6kuxG2dWe45SF5IOxuBbk23XEs3NCg5Sg0sRUb77CQVjjWmhqC5p5z3zqRJgCfF
- U6EBTDDUP2Y4OTNloIO3GaKs/V1bIvHiG9342AUTWJYV++UHH+Dj9EmaAKEbRhj0AYFd
- tDIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JLgkXTJa6H4z68GskkgNHNy8FRqTuYI1/2tEJ5ixUCw=;
- b=QMLAtecbcjYTfgcEM+11PErahCIpmLNU0Tn9r9tYdg2jRZrQ0NBlCNqiFnKl3GV3qB
- +G9pS0eu+lmFiEHgCmwKazBpS56ef/pHSVwHxLgfPp1+4w40rMutEXQJ9xvSwLK9m8VK
- 6jeY8QPAk8lZEmePbvA59WI80FKikf+yffsFCdCchOV/pjM7Y8hJDPtVjAOTii+CXb4C
- zCLuiq8LajdiYCINKgSnNamhZAovGVQSiWZG8SycuLsEEyu8FiZCV6+OJjGxe7cHCqQZ
- uE1R4fLaNXTtyEcGkoTRg/ab+Qcy1fQj8BJmOG4RLYSQFZu9UT2oWlWdyH9LCOkueG1O
- lADw==
-X-Gm-Message-State: AOAM530CQOiOrC8Qnf2m2DLuw1rKVHb+UFUZJw1spwYkj+5YND4rOQe4
- 8ikOrxEL+b29VghFds1B9po3p1amg+jN6GJfiMP4Ig==
-X-Google-Smtp-Source: ABdhPJzqdNXRJLarMhi96XJ2o/O7MCBiyABtirYznNwkndn0A44+PRqyoVozIdKJvTyrIVIjjcy269Q+mgh3Y3ucQm0=
-X-Received: by 2002:a05:6402:1495:: with SMTP id
- e21mr3105663edv.146.1601385156757; 
- Tue, 29 Sep 2020 06:12:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNFRm-0007kW-Bc
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:13:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNFRk-0005dD-Kd
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:13:34 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601385211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+tt6gLj9p2f6NbDA0wSRY2GUfDpEkXvFZ3JX6DEfO4Y=;
+ b=bT/4IvR9/pKqokuolhhgmkO3GgNpdf5Pf8es+g1SwZ07m/YpMTaP3glt6BmXYLwr6HhtSK
+ 0JwS6uSxh1GR9t1WpSJTGcsdFl1EWLnjUyTt9FKgmqcZiB1FKGEk2Ukv32yKwrORB6bP3n
+ g2uO6L/LXAIDzjQD+2mlQK3iRtyYPa0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549--A8sVm84OZ6d269xkY1TUA-1; Tue, 29 Sep 2020 09:13:29 -0400
+X-MC-Unique: -A8sVm84OZ6d269xkY1TUA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33A168C1CC8;
+ Tue, 29 Sep 2020 13:13:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0531460DA0;
+ Tue, 29 Sep 2020 13:13:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 933CE113864A; Tue, 29 Sep 2020 15:13:26 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 09/21] docs/interop: Convert qemu-qmp-ref to rST
+References: <20200925162316.21205-1-peter.maydell@linaro.org>
+ <20200925162316.21205-10-peter.maydell@linaro.org>
+ <87ft71ynw9.fsf@dusky.pond.sub.org>
+ <CAFEAcA-b_-wG2ip7-+aS8PKcjofBrLXfwX68Xxt0pMF0HGC3Nw@mail.gmail.com>
+Date: Tue, 29 Sep 2020 15:13:26 +0200
+In-Reply-To: <CAFEAcA-b_-wG2ip7-+aS8PKcjofBrLXfwX68Xxt0pMF0HGC3Nw@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 29 Sep 2020 10:46:37 +0100")
+Message-ID: <87blhosp3d.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20200929111255.381871-1-mst@redhat.com>
-In-Reply-To: <20200929111255.381871-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 29 Sep 2020 14:12:25 +0100
-Message-ID: <CAFEAcA9NkC6WHdM3ZaVLrHqDdTx_nLMyd+K=Z=aza+ccYYDyVw@mail.gmail.com>
-Subject: Re: [PULL 0/1] acpi: fixup
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,42 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Sep 2020 at 12:13, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 213057383c9f73a17cfe635b204d88e11f918df1:
->
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-09-29 11:10:29 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to f142e4ede72853aaa7d306bc79b099caed45769b:
->
->   tests/acpi: drop unnecessary files (2020-09-29 07:10:37 -0400)
->
-> ----------------------------------------------------------------
-> acpi: fixup
->
-> My last pull included a ton of useless files by mistake.
-> Drop them all.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
-> Michael S. Tsirkin (1):
->       tests/acpi: drop unnecessary files
->
+Peter Maydell <peter.maydell@linaro.org> writes:
 
+> On Tue, 29 Sep 2020 at 09:42, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Appears to break documented make target html:
+>>
+>> $ make -C bld-x86 html
+>> make: Entering directory '/work/armbru/qemu/bld-x86'
+>> make: *** No rule to make target 'html'.  Stop.
+>> make: Leaving directory '/work/armbru/qemu/bld-x86'
+>
+> Whoops. Should be fixable by adding
+>   alias_target('html', sphinxdocs)
+>
+> under the other two alias_target() calls at the bottom of
+> docs/meson.build, I think.
+>
+> Looking at the code I think it also breaks the 'info',
+> 'pdf' and 'txt' targets, which I propose that we fix
+> by removing them from the documentation, since not providing
+> info, pdf or txt output is an intentional change.
 
-Applied, thanks.
+Yes.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+>                                                   I believe that
+> the only documentation we would need to update is the
+>         $(call print-help,html info pdf txt man,Build documentation in
+> specified format)
+> line in Makefile.
 
--- PMM
+I'll give it a try.
+
 
