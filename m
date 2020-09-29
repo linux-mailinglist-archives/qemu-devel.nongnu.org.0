@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D42527D00C
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 15:56:57 +0200 (CEST)
-Received: from localhost ([::1]:40898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0331827D0A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 16:10:25 +0200 (CEST)
+Received: from localhost ([::1]:37628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNG7k-000448-9Y
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 09:56:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44442)
+	id 1kNGKm-0006bt-2i
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 10:10:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kNG61-0003Xb-G0
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:55:09 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:34102)
+ (Exim 4.90_1) (envelope-from <mshivam2196@gmail.com>)
+ id 1kNCkn-0001q5-VP; Tue, 29 Sep 2020 06:21:01 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:38539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kNG5z-0003P1-FV
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 09:55:09 -0400
-Received: by mail-io1-xd42.google.com with SMTP id m17so4887816ioo.1
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 06:55:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mshivam2196@gmail.com>)
+ id 1kNCkk-0004hb-44; Tue, 29 Sep 2020 06:21:00 -0400
+Received: by mail-il1-x141.google.com with SMTP id z5so4309493ilq.5;
+ Tue, 29 Sep 2020 03:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3cRA83Rhsba1TWiKfaiOtkGeJwZiZdakcfDaVmX+98I=;
- b=GrujzkTM14q71E41dGv9RRqLV4HT9SW+zk9mrAWIJ7yKdeZ5ZcvhUhn47FQElVpC1k
- QFPlbVd0XyT2W2taOCcy7GsfpVS8r5Szqxu3w5W12A96AV3/3zm4abyIhp1N/Kh3+rxG
- p6Dw5qEmJVMgZvmvb89/InLiHdCTK+P3TC/vJmv4qvJV3jzL1YBhIsGsJ46+hM62IMd7
- duz4cMAmM1iqqgqeZKJ5IFwtepIZLslZCIEVO+eTWWZtrSDuQEq6y66bClC+QdWKVyld
- q0FBHL9aoVx1fqx/zqOLvTZ3CDdA4cajOXXMx2+jy6WW9MaiO3erPz6y89V5U/J/E9Ur
- mHFQ==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=SyOahntcd+v0WDcpNph02CspFUNkXunqNDmD2DNoLj8=;
+ b=mmEDq4q8yg6W6MWWMa2Od0dZ7ETqfbp6OqA4VTLe8pyyDBgvAEPbMLbV//esK161Eg
+ FWq5C9VqqgZvAKNDhD/EyUirm5hlo01/6OXAVi3MJulrQQPmkIq7s+uB3yUOvs7HjZoY
+ GTnua8FELa4LLMTlxHntz+WbqPksrcuWQskmICYd8LhP0sz5DMdxMczaXjda3xFReXEP
+ TG5WNkJVo5V0fId0y7si8D5uTqI+Lj+zNn0etFcuHfe6hiATf8rIcAODqqXudVP81pqW
+ XVYcI7nCSncGqb4a8l9J4V3Kl6pBKwA9i2DvT77O2aLj/Yzatwa6HTE+Crd+CglPEdaT
+ 7GLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3cRA83Rhsba1TWiKfaiOtkGeJwZiZdakcfDaVmX+98I=;
- b=Tdw3+qGiKB4MqLoiCkEA6knRCJlfVZvsNFJ12S+30WSCB1JxUdg2rVl9toHtvCimC+
- eHibqNBE+T5vQZu3Il2pglgYe+SGNLy1HqtB5m+G60/YPSEvMPStsGiPyVtEHmjFPt9D
- BY0QX1ko2jea0uW6hE8s35yj5XKydLv/Mk2RuAkkGhMXp+PTLVYrWVoby+q1UDJy8izY
- 8fnek4po29diHZtRKbqFU7Mh0AeVLKZnUR02ugWz7peyVMZ1IjHSOqpS38cwkZ8T4vNo
- /zzKtnX+uIOWpGFcwu5Dj+mZZ/5yWxBk/yvZa79dfFl3E0br0YkbwQaK6WTYRHHVgK5a
- 0w+w==
-X-Gm-Message-State: AOAM532i0LATLRcBAyiu/Wl31Iyw4QhYejDpLjV00wkmPrT/yxXFlXWo
- xg53ev+VhQxjtWet84V/rPZJQAD/FdYoi+a77kw=
-X-Google-Smtp-Source: ABdhPJxh8V17DNd/+L5medXqhTpMvWOX0z6ZgtJgI1q50VJ9qk3XsTJTUlf9bdEtjSUkC0qGQ4h3MBSKFl18iuUQ6XU=
-X-Received: by 2002:a05:6638:d02:: with SMTP id
- q2mr2967149jaj.98.1601387704843; 
- Tue, 29 Sep 2020 06:55:04 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=SyOahntcd+v0WDcpNph02CspFUNkXunqNDmD2DNoLj8=;
+ b=rcGgE/N6Q9XhwWG4lVY3RrV4SehXCG8yS07NKd1eM6mOW8Axv+8MeUgbGpzg4YiAW6
+ Iw4/BcbGwlhzINbdAeumPfQ7nkSc8NTT0CldrjJKdGkmHafPOPBRhqoOsNHf3T/4OLwa
+ 8U5Bo5ilAANdi2jD3fJaoo5DOY8J1bO1BZpIMWv6qtQicQFSRqQisfLXcT5k7KMdkDLN
+ ofLW2+bLAOyeghgCpbIhFnw2xGHVnP4NY/Qljd+u1JVxsgQwBq2BxlTcp7m9W0IvM0ai
+ hssCZSR3mh9561+10krCKw2yf6uh0AdfFlEW2lJuKqj+54jBCURPoaYQmNAVdIfeTrIs
+ Hsfw==
+X-Gm-Message-State: AOAM532NE/dILS3mSvtqFPywnWLOo1p2/NgTlD/7DW8XE4V3cpbCpjFP
+ 27A9LjaTVGx6iRojVrZktBD7b7Gn1tSIvKd/c/H0vKgK8xcIDg==
+X-Google-Smtp-Source: ABdhPJzo2WDxRAMHvi4QfRXlr6uzK3bUw2giGOiVctffIbreT9jWZNs/eahPejNIGBdYK+JrY3Cs0uNzoN/r9gUJkbg=
+X-Received: by 2002:a05:6e02:f48:: with SMTP id
+ y8mr2432429ilj.103.1601374854342; 
+ Tue, 29 Sep 2020 03:20:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200928114909.20791-1-david@redhat.com>
- <20200928114909.20791-2-david@redhat.com>
-In-Reply-To: <20200928114909.20791-2-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Tue, 29 Sep 2020 15:54:53 +0200
-Message-ID: <CAM9Jb+gdf+n+Poa_kZRRTchcB8D33FDuuTyn4tB4TjWyAah9Hw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] virtio-mem: Probe THP size to determine default
- block size
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd42.google.com
+From: Shivam Mehra <mshivam2196@gmail.com>
+Date: Tue, 29 Sep 2020 15:50:43 +0530
+Message-ID: <CANp2S668GWL6r8uLmRpLtD-3qMxqGbuRa3ghwsTJkDUSmGZQ6Q@mail.gmail.com>
+Subject: Network I/O Buffering
+To: qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000586e3805b07123b6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=mshivam2196@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ HTML_OBFUSCATE_05_10=0.26, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 29 Sep 2020 10:08:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,191 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Wei Yang <richardw.yang@linux.intel.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Let's allow a minimum block size of 1 MiB in all configurations. Select
-> the default block size based on
-> - The page size of the memory backend.
-> - The THP size if the memory backend size corresponds to the real hsot
+--000000000000586e3805b07123b6
+Content-Type: text/plain; charset="UTF-8"
 
-s/hsot/host
->   page size.
-> - The global minimum of 1 MiB.
-> and warn if something smaller is configured by the user.
->
-> VIRTIO_MEM only supports Linux (depends on LINUX), so we can probe the
-> THP size unconditionally.
->
-> For now we only support virtio-mem on x86-64 - there isn't a user-visiable
+I came across this documentation with source code for providing network
+buffering to applications
+https://www.infradead.org/~tgr/libnl/doc/api/route_2qdisc_2plug_8c_source.html.
+This network-buffering helps output-commit problem when providing fault
+tolerance to virtual machines. The output is buffered until an
+acknowledgement arrives from the backup VM and then released to the
+external world. So that backup and primary VMs seem consistent externally.
+Initially developed for XEN VMM to provide fault tolerance to VMs and I
+think it's now available for QEMU too.
 
-s/visiable/visible
-> change (x86-64 only supports 2 MiB THP on the PMD level) - the default
-> was, and will be 2 MiB.
->
-> If we ever have THP on the PUD level (e.g., 1 GiB THP on x86-64), we
-> expect to have a trigger to explicitly opt-in for the new THP granularity.
->
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Wei Yang <richardw.yang@linux.intel.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/virtio/virtio-mem.c | 105 +++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 101 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index 8fbec77ccc..9b1461cf9d 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -33,10 +33,83 @@
->  #include "trace.h"
->
->  /*
-> - * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
-> - * memory (e.g., 2MB on x86_64).
-> + * Let's not allow blocks smaller than 1 MiB, for example, to keep the tracking
-> + * bitmap small.
->   */
-> -#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)QEMU_VMALLOC_ALIGN)
-> +#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
-> +
-> +#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
-> +    defined(__powerpc64__)
-> +#define VIRTIO_MEM_DEFAULT_THP_SIZE ((uint32_t)(2 * MiB))
-> +#else
-> +        /* fallback to 1 MiB (e.g., the THP size on s390x) */
-> +#define VIRTIO_MEM_DEFAULT_THP_SIZE VIRTIO_MEM_MIN_BLOCK_SIZE
-> +#endif
-> +
-> +/*
-> + * We want to have a reasonable default block size such that
-> + * 1. We avoid splitting THPs when unplugging memory, which degrades
-> + *    performance.
-> + * 2. We avoid placing THPs for plugged blocks that also cover unplugged
-> + *    blocks.
-> + *
-> + * The actual THP size might differ between Linux kernels, so we try to probe
-> + * it. In the future (if we ever run into issues regarding 2.), we might want
-> + * to disable THP in case we fail to properly probe the THP size, or if the
-> + * block size is configured smaller than the THP size.
-> + */
-> +static uint32_t thp_size;
-> +
-> +#define HPAGE_PMD_SIZE_PATH "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
-> +static uint32_t virtio_mem_thp_size(void)
-> +{
-> +    gchar *content = NULL;
-> +    const char *endptr;
-> +    uint64_t tmp;
-> +
-> +    if (thp_size) {
-> +        return thp_size;
-> +    }
-> +
-> +    /*
-> +     * Try to probe the actual THP size, fallback to (sane but eventually
-> +     * incorrect) default sizes.
-> +     */
-> +    if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
-> +        !qemu_strtou64(content, &endptr, 0, &tmp) &&
-> +        (!endptr || *endptr == '\n')) {
-> +        /*
-> +         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
-> +         * pages) or weird, fallback to something smaller.
-> +         */
-> +        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
-> +            warn_report("Read unsupported THP size: %" PRIx64, tmp);
-> +        } else {
-> +            thp_size = tmp;
-> +        }
-> +    }
-> +
-> +    if (!thp_size) {
-> +        thp_size = VIRTIO_MEM_DEFAULT_THP_SIZE;
-> +        warn_report("Could not detect THP size, falling back to %" PRIx64
-> +                    "  MiB.", thp_size / MiB);
-> +    }
-> +
-> +    g_free(content);
-> +    return thp_size;
-> +}
-> +
-> +static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
-> +{
-> +    const uint64_t page_size = qemu_ram_pagesize(rb);
-> +
-> +    /* We can have hugetlbfs with a page size smaller than the THP size. */
-> +    if (page_size == qemu_real_host_page_size) {
-> +        return MAX(page_size, virtio_mem_thp_size());
-> +    }
+Where does the script reside which does network-buffering for checkpoints?
+and what are the commands to make this happen?
 
-This condition is special, can think of hugetlbfs smaller in size than THP size
-configured.
-> +    return MAX(page_size, VIRTIO_MEM_MIN_BLOCK_SIZE);
+I want to do this network-buffering for packets originating from an
+application. Is it possible to do it in the same way as above? Does it do
+any damage to the host kernel? Can I get  a simple working example for this?
 
-Do we still need this? Or we can have only one return for both the cases?
-Probably, I am missing something here.
-> +}
-> +
->  /*
->   * Size the usable region bigger than the requested size if possible. Esp.
->   * Linux guests will only add (aligned) memory blocks in case they fully
-> @@ -437,10 +510,23 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
->      rb = vmem->memdev->mr.ram_block;
->      page_size = qemu_ram_pagesize(rb);
->
-> +    /*
-> +     * If the block size wasn't configured by the user, use a sane default. This
-> +     * allows using hugetlbfs backends of any page size without manual
-> +     * intervention.
-> +     */
-> +    if (!vmem->block_size) {
-> +        vmem->block_size = virtio_mem_default_block_size(rb);
-> +    }
-> +
->      if (vmem->block_size < page_size) {
->          error_setg(errp, "'%s' property has to be at least the page size (0x%"
->                     PRIx64 ")", VIRTIO_MEM_BLOCK_SIZE_PROP, page_size);
->          return;
-> +    } else if (vmem->block_size < virtio_mem_default_block_size(rb)) {
-> +        warn_report("'%s' property is smaller than the default block size (%"
-> +                    PRIx64 " MiB)", VIRTIO_MEM_BLOCK_SIZE_PROP,
-> +                    virtio_mem_default_block_size(rb) / MiB);
->      } else if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
->          error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
->                     ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
-> @@ -731,6 +817,18 @@ static void virtio_mem_get_block_size(Object *obj, Visitor *v, const char *name,
->      const VirtIOMEM *vmem = VIRTIO_MEM(obj);
->      uint64_t value = vmem->block_size;
->
-> +    /*
-> +     * If not configured by the user (and we're not realized yet), use the
-> +     * default block size we would use with the current memory backend.
-> +     */
-> +    if (!value) {
-> +        if (vmem->memdev && memory_region_is_ram(&vmem->memdev->mr)) {
-> +            value = virtio_mem_default_block_size(vmem->memdev->mr.ram_block);
-> +        } else {
-> +            value = virtio_mem_thp_size();
-> +        }
-> +    }
-> +
->      visit_type_size(v, name, &value, errp);
->  }
->
-> @@ -810,7 +908,6 @@ static void virtio_mem_instance_init(Object *obj)
->  {
->      VirtIOMEM *vmem = VIRTIO_MEM(obj);
->
-> -    vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
->      notifier_list_init(&vmem->size_change_notifiers);
->      vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
+--000000000000586e3805b07123b6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p style=3D"margin-top:0px;margin-right:0px;margin-left:0p=
+x;padding:0px;border:0px;font-variant-numeric:inherit;font-variant-east-asi=
+an:inherit;font-stretch:inherit;line-height:inherit;font-family:Arial,&quot=
+;Helvetica Neue&quot;,Helvetica,sans-serif;font-size:15px;vertical-align:ba=
+seline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">I came across thi=
+s documentation with source code for providing network buffering to applica=
+tions=C2=A0<a href=3D"https://www.infradead.org/~tgr/libnl/doc/api/route_2q=
+disc_2plug_8c_source.html" rel=3D"nofollow noreferrer" style=3D"margin:0px;=
+padding:0px;border:0px;font-style:inherit;font-variant:inherit;font-weight:=
+inherit;font-stretch:inherit;line-height:inherit;font-family:inherit;vertic=
+al-align:baseline;box-sizing:inherit">https://www.infradead.org/~tgr/libnl/=
+doc/api/route_2qdisc_2plug_8c_source.html</a>. This network-buffering helps=
+ output-commit problem when providing fault tolerance to virtual machines. =
+The output is buffered until an acknowledgement arrives from the backup VM =
+and then released to the external world. So that backup and primary VMs see=
+m consistent externally. Initially developed for XEN VMM to provide fault t=
+olerance to VMs and I think it&#39;s now available for=C2=A0<code style=3D"=
+margin:0px;padding:2px 4px;border:0px;font-style:inherit;font-variant:inher=
+it;font-weight:inherit;font-stretch:inherit;line-height:inherit;font-family=
+:Consolas,Menlo,Monaco,&quot;Lucida Console&quot;,&quot;Liberation Mono&quo=
+t;,&quot;DejaVu Sans Mono&quot;,&quot;Bitstream Vera Sans Mono&quot;,&quot;=
+Courier New&quot;,monospace,sans-serif;font-size:13px;vertical-align:baseli=
+ne;box-sizing:inherit;white-space:pre-wrap;border-radius:3px">QEMU</code>=
+=C2=A0too.</p><p style=3D"margin-top:0px;margin-right:0px;margin-left:0px;p=
+adding:0px;border:0px;font-variant-numeric:inherit;font-variant-east-asian:=
+inherit;font-stretch:inherit;line-height:inherit;font-family:Arial,&quot;He=
+lvetica Neue&quot;,Helvetica,sans-serif;font-size:15px;vertical-align:basel=
+ine;box-sizing:inherit;clear:both;color:rgb(36,39,41)">Where does the scrip=
+t reside which does network-buffering for checkpoints? and what are the com=
+mands to make this happen?</p><p style=3D"margin-top:0px;margin-right:0px;m=
+argin-left:0px;padding:0px;border:0px;font-variant-numeric:inherit;font-var=
+iant-east-asian:inherit;font-stretch:inherit;line-height:inherit;font-famil=
+y:Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;font-size:15px;vert=
+ical-align:baseline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">I wa=
+nt to do this network-buffering for=C2=A0packets originating=C2=A0from an a=
+pplication. Is it possible to do it in the same way as above? Does it do an=
+y damage to the host kernel? Can I get=C2=A0 a simple working example for t=
+his?</p></div>
+
+--000000000000586e3805b07123b6--
 
