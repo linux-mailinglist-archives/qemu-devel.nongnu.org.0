@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D2927DC9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 01:24:19 +0200 (CEST)
-Received: from localhost ([::1]:46272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED83027DCA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 01:24:49 +0200 (CEST)
+Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNOyo-0002UE-JM
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 19:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
+	id 1kNOzI-0002lJ-Ql
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 19:24:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNOu7-0000UM-DB; Tue, 29 Sep 2020 19:19:27 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:41317)
+ id 1kNOu7-0000UV-UN; Tue, 29 Sep 2020 19:19:27 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:56253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNOu5-00007o-6A; Tue, 29 Sep 2020 19:19:27 -0400
+ id 1kNOu5-00007n-5V; Tue, 29 Sep 2020 19:19:27 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 45583F11;
+ by mailnew.west.internal (Postfix) with ESMTP id 426EBED0;
  Tue, 29 Sep 2020 19:19:22 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
  by compute4.internal (MEProxy); Tue, 29 Sep 2020 19:19:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm1; bh=E+sX1lwObBdNstk9+Ral8pxNrm
- qIX63dHpQucV76Wyc=; b=fwCZYYwxzCjMQhVHJA640FOKo2xgRnNM7mIXFyhKhq
- MfpSL9Lzb3wbm6CYjMS0irr2/X2148WEaARlRKDg0MrKg7inD3HP9MBFBhXmf0pw
- 9EBmtp7XuB4YEL8GWJ14rdBICSJaih/1cICKB4SwBtstdI/kE75h+EdeAF03GStO
- 54sRoH3NPpDVUjJpjVfIjh4PPQoIsuy33P3z2RhScvw87kgvICBxUuV61mMvM+3S
- 4hqv0cBT2qNsNSwlJs6zhQdIXtnJcHi/tSAlD4SBAAPCTPDkSbM0GsQztKoioI8s
- PZ3JdbtYkXTzkNIi7WJ8JWwzw1Z5O90KKl2aoJPZHFZA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=1QikJUcbsmo2U
+ P6Df439yCuIR8yF+wYrAAq6TthCldM=; b=eCvHv2wCVn0rZRbzcJscUBan3iOb+
+ gdrVnzcNOXJcnF3fUWr1cxyXdaJRCtpQW9Qqz8dz2ijvnOncY/P9aUkEyrYZh8ov
+ qsgini1gVyrPbBESt3KJLZM2YduCHRRnnr56BFLQ1g3tV/ZimcSrexum63GQFjUY
+ qHLU2NlB6dQPhP4QWgGsxyYA54ujtDpzfN0iJwRMionFDLWIn1TlBcO3FovSXiqy
+ 4ECyDnxte5OGN0aRDBKIxec7lmtFmMROU0mNWSCj4msmSoWQaLnhNWLmyn7yh/bl
+ q+aMeHUxPHOak7ig+Jy0KHPF623GEX6BHF7vFTCgYPbB27JeGLQE+5b1Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=E+sX1l
- wObBdNstk9+Ral8pxNrmqIX63dHpQucV76Wyc=; b=dYqLw4Thi4mg9R4y9steA4
- I0Mkr13WIsSkbR9PaG/gcqGy125zfUfxPap4lpC/IRJr1Wub6TeRATnqnBsOYdeg
- exPC8LZN/QbCBSlJf72AFCKe9Z3xKTHEmg0LDMY8l/CXtQTzJjRfhtR54T1HeJWA
- jibFbq0y2X9xQAcH7hH6Q4p3r4RQEnxWm3OQMdkWd6jvWFvQKg+WVeothy+5dmM7
- 3zgq4s0YbYoLPjpBFTBNZ0GSbKYDZihVta/2dc3A9WN0BjfwncPE38a57rVmQ/+7
- UkfeJ3ifdbFBJWGe9kCaQpxPdKzemVmTDlbcOoTRu5ypiDscxRwQPEdgQr2Lz/DA
- ==
-X-ME-Sender: <xms:-MBzX7W-hblNBxf3zLm4b61iR4wBgUDSg97zYCWIuGIzGp_V5ppsqw>
- <xme:-MBzXzntGjSRylUJkfJxw_4DC5v-r8BqoTczwmkk710hwyxtTPLdx8SIJY2nRgDZ2
- nIVMDdJlq1CZPwOYfI>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=1QikJUcbsmo2UP6Df439yCuIR8yF+wYrAAq6TthCldM=; b=TOOF0Mv/
+ ac9jPlZCfciJKOkWkWXwLMeiEGARZhhyroXN2VE25Jpl50QWivekyvQc9MtIHslL
+ 8sFS6y50d1Gkz1vTfzGyxvTB8FzCu99TOGs/iE7ITOlYUbVYdkXFPB3G1381zyy/
+ sq4Xr2oNZkrJncr8cIgf/7bI9nmzy4wGVnQvePBOUhjFeQp5hKkY/1oQBw5pSq0H
+ 9HdMGzbyrXCFxRPL6x6/tJNhvHW1WhKqQbibewNv8UTZhS2Ml/3WVyOLhmpc9SwP
+ GPSo4cF2DGpyTDIEHGRtNXTuAPijMFBa1nAcEp1l4EpFhe9a5d+nEoVVE/XNNqsb
+ 4v7tfzRYuNtRyA==
+X-ME-Sender: <xms:-cBzXytgR3Gv9ZvP1SgfjptW9MlRMtvm0pJS3z_BKe0bMusTuRXjfw>
+ <xme:-cBzX3ewZJXFzuDXi7XVVxdsnKJ81KpzaOz9c4fxXArBjklX-lX6u28bMnGGGsjfp
+ FhM_1GWRNEUFOR-h5M>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedtgddujecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofggtgfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
- vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
- hnpeefudehfedugffhuddttefffeeluedttdetgfduleduuddugfeuhfelueeuuefggfen
- ucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:-MBzX3aPhHZaFlynwltgNBW3GUitxZ8SjmAFqJOpddCksam6IPXneg>
- <xmx:-MBzX2WFAGnv6DWDkKLTY5RkkXAVi--MgsBTsKr3-hiBCba5pVlKxg>
- <xmx:-MBzX1lOcfhXzeeWqZgZMnZGZz8qWrmVYJRL5hrMMEntuSXcc5EZZQ>
- <xmx:-cBzX4sJK8VJ__gR7XkPSDhPgQDfe-Tq32L_zQ53BJvQrNUgSzyEy8uZ3xM>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:-cBzX9xkfulcx4SkJQO417fRcaEbN5_dBk2wb6E1ZmZIFriSu8IZmA>
+ <xmx:-cBzX9MFIgGHdABmMBZcf98Z33rW9uws1eCf1ugvo7afsbxrYiDK1Q>
+ <xmx:-cBzXy_Rf6EZVb_0YWgAtpLnr7wYV20GBxkyqB4f9XDyNpUl7DMpXw>
+ <xmx:-cBzX5n-_UM-S0pcBWDLg4v--A0z72g2LZstC86389CS0k2w_4VN5_eLDSs>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2033A3280063;
- Tue, 29 Sep 2020 19:19:19 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 64EBB328005D;
+ Tue, 29 Sep 2020 19:19:20 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/14] hw/block/nvme: zoned namespace command set
-Date: Wed, 30 Sep 2020 01:19:03 +0200
-Message-Id: <20200929231917.433586-1-its@irrelevant.dk>
+Subject: [PATCH v2 01/14] hw/block/nvme: add nsid to get/setfeat trace events
+Date: Wed, 30 Sep 2020 01:19:04 +0200
+Message-Id: <20200929231917.433586-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200929231917.433586-1-its@irrelevant.dk>
+References: <20200929231917.433586-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
  helo=wnew2-smtp.messagingengine.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 17:46:07
@@ -100,87 +101,54 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-So, things escalated a bit.=0D
-=0D
-I'm removing the old cover letter. I don't think we need it anymore - you a=
-ll=0D
-know the reason I keep posting versions of this implementation ;)=0D
-=0D
-Based-on: <20200922084533.1273962-1-its@irrelevant.dk>=0D
-=0D
-Changes for v2=0D
-~~~~~~~~~~~~~~=0D
-=0D
-  * "hw/block/nvme: add support for dulbe and block utilization tracking"=0D
-    - Factor out pstate init/load into separate functions.=0D
-=0D
-    - Fixed a stupid off-by-1 bug that would trigger when resetting the=0D
-      last zone.=0D
-=0D
-    - I added a more formalized pstate file format that includes a=0D
-      header. This is pretty similar to what is done in Dmitry's series,=0D
-      but with fewer fields. The device parameters for nvme-ns are still=0D
-      the "authoritative" ones, so if any parameters that influence LBA=0D
-      size, number of zones, etc. do not match, an error indicating the=0D
-      discrepancy will be produced. IIRC, Dmitry's version does the=0D
-      same.=0D
-=0D
-      It is set up such that newer versions can load pstate files from=0D
-      older versions. The file format header is not unlike a standard=0D
-      nvme datastructure with reserved areas. This means that when=0D
-      adding new command sets that require persistent state, it is not=0D
-      needed to bump the version number, unless the header has to change=0D
-      dramatically.  This is demonstrated when the zoned namespace=0D
-      command set support is added in "hw/block/nvme: add basic=0D
-      read/write for zoned namespaces".=0D
-=0D
-  * "hw/block/nvme: add basic read/write for zoned namespaces"=0D
-    - The device will now transition all opened zones to Closed on=0D
-      "normal shutdown". You can force the "transition to Full" behavior=0D
-      by killing QEMU from the monitor.=0D
-=0D
-  * "hw/block/nvme: add the zone append command"=0D
-    - Slightly reordered the logic so a LBA Out of Range error is=0D
-      returned before Invalid Field in Command for normal read/write=0D
-      commands.=0D
-=0D
-  * "hw/block/nvme: support zone active excursions"=0D
-    - Dropped. Optional and non-critical.=0D
-=0D
-  * "hw/block/nvme: support reset/finish recommended limits"=0D
-    - Dropped. Optional and non-critical.=0D
-=0D
-Gollu Appalanaidu (1):=0D
-  hw/block/nvme: add commands supported and effects log page=0D
-=0D
-Klaus Jensen (13):=0D
-  hw/block/nvme: add nsid to get/setfeat trace events=0D
-  hw/block/nvme: add trace event for requests with non-zero status code=0D
-  hw/block/nvme: make lba data size configurable=0D
-  hw/block/nvme: reject io commands if only admin command set selected=0D
-  hw/block/nvme: consolidate read, write and write zeroes=0D
-  hw/block/nvme: add support for dulbe and block utilization tracking=0D
-  hw/block/nvme: support namespace types=0D
-  hw/block/nvme: add basic read/write for zoned namespaces=0D
-  hw/block/nvme: add the zone management receive command=0D
-  hw/block/nvme: add the zone management send command=0D
-  hw/block/nvme: add the zone append command=0D
-  hw/block/nvme: track and enforce zone resources=0D
-  hw/block/nvme: allow open to close transitions by controller=0D
-=0D
- docs/specs/nvme.txt   |   47 +-=0D
- hw/block/nvme-ns.h    |  180 ++++-=0D
- hw/block/nvme.h       |   22 +=0D
- include/block/nvme.h  |  230 +++++-=0D
- block/nvme.c          |    4 +-=0D
- hw/block/nvme-ns.c    |  456 +++++++++++-=0D
- hw/block/nvme.c       | 1560 +++++++++++++++++++++++++++++++++++++++--=0D
- hw/block/trace-events |   42 +-=0D
- 8 files changed, 2443 insertions(+), 98 deletions(-)=0D
-=0D
--- =0D
-2.28.0=0D
-=0D
+Include the namespace id in the pci_nvme_{get,set}feat trace events.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c       | 4 ++--
+ hw/block/trace-events | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index da8344f196a8..84b6b516fa7b 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1660,7 +1660,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+         [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
+     };
+ 
+-    trace_pci_nvme_getfeat(nvme_cid(req), fid, sel, dw11);
++    trace_pci_nvme_getfeat(nvme_cid(req), nsid, fid, sel, dw11);
+ 
+     if (!nvme_feature_support[fid]) {
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -1798,7 +1798,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+     uint8_t fid = NVME_GETSETFEAT_FID(dw10);
+     uint8_t save = NVME_SETFEAT_SAVE(dw10);
+ 
+-    trace_pci_nvme_setfeat(nvme_cid(req), fid, save, dw11);
++    trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
+ 
+     if (save) {
+         return NVME_FID_NOT_SAVEABLE | NVME_DNR;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 446cca08e9ab..5a239b80bf36 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -53,8 +53,8 @@ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+-pci_nvme_getfeat(uint16_t cid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
+-pci_nvme_setfeat(uint16_t cid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
++pci_nvme_getfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
++pci_nvme_setfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
+ pci_nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
+ pci_nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
+ pci_nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+-- 
+2.28.0
+
 
