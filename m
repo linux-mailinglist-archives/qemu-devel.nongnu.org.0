@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CFA27BB92
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 05:34:08 +0200 (CEST)
-Received: from localhost ([::1]:55258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C7A27BB9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 05:41:12 +0200 (CEST)
+Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kN6P0-0005Qm-FK
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 23:34:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60782)
+	id 1kN6Vr-0003Jv-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 23:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kN6LK-0002uK-4Z
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:30:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47485)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kN6Uh-0002Oo-7N
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:39:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kN6LH-0001Fu-QA
- for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:30:17 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kN6Ud-0002uB-Kp
+ for qemu-devel@nongnu.org; Mon, 28 Sep 2020 23:39:57 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601350214;
+ s=mimecast20190719; t=1601350793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EyoiZErsCK5O0Fc1NDIeRgE7jkHzK7kKElq7DPgkNd0=;
- b=AViefR/UCehObPNiJPitC62q6bKOcKxBMDxWM2zlxhPFj8faz8YQJdnKkKesmUERnppn7t
- /AnEjqL7KR32pILAOKdlOgl7q2/jSPT8GlpERafi2os84dd9q+uXmf7TjJ4b2c0ZM5nfJb
- 5xySbXNtTifCK+GV825zA+xdVzxi4E0=
+ bh=Zi/nKKQAcWDtXmo7FqYqidOpbLbHHgf52/XLjK9L0es=;
+ b=Qg3soD1/x7p+Y/dn4MP1zr4/j7c9BJM1vO+lV2cezTsK7iy9BxT+fZCovKl8vTvtRunGXI
+ C6cUmratgoPfKWPQHl4ddqzLBvg5MKUS2X4zWaepFbswiWEQpQbv0KI1cFBNMxjrtiKtwH
+ owe/8hSYVcP/LpIN7StUA0WNnkiUlhY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-9Mo8oRwjPQiGoh8ELeNzPQ-1; Mon, 28 Sep 2020 23:30:11 -0400
-X-MC-Unique: 9Mo8oRwjPQiGoh8ELeNzPQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-175-k0iKCq3-Ndea8inv4bZEnw-1; Mon, 28 Sep 2020 23:39:50 -0400
+X-MC-Unique: k0iKCq3-Ndea8inv4bZEnw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D15E0802B47
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 03:30:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3C59802B47
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 03:39:49 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 399D97842B;
- Tue, 29 Sep 2020 03:30:02 +0000 (UTC)
-Date: Mon, 28 Sep 2020 23:30:00 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B05D65D9CA;
+ Tue, 29 Sep 2020 03:39:48 +0000 (UTC)
+Date: Mon, 28 Sep 2020 23:39:46 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 03/47] [DO-NOT-MERGE] docs/sphinx: change default role
- to "any"
-Message-ID: <20200929033000.GD700868@localhost.localdomain>
+Subject: Re: [PATCH v3 04/47] qapi: modify docstrings to be sphinx-compatible
+Message-ID: <20200929033946.GE700868@localhost.localdomain>
 References: <20200925002900.465855-1-jsnow@redhat.com>
- <20200925002900.465855-4-jsnow@redhat.com>
+ <20200925002900.465855-5-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200925002900.465855-4-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200925002900.465855-5-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NtwzykIc2mflq5ck"
+ protocol="application/pgp-signature"; boundary="84ND8YJRMFlzkrP4"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,65 +85,94 @@ Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---NtwzykIc2mflq5ck
+--84ND8YJRMFlzkrP4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 24, 2020 at 08:28:16PM -0400, John Snow wrote:
+On Thu, Sep 24, 2020 at 08:28:17PM -0400, John Snow wrote:
+> I did not say "sphinx beautiful", just "sphinx compatible". They will
+> not throw errors when parsed and interpreted as ReST.
+>=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  docs/conf.py | 3 +++
->  1 file changed, 3 insertions(+)
+>  scripts/qapi/doc.py    | 10 +++++-----
+>  scripts/qapi/gen.py    |  6 ++++--
+>  scripts/qapi/parser.py |  9 +++++----
+>  3 files changed, 14 insertions(+), 11 deletions(-)
 >=20
-> diff --git a/docs/conf.py b/docs/conf.py
-> index 0dbd90dc11..a68f616d5a 100644
-> --- a/docs/conf.py
-> +++ b/docs/conf.py
-> @@ -81,6 +81,9 @@
->  # The master toctree document.
->  master_doc =3D 'index'
+> diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+> index 92f584edcf..c41e9d29f5 100644
+> --- a/scripts/qapi/doc.py
+> +++ b/scripts/qapi/doc.py
+> @@ -65,11 +65,11 @@ def texi_format(doc):
+>      Format documentation
 > =20
-> +# Interpret `this` to be a cross-reference to "anything".
-> +default_role =3D 'any'
-> +
->  # General information about the project.
->  project =3D u'QEMU'
->  copyright =3D u'2020, The QEMU Project Developers'
-> --=20
-> 2.26.2
->=20
+>      Lines starting with:
+> -    - |: generates an @example
+> -    - =3D: generates @section
+> -    - =3D=3D: generates @subsection
+> -    - 1. or 1): generates an @enumerate @item
+> -    - */-: generates an @itemize list
+> +    - ``|:`` generates an @example
+> +    - ``=3D:`` generates @section
+> +    - ``=3D=3D:`` generates @subsection
+> +    - ``1.`` or ``1):`` generates an @enumerate @item
+> +    - ``*/-:`` generates an @itemize list
+>      """
+>      ret =3D ''
+>      doc =3D subst_braces(doc)
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index bf5552a4e7..3d25a8cff4 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -154,9 +154,11 @@ def _bottom(self):
+> =20
+>  @contextmanager
+>  def ifcontext(ifcond, *args):
+> -    """A 'with' statement context manager to wrap with start_if()/end_if=
+()
+> +    """
+> +    A 'with' statement context manager to wrap with start_if()/end_if()
+> =20
 
-After this I get:
+If you're making it compatible, why not take the time to give
+backticks to start_if and end_if?
 
-  qemu/docs/cpu-hotplug.rst:81: WARNING: 'any' reference target not found: =
-query-cpus-fast
+Bonus points for setting the "meth" role, but not lost points for not
+doing it, as I understand this is beyond what you're attempting at
+this time.
 
-So I missed it during the review of the first patch ("docs: replace
-single backtick (`) with double-backtick (``)").
+> -    *args: any number of QAPIGenCCode
+> +    :param ifcond: List of conditionals
+> +    :param args: any number of QAPIGenCCode
+> =20
+
+I would argue that this is not a strict sphinx compatibility change,
+but a fix to a broken docstring.
 
 - Cleber.
 
---NtwzykIc2mflq5ck
+--84ND8YJRMFlzkrP4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9yqjQACgkQZX6NM6Xy
-CfPHhA//SexBftYJNE21PpgDtII0Qu4SW0rdrojaddJakWhxC67xNkE/h1dyQiA/
-ETUc62iyb6brf+nw6GiBrELCoR68mZV+dE1K8AG8cVgz2/h0IHMrH5AetthKCic9
-ddYgYU/qf9UhhELf/q4f03K7KQ/5PwBjaHPQm2avOMU9FjVO7oEiT0w4yS240sz7
-ulc8J0EXXWF/Aybw+bhhjuOF+dQI+AA1Pon5detFoW9anEjB7LNLNxRYJcX/+Dh6
-eijWZC7GqrgIzAIRsjBpgVWrpiFQz70VNTqQkOzKoawZPNnjbA+M2SbcPjV0OYAf
-NMuKq4UOnAfgI/S8XVNaEBBy4XTXEs9QkZHO2AsV1gBS6I0pHBPHywakhH06KdwO
-tvN9u8KMkIZLKbDIK3ZvC1mYCWJmOgo/xEjixbB1JbyLVLV4omw9yLhWTmEYN8Bk
-xnYA04dFq8SULsDcOvzQO5krTFTSp/rwjNe2l0OuAibuXkPhf1GhbsTJ3rcxJylK
-JzCTpcJ0Dj7R9ukMuiFwBUjrdedm3oOWUMTzSsxaXoOM5EKp5I0P3tcmmwFTwYpk
-uVbk26FqN57qk9c0qEeJA0BVqOYTIh3nj1bGZKf+0QrzoA4nwiCr5gVUQLX/aPh0
-coPLG0us+8K2NUQ9VI4ykaBmP2vSu4Q6VB4yXA89w0UBouIthC0=
-=/MZ8
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9yrIAACgkQZX6NM6Xy
+CfNodA/+JClgkumUHvUrFLpx+MrS5i2N4KZpkQF1MN2D3nLkp1pA1DFiP6WGo01P
+Ekl8k9TJysWY3523kRH9Hqp9VuVy3CNGxT4z7kJA7KSLRe/Nh26jo8VTLf2n2ZRQ
+CONGL/JkJ11DrqmWVnjVAuGiBsX6DZwaJZZgmb7nDamLUkoGxKrFvOYVSiPGaxCB
+49Otbe/6QLWfp2lyA/Bvt9t0pFL7TC9s/VO8yeb6thA2JGJP26d6pgOdpN/Oxmsw
+/9sUH8sZ9bx8nH3vl6lNRMf0LBJWweNzBqNCxiWMDW47ouUta8J6SjUxcnKt6Hu7
+FK4kBQjFZdZrHK6EOQLIBEjRlFUW5Fs0r9fY02wYbRlH5r2ZZ2JbH06rV+StzaoJ
+AtAlmlRc9wnqpSMJCzZjodZTs/fmqBptTb/iMvdYiZbZvYuWFd8/kgeZG32LC+93
+TSjH6ltzGz3EkfGN9DNGbKYB9NC0AZ1s7o24wzZtTyH/X5GkTDhTkjlVSfcuj0Y0
+O9epyOKodUJmsw61Vvl1lwc6+i/XYuIaN5FLC/O+mcA8a1geRfIdcXWeHaoZTVwZ
+rijUqo/PuD5HiwfTzAOSu26XHVIU8CBccmuXX3vgGv/k7Crqo9GT9K3y9wWEZLwP
+eiLKFIG60AYgWnOQFHOs84/kfXRXzUz2YPQL5cSo/3DhN/0At4U=
+=cYs1
 -----END PGP SIGNATURE-----
 
---NtwzykIc2mflq5ck--
+--84ND8YJRMFlzkrP4--
 
 
