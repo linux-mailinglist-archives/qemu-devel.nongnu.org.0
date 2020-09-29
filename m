@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E7C27BAAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 04:07:54 +0200 (CEST)
-Received: from localhost ([::1]:50704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B2227BAA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 04:05:50 +0200 (CEST)
+Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kN53a-0007ew-2j
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 22:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40638)
+	id 1kN51Z-0005qZ-48
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 22:05:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kN50C-0004rM-H9; Mon, 28 Sep 2020 22:04:25 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4767 helo=huawei.com)
+ id 1kN509-0004pz-8D; Mon, 28 Sep 2020 22:04:21 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4768 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kN507-0002x7-0D; Mon, 28 Sep 2020 22:04:24 -0400
+ id 1kN504-0002xA-DX; Mon, 28 Sep 2020 22:04:20 -0400
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id E6C79DE73815A4D48499;
+ by Forcepoint Email with ESMTP id DD018375FF28FF7FFFAE;
  Tue, 29 Sep 2020 10:04:04 +0800 (CST)
 Received: from huawei.com (10.174.187.31) by DGGEMS407-HUB.china.huawei.com
  (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Tue, 29 Sep 2020
- 10:03:54 +0800
+ 10:03:55 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH 1/5] target/riscv: Add basic vmstate description of CPU
-Date: Tue, 29 Sep 2020 10:03:33 +0800
-Message-ID: <20200929020337.1559-2-jiangyifei@huawei.com>
+Subject: [PATCH 2/5] target/riscv: Add PMP state description
+Date: Tue, 29 Sep 2020 10:03:34 +0800
+Message-ID: <20200929020337.1559-3-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200929020337.1559-1-jiangyifei@huawei.com>
 References: <20200929020337.1559-1-jiangyifei@huawei.com>
@@ -66,130 +66,81 @@ Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add basic CPU state description to the newly created machine.c
+In the case of supporting PMP feature, add PMP state description
+to vmstate_riscv_cpu.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 ---
- target/riscv/cpu.c       |  7 -----
- target/riscv/cpu.h       |  4 +++
- target/riscv/machine.c   | 59 ++++++++++++++++++++++++++++++++++++++++
- target/riscv/meson.build |  3 +-
- 4 files changed, 65 insertions(+), 8 deletions(-)
- create mode 100644 target/riscv/machine.c
+ target/riscv/machine.c | 49 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0bbfd7f457..bf396e2916 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -496,13 +496,6 @@ static void riscv_cpu_init(Object *obj)
-     cpu_set_cpustate_pointers(cpu);
- }
- 
--#ifndef CONFIG_USER_ONLY
--static const VMStateDescription vmstate_riscv_cpu = {
--    .name = "cpu",
--    .unmigratable = 1,
--};
--#endif
--
- static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
-     DEFINE_PROP_BOOL("e", RISCVCPU, cfg.ext_e, false),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index de275782e6..8440ea0793 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -311,6 +311,10 @@ extern const char * const riscv_fpr_regnames[];
- extern const char * const riscv_excp_names[];
- extern const char * const riscv_intr_names[];
- 
-+#ifndef CONFIG_USER_ONLY
-+extern const VMStateDescription vmstate_riscv_cpu;
-+#endif
-+
- const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
- void riscv_cpu_do_interrupt(CPUState *cpu);
- int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
 diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-new file mode 100644
-index 0000000000..3451b888b1
---- /dev/null
+index 3451b888b1..b1fc839b43 100644
+--- a/target/riscv/machine.c
 +++ b/target/riscv/machine.c
-@@ -0,0 +1,59 @@
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "qemu/error-report.h"
-+#include "sysemu/kvm.h"
-+#include "migration/cpu.h"
+@@ -4,6 +4,51 @@
+ #include "sysemu/kvm.h"
+ #include "migration/cpu.h"
+ 
++static bool pmp_needed(void *opaque)
++{
++    RISCVCPU *cpu = opaque;
++    CPURISCVState *env = &cpu->env;
 +
-+const VMStateDescription vmstate_riscv_cpu = {
-+    .name = "cpu",
++    return riscv_feature(env, RISCV_FEATURE_PMP);
++}
++
++static const VMStateDescription vmstate_pmp_entry = {
++    .name = "cpu/pmp/entry",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
-+        VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
-+        VMSTATE_UINTTL(env.pc, RISCVCPU),
-+        VMSTATE_UINTTL(env.load_res, RISCVCPU),
-+        VMSTATE_UINTTL(env.load_val, RISCVCPU),
-+        VMSTATE_UINTTL(env.frm, RISCVCPU),
-+        VMSTATE_UINTTL(env.badaddr, RISCVCPU),
-+        VMSTATE_UINTTL(env.guest_phys_fault_addr, RISCVCPU),
-+        VMSTATE_UINTTL(env.priv_ver, RISCVCPU),
-+        VMSTATE_UINTTL(env.vext_ver, RISCVCPU),
-+        VMSTATE_UINTTL(env.misa, RISCVCPU),
-+        VMSTATE_UINTTL(env.misa_mask, RISCVCPU),
-+        VMSTATE_UINT32(env.features, RISCVCPU),
-+        VMSTATE_UINTTL(env.priv, RISCVCPU),
-+        VMSTATE_UINTTL(env.virt, RISCVCPU),
-+        VMSTATE_UINTTL(env.resetvec, RISCVCPU),
-+        VMSTATE_UINTTL(env.mhartid, RISCVCPU),
-+        VMSTATE_UINTTL(env.mstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.mip, RISCVCPU),
-+        VMSTATE_UINT32(env.miclaim, RISCVCPU),
-+        VMSTATE_UINTTL(env.mie, RISCVCPU),
-+        VMSTATE_UINTTL(env.mideleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.sptbr, RISCVCPU),
-+        VMSTATE_UINTTL(env.satp, RISCVCPU),
-+        VMSTATE_UINTTL(env.sbadaddr, RISCVCPU),
-+        VMSTATE_UINTTL(env.mbadaddr, RISCVCPU),
-+        VMSTATE_UINTTL(env.medeleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.stvec, RISCVCPU),
-+        VMSTATE_UINTTL(env.sepc, RISCVCPU),
-+        VMSTATE_UINTTL(env.scause, RISCVCPU),
-+        VMSTATE_UINTTL(env.mtvec, RISCVCPU),
-+        VMSTATE_UINTTL(env.mepc, RISCVCPU),
-+        VMSTATE_UINTTL(env.mcause, RISCVCPU),
-+        VMSTATE_UINTTL(env.mtval, RISCVCPU),
-+        VMSTATE_UINTTL(env.scounteren, RISCVCPU),
-+        VMSTATE_UINTTL(env.mcounteren, RISCVCPU),
-+        VMSTATE_UINTTL(env.sscratch, RISCVCPU),
-+        VMSTATE_UINTTL(env.mscratch, RISCVCPU),
-+        VMSTATE_UINT64(env.mfromhost, RISCVCPU),
-+        VMSTATE_UINT64(env.mtohost, RISCVCPU),
-+        VMSTATE_UINT64(env.timecmp, RISCVCPU),
-+
-+#ifdef TARGET_RISCV32
-+        VMSTATE_UINTTL(env.mstatush, RISCVCPU),
-+#endif
++        VMSTATE_UINTTL(addr_reg, pmp_entry_t),
++        VMSTATE_UINT8(cfg_reg, pmp_entry_t),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index abd647fea1..14a5c62dac 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -27,7 +27,8 @@ riscv_ss.add(files(
- riscv_softmmu_ss = ss.source_set()
- riscv_softmmu_ss.add(files(
-   'pmp.c',
--  'monitor.c'
-+  'monitor.c',
-+  'machine.c'
- ))
- 
- target_arch += {'riscv': riscv_ss}
++
++static const VMStateDescription vmstate_pmp_addr = {
++    .name = "cpu/pmp/addr",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINTTL(sa, pmp_addr_t),
++        VMSTATE_UINTTL(ea, pmp_addr_t),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription vmstate_pmp = {
++    .name = "cpu/pmp",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = pmp_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT_ARRAY(env.pmp_state.pmp, RISCVCPU, MAX_RISCV_PMPS,
++                             0, vmstate_pmp_entry, pmp_entry_t),
++        VMSTATE_STRUCT_ARRAY(env.pmp_state.addr, RISCVCPU, MAX_RISCV_PMPS,
++                             0, vmstate_pmp_addr, pmp_addr_t),
++        VMSTATE_UINT32(env.pmp_state.num_rules, RISCVCPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .version_id = 1,
+@@ -55,5 +100,9 @@ const VMStateDescription vmstate_riscv_cpu = {
+         VMSTATE_UINTTL(env.mstatush, RISCVCPU),
+ #endif
+         VMSTATE_END_OF_LIST()
++    },
++    .subsections = (const VMStateDescription * []) {
++        &vmstate_pmp,
++        NULL
+     }
+ };
 -- 
 2.19.1
 
