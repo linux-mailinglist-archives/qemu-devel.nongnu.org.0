@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F61B27BAAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 04:09:36 +0200 (CEST)
-Received: from localhost ([::1]:54880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1BA27BAA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 04:05:49 +0200 (CEST)
+Received: from localhost ([::1]:46500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kN55D-00011O-Is
-	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 22:09:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40640)
+	id 1kN51Z-0005rg-0W
+	for lists+qemu-devel@lfdr.de; Mon, 28 Sep 2020 22:05:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kN50D-0004rp-Vy; Mon, 28 Sep 2020 22:04:30 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4770 helo=huawei.com)
+ id 1kN50A-0004q9-CZ; Mon, 28 Sep 2020 22:04:22 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4769 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kN507-0002x8-0U; Mon, 28 Sep 2020 22:04:25 -0400
+ id 1kN507-0002x9-0N; Mon, 28 Sep 2020 22:04:22 -0400
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id E1E805B38DFA247685D2;
+ by Forcepoint Email with ESMTP id D7E076833755CF1B6CF8;
  Tue, 29 Sep 2020 10:04:04 +0800 (CST)
 Received: from huawei.com (10.174.187.31) by DGGEMS407-HUB.china.huawei.com
  (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Tue, 29 Sep 2020
- 10:03:57 +0800
+ 10:03:58 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH 3/5] target/riscv: Add H extention state description
-Date: Tue, 29 Sep 2020 10:03:35 +0800
-Message-ID: <20200929020337.1559-4-jiangyifei@huawei.com>
+Subject: [PATCH 4/5] target/riscv: Add V extention state description
+Date: Tue, 29 Sep 2020 10:03:36 +0800
+Message-ID: <20200929020337.1559-5-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20200929020337.1559-1-jiangyifei@huawei.com>
 References: <20200929020337.1559-1-jiangyifei@huawei.com>
@@ -66,81 +66,55 @@ Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the case of supporting H extention, add H extention description
+In the case of supporting V extention, add V extention description
 to vmstate_riscv_cpu.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 ---
- target/riscv/machine.c | 51 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ target/riscv/machine.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index b1fc839b43..6a528bc1a5 100644
+index 6a528bc1a5..8912a77b71 100644
 --- a/target/riscv/machine.c
 +++ b/target/riscv/machine.c
-@@ -49,6 +49,56 @@ static const VMStateDescription vmstate_pmp = {
-     }
- };
+@@ -57,6 +57,30 @@ static bool hyper_needed(void *opaque)
+     return riscv_has_ext(env, RVH);
+ }
  
-+static bool hyper_needed(void *opaque)
++static bool vector_needed(void *opaque)
 +{
 +    RISCVCPU *cpu = opaque;
 +    CPURISCVState *env = &cpu->env;
 +
-+    return riscv_has_ext(env, RVH);
++    return riscv_has_ext(env, RVV);
 +}
 +
-+static const VMStateDescription vmstate_hyper = {
-+    .name = "cpu/hyper",
++static const VMStateDescription vmstate_vector = {
++    .name = "cpu/vector",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
-+    .needed = hyper_needed,
++    .needed = vector_needed,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL(env.hstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
-+        VMSTATE_UINTTL(env.htval, RISCVCPU),
-+        VMSTATE_UINTTL(env.htinst, RISCVCPU),
-+        VMSTATE_UINTTL(env.hgatp, RISCVCPU),
-+        VMSTATE_UINT64(env.htimedelta, RISCVCPU),
-+
-+        VMSTATE_UINTTL(env.vsstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
-+        VMSTATE_UINTTL(env.vscause, RISCVCPU),
-+        VMSTATE_UINTTL(env.vstval, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
-+
-+        VMSTATE_UINTTL(env.mtval2, RISCVCPU),
-+        VMSTATE_UINTTL(env.mtinst, RISCVCPU),
-+
-+        VMSTATE_UINTTL(env.stvec_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.sscratch_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.sepc_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.scause_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.stval_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.satp_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.mstatus_hs, RISCVCPU),
-+
-+#ifdef TARGET_RISCV32
-+        VMSTATE_UINTTL(env.vsstatush, RISCVCPU),
-+        VMSTATE_UINTTL(env.mstatush_hs, RISCVCPU),
-+#endif
-+        VMSTATE_END_OF_LIST()
-+    }
++            VMSTATE_UINT64_ARRAY(env.vreg, RISCVCPU, 32 * RV_VLEN_MAX / 64),
++            VMSTATE_UINTTL(env.vxrm, RISCVCPU),
++            VMSTATE_UINTTL(env.vxsat, RISCVCPU),
++            VMSTATE_UINTTL(env.vl, RISCVCPU),
++            VMSTATE_UINTTL(env.vstart, RISCVCPU),
++            VMSTATE_UINTTL(env.vtype, RISCVCPU),
++            VMSTATE_END_OF_LIST()
++        }
 +};
 +
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
+ static const VMStateDescription vmstate_hyper = {
+     .name = "cpu/hyper",
      .version_id = 1,
-@@ -103,6 +153,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-     },
+@@ -154,6 +178,7 @@ const VMStateDescription vmstate_riscv_cpu = {
      .subsections = (const VMStateDescription * []) {
          &vmstate_pmp,
-+        &vmstate_hyper,
+         &vmstate_hyper,
++        &vmstate_vector,
          NULL
      }
  };
