@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7206527BE28
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:38:48 +0200 (CEST)
-Received: from localhost ([::1]:36876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B7D27BE18
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 09:35:20 +0200 (CEST)
+Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNADn-0000lg-Gv
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57846)
+	id 1kNAAR-0002cH-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 03:35:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9y3-0004G7-Nv
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45516)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9yI-0004Oe-MD
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9xx-0001lb-72
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kN9yF-0001nz-Rd
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 03:22:46 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364144;
+ s=mimecast20190719; t=1601364159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gkUx6b1cSk9kEji0PxARO6FKoBMVB3jc1oddzWmGMC8=;
- b=GdCX3e7NaBilBiJ34LRLD8ECyO2cntX2XM88bnaUsKuf5uyFo0I/m22Z8VI0Fv/6s6afjP
- UhCgjmqoCCO9KWYmjra4pgWQBdT23EqKFUZ7D0gV7WXIgByOAbwtapG2bGXshi+rJrFk6y
- KsN+1atTyBp3EXgxfGwjzoj0OrM76/Y=
+ bh=0g5K5CUjVa2QgPkjnSBYRFmkoKQ6IkhV7beBCx5g004=;
+ b=U08m/YGbUbIBEflUJn4W6qR5OIvGjgweWI6ZeXZ3rK+Fp29e2pslXbkhF1HPEN+/kN0zIo
+ l0pzxDvYTh0sdyLL1rGnaAI2uIMm0V7ukHaivBSnyc0DvkDqNtyySoIdfNsJnjcwe0pkgz
+ rsIsHaXhSnFGvX6R2ADd7intQUzpmuQ=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-pnAh2eOhMFSNuhNiEvyhfQ-1; Tue, 29 Sep 2020 03:22:22 -0400
-X-MC-Unique: pnAh2eOhMFSNuhNiEvyhfQ-1
-Received: by mail-wm1-f71.google.com with SMTP id r83so1031184wma.8
- for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:22 -0700 (PDT)
+ us-mta-109-77_-JigrPXiT0CPXiY5bjQ-1; Tue, 29 Sep 2020 03:22:24 -0400
+X-MC-Unique: 77_-JigrPXiT0CPXiY5bjQ-1
+Received: by mail-wm1-f71.google.com with SMTP id t8so1351281wmj.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 00:22:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=gkUx6b1cSk9kEji0PxARO6FKoBMVB3jc1oddzWmGMC8=;
- b=GTIDc8YeMBvZZR/0D9BJMt+BYEFKFIaL/5RogZeQ3mfHjWst5a4+im7xK5UIapFi87
- Oz6SF7na0iU6fvktYPi5/NbmWrU6PhkqmkrKcaNjESvUXKYqO/Xrjnp3Qpg+NGk+yaqe
- dzkoiwvU7eOTOTkI1+jrf+2Mt5NpsW+PyqIE7HrO/PGheWD9heBEv0ezMhw74QFSK8LR
- erYuMU/NqNRp6XwQ5fdJC5XhfmElR1GPc58ls6phq9ndzpb7vaPbsX7wuDkgSh56cJ5M
- EVI2RU+oBtTt4fJhX4zBOL4zrax8Jyy6ksSL2pYhaYICh2SyAY/qTgjGN7bmHtkcOvCE
- x4Ug==
-X-Gm-Message-State: AOAM5334MO26MV8k1HVjg+s/bHc0P5LO7tBwYxfRGRS5G/6XHihTVg2R
- oShZALYd1C9fcm/YRYYN3BO520OMmCUU7P8JOcHr/aNlwhaGBCp3voTl+cDpdxtqMisdvFOqLP9
- Fqw+FRcxrPlme504=
-X-Received: by 2002:a5d:5306:: with SMTP id e6mr2617201wrv.156.1601364140757; 
- Tue, 29 Sep 2020 00:22:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwujlSBY2x3DesO5EzaeCJPnztN0ViQYzUQrwHLatJxkVVp0o40ICJF1ih0k3amh6t2q5hCrQ==
-X-Received: by 2002:a5d:5306:: with SMTP id e6mr2617182wrv.156.1601364140538; 
- Tue, 29 Sep 2020 00:22:20 -0700 (PDT)
+ bh=0g5K5CUjVa2QgPkjnSBYRFmkoKQ6IkhV7beBCx5g004=;
+ b=EgLAc0nVzVGv8evhhE77dqW3NjKSbovkio9Wit/ejmhbDyOiesZyua9YUFEPBgfwEi
+ 4P6PBoqBefSrwHzrre3n9aZ/tStxjvjQ38TfNuQH44ArNt4hLhkVwNMQMS16319oGkb+
+ Ciy3xHmwPjlF59DMNn/O0owkgJTYGqyq9s7z9Xf+v893INxNs3rzSTjdY6wcBI2gwpCC
+ YNf/Qqg6EeVpvOfAFk3F0OKLtf8cdYobw71s1+EWmIhk3G+YFPKEartmlFe5Zc/dHtOt
+ TKvdne+8Ch5RKDuCAaDQVBevVP/t8OUprKB3dQh2WgUNd1ZJTRTPWS1LXuPRWp4gENfq
+ J4ZQ==
+X-Gm-Message-State: AOAM533kyfKvcpG8CmYev4hbqFcfez2l1W20d4eLgl16cvs0VBwfFhar
+ dEaPqWngtMHCgGmqKpI0Ixuh5FwosJz03z2xBnus3GhgM8bHmtn59os66g2pS441afi5PzVZgWe
+ j0YxhAGnJkQahYgs=
+X-Received: by 2002:a1c:9c13:: with SMTP id f19mr2816210wme.97.1601364143313; 
+ Tue, 29 Sep 2020 00:22:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFsX0A/bvXO21sl053FhSgqTPGx6izlNDDAouB7BwmFc4SnRNBBxBMAs8Jkie4/8Nc83quWg==
+X-Received: by 2002:a1c:9c13:: with SMTP id f19mr2816192wme.97.1601364143057; 
+ Tue, 29 Sep 2020 00:22:23 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id q13sm4920163wra.93.2020.09.29.00.22.19
+ by smtp.gmail.com with ESMTPSA id u66sm4144303wmg.44.2020.09.29.00.22.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Sep 2020 00:22:19 -0700 (PDT)
-Date: Tue, 29 Sep 2020 03:22:18 -0400
+ Tue, 29 Sep 2020 00:22:22 -0700 (PDT)
+Date: Tue, 29 Sep 2020 03:22:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 32/48] hw/smbios: report error if table size is too large
-Message-ID: <20200929071948.281157-33-mst@redhat.com>
+Subject: [PULL v4 33/48] qemu-options: document SMBIOS type 11 settings
+Message-ID: <20200929071948.281157-34-mst@redhat.com>
 References: <20200929071948.281157-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200929071948.281157-1-mst@redhat.com>
@@ -78,13 +78,14 @@ Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 02:22:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,73 +98,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-The SMBIOS 2.1 entry point uses a uint16 data type for reporting the
-total length of the tables. If the user passes -smbios configuration to
-QEMU that causes the table size to exceed this limit then various bad
-behaviours result, including
-
- - firmware hangs in an infinite loop
- - firmware triggers a KVM crash on bad memory access
- - firmware silently discards user's SMBIOS data replacing it with
-   a generic data set.
-
-Limiting the size to 0xffff in QEMU avoids triggering most of these
-problems. There is a remaining bug in SeaBIOS which tries to prepend its
-own data for table 0, and does not check whether there is sufficient
-space before attempting this.
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200923133804.2089190-3-berrange@redhat.com>
-Tested-by: Laszlo Ersek <lersek@redhat.com>
+Message-Id: <20200923133804.2089190-4-berrange@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/smbios/smbios.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ qemu-options.hx | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index d993448087..8b30906e50 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -365,6 +365,13 @@ static void smbios_register_config(void)
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 47f64be0c0..3564c2303f 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2296,6 +2296,8 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+     "-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str]\n"
+     "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
+     "                specify SMBIOS type 4 fields\n"
++    "-smbios type=11[,value=str][,path=filename]\n"
++    "                specify SMBIOS type 11 fields\n"
+     "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
+     "               [,asset=str][,part=str][,speed=%d]\n"
+     "                specify SMBIOS type 17 fields\n",
+@@ -2319,6 +2321,45 @@ SRST
+ ``-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str][,asset=str][,part=str]``
+     Specify SMBIOS type 4 fields
  
- opts_init(smbios_register_config);
- 
-+/*
-+ * The SMBIOS 2.1 "structure table length" field in the
-+ * entry point uses a 16-bit integer, so we're limited
-+ * in total table size
-+ */
-+#define SMBIOS_21_MAX_TABLES_LEN 0xffff
++``-smbios type=11[,value=str][,path=filename]``
++    Specify SMBIOS type 11 fields
 +
- static void smbios_validate_table(MachineState *ms)
- {
-     uint32_t expect_t4_count = smbios_legacy ?
-@@ -375,6 +382,13 @@ static void smbios_validate_table(MachineState *ms)
-                      expect_t4_count, smbios_type4_count);
-         exit(1);
-     }
++    This argument can be repeated multiple times, and values are added in the order they are parsed.
++    Applications intending to use OEM strings data are encouraged to use their application name as
++    a prefix for the value string. This facilitates passing information for multiple applications
++    concurrently.
 +
-+    if (smbios_ep_type == SMBIOS_ENTRY_POINT_21 &&
-+        smbios_tables_len > SMBIOS_21_MAX_TABLES_LEN) {
-+        error_report("SMBIOS 2.1 table length %zu exceeds %d",
-+                     smbios_tables_len, SMBIOS_21_MAX_TABLES_LEN);
-+        exit(1);
-+    }
- }
- 
- 
++    The ``value=str`` syntax provides the string data inline, while the ``path=filename`` syntax
++    loads data from a file on disk. Note that the file is not permitted to contain any NUL bytes.
++
++    Both the ``value`` and ``path`` options can be repeated multiple times and will be added to
++    the SMBIOS table in the order in which they appear.
++
++    Note that on the x86 architecture, the total size of all SMBIOS tables is limited to 65535
++    bytes. Thus the OEM strings data is not suitable for passing large amounts of data into the
++    guest. Instead it should be used as a indicator to inform the guest where to locate the real
++    data set, for example, by specifying the serial ID of a block device.
++
++    An example passing three strings is
++
++    .. parsed-literal::
++
++        -smbios type=11,value=cloud-init:ds=nocloud-net;s=http://10.10.0.1:8000/,\\
++                        value=anaconda:method=http://dl.fedoraproject.org/pub/fedora/linux/releases/25/x86_64/os,\\
++                        path=/some/file/with/oemstringsdata.txt
++
++    In the guest OS this is visible with the ``dmidecode`` command
++
++     .. parsed-literal::
++
++         $ dmidecode -t 11
++         Handle 0x0E00, DMI type 11, 5 bytes
++         OEM Strings
++              String 1: cloud-init:ds=nocloud-net;s=http://10.10.0.1:8000/
++              String 2: anaconda:method=http://dl.fedoraproject.org/pub/fedora/linux/releases/25/x86_64/os
++              String 3: myapp:some extra data
++
++
+ ``-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str][,asset=str][,part=str][,speed=%d]``
+     Specify SMBIOS type 17 fields
+ ERST
 -- 
 MST
 
