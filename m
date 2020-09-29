@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3CD27D5F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:40:29 +0200 (CEST)
-Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD97E27D5FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Sep 2020 20:44:45 +0200 (CEST)
+Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNKY7-00030O-Vf
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:40:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36044)
+	id 1kNKcF-00059J-Jq
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 14:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kNKWT-0002QI-TH
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:38:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26851)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kNKWR-0006E6-M0
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 14:38:45 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601404722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FdD13MorY5K7ZLklnmfIOk3wcXOtQ56hxJVqYMMC+cE=;
- b=aL4JNbZ+kTj+Hqxil74bkOUrD9n2Y1HVlTXirdM4ej4z9fVfprZgpza/cGx2Cr29SMbZID
- JN8d5tjjCUHjhC/77khSjnIrncTmu+vqL+iWJqoZOkfSj4ByvO7YcTqDZQ8jaQ9bfVdagE
- 2ijoq/88xLymp84QMad3EDXoTUIzGj0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-OotXDz8eMbunWKKIJmM1eQ-1; Tue, 29 Sep 2020 14:38:38 -0400
-X-MC-Unique: OotXDz8eMbunWKKIJmM1eQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86E71015EDF;
- Tue, 29 Sep 2020 18:38:36 +0000 (UTC)
-Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C10F96198E;
- Tue, 29 Sep 2020 18:38:24 +0000 (UTC)
-Date: Tue, 29 Sep 2020 19:38:24 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: Outline for VHOST_USER_PROTOCOL_F_VDPA
-Message-ID: <20200929183824.GC191675@stefanha-x1.localdomain>
-References: <20200928092537.GA44353@stefanha-x1.localdomain>
- <20200929020114-mutt-send-email-mst@kernel.org>
- <20200929085751.GA181609@stefanha-x1.localdomain>
- <20200929055110-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kNKX4-00030H-SC; Tue, 29 Sep 2020 14:39:22 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:34777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kNKX1-0006HB-0y; Tue, 29 Sep 2020 14:39:22 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 71C6EF69;
+ Tue, 29 Sep 2020 14:39:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 29 Sep 2020 14:39:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=uIpIQp/X8Vc0FSR8L8xzzVWSOeq
+ RQsZ3Whs6U2/QgK8=; b=Elfy1Wj6HUyk02PuBC7kcf2HZfFQDmqr24x14NUEIQG
+ fX7Cp+QkKP5+/OM4xbXwfN+uMTm5Ru7VmXPChiO/KIfQAJzgflUp4OexwSVsNvZ4
+ cm5CTblpDfu/7xBdFEbdEbK1UmD4qgf/KGV0pY1ClPUNqe9AJwBEBAmoGxMab9W5
+ xiqOoEZU6Tec8He8MIMPM06qlc4Yi3qcZREifTnLI5UdlIG+MtpTLsrz40n67lRP
+ gL7FpfmKuHW6hz+QJ5r+dA2cKoACghzx+zoMbTifQ0TjE0hcYys/laR96dNi7t5E
+ KCb7JdxryORseOex8uQjFhoZwAjD0M07zT+GAQEVsNA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=uIpIQp
+ /X8Vc0FSR8L8xzzVWSOeqRQsZ3Whs6U2/QgK8=; b=iHC2UEnowxPmZA/zqBcFYE
+ oMW2Q4tqSxCCs3jOsgg+kVBXRpqHO36dTQAqAR5swueuePsQonGqck4zURG5Wndg
+ KW4LqtrbqGZQH6YBLZqsO7CyyUphX1Bq4k5wBC08r9xwCdTF4x7FE1/JFt/CPK0m
+ HGvzN/AdfDh+GkzdDhVuOMiXPs12rCiUMSZ/OLuRNWGg0E5qamrO2jbq80iu96fX
+ 5IkPlLgZyBASSYF9a5jBkx9UolRY5I/4aGRO9iZ9bACfv4pqLdENy9iIPhj5GIjC
+ +S56QaU6AnkICPKJbBOZf7KjLpLK4q9LK5cMem/fPb6enp6dsvy9CBrLNuP5vC+g
+ ==
+X-ME-Sender: <xms:Un9zX2GFZQWBxAvYNXS3Rc7JH-YntuFIdLvHTFdpMTVQSQ7kcyYLFg>
+ <xme:Un9zX3UMcd3VhPWdybQwioaKczMbMer2zfsjq4puT9ONDIpT_IQ-2BQKeWtnIUSoD
+ MFQA1jvUcKSJLeUl1k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdekgdduvdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpedtleekfedtueejueehledtudeugfdutdeigeegieehhfdvtedtgeetfefggfdu
+ keenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeektddrudeijedrleekrd
+ duledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+ ihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:Un9zXwLEj8OjrKVuZVhqEIhHz5uWiiuKldZwrnArRLedaE0metvhJw>
+ <xmx:Un9zXwGtCyFfF2KKjjMFVS9axHgH0isANaMh1eneyAVfTnftblL5Hg>
+ <xmx:Un9zX8VTlyb8jUwOQ0VBZc_6BF2dDSSgu9NpCQDLQ-ZDHS1axb0D1g>
+ <xmx:U39zX1NhvmCvEiwvNlGzjPo9FHG7QDxNwljptA180JsGqdLFQ3HaTnaiwDHf-FHB>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2D1FA3280065;
+ Tue, 29 Sep 2020 14:39:13 -0400 (EDT)
+Date: Tue, 29 Sep 2020 20:39:11 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types and
+ Zoned Namespace Command Set
+Message-ID: <20200929183911.GF286786@apples.localdomain>
+References: <20200923182021.3724-1-dmitry.fomichev@wdc.com>
+ <20200924210751.GD1738917@apples.localdomain>
+ <MN2PR04MB59515B1EA1238861DFF3236AE1350@MN2PR04MB5951.namprd04.prod.outlook.com>
+ <20200928063648.GA1967@apples.localdomain>
+ <MN2PR04MB5951A1DAC6A607732A35B968E1320@MN2PR04MB5951.namprd04.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20200929055110-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WplhKdTI2c8ulnbP"
+ protocol="application/pgp-signature"; boundary="9ADF8FXzFeE7X4jE"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/28 22:47:55
+In-Reply-To: <MN2PR04MB5951A1DAC6A607732A35B968E1320@MN2PR04MB5951.namprd04.prod.outlook.com>
+Received-SPF: pass client-ip=64.147.123.17; envelope-from=its@irrelevant.dk;
+ helo=wnew3-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 12:36:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,193 +101,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, tiwei.bie@intel.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, raphael.norwitz@nutanix.com, maxime.coquelin@redhat.com,
- kraxel@redhat.com, Felipe Franciosi <felipe@nutanix.com>,
- marcandre.lureau@redhat.com, Nikos Dragazis <ndragazis@arrikto.com>,
- changpeng.liu@intel.com, Daniele Buono <dbuono@us.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Niklas Cassel <Niklas.Cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---WplhKdTI2c8ulnbP
-Content-Type: text/plain; charset=iso-8859-1
+
+--9ADF8FXzFeE7X4jE
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 29, 2020 at 06:04:34AM -0400, Michael S. Tsirkin wrote:
-> On Tue, Sep 29, 2020 at 09:57:51AM +0100, Stefan Hajnoczi wrote:
-> > On Tue, Sep 29, 2020 at 02:09:55AM -0400, Michael S. Tsirkin wrote:
-> > > On Mon, Sep 28, 2020 at 10:25:37AM +0100, Stefan Hajnoczi wrote:
-> > > > Why extend vhost-user with vDPA?
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > Reusing VIRTIO emulation code for vhost-user backends
-> > > > -----------------------------------------------------
-> > > > It is a common misconception that a vhost device is a VIRTIO device=
-.
-> > > > VIRTIO devices are defined in the VIRTIO specification and consist =
-of a
-> > > > configuration space, virtqueues, and a device lifecycle that includ=
-es
-> > > > feature negotiation. A vhost device is a subset of the correspondin=
-g
-> > > > VIRTIO device. The exact subset depends on the device type, and som=
-e
-> > > > vhost devices are closer to the full functionality of their
-> > > > corresponding VIRTIO device than others. The most well-known exampl=
-e is
-> > > > that vhost-net devices have rx/tx virtqueues and but lack the virti=
-o-net
-> > > > control virtqueue. Also, the configuration space and device lifecyc=
-le
-> > > > are only partially available to vhost devices.
-> > > >=20
-> > > > This difference makes it impossible to use a VIRTIO device as a
-> > > > vhost-user device and vice versa. There is an impedance mismatch an=
-d
-> > > > missing functionality. That's a shame because existing VIRTIO devic=
-e
-> > > > emulation code is mature and duplicating it to provide vhost-user
-> > > > backends creates additional work.
-> > >=20
-> > >=20
-> > > The biggest issue facing vhost-user and absent in vdpa is
-> > > backend disconnect handling. This is the reason control path
-> > > is kept under QEMU control: we do not need any logic to
-> > > restore control path data, and we can verify a new backend
-> > > is consistent with old one.
+On Sep 29 15:42, Dmitry Fomichev wrote:
+> > -----Original Message-----
+> > From: Klaus Jensen <its@irrelevant.dk>
+> > Sent: Monday, September 28, 2020 2:37 AM
+> > To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+> > Cc: Keith Busch <kbusch@kernel.org>; Damien Le Moal
+> > <Damien.LeMoal@wdc.com>; Klaus Jensen <k.jensen@samsung.com>; Kevin
+> > Wolf <kwolf@redhat.com>; Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+>;
+> > Maxim Levitsky <mlevitsk@redhat.com>; Fam Zheng <fam@euphon.net>;
+> > Niklas Cassel <Niklas.Cassel@wdc.com>; qemu-block@nongnu.org; qemu-
+> > devel@nongnu.org; Alistair Francis <Alistair.Francis@wdc.com>; Matias
+> > Bjorling <Matias.Bjorling@wdc.com>
+> > Subject: Re: [PATCH v4 00/14] hw/block/nvme: Support Namespace Types
+> > and Zoned Namespace Command Set
 > >=20
-> > I don't think using vhost-user with vDPA changes that. The VMM still
-> > needs to emulate a virtio-pci/ccw/mmio device that the guest interfaces
-> > with. If the device backend goes offline it's possible to restore that
-> > state upon reconnection. What have I missed?
->=20
-> The need to maintain the state in a way that is robust
-> against backend disconnects and can be restored.
-
-QEMU is only bypassed for virtqueue accesses. Everything else still
-goes through the virtio-pci emulation in QEMU (VIRTIO configuration
-space, status register). vDPA doesn't change this.
-
-Existing vhost-user messages can be kept if they are useful (e.g.
-virtqueue state tracking). So I think the situation is no different than
-with the existing vhost-user protocol.
-
-> > Regarding reconnection in general, it currently seems like a partially
-> > solved problem in vhost-user. There is the "Inflight I/O tracking"
-> > mechanism in the spec and some wording about reconnecting the socket,
-> > but in practice I wouldn't expect all device types, VMMs, or device
-> > backends to actually support reconnection. This is an area where a
-> > uniform solution would be very welcome too.
->=20
-> I'm not aware of big issues. What are they?
-
-I think "Inflight I/O tracking" can only be used when request processing
-is idempotent? In other words, it can only be used when submitting the
-same request multiple times is safe.
-
-A silly example where this recovery mechanism cannot be used is if a
-device has a persistent counter that is incremented by the request. The
-guest can't be sure that the counter will be incremented exactly once.
-
-Another example: devices that support requests with compare-and-swap
-semantics cannot use this mechanism. During recover the compare will
-fail if the request was just completing when the backend crashed.
-
-Do I understand the limitations of this mechanism correctly? It doesn't
-seem general and I doubt it can be applied to all existing device types.
-
-> > There was discussion about recovering state in muser. The original idea
-> > was for the muser kernel module to host state that persists across
-> > device backend restart. That way the device backend can go away
-> > temporarily and resume without guest intervention.
+> > On Sep 28 02:33, Dmitry Fomichev wrote:
+> > > > -----Original Message-----
+> > > > From: Klaus Jensen <its@irrelevant.dk>
+> > > >
+> > > > If it really needs to be memory mapped, then I think a hostmem-based
+> > > > approach similar to what Andrzej did for PMR is needed (I think that
+> > > > will get rid of the CONFIG_POSIX ifdef at least, but still leave it
+> > > > slightly tricky to get it to work on all platforms AFAIK).
+> > >
+> > > Ok, it looks that using the HostMemoryBackendFile backend will be
+> > > more appropriate. This will remove the need for conditional compile.
+> > >
+> > > The mmap() portability is pretty decent across software platforms.
+> > > Any poor Windows user who is forced to emulate ZNS on mingw will be
+> > > able to do so, just without having zone state persistency. Considering
+> > > how specialized this stuff is in first place, I estimate the number o=
+f users
+> > > affected by this "limitation" to be exactly zero.
+> > >
 > >=20
-> > Then when the vfio-user discussion started the idea morphed into simply
-> > keeping a tmpfs file for each device instance (no special muser.ko
-> > support needed anymore). This allows the device backend to resume
-> > without losing state. In practice a programming framework is needed to
-> > make this easy and safe to use but it boils down to a tmpfs mmap.
+> > QEMU is a cross platform project - we should strive for portability.
 > >=20
-> > > > If there was a way to reuse existing VIRTIO device emulation code i=
-t
-> > > > would be easier to move to a multi-process architecture in QEMU. Wa=
-nt to
-> > > > run --netdev user,id=3Dnetdev0 --device virtio-net-pci,netdev=3Dnet=
-dev0 in a
-> > > > separate, sandboxed process? Easy, run it as a vhost-user-net devic=
-e
-> > > > instead of as virtio-net.
-> > >=20
-> > > Given vhost-user is using a socket, and given there's an elaborate
-> > > protocol due to need for backwards compatibility, it seems safer to
-> > > have vhost-user interface in a separate process too.
+> > Alienating developers that use a Windows platform and calling them out
+> > as "poor" is not exactly good for the zoned ecosystem.
 > >=20
-> > Right, with vhost-user only the virtqueue processing is done in the
-> > device backend. The VMM still has to do the virtio transport emulation
-> > (pci, ccw, mmio) and vhost-user connection lifecycle, which is complex.
 >=20
-> IIUC all vfio user does is add another protocol in the VMM,
-> and move code out of VMM to backend.
+> Wow. By bringing up political correctness here you are basically admitting
+> the fact that you have no real technical argument here.
+
+I prefer that we support all platforms if and when we can. That's a
+technical argument, not a personal one like you those you start using
+now.
+
+> The whole Windows issue is red herring that you are using to attack
+> the code that is absolutely legit, but comes from a competitor.
+
+I can't even...
+
+> Your initial complaint was that it doesn't compile in mingw and that
+> it uses "wrong" API. You have even suggested the API to use. Now, the
+> code uses that API and builds fine, but now it's still not good simply
+> because you "do not like it". It's a disgrace.
 >=20
-> Architecturally I don't see why it's safer.
 
-It eliminates one layer of device emulation (virtio-pci). Fewer
-registers to emulate means a smaller attack surface.
+I answered this in a previous reply.
 
-It's possible to take things further, maybe with the proposed ioregionfd
-mechanism, where the VMM's KVM_RUN loop no longer handles MMIO/PIO
-exits. A separate process can handle them. Maybe some platform devices
-need CPU state access though.
-
-BTW I think the goal of removing as much emulation from the VMM as
-possible is interesting.
-
-Did you have some other approach in mind to remove the PCI and
-virtio-pci device from the VMM?
-
-> Something like multi-process patches seems like a way to
-> add defence in depth by having a process in the middle,
-> outside both VMM and backend.
-
-There is no third process in mpqemu. The VMM uses a UNIX domain socket
-to communicate directly with the device backend. There is a PCI "proxy"
-device in the VMM that does this communication when the guest accesses
-registers. The device backend has a PCI "remote" host controller that a
-PCIDevice instance is plugged into and the UNIX domain socket protocol
-commands are translated into PCIDevice operations.
-
-This is exactly the same as vfio-user. The only difference is that
-vfio-user uses an existing set of commands, whereas mpqemu defines a new
-protocol that will eventually need to provide equivalent functionality.
-
-> > Going back to Marc-Andr=C3=A9's point, why don't we focus on vfio-user =
-so the
-> > entire device can be moved out of the VMM?
+> > > > But really,
+> > > > since we do not require memory semantics for this, then I think the
+> > > > abstraction is fundamentally wrong.
+> > > >
+> > >
+> > > Seriously, what is wrong with using mmap :) ? It is used successfully=
+ for
+> > > similar applications, for example -
+> > > https://github.com/open-iscsi/tcmu-runner/blob/master/file_zbc.c
+> > >
 > >=20
-> > Stefan
+> > There is nothing fundamentally wrong with mmap. I just think it is the
+> > wrong abstraction here (and it limits portability for no good reason).
+> > For PMR there is a good reason - it requires memory semantics.
+> >=20
 >=20
-> The fact that vfio-user adds a kernel component is one issue.
+> We are trying to emulate NVMEe controller NVRAM.  The best abstraction
+> for emulating NVRAM would be... NVRAM!
+>=20
 
-vfio-user only needs a UNIX domain socket. The muser.ko kernel module
-that was discussed after last KVM Forum is not used by vfio-user.
+You never brought that up before and sure it could be a fair argument,
+except it is not true.
 
-Stefan
+PMR is emulating NVRAM (and requires memory semantics). Persistent state
+is not emulating anything. It is an implementation detail.
 
---WplhKdTI2c8ulnbP
+> > > > I am, of course, blowing my own horn, since my implementation uses a
+> > > > portable blockdev for this.
+> > > >
+> > >
+> > > You are making it sound like the entire WDC series relies on this app=
+roach.
+> > > Actually, the persistency is introduced in the second to last patch i=
+n the
+> > > series and it only adds a couple of lines of code in the i/o path to =
+mark
+> > > zones dirty. This is possible because of using mmap() and I find the =
+way
+> > > it is done to be quite elegant, not ugly :)
+> > >
+> >=20
+> > No, I understand that your implementation works fine without
+> > persistance, but persistance is key. That is why my series adds it in
+> > the first patch. Without persistence it is just a toy. And the QEMU
+> > device is not just an "NVMe-version" of null_blk.
+> >=20
+> > And I don't think I ever called the use of mmap ugly. I called out the
+> > physical memory API shenanigans as a hack.
+> >=20
+> > > > Another issue is the complete lack of endian conversions. Does it
+> > > > matter? It depends. Will anyone ever use this on a big endian host =
+and
+> > > > move the meta data backing file to a little endian host? Probably n=
+ot.
+> > > > So does it really matter? Probably not, but it is cutting corners.
+> > > >
+> >=20
+> > After I had replied this, I considered a follow-up, because there are
+> > probably QEMU developers that would call me out on this.
+> >=20
+> > This definitely DOES matter to QEMU.
+> >=20
+> > >
+> > > Great point on endianness! Naturally, all file backed values are stor=
+ed in
+> > > their native endianness. This way, there is no extra overhead on big =
+endian
+> > > hardware architectures. Portability concerns can be easily addressed =
+by
+> > > storing metadata endianness as a byte flag in its header. Then, during
+> > > initialization, the metadata validation code can detect the possible
+> > > discrepancy in endianness and automatically convert the metadata to t=
+he
+> > > endianness of the host. This part is out of scope of this series, but=
+ I would
+> > > be able to contribute such a solution as an enhancement in the future.
+> > >
+> >=20
+> > It is not out of scope. I don't see why we should merge something that
+> > is arguably buggy.
+>=20
+> Again, wow! Now you turned around and arbitrarily elevated this issue from
+> moderate ("Does it matter?, cutting corners") to severe ("buggy"). Likely
+> because v5 of WDC patchset has been posted.
+
+No, exactly as I wrote above, after I hit reply I considered a
+follow-up. I guess I should have.
+
+> This, again, just shows your lack of integrity as a maintainer.
+>=20
+
+I can't believe I just read that.
+
+I will not put up with this. It is completely non-called for. I stand up
+for my opinions and I will fight to make sure the best possible code
+goes upstream. Yes, I am paid by Samsung. But I can compartmentalize. I
+have been working on QEMU before Samsung and I know how to separate
+corporate interest and open source. I have a proven record on this list
+to show that. I really cannot believe that you brought it down to that
+level. I have been putting forth technical arguments throughout this
+entire review process and now you are getting personal.
+
+Not. Cool. Please keep things professional from now.
+
+> This "issue" is a real trivial one to fix as I described above and you are
+> blowing it up way out of proportion, making it look like it is a fundamen=
+tal
+> problem that can not be resolved. It's not.
+>=20
+
+If it is so trival to fix, please fix it. I think I made it clear that I
+won't be happy until it is portable.
+
+And please note that I have *not* complained about other parts of your
+series. I have complained ALOT about the persistence implementation -
+and I continue to stand behind those complaints.
+
+I'm getting super tired of this one-sided process. I have continuously
+reviewed and commented your series, I have found multiple bugs, I have
+suggested improvements. Maybe if just one or two of those 9 people who
+signed off on your zoned implementation could look past their own nose
+and look at my series - you might just realize that its decent, portable
+and offers some niceties that yours do not have (at the cost of the same
+amount of code mind you).
+
+--9ADF8FXzFeE7X4jE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9zfx8ACgkQnKSrs4Gr
-c8gldQgAt4+ZcTb+zts0KOXsWajjA2FYsyM/wlFbhqh/PXSbioySPjnuVQfM7hW9
-t0Pyc9SZD4koaXZGltFZCgAkH6rTXvvaP0wjzgRirdqHmoufeNHXDMQiBX0qZ66f
-zbP11RTFP7zySm63JUTbUtdXNlbdRqr9enUfEzLIYOZigubvBwELfx4GXzeqz6nN
-nt1psuEtdrcwYkGp8FjlC07l5mzOLXsLbSsV1/AMxco0caMAH3s4PEWt1IWNjCAS
-0DvfmPz/DPXpKCXJFFwfUtCUuUfdZHfYjGNHSzfvBq1haTc7RUJG/0njc2yDiMHf
-LIWzDx4fTAe+JzSIc0/oUPg9ZdH2gg==
-=3Dsk
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl9zf0wACgkQTeGvMW1P
+Dek8nwgAr38MIaq5+ERKapyZpglXp2O2VCNenb+547oRAGreHHA1a3PW6UZh/+Pt
+KY/jpvAfUl1TASA6UspiSg+guXDxLuMRgz019+qt3lly0u7f8jgMCp3TlDW6Qq/W
+SKqRoMI6q/Cs2DAC1YUv7C77CJFDNnbjINJoGTp1I74L9UuwCwS1bVPkwDbTMgym
+/Y9SmvvTYEfBKnzdDfg1QSY7SR6if7RtfzYkxsgyUUHqloOy/GEXOznC5PJxyL+l
+OsSy3tsqAREpiLsp/pB6KpjHxfIgOUq1ixGcA3ZsEusKqpCma5zCSI+GjvziavZa
+95KkKecU+ncq9uHFvWFTynLhljprEw==
+=lE9X
 -----END PGP SIGNATURE-----
 
---WplhKdTI2c8ulnbP--
-
+--9ADF8FXzFeE7X4jE--
 
