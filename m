@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA9B27DCED
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 01:49:10 +0200 (CEST)
-Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4711027DD26
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 01:58:52 +0200 (CEST)
+Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNPMr-0002Bg-Ur
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 19:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
+	id 1kNPWF-0006hh-C5
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 19:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <snizovtsev@gmail.com>)
- id 1kNPBn-0004FF-UJ; Tue, 29 Sep 2020 19:37:43 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:45265)
+ id 1kNPL5-0001dV-7d; Tue, 29 Sep 2020 19:47:19 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:40236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <snizovtsev@gmail.com>)
- id 1kNPBm-00027V-4K; Tue, 29 Sep 2020 19:37:43 -0400
-Received: by mail-ej1-x642.google.com with SMTP id i26so7260ejb.12;
- Tue, 29 Sep 2020 16:37:41 -0700 (PDT)
+ id 1kNPL3-0003Dd-8A; Tue, 29 Sep 2020 19:47:18 -0400
+Received: by mail-ej1-x642.google.com with SMTP id p15so68653ejm.7;
+ Tue, 29 Sep 2020 16:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:mime-version:date:message-id:subject:to:cc;
  bh=KhSGaXrogwd/Fi04sIgiySppfiPQ9ooG3Z4HZ+ITPnI=;
- b=N1pHDb+gpo9taAbdQwE0YTXFzIK1QrAkhdHLWSX9CAwqe0VUVAQsRZe7xyTU/eL8w7
- jSX3Tt4XrMydl6gyg47KDK2+G+Orq0Uoqkif3aEFdcYqSmEE5NwrUKfYlzK9U59swUtG
- Nb6OY/JN+uOB2RW/xgJ0Qw4UNlSBV1q7wsqZOD/jELXLQGTdjIiON92fMzkFIdvskh2b
- hTkpAg1xDuOjpz/VxQfOdcfUexWfhFyh/pZmaJrSIks4anOhoTl71bbQ7tAQlQ0RC2GW
- 13GviGXCsVdUCyh0LBtlp0zBCambQ8rNK0yxmV2j4kKALntxf7UejPXv8JOTBrqFPZnn
- 7QUA==
+ b=mqBRxmtm67ioXMInTZjemci+6L/dxaP7U/eHHOx4u8PVx45jI2aGXkeTwRcw5L+wTD
+ WrfxicpZFzeu2ojzrL+btYIK23QXrk0gv59lAvoRtOP3Ak51NG8txKqbyUp+4c5K2cvv
+ IGkVksu45z6jSVr4xkFqtrAPb8nZI4WHG8NJPXX1J6KvK6KpnnJCPb9RwF95KgsCI5SU
+ P8LRv/guuX6QYhShVVxqRmGhDZq/OysfiFOw89jvE1PmeiIstHeUEmABCMq2IIYD/fd2
+ Eo7s+/YrBjNPl+rkM+LzjGpxnGSpZfHNJG1d5je45Qbbzcl6Oi2uViPCAHxwCd7dmWpf
+ N8eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc;
  bh=KhSGaXrogwd/Fi04sIgiySppfiPQ9ooG3Z4HZ+ITPnI=;
- b=kBThjW9tsWgX36NfaiKzxP5NYztOgkKXm94sZg+QJYySXbG8a82vr87shYRpLzJZgM
- 5FjxY8SQrVeu1hHsSU8io7dq/yFb8YDh4MB13cz2r5EAxm7NDeb6oBF+q1ase+W+6m8i
- Bb4qE5LwVm3XCHRbZIX0IticgQSeMn1FvaZS3Vi7OimAsTFDPPFzrHu27fCUEkUPbcdn
- JBmGTKjE/iYzvh1Loo8q2q90c0dqfFE380fApUrAzQ25oPvk5bN0u27YK6VWKV9rhdsU
- uaezfdJAGVUeuDCH8y3vFDUz41ARdF8S9YxdV31AoW3K64qcJWqute9tMb/ZTxQAIZGW
- 2OsA==
-X-Gm-Message-State: AOAM533IjyTjbdsTCfvFig+/f3nHcLq/SLf8iU7aEvOfhW9csShSBeag
- 81ew7TuBDNqbx3h72tIEfi66VYEomSZS1RWNJcrA+CzS6PtnqQ==
-X-Google-Smtp-Source: ABdhPJxZR2tKewYVz3y9phajr1rKsmW7R9AaLCfY0MwSWT1dzrIiYvG/9iOQCefNkT2V9sfmCcW1mVxkeY6qibRyqcM=
-X-Received: by 2002:a17:906:b784:: with SMTP id
- dt4mr67007ejb.376.1601422660131; 
- Tue, 29 Sep 2020 16:37:40 -0700 (PDT)
+ b=h43JXERzyvQEMrvcGp2HrnXKYoTH0w5pSChoIZ34P3vt4/XFOgmBqPb85knO/vtDsH
+ PEPjneW89vx1lOwaeVdOm3q4oorVWhcmdlT6/djsPYLH9uGlhqjnWph3fUpJAUOlIck4
+ ufx3qzC6OkgwSSypNJiJV42zJcuCvMJtZPidg3RGm1kDn4e8NNQO/MexYDQdbnxDSzsU
+ cithU92ZvLMaaVOKN10pKreGnBHH9K5i3UJy44iOlyLr0jVEd2dzInDC1qeuSsY5FF7V
+ EJWd03sNgGt50sIroyGwHRkvKxRz3lC75l5WSAcCl4p+qlTWLdPx2B6IS/5aR7RVP8an
+ XcBg==
+X-Gm-Message-State: AOAM531a3KZnU0dxwBdk4z7Wa7ddaGXlZwWdssY2k65b8hsM0Ng822w6
+ rqsJ3Ru1hb4Xp5PIwPVzihkODDBuDcoi0ngv+1/9BnEL3lkD1Q==
+X-Google-Smtp-Source: ABdhPJzbtkEQEJ8RtOxDAdrNjzt8PRm+KRaHRT6zE6umW4T9ZFW74esZAFsEH45wVwHuBNasp873LHxbUtoMYB7T4pk=
+X-Received: by 2002:a17:906:30cf:: with SMTP id
+ b15mr60606ejb.351.1601423235078; 
+ Tue, 29 Sep 2020 16:47:15 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 29 Sep 2020 16:37:39 -0700
+ HTTPREST; Tue, 29 Sep 2020 16:47:14 -0700
 From: Sergey Nizovtsev <snizovtsev@gmail.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Date: Tue, 29 Sep 2020 16:37:39 -0700
-Message-ID: <CAHOaf96apgoTCxV-3xggHkwoFpLBvTYzmk0myUG6CzvgWMXw2Q@mail.gmail.com>
+Date: Tue, 29 Sep 2020 16:47:14 -0700
+Message-ID: <CAHOaf96qxm6_qigD+DuoJ5GpS9rOqXe4Gv=2UnujiiwcfN0HHQ@mail.gmail.com>
 Subject: [PATCH] qom: fix objects with improper parent type
 To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
