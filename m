@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF0327ED80
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:40:35 +0200 (CEST)
-Received: from localhost ([::1]:46454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F231C27ED1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:35:58 +0200 (CEST)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNeDa-0004nT-Oc
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:40:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
+	id 1kNe97-00009Y-W6
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:35:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNe4t-0004tu-Mx
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:31:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60504)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNe7b-0007RF-Vr
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNe4q-0007g0-0K
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:31:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601479891;
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kNe7Z-0007zq-4m
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:34:23 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601480059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zyOfvk8sXmJI1D/oZfvvwbFEHd5zDPcwN6td8xWbw9s=;
- b=PgGnev2uZakeqPcexcXY5Nia6QUG9ESmbiJhfiag1ft2KCtVArCMlA6C6FJHYTQB5dEOPp
- LfOGuRTfrgG9RneU8f/AEqsTJa2zxmC4rKqy82hIlgeSNDW6io8rM0pnepihEpx3Fsss2Q
- 68RDOeoWrtDReeOIRfrePL2P7VBxAhY=
+ bh=GaxBUhpeQWJOmbZy+nQBPpF+NHsTmA0oFPmpf8cup2I=;
+ b=PQVhUpQ8+/ZpfNNBXL7GJ9jF9L4Y9ewZ3+yEtQ60bWdyv2Xu2aN9uApLWVUaBYnGjZmb83
+ rm2dQpJDzlAVwXpelc8Q+K5sWOrafxksBQbIxrMy4Dwlpzm8HKFKhQvPlTU1Z/gKto6sdZ
+ SBUGSBPujAW/gK3YIrNW6t7zdOVlzH8=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-RqhdN9jlOA2dak381fnHeg-1; Wed, 30 Sep 2020 11:31:29 -0400
-X-MC-Unique: RqhdN9jlOA2dak381fnHeg-1
-Received: by mail-wm1-f69.google.com with SMTP id a25so610895wmb.2
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 08:31:28 -0700 (PDT)
+ us-mta-393-BmnxxYtaNa2PiKXcuhry1A-1; Wed, 30 Sep 2020 11:34:17 -0400
+X-MC-Unique: BmnxxYtaNa2PiKXcuhry1A-1
+Received: by mail-wm1-f69.google.com with SMTP id a7so764703wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 08:34:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zyOfvk8sXmJI1D/oZfvvwbFEHd5zDPcwN6td8xWbw9s=;
- b=OEetIA0r82T3YMndbiZ/j3X5xbEpdbtFnxyJ/djtroEsRI3X2VK4sWFlUKau/gQVAC
- sbwJFw1mVZLNZ4UpbSPGHjnWzm69E3uXn12UHxMMZXt5lyoq4qgTKTuYUhTE5gzT8DPr
- hEcSzIYVu14lKNusX9INHLl7DlTHlMYb50gUb+4xhd0hNzUzlW3VcHw5svU0VP6JRkfe
- h8BYmGxpCr3suVXZThpjwptXilVeTIQQrWo4uQshXurVrhEqqp6ZQT9ad8y7XtLOJPoN
- iSSTPXTjsWPFODMd2zI7eEhGjgIXYKPdewHnXYpEVGuBzy/NA5DtS8cvDBGCAu2F1igX
- idcQ==
-X-Gm-Message-State: AOAM532WpeqUwNDYm0EP9AX85pg4NCh9hJcQqyp7LQVamto+uxI7ikF1
- ak7FNcHeNXbhApWichzzEkwPpN1rI/70Cv/aNLRvrQ67opx5ff8s7GT2LDMgQ/Ce4IJFU2xtskY
- 3Ly2zBGr/G7rcgA0=
-X-Received: by 2002:adf:e8c3:: with SMTP id k3mr3854360wrn.228.1601479887185; 
- Wed, 30 Sep 2020 08:31:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyHndTEGfX49EZmnlZu+6q9vVkU3dCesd8WxSoWCU0S2tPGZAzOSw0GXV8L5uHAsjbxwrxLlg==
-X-Received: by 2002:adf:e8c3:: with SMTP id k3mr3854339wrn.228.1601479887031; 
- Wed, 30 Sep 2020 08:31:27 -0700 (PDT)
+ bh=GaxBUhpeQWJOmbZy+nQBPpF+NHsTmA0oFPmpf8cup2I=;
+ b=QkUdiVTUFejMxzxJE3lcf8B3s56Hw7FRrDzqZTEi0X9K6XiUdupYAjN1fxA1jKHrQr
+ K0ljKsmGRIOThXCxc6zvtWE/GOTBNJuO4s2XA/N9pvm+XuRcm9nAHIzExL93bTTpZhhX
+ 8KYtt1CPTwIz7jdnX5V0XQLRXGL1rzKxoXcd3LNbcpGOU4GReXd9+uQfk7fmo+nbnP6R
+ AJNVBGPyXf6fXVoCf3OMEAPaQtvO3BHtysPiFocd9x3TuhXJTJS27SYdtY8KWTXFxJh/
+ 7bdPTjeb6PtixT1Kg9vY6JSMozgaavpiEBbn4/bZIImf+/0L/aIZMmdR8Ql58kv2hCrK
+ FeNg==
+X-Gm-Message-State: AOAM533KsGV0ijiJW4iEz3hF2KQIw9gGW+FQyTIoDJ/TtDM/ANS2bKkw
+ eh8jcW5sWjiw2dFZ3lQ4EYjVNg8NAcSeQNvG5Rl2aEWjgSqReWn0DGdODIdBNJAd8nduK3feZc0
+ ysha2ZJaBxZjLSBQ=
+X-Received: by 2002:adf:e6c2:: with SMTP id y2mr4016239wrm.117.1601480056737; 
+ Wed, 30 Sep 2020 08:34:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvH/9Vkape21q/KMroSRDKSgTEggrTUtwkkKEAHZPZ1Ou+S5Zh2bgY7GNwFMU20Rwv/g843Q==
+X-Received: by 2002:adf:e6c2:: with SMTP id y2mr4016213wrm.117.1601480056544; 
+ Wed, 30 Sep 2020 08:34:16 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
- by smtp.gmail.com with ESMTPSA id d6sm3763159wrq.67.2020.09.30.08.31.24
+ by smtp.gmail.com with ESMTPSA id e1sm3816141wrp.49.2020.09.30.08.34.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 08:31:25 -0700 (PDT)
-Date: Wed, 30 Sep 2020 11:31:22 -0400
+ Wed, 30 Sep 2020 08:34:15 -0700 (PDT)
+Date: Wed, 30 Sep 2020 11:34:12 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Subject: Re: Outline for VHOST_USER_PROTOCOL_F_VDPA
-Message-ID: <20200930112918-mutt-send-email-mst@kernel.org>
+Message-ID: <20200930113129-mutt-send-email-mst@kernel.org>
 References: <20200928092537.GA44353@stefanha-x1.localdomain>
  <20200929020114-mutt-send-email-mst@kernel.org>
  <20200929085751.GA181609@stefanha-x1.localdomain>
@@ -107,13 +107,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, Sep 30, 2020 at 03:57:52PM +0100, Stefan Hajnoczi wrote:
-> IMO "Inflight I/O tracking" is best placed into libvhost-user instead of
-> the vhost-user protocol.
+> > Architecturally, I think we can have 3 processes:
+> > 
+> > 
+> > VMM -- guest device emulation -- host backend
+> > 
+> > 
+> > to me this looks like increasing our defence in depth strength,
+> > as opposed to just shifting things around ...
+> 
+> Cool idea.
+> 
+> Performance will be hard because there is separation between the guest
+> device emulation and the host backend.
 
-Oh I agree qemu does nothing with it. The reason we have it defined in
-the spec is to facilitate compatibility across backends.
-I have zero confidence in backend developers being able to support
-e.g. cross-version migration consistently, and lots of backends
-do not use libvhost-user.
+Absolutely. As a tradeoff we could put some data path things in the backend,
+e.g. for virtio it is practical to have control path in emulation layer,
+data path in the backend.
+
+-- 
+MST
 
 
