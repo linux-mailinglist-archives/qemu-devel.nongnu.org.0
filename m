@@ -2,44 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7144B27EC77
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:26:10 +0200 (CEST)
-Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCA227EC91
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:29:08 +0200 (CEST)
+Received: from localhost ([::1]:46636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNdzd-0006eQ-Gn
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37348)
+	id 1kNe2U-0001Hk-W3
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:29:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkysel@tachyum.com>)
- id 1kNdqW-00075d-Pu
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:16:44 -0400
-Received: from mx1.tachyum.com ([66.160.133.170]:9475)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkysel@tachyum.com>)
- id 1kNdqV-0006IN-26
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:16:44 -0400
-Received: by mx1.tachyum.com (Postfix, from userid 1000)
- id 5098910056A8; Wed, 30 Sep 2020 08:16:40 -0700 (PDT)
-Received: from tsk-dev-swd001.tachyum.sk (unknown [93.184.71.90])
- by mx1.tachyum.com (Postfix) with ESMTP id E5E9810056A5;
- Wed, 30 Sep 2020 08:16:37 -0700 (PDT)
-From: Matus Kysel <mkysel@tachyum.com>
-To: mkysel@tachyum.com
-Subject: [PATCH] linux-user: correct errno returned from accept4() syscall
-Date: Wed, 30 Sep 2020 17:16:16 +0200
-Message-Id: <20200930151616.3588165-1-mkysel@tachyum.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNdsi-0000Oo-D2
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:19:04 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37389)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kNdsf-0006RQ-NY
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:19:00 -0400
+Received: by mail-ed1-x541.google.com with SMTP id n22so2286339edt.4
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 08:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9f8yvg4nHDtbp4k+M6DrVvog15lTAgRwMYiFIt1HueI=;
+ b=QzYre/R09wOAy8rY9ggS6++AGIoiBnwSf13ocfcWBx4XRGRJdr/yl/24t19PablQ2x
+ sj0kMg4M71L61eGX13eHQCxX/5O6blgDt8dXtrC7OvXroueIeEaOR5Bqm1koLJLBcp/K
+ sqDubxkxevInD1GG091NA9VzQCuNFSAqzLMLklyPnmiu33PNe2yBdWqjX/pDInlB31vx
+ +hWQVjy5dg+Tw99ZmvThIK5oR89VqAShayuFEbOq5ufvTATnR6hEiInw99p9mZAqc7Vc
+ SDGAM8YGirkqgVjM7dfQ7Q7UuUOZhdmiNdEzB9Dm0b12UeVobC7FziQwPW2uuFjcFyzs
+ WUYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9f8yvg4nHDtbp4k+M6DrVvog15lTAgRwMYiFIt1HueI=;
+ b=aKfLq9z8lIj6R3dUsw8mTyMdyMvEEo0KT1oK2mQwHi8Hf5H2rtnn7rMCXubp5kqW0X
+ YxKzsJkIQTssbdKWI5xj6myWYSx/gc5cJ/wgV4nZP0GBkZ2ogzCI+rZ2MJ7OMvedBPD7
+ a81TSW1I1y9OY8iStlHbUH9gtV1fdur9khvXWnLaJ/5UqxECZDgVUpKEfMe+TBc+Xqpm
+ cgtfiOh9SjovnV8HnENKrr159uQZ8mWswFzYVIAkDXqMcljQSkKttK8HoDiATCz9r3MD
+ 0YZVl5txm2hmJVGdhyTHWNnMzH1aiAEQ94MuDnKiKD8gUKmmrdyyePXwmMaeMvvaApyF
+ sAIQ==
+X-Gm-Message-State: AOAM533tRLGeRNfW7bqTzi0rqw9TmJncR4DX/eHeV4zfzbUg5OrXmYzP
+ PuwgBiH5Z8xBQR+CNRSRQEDiw3kKVobzv0KaOnSUkg==
+X-Google-Smtp-Source: ABdhPJwh5vFEmd5U+rE4guUw6GwbF63dIzpVkeE2/MhBCH7+CRS4HbgZfmVRnVBoiq6k7fMZxtsjcvAK6amIYe1HcnA=
+X-Received: by 2002:a05:6402:202a:: with SMTP id
+ ay10mr3388600edb.36.1601479135646; 
+ Wed, 30 Sep 2020 08:18:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.160.133.170; envelope-from=mkysel@tachyum.com;
- helo=mx1.tachyum.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 11:16:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20200930083552.506733-1-mst@redhat.com>
+In-Reply-To: <20200930083552.506733-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 30 Sep 2020 16:18:44 +0100
+Message-ID: <CAFEAcA_fhNYeed=E1-Ym1sbwdUwr=qKUUoeUC0cWkOf-D6HJ_Q@mail.gmail.com>
+Subject: Re: [PULL 0/2] acpi: unit test
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,43 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-accept4() returned wrong errno, that did not match current linux
+On Wed, 30 Sep 2020 at 09:36, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit f142e4ede72853aaa7d306bc79b099caed45769b:
+>
+>   tests/acpi: drop unnecessary files (2020-09-29 07:10:37 -0400)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to 42803552319a5481e90e93382d74a7336dfab496:
+>
+>   tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx hotplug (2020-09-30 04:10:51 -0400)
+>
+> ----------------------------------------------------------------
+> acpi: unit test
+>
+> This just adds a unit test for previously merged functionality.
+> A bit unusual, but we have a contribitor under a deadline,
+> let's be nice and merge the unit test right away - does no harm.
+> Hopefully this won't be a beginning of a trend ...
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> ----------------------------------------------------------------
+> Ani Sinha (2):
+>       tests/acpi: unit test exercising global pci hotplug off for i440fx
+>       tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx hotplug
+>
+>  tests/qtest/bios-tables-test.c   |  17 +++++++++++++++++
+>  tests/data/acpi/pc/DSDT.hpbrroot | Bin 0 -> 3079 bytes
+>  2 files changed, 17 insertions(+)
+>  create mode 100644 tests/data/acpi/pc/DSDT.hpbrroot
 
-Signed-off-by: Matus Kysel <mkysel@tachyum.com>
----
- linux-user/syscall.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 897d20c076..5b8c20cf21 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -3491,16 +3491,16 @@ static abi_long do_accept4(int fd, abi_ulong target_addr,
-         return get_errno(safe_accept4(fd, NULL, NULL, host_flags));
-     }
- 
--    /* linux returns EINVAL if addrlen pointer is invalid */
-+    /* linux returns EFAULT if addrlen pointer is invalid */
-     if (get_user_u32(addrlen, target_addrlen_addr))
--        return -TARGET_EINVAL;
-+        return -TARGET_EFAULT;
- 
-     if ((int)addrlen < 0) {
-         return -TARGET_EINVAL;
-     }
- 
-     if (!access_ok(VERIFY_WRITE, target_addr, addrlen))
--        return -TARGET_EINVAL;
-+        return -TARGET_EFAULT;
- 
-     addr = alloca(addrlen);
- 
--- 
-2.25.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
