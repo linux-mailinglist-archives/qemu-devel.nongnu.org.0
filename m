@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B274C27F0B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:48:10 +0200 (CEST)
-Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEEC27F0B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:49:27 +0200 (CEST)
+Received: from localhost ([::1]:33694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNgD3-0003bk-PL
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54524)
+	id 1kNgEI-0004b0-EA
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:49:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNgBg-000320-K6
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:46:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23134)
+ id 1kNgDD-00046K-Oi
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:48:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNgBe-0004Or-DK
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:46:44 -0400
+ id 1kNgDB-0004dm-60
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:48:19 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601488001;
+ s=mimecast20190719; t=1601488095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZWUx5DmjrfB9LPqMu2R6Bn9Fs7Axz3MPsvf8u5tx4N4=;
- b=GJbrhn/eRRHNXIAl8Q/FRGzeeFobmtFDNb44AO+MsH04q4860laJav2rzKfHwXs9NSn8A1
- HERNsnA8QjmMzXdhiPFnxA/FS7iXgTEzegT+eNvI6s8Ydi4CtGA/LZAkzWId0pHJdspIZ8
- dq7FiZk0s2DUgDjvfQuG3WgeztqBUnc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-iShu2qqCNSa-UU_dRujldQ-1; Wed, 30 Sep 2020 13:46:38 -0400
-X-MC-Unique: iShu2qqCNSa-UU_dRujldQ-1
-Received: by mail-wr1-f69.google.com with SMTP id a2so878497wrp.8
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 10:46:38 -0700 (PDT)
+ bh=EZvrSnYm3YGfZv/jW9MTku5rvnXBGTL6dfq7Gux/9s4=;
+ b=HfcUr0Wp8hLPuP9gTqI58f8/zPD+hhfrN1IlQPAIvArINkHM9zHJh7iBqLkFUVUpbw3BmS
+ uXnim+t7xzpJlbAV2YxumfiDZEnkqXq3gfvnayhgbLI8yCiXWu/5gCO+fQpMy8qOOJMEhA
+ n9/yDPb06LpV6hodGukORk6wF1wmLA0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-WbLnaRS3NGWnq-o-pL1rsQ-1; Wed, 30 Sep 2020 13:48:13 -0400
+X-MC-Unique: WbLnaRS3NGWnq-o-pL1rsQ-1
+Received: by mail-wm1-f70.google.com with SMTP id b20so275474wmj.1
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 10:48:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZWUx5DmjrfB9LPqMu2R6Bn9Fs7Axz3MPsvf8u5tx4N4=;
- b=hAX0ho5kciQ4DZ74N5mtKuFkdyb8jc4ITg1sFqO+g49m6nHkEynKKY3bQjC56bOOxN
- Jtcn9Gstmon4oR+HQVCTsBKqPCMPzrl+vjA5tSVtyxOr4+LWbkU7n2V3FW6v9wYgD+7P
- 6vRs7pp3x9nqCrpuD7VFkqVlM2qKD930fQvm+jVaSyAn5a8MS5rpZ7qRmJOLme7mqSLr
- LlD/EVp6S1I7Zm+u6joFQNirKpuq09458NeChasN3Ocsxp/nLzJ7/raKVKQ25G8L8uE2
- pM8W1u1ULLhZI1dYzMONCTC/bxJZNnUchi+cE9PF7zhJjBvv36VmsFUAVrV4wASRdpgw
- Wfcw==
-X-Gm-Message-State: AOAM533q5tilaTHocn8JnPmeIrAzpOCK82bTHKQKeHbfQYQ2OK7w20Kr
- Xrbho3pXuIhUzmjSJNBPBpM9IZ3r/phBaJ6nAldg2g/oYYTIGGX7fF3SU9MpapwyzXS9qX5A+HD
- iyqKjXLgluptZkSs=
-X-Received: by 2002:a5d:4682:: with SMTP id u2mr4707686wrq.254.1601487997226; 
- Wed, 30 Sep 2020 10:46:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwb3ABj/hdHahNV/bkLbidWvERhf1XZEvAt4TkDScTlbwAnEzw4eWtG9auXsRHG6LP76yqjjw==
-X-Received: by 2002:a5d:4682:: with SMTP id u2mr4707668wrq.254.1601487996885; 
- Wed, 30 Sep 2020 10:46:36 -0700 (PDT)
+ :user-agent:mime-version:in-reply-to;
+ bh=3tY4UGEihUG/tvZ5JYGwPtvK29XTRCAmKkYZxpL5Tuk=;
+ b=O7RmhXl5nBbcUN58l3cKQPULbAvFkUPBT1HeMvyXZCbbhdEL98Rs90HEAOXRwJroyP
+ t2MNI3pEC+6vq9iD5BH15hShdyxq9GH0HuSWkk4y931ub6lxvHNQsiSueMATlf5JV9CG
+ jrSUudO0j6l3dkjmyY3RtpoW3Dbey7Yv3SquLTSF3hX7rUSOGotqc50+FcpEOkF6Ne4o
+ j7oir3cqcbyJa1/XEuCj3ChUUuhjIk/dCxk91FeL9kS2Sv1HSuVScL2fcrplG3UVIdDw
+ DOBMKAt0qF8IYeH83BmqBhBG01LCqLavBZqqI1Drt8Bnut/xr/9NBSNBpYCUEBj3bLaQ
+ Mc4w==
+X-Gm-Message-State: AOAM5332nnHmOUaH5dLch/9sL3PwGqskE+PeE/1vdZphrkW1cGso8SKe
+ 4LmnLAoShIVvw0gt8JJKUYqB5t/TKpdEM1wWyaHJinaPb0pmmVCwIxsIKMqWa3gGrHXrEEc04Ee
+ QaKLWLGCcXajhFIg=
+X-Received: by 2002:a05:600c:20c:: with SMTP id
+ 12mr4461380wmi.40.1601488092007; 
+ Wed, 30 Sep 2020 10:48:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxq60XVfELMyIc5OByeHIYXZieFql7TrKd4z75H2KFxG7VYX0LkNBD7qJaNImn4ITWDKjBw6A==
+X-Received: by 2002:a05:600c:20c:: with SMTP id
+ 12mr4461367wmi.40.1601488091800; 
+ Wed, 30 Sep 2020 10:48:11 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:75e3:aaa7:77d6:f4e4?
  ([2001:b07:6468:f312:75e3:aaa7:77d6:f4e4])
- by smtp.gmail.com with ESMTPSA id 189sm3961554wmb.3.2020.09.30.10.46.33
+ by smtp.gmail.com with ESMTPSA id z67sm4454538wme.41.2020.09.30.10.48.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Sep 2020 10:46:35 -0700 (PDT)
-Subject: Re: [PATCH 08/10] scsi/scsi_bus: Add scsi_device_get
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+ Wed, 30 Sep 2020 10:48:11 -0700 (PDT)
+Subject: Re: [PATCH 01/10] qdev: add "check if address free" callback for buses
+To: Stefan Hajnoczi <stefanha@redhat.com>
 References: <20200925172604.2142227-1-pbonzini@redhat.com>
- <20200925172604.2142227-9-pbonzini@redhat.com>
- <0d124b6991e607e496da4afa39027320e617aa0e.camel@redhat.com>
+ <20200925172604.2142227-2-pbonzini@redhat.com>
+ <20200928093006.GB44353@stefanha-x1.localdomain>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <67859d7f-5293-a11e-add3-f93893dfa7af@redhat.com>
-Date: Wed, 30 Sep 2020 19:46:32 +0200
+Message-ID: <ce4b7050-24c3-8d68-8e37-3f12c3970cac@redhat.com>
+Date: Wed, 30 Sep 2020 19:48:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <0d124b6991e607e496da4afa39027320e617aa0e.camel@redhat.com>
+In-Reply-To: <20200928093006.GB44353@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -103,22 +103,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, stefanha@redhat.com
+Cc: qemu-devel@nongnu.org, mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/20 16:32, Maxim Levitsky wrote:
->> 	Compared to Maxim's patch, I am avoiding the extra argument
->> 	to do_scsi_device_find by moving the RCU_READ_LOCK_GUARD()
->> 	out of do_scsi_device_find itself.
-> Which is a good idea, although my mindset was like, I got a device,
-> lets just grab a ref to it before it disappears and then do
-> whatever I want.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s
+Content-Type: multipart/mixed; boundary="7e0Av3VYWFPr8VwStkFYckFwuNenv4bgA"
 
-Understood, but "I got a device, I know I'm under RCU so it can't
-disappear" is more efficient and just as common.  This also explains the
-difference in patch 7.
+--7e0Av3VYWFPr8VwStkFYckFwuNenv4bgA
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On 28/09/20 11:30, Stefan Hajnoczi wrote:
+>> +    bool (*check_address)(BusState *bus, DeviceState *dev, Error **errp=
+);
+> Please document this function.
+
+I will add this:
+
+=09/*
+=09 * Return whether the device can be added to @bus,
+=09 * based on the address that was set (via device properties)
+=09 * before realize.  If not, on return @errp contains the
+=09 * human-readable error message.
+=09 */
+
+
+--7e0Av3VYWFPr8VwStkFYckFwuNenv4bgA--
+
+--wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl90xNkACgkQv/vSX3jH
+roM6swf+LZjZ8ma1gPB4Nni92gDHFHCNuCwyS3dh7hRPc6mCq9qEvPQuODxt0qP9
+2o6KOX+QUZHvU4Fy2QW54LeHFLNvlRCcz0CX3wz/bAahsOkBPWQ+j0r/igPio753
+FPxp68ZvyF2nWeSr+YWP9AETIwKkuQjJIKrNGISAt7rt99TgPpM5V1/84pZzpdPI
+gWR9lK8M7Qnlx862nbLw0hHrfUepKFmtLph8QbKyjbciOxqiowYCPfMGPHAq7faA
+qexuDYt9b1oJ5+JiRKkgfSGCdkT/PIzYkMqd2DhTQybE22XWQLcp+WZK9dkxkl6t
+2ZoT2ozLQK+7AtvYmfPutePoM0GR7w==
+=ey7L
+-----END PGP SIGNATURE-----
+
+--wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s--
 
 
