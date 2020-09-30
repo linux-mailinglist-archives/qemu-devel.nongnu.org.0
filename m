@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F101E27E592
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 11:49:11 +0200 (CEST)
-Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0499927E5A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 11:51:03 +0200 (CEST)
+Received: from localhost ([::1]:55460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNYjX-0008In-15
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 05:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37440)
+	id 1kNYlK-0002K5-2r
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 05:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kNYhM-00071P-ON
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 05:46:56 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:38500 helo=huawei.com)
+ id 1kNYhQ-00072p-M1
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 05:47:01 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5155 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kNYhK-0003nw-Sb
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 05:46:56 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 34EF048E18F327774F91;
- Wed, 30 Sep 2020 17:46:48 +0800 (CST)
-Received: from localhost (10.174.186.107) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Wed, 30 Sep 2020
- 17:46:41 +0800
+ id 1kNYhM-0003oH-Tl
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 05:47:00 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id A8B59516CA08BE7B74C5;
+ Wed, 30 Sep 2020 17:46:52 +0800 (CST)
+Received: from localhost (10.174.186.107) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Wed, 30 Sep 2020
+ 17:46:42 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH v2 1/8] block-backend: introduce I/O rehandle info
-Date: Wed, 30 Sep 2020 17:45:59 +0800
-Message-ID: <20200930094606.5323-2-cenjiahui@huawei.com>
+Subject: [RFC PATCH v2 2/8] block-backend: rehandle block aios when EIO
+Date: Wed, 30 Sep 2020 17:46:00 +0800
+Message-ID: <20200930094606.5323-3-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200930094606.5323-1-cenjiahui@huawei.com>
 References: <20200930094606.5323-1-cenjiahui@huawei.com>
@@ -38,9 +38,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.186.107]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=cenjiahui@huawei.com;
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 05:46:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 05:46:53
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -65,68 +65,152 @@ Cc: kwolf@redhat.com, fangying1@huawei.com, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The I/O hang feature is realized based on a rehandle mechanism.
-Each block backend will have a list to store hanging block AIOs,
-and a timer to regularly resend these aios. In order to issue
-the AIOs again, each block AIOs also need to store its coroutine entry.
+When a backend device temporarily does not response, like a network disk down
+due to some network faults, any IO to the coresponding virtual block device
+in VM would return I/O error. If the hypervisor returns the error to VM, the
+filesystem on this block device may not work as usual. And in many situations,
+the returned error is often an EIO.
+
+To avoid this unavailablity, we can store the failed AIOs, and resend them
+later. If the error is temporary, the retries can succeed and the AIOs can
+be successfully completed.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- block/block-backend.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ block/block-backend.c | 89 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
 diff --git a/block/block-backend.c b/block/block-backend.c
-index ce78d30794..b8367d82cc 100644
+index b8367d82cc..8050669d23 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -35,6 +35,18 @@
- 
- static AioContext *blk_aiocb_get_aio_context(BlockAIOCB *acb);
- 
-+/* block backend rehandle timer interval 5s */
-+#define BLOCK_BACKEND_REHANDLE_TIMER_INTERVAL   5000
-+
-+typedef struct BlockBackendRehandleInfo {
-+    bool enable;
-+    QEMUTimer *ts;
-+    unsigned timer_interval_ms;
-+
-+    unsigned int in_flight;
-+    QTAILQ_HEAD(, BlkAioEmAIOCB) re_aios;
-+} BlockBackendRehandleInfo;
-+
- typedef struct BlockBackendAioNotifier {
-     void (*attached_aio_context)(AioContext *new_context, void *opaque);
-     void (*detach_aio_context)(void *opaque);
-@@ -95,6 +107,8 @@ struct BlockBackend {
-      * Accessed with atomic ops.
-      */
-     unsigned int in_flight;
-+
-+    BlockBackendRehandleInfo reinfo;
- };
- 
- typedef struct BlockBackendAIOCB {
-@@ -350,6 +364,7 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm, uint64_t shared_perm)
-     qemu_co_queue_init(&blk->queued_requests);
+@@ -365,6 +365,12 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm, uint64_t shared_perm)
      notifier_list_init(&blk->remove_bs_notifiers);
      notifier_list_init(&blk->insert_bs_notifiers);
+ 
++    /* for rehandle */
++    blk->reinfo.enable = false;
++    blk->reinfo.ts = NULL;
++    qatomic_set(&blk->reinfo.in_flight, 0);
++    QTAILQ_INIT(&blk->reinfo.re_aios);
 +
      QLIST_INIT(&blk->aio_notifiers);
  
      QTAILQ_INSERT_TAIL(&block_backends, blk, link);
-@@ -1392,6 +1407,10 @@ typedef struct BlkAioEmAIOCB {
-     BlkRwCo rwco;
-     int bytes;
-     bool has_returned;
-+
-+    /* for rehandle */
-+    CoroutineEntry *co_entry;
-+    QTAILQ_ENTRY(BlkAioEmAIOCB) list;
- } BlkAioEmAIOCB;
+@@ -1425,8 +1431,16 @@ static const AIOCBInfo blk_aio_em_aiocb_info = {
+     .get_aio_context    = blk_aio_em_aiocb_get_aio_context,
+ };
  
- static AioContext *blk_aio_em_aiocb_get_aio_context(BlockAIOCB *acb_)
++static void blk_rehandle_timer_cb(void *opaque);
++static void blk_rehandle_aio_complete(BlkAioEmAIOCB *acb);
++
+ static void blk_aio_complete(BlkAioEmAIOCB *acb)
+ {
++    if (acb->rwco.blk->reinfo.enable) {
++        blk_rehandle_aio_complete(acb);
++        return;
++    }
++
+     if (acb->has_returned) {
+         acb->common.cb(acb->common.opaque, acb->rwco.ret);
+         blk_dec_in_flight(acb->rwco.blk);
+@@ -1459,6 +1473,7 @@ static BlockAIOCB *blk_aio_prwv(BlockBackend *blk, int64_t offset, int bytes,
+         .ret    = NOT_DONE,
+     };
+     acb->bytes = bytes;
++    acb->co_entry = co_entry;
+     acb->has_returned = false;
+ 
+     co = qemu_coroutine_create(co_entry, acb);
+@@ -2054,6 +2069,20 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
+             throttle_group_attach_aio_context(tgm, new_context);
+             bdrv_drained_end(bs);
+         }
++
++        if (blk->reinfo.enable) {
++            if (blk->reinfo.ts) {
++                timer_del(blk->reinfo.ts);
++                timer_free(blk->reinfo.ts);
++            }
++            blk->reinfo.ts = aio_timer_new(new_context, QEMU_CLOCK_REALTIME,
++                                           SCALE_MS, blk_rehandle_timer_cb,
++                                           blk);
++            if (qatomic_read(&blk->reinfo.in_flight)) {
++                timer_mod(blk->reinfo.ts,
++                          qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
++            }
++        }
+     }
+ 
+     blk->ctx = new_context;
+@@ -2406,6 +2435,66 @@ static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter)
+     }
+ }
+ 
++static void blk_rehandle_insert_aiocb(BlockBackend *blk, BlkAioEmAIOCB *acb)
++{
++    assert(blk->reinfo.enable);
++
++    qatomic_inc(&blk->reinfo.in_flight);
++    QTAILQ_INSERT_TAIL(&blk->reinfo.re_aios, acb, list);
++    timer_mod(blk->reinfo.ts, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) +
++                              blk->reinfo.timer_interval_ms);
++}
++
++static void blk_rehandle_remove_aiocb(BlockBackend *blk, BlkAioEmAIOCB *acb)
++{
++    QTAILQ_REMOVE(&blk->reinfo.re_aios, acb, list);
++    qatomic_dec(&blk->reinfo.in_flight);
++}
++
++static void blk_rehandle_timer_cb(void *opaque)
++{
++    BlockBackend *blk = opaque;
++    BlockBackendRehandleInfo *reinfo = &blk->reinfo;
++    BlkAioEmAIOCB *acb, *tmp;
++    Coroutine *co;
++
++    aio_context_acquire(blk_get_aio_context(blk));
++    QTAILQ_FOREACH_SAFE(acb, &reinfo->re_aios, list, tmp) {
++        if (acb->rwco.ret == NOT_DONE) {
++            continue;
++        }
++
++        blk_inc_in_flight(acb->rwco.blk);
++        acb->rwco.ret = NOT_DONE;
++        acb->has_returned = false;
++        blk_rehandle_remove_aiocb(acb->rwco.blk, acb);
++
++        co = qemu_coroutine_create(acb->co_entry, acb);
++        qemu_coroutine_enter(co);
++
++        acb->has_returned = true;
++        if (acb->rwco.ret != NOT_DONE) {
++            replay_bh_schedule_oneshot_event(blk_get_aio_context(blk),
++                                             blk_aio_complete_bh, acb);
++        }
++    }
++    aio_context_release(blk_get_aio_context(blk));
++}
++
++static void blk_rehandle_aio_complete(BlkAioEmAIOCB *acb)
++{
++    if (acb->has_returned) {
++        blk_dec_in_flight(acb->rwco.blk);
++        if (acb->rwco.ret == -EIO) {
++            blk_rehandle_insert_aiocb(acb->rwco.blk, acb);
++            return;
++        }
++
++        acb->common.cb(acb->common.opaque, acb->rwco.ret);
++        qemu_aio_unref(acb);
++    }
++}
++
+ void blk_register_buf(BlockBackend *blk, void *host, size_t size)
+ {
+     bdrv_register_buf(blk_bs(blk), host, size);
 -- 
 2.28.0
 
