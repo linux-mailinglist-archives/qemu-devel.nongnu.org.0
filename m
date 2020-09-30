@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400A627DD64
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 02:33:36 +0200 (CEST)
-Received: from localhost ([::1]:48072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5437727DD93
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 03:07:03 +0200 (CEST)
+Received: from localhost ([::1]:36016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNQ3r-0008BX-8P
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 20:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50966)
+	id 1kNQaD-0000CE-SS
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 21:07:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kNQ1L-0006OW-I3
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 20:30:59 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:45257)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kNQ1J-000899-Hl
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 20:30:59 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MpUMc-1kmboZ2Hy0-00pqgM; Wed, 30 Sep 2020 02:30:39 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] linux-user: remove _sysctl
-Date: Wed, 30 Sep 2020 02:30:33 +0200
-Message-Id: <20200930003033.554124-5-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200930003033.554124-1-laurent@vivier.eu>
-References: <20200930003033.554124-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1kNQYm-0008Cn-Sd
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 21:05:32 -0400
+Received: from mail-vk1-xa44.google.com ([2607:f8b0:4864:20::a44]:37048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1kNQYj-00034F-Na
+ for qemu-devel@nongnu.org; Tue, 29 Sep 2020 21:05:31 -0400
+Received: by mail-vk1-xa44.google.com with SMTP id h23so34513vkn.4
+ for <qemu-devel@nongnu.org>; Tue, 29 Sep 2020 18:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FoyFyzp6E3LDn7z9CHnhiE2TsJI3nV8V4sbVPljM0F0=;
+ b=tB71iyDMfj9rWzxD2mrOYzYVBKfF6sG2h3KFrLr7csiB7TVDh40bdMUvGafCf6h1AY
+ q12B6975GZm+W1Up3KdgQT6EqUSDO4dUe63n7PiMFnm5tJNRaP5n/NVUf48WZUr25IoD
+ lSoc0PdmYsUENgK/VLry2e9QalJR1GYSK5xjnPhMnIiJ8S4YoIKzmbMKJhd2A134B62O
+ AJhgFDympazXtwAITTo9AQvoThTatHvnn5yPnOujV5LTh8OFP+8VcBShFT8V7XXxr2Q7
+ ISfTJt5BP2w0A2KWtp7WK8w5l/VlCdfij1p9fR4c85dQuMMd944QHeWJ/UhNwPvXQU1F
+ 5OXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FoyFyzp6E3LDn7z9CHnhiE2TsJI3nV8V4sbVPljM0F0=;
+ b=Joea8IiOzfn/xUeFGpmRL1jOHCsZh9Q6IPf0KNDmPqU2ILjfv6Pk2krHJEfoQaXGUj
+ 71V/8KoGP0x0EwlkpSt8FgQOYZHKr11rfV+9Ea5r+7WE6sYhf0m7du9fr/AgeZNzjYxU
+ aH15V0vKIm+RyendDykz0kdxJZ3VlLVJozMPQ8ml+kTGG3STJCXNWN/CCorXGNNoeqIs
+ EezQbZdUjOS/GQEeYm9DAVh5qQ1cx6bSWgzO4dM3+L4JOc17bVs2U6JP3k1G0WwzzdJE
+ r1VP2cjWncKEULPmOSA5NeBEWYUB1wtNtt32RWaHjvuVwItwZjCy6P/mv0NPMPRYugIt
+ nhXA==
+X-Gm-Message-State: AOAM533/Axtj5tP7AdEOPnG3yFxDnUyR1fafHirt4Ap+eRozWM4sSav5
+ JfbjQkim0KVw1akpw3zy9vrGn2AzWv3kilVvWLOxew==
+X-Google-Smtp-Source: ABdhPJxvYnt8wVVT+NdJF0s8SjpY+ZuC5DIYp6tMJMWIcPn7NQklBW+C+/AuZ7vBiL95SjtBuVI6LsbimmGgqTU2caw=
+X-Received: by 2002:a1f:b64a:: with SMTP id g71mr111994vkf.11.1601427927991;
+ Tue, 29 Sep 2020 18:05:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Wto9uzI6F5LhnJHCoOF2+rgDB97Fkqd0KuTQvpRn9ISYARb4YSq
- zb4AwhIxQBX/lA+u3QIw88ENdHnxCHgqtjzjXzVybVUlSnya0voZL69TR/8lgGMva1QzoMY
- D0lvS8OzQ4VKFFlmwXmaF+Hv05wWMGF0zmln7RtbZPmTTdpOyxmcXsGor5yOx8knATlcB3O
- YhMc3hPwHwWE9DhTPC11A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:arlaqLgjU24=:ER7/TSc9Oat6hErjb2e8u7
- SQ5vYZ4Z1JS4TYvKXjNKQIggqnJBJEtYhhP7dLDtLAXC5wh9aje1zhiC7iPhktwiESv7HD1Yd
- IQsmXwG4gzaqiLxsSm/lnFQk1bVvO+Xm8s1Y3XAVIDLksg23BT/tpuEx95qiRT/NTZxpsEHEF
- +EmUE3w2FbqMyqSprQIzGJLAglS2EBeG458vyJ8WzvN8BMPtyoRV4bUyvI/G7y2Sxm08Ba/xO
- 8DDBMqyaUqEUpbF6hkDqYHX8iKvfDH0K/a7BkkB2wkuztTZD9e7c6+wcAmFGRIkERd89TFAhS
- 0LxwNmtUbhwBAsfr4GrdfL+4g4x34Uo3GuxLhvve2lBtV2QXK8MY/8kTjh17NPOmazW4pp62K
- nx7YrzmrtYAFlxvzjeB5scDfFJfPMRA+aphKNy4kW/teWw2IhZsjJtEXgGWg+J6GnX+7a6iUb
- p1H3ujdB4bni2AR1/CuE8jQOQfGsN3Ae7mBJJdRqhDFE3vy1QpixJ4QcUyiQm+fMSLwpw12mj
- up7lr1ZYv1Md9HDLf/0w7MujozTQ6yqD4E4QkmQc+rHgjXmTbtpXXh0x5K4btSilF18rhorH0
- h+QfwInu5yWGlHHZHi6gKw3l6s6l8UhPUXiJ9XcG6iBtZIxBJ0gehTBAxVsv1GKQpPdwuRMIX
- sWgen9nZiNzju79SpT1heh3EA5Suv7MHiyRiW01c7c0etp1kW0RrNEJA9eJ5K45dT6h0EwZfR
- 5OPcrAxtdUOqE9UxVxIZq4FjNu/7H/SraCQzlVbhR3RPALuVnqokOerzHo/tMR+7e60sP38AB
- PxHvkx0XlH7d0hIluKKYoWUAkRtJ0B/b9HCDj3KMna8xS39BiUpoApAvPBX8kAZtro0vWsC
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 20:30:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.614, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20200929003916.4183696-1-hskinnemoen@google.com>
+ <20200929174644.GW3674@minyard.net>
+In-Reply-To: <20200929174644.GW3674@minyard.net>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Tue, 29 Sep 2020 18:05:16 -0700
+Message-ID: <CAFQmdRaJOqDxOWgoJ6c4TFuJGw5zvb6KyUXoYT0SFJe1xJZhNQ@mail.gmail.com>
+Subject: Re: [RFC 0/3] QEMU as IPMI BMC emulator
+To: minyard@acm.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
+ CS20 KFTing <kfting@nuvoton.com>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a44;
+ envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -180
+X-Spam_score: -18.1
+X-Spam_bar: ------------------
+X-Spam_report: (-18.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.468,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,42 +85,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It has been removed from linux since
+On Tue, Sep 29, 2020 at 10:46 AM Corey Minyard <minyard@acm.org> wrote:
+>
+> On Mon, Sep 28, 2020 at 05:39:13PM -0700, Havard Skinnemoen via wrote:
+> > This series briefly documents the existing IPMI device support for main
+> > processor emulation, and goes on to propose a similar device structure to
+> > emulate IPMI responder devices in BMC machines. This would allow a qemu
+> > instance running BMC firmware to serve as an external BMC for a qemu instance
+> > running server software.
+> >
+> > RFC only at this point because the series does not include actual code to
+> > implement this. I'd appreciate some initial feedback on
+> >
+> > 1. Whether anyone else is interested in something like this.
+>
+> Though I've had this idea once or twice, I'm not working on real BMCs,
+> so I didn't really pursue anything.  It's a good idea, I think, for the
+> BMC developers, and possibly for system developers trying to do
+> integration testing between BMCs and system software.
+>
+> You will need to tie in to more emulation than just the BMC side of the
+> system interface registers.  You will also need to tie into GPIOs or
+> whatnot for things like host reset.
 
-  61a47c1ad3a4 ("sysctl: Remove the sysctl system call")
+That is true. The OpenIPMI protocol seems to handle at least some of
+that, so it should be just a matter of adding a few GPIO inputs
+(power, reset, ATTN, ...) to the ipmi-host-extern device.
 
-It's a good news because it was not really supported by qemu.
+I should add some more details about this to the doc.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall.c | 6 ------
- 1 file changed, 6 deletions(-)
+> Power handling is going to be a bit weird.  The OpenIPMI emulator
+> starts/stops qemu based upon power control.  It might be possible to do
+> the same thing in this sort of emulator.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 897d20c076ce..0cfc95088fa4 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -10524,12 +10524,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #if defined(TARGET_NR_fdatasync) /* Not on alpha (osf_datasync ?) */
-     case TARGET_NR_fdatasync:
-         return get_errno(fdatasync(arg1));
--#endif
--#ifdef TARGET_NR__sysctl
--    case TARGET_NR__sysctl:
--        /* We don't implement this, but ENOTDIR is always a safe
--           return value. */
--        return -TARGET_ENOTDIR;
- #endif
-     case TARGET_NR_sched_getaffinity:
-         {
--- 
-2.26.2
+Hmm, yeah, I guess we can't kill/restart qemu from within qemu itself.
+But perhaps stopping all CPUs and doing a full system reset might be a
+good enough approximation for power-off?
 
+> You may need extensions to the protocol, and that's fine.  I can't think
+> of any at the moment, but you never know.
+
+True.
+
+> > 2. Completeness (i.e. anything that could be explained in more detail in the
+> >    docs).
+>
+> It's certainly a good start.  The second patch would be useful right
+> now.  There are more details, of course, but I think that's covered in
+> the man page under the various devices.
+
+Thanks, I might send the second patch separately in the next round.
+
+Havard
+
+> Thanks,
+>
+> -corey
+>
+> > 3. Naming, and whether 'specs' is the right place to put this.
+> > 4. Whether it's OK to enable the blockdiag sphinx extension (if not, I'll just
+> >    toss the block diagrams and turn the docs into walls of text).
+> >
+> > If this seems reasonable, I'll start working with one of my team mates on
+> > implementing the common part, as well as the Nuvoton-specific responder device.
+> > Possibly also an Aspeed device.
+> >
+> > Havard Skinnemoen (3):
+> >   docs: enable sphinx blockdiag extension
+> >   docs/specs: IPMI device emulation: main processor
+> >   docs/specs: IPMI device emulation: BMC
+> >
+> >  docs/conf.py         |   5 +-
+> >  docs/specs/index.rst |   1 +
+> >  docs/specs/ipmi.rst  | 183 +++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 188 insertions(+), 1 deletion(-)
+> >  create mode 100644 docs/specs/ipmi.rst
+> >
+> > --
+> > 2.28.0.709.gb0816b6eb0-goog
+> >
+> >
 
