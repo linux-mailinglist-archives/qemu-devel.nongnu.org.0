@@ -2,68 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFCD027E6BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:35:30 +0200 (CEST)
-Received: from localhost ([::1]:45760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3255327E6E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:42:39 +0200 (CEST)
+Received: from localhost ([::1]:38918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNZSL-0005nk-OB
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:35:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48818)
+	id 1kNZZG-0005wR-7H
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:42:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNZQb-0004Aw-7D
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:33:42 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNZQU-0007X6-4b
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:33:40 -0400
-Received: by mail-ej1-x629.google.com with SMTP id lo4so2020688ejb.8
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 03:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=i05iHsypczvHuk9kq07V8NS2boXN6nDY9vAkChLdbQg=;
- b=m+0iyfTIzr9bI83PKpMTwPHdhaM0pZQFftwLsuwzSyMii0z8EjZsk6z1LZjZxOu+43
- pG73WdS+qztKD+PslL5GjV9Hq4utEiE9751iCqkjYxCOvU89vOYcok0Oco25qPgMohkV
- PDjclBFPNSydJvyL2wMRP7nD2CpzOIkn5C7m7Swf1psRMJCB1W5fLD+v3f0FPRqyGyP2
- wPPhTpFjPkQASxezcyrsvSr43BhCb4bJG+arPssjuJ4fVh7G+MxanIMiv5SLJmBaGjCv
- fvu+WgM891s6zAq41pM95CDwwjljkLFbQCSPmdZMLfVhcZMKQTaXWs+L+b9//tg2qI8A
- 6Dnw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNZSl-0007Zq-Ea
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:35:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNZSj-0007hZ-Sv
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:35:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601462153;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XX52Ayxvy1ZDoQcUutDGt9kWwf0Umq3kpQ0xWvoLh90=;
+ b=UdJmGuzjqFYDwu+vJx9ETmVv4OE4qYAm8C9cxkNFz02azoFz6vhY4tIHPkSzKCd6Ktg3ot
+ n5DFIObar3BEqwMO/0DcfrBPNJbF60hJpoFGU3U8oB9q71tarcz+nMHR/UNP/MMwSxGole
+ Yc7SuiidBFAwQ95OicwXYl8O8ik2Nzw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-65-QwQLQPk8NMG1EsQr6NERpw-1; Wed, 30 Sep 2020 06:35:51 -0400
+X-MC-Unique: QwQLQPk8NMG1EsQr6NERpw-1
+Received: by mail-wr1-f69.google.com with SMTP id l15so450009wro.10
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 03:35:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=i05iHsypczvHuk9kq07V8NS2boXN6nDY9vAkChLdbQg=;
- b=kSczGNAvHjt4U+GY5CoMBFG2BNTJ4A3xP5x9pmtP/C683yXgEp+4fQ+R0dJHbMlXdR
- XAnf8A3SMnxEsne2bQywDjOzqI9CmtADQcABRBp0j9HsFc+t1iPNfpupNWL/4CVnz6UZ
- z7MZuHynfiCUwXV01joiDtVA6Ol3JYgeCQcQ7wt12XnE2bFphosCJN5KfGWPQXyKz26K
- k4vA4bFDZVe95YdA+H5B/4/5OYk/p9HE/BdjU4p0JnWJwDGmfqk+bzx6D8t1C80S3ZjC
- LmWE9xVD6Me5eORf7Coo6cFzBBOZ29fKIicll/epR63N/4w+OLepL9IWVMM5mvpnVHy6
- 8v/w==
-X-Gm-Message-State: AOAM533jvWS0BfOL58F9eG8XFjxAR0LKq6Y+0t5FMGiadXahcXAb+JFj
- hWL8toYvFl/zXpwaBgQe2v+szErZ2oWXxA8zD6peOEmnQ1QnYJVV
-X-Google-Smtp-Source: ABdhPJxbOW/JZ+P9lp9nz4LVHF3LhO3C1RR1csoDgtchzkRThAExueByv2ScBuHBOYztO2P4nao7ixO3gtc0xIVEF0Y=
-X-Received: by 2002:a17:906:d936:: with SMTP id
- rn22mr2135807ejb.4.1601462011882; 
- Wed, 30 Sep 2020 03:33:31 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=XX52Ayxvy1ZDoQcUutDGt9kWwf0Umq3kpQ0xWvoLh90=;
+ b=g3vMNc2/jekbTMdCwkU8dMBlDkqnRtj9bahLtrDWvTeApyq04dN4yBTlBHUTtuwUrr
+ Ave0aU7am/q57ePsWNjN0EyEHPlu4eipURTQWyLMFFJTNhYg2PcjinmoZc5ZnLti9/Bd
+ d+OfkhCFIR3jemDiMI0kM6eWHQD2efUB7hUdrWZvpW2tHjUIXMkr5ofnd4OV2Uv0ND4U
+ 8a1hFBDHerlEnyxFRSh/l4tLDAhGUiWhVNKUeiPnlRgpiv4uWPa5MBAYT6/zF1SpvYTd
+ UR41GOWa1qvzVKtvbsaPtV3RvqN9G4jTDOKLRdHvhwO9IL5VZl7SR01zKiaTARASlsFH
+ RNXQ==
+X-Gm-Message-State: AOAM533vagZ9gd05daWFRfQ37SOcCYgm5FwkpoOMIrG6VW68XY0kmcXp
+ Igap0yNtUlEgWCWkr79/nt3M+5ElY2hyNTGD7IUlFlSIoBF9DGMQOLvxCf60OCy0/fGPumt/z3e
+ XwlpIf2VfLADwoPE=
+X-Received: by 2002:a1c:a593:: with SMTP id o141mr2325431wme.88.1601462147495; 
+ Wed, 30 Sep 2020 03:35:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyNpzW57BnKZKUU1rjjMer5n5CyKtczDDNO7CHKORqIi/UjWFnEcBkzZYcsZS3RlWyMnwIj4Q==
+X-Received: by 2002:a1c:a593:: with SMTP id o141mr2325402wme.88.1601462147255; 
+ Wed, 30 Sep 2020 03:35:47 -0700 (PDT)
+Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id e18sm2134711wrx.50.2020.09.30.03.35.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Sep 2020 03:35:46 -0700 (PDT)
+Subject: Re: [PATCH] hw/arm: Restrict APEI tables generation to the 'virt'
+ machine
+To: Dongjiu Geng <gengdongjiu@huawei.com>, qemu-devel@nongnu.org
+References: <20200929125609.1088330-1-philmd@redhat.com>
+ <12be4400-c37f-2b7f-2f15-f8700dad6003@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <056736d8-dc89-a94b-7e76-93825492c957@redhat.com>
+Date: Wed, 30 Sep 2020 12:35:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 30 Sep 2020 11:33:21 +0100
-Message-ID: <CAFEAcA-wMzZhO-9EdYhPC3aoPatQ-JEtBJ2nSjGepRbLs-5AdA@mail.gmail.com>
-Subject: use of 'apt' in scripting in our dockerfiles provokes warnings
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <12be4400-c37f-2b7f-2f15-f8700dad6003@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,54 +124,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Xiang Zheng <zhengxiang9@huawei.com>,
+ qemu-arm@nongnu.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While processing a recent pullreq which updated the dockerfile
-dependencies and thus provoked a rebuild, I noticed that we
-use the 'apt' command in ways that provoke a warning:
+On 9/30/20 7:08 AM, Dongjiu Geng wrote:
+> On 2020/9/29 20:56, Philippe Mathieu-Daudé wrote:
+>> As only the Virt machine uses the RAS Virtualization feature (see
+>> commit 2afa8c8519: "hw/arm/virt: Introduce a RAS machine option"),
+>> restrict the APEI tables generation code to the virt machine.
+> 
+> APEI is a generic feature for X86 and arm64.  X86 platform also can use it, although currently it was mainly
+> used by ARM64. what is reason that we restrict APEI tables generation to the 'virt' machine?
 
-#7 0.789 WARNING: apt does not have a stable CLI interface. Use with
-caution in scripts.
+It is currently only selected on (all) the ARM machines, not the X86
+ones. I am simply restricting it to the 'virt' machine which is the
+single one enabling the RAS. Without RAS the table is not built, so
+for the case of the SBSA-Ref machine this code is unreachable, no need
+to select ACPI_APEI.
 
-The apt(8) manpage says:
+When a X86 machine configure a RAS it will have to 'select ACPI_APEI'
+to get it built (I'm not forbidding it, I'm restricting it to where
+it is used).
 
-SCRIPT USAGE AND DIFFERENCES FROM OTHER APT TOOLS
-       The apt(8) commandline is designed as an end-user tool and it may
-       change behavior between versions. While it tries not to break backward
-       compatibility this is not guaranteed either if a change seems
-       beneficial for interactive use.
+> 
+>>
+>> Fixes: aa16508f1d ("ACPI: Build related register address fields via hardware error fw_cfg blob")
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Cc: Laszlo Ersek <lersek@redhat.com>
+>> Cc: Xiang Zheng <zhengxiang9@huawei.com>
+>> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Dongjiu Geng <gengdongjiu@huawei.com>
+>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> ---
+>>  default-configs/arm-softmmu.mak | 1 -
+>>  hw/arm/Kconfig                  | 1 +
+>>  2 files changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
+>> index 9a94ebd0be..08a32123b4 100644
+>> --- a/default-configs/arm-softmmu.mak
+>> +++ b/default-configs/arm-softmmu.mak
+>> @@ -43,4 +43,3 @@ CONFIG_FSL_IMX7=y
+>>  CONFIG_FSL_IMX6UL=y
+>>  CONFIG_SEMIHOSTING=y
+>>  CONFIG_ALLWINNER_H3=y
+>> -CONFIG_ACPI_APEI=y
+>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+>> index f303c6bead..7d040827af 100644
+>> --- a/hw/arm/Kconfig
+>> +++ b/hw/arm/Kconfig
+>> @@ -26,6 +26,7 @@ config ARM_VIRT
+>>      select ACPI_MEMORY_HOTPLUG
+>>      select ACPI_HW_REDUCED
+>>      select ACPI_NVDIMM
+>> +    select ACPI_APEI
+>>  
+>>  config CHEETAH
+>>      bool
+>>
+> 
 
-       All features of apt(8) are available in dedicated APT tools like apt-
-       get(8) and apt-cache(8) as well.  apt(8) just changes the default value
-       of some options (see apt.conf(5) and specifically the Binary scope). So
-       you should prefer using these commands (potentially with some
-       additional options enabled) in your scripts as they keep backward
-       compatibility as much as possible.
-
-That suggests that we should probably be using apt-get instead
-of apt in our dockerfiles...
-
-Also, any idea what this error is about?
-
-#4 importing cache manifest from registry.gitlab.com/qemu-project/qemu/qemu...
-#4       digest:
-sha256:815fb44b573ac7520d148d9b2510c00f31846ca6fa55127d322bc8db3c5d0ec0
-#4         name: "importing cache manifest from
-registry.gitlab.com/qemu-project/qemu/qemu/debian-alpha-cross:latest"
-#4      started: 2020-09-29 22:57:54.371490684 +0000 UTC
-#4    completed: 2020-09-29 22:57:55.064468936 +0000 UTC
-#4     duration: 692.978252ms
-#4        error: "invalid build cache from
-{MediaType:application/vnd.docker.distribution.manifest.v2+json
-Digest:sha256:a1e8a5830bb19b7cddda64872c5d71a0337d4b98bed30fd7684d20467adcd289
-Size:1161 URLs:[] Annotations:map[] Platform:<nil>}"
-
-It didn't seemt to have an adverse effect...
-
-thanks
--- PMM
 
