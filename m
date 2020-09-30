@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6500F27EE39
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:04:14 +0200 (CEST)
-Received: from localhost ([::1]:49640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950C827EE2D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:03:15 +0200 (CEST)
+Received: from localhost ([::1]:46914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNeaT-00020k-EJ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52028)
+	id 1kNeZW-0000nT-Cq
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:03:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kNeW0-0007QV-9Z; Wed, 30 Sep 2020 11:59:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29430)
+ id 1kNeVs-0007Mh-CT; Wed, 30 Sep 2020 11:59:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37912
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kNeVm-00020T-H4; Wed, 30 Sep 2020 11:59:34 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08UFnG8P052456; Wed, 30 Sep 2020 11:59:07 -0400
+ id 1kNeVk-0001zq-7K; Wed, 30 Sep 2020 11:59:27 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08UFWZgY039564; Wed, 30 Sep 2020 11:59:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=pp1;
- bh=wiicjQIMdALL4f3XaB02g4q83zY3RjiA3GiRnoP6IHI=;
- b=S1f5E97AbEwRtiGHGdTlaix57XaZngIylZcNNrfvxv5u5+OR88sRa4S9kw2hiwR8XgH9
- x4uEGn3OJNOiLHS1FUyY4OfmWjE4HB1yUUhZ3wblh7xzKIVFsK4bVDQkC88G9UE7H7vZ
- kUddga8UhTgewiqiBtpzLdq7uhBpbIl38OE7OWfvGMYhn/xGuQL4hqxayzqTNIXSEENQ
- +GlRmtjI468KSFPKxxIvrTH8o9NMRdEuiEA07bm2j+7LmB4gxl1CggPssz+cMSRRk/0F
- zmeWRafZsH+dHairdtF5mHYQGMvbWnkvFUWeVa5qs3KWMbLAn9wrqos+H2/Hh3D5IlPX Qw== 
+ bh=XGHxuduTFCcRM6VE9K2tUBnf9hLxcHF7PyCsiQzm6yE=;
+ b=AFd9HzqVgsm6WY91OY8/FVwxSehHTRb56F9YFQ92RunmOaqpp5X3ZwMSq7cNK1aC99rl
+ +/PESWyrRXkx/hYfysmx2/gx8LYZrurTWR+WyS5cprEOxOVLA2lefOIu7pRPa55eMErx
+ jqoDCxuyOd8y7Xt9oa9Z02IdZsLJi9vHDTXtwAk3yifBGz9jFOhB3Z865aehT3byaBK3
+ 6xOlMIeaD/vxT0bUWpamdfL2Smn3NH68D1unPAw33xw4oc6fwGF1UPbbFQ267JigWfMK
+ QyPb8+uoX6hHH3Gq0SqZF24MTzSzKrDRixigHwAVH9DJhkop4GLW/Qe2FyUdWkDqACM5 FA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33vw0eg7cc-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33vvqq0sch-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 30 Sep 2020 11:59:07 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08UFpddg058838;
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08UFWluP040690;
  Wed, 30 Sep 2020 11:59:06 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33vw0eg7am-1
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33vvqq0sb8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 30 Sep 2020 11:59:06 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08UFwMmG020400;
- Wed, 30 Sep 2020 15:59:04 GMT
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08UFvJ4X032376;
+ Wed, 30 Sep 2020 15:59:05 GMT
 Received: from b06cxnps4075.portsmouth.uk.ibm.com
  (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma01fra.de.ibm.com with ESMTP id 33sw98admf-1
+ by ppma03ams.nl.ibm.com with ESMTP id 33sw984k7a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 30 Sep 2020 15:59:04 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
  by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08UFx15i30867752
+ 08UFx2Dk20578686
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Sep 2020 15:59:01 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B90B45204E;
- Wed, 30 Sep 2020 15:59:01 +0000 (GMT)
+ Wed, 30 Sep 2020 15:59:02 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B312B11C052;
+ Wed, 30 Sep 2020 15:59:02 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9D57B11C04A;
+ Wed, 30 Sep 2020 15:59:02 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id A73EC5204F;
- Wed, 30 Sep 2020 15:59:01 +0000 (GMT)
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 30 Sep 2020 15:59:02 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id 5448BE1FB0; Wed, 30 Sep 2020 17:59:01 +0200 (CEST)
+ id 45729E1FB0; Wed, 30 Sep 2020 17:59:02 +0200 (CEST)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] nbd: silence maybe-uninitialized warnings
-Date: Wed, 30 Sep 2020 17:58:57 +0200
-Message-Id: <20200930155859.303148-3-borntraeger@de.ibm.com>
+Subject: [PATCH 3/4] qemu-io-cmds: avoid gcc 10 warning
+Date: Wed, 30 Sep 2020 17:58:58 +0200
+Message-Id: <20200930155859.303148-4-borntraeger@de.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200930155859.303148-1-borntraeger@de.ibm.com>
 References: <20200930155859.303148-1-borntraeger@de.ibm.com>
@@ -80,22 +84,22 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-09-30_08:2020-09-30,
  2020-09-30 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
- phishscore=0 clxscore=1015 suspectscore=1 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=1
+ lowpriorityscore=0 bulkscore=0 phishscore=0 mlxscore=0 priorityscore=1501
+ mlxlogscore=858 adultscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2009300121
-Received-SPF: pass client-ip=148.163.156.1;
+Received-SPF: pass client-ip=148.163.158.5;
  envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 11:59:20
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 11:59:16
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.373, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,40 +119,43 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gcc 10 from Fedora 32 gives me:
+With gcc 10 on Fedora32 I do get:
 
-Compiling C object libblock.fa.p/nbd_server.c.o
-../nbd/server.c: In function ‘nbd_co_client_start’:
-../nbd/server.c:625:14: error: ‘namelen’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  625 |         rc = nbd_negotiate_send_info(client, NBD_INFO_NAME, namelen, name,
-      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  626 |                                      errp);
-      |                                      ~~~~~
-../nbd/server.c:564:14: note: ‘namelen’ was declared here
-  564 |     uint32_t namelen;
-      |              ^~~~~~~
+Compiling C object libblock.fa.p/qemu-io-cmds.c.o
+In file included from /usr/include/stdio.h:867,
+                 from /home/cborntra/REPOS/qemu/include/qemu/osdep.h:85,
+                 from ../qemu-io-cmds.c:11:
+In function ‘printf’,
+    inlined from ‘help_oneline’ at ../qemu-io-cmds.c:2389:9,
+    inlined from ‘help_all’ at ../qemu-io-cmds.c:2414:9,
+    inlined from ‘help_f’ at ../qemu-io-cmds.c:2424:9:
+/usr/include/bits/stdio2.h:107:10: error: ‘%s’ directive argument is null [-Werror=format-overflow=]
+  107 |   return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt, __va_arg_pack ());
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cc1: all warnings being treated as errors
 
-As I cannot see how this can happen, let uns silence the warning.
+Let us check for null.
 
 Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- nbd/server.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qemu-io-cmds.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index 982de67816a7..2ff04ee7533d 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -561,7 +561,7 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
-     NBDExport *exp;
-     uint16_t requests;
-     uint16_t request;
--    uint32_t namelen;
-+    uint32_t namelen = 0;
-     bool sendname = false;
-     bool blocksize = false;
-     uint32_t sizes[3];
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index baeae86d8c85..c2080aa398a9 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -2386,7 +2386,9 @@ static void help_oneline(const char *cmd, const cmdinfo_t *ct)
+     if (cmd) {
+         printf("%s ", cmd);
+     } else {
+-        printf("%s ", ct->name);
++        if (ct->name) {
++            printf("%s ", ct->name);
++        }
+         if (ct->altname) {
+             printf("(or %s) ", ct->altname);
+         }
 -- 
 2.26.2
 
