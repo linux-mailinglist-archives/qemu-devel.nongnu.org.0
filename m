@@ -2,84 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEEC27F0B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:49:27 +0200 (CEST)
-Received: from localhost ([::1]:33694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604D127F0E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:54:30 +0200 (CEST)
+Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNgEI-0004b0-EA
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54978)
+	id 1kNgJB-0002wy-3c
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNgDD-00046K-Oi
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:48:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38533)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNgEG-0005GR-5a
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:49:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNgDB-0004dm-60
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:48:19 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601488095;
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNgEA-0004jb-Vw
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:49:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601488158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EZvrSnYm3YGfZv/jW9MTku5rvnXBGTL6dfq7Gux/9s4=;
- b=HfcUr0Wp8hLPuP9gTqI58f8/zPD+hhfrN1IlQPAIvArINkHM9zHJh7iBqLkFUVUpbw3BmS
- uXnim+t7xzpJlbAV2YxumfiDZEnkqXq3gfvnayhgbLI8yCiXWu/5gCO+fQpMy8qOOJMEhA
- n9/yDPb06LpV6hodGukORk6wF1wmLA0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-WbLnaRS3NGWnq-o-pL1rsQ-1; Wed, 30 Sep 2020 13:48:13 -0400
-X-MC-Unique: WbLnaRS3NGWnq-o-pL1rsQ-1
-Received: by mail-wm1-f70.google.com with SMTP id b20so275474wmj.1
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 10:48:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to;
- bh=3tY4UGEihUG/tvZ5JYGwPtvK29XTRCAmKkYZxpL5Tuk=;
- b=O7RmhXl5nBbcUN58l3cKQPULbAvFkUPBT1HeMvyXZCbbhdEL98Rs90HEAOXRwJroyP
- t2MNI3pEC+6vq9iD5BH15hShdyxq9GH0HuSWkk4y931ub6lxvHNQsiSueMATlf5JV9CG
- jrSUudO0j6l3dkjmyY3RtpoW3Dbey7Yv3SquLTSF3hX7rUSOGotqc50+FcpEOkF6Ne4o
- j7oir3cqcbyJa1/XEuCj3ChUUuhjIk/dCxk91FeL9kS2Sv1HSuVScL2fcrplG3UVIdDw
- DOBMKAt0qF8IYeH83BmqBhBG01LCqLavBZqqI1Drt8Bnut/xr/9NBSNBpYCUEBj3bLaQ
- Mc4w==
-X-Gm-Message-State: AOAM5332nnHmOUaH5dLch/9sL3PwGqskE+PeE/1vdZphrkW1cGso8SKe
- 4LmnLAoShIVvw0gt8JJKUYqB5t/TKpdEM1wWyaHJinaPb0pmmVCwIxsIKMqWa3gGrHXrEEc04Ee
- QaKLWLGCcXajhFIg=
-X-Received: by 2002:a05:600c:20c:: with SMTP id
- 12mr4461380wmi.40.1601488092007; 
- Wed, 30 Sep 2020 10:48:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxq60XVfELMyIc5OByeHIYXZieFql7TrKd4z75H2KFxG7VYX0LkNBD7qJaNImn4ITWDKjBw6A==
-X-Received: by 2002:a05:600c:20c:: with SMTP id
- 12mr4461367wmi.40.1601488091800; 
- Wed, 30 Sep 2020 10:48:11 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:75e3:aaa7:77d6:f4e4?
- ([2001:b07:6468:f312:75e3:aaa7:77d6:f4e4])
- by smtp.gmail.com with ESMTPSA id z67sm4454538wme.41.2020.09.30.10.48.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Sep 2020 10:48:11 -0700 (PDT)
-Subject: Re: [PATCH 01/10] qdev: add "check if address free" callback for buses
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20200925172604.2142227-1-pbonzini@redhat.com>
- <20200925172604.2142227-2-pbonzini@redhat.com>
- <20200928093006.GB44353@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ce4b7050-24c3-8d68-8e37-3f12c3970cac@redhat.com>
-Date: Wed, 30 Sep 2020 19:48:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RZzbHjTI6ieygQu4OMX2702kE0ErYNGEsTPgyQ1acUc=;
+ b=BwPlw7cgVOMSYsFWbwmIlDYX+ZwttWBlu+14OiolUam5cPQDRuh8Ty4ZE7Fh4L2H+8Gyv8
+ wFcLMO+UY1RUaSGCRmghnmFwncvnE+tPbOx4obRhFOg2jlPpUUBow3RvGHPh24NT/5IFjS
+ 3oyxpDDv8tauUZl82qdUN/8BFzBE/oA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-67-WzKQYrjEPsioPxF6v8OM3A-1; Wed, 30 Sep 2020 13:49:11 -0400
+X-MC-Unique: WzKQYrjEPsioPxF6v8OM3A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393D2802B7C;
+ Wed, 30 Sep 2020 17:49:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B1C47880B;
+ Wed, 30 Sep 2020 17:48:57 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0624A9CBC; Wed, 30 Sep 2020 19:48:56 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/12] Microvm 20200930 patches
+Date: Wed, 30 Sep 2020 19:48:43 +0200
+Message-Id: <20200930174856.11296-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200928093006.GB44353@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -88,9 +64,8 @@ X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.469,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,53 +78,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mlevitsk@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Radoslaw Biernacki <rad@semihalf.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Leif Lindholm <leif@nuviainc.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s
-Content-Type: multipart/mixed; boundary="7e0Av3VYWFPr8VwStkFYckFwuNenv4bgA"
-
---7e0Av3VYWFPr8VwStkFYckFwuNenv4bgA
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 28/09/20 11:30, Stefan Hajnoczi wrote:
->> +    bool (*check_address)(BusState *bus, DeviceState *dev, Error **errp=
-);
-> Please document this function.
-
-I will add this:
-
-=09/*
-=09 * Return whether the device can be added to @bus,
-=09 * based on the address that was set (via device properties)
-=09 * before realize.  If not, on return @errp contains the
-=09 * human-readable error message.
-=09 */
-
-
---7e0Av3VYWFPr8VwStkFYckFwuNenv4bgA--
-
---wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl90xNkACgkQv/vSX3jH
-roM6swf+LZjZ8ma1gPB4Nni92gDHFHCNuCwyS3dh7hRPc6mCq9qEvPQuODxt0qP9
-2o6KOX+QUZHvU4Fy2QW54LeHFLNvlRCcz0CX3wz/bAahsOkBPWQ+j0r/igPio753
-FPxp68ZvyF2nWeSr+YWP9AETIwKkuQjJIKrNGISAt7rt99TgPpM5V1/84pZzpdPI
-gWR9lK8M7Qnlx862nbLw0hHrfUepKFmtLph8QbKyjbciOxqiowYCPfMGPHAq7faA
-qexuDYt9b1oJ5+JiRKkgfSGCdkT/PIzYkMqd2DhTQybE22XWQLcp+WZK9dkxkl6t
-2ZoT2ozLQK+7AtvYmfPutePoM0GR7w==
-=ey7L
------END PGP SIGNATURE-----
-
---wQZpsgONexfsOiSxOfOIJSF51MJnzbQ7s--
+The following changes since commit b150cb8f67bf491a49a1cb1c7da151eeacbdbcc9=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging=
+ (2020-09-29 13:18:54 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/microvm-20200930-pull-request=0D
+=0D
+for you to fetch changes up to 7f6c3d1a574bddcda6931eb00287089998725f71:=0D
+=0D
+  tests/acpi: update expected data files (2020-09-30 11:29:56 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+microvm: add pcie support.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (12):=0D
+  move MemMapEntry=0D
+  acpi: add acpi_dsdt_add_gpex=0D
+  arm: use acpi_dsdt_add_gpex=0D
+  microvm: add irq table=0D
+  microvm: add pcie support=0D
+  microvm/pcie: add 64bit mmio window=0D
+  tests/acpi: allow updates for expected data files=0D
+  tests/acpi: add empty tests/data/acpi/microvm/DSDT.pcie file=0D
+  tests/acpi: factor out common microvm test setup=0D
+  tests/acpi: add microvm pcie test=0D
+  acpi/gpex: no reason to use a method for _CRS=0D
+  tests/acpi: update expected data files=0D
+=0D
+ include/exec/hwaddr.h             |   5 +=0D
+ include/hw/arm/virt.h             |   5 -=0D
+ include/hw/i386/microvm.h         |  32 ++++++=0D
+ include/hw/pci-host/gpex.h        |  11 ++=0D
+ hw/arm/sbsa-ref.c                 |   5 -=0D
+ hw/arm/virt-acpi-build.c          | 175 ++---------------------------=0D
+ hw/i386/acpi-microvm.c            |  12 ++=0D
+ hw/i386/microvm.c                 |  93 ++++++++++++++++=0D
+ hw/pci-host/gpex-acpi.c           | 177 ++++++++++++++++++++++++++++++=0D
+ tests/qtest/bios-tables-test.c    |  30 ++++-=0D
+ hw/i386/Kconfig                   |   1 +=0D
+ hw/pci-host/meson.build           |   1 +=0D
+ tests/data/acpi/microvm/DSDT.pcie | Bin 0 -> 3023 bytes=0D
+ tests/data/acpi/virt/DSDT         | Bin 5200 -> 5196 bytes=0D
+ tests/data/acpi/virt/DSDT.memhp   | Bin 6561 -> 6557 bytes=0D
+ tests/data/acpi/virt/DSDT.numamem | Bin 5200 -> 5196 bytes=0D
+ 16 files changed, 366 insertions(+), 181 deletions(-)=0D
+ create mode 100644 hw/pci-host/gpex-acpi.c=0D
+ create mode 100644 tests/data/acpi/microvm/DSDT.pcie=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
