@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BA927F4E5
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:12:46 +0200 (CEST)
-Received: from localhost ([::1]:60506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB6A27F4D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:08:40 +0200 (CEST)
+Received: from localhost ([::1]:50830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNkL7-0005ZM-RM
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56190)
+	id 1kNkH9-0001Gj-52
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD8-0005US-5z; Wed, 30 Sep 2020 18:04:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50536)
+ id 1kNkD8-0005V8-Jk; Wed, 30 Sep 2020 18:04:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD6-0007wJ-84; Wed, 30 Sep 2020 18:04:29 -0400
+ id 1kNkD6-0007wZ-Rf; Wed, 30 Sep 2020 18:04:30 -0400
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2142220EDD;
+ by mail.kernel.org (Postfix) with ESMTPSA id DCEFD2076A;
  Wed, 30 Sep 2020 22:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601503466;
- bh=IgJOlL/p+MXEmzcFTdPv3A6bJxzQs5kaNTmkpFYutxE=;
+ s=default; t=1601503467;
+ bh=Uah3i2Xo+O93sG6/lDEnH/LTiffsj+9KkaGlNtazsRo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Vu7WjPW6xncJuGzeJA1HPVy0+CiCQ9t6xASkJuicK/THWUxDbvwpj+5Cit3RN4PqG
- FhibnvvFz8Hudxd5XmiSuDMuf2l5ZpmekXqCuzuJWLtPES33w/mM+ZaXHD/R8Cdyc+
- 599W/3JDS4mm2Zdgn17wthjMqly/MenXkAKjW57I=
+ b=Q1EbAw9wme5E34saR6JKnng0bOvP/Y1yiyWOVaZCSA261hrNxfTQVeYBGEd7o1Vjs
+ Rdgq3+B5wJ5MXd5lCSoOpxhREDeY1T1uCwVu6hwfuqonzRcPGsf7d394MMPFHm9DEx
+ +WO0xZcniADotJlwpxYo8dF3Rqmyu+nlkxyV7CSc=
 From: Keith Busch <kbusch@kernel.org>
 To: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 7/9] hw/block/nvme: add nsid to get/setfeat trace events
-Date: Wed, 30 Sep 2020 15:04:12 -0700
-Message-Id: <20200930220414.562527-8-kbusch@kernel.org>
+Subject: [PATCH 8/9] hw/block/nvme: add trace event for requests with non-zero
+ status code
+Date: Wed, 30 Sep 2020 15:04:13 -0700
+Message-Id: <20200930220414.562527-9-kbusch@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200930220414.562527-1-kbusch@kernel.org>
 References: <20200930220414.562527-1-kbusch@kernel.org>
@@ -72,52 +73,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Include the namespace id in the pci_nvme_{get,set}feat trace events.
+If a command results in a non-zero status code, trace it.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c       | 4 ++--
- hw/block/trace-events | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/block/nvme.c       | 6 ++++++
+ hw/block/trace-events | 1 +
+ 2 files changed, 7 insertions(+)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 80730e1c03..dc971c9653 100644
+index dc971c9653..16804d0278 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1643,7 +1643,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-         [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
-     };
- 
--    trace_pci_nvme_getfeat(nvme_cid(req), fid, sel, dw11);
-+    trace_pci_nvme_getfeat(nvme_cid(req), nsid, fid, sel, dw11);
- 
-     if (!nvme_feature_support[fid]) {
-         return NVME_INVALID_FIELD | NVME_DNR;
-@@ -1781,7 +1781,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
-     uint8_t fid = NVME_GETSETFEAT_FID(dw10);
-     uint8_t save = NVME_SETFEAT_SAVE(dw10);
- 
--    trace_pci_nvme_setfeat(nvme_cid(req), fid, save, dw11);
-+    trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
- 
-     if (save) {
-         return NVME_FID_NOT_SAVEABLE | NVME_DNR;
+@@ -777,6 +777,12 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
+     assert(cq->cqid == req->sq->cqid);
+     trace_pci_nvme_enqueue_req_completion(nvme_cid(req), cq->cqid,
+                                           req->status);
++
++    if (req->status) {
++        trace_pci_nvme_err_req_status(nvme_cid(req), nvme_nsid(req->ns),
++                                      req->status, req->cmd.opcode);
++    }
++
+     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
+     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
+     timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
 diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 7720e1b4d9..180c43d258 100644
+index 180c43d258..ff3ca4bbf6 100644
 --- a/hw/block/trace-events
 +++ b/hw/block/trace-events
-@@ -53,8 +53,8 @@ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
--pci_nvme_getfeat(uint16_t cid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
--pci_nvme_setfeat(uint16_t cid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
-+pci_nvme_getfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
-+pci_nvme_setfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
- pci_nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
- pci_nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
- pci_nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+@@ -89,6 +89,7 @@ pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+ 
+ # nvme traces for error conditions
+ pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
++pci_nvme_err_req_status(uint16_t cid, uint32_t nsid, uint16_t status, uint8_t opc) "cid %"PRIu16" nsid %"PRIu32" status 0x%"PRIx16" opc 0x%"PRIx8""
+ pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
+ pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
+ pci_nvme_err_cfs(void) "controller fatal status"
 -- 
 2.24.1
 
