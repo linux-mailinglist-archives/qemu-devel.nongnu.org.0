@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D60B27F03A
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:24:11 +0200 (CEST)
-Received: from localhost ([::1]:57662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30CF27F080
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:28:23 +0200 (CEST)
+Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNfpq-00070L-J6
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49148)
+	id 1kNftu-0001kZ-TR
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNfo9-0005hq-1t
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:22:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25912)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kNfqD-0008Sz-HR
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:24:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNfo6-0001pz-7u
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:22:24 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kNfqC-0001yS-0E
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:24:33 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601486539;
+ s=mimecast20190719; t=1601486671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zXyqPTY/QndTAis7sfXLgqFAM8qKGtFjX0pqLPrrf0Q=;
- b=hcOEelp+GykZfFxHqnIrbcRMLAAwg/+swjhrzLtNzbYEbha70QUxiNepfiw+VBDb8Uii3p
- /vXJlvmwiC4fhRSfdmuWNuoZ8NDKhwfcWG+sEkSVN38IWZX9dMS9MTG59f7vIq64lJfUVG
- tRvG8ONA0/faUBP7GFSIr+xkzTAkYgM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-dVvXA2AYOwSLRAaOPB5GDw-1; Wed, 30 Sep 2020 13:22:15 -0400
-X-MC-Unique: dVvXA2AYOwSLRAaOPB5GDw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9CC1800683;
- Wed, 30 Sep 2020 17:22:14 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6C2110013C4;
- Wed, 30 Sep 2020 17:22:13 +0000 (UTC)
-Subject: Re: [PATCH v4 04/46] qapi: modify docstrings to be sphinx-compatible
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200930043150.1454766-1-jsnow@redhat.com>
- <20200930043150.1454766-5-jsnow@redhat.com>
- <87wo0bejmy.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <96ba9e08-9806-baa3-62d2-2df84a666e62@redhat.com>
-Date: Wed, 30 Sep 2020 13:22:13 -0400
+ bh=5AAEcFEMnhFnNFSU1/JqoJcFCZ8UwLDwu1uI9eI4tnM=;
+ b=KBBLASGiV6h8ftHNWoic/r82YO1bJve9uv7jRdQQWBNTj9pNgV2gQLqJN+DT/d44ZHJg1p
+ sABU/oQuwTKDM53LwYhipylmGJbswl2EuK/Yy9z35QMjegUS4ZGAlElChprd7bsagoZhnn
+ isVy2XjEJ1Uc8XcwZjcd4sy6JZIZjfM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-T7FgFAIlPH-sP_llliW0Zw-1; Wed, 30 Sep 2020 13:24:29 -0400
+X-MC-Unique: T7FgFAIlPH-sP_llliW0Zw-1
+Received: by mail-wr1-f72.google.com with SMTP id a2so859384wrp.8
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 10:24:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5AAEcFEMnhFnNFSU1/JqoJcFCZ8UwLDwu1uI9eI4tnM=;
+ b=YrIuisXCR4p1AWXsXVFehDVGwpxX9BQLKNR6QNsk3wRXKQhVOH9fsUFiQahcv5TzUp
+ UAT7+djLs8KjNa9OC+c7zDH899/Zlh8zBrVh/jfmH3ej5aiRZ4u9KSdQRNDSKAaSZcly
+ Uqw+KdRjy86s5gxo4W+CLZrBCUqrKl2svvGXMI6W9Ywuu+6U07oW78cWNif6IMxU0MXK
+ cTnrX8Mu35vXURo0BUMcibhOcjD+XCM+t4sOtCg6NEBoYM//ehZHZX7zxgDkuQNQWsMz
+ R4hRdXM7wPckPxXuHg/nP4pWz8TTBCyXRZX+faGPMHP7bSmNlD9HRpk+g3Euaf7C7mfE
+ VGcQ==
+X-Gm-Message-State: AOAM533yXHIDgX53Ee7duUIf7MlBe+5gfNYqRR/r3m9OZpg+n3DL/JhR
+ 4i44Q035QgZWv2v8Dh4LEBVu+emZDMjp8sx7PfHOVPS0DBmWQSHNNG1TVSEzbwJw2E5DcyiKdz2
+ nJnVga8fSxASJ2t4=
+X-Received: by 2002:a5d:4f82:: with SMTP id d2mr4245774wru.65.1601486667800;
+ Wed, 30 Sep 2020 10:24:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxARy+AsKYWHLPXxIvxUAS01oNNslinRPrCsmUFWpmItuZ91EwekBc/C9FLeN1R3go+u3kueA==
+X-Received: by 2002:a5d:4f82:: with SMTP id d2mr4245752wru.65.1601486667595;
+ Wed, 30 Sep 2020 10:24:27 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:75e3:aaa7:77d6:f4e4?
+ ([2001:b07:6468:f312:75e3:aaa7:77d6:f4e4])
+ by smtp.gmail.com with ESMTPSA id w2sm4024839wrs.15.2020.09.30.10.24.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Sep 2020 10:24:27 -0700 (PDT)
+Subject: Re: [PATCH v3 00/11] user-mode: Prune build dependencies (part 3)
+To: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200930164949.1425294-1-philmd@redhat.com>
+ <20200930171529.GR3717385@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0c46bedf-9aa6-4ea9-40e1-b0f85a767bb5@redhat.com>
+Date: Wed, 30 Sep 2020 19:24:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87wo0bejmy.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200930171529.GR3717385@habkost.net>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -84,194 +103,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Peter Lieven <pl@kamp.de>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/20 4:47 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+On 30/09/20 19:15, Eduardo Habkost wrote:
+> On Wed, Sep 30, 2020 at 06:49:38PM +0200, Philippe Mathieu-Daudé wrote:
+>> This is the third part of a series reducing user-mode
+>> dependencies. By stripping out unused code, the build
+>> and testing time is reduced (as is space used by objects).
+> I'm queueing patches 2-9 on machine-next.  Thanks!
 > 
->> I did not say "sphinx beautiful", just "sphinx compatible". They will
->> not throw errors when parsed and interpreted as ReST.
+> Markus, Eric: I can merge the QAPI patches (1, 11) if I get an
+> Acked-by.
 > 
-> "Bang on the keyboard until Sphinx doesn't throw errors anymore" might
-> be good enough for a certain kind of mathematician, but a constructive
-> solution needs a bit more direction.  Is there a specification to
-> follow?  Other useful resources?
-> 
-
-I don't know if you are asking this question rhetorically, or in good faith.
-
-Let me preface this by saying: This series, and these 119 patches, are 
-not about finding a style guide for our docstring utilization or about 
-proposing one. It is also not about rigorously adding such documentation 
-or about finding ways to meaningfully publish it with e.g. Sphinx, or 
-the styling of such pages.
-
-Why bother to add docstrings at all, then? Because I needed them for my 
-own sake when learning this code and I felt it would be a waste to just 
-delete them, and I am of sound mind and able body and believe that some 
-documentation was better than none. They are useful even just as plaintext.
-
-Having said that, let's explore the actual style I tend to use.
-
-I mentioned before in response to a review comment that there isn't 
-really any standard for docstrings. There are a few competing "styles", 
-but none of which are able to be programmatically checked and validated.
-
-The primary guide for docstrings is PEP 257, of which I follow some but 
-not all of the recommendations.
-
-https://www.python.org/dev/peps/pep-0257/
-
-In general,
-
-- Always use triple-double quotes (unenforced)
-- Modules, classes, and functions should have docstrings (pylint)
-- No empty lines before or after the docstring (unenforced)
-- Multi-line docstrings should take the form (unenforced):
-
-"""
-single-line summary of function.
-
-Additional prose if needed describing the function.
-
-:param x: Input such that blah blah.
-:raises y: When input ``x`` is unsuitable because blah blah.
-:returns: A value that blah blah.
-"""
-
-PEP257 suggests a form where the single-line summary appears on the same 
-line as the opening triple quotes. I don't like this, and prefer 
-symmetry. PEP257 *also* suggests that writing it my way is equivalent to 
-their way, because any docstring processor should trim the first line. I 
-take this as tacit admission that my way is acceptable and has merit.
-
-What about the syntax or markup inside the docstring itself? there is 
-*absolutely no standard*, but Sphinx autodoc recognizes a few field 
-lists as significant in its parsing, so I prefer using them:
-
-:param x: Denotes the parameter X. Do not use type information in the 
-string, we rely on mypy for that now.
-
-:raises y: explains a case in which an Exception type y may be raised 
-either directly by this code or anticipated to be allowed to be raised 
-by a helper call. (There's no standard here that I am aware of. I use my 
-judgment. Always document direct raise calls, but use your judgment for 
-sub-calls.)
-
-:returns: explains the semantics of the return value.
-
-That said, literally any sphinx/ReST markup is OK as long as it passes 
-make sphinxdocs. Some sphinx markup is prohibited, like adding new 
-full-throated sections. You can use arbitrary field lists, definition 
-lists, pre-formatted text, examples, code blocks, whatever.
-
-In general, you are not going to find the kind of semantic validation 
-you want to ensure that the parameter names are correct, or that you 
-spelled :param: right, or that you didn't miss a parameter or an 
-exception. None of that tooling exists for Python.
-
-Thus, it's all rather subjective. No right answers, no validation tools. 
-Just whatever seems reasonable to a human eye until such time we 
-actually decide to pursue publishing the API docs in the development 
-manual, if indeed we ever do so at all.
-
-That series sounds like a great opportunity to hash this all out. That 
-is when I would like to remove --missing-docstring, too. There will 
-absolutely be a "docstring series" in the future, but I am insisting 
-stubbornly it happen after strict typing.
-
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/gen.py    | 6 ++++--
->>   scripts/qapi/parser.py | 9 +++++----
->>   2 files changed, 9 insertions(+), 6 deletions(-)
->>
->> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
->> index ca66c82b5b8..fc19b2aeb9b 100644
->> --- a/scripts/qapi/gen.py
->> +++ b/scripts/qapi/gen.py
->> @@ -154,9 +154,11 @@ def _bottom(self):
->>   
->>   @contextmanager
->>   def ifcontext(ifcond, *args):
->> -    """A 'with' statement context manager to wrap with start_if()/end_if()
->> +    """
->> +    A 'with' statement context manager that wraps with `start_if` and `end_if`.
-> 
-> Sadly, the fact that start_if() and end_if() are functions isn't
-> immediately obvious anymore.
-> 
-> I've seen :func:`start_if` elsewhere.  Is this something we should or
-> want to use?
+> I'll send separate comments on patch 10.
 > 
 
-We *could*.
+1-8 is fine, but I think 9-11 is too much complication (especially not
+really future-proof) for the benefit.
 
-`start_if` relies on the default role, which I have provisionally set to 
-"any" here, so this is shorthand for :any:`start_if`.
-
-The :any: role means: "cross-reference any type of thing." If there is 
-not exactly one thing that matches, it results in an error during the 
-documentation build.
-
-I like this, because it's nice short-hand syntax that I think 
-communicates effectively to the reader that this is a symbol of some 
-kind without needing a premium of ReST-ese.
-
-CONSTANTS are capitalized, Classes are title cased, and functions are 
-lower_case. `lower_case` references can be assumed to be functions, but 
-I will admit that this is not enforced or necessarily true as we add 
-more cross reference types in the future.
-
-(I am trying to add QMP cross-reference syntax!)
-
-I still prefer `start_if` to :func:`start_if` simply because it's less 
-markup and is easier to read in plaintext contexts. You're right, it 
-doesn't look like a function anymore.
-
-I'm not sure if another annotations would work -- `start_if`() or 
-`start_if()`. Both seem kind of clunky to me, to be honest. Personal 
-feeling is "not really worth the hassle."
-
->>   
->> -    *args: any number of QAPIGenCCode
->> +    :param ifcond: List of conditionals
->> +    :param args: any number of `QAPIGenCCode`.
->>   
->>       Example::
->>   
->> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->> index 9d1a3e2eea9..02983979965 100644
->> --- a/scripts/qapi/parser.py
->> +++ b/scripts/qapi/parser.py
->> @@ -381,10 +381,11 @@ def append(self, line):
->>   
->>           The way that the line is dealt with depends on which part of
->>           the documentation we're parsing right now:
->> -        * The body section: ._append_line is ._append_body_line
->> -        * An argument section: ._append_line is ._append_args_line
->> -        * A features section: ._append_line is ._append_features_line
->> -        * An additional section: ._append_line is ._append_various_line
->> +
->> +         * The body section: ._append_line is ._append_body_line
->> +         * An argument section: ._append_line is ._append_args_line
->> +         * A features section: ._append_line is ._append_features_line
->> +         * An additional section: ._append_line is ._append_various_line
->>           """
->>           line = line[1:]
->>           if not line:
-> 
-> I understand why you insert a blank line (reST wants blank lines around
-> lists), I don't understand why you indent.  Can you explain?
-
-I was mistaken about it needing the indent!
-
---js
+Paolo
 
 
