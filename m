@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794C627F106
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 20:07:33 +0200 (CEST)
-Received: from localhost ([::1]:48198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F64127F107
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 20:07:51 +0200 (CEST)
+Received: from localhost ([::1]:48552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNgVo-000628-2A
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 14:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58788)
+	id 1kNgW6-0006C8-8r
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 14:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kNgSH-0003SX-4s
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:03:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34070)
+ id 1kNgSm-0003ea-MC
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:04:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kNgSD-00062i-JF
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:03:52 -0400
+ id 1kNgSg-00064n-KU
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:04:24 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601489023;
+ s=mimecast20190719; t=1601489057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c69AuHOCVWxj7KVRoZ+yeYpM6mrEE2McSVVh5laBh58=;
- b=dlgpHRoBtanU91piYtyOR+WoVaj9c88KItprAl0UZHTnbg4Ego1sQkyD1Idn+zsFX/A40t
- NzxDiiKnIdni1n3ijiV4hANVJbt6JzedR9uORKBF+tpxztk8AXklTLMiSDD7l9Lb/o9c1X
- 3Uoqihz/VRCsuRuWs8m4OZB9iVJMyJ4=
+ bh=JjOx2BBzqDT7j74JFQ8QKN1hwYGUsUmj1u3hC17tEMU=;
+ b=hZKKUL9iMqd9+DGsLaegmGYJVZolfJgCz6K9GbbE7n72tdUx+YQfTmsw8Sg6ijeKY65uMn
+ W1WndAdATMVkpdB+acHegex/yI1dl1kooEMLBUd4PSBjUedUEgMFcYgGFKG7sCmAAs1Wdp
+ BsOnfZJf/74bHJdAK86gmFVgMtjtlfs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-qomsOYGUO8CyUaqnEfQO6Q-1; Wed, 30 Sep 2020 14:03:41 -0400
-X-MC-Unique: qomsOYGUO8CyUaqnEfQO6Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-377-WvnA7ep9MB-ygIQEVelEDw-1; Wed, 30 Sep 2020 14:04:15 -0400
+X-MC-Unique: WvnA7ep9MB-ygIQEVelEDw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C97F81E20B
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 18:03:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2701106BB40;
+ Wed, 30 Sep 2020 18:04:12 +0000 (UTC)
 Received: from starship (unknown [10.35.206.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBBDF1002C1C;
- Wed, 30 Sep 2020 18:03:29 +0000 (UTC)
-Message-ID: <04df3e246ceeefbef0d832841b87fcfcb1baa9ad.camel@redhat.com>
-Subject: Re: [PATCH 06/10] device-core: use atomic_set on .realized property
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F5BE7F8C8;
+ Wed, 30 Sep 2020 18:04:10 +0000 (UTC)
+Message-ID: <fd2fd78366b9222f6375cb01500aba7bbe43e43a.camel@redhat.com>
+Subject: Re: [PATCH 08/10] scsi/scsi_bus: Add scsi_device_get
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Date: Wed, 30 Sep 2020 21:03:27 +0300
-In-Reply-To: <e2cf2854-72bc-2f17-88b8-a2548f184583@redhat.com>
+Date: Wed, 30 Sep 2020 21:04:09 +0300
+In-Reply-To: <67859d7f-5293-a11e-add3-f93893dfa7af@redhat.com>
 References: <20200925172604.2142227-1-pbonzini@redhat.com>
- <20200925172604.2142227-7-pbonzini@redhat.com>
- <9182aa173b31989e07668194e18f4dcb31981388.camel@redhat.com>
- <e2cf2854-72bc-2f17-88b8-a2548f184583@redhat.com>
+ <20200925172604.2142227-9-pbonzini@redhat.com>
+ <0d124b6991e607e496da4afa39027320e617aa0e.camel@redhat.com>
+ <67859d7f-5293-a11e-add3-f93893dfa7af@redhat.com>
 User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -84,49 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-09-30 at 19:44 +0200, Paolo Bonzini wrote:
-> On 30/09/20 16:31, Maxim Levitsky wrote:
-> > > +
-> > > +        qatomic_set(&dev->realized, value);
-> > > +        /*
-> > > +         * Ensure that concurrent users see this update prior to
-> > > +         * any other changes done by unrealize.
-> > > +         */
-> > > +        smp_wmb();
-> > 
-> > I''l probably never fully understand where to use read/write/full barrier.
-> > If I understand corrctly, read barrier prevents reads done by this thread to be reordered,
-> > by the CPU and write barrier prevents writes done by this CPU to be re-ordered.
+On Wed, 2020-09-30 at 19:46 +0200, Paolo Bonzini wrote:
+> On 30/09/20 16:32, Maxim Levitsky wrote:
+> > > 	Compared to Maxim's patch, I am avoiding the extra argument
+> > > 	to do_scsi_device_find by moving the RCU_READ_LOCK_GUARD()
+> > > 	out of do_scsi_device_find itself.
+> > Which is a good idea, although my mindset was like, I got a device,
+> > lets just grab a ref to it before it disappears and then do
+> > whatever I want.
 > 
-> I must say that the above is not really satisfactory.  The right thing
-> to do would be to say which changes are done by unrealize; then you
-> should make sure that *after* reading something that unrealize could
-> undo you check if dev->realized is still true.
-I didn't fully understand this to be honest.
+> Understood, but "I got a device, I know I'm under RCU so it can't
+> disappear" is more efficient and just as common.  This also explains the
+> difference in patch 7.
 
-I just wanted to explain what I know and what I don't know about hardware barriers.
-
-I know that read barriers should be paired with write barriers, like if one CPU has a write barrier,
-which ensures the orders of writes to two memory locations, the other CPU can then use a read barrier to ensure
-that it sees those writes in this order.
-
-I thus think that reads of dev->realized should be paired with read barrier, 
-but here a full memory barrier isn't really needed.
+Fair point. I am still learing to correctly use RCU.
 
 Best regards,
 	Maxim Levitsky
-
-> 
-> scsi_device_find is one such case, but I'm not convinced it is enough.
 > 
 > Paolo
 > 
-> > Both (depending on the macro) usually imply compiler barrier (to avoid compilier re-ordering
-> > stuff...)
 
 
 
