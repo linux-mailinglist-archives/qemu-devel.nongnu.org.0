@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A830F27F2EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 22:01:59 +0200 (CEST)
-Received: from localhost ([::1]:60574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405FA27F2DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 22:01:33 +0200 (CEST)
+Received: from localhost ([::1]:58964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNiIY-0008Jn-C4
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 16:01:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53472)
+	id 1kNiI6-0007cx-Lj
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 16:01:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kNiFd-0006Hg-EZ
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:58:57 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41879)
+ id 1kNiFe-0006K3-Sc
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:58:58 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kNiFb-000790-J1
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:58:57 -0400
-Received: by mail-wr1-x429.google.com with SMTP id w5so3130104wrp.8
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 12:58:54 -0700 (PDT)
+ id 1kNiFc-00079O-J5
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:58:58 -0400
+Received: by mail-wr1-x430.google.com with SMTP id e16so3146365wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 12:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W6Lam4OFe7gO57Je+OnMrr6I7gK609J1eHhN01o9JRw=;
- b=R/PzAud+eR5WyPIfAAKak6esb8X6XfS4qlCrKpF3dpsUqszxyW1GSr96SQw56VApKU
- 9gWmSmEl+/1lT+Acbjy+OFZEH8d/1eHHDtUYOKEhEM3KHDktdjyjKRtdThaiqGtfVQs4
- NYfSitEimRDCrnyxIkw4HRdoTLkRfKaPHj1W9VfPrOC0OwChpQdu8qBztIiAzgOQx2k4
- Xei+B1TC7sO+cXoF8VG8GWXAt+S6wzeYRNkC6J6zVFSMjDPDdsUwYEzQesbVewS0AsEg
- PmRkG0M9Az4AXeLFEjzv4Xyl45sU/Vd51s1RmgP47ly6nflXriaF450OdQO4Gs7CySkc
- orMw==
+ bh=uFGgdCjH6RaiKdPtx+4yFhh4lvq4ISq/FvhVyKEO4tE=;
+ b=vgG/ol6dTmL1/Xow9khCxoOVDH+t29i4NagAyZVbOkork3a5W7LJbUlZVHDN3MW8Jd
+ oQqw7VmRyeK8K+3xjW/K1w+NZ5b+guFq6RcgSyVueAKaHtO0vBzbo6ePekR5Pt0jsA2/
+ qFknH1Dlz4UuUNbLUYYqPou+yV/3LAlylYawTPM7lpZy+ei5Z0+x96KG78KkyNwecalB
+ aPpdMeYCFTpW/xQxMB4htuMesaHDikiXt5cSu4gHo6firYeAlyITrZjvUyq3M/SiMja0
+ gEbbIquEo/oWR+J2bNI436ovT/nZpDyZrgxeilSsHbohuZ61573lgibWxjFqQN6SFxt2
+ v+3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=W6Lam4OFe7gO57Je+OnMrr6I7gK609J1eHhN01o9JRw=;
- b=hW7ZsLb/WMuJEOnaESFwD8cS/r+oPOx7eXM3jSOQmglTPKre9hudKzlQF9VJdDlMJI
- 6LjRfGJ2Pdp7x7ATnwvUtb5HOjta2ph1qGnbSWDDnNbngSwojd6LWgVh77XXfZUwuE16
- gv/wpZLGRgK0Mw8UYoWZ0h2YsB7QuQf+pz/znefY8NT6Pc3tJFX/sWJGt7nqAVJNzrfx
- RUu+wD28x4lgdbOczm08oHQ/EQYax5qy/IZXTxBLY3nNtcaAUwVT8nm0tTbsp5YD3KBx
- aFuWskBkyinKkxdwLCR98aGg8MURzzZqMdPzEreumK/o3BifgonPnV+6viRKMu/QQ1X9
- hKDw==
-X-Gm-Message-State: AOAM5333qjwbpigFbDKa+EphG9ihw6AW4YYB1pHbdDRB1bKNDTuudYJC
- PCW8bugS1Deg6mXls+zNA6QbQDqanCc=
-X-Google-Smtp-Source: ABdhPJwzuQh2VjbZh8ddKRn6+dQk9TjsGwVPK4HRAMWYxmgblrIqji1pyS3Ux+WHzWo3LWnhvDaUBw==
-X-Received: by 2002:adf:dfc3:: with SMTP id q3mr4661491wrn.238.1601495933000; 
+ bh=uFGgdCjH6RaiKdPtx+4yFhh4lvq4ISq/FvhVyKEO4tE=;
+ b=IeHBScAb7lauJ1KhqMvfA1QTedsbqNX8rrTOy6+eSNVz0Ww/szbDNI2OkxoJQ8oN9t
+ +LZd4z04Vl5/J5fDYTCUwuDZAXO4IcNfRY3RIOCrFfZAqD06AonRWD2jZowWt2GIYQYM
+ GlzAOe3NUODxwTVeqmj9BktKpgNbCCjvspHXhxrtxfZN6pH+h+tBP8xUVhQ4q+Hd+J7D
+ Ej/WdVIqpOaEizDVKPjd3q1NCtGGmBrgxqQf0RFys4kF6/KUJpjXpjqjXicxpob+8gsd
+ 9II3w3VMhz7yg82Fq5sp5uFZei5o6K08oacxfID25azSqTb8TiHCk4Nqn+EU0pp986ri
+ aG4A==
+X-Gm-Message-State: AOAM531XWDGrsLv2A3i64bFtGWyZkt6DfUA+kZRTVjSl9/wpC7KEvpdE
+ RqIW76QZrf3aWMFOy16C5hEQKxMm7Mk=
+X-Google-Smtp-Source: ABdhPJwoK8PT+aQndCGAOiMWjMqRllG0MibzzQppa+AjaUmNF0IeMFislyZdMrpA1OQ7JQAITMshyw==
+X-Received: by 2002:adf:db4d:: with SMTP id f13mr4880621wrj.155.1601495933964; 
  Wed, 30 Sep 2020 12:58:53 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:75e3:aaa7:77d6:f4e4])
  by smtp.gmail.com with ESMTPSA id
- b64sm4824204wmh.13.2020.09.30.12.58.52
+ b64sm4824204wmh.13.2020.09.30.12.58.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 12:58:52 -0700 (PDT)
+ Wed, 30 Sep 2020 12:58:53 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/86] meson: move libmpathpersist test
-Date: Wed, 30 Sep 2020 21:58:49 +0200
-Message-Id: <20200930195850.278104-3-pbonzini@redhat.com>
+Subject: [PULL 31/86] meson: extend libmpathpersist test for static linking
+Date: Wed, 30 Sep 2020 21:58:50 +0200
+Message-Id: <20200930195850.278104-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200930195850.278104-1-pbonzini@redhat.com>
 References: <20200930195850.278104-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -90,298 +90,53 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the first compiler/linker test that has been moved to Meson.
-Add more section headings to keep things clearer.
-
-This also fixes static linking to libmpathpersist, which has a
-dependency on libmultipath but no pkg-config file to describe it.
+libmultipath has a dependency on libdevmapper, so
+include it as well when static linking.  It seems that
+the rabbit hole ends there.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 77 +++-----------------------------------------
- meson.build       | 81 +++++++++++++++++++++++++++++++++++++++++++----
- meson_options.txt |  2 ++
- 3 files changed, 80 insertions(+), 80 deletions(-)
+ meson.build | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/configure b/configure
-index 6f2599f99f..aade6eb285 100755
---- a/configure
-+++ b/configure
-@@ -403,7 +403,7 @@ netmap="no"
- sdl="auto"
- sdl_image="auto"
- virtfs=""
--mpath=""
-+mpath="auto"
- vnc="enabled"
- sparse="no"
- vde=""
-@@ -1116,9 +1116,9 @@ for opt do
-   ;;
-   --enable-virtfs) virtfs="yes"
-   ;;
--  --disable-mpath) mpath="no"
-+  --disable-mpath) mpath="disabled"
-   ;;
--  --enable-mpath) mpath="yes"
-+  --enable-mpath) mpath="enabled"
-   ;;
-   --disable-vnc) vnc="disabled"
-   ;;
-@@ -3852,57 +3852,6 @@ if test "$modules" = yes; then
-     fi
- fi
- 
--##########################################
--# libmpathpersist probe
--
--if test "$mpath" != "no" ; then
--  # probe for the new API
--  cat > $TMPC <<EOF
--#include <libudev.h>
--#include <mpath_persist.h>
--unsigned mpath_mx_alloc_len = 1024;
--int logsink;
--static struct config *multipath_conf;
--extern struct udev *udev;
--extern struct config *get_multipath_config(void);
--extern void put_multipath_config(struct config *conf);
--struct udev *udev;
--struct config *get_multipath_config(void) { return multipath_conf; }
--void put_multipath_config(struct config *conf) { }
--
--int main(void) {
--    udev = udev_new();
--    multipath_conf = mpath_lib_init();
--    return 0;
--}
--EOF
--  if compile_prog "" "-ludev -lmultipath -lmpathpersist" ; then
--    mpathpersist=yes
--    mpathpersist_new_api=yes
--  else
--    # probe for the old API
--    cat > $TMPC <<EOF
--#include <libudev.h>
--#include <mpath_persist.h>
--unsigned mpath_mx_alloc_len = 1024;
--int logsink;
--int main(void) {
--    struct udev *udev = udev_new();
--    mpath_lib_init(udev);
--    return 0;
--}
--EOF
--    if compile_prog "" "-ludev -lmultipath -lmpathpersist" ; then
--      mpathpersist=yes
--      mpathpersist_new_api=no
--    else
--      mpathpersist=no
--    fi
--  fi
--else
--  mpathpersist=no
--fi
--
- ##########################################
- # pthread probe
- PTHREADLIBS_LIST="-pthread -lpthread -lpthreadGC2"
-@@ -6337,23 +6286,11 @@ if test "$softmmu" = yes ; then
-       fi
-       virtfs=no
-     fi
--    if test "$mpath" != no && test "$mpathpersist" = yes ; then
--      mpath=yes
--    else
--      if test "$mpath" = yes; then
--        error_exit "Multipath requires libmpathpersist devel"
--      fi
--      mpath=no
--    fi
-   else
-     if test "$virtfs" = yes; then
-       error_exit "VirtFS is supported only on Linux"
-     fi
-     virtfs=no
--    if test "$mpath" = yes; then
--      error_exit "Multipath is supported only on Linux"
--    fi
--    mpath=no
-   fi
- fi
- 
-@@ -6894,12 +6831,6 @@ fi
- if test "$virtfs" = "yes" ; then
-   echo "CONFIG_VIRTFS=y" >> $config_host_mak
- fi
--if test "$mpath" = "yes" ; then
--  echo "CONFIG_MPATH=y" >> $config_host_mak
--  if test "$mpathpersist_new_api" = "yes"; then
--    echo "CONFIG_MPATH_NEW_API=y" >> $config_host_mak
--  fi
--fi
- if test "$vhost_scsi" = "yes" ; then
-   echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
- fi
-@@ -7988,7 +7919,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
--	-Dsdl=$sdl -Dsdl_image=$sdl_image \
-+	-Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
- 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f\
-         $cross_arg \
 diff --git a/meson.build b/meson.build
-index cd3d1ee260..8e9cd67235 100644
+index 8e9cd67235..5dd7728cc9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -86,6 +86,14 @@ if 'SPARSE_CFLAGS' in config_host
-                        'compile_commands.json'])
- endif
- 
-+###########################################
-+# Target-specific checks and dependencies #
-+###########################################
-+
-+if targetos != 'linux' and get_option('mpath').enabled()
-+  error('Multipath is supported only on Linux')
-+endif
-+
- m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
- winmm = []
-@@ -117,6 +125,11 @@ elif targetos == 'haiku'
-             cc.find_library('network'),
-             cc.find_library('bsd')]
- endif
-+
-+################
-+# Dependencies #
-+################
-+
- # The path to glib.h is added to all compilation commands.  This was
- # grandfathered in from the QEMU Makefiles.
- add_project_arguments(config_host['GLIB_CFLAGS'].split(),
-@@ -223,10 +236,6 @@ if 'CONFIG_SPICE' in config_host
-                              link_args: config_host['SPICE_LIBS'].split())
- endif
- rt = cc.find_library('rt', required: false)
--libmpathpersist = not_found
--if config_host.has_key('CONFIG_MPATH')
--  libmpathpersist = cc.find_library('mpathpersist')
--endif
- libdl = not_found
- if 'CONFIG_PLUGIN' in config_host
-   libdl = cc.find_library('dl', required: true)
-@@ -258,8 +267,64 @@ if 'CONFIG_CURL' in config_host
- endif
- libudev = not_found
- if targetos == 'linux' and (have_system or have_tools)
--  libudev = dependency('libudev', static: enable_static)
-+  libudev = dependency('libudev',
-+                       required: get_option('mpath').enabled(),
-+                       static: enable_static)
-+endif
-+
-+mpathpersist = not_found
-+mpathpersist_new_api = false
-+if targetos == 'linux' and have_tools and not get_option('mpath').disabled()
-+  mpath_test_source_new = '''
-+    #include <libudev.h>
-+    #include <mpath_persist.h>
-+    unsigned mpath_mx_alloc_len = 1024;
-+    int logsink;
-+    static struct config *multipath_conf;
-+    extern struct udev *udev;
-+    extern struct config *get_multipath_config(void);
-+    extern void put_multipath_config(struct config *conf);
-+    struct udev *udev;
-+    struct config *get_multipath_config(void) { return multipath_conf; }
-+    void put_multipath_config(struct config *conf) { }
-+    int main(void) {
-+        udev = udev_new();
-+        multipath_conf = mpath_lib_init();
-+        return 0;
-+    }'''
-+  mpath_test_source_old = '''
-+      #include <libudev.h>
-+      #include <mpath_persist.h>
-+      unsigned mpath_mx_alloc_len = 1024;
-+      int logsink;
-+      int main(void) {
-+          struct udev *udev = udev_new();
-+          mpath_lib_init(udev);
-+          return 0;
-+      }'''
-+  libmultipath = cc.find_library('multipath',
-+                                 required: get_option('mpath'),
-+                                 static: enable_static)
-+  libmpathpersist = cc.find_library('mpathpersist',
-+                                    required: get_option('mpath'),
-+                                    static: enable_static)
-+  if libmultipath.found() and libmpathpersist.found() and libudev.found()
-+    mpathlibs = [libmultipath, libmpathpersist, libudev]
-+    if cc.links(mpath_test_source_new, dependencies: mpathlibs)
-+      mpathpersist = declare_dependency(dependencies: mpathlibs)
-+      mpathpersist_new_api = true
-+    elif cc.links(mpath_test_source_old, dependencies: mpathlibs)
-+      mpathpersist = declare_dependency(dependencies: mpathlibs)
-+    else
-+      if get_option('mpath').enabled()
-+        error('Cannot detect libmpathpersist API')
-+      else
-+        warning('Cannot detect libmpathpersist API, disabling')
-+      endif
-+    endif
+@@ -302,14 +302,25 @@ if targetos == 'linux' and have_tools and not get_option('mpath').disabled()
+           mpath_lib_init(udev);
+           return 0;
+       }'''
+-  libmultipath = cc.find_library('multipath',
+-                                 required: get_option('mpath'),
+-                                 static: enable_static)
+-  libmpathpersist = cc.find_library('mpathpersist',
+-                                    required: get_option('mpath'),
+-                                    static: enable_static)
+-  if libmultipath.found() and libmpathpersist.found() and libudev.found()
+-    mpathlibs = [libmultipath, libmpathpersist, libudev]
++  mpathlibs = [libudev]
++  if enable_static
++    mpathlibs += cc.find_library('devmapper',
++                                   required: get_option('mpath'),
++                                   static: enable_static)
 +  endif
- endif
-+
- brlapi = not_found
- if 'CONFIG_BRLAPI' in config_host
-   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
-@@ -441,6 +506,8 @@ has_gettid = cc.has_function('gettid')
- # Create config-host.h
- 
- config_host_data.set('CONFIG_LIBUDEV', libudev.found())
-+config_host_data.set('CONFIG_MPATH', mpathpersist.found())
-+config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('CONFIG_VNC', vnc.found())
-@@ -1205,7 +1272,7 @@ if have_tools
- 
-     executable('qemu-pr-helper', files('scsi/qemu-pr-helper.c', 'scsi/utils.c'),
-                dependencies: [authz, crypto, io, qom, qemuutil,
--                              libcap_ng, libudev, libmpathpersist],
-+                              libcap_ng, mpathpersist],
-                install: true)
-   endif
- 
-@@ -1342,7 +1409,7 @@ summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
- summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
- summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
- summary_info += {'VirtFS support':    config_host.has_key('CONFIG_VIRTFS')}
--summary_info += {'Multipath support': config_host.has_key('CONFIG_MPATH')}
-+summary_info += {'Multipath support': mpathpersist.found()}
- summary_info += {'VNC support':       vnc.found()}
- if vnc.found()
-   summary_info += {'VNC SASL support':  sasl.found()}
-diff --git a/meson_options.txt b/meson_options.txt
-index 543cf70043..b38a6ae92a 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -6,6 +6,8 @@ option('docdir', type : 'string', value : 'doc',
- option('gettext', type : 'boolean', value : true,
-        description: 'Localization of the GTK+ user interface')
- 
-+option('mpath', type : 'feature', value : 'auto',
-+       description: 'Multipath persistent reservation passthrough')
- option('sdl', type : 'feature', value : 'auto',
-        description: 'SDL user interface')
- option('sdl_image', type : 'feature', value : 'auto',
++  mpathlibs += cc.find_library('multipath',
++                               required: get_option('mpath'),
++                               static: enable_static)
++  mpathlibs += cc.find_library('mpathpersist',
++                               required: get_option('mpath'),
++                               static: enable_static)
++  foreach lib: mpathlibs
++    if not lib.found()
++      mpathlibs = []
++      break
++    endif
++  endforeach
++  if mpathlibs.length() > 0
+     if cc.links(mpath_test_source_new, dependencies: mpathlibs)
+       mpathpersist = declare_dependency(dependencies: mpathlibs)
+       mpathpersist_new_api = true
 -- 
 2.26.2
-
-
 
