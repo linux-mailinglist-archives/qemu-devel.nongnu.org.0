@@ -2,93 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850ED27EE3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:05:39 +0200 (CEST)
-Received: from localhost ([::1]:55484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D57D27EE31
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:03:44 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNebq-0004Wo-9o
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:05:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51958)
+	id 1kNeZz-0001Rp-LR
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kNeVs-0007Mt-Fk; Wed, 30 Sep 2020 11:59:28 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47150
- helo=mx0a-001b2d01.pphosted.com)
+ id 1kNeVy-0007PS-Bd; Wed, 30 Sep 2020 11:59:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kNeVk-0001zp-85; Wed, 30 Sep 2020 11:59:28 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08UFYsAI031809; Wed, 30 Sep 2020 11:59:05 -0400
+ id 1kNeVo-00021s-Ed; Wed, 30 Sep 2020 11:59:34 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08UFZ0Hp182393; Wed, 30 Sep 2020 11:59:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=6wPSZ/Ew87I0gBK2EC63JlQ6NLliPt7KlIbkBH0p7yQ=;
- b=SVo1gDV4xcAl6lAQV+JG81XHiHePP5y+pxo+WE3MJqZ0FTOykPTK5jOCBgh1xMSECyWC
- rH0saejw62KR0wgazcBJNrHGKqn738nKhfoUEaGTUDhzZm6BAY9k/uMzN77UfHfGb8UF
- RK+FmVu0Go014rqlEFEOJ5s/tsTU7a3yRSRnKBvgDQ/SfxzsTkcF29Njh44ksFe3F9+q
- 9YHIOmR5z5+LGF1Sus2KZvZUixZV8FShYZ9aIomm9N1GQXidVhocIfocSD+vXYIJUtzJ
- /j7LoxQm/gIRqesQ37iFVEBh4XTYtH/Z+FgvTiiZ2GD0gimG+IUZopvQEv0fAzkxsVS5 Xg== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=4jbzuzklvkZtovivYeLq/4Z+2yoD2zkSehVxqFzXxB0=;
+ b=Q/Puv350K3lj0bPyJSwcAq9xE8DjqU6eta9WkqouUgmocZOMCQRrK272yerSrWF7Nb1y
+ BYN0xI3RfKCCtAlJpC0jMNAkSGuSKMqifdREIp6KDXgeaabWoCLZ9ApQsNBx7aUnT4Z5
+ hFyMezt1ejan6v8KhNUaYaGuXboI2h3+iNbvO/wonlmfAU5LmTHKCQ/L/8wmzsdUjNTl
+ FFFwPn7bz068RHIElqp+rm+94X2Ss7gxu9uCAjAjBfAAYiepPKC/lik6B8l4RBLdm4lZ
+ 6rL3X1O3fz/MLR1eSL7aTYlMS/yG58OHpOb41Y9GFyB/OYkjvIuhSDzX5p6KjYJ/skwl Sg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33vq8nn6sd-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33vv1qad0t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 30 Sep 2020 11:59:06 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08UFdPCO000999;
+ Wed, 30 Sep 2020 11:59:06 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33vv1qacyd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 30 Sep 2020 11:59:05 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08UFZtq9035710;
- Wed, 30 Sep 2020 11:59:04 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 33vq8nn6r4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Sep 2020 11:59:04 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08UFuswD008243;
- Wed, 30 Sep 2020 15:59:02 GMT
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08UFw4kI025934;
+ Wed, 30 Sep 2020 15:59:03 GMT
 Received: from b06cxnps4076.portsmouth.uk.ibm.com
  (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 33sw97vkwv-1
+ by ppma06ams.nl.ibm.com with ESMTP id 33v6mgs59b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Sep 2020 15:59:02 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
+ Wed, 30 Sep 2020 15:59:03 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
  by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08UFx0DE27853226
+ 08UFx1nS23921086
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Sep 2020 15:59:00 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6367EA405F;
- Wed, 30 Sep 2020 15:59:00 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4E784A405D;
+ Wed, 30 Sep 2020 15:59:01 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 00E144C044;
+ Wed, 30 Sep 2020 15:59:01 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DE1C14C040;
  Wed, 30 Sep 2020 15:59:00 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Wed, 30 Sep 2020 15:59:00 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id 0B0A5E1FB0; Wed, 30 Sep 2020 17:59:00 +0200 (CEST)
+ id 9B787E1FB0; Wed, 30 Sep 2020 17:59:00 +0200 (CEST)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] assorted gcc 10/fedora32 compile warning fixes
-Date: Wed, 30 Sep 2020 17:58:55 +0200
-Message-Id: <20200930155859.303148-1-borntraeger@de.ibm.com>
+Subject: [PATCH 1/4] vmdk: fix maybe uninitialized warnings
+Date: Wed, 30 Sep 2020 17:58:56 +0200
+Message-Id: <20200930155859.303148-2-borntraeger@de.ibm.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200930155859.303148-1-borntraeger@de.ibm.com>
+References: <20200930155859.303148-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-09-30_08:2020-09-30,
  2020-09-30 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=1 bulkscore=0 priorityscore=1501 phishscore=0 spamscore=0
- impostorscore=0 clxscore=1011 adultscore=0 mlxlogscore=875 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0
+ priorityscore=1501 spamscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ phishscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ suspectscore=4 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2009300124
-Received-SPF: pass client-ip=148.163.158.5;
+Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 11:59:16
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 11:59:20
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
@@ -115,21 +118,91 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I might be wrong and some of these warnings could be correct, so some
-review from the subject matter experts would be good.
+Fedora 32 gcc 10 seems to give false positives:
 
-Christian Borntraeger (4):
-  vmdk: fix maybe uninitialized warnings
-  nbd: silence maybe-uninitialized warnings
-  qemu-io-cmds: avoid gcc 10 warning
-  virtiofsd: avoid false positive compiler warning
+Compiling C object libblock.fa.p/block_vmdk.c.o
+../block/vmdk.c: In function ‘vmdk_parse_extents’:
+../block/vmdk.c:587:5: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  587 |     g_free(extent->l1_table);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:754:17: note: ‘extent’ was declared here
+  754 |     VmdkExtent *extent;
+      |                 ^~~~~~
+../block/vmdk.c:620:11: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  620 |     ret = vmdk_init_tables(bs, extent, errp);
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:598:17: note: ‘extent’ was declared here
+  598 |     VmdkExtent *extent;
+      |                 ^~~~~~
+../block/vmdk.c:1178:39: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+ 1178 |             extent->flat_start_offset = flat_offset << 9;
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+../block/vmdk.c: In function ‘vmdk_open_vmdk4’:
+../block/vmdk.c:581:22: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  581 |     extent->l2_cache =
+      |     ~~~~~~~~~~~~~~~~~^
+  582 |         g_malloc(extent->entry_size * extent->l2_size * L2_CACHE_SIZE);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:872:17: note: ‘extent’ was declared here
+  872 |     VmdkExtent *extent;
+      |                 ^~~~~~
+../block/vmdk.c: In function ‘vmdk_open’:
+../block/vmdk.c:620:11: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  620 |     ret = vmdk_init_tables(bs, extent, errp);
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:598:17: note: ‘extent’ was declared here
+  598 |     VmdkExtent *extent;
+      |                 ^~~~~~
+cc1: all warnings being treated as errors
+make: *** [Makefile.ninja:884: libblock.fa.p/block_vmdk.c.o] Error 1
 
- block/vmdk.c                     | 8 ++++----
- nbd/server.c                     | 2 +-
- qemu-io-cmds.c                   | 4 +++-
- tools/virtiofsd/passthrough_ll.c | 2 +-
- 4 files changed, 9 insertions(+), 7 deletions(-)
+fix them by assigning a default value.
 
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
+ block/vmdk.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 8ec62c7ab798..a00dc00eb47a 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -595,7 +595,7 @@ static int vmdk_open_vmfs_sparse(BlockDriverState *bs,
+     int ret;
+     uint32_t magic;
+     VMDK3Header header;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+ 
+     ret = bdrv_pread(file, sizeof(magic), &header, sizeof(header));
+     if (ret < 0) {
+@@ -751,7 +751,7 @@ static int vmdk_open_se_sparse(BlockDriverState *bs,
+     int ret;
+     VMDKSESparseConstHeader const_header;
+     VMDKSESparseVolatileHeader volatile_header;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+ 
+     ret = bdrv_apply_auto_read_only(bs,
+             "No write support for seSparse images available", errp);
+@@ -869,7 +869,7 @@ static int vmdk_open_vmdk4(BlockDriverState *bs,
+     uint32_t magic;
+     uint32_t l1_size, l1_entry_sectors;
+     VMDK4Header header;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+     BDRVVmdkState *s = bs->opaque;
+     int64_t l1_backup_offset = 0;
+     bool compressed;
+@@ -1088,7 +1088,7 @@ static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
+     BdrvChild *extent_file;
+     BdrvChildRole extent_role;
+     BDRVVmdkState *s = bs->opaque;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+     char extent_opt_prefix[32];
+     Error *local_err = NULL;
+ 
 -- 
 2.26.2
 
