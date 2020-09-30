@@ -2,103 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFBA27EE30
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:03:42 +0200 (CEST)
-Received: from localhost ([::1]:48156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB6127EE9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:11:45 +0200 (CEST)
+Received: from localhost ([::1]:43490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNeZx-0001NZ-Tu
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:03:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51988)
+	id 1kNehj-00030J-DU
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kNeVw-0007OR-Bf; Wed, 30 Sep 2020 11:59:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kNeVm-00020U-ID; Wed, 30 Sep 2020 11:59:30 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08UFnKFT052616; Wed, 30 Sep 2020 11:59:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=ZnS0+7S2RNPNxs2Px+2PcH0G/J5pQy4PjvtM9g2VMik=;
- b=r4s4A0QAq0nqlHJBnHyDd9Q5LBhF+04LLC710SX7Wp24bbziDITaFerOv3/TRdAYTt4w
- KJx+ykHdhGLYitaVCBGcaPTZOsVaJ8hLEcalXJqbgT0ARwpWfSWN6m06MkYAzyxPAtEw
- 9OIGzoSY5QJHaAuMTmGCmPHd/MYFHUGSKq/CTBMGK1n1I908LTKHnYtr5Nxi3Nww0kCO
- /u7EtxPWKbP4TZs6VVb+D2r7M1gcMVjrCmHTFXsCYe6CdmkvqjHYyrbX6gvaF5Z/gXbS
- b3nwvH9vt7GySDffU7rbHE2EO79yKKGj6bpIsEn/s/7JC7M14ENqWMV+kNhng9xBmoGU Tg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33vw0eg7d6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Sep 2020 11:59:08 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08UFpBBR057776;
- Wed, 30 Sep 2020 11:59:08 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33vw0eg7bs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Sep 2020 11:59:08 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08UFuvQW008249;
- Wed, 30 Sep 2020 15:59:05 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 33sw97vkwx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 30 Sep 2020 15:59:05 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08UFx3Yp31392150
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Sep 2020 15:59:03 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5CD294203F;
- Wed, 30 Sep 2020 15:59:03 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4A1B242041;
- Wed, 30 Sep 2020 15:59:03 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 30 Sep 2020 15:59:03 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id 051CDE1FB0; Wed, 30 Sep 2020 17:59:03 +0200 (CEST)
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] virtiofsd: avoid false positive compiler warning
-Date: Wed, 30 Sep 2020 17:58:59 +0200
-Message-Id: <20200930155859.303148-5-borntraeger@de.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200930155859.303148-1-borntraeger@de.ibm.com>
-References: <20200930155859.303148-1-borntraeger@de.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kNeXx-00007g-Bx; Wed, 30 Sep 2020 12:01:37 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kNeXv-0002F9-SI; Wed, 30 Sep 2020 12:01:37 -0400
+Received: by mail-wm1-x341.google.com with SMTP id a9so52185wmm.2;
+ Wed, 30 Sep 2020 09:01:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FN8QF9OeGBHcS3Ikvq47L0HMj3W/IbqJABlhYv6lL/A=;
+ b=gDwWQhruWkPeaDjk1q817iP0v+3ClyjzZpq6bW9w2cdGJbSYgdK8BDYFxnX8Dy7Jhi
+ Uu4HgquFq69gKuZg0oGP1wRKM5Ia3G2hfViaDWRjSsxP/zt7j8g4VXlWultfKNYoIANI
+ DZjdcUl5w73vUTfNr0LyL5dLLZ+Jn9Yn6+MPH+YA+McJ2W+/l+5IA6ZhN/JA1DIrO+cZ
+ sQcNhKRGoDf73Of+IN8C/qDXJrOD4gV2APJD9OgAOSqAtxr3nlnZARFo9k9z0cbo4y4b
+ KN6cx0jN+dojvrxdHyP7lPApx9W7/FZp1x0xGlvX3hiN3CIf1AiPGpAUn3qcXeTLdLXP
+ 3bKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FN8QF9OeGBHcS3Ikvq47L0HMj3W/IbqJABlhYv6lL/A=;
+ b=e2zDD2zjdLSHfOz9I8T2qTRQzKW3RsC5imZ1LfONes5Ya+B2CuVXvNvTby6APN+XZz
+ XG/X9WMbOMszq4iBE8Fu4fXHQSFMWWXRJqOTklt0M6509Y6UVqizEAd9X9CwhsGeR5x7
+ jthmKgCDdSsU+ockUfbp7D44+HsF6JhCKXZUi7ZdCtFbBxFFnJeTlvTUrU5fVZhrT3hU
+ /dk4swW8OKPfeqNw8JKtsd28aNQ3ju9WGmVyF2WYt8qTKUUiLssmd+RYIh6KKa8lMg8Z
+ u05CbqmTBwWKVkw6NzLV7Nh2yk5QuaIX5hj6KeZJeXvXp5iTzn6QvyNlXOLXEvRfnQbm
+ aH4g==
+X-Gm-Message-State: AOAM531B1uCa+rCOHgkB1Q5QY9zk2ugzdiH0qP2gwCN5WRMLYfhgdJnN
+ I3aqa+fixOk01VJAXHfiuSnj72bsxoQ=
+X-Google-Smtp-Source: ABdhPJw9oS6GEzGHe0Ko1N3pN1FKPsg2DyBTM1g7YSuaW5mQgPSgmPv3GRZ70EPDcHipsL0ll/29Gg==
+X-Received: by 2002:a7b:c345:: with SMTP id l5mr3768677wmj.123.1601481689616; 
+ Wed, 30 Sep 2020 09:01:29 -0700 (PDT)
+Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id z191sm3604774wme.40.2020.09.30.09.01.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Sep 2020 09:01:28 -0700 (PDT)
+Subject: Re: [PATCH RFC 13/14] alpha/: fix some comment spelling errors
+To: zhaolichang <zhaolichang@huawei.com>, qemu-trivial@nongnu.org
+References: <20200930095321.2006-1-zhaolichang@huawei.com>
+ <20200930095321.2006-14-zhaolichang@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <51cf9db0-36ef-23b6-3b92-6d1e6a054694@amsat.org>
+Date: Wed, 30 Sep 2020 18:01:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200930095321.2006-14-zhaolichang@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-30_08:2020-09-30,
- 2020-09-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
- phishscore=0 clxscore=1015 suspectscore=1 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009300121
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 11:59:20
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.373, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-0.001,
+ PDS_TONAME_EQ_TOLOCAL_SHORT=1.999, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,48 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-make: *** [Makefile:121: config-host.mak] Error 1
-[cborntra@m83lp52 qemu]$ make -C build/
-make: Entering directory '/home/cborntra/REPOS/qemu/build'
-Generating qemu-version.h with a meson_exe.py custom command
-Compiling C object tools/virtiofsd/virtiofsd.p/passthrough_ll.c.o
-../tools/virtiofsd/passthrough_ll.c: In function ‘lo_setattr’:
-../tools/virtiofsd/passthrough_ll.c:702:19: error: ‘fd’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  702 |             res = futimens(fd, tv);
-      |                   ^~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-make: *** [Makefile.ninja:1438: tools/virtiofsd/virtiofsd.p/passthrough_ll.c.o] Error 1
-make: Leaving directory '/home/cborntra/REPOS/
+On 9/30/20 11:53 AM, zhaolichang wrote:
+> I found that there are many spelling errors in the comments of qemu/target/alpha.
+> I used spellcheck to check the spelling errors and found some errors in the folder.
+> 
+> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+> ---
+>  target/alpha/cpu.h       | 4 ++--
+>  target/alpha/translate.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
-as far as I can see this can not happen. Let us silence the warning by
-giving fd a default value.
-
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
----
- tools/virtiofsd/passthrough_ll.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 0b229ebd5786..da06aa6e9264 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -620,7 +620,7 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-     struct lo_inode *inode;
-     int ifd;
-     int res;
--    int fd;
-+    int fd = 0;
- 
-     inode = lo_inode(req, ino);
-     if (!inode) {
--- 
-2.26.2
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
