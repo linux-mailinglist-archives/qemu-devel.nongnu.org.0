@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF2527DFC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:58:16 +0200 (CEST)
-Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E99027DFBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:56:16 +0200 (CEST)
+Received: from localhost ([::1]:45242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNUBz-0000oY-KS
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37164)
+	id 1kNUA3-0006kV-Kj
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnT-0001Ff-P1
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60363)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnW-0001HH-9I
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnN-0000ak-RQ
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:55 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnP-0000b6-Ng
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:56 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601440366;
+ s=mimecast20190719; t=1601440369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QpcPc0JJZjUHkmAfzfFumJ9LBKbWFBiymq5dslj7rHA=;
- b=XCLmw8tarP9EQ/fjITp8H5jYM5USd/HSl5USlTbQ38F12muAyPgQ1giCQxkKUjXdLs963n
- 3XHTZyzr4zwFzROiWBISZ+BtMWL2vH9yGl37DY78NDq0zdmv/HjH25L0WyUI8m2YEoVopy
- Ravb2Zpze1tB+7HY88FkvRUOGg/OsJE=
+ bh=G4m+pSzb0QAoGW4vRR2Fy171qT8Img5BTXCx79sxdPc=;
+ b=UMbzjAiAYNaGS75zaa+SutNrMi4sTaCLvDolKe8hwgU0Zs4YAw8qZ5ESyjs/7aPgpjE9Cn
+ e29oAcztK3XBqwsH6zOCFnxf/7rEXz2nDophH3AY/0QF5voKvwfENp6oazR2GMI0ZnaR+b
+ qvOFXQzOev3zQ9YcM295kCyhRWkQVEw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-nkzgQeqpMWyiaCYRBGmUIw-1; Wed, 30 Sep 2020 00:32:44 -0400
-X-MC-Unique: nkzgQeqpMWyiaCYRBGmUIw-1
+ us-mta-286-yFLLVJa8PraJHXsny3w0CQ-1; Wed, 30 Sep 2020 00:32:46 -0400
+X-MC-Unique: yFLLVJa8PraJHXsny3w0CQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63EAC801AC8;
- Wed, 30 Sep 2020 04:32:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B5001DE01;
+ Wed, 30 Sep 2020 04:32:45 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 386497BE42;
- Wed, 30 Sep 2020 04:32:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 949D473678;
+ Wed, 30 Sep 2020 04:32:43 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 24/46] qapi/events.py: Move comments into docstrings
-Date: Wed, 30 Sep 2020 00:31:28 -0400
-Message-Id: <20200930043150.1454766-25-jsnow@redhat.com>
+Subject: [PATCH v4 25/46] qapi/commands.py: Don't re-bind to variable of
+ different type
+Date: Wed, 30 Sep 2020 00:31:29 -0400
+Message-Id: <20200930043150.1454766-26-jsnow@redhat.com>
 In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
 References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,33 +86,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clarify them while we're here.
+Mypy isn't a fan of rebinding a variable with a new data type.
+It's easy enough to avoid.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/events.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ scripts/qapi/commands.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 57e0939e963..599f3d1f564 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -44,8 +44,12 @@ def gen_event_send_decl(name: str,
-                  proto=build_event_send_proto(name, arg_type, boxed))
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index f67393f8713..586774a23c7 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -195,14 +195,12 @@ def gen_register_command(name, success_response, allow_oob, allow_preconfig):
+     if not options:
+         options = ['QCO_NO_OPTIONS']
  
- 
--# Declare and initialize an object 'qapi' using parameters from build_params()
- def gen_param_var(typ: QAPISchemaObjectType) -> str:
-+    """
-+    Generate a struct variable holding the event parameters.
-+
-+    Initialize it with the function arguments defined in `gen_event_send`.
-+    """
-     assert not typ.variants
+-    options = " | ".join(options)
+-
      ret = mcgen('''
-     %(c_name)s param = {
+     qmp_register_command(cmds, "%(name)s",
+                          qmp_marshal_%(c_name)s, %(opts)s);
+ ''',
+                 name=name, c_name=c_name(name),
+-                opts=options)
++                opts=" | ".join(options))
+     return ret
+ 
+ 
 -- 
 2.26.2
 
