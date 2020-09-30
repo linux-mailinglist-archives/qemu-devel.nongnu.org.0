@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227AE27EF70
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:39:32 +0200 (CEST)
-Received: from localhost ([::1]:50874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37AE27EFB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:53:03 +0200 (CEST)
+Received: from localhost ([::1]:36878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNf8c-0001cq-UT
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36384)
+	id 1kNfLi-0008BP-VR
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kNf6f-0001BX-33; Wed, 30 Sep 2020 12:37:29 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kNf6Y-00063M-JD; Wed, 30 Sep 2020 12:37:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1601483800; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=pQdZ9jA2P7iCED0yWsolm+rWYNee5E1bFGW46QdqNMJ7MVskwvLNWgFzK+CBozZw7N4wqv0SlSxqZBm1Vhca9OQEgPsRVWgLLmixNXN2Uv0+lLZ/QLr1kH5k4OzZerP+r76I9WrW4Y86e7LleOMItiZl3Bxv51Qx2YIDNSxhaFY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1601483800;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=nDUXJ0aD0OpbgdchhPD1AE3rG4yeFoP17l7N2MrqhVc=; 
- b=j8ShZ4oO2ozRRAMIryhVa2FZbLUlZAvssU7cpqlC3F0qC6dkISivxTLWHmb9PnA5eVcQvfefZv8LzBuVTsHCHSp6baNRT3xTnom2ELcfhChPPz4Dy/bWZVifxZUVgrKKxmAv28afD73WPmr/rEucf08vgywXPtrCBmmcLLSnQ58=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1601483800; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:Mime-Version:Content-Transfer-Encoding;
- bh=nDUXJ0aD0OpbgdchhPD1AE3rG4yeFoP17l7N2MrqhVc=;
- b=dE1QHrspMn4nenFt+4z6kld8pUzz7LXzVK9Htfw22q9Mk+z/DFqHDH20mYdXbWM1
- lxcmjz+taqJ+/ZfCLVyqOa1UNZ0vld20MFeexx7LJYd++3SMdF0mWfdTFdwSY63Us+C
- mFwTnj0u2Phq0/wgWmzI5Cv+kOhQMSYM/3PrJk4U=
-Received: from u60bdefc337955a.ant.amazon.com (54.239.6.185 [54.239.6.185]) by
- mx.zoho.com.cn with SMTPS id 1601483797963335.588003385917;
- Thu, 1 Oct 2020 00:36:37 +0800 (CST)
-Message-ID: <f78c368c7a61c2386deec50cd3386253588e64dc.camel@euphon.net>
-Subject: Re: [PATCH 1/4] vmdk: fix maybe uninitialized warnings
-From: Fam Zheng <fam@euphon.net>
-To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
-Date: Wed, 30 Sep 2020 17:36:29 +0100
-In-Reply-To: <20200930155859.303148-2-borntraeger@de.ibm.com>
-References: <20200930155859.303148-1-borntraeger@de.ibm.com>
- <20200930155859.303148-2-borntraeger@de.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoCNMailClient: External
-Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
- helo=sender2-op-o12.zoho.com.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 12:37:02
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNfIn-0006Ay-IN
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 12:50:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNfIk-00071c-Kc
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 12:50:01 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601484597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b1HyB2KK3+Hgk5NDh7O4u9fRV2lqO+HMfFVi9/M3yBY=;
+ b=fZyp4tmZmna/NzsKUT/o1ZvV/P903Q3vCJFfD+7zbMSTXP9/lDE0BhKWd0aAkoxwGrUo70
+ T1g82z1b8CHXZ8H3FDtUFl03eJ72YMae+NpzlfzsHiIRSJK4952zpYSKJhW8GX5IKSCjG+
+ so55snygVt58i4sU7YgUiyQ+9lPdqnE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-Pj7kFtaUPlygClNRYd-Leg-1; Wed, 30 Sep 2020 12:49:53 -0400
+X-MC-Unique: Pj7kFtaUPlygClNRYd-Leg-1
+Received: by mail-wr1-f72.google.com with SMTP id l17so818448wrw.11
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 09:49:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=b1HyB2KK3+Hgk5NDh7O4u9fRV2lqO+HMfFVi9/M3yBY=;
+ b=p+e5uGJUHfFwZfKUx6oPunD1jBOno+RnEfoeVnCj/kgQJGQF+C4B0kdYMA45wzSali
+ OwngFRbQkwF4/a2d7/frIW3jy8ooyGpoplMWDHGms7k/CdLug/J/8kQBhXov25OnkDgr
+ G4ugPapvCuWSfyDIcwzcoYX28WiIiOCcsjRGBijl49iE4M0EEqgRX5gPNtRuHevAhhZ7
+ 6HKHndFR5OjQbrCgAFwfwLyFf4s5Y8QmXgJy8d90VVoQ9VJ21th05nfSYqi7BS/zIZTo
+ 0wLqIUCNXcIoJTrg/xjCzpHqn2avKDOL6fA6VBtRqUWKdX+wk3wipnGk4AdgT3DIIgvm
+ 8ztg==
+X-Gm-Message-State: AOAM533sgj7g2WvYEdk/jD1Purk0qA+5ZQ1uB8qVG9ILoHGEpwHCu1Fi
+ wQI12WYSHrgfuHaKhOvB9vhtyBkisXlcTE5s6PsAMqcXN6tAD0x5pxl+MURqJgy3Z9AIAH4liS6
+ /EEYxejXt+igxvtI=
+X-Received: by 2002:a1c:9ec1:: with SMTP id h184mr4077157wme.180.1601484591678; 
+ Wed, 30 Sep 2020 09:49:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJws4yXiBftNY1MotbrdEqlY4y1OKFoU70TCqYv7Mh9NBUhzDqqTfTT4xW/l57v6ogm2AjWMFg==
+X-Received: by 2002:a1c:9ec1:: with SMTP id h184mr4077125wme.180.1601484591473; 
+ Wed, 30 Sep 2020 09:49:51 -0700 (PDT)
+Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id g8sm3650302wmd.12.2020.09.30.09.49.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 09:49:50 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH v3 00/11] user-mode: Prune build dependencies (part 3)
+Date: Wed, 30 Sep 2020 18:49:38 +0200
+Message-Id: <20200930164949.1425294-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,117 +93,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Lieven <pl@kamp.de>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-09-30 at 17:58 +0200, Christian Borntraeger wrote:
-> Fedora 32 gcc 10 seems to give false positives:
->=20
-> Compiling C object libblock.fa.p/block_vmdk.c.o
-> ../block/vmdk.c: In function =E2=80=98vmdk_parse_extents=E2=80=99:
-> ../block/vmdk.c:587:5: error: =E2=80=98extent=E2=80=99 may be used uninit=
-ialized in
-> this function [-Werror=3Dmaybe-uninitialized]
->   587 |     g_free(extent->l1_table);
->       |     ^~~~~~~~~~~~~~~~~~~~~~~~
-> ../block/vmdk.c:754:17: note: =E2=80=98extent=E2=80=99 was declared here
->   754 |     VmdkExtent *extent;
->       |                 ^~~~~~
-> ../block/vmdk.c:620:11: error: =E2=80=98extent=E2=80=99 may be used unini=
-tialized in
-> this function [-Werror=3Dmaybe-uninitialized]
->   620 |     ret =3D vmdk_init_tables(bs, extent, errp);
->       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../block/vmdk.c:598:17: note: =E2=80=98extent=E2=80=99 was declared here
->   598 |     VmdkExtent *extent;
->       |                 ^~~~~~
-> ../block/vmdk.c:1178:39: error: =E2=80=98extent=E2=80=99 may be used unin=
-itialized in
-> this function [-Werror=3Dmaybe-uninitialized]
->  1178 |             extent->flat_start_offset =3D flat_offset << 9;
->       |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-> ../block/vmdk.c: In function =E2=80=98vmdk_open_vmdk4=E2=80=99:
-> ../block/vmdk.c:581:22: error: =E2=80=98extent=E2=80=99 may be used unini=
-tialized in
-> this function [-Werror=3Dmaybe-uninitialized]
->   581 |     extent->l2_cache =3D
->       |     ~~~~~~~~~~~~~~~~~^
->   582 |         g_malloc(extent->entry_size * extent->l2_size *
-> L2_CACHE_SIZE);
->       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ~~~~~~~~~
-> ../block/vmdk.c:872:17: note: =E2=80=98extent=E2=80=99 was declared here
->   872 |     VmdkExtent *extent;
->       |                 ^~~~~~
-> ../block/vmdk.c: In function =E2=80=98vmdk_open=E2=80=99:
-> ../block/vmdk.c:620:11: error: =E2=80=98extent=E2=80=99 may be used unini=
-tialized in
-> this function [-Werror=3Dmaybe-uninitialized]
->   620 |     ret =3D vmdk_init_tables(bs, extent, errp);
->       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../block/vmdk.c:598:17: note: =E2=80=98extent=E2=80=99 was declared here
->   598 |     VmdkExtent *extent;
->       |                 ^~~~~~
-> cc1: all warnings being treated as errors
-> make: *** [Makefile.ninja:884: libblock.fa.p/block_vmdk.c.o] Error 1
->=20
-> fix them by assigning a default value.
->=20
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  block/vmdk.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/block/vmdk.c b/block/vmdk.c
-> index 8ec62c7ab798..a00dc00eb47a 100644
-> --- a/block/vmdk.c
-> +++ b/block/vmdk.c
-> @@ -595,7 +595,7 @@ static int vmdk_open_vmfs_sparse(BlockDriverState
-> *bs,
->      int ret;
->      uint32_t magic;
->      VMDK3Header header;
-> -    VmdkExtent *extent;
-> +    VmdkExtent *extent =3D NULL;
-> =20
->      ret =3D bdrv_pread(file, sizeof(magic), &header, sizeof(header));
->      if (ret < 0) {
-> @@ -751,7 +751,7 @@ static int vmdk_open_se_sparse(BlockDriverState
-> *bs,
->      int ret;
->      VMDKSESparseConstHeader const_header;
->      VMDKSESparseVolatileHeader volatile_header;
-> -    VmdkExtent *extent;
-> +    VmdkExtent *extent =3D NULL;
-> =20
->      ret =3D bdrv_apply_auto_read_only(bs,
->              "No write support for seSparse images available", errp);
-> @@ -869,7 +869,7 @@ static int vmdk_open_vmdk4(BlockDriverState *bs,
->      uint32_t magic;
->      uint32_t l1_size, l1_entry_sectors;
->      VMDK4Header header;
-> -    VmdkExtent *extent;
-> +    VmdkExtent *extent =3D NULL;
->      BDRVVmdkState *s =3D bs->opaque;
->      int64_t l1_backup_offset =3D 0;
->      bool compressed;
-> @@ -1088,7 +1088,7 @@ static int vmdk_parse_extents(const char *desc,
-> BlockDriverState *bs,
->      BdrvChild *extent_file;
->      BdrvChildRole extent_role;
->      BDRVVmdkState *s =3D bs->opaque;
-> -    VmdkExtent *extent;
-> +    VmdkExtent *extent =3D NULL;
->      char extent_opt_prefix[32];
->      Error *local_err =3D NULL;
-> =20
+This is the third part of a series reducing user-mode
+dependencies. By stripping out unused code, the build
+and testing time is reduced (as is space used by objects).
 
-Looks trivial, and correct.
+Part 3:
+- Extract code not related to user-mode from hw/core/qdev-properties.c
+- Reduce user-mode QAPI generated files
 
-Reviewed-by: Fam Zheng <fam@euphon.net>
+Since v2:
+- Fixed UuidInfo placed in incorrect json
+- Rebased on Meson
+- Include X86CPUFeatureWord unmerged from part 2
 
+Since v1:
+- Addressed Richard and Paolo review comments
+
+Patches missing review: QAPI ones :)
+- #1  'qapi: Restrict query-uuid command to block code'
+- #11 'qapi: Restrict code generated for user-mode'
+
+Green CI: https://gitlab.com/philmd/qemu/-/pipelines/196505787
+
+v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg688879.html
+v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg688486.html
+
+Philippe Mathieu-Daudé (11):
+  qapi: Restrict query-uuid command to block code
+  hw/core/qdev-properties: Use qemu_strtol() in set_mac() handler
+  hw/core/qdev-properties: Use qemu_strtoul() in set_pci_host_devaddr()
+  hw/core/qdev-properties: Fix code style
+  hw/core/qdev-properties: Export enum-related functions
+  hw/core/qdev-properties: Export qdev_prop_enum
+  hw/core/qdev-properties: Export some integer-related functions
+  hw/core/qdev-properties: Extract system-mode specific properties
+  hw/core: Add qdev stub for user-mode
+  target/i386: Restrict X86CPUFeatureWord to X86 targets
+  qapi: Restrict code generated for user-mode
+
+ qapi/block.json                  |  30 ++
+ qapi/machine-target.json         |  45 ++
+ qapi/machine.json                |  72 ---
+ hw/core/qdev-prop-internal.h     |  30 ++
+ include/hw/qdev-properties.h     |   1 +
+ block/iscsi.c                    |   2 +-
+ hw/core/qdev-properties-system.c | 687 ++++++++++++++++++++++++++++-
+ hw/core/qdev-properties.c        | 735 ++-----------------------------
+ stubs/qdev-system.c              |  24 +
+ stubs/uuid.c                     |   2 +-
+ target/i386/cpu.c                |   2 +-
+ target/i386/feature-stub.c       |  23 +
+ qapi/meson.build                 |  51 ++-
+ stubs/meson.build                |   5 +-
+ target/i386/meson.build          |   1 +
+ 15 files changed, 915 insertions(+), 795 deletions(-)
+ create mode 100644 hw/core/qdev-prop-internal.h
+ create mode 100644 stubs/qdev-system.c
+ create mode 100644 target/i386/feature-stub.c
+
+-- 
+2.26.2
 
 
