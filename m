@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A72827E76E
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 13:08:06 +0200 (CEST)
-Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF93327E787
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 13:19:48 +0200 (CEST)
+Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNZxt-0002zx-6Y
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 07:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56386)
+	id 1kNa9D-0006eN-QD
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 07:19:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1kNZvL-0000ja-6r; Wed, 30 Sep 2020 07:05:27 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2937 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1kNZvI-0001ie-Fh; Wed, 30 Sep 2020 07:05:26 -0400
-Received: from dggeme755-chm.china.huawei.com (unknown [172.30.72.57])
- by Forcepoint Email with ESMTP id 7FFA86550E074EF41B34;
- Wed, 30 Sep 2020 19:05:15 +0800 (CST)
-Received: from [10.140.157.78] (10.140.157.78) by
- dggeme755-chm.china.huawei.com (10.3.19.101) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Wed, 30 Sep 2020 19:05:14 +0800
-Subject: Re: [PATCH] hw/arm: Restrict APEI tables generation to the 'virt'
- machine
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-References: <20200929125609.1088330-1-philmd@redhat.com>
- <12be4400-c37f-2b7f-2f15-f8700dad6003@huawei.com>
- <056736d8-dc89-a94b-7e76-93825492c957@redhat.com>
-From: Dongjiu Geng <gengdongjiu@huawei.com>
-Message-ID: <5b5e1b32-0e9b-8154-e645-9b922119db33@huawei.com>
-Date: Wed, 30 Sep 2020 19:05:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kNa89-0006Dz-JW
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 07:18:41 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kNa87-0002wZ-Qx
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 07:18:41 -0400
+Received: by mail-wr1-x443.google.com with SMTP id c18so1336514wrm.9
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 04:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=wMZ5Ij++IeecN8Sx3NM4s64oMZmw5Awbb8mIkxxgHQk=;
+ b=R22+LHNuaYXZRsPe0D2q47SGLuuepzMVTGREPw4/4ZOt3AFICChCgUOKZxEaDiPdtg
+ O3R+kKlbbiJSRMpYJZz8hBTbytMdcWiaxgC6aqdfMr9hTZPP9/pGj37nth8IuiZhZAqw
+ xMs8uP6rX7TVRSlhT7cusaFAOsO8wQUnvtnm4h3KbroGXr8j0Ph8HY/jq9FEENXPmCL5
+ nRjrIYYUD97aBFHU+M+2TSW0gD6MctbZx4P1DDImpWNtv1RFgfwoqB76Yci7+CpczS7J
+ DU6POwS1/0FAQQWCl7mskW5E93mghYBxaz5Gp1jeHhJJZUH0fnlUP50ZaQhRkyoSSDdp
+ EDOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=wMZ5Ij++IeecN8Sx3NM4s64oMZmw5Awbb8mIkxxgHQk=;
+ b=fC/DciH2MrR//qp+Y4hG6socWDe6OYywKqNGmg055ef2MuRN9+6nB5ccd0Y109aFka
+ oZAWh5KdnxRxpbuibDYqA6GhPwUG9nt4h7nqrgABtaq/JGZjXPqQnpVFrCL+khcEM4Eo
+ /2vJgW2GDyfQ9fAv9FGnHx2YZb5TYY+dCYvkXeEJzyvloPNT9SnM5pb+oGZCozkz+2hb
+ 5cv9sinueurprqChxfJcHy0RTCtJkZLEvFykNUsyfHB/B7vuPKoEUIAxnAPTyY8l6qKO
+ OX7nVtBPtNn/tVivxlF4gfqlGqW0kbrrxPMceXr6PirtwIABRHnral6y5DVuyVdJLl4Z
+ Vb8Q==
+X-Gm-Message-State: AOAM5305r4eDlr/nRxjYvtNSO5iAb8fWrfK0IDmNVD7yGIdH+aA+CFXL
+ hFCUhfGz/Plxr7rjwvsdqkMRAvSIxsyNag==
+X-Google-Smtp-Source: ABdhPJzKFgMkHItvcV0GLvkyngtrLkAf4/gCs7qcBeg6mXtJCh5DLV7G8rPTnW8bbEazjYLFCGpuYA==
+X-Received: by 2002:a5d:43cf:: with SMTP id v15mr2794787wrr.149.1601464717417; 
+ Wed, 30 Sep 2020 04:18:37 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l10sm2410476wru.59.2020.09.30.04.18.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 04:18:36 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C698F1FF7E;
+ Wed, 30 Sep 2020 12:18:35 +0100 (BST)
+References: <20200925154027.12672-1-alex.bennee@linaro.org>
+ <20200925154027.12672-4-alex.bennee@linaro.org>
+ <f5fc27fa-0c02-b1a9-7f29-dd48aa40fd6a@redhat.com>
+ <87ft70pgpq.fsf@linaro.org>
+ <0e0ebdd5-d9b9-17dd-82c9-2c63a73f4eea@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v1 03/15] meson: move libmpathpersist test
+In-reply-to: <0e0ebdd5-d9b9-17dd-82c9-2c63a73f4eea@redhat.com>
+Date: Wed, 30 Sep 2020 12:18:35 +0100
+Message-ID: <87y2kro6lw.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <056736d8-dc89-a94b-7e76-93825492c957@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.140.157.78]
-X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
- dggeme755-chm.china.huawei.com (10.3.19.101)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=gengdongjiu@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 07:05:16
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,82 +92,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Xiang Zheng <zhengxiang9@huawei.com>,
- qemu-arm@nongnu.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/9/30 18:35, Philippe Mathieu-Daudé wrote:
-> On 9/30/20 7:08 AM, Dongjiu Geng wrote:
->> On 2020/9/29 20:56, Philippe Mathieu-Daudé wrote:
->>> As only the Virt machine uses the RAS Virtualization feature (see
->>> commit 2afa8c8519: "hw/arm/virt: Introduce a RAS machine option"),
->>> restrict the APEI tables generation code to the virt machine.
->>
->> APEI is a generic feature for X86 and arm64.  X86 platform also can use it, although currently it was mainly
->> used by ARM64. what is reason that we restrict APEI tables generation to the 'virt' machine?
-> 
-> It is currently only selected on (all) the ARM machines, not the X86
-> ones. I am simply restricting it to the 'virt' machine which is the
-> single one enabling the RAS. Without RAS the table is not built, so
-> for the case of the SBSA-Ref machine this code is unreachable, no need
-> to select ACPI_APEI.
-> 
-> When a X86 machine configure a RAS it will have to 'select ACPI_APEI'
-> to get it built (I'm not forbidding it, I'm restricting it to where
-> it is used).
+Thomas Huth <thuth@redhat.com> writes:
 
-Got it, thanks for the explanation.
-
-Reviewed-by: Dongjiu Geng <gengdongjiu@huawei.com>
-
-BTW：There is a build test error, but it is seems do not related with this patch.
-https://patchew.org/logs/20200929125609.1088330-1-philmd@redhat.com/testing.docker-quick@centos7/?type=message
-
-> 
->>
+> On 30/09/2020 12.51, Alex Benn=C3=A9e wrote:
+>>=20
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>=20
+>>> On 25/09/20 17:40, Alex Benn=C3=A9e wrote:
+>>>> From: Paolo Bonzini <pbonzini@redhat.com>
+>>>>
+>>>> This is the first compiler/linker test that has been moved to Meson.
+>>>> Add more section headings to keep things clearer.
+>>>>
+>>>> [thuth: Add check for mpathpersist.found() before showing mpathpersist=
+_new_api]
+>>>>
+>>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>> Message-Id: <20200918103430.297167-3-thuth@redhat.com>
+>>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> <snip>
 >>>
->>> Fixes: aa16508f1d ("ACPI: Build related register address fields via hardware error fw_cfg blob")
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>> Cc: Laszlo Ersek <lersek@redhat.com>
->>> Cc: Xiang Zheng <zhengxiang9@huawei.com>
->>> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->>> Cc: Igor Mammedov <imammedo@redhat.com>
->>> Cc: Dongjiu Geng <gengdongjiu@huawei.com>
->>> Cc: Michael S. Tsirkin <mst@redhat.com>
->>> ---
->>>  default-configs/arm-softmmu.mak | 1 -
->>>  hw/arm/Kconfig                  | 1 +
->>>  2 files changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
->>> index 9a94ebd0be..08a32123b4 100644
->>> --- a/default-configs/arm-softmmu.mak
->>> +++ b/default-configs/arm-softmmu.mak
->>> @@ -43,4 +43,3 @@ CONFIG_FSL_IMX7=y
->>>  CONFIG_FSL_IMX6UL=y
->>>  CONFIG_SEMIHOSTING=y
->>>  CONFIG_ALLWINNER_H3=y
->>> -CONFIG_ACPI_APEI=y
->>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
->>> index f303c6bead..7d040827af 100644
->>> --- a/hw/arm/Kconfig
->>> +++ b/hw/arm/Kconfig
->>> @@ -26,6 +26,7 @@ config ARM_VIRT
->>>      select ACPI_MEMORY_HOTPLUG
->>>      select ACPI_HW_REDUCED
->>>      select ACPI_NVDIMM
->>> +    select ACPI_APEI
->>>  
->>>  config CHEETAH
->>>      bool
->>>
->>
-> 
-> .
-> 
+>>> This is not the latest version of the series, can you drop patches 2
+>>> and 3?
+>>=20
+>> Hmm so now I'm seeing failures in the bionic builds thanks to libmpath:
+>
+> Paolo's PR with the fix is still not merged yet (see "[PULL v7 00/87]
+> Misc patches for 2020-09-24") ... but maybe you could pick the newer
+> version of the libmpath patches from his PR into your queue?
+
+I did pick it as an experiment - but it's still broken and I haven't had
+a chance to dig into the failure yet.
+
+>
+>  Thomas
+
+
+--=20
+Alex Benn=C3=A9e
 
