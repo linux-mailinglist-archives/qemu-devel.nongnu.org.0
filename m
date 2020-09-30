@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F7627E74C
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:59:48 +0200 (CEST)
-Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756B227E753
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 13:02:08 +0200 (CEST)
+Received: from localhost ([::1]:51224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNZpr-0003CZ-DU
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53320)
+	id 1kNZs7-0005yL-FV
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 07:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kNZlo-0007cz-DH; Wed, 30 Sep 2020 06:55:36 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:33682)
+ id 1kNZm3-000857-Je; Wed, 30 Sep 2020 06:55:51 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:53266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kNZli-00012Y-6M; Wed, 30 Sep 2020 06:55:36 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UAo0kf101106;
- Wed, 30 Sep 2020 10:55:25 GMT
+ id 1kNZlx-00013D-SO; Wed, 30 Sep 2020 06:55:51 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UAt9SN042851;
+ Wed, 30 Sep 2020 10:55:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=to : cc : subject :
  in-reply-to : references : sender : from : date : message-id :
  mime-version : content-type; s=corp-2020-01-29;
- bh=ojj3tAddVkTIJeRWZR6A2Efai90NZ2FQ3Wa9teU3IDY=;
- b=hT3G8x17KpFhKI7ej9M4I9PDBDX2SBMaUXIx4otXi3ijgV5s76ImUC+HMnM5VzS5yGoD
- XZjfT2xt/tnRdxXiMtfnJL6lMwa2Qo7aHQLZrs7Pl4xQh6GkF7qAUjYYETwoESxvnwMY
- DLNUNddugB1u3AR4wZ/htJREetQTNxryynx5efagyQTBxkg3b2CDYZXtG6lqMMnzVsXu
- yHHP5mughEi/IsjVzPwBQlfYtSWkhd1yrkrrtbS+JgGihNAPA1XfebHsRZ9NUqMkeSo2
- 3ooGZdcqoUOe3uOWSmfZEUBHNy39vq8vLF9H5tYdSvcQg/XPwJmwp2jLhvapDqV4CO7i ug== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 33swkkyuaf-1
+ bh=LK4mrkfkFt0h0TDkpajytllCo+54t/wECyX2TcqqHV4=;
+ b=AyN6DCaJZO42Vg7ozpHM4kmdTkEnR+kXgdVGk/PmB/U++8ge3KnKy2zsT4z/v427PF08
+ bHs48sgrPeBA6iO4FISa0teZ2QI1N2j+OxSkUsOgpP0ldZcivSiekYXTXQsZtB4Eykos
+ jSsjjbXfMRGiOPm3EyFHryvRSLWH0k62koq5o7pyDgf7pLV7SB7SF/iBmY9bOlh4AbQI
+ 9Lpz3OyNt8wSu3EfVUb+STEqswdVYKZ9nKfePaiGoCBpZiILv19JcCMfJIM0WHZFhIHi
+ luHx/3NeaGHpz4Mn6nZbpfEbacYSA3yKvYPsDr5UYO0pJdZg3/Icma6qKpgdZbVH2XOI GA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 33sx9n7reh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 30 Sep 2020 10:55:25 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UAoSXs039391;
- Wed, 30 Sep 2020 10:55:24 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 33tfhyxm86-1
+ Wed, 30 Sep 2020 10:55:39 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UAssu6014007;
+ Wed, 30 Sep 2020 10:55:38 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 33uv2f6h4p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 30 Sep 2020 10:55:24 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08UAtNdO011724;
- Wed, 30 Sep 2020 10:55:23 GMT
+ Wed, 30 Sep 2020 10:55:38 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08UAtc5u027002;
+ Wed, 30 Sep 2020 10:55:38 GMT
 Received: from disaster-area.hh.sledj.net (/81.187.26.238)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 30 Sep 2020 03:55:22 -0700
+ with ESMTP ; Wed, 30 Sep 2020 03:55:37 -0700
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 102f625f;
- Wed, 30 Sep 2020 10:55:20 +0000 (UTC)
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 126917a2;
+ Wed, 30 Sep 2020 10:55:35 +0000 (UTC)
 To: zhaolichang <zhaolichang@huawei.com>, qemu-trivial@nongnu.org
-Subject: Re: [PATCH RFC 10/14] i386/: fix some comment spelling errors
-In-Reply-To: <20200930095321.2006-11-zhaolichang@huawei.com>
+Subject: Re: [PATCH RFC 11/14] avr/: fix some comment spelling errors
+In-Reply-To: <20200930095321.2006-12-zhaolichang@huawei.com>
 References: <20200930095321.2006-1-zhaolichang@huawei.com>
- <20200930095321.2006-11-zhaolichang@huawei.com>
+ <20200930095321.2006-12-zhaolichang@huawei.com>
 X-HGTTG: heart-of-gold
 From: David Edmondson <david.edmondson@oracle.com>
-Date: Wed, 30 Sep 2020 11:55:20 +0100
-Message-ID: <m2imbvpm93.fsf@oracle.com>
+Date: Wed, 30 Sep 2020 11:55:35 +0100
+Message-ID: <m2ft6zpm8o.fsf@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9759
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999 bulkscore=0
- phishscore=0 malwarescore=0 adultscore=0 suspectscore=1 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ spamscore=0 adultscore=0
+ suspectscore=1 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009300087
+ definitions=main-2009300088
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9759
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 phishscore=0
- suspectscore=1 mlxlogscore=999 clxscore=1015 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=1
+ phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
+ spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009300087
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=david.edmondson@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 06:51:53
+ definitions=main-2009300088
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=david.edmondson@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 06:51:12
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -51
 X-Spam_score: -5.2
@@ -103,9 +103,9 @@ Cc: zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2020-09-30 at 17:53:17 +08, zhaolichang wrote:
+On Wednesday, 2020-09-30 at 17:53:18 +08, zhaolichang wrote:
 
-> I found that there are many spelling errors in the comments of qemu/target/i386.
+> I found that there are many spelling errors in the comments of qemu/target/avr.
 > I used spellcheck to check the spelling errors and found some errors in the folder.
 >
 > Signed-off-by: zhaolichang <zhaolichang@huawei.com>
@@ -113,170 +113,44 @@ On Wednesday, 2020-09-30 at 17:53:17 +08, zhaolichang wrote:
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
 > ---
->  target/i386/cpu.c           | 4 ++--
->  target/i386/hax-interface.h | 4 ++--
->  target/i386/hax-windows.c   | 2 +-
->  target/i386/kvm.c           | 2 +-
->  target/i386/machine.c       | 6 +++---
->  target/i386/translate.c     | 8 ++++----
->  target/i386/whpx-all.c      | 2 +-
->  7 files changed, 14 insertions(+), 14 deletions(-)
+>  target/avr/helper.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 3ffd877..23851e5 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4677,7 +4677,7 @@ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
->      return name;
+> diff --git a/target/avr/helper.c b/target/avr/helper.c
+> index d96d143..9f325bc 100644
+> --- a/target/avr/helper.c
+> +++ b/target/avr/helper.c
+> @@ -97,7 +97,7 @@ int avr_cpu_memory_rw_debug(CPUState *cs, vaddr addr, uint8_t *buf,
+>  
+>  hwaddr avr_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+>  {
+> -    return addr; /* I assume 1:1 address correspondance */
+> +    return addr; /* I assume 1:1 address correspondence */
 >  }
 >  
-> -/* Compatibily hack to maintain legacy +-feat semantic,
-> +/* Compatibility hack to maintain legacy +-feat semantic,
->   * where +-feat overwrites any feature set by
->   * feat=on|feat even if the later is parsed after +-feat
->   * (i.e. "-x2apic,x2apic=on" will result in x2apic disabled)
-> @@ -6896,7 +6896,7 @@ static void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
->      GuestPanicInformation *panic_info;
+>  bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> @@ -298,7 +298,7 @@ void helper_outb(CPUAVRState *env, uint32_t port, uint32_t data)
+>  }
 >  
->      if (!cs->crash_occurred) {
-> -        error_setg(errp, "No crash occured");
-> +        error_setg(errp, "No crash occurred");
->          return;
->      }
->  
-> diff --git a/target/i386/hax-interface.h b/target/i386/hax-interface.h
-> index 537ae08..edef4fd 100644
-> --- a/target/i386/hax-interface.h
-> +++ b/target/i386/hax-interface.h
-> @@ -238,7 +238,7 @@ enum exit_status {
->      HAX_EXIT_UNKNOWN_VMEXIT,
->      /* HALT from guest */
->      HAX_EXIT_HLT,
-> -    /* Reboot request, like because of tripple fault in guest */
-> +    /* Reboot request, like because of triple fault in guest */
->      HAX_EXIT_STATECHANGE,
->      /* the vcpu is now only paused when destroy, so simply return to hax */
->      HAX_EXIT_PAUSED,
-> @@ -295,7 +295,7 @@ struct hax_qemu_version {
->      uint32_t min_version;
->  } __attribute__ ((__packed__));
->  
-> -/* The mac specfic interface to qemu, mostly is ioctl related */
-> +/* The mac specific interface to qemu, mostly is ioctl related */
->  struct hax_tunnel_info {
->      uint64_t va;
->      uint64_t io_va;
-> diff --git a/target/i386/hax-windows.c b/target/i386/hax-windows.c
-> index 863c2bc..881089b 100644
-> --- a/target/i386/hax-windows.c
-> +++ b/target/i386/hax-windows.c
-> @@ -174,7 +174,7 @@ int hax_mod_version(struct hax_state *hax, struct hax_module_version *version)
->      if (!ret) {
->          err = GetLastError();
->          if (err == ERROR_INSUFFICIENT_BUFFER || err == ERROR_MORE_DATA) {
-> -            fprintf(stderr, "hax module verion is too long to hold.\n");
-> +            fprintf(stderr, "hax module version is too long to hold.\n");
->          }
->          fprintf(stderr, "Failed to get Hax module version:%lu\n", err);
->          return -EFAULT;
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 9efb07e..fbdbb49 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -1179,7 +1179,7 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
 >  /*
->   * Fill in Hyper-V CPUIDs. Returns the number of entries filled in cpuid_ent in
->   * case of success, errno < 0 in case of failure and 0 when no Hyper-V
-> - * extentions are enabled.
-> + * extensions are enabled.
+> - *  this function implements LD instruction when there is a posibility to read
+> + *  this function implements LD instruction when there is a possibility to read
+>   *  from a CPU register
 >   */
->  static int hyperv_handle_properties(CPUState *cs,
->                                      struct kvm_cpuid_entry2 *cpuid_ent)
-> diff --git a/target/i386/machine.c b/target/i386/machine.c
-> index b1acf7d..90e6139 100644
-> --- a/target/i386/machine.c
-> +++ b/target/i386/machine.c
-> @@ -264,12 +264,12 @@ static int cpu_pre_save(void *opaque)
->       * hypervisor, its exception payload (CR2/DR6 on #PF/#DB)
->       * should not be set yet in the respective vCPU register.
->       * Thus, in case an exception is pending, it is
-> -     * important to save the exception payload seperately.
-> +     * important to save the exception payload separately.
->       *
->       * Therefore, if an exception is not in a pending state
->       * or vCPU is not in guest-mode, it is not important to
->       * distinguish between a pending and injected exception
-> -     * and we don't need to store seperately the exception payload.
-> +     * and we don't need to store separately the exception payload.
->       *
->       * In order to preserve better backwards-compatible migration,
->       * convert a pending exception to an injected exception in
-> @@ -1138,7 +1138,7 @@ static int nested_state_post_load(void *opaque, int version_id)
->          return -EINVAL;
->      }
->      if (nested_state->size > max_nested_state_len) {
-> -        error_report("Recieved unsupported nested state size: "
-> +        error_report("Received unsupported nested state size: "
->                       "nested_state->size=%d, max=%d",
->                       nested_state->size, max_nested_state_len);
->          return -EINVAL;
-> diff --git a/target/i386/translate.c b/target/i386/translate.c
-> index caea6f5..5cdfe0e 100644
-> --- a/target/i386/translate.c
-> +++ b/target/i386/translate.c
-> @@ -893,7 +893,7 @@ static CCPrepare gen_prepare_eflags_z(DisasContext *s, TCGv reg)
+>  target_ulong helper_fullrd(CPUAVRState *env, uint32_t addr)
+> @@ -322,7 +322,7 @@ target_ulong helper_fullrd(CPUAVRState *env, uint32_t addr)
 >  }
 >  
->  /* perform a conditional store into register 'reg' according to jump opcode
-> -   value 'b'. In the fast case, T0 is guaranted not to be used. */
-> +   value 'b'. In the fast case, T0 is guaranteed not to be used. */
->  static CCPrepare gen_prepare_cc(DisasContext *s, int b, TCGv reg)
->  {
->      int inv, jcc_op, cond;
-> @@ -1026,7 +1026,7 @@ static inline void gen_compute_eflags_c(DisasContext *s, TCGv reg)
->  }
->  
->  /* generate a conditional jump to label 'l1' according to jump opcode
-> -   value 'b'. In the fast case, T0 is guaranted not to be used. */
-> +   value 'b'. In the fast case, T0 is guaranteed not to be used. */
->  static inline void gen_jcc1_noeob(DisasContext *s, int b, TCGLabel *l1)
->  {
->      CCPrepare cc = gen_prepare_cc(s, b, s->T0);
-> @@ -1043,7 +1043,7 @@ static inline void gen_jcc1_noeob(DisasContext *s, int b, TCGLabel *l1)
->  }
->  
->  /* Generate a conditional jump to label 'l1' according to jump opcode
-> -   value 'b'. In the fast case, T0 is guaranted not to be used.
-> +   value 'b'. In the fast case, T0 is guaranteed not to be used.
->     A translation block must end soon.  */
->  static inline void gen_jcc1(DisasContext *s, int b, TCGLabel *l1)
->  {
-> @@ -6841,7 +6841,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->          if (s->prefix & PREFIX_LOCK) {
->              switch (op) {
->              case 0: /* bt */
-> -                /* Needs no atomic ops; we surpressed the normal
-> +                /* Needs no atomic ops; we suppressed the normal
->                     memory load for LOCK above so do it now.  */
->                  gen_op_ld_v(s, ot, s->T0, s->A0);
->                  break;
-> diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
-> index 5a0f337..661f9c7 100644
-> --- a/target/i386/whpx-all.c
-> +++ b/target/i386/whpx-all.c
-> @@ -1214,7 +1214,7 @@ int whpx_init_vcpu(CPUState *cpu)
->      vcpu = g_malloc0(sizeof(struct whpx_vcpu));
->  
->      if (!vcpu) {
-> -        error_report("WHPX: Failed to allocte VCPU context.");
-> +        error_report("WHPX: Failed to allocate VCPU context.");
->          return -ENOMEM;
->      }
->  
+>  /*
+> - *  this function implements ST instruction when there is a posibility to write
+> + *  this function implements ST instruction when there is a possibility to write
+>   *  into a CPU register
+>   */
+>  void helper_fullwr(CPUAVRState *env, uint32_t data, uint32_t addr)
 > -- 
 > 2.26.2.windows.1
 
 dme.
 -- 
-Tell me sweet little lies.
+I'm in California dreaming about who we used to be.
 
