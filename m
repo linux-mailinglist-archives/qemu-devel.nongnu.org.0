@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F0827DFB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:50:38 +0200 (CEST)
-Received: from localhost ([::1]:52830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22F527DFB6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:53:06 +0200 (CEST)
+Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNU4b-0006i7-Uu
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37290)
+	id 1kNU6z-0001jS-Pp
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnj-0001NI-04
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40807)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnn-0001Qj-Aj
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTng-0000cy-Tg
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:10 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnk-0000dF-Ej
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:15 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601440388;
+ s=mimecast20190719; t=1601440391;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i45GcKe+9MXGsd3ctn+9P0TR86E+WJV7JImgM0h1edg=;
- b=VAiSqEiVfdP0rpXdBYqeq7cnPAjbvWOgH+mB6xjU8hz5HIbaKQGJCNTMYzy5j3og0Z0geC
- NWf+US+lzCPUa/MOpc/GyMOqGsRK7g5HrQBQfZ6k2Ir5Q1OL8ZGby16MgBbPs59YQmM1Sj
- Sp6426QMzLdpH79sFGOzefVxCj+ucco=
+ bh=l3nEyyxVfbYSJ2o1erZIwnve0ez1RWEAbC1JmfuNSug=;
+ b=Fcq1Oec8MBhZCB9awZz4CHZUkCzWEU35i9y6QdQ0lFp+p7qN1P5g9OcGPl/6sOgfYxGVyP
+ boVP1nODEgFF6CMkqhw4vSLdo64/rX+YexUJfvSGxLTmPzgxypV4G+/sAF1O0LtxK3BU1R
+ KyFIpblndQO6KV23lrzHPn/x9ZXf7xY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-P3qrjjnjNMeOLiBMQFjGOg-1; Wed, 30 Sep 2020 00:33:04 -0400
-X-MC-Unique: P3qrjjnjNMeOLiBMQFjGOg-1
+ us-mta-327-tQL_N6pLPiKmXN_PZ8Q9oQ-1; Wed, 30 Sep 2020 00:33:08 -0400
+X-MC-Unique: tQL_N6pLPiKmXN_PZ8Q9oQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31BB5185A0C0;
- Wed, 30 Sep 2020 04:33:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E500F185A0C3;
+ Wed, 30 Sep 2020 04:33:06 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44A8B73678;
- Wed, 30 Sep 2020 04:33:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 843667838A;
+ Wed, 30 Sep 2020 04:33:02 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 33/46] qapi/gen.py: Remove unused parameter
-Date: Wed, 30 Sep 2020 00:31:37 -0400
-Message-Id: <20200930043150.1454766-34-jsnow@redhat.com>
+Subject: [PATCH v4 34/46] qapi/gen.py: update write() to be more idiomatic
+Date: Wed, 30 Sep 2020 00:31:38 -0400
+Message-Id: <20200930043150.1454766-35-jsnow@redhat.com>
 In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
 References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,37 +85,65 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-module_basename doesn't use the 'what' argument, so remove it.
+Make the file handling here just a tiny bit more idiomatic.
+(I realize this is heavily subjective.)
+
+Use exist_ok=True for os.makedirs and remove the exception,
+use fdopen() to wrap the file descriptor in a File-like object,
+and use a context manager for managing the file pointer.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/gen.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/gen.py | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 4c6bba940ed..5694a00062c 100644
+index 5694a00062c..2ad96e396e1 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -259,7 +259,7 @@ def _is_user_module(name: Optional[str]) -> bool:
-     def _is_builtin_module(name: Optional[str]) -> bool:
-         return not name
+@@ -14,7 +14,6 @@
+ # See the COPYING file in the top-level directory.
  
--    def _module_dirname(self, what: str, name: Optional[str]) -> str:
-+    def _module_dirname(self, name: Optional[str]) -> str:
-         if self._is_user_module(name):
-             return os.path.dirname(name)
-         return ''
-@@ -277,7 +277,7 @@ def _module_basename(self, what: str, name: Optional[str]) -> str:
-         return ret
+ from contextlib import contextmanager
+-import errno
+ import os
+ import re
+ from typing import (
+@@ -67,21 +66,19 @@ def write(self, output_dir: str) -> None:
+             return
+         pathname = os.path.join(output_dir, self.fname)
+         odir = os.path.dirname(pathname)
++
+         if odir:
+-            try:
+-                os.makedirs(odir)
+-            except os.error as e:
+-                if e.errno != errno.EEXIST:
+-                    raise
++            os.makedirs(odir, exist_ok=True)
++
++        # use os.open for O_CREAT to create and read a non-existant file
+         fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+-        f = open(fd, 'r+', encoding='utf-8')
+-        text = self.get_content()
+-        oldtext = f.read(len(text) + 1)
+-        if text != oldtext:
+-            f.seek(0)
+-            f.truncate(0)
+-            f.write(text)
+-        f.close()
++        with os.fdopen(fd, 'r+', encoding='utf-8') as fp:
++            text = self.get_content()
++            oldtext = fp.read(len(text) + 1)
++            if text != oldtext:
++                fp.seek(0)
++                fp.truncate(0)
++                fp.write(text)
  
-     def _module_filename(self, what: str, name: Optional[str]) -> str:
--        return os.path.join(self._module_dirname(what, name),
-+        return os.path.join(self._module_dirname(name),
-                             self._module_basename(what, name))
  
-     def _add_module(self, name: Optional[str], blurb: str) -> None:
+ def _wrap_ifcond(ifcond: List[str], before: str, after: str) -> str:
 -- 
 2.26.2
 
