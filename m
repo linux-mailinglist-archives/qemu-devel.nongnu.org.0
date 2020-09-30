@@ -2,75 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F66D27F3DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 23:03:45 +0200 (CEST)
-Received: from localhost ([::1]:56434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72EDB27F3E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 23:06:55 +0200 (CEST)
+Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNjGK-0000Gi-5Q
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 17:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38044)
+	id 1kNjJO-0003OV-8N
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 17:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kNj0A-0003Ul-Hw
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:02 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kNj02-0006Ub-Vz
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:02 -0400
-Received: by mail-wm1-x342.google.com with SMTP id e11so813189wme.0
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eZilmCoTEUwUIRJHegLI6wDNSXk+HaCJru/l+G4hcvQ=;
- b=I2nmI33VYZJUzNi3m5HCCtbYIqg6Nv2Jw9/bpcdnlQbNpscVU2UB8gYQ+l1lfiGlxo
- HMryDwGryJygk/a8KxBpQG6/y6T7R1hWX1KAsIomvn0fs1GvQnKvVfF0WTU6KffUddSb
- aQVsa/7qHSQNBSK2xJepZC5C8NwbXX+7g+szYSzOerSksi+rKWqEuMW+1mx0gjX4b+d7
- 3gPwkLS4W45sAZGVEowENymSs8f8gQ6wLY0edmqh1Okk6JyXzbzK1V8/l6DIVDikv0jo
- Pvr2923XO7kLhqKP6t7+JyDqXPxBEzlnf7shum5B5BJgomXFjJkV+z+x/BulI6K8ijXP
- Afhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eZilmCoTEUwUIRJHegLI6wDNSXk+HaCJru/l+G4hcvQ=;
- b=f8KMOcwiq4/kMViAv8X74KRVVL2YzJWMUsgKjsOj/Y2Hj7mwRXcLYApYgstxyn9gkb
- UMST2Z1V2odsO34/HfhZ2T7fyPu7c7NM6fH63uBzK+Mt91pXpFehFuGj3PuHdrK2zwFe
- xC1Vq5uQGHR6SmYau22HYlbf7I8zd6pqL8uXSRePI3dvVHL2PMs/4vCwbXeGX3xMC/eG
- zlHYivhWytemaTQNjE0qdRQQbSy3uVDfpECJbe7VwQs8Fk2ZWq6TERy68q11RiOgkbY5
- p2AhTpYi0dxDBqD6N6To8kAid13uVlx8ysajKJ8lmheW5EL7CbHMQh+SjCnvGB+4/L11
- t5iQ==
-X-Gm-Message-State: AOAM532v7IDWMkehrt1PtWuphvEZG21hBNTlwakeWSX6HcwBILAE5pSa
- Kxil5X8IAAfNFcI7ZLk3iBaSF8HfE9pHzw==
-X-Google-Smtp-Source: ABdhPJwziJuRTyoOoLVNiY8/XlF9OqVsfu6UO8lSSPi+p2Cqt2TcUy/S+UHtCnNZRDRORD7mIqwEeg==
-X-Received: by 2002:a1c:7f14:: with SMTP id a20mr4898998wmd.95.1601498811663; 
- Wed, 30 Sep 2020 13:46:51 -0700 (PDT)
-Received: from cmiranda-laptop.localdomain ([188.251.240.167])
- by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 13:46:51 -0700 (PDT)
-From: cupertinomiranda@gmail.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 13/14] arc: Add support for ARCv2
-Date: Wed, 30 Sep 2020 21:46:03 +0100
-Message-Id: <20200930204604.20663-14-cupertinomiranda@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200930204604.20663-1-cupertinomiranda@gmail.com>
-References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1kNj0i-0004OI-Cl
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:36 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:5310)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1kNj0f-0006ZA-I8
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1601498853; x=1633034853;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=42Ge5efPkaXPSnMOLe26ep3+T7RPN39vDhzafqasT2A=;
+ b=XwW0dInb+y/UFzCco1RR2iROPt+pdj6xpfrufsA6s/ng8D5ZMZAjv+3+
+ 3FjZhR8jBB24MyFDWPoORak2T3Gsdn7ZZBNAvXUa2XUilkGAxuWBZfLv/
+ DeYY2io41VZUWTfS867WQAmXpctd35A03Mo9oDDc7eGPRq/IFxcooKU/N I=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 30 Sep 2020 13:47:29 -0700
+X-QCInternal: smtphost
+Received: from nasanexm03d.na.qualcomm.com ([10.85.0.91])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 30 Sep 2020 13:47:29 -0700
+Received: from nasanexm03g.na.qualcomm.com (10.85.0.49) by
+ nasanexm03d.na.qualcomm.com (10.85.0.91) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 30 Sep 2020 13:47:28 -0700
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Wed, 30 Sep 2020 13:47:28 -0700
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
+ by BYAPR02MB5479.namprd02.prod.outlook.com (2603:10b6:a03:a5::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.24; Wed, 30 Sep
+ 2020 20:47:00 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::76:5029:2fff:f10c]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::76:5029:2fff:f10c%6]) with mapi id 15.20.3433.032; Wed, 30 Sep 2020
+ 20:47:00 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Laurent Vivier <laurent@vivier.eu>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [RFC PATCH v4 27/29] Hexagon (linux-user/hexagon) Linux user
+ emulation
+Thread-Topic: [RFC PATCH v4 27/29] Hexagon (linux-user/hexagon) Linux user
+ emulation
+Thread-Index: AQHWlb0HzVWcjEM2c02U1Hzjcbp8lKl+igOAgAMem5A=
+Date: Wed, 30 Sep 2020 20:47:00 +0000
+Message-ID: <BYAPR02MB488639031FDA8E05DA560CD5DE330@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <1601314138-9930-1-git-send-email-tsimpson@quicinc.com>
+ <1601314138-9930-28-git-send-email-tsimpson@quicinc.com>
+ <97b7864c-f4b2-ae8a-9ad0-d1d3c1fb309c@vivier.eu>
+In-Reply-To: <97b7864c-f4b2-ae8a-9ad0-d1d3c1fb309c@vivier.eu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: vivier.eu; dkim=none (message not signed)
+ header.d=none;vivier.eu; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [76.120.51.212]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0881e991-6d04-4f01-6679-08d86581fac0
+x-ms-traffictypediagnostic: BYAPR02MB5479:
+x-microsoft-antispam-prvs: <BYAPR02MB5479F3C1692916FD070D84B8DE330@BYAPR02MB5479.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3044;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fJvKEjHuiRUuq8iOIEQV9+2A7bwi10velM7FU9cVAwm5oM3qNqWxbaKMigTWr6Bu7QTwz0DCXg+G7P2izzfXn9XbcPp9Lyn8YsBh7C/xZ0sqsUTOHdf1f+716SgvkxFcMOLYHH8xf7V9US9Z68BxYw0UQKBamUz//xkSE7B79eQskWSb5qRP9C14GBcgLJsbnHQ9SJbu2HW9XHHgVJuM1My4ZxbW96GsXZe2bcsl9ZT8ZUPJ1YEmZk6V4KuQKlu5Y2BSSUQaUDdN/7psCQWQS7cW56RX9V+3UMYtcZAGqTd8uxQeKn4oNPUx4e7TmpLIg7Q6gStumwBxpcxHs6n32JRf1YVn4jUVxvRr2xp6Cqvt0sO4KcjtH6RyVZvSL3qO
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(346002)(396003)(366004)(136003)(376002)(83380400001)(478600001)(110136005)(4326008)(33656002)(7696005)(2906002)(26005)(186003)(316002)(54906003)(8676002)(6506007)(53546011)(66476007)(66556008)(64756008)(66446008)(8936002)(55016002)(86362001)(66946007)(76116006)(52536014)(5660300002)(71200400001)(9686003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: 0h+Sx44xVjnCq+CPPgM8Z6tU4yzh/oRDgYN8lp+0g0fDqqX7SVMBB29eXAcIHUJOGQu40qCM+0kn3HzGiHsygfIyGpONtvD6phQAbt19FrHbAsP+CX7Z5GEI+V14UUL+LeS8Hqf4W7dJ2+nYdzyRTOCHe4K//hcdb6J80SXDzEl+r11e6mG2w4hlOW/2hOsaF8gR0Qq8M45NO5O+sv3NsD5JNlSPoXvwnVInNOvKkeeAqRrlhQ/nN0eMNGuBhoUQp82PICZvxk2d2pKPMaPVrcP02eFPDbujTxowhLUhxjDu+IKnHJm8d6vgsFeeD5Sxabc15RXG4MGZniRlicg98xYaBwN7BqV/HDXTiYjBNt7QF+/VMsZHaJZcgvDBwhSDrAAnEUDq6iQZNwUrwoUuOofTIzh4l1HAHpqbnwhjbrcysTMJDI6EfFQMH9EEEvSsxwi5BEgd6K1h+NBXYlnCwjO3JzcdaelZt7jlnGMLoRhPhoLVBepCtm0/OtJS5npZuHsr0qFQXdZaRfci0SvHjlTbPceYF5N0h+H2wVt4Lny38CGIpVsH2P2AonhdbACE3gLuclkuuswZbD6k6/i3FPg23HbV4023hcyE8KhOQRdvdC9cvbWbNwcC8ZuPox0LSd+qIkOSeZStBf2QYreFVw==
+x-ms-exchange-transport-forked: True
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MYReo1EzZvOwIuAhn+CQyryVYPlm6Yb9I+iUTDnu263yqZppsjbhthG+SnRaUr6t4jP2nIJzpaG68edXdSpUN7s+q+sIIsBnlNWK2A0VUqWB4aC2pe8f0H67OeBBtzAvmgQN7wYIs2VE2AwxxCO5F1EsfSWErF9QNVsUemEGrJyLFvWF6Ibml282oF2e8bsMeuC5KkRw9ZfpPGdzCCHfXGRW1kxK9oWHR+L9wIHIYAIZSyGTcv8qEu7gZoyW5G2xIkhc04NjG+yFfKaI3fAtUw/kzJgd02R/NsP+Q50MbsCVZXanKb7zhHjfYec5LBtO0FRhnX84AKnr0E7OwVdX3w==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gft0Vi/Qyb/YrRqyLJJuu2hM97rHNzqLUEyp473/8+4=;
+ b=YCFfE9om/wpj4QXxlJhveSq/hPjRue5NOo9iNhlQKizlJG498AxgI4Ebup3PWr+ErwSmaA06nK0ZMKHj7l3AOeTL3p/gssnz4hpp447WRRiuCM0ArabvXU8GPjDSSneFO3X6iYIwYfJZSzdWkrVASGc9UqSJ5QzxgJRCQLHms90G+N+2B2tzDXpzw5LaRJF/mvMssdZKz/EH/vzqHm4LtWDSfpk085cXSRqc2ZEhmt/OZ2mITBseFqEsaaPCPMNwzZ/m57hqSDwsXUUdNbCCCd3AqcyGC7/tABD3jJZd6YJDbxGLW/sqaWyBF3h7V9i9UBkG6y4AEqhQw+qKZw719w==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gft0Vi/Qyb/YrRqyLJJuu2hM97rHNzqLUEyp473/8+4=;
+ b=h6qQKXSH/wmwB6aWurWNCDC/aenIP5kP2AG3LEyA/JQDqGnmCXgdBJGoUwFvqmh1ELWPqCc+ZtG6ZtFL3IBWOhCzH0EQ4B4QRj3yxg3ZZQTPewUU5G7LRxb/7QSIaujn52iYklPId1A5W6gfbMWA/XlV5b9mszo9soAsPkJ6Qqo=
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: BYAPR02MB4886.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: 0881e991-6d04-4f01-6679-08d86581fac0
+x-ms-exchange-crosstenant-originalarrivaltime: 30 Sep 2020 20:47:00.3046 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: cVz8hBjnD9zzdmSR/G58WugtdRUXlQeaDhgbZRBLQFmhPsB3heM/CdNU2gyKIkDKlbRWU8/yGCeo4LWmozpFHg==
+x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB5479
+x-originatororg: quicinc.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 16:47:30
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,229 +135,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudiu Zissulescu <claziss@gmail.com>,
- Cupertino Miranda <cupertinomiranda@gmail.com>,
- Shahab Vahedi <shahab.vahedi@gmail.com>, Shahab Vahedi <shahab@synopsys.com>,
- Cupertino Miranda <cmiranda@synopsys.com>, linux-snps-arc@lists.infradead.org,
- Claudiu Zissulescu <claziss@synopsys.com>
+Cc: "ale@rev.ng" <ale@rev.ng>, "philmd@redhat.com" <philmd@redhat.com>,
+ "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "aleksandar.m.mail@gmail.com" <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shahab Vahedi <shahab@synopsys.com>
-
-Add remaining bits of the Synopsys ARCv2 (EM/HS) support into QEMU,
-configure bits, arch_init and configuration files for softmmu (hardware
-emulation).
-
-Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
----
- configure                       |  5 +++++
- default-configs/arc-softmmu.mak |  5 +++++
- disas.c                         |  2 ++
- disas/meson.build               |  1 +
- hw/meson.build                  |  1 +
- include/disas/dis-asm.h         | 10 +++++++++-
- include/elf.h                   |  3 +++
- include/exec/poison.h           |  2 ++
- include/sysemu/arch_init.h      |  1 +
- meson.build                     |  3 ++-
- softmmu/arch_init.c             |  2 ++
- target/meson.build              |  1 +
- 12 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 default-configs/arc-softmmu.mak
-
-diff --git a/configure b/configure
-index ecc8e90e8b..65862d8371 100755
---- a/configure
-+++ b/configure
-@@ -7570,6 +7570,9 @@ case "$target_name" in
-     mttcg="yes"
-     TARGET_SYSTBL_ABI=common
-   ;;
-+  arc)
-+    gdb_xml_files="arc-core-v2.xml arc-aux-minimal.xml arc-aux-other.xml"
-+  ;;
-   arm|armeb)
-     TARGET_ARCH=arm
-     TARGET_SYSTBL_ABI=common,oabi
-@@ -7852,8 +7855,10 @@ DIRS="$DIRS docs docs/interop fsdev scsi"
- DIRS="$DIRS pc-bios/optionrom pc-bios/s390-ccw"
- DIRS="$DIRS roms/seabios"
- DIRS="$DIRS contrib/plugins/"
-+#DIRS="$DIRS tests/tcg/arc"
- LINKS="Makefile"
- LINKS="$LINKS tests/tcg/lm32/Makefile"
-+#LINKS="$LINKS tests/tcg/arc/Makefile.target"
- LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
-diff --git a/default-configs/arc-softmmu.mak b/default-configs/arc-softmmu.mak
-new file mode 100644
-index 0000000000..4300a90c93
---- /dev/null
-+++ b/default-configs/arc-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for arc-softmmu
-+
-+CONFIG_VIRTIO_MMIO=y
-+CONFIG_SERIAL=y
-+CONFIG_OPENCORES_ETH=y
-diff --git a/disas.c b/disas.c
-index c1397d3933..41aabbca63 100644
---- a/disas.c
-+++ b/disas.c
-@@ -671,6 +671,8 @@ void disas(FILE *out, void *code, unsigned long size, const char *note)
-     print_insn = print_insn_s390;
- #elif defined(__hppa__)
-     print_insn = print_insn_hppa;
-+#elif defined(__arc__)
-+    print_insn = print_insn_arc;
- #endif
- 
-     if (s.info.cap_arch >= 0 && cap_disas_host(&s.info, code, size, note)) {
-diff --git a/disas/meson.build b/disas/meson.build
-index bde8280c73..47ff300d0f 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -4,6 +4,7 @@ subdir('libvixl')
- common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
- common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
- common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
-+common_ss.add(when: 'CONFIG_ARC_DIS', if_true: files('arc.c'))
- common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
- common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
- common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
-diff --git a/hw/meson.build b/hw/meson.build
-index 010de7219c..e2b14a9ed8 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -43,6 +43,7 @@ subdir('xen')
- subdir('xenpv')
- 
- subdir('alpha')
-+subdir('arc')
- subdir('arm')
- subdir('avr')
- subdir('cris')
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index 9856bf7921..621164c510 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -206,7 +206,14 @@ enum bfd_architecture
-   bfd_arch_v850,       /* NEC V850 */
- #define bfd_mach_v850          0
-   bfd_arch_arc,        /* Argonaut RISC Core */
--#define bfd_mach_arc_base 0
-+#define bfd_mach_arc_a4        0
-+#define bfd_mach_arc_a5        1
-+#define bfd_mach_arc_arc600    2
-+#define bfd_mach_arc_arc601    4
-+#define bfd_mach_arc_arc700    3
-+#define bfd_mach_arc_arcv2     5
-+#define bfd_mach_arc_arcv2em   6
-+#define bfd_mach_arc_arcv2hs   7
-   bfd_arch_m32r,       /* Mitsubishi M32R/D */
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-@@ -460,6 +467,7 @@ int print_insn_xtensa           (bfd_vma, disassemble_info*);
- int print_insn_riscv32          (bfd_vma, disassemble_info*);
- int print_insn_riscv64          (bfd_vma, disassemble_info*);
- int print_insn_rx(bfd_vma, disassemble_info *);
-+int print_insn_arc              (bfd_vma, disassemble_info*);
- 
- #if 0
- /* Fetch the disassembler for a given BFD, if that support is available.  */
-diff --git a/include/elf.h b/include/elf.h
-index c117a4d1ab..5f6165da37 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -201,6 +201,9 @@ typedef struct mips_elf_abiflags_v0 {
- 
- #define EM_TILEGX   191 /* TILE-Gx */
- 
-+#define EM_ARC_COMPACT  93  /* Synopsys ARCompact */
-+#define EM_ARC_COMPACT2 195 /* Synopsys ARCompact V2 */
-+
- #define EM_MOXIE           223     /* Moxie processor family */
- #define EM_MOXIE_OLD       0xFEED
- 
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 7b9ac361dc..635ccc66a1 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -9,6 +9,7 @@
- #pragma GCC poison TARGET_X86_64
- #pragma GCC poison TARGET_AARCH64
- #pragma GCC poison TARGET_ALPHA
-+#pragma GCC poison TARGET_ARC
- #pragma GCC poison TARGET_ARM
- #pragma GCC poison TARGET_CRIS
- #pragma GCC poison TARGET_HPPA
-@@ -70,6 +71,7 @@
- 
- #pragma GCC poison CONFIG_ALPHA_DIS
- #pragma GCC poison CONFIG_ARM_A64_DIS
-+#pragma GCC poison CONFIG_ARC_DIS
- #pragma GCC poison CONFIG_ARM_DIS
- #pragma GCC poison CONFIG_CRIS_DIS
- #pragma GCC poison CONFIG_HPPA_DIS
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 54f069d491..5fbedebcb0 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -26,6 +26,7 @@ enum {
-     QEMU_ARCH_RISCV = (1 << 19),
-     QEMU_ARCH_RX = (1 << 20),
-     QEMU_ARCH_AVR = (1 << 21),
-+    QEMU_ARCH_ARC = (1 << 22),
- 
-     QEMU_ARCH_NONE = (1 << 31),
- };
-diff --git a/meson.build b/meson.build
-index 5b586afc38..81f42b7429 100644
---- a/meson.build
-+++ b/meson.build
-@@ -36,7 +36,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arc', 'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
-@@ -482,6 +482,7 @@ config_target_mak = {}
- 
- disassemblers = {
-   'alpha' : ['CONFIG_ALPHA_DIS'],
-+  'arc' : ['CONFIG_ARC_DIS'],
-   'arm' : ['CONFIG_ARM_DIS'],
-   'avr' : ['CONFIG_AVR_DIS'],
-   'cris' : ['CONFIG_CRIS_DIS'],
-diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
-index 7fd5c09b2b..27faed5edd 100644
---- a/softmmu/arch_init.c
-+++ b/softmmu/arch_init.c
-@@ -92,6 +92,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_XTENSA
- #elif defined(TARGET_AVR)
- #define QEMU_ARCH QEMU_ARCH_AVR
-+#elif defined(TARGET_ARC)
-+#define QEMU_ARCH QEMU_ARCH_ARC
- #endif
- 
- const uint32_t arch_type = QEMU_ARCH;
-diff --git a/target/meson.build b/target/meson.build
-index 9f0ae93b75..f4a3a6425c 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -1,4 +1,5 @@
- subdir('alpha')
-+subdir('arc')
- subdir('arm')
- subdir('avr')
- subdir('cris')
--- 
-2.20.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBWaXZpZXIg
+PGxhdXJlbnRAdml2aWVyLmV1Pg0KPiBTZW50OiBNb25kYXksIFNlcHRlbWJlciAyOCwgMjAyMCAz
+OjAzIFBNDQo+IFRvOiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+OyBxZW11
+LWRldmVsQG5vbmdudS5vcmcNCj4gQ2M6IHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc7IHBo
+aWxtZEByZWRoYXQuY29tOyByaWt1LnZvaXBpb0Bpa2kuZmk7DQo+IGFsZWtzYW5kYXIubS5tYWls
+QGdtYWlsLmNvbTsgYWxlQHJldi5uZw0KPiBTdWJqZWN0OiBSZTogW1JGQyBQQVRDSCB2NCAyNy8y
+OV0gSGV4YWdvbiAobGludXgtdXNlci9oZXhhZ29uKSBMaW51eCB1c2VyDQo+IGVtdWxhdGlvbg0K
+Pg0KPiA+ICsNCj4gPiArc3lzY2FsbF9ucl9nZW5lcmF0b3JzICs9IHsNCj4gPiArICAnaGV4YWdv
+bic6IGdlbmVyYXRvcihzaCwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBhcmd1bWVudHM6
+IFsgJ2NhdCcsICdzeXNjYWxsX25yLmgnLCAnPicsICdAT1VUUFVUQCcgXSwNCj4gPiArICAgICAg
+ICAgICAgICAgICAgICAgb3V0cHV0OiAnQEJBU0VOQU1FQF9uci5oJykNCj4NCj4gV2h5IGRvIHdl
+IG5lZWQgdGhhdD8NCj4gVGhlIHN5c2NhbGxfbnJfZ2VuZXJhdG9ycyBpcyB1c2VkIHRvIGdlbmVy
+YXRlIHN5c2NhbGxfbnIuaCBmcm9tIHN5c2NhbGwudGJsDQoNClRoZSBvdGhlciBsaW51eC11c2Vy
+IHRhcmdldHMgaGF2ZSB0aGlzIGluIHRoZWlyIG1lc29uLmJ1aWxkIGZpbGVzLiAgSSdsbCByZW1v
+dmUgaWYgaXQncyBub3QgbmVlZGVkLg0KDQo+DQo+ID4gK30NCj4gPiBkaWZmIC0tZ2l0IGEvbGlu
+dXgtdXNlci9tZXNvbi5idWlsZCBiL2xpbnV4LXVzZXIvbWVzb24uYnVpbGQNCj4gPiBpbmRleCAy
+Yjk0ZTRiLi44YjFkZmM4IDEwMDY0NA0KPiA+IC0tLSBhL2xpbnV4LXVzZXIvbWVzb24uYnVpbGQN
+Cj4gPiArKysgYi9saW51eC11c2VyL21lc29uLmJ1aWxkDQo+ID4gQEAgLTIyLDYgKzIyLDcgQEAg
+c3lzY2FsbF9ucl9nZW5lcmF0b3JzID0ge30NCj4gPg0KPiA+ICBzdWJkaXIoJ2FscGhhJykNCj4g
+PiAgc3ViZGlyKCdhcm0nKQ0KPiA+ICtzdWJkaXIoJ2hleGFnb24nKQ0KPg0KPiBzbyB5b3UgZG9u
+J3QgbmVlZCB0aGF0IGVpdGhlcg0KDQpPSw0KDQo+ID4gLSAgICBncmVwIC1lICIjZGVmaW5lIF9f
+TlJfIiAtZSAiI2RlZmluZSBfX05SMzI2NCINCj4gPiArICAgIGdyZXAgLWUgIiNkZWZpbmUgX19O
+Ul8iIC1lICIjZGVmaW5lIF9fTlIzMjY0IiB8IGdyZXAgLXYNCj4gX19OUl9zeXNjYWxscw0KPg0K
+PiBXaHkgZG8geW91IHJlbW92ZSBfX05SX3N5c2NhbGxzPw0KDQpPbGRlciBrZXJuZWxzIGhhdmUg
+YSBidW5jaCBvZg0KI3VuZGVmIF9fTlJfc3lzY2FsbHMNCiNkZWZpbmUgX19OUl9zeXNjYWxscyAg
+WA0KDQpUaGUgc2NyaXB0IHJlbW92ZXMgYWxsICN1bmRlZidzIGJ1dCBsZWF2ZXMgdGhlICNkZWZp
+bmUncywgc28gd2UgZ2V0IGNvbXBpbGUgZXJyb3JzLiAgVGhhdCBzeW1ib2wgaXNuJ3QgdXNlZCBi
+eSBxZW11IHNvIGl0J3Mgc2FmZSB0byByZW1vdmUuDQoNCg0K
 
