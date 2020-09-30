@@ -2,59 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62F027F125
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 20:15:06 +0200 (CEST)
-Received: from localhost ([::1]:33920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F2B27F14A
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 20:28:10 +0200 (CEST)
+Received: from localhost ([::1]:43022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNgd7-0003jo-Dz
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 14:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33284)
+	id 1kNgpk-0008Fz-5M
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 14:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kNgao-0002aP-ED; Wed, 30 Sep 2020 14:12:43 -0400
-Resent-Date: Wed, 30 Sep 2020 14:12:42 -0400
-Resent-Message-Id: <E1kNgao-0002aP-ED@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21719)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kNgl3-0006ei-JX; Wed, 30 Sep 2020 14:23:17 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:57747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kNgak-00071M-Nr; Wed, 30 Sep 2020 14:12:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1601489538; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WO1qPPWaufAXSuCKHboDwKWiRb5M1kYYfMXblYySsJK+GecaP/ROIURQNm8Rick7ew7rwlE7OBxH3f661DkkTleyE/Cx0g5jznGy3KfQ32vTIPR+e6fTKQs2imli3jRpkh1JQKBUweI6MntQZkltE+p6s6ddF9l6T8skrHrXIX8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1601489538;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=dMccYrZiwIA23PnhoKFAxr76vyg0V8/fqnzs2Wt8qU4=; 
- b=O2lVJcThtqPa0jxCGkE/Gi/S4GaTHoP8rAsmLXkqEfgIi6kcm16MAlPzqoBEtDwBDiqamgJnwXsKvHN3An25HlhCCrdeiaGbRkf/dXEa9DXdra+mzPfqfS2EzWseossh0ltvuh0NRstQcsrrTE2grzjc14lJx+R4Sw8qwcRoOHM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1601489537545582.1532880744478;
- Wed, 30 Sep 2020 11:12:17 -0700 (PDT)
-Subject: Re: [PATCH 0/4] assorted gcc 10/fedora32 compile warning fixes
-Message-ID: <160148953593.11932.3604940641617994907@66eaa9a8a123>
-In-Reply-To: <20200930155859.303148-1-borntraeger@de.ibm.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kNgkz-0007pZ-3k; Wed, 30 Sep 2020 14:23:17 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BEEFC58011B;
+ Wed, 30 Sep 2020 14:23:07 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 30 Sep 2020 14:23:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=RmvVbLqkpqecrwNMAU60OZYGT1N
+ O9SBAzxAou03hDvc=; b=eSlXl66L2UIYgI6MXTy3zcaC+K1nGdT7/3dQtp7+CS3
+ oKksDZdQA4nQLDhKhQ0tDwOIYGQGu2Fp9iqHyqpJADbsr7EsVjvr9RDuTbzMrOXG
+ 0JU3Jkcaqk1X53bHQFVwAzsV/O/EfPhZy4LvSnWYnRnGPUkDP2cX1z8Ehoq6L/Jj
+ LfExh3t/DTNFTocMl7yh1rkHXHm25QffRXhzeqLerWclFXEitPPMQGFM6Qd6blQE
+ EBOPMYIjpfOKTmy3ItTVoHQ+He5vYcRsIZZiiBzAm8wS8NMs+wvk0f32ewPMdHnS
+ QgAywgDewSe6pnsqWevK6isxpnuGzBn9QFf5HZMGDGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=RmvVbL
+ qkpqecrwNMAU60OZYGT1NO9SBAzxAou03hDvc=; b=fDtVQT7y6pBkDglYLGaAf/
+ OxiiCIG8h8mTVCXx6Vuyo8HiCXwhv65aEiM/3DPQzRiNiP/zVmiBt7yesEpTodjw
+ cp/FTxHKlqAZ2H58yZUSruB86ZHCZBNCQIloXPaB4ntKVDJpOkgQU+m2xVVV9bSx
+ vTRA5Si1nn17E23A1/S5YVEGbX9N3Hjyv5o7hM01YbFWQGHH5n2DvNSS3OFxQM/p
+ XkwoTpTwaEOwQP/QQ2e7NDF34kpZXR8+7Vo+CUR1/FjeI2aqpT2w5y0ewfIbBeKu
+ xRbpqQi7nZZVL0EsReQFMf0jwv8Y63bWdxrYxHF20YjCzXmz5iYKSZYJOngYj/Hg
+ ==
+X-ME-Sender: <xms:Cs10X2HMKtU1-7GEeRkPjuVFONhK88uaVfMGCW62DzdfSoK1pzEKBA>
+ <xme:Cs10X3VHOga6sic6iO8x_xOpe6RyG0AhCwysYFEe0Gcrfr-djNmLKMCjYB4x5ajJl
+ 6hvNOPpGdNmiIM6iuA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedvgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:Cs10XwLjP1AzSy_4rregOGqvWtrGOrPPxA6YK7UYU4vJ-mB_eNpXsA>
+ <xmx:Cs10XwHg4tc8RudRKVq25AdIIA6LRKo-ypJjh_PbxzKdkEibVvQJSQ>
+ <xmx:Cs10X8UKClyogpFwW1u1vV2OUslkpHe0UaWOb270F-UKO2FdmneBKg>
+ <xmx:C810X1PYTMSftb2A6jyxFqwpxjvfDG3REqV6XQH-OyHPBijUa17b2hrr-X4>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9ACE73280064;
+ Wed, 30 Sep 2020 14:23:04 -0400 (EDT)
+Date: Wed, 30 Sep 2020 20:23:02 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCH v5 09/14] hw/block/nvme: Support Zoned Namespace Command
+ Set
+Message-ID: <20200930182302.GA566382@apples.localdomain>
+References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
+ <20200928023528.15260-10-dmitry.fomichev@wdc.com>
+ <20200930145016.GB204568@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: borntraeger@de.ibm.com
-Date: Wed, 30 Sep 2020 11:12:17 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 14:12:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
+Content-Disposition: inline
+In-Reply-To: <20200930145016.GB204568@localhost.localdomain>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 14:23:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.373, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,53 +98,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, borntraeger@de.ibm.com,
- stefanha@redhat.com, dgilbert@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDkzMDE1NTg1OS4zMDMx
-NDgtMS1ib3JudHJhZWdlckBkZS5pYm0uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDA5MzAxNTU4NTku
-MzAzMTQ4LTEtYm9ybnRyYWVnZXJAZGUuaWJtLmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC80XSBhc3Nv
-cnRlZCBnY2MgMTAvZmVkb3JhMzIgY29tcGlsZSB3YXJuaW5nIGZpeGVzCgo9PT0gVEVTVCBTQ1JJ
-UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8
-fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3Jp
-dGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9
-PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRl
-ZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3Qv
-cWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwOTMwMDQzMTUwLjE0NTQ3NjYt
-MS1qc25vd0ByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDA5MzAwNDMxNTAuMTQ1NDc2Ni0xLWpz
-bm93QHJlZGhhdC5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMDkzMDA5NTMy
-MS4yMDA2LTEtemhhb2xpY2hhbmdAaHVhd2VpLmNvbSAtPiBwYXRjaGV3LzIwMjAwOTMwMDk1MzIx
-LjIwMDYtMS16aGFvbGljaGFuZ0BodWF3ZWkuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNo
-ZXcvMjAyMDA5MzAxNTE2MTYuMzU4ODE2NS0xLW1reXNlbEB0YWNoeXVtLmNvbSAtPiBwYXRjaGV3
-LzIwMjAwOTMwMTUxNjE2LjM1ODgxNjUtMS1ta3lzZWxAdGFjaHl1bS5jb20KIC0gW3RhZyB1cGRh
-dGVdICAgICAgcGF0Y2hldy8yMDIwMDkzMDE1NTg1OS4zMDMxNDgtMS1ib3JudHJhZWdlckBkZS5p
-Ym0uY29tIC0+IHBhdGNoZXcvMjAyMDA5MzAxNTU4NTkuMzAzMTQ4LTEtYm9ybnRyYWVnZXJAZGUu
-aWJtLmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwOTMwMTY0OTQ5LjE0MjUy
-OTQtMS1waGlsbWRAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwOTMwMTY0OTQ5LjE0MjUyOTQt
-MS1waGlsbWRAcmVkaGF0LmNvbQpmYXRhbDogZmFpbGVkIHRvIHdyaXRlIHJlZi1wYWNrIGZpbGUK
-ZmF0YWw6IFRoZSByZW1vdGUgZW5kIGh1bmcgdXAgdW5leHBlY3RlZGx5ClRyYWNlYmFjayAobW9z
-dCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICJwYXRjaGV3LXRlc3Rlci9zcmMvcGF0Y2hldy1j
-bGkiLCBsaW5lIDUyMSwgaW4gdGVzdF9vbmUKICAgIGdpdF9jbG9uZV9yZXBvKGNsb25lLCByWyJy
-ZXBvIl0sIHJbImhlYWQiXSwgbG9nZiwgVHJ1ZSkKICBGaWxlICJwYXRjaGV3LXRlc3Rlci9zcmMv
-cGF0Y2hldy1jbGkiLCBsaW5lIDUzLCBpbiBnaXRfY2xvbmVfcmVwbwogICAgc3VicHJvY2Vzcy5j
-aGVja19jYWxsKGNsb25lX2NtZCwgc3RkZXJyPWxvZ2YsIHN0ZG91dD1sb2dmKQogIEZpbGUgIi9v
-cHQvcmgvcmgtcHl0aG9uMzYvcm9vdC91c3IvbGliNjQvcHl0aG9uMy42L3N1YnByb2Nlc3MucHki
-LCBsaW5lIDI5MSwgaW4gY2hlY2tfY2FsbAogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
-dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snZ2l0
-JywgJ2Nsb25lJywgJy1xJywgJy9ob21lL3BhdGNoZXcvLmNhY2hlL3BhdGNoZXctZ2l0LWNhY2hl
-L2h0dHBzZ2l0aHViY29tcGF0Y2hld3Byb2plY3RxZW11LTNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFk
-ZWY3ZjQ0YmQ4ODg3MTMzODQnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTUyOWg5Ymhh
-L3NyYyddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAxMjguCgoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA5MzAxNTU4NTku
-MzAzMTQ4LTEtYm9ybnRyYWVnZXJAZGUuaWJtLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+
+--IS0zKkzwUGydFO0o
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sep 30 14:50, Niklas Cassel wrote:
+> On Mon, Sep 28, 2020 at 11:35:23AM +0900, Dmitry Fomichev wrote:
+> > The emulation code has been changed to advertise NVM Command Set when
+> > "zoned" device property is not set (default) and Zoned Namespace
+> > Command Set otherwise.
+> >=20
+> > Handlers for three new NVMe commands introduced in Zoned Namespace
+> > Command Set specification are added, namely for Zone Management
+> > Receive, Zone Management Send and Zone Append.
+> >=20
+> > Device initialization code has been extended to create a proper
+> > configuration for zoned operation using device properties.
+> >=20
+> > Read/Write command handler is modified to only allow writes at the
+> > write pointer if the namespace is zoned. For Zone Append command,
+> > writes implicitly happen at the write pointer and the starting write
+> > pointer value is returned as the result of the command. Write Zeroes
+> > handler is modified to add zoned checks that are identical to those
+> > done as a part of Write flow.
+> >=20
+> > The code to support for Zone Descriptor Extensions is not included in
+> > this commit and ZDES 0 is always reported. A later commit in this
+> > series will add ZDE support.
+> >=20
+> > This commit doesn't yet include checks for active and open zone
+> > limits. It is assumed that there are no limits on either active or
+> > open zones.
+> >=20
+> > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> > Signed-off-by: Hans Holmberg <hans.holmberg@wdc.com>
+> > Signed-off-by: Ajay Joshi <ajay.joshi@wdc.com>
+> > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> > Signed-off-by: Matias Bjorling <matias.bjorling@wdc.com>
+> > Signed-off-by: Aravind Ramesh <aravind.ramesh@wdc.com>
+> > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> > Signed-off-by: Adam Manzanares <adam.manzanares@wdc.com>
+> > Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> > ---
+> >  block/nvme.c         |   2 +-
+> >  hw/block/nvme-ns.c   | 185 ++++++++-
+> >  hw/block/nvme-ns.h   |   6 +-
+> >  hw/block/nvme.c      | 872 +++++++++++++++++++++++++++++++++++++++++--
+> >  include/block/nvme.h |   6 +-
+> >  5 files changed, 1033 insertions(+), 38 deletions(-)
+> >=20
+> > diff --git a/block/nvme.c b/block/nvme.c
+> > index 05485fdd11..7a513c9a17 100644
+> > --- a/block/nvme.c
+> > +++ b/block/nvme.c
+> > @@ -333,7 +333,7 @@ static inline int nvme_translate_error(const NvmeCq=
+e *c)
+> >  {
+> >      uint16_t status =3D (le16_to_cpu(c->status) >> 1) & 0xFF;
+> >      if (status) {
+> > -        trace_nvme_error(le32_to_cpu(c->result),
+> > +        trace_nvme_error(le32_to_cpu(c->result32),
+> >                           le16_to_cpu(c->sq_head),
+> >                           le16_to_cpu(c->sq_id),
+> >                           le16_to_cpu(c->cid),
+> > diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> > index 31b7f986c3..6d9dc9205b 100644
+> > --- a/hw/block/nvme-ns.c
+> > +++ b/hw/block/nvme-ns.c
+> > @@ -33,14 +33,14 @@ static void nvme_ns_init(NvmeNamespace *ns)
+> >      NvmeIdNs *id_ns =3D &ns->id_ns;
+> > =20
+> >      if (blk_get_flags(ns->blkconf.blk) & BDRV_O_UNMAP) {
+> > -        ns->id_ns.dlfeat =3D 0x9;
+> > +        ns->id_ns.dlfeat =3D 0x8;
+>=20
+> You seem to change something that is NVM namespace specific here, why?
+> If it is indeed needed, I assume that this change should be in a separate
+> patch.
+>=20
+
+Stood out to me as well - and I thought it was sound enough, but now I'm
+not sure sure.
+
+DLFEAT is set to 0x8, which only signifies that Deallocate in Write
+Zeroes is supported. Previously, it would also signify that returned
+values would be 0x00 (DLFEAT 0x8 | 0x1). But since Dmitry added the
+fill_pattern parameter...
+
+
+> > +static int nvme_zoned_init_ns(NvmeCtrl *n, NvmeNamespace *ns, int lba_=
+index,
+> > +                              Error **errp)
+> > +{
+> > +    NvmeIdNsZoned *id_ns_z;
+> > +
+> > +    if (n->params.fill_pattern =3D=3D 0) {
+> > +        ns->id_ns.dlfeat |=3D 0x01;
+> > +    } else if (n->params.fill_pattern =3D=3D 0xff) {
+> > +        ns->id_ns.dlfeat |=3D 0x02;
+> > +    }
+
+=2E.. then, when initialized, we look at the fill_pattern and set DLFEAT
+accordingly instead.
+
+But since fill_pattern only works for ZNS namespaces, I think dlfeat
+should still be 0x9 for NVM namespaces. For NVM namespaces, since
+neither DULBE or DSM is not supported, there is really only Write Zeroes
+that can explicitly "deallocate" a block, and since that *will* write
+zeroes no matter if DEAC is set or not, 0x00 pattern is guaranteed.
+
+--IS0zKkzwUGydFO0o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl90zQQACgkQTeGvMW1P
+Denxxgf8CFNZl/Cj2qQJBpHFv1K615a8qmmWDatKwbFYSyNaX+4RU1OZljmoEn9S
+6rD5GN3FkznB3NEUgjwd6xDN07qwmZwpFWHFHWcV8+F7Q1ApijtqXLQwtdnra7RF
+WjzR8c6smFvZo5VNmOO5Ywzbs/7Vj1Rzd9YWHtaH89se8pRy/YPXH0ixOgjWymkv
+bas+0aQPRo0Xs2quytZE+G3M53nm4cQfXUSfc4fafXFPjm6tXuaAIj+XYWzk/ltI
+eXoU3+pqYu70ClJH6H731R/ZyE87uYJRu8mUJJMvyKqAwVqH35xHmJZ3lZYUZ31s
+0xbHzFibnzgnEOGw7IMtqGpjB6MGPQ==
+=Ayl5
+-----END PGP SIGNATURE-----
+
+--IS0zKkzwUGydFO0o--
 
