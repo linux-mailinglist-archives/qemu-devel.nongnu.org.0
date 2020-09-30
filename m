@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF66527EA4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:51:35 +0200 (CEST)
-Received: from localhost ([::1]:33296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E785027EA5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:55:09 +0200 (CEST)
+Received: from localhost ([::1]:41640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNcW6-00080x-O1
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37834)
+	id 1kNcZY-00031V-VI
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcMM-00068s-Bj
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32378)
+ id 1kNcMR-0006ER-HO
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcMF-0005bx-Qd
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:29 -0400
+ id 1kNcML-0005c9-W1
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:35 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601473282;
+ s=mimecast20190719; t=1601473284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cRKCvAJzbGC4n/pGjCuBkh9xgOAleZcJhxYpNzpXK+Y=;
- b=WCPZzaZsrCqMFAZgSshmthYTi8FO9z86G3rcHJ1cqJ4Oxd/8Ge6eczSZ6Ud6i074vAl2TT
- bfiaLj9HH9C26peo/lqYSm0lbKyRPPlLna3epuIO99hJ+6ZDQKlHf/eo90TsXgE5npLczo
- dLWIdBpwgPCiQs7afhtAuJ2yDpCRsxQ=
+ bh=WyKspBYuAkv+mkQrGRTfCl9R6UGLSu0mbqmmr6qQfGo=;
+ b=RuFJNXrQmaerXnZbzb3oxhu5/4MqASGR80O8ZLf05gaoOoGRNbEmjeEd5UYdkc1T6QANul
+ n2aTrDtsrcOfB5cocv0X7tH4Wo8VCvuB9tX2DF98jK8SovnuZBW7yjMxTt1iMYxz36BH4+
+ 9pbpXi1kuqHKVyF702yQKb++1KdBNJc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-3dloJli-O4-ckWikIGL1HA-1; Wed, 30 Sep 2020 09:41:19 -0400
-X-MC-Unique: 3dloJli-O4-ckWikIGL1HA-1
+ us-mta-400-eHPg2FnEO8WxrMN7NaJGfQ-1; Wed, 30 Sep 2020 09:41:22 -0400
+X-MC-Unique: eHPg2FnEO8WxrMN7NaJGfQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A57A81040C2F
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:41:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60B9C1868413
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:41:20 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3D9260C05;
- Wed, 30 Sep 2020 13:41:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00B2260C05;
+ Wed, 30 Sep 2020 13:41:18 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 06/19] i386: move hyperv_version_id initialization to
+Subject: [PATCH RFC v2 07/19] i386: move hyperv_limits initialization to
  x86_cpu_realizefn()
-Date: Wed, 30 Sep 2020 15:40:14 +0200
-Message-Id: <20200930134027.1348021-7-vkuznets@redhat.com>
+Date: Wed, 30 Sep 2020 15:40:15 +0200
+Message-Id: <20200930134027.1348021-8-vkuznets@redhat.com>
 In-Reply-To: <20200930134027.1348021-1-vkuznets@redhat.com>
 References: <20200930134027.1348021-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -87,74 +87,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 As a preparation to expanding Hyper-V CPU features early, move
-hyperv_version_id initialization to x86_cpu_realizefn().
+hyperv_limits initialization to x86_cpu_realizefn().
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c |  4 ++++
+ target/i386/cpu.c |  5 +++++
  target/i386/cpu.h |  1 +
- target/i386/kvm.c | 14 ++++++++++++--
- 3 files changed, 17 insertions(+), 2 deletions(-)
+ target/i386/kvm.c | 13 ++++++++++++-
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 9e77d9579b5c..99bcfcbb448a 100644
+index 99bcfcbb448a..d657590ab55d 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6511,6 +6511,10 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
-     cpu->hyperv_interface_id[1] = 0;
-     cpu->hyperv_interface_id[2] = 0;
-     cpu->hyperv_interface_id[3] = 0;
+@@ -6515,6 +6515,11 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
+     /* Hypervisor system identity */
+     cpu->hyperv_version_id[0] = 0x00001bbc;
+     cpu->hyperv_version_id[1] = 0x00060001;
 +
-+    /* Hypervisor system identity */
-+    cpu->hyperv_version_id[0] = 0x00001bbc;
-+    cpu->hyperv_version_id[1] = 0x00060001;
++    /* Hypervisor implementation limits */
++    cpu->hyperv_limits[0] = 64;
++    cpu->hyperv_limits[1] = 0;
++    cpu->hyperv_limits[2] = 0;
  }
  
  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 702949462ab9..077c19c5642b 100644
+index 077c19c5642b..187e4a09e65d 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1661,6 +1661,7 @@ struct X86CPU {
-     OnOffAuto hyperv_no_nonarch_cs;
+@@ -1662,6 +1662,7 @@ struct X86CPU {
      uint32_t hyperv_vendor_id[3];
      uint32_t hyperv_interface_id[4];
-+    uint32_t hyperv_version_id[4];
+     uint32_t hyperv_version_id[4];
++    uint32_t hyperv_limits[3];
  
      bool check_cpuid;
      bool enforce_cpuid;
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 6dde7c97deb3..b335b3a3d1c7 100644
+index b335b3a3d1c7..afddc9a4a260 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -1239,6 +1239,14 @@ static int hyperv_handle_properties(CPUState *cs,
-             cpu->hyperv_interface_id[3] = c->edx;
+@@ -1253,6 +1253,15 @@ static int hyperv_handle_properties(CPUState *cs,
+             env->features[FEAT_HYPERV_EBX] = c->ebx;
+             env->features[FEAT_HYPERV_EDX] = c->edx;
          }
- 
-+        c = cpuid_find_entry(cpuid, HV_CPUID_VERSION, 0);
++
++        c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
 +        if (c) {
-+            cpu->hyperv_version_id[0] = c->eax;
-+            cpu->hyperv_version_id[1] = c->ebx;
-+            cpu->hyperv_version_id[2] = c->ecx;
-+            cpu->hyperv_version_id[3] = c->edx;
++            cpu->hv_max_vps = c->eax;
++            cpu->hyperv_limits[0] = c->ebx;
++            cpu->hyperv_limits[1] = c->ecx;
++            cpu->hyperv_limits[2] = c->edx;
 +        }
 +
-         c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
+         c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
          if (c) {
-             env->features[FEAT_HYPERV_EAX] = c->eax;
-@@ -1328,8 +1336,10 @@ static int hyperv_handle_properties(CPUState *cs,
- 
+             env->features[FEAT_HV_RECOMM_EAX] = c->eax;
+@@ -1355,7 +1364,9 @@ static int hyperv_handle_properties(CPUState *cs,
      c = &cpuid_ent[cpuid_i++];
-     c->function = HV_CPUID_VERSION;
--    c->eax = 0x00001bbc;
--    c->ebx = 0x00060001;
-+    c->eax = cpu->hyperv_version_id[0];
-+    c->ebx = cpu->hyperv_version_id[1];
-+    c->ecx = cpu->hyperv_version_id[2];
-+    c->edx = cpu->hyperv_version_id[3];
+     c->function = HV_CPUID_IMPLEMENT_LIMITS;
+     c->eax = cpu->hv_max_vps;
+-    c->ebx = 0x40;
++    c->ebx = cpu->hyperv_limits[0];
++    c->ecx = cpu->hyperv_limits[1];
++    c->edx = cpu->hyperv_limits[2];
  
-     c = &cpuid_ent[cpuid_i++];
-     c->function = HV_CPUID_FEATURES;
+     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
+         __u32 function;
 -- 
 2.25.4
 
