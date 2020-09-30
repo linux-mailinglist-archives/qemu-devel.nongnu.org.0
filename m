@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AD027E35D
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 10:12:21 +0200 (CEST)
-Received: from localhost ([::1]:56180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC39027E39B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 10:22:23 +0200 (CEST)
+Received: from localhost ([::1]:35310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNXDo-0006bW-Tk
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 04:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45938)
+	id 1kNXNW-0001Ns-FK
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 04:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNX9o-0004mC-O1; Wed, 30 Sep 2020 04:08:12 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:36745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kNX9m-0005hc-7d; Wed, 30 Sep 2020 04:08:12 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id D4590127F;
- Wed, 30 Sep 2020 04:08:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 30 Sep 2020 04:08:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=+chTE+w9LCifXi4C319MWuGz1J5
- Xqzizkao5TEbrelI=; b=Zw8jMHNc/xMoO0+TmKCowEDaFQEqu5ejRYEiBVYlqG0
- pzXWO5N9A7Jgwt90UPBsdSBcvEAFqCpMZmdmL/8W6yyveSG6sJeiGpileM05Pn2a
- D55RCPH5T7EarRuUNf+mCdDmQhGRakv9YLeQ15EyWDh1DyxzQdUZe1QkpN4RRB7t
- ngt0WGO9tx8v/EmMjyszD5mPCFwVrGjzkzhw0f9VZE5ETQ5vb6V66DoKVawG9qBl
- oMha1jUMeJOkN/dw9AUqGPRPAtdf6f4AxMRdY6dxQGMjd9cTTAe17adxBIuZEnNk
- HERDD86BCCjemN5rgPMX234ceYVulRbUEodjFra/hTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=+chTE+
- w9LCifXi4C319MWuGz1J5Xqzizkao5TEbrelI=; b=k4Kg2GunAwIYPxlW22tGws
- xG0D4hdK3rDm+I9JxVFK+J3O2fy4J+xP189ZLxIpELHOYtccwbT2ob9POPJmp1w/
- CkIadSeK57j04pPhPZoUQLDxhBRokUEtpvygn79dN6M/Z954oV+WL2htVLo+A9ae
- VgQnnzPcBYs4eMf8/75ily4/7PQzQuuGwUI5e36ETQya1gk9gPl1kDWDQuBjYvTD
- Kufl1EDiwz66xgsSD3fmKA/tt8LDVpIOPwOM5mB/tJCXO+GuLjrPA9Ofs9VTiayx
- psXFppew6vGEf0p+wmUDj3XBInXo2kSNIGDoladxHKLQPAOTnW1wn+xJA2+++Klg
- ==
-X-ME-Sender: <xms:5Dx0X6uOaGA3iFjlWQspKkghPU5g6qDJxBGTm9eAgwmfbxa5usZtzw>
- <xme:5Dx0X_d8TBTjL2w6JjcyNJ1MbiaWlFGCz_qSd_X8Hriqus9NUaYF7Tg5sBeU1LQCD
- rziMdRes_wHOnGrk8Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfedtgdduvdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:5Dx0X1x367nXkjQfbvHZv-BL_z5Z-U1kly57vfygwV3P-ZdLtfsA2Q>
- <xmx:5Dx0X1PmMcwFCITBE_OPLzzLVywKIb4eY5u5J1xyLGbG-fnrsKm-NQ>
- <xmx:5Dx0X69n9VBgZ0s0zU6ZCY3FooqkgLD6z9PqAw-EvLmxuxWUZ82WMQ>
- <xmx:5jx0X9Wtr7xhEFXdaNg2L4aFdYb2U1APsMzgvMqJXqUY4sOR86jeFybWd3KwMfbY>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2188F3064610;
- Wed, 30 Sep 2020 04:08:03 -0400 (EDT)
-Date: Wed, 30 Sep 2020 10:08:01 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v5 03/14] hw/block/nvme: Introduce the Namespace Types
- definitions
-Message-ID: <20200930080801.GC436843@apples.localdomain>
-References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
- <20200928023528.15260-4-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kNXM9-0000tq-Qt
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 04:20:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kNXM7-0006Wy-Hq
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 04:20:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kNXM5-0000sm-KV
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 08:20:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 99E262E80E8
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 08:20:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GPJrCs/72TxItFYR"
-Content-Disposition: inline
-In-Reply-To: <20200928023528.15260-4-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
- helo=wnew1-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 04:08:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 30 Sep 2020 08:15:00 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1849644@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Fix Committed; importance=Low;
+ assignee=None; 
+X-Launchpad-Bug-Tags: verification-done verification-done-focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange laurent-vivier npes87184 paelzer racb
+ samuel-t ubuntu-sru-bot
+X-Launchpad-Bug-Reporter: Samuel (samuel-t)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
+Message-Id: <160145370044.22921.7460141716073428660.malone@wampee.canonical.com>
+Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
+ 'binary' subprotocol
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d685c0a40836eb9844ed835c9700f20633c1d7af"; Instance="production"
+X-Launchpad-Hash: 064542d2185a99ea71fbc406ba6144249c51b8e3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 04:20:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.199, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,67 +81,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Trying to connect using
+novnc   latest/stable:    1.2.0      2020-07-31 (6) 18MB -
 
---GPJrCs/72TxItFYR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+as-is failing to connect
+Keeping VNC up and refreshing qemu.
 
-On Sep 28 11:35, Dmitry Fomichev wrote:
-> From: Niklas Cassel <niklas.cassel@wdc.com>
->=20
-> Define the structures and constants required to implement
-> Namespace Types support.
->=20
-> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> ---
->  hw/block/nvme-ns.h   |  2 ++
->  hw/block/nvme.c      |  2 +-
->  include/block/nvme.h | 74 +++++++++++++++++++++++++++++++++++---------
->  3 files changed, 63 insertions(+), 15 deletions(-)
->=20
-> diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-> index 83734f4606..cca23bc0b3 100644
-> --- a/hw/block/nvme-ns.h
-> +++ b/hw/block/nvme-ns.h
-> @@ -21,6 +21,8 @@
-> =20
->  typedef struct NvmeNamespaceParams {
->      uint32_t nsid;
-> +    uint8_t  csi;
-> +    QemuUUID uuid;
->  } NvmeNamespaceParams;
 
-The motivation behind the NvmeNamespaceParams was to only keep user
-visible parameters in this struct.
+Updating to the new qemu from focal proposed (by now resolved the archive p=
+ublishing issues we had before this morning).
+Get:67 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-util=
+s amd64 1:4.2-3ubuntu6.7 [975 kB]                                          =
+                                        =
 
-Can we move csi/uuid to the NvmeNamespace struct?
+Get:68 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-syst=
+em-common amd64 1:4.2-3ubuntu6.7 [1056 kB]                                 =
+                                        =
 
---GPJrCs/72TxItFYR
-Content-Type: application/pgp-signature; name="signature.asc"
+Get:69 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-bloc=
+k-extra amd64 1:4.2-3ubuntu6.7 [53.8 kB]                                   =
+                                        =
 
------BEGIN PGP SIGNATURE-----
+Get:70 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-syst=
+em-data all 1:4.2-3ubuntu6.7 [563 kB]                                      =
+                                        =
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl90PN8ACgkQTeGvMW1P
-Dem3UAgAvv8oVpvgw6sGD5xy6+XXn+lfmGneLSOzYZvW5j0K/JSv66vjBcNCJ0Uf
-KhdQKsVeHThrNL3lVP/ihX/y8OIpM7ISiLixeeMKYsb352zpObPyy4pJVaeK2r0f
-Yaa3vpDtA3+EKHRL0rg5CDXYeYQrrUhhPiNkDWgj64KClEIX8EPYr1YUC1MTXhOG
-prBIlCPq0jxcB+aMX8Sl1phOYs8rXpeAt7gAS99bLdn5s6iCx/SCyNpfQIQlkqqj
-xVAP0lgtP52cPCmAf00v03gyzC7o5jq8Yff5E0px7clgOAFmSiboe3ys0L/cIN19
-UYU9G9KO3VErVXKrgnRuBcW5AX4Gjw==
-=79CQ
------END PGP SIGNATURE-----
+Get:71 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-kvm =
+amd64 1:4.2-3ubuntu6.7 [13.1 kB]                                           =
+                                        =
 
---GPJrCs/72TxItFYR--
+Get:72 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-syst=
+em-x86 amd64 1:4.2-3ubuntu6.7 [6720 kB]                                    =
+                                        =
+
+Get:73 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-syst=
+em-gui amd64 1:4.2-3ubuntu6.7 [40.8 kB]                                    =
+                                        =
+
+Get:74 http://archive.ubuntu.com/ubuntu focal-proposed/main amd64 qemu-syst=
+em-mips amd64 1:4.2-3ubuntu6.7 [12.9 MB]
+
+
+Now the same novnc1.2 can connect to it \o/
+Setting verified
+
+** Tags removed: verification-needed verification-needed-focal
+** Tags added: verification-done verification-done-focal
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1849644
+
+Title:
+  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Fix Committed
+
+Bug description:
+  [Impact]
+
+   * The exact details of the protocol/subprotocal was slightly unclear
+     between the projects. So qemu ended up insisting on "binary" being
+     used but newer noVNC clients no more used it.
+
+   * Qemu got fixed in 5.0 to be more tolerant and accept an empty sub-
+     protocol as well. This SRU backports that fix to Focal.
+
+  [Test Case]
+
+   * Without the fix the following will "Failed to connect", but with
+  the fix it will work.
+
+  $ sudo apt install qemu-system-x86
+  # will only boot into a failing bootloader, but that is enough
+  $ qemu-system-x86_64 -vnc :0,websocket
+  # We need version 1.2 or later, so use the snap
+  $ snap install novnc
+  $ novnc --vnc localhost:5700
+  Connect browser to http://<IP>:6080/vnc.html
+  Click "Connect"
+
+   * Cross check with an older noVNC (e.g. the one in Focal) if the =
+
+     connectivity still works on those as well
+
+     - Reminders when switching between the noVNC implementations
+       - always refresh the browser with all clear ctrl+alt+f5
+       - start/stop the snapped one via snap.novnc.novncsvc.service
+
+  [Regression Potential]
+
+   * This is exclusive to the functionality of noVNC, so regressions would =
+
+     have to be expected in there. The tests try to exercise the basics, but
+     e.g. Openstack would be a major product using =
+
+
+  [Other Info]
+   =
+
+   * The noVNC in Focal itself does not yet have the offending change, but
+     we want the qemu in focal to be connecteable from ~any type of client
+
+
+  ---
+
+
+  =
+
+  When running a machine using "-vnc" and the "websocket" option QEMU seems=
+ to require the subprotocol called 'binary'. This subprotocol does not exis=
+t in the WebSocket specification. In fact it has never existed in the spec,=
+ in one of the very early drafts of WebSockets it was briefly mentioned but=
+ it never made it to a final version.
+
+  When the WebSocket server requires a non-standard subprotocol any
+  WebSocket client that works correctly won't be able to connect.
+
+  One example of such a client is noVNC, it tells the server that it
+  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
+  let noVNC connect. If noVNC is modified to ask for 'binary' it will
+  work, this is, however, incorrect behavior.
+
+  Looking at the code in "io/channel-websock.c" it seems it's quite
+  hard-coded to binary:
+
+  Look at line 58 and 433 here:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
+
+  This code has to be made more dynamic, and shouldn't require binary.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
 
