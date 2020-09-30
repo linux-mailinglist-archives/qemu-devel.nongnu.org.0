@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B225827EDFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:56:13 +0200 (CEST)
-Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD69027EDBD
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:47:02 +0200 (CEST)
+Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNeSi-0006Q9-QZ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
+	id 1kNeJo-00083e-LA
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kNeRe-0005nx-Pm; Wed, 30 Sep 2020 11:55:06 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:37665)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kNeIz-0007dS-EL
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:46:09 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kNeRc-0001c1-Uy; Wed, 30 Sep 2020 11:55:06 -0400
-Received: by mail-io1-xd42.google.com with SMTP id y13so2333360iow.4;
- Wed, 30 Sep 2020 08:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kNeIs-0000gG-2f
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:46:09 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z1so2361520wrt.3
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 08:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bKClRjzFMT0pps90a/PsiFGDtFSBeovqRUJ8PPva6NE=;
- b=Em9tANLgJXKEqA7KDNZkYUI9JFcK2e1A2lgBounII6B9lo+F31SKis7pOOa+tXPAAK
- Jk7PNB9Q9Nz+MSxnaYNEIOrosWamidCxrIka+9B7yfvajZzGbcRAudFBQ0sO5ZW7xo3k
- 2+wG/UHzdDLyQM+zyPvFQMnQkhtk5YPVqfsSTiEKDa4Sp8enuN/vSQ9EGau2z4Z07QiT
- TC+85sKtgDenqhB0m6vlWjVeJB0mzID0vuiyx71ZtAu6L/jGTG/kFEyQYfGACXNuCyua
- RMYwQA4Uby24tCH8EejZcpHGgLIeO3brI5DUwWiGTIRFrcb+neAMU3Jl+XIpIkvqDBkh
- sA8A==
+ :cc; bh=o9ESt7glrTCg1ZtyepmzJPbDHGX2skVpsfAbtWGHDSk=;
+ b=lWBTZQcu/HiXMX4NEiDg2z8j/+Y1H48+IZtug19TfCnZK00Fr/bvRPPf4G/Sv2QMbz
+ kr4rRhg17dMkkZgkph0We9mkkuKbRaxArwqHTvqOr3h5m+Or1mrmtMDPxgieUDuzeaUe
+ XjtqquieUw6NSgblNeovKNI59sEbR6CFW5mE3Y7A43FqBvlxhnM/8w3VMTumOgdiZ44w
+ oGJV0MiQRWfiUH/bHr9vrUB3qfPclLOM3cu9hQrWnGTB1V87kPiwZTzmnV+MrCWjCvlf
+ 8O9iw0nfjX9VmULg0THIUFQ+1j1nOsJaBsd7/VV6JmBeM8J1jQETovF76g/W2cTtZUpA
+ VbnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bKClRjzFMT0pps90a/PsiFGDtFSBeovqRUJ8PPva6NE=;
- b=qyYyuSA4wlfzJN/c9vRgo8A8rUuyi1KR7BKCkRkcGr7M9qJMv7C3iKA/ac6hvLSdP3
- wRhYU2VQBkKNPdmIl0Qh3FENN2UgIQnRsVQAJi2qrEB5OznozZvTSPiO8mTF7RPYt5UD
- w2wkwxRNvAeMB+oymocSZjtmM3emTawuhorrXt5qyo48j3Dv3I+GF12jaHCtPAnEwXgU
- fNNgxnYoVB1ivk/NhgY+lH4lJ7aI5Xd7+R5S1fAbu2zdXVdTat0Sodw3S5DbHSTjZHt3
- 7PgtcNKiFmh50lV5H2V6BM5zxg6Or3G7oGhhZ1a+AcCoDTII+KaQfeZgkYx8+YV8Yq73
- bTFg==
-X-Gm-Message-State: AOAM531YSKKZcMTD5pTCx71e2DFJD56fWT529+rLkhXaglVfQpoHR9GD
- VWvum0nsaYU2wIO89/BcTwgVSLq+HJbi27wQ8EU=
-X-Google-Smtp-Source: ABdhPJyN2IzpGqG9Lkhk9mRB+eMXAWHs/qqK4d/p3P94a/UNiZkhE23bKhDtm2ECV75za1pt713Edv7HwVxvGpw7Tno=
-X-Received: by 2002:a02:5584:: with SMTP id e126mr2574689jab.26.1601481303401; 
- Wed, 30 Sep 2020 08:55:03 -0700 (PDT)
+ bh=o9ESt7glrTCg1ZtyepmzJPbDHGX2skVpsfAbtWGHDSk=;
+ b=sEvAG+SNvdDOEZQdRSDKXldOSC1vGbCNdatYpezX5vX8vpbaC63H0SN6MkABlVILQw
+ J5OF8ZWuMQpmMBUavpzP81QuFuoCblNGmLy2/N3yVSlRT3nErUs2E88NEF1arSWdDfFt
+ Pc20bUMH/eTi+6N2IH2CQbP8MbfgLOyVatJGnbyjRYVaT/4VsQTuyY82ZhwkYgJkV9r7
+ sASntout2MZz92m/+fVrfYDKkJMB8d26gZfVUnofUYg569Nuq1ctDAnecWIc6mlgXIMH
+ OXFqsJQl3BplGpvXNL7jBS4JEL+pPhZF0o2Up2g6FK2UitaZ/nyftFowbEhtq2IhYvP4
+ aEOQ==
+X-Gm-Message-State: AOAM530yh36QmD6qJyNOhkCfjIZglpQIc5W6ftmqwnzAirTjCTTry17A
+ 54ME/nefbds4NgKEp6HQBbD7GD1wLkBOXbJIi2OhTw==
+X-Google-Smtp-Source: ABdhPJxfA9aa6bLiznyEIDm1UUgL7A4ApZY/TZCbiCoKmRZGejp/v9wcFMYFkLPJtVoPE9k8LLZL6tMnz3AFJw1j5Po=
+X-Received: by 2002:a5d:518b:: with SMTP id k11mr3754338wrv.369.1601480759962; 
+ Wed, 30 Sep 2020 08:45:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200930095321.2006-1-zhaolichang@huawei.com>
- <20200930095321.2006-4-zhaolichang@huawei.com>
-In-Reply-To: <20200930095321.2006-4-zhaolichang@huawei.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 30 Sep 2020 08:43:34 -0700
-Message-ID: <CAKmqyKMR7eKFmJW=5x1R4X7HObjgZo9Y93jPfsRS+6h=F4TBWg@mail.gmail.com>
-Subject: Re: [PATCH RFC 03/14] riscv/: fix some comment spelling errors
-To: zhaolichang <zhaolichang@huawei.com>
+References: <CAARzgwzdYfVn6Kdic+rj7xSxdvP6RAM48wr8Pt_MpDwuYvDSiw@mail.gmail.com>
+ <20200929073523-mutt-send-email-mst@kernel.org>
+ <CAARzgwyNHnG_dzhD9mZbico2V3-c=XL-fNo7xO=rP2jfVMqtdw@mail.gmail.com>
+ <20200930033540-mutt-send-email-mst@kernel.org>
+ <CAARzgwyAE1bL5VnkH7dKBeMEtwcsZBhuhtRxx+BUxYsd8ZRi_A@mail.gmail.com>
+ <20200930034220-mutt-send-email-mst@kernel.org>
+ <CAARzgwy_+kVWQs5sQo4qAYC3Gi5LhdLoMQDPzKadwRPZ1D8Brw@mail.gmail.com>
+ <20200930040207-mutt-send-email-mst@kernel.org>
+ <CAARzgwz1TJpyVZfxJF=yCoj4pBMsUxOvaVmZCCn0Dfni-dB5kw@mail.gmail.com>
+ <CAARzgwzDdYnkKGBUdjr367qqZ3As4bqEhhWiaLqRzwXN2VKhHA@mail.gmail.com>
+ <20200930112631-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200930112631-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 30 Sep 2020 21:15:48 +0530
+Message-ID: <CAARzgwyt5qwoXXTCbcV0sDnivSBsK3MpkCBYxymXHjL4nXpk-g@mail.gmail.com>
+Subject: Re: [PATCH v10 13/13] tests/acpi: add DSDT.hpbrroot DSDT table blob
+ to test global i440fx hotplug
+To: "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::441;
+ envelope-from=ani@anisinha.ca; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,101 +87,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 30, 2020 at 2:56 AM zhaolichang <zhaolichang@huawei.com> wrote:
+On Wed, Sep 30, 2020 at 8:59 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> I found that there are many spelling errors in the comments of qemu/target/riscv.
-> I used spellcheck to check the spelling errors and found some errors in the folder.
+> On Wed, Sep 30, 2020 at 03:00:56PM +0530, Ani Sinha wrote:
+> >
+> >     > >     > Please let's not wait another week or so.
+> >
+> >     > >
+> >
+> >     > >
+> >
+> >     > >
+> >
+> >     > >
+> >
+> >     > >
+> >
+> >     > >     OK it's not too much work but ... could you please add
+> >     justification
+> >
+> >     > >
+> >
+> >     > >     about why adding this one unit test is needed so urgently?
+> >
+> >     > >
+> >
+> >     > >     That motivation would be quite helpful for the pull request.
+> >
+> >     > >
+> >
+> >     > >
+> >
+> >     > > A patch without unit test doesn't complete the patch work. A unit test
+> >     makes
+> >
+> >     > > sure that the change would not get broken by other changes that come in
+> >     later.
+> >
+> >     > > Typically all code changes are accompanied by unit test in the same
+> >     patch.
+> >
+> >     > > Hence since the main work has already been merged, the unit test should
+> >     merge
+> >
+> >     > > ASAP so that no breakage can happen in between.
+> >
+> >     > >
+> >
+> >     > > Plus this completes an entire series of work which I've been working
+> >     for a
+> >
+> >     > > while. I really would love to see it all merged cleanly and fully
+> >     completed.
+> >
+> >     > >
+> >
+> >     >
+> >
+> >     > Absolutely, thanks for the great work!
+> >
+> >     > I am not sure that's a good justification to rushing a pull request
+> >
+> >     > though ... are you waiting to get paid and it hinges on the test, or are
+> >
+> >     > under a deadline, or something like this? It's okay to say so if so.
+> >
+> >
+> >
+> >     Yes I am under a deadline too. Unfortunately can't disclose more details.
+> >
+> >
+> > Thanks Michael. Very much appreciate your help here.
+> >
 >
-> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+> OK Peter merged this. Hope this helps.
+> Let's not make this a pattern please.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+No this is a one time thing. Thanks to you and Peter for making an exception.
 
-Alistair
-
-> ---
->  target/riscv/cpu.c           | 2 +-
->  target/riscv/cpu_bits.h      | 2 +-
->  target/riscv/csr.c           | 6 +++---
->  target/riscv/vector_helper.c | 2 +-
->  4 files changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 0bbfd7f..f40a0b2 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -472,7 +472,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->                      return;
->                  }
->              } else {
-> -                qemu_log("vector verison is not specified, "
-> +                qemu_log("vector version is not specified, "
->                          "use the default value v0.7.1\n");
->              }
->              set_vext_version(env, vext_version);
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index bd36062..6e11555 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -536,7 +536,7 @@
->  /* Leaf page shift amount */
->  #define PGSHIFT             12
->
-> -/* Default Reset Vector adress */
-> +/* Default Reset Vector address */
->  #define DEFAULT_RSTVEC      0x1000
->
->  /* Exception causes */
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 26ae347..559db11 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -624,7 +624,7 @@ static int write_mcounteren(CPURISCVState *env, int csrno, target_ulong val)
->      return 0;
->  }
->
-> -/* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
-> +/* This register is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
->  static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->      if (env->priv_ver < PRIV_VERSION_1_11_0) {
-> @@ -634,7 +634,7 @@ static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
->      return 0;
->  }
->
-> -/* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
-> +/* This register is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
->  static int write_mscounteren(CPURISCVState *env, int csrno, target_ulong val)
->  {
->      if (env->priv_ver < PRIV_VERSION_1_11_0) {
-> @@ -1278,7 +1278,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
->          !riscv_cpu_virt_enabled(env)) {
->          /*
->           * We are in S mode without virtualisation, therefore we are in HS Mode.
-> -         * Add 1 to the effective privledge level to allow us to access the
-> +         * Add 1 to the effective privilege level to allow us to access the
->           * Hypervisor CSRs.
->           */
->          effective_priv++;
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index a156573..fa89a6e 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -709,7 +709,7 @@ typedef void vext_amo_noatomic_fn(void *vs3, target_ulong addr,
->                                    uint32_t wd, uint32_t idx, CPURISCVState *env,
->                                    uintptr_t retaddr);
->
-> -/* no atomic opreation for vector atomic insructions */
-> +/* no atomic operation for vector atomic insructions */
->  #define DO_SWAP(N, M) (M)
->  #define DO_AND(N, M)  (N & M)
->  #define DO_XOR(N, M)  (N ^ M)
 > --
-> 2.26.2.windows.1
->
+> MST
 >
 
