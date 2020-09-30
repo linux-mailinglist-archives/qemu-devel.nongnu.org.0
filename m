@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A8227DF8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:36:12 +0200 (CEST)
-Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D2E27DF86
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:34:21 +0200 (CEST)
+Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNTqd-0004pG-MM
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:36:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36692)
+	id 1kNToq-0001ot-N0
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTmd-0008Hz-L5
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39444)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTmk-0008TJ-Q8
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTmc-0000VW-5J
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601440321;
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTmj-0000Vo-1S
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:10 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601440328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jZCkzq7rF+m0uGqZLmgVX3UPnzS1m5Llp+KintXYgMc=;
- b=Y8CkbmGqbAEZid/jyeVKYpMI+0a/I49FCU726OGLTEkQLTKzWPVJ3R9WFgDZeFrG+QOrC8
- 9nkTH8EP3BWCP0mpA26czZd/0T2FGSCWmV1SHpgIQ6zkXbPTHVu34D6dWDB2MSTkGQayRq
- uTjXm50RTSRhxWYlZd6YI7Lzwpb4u+o=
+ bh=ZwUoWUmRacLg2zG5qLUKkAetcFwgJmdQOVGwiC+iwD8=;
+ b=gTkTS6sRU/TheXaB7LUKX5kW63r6SP1B5GXTVpeZak7Ker5+Vz+ijJuZtpKqpK5Qe5rFgN
+ L+yntzv02Ax+E5eIaT7Udu2qV3kITsIzn8nDtbZVVdtUodJ5KPECdNMvcqgUeyi6XYbMVN
+ XI99Tl9Iw2rMKXClZUYVx+k7kJP2iyo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-es9VVtKANHyMEbvOfopY2w-1; Wed, 30 Sep 2020 00:31:59 -0400
-X-MC-Unique: es9VVtKANHyMEbvOfopY2w-1
+ us-mta-580-iCWyBGcpObyblmV48izxgw-1; Wed, 30 Sep 2020 00:32:01 -0400
+X-MC-Unique: iCWyBGcpObyblmV48izxgw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0034C51BA;
- Wed, 30 Sep 2020 04:31:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FDB1DE06;
+ Wed, 30 Sep 2020 04:32:00 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DEA27838A;
- Wed, 30 Sep 2020 04:31:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B4307BE42;
+ Wed, 30 Sep 2020 04:31:58 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/46] [DO-NOT-MERGE] docs/sphinx: change default role to
- "any"
-Date: Wed, 30 Sep 2020 00:31:07 -0400
-Message-Id: <20200930043150.1454766-4-jsnow@redhat.com>
+Subject: [PATCH v4 04/46] qapi: modify docstrings to be sphinx-compatible
+Date: Wed, 30 Sep 2020 00:31:08 -0400
+Message-Id: <20200930043150.1454766-5-jsnow@redhat.com>
 In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
 References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,25 +85,53 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I did not say "sphinx beautiful", just "sphinx compatible". They will
+not throw errors when parsed and interpreted as ReST.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/conf.py | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/qapi/gen.py    | 6 ++++--
+ scripts/qapi/parser.py | 9 +++++----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 606f623211d..49599e38314 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -84,6 +84,9 @@
- # The master toctree document.
- master_doc = 'index'
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index ca66c82b5b8..fc19b2aeb9b 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -154,9 +154,11 @@ def _bottom(self):
  
-+# Interpret `this` to be a cross-reference to "anything".
-+default_role = 'any'
+ @contextmanager
+ def ifcontext(ifcond, *args):
+-    """A 'with' statement context manager to wrap with start_if()/end_if()
++    """
++    A 'with' statement context manager that wraps with `start_if` and `end_if`.
+ 
+-    *args: any number of QAPIGenCCode
++    :param ifcond: List of conditionals
++    :param args: any number of `QAPIGenCCode`.
+ 
+     Example::
+ 
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 9d1a3e2eea9..02983979965 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -381,10 +381,11 @@ def append(self, line):
+ 
+         The way that the line is dealt with depends on which part of
+         the documentation we're parsing right now:
+-        * The body section: ._append_line is ._append_body_line
+-        * An argument section: ._append_line is ._append_args_line
+-        * A features section: ._append_line is ._append_features_line
+-        * An additional section: ._append_line is ._append_various_line
 +
- # General information about the project.
- project = u'QEMU'
- copyright = u'2020, The QEMU Project Developers'
++         * The body section: ._append_line is ._append_body_line
++         * An argument section: ._append_line is ._append_args_line
++         * A features section: ._append_line is ._append_features_line
++         * An additional section: ._append_line is ._append_various_line
+         """
+         line = line[1:]
+         if not line:
 -- 
 2.26.2
 
