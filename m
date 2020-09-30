@@ -2,73 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5E527EA62
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:56:19 +0200 (CEST)
-Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3539527EA71
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:58:24 +0200 (CEST)
+Received: from localhost ([::1]:54238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNcag-0004VM-If
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1kNccg-0008AD-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcMm-0006NK-Sy
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52175)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNcQt-0002mi-Ds
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:46:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcMb-0005eg-Ml
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:54 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNcQr-00062k-IR
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:46:11 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601473304;
+ s=mimecast20190719; t=1601473568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rF29+ivM2oJ8A8MacCH3LRLVPyDVbcedCuAmiAMdg28=;
- b=cuBG5UGHdh04n7rUSUONBnvmgenFE6T52SfMbc7DopVUWOg/b9R0KY5Shq2a3dxupwuW9q
- XQmpmwZyJtzi1NxRwSH/GitW5weP0xkIZct2438cK3KXDxZRuMryxn2M/x2KrjPwnadlQZ
- xQ6ygjC1rhTdkRzUGQqd2Xb45/RK/+g=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6MQwOxiW+b8VxsGwON5DwqgSGTkCX1vCKQNjjBuH0KA=;
+ b=TSszl0Xy0MEWNNmZ0Nwk/XFgO8I0YzURx8AI7QBKrE1zj6ZzVMqxed3PMGwy/BOtPtIZQ8
+ ciuK0ud1XPEzLaMhrBgDxnES1PV8ne4Yc2lxyO+jp5TyY+Mk3CaZebm92iM5kvgTNBBDwU
+ +cKa2vfYzOdDYU35k978ZE2H2tHnaVs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-gZVB7BVxPri7lbqe1S4wdQ-1; Wed, 30 Sep 2020 09:41:42 -0400
-X-MC-Unique: gZVB7BVxPri7lbqe1S4wdQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-220-fkyEistYPD2AVbQqeCu1hA-1; Wed, 30 Sep 2020 09:46:05 -0400
+X-MC-Unique: fkyEistYPD2AVbQqeCu1hA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0FF11007467
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:41:41 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.194.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FFD165F5E;
- Wed, 30 Sep 2020 13:41:40 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 19/19] i386: expand Hyper-V features during CPU feature
- expansion time
-Date: Wed, 30 Sep 2020 15:40:27 +0200
-Message-Id: <20200930134027.1348021-20-vkuznets@redhat.com>
-In-Reply-To: <20200930134027.1348021-1-vkuznets@redhat.com>
-References: <20200930134027.1348021-1-vkuznets@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC8E6A7430;
+ Wed, 30 Sep 2020 13:46:04 +0000 (UTC)
+Received: from [10.3.112.131] (ovpn-112-131.phx2.redhat.com [10.3.112.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A76C78833;
+ Wed, 30 Sep 2020 13:46:04 +0000 (UTC)
+Subject: Re: [PATCH v2 2/4] qom: Factor out helpers from
+ user_creatable_print_help()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200930124557.51835-1-kwolf@redhat.com>
+ <20200930124557.51835-3-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Autocrypt: addr=eblake@redhat.com; keydata=
+ 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
+Organization: Red Hat, Inc.
+Message-ID: <c65158ef-d973-678c-fc5b-a13836fa098f@redhat.com>
+Date: Wed, 30 Sep 2020 08:46:03 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200930124557.51835-3-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="nnX18J6mZhcuEVHfo0ncXpV1pzmkUhHaj"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.469,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,107 +129,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
-need to expand and set the corresponding CPUID leaves early. Modify
-x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
-specific kvm_hv_get_supported_cpuid() instead of
-kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
-as Hyper-V specific CPUID leaves intersect with KVM's.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--nnX18J6mZhcuEVHfo0ncXpV1pzmkUhHaj
+Content-Type: multipart/mixed; boundary="8p5wBU9xGRjV4BcuLWKdgM7NE7O8Ei11r";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: mreitz@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
+Message-ID: <c65158ef-d973-678c-fc5b-a13836fa098f@redhat.com>
+Subject: Re: [PATCH v2 2/4] qom: Factor out helpers from
+ user_creatable_print_help()
+References: <20200930124557.51835-1-kwolf@redhat.com>
+ <20200930124557.51835-3-kwolf@redhat.com>
+In-Reply-To: <20200930124557.51835-3-kwolf@redhat.com>
 
-Note, early expansion will only happen when KVM supports system wide
-KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
+--8p5wBU9xGRjV4BcuLWKdgM7NE7O8Ei11r
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- target/i386/cpu.c      |  4 ++++
- target/i386/kvm-stub.c |  5 +++++
- target/i386/kvm.c      | 15 ++++++++++++---
- target/i386/kvm_i386.h |  1 +
- 4 files changed, 22 insertions(+), 3 deletions(-)
+On 9/30/20 7:45 AM, Kevin Wolf wrote:
+> This creates separate helper functions for printing a list of user
+> creatable object types and for printing a list of properties of a given
+> type. This allows using these parts without having a QemuOpts.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  qom/object_interfaces.c | 90 ++++++++++++++++++++++++-----------------
+>  1 file changed, 52 insertions(+), 38 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index a178db255641..272091eab057 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6345,6 +6345,10 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-     if (env->cpuid_xlevel2 == UINT32_MAX) {
-         env->cpuid_xlevel2 = env->cpuid_min_xlevel2;
-     }
-+
-+    if (kvm_enabled()) {
-+        kvm_hyperv_expand_features(cpu, errp);
-+    }
- }
- 
- /*
-diff --git a/target/i386/kvm-stub.c b/target/i386/kvm-stub.c
-index 872ef7df4c88..4abb5afa1168 100644
---- a/target/i386/kvm-stub.c
-+++ b/target/i386/kvm-stub.c
-@@ -44,3 +44,8 @@ bool kvm_hv_vpindex_settable(void)
- {
-     return false;
- }
-+
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
-+{
-+    return;
-+}
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 2c62122a1bc8..ba99aecb5a64 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1230,13 +1230,22 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
-  * of 'hv_passthrough' mode and fills the environment with all supported
-  * Hyper-V features.
-  */
--static void hyperv_expand_features(CPUState *cs, Error **errp)
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
- {
--    X86CPU *cpu = X86_CPU(cs);
-+    CPUState *cs = CPU(cpu);
- 
-     if (!hyperv_enabled(cpu))
-         return;
- 
-+    /*
-+     * When kvm_hyperv_expand_features is called at CPU feature expansion
-+     * time per-CPU kvm_state is not available yet so we can only proceed
-+     * when KVM_CAP_SYS_HYPERV_CPUID is supported.
-+     */
-+    if (!cs->kvm_state &&
-+        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID))
-+        return;
-+
-     if (cpu->hyperv_passthrough) {
-         cpu->hyperv_vendor_id[0] =
-             hv_cpuid_get_host(cs, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EBX);
-@@ -1569,7 +1578,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
- 
-     /* Paravirtualization CPUIDs */
--    hyperv_expand_features(cs, &local_err);
-+    kvm_hyperv_expand_features(cpu, &local_err);
-     if (local_err) {
-         error_report_err(local_err);
-         return -ENOSYS;
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 064b8798a26c..126a1bcef2dd 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -47,5 +47,6 @@ bool kvm_has_x2apic_api(void);
- bool kvm_has_waitpkg(void);
- 
- bool kvm_hv_vpindex_settable(void);
-+void kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
- 
- #endif
--- 
-2.25.4
+I don't see any changes from v1, so my R-b from there could have been
+applied.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--8p5wBU9xGRjV4BcuLWKdgM7NE7O8Ei11r--
+
+--nnX18J6mZhcuEVHfo0ncXpV1pzmkUhHaj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl90jBsACgkQp6FrSiUn
+Q2o7CQf/Zx/cBMgDQJT6vdzk3UQXACoF+roJ/q1qcezmVBIITZGXC+joanncEpgx
+eJ4R+tQ+JoTzbs4xa9xUfIqzB9rSTi6gboLNXe/gIy0ahFfil2dtGbCwNRpjzP/h
+4N6ZwGyFOY5/ev4f+xAYIj9tPrCOGNeGfaF+GsIDLyebzJLGcS9QdhRZK/Rq9fvW
+fW0ixnxsBufIRGb1oTVQmdQDjts4dk1e8+NAl2JH8qOKtBU65ghEECrlqZ72S6ce
+EoBG03fCcODJozfqeEd/aCRVwFlnEymqpKUqSaPpX7d9q/KYLnLESl2cPa4rTKM7
+vjwSZdhovw2q3e9HhBglo50qZ9ct7Q==
+=k+oG
+-----END PGP SIGNATURE-----
+
+--nnX18J6mZhcuEVHfo0ncXpV1pzmkUhHaj--
 
 
