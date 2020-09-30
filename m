@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0230127DFE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 07:10:05 +0200 (CEST)
-Received: from localhost ([::1]:55286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D799F27DFFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 07:14:40 +0200 (CEST)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNUNP-00067g-UU
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 01:10:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
+	id 1kNURr-0001Bd-Mv
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 01:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1kNUMO-000581-3H; Wed, 30 Sep 2020 01:09:00 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2981 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1kNUML-00034Y-Nv; Wed, 30 Sep 2020 01:08:59 -0400
-Received: from dggeme755-chm.china.huawei.com (unknown [172.30.72.56])
- by Forcepoint Email with ESMTP id D678CD8DFBE8D194DE50;
- Wed, 30 Sep 2020 13:08:44 +0800 (CST)
-Received: from [10.140.157.78] (10.140.157.78) by
- dggeme755-chm.china.huawei.com (10.3.19.101) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Wed, 30 Sep 2020 13:08:44 +0800
-Subject: Re: [PATCH] hw/arm: Restrict APEI tables generation to the 'virt'
- machine
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-References: <20200929125609.1088330-1-philmd@redhat.com>
-From: Dongjiu Geng <gengdongjiu@huawei.com>
-Message-ID: <12be4400-c37f-2b7f-2f15-f8700dad6003@huawei.com>
-Date: Wed, 30 Sep 2020 13:08:43 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+ (Exim 4.90_1) (envelope-from <mshivam2196@gmail.com>)
+ id 1kNUQG-0000Gy-Oe; Wed, 30 Sep 2020 01:13:00 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mshivam2196@gmail.com>)
+ id 1kNUQC-0003ZW-I3; Wed, 30 Sep 2020 01:13:00 -0400
+Received: by mail-il1-x141.google.com with SMTP id c5so353244ilk.11;
+ Tue, 29 Sep 2020 22:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=y7Gt9TNc6AcwSFnrB9UNPGht4bFuEWGWY8NT7crmRik=;
+ b=F8CtC/jf3NbqozuBB5WmyKCobucHQ5SRyZMFjkibKZZV3gBzvQdq9VHfljjkF1Gvps
+ t+winQSxsI8DIapVF91FUrxzhS53NbhFVnnnhmNfnM1XMqGlAqVlX9TD+qUR8ly5LBdU
+ zlegbWlEDbg8kQWy0tTUrlHqOFjLGCBQK0ZwTC09DgpTUhOIB7FwrODy0zU4AFx5Ll8h
+ +ezZwpPbE5+z5djf9CUvpElQYSlImdPb8RdF+X8ryN6GDxw64ogMjCk8sUFGnFzD1yqj
+ n0dGPfPMEEpscuEngoafde/fu/ynWN9c5rLstMRmhRYijBK2HKXrrDjuUMMwdF1M+b35
+ ArDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=y7Gt9TNc6AcwSFnrB9UNPGht4bFuEWGWY8NT7crmRik=;
+ b=Jjigzbzw6quWMsO+vOZ+L6Bw+JqjWvVhx4U4Ba7stq5cvpIju9iXuNS8uAauKm1KXc
+ W9vR7sZwZgr0jwDUw/OtPtDObpNiQ0G5qWq2IqiBgGCgslhQaoWn8K+fjOXvUA5GrmA4
+ aJ1EXhgGeRtSEUTzfXqhx+tmL69Uy6Nme+ZIWXvRijbPz2EqGHQIjSR/2jVkU/nBAqWM
+ rAH8hjI52/E+FTNc8nJLQDPo/i5PYjwvF0U1XPkQO9p+KDky52K1Sh28xtZ2jeRvKM32
+ TODLOTLbgPZ6YesV6QAuo/s63S7xzUjqhMOABb4c568sBTMhQLAWgcZrqvds/7MGWdYc
+ y2fg==
+X-Gm-Message-State: AOAM532JlESKwWJmQHi3T+TZoKJmnrTUaZnAyzyoqezDhxbemIsXqmLS
+ EWK1TD2GhUoCcJj6sAYH4Yyt5nH/wzlNaoGgqSpDJT6qaZumOw==
+X-Google-Smtp-Source: ABdhPJylARHoaX6AQaTLKqsNTtoJSjqpi/laSGN34GEF+nh6X6van7PzP8IO1CThM8tUyBTNJBi1gYZcD2MsZj68vBo=
+X-Received: by 2002:a05:6e02:f48:: with SMTP id
+ y8mr644535ilj.103.1601442774865; 
+ Tue, 29 Sep 2020 22:12:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200929125609.1088330-1-philmd@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.140.157.78]
-X-ClientProxiedBy: dggeme703-chm.china.huawei.com (10.1.199.99) To
- dggeme755-chm.china.huawei.com (10.3.19.101)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=gengdongjiu@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 01:08:45
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Shivam Mehra <mshivam2196@gmail.com>
+Date: Wed, 30 Sep 2020 10:42:43 +0530
+Message-ID: <CANp2S64q_MEp6MWuYvt2iNFq4kKZQ+3xOhVhbQ0AqD9CrQqcSQ@mail.gmail.com>
+Subject: network buffering in fault tolerance
+To: qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b95ae105b080f321"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=mshivam2196@gmail.com; helo=mail-il1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ HTML_OBFUSCATE_05_10=0.26, HTTPS_HTTP_MISMATCH=0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,56 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Xiang Zheng <zhengxiang9@huawei.com>,
- qemu-arm@nongnu.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/9/29 20:56, Philippe Mathieu-Daudé wrote:
-> As only the Virt machine uses the RAS Virtualization feature (see
-> commit 2afa8c8519: "hw/arm/virt: Introduce a RAS machine option"),
-> restrict the APEI tables generation code to the virt machine.
+--000000000000b95ae105b080f321
+Content-Type: text/plain; charset="UTF-8"
 
-APEI is a generic feature for X86 and arm64.  X86 platform also can use it, although currently it was mainly
-used by ARM64. what is reason that we restrict APEI tables generation to the 'virt' machine?
+I came across this documentation with source code for providing network
+buffering to applications
+https://www.nfradead.org/~tgr/libnl/doc/api/route_2qdisc_2plug_8c_source.html
+<https://www.infradead.org/~tgr/libnl/doc/api/route_2qdisc_2plug_8c_source.html>.
+This network-buffering helps output-commit problem when providing fault
+tolerance to virtual machines. The output is buffered until an
+acknowledgement arrives from the backup VM and then released to the
+external world. So that backup and primary VMs seem consistent externally.
+Initially developed for XEN VMM to provide fault tolerance to VMs and I
+think it's now available for QEMU too.
 
-> 
-> Fixes: aa16508f1d ("ACPI: Build related register address fields via hardware error fw_cfg blob")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Cc: Laszlo Ersek <lersek@redhat.com>
-> Cc: Xiang Zheng <zhengxiang9@huawei.com>
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Dongjiu Geng <gengdongjiu@huawei.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  default-configs/arm-softmmu.mak | 1 -
->  hw/arm/Kconfig                  | 1 +
->  2 files changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
-> index 9a94ebd0be..08a32123b4 100644
-> --- a/default-configs/arm-softmmu.mak
-> +++ b/default-configs/arm-softmmu.mak
-> @@ -43,4 +43,3 @@ CONFIG_FSL_IMX7=y
->  CONFIG_FSL_IMX6UL=y
->  CONFIG_SEMIHOSTING=y
->  CONFIG_ALLWINNER_H3=y
-> -CONFIG_ACPI_APEI=y
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index f303c6bead..7d040827af 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -26,6 +26,7 @@ config ARM_VIRT
->      select ACPI_MEMORY_HOTPLUG
->      select ACPI_HW_REDUCED
->      select ACPI_NVDIMM
-> +    select ACPI_APEI
->  
->  config CHEETAH
->      bool
-> 
+Where does the script reside which does network-buffering for checkpoints?
+and what are the commands to make this happen?
+
+I want to do this network-buffering for packets originating from an
+application. Is it possible to do it in the same way as above? Does it do
+any damage to the host kernel? Can I get  a simple working example for this?
+
+--000000000000b95ae105b080f321
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p style=3D"margin-top:0px;margin-right:0px;margin-left:0p=
+x;padding:0px;border:0px;font-variant-numeric:inherit;font-variant-east-asi=
+an:inherit;font-stretch:inherit;line-height:inherit;font-family:Arial,&quot=
+;Helvetica Neue&quot;,Helvetica,sans-serif;font-size:15px;vertical-align:ba=
+seline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">I came across thi=
+s documentation with source code for providing network buffering to applica=
+tions=C2=A0<a href=3D"https://www.infradead.org/~tgr/libnl/doc/api/route_2q=
+disc_2plug_8c_source.html" rel=3D"nofollow noreferrer" target=3D"_blank" st=
+yle=3D"margin:0px;padding:0px;border:0px;font-style:inherit;font-variant:in=
+herit;font-weight:inherit;font-stretch:inherit;line-height:inherit;font-fam=
+ily:inherit;vertical-align:baseline;box-sizing:inherit">https://www.nfradea=
+d.org/~tgr/libnl/doc/api/route_2qdisc_2plug_8c_source.html</a>. This networ=
+k-buffering helps output-commit problem when providing fault tolerance to v=
+irtual machines. The output is buffered until an acknowledgement arrives fr=
+om the backup VM and then released to the external world. So that backup an=
+d primary VMs seem consistent externally. Initially developed for XEN VMM t=
+o provide fault tolerance to VMs and I think it&#39;s now available for=C2=
+=A0<code style=3D"margin:0px;padding:2px 4px;border:0px;font-style:inherit;=
+font-variant:inherit;font-weight:inherit;font-stretch:inherit;line-height:i=
+nherit;font-family:Consolas,Menlo,Monaco,&quot;Lucida Console&quot;,&quot;L=
+iberation Mono&quot;,&quot;DejaVu Sans Mono&quot;,&quot;Bitstream Vera Sans=
+ Mono&quot;,&quot;Courier New&quot;,monospace,sans-serif;font-size:13px;ver=
+tical-align:baseline;box-sizing:inherit;white-space:pre-wrap;border-radius:=
+3px">QEMU</code>=C2=A0too.</p><p style=3D"margin-top:0px;margin-right:0px;m=
+argin-left:0px;padding:0px;border:0px;font-variant-numeric:inherit;font-var=
+iant-east-asian:inherit;font-stretch:inherit;line-height:inherit;font-famil=
+y:Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;font-size:15px;vert=
+ical-align:baseline;box-sizing:inherit;clear:both;color:rgb(36,39,41)">Wher=
+e does the script reside which does network-buffering for checkpoints? and =
+what are the commands to make this happen?</p><p style=3D"margin-top:0px;ma=
+rgin-right:0px;margin-left:0px;padding:0px;border:0px;font-variant-numeric:=
+inherit;font-variant-east-asian:inherit;font-stretch:inherit;line-height:in=
+herit;font-family:Arial,&quot;Helvetica Neue&quot;,Helvetica,sans-serif;fon=
+t-size:15px;vertical-align:baseline;box-sizing:inherit;clear:both;color:rgb=
+(36,39,41)">I want to do this network-buffering for=C2=A0packets originatin=
+g=C2=A0from an application. Is it possible to do it in the same way as abov=
+e? Does it do any damage to the host kernel? Can I get=C2=A0 a simple worki=
+ng example for this?</p></div>
+
+--000000000000b95ae105b080f321--
 
