@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D299C27E656
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:14:50 +0200 (CEST)
-Received: from localhost ([::1]:35532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDDD27E641
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:11:51 +0200 (CEST)
+Received: from localhost ([::1]:58678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNZ8L-0003uF-Tt
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41550)
+	id 1kNZ5S-0001f8-AM
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kNYyn-0003Om-4I
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:04:57 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34535)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kNYyl-0005DK-61
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:04:56 -0400
-Received: by mail-pf1-x441.google.com with SMTP id k13so870593pfg.1
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 03:04:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rNTLRO7eI/MsFc78yk63Tq1O7QMzt9xIGkepVz1ORQA=;
- b=RfdEwHOm/YtysAXRfe7WQW6Q4ZJNpK8yO+i/9mR3jxX+OVgJP6mkdNtKncDUHHL6HM
- mDQDlHtRVb7661IDKWnF+qQsco+esHlfWIc55TNHHcF+dvbdTIGjm2dtzUpuB686O+7N
- TwriZ6c4+WAZxxAOwawK0HDxkkvxstgpOJg54+cXBR8j/jPNiExY5Zs6rAw9DJ69rK9z
- C/OVMfFxSKt1P/lSw4UrGmJojpdkC0FBz62UqhQ3o2iiaKnSRxbniyqmVjYwDfwmoXMq
- 3bO6yDIVqtUugZAwHVod2CAaaXcIGUm1DPwZ/CyTpo2Sl8ru9eTkDyHTD6tXhkuZrPR+
- Nr+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=rNTLRO7eI/MsFc78yk63Tq1O7QMzt9xIGkepVz1ORQA=;
- b=GICtNV7/AWDQR4/6VaA8PJ0yAf/7AzomgbifSy4ez7n4EnmPslqy8LvgN0jb3EjXbY
- oBnX0nwx2t8ac/m6a06syFHzjDmJ6iYRcLtWm3ikosbmduZ4ZbJDrCX5JdNyj/AStoMK
- PXZ5RWXl4LqI1pjrjoXNJV3oL8EB319rY+UnaZwhf8zDWxQvbkrLU3Acgno6OwW6+eQm
- Wvur/BSL7om0aw8MTXsGb7fvzEPpp291E8sRJSuHlPu021UQG3Rwni051d2FSCfQbM5Q
- AJ875Hde0oPrNWDufJW/S/MsP1EYnDVKR3HAQzusoU7DUVpHyYHWChSNmAYHOy6SKnxi
- u+bg==
-X-Gm-Message-State: AOAM532QBHFIJoDP3KtY74VFeg5lq700AYiVAOUdVNNH3ocAIxq0umDC
- 7EmOso0mD9TgOWsAUsMjV/u37Q==
-X-Google-Smtp-Source: ABdhPJxG0VpP00vLQ3zN321QiHTdOpuRsUyHXysd1hI3TMFTQDpaw+AKN5L+PX/TXrHYh6EtdmRWBg==
-X-Received: by 2002:a63:ff4e:: with SMTP id s14mr1517836pgk.137.1601460293836; 
- Wed, 30 Sep 2020 03:04:53 -0700 (PDT)
-Received: from libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id c185sm1884230pfb.123.2020.09.30.03.04.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 30 Sep 2020 03:04:53 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: pbonzini@redhat.com,
-	peter.maydell@linaro.org
-Subject: [PATCH v3 3/3] target-i386: post memory failure event to uplayer
-Date: Wed, 30 Sep 2020 18:04:40 +0800
-Message-Id: <20200930100440.1060708-4-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200930100440.1060708-1-pizhenwei@bytedance.com>
-References: <20200930100440.1060708-1-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1kNZ1R-0006FS-0E; Wed, 30 Sep 2020 06:07:42 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:54285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1kNZ1K-0005LL-Lv; Wed, 30 Sep 2020 06:07:40 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.238])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9CE07606BFDF;
+ Wed, 30 Sep 2020 12:07:23 +0200 (CEST)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 30 Sep
+ 2020 12:07:22 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0053375a314-4bab-471a-b608-cb967ba91a30,
+ 57637F002EF1FCD73D3EA31567095A3A53C42315) smtp.auth=clg@kaod.org
+Subject: Re: [PATCH] hw/arm/aspeed: Map the UART5 device unconditionally
+To: Andrew Jeffery <andrew@aj.id.au>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Cameron Esfahani via <qemu-devel@nongnu.org>
+References: <20200905212415.760452-1-f4bug@amsat.org>
+ <e640309b-b694-e815-d64d-40dd453e52ef@amsat.org>
+ <5e27c1f9-6d11-fa62-ba71-0020ce9d595b@kaod.org>
+ <07b21d1d-fb5b-efb0-50f2-54a4b86df444@amsat.org>
+ <4648c188-cacc-c532-857c-f0206f60e109@kaod.org>
+ <fd68ae45-da39-44fe-b07f-2510481dbf7f@www.fastmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <c18df4e1-99ad-8f73-378f-db00a8afa262@kaod.org>
+Date: Wed, 30 Sep 2020 12:07:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <fd68ae45-da39-44fe-b07f-2510481dbf7f@www.fastmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7675ed01-7fb2-443a-8af1-d8875ce138fd
+X-Ovh-Tracer-Id: 6402711295669472038
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrfedvgddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejhedtveeihffguefgveejieevfeevtddvhefhjeeludevjeeifefhfeefteefueenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegrnhgurhgvfiesrghjrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 06:07:24
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,139 +76,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Post memory failure event to uplayer to handle hardware memory
-corrupted event. Rather than simple QEMU log, QEMU could report more
-effective message to uplayer. For example, guest crashes by MCE,
-selecting another host server is a better choice.
+On 9/30/20 7:29 AM, Andrew Jeffery wrote:
+> 
+> 
+> On Fri, 18 Sep 2020, at 02:33, Cédric Le Goater wrote:
+>> On 9/17/20 6:57 PM, Philippe Mathieu-Daudé wrote:
+>>> On 9/16/20 7:51 AM, Cédric Le Goater wrote:
+>>>> On 9/15/20 7:23 PM, Philippe Mathieu-Daudé wrote:
+>>>>> ping?
+>>>>
+>>>> It's reviewed : 
+>>>>
+>>>>   http://patchwork.ozlabs.org/project/qemu-devel/patch/20200905212415.760452-1-f4bug@amsat.org/
+>>>>
+>>>
+>>> Yes I know :) This is part of my routine to check if a
+>>> patch hasn't been confirmed to be queued 1 week after the
+>>> last review, to ping the maintainer (because some
+>>> automatically flush patches older than 1month in their
+>>> mailbox).
+>>
+>> ooh. That's brutal.
+>>
+>>>> I will send a PR when I have more patches.
+>>>
+>>> Ah OK. I didn't know you would keep merging the Aspeed
+>>> patches. Since this was a single patch, I thought it would
+>>> go via the usual qemu-arm queue from Peter.
+>>
+>> sure. It could also. Fine with me. I have only three for the
+>> moment. 
+>>
+>>> No rush, I just wanted to be sure the patch was not lost.
+>>> Also, once a patch is queued, I understand it is the
+>>> maintainer responsibility to keep rebasing the patch
+>>> queued.
+>>
+>> yes. I know. I have been taking care of Andrew's ADC patches 
+>> since 2017 ... cough cough :)
+> 
+> Agh!
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- target/i386/helper.c | 24 ++++++++++++++++++++----
- target/i386/kvm.c    | 13 ++++++++++++-
- 2 files changed, 32 insertions(+), 5 deletions(-)
+Does that mean "I will work on it !" ? :)
 
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 17e1684ff9..2a184c4835 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/qapi-events-run-state.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "qemu/qemu-print.h"
-@@ -851,6 +852,15 @@ typedef struct MCEInjectionParams {
-     int flags;
- } MCEInjectionParams;
- 
-+static void emit_guest_memory_failure(MemoryFailureAction action, bool ar,
-+                                      bool recursive)
-+{
-+    MemoryFailureFlags mff = {.action_required = ar, .recursive = recursive};
-+
-+    qapi_event_send_memory_failure(MEMORY_FAILURE_RECIPIENT_GUEST, action,
-+                                   &mff);
-+}
-+
- static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
- {
-     MCEInjectionParams *params = data.host_ptr;
-@@ -859,16 +869,18 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-     uint64_t *banks = cenv->mce_banks + 4 * params->bank;
-     g_autofree char *msg = NULL;
-     bool need_reset = false;
-+    bool recursive;
-+    bool ar = !!(params->status & MCI_STATUS_AR);
- 
-     cpu_synchronize_state(cs);
-+    recursive = !!(cenv->mcg_status & MCG_STATUS_MCIP);
- 
-     /*
-      * If there is an MCE exception being processed, ignore this SRAO MCE
-      * unless unconditional injection was requested.
-      */
--    if (!(params->flags & MCE_INJECT_UNCOND_AO)
--        && !(params->status & MCI_STATUS_AR)
--        && (cenv->mcg_status & MCG_STATUS_MCIP)) {
-+    if (!(params->flags & MCE_INJECT_UNCOND_AO) && !ar && recursive) {
-+        emit_guest_memory_failure(MEMORY_FAILURE_ACTION_IGNORE, ar, recursive);
-         return;
-     }
- 
-@@ -896,7 +908,7 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-             return;
-         }
- 
--        if (cenv->mcg_status & MCG_STATUS_MCIP) {
-+        if (recursive) {
-             need_reset = true;
-             msg = g_strdup_printf("CPU %d: Previous MCE still in progress, "
-                                   "raising triple fault", cs->cpu_index);
-@@ -909,6 +921,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-         }
- 
-         if (need_reset) {
-+            emit_guest_memory_failure(MEMORY_FAILURE_ACTION_FATAL, ar,
-+                                      recursive);
-             monitor_printf(params->mon, "%s", msg);
-             qemu_log_mask(CPU_LOG_RESET, "%s\n", msg);
-             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-@@ -934,6 +948,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-     } else {
-         banks[1] |= MCI_STATUS_OVER;
-     }
-+
-+    emit_guest_memory_failure(MEMORY_FAILURE_ACTION_INJECT, ar, recursive);
- }
- 
- void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 9efb07e7c8..923749f5d8 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -13,6 +13,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/qapi-events-run-state.h"
- #include "qapi/error.h"
- #include <sys/ioctl.h>
- #include <sys/utsname.h>
-@@ -575,8 +576,17 @@ static void kvm_mce_inject(X86CPU *cpu, hwaddr paddr, int code)
-                        (MCM_ADDR_PHYS << 6) | 0xc, flags);
- }
- 
-+static void emit_hypervisor_memory_failure(MemoryFailureAction action, bool ar)
-+{
-+    MemoryFailureFlags mff = {.action_required = ar, .recursive = false};
-+
-+    qapi_event_send_memory_failure(MEMORY_FAILURE_RECIPIENT_HYPERVISOR, action,
-+                                   &mff);
-+}
-+
- static void hardware_memory_error(void *host_addr)
- {
-+    emit_hypervisor_memory_failure(MEMORY_FAILURE_ACTION_FATAL, true);
-     error_report("QEMU got Hardware memory error at addr %p", host_addr);
-     exit(1);
- }
-@@ -631,7 +641,8 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
-         hardware_memory_error(addr);
-     }
- 
--    /* Hope we are lucky for AO MCE */
-+    /* Hope we are lucky for AO MCE, just notify a event */
-+    emit_hypervisor_memory_failure(MEMORY_FAILURE_ACTION_IGNORE, false);
- }
- 
- static void kvm_reset_exception(CPUX86State *env)
--- 
-2.11.0
+C. 
 
 
