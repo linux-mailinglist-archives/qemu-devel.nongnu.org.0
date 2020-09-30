@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E015A27F28E
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 21:26:47 +0200 (CEST)
-Received: from localhost ([::1]:39912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C946427F2B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 21:46:30 +0200 (CEST)
+Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNhkU-0007D8-FQ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 15:26:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47702)
+	id 1kNi3Y-000262-QH
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 15:46:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNhjQ-0006Dg-Jv
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:25:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37472)
+ id 1kNi2p-0001f9-Ia
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:45:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNhjO-0004eF-En
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:25:40 -0400
+ id 1kNi2n-0006Ge-6n
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 15:45:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kNhjM-0006t7-I5
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 19:25:36 +0000
+ id 1kNi2l-0008KR-8q
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 19:45:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5A1552E80AB
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 19:25:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 41A0D2E80E9
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 19:45:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Sep 2020 19:20:33 -0000
-From: Frederic Bezies <1896096@bugs.launchpad.net>
+Date: Wed, 30 Sep 2020 19:38:38 -0000
+From: Paolo Bonzini <1896096@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
@@ -41,17 +41,18 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier pmaydell
  toolybird
 X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
-X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
 References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
-Message-Id: <160149363341.12823.2979375495643251966.malone@gac.canonical.com>
-Subject: [Bug 1896096] Re: Git version: Build process is broken in
+ <160149363341.12823.2979375495643251966.malone@gac.canonical.com>
+Message-Id: <CAHFMJ7sVcadkYJcho0wvX-p0dwjgAkr7nvNHLiTZzPW3QcWEug@mail.gmail.com>
+Subject: Re: [Bug 1896096] Re: Git version: Build process is broken in
  block_curl.c.o
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 4ebcaee088de95bbac5456664f86ef75ba4ab117
+X-Launchpad-Hash: e83aa3a64be183265498da57724f4ee60db693f2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 14:35:38
@@ -78,7 +79,25 @@ Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just asking: any hope to see this patch added to qemu git source code?
+Yes, of course.
+
+Il mer 30 set 2020, 21:25 Frederic Bezies <1896096@bugs.launchpad.net> ha
+scritto:
+
+> Just asking: any hope to see this patch added to qemu git source code?
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1896096
+>
+> Title:
+>   Git version: Build process is broken in block_curl.c.o
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
+>
+>
 
 -- =
 
