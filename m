@@ -2,83 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B7927E5A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 11:51:10 +0200 (CEST)
-Received: from localhost ([::1]:55898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CE927E5C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 11:57:11 +0200 (CEST)
+Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNYlR-0002V9-83
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 05:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38106)
+	id 1kNYrG-0001Z0-LV
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 05:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kNYja-0000tB-AV
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 05:49:14 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kNYjX-0003yo-LR
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 05:49:13 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w5so1031584wrp.8
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 02:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=3w3k+GPdyeJGimG/zSK/cAH9sNUBLBW7KCAdZx46uKY=;
- b=So2U5s9hd/XFGL0Ivn2FMmLAxhdpsQXPt6pylO7VOvGyyZpbDve0oh3VdxYJRfTFYM
- fSCMQOjNzAFSWxdZ8ockziTJckUSW1mT+71u+ICHmm3YtrxyQNq6o+0gt4zk08VfHYvd
- HPCcyims8wJ+e15ssqPHefyOU99nufwYGB+G+tvKFh9nWbaL+QWWgUuLZuNvyqJ5tj/Z
- ghBOeqhGUAdU4hEmj+b2G4fep6Y2WHp8q4RhpAhP1kupZEEx6wurvHWH3N/WH7wlYJZA
- m5K7jHzaH00FONDaNPurBpWHZgh+4IIPbK19dRqBj+M7CRuFnSKJKoO/8iJSWRlkBAZo
- EVzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=3w3k+GPdyeJGimG/zSK/cAH9sNUBLBW7KCAdZx46uKY=;
- b=q/Ty7xEsgRGYDqndjkKRQfCuxDglS/DD8MQUbEOHVAP+4XitOm3giA2yKUUVEPUvl1
- lWQZc2a2P3k8IQM6c0pwgyXrYFI0yutB3zBxdz8EE+QY5paKbURPVOmRlE5GZpGSdxbJ
- z+D3ED9QZc2VPEPUD9l5jtIM7B0SDETARMn21i2eELYMGcOH+Uzj/fzyI428yKfJthRJ
- MG4l5Hc2/9ut+PXHDTuQcTF+gVNZ2FfyZb8mcT3dZgmTOFqdIXch0miGq38Ay17UQ/UR
- nu8FcsxtzYH3JqnNNFEXI3d1Nb9IfMs331xnoyEEgH6Hbqy+j3c3rrrFVZQKsRcpZW7I
- Zzhw==
-X-Gm-Message-State: AOAM532hQX2OFK4aeopBfNxun7PqPwW2+v1rZX3KOZV3l2ANw4vTM2vD
- 5yxqVI7v2oRyzPLzIPddjlYJIQ==
-X-Google-Smtp-Source: ABdhPJwC6VLhnjXGOMJN1/Q5f1bi3cx3xhq0YQ5rsp5PJBO9cfSGNZ1Q12N16n98SmPg4VGWltMjYA==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr2075012wrr.270.1601459348994; 
- Wed, 30 Sep 2020 02:49:08 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c14sm1929667wrv.12.2020.09.30.02.49.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 02:49:07 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 984501FF7E;
- Wed, 30 Sep 2020 10:49:06 +0100 (BST)
-References: <20200928171539.788309-1-f4bug@amsat.org>
- <20200928171539.788309-17-f4bug@amsat.org>
- <CAKJDGDbowgUtu8Ap7K6vm_sksW3-maHU0bk3uib7BNY-5YxMdQ@mail.gmail.com>
- <105e7a4e-adee-284e-cf20-31b1a2781720@amsat.org>
- <87r1qkq5wp.fsf@linaro.org> <20200930084300.GA2264779@redhat.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 16/16] tests/acceptance: Test the MIPSsim machine
-In-reply-to: <20200930084300.GA2264779@redhat.com>
-Date: Wed, 30 Sep 2020 10:49:06 +0100
-Message-ID: <877dsbppbh.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1kNYo5-0006ZB-Iw; Wed, 30 Sep 2020 05:53:55 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5158 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1kNYo3-0004LP-1C; Wed, 30 Sep 2020 05:53:53 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 9368EF14EF356E603DFF;
+ Wed, 30 Sep 2020 17:53:41 +0800 (CST)
+Received: from localhost (10.174.185.186) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 30 Sep 2020
+ 17:53:34 +0800
+From: zhaolichang <zhaolichang@huawei.com>
+To: <qemu-trivial@nongnu.org>
+Subject: [PATCH RFC 00/14] fix some comment spelling errors
+Date: Wed, 30 Sep 2020 17:53:07 +0800
+Message-ID: <20200930095321.2006-1-zhaolichang@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.186]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhaolichang@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 05:46:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,192 +56,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
- Thomas Huth <huth@tuxfamily.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Huacai Chen <chenhc@lemote.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I found that there are many spelling errors in the comments of qemu/target/=
+.=0D
+I used spellcheck to check the spelling errors and found some errors in the=
+ folder.=0D
+=0D
+The checkpatch.pl file in the Linux kernel can check spelling errors in pat=
+ches.=0D
+I'm trying to add this function to the checkpatch.pl in qemu,=0D
+so that no similar spelling errors will occur in the feture.=0D
+It's not done yet and I will commit the patch when it's done.=0D
+=0D
+Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+zhaolichang (14):
+  cris/: fix some comment spelling errors
+  ppc/: fix some comment spelling errors
+  riscv/: fix some comment spelling errors
+  rx/: fix some comment spelling errors
+  tricore/: fix some comment spelling errors
+  mips/: fix some comment spelling errors
+  s390x/: fix some comment spelling errors
+  m68k/: fix some comment spelling errors
+  sh4/: fix some comment spelling errors
+  i386/: fix some comment spelling errors
+  avr/: fix some comment spelling errors
+  arm/: fix some comment spelling errors
+  alpha/: fix some comment spelling errors
+  target/: fix some comment spelling errors
 
-> On Tue, Sep 29, 2020 at 10:38:30AM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->>=20
->> > +Alex/Daniel
->> >
->> > On 9/28/20 10:33 PM, Willian Rampazzo wrote:
->> >> On Mon, Sep 28, 2020 at 2:31 PM Philippe Mathieu-Daud=C3=A9 <f4bug@am=
-sat.org> wrote:
->> >>>
->> >>> Add a test for the mipssim machine, based on the recommended
->> >>> test setup from Thomas Huth:
->> >>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg606846.html
->> >>>
->> >>> The test is quick and can be run as:
->> >>>
->> >>>   $ avocado --show=3Dconsole run -t machine:mipssim tests/acceptance/
->> >>>    (1/1) tests/acceptance/machine_mips_mipssim.py:MipsSimMachine.tes=
-t_mipssim_linux_console:
->> >>>   console: Linux version 3.6.11 (root@711bb8ba16a7) (gcc version 4.8=
-.3 (Buildroot 2014.11) ) #2 Sun Sep 27 13:39:35 UTC 2020
->> >>>   console: Setting default memory size 0x02000000
->> >>>   console: bootconsole [early0] enabled
->> >>>   console: CPU revision is: 00019300 (MIPS 24Kc)
->> >>>   console: FPU revision is: 00739300
->> >>>   ...
->> >>>   console: CPU frequency 12.00 MHz
->> >>>   console: Calibrating delay loop... 950.27 BogoMIPS (lpj=3D4751360)
->> >>>   ...
->> >>>   console: MIPSNet Ethernet driver. Version: 2007-11-17. (c)2005 MIP=
-S Technologies, Inc.
->> >>>   ...
->> >>>   console: Welcome to Buildroot
->> >>>   console: buildroot login: root
->> >>>   console: # root
->> >>>   console: -sh: root: not found
->> >>>   console: # ping -c 3 10.0.2.2
->> >>>   console: PING 10.0.2.2 (10.0.2.2): 56 data bytes
->> >>>   console: 64 bytes from 10.0.2.2: seq=3D0 ttl=3D255 time=3D48.231 ms
->> >>>   console: 64 bytes from 10.0.2.2: seq=3D1 ttl=3D255 time=3D9.407 ms
->> >>>   console: 64 bytes from 10.0.2.2: seq=3D2 ttl=3D255 time=3D2.298 ms
->> >>>   console: --- 10.0.2.2 ping statistics ---
->> >>>   console: 3 packets transmitted, 3 packets received, 0% packet loss
->> >>>   PASS (7.99 s)
->> >>>
->> >>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> >>> ---
->> >>> Cc: Thomas Huth <huth@tuxfamily.org>
->> >>> ---
->> >>>  MAINTAINERS                              |  1 +
->> >>>  tests/acceptance/machine_mips_mipssim.py | 56 +++++++++++++++++++++=
-+++
->> >>>  2 files changed, 57 insertions(+)
->> >>>  create mode 100644 tests/acceptance/machine_mips_mipssim.py
->> >>>
->> >>> diff --git a/MAINTAINERS b/MAINTAINERS
->> >>> index 5eed1e692b4..17d8a012b0e 100644
->> >>> --- a/MAINTAINERS
->> >>> +++ b/MAINTAINERS
->> >>> @@ -240,6 +240,7 @@ F: include/hw/misc/mips_*
->> >>>  F: include/hw/timer/mips_gictimer.h
->> >>>  F: tests/acceptance/linux_ssh_mips_malta.py
->> >>>  F: tests/acceptance/machine_mips_malta.py
->> >>> +F: tests/acceptance/machine_mips_mipssim.py
->> >>>  F: tests/tcg/mips/
->> >>>  K: ^Subject:.*(?i)mips
->> >>>
->> >>> diff --git a/tests/acceptance/machine_mips_mipssim.py b/tests/accept=
-ance/machine_mips_mipssim.py
->> >>> new file mode 100644
->> >>> index 00000000000..b2749917b08
->> >>> --- /dev/null
->> >>> +++ b/tests/acceptance/machine_mips_mipssim.py
->> >>> @@ -0,0 +1,56 @@
->> >>> +# Functional tests for the MIPS simulator (MIPSsim machine)
->> >>> +#
->> >>> +# Copyright (c) 2020 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> >>> +#
->> >>> +# This work is licensed under the terms of the GNU GPL, version 2 o=
-r later.
->> >>> +# See the COPYING file in the top-level directory.
->> >>> +#
->> >>> +# SPDX-License-Identifier: GPL-2.0-or-later
->> >>> +
->> >>> +import os
->> >>> +import logging
->> >>> +import time
->> >>> +
->> >>> +from avocado import skipUnless
->> >>> +from avocado_qemu import Test
->> >>> +from avocado_qemu import exec_command_and_wait_for_pattern
->> >>> +from avocado_qemu import interrupt_interactive_console_until_pattern
->> >>> +from avocado_qemu import wait_for_console_pattern
->> >>> +
->> >>> +class MipsSimMachine(Test):
->> >>> +
->> >>> +    timeout =3D 30
->> >>> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
->> >>> +
->> >>> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrust=
-ed code')
->> >>> +    def test_mipssim_linux_console(self):
->> >>> +        """
->> >>> +        Boots the Linux kernel and checks that the console is opera=
-tional
->> >>> +        :avocado: tags=3Darch:mipsel
->> >>> +        :avocado: tags=3Dmachine:mipssim
->> >>> +        :avocado: tags=3Ddevice:mipsnet
->> >>> +        """
->> >>> +        kernel_url =3D ('https://github.com/philmd/qemu-testing-blo=
-b/raw/'
->> >>> +                      '32ea5764e1de8fffa0d59366c44822cd06d7c8e0/'
->> >>> +                      'mips/mipssim/mipsel/vmlinux')
->> >>=20
->> >> So, are you willing to maintain some images on your GitHub to avoid
->> >> the image changes when they are not found?
->> >
->> > No, I am not willing to do that.
->> >
->> > But I see it pointless to have everyone (including CI) to spend 1h
->> > building this image, when the sources and build recipe is available,
->> > making the built image reproducible.
->>=20
->> I agree we don't want to build from scratch each time. However as we
->> move from relying on third parties (which outside of the major distros
->> has proved very flaky) we are getting to the point of managing our GPL
->> liabilities.
->
-> I'm wondering what the 1 hour time to build the images is
-> spent on, and what does the image need to actually do ?
-
-Buildroot will also build the toolchain and libc of chouce before
-building it's rootfs. To be honest the rootfs part of the build is
-fairly minimal if it's mostly busybox.
-
-> Is it anything more than boot the kernel successfully ?
->
-> I've not tried a timed build, but surely a minimal / tiny
-> Linx kernel build is much less than an hour ? Combine with
-> a tiny C program that simply prints "OK" as /bin/init and
-> powers off the VM. Or we need more advanced then a minimal
-> busybox build.
-
-Starting from a buildroot is useful for development certainly because
-it's a lot easier to add stuff to it if you need to.
-
-> I think it'd be great if we could self-build a minimal
-> kernel+init for all platforms we target, using distro
-> provided cross-compilers.
-
-We've been down this round before haven't we? Wasn't that what the JeOS
-builds where all about?
-
-Anyway things have moved on from the bad old days of crosstool and the
-distros are better at packaging sane cross compilers that can build
-kernels and basic user space. However leaving everyone to use their own
-distro compiler is going to lead to repeatability problems - or maybe we
-just treat it like we do with the existing TCG tests?
-
->
->
-> Regards,
-> Daniel
-
+ target/alpha/cpu.h               |  4 ++--
+ target/alpha/translate.c         |  2 +-
+ target/arm/cpu.h                 |  2 +-
+ target/arm/helper.c              |  4 ++--
+ target/arm/m_helper.c            |  2 +-
+ target/arm/translate-a64.c       |  4 ++--
+ target/arm/translate-sve.c       |  2 +-
+ target/avr/helper.c              |  6 +++---
+ target/cris/helper.c             |  6 +++---
+ target/cris/op_helper.c          |  2 +-
+ target/cris/translate.c          | 14 +++++++-------
+ target/i386/cpu.c                |  4 ++--
+ target/i386/hax-interface.h      |  4 ++--
+ target/i386/hax-windows.c        |  2 +-
+ target/i386/kvm.c                |  2 +-
+ target/i386/machine.c            |  6 +++---
+ target/i386/translate.c          |  8 ++++----
+ target/i386/whpx-all.c           |  2 +-
+ target/m68k/translate.c          | 16 ++++++++--------
+ target/mips/internal.h           |  2 +-
+ target/mips/translate.c          | 10 +++++-----
+ target/mips/translate_init.c.inc |  2 +-
+ target/openrisc/cpu.h            |  2 +-
+ target/ppc/cpu.h                 |  6 +++---
+ target/ppc/excp_helper.c         |  6 +++---
+ target/ppc/fpu_helper.c          |  2 +-
+ target/ppc/internal.h            |  2 +-
+ target/ppc/kvm.c                 |  2 +-
+ target/ppc/machine.c             |  2 +-
+ target/ppc/mmu-hash64.c          |  2 +-
+ target/ppc/mmu_helper.c          |  4 ++--
+ target/ppc/translate_init.c.inc  |  2 +-
+ target/riscv/cpu.c               |  2 +-
+ target/riscv/cpu_bits.h          |  2 +-
+ target/riscv/csr.c               |  6 +++---
+ target/riscv/vector_helper.c     |  2 +-
+ target/rx/op_helper.c            |  2 +-
+ target/rx/translate.c            |  2 +-
+ target/s390x/cpu_models.h        |  4 ++--
+ target/s390x/excp_helper.c       |  2 +-
+ target/s390x/fpu_helper.c        |  2 +-
+ target/s390x/insn-data.def       |  2 +-
+ target/s390x/ioinst.c            |  2 +-
+ target/s390x/misc_helper.c       |  2 +-
+ target/s390x/translate.c         |  4 ++--
+ target/s390x/translate_vx.c.inc  |  2 +-
+ target/sh4/cpu.h                 |  2 +-
+ target/sh4/op_helper.c           |  2 +-
+ target/sh4/translate.c           |  2 +-
+ target/sparc/asi.h               |  2 +-
+ target/tricore/csfr.def          |  2 +-
+ target/tricore/translate.c       |  2 +-
+ target/unicore32/translate.c     |  2 +-
+ 53 files changed, 93 insertions(+), 93 deletions(-)
 
 --=20
-Alex Benn=C3=A9e
+2.26.2.windows.1
+
 
