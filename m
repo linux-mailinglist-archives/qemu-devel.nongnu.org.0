@@ -2,110 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD9727EF05
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:23:34 +0200 (CEST)
-Received: from localhost ([::1]:58972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B604C27EF37
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 18:30:16 +0200 (CEST)
+Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNetA-0001AK-La
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59424)
+	id 1kNezf-0006c4-RI
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 12:30:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kNepz-0008G7-5u; Wed, 30 Sep 2020 12:20:15 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:42203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kNepv-0004Vr-PJ; Wed, 30 Sep 2020 12:20:14 -0400
-Received: from [192.168.100.1] ([82.252.145.98]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MsI0K-1khwu60YPq-00tk2r; Wed, 30 Sep 2020 18:19:56 +0200
-Subject: Re: [PATCH RFC 08/14] m68k/: fix some comment spelling errors
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- zhaolichang <zhaolichang@huawei.com>, qemu-trivial@nongnu.org
-References: <20200930095321.2006-1-zhaolichang@huawei.com>
- <20200930095321.2006-9-zhaolichang@huawei.com>
- <a1e3bd75-8eb5-0f7f-7c2f-81e3de0a0114@vivier.eu>
- <6a8cd8ab-3a8c-bb24-2193-67b0a1cebf16@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <1f1a2609-7d2a-bbb9-08d9-e81af9c9c6ec@vivier.eu>
-Date: Wed, 30 Sep 2020 18:19:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kNex1-0005QY-7o
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 12:27:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kNewy-00053T-Cb
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 12:27:30 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601483247;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TL8akQLFmHomRZTeBE+lrXizsD6oui0EMhFHMQwqMOc=;
+ b=SxR3TYSITOt0vYDA23y8L9CXVb1fNiXP13OMbMzfb91rW+oOBsILt5Wy2qcgL4BM6AyzQN
+ a/0YbwnFBZDitwqN0Mp/ahXT6yoMi/mNlogJRnoiWDH1UTSF/zWMH3nl5jWgPAg//XNc06
+ rJ1SnO+dqxlq/Dg9pM2gTZvgYj63K6w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-296-csdqnFfQOFis3XHeX_Fw-A-1; Wed, 30 Sep 2020 12:24:19 -0400
+X-MC-Unique: csdqnFfQOFis3XHeX_Fw-A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 631B21084C80;
+ Wed, 30 Sep 2020 16:24:17 +0000 (UTC)
+Received: from work-vm (ovpn-114-238.ams2.redhat.com [10.36.114.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E47C565F5E;
+ Wed, 30 Sep 2020 16:24:12 +0000 (UTC)
+Date: Wed, 30 Sep 2020 17:24:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH 3/4] qemu-io-cmds: avoid gcc 10 warning
+Message-ID: <20200930162410.GC2783@work-vm>
+References: <20200930155859.303148-1-borntraeger@de.ibm.com>
+ <20200930155859.303148-4-borntraeger@de.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <6a8cd8ab-3a8c-bb24-2193-67b0a1cebf16@amsat.org>
+In-Reply-To: <20200930155859.303148-4-borntraeger@de.ibm.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ic6qg2sQd7+WEoc2z+1BiZfECJE3Aj0rM7GzY3wdMRYM854RIZx
- 6jFNkRZco+S5Yzedl01ahX5uuqIv4rzbf4MP/NsvPAqxd5zXSxofpvImUZyeaTlsms0G+DE
- g0BgsksAD3nz0S/AevX823d863d64ZPpUnSlM3jrxTv7Funz2J67cK7YQyiPr+xIoEDCwi/
- XUOcKQUwpa5uegNEbKxcg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Vazt4hVDbzY=:g9nMg6iYydF3JtwT19NmNi
- M+qWvlKGYydG8LCpYhpY+rrRncjjvjyl0nBtbQeIxRvNlVn64ChReiQ5vmOcYJugh/ipgv/nY
- cw6lMGRuwwI5XQMj+82wBdOnoW31LUL5+jWkkK5xYLF4ncsQ3TvXmruQ9y49YZSAoH9qcxeJ6
- Ydd9DNLUMtkQlApE+5Q2HDMVERvP02/k7Dlawi8zx3XAGVe2B4OlWLOd9n/AfGoOTLJZZFXn4
- 4NmT9vhfjqP3gAxXKqqc6zf/T/X0VAFROJ91ssUNXT6j8I6Ognde/ZEU6mu8VbcShArkWnt0W
- AtcVUMfEAbelQbxxibqAwDZjl6OIUpoZG2cmrcNN2r7Trt/AOoLS2+ishH5iC0/IP0rHoaHgE
- RZEzgENQWNRGqoJjj5vd8JE3jeWPwXZCVuedZUwPC1YqCiwVxmveHmqi55NTR00MYIshwEHM3
- JCyIyyNPGs1OQT0I3aoznz4/40vbmOjIRKy7A5VuiL0DivBcFZkJDiESX4k6+7KJ5x8EiTiJH
- Vg5iEpYUvBU5OYjCohHnjLU546yS4TQEux5446Wrkv1d0ZIGHbsgKMDTAfp5wOHTQhucbTvoS
- DCHafQnL7I0vQKUNt6hkM82HMfQ0k1O4FoxF0A/uU547YAJljqyViEN08dxggT2AR5t4wyVhn
- hVQEfMNyShmFGqUQvBdVeovD9mjWLHEZQqO0cz1tVyACvKws2omb9wftLEKn+GQQ6ulLjjxcy
- 8hgHuNaMM1SRU+KyzeR5b0FSeqGWMLrjl3bH9CLIGlRFcfe56eDD51u4O7K5z/oBvOUa/pJWG
- Sje0nx0C3t8XN1NfjVtYwrRyXQFtMV5gZhigKOCTqrWUcfD72zRjAiigBRpAkuJTusK6Wic
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 12:20:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.373, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,108 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 30/09/2020 à 18:03, Philippe Mathieu-Daudé a écrit :
-> On 9/30/20 12:26 PM, Laurent Vivier wrote:
->> Le 30/09/2020 à 11:53, zhaolichang a écrit :
->>> I found that there are many spelling errors in the comments of qemu/target/m68k.
->>> I used spellcheck to check the spelling errors and found some errors in the folder.
->>>
->>> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
->>> ---
->>>  target/m68k/translate.c | 16 ++++++++--------
->>>  1 file changed, 8 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
->>> index 3fc67aa..133a404 100644
->>> --- a/target/m68k/translate.c
->>> +++ b/target/m68k/translate.c
->>> @@ -438,7 +438,7 @@ static TCGv gen_addr_index(DisasContext *s, uint16_t ext, TCGv tmp)
->>>  }
->>>  
->>>  /*
->>> - * Handle a base + index + displacement effective addresss.
->>> + * Handle a base + index + displacement effective address.
->>>   * A NULL_QREG base means pc-relative.
->>>   */
->>>  static TCGv gen_lea_indexed(CPUM68KState *env, DisasContext *s, TCGv base)
->>> @@ -1696,7 +1696,7 @@ static void bcd_add(TCGv dest, TCGv src)
->>>  
->>>      /*
->>>       * t1 = (src + 0x066) + dest + X
->>> -     *    = result with some possible exceding 0x6
->>> +     *    = result with some possible exceeding 0x6
->>>       */
->>>  
->>>      t0 = tcg_const_i32(0x066);
->>> @@ -1706,7 +1706,7 @@ static void bcd_add(TCGv dest, TCGv src)
->>>      tcg_gen_add_i32(t1, t0, dest);
->>>      tcg_gen_add_i32(t1, t1, QREG_CC_X);
->>>  
->>> -    /* we will remove exceding 0x6 where there is no carry */
->>> +    /* we will remove exceeding 0x6 where there is no carry */
->>>  
->>>      /*
->>>       * t0 = (src + 0x0066) ^ dest
->>> @@ -1736,7 +1736,7 @@ static void bcd_add(TCGv dest, TCGv src)
->>>      tcg_temp_free(t0);
->>>  
->>>      /*
->>> -     * remove the exceding 0x6
->>> +     * remove the exceeding 0x6
->>>       * for digits that have not generated a carry
->>>       */
->>>  
->>> @@ -2638,7 +2638,7 @@ DISAS_INSN(negx)
->>>      gen_flush_flags(s); /* compute old Z */
->>>  
->>>      /*
->>> -     * Perform substract with borrow.
->>> +     * Perform subtract with borrow.
->>>       * (X, N) =  -(src + X);
->>>       */
->>>  
->>> @@ -2653,7 +2653,7 @@ DISAS_INSN(negx)
->>>      /*
->>>       * Compute signed-overflow for negation.  The normal formula for
->>>       * subtraction is (res ^ src) & (src ^ dest), but with dest==0
->>> -     * this simplies to res & src.
->>> +     * this simplifies to res & src.
->>>       */
->>>  
->>>      tcg_gen_and_i32(QREG_CC_V, QREG_CC_N, src);
->>> @@ -3159,7 +3159,7 @@ static inline void gen_subx(DisasContext *s, TCGv src, TCGv dest, int opsize)
->>>      gen_flush_flags(s); /* compute old Z */
->>>  
->>>      /*
->>> -     * Perform substract with borrow.
->>> +     * Perform subtract with borrow.
->>>       * (X, N) = dest - (src + X);
->>>       */
->>>  
->>> @@ -3169,7 +3169,7 @@ static inline void gen_subx(DisasContext *s, TCGv src, TCGv dest, int opsize)
->>>      gen_ext(QREG_CC_N, QREG_CC_N, opsize, 1);
->>>      tcg_gen_andi_i32(QREG_CC_X, QREG_CC_X, 1);
->>>  
->>> -    /* Compute signed-overflow for substract.  */
->>> +    /* Compute signed-overflow for subtract.  */
->>>  
->>>      tcg_gen_xor_i32(QREG_CC_V, QREG_CC_N, dest);
->>>      tcg_gen_xor_i32(tmp, dest, src);
->>>
->>
->> Reviewed-by: Laurent Vivier <laurent@vivier>
+* Christian Borntraeger (borntraeger@de.ibm.com) wrote:
+> With gcc 10 on Fedora32 I do get:
 > 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
-Yes, thanks.
-
+> Compiling C object libblock.fa.p/qemu-io-cmds.c.o
+> In file included from /usr/include/stdio.h:867,
+>                  from /home/cborntra/REPOS/qemu/include/qemu/osdep.h:85,
+>                  from ../qemu-io-cmds.c:11:
+> In function ‘printf’,
+>     inlined from ‘help_oneline’ at ../qemu-io-cmds.c:2389:9,
+>     inlined from ‘help_all’ at ../qemu-io-cmds.c:2414:9,
+>     inlined from ‘help_f’ at ../qemu-io-cmds.c:2424:9:
+> /usr/include/bits/stdio2.h:107:10: error: ‘%s’ directive argument is null [-Werror=format-overflow=]
+>   107 |   return __printf_chk (__USE_FORTIFY_LEVEL - 1, __fmt, __va_arg_pack ());
+>       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Let us check for null.
 > 
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Laurent
+I'd already posted
+'qemu-io-cmds: Simplify help_oneline' that simplifies
+this function much more; Kevin picked that up for the block branch a
+couple of days ago.
+
+Dave
+
+
+> ---
+>  qemu-io-cmds.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+> index baeae86d8c85..c2080aa398a9 100644
+> --- a/qemu-io-cmds.c
+> +++ b/qemu-io-cmds.c
+> @@ -2386,7 +2386,9 @@ static void help_oneline(const char *cmd, const cmdinfo_t *ct)
+>      if (cmd) {
+>          printf("%s ", cmd);
+>      } else {
+> -        printf("%s ", ct->name);
+> +        if (ct->name) {
+> +            printf("%s ", ct->name);
+> +        }
+>          if (ct->altname) {
+>              printf("(or %s) ", ct->altname);
+>          }
+> -- 
+> 2.26.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
