@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D1C27EA5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:55:42 +0200 (CEST)
-Received: from localhost ([::1]:43864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A814227EA58
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:54:12 +0200 (CEST)
+Received: from localhost ([::1]:39280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNca5-0003yF-9q
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:55:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38028)
+	id 1kNcYd-00023O-Mn
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcMd-0006MT-Az
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42785)
+ id 1kNcMj-0006N2-UZ
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcMa-0005e5-Rm
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:47 -0400
+ id 1kNcMb-0005eF-3f
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:53 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601473298;
+ s=mimecast20190719; t=1601473300;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=arb4Vkg/IiXovO0rnzjC19MaVYDKE+UhYIRempQ0NyI=;
- b=fGWG6kC3QefPnHzLXta6yQzLmYE0lHdlHow3TXOh8Qv/dSD4JGE5WnZfmYWVAbgEZL+dZO
- srckXbW6wYmWCAvUxfXRj4ixZWy55FuOzQ1rdHTCFbwaPaU0yP4oyaq//5It/i/McgkFWy
- /2jI0M8lbIHsyX0danOX3oxyB1cBrsM=
+ bh=rYRvlyeh4UdprzkfJSkkxE01i+dMEIab9wKgYrofCe0=;
+ b=H1OvX5+h3U3CoUbXM/jMx6eTbkO7hKnJ2HhAJ+7EImvLoSDdXd2fR5IvgCkFCkNJr+XwW8
+ AxEEszElToXk2vypG/LyGE1zg6Q9BX1YI72QZzJYVONyFIZafEnLHfFzDUb0FClrrfuVWq
+ 5NFU1goOYeeY3qTFSKAAjqHUr+Z01Pc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-vOhb1neXOmqMT-h6bUHhvA-1; Wed, 30 Sep 2020 09:41:36 -0400
-X-MC-Unique: vOhb1neXOmqMT-h6bUHhvA-1
+ us-mta-157-SKusdtRuOPKZnDRTQcFf8A-1; Wed, 30 Sep 2020 09:41:38 -0400
+X-MC-Unique: SKusdtRuOPKZnDRTQcFf8A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AA341007285
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:41:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 166B58030D6
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:41:37 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6C3060C05;
- Wed, 30 Sep 2020 13:41:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9950260C05;
+ Wed, 30 Sep 2020 13:41:35 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 15/19] i386: switch hyperv_expand_features() to using
- error_setg()
-Date: Wed, 30 Sep 2020 15:40:23 +0200
-Message-Id: <20200930134027.1348021-16-vkuznets@redhat.com>
+Subject: [PATCH RFC v2 16/19] i386: adjust the expected
+ KVM_GET_SUPPORTED_HV_CPUID array size
+Date: Wed, 30 Sep 2020 15:40:24 +0200
+Message-Id: <20200930134027.1348021-17-vkuznets@redhat.com>
 In-Reply-To: <20200930134027.1348021-1-vkuznets@redhat.com>
 References: <20200930134027.1348021-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -86,169 +86,30 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use standard error_setg() mechanism in hyperv_expand_features().
+SYNDBG leaves were recently (Linux-5.8) added to KVM but we haven't
+updated the expected size of KVM_GET_SUPPORTED_HV_CPUID output in
+KVM so we now make serveral tries before succeeding. Update the
+default.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm.c | 101 ++++++++++++++++++++++++++++------------------
- 1 file changed, 61 insertions(+), 40 deletions(-)
+ target/i386/kvm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 181e034da701..32678154837f 100644
+index 32678154837f..39a6e89dbb60 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -1149,7 +1149,7 @@ static bool hyperv_feature_supported(CPUState *cs, int feature)
-     return true;
- }
- 
--static int hv_cpuid_check_and_set(CPUState *cs, int feature)
-+static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
+@@ -975,7 +975,8 @@ static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
+ static struct kvm_cpuid2 *get_supported_hv_cpuid(CPUState *cs)
  {
-     X86CPU *cpu = X86_CPU(cs);
-     uint64_t deps;
-@@ -1163,20 +1163,18 @@ static int hv_cpuid_check_and_set(CPUState *cs, int feature)
-     while (deps) {
-         dep_feat = ctz64(deps);
-         if (!(hyperv_feat_enabled(cpu, dep_feat))) {
--                fprintf(stderr,
--                        "Hyper-V %s requires Hyper-V %s\n",
--                        kvm_hyperv_properties[feature].desc,
--                        kvm_hyperv_properties[dep_feat].desc);
--                return 1;
-+            error_setg(errp, "Hyper-V %s requires Hyper-V %s",
-+                       kvm_hyperv_properties[feature].desc,
-+                       kvm_hyperv_properties[dep_feat].desc);
-+            return 1;
-         }
-         deps &= ~(1ull << dep_feat);
-     }
+     struct kvm_cpuid2 *cpuid;
+-    int max = 7; /* 0x40000000..0x40000005, 0x4000000A */
++    /* 0x40000000..0x40000005, 0x4000000A, 0x40000080..0x40000080 leaves */
++    int max = 10;
+     int i;
  
-     if (!hyperv_feature_supported(cs, feature)) {
-         if (hyperv_feat_enabled(cpu, feature)) {
--            fprintf(stderr,
--                    "Hyper-V %s is not supported by kernel\n",
--                    kvm_hyperv_properties[feature].desc);
-+            error_setg(errp, "Hyper-V %s is not supported by kernel",
-+                       kvm_hyperv_properties[feature].desc);
-             return 1;
-         } else {
-             return 0;
-@@ -1223,13 +1221,12 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
-  * of 'hv_passthrough' mode and fills the environment with all supported
-  * Hyper-V features.
-  */
--static int hyperv_expand_features(CPUState *cs)
-+static void hyperv_expand_features(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
--    int r;
- 
-     if (!hyperv_enabled(cpu))
--        return 0;
-+        return;
- 
-     if (cpu->hyperv_passthrough) {
-         cpu->hyperv_vendor_id[0] =
-@@ -1275,37 +1272,60 @@ static int hyperv_expand_features(CPUState *cs)
-     }
- 
-     /* Features */
--    r = hv_cpuid_check_and_set(cs, HYPERV_FEAT_RELAXED);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_VAPIC);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_TIME);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_CRASH);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_RESET);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_VPINDEX);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_RUNTIME);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_SYNIC);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_FREQUENCIES);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_REENLIGHTENMENT);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_TLBFLUSH);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_EVMCS);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_IPI);
--    r |= hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER_DIRECT);
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RELAXED, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_VAPIC, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_TIME, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_CRASH, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RESET, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_VPINDEX, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RUNTIME, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_SYNIC, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_FREQUENCIES, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_REENLIGHTENMENT, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_TLBFLUSH, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_EVMCS, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_IPI, errp)) {
-+        return;
-+    }
-+    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER_DIRECT, errp)) {
-+        return;
-+    }
- 
-     /* Additional dependencies not covered by kvm_hyperv_properties[] */
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC) &&
-         !cpu->hyperv_synic_kvm_only &&
-         !hyperv_feat_enabled(cpu, HYPERV_FEAT_VPINDEX)) {
--        fprintf(stderr, "Hyper-V %s requires Hyper-V %s\n",
--                kvm_hyperv_properties[HYPERV_FEAT_SYNIC].desc,
--                kvm_hyperv_properties[HYPERV_FEAT_VPINDEX].desc);
--        r |= 1;
--    }
--
--    if (r) {
--        return -ENOSYS;
-+        error_setg(errp, "Hyper-V %s requires Hyper-V %s",
-+                   kvm_hyperv_properties[HYPERV_FEAT_SYNIC].desc,
-+                   kvm_hyperv_properties[HYPERV_FEAT_VPINDEX].desc);
-     }
--
--    return 0;
- }
- 
- /*
-@@ -1540,9 +1560,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
- 
-     /* Paravirtualization CPUIDs */
--    r = hyperv_expand_features(cs);
--    if (r < 0) {
--        return r;
-+    hyperv_expand_features(cs, &local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+        return -ENOSYS;
-     }
- 
-     if (hyperv_enabled(cpu)) {
+     /*
 -- 
 2.25.4
 
