@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CE927E5C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 11:57:11 +0200 (CEST)
-Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC56C27E5BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 11:56:14 +0200 (CEST)
+Received: from localhost ([::1]:42598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNYrG-0001Z0-LV
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 05:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39190)
+	id 1kNYqL-0000DG-Pk
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 05:56:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kNYo5-0006ZB-Iw; Wed, 30 Sep 2020 05:53:55 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5158 helo=huawei.com)
+ id 1kNYo7-0006ZS-Av; Wed, 30 Sep 2020 05:53:57 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:46174 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kNYo3-0004LP-1C; Wed, 30 Sep 2020 05:53:53 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 9368EF14EF356E603DFF;
- Wed, 30 Sep 2020 17:53:41 +0800 (CST)
-Received: from localhost (10.174.185.186) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 30 Sep 2020
- 17:53:34 +0800
+ id 1kNYo4-0004Lp-13; Wed, 30 Sep 2020 05:53:54 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 001495E249C872AC6C51;
+ Wed, 30 Sep 2020 17:53:48 +0800 (CST)
+Received: from localhost (10.174.185.186) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Wed, 30 Sep 2020
+ 17:53:41 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH RFC 00/14] fix some comment spelling errors
-Date: Wed, 30 Sep 2020 17:53:07 +0800
-Message-ID: <20200930095321.2006-1-zhaolichang@huawei.com>
+Subject: [PATCH RFC 01/14] cris/: fix some comment spelling errors
+Date: Wed, 30 Sep 2020 17:53:08 +0800
+Message-ID: <20200930095321.2006-2-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
+In-Reply-To: <20200930095321.2006-1-zhaolichang@huawei.com>
+References: <20200930095321.2006-1-zhaolichang@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.186]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
+Received-SPF: pass client-ip=45.249.212.32;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 05:46:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 05:46:49
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -60,91 +62,125 @@ Cc: zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found that there are many spelling errors in the comments of qemu/target/=
-.=0D
-I used spellcheck to check the spelling errors and found some errors in the=
- folder.=0D
-=0D
-The checkpatch.pl file in the Linux kernel can check spelling errors in pat=
-ches.=0D
-I'm trying to add this function to the checkpatch.pl in qemu,=0D
-so that no similar spelling errors will occur in the feture.=0D
-It's not done yet and I will commit the patch when it's done.=0D
-=0D
+I found that there are many spelling errors in the comments of qemu/target/cris.
+I used spellcheck to check the spelling errors and found some errors in the folder.
+
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+---
+ target/cris/helper.c    |  6 +++---
+ target/cris/op_helper.c |  2 +-
+ target/cris/translate.c | 14 +++++++-------
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-zhaolichang (14):
-  cris/: fix some comment spelling errors
-  ppc/: fix some comment spelling errors
-  riscv/: fix some comment spelling errors
-  rx/: fix some comment spelling errors
-  tricore/: fix some comment spelling errors
-  mips/: fix some comment spelling errors
-  s390x/: fix some comment spelling errors
-  m68k/: fix some comment spelling errors
-  sh4/: fix some comment spelling errors
-  i386/: fix some comment spelling errors
-  avr/: fix some comment spelling errors
-  arm/: fix some comment spelling errors
-  alpha/: fix some comment spelling errors
-  target/: fix some comment spelling errors
-
- target/alpha/cpu.h               |  4 ++--
- target/alpha/translate.c         |  2 +-
- target/arm/cpu.h                 |  2 +-
- target/arm/helper.c              |  4 ++--
- target/arm/m_helper.c            |  2 +-
- target/arm/translate-a64.c       |  4 ++--
- target/arm/translate-sve.c       |  2 +-
- target/avr/helper.c              |  6 +++---
- target/cris/helper.c             |  6 +++---
- target/cris/op_helper.c          |  2 +-
- target/cris/translate.c          | 14 +++++++-------
- target/i386/cpu.c                |  4 ++--
- target/i386/hax-interface.h      |  4 ++--
- target/i386/hax-windows.c        |  2 +-
- target/i386/kvm.c                |  2 +-
- target/i386/machine.c            |  6 +++---
- target/i386/translate.c          |  8 ++++----
- target/i386/whpx-all.c           |  2 +-
- target/m68k/translate.c          | 16 ++++++++--------
- target/mips/internal.h           |  2 +-
- target/mips/translate.c          | 10 +++++-----
- target/mips/translate_init.c.inc |  2 +-
- target/openrisc/cpu.h            |  2 +-
- target/ppc/cpu.h                 |  6 +++---
- target/ppc/excp_helper.c         |  6 +++---
- target/ppc/fpu_helper.c          |  2 +-
- target/ppc/internal.h            |  2 +-
- target/ppc/kvm.c                 |  2 +-
- target/ppc/machine.c             |  2 +-
- target/ppc/mmu-hash64.c          |  2 +-
- target/ppc/mmu_helper.c          |  4 ++--
- target/ppc/translate_init.c.inc  |  2 +-
- target/riscv/cpu.c               |  2 +-
- target/riscv/cpu_bits.h          |  2 +-
- target/riscv/csr.c               |  6 +++---
- target/riscv/vector_helper.c     |  2 +-
- target/rx/op_helper.c            |  2 +-
- target/rx/translate.c            |  2 +-
- target/s390x/cpu_models.h        |  4 ++--
- target/s390x/excp_helper.c       |  2 +-
- target/s390x/fpu_helper.c        |  2 +-
- target/s390x/insn-data.def       |  2 +-
- target/s390x/ioinst.c            |  2 +-
- target/s390x/misc_helper.c       |  2 +-
- target/s390x/translate.c         |  4 ++--
- target/s390x/translate_vx.c.inc  |  2 +-
- target/sh4/cpu.h                 |  2 +-
- target/sh4/op_helper.c           |  2 +-
- target/sh4/translate.c           |  2 +-
- target/sparc/asi.h               |  2 +-
- target/tricore/csfr.def          |  2 +-
- target/tricore/translate.c       |  2 +-
- target/unicore32/translate.c     |  2 +-
- 53 files changed, 93 insertions(+), 93 deletions(-)
-
---=20
+diff --git a/target/cris/helper.c b/target/cris/helper.c
+index b5159b8..50419e7 100644
+--- a/target/cris/helper.c
++++ b/target/cris/helper.c
+@@ -141,7 +141,7 @@ void crisv10_cpu_do_interrupt(CPUState *cs)
+     assert(!(env->pregs[PR_CCS] & PFIX_FLAG));
+     switch (cs->exception_index) {
+     case EXCP_BREAK:
+-        /* These exceptions are genereated by the core itself.
++        /* These exceptions are generated by the core itself.
+            ERP should point to the insn following the brk.  */
+         ex_vec = env->trap_vector;
+         env->pregs[PRV10_BRP] = env->pc;
+@@ -197,7 +197,7 @@ void cris_cpu_do_interrupt(CPUState *cs)
+ 
+     switch (cs->exception_index) {
+     case EXCP_BREAK:
+-        /* These exceptions are genereated by the core itself.
++        /* These exceptions are generated by the core itself.
+            ERP should point to the insn following the brk.  */
+         ex_vec = env->trap_vector;
+         env->pregs[PR_ERP] = env->pc;
+@@ -256,7 +256,7 @@ void cris_cpu_do_interrupt(CPUState *cs)
+        undefined.  */
+     env->pc = cpu_ldl_code(env, env->pregs[PR_EBP] + ex_vec * 4);
+ 
+-    /* Clear the excption_index to avoid spurios hw_aborts for recursive
++    /* Clear the excption_index to avoid spurious hw_aborts for recursive
+        bus faults.  */
+     cs->exception_index = -1;
+ 
+diff --git a/target/cris/op_helper.c b/target/cris/op_helper.c
+index 6b1e7ae..3c4aacc 100644
+--- a/target/cris/op_helper.c
++++ b/target/cris/op_helper.c
+@@ -231,7 +231,7 @@ static inline uint32_t evaluate_flags_writeback(CPUCRISState *env,
+ {
+     unsigned int x, z, mask;
+ 
+-    /* Extended arithmetics, leave the z flag alone.  */
++    /* Extended arithmetic, leave the z flag alone.  */
+     x = env->cc_x;
+     mask = env->cc_mask | X_FLAG;
+     if (x) {
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index c312e6f..16b0ef8 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -348,7 +348,7 @@ static void t_gen_cris_mstep(TCGv d, TCGv a, TCGv b, TCGv ccs)
+     tcg_temp_free(t);
+ }
+ 
+-/* Extended arithmetics on CRIS.  */
++/* Extended arithmetic on CRIS.  */
+ static inline void t_gen_add_flag(TCGv d, int flag)
+ {
+     TCGv c;
+@@ -725,7 +725,7 @@ static void cris_alu_op_exec(DisasContext *dc, int op,
+     switch (op) {
+     case CC_OP_ADD:
+         tcg_gen_add_tl(dst, a, b);
+-        /* Extended arithmetics.  */
++        /* Extended arithmetic.  */
+         t_gen_addx_carry(dc, dst);
+         break;
+     case CC_OP_ADDC:
+@@ -738,7 +738,7 @@ static void cris_alu_op_exec(DisasContext *dc, int op,
+         break;
+     case CC_OP_SUB:
+         tcg_gen_sub_tl(dst, a, b);
+-        /* Extended arithmetics.  */
++        /* Extended arithmetic.  */
+         t_gen_subx_carry(dc, dst);
+         break;
+     case CC_OP_MOVE:
+@@ -764,7 +764,7 @@ static void cris_alu_op_exec(DisasContext *dc, int op,
+         break;
+     case CC_OP_NEG:
+         tcg_gen_neg_tl(dst, b);
+-        /* Extended arithmetics.  */
++        /* Extended arithmetic.  */
+         t_gen_subx_carry(dc, dst);
+         break;
+     case CC_OP_LZ:
+@@ -787,7 +787,7 @@ static void cris_alu_op_exec(DisasContext *dc, int op,
+         break;
+     case CC_OP_CMP:
+         tcg_gen_sub_tl(dst, a, b);
+-        /* Extended arithmetics.  */
++        /* Extended arithmetic.  */
+         t_gen_subx_carry(dc, dst);
+         break;
+     default:
+@@ -3053,12 +3053,12 @@ static unsigned int crisv32_decoder(CPUCRISState *env, DisasContext *dc)
+  * On QEMU care needs to be taken when a branch+delayslot sequence is broken
+  * and the branch and delayslot don't share pages.
+  *
+- * The TB contaning the branch insn will set up env->btarget and evaluate 
++ * The TB containing the branch insn will set up env->btarget and evaluate 
+  * env->btaken. When the translation loop exits we will note that the branch 
+  * sequence is broken and let env->dslot be the size of the branch insn (those
+  * vary in length).
+  *
+- * The TB contaning the delayslot will have the PC of its real insn (i.e no lsb
++ * The TB containing the delayslot will have the PC of its real insn (i.e no lsb
+  * set). It will also expect to have env->dslot setup with the size of the 
+  * delay slot so that env->pc - env->dslot point to the branch insn. This TB 
+  * will execute the dslot and take the branch, either to btarget or just one 
+-- 
 2.26.2.windows.1
 
 
