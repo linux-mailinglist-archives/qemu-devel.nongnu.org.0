@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A126527F3A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 22:56:09 +0200 (CEST)
-Received: from localhost ([::1]:40466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A0127F3CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 23:00:35 +0200 (CEST)
+Received: from localhost ([::1]:51420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNj8y-0001u0-NC
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 16:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
+	id 1kNjDG-0006U8-Fz
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 17:00:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kNj09-0003TI-JC
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:01 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37181)
+ id 1kNj0B-0003Wh-Fr
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:03 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kNizx-0006U1-Lw
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:01 -0400
-Received: by mail-wm1-x331.google.com with SMTP id a9so854552wmm.2
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:46:49 -0700 (PDT)
+ id 1kNizz-0006UF-Cq
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 16:47:03 -0400
+Received: by mail-wr1-x444.google.com with SMTP id w5so3248987wrp.8
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DZHsLmp3PJBHjFr58Hgh1KTyQmpmrFU8dc1BVClCaoc=;
- b=LaT951E/ToVXfuq9O43vpXHmaYbE5jL5If9JBrzd6nu8LatK1L/kd8soXPH3VhWaS/
- TZBYRIwD07B6rZYzXVs+vNSLqMDm7vo4KbA/GvQVKyNI3J/zC55CG8PWxbrWZA6p4+Jl
- /dP6bEq1H/AdoZSbktqmDH/F8yi8t2dnkY4MxTFXFk6PamjCQuNwtwyc2+EFr0ycoIYl
- NNAH5bazadSF3XeTFtoPDMWHhoLOR6XmIQejtUinQn9CVzYvAZRe2Xc5QyCPotXYoNOW
- 0x0sEFRrcLpJRWMHDcgfHmNRxpSsqE1pK+wnIAuxxvw1LMs/CN+YSXNtKVCrBB7k9akQ
- 8Ksw==
+ bh=DpnWaHg4hzEO5NtJtUfCCrOkV5UyFXzK6KVmdaf7Hck=;
+ b=BHviVrMNJ3O52cjKYDmG9HWTj4DaRtxbwk7wKTla+jEqJ+HvrthuSZfockGKyBqt+d
+ L/znlK55/E9x9MMnvIFPoqdAmcm0A2y9HMz8Oxod1euSWL0C63BvFFxj7wamnoSY9+vF
+ ebXXlXIEJWZoK0YDkShjioxsinXRXW8samGLCW07VIVL84hnwz0jYTAN/NdjLAlCw2yU
+ OGDrEpb3ONhhB1tGnymfj61NTuU0mwnzZSFfKrrYedzWvZXDSbeXEFLPK3PCSawTFqnd
+ uLnwQ4Yf6NWnfQUB6E3YbUNkHEnchKuAroNcPT305YrRAywnb0QB5/2aVvpD+YpJKFV+
+ X7/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DZHsLmp3PJBHjFr58Hgh1KTyQmpmrFU8dc1BVClCaoc=;
- b=JPl4ky9hi605EVWuOBWKa1Vw99ZO7rorwdltFGvuyDjgmndBKXvJrq+540ZJzztmSg
- K5Av6xvv/7vDQRcgcjXJ09strLLXdt40urKKWIzTtZANBFUUkLsX0z+i6WWEw0bNZKXj
- 0pg82E5Yi4ywuYVQ0de2r96LxIcQ1E6WY4MxHbuwmtNoo0V+KGkLlia9q6rr29RX0cEz
- vA2WTiaO5lIauVLKPpZFQqMHCedPqUdj65uC1hjoHiazPZVamlDYeRrftr/fnVV/DHwG
- hP7rFlOWr6+KmtzXvInmgrTVaHiFFtHGVtzWVEKjMM1bBU0DTdxCREzrXyEcQpLebxOs
- ggBg==
-X-Gm-Message-State: AOAM5321ytk2sobSCB4302gFQQi/zXdc1M0XQ48RGcT3WTGfwTkRcbUo
- aT3TgJqFHtk4LWtVXjVL7VtueoVjIHbXZg==
-X-Google-Smtp-Source: ABdhPJwPU51zSs87VRBnvUpGkGvSj9tPYSmIpn843g/YCXYluBHKq5uDHE/vCUw7mT5+8Gv4wwJ/XA==
-X-Received: by 2002:a1c:96cf:: with SMTP id y198mr5121857wmd.104.1601498807390; 
- Wed, 30 Sep 2020 13:46:47 -0700 (PDT)
+ bh=DpnWaHg4hzEO5NtJtUfCCrOkV5UyFXzK6KVmdaf7Hck=;
+ b=G7J9JFBsCU89XYGmpQEImM/4oPgmPDf1m1jEWRuWBiB9cNz91auA1fY181HWwdj21O
+ ImuCNBPBr2R8t5StgtD4/q6uLFgVYEyPnGzkM6GPSD57YqYgObe0aKXuOSsfFzpNN0Z2
+ Kr9UrsilXspYiS56afGhOGIYSWsDQvR4vBw3UmZqiZxoYZzd5uTqaQaI6BMiIdZDBVO0
+ oPfeT66d1fV4C3KCuQo6RSkzKMEzCqx/dCtLvdUGzKNFvZsamQc00/MSrqEBJYMGyQXC
+ mgupEfwMVzChCFhW6yvrjHVp5VU9K7wTxMCWF9E2dq7a6b13sWqTiCkteeytMcP86f2a
+ leLw==
+X-Gm-Message-State: AOAM533BBIcC8SVCoCOeI/e1i4tif/IPlGt/dZ7V4Gl3RnTanb//4IWe
+ 0W5zQK6VuqBy0Wtzm9xZuJXEC0AmyjrWtw==
+X-Google-Smtp-Source: ABdhPJyapevol/p0GBILie1jWav9pMKCX4cAd8evBQVVzW4IQVubBGE/jeHgV1/6+1Ieyh36tIiExg==
+X-Received: by 2002:adf:a49d:: with SMTP id g29mr5355058wrb.219.1601498808961; 
+ Wed, 30 Sep 2020 13:46:48 -0700 (PDT)
 Received: from cmiranda-laptop.localdomain ([188.251.240.167])
- by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.46
+ by smtp.gmail.com with ESMTPSA id v204sm5310764wmg.20.2020.09.30.13.46.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 13:46:46 -0700 (PDT)
+ Wed, 30 Sep 2020 13:46:48 -0700 (PDT)
 From: cupertinomiranda@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/14] arc: Add memory protection unit (MPU) support
-Date: Wed, 30 Sep 2020 21:46:00 +0100
-Message-Id: <20200930204604.20663-11-cupertinomiranda@gmail.com>
+Subject: [PATCH 11/14] arc: Add gdbstub and XML for debugging support
+Date: Wed, 30 Sep 2020 21:46:01 +0100
+Message-Id: <20200930204604.20663-12-cupertinomiranda@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 References: <20200930204604.20663-1-cupertinomiranda@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=cupertinomiranda@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=cupertinomiranda@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,28 +94,361 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shahab Vahedi <shahab@synopsys.com>
 
-Add memory implementation for Synopsys MPU unit version 3.
-Synopsys MPU allows to create memory regions against unauthorized
-execution/read/writes accesses.
+Register layout for the target and the mechanisms to read and set them.
 
 Signed-off-by: Shahab Vahedi <shahab@synopsys.com>
 ---
- target/arc/mpu.c | 653 +++++++++++++++++++++++++++++++++++++++++++++++
- target/arc/mpu.h | 140 ++++++++++
- 2 files changed, 793 insertions(+)
- create mode 100644 target/arc/mpu.c
- create mode 100644 target/arc/mpu.h
+ gdb-xml/arc-aux-minimal.xml |  32 +++
+ gdb-xml/arc-aux-other.xml   | 235 ++++++++++++++++++++
+ gdb-xml/arc-core-v2.xml     |  45 ++++
+ target/arc/gdbstub.c        | 421 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 733 insertions(+)
+ create mode 100644 gdb-xml/arc-aux-minimal.xml
+ create mode 100644 gdb-xml/arc-aux-other.xml
+ create mode 100644 gdb-xml/arc-core-v2.xml
+ create mode 100644 target/arc/gdbstub.c
 
-diff --git a/target/arc/mpu.c b/target/arc/mpu.c
+diff --git a/gdb-xml/arc-aux-minimal.xml b/gdb-xml/arc-aux-minimal.xml
 new file mode 100644
-index 0000000000..60f56100d0
+index 0000000000..7809c97a8d
 --- /dev/null
-+++ b/target/arc/mpu.c
-@@ -0,0 +1,653 @@
++++ b/gdb-xml/arc-aux-minimal.xml
+@@ -0,0 +1,32 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.aux-minimal">
++  <flags id="status32_type" size="4">
++      <field name="H"   start="0"  end="0"/>
++      <field name="E"   start="1"  end="4"/>
++      <field name="AE"  start="5"  end="5"/>
++      <field name="DE"  start="6"  end="6"/>
++      <field name="U"   start="7"  end="7"/>
++      <field name="V"   start="8"  end="8"/>
++      <field name="C"   start="9"  end="9"/>
++      <field name="N"   start="10" end="10"/>
++      <field name="Z"   start="11" end="11"/>
++      <field name="L"   start="12" end="12"/>
++      <field name="DZ"  start="13" end="13"/>
++      <field name="SC"  start="14" end="14"/>
++      <field name="ES"  start="15" end="15"/>
++      <field name="RB"  start="16" end="18"/>
++      <field name="AD"  start="19" end="19"/>
++      <field name="US"  start="20" end="20"/>
++      <field name="IE"  start="31" end="31"/>
++  </flags>
++  <reg name="pc"       bitsize="32" regnum="36" type="code_ptr"      group="general"/>
++  <reg name="lp_start" bitsize="32" regnum="37" type="code_ptr"      group="general"/>
++  <reg name="lp_end"   bitsize="32" regnum="38" type="code_ptr"      group="general"/>
++  <reg name="status32" bitsize="32" regnum="39" type="status32_type" group="general"/>
++</feature>
+diff --git a/gdb-xml/arc-aux-other.xml b/gdb-xml/arc-aux-other.xml
+new file mode 100644
+index 0000000000..86b114af98
+--- /dev/null
++++ b/gdb-xml/arc-aux-other.xml
+@@ -0,0 +1,235 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.aux-other">
++  <flags id="timer_build_type" size="4">
++    <field name="version" start="0"  end="7"/>
++    <field name="t0"      start="8"  end="8"/>
++    <field name="t1"      start="9"  end="9"/>
++    <field name="rtc"     start="10" end="10"/>
++    <field name="p0"      start="16" end="19"/>
++    <field name="p1"      start="20" end="23"/>
++  </flags>
++  <flags id="irq_build_type" size="4">
++    <field name="version" start="0"  end="7"/>
++    <field name="IRQs"    start="8"  end="15"/>
++    <field name="exts"    start="16" end="23"/>
++    <field name="p"       start="24" end="27"/>
++    <field name="f"       start="28" end="28"/>
++  </flags>
++  <flags id="mpy_build_type" size="4">
++    <field name="version32x32" start="0"  end="7"/>
++    <field name="type"         start="8"  end="9"/>
++    <field name="cyc"          start="10" end="11"/>
++    <field name="DSP"          start="12" end="15"/>
++    <field name="version16x16" start="16" end="23"/>
++  </flags>
++  <flags id="vecbase_build_type" size="4">
++    <field name="version" start="2"  end="9"/>
++    <field name="addr"    start="10" end="31"/>
++  </flags>
++  <flags id="isa_config_type" size="4">
++    <field name="version"   start="0"  end="7"/>
++    <field name="pc_size"   start="8"  end="11"/>
++    <field name="lpc_size"  start="12" end="15"/>
++    <field name="addr_size" start="16" end="19"/>
++    <field name="b"         start="20" end="20"/>
++    <field name="a"         start="21" end="21"/>
++    <field name="n"         start="22" end="22"/>
++    <field name="l"         start="23" end="23"/>
++    <field name="c"         start="24" end="27"/>
++    <field name="d"         start="28" end="31"/>
++  </flags>
++  <flags id="timer_ctrl_type" size="4">
++    <field name="ie" start="0" end="0"/>
++    <field name="nh" start="1" end="1"/>
++    <field name="w"  start="2" end="2"/>
++    <field name="ip" start="3" end="3"/>
++    <field name="pd" start="4" end="4"/>
++  </flags>
++  <flags id="tlbpd0_type" size="4">
++    <field name="a"   start="0"  end="7"  type="uint8"/>
++    <field name="g"   start="8"  end="8"  type="bool"/>
++    <field name="v"   start="9"  end="9"  type="bool"/>
++    <field name="sz " start="10" end="10" type="bool"/>
++    <field name="vpn" start="12" end="30" type="uint32"/>
++    <field name="s"   start="31" end="31" type="bool"/>
++  </flags>
++  <flags id="tlbpd1_type" size="4">
++    <field name="fc"  start="0"  end="0"/>
++    <field name="eu"  start="1"  end="1"/>
++    <field name="wu"  start="2"  end="2"/>
++    <field name="ru"  start="3"  end="3"/>
++    <field name="ek"  start="4"  end="4"/>
++    <field name="wk"  start="5"  end="5"/>
++    <field name="rk"  start="6"  end="6"/>
++    <field name="ppn" start="12" end="31"/>
++  </flags>
++  <flags id="tlbindex_type" size="4">
++    <field name="index" start="0"  end="12"/>
++    <field name="rc"    start="28" end="30"/>
++    <field name="e"     start="31" end="31"/>
++  </flags>
++  <flags id="tlbcmd_type" size="4">
++    <field name="cmd" start="0" end="5"/>
++  </flags>
++  <flags id="pid_type" size="4">
++    <field name="p" start="0"  end="7" />
++    <field name="s" start="29" end="29"/>
++    <field name="t" start="31" end="31"/>
++  </flags>
++  <flags id="erstatus_type" size="4">
++    <field name="e"  start="1"  end="4" />
++    <field name="ae" start="5"  end="5" />
++    <field name="de" start="6"  end="6" />
++    <field name="u"  start="7"  end="7" />
++    <field name="v"  start="8"  end="8" />
++    <field name="c"  start="9"  end="9" />
++    <field name="n"  start="10" end="10"/>
++    <field name="z"  start="11" end="11"/>
++    <field name="l"  start="12" end="12"/>
++    <field name="dz" start="13" end="13"/>
++    <field name="sc" start="14" end="14"/>
++    <field name="es" start="15" end="15"/>
++    <field name="rb" start="16" end="18"/>
++    <field name="ad" start="19" end="19"/>
++    <field name="us" start="20" end="20"/>
++    <field name="ie" start="31" end="31"/>
++  </flags>
++  <flags id="ecr_type" size="4">
++    <field name="parameter"    start="0"  end="7" />
++    <field name="causecode"    start="8"  end="15"/>
++    <field name="vectornumber" start="16" end="23"/>
++    <field name="u"            start="30" end="30"/>
++    <field name="p"            start="31" end="31"/>
++  </flags>
++  <flags id="irq_ctrl_type" size="4">
++    <field name="nr" start="0"  end="4"/>
++    <field name="b"  start="9"  end="9"/>
++    <field name="l"  start="10" end="10"/>
++    <field name="u"  start="11" end="11"/>
++    <field name="lp" start="13" end="13"/>
++  </flags>
++  <flags id="irq_act_type" size="4">
++    <field name="active" start="0" end="15"/>
++    <field name="u" start="31" end="31"/>
++  </flags>
++  <flags id="irq_status_type" size="4">
++    <field name="p"  start="0"  end="3"/>
++    <field name="e"  start="4"  end="4"/>
++    <field name="t"  start="5"  end="5"/>
++    <field name="ip" start="31" end="31"/>
++  </flags>
++  <flags id="mpu_build_type" size="4">
++    <field name="version" start="0" end="7"/>
++    <field name="regions" start="8" end="15"/>
++  </flags>
++  <flags id="mpuen_type" size="4">
++    <field name="ue" start="3"  end="3"/>
++    <field name="uw" start="4"  end="4"/>
++    <field name="ur" start="5"  end="5"/>
++    <field name="ke" start="6"  end="6"/>
++    <field name="kw" start="7"  end="7"/>
++    <field name="kr" start="8"  end="8"/>
++    <field name="en" start="30" end="30"/>
++  </flags>
++  <flags id="mpuecr_type" size="4">
++    <field name="mr"      start="0"  end="7"/>
++    <field name="vt"      start="8"  end="9"/>
++    <field name="ec_code" start="16" end="31"/>
++  </flags>
++  <flags id="mpurdb_type" size="4">
++    <field name="v"         start="0" end="0"/>
++    <field name="base_addr" start="5" end="31"/>
++  </flags>
++  <flags id="mpurdp_type" size="4">
++    <field name="size_lower" start="0"  end="1"/>
++    <field name="ue"         start="3"  end="3"/>
++    <field name="uw"         start="4"  end="4"/>
++    <field name="ur"         start="5"  end="5"/>
++    <field name="ke"         start="6"  end="6"/>
++    <field name="kw"         start="7"  end="7"/>
++    <field name="kr"         start="8"  end="8"/>
++    <field name="size_upper" start="9"  end="11"/>
++  </flags>
++  <!-- build registers -->
++  <reg name="timer_build"   bitsize="32" regnum="40" type="timer_build_type"   group=""/>
++  <reg name="irq_build"     bitsize="32" regnum="41" type="irq_build_type"     group=""/>
++  <reg name="mpy_build"     bitsize="32" regnum="42" type="mpy_build_type"     group=""/>
++  <reg name="vecbase_build" bitsize="32" regnum="43" type="vecbase_build_type" group=""/>
++  <reg name="isa_config"    bitsize="32" regnum="44" type="isa_config_type"    group=""/>
++  <!-- timer registers -->
++  <reg name="timer_count0" bitsize="32" regnum="45"                        group="general"/>
++  <reg name="timer_ctrl0"  bitsize="32" regnum="46" type="timer_ctrl_type" group="general"/>
++  <reg name="timer_limit0" bitsize="32" regnum="47"                        group="general"/>
++  <reg name="timer_count1" bitsize="32" regnum="48"                        group="general"/>
++  <reg name="timer_ctrl1"  bitsize="32" regnum="49" type="timer_ctrl_type" group="general"/>
++  <reg name="timer_limit1" bitsize="32" regnum="50"                        group="general"/>
++  <!-- mmu registers -->
++  <reg name="pid"      bitsize="32" regnum="51" type="pid_type"      group="general"/>
++  <reg name="tlbpd0"   bitsize="32" regnum="52" type="tlbpd0_type"   group="general"/>
++  <reg name="tlbpd1"   bitsize="32" regnum="53" type="tlbpd1_type"   group="general"/>
++  <reg name="tlbindex" bitsize="32" regnum="54" type="tlbindex_type" group="general"/>
++  <reg name="tlbcmd"   bitsize="32" regnum="55" type="tlbcmd_type"   group="general"/>
++  <!-- mpu registers -->
++  <reg name="mpu_build" bitsize="32" regnum="56"  type="mpu_build_type" group=""/>
++  <reg name="mpuen"     bitsize="32" regnum="57"  type="mpuen_type"     group=""/>
++  <reg name="mpuecr"    bitsize="32" regnum="58"  type="mpuecr_type"    group=""/>
++  <reg name="mpurdb0"   bitsize="32" regnum="59"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb1"   bitsize="32" regnum="60"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb2"   bitsize="32" regnum="61"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb3"   bitsize="32" regnum="62"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb4"   bitsize="32" regnum="63"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb5"   bitsize="32" regnum="64"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb6"   bitsize="32" regnum="65"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb7"   bitsize="32" regnum="66"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb8"   bitsize="32" regnum="67"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb9"   bitsize="32" regnum="68"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb10"  bitsize="32" regnum="69"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb11"  bitsize="32" regnum="70"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb12"  bitsize="32" regnum="71"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb13"  bitsize="32" regnum="72"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb14"  bitsize="32" regnum="73"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdb15"  bitsize="32" regnum="74"  type="mpurdb_type"    group=""/>
++  <reg name="mpurdp0"   bitsize="32" regnum="75"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp1"   bitsize="32" regnum="76"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp2"   bitsize="32" regnum="77"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp3"   bitsize="32" regnum="78"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp4"   bitsize="32" regnum="79"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp5"   bitsize="32" regnum="80"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp6"   bitsize="32" regnum="81"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp7"   bitsize="32" regnum="82"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp8"   bitsize="32" regnum="83"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp9"   bitsize="32" regnum="84"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp10"  bitsize="32" regnum="85"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp11"  bitsize="32" regnum="86"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp12"  bitsize="32" regnum="87"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp13"  bitsize="32" regnum="88"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp14"  bitsize="32" regnum="89"  type="mpurdp_type"    group=""/>
++  <reg name="mpurdp15"  bitsize="32" regnum="90"  type="mpurdp_type"    group=""/>
++  <!-- exception registers -->
++  <reg name="erstatus" bitsize="32" regnum="91" type="erstatus_type" group="general"/>
++  <reg name="erbta"    bitsize="32" regnum="92" type="code_ptr"      group="general"/>
++  <reg name="ecr"      bitsize="32" regnum="93" type="ecr_type"      group="general"/>
++  <reg name="eret"     bitsize="32" regnum="94" type="code_ptr"      group="general"/>
++  <reg name="efa"      bitsize="32" regnum="95" type="uint32"        group="general"/>
++  <!-- irq registers -->
++  <reg name="icause"               bitsize="32" regnum="96"  type="uint8"           group="general"/>
++  <reg name="aux_irq_ctrl"         bitsize="32" regnum="97"  type="irq_ctrl_type"   group="general"/>
++  <reg name="aux_irq_act"          bitsize="32" regnum="98"  type="irq_act_type"    group="general"/>
++  <reg name="irq_priority_pending" bitsize="32" regnum="99"  type="uint16"          group="general"/>
++  <reg name="aux_irq_hint"         bitsize="32" regnum="100" type="uint8"           group="general"/>
++  <reg name="irq_select"           bitsize="32" regnum="101" type="uint8"           group="general"/>
++  <reg name="irq_enable"           bitsize="32" regnum="102" type="bool"            group="general"/>
++  <reg name="irq_trigger"          bitsize="32" regnum="103" type="bool"            group="general"/>
++  <reg name="irq_status"           bitsize="32" regnum="104" type="irq_status_type" group="general"/>
++  <reg name="irq_pulse_cancel"     bitsize="32" regnum="105" type="bool"            group="general"/>
++  <reg name="irq_pending"          bitsize="32" regnum="106" type="bool"            group="general"/>
++  <reg name="irq_priority"         bitsize="32" regnum="107" type="uint8"           group="general"/>
++  <!-- miscellaneous -->
++  <reg name="bta" bitsize="32" regnum="108" type="code_ptr" group="general"/>
++</feature>
+diff --git a/gdb-xml/arc-core-v2.xml b/gdb-xml/arc-core-v2.xml
+new file mode 100644
+index 0000000000..550dae3411
+--- /dev/null
++++ b/gdb-xml/arc-core-v2.xml
+@@ -0,0 +1,45 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2018 Free Software Foundation, Inc.
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arc.core.v2">
++  <reg name="r0"       bitsize="32" regnum="0"                  group="general"/>
++  <reg name="r1"       bitsize="32" regnum="1"                  group="general"/>
++  <reg name="r2"       bitsize="32" regnum="2"                  group="general"/>
++  <reg name="r3"       bitsize="32" regnum="3"                  group="general"/>
++  <reg name="r4"       bitsize="32" regnum="4"                  group="general"/>
++  <reg name="r5"       bitsize="32" regnum="5"                  group="general"/>
++  <reg name="r6"       bitsize="32" regnum="6"                  group="general"/>
++  <reg name="r7"       bitsize="32" regnum="7"                  group="general"/>
++  <reg name="r8"       bitsize="32" regnum="8"                  group="general"/>
++  <reg name="r9"       bitsize="32" regnum="9"                  group="general"/>
++  <reg name="r10"      bitsize="32" regnum="10"                 group="general"/>
++  <reg name="r11"      bitsize="32" regnum="11"                 group="general"/>
++  <reg name="r12"      bitsize="32" regnum="12"                 group="general"/>
++  <reg name="r13"      bitsize="32" regnum="13"                 group="general"/>
++  <reg name="r14"      bitsize="32" regnum="14"                 group="general"/>
++  <reg name="r15"      bitsize="32" regnum="15"                 group="general"/>
++  <reg name="r16"      bitsize="32" regnum="16"                 group="general"/>
++  <reg name="r17"      bitsize="32" regnum="17"                 group="general"/>
++  <reg name="r18"      bitsize="32" regnum="18"                 group="general"/>
++  <reg name="r19"      bitsize="32" regnum="19"                 group="general"/>
++  <reg name="r20"      bitsize="32" regnum="20"                 group="general"/>
++  <reg name="r21"      bitsize="32" regnum="21"                 group="general"/>
++  <reg name="r22"      bitsize="32" regnum="22"                 group="general"/>
++  <reg name="r23"      bitsize="32" regnum="23"                 group="general"/>
++  <reg name="r24"      bitsize="32" regnum="24"                 group="general"/>
++  <reg name="r25"      bitsize="32" regnum="25"                 group="general"/>
++  <reg name="gp"       bitsize="32" regnum="26" type="data_ptr" group="general"/>
++  <reg name="fp"       bitsize="32" regnum="27" type="data_ptr" group="general"/>
++  <reg name="sp"       bitsize="32" regnum="28" type="data_ptr" group="general"/>
++  <reg name="ilink"    bitsize="32" regnum="29" type="code_ptr" group="general"/>
++  <reg name="r30"      bitsize="32" regnum="30"                 group="general"/>
++  <reg name="blink"    bitsize="32" regnum="31" type="code_ptr" group="general"/>
++  <reg name="accl"     bitsize="32" regnum="32"                 group="general"/>
++  <reg name="acch"     bitsize="32" regnum="33"                 group="general"/>
++  <reg name="lp_count" bitsize="32" regnum="34" type="uint32"   group="general"/>
++  <reg name="pcl"      bitsize="32" regnum="35" type="code_ptr" group="general"/>
++</feature>
+diff --git a/target/arc/gdbstub.c b/target/arc/gdbstub.c
+new file mode 100644
+index 0000000000..574e8fdf4b
+--- /dev/null
++++ b/target/arc/gdbstub.c
+@@ -0,0 +1,421 @@
++
 +/*
 + * QEMU ARC CPU
 + *
-+ * Copyright (c) 2019 Shahab Vahedi (Synopsys)
++ * Copyright (c) 2016 Michael Rolnik
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -124,793 +457,414 @@ index 0000000000..60f56100d0
 + *
 + * This library is distributed in the hope that it will be useful,
 + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 + * Lesser General Public License for more details.
 + *
 + * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ * License along with this library; if not, see
++ * http://www.gnu.org/licenses/lgpl-2.1.html
 + */
 +
-+#include "mpu.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "mmu.h"
++#include "qemu/osdep.h"
++#include "exec/gdbstub.h"
++#include "arc-common.h"
++#include "target/arc/regs.h"
++#include "internals.h"
++#include "irq.h"
 +
-+/*
-+ * In case of exception, this signals the effective region
-+ * was the default one
-+ */
-+#define MPU_DEFAULT_REGION_NR 0xff
++/* gets the register address for a particular processor */
++#define REG_ADDR(reg, processor_type) \
++    arc_aux_reg_address_for((reg), (processor_type))
 +
-+/* Defines used by in-house functions */
-+#define MPU_EN_EN_BIT   30
-+#define MPU_EN_KR_BIT    8
-+#define MPU_EN_KW_BIT    7
-+#define MPU_EN_KE_BIT    6
-+#define MPU_EN_UR_BIT    5
-+#define MPU_EN_UW_BIT    4
-+#define MPU_EN_UE_BIT    3
-+
-+#define MPU_ECR_EC_CODE_BIT 16
-+#define MPU_ECR_VT_BIT       8
-+
-+#define MPU_BASE_ADDR_MASK  0xffffffe0  /* ignore least 5 bits */
-+#define MPU_BASE_VALID_MASK 0x00000001  /* bit #0 */
-+
-+/*
-+ * Given a number of bits as width, calc the mask to
-+ * "and" with. e.g.: 3 bits --> 8 - 1 --> 7 (111b)
-+ */
-+#define MPU_WIDTH_TO_MASK(w) ((1 << (w)) - 1)
-+#define MPU_PERMS_REG_LOWER_SIZE_WIDTH  2
-+#define MPU_PERMS_REG_HIGHER_SIZE_WIDTH 3
-+#define MPU_PERMS_REG_HIGHER_SIZE_POS   9
-+
-+/*
-+ * After knowing the operating mode (user/kernel),
-+ * this struct represents the effective permissions.
-+ */
-+typedef struct MPUEffectPerm {
-+    bool read;
-+    bool write;
-+    bool exec;
-+} MPUEffectPerm;
-+
-+/* Packer and unpackers (local to this translation unit) */
-+static inline uint32_t pack_enable(const bool ena)
++int arc_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 +{
-+    return ena << MPU_EN_EN_BIT;
-+}
++    ARCCPU *cpu = ARC_CPU(cs);
++    CPUARCState *env = &cpu->env;
++    uint32_t regval = 0;
 +
-+static inline void unpack_enable(bool *enabled, uint32_t value)
-+{
-+    *enabled = (value >> MPU_EN_EN_BIT) & 1;
-+}
-+
-+static inline uint32_t pack_permissions(const MPUPermissions *perms)
-+{
-+    return perms->KR << MPU_EN_KR_BIT |
-+           perms->KW << MPU_EN_KW_BIT |
-+           perms->KE << MPU_EN_KE_BIT |
-+           perms->UR << MPU_EN_UR_BIT |
-+           perms->UW << MPU_EN_UW_BIT |
-+           perms->UE << MPU_EN_UE_BIT;
-+}
-+
-+static inline void unpack_permissions(MPUPermissions *perms, uint32_t value)
-+{
-+    perms->KR = (value >> MPU_EN_KR_BIT) & 1;
-+    perms->KW = (value >> MPU_EN_KW_BIT) & 1;
-+    perms->KE = (value >> MPU_EN_KE_BIT) & 1;
-+    perms->UR = (value >> MPU_EN_UR_BIT) & 1;
-+    perms->UW = (value >> MPU_EN_UW_BIT) & 1;
-+    perms->UE = (value >> MPU_EN_UE_BIT) & 1;
-+}
-+
-+static inline uint32_t pack_enable_reg(const MPUEnableReg *mpuen)
-+{
-+    return pack_enable(mpuen->enabled) |
-+           pack_permissions(&mpuen->permission);
-+}
-+
-+static inline void unpack_enable_reg(MPUEnableReg *mpuen, uint32_t value)
-+{
-+    unpack_enable(&mpuen->enabled, value);
-+    unpack_permissions(&mpuen->permission, value);
-+}
-+
-+static inline uint32_t pack_ecr(const MPUECR *mpuecr)
-+{
-+    return ARC_MPU_ECR_VEC_NUM     << MPU_ECR_EC_CODE_BIT |
-+           (mpuecr->violation & 3) << MPU_ECR_VT_BIT      |
-+           mpuecr->region;
-+}
-+
-+static inline uint32_t pack_base_reg(const MPUBaseReg *mpurdb)
-+{
-+    return mpurdb->addr | mpurdb->valid;
-+}
-+
-+static inline void unpack_base_reg(MPUBaseReg *mpurdb, uint32_t value)
-+{
-+    mpurdb->addr  = value & MPU_BASE_ADDR_MASK;
-+    mpurdb->valid = value & MPU_BASE_VALID_MASK;
-+}
-+
-+
-+/*
-+ * Break the "size" field into "higher" and "lower" parts
-+ * e.g.: a b c d e --> a b c . . . d e
-+ *                     higher     lower
-+ */
-+static uint32_t pack_region_size_bits(uint8_t size_bits)
-+{
-+    uint32_t lower =
-+        size_bits & MPU_WIDTH_TO_MASK(MPU_PERMS_REG_LOWER_SIZE_WIDTH);
-+    uint32_t higher = size_bits >> MPU_PERMS_REG_LOWER_SIZE_WIDTH;
-+    higher &= MPU_WIDTH_TO_MASK(MPU_PERMS_REG_HIGHER_SIZE_WIDTH);
-+    return (higher << MPU_PERMS_REG_HIGHER_SIZE_POS) | lower;
-+}
-+
-+/*
-+ * Put the higher and lower parts of "size" field together
-+ * e.g.: a b c . . . d e ---> abcde
-+ *       higher     lower
-+ */
-+static void unpack_region_size_bits(uint8_t *size_bits, uint32_t value)
-+{
-+    uint8_t lower =
-+        value & MPU_WIDTH_TO_MASK(MPU_PERMS_REG_LOWER_SIZE_WIDTH);
-+    uint8_t higher = value >> MPU_PERMS_REG_HIGHER_SIZE_POS;
-+    higher &= MPU_WIDTH_TO_MASK(MPU_PERMS_REG_HIGHER_SIZE_WIDTH);
-+    *size_bits = (higher << MPU_PERMS_REG_LOWER_SIZE_WIDTH) | lower;
-+}
-+
-+static void set_region_mask(uint32_t *mask, uint8_t size_bits)
-+{
-+    uint32_t region_offset_mask = 0;
-+    /*
-+     * size_bits: 00100b (4)  --> 32 bytes --> least 5  bits are 0
-+     * size_bits: 00101b (5)  --> 64 bytes --> least 6  bits are 0
-+     * ...
-+     * size_bits: 11111b (31) --> 4 gb     --> least 32 bits are 0
-+     */
-+    if (size_bits >= 4 && size_bits < 31) {
-+        region_offset_mask = (2 << size_bits) - 1;
-+    } else if (size_bits == 31) {
-+        region_offset_mask = 0xffffffff;
-+    } else {
-+      qemu_log_mask(LOG_GUEST_ERROR, "[MPU] %hu as size of a region is "
-+                                     "undefined behaviour.\n", size_bits);
++    switch (n) {
++    case 0 ... 31:
++       regval = env->r[n];
++       break;
++    case GDB_REG_58:
++       regval = env->r[58];
++       break;
++    case GDB_REG_59:
++       regval = env->r[59];
++       break;
++    case GDB_REG_60:
++       regval = env->r[60];
++       break;
++    case GDB_REG_63:
++       regval = env->r[63];
++       break;
++    default:
++       assert(!"Unsupported register is being read.");
 +    }
-+    *mask = ~region_offset_mask;
++
++    return gdb_get_reg32(mem_buf, regval);
 +}
 +
-+static inline uint32_t pack_perm_reg(const MPUPermReg *mpurdp)
++int arc_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
 +{
-+    return pack_region_size_bits(mpurdp->size_bits) |
-+           pack_permissions(&mpurdp->permission);
-+}
++    ARCCPU *cpu = ARC_CPU(cs);
++    CPUARCState *env = &cpu->env;
++    uint32_t regval = ldl_p(mem_buf);
 +
-+static void unpack_perm_reg(MPUPermReg *mpurdp, uint32_t value)
-+{
-+    unpack_region_size_bits(&mpurdp->size_bits, value);
-+    /* size_bits of below 4 are undefined --> Assuming min region size. */
-+    mpurdp->size = (mpurdp->size_bits < 4) ? 32 : (2ul << mpurdp->size_bits);
-+    unpack_permissions(&mpurdp->permission, value);
-+    /* The mask is a facilitator to find the corresponding region easier */
-+    set_region_mask(&mpurdp->mask, mpurdp->size_bits);
-+}
-+
-+
-+/* Extern function: To be called at reset() */
-+void arc_mpu_init(struct ARCCPU *cpu)
-+{
-+    static const MPUPermissions INITIAL_PERMS = {0};
-+    ARCMPU *mpu = &cpu->env.mpu;
-+    size_t idx = 0;
-+
-+    /* Maybe the version must be determinded also based on CPU type */
-+    mpu->reg_bcr.version = cpu->cfg.has_mpu ? ARC_MPU_VERSION : 0;
-+    mpu->reg_bcr.regions = cpu->cfg.has_mpu ? cpu->cfg.mpu_num_regions : 0;
-+    switch (mpu->reg_bcr.regions) {
-+    case 0 ... 2:
-+    case 4:
-+    case 8:
-+    case 16:
++    switch (n) {
++    case 0 ... 31:
++        env->r[n] = regval;
++        break;
++    case GDB_REG_58:
++        env->r[58] = regval;
++        break;
++    case GDB_REG_59:
++        env->r[59] = regval;
++        break;
++    case GDB_REG_60:
++        env->r[60] = regval;
++        break;
++    case GDB_REG_63:
++        env->r[63] = regval;
 +        break;
 +    default:
-+        assert(!"Invalid number of MPU regions.");
++        assert(!"Unsupported register is being written.");
 +    }
 +
-+    /*
-+     * We use this flag to determine if MPU is in motion or not.
-+     * This is most of the time the same as reg_enable.enabled,
-+     * However, in case of a double exception (Machine Check)
-+     * this becomes false while reg_enable.enabled holds its
-+     * value. As a result, there is no MPU anymore after a
-+     * Machine Check is raised.
-+     */
-+    mpu->enabled = false;
-+
-+    mpu->reg_enable.enabled    = false;
-+    mpu->reg_enable.permission = INITIAL_PERMS;
-+
-+    mpu->reg_ecr.region    = 0;
-+    mpu->reg_ecr.violation = 0;
-+    mpu->exception.number  = ARC_MPU_ECR_VEC_NUM;
-+    mpu->exception.code    = 0;
-+    mpu->exception.param   = ARC_MPU_ECR_PARAM;
-+
-+    for (idx = 0; idx < ARC_MPU_MAX_NR_REGIONS; ++idx) {
-+        mpu->reg_base[idx].valid = false;
-+        mpu->reg_base[idx].addr  = 0;
-+
-+        mpu->reg_perm[idx].size_bits  = 0;
-+        mpu->reg_perm[idx].mask       = 0xffffffff;
-+        mpu->reg_perm[idx].permission = INITIAL_PERMS;
-+    }
++    return 4;
 +}
 +
-+/* Checking the sanity of situation before accessing MPU registers */
-+static void validate_mpu_regs_access(CPUARCState *env)
-+{
-+    /* MPU registers are only accessible in kernel mode */
-+    if (is_user_mode(env)) {
-+        arc_raise_exception(env, EXCP_PRIVILEGEV);
-+    }
-+    /* No MPU, no getting any */
-+    else if ((env_archcpu(env))->cfg.has_mpu == false) {
-+        arc_raise_exception(env, EXCP_INST_ERROR);
-+    }
-+}
 +
-+/* If 'rgn' is higher than configured region number, throw an exception */
-+static inline void validate_region_number(const ARCMPU *mpu, uint8_t rgn)
++static int
++arc_aux_minimal_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
 +{
-+    if (!(rgn < mpu->reg_bcr.regions)) {
-+        arc_raise_exception(container_of(mpu, CPUARCState, mpu), /* env */
-+                                         EXCP_INST_ERROR);
-+    }
-+}
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = 0;
 +
-+/* Extern function: Getter for MPU registers */
-+uint32_t
-+arc_mpu_aux_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data)
-+{
-+    validate_mpu_regs_access((CPUARCState *) data);
-+    ARCMPU *mpu = &(((CPUARCState *) data)->mpu);
-+    uint32_t reg = 0;
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_mpu_build:
-+        reg = (mpu->reg_bcr.regions << 8) | mpu->reg_bcr.version;
++    switch (regnum) {
++    case GDB_AUX_MIN_REG_PC:
++        regval = env->pc & 0xfffffffe;
 +        break;
-+    case AUX_ID_mpuen:
-+        reg = pack_enable_reg(&mpu->reg_enable);
++    case GDB_AUX_MIN_REG_LPS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_start, processor));
 +        break;
-+    case AUX_ID_mpuic:
-+        reg = pack_ecr(&mpu->reg_ecr);
++    case GDB_AUX_MIN_REG_LPE:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_end, processor));
 +        break;
-+    case AUX_ID_mpurdb0 ... AUX_ID_mpurdb15: {
-+        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdb0;
-+        validate_region_number(mpu, rgn);
-+        reg = pack_base_reg(&mpu->reg_base[rgn]);
++    case GDB_AUX_MIN_REG_STATUS:
++        regval = pack_status32(&env->stat);
 +        break;
-+    }
-+    case AUX_ID_mpurdp0 ... AUX_ID_mpurdp15: {
-+        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdp0;
-+        validate_region_number(mpu, rgn);
-+        reg = pack_perm_reg(&mpu->reg_perm[rgn]);
-+        break;
-+    }
 +    default:
-+        g_assert_not_reached();
++        assert(!"Unsupported minimal auxiliary register is being read.");
 +    }
-+    return reg;
++    return gdb_get_reg32(mem_buf, regval);
 +}
 +
-+/* Log the MPU sensitive information */
-+static void log_mpu_data(const ARCMPU *mpu)
-+{
-+    char suffix[4] = " B";
-+    uint32_t size;
-+    /* Log header */
-+    qemu_log_mask(CPU_LOG_MMU,
-+            "[MPU] ,--------.-------.------------.--------.---"
-+            "--------------------.--------------.------------.\n");
-+    qemu_log_mask(CPU_LOG_MMU,
-+            "[MPU] | region | valid |  address   |  size  |   "
-+            "effective address   | kernel perm. | user perm. |\n");
-+    qemu_log_mask(CPU_LOG_MMU,
-+            "[MPU] |--------+-------+------------+--------+---"
-+            "--------------------+--------------+------------|\n");
-+    /* Now its every regions turn */
-+    for (uint8_t r = 0; r < mpu->reg_bcr.regions; ++r) {
-+        const MPUBaseReg *rb = &mpu->reg_base[r];
-+        const MPUPermReg *rp = &mpu->reg_perm[r];
-+        const MPUPermissions *p = &rp->permission;
-+        if (rp->size >= 0x40000000) {
-+            suffix[0] = 'G';
-+            size = rp->size >> 30;
-+        } else if (rp->size >= 0x00100000) {
-+            suffix[0] = 'M';
-+            size = rp->size >> 20;
-+        } else if (rp->size >= 0x00000400) {
-+            suffix[0] = 'K';
-+            size = rp->size >> 10;
-+        } else {
-+            suffix[0] = ' ';
-+            size = rp->size & 0x3FF;
-+        }
-+        qemu_log_mask(CPU_LOG_MMU,
-+                "[MPU] |   %02u   | %s | 0x%08x | %3u %s | 0x%08x-0x%08x "
-+                "|     %c%c%c      |    %c%c%c     |\n",
-+                r, rb->valid ? "true " : "false", rb->addr, size, suffix,
-+                rb->addr & rp->mask,
-+                (rb->addr & rp->mask) + ((uint32_t) rp->size),
-+                p->KR ? 'r' : '-', p->KW ? 'w' : '-', p->KE ? 'x' : '-',
-+                p->UR ? 'r' : '-', p->UW ? 'w' : '-', p->UE ? 'x' : '-');
-+    }
-+    /* Default region */
-+    const MPUPermissions *defp = &mpu->reg_enable.permission;
-+    qemu_log_mask(CPU_LOG_MMU,
-+            "[MPU] |  def.  |       |            |        |          "
-+            "             |     %c%c%c      |    %c%c%c     |\n",
-+            defp->KR ? 'r' : '-', defp->KW ? 'w' : '-', defp->KE ? 'x' : '-',
-+            defp->UR ? 'r' : '-', defp->UW ? 'w' : '-', defp->UE ? 'x' : '-');
-+    /* Wrap it up */
-+    qemu_log_mask(CPU_LOG_MMU,
-+            "[MPU] `--------^-------^------------^--------^---"
-+            "--------------------^--------------^------------'\n");
-+}
 +
-+/* Extern function: Setter for MPU registers */
-+void
-+arc_mpu_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                const uint32_t value, void *data)
++static int
++arc_aux_minimal_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
 +{
-+    validate_mpu_regs_access((CPUARCState *) data);
-+    ARCMPU *mpu = &(((CPUARCState *) data)->mpu);
-+
-+    switch (aux_reg_detail->id) {
-+    case AUX_ID_mpuen:
-+        unpack_enable_reg(&mpu->reg_enable, value);
-+        mpu->enabled = mpu->reg_enable.enabled;
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = ldl_p(mem_buf);
++    switch (regnum) {
++    case GDB_AUX_MIN_REG_PC:
++        env->pc = regval & 0xfffffffe;
 +        break;
-+    case AUX_ID_mpurdb0 ... AUX_ID_mpurdb15: {
-+        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdb0;
-+        validate_region_number(mpu, rgn);
-+        unpack_base_reg(&mpu->reg_base[rgn], value);
++    case GDB_AUX_MIN_REG_LPS:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_start, processor));
 +        break;
-+    }
-+    case AUX_ID_mpurdp0 ... AUX_ID_mpurdp15: {
-+        const uint8_t rgn = aux_reg_detail->id - AUX_ID_mpurdp0;
-+        validate_region_number(mpu, rgn);
-+        unpack_perm_reg(&mpu->reg_perm[rgn], value);
++    case GDB_AUX_MIN_REG_LPE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_end, processor));
 +        break;
-+    }
++    case GDB_AUX_MIN_REG_STATUS:
++        unpack_status32(&env->stat, regval);
++        break;
 +    default:
-+        g_assert_not_reached();
++        assert(!"Unsupported minimal auxiliary register is being written.");
 +    }
-+    /* Invalidate the entries in qemu's translation buffer */
-+    tlb_flush(env_cpu((CPUARCState *) data));
-+    /* If MPU is enabled, log its data */
-+    if (mpu->enabled) {
-+        log_mpu_data(mpu);
-+    }
++    return 4;
 +}
 +
-+/*
-+ * If user mode, return the user permission only.
-+ * If kernel mode, return the aggregation of both permissions.
-+ */
-+static void get_effective_rwe(const MPUPermissions *perm,
-+                              bool user_mode, MPUEffectPerm *effective)
-+{
-+    effective->read  = user_mode ? perm->UR : perm->KR | perm->UR;
-+    effective->write = user_mode ? perm->UW : perm->KW | perm->UW;
-+    effective->exec  = user_mode ? perm->UE : perm->KE | perm->UE;
-+}
 +
-+/* Translate internal QEMU's access type to an MPU violation type */
-+static inline uint8_t qemu_access_to_violation(MMUAccessType access)
++static int
++arc_aux_other_gdb_get_reg(CPUARCState *env, GByteArray *mem_buf, int regnum)
 +{
-+    uint8_t vt = 0;
-+    switch (access) {
-+    case MMU_INST_FETCH:
-+        vt = MPU_CAUSE_FETCH;
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = 0;
++    switch (regnum) {
++    case GDB_AUX_OTHER_REG_TIMER_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_timer_build, processor));
 +        break;
-+    case MMU_DATA_LOAD:
-+        vt = MPU_CAUSE_READ;
++    case GDB_AUX_OTHER_REG_IRQ_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_build, processor));
 +        break;
-+    case MMU_DATA_STORE:
-+        vt = MPU_CAUSE_WRITE;
++    case GDB_AUX_OTHER_REG_MPY_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpy_build, processor));
 +        break;
-+    /* TODO: there must be an MPU_CAUSE_RW as well, but how? */
++    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
++        regval = env->vecbase_build;
++        break;
++    case GDB_AUX_OTHER_REG_ISA_CONFIG:
++        regval = env->isa_config;
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_count0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_control0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_limit0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_count1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_control1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_limit1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_PID:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_pid, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD0:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD1:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_INDEX:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbindex, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_CMD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbcommand, processor));
++        break;
++    /* MPU */
++    case GDB_AUX_OTHER_REG_MPU_BUILD:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpu_build, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_EN:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuen, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_ECR:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuic, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdb0 + index, processor));
++        break;
++    }
++    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
++        regval = helper_lr(env, REG_ADDR(AUX_ID_mpurdp0 + index, processor));
++        break;
++    }
++    /* exceptions */
++    case GDB_AUX_OTHER_REG_ERSTATUS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_erstatus, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERBTA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_erbta, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ECR:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_ecr, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERET:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_eret, processor));
++        break;
++    case GDB_AUX_OTHER_REG_EFA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_efa, processor));
++        break;
++    /* interrupt */
++    case GDB_AUX_OTHER_REG_ICAUSE:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_icause, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_CTRL:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_ctrl, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ACT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_act, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
++        regval = env->irq_priority_pending;
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_HINT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_hint, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_SELECT:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_select, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
++        regval = env->irq_bank[env->irq_select & 0xff].enable;
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_trigger, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_STATUS:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_status, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PULSE:
++        regval = 0; /* write only for clearing the pulse triggered interrupt */
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PENDING:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_pending, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_priority, processor));
++        break;
++    case GDB_AUX_OTHER_REG_BTA:
++        regval = helper_lr(env, REG_ADDR(AUX_ID_bta, processor));
++        break;
 +    default:
-+        g_assert_not_reached();
++        assert(!"Unsupported other auxiliary register is being read.");
 +    }
-+    return vt;
++    return gdb_get_reg32(mem_buf, regval);
 +}
 +
-+/* Translate MPU's permission to QEMU's tlb permission */
-+static inline uint8_t mpu_permission_to_qemu(const MPUPermissions *perm,
-+                                             bool user_mode)
-+{
-+    MPUEffectPerm effective = { };
-+    get_effective_rwe(perm, user_mode, &effective);
-+    return (effective.read  ? PAGE_READ  : 0) |
-+           (effective.write ? PAGE_WRITE : 0) |
-+           (effective.exec  ? PAGE_EXEC  : 0);
-+}
 +
-+/*
-+ * Check if the 'access' is according to 'perm'ission.
-+ * Note that a user mode permission is also implied for kernel.
-+ */
-+static bool allowed(MMUAccessType access, bool user_mode,
-+                    const MPUPermissions *perm)
++static int
++arc_aux_other_gdb_set_reg(CPUARCState *env, uint8_t *mem_buf, int regnum)
 +{
-+    MPUEffectPerm effective_perm = { };
-+    get_effective_rwe(perm, user_mode, &effective_perm);
-+
-+    switch (access) {
-+    case MMU_INST_FETCH:
-+        return effective_perm.exec;
-+    case MMU_DATA_LOAD:
-+        return effective_perm.read;
-+    case MMU_DATA_STORE:
-+        return effective_perm.write;
++    /* TODO: processor type must be set according to configuration */
++    static const int processor = ARC_OPCODE_ARCv2HS;
++    uint32_t regval = ldl_p(mem_buf);
++    switch (regnum) {
++    case GDB_AUX_OTHER_REG_TIMER_BUILD:
++    case GDB_AUX_OTHER_REG_IRQ_BUILD:
++    case GDB_AUX_OTHER_REG_MPY_BUILD:
++    case GDB_AUX_OTHER_REG_VECBASE_BUILD:
++    case GDB_AUX_OTHER_REG_ISA_CONFIG:
++    case GDB_AUX_OTHER_REG_MPU_BUILD:
++    case GDB_AUX_OTHER_REG_MPU_ECR:
++    case GDB_AUX_OTHER_REG_ICAUSE:
++    case GDB_AUX_OTHER_REG_IRQ_PRIO_PEND:
++    case GDB_AUX_OTHER_REG_IRQ_STATUS:
++    case GDB_AUX_OTHER_REG_IRQ_PENDING:
++        /* builds/configs/exceptions/irqs cannot be changed */
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_count0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_control0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_limit0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CNT1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_count1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_CTRL1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_control1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TIMER_LIM1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_limit1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_PID:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_pid, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD0:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd0, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLBPD1:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd1, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_INDEX:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbindex, processor));
++        break;
++    case GDB_AUX_OTHER_REG_TLB_CMD:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbcommand, processor));
++        break;
++    /* MPU */
++    case GDB_AUX_OTHER_REG_MPU_EN:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpuen, processor));
++        break;
++    case GDB_AUX_OTHER_REG_MPU_BASE0 ... GDB_AUX_OTHER_REG_MPU_BASE15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_BASE0;
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdb0 + index, processor));
++        break;
++    }
++    case GDB_AUX_OTHER_REG_MPU_PERM0 ... GDB_AUX_OTHER_REG_MPU_PERM15: {
++        const uint8_t index = regnum - GDB_AUX_OTHER_REG_MPU_PERM0;
++        helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdp0 + index, processor));
++        break;
++    }
++    /* exceptions */
++    case GDB_AUX_OTHER_REG_ERSTATUS:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_erstatus, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERBTA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_erbta, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ECR:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_ecr, processor));
++        break;
++    case GDB_AUX_OTHER_REG_ERET:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_eret, processor));
++        break;
++    case GDB_AUX_OTHER_REG_EFA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_efa, processor));
++        break;
++    /* interrupt */
++    case GDB_AUX_OTHER_REG_IRQ_CTRL:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ACT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_act, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_HINT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_SELECT:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_select, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_ENABLE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_enable, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_TRIGGER:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_trigger, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PULSE:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, processor));
++        break;
++    case GDB_AUX_OTHER_REG_IRQ_PRIO:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_priority, processor));
++        break;
++    case GDB_AUX_OTHER_REG_BTA:
++        helper_sr(env, regval, REG_ADDR(AUX_ID_bta, processor));
++        break;
 +    default:
-+        g_assert_not_reached();
++        assert(!"Unsupported other auxiliary register is being written.");
 +    }
++    return 4;
 +}
 +
-+/* Used for logging purposes */
-+static inline const char *log_violation_to_str(uint8_t violation)
++
++void arc_cpu_register_gdb_regs_for_features(ARCCPU *cpu)
 +{
-+    return (violation == MPU_CAUSE_FETCH) ? "fetch"      :
-+           (violation == MPU_CAUSE_READ)  ? "read"       :
-+           (violation == MPU_CAUSE_WRITE) ? "write"      :
-+           (violation == MPU_CAUSE_RW)    ? "read-write" :
-+           "unknown";
-+}
++    CPUState *cs = CPU(cpu);
 +
-+/* Sets the exception data */
-+static void set_exception(CPUARCState *env, uint32_t addr,
-+                          uint8_t region, MMUAccessType access)
-+{
-+    MPUECR *ecr = &env->mpu.reg_ecr;
-+    ecr->violation = qemu_access_to_violation(access);
-+    ecr->region = region;
++    gdb_register_coprocessor(cs,
++                             arc_aux_minimal_gdb_get_reg, /* getter */
++                             arc_aux_minimal_gdb_set_reg, /* setter */
++                             GDB_AUX_MIN_REG_LAST,    /* number of registers */
++                             "arc-aux-minimal.xml",       /* feature file */
++                             0);                      /* position in g packet */
 +
-+    /* this info is used by the caller to trigger the exception */
-+    MPUException *excp = &env->mpu.exception;
-+    excp->number = EXCP_PROTV;
-+    excp->code = ecr->violation;
-+    excp->param = ARC_MPU_ECR_PARAM;
-+
-+    qemu_log_mask(CPU_LOG_MMU,
-+            "[MPU] exception: region=%hu, addr=0x%08x, violation=%s\n",
-+            region, addr, log_violation_to_str(ecr->violation));
-+}
-+
-+/*
-+ * Given an 'addr', finds the region it belongs to. If no match
-+ * is found, then it signals this by returning MPU_DEFAULT_REGION_NR.
-+ * Since regions with lower index has higher priority, the first match
-+ * is the correct one even if there is overlap among regions.
-+ */
-+static uint8_t get_matching_region(const ARCMPU *mpu, uint32_t addr)
-+{
-+    qemu_log_mask(CPU_LOG_MMU, "[MPU] looking up: addr=0x%08x\n", addr);
-+    for (uint8_t r = 0; r < mpu->reg_bcr.regions; ++r) {
-+        if (!mpu->reg_base[r].valid) {
-+            continue;
-+        }
-+        const uint32_t mask = mpu->reg_perm[r].mask;
-+        /* 'addr' falls under the current region? */
-+        if ((mpu->reg_base[r].addr & mask) == (addr & mask)) {
-+            qemu_log_mask(CPU_LOG_MMU,
-+                    "[MPU] region match: region=%u, base=0x%08x\n",
-+                    r, mpu->reg_base[r].addr);
-+            return r;
-+        }
-+    }
-+    /* If we are here, then no corresponding region is found */
-+    qemu_log_mask(CPU_LOG_MMU, "[MPU] default region will be used.\n");
-+    return MPU_DEFAULT_REGION_NR;
-+}
-+
-+/*
-+ * Returns the corresponding permission for the given 'region'.
-+ * If 'region' is MPU_DEFAULT_REGION_NR, then the default permission
-+ * from MPU_EN register is returned.
-+ */
-+static const MPUPermissions *get_permission(const ARCMPU *mpu,
-+                                            uint8_t region)
-+{
-+    if (region < mpu->reg_bcr.regions) {
-+        return &mpu->reg_perm[region].permission;
-+    } else if (region == MPU_DEFAULT_REGION_NR) {
-+        return &mpu->reg_enable.permission;
-+    }
-+    g_assert_not_reached();
-+}
-+
-+/*
-+ * Have the following example in mind:
-+ * ,------------.
-+ * | region 5   |
-+ * |            |
-+ * |            | first page of region 5
-+ * |            |
-+ * |............|
-+ * |            |
-+ * |,----------.| second page of region 5
-+ * || region 4 ||
-+ * |`----------'|
-+ * `------------'
-+ * Here region four's size is half a page size.
-+ *
-+ * This function checks if the page that the address belongs to,
-+ * overlaps with another higher priority region. regions with lower
-+ * priority don't matter because they cannot influence the permission.
-+ *
-+ * The logic is to check if any of the valid regions is contained in
-+ * the page that 'addr' belongs to.
-+ */
-+static bool is_overlap_free(const ARCMPU *mpu, target_ulong addr,
-+                            uint8_t current_region)
-+{
-+    /* Nothing has higher priority than region 0 */
-+    if (current_region == 0) {
-+        return true;
-+    } else if (current_region == MPU_DEFAULT_REGION_NR) {
-+        /* Make the "default region number" fit in this function */
-+        current_region = mpu->reg_bcr.regions;
-+    }
-+
-+    assert(current_region <= mpu->reg_bcr.regions);
-+
-+    target_ulong page_addr = addr & PAGE_MASK;
-+    /*
-+     * Going through every region that has higher priority than
-+     * the current one.
-+     */
-+    for (uint8_t r = 0; r < current_region; ++r) {
-+        if (mpu->reg_base[r].valid &&
-+            page_addr == (mpu->reg_base[r].addr & PAGE_MASK)) {
-+            return false;
-+        }
-+    }
-+    /* No overlap with a higher priority region */
-+    return true;
-+}
-+
-+/*
-+ * Update QEMU's TLB with region's permission.
-+ * One thing to remember is that if the region size
-+ * is smaller than TARGET_PAGE_SIZE, QEMU will always
-+ * consult tlb_fill() for any access to that region.
-+ * So there is no point in fine tunning TLB entry sizes
-+ * to reflect the real region size. On the other hand,
-+ * if the region size is big ( > TARGET_PAGE_SIZE), we
-+ * still go with TARGET_PAGE_SIZE, because it can be
-+ * memory demanding for host process.
-+ */
-+static void update_tlb_page(CPUARCState *env, uint8_t region,
-+                            target_ulong addr, int mmu_idx)
-+{
-+    CPUState *cs = env_cpu(env);
-+    /* By default, only add entry for 'addr' */
-+    target_ulong tlb_addr = addr;
-+    target_ulong tlb_size = 1;
-+    bool check_for_overlap = true;
-+    int prot = 0;
-+
-+    if (region != MPU_DEFAULT_REGION_NR) {
-+        MPUPermReg *perm = &env->mpu.reg_perm[region];
-+        prot = mpu_permission_to_qemu(
-+                &perm->permission, is_user_mode(env));
-+        /*
-+         * If the region's size is big enough, we'll check for overlap.
-+         * Later if we find no overlap, then we add the permission for
-+         * the whole page to qemu's tlb.
-+         */
-+        check_for_overlap = (perm->size >= TARGET_PAGE_SIZE);
-+    }
-+    /* Default region */
-+    else {
-+        prot = mpu_permission_to_qemu(
-+                &env->mpu.reg_enable.permission, is_user_mode(env));
-+    }
-+
-+    /*
-+     * If the region completely covers the 'page' that 'addr'
-+     * belongs to, _and_ is not overlapping with any other region
-+     * then add a 'page'wise entry.
-+     */
-+    if (check_for_overlap &&
-+        is_overlap_free(&env->mpu, addr, region)) {
-+        tlb_addr = addr & PAGE_MASK;
-+        tlb_size = TARGET_PAGE_SIZE;
-+    }
-+
-+    tlb_set_page(cs, tlb_addr, tlb_addr, prot, mmu_idx, tlb_size);
-+    qemu_log_mask(CPU_LOG_MMU, "[MPU] TLB update: addr=0x%08x, "
-+            "prot=%c%c%c, mmu_idx=%u, page_size=%u\n", tlb_addr,
-+            (prot & PAGE_READ) ? 'r' : '-', (prot & PAGE_WRITE) ? 'w' : '-',
-+            (prot & PAGE_EXEC) ? 'x' : '-', mmu_idx, tlb_size);
-+}
-+
-+/* The MPU entry point for any memory access */
-+int
-+arc_mpu_translate(CPUARCState *env, target_ulong addr,
-+                  MMUAccessType access, int mmu_idx)
-+{
-+    ARCMPU *mpu = &env->mpu;
-+
-+    uint8_t region = get_matching_region(mpu, addr);
-+    const MPUPermissions *perms = get_permission(mpu, region);
-+    if (!allowed(access, is_user_mode(env), perms)) {
-+        set_exception(env, addr, region, access);
-+        return MPU_FAULT;
-+    }
-+    update_tlb_page(env, region, addr, mmu_idx);
-+
-+    return MPU_SUCCESS;
++    gdb_register_coprocessor(cs,
++                             arc_aux_other_gdb_get_reg,
++                             arc_aux_other_gdb_set_reg,
++                             GDB_AUX_OTHER_REG_LAST,
++                             "arc-aux-other.xml",
++                             0);
 +}
 +
 +/*-*-indent-tabs-mode:nil;tab-width:4;indent-line-function:'insert-tab'-*-*/
 +/* vim: set ts=4 sw=4 et: */
-diff --git a/target/arc/mpu.h b/target/arc/mpu.h
-new file mode 100644
-index 0000000000..ee998cd14a
---- /dev/null
-+++ b/target/arc/mpu.h
-@@ -0,0 +1,140 @@
-+/*
-+ * QEMU ARC CPU
-+ *
-+ * Copyright (c) 2020 Shahab Vahedi (Synopsys)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef ARC_MPU_H
-+#define ARC_MPU_H
-+
-+#include "target/arc/regs.h"
-+#include "cpu-qom.h"
-+
-+/* These values are based on ARCv2 ISA PRM for ARC HS processors */
-+#define ARC_MPU_VERSION         0x03    /* MPU version supported          */
-+#define ARC_MPU_MAX_NR_REGIONS  16      /* Number of regions to protect   */
-+#define ARC_MPU_ECR_VEC_NUM     0x06    /* EV_ProtV: Protection Violation */
-+#define ARC_MPU_ECR_PARAM       0x04    /* MPU (as opposed to MMU, ...)   */
-+
-+/* MPU Build Configuration Register */
-+typedef struct MPUBCR {
-+    uint8_t version; /* 0 (disabled), 0x03 */
-+    uint8_t regions; /* 0, 1, 2, 4, 8, 16  */
-+} MPUBCR;
-+
-+typedef struct MPUPermissions {
-+    bool     KR;    /* Kernel read    */
-+    bool     KW;    /* Kernel write   */
-+    bool     KE;    /* Kernel execute */
-+    bool     UR;    /* User   read    */
-+    bool     UW;    /* User   write   */
-+    bool     UE;    /* User   execute */
-+} MPUPermissions;
-+
-+/* MPU Enable Register */
-+typedef struct MPUEnableReg {
-+    bool           enabled;     /* Is MPU enabled? */
-+    MPUPermissions permission;  /* Default region permissions */
-+} MPUEnableReg;
-+
-+/* Determines during which type of operation a violation occurred */
-+enum MPUCauseCode {
-+    MPU_CAUSE_FETCH = 0x00,
-+    MPU_CAUSE_READ  = 0x01,
-+    MPU_CAUSE_WRITE = 0x02,
-+    MPU_CAUSE_RW    = 0x03
-+};
-+
-+/* The exception to be set */
-+typedef struct MPUException {
-+    uint8_t number;     /* Exception vector number: 0x06 -> EV_ProtV  */
-+    uint8_t code;       /* Cause code: fetch, read, write, read/write */
-+    uint8_t param;      /* Always 0x04 to represent MPU               */
-+} MPUException;
-+
-+/* MPU Exception Cause Register */
-+typedef struct MPUECR {
-+    uint8_t region;
-+    uint8_t violation; /* Fetch, read, write, read/write */
-+} MPUECR;
-+
-+/* MPU Region Descriptor Base Register */
-+typedef struct MPUBaseReg {
-+    bool     valid; /* Is this region valid? */
-+    uint32_t addr;  /* Minimum size is 32 bytes --> bits[4:0] are 0 */
-+} MPUBaseReg;
-+
-+/* MPU Region Descriptor Permissions Register */
-+typedef struct MPUPermReg {
-+    /* size_bits: 00100b ... 11111b */
-+    uint8_t        size_bits;
-+    /*
-+     * We need normal notation of size to set qemu's tlb page size later.
-+     * Region's size: 32 bytes, 64 bytes,  ..., 4 gigabytes
-+     */
-+    uint64_t       size;   /* 2 << size_bits */
-+    /*
-+     * Region offset: 0x1f, 0x3f, ..., 0xffffffff
-+     * Hence region mask: 0xffffffe0, 0xfffffc0, ..., 0x00000000
-+     */
-+    uint32_t       mask;
-+    MPUPermissions permission; /* region's permissions */
-+} MPUPermReg;
-+
-+typedef struct ARCMPU {
-+    bool         enabled;
-+
-+    MPUBCR       reg_bcr;
-+    MPUEnableReg reg_enable;
-+    MPUECR       reg_ecr;
-+    /* Base and permission registers are paired */
-+    MPUBaseReg   reg_base[ARC_MPU_MAX_NR_REGIONS];
-+    MPUPermReg   reg_perm[ARC_MPU_MAX_NR_REGIONS];
-+
-+    MPUException exception;
-+} ARCMPU;
-+
-+enum ARCMPUVerifyRet {
-+  MPU_SUCCESS,
-+  MPU_FAULT
-+};
-+
-+struct ARCCPU;
-+struct CPUARCState;
-+
-+/* Used during a reset */
-+extern void arc_mpu_init(struct ARCCPU *cpu);
-+
-+/* Get auxiliary MPU registers */
-+extern uint32_t
-+arc_mpu_aux_get(const struct arc_aux_reg_detail *aux_reg_detail, void *data);
-+
-+/* Set auxiliary MPU registers */
-+extern void
-+arc_mpu_aux_set(const struct arc_aux_reg_detail *aux_reg_detail,
-+                const uint32_t val, void *data);
-+
-+/*
-+ * Verifies if 'access' to 'addr' is allowed or not.
-+ * possible return values:
-+ * MPU_SUCCESS - allowed; 'prot' holds permissions
-+ * MPU_FAULT   - not allowed; corresponding exception parameters are set
-+ */
-+extern int
-+arc_mpu_translate(struct CPUARCState *env, uint32_t addr,
-+                  MMUAccessType access, int mmu_idx);
-+
-+#endif /* ARC_MPU_H */
 -- 
 2.20.1
 
