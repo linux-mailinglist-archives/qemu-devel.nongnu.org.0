@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB6A27F4D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:08:40 +0200 (CEST)
-Received: from localhost ([::1]:50830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4D327F4EC
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:14:04 +0200 (CEST)
+Received: from localhost ([::1]:34584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNkH9-0001Gj-52
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56206)
+	id 1kNkMN-0006dL-Iv
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD8-0005V8-Jk; Wed, 30 Sep 2020 18:04:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50546)
+ id 1kNkD9-0005Wm-Gs; Wed, 30 Sep 2020 18:04:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD6-0007wZ-Rf; Wed, 30 Sep 2020 18:04:30 -0400
+ id 1kNkD7-0007wn-Sl; Wed, 30 Sep 2020 18:04:31 -0400
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DCEFD2076A;
- Wed, 30 Sep 2020 22:04:26 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A52A42075F;
+ Wed, 30 Sep 2020 22:04:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601503467;
- bh=Uah3i2Xo+O93sG6/lDEnH/LTiffsj+9KkaGlNtazsRo=;
+ s=default; t=1601503468;
+ bh=lxmqCE+QiOMb+CQMDE6EiVOQtrXtjsUVVji5oSDyOzY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q1EbAw9wme5E34saR6JKnng0bOvP/Y1yiyWOVaZCSA261hrNxfTQVeYBGEd7o1Vjs
- Rdgq3+B5wJ5MXd5lCSoOpxhREDeY1T1uCwVu6hwfuqonzRcPGsf7d394MMPFHm9DEx
- +WO0xZcniADotJlwpxYo8dF3Rqmyu+nlkxyV7CSc=
+ b=v/slURBI+cdxYNRCB+Vj4bJu56nbTvVJah7VLMDROKJIgYNSak+Y5vNaLElJXxM3+
+ nSrTEaMDsNvcKTVBhjl0Cr2g9ZR75NdDIsikzm7VBJZKqwE9g0O10kYQvfq0fP8ieg
+ ZFksmokKHwePtayHZUiZro8+usE87ll8cNik8JBk=
 From: Keith Busch <kbusch@kernel.org>
 To: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 8/9] hw/block/nvme: add trace event for requests with non-zero
- status code
-Date: Wed, 30 Sep 2020 15:04:13 -0700
-Message-Id: <20200930220414.562527-9-kbusch@kernel.org>
+Subject: [PATCH 9/9] hw/block/nvme: report actual LBA data shift in LBAF
+Date: Wed, 30 Sep 2020 15:04:14 -0700
+Message-Id: <20200930220414.562527-10-kbusch@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200930220414.562527-1-kbusch@kernel.org>
 References: <20200930220414.562527-1-kbusch@kernel.org>
@@ -71,46 +70,46 @@ Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-If a command results in a non-zero status code, trace it.
+Calculate the data shift value to report based on the set value of
+logical_block_size device property.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+In the process, use a local variable to calculate the LBA format
+index instead of the hardcoded value 0. This makes the code more
+readable and it will make it easier to add support for multiple LBA
+formats in the future.
+
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c       | 6 ++++++
- hw/block/trace-events | 1 +
- 2 files changed, 7 insertions(+)
+ hw/block/nvme-ns.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index dc971c9653..16804d0278 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -777,6 +777,12 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
-     assert(cq->cqid == req->sq->cqid);
-     trace_pci_nvme_enqueue_req_completion(nvme_cid(req), cq->cqid,
-                                           req->status);
-+
-+    if (req->status) {
-+        trace_pci_nvme_err_req_status(nvme_cid(req), nvme_nsid(req->ns),
-+                                      req->status, req->cmd.opcode);
-+    }
-+
-     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
-     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
-     timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 180c43d258..ff3ca4bbf6 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -89,6 +89,7 @@ pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index 2ba0263dda..a85e5fdb42 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -47,6 +47,8 @@ static void nvme_ns_init(NvmeNamespace *ns)
  
- # nvme traces for error conditions
- pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
-+pci_nvme_err_req_status(uint16_t cid, uint32_t nsid, uint16_t status, uint8_t opc) "cid %"PRIu16" nsid %"PRIu32" status 0x%"PRIx16" opc 0x%"PRIx8""
- pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
- pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
- pci_nvme_err_cfs(void) "controller fatal status"
+ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+ {
++    int lba_index;
++
+     if (!blkconf_blocksizes(&ns->blkconf, errp)) {
+         return -1;
+     }
+@@ -67,6 +69,9 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+         n->features.vwc = 0x1;
+     }
+ 
++    lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
++    ns->id_ns.lbaf[lba_index].ds = 31 - clz32(ns->blkconf.logical_block_size);
++
+     return 0;
+ }
+ 
 -- 
 2.24.1
 
