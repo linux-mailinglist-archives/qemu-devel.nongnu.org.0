@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6B227F4D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:08:39 +0200 (CEST)
-Received: from localhost ([::1]:50732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC35227F4D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:06:33 +0200 (CEST)
+Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNkH8-0001EP-Is
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
+	id 1kNkF6-00075I-Sy
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD4-0005NV-4p; Wed, 30 Sep 2020 18:04:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50428)
+ id 1kNkD4-0005O9-R8; Wed, 30 Sep 2020 18:04:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD1-0007vE-S5; Wed, 30 Sep 2020 18:04:25 -0400
+ id 1kNkD2-0007vK-BC; Wed, 30 Sep 2020 18:04:26 -0400
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 76D0820B1F;
- Wed, 30 Sep 2020 22:04:21 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 434B62076A;
+ Wed, 30 Sep 2020 22:04:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1601503462;
- bh=nzDcSMA8Wx2eA5W3BAyp16BC/iZLIHF0pGIPsU0bzqs=;
+ bh=/62M2pSDHHfBPXS/NRYPqbkA4RFhwX8RNBnWCfBW6hQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tOuu6zcgI0xpb89bS20zWt809IWmFOczsBvEnnuW/iF3nj8T7EVkk4TTVGwIJxGce
- +uXy88FFIvltEGTogVg6ljhRtYQI9gdGRo5xsLCATsaTWSc+5LBGfsyRkhr3AQlnP0
- PgptzDgo4zVCzY1kLouVDMfQoBWTW0MI1/TBWdKk=
+ b=y2Umwbbghn7Ac1NdbwAAWxobd+Lr70EUXIYDDmXbMumMeM9I2VwrD4SZaO1yyMqco
+ It4Rj71HwPO0rASd2XO9Gqnt4z+YwWYC5oB7AKSZoY5EaniNrXOZ5rnpUnusvS117O
+ qaOi77NJCiKAtwdXjbit5zy3M5ramQqUFiy4wIGk=
 From: Keith Busch <kbusch@kernel.org>
 To: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 1/9] hw/block/nvme: remove pointless rw indirection
-Date: Wed, 30 Sep 2020 15:04:06 -0700
-Message-Id: <20200930220414.562527-2-kbusch@kernel.org>
+Subject: [PATCH 2/9] hw/block/nvme: fix log page offset check
+Date: Wed, 30 Sep 2020 15:04:07 -0700
+Message-Id: <20200930220414.562527-3-kbusch@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200930220414.562527-1-kbusch@kernel.org>
 References: <20200930220414.562527-1-kbusch@kernel.org>
@@ -70,142 +70,77 @@ Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code switches on the opcode to invoke a function specific to that
-opcode. There's no point in consolidating back to a common function that
-just switches on that same opcode without any actual common code.
-Restore the opcode specific behavior without going back through another
-level of switches.
+Return error if the requested offset starts after the size of the log
+being returned. Also, move the check for earlier in the function so
+we're not doing unnecessary calculations.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 91 ++++++++++++++++---------------------------------
- 1 file changed, 29 insertions(+), 62 deletions(-)
+ hw/block/nvme.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index da8344f196..db52ea0db9 100644
+index db52ea0db9..8d2b5be567 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -927,68 +927,12 @@ static void nvme_rw_cb(void *opaque, int ret)
-     nvme_enqueue_req_completion(nvme_cq(req), req);
- }
+@@ -1179,6 +1179,10 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
  
--static uint16_t nvme_do_aio(BlockBackend *blk, int64_t offset, size_t len,
--                            NvmeRequest *req)
--{
--    BlockAcctCookie *acct = &req->acct;
--    BlockAcctStats *stats = blk_get_stats(blk);
--
--    bool is_write = false;
--
--    trace_pci_nvme_do_aio(nvme_cid(req), req->cmd.opcode,
--                          nvme_io_opc_str(req->cmd.opcode), blk_name(blk),
--                          offset, len);
--
--    switch (req->cmd.opcode) {
--    case NVME_CMD_FLUSH:
--        block_acct_start(stats, acct, 0, BLOCK_ACCT_FLUSH);
--        req->aiocb = blk_aio_flush(blk, nvme_rw_cb, req);
--        break;
--
--    case NVME_CMD_WRITE_ZEROES:
--        block_acct_start(stats, acct, len, BLOCK_ACCT_WRITE);
--        req->aiocb = blk_aio_pwrite_zeroes(blk, offset, len,
--                                           BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
--                                           req);
--        break;
--
--    case NVME_CMD_WRITE:
--        is_write = true;
--
--        /* fallthrough */
--
--    case NVME_CMD_READ:
--        block_acct_start(stats, acct, len,
--                         is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ);
--
--        if (req->qsg.sg) {
--            if (is_write) {
--                req->aiocb = dma_blk_write(blk, &req->qsg, offset,
--                                           BDRV_SECTOR_SIZE, nvme_rw_cb, req);
--            } else {
--                req->aiocb = dma_blk_read(blk, &req->qsg, offset,
--                                          BDRV_SECTOR_SIZE, nvme_rw_cb, req);
--            }
--        } else {
--            if (is_write) {
--                req->aiocb = blk_aio_pwritev(blk, offset, &req->iov, 0,
--                                             nvme_rw_cb, req);
--            } else {
--                req->aiocb = blk_aio_preadv(blk, offset, &req->iov, 0,
--                                            nvme_rw_cb, req);
--            }
--        }
--
--        break;
++    if (off >= sizeof(smart)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
+     for (int i = 1; i <= n->num_namespaces; i++) {
+         NvmeNamespace *ns = nvme_ns(n, i);
+         if (!ns) {
+@@ -1193,10 +1197,6 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+         write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
+     }
+ 
+-    if (off > sizeof(smart)) {
+-        return NVME_INVALID_FIELD | NVME_DNR;
 -    }
 -
--    return NVME_NO_COMPLETE;
--}
+     trans_len = MIN(sizeof(smart) - off, buf_len);
+ 
+     memset(&smart, 0x0, sizeof(smart));
+@@ -1234,12 +1234,11 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
+         .afi = 0x1,
+     };
+ 
+-    strpadcpy((char *)&fw_log.frs1, sizeof(fw_log.frs1), "1.0", ' ');
 -
- static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
- {
--    NvmeNamespace *ns = req->ns;
--    return nvme_do_aio(ns->blkconf.blk, 0, 0, req);
-+    block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-+                     BLOCK_ACCT_FLUSH);
-+    req->aiocb = blk_aio_flush(n->conf.blk, nvme_rw_cb, req);
-+    return NVME_NO_COMPLETE;
- }
- 
- static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
-@@ -1009,7 +953,11 @@ static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
-         return status;
+-    if (off > sizeof(fw_log)) {
++    if (off >= sizeof(fw_log)) {
+         return NVME_INVALID_FIELD | NVME_DNR;
      }
  
--    return nvme_do_aio(ns->blkconf.blk, offset, count, req);
-+    block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-+                     BLOCK_ACCT_WRITE);
-+    req->aiocb = blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
-+                                       BDRV_REQ_MAY_UNMAP, nvme_rw_cb, req);
-+    return NVME_NO_COMPLETE;
- }
++    strpadcpy((char *)&fw_log.frs1, sizeof(fw_log.frs1), "1.0", ' ');
+     trans_len = MIN(sizeof(fw_log) - off, buf_len);
  
- static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
-@@ -1023,6 +971,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
-     uint64_t data_offset = nvme_l2b(ns, slba);
-     enum BlockAcctType acct = req->cmd.opcode == NVME_CMD_WRITE ?
-         BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
-+    BlockBackend *blk = ns->blkconf.blk;
-     uint16_t status;
+     return nvme_dma(n, (uint8_t *) &fw_log + off, trans_len,
+@@ -1252,16 +1251,15 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     uint32_t trans_len;
+     NvmeErrorLog errlog;
  
-     trace_pci_nvme_rw(nvme_cid(req), nvme_io_opc_str(rw->opcode),
-@@ -1045,7 +994,25 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
-         goto invalid;
+-    if (!rae) {
+-        nvme_clear_events(n, NVME_AER_TYPE_ERROR);
++    if (off >= sizeof(errlog)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
      }
  
--    return nvme_do_aio(ns->blkconf.blk, data_offset, data_size, req);
-+    block_acct_start(blk_get_stats(blk), &req->acct, data_size, acct);
-+    if (req->qsg.sg) {
-+        if (acct == BLOCK_ACCT_WRITE) {
-+            req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
-+                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        } else {
-+            req->aiocb = dma_blk_read(blk, &req->qsg, data_offset,
-+                                      BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        }
-+    } else {
-+        if (acct == BLOCK_ACCT_WRITE) {
-+            req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
-+                                         nvme_rw_cb, req);
-+        } else {
-+            req->aiocb = blk_aio_preadv(blk, data_offset, &req->iov, 0,
-+                                        nvme_rw_cb, req);
-+        }
-+    }
-+    return NVME_NO_COMPLETE;
+-    if (off > sizeof(errlog)) {
+-        return NVME_INVALID_FIELD | NVME_DNR;
++    if (!rae) {
++        nvme_clear_events(n, NVME_AER_TYPE_ERROR);
+     }
  
- invalid:
-     block_acct_invalid(blk_get_stats(ns->blkconf.blk), acct);
+     memset(&errlog, 0x0, sizeof(errlog));
+-
+     trans_len = MIN(sizeof(errlog) - off, buf_len);
+ 
+     return nvme_dma(n, (uint8_t *)&errlog, trans_len,
 -- 
 2.24.1
 
