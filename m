@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D624D27DFAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:47:05 +0200 (CEST)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8143A27DFB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:49:42 +0200 (CEST)
+Received: from localhost ([::1]:49198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNU1A-0001pT-RZ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:47:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37128)
+	id 1kNU3h-0005DX-J7
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnQ-0001F8-Lr
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30377)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnS-0001FS-1e
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnK-0000aQ-OX
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:51 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnN-0000ac-2j
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:53 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601440364;
+ s=mimecast20190719; t=1601440365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J9cFIk+Ls3+vEaGiGFoJTX4+qIHDM8/wuHqGa3n35Sg=;
- b=NYOGqtqNR8MVxwHzw++fWynda38ZCox+81AohsvGV3PItP7bISz7LehiJzQES+XS4Xgrj6
- Hofh5PD66BI1DOig/3frUAYTDu/Un6c7mikUxxiNwLM5qb8ToXtOJyjyqmkU4rszlbkS61
- ZokSUUCMRMi7sq7WK9D1BjwcSPlBUDA=
+ bh=ByDlvOtSsfN8S4NZCIhG3gH/OvkJg2U+5cEP3dfJlBI=;
+ b=DfHci/1k268mC8SWwFOp8LbmJ7LrjNwocPAUij7jMZyK0fwrHUEta2xQVVPZyihi9cMlmW
+ rGd8j/ZbF1JjNSm534J0dT79k5uq0a0Cqg6+47x2wuErABRswtPu80BquS5LLkLdF+BZvc
+ VeyyI4yz7uQRY8MiTz5DSowVDj3hkfc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-noRr7p3HMTa2q3XhXK_IaA-1; Wed, 30 Sep 2020 00:32:41 -0400
-X-MC-Unique: noRr7p3HMTa2q3XhXK_IaA-1
+ us-mta-231-bPYAfmtQMNm1_jKoJGEBxQ-1; Wed, 30 Sep 2020 00:32:43 -0400
+X-MC-Unique: bPYAfmtQMNm1_jKoJGEBxQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC2581074657;
- Wed, 30 Sep 2020 04:32:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 064CF1074651;
+ Wed, 30 Sep 2020 04:32:42 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8688E73678;
- Wed, 30 Sep 2020 04:32:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27F9073678;
+ Wed, 30 Sep 2020 04:32:40 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 22/46] qapi: establish mypy type-checking baseline
-Date: Wed, 30 Sep 2020 00:31:26 -0400
-Message-Id: <20200930043150.1454766-23-jsnow@redhat.com>
+Subject: [PATCH v4 23/46] qapi/events.py: add type hint annotations
+Date: Wed, 30 Sep 2020 00:31:27 -0400
+Message-Id: <20200930043150.1454766-24-jsnow@redhat.com>
 In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
 References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,112 +85,148 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix two very minor issues, and then establish a mypy type-checking
-baseline.
-
-Like pylint, this should be run from the folder above:
-
- > mypy --config-file=qapi/mypy.ini qapi/
-
-This is designed and tested for mypy 0.770 or greater.
+Annotations do not change runtime behavior.
+This commit *only* adds annotations.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Tested-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/mypy.ini  | 60 ++++++++++++++++++++++++++++++++++++++++++
- scripts/qapi/schema.py |  3 ++-
- 2 files changed, 62 insertions(+), 1 deletion(-)
- create mode 100644 scripts/qapi/mypy.ini
+ scripts/qapi/events.py | 46 ++++++++++++++++++++++++++++++++----------
+ scripts/qapi/mypy.ini  |  5 -----
+ 2 files changed, 35 insertions(+), 16 deletions(-)
 
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index f840a62ed92..57e0939e963 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -12,19 +12,31 @@
+ See the COPYING file in the top-level directory.
+ """
+ 
++from typing import List
++
+ from .common import c_enum_const, c_name, mcgen
+ from .gen import QAPISchemaModularCVisitor, build_params, ifcontext
+-from .schema import QAPISchemaEnumMember
++from .schema import (
++    QAPISchema,
++    QAPISchemaEnumMember,
++    QAPISchemaFeature,
++    QAPISchemaObjectType,
++)
++from .source import QAPISourceInfo
+ from .types import gen_enum, gen_enum_lookup
+ 
+ 
+-def build_event_send_proto(name, arg_type, boxed):
++def build_event_send_proto(name: str,
++                           arg_type: QAPISchemaObjectType,
++                           boxed: bool) -> str:
+     return 'void qapi_event_send_%(c_name)s(%(param)s)' % {
+         'c_name': c_name(name.lower()),
+         'param': build_params(arg_type, boxed)}
+ 
+ 
+-def gen_event_send_decl(name, arg_type, boxed):
++def gen_event_send_decl(name: str,
++                        arg_type: QAPISchemaObjectType,
++                        boxed: bool) -> str:
+     return mcgen('''
+ 
+ %(proto)s;
+@@ -33,7 +45,7 @@ def gen_event_send_decl(name, arg_type, boxed):
+ 
+ 
+ # Declare and initialize an object 'qapi' using parameters from build_params()
+-def gen_param_var(typ):
++def gen_param_var(typ: QAPISchemaObjectType) -> str:
+     assert not typ.variants
+     ret = mcgen('''
+     %(c_name)s param = {
+@@ -61,7 +73,11 @@ def gen_param_var(typ):
+     return ret
+ 
+ 
+-def gen_event_send(name, arg_type, boxed, event_enum_name, event_emit):
++def gen_event_send(name: str,
++                   arg_type: QAPISchemaObjectType,
++                   boxed: bool,
++                   event_enum_name: str,
++                   event_emit: str) -> str:
+     # FIXME: Our declaration of local variables (and of 'errp' in the
+     # parameter list) can collide with exploded members of the event's
+     # data type passed in as parameters.  If this collision ever hits in
+@@ -137,15 +153,15 @@ def gen_event_send(name, arg_type, boxed, event_enum_name, event_emit):
+ 
+ class QAPISchemaGenEventVisitor(QAPISchemaModularCVisitor):
+ 
+-    def __init__(self, prefix):
++    def __init__(self, prefix: str):
+         super().__init__(
+             prefix, 'qapi-events',
+             ' * Schema-defined QAPI/QMP events', None, __doc__)
+         self._event_enum_name = c_name(prefix + 'QAPIEvent', protect=False)
+-        self._event_enum_members = []
++        self._event_enum_members: List[QAPISchemaEnumMember] = []
+         self._event_emit_name = c_name(prefix + 'qapi_event_emit')
+ 
+-    def _begin_user_module(self, name):
++    def _begin_user_module(self, name: str) -> None:
+         events = self._module_basename('qapi-events', name)
+         types = self._module_basename('qapi-types', name)
+         visit = self._module_basename('qapi-visit', name)
+@@ -168,7 +184,7 @@ def _begin_user_module(self, name):
+ ''',
+                              types=types))
+ 
+-    def visit_end(self):
++    def visit_end(self) -> None:
+         self._add_system_module('emit', ' * QAPI Events emission')
+         self._genc.preamble_add(mcgen('''
+ #include "qemu/osdep.h"
+@@ -189,7 +205,13 @@ def visit_end(self):
+                              event_emit=self._event_emit_name,
+                              event_enum=self._event_enum_name))
+ 
+-    def visit_event(self, name, info, ifcond, features, arg_type, boxed):
++    def visit_event(self,
++                    name: str,
++                    info: QAPISourceInfo,
++                    ifcond: List[str],
++                    features: List[QAPISchemaFeature],
++                    arg_type: QAPISchemaObjectType,
++                    boxed: bool) -> None:
+         with ifcontext(ifcond, self._genh, self._genc):
+             self._genh.add(gen_event_send_decl(name, arg_type, boxed))
+             self._genc.add(gen_event_send(name, arg_type, boxed,
+@@ -200,7 +222,9 @@ def visit_event(self, name, info, ifcond, features, arg_type, boxed):
+         self._event_enum_members.append(QAPISchemaEnumMember(name, None))
+ 
+ 
+-def gen_events(schema, output_dir, prefix):
++def gen_events(schema: QAPISchema,
++               output_dir: str,
++               prefix: str) -> None:
+     vis = QAPISchemaGenEventVisitor(prefix)
+     schema.visit(vis)
+     vis.write(output_dir)
 diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-new file mode 100644
-index 00000000000..00fac15dc6e
---- /dev/null
+index 00fac15dc6e..5df11e53fd1 100644
+--- a/scripts/qapi/mypy.ini
 +++ b/scripts/qapi/mypy.ini
-@@ -0,0 +1,60 @@
-+[mypy]
-+strict = True
-+strict_optional = False
-+disallow_untyped_calls = False
-+python_version = 3.6
-+
-+[mypy-qapi.commands]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.error]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.events]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.expr]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.gen]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.introspect]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.parser]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.schema]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.source]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.types]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-+
-+[mypy-qapi.visit]
-+disallow_untyped_defs = False
-+disallow_incomplete_defs = False
-+check_untyped_defs = False
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 74c6b96d391..483b4b68dff 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -17,6 +17,7 @@
- from collections import OrderedDict
- import os
- import re
-+from typing import Optional
+@@ -14,11 +14,6 @@ disallow_untyped_defs = False
+ disallow_incomplete_defs = False
+ check_untyped_defs = False
  
- from .common import POINTER_SUFFIX, c_name
- from .error import QAPIError, QAPISemError
-@@ -25,7 +26,7 @@
- 
- 
- class QAPISchemaEntity:
--    meta = None
-+    meta: Optional[str] = None
- 
-     def __init__(self, name, info, doc, ifcond=None, features=None):
-         assert name is None or isinstance(name, str)
+-[mypy-qapi.events]
+-disallow_untyped_defs = False
+-disallow_incomplete_defs = False
+-check_untyped_defs = False
+-
+ [mypy-qapi.expr]
+ disallow_untyped_defs = False
+ disallow_incomplete_defs = False
 -- 
 2.26.2
 
