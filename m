@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F6027E6C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:37:36 +0200 (CEST)
-Received: from localhost ([::1]:52898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9039D27E6D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:39:45 +0200 (CEST)
+Received: from localhost ([::1]:59056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNZUN-0000DF-BU
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46362)
+	id 1kNZWS-0002hR-L8
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNZHM-0001ZO-PW; Wed, 30 Sep 2020 06:24:08 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54075)
+ id 1kNZHv-0002Bc-Gp; Wed, 30 Sep 2020 06:24:43 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kNZHL-0006gq-7q; Wed, 30 Sep 2020 06:24:08 -0400
-Received: by mail-wm1-x341.google.com with SMTP id x23so1105307wmi.3;
- Wed, 30 Sep 2020 03:24:06 -0700 (PDT)
+ id 1kNZHu-0006kq-4Q; Wed, 30 Sep 2020 06:24:43 -0400
+Received: by mail-wm1-x344.google.com with SMTP id x23so1107137wmi.3;
+ Wed, 30 Sep 2020 03:24:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LdOsLUwLttg3TTRdEYkX/X58pBuNh6nHyitgH94HsTE=;
- b=G6OcDrearV2mWLt49oERnsH10lQWSc6R54bDA+UbSFQspzPTeUpddsBSXN5vqC7+lN
- uil9PloPV/qyz9/kUFxo5KbWGkCGhEovToUpoOVTkTSXIy9e7hZ4xIXA/75Z2X1Xq01W
- WbvyWBCC4+5iiw88WvqaDxcwaubZr0DEGGNNWv/Rktwku3yZZyqRGurZVbFjhUzt5gOr
- n5XsKAQXDPFYbJ8PhTErBbhFxRSoto1BLwW1P2hNe3EUzjc4iFvTU93pzoJtmPovD9yE
- 8hdXqbqwCyUwNNksdhJEymetkjx/pkIzbM1UO9ntk/qfKEJEf7Rn9d3ng6IkLBETQRnn
- wlhw==
+ bh=BlVBM30xDksoO4gB+K5g69bdupxVY7+6HPcPWe/AX1Q=;
+ b=JrPlDEu8BKCG2LxYxl2Cnhz/GRSV1JD3k2g8OavSAM8kspmDDU1WSN1/Vhaoc/hTKN
+ mwGOnqTNl2fHkEOds7nbHxVMSWGi1l5mF/qZ4EG/VKzN59B+vLcneZsBSUHEAXiESsLH
+ YS6/U8jqNNkCpQuFuN5e6f9frEwJ3HMly1faEBCl29Szzv952yVGdzE2XH8UjmXbvuSm
+ kfIOUqE6xPFH17jliWoc0zA8oocoemQV5qByRQw8PAIhEpkPcV2Pif757Fsk9U7rIzbX
+ yJKTCsCKoNdOYrS5Bqn3Vx+Ugl9cxUvfmeOYne6mteTNORK4h0+rc8JifFy3g0xQMYBq
+ 126g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LdOsLUwLttg3TTRdEYkX/X58pBuNh6nHyitgH94HsTE=;
- b=K0HJx/COi5TFhwy+1PVT0ve/MNWyGsuLgFE41ijkwajehXX2K8+NMH6CJwy18qSxFp
- qWqHwBAV8wCPqJmYuuxvmKDu/V2EaA3TDOPy2Pa4f5kp+pOCUlqFOJ+PX/ept+iHQYDZ
- XmEtyO/tWvTCjom20k617VyPUvPtXk/AxlSNW406aADO+Be5a/QaPbp4DTwDMRMCtveM
- qHriatPuotoRnrfRBDwSMOg0myaC5MejdOv744Xzd07sq4COgDen9A873ApfGkqtukiL
- 5mxnxc9BDuCjfVorn93iyXgfhSfs248G//pFL302JaM9jf+ckKbS/a2LRIpAskpfhSjC
- KeOQ==
-X-Gm-Message-State: AOAM531xWc15P8zetl1gwH9QHcKwX8q0BmC6DqoVJC/wDLf/2CIMAIVX
- /tgCuuX6t8pv0/Ii3jKdQx7IQXVbiwE=
-X-Google-Smtp-Source: ABdhPJwku4naBXwd0TJ/cYUxYnkOSHR4YsimMuniwubo8DbabGRKSb4u3GfGu6lZp3qelBw9r+cWMw==
-X-Received: by 2002:a1c:740c:: with SMTP id p12mr2205964wmc.176.1601461445263; 
- Wed, 30 Sep 2020 03:24:05 -0700 (PDT)
+ bh=BlVBM30xDksoO4gB+K5g69bdupxVY7+6HPcPWe/AX1Q=;
+ b=taggIzOTWCFu6723usNflqDY4iSd6sxreD9pYS1HZuWiTqCt9Fimjp1srtKI5708jb
+ R/ahOPTaBrp90w7k2ft3PocVjWdLJuCPAo09zv3qZFhUrOcVBtWbVXmy0r6j+NwXvUdP
+ qFjS5cM9GxWoPLbFTF/aBxW+IXUzyqHrgsW99Tmj9i4d1eC0tvvxUPf+FgIOhFF5z9rI
+ zaZV+aHnFDJB5xjIbzW7gV/jlb6bbHKsBA40PE7RO59zeLgXrwFa8DR15gPxwbuX1rKe
+ 8oIQAYGxQ6pOpvG/V5qCubcvdhkYi6DE0aQEYDiW2HTFiwhjU8a7Hg/zMAh63wgGvr7+
+ D2kQ==
+X-Gm-Message-State: AOAM532ORNv3qPQGNbLAyBqh1VAMQquk/ThMb7LgrnvEACk5VD9iBC+4
+ StcQr/zw5L2SytR7l//wV4ReJ3JUrlY=
+X-Google-Smtp-Source: ABdhPJxLrNFMkjiNdc4uOLTG3jz+ZrzkcuilZl0UQp9I4YsGTw6RDbiwm6mbClXOS73g3OXVfDyeBA==
+X-Received: by 2002:a7b:ce89:: with SMTP id q9mr2192921wmj.65.1601461479092;
+ Wed, 30 Sep 2020 03:24:39 -0700 (PDT)
 Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id u66sm1956408wme.12.2020.09.30.03.24.04
+ by smtp.gmail.com with ESMTPSA id q13sm1976686wra.93.2020.09.30.03.24.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Sep 2020 03:24:04 -0700 (PDT)
-Subject: Re: [PATCH RFC 09/14] sh4/: fix some comment spelling errors
+ Wed, 30 Sep 2020 03:24:38 -0700 (PDT)
+Subject: Re: [PATCH RFC 11/14] avr/: fix some comment spelling errors
 To: zhaolichang <zhaolichang@huawei.com>, qemu-trivial@nongnu.org
 References: <20200930095321.2006-1-zhaolichang@huawei.com>
- <20200930095321.2006-10-zhaolichang@huawei.com>
+ <20200930095321.2006-12-zhaolichang@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <96c0b893-735d-d2a0-fe27-1a855de3947b@amsat.org>
-Date: Wed, 30 Sep 2020 12:24:04 +0200
+Message-ID: <40fbcca9-2ec1-b73b-fc12-7bfbc0cb9b49@amsat.org>
+Date: Wed, 30 Sep 2020 12:24:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200930095321.2006-10-zhaolichang@huawei.com>
+In-Reply-To: <20200930095321.2006-12-zhaolichang@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 4
@@ -94,16 +94,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/30/20 11:53 AM, zhaolichang wrote:
-> I found that there are many spelling errors in the comments of qemu/target/sh4.
+> I found that there are many spelling errors in the comments of qemu/target/avr.
 > I used spellcheck to check the spelling errors and found some errors in the folder.
 > 
 > Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 > ---
->  target/sh4/cpu.h       | 2 +-
->  target/sh4/op_helper.c | 2 +-
->  target/sh4/translate.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+>  target/avr/helper.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
