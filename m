@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D8827DFCB
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 07:01:33 +0200 (CEST)
-Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4343827DFD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 07:03:21 +0200 (CEST)
+Received: from localhost ([::1]:39848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNUFA-0005an-Na
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 01:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
+	id 1kNUGu-0008Bo-BL
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 01:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnY-0001IM-RZ
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39842)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTno-0001Sh-Qx
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnV-0000be-Iq
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601440375;
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnn-0000dO-0I
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:16 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601440394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bpioM5nqlHvgbQ4J6zKmx+vZfIvBUGNxRW5ZEmtw7wQ=;
- b=J9wKU1gUHr5GTodfJIPDjogGaDaJuZ1KgwEamNYR/l6U/R1r5ijWJosrtV3xYVZ+Zk3dxB
- DCr/DghtLlbtlhOLSqt97UUNl6WG3BnH3fVgedimth5JpLWJDUJYukhljNJSolyBT6iUkc
- 6KDhAaN4ZusUHiDyzVwwyYN4JCsRUDo=
+ bh=G90+Y1nSW1KG9vLVoWmtEgG3UdrJmcS52vrMeGCtlCc=;
+ b=OHtBjrNoteAQq+FMC4szrMMiDOihHBP/quUp7sRqnEqEv4QZhhMaXKUKZ93qDS1Hjc5MIa
+ +hWLZMJDHNxzLPUAvHEPkN+FkMPuMz1qi3T/mzDUO7pS8MJBsI87KRjGa0bUOHD7BPGJdQ
+ JDQUce2h8ERI/Eeg9K6Euz7U/y8BIMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-LQ1u7B2FOqqWHfsoMt2Pkw-1; Wed, 30 Sep 2020 00:32:53 -0400
-X-MC-Unique: LQ1u7B2FOqqWHfsoMt2Pkw-1
+ us-mta-60-5zZVulNZNEqTHVP861l2CQ-1; Wed, 30 Sep 2020 00:33:10 -0400
+X-MC-Unique: 5zZVulNZNEqTHVP861l2CQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2F201074653;
- Wed, 30 Sep 2020 04:32:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20FC8801AC8;
+ Wed, 30 Sep 2020 04:33:09 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FF6573678;
- Wed, 30 Sep 2020 04:32:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6836473678;
+ Wed, 30 Sep 2020 04:33:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 29/46] qapi/source.py: delint with pylint
-Date: Wed, 30 Sep 2020 00:31:33 -0400
-Message-Id: <20200930043150.1454766-30-jsnow@redhat.com>
+Subject: [PATCH v4 35/46] qapi/gen.py: delint with pylint
+Date: Wed, 30 Sep 2020 00:31:39 -0400
+Message-Id: <20200930043150.1454766-36-jsnow@redhat.com>
 In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
 References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,44 +85,59 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shush an error and leave a hint for future cleanups when we're allowed
-to use Python 3.7+.
+'fp' and 'fd' are self-evident in context, add them to the list of OK
+names.
+
+_top and _bottom also need to stay standard methods because some users
+override the method and need to use `self`. Tell pylint to shush.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/pylintrc  | 1 -
- scripts/qapi/source.py | 3 +++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/gen.py   | 2 ++
+ scripts/qapi/pylintrc | 5 +++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index 2ad96e396e1..fc793552036 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -53,9 +53,11 @@ def get_content(self) -> str:
+         return self._top() + self._preamble + self._body + self._bottom()
+ 
+     def _top(self) -> str:
++        # pylint: disable=no-self-use
+         return ''
+ 
+     def _bottom(self) -> str:
++        # pylint: disable=no-self-use
+         return ''
+ 
+     def write(self, output_dir: str) -> None:
 diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index 507f15537ab..d840b150313 100644
+index d840b150313..8badcb11cda 100644
 --- a/scripts/qapi/pylintrc
 +++ b/scripts/qapi/pylintrc
-@@ -7,7 +7,6 @@ ignore-patterns=error.py,
-                 gen.py,
+@@ -4,7 +4,6 @@
+ # The regex matches against base names, not paths.
+ ignore-patterns=error.py,
+                 expr.py,
+-                gen.py,
                  parser.py,
                  schema.py,
--                source.py,
                  types.py,
-                 visit.py,
+@@ -45,7 +44,9 @@ good-names=i,
+            k,
+            ex,
+            Run,
+-           _
++           _,
++           fp,  # fp = open(...)
++           fd,  # fd = os.open(...)
  
-diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-index 1cc6a5b82dc..ba991d798fe 100644
---- a/scripts/qapi/source.py
-+++ b/scripts/qapi/source.py
-@@ -15,6 +15,9 @@
+ [VARIABLES]
  
- 
- class QAPISchemaPragma:
-+    # Replace with @dataclass in Python 3.7+
-+    # pylint: disable=too-few-public-methods
-+
-     def __init__(self) -> None:
-         # Are documentation comments required?
-         self.doc_required = False
 -- 
 2.26.2
 
