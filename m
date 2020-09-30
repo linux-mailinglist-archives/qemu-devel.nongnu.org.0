@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC35227F4D0
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:06:33 +0200 (CEST)
-Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4374F27F4DE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 00:10:53 +0200 (CEST)
+Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNkF6-00075I-Sy
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:06:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56118)
+	id 1kNkJI-0003hU-Aj
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 18:10:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD4-0005O9-R8; Wed, 30 Sep 2020 18:04:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50460)
+ id 1kNkD5-0005Ol-7A; Wed, 30 Sep 2020 18:04:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kNkD2-0007vK-BC; Wed, 30 Sep 2020 18:04:26 -0400
+ id 1kNkD3-0007vT-3r; Wed, 30 Sep 2020 18:04:26 -0400
 Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 434B62076A;
+ by mail.kernel.org (Postfix) with ESMTPSA id 0BACB20BED;
  Wed, 30 Sep 2020 22:04:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601503462;
- bh=/62M2pSDHHfBPXS/NRYPqbkA4RFhwX8RNBnWCfBW6hQ=;
+ s=default; t=1601503463;
+ bh=bAD+jfXU6J1t0RBHkb7mu5AtcCOwQGtCOjdgO5scJiA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=y2Umwbbghn7Ac1NdbwAAWxobd+Lr70EUXIYDDmXbMumMeM9I2VwrD4SZaO1yyMqco
- It4Rj71HwPO0rASd2XO9Gqnt4z+YwWYC5oB7AKSZoY5EaniNrXOZ5rnpUnusvS117O
- qaOi77NJCiKAtwdXjbit5zy3M5ramQqUFiy4wIGk=
+ b=zoFDSf2/QzPlDaQqWjiJZeYZ9N9AKz+H0mrNFJoVnWaJ3VUsGNafyImMVlXKg7RUt
+ 4EYird2YhaHAvNJ9d1Tbk570HhQ5qOv7VI36h7Lz1Da970jCpVtmJzUYxTFVLc5+SN
+ XTHkzYzWs3ts2N4/RZN5EUMWP41g2kInm9FTXlVw=
 From: Keith Busch <kbusch@kernel.org>
 To: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 2/9] hw/block/nvme: fix log page offset check
-Date: Wed, 30 Sep 2020 15:04:07 -0700
-Message-Id: <20200930220414.562527-3-kbusch@kernel.org>
+Subject: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
+Date: Wed, 30 Sep 2020 15:04:08 -0700
+Message-Id: <20200930220414.562527-4-kbusch@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200930220414.562527-1-kbusch@kernel.org>
 References: <20200930220414.562527-1-kbusch@kernel.org>
@@ -70,77 +70,128 @@ Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Return error if the requested offset starts after the size of the log
-being returned. Also, move the check for earlier in the function so
-we're not doing unnecessary calculations.
+Let the user specify a specific namespace if they want to get access
+stats for a specific namespace.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ hw/block/nvme.c      | 66 +++++++++++++++++++++++++++-----------------
+ include/block/nvme.h |  1 +
+ 2 files changed, 41 insertions(+), 26 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index db52ea0db9..8d2b5be567 100644
+index 8d2b5be567..41389b2b09 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1179,6 +1179,10 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
+@@ -1164,48 +1164,62 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_SUCCESS;
+ }
  
-+    if (off >= sizeof(smart)) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-+    }
++struct nvme_stats {
++    uint64_t units_read;
++    uint64_t units_written;
++    uint64_t read_commands;
++    uint64_t write_commands;
++};
 +
-     for (int i = 1; i <= n->num_namespaces; i++) {
-         NvmeNamespace *ns = nvme_ns(n, i);
-         if (!ns) {
-@@ -1193,10 +1197,6 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-         write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
-     }
- 
--    if (off > sizeof(smart)) {
++static void nvme_set_blk_stats(NvmeNamespace *ns, struct nvme_stats *stats)
++{
++    BlockAcctStats *s = blk_get_stats(ns->blkconf.blk);
++
++    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
++    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
++    stats->read_commands += s->nr_ops[BLOCK_ACCT_READ];
++    stats->write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
++}
++
+ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+                                 uint64_t off, NvmeRequest *req)
+ {
+     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+-
++    struct nvme_stats stats = { 0 };
++    NvmeSmartLog smart = { 0 };
+     uint32_t trans_len;
++    NvmeNamespace *ns;
+     time_t current_ms;
+-    uint64_t units_read = 0, units_written = 0;
+-    uint64_t read_commands = 0, write_commands = 0;
+-    NvmeSmartLog smart;
+-
+-    if (nsid && nsid != 0xffffffff) {
 -        return NVME_INVALID_FIELD | NVME_DNR;
 -    }
--
-     trans_len = MIN(sizeof(smart) - off, buf_len);
  
-     memset(&smart, 0x0, sizeof(smart));
-@@ -1234,12 +1234,11 @@ static uint16_t nvme_fw_log_info(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
-         .afi = 0x1,
-     };
- 
--    strpadcpy((char *)&fw_log.frs1, sizeof(fw_log.frs1), "1.0", ' ');
--
--    if (off > sizeof(fw_log)) {
-+    if (off >= sizeof(fw_log)) {
+     if (off >= sizeof(smart)) {
          return NVME_INVALID_FIELD | NVME_DNR;
      }
  
-+    strpadcpy((char *)&fw_log.frs1, sizeof(fw_log.frs1), "1.0", ' ');
-     trans_len = MIN(sizeof(fw_log) - off, buf_len);
- 
-     return nvme_dma(n, (uint8_t *) &fw_log + off, trans_len,
-@@ -1252,16 +1251,15 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     uint32_t trans_len;
-     NvmeErrorLog errlog;
- 
--    if (!rae) {
--        nvme_clear_events(n, NVME_AER_TYPE_ERROR);
-+    if (off >= sizeof(errlog)) {
-+        return NVME_INVALID_FIELD | NVME_DNR;
-     }
- 
--    if (off > sizeof(errlog)) {
--        return NVME_INVALID_FIELD | NVME_DNR;
-+    if (!rae) {
-+        nvme_clear_events(n, NVME_AER_TYPE_ERROR);
-     }
- 
-     memset(&errlog, 0x0, sizeof(errlog));
+-    for (int i = 1; i <= n->num_namespaces; i++) {
+-        NvmeNamespace *ns = nvme_ns(n, i);
+-        if (!ns) {
+-            continue;
+-        }
 -
-     trans_len = MIN(sizeof(errlog) - off, buf_len);
+-        BlockAcctStats *s = blk_get_stats(ns->blkconf.blk);
++    if (nsid != 0xffffffff) {
++        ns = nvme_ns(n, nsid);
++        if (!ns)
++            return NVME_INVALID_NSID | NVME_DNR;
++        nvme_set_blk_stats(ns, &stats);
++    } else {
++        int i;
  
-     return nvme_dma(n, (uint8_t *)&errlog, trans_len,
+-        units_read += s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
+-        units_written += s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
+-        read_commands += s->nr_ops[BLOCK_ACCT_READ];
+-        write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
++        for (i = 1; i <= n->num_namespaces; i++) {
++            ns = nvme_ns(n, i);
++            if (!ns) {
++                continue;
++            }
++            nvme_set_blk_stats(ns, &stats);
++        }
+     }
+ 
+     trans_len = MIN(sizeof(smart) - off, buf_len);
+ 
+-    memset(&smart, 0x0, sizeof(smart));
+-
+-    smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(units_read, 1000));
+-    smart.data_units_written[0] = cpu_to_le64(DIV_ROUND_UP(units_written,
++    smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
++                                                        1000));
++    smart.data_units_written[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_written,
+                                                            1000));
+-    smart.host_read_commands[0] = cpu_to_le64(read_commands);
+-    smart.host_write_commands[0] = cpu_to_le64(write_commands);
++    smart.host_read_commands[0] = cpu_to_le64(stats.read_commands);
++    smart.host_write_commands[0] = cpu_to_le64(stats.write_commands);
+ 
+     smart.temperature = cpu_to_le16(n->temperature);
+ 
+@@ -2708,7 +2722,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
+     id->aerl = n->params.aerl;
+     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
+-    id->lpa = NVME_LPA_EXTENDED;
++    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_EXTENDED;
+ 
+     /* recommended default value (~70 C) */
+     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 58647bcdad..868cf53f0b 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -849,6 +849,7 @@ enum NvmeIdCtrlFrmw {
+ };
+ 
+ enum NvmeIdCtrlLpa {
++    NVME_LPA_NS_SMART = 1 << 0,
+     NVME_LPA_EXTENDED = 1 << 2,
+ };
+ 
 -- 
 2.24.1
 
