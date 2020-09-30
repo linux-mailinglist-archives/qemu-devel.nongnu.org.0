@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B3527F0AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:46:07 +0200 (CEST)
-Received: from localhost ([::1]:57152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B274C27F0B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 19:48:10 +0200 (CEST)
+Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNgB4-0002YR-Kx
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:46:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54150)
+	id 1kNgD3-0003bk-PL
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 13:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNgA7-0001nn-DJ
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:45:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36608)
+ id 1kNgBg-000320-K6
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:46:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kNgA5-000494-Ba
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:45:07 -0400
+ id 1kNgBe-0004Or-DK
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 13:46:44 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601487903;
+ s=mimecast20190719; t=1601488001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tI35KbyWGEqysnqo1zKGM8UhdpYfIpQ5KwcWkAM0EjE=;
- b=Z/0gpErMjaMK7z8Rr+6FGHvgV8gsqv44Qp59PLzujNCiT9T6yRB2NxOMk0oUf0wo8/6a52
- I5FQGaaQH7F+0R8CycJC1aRBNJZSJx9oIZ7R7VIag08J+7xfAHaXy7mFH5mHM94H5ef+UC
- 2YMI8qb0xLdE3clpSzAiMdSHWBTD4zw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-PkshUhfdMge5z6Yh-6iiZg-1; Wed, 30 Sep 2020 13:45:01 -0400
-X-MC-Unique: PkshUhfdMge5z6Yh-6iiZg-1
-Received: by mail-wm1-f71.google.com with SMTP id p20so119733wmg.0
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 10:45:01 -0700 (PDT)
+ bh=ZWUx5DmjrfB9LPqMu2R6Bn9Fs7Axz3MPsvf8u5tx4N4=;
+ b=GJbrhn/eRRHNXIAl8Q/FRGzeeFobmtFDNb44AO+MsH04q4860laJav2rzKfHwXs9NSn8A1
+ HERNsnA8QjmMzXdhiPFnxA/FS7iXgTEzegT+eNvI6s8Ydi4CtGA/LZAkzWId0pHJdspIZ8
+ dq7FiZk0s2DUgDjvfQuG3WgeztqBUnc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-iShu2qqCNSa-UU_dRujldQ-1; Wed, 30 Sep 2020 13:46:38 -0400
+X-MC-Unique: iShu2qqCNSa-UU_dRujldQ-1
+Received: by mail-wr1-f69.google.com with SMTP id a2so878497wrp.8
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 10:46:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tI35KbyWGEqysnqo1zKGM8UhdpYfIpQ5KwcWkAM0EjE=;
- b=ui6BD5M0TC1maLGMYkduJfLb/26LGJ92Ai1wfn7ANRmWDRpYJn/W2F54EATxdhX8fG
- ZO76bnvH3DDEoC4yHof279luFJcQaA9xyX3pqgl6B05VltA5bnafqgk+5IcZYaW15G3N
- z2aPI+mdN5IPgFJ5ke+QBheaoJBmVbFcE3FaNy7y0oWIACDTMWObYMiqQeoQeJGnOdq+
- Ob+X7ekVYdEDjdzBl7gtNlXsRuY9dK9qvb4+gSiEczfvl+GAocPFFxxe+RCHi98LSqv+
- 0IbcGXi1QJtJCL9mMhYKBToKBWk3dMk22zCIy1iXuz36NnMVlfxG2mdgnX2Fk1M4dLiq
- mYag==
-X-Gm-Message-State: AOAM5329fId6yajtesHa7FhG1HmJivrrY56SbvFpFdnkKlGwkJJsya2e
- vPhx9MRS/8jTQrrtUxFP9a0nZpr3gMDa0uW+UgtI8bpfmXKQE0QmKbuqsQsv+l1SlTgvLaqRdsC
- /ox3L78NZvCzBukU=
-X-Received: by 2002:a7b:c95a:: with SMTP id i26mr4478935wml.25.1601487900080; 
- Wed, 30 Sep 2020 10:45:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcOWh2T5Uo33NVySOmLy0EajQ01LRq75Z/18VCrE8LC5DTmgH45duQix7oFaldiRJfTViXZg==
-X-Received: by 2002:a7b:c95a:: with SMTP id i26mr4478920wml.25.1601487899862; 
- Wed, 30 Sep 2020 10:44:59 -0700 (PDT)
+ bh=ZWUx5DmjrfB9LPqMu2R6Bn9Fs7Axz3MPsvf8u5tx4N4=;
+ b=hAX0ho5kciQ4DZ74N5mtKuFkdyb8jc4ITg1sFqO+g49m6nHkEynKKY3bQjC56bOOxN
+ Jtcn9Gstmon4oR+HQVCTsBKqPCMPzrl+vjA5tSVtyxOr4+LWbkU7n2V3FW6v9wYgD+7P
+ 6vRs7pp3x9nqCrpuD7VFkqVlM2qKD930fQvm+jVaSyAn5a8MS5rpZ7qRmJOLme7mqSLr
+ LlD/EVp6S1I7Zm+u6joFQNirKpuq09458NeChasN3Ocsxp/nLzJ7/raKVKQ25G8L8uE2
+ pM8W1u1ULLhZI1dYzMONCTC/bxJZNnUchi+cE9PF7zhJjBvv36VmsFUAVrV4wASRdpgw
+ Wfcw==
+X-Gm-Message-State: AOAM533q5tilaTHocn8JnPmeIrAzpOCK82bTHKQKeHbfQYQ2OK7w20Kr
+ Xrbho3pXuIhUzmjSJNBPBpM9IZ3r/phBaJ6nAldg2g/oYYTIGGX7fF3SU9MpapwyzXS9qX5A+HD
+ iyqKjXLgluptZkSs=
+X-Received: by 2002:a5d:4682:: with SMTP id u2mr4707686wrq.254.1601487997226; 
+ Wed, 30 Sep 2020 10:46:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwb3ABj/hdHahNV/bkLbidWvERhf1XZEvAt4TkDScTlbwAnEzw4eWtG9auXsRHG6LP76yqjjw==
+X-Received: by 2002:a5d:4682:: with SMTP id u2mr4707668wrq.254.1601487996885; 
+ Wed, 30 Sep 2020 10:46:36 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:75e3:aaa7:77d6:f4e4?
  ([2001:b07:6468:f312:75e3:aaa7:77d6:f4e4])
- by smtp.gmail.com with ESMTPSA id k15sm4370459wrv.90.2020.09.30.10.44.58
+ by smtp.gmail.com with ESMTPSA id 189sm3961554wmb.3.2020.09.30.10.46.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Sep 2020 10:44:59 -0700 (PDT)
-Subject: Re: [PATCH 06/10] device-core: use atomic_set on .realized property
+ Wed, 30 Sep 2020 10:46:35 -0700 (PDT)
+Subject: Re: [PATCH 08/10] scsi/scsi_bus: Add scsi_device_get
 To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
 References: <20200925172604.2142227-1-pbonzini@redhat.com>
- <20200925172604.2142227-7-pbonzini@redhat.com>
- <9182aa173b31989e07668194e18f4dcb31981388.camel@redhat.com>
+ <20200925172604.2142227-9-pbonzini@redhat.com>
+ <0d124b6991e607e496da4afa39027320e617aa0e.camel@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e2cf2854-72bc-2f17-88b8-a2548f184583@redhat.com>
-Date: Wed, 30 Sep 2020 19:44:57 +0200
+Message-ID: <67859d7f-5293-a11e-add3-f93893dfa7af@redhat.com>
+Date: Wed, 30 Sep 2020 19:46:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <9182aa173b31989e07668194e18f4dcb31981388.camel@redhat.com>
+In-Reply-To: <0d124b6991e607e496da4afa39027320e617aa0e.camel@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -103,33 +103,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/20 16:31, Maxim Levitsky wrote:
->> +
->> +        qatomic_set(&dev->realized, value);
->> +        /*
->> +         * Ensure that concurrent users see this update prior to
->> +         * any other changes done by unrealize.
->> +         */
->> +        smp_wmb();
->
-> I''l probably never fully understand where to use read/write/full barrier.
-> If I understand corrctly, read barrier prevents reads done by this thread to be reordered,
-> by the CPU and write barrier prevents writes done by this CPU to be re-ordered.
+On 30/09/20 16:32, Maxim Levitsky wrote:
+>> 	Compared to Maxim's patch, I am avoiding the extra argument
+>> 	to do_scsi_device_find by moving the RCU_READ_LOCK_GUARD()
+>> 	out of do_scsi_device_find itself.
+> Which is a good idea, although my mindset was like, I got a device,
+> lets just grab a ref to it before it disappears and then do
+> whatever I want.
 
-I must say that the above is not really satisfactory.  The right thing
-to do would be to say which changes are done by unrealize; then you
-should make sure that *after* reading something that unrealize could
-undo you check if dev->realized is still true.
-
-scsi_device_find is one such case, but I'm not convinced it is enough.
+Understood, but "I got a device, I know I'm under RCU so it can't
+disappear" is more efficient and just as common.  This also explains the
+difference in patch 7.
 
 Paolo
-
-> Both (depending on the macro) usually imply compiler barrier (to avoid compilier re-ordering
-> stuff...)
 
 
