@@ -2,49 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD1127EA88
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 16:03:20 +0200 (CEST)
-Received: from localhost ([::1]:39232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7F627EA93
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 16:06:30 +0200 (CEST)
+Received: from localhost ([::1]:47420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNchT-0005Cq-A2
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 10:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38424)
+	id 1kNckX-00007R-Nh
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 10:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNcNr-0007AT-Bo
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:43:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59569)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNcT0-0005Mz-0c
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:48:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNcNp-0005m0-Km
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:43:03 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601473381;
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNcSy-0006Bz-61
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:48:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601473699;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JpVMUsswXD5px1xLlA2kKWmViNBdxCPS4tRJwOa3nHY=;
- b=L3Sy86MVyR7T1WF0ptyPwjlWTAkbOV5ZTKD8AZ2EW5EIstCS+V/UluYU/c/AxD141DUS4N
- sWieLbslvNpEZ1hOnPzAFuNEf86XQXlL4/xhwYaZhNCPpJeZum3Zov9+OMwLWym6YLaMOw
- M9714dGnTSHjRogzr8GH9Nb5xXCefEg=
+ bh=9A9uV/P/43kPt5hr81gzsieb1AfHUtQmGkoheYQFvYs=;
+ b=KbnFinfhc/aB9OO3Cxa9WlfGm3oDKR5oG0rX0sL7Rhe9Ox9+C9WqIS5U/rxUE5/Glou/0G
+ juygGnrKEuuvyXugdJvpZhzD/Tt5jxwrannaAzhzgfUD87+/yi4Ne/5rYMbFu6Dy2PFw29
+ 9Z7dVUr0zw00vJptKMyl4+HnZrD2zlA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-_lCdhI0XMo6Z56hrFRsoew-1; Wed, 30 Sep 2020 09:42:58 -0400
-X-MC-Unique: _lCdhI0XMo6Z56hrFRsoew-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-69-MGbOGUQOMl6Fco1uQALu0A-1; Wed, 30 Sep 2020 09:48:15 -0400
+X-MC-Unique: MGbOGUQOMl6Fco1uQALu0A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D00381C478;
- Wed, 30 Sep 2020 13:42:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 449941084D68;
+ Wed, 30 Sep 2020 13:48:14 +0000 (UTC)
 Received: from [10.3.112.131] (ovpn-112-131.phx2.redhat.com [10.3.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1AE05D9D3;
- Wed, 30 Sep 2020 13:42:56 +0000 (UTC)
-Subject: Re: [PATCH 1/4] keyval: Parse help options
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200929172649.158086-1-kwolf@redhat.com>
- <20200929172649.158086-2-kwolf@redhat.com>
- <b28cad72-d344-78fa-fc07-b4a6a63fbc50@redhat.com>
- <20200930130412.GB9292@linux.fritz.box>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E3A4C672CD;
+ Wed, 30 Sep 2020 13:48:13 +0000 (UTC)
+Subject: Re: [PATCH] qemu-storage-daemon: Fix help line for --export
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200930133909.58820-1-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Autocrypt: addr=eblake@redhat.com; keydata=
  mQENBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
@@ -92,20 +89,20 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  0t/Wx0llylWVG6mjD6pY/8+lIJNNu/9xlIxx6/FpHi9Xs1nqWA2O1kqF8H6AC9lF2LDAK/7l
  J3EipX47wK4bHo9EuM26optmWOkvGkVsPeCd20ryUfjcG7N+Bj0w+D4=
 Organization: Red Hat, Inc.
-Message-ID: <feccfb3c-6d7d-e40f-e1b5-0fe1c3962f80@redhat.com>
-Date: Wed, 30 Sep 2020 08:42:56 -0500
+Message-ID: <e775522e-560c-5aa7-71d6-16303068bef1@redhat.com>
+Date: Wed, 30 Sep 2020 08:48:13 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200930130412.GB9292@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200930133909.58820-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="OKG3ObX00TnM0q3IZhoGBKspXoNMFUn11"
+ boundary="t51SgJDnzRVd4dAZafTOMJu0TD1VfHreV"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
@@ -130,68 +127,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---OKG3ObX00TnM0q3IZhoGBKspXoNMFUn11
-Content-Type: multipart/mixed; boundary="DfaozVsvBtWQcbHaLaT3HUuyqix2LHE7F";
+--t51SgJDnzRVd4dAZafTOMJu0TD1VfHreV
+Content-Type: multipart/mixed; boundary="AtSJXA2WydKnfQEThqpiq7ohvu0MUhCox";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
- mreitz@redhat.com
-Message-ID: <feccfb3c-6d7d-e40f-e1b5-0fe1c3962f80@redhat.com>
-Subject: Re: [PATCH 1/4] keyval: Parse help options
-References: <20200929172649.158086-1-kwolf@redhat.com>
- <20200929172649.158086-2-kwolf@redhat.com>
- <b28cad72-d344-78fa-fc07-b4a6a63fbc50@redhat.com>
- <20200930130412.GB9292@linux.fritz.box>
-In-Reply-To: <20200930130412.GB9292@linux.fritz.box>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
+Message-ID: <e775522e-560c-5aa7-71d6-16303068bef1@redhat.com>
+Subject: Re: [PATCH] qemu-storage-daemon: Fix help line for --export
+References: <20200930133909.58820-1-kwolf@redhat.com>
+In-Reply-To: <20200930133909.58820-1-kwolf@redhat.com>
 
---DfaozVsvBtWQcbHaLaT3HUuyqix2LHE7F
-Content-Type: text/plain; charset=windows-1252
+--AtSJXA2WydKnfQEThqpiq7ohvu0MUhCox
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 9/30/20 8:04 AM, Kevin Wolf wrote:
-> Am 29.09.2020 um 19:46 hat Eric Blake geschrieben:
->> On 9/29/20 12:26 PM, Kevin Wolf wrote:
->>> This adds a new parameter 'help' to keyval_parse() that enables parsing
->>> of help options. If NULL is passed, the function behaves the same as
->>> before. But if a bool pointer is given, it contains the information
->>> whether an option "help" without value was given (which would otherwise
->>> either result in an error or be interpreted as the value for an implied
->>> key).
->>>
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> ---
->>
->>> +++ b/util/keyval.c
->>
->> Might be nice to see this before the testsuite changes by tweaking the
->> git orderfile.
+On 9/30/20 8:39 AM, Kevin Wolf wrote:
+> Commit 5f479a8d renamed the 'device' option of --export into
+> 'node-name', but forgot to update the help in qemu-storage-daemon.
 >=20
-> What does your git orderfile look like? I don't know how to exclude
-> tests/ from file type patterns like *.c.
+> Fixes: 5f479a8dc086bfa42c9f94e9ab69962f256e207f
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  storage-daemon/qemu-storage-daemon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-s=
+torage-daemon.c
+> index 7cbdbf0b23..42839c981f 100644
+> --- a/storage-daemon/qemu-storage-daemon.c
+> +++ b/storage-daemon/qemu-storage-daemon.c
+> @@ -92,7 +92,7 @@ static void help(void)
+>  "  --chardev <options>    configure a character device backend\n"
+>  "                         (see the qemu(1) man page for possible options=
+)\n"
+>  "\n"
+> -"  --export [type=3D]nbd,device=3D<node-name>,id=3D<id>,[,name=3D<export=
+-name>]\n"
+> +"  --export [type=3D]nbd,id=3D<id>,node-name=3D<node-name>,[,name=3D<exp=
+ort-name>]\n"
 
-You can start with scripts/git.orderfile, and temporarily add:
+While touching this, get rid of the doubled comma before the optional
+name key (s/,\[,/\[,/)
 
- # decoding tree specification
- *.decode
+With that,
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-+# Key files that I want first for this patch
-+util/*.c
-+
- # code
- *.c
-
-or similar.  It's not a show-stopper if you don't, and I concede that
-remembering to do it (and then to revert back to the usual afterwords)
-is not trivial.
-
+>  "           [,writable=3Don|off][,bitmap=3D<name>]\n"
+>  "                         export the specified block node over NBD\n"
+>  "                         (requires --nbd-server)\n"
+>=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -199,25 +190,25 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---DfaozVsvBtWQcbHaLaT3HUuyqix2LHE7F--
+--AtSJXA2WydKnfQEThqpiq7ohvu0MUhCox--
 
---OKG3ObX00TnM0q3IZhoGBKspXoNMFUn11
+--t51SgJDnzRVd4dAZafTOMJu0TD1VfHreV
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl90i2AACgkQp6FrSiUn
-Q2p0Xwf/VDviWZ5Lf3VY85mcxOM61WAPHYR9Ol9S27NkEa/irRNO1Qh6BGKYuYim
-9kLyYrFeotTMpAAg1p6t3sFVbKjSJWX5XR7rsJCmkReqtxFG4PFRxXBjl32LiF8/
-0JbUaPzTCcms/eHA0EpHPUdz2RnRXZJ9bLviZKLeFnrcSbK3v5qS4g4athsMjGCr
-5Z/URG62Ht+TPGngmv9Mw/4YXFf7Mq8XIxMDNv6u6oPICCjzOsS+6PhzhK2iaZ9J
-Mhh5yZXq8eos/MWBohJwOD8hihdghV2dOhmsjjCFzvR1sjemU0yEUYcOYEe5cio+
-x8ic8YQp4YDTh4/X6yM9QuBZHOeg5w==
-=ikWX
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl90jJ0ACgkQp6FrSiUn
+Q2rUkAgAl2Y9qEPgbaifRBGEasAN8vN++amxZBLLZaKi2ZCvIIEbXJhrEevARqJz
+IDFXiBYKI9q15TdYet4AXuBvpFABoUT3+ecqBc+AeC3Sig0TVP/c2gB/n7gFDgXn
++xLsPLuXFlnzoAOkExtbN7N3DBvewj3ZUjCIhwn+xDEQxC6JndYg3/VuvC1za7R6
+nCX27kAdmOXd+1hVh4fX1rL4hOpVFQcmgGIvnadd2pcfqznMbV/HBWLXN0qwV4p6
+mBXkCVPWyUpnlCFzc25vgpeyB7SbhgI3JlfZq/WBStnEA3Yr/5rYFzWcd9CGtLDC
+mY1mCjnanXPVcqN3QcqKjp/m6X3OYQ==
+=nyt0
 -----END PGP SIGNATURE-----
 
---OKG3ObX00TnM0q3IZhoGBKspXoNMFUn11--
+--t51SgJDnzRVd4dAZafTOMJu0TD1VfHreV--
 
 
