@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1612227DFB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:52:10 +0200 (CEST)
-Received: from localhost ([::1]:57298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B0B27DFA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:41:28 +0200 (CEST)
+Received: from localhost ([::1]:52788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNU65-00005I-3k
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36990)
+	id 1kNTvj-0003bR-V9
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:41:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnA-00012X-EE
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25384)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnC-00018C-RR
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTn8-0000Yu-BV
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTn8-0000Yt-Ip
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:38 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601440353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L6SmEiOP/z4ply0fDRdNq6utv3W5C6KekYtKiLV6btY=;
- b=K/1PWktEy8H4PNrq1bldnBdjUKNHA/X/5Y3I2rUIsk/SMO5sl/525bRMVVhiyJn8xXGk1G
- LRs3s5vxSU9nowl9ooIeQTNRWhqKcCVLA8Rh7BVJ7wlUqkFHAKFndzOx7eKuZxyHFG9ft0
- Lfumf5hUHN4mAJ+Pmh11nUN2UCWaiUw=
+ bh=35/2e5BjQ7jXBoDfbRgvdrcGBb1eO8nqzcuxLnXBU8E=;
+ b=ECgPHLIhND3qK8Va2cc6Ldg/PZhKn3fSYOI6mmGaOQbYXC+AmSsAJXvhMETWc4rZpvRiuC
+ h3TLjTQSCAWlyL95I53rNOUaMraYInHAPTleKikwLejZmF+QM7PUozjpIY5NRErBJlV7nL
+ 16u8Il5phuiS+91ZlMk5LD765SnS8Jk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-88ckP_noNNyb5iqHwW2ukQ-1; Wed, 30 Sep 2020 00:32:30 -0400
-X-MC-Unique: 88ckP_noNNyb5iqHwW2ukQ-1
+ us-mta-370-9NrKnICXPeGjZ3p66h_fSg-1; Wed, 30 Sep 2020 00:32:31 -0400
+X-MC-Unique: 9NrKnICXPeGjZ3p66h_fSg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A673185A0D2;
- Wed, 30 Sep 2020 04:32:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B92261005E68;
+ Wed, 30 Sep 2020 04:32:30 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BF7F7B40D;
- Wed, 30 Sep 2020 04:32:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC8173678;
+ Wed, 30 Sep 2020 04:32:29 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/46] qapi/common.py: delint with pylint
-Date: Wed, 30 Sep 2020 00:31:20 -0400
-Message-Id: <20200930043150.1454766-17-jsnow@redhat.com>
+Subject: [PATCH v4 17/46] qapi/common.py: Replace one-letter 'c' variable
+Date: Wed, 30 Sep 2020 00:31:21 -0400
+Message-Id: <20200930043150.1454766-18-jsnow@redhat.com>
 In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
 References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,141 +85,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At this point, that just means using a consistent strategy for constant names.
-constants get UPPER_CASE and names not used externally get a leading underscore.
-
-As a preference, while renaming constants to be UPPERCASE, move them to
-the head of the file. Generally, it's nice to be able to audit the code
-that runs on import in one central place.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- scripts/qapi/common.py | 18 ++++++++----------
- scripts/qapi/schema.py | 14 +++++++-------
- 2 files changed, 15 insertions(+), 17 deletions(-)
+ scripts/qapi/common.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index b35318b72cf..a417b6029c8 100644
+index a417b6029c8..338adedef4f 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -14,6 +14,11 @@
- import re
+@@ -30,14 +30,14 @@ def camel_to_upper(value):
+     new_name = ''
+     length = len(c_fun_str)
+     for i in range(length):
+-        c = c_fun_str[i]
+-        # When c is upper and no '_' appears before, do more checks
+-        if c.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
++        char = c_fun_str[i]
++        # When char is upper case and no '_' appears before, do more checks
++        if char.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
+             if i < length - 1 and c_fun_str[i + 1].islower():
+                 new_name += '_'
+             elif c_fun_str[i - 1].isdigit():
+                 new_name += '_'
+-        new_name += c
++        new_name += char
+     return new_name.lstrip('_').upper()
  
  
-+EATSPACE = '\033EATSPACE.'
-+POINTER_SUFFIX = ' *' + EATSPACE
-+_C_NAME_TRANS = str.maketrans('.-', '__')
-+
-+
- # ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
- # ENUM_NAME -> ENUM_NAME, ENUM_NAME1 -> ENUM_NAME1, ENUM_Name2 -> ENUM_NAME2
- # ENUM24_Name -> ENUM24_NAME
-@@ -42,9 +47,6 @@ def c_enum_const(type_name, const_name, prefix=None):
-     return camel_to_upper(type_name) + '_' + c_name(const_name, False).upper()
- 
- 
--c_name_trans = str.maketrans('.-', '__')
--
--
- # Map @name to a valid C identifier.
- # If @protect, avoid returning certain ticklish identifiers (like
- # C keywords) by prepending 'q_'.
-@@ -82,17 +84,13 @@ def c_name(name, protect=True):
-                      'not_eq', 'or', 'or_eq', 'xor', 'xor_eq'])
-     # namespace pollution:
-     polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386'])
--    name = name.translate(c_name_trans)
-+    name = name.translate(_C_NAME_TRANS)
-     if protect and (name in c89_words | c99_words | c11_words | gcc_words
-                     | cpp_words | polluted_words):
-         return 'q_' + name
-     return name
- 
- 
--eatspace = '\033EATSPACE.'
--pointer_suffix = ' *' + eatspace
--
--
- class Indentation:
-     """
-     Indentation level management.
-@@ -132,12 +130,12 @@ def decrease(self, amount: int = 4) -> None:
- 
- 
- # Generate @code with @kwds interpolated.
--# Obey indent, and strip eatspace.
-+# Obey indent, and strip EATSPACE.
- def cgen(code, **kwds):
-     raw = code % kwds
-     if indent:
-         raw = re.sub(r'^(?!(#|$))', str(indent), raw, flags=re.MULTILINE)
--    return re.sub(re.escape(eatspace) + r' *', '', raw)
-+    return re.sub(re.escape(EATSPACE) + r' *', '', raw)
- 
- 
- def mcgen(code, **kwds):
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index cfc52e1ae44..74c6b96d391 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -18,7 +18,7 @@
- import os
- import re
- 
--from .common import c_name, pointer_suffix
-+from .common import POINTER_SUFFIX, c_name
- from .error import QAPIError, QAPISemError
- from .expr import check_exprs
- from .parser import QAPISchemaParser
-@@ -309,7 +309,7 @@ def is_implicit(self):
-         return True
- 
-     def c_type(self):
--        return c_name(self.name) + pointer_suffix
-+        return c_name(self.name) + POINTER_SUFFIX
- 
-     def json_type(self):
-         return 'array'
-@@ -430,7 +430,7 @@ def c_name(self):
- 
-     def c_type(self):
-         assert not self.is_implicit()
--        return c_name(self.name) + pointer_suffix
-+        return c_name(self.name) + POINTER_SUFFIX
- 
-     def c_unboxed_type(self):
-         return c_name(self.name)
-@@ -504,7 +504,7 @@ def connect_doc(self, doc=None):
-             v.connect_doc(doc)
- 
-     def c_type(self):
--        return c_name(self.name) + pointer_suffix
-+        return c_name(self.name) + POINTER_SUFFIX
- 
-     def json_type(self):
-         return 'value'
-@@ -896,7 +896,7 @@ def _def_builtin_type(self, name, json_type, c_type):
-         self._make_array_type(name, None)
- 
-     def _def_predefineds(self):
--        for t in [('str',    'string',  'char' + pointer_suffix),
-+        for t in [('str',    'string',  'char' + POINTER_SUFFIX),
-                   ('number', 'number',  'double'),
-                   ('int',    'int',     'int64_t'),
-                   ('int8',   'int',     'int8_t'),
-@@ -909,8 +909,8 @@ def _def_predefineds(self):
-                   ('uint64', 'int',     'uint64_t'),
-                   ('size',   'int',     'uint64_t'),
-                   ('bool',   'boolean', 'bool'),
--                  ('any',    'value',   'QObject' + pointer_suffix),
--                  ('null',   'null',    'QNull' + pointer_suffix)]:
-+                  ('any',    'value',   'QObject' + POINTER_SUFFIX),
-+                  ('null',   'null',    'QNull' + POINTER_SUFFIX)]:
-             self._def_builtin_type(*t)
-         self.the_empty_object_type = QAPISchemaObjectType(
-             'q_empty', None, None, None, None, None, [], None)
 -- 
 2.26.2
 
