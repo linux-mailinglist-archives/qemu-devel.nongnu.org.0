@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F7D27DFB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:54:42 +0200 (CEST)
-Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D8827DFCB
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 07:01:33 +0200 (CEST)
+Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNU8X-0004DG-RG
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38370)
+	id 1kNUFA-0005an-Na
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 01:01:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTsf-0000ll-VO
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:38:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40392)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnY-0001IM-RZ
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTsd-00010i-Lv
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:38:17 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTnV-0000be-Iq
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:33:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601440694;
+ s=mimecast20190719; t=1601440375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UTZcTgnuHmoGLt6FRxwTE9t0eG/X23KaLgeJoGEHm5c=;
- b=XcVo48skowruXizX83xynFmavX/kFiAnvX/h4PQEaYBo1IUsRggmtwA4XB0nJfoKkWcoQh
- BTNHrMb25ZSx1yavOr6aZxiKqLwK2hLc9NNnPJCvnGQXMCeDkh+vmagJ/6oIvybzZLDDX5
- vhwlQH9QUp5XKGfdPOv9D+uM+nlgUnw=
+ bh=bpioM5nqlHvgbQ4J6zKmx+vZfIvBUGNxRW5ZEmtw7wQ=;
+ b=J9wKU1gUHr5GTodfJIPDjogGaDaJuZ1KgwEamNYR/l6U/R1r5ijWJosrtV3xYVZ+Zk3dxB
+ DCr/DghtLlbtlhOLSqt97UUNl6WG3BnH3fVgedimth5JpLWJDUJYukhljNJSolyBT6iUkc
+ 6KDhAaN4ZusUHiDyzVwwyYN4JCsRUDo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-52-JUxPrfaJMWiNivn-FWvptw-1; Wed, 30 Sep 2020 00:38:09 -0400
-X-MC-Unique: JUxPrfaJMWiNivn-FWvptw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-45-LQ1u7B2FOqqWHfsoMt2Pkw-1; Wed, 30 Sep 2020 00:32:53 -0400
+X-MC-Unique: LQ1u7B2FOqqWHfsoMt2Pkw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C2AA1074653;
- Wed, 30 Sep 2020 04:38:08 +0000 (UTC)
-Received: from [10.10.119.140] (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC33F6198B;
- Wed, 30 Sep 2020 04:38:07 +0000 (UTC)
-Subject: Re: Contributor wanting to get started with simple contributions
-To: Rohit Shinde <rohit.shinde12194@gmail.com>
-References: <CA+Ai=tAypbso9yMy0jtyzbeHCweQ1FPgDaJ8=bXxFvBA6pZyLA@mail.gmail.com>
- <CA+Ai=tBJqLB7yDbd-kqzDhr+d+65K9r3DQsZrB2kGi9wF8BaiA@mail.gmail.com>
- <2d69f1ac-df97-9d70-d2e2-e9cf27cf9b0c@redhat.com>
- <CA+Ai=tCk-XX7yogRu=zoKxDv7okRHXibbnT9OoMs8XpHs9yDkA@mail.gmail.com>
- <a50f47d2-f5c6-49c0-779f-dfcaf05df5f9@redhat.com>
- <CA+Ai=tCDHWBLNToQ2HqMVmJtXxKzP40AuDqfWc=YQV3mggcc4Q@mail.gmail.com>
- <CA+Ai=tAVxNRNN1EP8LorOsYBm01f0ekmKCnMfcNH_eSqk5pFzg@mail.gmail.com>
- <CA+Ai=tBtSqigWwB4HNeZ8CT4JMEMBU2eEd47BCs2-QCEeBEARw@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2F201074653;
+ Wed, 30 Sep 2020 04:32:51 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FF6573678;
+ Wed, 30 Sep 2020 04:32:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
-Message-ID: <09b8a63d-06ab-4846-cbc0-69bd95ca8ead@redhat.com>
-Date: Wed, 30 Sep 2020 00:38:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 29/46] qapi/source.py: delint with pylint
+Date: Wed, 30 Sep 2020 00:31:33 -0400
+Message-Id: <20200930043150.1454766-30-jsnow@redhat.com>
+In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
+References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+Ai=tBtSqigWwB4HNeZ8CT4JMEMBU2eEd47BCs2-QCEeBEARw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,72 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, ehabkost@redhat.com,
- crosa@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/20 12:38 PM, Rohit Shinde wrote:
-> Hey John,
-> 
-> I wanted to follow up on this, in case you missed my previous email :)
-> 
-> Thanks,
-> Rohit.
-> 
+Shush an error and leave a hint for future cleanups when we're allowed
+to use Python 3.7+.
 
-Sorry Rohit, very buried in my work and haven't been doing a good job 
-with my inbox.
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+---
+ scripts/qapi/pylintrc  | 1 -
+ scripts/qapi/source.py | 3 +++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Right now, I am working on converting the QAPI parser module to the 
-strictly typed mypy subset:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg09136.html
-
-There are six parts in all, that is part one. I am posting a v4 right 
-now as I write this.
-
-
-Work that remains to be done after these six parts:
-
-- Get ./python/qemu passing under mypy/pylint/flake8 again. I have old 
-patches for this that were on-list prior to the 5.1 release.
-
-- Move ./scripts/qapi to ./python/qemu/qapi/
-
-- Move ./python/qemu to ./python/qemu/core/
-
-- Create a "make check" style script that will run 
-mypy/pylint/flake8/isort on all the code in ./python. (I have patches 
-for this, too.)
-
-- Start investigating python scripts in ./scripts and consider moving 
-them to ./python/qemu/tools, fixing them up to pass 
-mypy/flake8/pylint/isort (etc) as I go. There are no existing patches to 
-do this yet.
-
-
-Other work I am doing:
-
-- Investigating the use of Pydantic to replace ./scripts/qapi/expr.py
-- Investigating a YAML format for the QAPI parser
-- Building a JSON-SCHEMA output format for the QAPI generator
-
-
-> On Sat, Aug 29, 2020 at 1:14 AM Rohit Shinde 
-> <rohit.shinde12194@gmail.com <mailto:rohit.shinde12194@gmail.com>> wrote:
-> 
->     Hey John,
-> 
->     Sorry to bother you! I just wanted to know if you had any thoughts
->     on the mail I sent.
-> 
->     Is there anything I can pick up right now with regards to the Python
->     package? You mentioned that linting is something that needs to be
->     completed before we go ahead, so maybe I can start with that?
-> 
->     Thanks,
->     Rohit.
-> 
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 507f15537ab..d840b150313 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -7,7 +7,6 @@ ignore-patterns=error.py,
+                 gen.py,
+                 parser.py,
+                 schema.py,
+-                source.py,
+                 types.py,
+                 visit.py,
+ 
+diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
+index 1cc6a5b82dc..ba991d798fe 100644
+--- a/scripts/qapi/source.py
++++ b/scripts/qapi/source.py
+@@ -15,6 +15,9 @@
+ 
+ 
+ class QAPISchemaPragma:
++    # Replace with @dataclass in Python 3.7+
++    # pylint: disable=too-few-public-methods
++
+     def __init__(self) -> None:
+         # Are documentation comments required?
+         self.doc_required = False
+-- 
+2.26.2
 
 
