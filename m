@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D4627DF84
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:34:12 +0200 (CEST)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B2B27DF95
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 06:36:17 +0200 (CEST)
+Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNToh-0001O9-Ls
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:34:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36678)
+	id 1kNTqi-0004wZ-Ls
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 00:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTmb-0008H2-At
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56999)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTml-0008V6-Rj
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTmY-0000VG-Tr
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:00 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNTmh-0000Vh-Cv
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 00:32:11 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601440318;
+ s=mimecast20190719; t=1601440326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vqJIc+VXblnmTUQ0sqCZV1SThZy4+NCqIeXNLAHOnKg=;
- b=i2riVtJwgaClDICj9m6ZXVJkhjuZEbE4w61aFUwmJqmN3j1gyAMXhancblinK4Fyi5JsFf
- XHYtr/4aVbKyuYwiUgJK7Vs/t7ldI896iqJEMvsjdtX7KSGdnVzw9MsULmCTu7vjI7ZxuM
- A21ZXnbE53OTjcV7U+P9stn1UbiC2XU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JX+bCUV+7ou9OjNnS9CQsvklIzPNGWKFN7Dk6L4wTQc=;
+ b=WTcq9XRG8fnk2OtmjV9zrmOvOXL0iDlQeE286FdS3pJ7X+U7rGcZR1t2ltE6KaRTxIPC4l
+ 36tEQiQpLjvX99eJfKNIignG9yuR6Ecyy3QJ5jmU3hZBxMe+bGgQdiL1UjWs9IolaLftcK
+ uCgodOOTBZdv/VpOo5/obCximivjdvE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-wSVXEPwqNI2dQsRIafHV_Q-1; Wed, 30 Sep 2020 00:31:54 -0400
-X-MC-Unique: wSVXEPwqNI2dQsRIafHV_Q-1
+ us-mta-471-f-2gw6sHPC6Ba9m4shN06A-1; Wed, 30 Sep 2020 00:31:55 -0400
+X-MC-Unique: f-2gw6sHPC6Ba9m4shN06A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F052F1921FB3;
- Wed, 30 Sep 2020 04:31:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90C1C10059A9;
+ Wed, 30 Sep 2020 04:31:54 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-140.rdu2.redhat.com [10.10.119.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CD8173678;
- Wed, 30 Sep 2020 04:31:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40DEB7BE42;
+ Wed, 30 Sep 2020 04:31:53 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/46] qapi: static typing conversion, pt1
-Date: Wed, 30 Sep 2020 00:31:04 -0400
-Message-Id: <20200930043150.1454766-1-jsnow@redhat.com>
+Subject: [PATCH v4 01/46] [DO-NOT-MERGE] docs: replace single backtick (`)
+ with double-backtick (``)
+Date: Wed, 30 Sep 2020 00:31:05 -0400
+Message-Id: <20200930043150.1454766-2-jsnow@redhat.com>
+In-Reply-To: <20200930043150.1454766-1-jsnow@redhat.com>
+References: <20200930043150.1454766-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
@@ -62,7 +66,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.687,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,275 +87,903 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20200925162316.21205-1-peter.maydell@linaro.org>=0D
-=0D
-Hi, this series adds static type hints to the QAPI module.=0D
-This is part one!=0D
-=0D
-Part 1: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt1=0D
-Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
-=0D
-- Requires Python 3.6+=0D
-- Requires mypy 0.770 or newer (for type analysis only)=0D
-- Requires pylint 2.6.0 or newer (for lint checking only)=0D
-=0D
-In general, this series tackles the cleanup of one individual QAPI=0D
-module at a time. Once it passes pylint or mypy checks, those checks are=0D
-enabled for that file.=0D
-=0D
-Type hints are added in patches that add *only* type hints and change no=0D
-other behavior. Any necessary changes to behavior to accommodate typing=0D
-are split out into their own tiny patches.=0D
-=0D
-Notes:=0D
-=0D
-- `make sphinxdocs` should work on every commit. It begins to include=0D
-  docstring content after the DO-NOT-MERGE patch 5.=0D
-=0D
-- After patch 11, `isort -c` should pass 100% on this and every=0D
-  future commit.=0D
-=0D
-- After patch 12, `flake8 qapi/` should pass 100% on this and every=0D
-  future commit.=0D
-=0D
-- After patch 13, `pylint --rcfile=3D3Dqapi/pylintrc qapi/` should pass 100=
-%=0D
-  on this and every future commit.=0D
-=0D
-- After patch 22, `mypy --config-file=3D3Dqapi/mypy.ini qapi/` should pass=
-=0D
-  100% on this and every future commit.=0D
-=0D
-V4:=0D
- - Rebase on Peter Maydell's work;=0D
-  - 05: Context differences from Peter Maydell's work=0D
-  - 06: Remove qapi.doc=0D
-  - 07: Remove qapi.doc, remove superfluous "if match"=0D
-  - 09: Remove qapi.doc=0D
-  - 13: remove qapi.doc=0D
-  - 18: remove qapi.doc=0D
-  - 22: remove qapi.doc=0D
-  - 31: remove QAPIGenDoc changes=0D
-=0D
- - Minor adjustments from list feedback;=0D
-  - 01: More backticks for QAPI json files, now that they are in Sphinx-exe=
-=0D
-  - 02: Use :ref: role for the `docker-ref` cross-reference=0D
-  - 04: Remove doc.py work changes; add references for start_if/end_if=0D
-  - 10: Changes to accommodate isort=0D
-  - 11: Added lines_after_imports=3D3D2=0D
-  - 16: isort whitespace changes=0D
-  - 24: Take Markus's docstring phrasing=0D
-  - 34: add comment explaining os.open()=0D
-  - 37: isort differences=0D
-=0D
-Status:=0D
-=0D
-(This is my stgit summary with reviewer tags visible.)=0D
-=0D
-[01] do-not-merge-docs-replace      #=0D
-[02] docs-repair-broken-references  #=0D
-[03] docs-sphinx-change-default     #=0D
-[04] qapi-modify-docstrings-to-be   #=0D
-[05] do-not-merge-docs-enable       #=0D
-[06] qapi-gen-separate-arg-parsing  # [SOB] JS [RB] CR,EH [TB] CR=0D
-[07] qapi-move-generator-entrypoint # [SOB] JS [RB] CR,EH [TB] CR=0D
-[08] do-not-merge-more-apidoc       #=0D
-[09] qapi-prefer-explicit-relative  # [SOB] JS [RB] CR,EH=0D
-[10] qapi-remove-wildcard-includes  # [SOB] JS [RB] CR,EH=0D
-[11] qapi-enforce-import-order      # [SOB] JS [RB] CR [TB] CR=0D
-[12] qapi-delint-using-flake8       # [SOB] JS [RB] CR,EH=0D
-[13] qapi-add-pylintrc              # [SOB] JS [TB] CR,EH [RB] CR=0D
-[14] qapi-common-py-remove-python   # [SOB] JS [RB] CR,EH=0D
-[15] qapi-common-add-indent-manager # [SOB] JS [RB] CR,EH=0D
-[16] qapi-common-py-delint-with     # [SOB] JS [RB] CR,EH=0D
-[17] replace-c-by-char              # [SOB] JS [RB] CR,EH=0D
-[18] qapi-common-py-check-with      # [SOB] JS [RB] CR [TB] CR,EH=0D
-[19] qapi-common-py-add-notational  # [SOB] JS [RB] CR,EH=0D
-[20] qapi-common-move-comments-into # [SOB] JS [RB] CR,EH=0D
-[21] qapi-split-build_params-into   # [SOB] JS [RB] CR,EH=0D
-[22] qapi-establish-mypy-type       # [SOB] JS [TB] CR,EH [RB] CR=0D
-[23] qapi-events-py-add-notational  # [SOB] JS [RB] CR,EH=0D
-[24] qapi-events-move-comments-into # [SOB] JS [RB] CR,EH=0D
-[25] qapi-commands-py-don-t-re-bind # [SOB] JS [RB] CR,EH=0D
-[26] qapi-commands-py-add           # [SOB] JS [RB] CR,EH=0D
-[27] qapi-commands-py-enable        # [SOB] JS [RB] CR,EH=0D
-[28] qapi-source-py-add-notational  # [SOB] JS [RB] CR,EH [TB] CR=0D
-[29] qapi-source-py-delint-with     # [SOB] JS [RB] CR,EH [TB] CR=0D
-[30] qapi-gen-py-fix-edge-case-of   # [SOB] JS [RB] CR=0D
-[31] qapi-gen-py-add-notational     # [SOB] JS [RB] CR,EH=0D
-[32] qapi-gen-py-enable-checking    # [SOB] JS [RB] CR,EH [TB] CR=0D
-[33] qapi-gen-py-remove-unused      # [SOB] JS [RB] CR,EH=0D
-[34] qapi-gen-py-update-write-to-be # [SOB] JS [RB] CR,EH=0D
-[35] qapi-gen-py-delint-with-pylint # [SOB] JS [RB] CR,EH=0D
-[36] qapi-introspect-py-assert-obj  #=0D
-[37] qapi-introspect-py-create-a    # [SOB] EH,JS=0D
-[38] qapi-introspect-py-add         #=0D
-[39] qapi-introspect-py-unify       #=0D
-[40] qapi-introspect-py-replace     #=0D
-[41] qapi-introspect-py-create-a-0  #=0D
-[42] qapi-types-py-add-type-hint    # [SOB] JS [RB] CR,EH=0D
-[43] qapi-types-py-remove-one       # [SOB] JS [RB] CR,EH=0D
-[44] qapi-visit-py-assert           # [SOB] JS [RB] CR,EH=0D
-[45] qapi-visit-py-remove-unused    # [SOB] JS [RB] CR,EH [TB] CR=0D
-[46] qapi-visit-py-add-notational   # [SOB] JS [RB] CR,EH [TB] CR=0D
-=0D
-Changelog:=0D
-=0D
-(Patches without changes elided)=0D
-=0D
-001/46:[0004] [FC] '[DO-NOT-MERGE] docs: replace single backtick (`) with d=
-ou=3D=0D
-ble-backtick (``)'=0D
-002/46:[0002] [FC] 'docs: repair broken references'=0D
-004/46:[0014] [FC] 'qapi: modify docstrings to be sphinx-compatible'=0D
-005/46:[0015] [FC] '[DO-NOT-MERGE] docs: enable sphinx-autodoc for scripts/=
-qa=3D=0D
-pi'=0D
-006/46:[0004] [FC] 'qapi-gen: Separate arg-parsing from generation'=0D
-007/46:[0008] [FC] 'qapi: move generator entrypoint into module'=0D
-009/46:[0004] [FC] 'qapi: Prefer explicit relative imports'=0D
-010/46:[0006] [FC] 'qapi: Remove wildcard includes'=0D
-011/46:[0023] [FC] 'qapi: enforce import order/styling with isort'=0D
-013/46:[0001] [FC] 'qapi: add pylintrc'=0D
-016/46:[0001] [FC] 'qapi/common.py: delint with pylint'=0D
-018/46:[0004] [FC] 'qapi/common.py: check with pylint'=0D
-022/46:[0008] [FC] 'qapi: establish mypy type-checking baseline'=0D
-024/46:[0004] [FC] 'qapi/events.py: Move comments into docstrings'=0D
-031/46:[0003] [FC] 'qapi/gen.py: add type hint annotations'=0D
-034/46:[0001] [FC] 'qapi/gen.py: update write() to be more idiomatic'=0D
-037/46:[0009] [FC] 'qapi/instrospect.py: add preliminary type hint annotati=
-on=3D=0D
-s'=0D
-=0D
-V3:=0D
- - Use isort to enforce import consistency=0D
- - Use sphinx apidoc to check docstring format=0D
-=0D
-V2:=0D
- - Removed Python3.6 patch in favor of Thomas Huth's=0D
- - Addressed (most) feedback from Markus=0D
- - Renamed type hint annotation commits=0D
-=0D
-Eduardo Habkost (1):=0D
-  qapi/instrospect.py: add preliminary type hint annotations=0D
-=0D
-John Snow (45):=0D
-  [DO-NOT-MERGE] docs: replace single backtick (`) with double-backtick=0D
-    (``)=0D
-  docs: repair broken references=0D
-  [DO-NOT-MERGE] docs/sphinx: change default role to "any"=0D
-  qapi: modify docstrings to be sphinx-compatible=0D
-  [DO-NOT-MERGE] docs: enable sphinx-autodoc for scripts/qapi=0D
-  qapi-gen: Separate arg-parsing from generation=0D
-  qapi: move generator entrypoint into module=0D
-  [DO-NOT-MERGE] docs: add scripts/qapi/main to python manual=0D
-  qapi: Prefer explicit relative imports=0D
-  qapi: Remove wildcard includes=0D
-  qapi: enforce import order/styling with isort=0D
-  qapi: delint using flake8=0D
-  qapi: add pylintrc=0D
-  qapi/common.py: Remove python compatibility workaround=0D
-  qapi/common.py: Add indent manager=0D
-  qapi/common.py: delint with pylint=0D
-  qapi/common.py: Replace one-letter 'c' variable=0D
-  qapi/common.py: check with pylint=0D
-  qapi/common.py: add type hint annotations=0D
-  qapi/common.py: Convert comments into docstrings, and elaborate=0D
-  qapi/common.py: move build_params into gen.py=0D
-  qapi: establish mypy type-checking baseline=0D
-  qapi/events.py: add type hint annotations=0D
-  qapi/events.py: Move comments into docstrings=0D
-  qapi/commands.py: Don't re-bind to variable of different type=0D
-  qapi/commands.py: add type hint annotations=0D
-  qapi/commands.py: enable checking with mypy=0D
-  qapi/source.py: add type hint annotations=0D
-  qapi/source.py: delint with pylint=0D
-  qapi/gen.py: Fix edge-case of _is_user_module=0D
-  qapi/gen.py: add type hint annotations=0D
-  qapi/gen.py: Enable checking with mypy=0D
-  qapi/gen.py: Remove unused parameter=0D
-  qapi/gen.py: update write() to be more idiomatic=0D
-  qapi/gen.py: delint with pylint=0D
-  qapi/introspect.py: assert obj is a dict when features are given=0D
-  qapi/introspect.py: add _gen_features helper=0D
-  qapi/introspect.py: Unify return type of _make_tree()=0D
-  qapi/introspect.py: replace 'extra' dict with 'comment' argument=0D
-  qapi/introspect.py: create a typed 'Node' data structure=0D
-  qapi/types.py: add type hint annotations=0D
-  qapi/types.py: remove one-letter variables=0D
-  qapi/visit.py: assert tag_member contains a QAPISchemaEnumType=0D
-  qapi/visit.py: remove unused parameters from gen_visit_object=0D
-  qapi/visit.py: add type hint annotations=0D
-=0D
- docs/conf.py                           |   6 +-=0D
- docs/devel/build-system.rst            | 118 +++++++-------=0D
- docs/devel/index.rst                   |   1 +=0D
- docs/devel/migration.rst               |  59 +++----=0D
- docs/devel/multi-thread-tcg.rst        |   2 +-=0D
- docs/devel/python/index.rst            |   7 +=0D
- docs/devel/python/qapi.commands.rst    |   7 +=0D
- docs/devel/python/qapi.common.rst      |   7 +=0D
- docs/devel/python/qapi.error.rst       |   7 +=0D
- docs/devel/python/qapi.events.rst      |   7 +=0D
- docs/devel/python/qapi.expr.rst        |   7 +=0D
- docs/devel/python/qapi.gen.rst         |   7 +=0D
- docs/devel/python/qapi.introspect.rst  |   7 +=0D
- docs/devel/python/qapi.main.rst        |   7 +=0D
- docs/devel/python/qapi.parser.rst      |   8 +=0D
- docs/devel/python/qapi.rst             |  26 +++=0D
- docs/devel/python/qapi.schema.rst      |   7 +=0D
- docs/devel/python/qapi.source.rst      |   7 +=0D
- docs/devel/python/qapi.types.rst       |   7 +=0D
- docs/devel/python/qapi.visit.rst       |   7 +=0D
- docs/devel/tcg-plugins.rst             |  14 +-=0D
- docs/devel/testing.rst                 |   4 +-=0D
- docs/interop/live-block-operations.rst |   4 +-=0D
- docs/system/arm/cpu-features.rst       | 110 ++++++-------=0D
- docs/system/arm/nuvoton.rst            |   2 +-=0D
- docs/system/s390x/protvirt.rst         |  10 +-=0D
- qapi/block-core.json                   |   4 +-=0D
- scripts/qapi-gen.py                    |  57 ++-----=0D
- scripts/qapi/.flake8                   |   2 +=0D
- scripts/qapi/.isort.cfg                |   7 +=0D
- scripts/qapi/commands.py               |  87 +++++++---=0D
- scripts/qapi/common.py                 | 163 ++++++++++---------=0D
- scripts/qapi/events.py                 |  58 +++++--=0D
- scripts/qapi/expr.py                   |   7 +-=0D
- scripts/qapi/gen.py                    | 182 +++++++++++++--------=0D
- scripts/qapi/introspect.py             | 210 +++++++++++++++++--------=0D
- scripts/qapi/main.py                   |  89 +++++++++++=0D
- scripts/qapi/mypy.ini                  |  25 +++=0D
- scripts/qapi/parser.py                 |  15 +-=0D
- scripts/qapi/pylintrc                  |  70 +++++++++=0D
- scripts/qapi/schema.py                 |  35 +++--=0D
- scripts/qapi/source.py                 |  34 ++--=0D
- scripts/qapi/types.py                  | 125 ++++++++++-----=0D
- scripts/qapi/visit.py                  | 116 ++++++++++----=0D
- 44 files changed, 1175 insertions(+), 566 deletions(-)=0D
- create mode 100644 docs/devel/python/index.rst=0D
- create mode 100644 docs/devel/python/qapi.commands.rst=0D
- create mode 100644 docs/devel/python/qapi.common.rst=0D
- create mode 100644 docs/devel/python/qapi.error.rst=0D
- create mode 100644 docs/devel/python/qapi.events.rst=0D
- create mode 100644 docs/devel/python/qapi.expr.rst=0D
- create mode 100644 docs/devel/python/qapi.gen.rst=0D
- create mode 100644 docs/devel/python/qapi.introspect.rst=0D
- create mode 100644 docs/devel/python/qapi.main.rst=0D
- create mode 100644 docs/devel/python/qapi.parser.rst=0D
- create mode 100644 docs/devel/python/qapi.rst=0D
- create mode 100644 docs/devel/python/qapi.schema.rst=0D
- create mode 100644 docs/devel/python/qapi.source.rst=0D
- create mode 100644 docs/devel/python/qapi.types.rst=0D
- create mode 100644 docs/devel/python/qapi.visit.rst=0D
- create mode 100644 scripts/qapi/.flake8=0D
- create mode 100644 scripts/qapi/.isort.cfg=0D
- create mode 100644 scripts/qapi/main.py=0D
- create mode 100644 scripts/qapi/mypy.ini=0D
- create mode 100644 scripts/qapi/pylintrc=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+The single backtick in ReST is the "default role". Currently, Sphinx's
+default role is called "content". Sphinx suggests you can use the "Any"
+role instead to turn any single-backtick enclosed item into a
+cross-reference.
+
+Before we do that, though, we'll need to turn all existing usages of the
+"content" role to inline verbatim markup by using double backticks
+instead.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ docs/devel/build-system.rst            | 118 ++++++++++++-------------
+ docs/devel/migration.rst               |  59 +++++++------
+ docs/devel/tcg-plugins.rst             |  14 +--
+ docs/devel/testing.rst                 |   2 +-
+ docs/interop/live-block-operations.rst |   4 +-
+ docs/system/arm/cpu-features.rst       | 110 +++++++++++------------
+ docs/system/arm/nuvoton.rst            |   2 +-
+ docs/system/s390x/protvirt.rst         |  10 +--
+ qapi/block-core.json                   |   4 +-
+ 9 files changed, 163 insertions(+), 160 deletions(-)
+
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 08e85c69e1f..a4711cd4e1a 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -53,14 +53,14 @@ following tasks:
+  - Add a Meson build option to meson_options.txt.
+ 
+  - Add support to the command line arg parser to handle any new
+-   `--enable-XXX`/`--disable-XXX` flags required by the feature.
++   ``--enable-XXX``/``--disable-XXX`` flags required by the feature.
+ 
+  - Add information to the help output message to report on the new
+    feature flag.
+ 
+  - Add code to perform the actual feature check.
+ 
+- - Add code to include the feature status in `config-host.h`
++ - Add code to include the feature status in ``config-host.h``
+ 
+  - Add code to print out the feature status in the configure summary
+    upon completion.
+@@ -116,51 +116,51 @@ Helper functions
+ The configure script provides a variety of helper functions to assist
+ developers in checking for system features:
+ 
+-`do_cc $ARGS...`
++``do_cc $ARGS...``
+    Attempt to run the system C compiler passing it $ARGS...
+ 
+-`do_cxx $ARGS...`
++``do_cxx $ARGS...``
+    Attempt to run the system C++ compiler passing it $ARGS...
+ 
+-`compile_object $CFLAGS`
++``compile_object $CFLAGS``
+    Attempt to compile a test program with the system C compiler using
+    $CFLAGS. The test program must have been previously written to a file
+-   called $TMPC.  The replacement in Meson is the compiler object `cc`,
+-   which has methods such as `cc.compiles()`,
+-   `cc.check_header()`, `cc.has_function()`.
++   called $TMPC.  The replacement in Meson is the compiler object ``cc``,
++   which has methods such as ``cc.compiles()``,
++   ``cc.check_header()``, ``cc.has_function()``.
+ 
+-`compile_prog $CFLAGS $LDFLAGS`
++``compile_prog $CFLAGS $LDFLAGS``
+    Attempt to compile a test program with the system C compiler using
+    $CFLAGS and link it with the system linker using $LDFLAGS. The test
+    program must have been previously written to a file called $TMPC.
+-   The replacement in Meson is `cc.find_library()` and `cc.links()`.
++   The replacement in Meson is ``cc.find_library()`` and ``cc.links()``.
+ 
+-`has $COMMAND`
++``has $COMMAND``
+    Determine if $COMMAND exists in the current environment, either as a
+    shell builtin, or executable binary, returning 0 on success.  The
+-   replacement in Meson is `find_program()`.
++   replacement in Meson is ``find_program()``.
+ 
+-`check_define $NAME`
++``check_define $NAME``
+    Determine if the macro $NAME is defined by the system C compiler
+ 
+-`check_include $NAME`
++``check_include $NAME``
+    Determine if the include $NAME file is available to the system C
+-   compiler.  The replacement in Meson is `cc.has_header()`.
++   compiler.  The replacement in Meson is ``cc.has_header()``.
+ 
+-`write_c_skeleton`
++``write_c_skeleton``
+    Write a minimal C program main() function to the temporary file
+    indicated by $TMPC
+ 
+-`feature_not_found $NAME $REMEDY`
++``feature_not_found $NAME $REMEDY``
+    Print a message to stderr that the feature $NAME was not available
+    on the system, suggesting the user try $REMEDY to address the
+    problem.
+ 
+-`error_exit $MESSAGE $MORE...`
++``error_exit $MESSAGE $MORE...``
+    Print $MESSAGE to stderr, followed by $MORE... and then exit from the
+    configure script with non-zero status
+ 
+-`query_pkg_config $ARGS...`
++``query_pkg_config $ARGS...``
+    Run pkg-config passing it $ARGS. If QEMU is doing a static build,
+    then --static will be automatically added to $ARGS
+ 
+@@ -194,8 +194,8 @@ to list the files and their dependency on various configuration
+ symbols.
+ 
+ Various subsystems that are common to both tools and emulators have
+-their own sourceset, for example `block_ss` for the block device subsystem,
+-`chardev_ss` for the character device subsystem, etc.  These sourcesets
++their own sourceset, for example ``block_ss`` for the block device subsystem,
++``chardev_ss`` for the character device subsystem, etc.  These sourcesets
+ are then turned into static libraries as follows::
+ 
+     libchardev = static_library('chardev', chardev_ss.sources(),
+@@ -204,8 +204,8 @@ are then turned into static libraries as follows::
+ 
+     chardev = declare_dependency(link_whole: libchardev)
+ 
+-As of Meson 0.55.1, the special `.fa` suffix should be used for everything
+-that is used with `link_whole`, to ensure that the link flags are placed
++As of Meson 0.55.1, the special ``.fa`` suffix should be used for everything
++that is used with ``link_whole``, to ensure that the link flags are placed
+ correctly in the command line.
+ 
+ Files linked into emulator targets there can be split into two distinct groups
+@@ -216,25 +216,25 @@ In the target-independent set lives various general purpose helper code,
+ such as error handling infrastructure, standard data structures,
+ platform portability wrapper functions, etc. This code can be compiled
+ once only and the .o files linked into all output binaries.
+-Target-independent code lives in the `common_ss`, `softmmu_ss` and
+-`user_ss` sourcesets.  `common_ss` is linked into all emulators, `softmmu_ss`
+-only in system emulators, `user_ss` only in user-mode emulators.
++Target-independent code lives in the ``common_ss``, ``softmmu_ss`` and
++``user_ss`` sourcesets.  ``common_ss`` is linked into all emulators, ``softmmu_ss``
++only in system emulators, ``user_ss`` only in user-mode emulators.
+ 
+ In the target-dependent set lives CPU emulation, device emulation and
+ much glue code. This sometimes also has to be compiled multiple times,
+ once for each target being built.  Target-dependent files are included
+-in the `specific_ss` sourceset.
++in the ``specific_ss`` sourceset.
+ 
+-All binaries link with a static library `libqemuutil.a`, which is then
+-linked to all the binaries.  `libqemuutil.a` is built from several
++All binaries link with a static library ``libqemuutil.a``, which is then
++linked to all the binaries.  ``libqemuutil.a`` is built from several
+ sourcesets; most of them however host generated code, and the only two
+-of general interest are `util_ss` and `stub_ss`.
++of general interest are ``util_ss`` and ``stub_ss``.
+ 
+ The separation between these two is purely for documentation purposes.
+-`util_ss` contains generic utility files.  Even though this code is only
++``util_ss`` contains generic utility files.  Even though this code is only
+ linked in some binaries, sometimes it requires hooks only in some of
+ these and depend on other functions that are not fully implemented by
+-all QEMU binaries.  `stub_ss` links dummy stubs that will only be linked
++all QEMU binaries.  ``stub_ss`` links dummy stubs that will only be linked
+ into the binary if the real implementation is not present.  In a way,
+ the stubs can be thought of as a portable implementation of the weak
+ symbols concept.
+@@ -242,7 +242,7 @@ symbols concept.
+ The following files concur in the definition of which files are linked
+ into each emulator:
+ 
+-`default-configs/*.mak`
++``default-configs/*.mak``
+   The files under default-configs/ control what emulated hardware is built
+   into each QEMU system and userspace emulator targets. They merely contain
+   a list of config variable definitions like the machines that should be
+@@ -252,8 +252,8 @@ into each emulator:
+     CONFIG_XLNX_ZYNQMP_ARM=y
+     CONFIG_XLNX_VERSAL=y
+ 
+-`*/Kconfig`
+-  These files are processed together with `default-configs/*.mak` and
++``*/Kconfig``
++  These files are processed together with ``default-configs/*.mak`` and
+   describe the dependencies between various features, subsystems and
+   device models.  They are described in kconfig.rst.
+ 
+@@ -265,19 +265,19 @@ Support scripts
+ ---------------
+ 
+ Meson has a special convention for invoking Python scripts: if their
+-first line is `#! /usr/bin/env python3` and the file is *not* executable,
++first line is ``#! /usr/bin/env python3`` and the file is *not* executable,
+ find_program() arranges to invoke the script under the same Python
+ interpreter that was used to invoke Meson.  This is the most common
+ and preferred way to invoke support scripts from Meson build files,
+ because it automatically uses the value of configure's --python= option.
+ 
+-In case the script is not written in Python, use a `#! /usr/bin/env ...`
++In case the script is not written in Python, use a ``#! /usr/bin/env ...``
+ line and make the script executable.
+ 
+ Scripts written in Python, where it is desirable to make the script
+ executable (for example for test scripts that developers may want to
+ invoke from the command line, such as tests/qapi-schema/test-qapi.py),
+-should be invoked through the `python` variable in meson.build. For
++should be invoked through the ``python`` variable in meson.build. For
+ example::
+ 
+   test('QAPI schema regression tests', python,
+@@ -301,10 +301,10 @@ rules and wraps them so that e.g. submodules are built before QEMU.
+ The resulting build system is largely non-recursive in nature, in
+ contrast to common practices seen with automake.
+ 
+-Tests are also ran by the Makefile with the traditional `make check`
+-phony target, while benchmarks are run with `make bench`.  Meson test
+-suites such as `unit` can be ran with `make check-unit` too.  It is also
+-possible to run tests defined in meson.build with `meson test`.
++Tests are also ran by the Makefile with the traditional ``make check``
++phony target, while benchmarks are run with ``make bench``.  Meson test
++suites such as ``unit`` can be ran with ``make check-unit`` too.  It is also
++possible to run tests defined in meson.build with ``meson test``.
+ 
+ Important files for the build system
+ ====================================
+@@ -316,28 +316,28 @@ The following key files are statically defined in the source tree, with
+ the rules needed to build QEMU. Their behaviour is influenced by a
+ number of dynamically created files listed later.
+ 
+-`Makefile`
++``Makefile``
+   The main entry point used when invoking make to build all the components
+   of QEMU. The default 'all' target will naturally result in the build of
+   every component. Makefile takes care of recursively building submodules
+   directly via a non-recursive set of rules.
+ 
+-`*/meson.build`
++``*/meson.build``
+   The meson.build file in the root directory is the main entry point for the
+   Meson build system, and it coordinates the configuration and build of all
+   executables.  Build rules for various subdirectories are included in
+   other meson.build files spread throughout the QEMU source tree.
+ 
+-`tests/Makefile.include`
++``tests/Makefile.include``
+   Rules for external test harnesses. These include the TCG tests,
+-  `qemu-iotests` and the Avocado-based acceptance tests.
++  ``qemu-iotests`` and the Avocado-based acceptance tests.
+ 
+-`tests/docker/Makefile.include`
++``tests/docker/Makefile.include``
+   Rules for Docker tests. Like tests/Makefile, this file is included
+   directly by the top level Makefile, anything defined in this file will
+   influence the entire build system.
+ 
+-`tests/vm/Makefile.include`
++``tests/vm/Makefile.include``
+   Rules for VM-based tests. Like tests/Makefile, this file is included
+   directly by the top level Makefile, anything defined in this file will
+   influence the entire build system.
+@@ -353,11 +353,11 @@ Makefile.
+ 
+ Built by configure:
+ 
+-`config-host.mak`
++``config-host.mak``
+   When configure has determined the characteristics of the build host it
+   will write a long list of variables to config-host.mak file. This
+   provides the various install directories, compiler / linker flags and a
+-  variety of `CONFIG_*` variables related to optionally enabled features.
++  variety of ``CONFIG_*`` variables related to optionally enabled features.
+   This is imported by the top level Makefile and meson.build in order to
+   tailor the build output.
+ 
+@@ -369,7 +369,7 @@ Built by configure:
+   build outputs. Variables which are potentially different for each
+   emulator target are defined by the next file...
+ 
+-`$TARGET-NAME/config-target.mak`
++``$TARGET-NAME/config-target.mak``
+   TARGET-NAME is the name of a system or userspace emulator, for example,
+   x86_64-softmmu denotes the system emulator for the x86_64 architecture.
+   This file contains the variables which need to vary on a per-target
+@@ -380,31 +380,31 @@ Built by configure:
+ 
+ Built by Meson:
+ 
+-`${TARGET-NAME}-config-devices.mak`
++``${TARGET-NAME}-config-devices.mak``
+   TARGET-NAME is again the name of a system or userspace emulator. The
+   config-devices.mak file is automatically generated by make using the
+   scripts/make_device_config.sh program, feeding it the
+   default-configs/$TARGET-NAME file as input.
+ 
+-`config-host.h`, `$TARGET-NAME/config-target.h`, `$TARGET-NAME/config-devices.h`
++``config-host.h``, ``$TARGET-NAME/config-target.h``, ``$TARGET-NAME/config-devices.h``
+   These files are used by source code to determine what features
+   are enabled.  They are generated from the contents of the corresponding
+-  `*.h` files using the scripts/create_config program. This extracts
++  ``*.h`` files using the scripts/create_config program. This extracts
+   relevant variables and formats them as C preprocessor macros.
+ 
+-`build.ninja`
++``build.ninja``
+   The build rules.
+ 
+ 
+ Built by Makefile:
+ 
+-`Makefile.ninja`
++``Makefile.ninja``
+   A Makefile conversion of the build rules in build.ninja.  The conversion
+   is straightforward and, were it necessary to debug the rules produced
+   by Meson, it should be enough to look at build.ninja.  The conversion
+   is performed by scripts/ninjatool.py.
+ 
+-`Makefile.mtest`
++``Makefile.mtest``
+   The Makefile definitions that let "make check" run tests defined in
+   meson.build.  The rules are produced from Meson's JSON description of
+   tests (obtained with "meson introspect --tests") through the script
+@@ -414,9 +414,9 @@ Built by Makefile:
+ Useful make targets
+ -------------------
+ 
+-`help`
++``help``
+   Print a help message for the most common build targets.
+ 
+-`print-VAR`
++``print-VAR``
+   Print the value of the variable VAR. Useful for debugging the build
+   system.
+diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
+index 49112bb27aa..f50e1250359 100644
+--- a/docs/devel/migration.rst
++++ b/docs/devel/migration.rst
+@@ -53,7 +53,7 @@ savevm/loadvm functionality.
+ Debugging
+ =========
+ 
+-The migration stream can be analyzed thanks to `scripts/analyze_migration.py`.
++The migration stream can be analyzed thanks to ``scripts/analyze_migration.py``.
+ 
+ Example usage:
+ 
+@@ -74,8 +74,8 @@ Common infrastructure
+ =====================
+ 
+ The files, sockets or fd's that carry the migration stream are abstracted by
+-the  ``QEMUFile`` type (see `migration/qemu-file.h`).  In most cases this
+-is connected to a subtype of ``QIOChannel`` (see `io/`).
++the  ``QEMUFile`` type (see ``migration/qemu-file.h``).  In most cases this
++is connected to a subtype of ``QIOChannel`` (see ``io/``).
+ 
+ 
+ Saving the state of one device
+@@ -165,14 +165,14 @@ An example (from hw/input/pckbd.c)
+   };
+ 
+ We are declaring the state with name "pckbd".
+-The `version_id` is 3, and the fields are 4 uint8_t in a KBDState structure.
++The ``version_id`` is 3, and the fields are 4 uint8_t in a KBDState structure.
+ We registered this with:
+ 
+ .. code:: c
+ 
+     vmstate_register(NULL, 0, &vmstate_kbd, s);
+ 
+-For devices that are `qdev` based, we can register the device in the class
++For devices that are ``qdev`` based, we can register the device in the class
+ init function:
+ 
+ .. code:: c
+@@ -209,9 +209,9 @@ another to load the state back.
+                            SaveVMHandlers *ops,
+                            void *opaque);
+ 
+-Two functions in the ``ops`` structure are the `save_state`
+-and `load_state` functions.  Notice that `load_state` receives a version_id
+-parameter to know what state format is receiving.  `save_state` doesn't
++Two functions in the ``ops`` structure are the ``save_state``
++and ``load_state`` functions.  Notice that ``load_state`` receives a version_id
++parameter to know what state format is receiving.  ``save_state`` doesn't
+ have a version_id parameter because it always uses the latest version.
+ 
+ Note that because the VMState macros still save the data in a raw
+@@ -384,26 +384,28 @@ migration of a device, and using them breaks backward-migration
+ compatibility; in general most changes can be made by adding Subsections
+ (see above) or _TEST macros (see above) which won't break compatibility.
+ 
+-Each version is associated with a series of fields saved.  The `save_state` always saves
+-the state as the newer version.  But `load_state` sometimes is able to
+-load state from an older version.
++Each version is associated with a series of fields saved.  The
++``save_state`` always saves the state as the newer version.  But
++``load_state`` sometimes is able to load state from an older version.
+ 
+ You can see that there are several version fields:
+ 
+-- `version_id`: the maximum version_id supported by VMState for that device.
+-- `minimum_version_id`: the minimum version_id that VMState is able to understand
+-  for that device.
+-- `minimum_version_id_old`: For devices that were not able to port to vmstate, we can
+-  assign a function that knows how to read this old state. This field is
+-  ignored if there is no `load_state_old` handler.
++- ``version_id``: the maximum version_id supported by VMState for that
++  device.
++- ``minimum_version_id``: the minimum version_id that VMState is able to
++  understand for that device.
++- ``minimum_version_id_old``: For devices that were not able to port to
++  vmstate, we can assign a function that knows how to read this old
++  state. This field is ignored if there is no ``load_state_old``
++  handler.
+ 
+ VMState is able to read versions from minimum_version_id to
+ version_id.  And the function ``load_state_old()`` (if present) is able to
+ load state from minimum_version_id_old to minimum_version_id.  This
+ function is deprecated and will be removed when no more users are left.
+ 
+-There are *_V* forms of many ``VMSTATE_`` macros to load fields for version dependent fields,
+-e.g.
++There are *_V* forms of many ``VMSTATE_`` macros to load fields for
++version dependent fields, e.g.
+ 
+ .. code:: c
+ 
+@@ -453,7 +455,7 @@ data and then transferred to the main structure.
+ 
+ If you use memory API functions that update memory layout outside
+ initialization (i.e., in response to a guest action), this is a strong
+-indication that you need to call these functions in a `post_load` callback.
++indication that you need to call these functions in a ``post_load`` callback.
+ Examples of such memory API functions are:
+ 
+   - memory_region_add_subregion()
+@@ -818,17 +820,18 @@ Postcopy now works with hugetlbfs backed memory:
+ Postcopy with shared memory
+ ---------------------------
+ 
+-Postcopy migration with shared memory needs explicit support from the other
+-processes that share memory and from QEMU. There are restrictions on the type of
+-memory that userfault can support shared.
++Postcopy migration with shared memory needs explicit support from the
++other processes that share memory and from QEMU. There are restrictions
++on the type of memory that userfault can support shared.
+ 
+-The Linux kernel userfault support works on `/dev/shm` memory and on `hugetlbfs`
+-(although the kernel doesn't provide an equivalent to `madvise(MADV_DONTNEED)`
+-for hugetlbfs which may be a problem in some configurations).
++The Linux kernel userfault support works on ``/dev/shm`` memory and on
++``hugetlbfs`` (although the kernel doesn't provide an equivalent to
++``madvise(MADV_DONTNEED)`` for hugetlbfs which may be a problem in some
++configurations).
+ 
+ The vhost-user code in QEMU supports clients that have Postcopy support,
+-and the `vhost-user-bridge` (in `tests/`) and the DPDK package have changes
+-to support postcopy.
++and the ``vhost-user-bridge`` (in ``tests/``) and the DPDK package have
++changes to support postcopy.
+ 
+ The client needs to open a userfaultfd and register the areas
+ of memory that it maps with userfault.  The client must then pass the
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 0568dfa6a49..5057b6e1b2b 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -34,11 +34,11 @@ version they were built against. This can be done simply by::
+   QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
+ The core code will refuse to load a plugin that doesn't export a
+-`qemu_plugin_version` symbol or if plugin version is outside of QEMU's
++``qemu_plugin_version`` symbol or if plugin version is outside of QEMU's
+ supported range of API versions.
+ 
+-Additionally the `qemu_info_t` structure which is passed to the
+-`qemu_plugin_install` method of a plugin will detail the minimum and
++Additionally the ``qemu_info_t`` structure which is passed to the
++``qemu_plugin_install`` method of a plugin will detail the minimum and
+ current API versions supported by QEMU. The API version will be
+ incremented if new APIs are added. The minimum API version will be
+ incremented if existing APIs are changed or removed.
+@@ -140,12 +140,12 @@ Example Plugins
+ 
+ There are a number of plugins included with QEMU and you are
+ encouraged to contribute your own plugins plugins upstream. There is a
+-`contrib/plugins` directory where they can go.
++``contrib/plugins`` directory where they can go.
+ 
+ - tests/plugins
+ 
+ These are some basic plugins that are used to test and exercise the
+-API during the `make check-tcg` target.
++API during the ``make check-tcg`` target.
+ 
+ - contrib/plugins/hotblocks.c
+ 
+@@ -157,7 +157,7 @@ with linux-user execution as system emulation tends to generate
+ re-translations as blocks from different programs get swapped in and
+ out of system memory.
+ 
+-If your program is single-threaded you can use the `inline` option for
++If your program is single-threaded you can use the ``inline`` option for
+ slightly faster (but not thread safe) counters.
+ 
+ Example::
+@@ -245,7 +245,7 @@ which will lead to a sorted list after the class breakdown::
+   ...
+ 
+ To find the argument shorthand for the class you need to examine the
+-source code of the plugin at the moment, specifically the `*opt`
++source code of the plugin at the moment, specifically the ``*opt``
+ argument in the InsnClassExecCount tables.
+ 
+ - contrib/plugins/lockstep.c
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index bd64c1bdcdd..666c4d72408 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -749,7 +749,7 @@ The base test class has also support for tests with more than one
+ QEMUMachine. The way to get machines is through the ``self.get_vm()``
+ method which will return a QEMUMachine instance. The ``self.get_vm()``
+ method accepts arguments that will be passed to the QEMUMachine creation
+-and also an optional `name` attribute so you can identify a specific
++and also an optional ``name`` attribute so you can identify a specific
+ machine and get it more than once through the tests methods. A simple
+ and hypothetical example follows:
+ 
+diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+index e13f5a21f8d..5a3f0458275 100644
+--- a/docs/interop/live-block-operations.rst
++++ b/docs/interop/live-block-operations.rst
+@@ -638,7 +638,7 @@ at this point:
+         (QEMU) block-job-complete device=job0
+ 
+ In either of the above cases, if you once again run the
+-`query-block-jobs` command, there should not be any active block
++``query-block-jobs`` command, there should not be any active block
+ operation.
+ 
+ Comparing 'commit' and 'mirror': In both then cases, the overlay images
+@@ -777,7 +777,7 @@ the content of image [D].
+         }
+ 
+ (6) [On *destination* QEMU] Finally, resume the guest vCPUs by issuing the
+-    QMP command `cont`::
++    QMP command ``cont``::
+ 
+         (QEMU) cont
+         {
+diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
+index 2d5c06cd016..640ee09f88b 100644
+--- a/docs/system/arm/cpu-features.rst
++++ b/docs/system/arm/cpu-features.rst
+@@ -10,22 +10,22 @@ is the Performance Monitoring Unit (PMU).  CPU types such as the
+ Cortex-A15 and the Cortex-A57, which respectively implement Arm
+ architecture reference manuals ARMv7-A and ARMv8-A, may both optionally
+ implement PMUs.  For example, if a user wants to use a Cortex-A15 without
+-a PMU, then the `-cpu` parameter should contain `pmu=off` on the QEMU
+-command line, i.e. `-cpu cortex-a15,pmu=off`.
++a PMU, then the ``-cpu`` parameter should contain ``pmu=off`` on the QEMU
++command line, i.e. ``-cpu cortex-a15,pmu=off``.
+ 
+ As not all CPU types support all optional CPU features, then whether or
+ not a CPU property exists depends on the CPU type.  For example, CPUs
+ that implement the ARMv8-A architecture reference manual may optionally
+ support the AArch32 CPU feature, which may be enabled by disabling the
+-`aarch64` CPU property.  A CPU type such as the Cortex-A15, which does
+-not implement ARMv8-A, will not have the `aarch64` CPU property.
++``aarch64`` CPU property.  A CPU type such as the Cortex-A15, which does
++not implement ARMv8-A, will not have the ``aarch64`` CPU property.
+ 
+ QEMU's support may be limited for some CPU features, only partially
+ supporting the feature or only supporting the feature under certain
+-configurations.  For example, the `aarch64` CPU feature, which, when
++configurations.  For example, the ``aarch64`` CPU feature, which, when
+ disabled, enables the optional AArch32 CPU feature, is only supported
+ when using the KVM accelerator and when running on a host CPU type that
+-supports the feature.  While `aarch64` currently only works with KVM,
++supports the feature.  While ``aarch64`` currently only works with KVM,
+ it could work with TCG.  CPU features that are specific to KVM are
+ prefixed with "kvm-" and are described in "KVM VCPU Features".
+ 
+@@ -33,12 +33,12 @@ CPU Feature Probing
+ ===================
+ 
+ Determining which CPU features are available and functional for a given
+-CPU type is possible with the `query-cpu-model-expansion` QMP command.
+-Below are some examples where `scripts/qmp/qmp-shell` (see the top comment
++CPU type is possible with the ``query-cpu-model-expansion`` QMP command.
++Below are some examples where ``scripts/qmp/qmp-shell`` (see the top comment
+ block in the script for usage) is used to issue the QMP commands.
+ 
+-1. Determine which CPU features are available for the `max` CPU type
+-   (Note, we started QEMU with qemu-system-aarch64, so `max` is
++1. Determine which CPU features are available for the ``max`` CPU type
++   (Note, we started QEMU with qemu-system-aarch64, so ``max`` is
+    implementing the ARMv8-A reference manual in this case)::
+ 
+       (QEMU) query-cpu-model-expansion type=full model={"name":"max"}
+@@ -51,9 +51,9 @@ block in the script for usage) is used to issue the QMP commands.
+         "sve896": true, "sve1280": true, "sve2048": true
+       }}}}
+ 
+-We see that the `max` CPU type has the `pmu`, `aarch64`, `sve`, and many
+-`sve<N>` CPU features.  We also see that all the CPU features are
+-enabled, as they are all `true`.  (The `sve<N>` CPU features are all
++We see that the ``max`` CPU type has the ``pmu``, ``aarch64``, ``sve``, and many
++``sve<N>`` CPU features.  We also see that all the CPU features are
++enabled, as they are all ``true``.  (The ``sve<N>`` CPU features are all
+ optional SVE vector lengths (see "SVE CPU Properties").  While with TCG
+ all SVE vector lengths can be supported, when KVM is in use it's more
+ likely that only a few lengths will be supported, if SVE is supported at
+@@ -71,9 +71,9 @@ all.)
+         "sve896": true, "sve1280": true, "sve2048": true
+       }}}}
+ 
+-We see it worked, as `pmu` is now `false`.
++We see it worked, as ``pmu`` is now ``false``.
+ 
+-(3) Let's try to disable `aarch64`, which enables the AArch32 CPU feature::
++(3) Let's try to disable ``aarch64``, which enables the AArch32 CPU feature::
+ 
+       (QEMU) query-cpu-model-expansion type=full model={"name":"max","props":{"aarch64":false}}
+       {"error": {
+@@ -84,7 +84,7 @@ We see it worked, as `pmu` is now `false`.
+ It looks like this feature is limited to a configuration we do not
+ currently have.
+ 
+-(4) Let's disable `sve` and see what happens to all the optional SVE
++(4) Let's disable ``sve`` and see what happens to all the optional SVE
+     vector lengths::
+ 
+       (QEMU) query-cpu-model-expansion type=full model={"name":"max","props":{"sve":false}}
+@@ -97,14 +97,14 @@ currently have.
+         "sve896": false, "sve1280": false, "sve2048": false
+       }}}}
+ 
+-As expected they are now all `false`.
++As expected they are now all ``false``.
+ 
+ (5) Let's try probing CPU features for the Cortex-A15 CPU type::
+ 
+       (QEMU) query-cpu-model-expansion type=full model={"name":"cortex-a15"}
+       {"return": {"model": {"name": "cortex-a15", "props": {"pmu": true}}}}
+ 
+-Only the `pmu` CPU feature is available.
++Only the ``pmu`` CPU feature is available.
+ 
+ A note about CPU feature dependencies
+ -------------------------------------
+@@ -123,29 +123,29 @@ A note about CPU models and KVM
+ -------------------------------
+ 
+ Named CPU models generally do not work with KVM.  There are a few cases
+-that do work, e.g. using the named CPU model `cortex-a57` with KVM on a
+-seattle host, but mostly if KVM is enabled the `host` CPU type must be
++that do work, e.g. using the named CPU model ``cortex-a57`` with KVM on a
++seattle host, but mostly if KVM is enabled the ``host`` CPU type must be
+ used.  This means the guest is provided all the same CPU features as the
+-host CPU type has.  And, for this reason, the `host` CPU type should
++host CPU type has.  And, for this reason, the ``host`` CPU type should
+ enable all CPU features that the host has by default.  Indeed it's even
+ a bit strange to allow disabling CPU features that the host has when using
+-the `host` CPU type, but in the absence of CPU models it's the best we can
++the ``host`` CPU type, but in the absence of CPU models it's the best we can
+ do if we want to launch guests without all the host's CPU features enabled.
+ 
+-Enabling KVM also affects the `query-cpu-model-expansion` QMP command.  The
++Enabling KVM also affects the ``query-cpu-model-expansion`` QMP command.  The
+ affect is not only limited to specific features, as pointed out in example
+ (3) of "CPU Feature Probing", but also to which CPU types may be expanded.
+-When KVM is enabled, only the `max`, `host`, and current CPU type may be
++When KVM is enabled, only the ``max``, ``host``, and current CPU type may be
+ expanded.  This restriction is necessary as it's not possible to know all
+ CPU types that may work with KVM, but it does impose a small risk of users
+ experiencing unexpected errors.  For example on a seattle, as mentioned
+-above, the `cortex-a57` CPU type is also valid when KVM is enabled.
+-Therefore a user could use the `host` CPU type for the current type, but
+-then attempt to query `cortex-a57`, however that query will fail with our
++above, the ``cortex-a57`` CPU type is also valid when KVM is enabled.
++Therefore a user could use the ``host`` CPU type for the current type, but
++then attempt to query ``cortex-a57``, however that query will fail with our
+ restrictions.  This shouldn't be an issue though as management layers and
+-users have been preferring the `host` CPU type for use with KVM for quite
++users have been preferring the ``host`` CPU type for use with KVM for quite
+ some time.  Additionally, if the KVM-enabled QEMU instance running on a
+-seattle host is using the `cortex-a57` CPU type, then querying `cortex-a57`
++seattle host is using the ``cortex-a57`` CPU type, then querying ``cortex-a57``
+ will work.
+ 
+ Using CPU Features
+@@ -158,12 +158,12 @@ QEMU command line with that CPU type::
+   $ qemu-system-aarch64 -M virt -cpu max,pmu=off,sve=on,sve128=on,sve256=on
+ 
+ The example above disables the PMU and enables the first two SVE vector
+-lengths for the `max` CPU type.  Note, the `sve=on` isn't actually
+-necessary, because, as we observed above with our probe of the `max` CPU
+-type, `sve` is already on by default.  Also, based on our probe of
++lengths for the ``max`` CPU type.  Note, the ``sve=on`` isn't actually
++necessary, because, as we observed above with our probe of the ``max`` CPU
++type, ``sve`` is already on by default.  Also, based on our probe of
+ defaults, it would seem we need to disable many SVE vector lengths, rather
+ than only enabling the two we want.  This isn't the case, because, as
+-disabling many SVE vector lengths would be quite verbose, the `sve<N>` CPU
++disabling many SVE vector lengths would be quite verbose, the ``sve<N>`` CPU
+ properties have special semantics (see "SVE CPU Property Parsing
+ Semantics").
+ 
+@@ -203,49 +203,49 @@ the list of KVM VCPU features and their descriptions.
+ SVE CPU Properties
+ ==================
+ 
+-There are two types of SVE CPU properties: `sve` and `sve<N>`.  The first
+-is used to enable or disable the entire SVE feature, just as the `pmu`
++There are two types of SVE CPU properties: ``sve`` and ``sve<N>``.  The first
++is used to enable or disable the entire SVE feature, just as the ``pmu``
+ CPU property completely enables or disables the PMU.  The second type
+-is used to enable or disable specific vector lengths, where `N` is the
+-number of bits of the length.  The `sve<N>` CPU properties have special
++is used to enable or disable specific vector lengths, where ``N`` is the
++number of bits of the length.  The ``sve<N>`` CPU properties have special
+ dependencies and constraints, see "SVE CPU Property Dependencies and
+ Constraints" below.  Additionally, as we want all supported vector lengths
+ to be enabled by default, then, in order to avoid overly verbose command
+-lines (command lines full of `sve<N>=off`, for all `N` not wanted), we
++lines (command lines full of ``sve<N>=off``, for all ``N`` not wanted), we
+ provide the parsing semantics listed in "SVE CPU Property Parsing
+ Semantics".
+ 
+ SVE CPU Property Dependencies and Constraints
+ ---------------------------------------------
+ 
+-  1) At least one vector length must be enabled when `sve` is enabled.
++  1) At least one vector length must be enabled when ``sve`` is enabled.
+ 
+-  2) If a vector length `N` is enabled, then, when KVM is enabled, all
++  2) If a vector length ``N`` is enabled, then, when KVM is enabled, all
+      smaller, host supported vector lengths must also be enabled.  If
+      KVM is not enabled, then only all the smaller, power-of-two vector
+      lengths must be enabled.  E.g. with KVM if the host supports all
+-     vector lengths up to 512-bits (128, 256, 384, 512), then if `sve512`
++     vector lengths up to 512-bits (128, 256, 384, 512), then if ``sve512``
+      is enabled, the 128-bit vector length, 256-bit vector length, and
+      384-bit vector length must also be enabled. Without KVM, the 384-bit
+      vector length would not be required.
+ 
+   3) If KVM is enabled then only vector lengths that the host CPU type
+      support may be enabled.  If SVE is not supported by the host, then
+-     no `sve*` properties may be enabled.
++     no ``sve*`` properties may be enabled.
+ 
+ SVE CPU Property Parsing Semantics
+ ----------------------------------
+ 
+-  1) If SVE is disabled (`sve=off`), then which SVE vector lengths
++  1) If SVE is disabled (``sve=off``), then which SVE vector lengths
+      are enabled or disabled is irrelevant to the guest, as the entire
+      SVE feature is disabled and that disables all vector lengths for
+-     the guest.  However QEMU will still track any `sve<N>` CPU
+-     properties provided by the user.  If later an `sve=on` is provided,
+-     then the guest will get only the enabled lengths.  If no `sve=on`
++     the guest.  However QEMU will still track any ``sve<N>`` CPU
++     properties provided by the user.  If later an ``sve=on`` is provided,
++     then the guest will get only the enabled lengths.  If no ``sve=on``
+      is provided and there are explicitly enabled vector lengths, then
+      an error is generated.
+ 
+-  2) If SVE is enabled (`sve=on`), but no `sve<N>` CPU properties are
++  2) If SVE is enabled (``sve=on``), but no ``sve<N>`` CPU properties are
+      provided, then all supported vector lengths are enabled, which when
+      KVM is not in use means including the non-power-of-two lengths, and,
+      when KVM is in use, it means all vector lengths supported by the host
+@@ -261,7 +261,7 @@ SVE CPU Property Parsing Semantics
+      constraint (2) of "SVE CPU Property Dependencies and Constraints").
+ 
+   5) When KVM is enabled, if the host does not support SVE, then an error
+-     is generated when attempting to enable any `sve*` properties (see
++     is generated when attempting to enable any ``sve*`` properties (see
+      constraint (3) of "SVE CPU Property Dependencies and Constraints").
+ 
+   6) When KVM is enabled, if the host does support SVE, then an error is
+@@ -269,8 +269,8 @@ SVE CPU Property Parsing Semantics
+      by the host (see constraint (3) of "SVE CPU Property Dependencies and
+      Constraints").
+ 
+-  7) If one or more `sve<N>` CPU properties are set `off`, but no `sve<N>`,
+-     CPU properties are set `on`, then the specified vector lengths are
++  7) If one or more ``sve<N>`` CPU properties are set ``off``, but no ``sve<N>``,
++     CPU properties are set ``on``, then the specified vector lengths are
+      disabled but the default for any unspecified lengths remains enabled.
+      When KVM is not enabled, disabling a power-of-two vector length also
+      disables all vector lengths larger than the power-of-two length.
+@@ -278,15 +278,15 @@ SVE CPU Property Parsing Semantics
+      disables all larger vector lengths (see constraint (2) of "SVE CPU
+      Property Dependencies and Constraints").
+ 
+-  8) If one or more `sve<N>` CPU properties are set to `on`, then they
++  8) If one or more ``sve<N>`` CPU properties are set to ``on``, then they
+      are enabled and all unspecified lengths default to disabled, except
+      for the required lengths per constraint (2) of "SVE CPU Property
+      Dependencies and Constraints", which will even be auto-enabled if
+      they were not explicitly enabled.
+ 
+-  9) If SVE was disabled (`sve=off`), allowing all vector lengths to be
++  9) If SVE was disabled (``sve=off``), allowing all vector lengths to be
+      explicitly disabled (i.e. avoiding the error specified in (3) of
+-     "SVE CPU Property Parsing Semantics"), then if later an `sve=on` is
++     "SVE CPU Property Parsing Semantics"), then if later an ``sve=on`` is
+      provided an error will be generated.  To avoid this error, one must
+      enable at least one vector length prior to enabling SVE.
+ 
+@@ -297,12 +297,12 @@ SVE CPU Property Examples
+ 
+      $ qemu-system-aarch64 -M virt -cpu max,sve=off
+ 
+-  2) Implicitly enable all vector lengths for the `max` CPU type::
++  2) Implicitly enable all vector lengths for the ``max`` CPU type::
+ 
+      $ qemu-system-aarch64 -M virt -cpu max
+ 
+   3) When KVM is enabled, implicitly enable all host CPU supported vector
+-     lengths with the `host` CPU type::
++     lengths with the ``host`` CPU type::
+ 
+      $ qemu-system-aarch64 -M virt,accel=kvm -cpu host
+ 
+diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+index e3e1a3a3a73..b0a35b54bd4 100644
+--- a/docs/system/arm/nuvoton.rst
++++ b/docs/system/arm/nuvoton.rst
+@@ -77,7 +77,7 @@ Boot options
+ ------------
+ 
+ The Nuvoton machines can boot from an OpenBMC firmware image, or directly into
+-a kernel using the ``-kernel`` option. OpenBMC images for `quanta-gsj` and
++a kernel using the ``-kernel`` option. OpenBMC images for ``quanta-gsj`` and
+ possibly others can be downloaded from the OpenPOWER jenkins :
+ 
+    https://openpower.xyz/
+diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
+index 712974ad87b..d208c12a962 100644
+--- a/docs/system/s390x/protvirt.rst
++++ b/docs/system/s390x/protvirt.rst
+@@ -14,11 +14,11 @@ Prerequisites
+ To run PVMs, a machine with the Protected Virtualization feature, as
+ indicated by the Ultravisor Call facility (stfle bit 158), is
+ required. The Ultravisor needs to be initialized at boot by setting
+-`prot_virt=1` on the host's kernel command line.
++``prot_virt=1`` on the host's kernel command line.
+ 
+ Running PVMs requires using the KVM hypervisor.
+ 
+-If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
++If those requirements are met, the capability ``KVM_CAP_S390_PROTECTED``
+ will indicate that KVM can support PVMs on that LPAR.
+ 
+ 
+@@ -26,8 +26,8 @@ QEMU Settings
+ -------------
+ 
+ To indicate to the VM that it can transition into protected mode, the
+-`Unpack facility` (stfle bit 161 represented by the feature
+-`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
++``Unpack facility`` (stfle bit 161 represented by the feature
++``unpack``/``S390_FEAT_UNPACK``) needs to be part of the cpu model of
+ the VM.
+ 
+ All I/O devices need to use the IOMMU.
+@@ -56,5 +56,5 @@ from the disk boot. This memory layout includes the encrypted
+ components (kernel, initrd, cmdline), the stage3a loader and
+ metadata. In case this boot method is used, the command line
+ options -initrd and -cmdline are ineffective. The preparation of a PVM
+-image is done via the `genprotimg` tool from the s390-tools
++image is done via the ``genprotimg`` tool from the s390-tools
+ collection.
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 86ed72ef9fa..13254d3c3ba 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -492,11 +492,11 @@
+ # @status: current status of the dirty bitmap (since 2.4)
+ #
+ # @recording: true if the bitmap is recording new writes from the guest.
+-#             Replaces `active` and `disabled` statuses. (since 4.0)
++#             Replaces ``active`` and ``disabled`` statuses. (since 4.0)
+ #
+ # @busy: true if the bitmap is in-use by some operation (NBD or jobs)
+ #        and cannot be modified via QMP or used by another operation.
+-#        Replaces `locked` and `frozen` statuses. (since 4.0)
++#        Replaces ``locked`` and ``frozen`` statuses. (since 4.0)
+ #
+ # @persistent: true if the bitmap was stored on disk, is scheduled to be stored
+ #              on disk, or both. (since 4.0)
+-- 
+2.26.2
 
 
