@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB6827F145
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 20:25:46 +0200 (CEST)
-Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A1A27F14D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 20:30:32 +0200 (CEST)
+Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNgnR-0007rg-If
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 14:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36300)
+	id 1kNgs2-0001Qy-2H
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 14:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kNgmS-0007Iw-LT
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:24:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53108)
+ id 1kNgmd-0007Uq-Dv
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:24:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kNgmP-0007vI-Lc
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:24:43 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601490279;
+ id 1kNgmb-0007wr-RV
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 14:24:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601490292;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tT3tP8SGG+FQYfaGNHCR8aagEHp9A898lHOh9e+9a8Y=;
- b=I4Y+OpcvaHI18aBxPfJkteFOT/LilwHr4P6hR+/2tF8pHyjetWcx+fzYrDARsABWl0O52o
- EjSd06CSkdEBTc2bIMyyWjI49le5ffWVdEvFwB1vSVOG/iVrEGCYY16KH+ODUSovvMgK2f
- M9qS3MnXtO6IcVrtIH6EDEi8yKmcHCU=
+ bh=MzdZJZ7up4xNq1MNhmHqbM1bnNwJpBWafUcwFi+CWKM=;
+ b=f6GXY11E16iQi/2L7H5XAi/Mts/NGgY6ArRgwnvRpAmZyb8ZNMJd39LTNQKFWEExHQ4cfx
+ pnIE6+pXZj9IeznCU3z7TiriDt4t0LvEJhnqAu3HNPynI38r5bsb3AQabfsnMDIwpBsfuU
+ v48n3ttWtFsRORi6BUdIusXUzw2Sp2U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-5lz_U2PRO-WSrt2T1ONt1g-1; Wed, 30 Sep 2020 14:24:10 -0400
-X-MC-Unique: 5lz_U2PRO-WSrt2T1ONt1g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-86-B0NEITG6OEeyB3GbrGxWJA-1; Wed, 30 Sep 2020 14:24:47 -0400
+X-MC-Unique: B0NEITG6OEeyB3GbrGxWJA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99A941007B00;
- Wed, 30 Sep 2020 18:24:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 853311084D7E;
+ Wed, 30 Sep 2020 18:24:46 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EC4E5C1CF;
- Wed, 30 Sep 2020 18:24:09 +0000 (UTC)
-Date: Wed, 30 Sep 2020 14:24:08 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67E9D1002C07;
+ Wed, 30 Sep 2020 18:24:45 +0000 (UTC)
+Date: Wed, 30 Sep 2020 14:24:44 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 39/46] qapi/introspect.py: Unify return type of
- _make_tree()
-Message-ID: <20200930182408.GV3717385@habkost.net>
+Subject: Re: [PATCH v4 40/46] qapi/introspect.py: replace 'extra' dict with
+ 'comment' argument
+Message-ID: <20200930182444.GW3717385@habkost.net>
 References: <20200930043150.1454766-1-jsnow@redhat.com>
- <20200930043150.1454766-40-jsnow@redhat.com>
+ <20200930043150.1454766-41-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200930043150.1454766-40-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200930043150.1454766-41-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:31:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,147 +88,13 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 30, 2020 at 12:31:43AM -0400, John Snow wrote:
-> Returning a *something* or a Tuple of *something* is hard to accurately
-> type. Let's just always return a tuple for structural consistency.
-> 
-> Instances of the 'TreeNode' type can be replaced with the slightly more
-> specific 'AnnotatedNode' type.
+On Wed, Sep 30, 2020 at 12:31:44AM -0400, John Snow wrote:
+> This is only used to pass in a dictionary with a comment already set, so
+> skip the runaround and just accept the comment.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 
-So, the only place where this seems to make a difference is
-_tree_to_qlit().
-
-We just need to prove that
-  _tree_to_qlit(o, ...)
-will have exactly the same result as
-  _tree_to_qlit((o, None), ...).
-
-For reference, this is the beginning of _tree_to_qlit():
-
-| def _tree_to_qlit(obj: TreeNode,
-|                   level: int = 0,
-|                   suppress_first_indent: bool = False) -> str:
-| 
-|     def indent(level: int) -> str:
-|         return level * 4 * ' '
-| 
-|     if isinstance(obj, tuple):
-|         ifobj, extra = obj
-
-`obj` is the return value of _make_tree()
-
-`ifobj` is the original `obj` argument to _make_tree().
-
-|         ifcond = extra.get('if')
-
-ifcond will be None.
-
-|         comment = extra.get('comment')
-
-comment will be None
-
-|         ret = ''
-|         if comment:
-|             ret += indent(level) + '/* %s */\n' % comment
-
-nop
-
-|         if ifcond:
-|             ret += gen_if(ifcond)
-
-nop
-
-|         ret += _tree_to_qlit(ifobj, level)
-
-ret will be '', so this is equivalent to:
-
-  ret = _tree_to_qlit(ifobj, level)
-
-which is almost good.
-
-The only difference seems to that suppress_first_indent=True will
-be ignored.  We should pass suppress_first_indent as argument in
-the recursive call above, just in case.
-
-The existing code will behave weirdly if there are comments or
-conditions and suppress_first_indent=True, but I suggest we try
-to address this issue later.
-
-|         if ifcond:
-|             ret += '\n' + gen_endif(ifcond)
-
-nop
-
-|         return ret
-
-
-> ---
->  scripts/qapi/introspect.py | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index 5cbdc7414bd..1c3ba41f1dc 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -53,14 +53,12 @@
->  
->  def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
->                 extra: Optional[Extra] = None
-> -               ) -> Union[TreeNode, AnnotatedNode]:
-> +               ) -> AnnotatedNode:
->      if extra is None:
->          extra = {}
->      if ifcond:
->          extra['if'] = ifcond
-> -    if extra:
-> -        return (obj, extra)
-> -    return obj
-> +    return (obj, extra)
->  
->  
->  def _tree_to_qlit(obj: TreeNode,
-> @@ -128,7 +126,7 @@ def __init__(self, prefix: str, unmask: bool):
->              ' * QAPI/QMP schema introspection', __doc__)
->          self._unmask = unmask
->          self._schema: Optional[QAPISchema] = None
-> -        self._trees: List[TreeNode] = []
-> +        self._trees: List[AnnotatedNode] = []
->          self._used_types: List[QAPISchemaType] = []
->          self._name_map: Dict[str, str] = {}
->          self._genc.add(mcgen('''
-> @@ -195,7 +193,8 @@ def _use_type(self, typ: QAPISchemaType) -> str:
->  
->      @classmethod
->      def _gen_features(cls,
-> -                      features: List[QAPISchemaFeature]) -> List[TreeNode]:
-> +                      features: List[QAPISchemaFeature]
-> +                      ) -> List[AnnotatedNode]:
->          return [_make_tree(f.name, f.ifcond) for f in features]
->  
->      def _gen_tree(self, name: str, mtype: str, obj: _DObject,
-> @@ -215,7 +214,7 @@ def _gen_tree(self, name: str, mtype: str, obj: _DObject,
->          self._trees.append(_make_tree(obj, ifcond, extra))
->  
->      def _gen_member(self,
-> -                    member: QAPISchemaObjectTypeMember) -> TreeNode:
-> +                    member: QAPISchemaObjectTypeMember) -> AnnotatedNode:
->          obj: _DObject = {
->              'name': member.name,
->              'type': self._use_type(member.type)
-> @@ -231,7 +230,7 @@ def _gen_variants(self, tag_name: str,
->          return {'tag': tag_name,
->                  'variants': [self._gen_variant(v) for v in variants]}
->  
-> -    def _gen_variant(self, variant: QAPISchemaVariant) -> TreeNode:
-> +    def _gen_variant(self, variant: QAPISchemaVariant) -> AnnotatedNode:
->          obj: _DObject = {
->              'case': variant.name,
->              'type': self._use_type(variant.type)
-> -- 
-> 2.26.2
-> 
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
 -- 
 Eduardo
