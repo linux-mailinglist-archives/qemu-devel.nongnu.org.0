@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB8127EA43
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:49:08 +0200 (CEST)
-Received: from localhost ([::1]:53262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A82827EA38
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 15:47:00 +0200 (CEST)
+Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNcTj-0004XA-LQ
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:49:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37702)
+	id 1kNcRf-0002UE-KP
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 09:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcM0-000632-9j
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40343)
+ id 1kNcMI-000674-EK
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kNcLx-0005aq-PU
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601473264;
+ id 1kNcMC-0005bY-Iz
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 09:41:23 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601473275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gx+vDL90hiYO+S5tXxBxBGxG+KdB47ALS9oMAajmWkk=;
- b=WXbWfdTFQBsJkZNW1G71SeoPuoiT5nW+TY6EwYA4B/5OWlpEeWGk9sTluF+gYhl9SAiXnu
- mVhrZcqzRSjfMc237FrPO7gZ2JHdiVkhulbaECLpP/v8ld8GkltcnsqiIkmXEB3h4t/CPY
- cw3bJTuSZ9HIBarMfHq0KNqxoZ/6O/w=
+ bh=xGqt4c6IVlTyWvMmUueqyxJAl2Ib2SzkhlmfxkKMplM=;
+ b=URC3wlrvD1OnbOHdiUDuuUO4/fHt2xue0ibVLEuTISEaaKySRrBtqqZ5nfWPFV3MuSAvwK
+ E36+hS0o0F7Jggmut2Xx+JYq9JXXLtnQNPULGBCwITQdJsZfxg33SnAK8CYvX8AX78CX3s
+ M1PQI/n/privEwEu+rqSe6MqBP3EmNs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-HG6cZlbNNMGl-qWVGV_GiQ-1; Wed, 30 Sep 2020 09:41:02 -0400
-X-MC-Unique: HG6cZlbNNMGl-qWVGV_GiQ-1
+ us-mta-164-rZzzzyPPPxuAYJg1KDNmmQ-1; Wed, 30 Sep 2020 09:41:13 -0400
+X-MC-Unique: rZzzzyPPPxuAYJg1KDNmmQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB12EADF09
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:41:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94F57800138
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 13:41:12 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5239060C05;
- Wed, 30 Sep 2020 13:40:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C558672C6;
+ Wed, 30 Sep 2020 13:41:02 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 04/19] i386: move hyperv_vendor_id initialization to
+Subject: [PATCH RFC v2 05/19] i386: move hyperv_interface_id initialization to
  x86_cpu_realizefn()
-Date: Wed, 30 Sep 2020 15:40:12 +0200
-Message-Id: <20200930134027.1348021-5-vkuznets@redhat.com>
+Date: Wed, 30 Sep 2020 15:40:13 +0200
+Message-Id: <20200930134027.1348021-6-vkuznets@redhat.com>
 In-Reply-To: <20200930134027.1348021-1-vkuznets@redhat.com>
 References: <20200930134027.1348021-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -87,128 +87,87 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 As a preparation to expanding Hyper-V CPU features early, move
-hyperv_vendor_id initialization to x86_cpu_realizefn(). Introduce
-x86_cpu_hyperv_realize() to not not pollute x86_cpu_realizefn()
-itself.
+hyperv_interface_id initialization to x86_cpu_realizefn().
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c | 23 ++++++++++++++++++++++-
- target/i386/cpu.h |  3 ++-
- target/i386/kvm.c | 25 ++++++++++---------------
- 3 files changed, 34 insertions(+), 17 deletions(-)
+ target/i386/cpu.c |  6 ++++++
+ target/i386/cpu.h |  1 +
+ target/i386/kvm.c | 18 ++++++++++++------
+ 3 files changed, 19 insertions(+), 6 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ca713bef5eaf..71b96e383573 100644
+index 71b96e383573..9e77d9579b5c 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6489,6 +6489,24 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+@@ -6505,6 +6505,12 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
+         memset(cpu->hyperv_vendor_id, 0, 12);
+         memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
      }
++
++    /* 'Hv#1' interface identification*/
++    cpu->hyperv_interface_id[0] = 0x31237648;
++    cpu->hyperv_interface_id[1] = 0;
++    cpu->hyperv_interface_id[2] = 0;
++    cpu->hyperv_interface_id[3] = 0;
  }
  
-+static void x86_cpu_hyperv_realize(X86CPU *cpu)
-+{
-+    size_t len;
-+
-+    if (!cpu->hyperv_vendor) {
-+        memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
-+    } else {
-+        len = strlen(cpu->hyperv_vendor);
-+
-+        if (len > 12) {
-+            warn_report("hv-vendor-id truncated to 12 characters");
-+            len = 12;
-+        }
-+        memset(cpu->hyperv_vendor_id, 0, 12);
-+        memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
-+    }
-+}
-+
  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-@@ -6539,6 +6557,9 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    /* Process Hyper-V enlightenments */
-+    x86_cpu_hyperv_realize(cpu);
-+
-     x86_cpu_expand_features(cpu, &local_err);
-     if (local_err) {
-         goto out;
-@@ -7209,7 +7230,7 @@ static Property x86_cpu_properties[] = {
-     DEFINE_PROP_UINT32("min-xlevel2", X86CPU, env.cpuid_min_xlevel2, 0),
-     DEFINE_PROP_UINT64("ucode-rev", X86CPU, ucode_rev, 0),
-     DEFINE_PROP_BOOL("full-cpuid-auto-level", X86CPU, full_cpuid_auto_level, true),
--    DEFINE_PROP_STRING("hv-vendor-id", X86CPU, hyperv_vendor_id),
-+    DEFINE_PROP_STRING("hv-vendor-id", X86CPU, hyperv_vendor),
-     DEFINE_PROP_BOOL("cpuid-0xb", X86CPU, enable_cpuid_0xb, true),
-     DEFINE_PROP_BOOL("lmce", X86CPU, enable_lmce, false),
-     DEFINE_PROP_BOOL("l3-cache", X86CPU, enable_l3_cache, true),
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index f519d2bfd48d..b0bef3f1c793 100644
+index b0bef3f1c793..702949462ab9 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1654,11 +1654,12 @@ struct X86CPU {
-     uint64_t ucode_rev;
- 
-     uint32_t hyperv_spinlock_attempts;
--    char *hyperv_vendor_id;
-+    char *hyperv_vendor;
-     bool hyperv_synic_kvm_only;
-     uint64_t hyperv_features;
+@@ -1660,6 +1660,7 @@ struct X86CPU {
      bool hyperv_passthrough;
      OnOffAuto hyperv_no_nonarch_cs;
-+    uint32_t hyperv_vendor_id[3];
+     uint32_t hyperv_vendor_id[3];
++    uint32_t hyperv_interface_id[4];
  
      bool check_cpuid;
      bool enforce_cpuid;
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index aa5dc562b697..c5c4eaefe862 100644
+index c5c4eaefe862..6dde7c97deb3 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -1225,6 +1225,13 @@ static int hyperv_handle_properties(CPUState *cs,
-         memcpy(cpuid_ent, &cpuid->entries[0],
-                cpuid->nent * sizeof(cpuid->entries[0]));
+@@ -1188,7 +1188,6 @@ static int hyperv_handle_properties(CPUState *cs,
+     CPUX86State *env = &cpu->env;
+     struct kvm_cpuid2 *cpuid;
+     struct kvm_cpuid_entry2 *c;
+-    uint32_t signature[3];
+     uint32_t cpuid_i = 0;
+     int r;
  
-+        c = cpuid_find_entry(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, 0);
+@@ -1232,6 +1231,14 @@ static int hyperv_handle_properties(CPUState *cs,
+             cpu->hyperv_vendor_id[2] = c->edx;
+         }
+ 
++        c = cpuid_find_entry(cpuid, HV_CPUID_INTERFACE, 0);
 +        if (c) {
-+            cpu->hyperv_vendor_id[0] = c->ebx;
-+            cpu->hyperv_vendor_id[1] = c->ecx;
-+            cpu->hyperv_vendor_id[2] = c->edx;
++            cpu->hyperv_interface_id[0] = c->eax;
++            cpu->hyperv_interface_id[1] = c->ebx;
++            cpu->hyperv_interface_id[2] = c->ecx;
++            cpu->hyperv_interface_id[3] = c->edx;
 +        }
 +
          c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
          if (c) {
              env->features[FEAT_HYPERV_EAX] = c->eax;
-@@ -1299,23 +1306,11 @@ static int hyperv_handle_properties(CPUState *cs,
- 
-     c = &cpuid_ent[cpuid_i++];
-     c->function = HV_CPUID_VENDOR_AND_MAX_FUNCTIONS;
--    if (!cpu->hyperv_vendor_id) {
--        memcpy(signature, "Microsoft Hv", 12);
--    } else {
--        size_t len = strlen(cpu->hyperv_vendor_id);
--
--        if (len > 12) {
--            error_report("hv-vendor-id truncated to 12 characters");
--            len = 12;
--        }
--        memset(signature, 0, 12);
--        memcpy(signature, cpu->hyperv_vendor_id, len);
--    }
-     c->eax = hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) ?
-         HV_CPUID_NESTED_FEATURES : HV_CPUID_IMPLEMENT_LIMITS;
--    c->ebx = signature[0];
--    c->ecx = signature[1];
--    c->edx = signature[2];
-+    c->ebx = cpu->hyperv_vendor_id[0];
-+    c->ecx = cpu->hyperv_vendor_id[1];
-+    c->edx = cpu->hyperv_vendor_id[2];
+@@ -1314,11 +1321,10 @@ static int hyperv_handle_properties(CPUState *cs,
  
      c = &cpuid_ent[cpuid_i++];
      c->function = HV_CPUID_INTERFACE;
+-    memcpy(signature, "Hv#1\0\0\0\0\0\0\0\0", 12);
+-    c->eax = signature[0];
+-    c->ebx = 0;
+-    c->ecx = 0;
+-    c->edx = 0;
++    c->eax = cpu->hyperv_interface_id[0];
++    c->ebx = cpu->hyperv_interface_id[1];
++    c->ecx = cpu->hyperv_interface_id[2];
++    c->edx = cpu->hyperv_interface_id[3];
+ 
+     c = &cpuid_ent[cpuid_i++];
+     c->function = HV_CPUID_VERSION;
 -- 
 2.25.4
 
