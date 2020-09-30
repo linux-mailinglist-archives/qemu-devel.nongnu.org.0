@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5654527E849
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 14:13:45 +0200 (CEST)
-Received: from localhost ([::1]:41682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB5127E84C
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 14:14:36 +0200 (CEST)
+Received: from localhost ([::1]:43320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNazQ-0005J5-4U
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 08:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
+	id 1kNb0F-0005xH-Ai
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 08:14:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNax9-0003go-UC
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 08:11:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21705)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNaxE-0003lj-FO
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 08:11:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNax7-000794-KB
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 08:11:23 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kNaxC-00079d-N5
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 08:11:28 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601467880;
+ s=mimecast20190719; t=1601467885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4vUYn/hOJUbDOrjDYcsv5gNe9C0e31VTBO1mpJqtXD4=;
- b=BX06dFKBpL8ZERrSOSG8UQht6Zn5GelMPqz1Uaf40mIO8bhd+f1lbhNDg8a6lIyeyetuy6
- EbR7EE6R/+oAXsDHcwLV2xURz/sbrmuWy1c/SuUyNEReCRbOw88WyMuj7WuE2XiM4yYwn9
- Pb+SP3wtv94GEIZ8zFzxcC6mvS0CYLI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f2vTvpMUs/R+7+oon1oKvJdjTeI/HB6VBRES9SzXx2Q=;
+ b=LytOGkM/uptK/ZTQ3uHLA0iYDIIG+7DOtC1kUU6uEFM/rDTCZ9ueULFQ7qL38eX8+MsvRz
+ j7WmjbKZ2Dzbsuqx+9p7KGJTfSy+Io+vCpr/Xclkew80m6sccLfPCSsmznB/IAn1eGSrU9
+ flMeOsyrb9M1H3xStQU1IEe8Cjt05Oo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-jGYXNZ5OPz2zKZGlSAy6QQ-1; Wed, 30 Sep 2020 08:11:13 -0400
-X-MC-Unique: jGYXNZ5OPz2zKZGlSAy6QQ-1
+ us-mta-428-9imyaUpBNGiaOzQLglCR1w-1; Wed, 30 Sep 2020 08:11:21 -0400
+X-MC-Unique: 9imyaUpBNGiaOzQLglCR1w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83D7B8015B0;
- Wed, 30 Sep 2020 12:11:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6494425D0;
+ Wed, 30 Sep 2020 12:11:19 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-208.phx2.redhat.com [10.3.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2613260C05;
- Wed, 30 Sep 2020 12:11:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EE3B6198B;
+ Wed, 30 Sep 2020 12:11:17 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/5] Exposing backing-chain allocation over NBD
-Date: Wed, 30 Sep 2020 07:11:00 -0500
-Message-Id: <20200930121105.667049-1-eblake@redhat.com>
+Subject: [PATCH v2 1/5] qemu-nbd: Honor SIGINT and SIGHUP
+Date: Wed, 30 Sep 2020 07:11:01 -0500
+Message-Id: <20200930121105.667049-2-eblake@redhat.com>
+In-Reply-To: <20200930121105.667049-1-eblake@redhat.com>
+References: <20200930121105.667049-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -62,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.469,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,51 +83,42 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1 was here: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg09623.htm
-l
+Honoring just SIGTERM on Linux is too weak; we also want to handle
+other common signals, and do so even on BSD.  Why?  Because at least
+'qemu-nbd -B bitmap' needs a chance to clean up the in-use bit on
+bitmaps when the server is shut down via a signal.
 
-Based-on: <20200924152717.287415-1-kwolf@redhat.com>
-(block/export: Add infrastructure and QAPI for block exports)
+See also: http://bugzilla.redhat.com/1883608
 
-Also available at:
-https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/nbd-alloc-depth-v2
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ qemu-nbd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Since then:
-- rebase on Kevin's work
-- add new patch to fix qemu-nbd SIGINT (conflicts with Stefan's work,
-we can either rebase his on mine or drop mine if his goes in first)
-- split out fix for handling NUL bytes from client [Vladimir]
-- further cleanups of query parsing [Vladimir]
-- more documentation of how we could also expose actual depth in
-remaining bits of the context reply [Rich]
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index bacb69b0898b..e7520261134f 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -581,7 +581,7 @@ int main(int argc, char **argv)
+     const char *pid_file_name = NULL;
+     BlockExportOptions *export_opts;
 
-001/5:[down] 'qemu-nbd: Honor SIGINT and SIGHUP'
-002/5:[down] 'nbd/server: Reject embedded NUL in NBD strings'
-003/5:[0139] [FC] 'nbd: Simplify meta-context parsing'
-004/5:[0035] [FC] 'nbd: Add new qemu:allocation-depth metacontext'
-005/5:[0038] [FC] 'nbd: Add 'qemu-nbd -A' to expose allocation depth'
+-#if HAVE_NBD_DEVICE
++#ifdef CONFIG_POSIX
+     /* The client thread uses SIGTERM to interrupt the server.  A signal
+      * handler ensures that "qemu-nbd -v -c" exits with a nice status code.
+      */
+@@ -589,9 +589,9 @@ int main(int argc, char **argv)
+     memset(&sa_sigterm, 0, sizeof(sa_sigterm));
+     sa_sigterm.sa_handler = termsig_handler;
+     sigaction(SIGTERM, &sa_sigterm, NULL);
+-#endif /* HAVE_NBD_DEVICE */
++    sigaction(SIGINT, &sa_sigterm, NULL);
++    sigaction(SIGHUP, &sa_sigterm, NULL);
 
-Eric Blake (5):
-  qemu-nbd: Honor SIGINT and SIGHUP
-  nbd/server: Reject embedded NUL in NBD strings
-  nbd: Simplify meta-context parsing
-  nbd: Add new qemu:allocation-depth metacontext
-  nbd: Add 'qemu-nbd -A' to expose allocation depth
-
- docs/interop/nbd.txt       |  22 ++-
- docs/tools/qemu-nbd.rst    |   6 +
- qapi/block-core.json       |   7 +-
- qapi/block-export.json     |   6 +-
- include/block/nbd.h        |   8 +-
- blockdev-nbd.c             |   2 +
- nbd/server.c               | 324 +++++++++++++++++++++----------------
- qemu-nbd.c                 |  20 ++-
- tests/qemu-iotests/309     |  73 +++++++++
- tests/qemu-iotests/309.out |  22 +++
- tests/qemu-iotests/group   |   1 +
- 11 files changed, 342 insertions(+), 149 deletions(-)
- create mode 100755 tests/qemu-iotests/309
- create mode 100644 tests/qemu-iotests/309.out
+-#ifdef CONFIG_POSIX
+     signal(SIGPIPE, SIG_IGN);
+ #endif
 
 -- 
 2.28.0
