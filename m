@@ -2,69 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D421827DD33
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 02:02:59 +0200 (CEST)
-Received: from localhost ([::1]:35994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B61627DD62
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 02:31:04 +0200 (CEST)
+Received: from localhost ([::1]:42818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNPaE-0008Et-T6
-	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 20:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45838)
+	id 1kNQ1P-0005iD-1l
+	for lists+qemu-devel@lfdr.de; Tue, 29 Sep 2020 20:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNPYT-0007j2-Qw
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 20:01:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNPYN-0004nc-SV
- for qemu-devel@nongnu.org; Tue, 29 Sep 2020 20:01:08 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kNPYL-00032v-Bm
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 00:01:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 521B92E80E9
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 00:01:01 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Sep 2020 23:54:40 -0000
-From: Fernando Luiz <1821595@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1kNPzE-0004Bb-GT; Tue, 29 Sep 2020 20:28:48 -0400
+Received: from mail-dm6nam12on2052.outbound.protection.outlook.com
+ ([40.107.243.52]:18688 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1kNPzA-0007lK-9G; Tue, 29 Sep 2020 20:28:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IfgsuPbTUSIT0EjtDkj0OgGvO2xbs51RxRXo0epGAeUNvDEOLcq60zIHgLjr66oZJ7MxB3WkoU6xJdyHZjnvNAYL9k3axVh0f09aXq1fvBQIibmoAxMq8XSHG8GOYZB0DgfPLhyJePOIKIUDxsBcIX1/uT2TDCu/HzWWlHbzzRCbpGWTVng2Rrvsi3yo90ekvGwfnY4aWBmqiTqwDKhL6chQE0VTClY/Gm+9oTJWikx+E4Ro/p9nx+E2l7i8kxDUMWwRyWEdu5cdidnuCMZBYdYi5u4tfrjAQhKxfCF0QA9OLiMf8pbbehCMClfRoufiy5NESqwqv4VX7rHNL/B+3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EggeW64ZqcqxO+iy+qGs5QCHbxH7LrlKjU1FXNKeIuE=;
+ b=kUruuDCV1A9Frf1kjZtzndA14Pgj7CQRxbGs9eIUT3oyOI/7ycznmsX/M5cFR8xcm69jDSvATafaDrK0ebLjPCJPXKpn0Kwp48yT2Kd8vnNYot4C1VamiZqmsPANfvpGz+goH1HoD1ZTD6ow94nn5kTMaH0x8Ou6gLydMtxl98E14sdS2qtmpXSva11jVtt6gb3dO33h5HgVNM1f+Jybs94LV14iBG7U15mxrmP6FrCzpdzaASWkbBLvQ49R4O0USafjXdOfrGcSGQLevijM8iG3GBhipWknrBBrd26mwsk+i5YQe0Id7Z7iPYtjaC8AEnFSTyuskOvG1xFv6pJ6tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EggeW64ZqcqxO+iy+qGs5QCHbxH7LrlKjU1FXNKeIuE=;
+ b=dsc3GgIXdDxzyNV3yfb4hDk3jePRm/RcUhH3drE9zGczR9beiYpQZBE3WQEotTpE6tBnNUIo+qTV5D5mo+b/jcc9n4+ZECeS4m0oBvNkc2AKI6WZ7cThO3W9yztPg3XxjplX3aLJENOhAQjjL24M3gMGmniCw5av1xf/Ul0pvlM=
+Received: from SN4PR0601CA0024.namprd06.prod.outlook.com
+ (2603:10b6:803:2f::34) by MN2PR02MB6368.namprd02.prod.outlook.com
+ (2603:10b6:208:1bd::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Wed, 30 Sep
+ 2020 00:28:40 +0000
+Received: from SN1NAM02FT053.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:2f:cafe::6a) by SN4PR0601CA0024.outlook.office365.com
+ (2603:10b6:803:2f::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32 via Frontend
+ Transport; Wed, 30 Sep 2020 00:28:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT053.mail.protection.outlook.com (10.152.72.102) with Microsoft SMTP
+ Server id 15.20.3412.21 via Frontend Transport; Wed, 30 Sep 2020 00:28:39
+ +0000
+Received: from [149.199.38.66] (port=59159 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <joe.komlodi@xilinx.com>)
+ id 1kNPyg-00073r-Kp; Tue, 29 Sep 2020 17:28:14 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by smtp.xilinx.com with smtp (Exim 4.63)
+ (envelope-from <joe.komlodi@xilinx.com>)
+ id 1kNPz5-0007Kh-N2; Tue, 29 Sep 2020 17:28:39 -0700
+Received: from xsj-pvapsmtp01 (xsj-mail.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 08U0SawV005666; 
+ Tue, 29 Sep 2020 17:28:36 -0700
+Received: from [172.19.2.32] (helo=xsjkomlodi50.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <komlodi@xilinx.com>)
+ id 1kNPz2-0007Ja-Ko; Tue, 29 Sep 2020 17:28:36 -0700
+From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: upstream-bug whpx
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h ajbennee eminus fernandobluiz
-X-Launchpad-Bug-Reporter: Emin Ghuliev (eminus)
-X-Launchpad-Bug-Modifier: Fernando Luiz (fernandobluiz)
-References: <155352235092.32006.12315829232895734213.malonedeb@soybean.canonical.com>
-Message-Id: <160142368077.3192.15854935917101554025.malone@chaenomeles.canonical.com>
-Subject: [Bug 1821595] Re: Failed to emulate MMIO access with
- EmulatorReturnStatus: 2
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d685c0a40836eb9844ed835c9700f20633c1d7af"; Instance="production"
-X-Launchpad-Hash: a726e4da3d701d35d6353f0642c38febf5968a4f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 19:10:45
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.199, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 0/2] hw/block/m25p80: Fix Numonyx flash dummy cycle register
+ behavior
+Date: Tue, 29 Sep 2020 17:28:34 -0700
+Message-Id: <1601425716-204629-1-git-send-email-komlodi@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: c477d447-6108-4a4b-1324-08d864d7c775
+X-MS-TrafficTypeDiagnostic: MN2PR02MB6368:
+X-Microsoft-Antispam-PRVS: <MN2PR02MB6368435BF1B3982869092A8ED0330@MN2PR02MB6368.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 91LGwYuzxs2T0CK0q4ns5NLnAPDNqO0aHsour0yRvnvrBoZfK/FtJU1DB3qojTDs0pOSL5z0BpducIzhmb4b4tAvNU771pdjpu+ZKS2MaOpfTOMv/EH8J8/Ptwihy/dq9ohLybngyBSW+PjvdwJ9quAsXtLMPculVjMcXZZepfZjArkYX0dj2Yt2IjTs+VM9YsIJXtlcWavavpmCABfzkcaEOHlWKPCdLgMk/hj6VL3l70Eb2SL74d7oGYNuvyWkHYrlRuOdMjwaA5EqgFxWaC1genJSxJ7arKTt3fJU8h8CXxhVyM9pKMDUBlRAOvJcAJ4x+l5qRroQMG1GTdueLcQqhhE5IW6Jykak5llHBAwVJQ5OOy0QgXT+LyFrIul/p/XvCeTsh5jXST1uhlwSS9TlT+Z7t54HJm1vA5Yki5rhvBkXcOsjCMaUzF0Y3UIV
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(376002)(346002)(396003)(136003)(39850400004)(46966005)(44832011)(2906002)(336012)(86362001)(426003)(4326008)(4744005)(2616005)(47076004)(186003)(36756003)(8936002)(83380400001)(70206006)(70586007)(316002)(356005)(81166007)(26005)(82740400003)(7696005)(8676002)(6916009)(82310400003)(9786002)(478600001)(5660300002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2020 00:28:39.9940 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c477d447-6108-4a4b-1324-08d864d7c775
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT053.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6368
+Received-SPF: pass client-ip=40.107.243.52; envelope-from=komlodi@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/29 20:28:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.614,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,65 +129,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1821595 <1821595@bugs.launchpad.net>
+Cc: kwolf@redhat.com, francisco.iglesias@xilinx.com, alistair@alistair23.me,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi. I didnt build Qemu but I downloaded the last version 5.1.0 from
-https://qemu.weilnetz.de/w64/ and the error "Failed to emulate MMIO
-access with EmulatorReturnStatus: 2" happens when I use -drive if=3Dpflash
-or -pflash with -accel whpx.
+Hi all,
 
-"qemu-system-x86_64.exe -pflash d:\macWIN\OVMF_CODE.fd -accel whpx
-Windows Hypervisor Platform accelerator is operational
-qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with EmulatorRe=
-turnStatus: 2
-qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor"
+This series addresses a couple issues with dummy cycle counts with Numonyx
+flashes.
 
+The first patch fixes the behavior of the dummy cycle register so it's closer to
+how hardware behaves.
+As a consequence, it also corrects the amount of dummy cycles QIOR and QIOR4
+commands need by default.
 
-If I remove pflash and change to -bios "ovmf" the machine works.
-qemu-system-x86_64.exe -bios d:\macWIN\OVMF_CODE.fd -accel whpx
+The second patch changes the default value of the nvcfg register so it
+matches what would be in hardware from the factory.
 
-If I maintain pflash but remove -accel whpx the machine works too.
-qemu-system-x86_64.exe -pflash d:\macWIN\OVMF_CODE.fd
+Thanks!
+Joe
 
--- =
+Joe Komlodi (2):
+  hw/block/m25p80: Fix Numonyx dummy cycle register behavior
+  hw/block/m25p80: Fix nonvolatile-cfg property default value
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1821595
+ hw/block/m25p80.c | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
-Title:
-  Failed to emulate MMIO access with EmulatorReturnStatus: 2
+-- 
+2.7.4
 
-Status in QEMU:
-  New
-
-Bug description:
-  I have compiled qemu with enable-whpx parameter for Hyper-V Platform API =
-in Mingw64 . When I tried run with Windows 7 iso file I have faced issue wi=
-th the following problem: =
-
-  qemu-system-x86_64.exe: WHPX: Failed to emulate MMIO access with Emulator=
-ReturnStatus: 2
-  qemu-system-x86_64.exe: WHPX: Failed to exec a virtual processor
-
-  =
-
-  configuration directives:
-
-  ../configure --target-list=3Dx86_64-softmmu,i386-softmmu --enable-lzo\
-   --enable-bzip2 --enable-tools --enable-sdl --enable-gtk --enable-hax\
-   --enable-vdi --enable-qcow1 --enable-whpx --disable-capstone\
-   --disable-werror --disable-stack-protector --prefix=3D"../../QEMU-bin"
-
-  =
-
-  Qemu command line:
-  qemu-system-x86_64.exe -m 1024 -cdrom "C:\Users\vmcs\Documents\en_windows=
-_7_home_premium_with_sp1_x86_dvd_u_676701.iso" -display sdl -machine q35 -a=
-ccel whpx
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1821595/+subscriptions
 
