@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9D427E642
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:11:52 +0200 (CEST)
-Received: from localhost ([::1]:58754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F37A27E63C
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 12:08:44 +0200 (CEST)
+Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNZ5T-0001gv-MO
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41526)
+	id 1kNZ2R-0006Xb-Ob
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 06:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kNYyj-0003Gp-Lz
+ id 1kNYyj-0003Bb-Ag
  for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:04:53 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:34743)
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kNYye-0005C7-Uz
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:04:53 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id s14so701887pju.1
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 03:04:47 -0700 (PDT)
+ id 1kNYyf-0005Cn-Te
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 06:04:51 -0400
+Received: by mail-pl1-x642.google.com with SMTP id j7so735528plk.11
+ for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 03:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=HSq+Ir9vUAcFclVGpXTnRULSP4HkjTw+bUu7CMUflZU=;
- b=PzbtkjGs9t8Pyq9XLCyftyREQy2i3bGBFnVRUZKyF82AYh6p9QiphwY9AK81gJ3sXV
- DRH8iwjzttKUSj7A107g/eYXwJfq7XKnVX+myaJmCvqufOivRMubemX8SPeEfRhxLVTn
- FmDzMWWgjbZ2bvWUDJXdhOxReayZjd2DTK75W0NMOGjrjoO5TL5Dm05HSKa1v4UT57mF
- IEXXXuJB5PLUBEPg+PKX2OHrKHu9a2aNGzcew7XIOshB9BkrUqD0bV005h6O/8hYsmlr
- UOks7MZsSHnusBMPcWETYCB/HgDJV8T/MHBKDkAsei4oSSt/5qzEaPd33KcdL0kEYrQv
- mbMQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=qkISPEvs2HSa1jdrSv5pc1AMksIAz5SfeO1sHOXjAF0=;
+ b=dgiZWHYfH5Wa0+J5rsouL75Ha+UUEweanMxD4/8AenU67hSnUZ6B48yYLpen9twyM3
+ WhYiZjkemGPqj/AVWSXDawXJ1f5ps2JNkppwMHlGPxatifDXmaXA27hi5IRAQFsnQjhm
+ AIJrzymeF6BRGF+o3LO0QpOtdlCI+xQIrsmym7lJSOehho1I9IpDU9T6iEGZM1PmdKsV
+ oT8YkdKDPrm/oetIxvzIv4hY+XVEX7gphXebgKQtPb1lUcPbRoroc7O7n3SpkCC1IRYk
+ 9mnk9CISOHsETod50aiAEYkzuuR/snzgcramVpJNMb+Dc/Bk58BKFjXOXLRRtf7YwmMR
+ wc6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=HSq+Ir9vUAcFclVGpXTnRULSP4HkjTw+bUu7CMUflZU=;
- b=ox2+JSybVnxrYpGK1xmp2nFJaqe0DHMoiiHwxKhLkZBiQZM5O0mlexrbzGIOgUVu8S
- 8/tzeUOQIRASr9hFHKmkk3Ob4Q1sd8IbNhlXBRLdkKVqgRsQvcyJOS6KaAChqgMAwNYC
- FDmzmvtdIMRBQ0B8SsySOHStdxtKbYUwAKckJbj2LgncmEmE5m3+NffsBhzhJkRJmbFl
- bq7LNlCF7cr8LWAmrTsY+OiEKRbJoNHM65mjmNtyVAXBe4SHr8k7U1uO15DiLweNKRoq
- UUuvEyJNcYU6et8THoRzKh8CDlX0nwGM6TaanEgDkbYk+9Ec2f9KJSB52LMHEs+UpgCF
- mqlg==
-X-Gm-Message-State: AOAM532Lz35gzEbyK8chjjOL0HwIvvBvHRM2Yzm7+ZNOYG7mPlnV9Eg8
- yvSXcbQ+4aPcziIv3IlZ2jmR2g==
-X-Google-Smtp-Source: ABdhPJz1NardNIVq1pDN9hMOCqnKet+7NbsjDYzhHqPLJ1zUuBY5TsZ9ZjqKs9lbUeTVo5oXT4DjlQ==
-X-Received: by 2002:a17:902:a50b:b029:d1:e5e7:bdd2 with SMTP id
- s11-20020a170902a50bb02900d1e5e7bdd2mr1808770plq.50.1601460286045; 
- Wed, 30 Sep 2020 03:04:46 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=qkISPEvs2HSa1jdrSv5pc1AMksIAz5SfeO1sHOXjAF0=;
+ b=OshJKK/Jho78oiw7INehZ4forYpWiuAxvLEQDUxogXQbSWTz3kPAPaXxEPxlh56ih9
+ BPNn2Jp44lDJrRm1lYkDMnvsQfXKZsqCRFdvOPA59akD8hr3IbPITnSbU5AV0aMIqhRK
+ 6bsHwaC3ZVudhh5PIe+APpqc3vZNhrDWAsNf8yYk0NAjNZSAVFokhdERArFy1upi+oy6
+ 9UVIGq08juX9jEaz2cyiM2KuNOSdOyMOe8PqPxs/rz5i/ZxchALZu555QiimwmcjpjA/
+ J08EuMXlVqv5qG5Q8jxitkyapZZyi3g4h50vmZxQr7gvCqVXhXXpETN3tPRsbq57oV/T
+ /9/A==
+X-Gm-Message-State: AOAM530qfiQczXm4pwL7OpAhIYoTRMp3kFWdayczcSBm9cv5fP39OiS3
+ /3p/TP5cjkfk9RZ659gZEpu6JA==
+X-Google-Smtp-Source: ABdhPJxFjGJkaaLHaFpSoKkaYz/e5Rdh8dA9LeyVmXYAbzJM8hE2XRFkuetcfIh/hvNM+aDiTrRfFA==
+X-Received: by 2002:a17:90a:2dcd:: with SMTP id
+ q13mr1799447pjm.202.1601460288737; 
+ Wed, 30 Sep 2020 03:04:48 -0700 (PDT)
 Received: from libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id c185sm1884230pfb.123.2020.09.30.03.04.43
+ by smtp.gmail.com with ESMTPSA id c185sm1884230pfb.123.2020.09.30.03.04.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 30 Sep 2020 03:04:45 -0700 (PDT)
+ Wed, 30 Sep 2020 03:04:48 -0700 (PDT)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: pbonzini@redhat.com,
 	peter.maydell@linaro.org
-Subject: [PATCH v3 0/3] add MEMORY_FAILURE event
-Date: Wed, 30 Sep 2020 18:04:37 +0800
-Message-Id: <20200930100440.1060708-1-pizhenwei@bytedance.com>
+Subject: [PATCH v3 1/3] target-i386: seperate MCIP & MCE_MASK error reason
+Date: Wed, 30 Sep 2020 18:04:38 +0800
+Message-Id: <20200930100440.1060708-2-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.11.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1036.google.com
+In-Reply-To: <20200930100440.1060708-1-pizhenwei@bytedance.com>
+References: <20200930100440.1060708-1-pizhenwei@bytedance.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -84,44 +87,61 @@ Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2->v3:
-Use g_strdup_printf instead of snprintf.
-Declear memory failure event as 3 parts: 'recipient', 'action', 'flags'.
-Wrapper function emit_guest_memory_failure&emit_hypervisor_memory_failure.
+Previously we can only get a simple string "Triple fault" in qemu
+log. Add detailed message for the two reasons to describe why qemu
+has to reset the guest.
 
-v1->v2:
-Suggested by Peter Maydell, rename events to make them
-architecture-neutral:
-'PC-RAM' -> 'guest-memory'
-'guest-triple-fault' -> 'guest-mce-fatal'
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ target/i386/helper.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
-Suggested by Paolo, add more fields in event:
-'action-required': boolean type to distinguish a guest-mce is AR/AO.
-'recursive': boolean type. set true if: previous MCE in processing
-             in guest, another AO MCE occurs.
-
-v1:
-Although QEMU could catch signal BUS to handle hardware memory
-corrupted event, sadly, QEMU just prints a little log and try to fix
-it silently.
-
-In these patches, introduce a 'MEMORY_FAILURE' event with 4 detailed
-actions of QEMU, then uplayer could know what situaction QEMU hit and
-did. And further step we can do: if a host server hits a 'hypervisor-ignore'
-or 'guest-mce', scheduler could migrate VM to another host; if hitting
-'hypervisor-stop' or 'guest-triple-fault', scheduler could select other
-healthy servers to launch VM.
-
-Zhenwei Pi (3):
-  target-i386: seperate MCIP & MCE_MASK error reason
-  qapi/run-state.json: introduce memory failure event
-  target-i386: post memory failure event to uplayer
-
- qapi/run-state.json  | 85 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- target/i386/helper.c | 47 ++++++++++++++++++++++-------
- target/i386/kvm.c    | 13 +++++++-
- 3 files changed, 134 insertions(+), 11 deletions(-)
-
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 70be53e2c3..17e1684ff9 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -857,6 +857,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *cenv = &cpu->env;
+     uint64_t *banks = cenv->mce_banks + 4 * params->bank;
++    g_autofree char *msg = NULL;
++    bool need_reset = false;
+ 
+     cpu_synchronize_state(cs);
+ 
+@@ -894,16 +896,25 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+             return;
+         }
+ 
+-        if ((cenv->mcg_status & MCG_STATUS_MCIP) ||
+-            !(cenv->cr[4] & CR4_MCE_MASK)) {
+-            monitor_printf(params->mon,
+-                           "CPU %d: Previous MCE still in progress, raising"
+-                           " triple fault\n",
+-                           cs->cpu_index);
+-            qemu_log_mask(CPU_LOG_RESET, "Triple fault\n");
++        if (cenv->mcg_status & MCG_STATUS_MCIP) {
++            need_reset = true;
++            msg = g_strdup_printf("CPU %d: Previous MCE still in progress, "
++                                  "raising triple fault", cs->cpu_index);
++        }
++
++        if (!(cenv->cr[4] & CR4_MCE_MASK)) {
++            need_reset = true;
++            msg = g_strdup_printf("CPU %d: MCE capability is not enabled, "
++                                  "raising triple fault", cs->cpu_index);
++        }
++
++        if (need_reset) {
++            monitor_printf(params->mon, "%s", msg);
++            qemu_log_mask(CPU_LOG_RESET, "%s\n", msg);
+             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+             return;
+         }
++
+         if (banks[1] & MCI_STATUS_VAL) {
+             params->status |= MCI_STATUS_OVER;
+         }
 -- 
 2.11.0
 
