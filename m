@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54F327ED0C
+	by mail.lfdr.de (Postfix) with ESMTPS id 2936827ED0B
 	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:32:55 +0200 (CEST)
-Received: from localhost ([::1]:55196 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNe6B-0004uq-0x
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:32:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
+	id 1kNe6A-0004up-6q
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNdzJ-0006wn-PZ
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:25:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41846)
+ id 1kNdzI-0006u6-GQ
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:25:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kNdzG-0007CN-2f
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:25:49 -0400
+ id 1kNdzG-0007CO-31
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:25:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kNdzE-0007bp-1G
+ id 1kNdzE-0007WU-Ec
  for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 15:25:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 05B162E80E9
+ by loganberry.canonical.com (Postfix) with ESMTP id 6CC8C2E80E8
  for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 15:25:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Sep 2020 15:12:54 -0000
+Date: Wed, 30 Sep 2020 15:14:43 -0000
 From: Alex Williamson <1897481@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: alex-l-williamson sergey-kukunin
 X-Launchpad-Bug-Reporter: Sergiy K (sergey-kukunin)
 X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
 References: <160123953126.1246.10707501292033522741.malonedeb@gac.canonical.com>
-Message-Id: <160147877482.24881.11249970993995586313.malone@chaenomeles.canonical.com>
+Message-Id: <160147888395.5945.7030962125204012029.malone@soybean.canonical.com>
 Subject: [Bug 1897481] Re: qemu crashes with VGA pass-through, e-GPU,
  nvidia 1060
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 6290b0c06d5a521444becae69f1cb42942f2b9cc
+X-Launchpad-Hash: 67055c2b713316a92228bb3e3993ca9f1954b661
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 11:25:44
@@ -76,33 +76,11 @@ Reply-To: Bug 1897481 <1897481@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are definitely resource allocation issues on the host in the
-crashing case.  The quirks currently enumerate the device BARs without
-testing them, we identify a device and know what the resources should
-be, which is why I think QEMU crashes.  Are you able to test if the
-patch below is sufficient to resolve the crash?  I'd expect the GPU not
-to work in the guest as it doesn't have enough resources, but the goal
-would be to resolve the crash; QEMU cannot fix the device mappings on
-the host.
+non-mangled patch
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 0d83eb0e47bb..10477af9fc14 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2921,7 +2921,9 @@ static void vfio_realize(PCIDevice *pdev, Error **err=
-p)
-     }
- =
-
-     for (i =3D 0; i < PCI_ROM_SLOT; i++) {
--        vfio_bar_quirk_setup(vdev, i);
-+        if (vdev->bars[i].size) {
-+            vfio_bar_quirk_setup(vdev, i);
-+        }
-     }
- =
-
-     if (!vdev->igd_opregion &&
+** Patch added: "patch for test"
+   https://bugs.launchpad.net/qemu/+bug/1897481/+attachment/5415693/+files/=
+test-bar-size.diff
 
 -- =
 
