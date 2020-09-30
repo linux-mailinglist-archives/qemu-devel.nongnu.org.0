@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCA227EC91
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:29:08 +0200 (CEST)
-Received: from localhost ([::1]:46636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABF427EC9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Sep 2020 17:30:36 +0200 (CEST)
+Received: from localhost ([::1]:50916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNe2U-0001Hk-W3
-	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37826)
+	id 1kNe3v-00034E-5m
+	for lists+qemu-devel@lfdr.de; Wed, 30 Sep 2020 11:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNdsi-0000Oo-D2
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:19:04 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37389)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNdsf-0006RQ-NY
- for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:19:00 -0400
-Received: by mail-ed1-x541.google.com with SMTP id n22so2286339edt.4
- for <qemu-devel@nongnu.org>; Wed, 30 Sep 2020 08:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9f8yvg4nHDtbp4k+M6DrVvog15lTAgRwMYiFIt1HueI=;
- b=QzYre/R09wOAy8rY9ggS6++AGIoiBnwSf13ocfcWBx4XRGRJdr/yl/24t19PablQ2x
- sj0kMg4M71L61eGX13eHQCxX/5O6blgDt8dXtrC7OvXroueIeEaOR5Bqm1koLJLBcp/K
- sqDubxkxevInD1GG091NA9VzQCuNFSAqzLMLklyPnmiu33PNe2yBdWqjX/pDInlB31vx
- +hWQVjy5dg+Tw99ZmvThIK5oR89VqAShayuFEbOq5ufvTATnR6hEiInw99p9mZAqc7Vc
- SDGAM8YGirkqgVjM7dfQ7Q7UuUOZhdmiNdEzB9Dm0b12UeVobC7FziQwPW2uuFjcFyzs
- WUYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9f8yvg4nHDtbp4k+M6DrVvog15lTAgRwMYiFIt1HueI=;
- b=aKfLq9z8lIj6R3dUsw8mTyMdyMvEEo0KT1oK2mQwHi8Hf5H2rtnn7rMCXubp5kqW0X
- YxKzsJkIQTssbdKWI5xj6myWYSx/gc5cJ/wgV4nZP0GBkZ2ogzCI+rZ2MJ7OMvedBPD7
- a81TSW1I1y9OY8iStlHbUH9gtV1fdur9khvXWnLaJ/5UqxECZDgVUpKEfMe+TBc+Xqpm
- cgtfiOh9SjovnV8HnENKrr159uQZ8mWswFzYVIAkDXqMcljQSkKttK8HoDiATCz9r3MD
- 0YZVl5txm2hmJVGdhyTHWNnMzH1aiAEQ94MuDnKiKD8gUKmmrdyyePXwmMaeMvvaApyF
- sAIQ==
-X-Gm-Message-State: AOAM533tRLGeRNfW7bqTzi0rqw9TmJncR4DX/eHeV4zfzbUg5OrXmYzP
- PuwgBiH5Z8xBQR+CNRSRQEDiw3kKVobzv0KaOnSUkg==
-X-Google-Smtp-Source: ABdhPJwh5vFEmd5U+rE4guUw6GwbF63dIzpVkeE2/MhBCH7+CRS4HbgZfmVRnVBoiq6k7fMZxtsjcvAK6amIYe1HcnA=
-X-Received: by 2002:a05:6402:202a:: with SMTP id
- ay10mr3388600edb.36.1601479135646; 
- Wed, 30 Sep 2020 08:18:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kNe1i-0001Lp-MG
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:28:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53475)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kNe1g-0007OD-3E
+ for qemu-devel@nongnu.org; Wed, 30 Sep 2020 11:28:18 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601479694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gNpAgJi6Rdc8qz6EM5672Qh/ppwi6/9Jx86viah0Zco=;
+ b=dshBnqSevpS0WU5jliA5wSea7NCO2GS4SzVMs/zrlS8pT0qdkzq9/4dCLJ9i+j1Lp2qfaS
+ JUSUWQsEbNSrWhUYWdSEljcmc5iUXk4/HmeK9aemQaMXj/PpHo5NIc4uuu9p8oIMjm346R
+ OM1iK//75VAOV+sredGuRh/FCCzuRJw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-9lKRz2-TOCC7YTpftQfayQ-1; Wed, 30 Sep 2020 11:28:11 -0400
+X-MC-Unique: 9lKRz2-TOCC7YTpftQfayQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA72B2FD12;
+ Wed, 30 Sep 2020 15:28:09 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.193.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 177915C1CF;
+ Wed, 30 Sep 2020 15:28:07 +0000 (UTC)
+Date: Wed, 30 Sep 2020 17:28:05 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PULL 13/13] qemu/atomic.h: rename atomic_ to qatomic_
+Message-ID: <20200930152805.tycn6lcm4qx74phi@kamzik.brq.redhat.com>
+References: <20200923161031.69474-1-stefanha@redhat.com>
+ <20200923161031.69474-14-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20200930083552.506733-1-mst@redhat.com>
-In-Reply-To: <20200930083552.506733-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 30 Sep 2020 16:18:44 +0100
-Message-ID: <CAFEAcA_fhNYeed=E1-Ym1sbwdUwr=qKUUoeUC0cWkOf-D6HJ_Q@mail.gmail.com>
-Subject: Re: [PULL 0/2] acpi: unit test
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200923161031.69474-14-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/09/30 00:26:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +82,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Sep 2020 at 09:36, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit f142e4ede72853aaa7d306bc79b099caed45769b:
->
->   tests/acpi: drop unnecessary files (2020-09-29 07:10:37 -0400)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 42803552319a5481e90e93382d74a7336dfab496:
->
->   tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx hotplug (2020-09-30 04:10:51 -0400)
->
-> ----------------------------------------------------------------
-> acpi: unit test
->
-> This just adds a unit test for previously merged functionality.
-> A bit unusual, but we have a contribitor under a deadline,
-> let's be nice and merge the unit test right away - does no harm.
-> Hopefully this won't be a beginning of a trend ...
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
-> Ani Sinha (2):
->       tests/acpi: unit test exercising global pci hotplug off for i440fx
->       tests/acpi: add DSDT.hpbrroot DSDT table blob to test global i440fx hotplug
->
->  tests/qtest/bios-tables-test.c   |  17 +++++++++++++++++
->  tests/data/acpi/pc/DSDT.hpbrroot | Bin 0 -> 3079 bytes
->  2 files changed, 17 insertions(+)
->  create mode 100644 tests/data/acpi/pc/DSDT.hpbrroot
+On Wed, Sep 23, 2020 at 05:10:31PM +0100, Stefan Hajnoczi wrote:
+> clang's C11 atomic_fetch_*() functions only take a C11 atomic type
+> pointer argument. QEMU uses direct types (int, etc) and this causes a
+> compiler error when a QEMU code calls these functions in a source file
+> that also included <stdatomic.h> via a system header file:
+> 
+>   $ CC=clang CXX=clang++ ./configure ... && make
+>   ../util/async.c:79:17: error: address argument to atomic operation must be a pointer to _Atomic type ('unsigned int *' invalid)
+> 
+> Avoid using atomic_*() names in QEMU's atomic.h since that namespace is
+> used by <stdatomic.h>. Prefix QEMU's APIs with 'q' so that atomic.h
+> and <stdatomic.h> can co-exist. I checked /usr/include on my machine and
+> searched GitHub for existing "qatomic_" users but there seem to be none.
+> 
+> This patch was generated using:
+> 
+>   $ git grep -h -o '\<atomic\(64\)\?_[a-z0-9_]\+' include/qemu/atomic.h | \
+>     sort -u >/tmp/changed_identifiers
+>   $ for identifier in $(</tmp/changed_identifiers); do
+>         sed -i "s%\<$identifier\>%q$identifier%g" \
+>             $(git grep -I -l "\<$identifier\>")
+>     done
+> 
+> I manually fixed line-wrap issues and misaligned rST tables.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Message-Id: <20200923105646.47864-1-stefanha@redhat.com>
+> ---
+>  include/qemu/atomic.h                         | 248 +++++++++---------
+>  docs/devel/lockcnt.txt                        |   8 +-
+>  docs/devel/rcu.txt                            |  34 +--
+>  accel/tcg/atomic_template.h                   |  20 +-
+>  include/block/aio-wait.h                      |   4 +-
+>  include/block/aio.h                           |   8 +-
+>  include/exec/cpu_ldst.h                       |   2 +-
+>  include/exec/exec-all.h                       |   6 +-
+>  include/exec/log.h                            |   6 +-
+>  include/exec/memory.h                         |   2 +-
+>  include/exec/ram_addr.h                       |  26 +-
+>  include/exec/ramlist.h                        |   2 +-
+>  include/exec/tb-lookup.h                      |   4 +-
+>  include/hw/core/cpu.h                         |   2 +-
+>  include/qemu/atomic128.h                      |   6 +-
+>  include/qemu/bitops.h                         |   2 +-
+>  include/qemu/coroutine.h                      |   2 +-
+>  include/qemu/log.h                            |   6 +-
+>  include/qemu/queue.h                          |   7 +-
+>  include/qemu/rcu.h                            |  10 +-
+>  include/qemu/rcu_queue.h                      | 100 +++----
+>  include/qemu/seqlock.h                        |   8 +-
+>  include/qemu/stats64.h                        |  28 +-
+>  include/qemu/thread.h                         |  24 +-
+>  .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    |  14 +-
 
+Hi Stefan,
 
-Applied, thanks.
+pvrdma_ring.h is an update-linux-headers.sh file. When running the
+script again we lose the atomic_ to qatomic_ renaming. I've hacked
+the script by adding
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+ -e 's/\batomic_read/qatomic_read/g;s/\batomic_set/qatomic_set/g'
 
--- PMM
+to the cp_portable() sed command, but only considering the two
+qatomic_ functions currently used is obviously not a complete
+solution.
+
+Any ideas?
+
+Thanks,
+drew
+
 
