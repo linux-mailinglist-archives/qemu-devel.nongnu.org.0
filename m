@@ -2,118 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E479A28030F
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:42:58 +0200 (CEST)
-Received: from localhost ([::1]:38962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF652802E7
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:36:29 +0200 (CEST)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0jR-0003T7-Um
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:42:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
+	id 1kO0d9-0005Nt-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0Ul-0005V7-OR
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:27:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26889)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0Ui-0001bk-HW
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:27:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601566058;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rDbrGsP+eWDjvRMkBQEcWdLfKDLXamrlogewfUgHBY0=;
- b=WEUGdE8BUVquoT/z+GWkfrHZ5f/3XlX5HrQ/ve50PnuXtH2gae8gqh5LI43zrek++AgUEl
- CqpdBaDUDSgET5DqY4ZUcEkqbxDYK+gYbckflgpN9lUqSLbh7vfpmwSETdnCaYJTN+Dqpw
- JOOOfHjNeW2Zd31QlU11fuyf38X6kSY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-MZOFW3ooOeGPs3fhEOklDg-1; Thu, 01 Oct 2020 11:27:37 -0400
-X-MC-Unique: MZOFW3ooOeGPs3fhEOklDg-1
-Received: by mail-wm1-f71.google.com with SMTP id 73so1306608wma.5
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:27:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=rDbrGsP+eWDjvRMkBQEcWdLfKDLXamrlogewfUgHBY0=;
- b=XEtUT6NZa4b3ZZ+sNOHu1Aw0asytLeCpWwMlRJHmSb2hUjqKqEBiOAsKBOSBaOUqaY
- zzoIzZjrWU7aHCf9cT4RyAZiwxzREJEi6DYzThIX9o1i4oB9nu9MNKhMiCUmh9VppEuh
- EkEKClfmjoQlF6uM6VC6KiiYAx+zUV6voMoFBrbJAFGo5+2/HreNeUzVd4bMOp5QA71m
- p7t6atgkkTHjATtUrxkejdqinmbD8GeTHxKIdvpmpbaSTcZb07ocnzfgGCV7jkdW2ETF
- +mCp9PmGfC0RNR6ksz+M/P0rmtIrBDpoPtBsqkgUwZqzJj7Y52sXxTsUzGdUQJkX/qH0
- 4tUg==
-X-Gm-Message-State: AOAM5333AwTQWqR+BjDod9DL5gs8GKLryw86NU8zPcpcea6m21luEFzC
- t1QZU3Exw84dlCO3YSl4g0Rc6hN0yq/myw1rjDVygi0QsRZWrzolFKbyfnD38aVGIKL8hLGbIde
- g1ql6PSx+NWmSHIc=
-X-Received: by 2002:a5d:630a:: with SMTP id i10mr9392984wru.137.1601566055067; 
- Thu, 01 Oct 2020 08:27:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcGBmUYhgyyMQ9ksLAztR1y7MllwV9BgqSl2VS8H403Ydao7q12zuYU3rB2ybUSf0jQ8AkJg==
-X-Received: by 2002:a5d:630a:: with SMTP id i10mr9392954wru.137.1601566054789; 
- Thu, 01 Oct 2020 08:27:34 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id y1sm409321wmi.36.2020.10.01.08.27.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 08:27:34 -0700 (PDT)
-Subject: Re: [PATCH v4 2/3] target/i386/cpu: Restrict some of feature-words
- uses to system-mode
-To: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
-References: <20201001144152.1555659-1-philmd@redhat.com>
- <20201001144152.1555659-3-philmd@redhat.com>
- <933089b7-a088-d142-bf0c-55cae3e9bd70@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <53758e35-f596-8e17-12cf-58b1a81f98e3@redhat.com>
-Date: Thu, 1 Oct 2020 17:27:32 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0Vh-0006JF-ER
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:28:49 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0Vb-0001gw-UX
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:28:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.95])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id A428667AE732;
+ Thu,  1 Oct 2020 17:28:34 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 1 Oct 2020
+ 17:28:33 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004a7bdb1ee-9f33-4b8f-a548-6bf85f7ed5d2,
+ 2FD1C644E9D11323632A639817FC6AC7C89AF497) smtp.auth=clg@kaod.org
+Subject: Re: [RFC 0/3] QEMU as IPMI BMC emulator
+To: Havard Skinnemoen <hskinnemoen@google.com>
+References: <20200929003916.4183696-1-hskinnemoen@google.com>
+ <c6d40849-7c80-9cd1-0a31-696f1175d463@kaod.org>
+ <CAFQmdRZbhF+BpLK8YVHLOL=Hu-JxcMEoDskidtT8t_j+fHtG6Q@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <3c3334cf-1edc-d399-fd63-92ea7835b2a9@kaod.org>
+Date: Thu, 1 Oct 2020 17:28:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <933089b7-a088-d142-bf0c-55cae3e9bd70@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFQmdRZbhF+BpLK8YVHLOL=Hu-JxcMEoDskidtT8t_j+fHtG6Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: f072312b-ec1e-4df6-9366-08ecc285a938
+X-Ovh-Tracer-Id: 17699709489456843567
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdeludcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehuedtheeghfdvhedtueelteegvdefueektdefiefhffffieduuddtudfhgfevtdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 10:56:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -126,97 +72,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, minyard@acm.org,
+ Patrick Venture <venture@google.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Hao Wu <wuhaotsh@google.com>, CS20 KFTing <kfting@nuvoton.com>,
+ Joel Stanley <joel@jms.id.au>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/20 5:14 PM, Paolo Bonzini wrote:
-> On 01/10/20 16:41, Philippe Mathieu-Daudé wrote:
->> The feature-words properties are not used in user-mode emulation,
->> restrict it to system-mode.
+On 9/29/20 6:28 PM, Havard Skinnemoen wrote:
+> On Mon, Sep 28, 2020 at 10:27 PM Cédric Le Goater <clg@kaod.org> wrote:
 >>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> On 9/29/20 2:39 AM, Havard Skinnemoen wrote:
+>>> This series briefly documents the existing IPMI device support for main
+>>> processor emulation, and goes on to propose a similar device structure to
+>>> emulate IPMI responder devices in BMC machines. This would allow a qemu
+>>> instance running BMC firmware to serve as an external BMC for a qemu instance
+>>> running server software.
+>>
+>> Great idea !
+>>
+>> I started working on this topic some years ago with the QEMU PowerNV machine
+>> and the Aspeed machine. They can communicate over network with this iBT device
+>> patch :
+>>
+>>   https://github.com/legoater/qemu/commit/3677ee52f75065b0f65f36382a62f080ac74d683
 > 
-> This seems a bit pointless honestly.  It's going to be a few KBs of code
-> at most.  I would end the work with the patches that have already been
-> queued.
+> Oh, cool, if we split that into an Aspeed part and a VM protocol part,
+> it's basically what I had in mind. Are you planning to submit that, or
+> would it be OK if we base our work on it?
 
-I'll let Eduardo and you discuss that, as he suggested the #ifdef
-instead of the stub. The two options are on the list, whichever
-you guys prefer :)
+I had no plan to send it any time soon. You can base your work on this patch.
 
+>> This is good enough for the IPMI needs of OpenPOWER systems but the overall
+>> system lacks a few bus. An important one being the LPC bus which we use for
+>> PNOR mappings.
 > 
-> Paolo
+> Right. Perhaps the next step should be an out-of-process flash protocol?
+
+OpenPOWER systems use the hiomap protocol for that :
+
+  https://github.com/openbmc/hiomapd/blob/master/Documentation/protocol.md#create_read_window-command
+
+It's based on IPMI but the reads are still done from the LPC bus. We would
+need a way to transfer the mem ops between processes.  
+
+>> So, we added a little PNOR device in the QEMU PowerNV machine and mapped
+>> its contents in the FW address space of the LPC bus. With the internal IPMI
+>> BMC simulator, it mimics well enough an OpenPOWER system from the host
+>> perspective.
 > 
->> ---
->>  target/i386/cpu.c | 8 +++++++-
->>  1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index 2eec53ca22..9f72342506 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -4607,6 +4607,7 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
->>      cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
->>  }
->>  
->> +#if !defined(CONFIG_USER_ONLY)
->>  /* Generic getter for "feature-words" and "filtered-features" properties */
->>  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
->>                                        const char *name, void *opaque,
->> @@ -4666,6 +4667,7 @@ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
->>      assert(bitnr < 32 || !(name && feature_word_info[w].type == CPUID_FEATURE_WORD));
->>      return name;
->>  }
->> +#endif /* CONFIG_USER_ONLY */
->>  
->>  /*
->>   * Convert all '_' in a feature string option name to '-', to make feature
->> @@ -4783,6 +4785,7 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
->>  static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
->>  static void x86_cpu_filter_features(X86CPU *cpu, bool verbose);
->>  
->> +#if !defined(CONFIG_USER_ONLY)
->>  /* Build a list with the name of all features on a feature word array */
->>  static void x86_cpu_list_feature_names(FeatureWordArray features,
->>                                         strList **feat_names)
->> @@ -4853,6 +4856,7 @@ static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
->>  
->>      object_unref(OBJECT(xc));
->>  }
->> +#endif /* CONFIG_USER_ONLY */
->>  
->>  /* Print all cpuid feature names in featureset
->>   */
->> @@ -4987,7 +4991,9 @@ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
->>  
->>      info = g_malloc0(sizeof(*info));
->>      info->name = x86_cpu_class_get_model_name(cc);
->> +#if !defined(CONFIG_USER_ONLY)
->>      x86_cpu_class_check_missing_features(cc, &info->unavailable_features);
->> +#endif
->>      info->has_unavailable_features = true;
->>      info->q_typename = g_strdup(object_class_get_name(oc));
->>      info->migration_safe = cc->migration_safe;
->> @@ -6941,6 +6947,7 @@ static void x86_cpu_initfn(Object *obj)
->>      object_property_add(obj, "tsc-frequency", "int",
->>                          x86_cpuid_get_tsc_freq,
->>                          x86_cpuid_set_tsc_freq, NULL, NULL);
->> +#if !defined(CONFIG_USER_ONLY)
->>      object_property_add(obj, "feature-words", "X86CPUFeatureWordInfo",
->>                          x86_cpu_get_feature_words,
->>                          NULL, NULL, (void *)env->features);
->> @@ -6957,7 +6964,6 @@ static void x86_cpu_initfn(Object *obj)
->>                          x86_cpu_get_unavailable_features,
->>                          NULL, NULL, NULL);
->>  
->> -#if !defined(CONFIG_USER_ONLY)
->>      object_property_add(obj, "crash-information", "GuestPanicInformation",
->>                          x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
->>  #endif
->>
+> Cool.
 > 
+>> All this to say, that if the goal is full system emulation, we should may
+>> be take another approach and work on the QEMU internals to run multiple
+>> architectures in the same QEMU binary.
+> 
+> Interesting. Will it be too slow to run the server and BMC in separate
+> processes?
+
+No. It will be much simpler to run in a single process I think. Memory
+operation, gpio lines can cross borders between architectures.
+ 
+> We might actually be more interested in going the other way and move
+> more things out of process, as we start to tackle larger, more complex
+> systems.
+>
+>> According to Peter, this is mostly a configure/build issue and cleanups
+>> are needed to remove the assumptions that were done with single arch
+>> binaries. A big task but not necessarily difficult. I will help for
+>> ARM and PPC !
+> 
+> It sounds great to have the option to simulate multiple architectures
+> in the same process, and getting rid of single-arch assumptions seems
+> like a nice cleanup. However, I'm hoping we'll still support
+> multi-process system emulation (and the MultiProcessQEMU work seems to
+> be moving in that direction as well).
+
+I haven't been following that closely enough but it looked promising.
+Having a way to offload mem operations and interrupts should help
+modeling in some areas, such as interconnecting external simulators. 
+But that might raise some other issues like time control.  
+
+>> Anyhow, the IPMI documentation you provided is good to have.
+> 
+> If you like, I can split off patch 1-2 (or just 2) and post them
+> separately while we work on the BMC-side device emulation. If we
+> decide to keep patch 1 and the block diagrams, we probably need to do
+> something better for the font path.
+
+These looked good as they were. Were there any objections ? 
+
+Thanks,
+
+C. 
 
 
