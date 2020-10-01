@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE045280249
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:15:03 +0200 (CEST)
-Received: from localhost ([::1]:49514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536D5280277
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:21:13 +0200 (CEST)
+Received: from localhost ([::1]:38772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0IQ-0005Cm-9t
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:15:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50564)
+	id 1kO0OO-0004ST-Ai
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kO0Fx-00039Z-CL
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:12:29 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:42920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kO0Fu-0007Oh-SI
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:12:29 -0400
-Received: by mail-ej1-x636.google.com with SMTP id q13so8588427ejo.9
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ufkl596PRR/6f6zA/XRuoULkdebSj0NrQU1kYj2pEbg=;
- b=mE/fqbCr1cdOZZ9oCXoPuft5c0iWmSnS7pcvDfzrdYkAcixX56Gl6bP06XQ0RFP6/4
- keuMxYT5MpvxGJs9fhEPd6vtDSwWgIFdPk13RkLnlQJr9dsMjsj0un1t82O/NteTZOSc
- eSz0G0JxKlRAymBoz76hSQwvqYBYWD1jBx1QX+88/mMpdQKSi2uQShZm697adsvjuadq
- LGcO7FgD80r8+D/ayJ69VLy74lp47FloScKNmHCCdsqZNQSiGCEqOCy7Zf4E0LEpcfcm
- ULg8v3Zg9Bnn478eeNXcL9QYqKAo6h7hS6MdttTS2EiIdZ/PGHeMTzUFYnSi+pFnrw8T
- //Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ufkl596PRR/6f6zA/XRuoULkdebSj0NrQU1kYj2pEbg=;
- b=pGNvHzkqSFdCFo0WjgBrJHm/L/L0Uxo3Scth8RxgLXRVv2n5TLSiADNzBTxslSwZub
- ePJqhdG+n2WgWnNXf2MqtvlsoBpRffFnmms4M0gEdor8WD725u1XMSLn1ehvZhL8o3UT
- kogf1IQJpF2SUdEd5ScYIPUpfNpzD8rNBUtw+o/rb+vlqcUevQbwymOureFfP+X/mTu0
- vcIhTFDlxnQahTRPu91tF04i/hQwdvtmt0R+HxpxNjOLt8ZDOAblz3Sa3X8v7GFQEfCQ
- qQlveIUBiw87DAkr/+LcO4x5vCMsNMCqLSQuk2VKNfxQFNJKSm9QpU68LDuzzbchMm7K
- lh6A==
-X-Gm-Message-State: AOAM531xmCMrj6yS3mYe4oQQ8TqOkiAiCiMTWYKB2QB51DjCdAa9n7n8
- LuLY6OGAF/rVBmZ0VNSGnKywMXhHdJTwkPcZVSuMxA==
-X-Google-Smtp-Source: ABdhPJyE3kID8BEnbuvFOX5MhmFuDbHIyIFf9OwQieeU41ZeN6k+cU1/vgNanwNpWmnmClhP6BtLD0Kq5WDgFWV7w80=
-X-Received: by 2002:a17:906:c7d9:: with SMTP id
- dc25mr4533419ejb.482.1601565143587; 
- Thu, 01 Oct 2020 08:12:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kO0Hh-00060l-Tp
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:14:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kO0Hg-0007mx-3z
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:14:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601565255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QTHdR74vCtozDIOnIU2otJrvKiJYUcSUikVSyp73LSQ=;
+ b=P+f4CYGukBnsSql1d9R7w5xKQr+1rURLtE6/7UOypRvqcbFXEReyXer/8MuXAMfd4FlJfh
+ fM7UQ4ZUzVnZc3XOJNim9+jIfTHfr1juvoimDKLJylgq2b+Wa8t0yR86U1PEd2NwRZd6Ny
+ Cyj84XNz7xl2GZGdy0WUZ3XCB1rXbuU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-e80XrKXTM-2QTYKO1DSrug-1; Thu, 01 Oct 2020 11:14:11 -0400
+X-MC-Unique: e80XrKXTM-2QTYKO1DSrug-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF249101FFC7;
+ Thu,  1 Oct 2020 15:13:51 +0000 (UTC)
+Received: from localhost (ovpn-115-144.ams2.redhat.com [10.36.115.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F0306F142;
+ Thu,  1 Oct 2020 15:13:50 +0000 (UTC)
+Date: Thu, 1 Oct 2020 16:13:50 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: Outline for VHOST_USER_PROTOCOL_F_VDPA
+Message-ID: <20201001151350.GC559957@stefanha-x1.localdomain>
+References: <20200928092537.GA44353@stefanha-x1.localdomain>
+ <20200929020114-mutt-send-email-mst@kernel.org>
+ <20200929085751.GA181609@stefanha-x1.localdomain>
+ <20200929055110-mutt-send-email-mst@kernel.org>
+ <20200929183824.GC191675@stefanha-x1.localdomain>
+ <20200930034807-mutt-send-email-mst@kernel.org>
+ <20200930145752.GB320669@stefanha-x1.localdomain>
+ <20201001072837.xbiomrvbox6ukl2c@sirius.home.kraxel.org>
 MIME-Version: 1.0
-References: <20200930101305.305302-1-stefanha@redhat.com>
- <CAFEAcA87+50vkXLkLwVtrtNn4No4Fvsjd+LDEEu2cmhJcQdZ=A@mail.gmail.com>
- <20201001150248.GB559957@stefanha-x1.localdomain>
-In-Reply-To: <20201001150248.GB559957@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 1 Oct 2020 16:12:12 +0100
-Message-ID: <CAFEAcA9JdhSSJesCLB=F+GMc-wK4+ukHQwA18wdU7HaqoPiTfg@mail.gmail.com>
-Subject: Re: [PULL 00/17] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201001072837.xbiomrvbox6ukl2c@sirius.home.kraxel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WplhKdTI2c8ulnbP"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: lulu@redhat.com, tiwei.bie@intel.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org, raphael.norwitz@nutanix.com,
+ maxime.coquelin@redhat.com, Felipe Franciosi <felipe@nutanix.com>,
+ marcandre.lureau@redhat.com, Nikos Dragazis <ndragazis@arrikto.com>,
+ changpeng.liu@intel.com, Daniele Buono <dbuono@us.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 1 Oct 2020 at 16:03, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Thu, Oct 01, 2020 at 12:23:00PM +0100, Peter Maydell wrote:
-> > This produces this error message on ppc64be Linux:
-> >
-> > make: Entering directory `/home/pm215/qemu/build/all'
-> > make[1]: Entering directory `/home/pm215/qemu/slirp'
-> > make[1]: Nothing to be done for `all'.
-> > make[1]: Leaving directory `/home/pm215/qemu/slirp'
-> > Generating qemu-version.h with a meson_exe.py custom command
-> > Generating qemu-options.def with a meson_exe.py custom command
-> > Generating block-gen.c with a custom command
-> > YAML:1:83: error: unknown enumerated scalar
-> > {"IndentWidth": 4, "BraceWrapping": {"AfterFunction": true},
-> > "BreakBeforeBraces": "Custom", "SortIncludes": false,
-> > "MaxEmptyLinesToKeep": 2}
-> >
-> >            ^~~~~~~~
-> > Error parsing -style: Invalid argument, using LLVM style
-> > YAML:1:83: error: unknown enumerated scalar
-> > {"IndentWidth": 4, "BraceWrapping": {"AfterFunction": true},
-> > "BreakBeforeBraces": "Custom", "SortIncludes": false,
-> > "MaxEmptyLinesToKeep": 2}
-> >
-> >            ^~~~~~~~
-> > Error parsing -style: Invalid argument, using LLVM style
-> > Compiling C object libqemuutil.a.p/util_qemu-error.c.o
-> > Compiling C object libqemuutil.a.p/util_qemu-sockets.c.o
-> > Compiling C object libqemuutil.a.p/util_aio-posix.c.o
-> > Compiling C object libqemuutil.a.p/util_osdep.c.o
-> >
-> > The error does not cause the build to fail, which seems
-> > like it's also a bug...
-> >
-> > (My guess is this is due to some script implicitly wanting
-> > a newer version of something or other than the PPC box
-> > happens to have installed, rather than being an endianness
-> > issue.)
->
-> Please rerun with make -j1 V=1 so the full command is printed. I'm not
-> sure what is emitting these errors.
+--WplhKdTI2c8ulnbP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Build tree already overwritten to handle a different pullreq,
-I'm afraid. I can come back and retry later...
+On Thu, Oct 01, 2020 at 09:28:37AM +0200, Gerd Hoffmann wrote:
+>   Hi,
+>=20
+> > > Architecturally, I think we can have 3 processes:
+> > >=20
+> > > VMM -- guest device emulation -- host backend
+> > >=20
+> > > to me this looks like increasing our defence in depth strength,
+> > > as opposed to just shifting things around ...
+> >=20
+> > Cool idea.
+>=20
+> Isn't that exactly what we can do once the multi-process qemu patches
+> did land, at least for block devices?  With "VMM" being main qemu,
+> "guest device emulation" being offloaded to one (or more) remote qemu
+> process(es), and qemu-storage-daemon being the host backend?
 
-thanks
--- PMM
+Status of mpqemu: the current mpqemu patch series has limited
+functionality (so that we can merge it sooner rather than later). Don't
+expect to use it with arbitrary PCI devices yet, only the LSI SCSI
+controller.
+
+In mpqemu (and vfio-user) QEMU handles all MMIO/PIO accesses by
+forwarding them to the device emulation process. Therefore QEMU is still
+involved to an extent. This can be fixed with ioeventfd for doorbells,
+the proposed ioregionfd mechanism for MMIO/PIO, and vfio-user mmap
+regions for RAM-backed device memory.
+
+However, QEMU itself still emulates the PCI controller. This means
+PCI configuration space and other device operations still go to QEMU. In
+order to fully move emulation out of QEMU we'd need to do something more
+drastic and I think this is what we're discussion in this sub-thread.
+
+Stefan
+
+--WplhKdTI2c8ulnbP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl918i0ACgkQnKSrs4Gr
+c8j4pwf/aG1nSnsU98xinjlwC/OUKBPM34bkhO2KhuCap3r1FDbv14CfqbUNHpWp
+T+2n6Em+gF1mRTKyb5sLJJawklpxUkxvs3wSqqSTrcMdaYPPe4wZg4AP9N3fegA3
+0Z+gBhvZ8XVY6NPhij0AAi5WMWwCZLawBe/emOZRvfkQFlJXfM3N50NkDuztQUvV
+UNPMhC2QANIuizHOKRTsKQ9b05AH/GSIAK1lJtMtTT+k0ul4855tk4oWMipBNKUp
+xA/w78g1Ly8a7o02krHEfj0K8MulxHr/qJq9VIC4hZyB59X7IC4tKuicTSJCiJg2
+acLTADnKZqP5aWALhNYV/Kzo4MfVug==
+=Enkb
+-----END PGP SIGNATURE-----
+
+--WplhKdTI2c8ulnbP--
+
 
