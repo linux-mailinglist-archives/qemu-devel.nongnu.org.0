@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E47828031B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:48:07 +0200 (CEST)
-Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D8628033A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:51:28 +0200 (CEST)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0oQ-0000qQ-8X
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:48:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56276)
+	id 1kO0rf-0004JP-BD
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0ZQ-0001yl-QQ
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:32:36 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:33937)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0ZO-0002L3-6f
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:32:36 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.35])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 04D74610C859;
- Thu,  1 Oct 2020 17:32:31 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 1 Oct 2020
- 17:32:30 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0019824fd23-98ff-4ed8-a769-bf260a2596f9,
- 2FD1C644E9D11323632A639817FC6AC7C89AF497) smtp.auth=clg@kaod.org
-Subject: Re: [RFC 0/3] QEMU as IPMI BMC emulator
-To: Havard Skinnemoen <hskinnemoen@google.com>, <minyard@acm.org>
-References: <20200929003916.4183696-1-hskinnemoen@google.com>
- <20200929174644.GW3674@minyard.net>
- <CAFQmdRaJOqDxOWgoJ6c4TFuJGw5zvb6KyUXoYT0SFJe1xJZhNQ@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <1804e3ba-f881-51cf-f1df-ba64ad303bf6@kaod.org>
-Date: Thu, 1 Oct 2020 17:32:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO0eE-0007Pr-2N
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:37:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO0eC-0003Ck-HB
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:37:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601566651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=33aJxdh6HAlTA8g7S4dce5PX6RL5opkg1G3xSLL3HmM=;
+ b=PmFQpVWBjvpeJM6jwFOHLQqLpgW8FI7fcDRc42FSE0CrO8HN8MRBUcwfBP+uzzIpVmuR6N
+ lnBaIids82juZD/05LbmFaOJ3CHlbCxMJiJBie8ohMAikjx5LJ0Atzm8H9IbE1axULdFhF
+ 0jXStWZTamPShgnvUnyDKGqEM2tw2V8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-RZfOEQmQO0y-PQ5yA3Hk5w-1; Thu, 01 Oct 2020 11:37:27 -0400
+X-MC-Unique: RZfOEQmQO0y-PQ5yA3Hk5w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65D62801AE2;
+ Thu,  1 Oct 2020 15:37:26 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E84E25C1CF;
+ Thu,  1 Oct 2020 15:37:25 +0000 (UTC)
+Date: Thu, 1 Oct 2020 11:37:25 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 2/3] target/i386/cpu: Restrict some of feature-words
+ uses to system-mode
+Message-ID: <20201001153725.GD3717385@habkost.net>
+References: <20201001144152.1555659-1-philmd@redhat.com>
+ <20201001144152.1555659-3-philmd@redhat.com>
+ <933089b7-a088-d142-bf0c-55cae3e9bd70@redhat.com>
+ <53758e35-f596-8e17-12cf-58b1a81f98e3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFQmdRaJOqDxOWgoJ6c4TFuJGw5zvb6KyUXoYT0SFJe1xJZhNQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3128857c-7900-4de2-a1cf-47723b178c49
-X-Ovh-Tracer-Id: 17766137582518963052
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdelvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegvdeijeefvdfhudfhffeuveehledufffhvdekheelgedttddthfeigeevgefhffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:04:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <53758e35-f596-8e17-12cf-58b1a81f98e3@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.26,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,26 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Patrick Venture <venture@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
- CS20 KFTing <kfting@nuvoton.com>, Joel Stanley <joel@jms.id.au>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: qemu-devel@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>,
+ qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- 
->> Power handling is going to be a bit weird.  The OpenIPMI emulator
->> starts/stops qemu based upon power control.  It might be possible to do
->> the same thing in this sort of emulator.
+On Thu, Oct 01, 2020 at 05:27:32PM +0200, Philippe Mathieu-Daudé wrote:
+> On 10/1/20 5:14 PM, Paolo Bonzini wrote:
+> > On 01/10/20 16:41, Philippe Mathieu-Daudé wrote:
+> >> The feature-words properties are not used in user-mode emulation,
+> >> restrict it to system-mode.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > 
+> > This seems a bit pointless honestly.  It's going to be a few KBs of code
+> > at most.  I would end the work with the patches that have already been
+> > queued.
 > 
-> Hmm, yeah, I guess we can't kill/restart qemu from within qemu itself.
-> But perhaps stopping all CPUs and doing a full system reset might be a
-> good enough approximation for power-off?
+> I'll let Eduardo and you discuss that, as he suggested the #ifdef
+> instead of the stub. The two options are on the list, whichever
+> you guys prefer :)
 
-You can take a look at the QEMU PowerNV machine. It powers down through IPMI.
-Power ON is another story  ...
+Having neither the stub or the #ifdef is even better.  :)
 
-C. 
-  
- 
+I assumed the stub was necessary as a means for an end, but now I
+don't understand why the stub was necessary in the first place.
+
+-- 
+Eduardo
+
 
