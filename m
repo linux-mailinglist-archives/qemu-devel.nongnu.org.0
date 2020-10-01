@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7445A27FFE4
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 15:19:07 +0200 (CEST)
-Received: from localhost ([::1]:52568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7808127FFF6
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 15:21:45 +0200 (CEST)
+Received: from localhost ([::1]:57968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNyUE-0000Q0-HF
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 09:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46272)
+	id 1kNyWi-0002sp-NL
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 09:21:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kNyRK-0007nq-FK
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 09:16:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30588)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kNySb-000052-Sd
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 09:17:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kNyRI-00079N-JT
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 09:16:06 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kNySa-0007Fb-6x
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 09:17:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601558160;
+ s=mimecast20190719; t=1601558240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+bXCTi3HWmxyjkU0PoUMNokwPgzgHP+oT66ZbySd1Lw=;
- b=PS0YaFApFSo1291Ui1XUk/Tw4Jhb4Nu4buG6MEYlDbRkTgPgLGBSfLaFbyHmi6goC50q4W
- NVILFXvKsYqr6Upc4HbA8TBUCD06NyruYfF4RdE+9XjvaP7CmHRoMFEV+oPDqequsRoF1d
- WBXZfIHsMaijYRvo2LuzDsiR5Pg8uU8=
+ bh=wOPvwC0zqJYvp8tKVb7VlJlDv/CNQYCLqGXZ8rjD8/M=;
+ b=EfAFAPduHGW3hAeTgLv09LBqWqNHMy8I5ykORQN8bNfOZ/GIwU/hvopzN6CKOaqyU7yNPC
+ tZO3AD69rjc87pcElA0LAukrLwnStwciUwJoC38uij8a5j7eaTwuxgNS1UvYcCpIUmeOjC
+ FSyI0Hr+MkXTJE3BZNV9VTuh2lzVNcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-KyYir4HPPJW4I0IOX675uw-1; Thu, 01 Oct 2020 09:15:58 -0400
-X-MC-Unique: KyYir4HPPJW4I0IOX675uw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-212-UYfTC2ecMQ-ofFefwgxrGg-1; Thu, 01 Oct 2020 09:17:18 -0400
+X-MC-Unique: UYfTC2ecMQ-ofFefwgxrGg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B345186DD2F
- for <qemu-devel@nongnu.org>; Thu,  1 Oct 2020 13:15:44 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-110.ams2.redhat.com
- [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0D455DEDE;
- Thu,  1 Oct 2020 13:15:42 +0000 (UTC)
-Subject: Re: [PATCH] MAINTAINERS: Ignore bios-tables-test in the qtest section
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20201001042717.136033-1-thuth@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a49014f1-0fed-74d0-85c3-a8bfc91e26ab@redhat.com>
-Date: Thu, 1 Oct 2020 15:15:42 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFCE11074642;
+ Thu,  1 Oct 2020 13:17:16 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-92.ams2.redhat.com [10.36.114.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 903A279980;
+ Thu,  1 Oct 2020 13:17:15 +0000 (UTC)
+Date: Thu, 1 Oct 2020 15:17:14 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: Use of "?" for help has been deprecated for 8 years, can we drop
+ it?
+Message-ID: <20201001131714.GC6673@linux.fritz.box>
+References: <87k0wa1bf8.fsf@dusky.pond.sub.org>
+ <54b77382-78c8-e6bf-45d4-616595baa87f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201001042717.136033-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <54b77382-78c8-e6bf-45d4-616595baa87f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fdj2RfSjLxBAspz7"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,52 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/01/20 06:27, Thomas Huth wrote:
-> I'm very often getting CC: on rather large patch series that
-> modify the ACPI stuff of either ARM or x86, just because the
-> bios-table-test is often slightly involved here. I can't say
-> much about ACPI, and the bios-table-test is already covered
-> by the ACPI section in MAINTAINERS,
+--fdj2RfSjLxBAspz7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Right, the exact same pattern that you're going to exclude in this patch
-from under "qtest" is already covered under "ACPI/SMBIOS":
+Am 01.10.2020 um 15:06 hat Eric Blake geschrieben:
+> On 10/1/20 5:35 AM, Markus Armbruster wrote:
+> > We deprecated "?" more than eight years ago.  We didn't have a
+> > deprecation process back then, but we did purge "?" from the
+> > documentation and from help texts.  Can we finally drop it?
+> >=20
+> > I'm asking because there is a patch on the list that bypasses
+> > is_help_option() to not add deprecated "?" to a new place: "[PATCH v2
+> > 1/4] keyval: Parse help options".
+> >=20
+>=20
+> Did we ever issue a warning when it was used?  It's easier to argue that
+> it can be dropped if users had notice of some form or another.  That
+> said, I'm not heartbroken if we yank it immediately instead of letting
+> it live for 2 more releases.
 
-F: tests/qtest/bios-tables-test*
+A deprecation warning for a help option would somehow feel strange.
 
-> so I'd rather prefer to
-> not getting automatically CC-ed on such patch series anymore.
-> If people want my opinion about qtest-related changes, they
-> can still put me on CC manually.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e1e8ae277d..d476fbf627 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2474,7 +2474,7 @@ S: Maintained
->  F: softmmu/qtest.c
->  F: accel/qtest.c
->  F: tests/qtest/
-> -X: tests/qtest/bios-tables-test-allowed-diff.h
-> +X: tests/qtest/bios-tables-test*
->  
->  Device Fuzzing
->  M: Alexander Bulekov <alxndr@bu.edu>
-> 
+I would consider this a human-only interface that can be changed at
+will, like HMP syntax.
 
-FWIW:
+Kevin
 
-Acked-by: Laszlo Ersek <lersek@redhat.com>
+--fdj2RfSjLxBAspz7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks
-Laszlo
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl911toACgkQfwmycsiP
+L9ZwrxAAuaXmqnVLUXvxSepjfMCgbXh1Sl8JQzsfwF9Nar9otFlJzWBXlS80ojpl
+TlEKxewarKmSGOao0DK5i+CP4LZnOBRAHMTM3Nz/KVcLj4aFWeb1U6+V567NfEC+
+dI0BFFoKfOMAs8R1t71M/mYO+CVgQBn2xrUbymIGyrTRWBJiWPERYVT4WQezfQcu
+tEd4ex7kP7HwnbgznqmgUX215AO1zl1Zd1fRQBLDOpgDWdHkw22ZcssUTJ0FVFv8
+S7Z2czutbZRMUX7g+JkfYDd4FC0c+NgrGCI08vpK44Kay4GPdAamiDGRA3v8Lnj8
+8FHWQUNMDwhIW2Ye27PujfR1nGlFdAM4BayfH5GrVehKFzq1cLDd0ufdp91UTMqZ
+t3w/uzGWVLzf5h5hCnKd+psrftH7lqaIKv7MCD70bsjLmd++pr7S6VSwOFthld/e
+ZyYazad2Wol8wwc/R0evXMbuQLzSCZepYeJO5463FsEImffu9HZ/eUxwmcxqCd+t
+vFPgw1uAWUMnWrIJj0BvyJs69EF9C1SnnuzRWlvCwcY946aNnM2ypg3QHjtpNjKL
+180CMxMZIVPUH0alF27y4hVAQusJQE2yGu1HHAabTxD9Z8Q2KgHTBjRpRFSInA7s
+Hk6019Vn7SYc3qlPRYFgikHMbYDf4UMq/y/iXQSnJAqwQcFI0tk=
+=TVk6
+-----END PGP SIGNATURE-----
+
+--fdj2RfSjLxBAspz7--
 
 
