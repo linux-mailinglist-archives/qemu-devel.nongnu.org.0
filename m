@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CB52804F3
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:17:42 +0200 (CEST)
-Received: from localhost ([::1]:33244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C203628050D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:22:03 +0200 (CEST)
+Received: from localhost ([::1]:43340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2D6-0003oA-PE
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
+	id 1kO2HK-00089H-Tb
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO23o-00026q-Sj
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:08:05 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO23m-0001ck-2c
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:08:04 -0400
-Received: by mail-oi1-x243.google.com with SMTP id n2so6370293oij.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 10:08:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sfSYdBc6CheTHBO26lzGYA11Fg1DNWXy/CVy38CspZc=;
- b=iB0zz89TQvzFwwarPlK9s1c4anjsoobqkmrHKdv+lBj4cRIR2niaAQoBrJiZzuHhNM
- lFP0Axrsms7txfthz+i9GbgnwU5KQ0KOSt+vbfI8PEtbwN1gg8zK24bkPMu3jNyjqVjQ
- kvMNBkFM81LDR6utPspvWkCWGSVWcGZuB9Fa4jRo8OqylnXtg8DCqUveERqAcRdlUd9I
- 0OIR4zIFS/bAbSvHm8B2jA9oihhj/zZLPLVchOxgTqZZSNPiJxdxEnrA/4wS44IYm/hS
- xXZsslTiTbte3/f40ene87gWr48oIV28CgCD9C+zcOwHtxYN8/Y4zVMxxEF15EsTIMVG
- oNjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sfSYdBc6CheTHBO26lzGYA11Fg1DNWXy/CVy38CspZc=;
- b=TgLz9SAZg5a7usRRick9+zgOYtNVM2P4W1gaiyzXXj963SpOPwS7uUGAhaPbcl5sJa
- vCruc7CNu7ANOYkCxlFsKtEPrLMVoj+HkPsMDkjkbvPU6kCGqfZul+Pd0LVsqrPl+rp1
- eUHpuOjpiz10fRPzrED4PS++osnTDqEbo+04c/nXck84oq5wzL8X+o7Y0JSsxjQE4bIP
- 1Z4qs3d+vfi5GCSboJU/eMJUZaaNfWvRa1YSDNJ1kuWZOKQxg7Xx67e1XFs+dKvJKfex
- gPyV0lXU7wW66dxgjt1ppoMi0rBaG4VKhMmVklfksWjXA74kwaoHbRl8fwVOvJIpC4QV
- a2jQ==
-X-Gm-Message-State: AOAM533k4LHItfL63f/PqZdUnH0wnoYIoO435gGqdYZULfNKpVtJawS0
- GHALnfWjnYjKKhpQXWuoyZz8ujDtn5OLpCDh
-X-Google-Smtp-Source: ABdhPJz4bAWFoPfA0zVVjKszwVxi0WsV3lbOyHAd9+5QQRaddE5RwFzQ7kkfenVkLPVXAtpJDgmbAw==
-X-Received: by 2002:aca:f54e:: with SMTP id t75mr550382oih.84.1601572079863;
- Thu, 01 Oct 2020 10:07:59 -0700 (PDT)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id w25sm1334350oth.22.2020.10.01.10.07.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 10:07:59 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/2] target/arm: Use tlb_flush_page_bits_by_mmuidx*
-Date: Thu,  1 Oct 2020 12:07:52 -0500
-Message-Id: <20201001170752.82063-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201001170752.82063-1-richard.henderson@linaro.org>
-References: <20201001170752.82063-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kO23u-0002Ah-Dl; Thu, 01 Oct 2020 13:08:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kO23r-0001dC-5t; Thu, 01 Oct 2020 13:08:10 -0400
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1B3B620897;
+ Thu,  1 Oct 2020 17:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601572085;
+ bh=DqV8NkhOy+mAyQY3i8jWiz8eC7B5XK/sg1yHF9qll/E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tOxjDnWQqfja1eFNoK2uV4HD0O+yd/zLhA0iKasrEfsLTmNsXi+3kuOSl6/Q9NV9V
+ L4/vuV0Qr67Cy72fL3/0FH/42LbCZHIf36TuNQ6NF//sx9X883mUrLqg7dqwKmrrfH
+ +JrAdYlTS6Gi9mEdCnjbRd2RjdhwktjdXtTHbiFI=
+Date: Thu, 1 Oct 2020 10:08:01 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCH v5 05/14] hw/block/nvme: Add support for Namespace Types
+Message-ID: <20201001170801.GB564651@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
+ <20200928023528.15260-6-dmitry.fomichev@wdc.com>
+ <20201001112245.GA316454@localhost.localdomain>
+ <20201001152922.GC3343@C02WT3WMHTD6>
+ <20201001155034.GA337287@localhost.localdomain>
+ <20201001155931.GA564651@dhcp-10-100-145-180.wdl.wdc.com>
+ <20201001162355.GA339198@localhost.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201001162355.GA339198@localhost.localdomain>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:20:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,124 +68,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- Jordan Frank <jordanfrank@fb.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When TBI is enabled in a given regime, 56 bits of the address
-are significant and we need to clear out any other matching
-virtual addresses with differing tags.
+On Thu, Oct 01, 2020 at 04:23:56PM +0000, Niklas Cassel wrote:
+> But I see your point, all of this code:
+> 
+>         if (NVME_CC_CSS(data) != NVME_CC_CSS(n->bar.cc)) {
+>             if (NVME_CC_EN(n->bar.cc)) {
+>                 NVME_GUEST_ERR(pci_nvme_err_change_css_when_enabled,
+>                                "changing selected command set when enabled");
+>             } else {
+>                 switch (NVME_CC_CSS(data)) {
+>                 case CSS_NVM_ONLY:
+>                     trace_pci_nvme_css_nvm_cset_selected_by_host(data &
+>                                                                  0xffffffff);
+>                 break;
+>                 case CSS_CSI:
+>                     NVME_SET_CC_CSS(n->bar.cc, CSS_CSI);
+>                     trace_pci_nvme_css_all_csets_sel_by_host(data &
+>                                                              0xffffffff);
+>                     break;
+>                 case CSS_ADMIN_ONLY:
+>                     break;
+>                 default:
+>                     NVME_GUEST_ERR(pci_nvme_ub_unknown_css_value,
+>                                    "unknown value in CC.CSS field");
+>                 }
+>             }
+>         }
+> 
+> should simply be dropped.
+> 
+> No need to call NVME_SET_CC_CSS() explicitly.
+> 
+> CC.CSS bit will be set futher down in this function anyway:
+> 
+>         if (NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc)) {
+>             n->bar.cc = data;
 
-The other uses of tlb_flush_page (without mmuidx) in this file
-are only used by aarch32 mode.
+Yep, that's how I saw it too. I folded it all into a rebase here for
+this particular patch:
 
-Fixes: 38d931687fa1
-Reported-by: Jordan Frank <jordanfrank@fb.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/helper.c | 46 ++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 39 insertions(+), 7 deletions(-)
+  http://git.infradead.org/qemu-nvme.git/commitdiff/45157cab2e700155b05f0bd28533f73d7e399ab8?hp=2015774a010011a9e8d2ab5291fd8d747f60471e
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 88bd9dd35d..7e9095d687 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -49,6 +49,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
- #endif
- 
- static void switch_mode(CPUARMState *env, int mode);
-+static int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx);
- 
- static int vfp_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
- {
-@@ -4456,6 +4457,33 @@ static int vae1_tlbmask(CPUARMState *env)
-     }
- }
- 
-+/* Return 56 if TBI is enabled, 64 otherwise. */
-+static int tlbbits_for_regime(CPUARMState *env, ARMMMUIdx mmu_idx,
-+                              uint64_t addr)
-+{
-+    uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
-+    int tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
-+    int select = extract64(addr, 55, 1);
-+
-+    return (tbi >> select) & 1 ? 56 : 64;
-+}
-+
-+static int vae1_tlbbits(CPUARMState *env, uint64_t addr)
-+{
-+    ARMMMUIdx mmu_idx;
-+
-+    /* Only the regime of the mmu_idx below is significant. */
-+    if (arm_is_secure_below_el3(env)) {
-+        mmu_idx = ARMMMUIdx_SE10_0;
-+    } else if ((env->cp15.hcr_el2 & (HCR_E2H | HCR_TGE))
-+               == (HCR_E2H | HCR_TGE)) {
-+        mmu_idx = ARMMMUIdx_E20_0;
-+    } else {
-+        mmu_idx = ARMMMUIdx_E10_0;
-+    }
-+    return tlbbits_for_regime(env, mmu_idx, addr);
-+}
-+
- static void tlbi_aa64_vmalle1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                                       uint64_t value)
- {
-@@ -4592,8 +4620,9 @@ static void tlbi_aa64_vae1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     CPUState *cs = env_cpu(env);
-     int mask = vae1_tlbmask(env);
-     uint64_t pageaddr = sextract64(value << 12, 0, 56);
-+    int bits = vae1_tlbbits(env, pageaddr);
- 
--    tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr, mask);
-+    tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr, mask, bits);
- }
- 
- static void tlbi_aa64_vae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -4607,11 +4636,12 @@ static void tlbi_aa64_vae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     CPUState *cs = env_cpu(env);
-     int mask = vae1_tlbmask(env);
-     uint64_t pageaddr = sextract64(value << 12, 0, 56);
-+    int bits = vae1_tlbbits(env, pageaddr);
- 
-     if (tlb_force_broadcast(env)) {
--        tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr, mask);
-+        tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr, mask, bits);
-     } else {
--        tlb_flush_page_by_mmuidx(cs, pageaddr, mask);
-+        tlb_flush_page_bits_by_mmuidx(cs, pageaddr, mask, bits);
-     }
- }
- 
-@@ -4620,9 +4650,10 @@ static void tlbi_aa64_vae2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
- {
-     CPUState *cs = env_cpu(env);
-     uint64_t pageaddr = sextract64(value << 12, 0, 56);
-+    int bits = tlbbits_for_regime(env, ARMMMUIdx_E2, pageaddr);
- 
--    tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr,
--                                             ARMMMUIdxBit_E2);
-+    tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
-+                                                  ARMMMUIdxBit_E2, bits);
- }
- 
- static void tlbi_aa64_vae3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -4630,9 +4661,10 @@ static void tlbi_aa64_vae3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
- {
-     CPUState *cs = env_cpu(env);
-     uint64_t pageaddr = sextract64(value << 12, 0, 56);
-+    int bits = tlbbits_for_regime(env, ARMMMUIdx_SE3, pageaddr);
- 
--    tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr,
--                                             ARMMMUIdxBit_SE3);
-+    tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
-+                                                  ARMMMUIdxBit_SE3, bits);
- }
- 
- static CPAccessResult aa64_zva_access(CPUARMState *env, const ARMCPRegInfo *ri,
--- 
-2.25.1
-
+It depends on the prep patches I sent yesterday, which seem pretty
+straight forward. I'll just wait another day before committing that
+stuff and other fixes to the nvme-next branch. But if you want to get a
+head start on the ZNS enabling parts, what I have in mind is in the
+branch from the above link.
 
