@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5989A28065D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:17:33 +0200 (CEST)
-Received: from localhost ([::1]:38908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB00280674
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:24:03 +0200 (CEST)
+Received: from localhost ([::1]:51170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO392-000102-Ce
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
+	id 1kO3FK-0006Z2-9z
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:24:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kO2p4-0008Ba-JW
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:56:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25462)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2ry-0003mq-8k
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:59:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kO2p2-0008Gb-US
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:56:54 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2rv-0008TI-K2
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:59:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601575010;
+ s=mimecast20190719; t=1601575190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FIvUOwW3qme1A3loFSMi1+8exHY8qAY72cgyMrRkcO8=;
- b=P2HiPRYJmwrv9E9VoX2pUOAoB5FTH0KxppVoh+B0RcWiZK4awCu8ieD/GTJB6FdbqetyMA
- we0ektznDV4X4ks4awYm78r4999ijCyEGqsNnshrFik6KRngkI78YiO4IcTwGC/iwB/1my
- O9M7je6OnoXv/Yiwe3m1TjIxOEbHZKM=
+ bh=LcUs7n1kr79baMabgMqNNMGAJC9s5UYqp60RcY2S9YI=;
+ b=Yx8W3Bb3P5JTi4yk89ZcDXBU6Npa+pHysQF2IDngDkvy3wEGfZ9DGSFYiIEFWP8lVwA7Io
+ CB8VGR+rM+RyjE56vMuEsEmvr2hpc8JmjdR+oTXtyrg5fmRCssjERTrNMap3WjpP54o6L3
+ 9hmKvyL76U1DGHGSXq9FLV21rpbiBtk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-Aw7a2JZWPxyuG8SsH8cRWQ-1; Thu, 01 Oct 2020 13:56:45 -0400
-X-MC-Unique: Aw7a2JZWPxyuG8SsH8cRWQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-228-cAArgcBHOnih35JUDmiJlQ-1; Thu, 01 Oct 2020 13:59:48 -0400
+X-MC-Unique: cAArgcBHOnih35JUDmiJlQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8312E801AB1;
- Thu,  1 Oct 2020 17:56:44 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4041655770;
- Thu,  1 Oct 2020 17:56:44 +0000 (UTC)
-Date: Thu, 1 Oct 2020 13:56:42 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/core/cpu: Add missing 'exec/cpu-common.h' include
-Message-ID: <20201001175642.GH3717385@habkost.net>
-References: <20200908123433.105706-1-philmd@redhat.com>
- <ff99f676-2e6d-2f23-5a09-96cc77fb8469@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A63A91007464;
+ Thu,  1 Oct 2020 17:59:46 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B8125C1CF;
+ Thu,  1 Oct 2020 17:59:45 +0000 (UTC)
+Subject: Re: [PATCH v4 41/46] qapi/introspect.py: create a typed 'Node' data
+ structure
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20200930043150.1454766-1-jsnow@redhat.com>
+ <20200930043150.1454766-42-jsnow@redhat.com>
+ <20200930183918.GY3717385@habkost.net>
+ <4282f45c-b5e2-6c60-8010-a9858098f395@redhat.com>
+ <20200930195215.GA3717385@habkost.net>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <89ba99a2-91fb-592e-ceb5-126d2aa5b01b@redhat.com>
+Date: Thu, 1 Oct 2020 13:59:44 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <ff99f676-2e6d-2f23-5a09-96cc77fb8469@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200930195215.GA3717385@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,29 +87,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 01, 2020 at 07:44:57PM +0200, Philippe Mathieu-Daudé wrote:
-> ping?
+On 9/30/20 3:52 PM, Eduardo Habkost wrote:
+> On Wed, Sep 30, 2020 at 02:58:04PM -0400, John Snow wrote:
+>> On 9/30/20 2:39 PM, Eduardo Habkost wrote:
+>>> On Wed, Sep 30, 2020 at 12:31:45AM -0400, John Snow wrote:
+>>>> This replaces _make_tree with Node.__init__(), effectively. By creating
+>>>> it as a generic container, we can more accurately describe the exact
+>>>> nature of this particular Node.
+>>>>
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>> ---
+>>>>    scripts/qapi/introspect.py | 77 +++++++++++++++++++-------------------
+>>>>    1 file changed, 38 insertions(+), 39 deletions(-)
+>>>>
+>>>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>>>> index 43b6ba5df1f..86286e755ca 100644
+>>>> --- a/scripts/qapi/introspect.py
+>>>> +++ b/scripts/qapi/introspect.py
+>>>> @@ -12,11 +12,12 @@
+>>>>    from typing import (
+>>>>        Dict,
+>>>> +    Generic,
+>>>> +    Iterable,
+>>>>        List,
+>>>>        Optional,
+>>>>        Sequence,
+>>>> -    Tuple,
+>>>> -    Union,
+>>>> +    TypeVar,
+>>>>    )
+>>>>    from .common import (
+>>>> @@ -43,42 +44,42 @@
+>>>>    # The correct type for TreeNode is actually:
+>>>> -# Union[AnnotatedNode, List[TreeNode], Dict[str, TreeNode], str, bool]
+>>>> +# Union[Node[TreeNode], List[TreeNode], Dict[str, TreeNode], str, bool]
+>>>>    # but mypy does not support recursive types yet.
+>>>>    TreeNode = object
+>>>> +_NodeType = TypeVar('_NodeType', bound=TreeNode)
+>>>>    _DObject = Dict[str, object]
+>>>> -Extra = Dict[str, object]
+>>>> -AnnotatedNode = Tuple[TreeNode, Extra]
+>>>
+>>> Do you have plans to make Node replace TreeNode completely?
+>>>
+>>> I'd understand this patch as a means to reach that goal, but I'm
+>>> not sure the intermediate state of having both Node and TreeNode
+>>> types (that can be confused with each other) is desirable.
+>>>
+>>
+>> The problem is that _tree_to_qlit still accepts a broad array of types. The
+>> "TreeNode" comment above explains that those types are:
+>>
+>> Node[TreeNode], List[TreeNode], Dict[str, TreeNode], str, bool
+>>
+>> Three are containers, two are leaf values.
+>> of the containers, the Node container is special in that it houses
+>> explicitly one of the four other types (but never itself.)
+>>
+>> Even if I somehow always enforced Node[T] heading into _tree_to_qlit, I
+>> would still need to describe what 'T' is, which is another recursive type
+>> that I cannot exactly describe with mypy's current descriptive power:
+>>
+>> INNER_TYPE = List[Node[INNER_TYPE]], Dict[str, Node[INNER_TYPE]], str, bool
+>>
+>> And that's not really a huge win, or indeed any different to the existing
+>> TreeNode being an "object".
+>>
+>> So ... no, I felt like I was going to stop here, where we have
+>> fundamentally:
+>>
+>> 1. Undecorated nodes (list, dict, str, bool) ("TreeNode")
+>> 2. Decorated nodes (Node[T])                 ("Node")
+>>
+>> which leads to the question: Why bother swapping Tuple for Node at that
+>> point?
+>>
+>> My answer is simply that having a strong type name allows us to distinguish
+>> this from garden-variety Tuples that might sneak in for other reasons in
+>> other data types.
 > 
-> On 9/8/20 2:34 PM, Philippe Mathieu-Daudé wrote:
-> > cpu_common_reset() uses tcg_flush_softmmu_tlb() which is
-> > declared in "exec/cpu-common.h". Add the missing header
-> > to avoid when refactoring other headers:
-> > 
-> >   hw/core/cpu.c: In function ‘cpu_common_reset’:
-> >   hw/core/cpu.c:273:9: error: implicit declaration of function ‘tcg_flush_softmmu_tlb’ [-Werror=implicit-function-declaration]
-> >     273 |         tcg_flush_softmmu_tlb(cpu);
-> >         |         ^~~~~~~~~~~~~~~~~~~~~
-> > 
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Would:
+>    AnnotatedNode = NewType('AnnotatedNode', Tuple[TreeNode, Extra])
+> be enough, then?
+> 
 
-Qeueued, thanks!
+I don't think so, because the runtime check still checks for tuple. I 
+like the consistency and simplicity of a named type.
 
--- 
-Eduardo
+>>
+>> Maybe we want a different nomenclature though, like Node vs AnnotatedNode?
+> 
+> Yes, I believe having a more explicit name would be better.
+> 
+
+I give up on introspect.py; I'm dropping it from my series. I cannot 
+possibly justify another single second spent here.
+
+--js
 
 
