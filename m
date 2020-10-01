@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9250F2803A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:14:46 +0200 (CEST)
-Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31742803C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:22:51 +0200 (CEST)
+Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1ED-0006EZ-8Y
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36630)
+	id 1kO1M3-0007S9-22
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kO14q-0003A6-Sr
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:05:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45169)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kO14n-0007hr-4Y
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:05:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601568298;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a0LdREGamTfFkyAK/AKSpatlUwBvQx5+xzAfBjq7pmg=;
- b=EPv6kCnEB3ycCfuRODNsNKunYB9EKdqHg5iInuBlEGYY2IGx9JaXKl3zCgjMhy8olfKA2f
- Vz6XYqnDDl3/QFy8FIADdKnXl9N/EkGjsgXNOoBhR+5C/Xwy+ao1iAMi0yUGTBI5YC1ARi
- YrbEZ+ORp2w2eg3m2VHcONzMf258pzk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-Yro1V5aUMtiR9rPajWQ_OA-1; Thu, 01 Oct 2020 12:04:55 -0400
-X-MC-Unique: Yro1V5aUMtiR9rPajWQ_OA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6C2F9CC05;
- Thu,  1 Oct 2020 16:04:53 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6474660BF1;
- Thu,  1 Oct 2020 16:04:53 +0000 (UTC)
-Date: Thu, 1 Oct 2020 12:04:52 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: [PULL 2/2] core/register: Specify instance_size in the TypeInfo
-Message-ID: <20201001160452.GF3717385@habkost.net>
-References: <20200927134609.2358960-1-alistair.francis@wdc.com>
- <20200927134609.2358960-3-alistair.francis@wdc.com>
- <CAFEAcA9Rduz5RB4oUD_wR41_oEfdRSbB8O=99pb+AjXM8gLG6A@mail.gmail.com>
- <20200929132216.GI3717385@habkost.net>
- <CAKmqyKMemWmj2we2uN0bYCFOyo3_dFhoBgeC4qRv7LFxj20ExA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO18N-0007lj-JK
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:08:43 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:41535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO18K-00009c-OE
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:08:43 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id x69so6140596oia.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5VrcTxMJrpEzBPpAzXMKniJyxh9455HBlvrczkdQT6U=;
+ b=NGVxXLQA8f2dqLoY8wZuw7oPkHbAfBklKdDUnCyPmbV8cXgaWwq69tylWLgW8X5ySN
+ RzFPyJL2flMD56s81O5LpkdzqWpq+5ykrdQWZ+ckNuO0XcPx98OFni7zEQT7P7xOtnie
+ +mANleJtJD2YGc8I0BSz5Nw6BfDA05rJ6qZ2KFREoosLsexA0ErslqAbBXQNwkBPFNMk
+ vLIU+K9w2VoH5+sW64M8wscwszK+92B4ptfoPHnrLccNfK3jwnX5kz+NQ76ICwxEkGIU
+ 1M6xWXeUUVQvWVycGwa8PKnbLf46IxQE+2k9bOm3SmmJXkXk7G1QFw/jssfwd6TGY9Vf
+ KnZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5VrcTxMJrpEzBPpAzXMKniJyxh9455HBlvrczkdQT6U=;
+ b=b967k7xNe+eMat4XckrGiw/+bcUIO6pV3wop0iUj2P0lPdKWbKQoTtD4U9sDLprRUY
+ kAELN50/kB2pSG1x22R3x5nB6GVaTTDmFBNO7jFstDlA/R8VEu2WF1aGk4AwKDlkDwex
+ 54pJnYqB+lzNVbaXVVL6xJiNsYUTOu7VKAYbuVHn6txaxjNm2KHZmRZdKNg7ogqEV7DI
+ ev6q7YCchgjoGWg07TZ5iVbHVDuuI15EiiMw7jhSPvt04JSr9hv+cMZFlJpUNYcl7SLI
+ Om3CzO/VDHZHFn/rPeJcAkez3FXpFFHTqM7GlVro1rLIDPBxpWGvTR/Lc67jK9TctHva
+ RbOg==
+X-Gm-Message-State: AOAM531Mqiy4u/kOSGRBamV4kuAqav2nvqkufuuit5fvFZd/6gHxBDAT
+ A0BYJ38sbY5jn4OTrKXrVqNkjg==
+X-Google-Smtp-Source: ABdhPJxnWCO9e0T/QxUpbXEaz4P/xDerJ1M69LvFLLYSx3qGnWezgOw8wwp1qdBjv9gFMqEPc6pxxg==
+X-Received: by 2002:aca:5c5:: with SMTP id 188mr440508oif.1.1601568519309;
+ Thu, 01 Oct 2020 09:08:39 -0700 (PDT)
+Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id d63sm1127969oig.53.2020.10.01.09.08.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Oct 2020 09:08:37 -0700 (PDT)
+Subject: Re: [PATCH v1 04/20] s390x/tcg: Implement 32/128 bit for VECTOR FP ADD
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200930145523.71087-1-david@redhat.com>
+ <20200930145523.71087-5-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <19ecdb4f-7d86-39ff-2f8c-883d327e2646@linaro.org>
+Date: Thu, 1 Oct 2020 11:08:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKMemWmj2we2uN0bYCFOyo3_dFhoBgeC4qRv7LFxj20ExA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200930145523.71087-5-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,61 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 01, 2020 at 08:37:31AM -0700, Alistair Francis wrote:
-> On Tue, Sep 29, 2020 at 6:22 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >
-> > On Tue, Sep 29, 2020 at 01:55:35PM +0100, Peter Maydell wrote:
-> > > On Sun, 27 Sep 2020 at 15:00, Alistair Francis <alistair.francis@wdc.com> wrote:
-> > > >
-> > > > Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > Message-Id: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.alistair.francis@wdc.com>
-> > > > ---
-> > > > @@ -269,13 +258,18 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
-> > > >          int index = rae[i].addr / data_size;
-> > > >          RegisterInfo *r = &ri[index];
-> > > >
-> > > > -        *r = (RegisterInfo) {
-> > > > -            .data = data + data_size * index,
-> > > > -            .data_size = data_size,
-> > > > -            .access = &rae[i],
-> > > > -            .opaque = owner,
-> > > > -        };
-> > > > -        register_init(r);
-> > > > +        if (data + data_size * index == 0 || !&rae[i]) {
-> > > > +            continue;
-> > >
-> > > Coverity thinks (CID 1432800) that this is dead code, because
-> > > "data + data_size * index" can never be NULL[*]. What was this
-> > > intending to test for ? (maybe data == NULL? Missing dereference
-> > > operator ?)
-> >
-> > I believe the original check in the old register_init() function
-> > were just to make the function more flexible by allowing NULL
-> > arguments, but it was always unnecessary.  We have 4 callers of
-> > register_init_block*() and neither rae or data are NULL on those
-> > calls.
-> 
-> In this case *data is an array, I guess the idea was to try and catch
-> if somehow a point in the array was NULL?
+On 9/30/20 9:55 AM, David Hildenbrand wrote:
+> +        case FPF_LONG:
+> +            fn = se ? gen_helper_gvec_vfa64s : gen_helper_gvec_vfa64;
+> +            break;
 
-I don't understand what you mean.  The area pointed by data
-doesn't contain any pointers, just the register values.
+BTW, any reason not to pass SE as data, like you do later for SQ?  Or
+potentially the entire M field as is?
 
-> 
-> I'll send a patch to remove the check.
+Just wondering if it would help tidy up here...
 
-Thanks!
 
--- 
-Eduardo
-
+r~
 
