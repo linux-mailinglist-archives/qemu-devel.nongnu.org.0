@@ -2,104 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3AB280699
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:31:46 +0200 (CEST)
-Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7777B2806B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:37:21 +0200 (CEST)
+Received: from localhost ([::1]:55232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO3Mn-0007LW-8K
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:31:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43442)
+	id 1kO3SC-0003rH-HK
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kO34V-0006Xa-US
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:12:52 -0400
-Received: from mail-bn8nam12on2087.outbound.protection.outlook.com
- ([40.107.237.87]:39009 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kO34T-0001gX-1v
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:12:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KmoYg20TTCQd6zB4L3p2mPTDcNRoTWSvyMrIk43BPoi7EKT4vCWG4ggfdxRRJg0VD/V8GUjyF4eLVLAxdiZrBdC55qSvovmStXFLsijQjZEAISPOEwWApSI9ZzULjvrMOQ3KcRTvWdv0I8qz7icYEwmlKJSQDG0gFV410XT3xbfz64EcWBImgolGErrHwLSYUckk+C1A/nwkikaoHfHKgkk8IoyoTS0j1QLX+i7ORszpaibZjogck2Ed098lOaophExiha1zKnbwiclOYlaxXGwaVODfc3e6g5NA4gmUkgAi3WZkicsYhtq+icOKNKMtrApMiGQ8keW4rmWN6zRagg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KXCS4AmlO5BIQXB3c7kB8VO4iyZObGxNXDmaLKKnLW0=;
- b=STXCXcIoktZCjEEO1z1uM0ooXPiKYGQAGs4udNVW2PMTURCqRRh8Aa3cSnBzSPuZSPKXQ56EdSmbr+aEJVnK0b87Dmm9PKbwxr1ibwxCRboV8C0qTaDy3eIltW7cd/jRNOwifSWuuF1/3nDJX6KfIslG6cw8UARYrrzXx4vj+9hNg6Hcu6k3QeO+RbogZOTwj0XiW4fWXhRFJaHY7nOWbWG3dZVxRdF+1+Sc4GKfIyKxesl8pgpzB7b3KL+yk0B+YEH7OVXvQtDa6C9mDxiF7f7FTTuPAhsveo/+mDi/rnjfWcbqnQ1WPcXTOUQFGBxWuFFKC4ScnczXjUlsLpPCmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KXCS4AmlO5BIQXB3c7kB8VO4iyZObGxNXDmaLKKnLW0=;
- b=op9lF5icOghNm7X3gnZinNMl6lBEjkn4RfM9OZ+DYzUFB91hRZns2IUEcmu02USVnBzx1jAPnl5LfThltG4o3ylLNyxJg7pNxe3sHxQN6Isu9pt4nUiAJZ5kKpO9oR+j/Ty3VYCvO0/DrO60h2X1KacojoiDYDsT0cu7nei7h44=
-Received: from BYAPR02MB4823.namprd02.prod.outlook.com (2603:10b6:a03:4e::18)
- by BYAPR02MB5543.namprd02.prod.outlook.com (2603:10b6:a03:9f::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32; Thu, 1 Oct
- 2020 17:57:44 +0000
-Received: from BYAPR02MB4823.namprd02.prod.outlook.com
- ([fe80::a59a:bb96:8fb:69c4]) by BYAPR02MB4823.namprd02.prod.outlook.com
- ([fe80::a59a:bb96:8fb:69c4%3]) with mapi id 15.20.3412.029; Thu, 1 Oct 2020
- 17:57:44 +0000
-From: Vikram Garhwal <fnuv@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: RE: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
-Thread-Topic: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
-Thread-Index: AQHWcQncmpoRUQzgOUGLpGmAPF6xzqloUHaAgAAetYCAAAYwAIAa4I2Q
-Date: Thu, 1 Oct 2020 17:57:43 +0000
-Message-ID: <BYAPR02MB4823111774CAC3DA1577EF17BC300@BYAPR02MB4823.namprd02.prod.outlook.com>
-References: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
- <CAFEAcA8gYXDJKMS3nUSW96hhwmC37=QX1EhVfWj7j0smKGvXgA@mail.gmail.com>
- <CAFEAcA-Y8GQXSU6F3-AWcW=5VcWOtT0w_Fi4SAbfT2M2zjxB1Q@mail.gmail.com>
- <20200914222838.GA75143@xilinx.com>
-In-Reply-To: <20200914222838.GA75143@xilinx.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [73.158.204.219]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 8eb43aeb-0b73-472d-5ec4-08d866337f86
-x-ms-traffictypediagnostic: BYAPR02MB5543:
-x-microsoft-antispam-prvs: <BYAPR02MB554382E33FC2375A5FC1DB0ABC300@BYAPR02MB5543.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: E8AQ3mUH1HVViskBrBdb8LYTNWnGPuJlZNF3mdKJ4GGgSQGXHbXUitZMhkLNZVweRrfX15jKFXHqu/361E/EDfDMRs7qB/YN+X3EweRntjQlCjQitRKOUteVEG7opUmA0ZlEMjTpkMDw2tYwDkWrKNLi2nh6HdlxZbiraQp916J1pMHW/da3aCmYZV+bzq8x5h8oS6747jtK11kALVw8oglTSWoL1UMErE6dZ3EHLA6k0r28jQdoys+KBGlRp0+ghKSPftYR7PdlhIZD2UrvgQ0r8+V7+usn6cSWBhHusyPHw7pu7cha/ljNmH0oRJpwcSM9ulsz5bajbUcEHJUJR6sAFkT0P7I2YRzYR+H54c0Wkp6MfvFt8ZxNz4pfaGZGufA1+qubQkt8/j7RSvZGFg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4823.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(39860400002)(366004)(376002)(396003)(136003)(5660300002)(6916009)(52536014)(64756008)(9686003)(186003)(83080400001)(2906002)(33656002)(8936002)(7696005)(316002)(478600001)(4326008)(8676002)(53546011)(66446008)(66946007)(83380400001)(66476007)(66556008)(26005)(71200400001)(76116006)(86362001)(55016002)(966005)(6506007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: eKHPA++/EOSyc4GDMgikXHtgBBaK9Ag9kyBQp5b9/ZYnATOEtAk4XdpyS7nHY8+0l3DvZcRN4dhzg4bnbdQm9A9c9DA1qySafnYkWJ5JzWVJQi4up6kMm9/xda+ab5Y/Fw1eDCKnvVJPzrG6YGqDj2HAd4LxnWNwaU1POYDRAYlsaCowYSufZf553zzmkYS1u9xXFdmoy0s8a6F09jyaXjXt6oQtS1wCj0JYFe78nAA2Fp7mU3tSzjdkzoK2kPNP5UUH68IEpzaqOey2nfrWsJL/3zoxlh5mWvJdlL4PyUTth/eR1ug8FDzz3VpGA5Q0qp0/k2oGib+tLsOcgdsSkmJ7j2yQB0A6GqqnDUL3AwwWecw7IrOYoLboBr1sovZXA/7gNbZ0PwCgXtMgyC0eDkk5M0QG1tmJszz67Y+70kguBIODCx0BoBSrKDu0IXtfMQIG7bHtRuwNMLwS6NG+5BryUiITMSimKzZ2rbSIQQNStRUlPRncmHPGc91ae9QjYFr6i/tRhg1PqwVeFckj7GdLZuF1RY9wARpiWasOtrFfA1TWpEeFicgd/t4UebuL0ABvtsLgFyUsdqjQDYYTeV5FaBhDh2f5Qi9L7le6xnieRviYaktkVdrDgUAJSML/cr+j6db+vRSes6U09t2Nqw==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kO3I6-0002Uf-5j
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:26:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48192)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kO3I3-0003g4-8B
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:26:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601576805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ug2dSzNyCknWd3vNp8ruLKo2y1jdJv8/9E1z8F3lk1s=;
+ b=KbzAUER+dS6dgYDXdF8rUzN9qH4eCmfeWLS6rqOGrylcfMyA+1ah3ij3uGA1WNg79t7zzc
+ O5tjJpvX6M7X+RTVoiGenl1gzfXeqeHSx5Fo7LFjSlbtXz88nsAibDx5qBnAy5FMEpoTOR
+ DMHn8UJ4/kk3Kv3oVnYRoSGCdNX9WUE=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-skqEdxZyPXW-9QuRUZSPDQ-1; Thu, 01 Oct 2020 14:26:44 -0400
+X-MC-Unique: skqEdxZyPXW-9QuRUZSPDQ-1
+Received: by mail-qk1-f197.google.com with SMTP id y17so3652408qkf.15
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 11:26:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uxnpeNNLiwCrYnxUHmMRHP84r6STuKUsqh9Nd7Cualk=;
+ b=Tt9Wave/ZEjvapRyoSLCNMqT1zLKbFbP/EQA2w/30qAbwzzPVps4r3CbWbXCc7QPci
+ /N2+0qVP0/TcazTtd44C+e3FO+XFkunkYXTGTXVgd3Bx1sJIiUNKXI1jx+tJiUUUPAGq
+ i+lC3t/J3xJeGFBVtvtju0KYwxQhQYfZrLMJObVnkul2kFR6tYmfOGmxR5FV6bTNcVpb
+ 3Z/jhbCSOI/MzL5NMHveNyZmg49/qKR9/Xt8MZO7N6c+P2UUF8hEzpBQ+GIWEYWlnqsY
+ SECvAqTuUFn4M2yDRBp/nujpo2ygk8PmYdKCVlNsc5ZylUWWEPQyJgjTaBeEq5JpTcVa
+ hfAA==
+X-Gm-Message-State: AOAM532LT0lgUUzHt8INShG/4tfymjykYMlYP9W1VvpOgAHDYoaEenEc
+ XkR7jcMcIEsfYkdK0hNevgJDWnP7aO+icICrLbnmBSsqCUW0+FDPdcOv/xnqQAcBkOVw/3284SG
+ 8r7fd8G0shtiOu08=
+X-Received: by 2002:a05:620a:209e:: with SMTP id
+ e30mr9320474qka.373.1601576803553; 
+ Thu, 01 Oct 2020 11:26:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyrJTJG6y6YdU0gVfXa75w3pB2anb4Gg3UXysbVedYcl2pQxFBsCZvUOrN06n/45O5s6zfGqg==
+X-Received: by 2002:a05:620a:209e:: with SMTP id
+ e30mr9320440qka.373.1601576803134; 
+ Thu, 01 Oct 2020 11:26:43 -0700 (PDT)
+Received: from xz-x1.redhat.com
+ (toroon474qw-lp130-09-184-147-14-204.dsl.bell.ca. [184.147.14.204])
+ by smtp.gmail.com with ESMTPSA id v56sm7892699qtc.49.2020.10.01.11.26.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 11:26:42 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] migration/postcopy: Sync faulted addresses after
+ network recovered
+Date: Thu,  1 Oct 2020 14:26:37 -0400
+Message-Id: <20201001182641.80232-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4823.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8eb43aeb-0b73-472d-5ec4-08d866337f86
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2020 17:57:43.9924 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: scG69McVvzkXIngdJ0rxQfgHiRLTcpQMW1wvRAgegfIWX/dg4nH+RUsOo3Wz6d9Z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5543
-Received-SPF: pass client-ip=40.107.237.87; envelope-from=fnuv@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 14:12:47
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,48 +95,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgUGV0ZXIsDQpJIHNlbnQgcmViYXNlZCBWMTAgc2VyaWVzIHRocmVlIHdlZWtzIGJhY2sgYXMg
-dGhlcmUgd2VyZSBzb21lIGlzc3VlcyB3aXRoIG1lc29uIGJ1aWxkIG9uIHY5LiBXb3VsZCBpdCBw
-b3NzaWJsZSBmb3IgeW91IHRvIGFwcGx5IHRoZSBwYXRjaCBzZXJpZXM/DQoNCkxpbmsgZm9yIHNl
-cmllczogaHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VLzE2MDAxMjEzMjQtMzEzMzctMS1naXQtc2Vu
-ZC1lbWFpbC1mbnUudmlrcmFtQHhpbGlueC5jb20vDQoNClJlZ2FyZHMsDQpWaWtyYW0NCg0KPiAt
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBWaWtyYW0gR2FyaHdhbCA8Zm51LnZp
-a3JhbUB4aWxpbnguY29tPg0KPiBTZW50OiBNb25kYXksIFNlcHRlbWJlciAxNCwgMjAyMCAzOjI5
-IFBNDQo+IFRvOiBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+IFN1
-YmplY3Q6IFJlOiBbUEFUQ0ggdjkgMC80XSBJbnRyb2R1Y2UgWGlsaW54IFp5bnFNUCBDQU4gY29u
-dHJvbGxlcg0KPiANCj4gSGkgUGV0ZXIsDQo+IEkganVzdCBzZW50IHRoZSB2MTAgc2VyaWVzIHdo
-aWNoIGlzIHJlYmFzZWQgd2l0aCBsYXRlc3QgbWFzdGVyIGJyYW5jaA0KPiBjaGFuZ2VzLg0KPiAN
-Cj4gVGhhbmtzIGFnYWluIGZvciB0aGUgaGVscC4NCj4gDQo+IFJlZ2FyZHMsDQo+IFZpa3JhbQ0K
-PiANCj4gT24gTW9uLCBTZXAgMTQsIDIwMjAgYXQgMDQ6MDY6MjlQTSArMDEwMCwgUGV0ZXIgTWF5
-ZGVsbCB3cm90ZToNCj4gPiBPbiBNb24sIDE0IFNlcCAyMDIwIGF0IDE0OjE2LCBQZXRlciBNYXlk
-ZWxsDQo+IDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IE9u
-IFRodSwgMTMgQXVnIDIwMjAgYXQgMDE6MzMsIFZpa3JhbSBHYXJod2FsDQo+IDxmbnUudmlrcmFt
-QHhpbGlueC5jb20+IHdyb3RlOg0KPiA+ID4gPiBWaWtyYW0gR2FyaHdhbCAoNCk6DQo+ID4gPiA+
-ICAgaHcvbmV0L2NhbjogSW50cm9kdWNlIFhpbGlueCBaeW5xTVAgQ0FOIGNvbnRyb2xsZXINCj4g
-PiA+ID4gICB4bG54LXp5bnFtcDogQ29ubmVjdCBYaWxpbnggWnlucU1QIENBTiBjb250cm9sbGVy
-cw0KPiA+ID4gPiAgIHRlc3RzL3F0ZXN0OiBJbnRyb2R1Y2UgdGVzdHMgZm9yIFhpbGlueCBaeW5x
-TVAgQ0FOIGNvbnRyb2xsZXINCj4gPiA+ID4gICBNQUlOVEFJTkVSUzogQWRkIG1haW50YWluZXIg
-ZW50cnkgZm9yIFhpbGlueCBaeW5xTVAgQ0FODQo+ID4gPiA+IGNvbnRyb2xsZXINCj4gPiA+DQo+
-ID4gPiBBcHBsaWVkIHRvIHRhcmdldC1hcm0ubmV4dCwgdGhhbmtzLiAoSSBoYWQgdG8gbWFrZSBz
-b21lIG1pbm9yIGZpeHVwcw0KPiA+ID4gdG8gY29udmVydCB0aGUgbWFrZWZpbGUgY2hhbmdlcyB0
-byB0aGUgbmV3IG1lc29uIGJ1aWxkIHN5c3RlbS4pDQo+ID4NCj4gPiBJIGhhZCB0byBkcm9wIHRo
-ZXNlIHBhdGNoZXMgYmVjYXVzZSBpbiB0aGUgZnVsbCBtZXJnZSBidWlsZCB0ZXN0DQo+ID4gY29u
-ZmlncyB0aGV5IGZhaWxlZCB0byBsaW5rIGJlY2F1c2Ugbm90aGluZyB3YXMgcHVsbGluZyBpbiB0
-aGUgZ2VuZXJpYw0KPiA+IENPTkZJR19DQU5fQlVTIGZpbGVzLg0KPiA+DQo+ID4gQ291bGQgeW91
-IHJlYmFzZSB0aGlzLCBtYWtlIHRoZSBuZWNlc3NhcnkgY2hhbmdlcyB0byBnZXQgaXQgdG8gd29y
-aw0KPiA+IHdpdGggbWVzb25bKl0sIGFuZCBhbHNvIG1ha2Ugd2hhdGV2ZXIgS2NvbmZpZyBjaGFu
-Z2VzIGFyZSBuZWNlc3Nhcnkgc28NCj4gPiB0aGF0IHRoZSBaeW5xTVAgQ0FOIGNvbnRyb2xsZXIg
-ZGV2aWNlIGRlY2xhcmVzIGl0cyBkZXBlbmRlbmN5IG9uIHRoZQ0KPiA+IGdlbmVyaWMgQ09ORklH
-X0NBTl9CVVMgY29kZSwgcGxlYXNlPw0KPiA+DQo+ID4gWypdIHlvdSBtaWdodCB3YW50IHRvIGxv
-b2sgYXQgdGhlIHZlcnNpb25zIG9mIHRoZSBwYXRjaGVzIEkganVzdCBzZW50DQo+ID4gb3V0IGlu
-IG15IHYxIHB1bGxyZXEgdG9kYXksIGJ1dCBiYXNpY2FsbHkgaW5zdGVhZCBvZiB0aGUNCj4gPiBN
-YWtlZmlsZS5pbmNsdWRlIGNoYW5nZXMgeW91IHdhbnQgc29tZSBzaW1wbGUgb25lLWxpbmVyIGNo
-YW5nZXMgdG8NCj4gPiBtZXNvbi5idWlsZCBmaWxlcywgYW5kIGFsc28gdGVzdHMvcXRlc3QveGxu
-eC1jYW4tdGVzdC5jIG5lZWRzIHRvDQo+ID4gI2luY2x1ZGUgImxpYnFvcy9saWJxdGVzdC5oIg0K
-PiA+IHJhdGhlciB0aGFuIGp1c3QgImxpYnF0ZXN0LmgiLg0KPiA+DQo+ID4gdGhhbmtzDQo+ID4g
-LS0gUE1NDQo=
+v3:=0D
+- fix build on 32bit hosts & rebase=0D
+- remove r-bs for the last 2 patches for Dave due to the changes=0D
+=0D
+v2:=0D
+- add r-bs for Dave=0D
+- add patch "migration: Properly destroy variables on incoming side" as pat=
+ch 1=0D
+- destroy page_request_mutex in migration_incoming_state_destroy() too [Dav=
+e]=0D
+- use WITH_QEMU_LOCK_GUARD in two places where we can [Dave]=0D
+=0D
+We've seen conditional guest hangs on destination VM after postcopy recover=
+ed.=0D
+However the hang will resolve itself after a few minutes.=0D
+=0D
+The problem is: after a postcopy recovery, the prioritized postcopy queue o=
+n=0D
+the source VM is actually missing.  So all the faulted threads before the=
+=0D
+postcopy recovery happened will keep halted until (accidentally) the page g=
+ot=0D
+copied by the background precopy migration stream.=0D
+=0D
+The solution is to also refresh this information after postcopy recovery.  =
+To=0D
+achieve this, we need to maintain a list of faulted addresses on the=0D
+destination node, so that we can resend the list when necessary.  This work=
+ is=0D
+done via patch 2-5.=0D
+=0D
+With that, the last thing we need to do is to send this extra information t=
+o=0D
+source VM after recovered.  Very luckily, this synchronization can be=0D
+"emulated" by sending a bunch of page requests (although these pages have b=
+een=0D
+sent previously!) to source VM just like when we've got a page fault.  Even=
+ in=0D
+the 1st version of the postcopy code we'll handle duplicated pages well.  S=
+o=0D
+this fix does not even need a new capability bit and it'll work smoothly on=
+ old=0D
+QEMUs when we migrate from them to the new QEMUs.=0D
+=0D
+Please review, thanks.=0D
+=0D
+Peter Xu (4):=0D
+  migration: Pass incoming state into qemu_ufd_copy_ioctl()=0D
+  migration: Introduce migrate_send_rp_message_req_pages()=0D
+  migration: Maintain postcopy faulted addresses=0D
+  migration: Sync requested pages after postcopy recovery=0D
+=0D
+ migration/migration.c    | 51 +++++++++++++++++++++++++++++++++--=0D
+ migration/migration.h    | 21 ++++++++++++++-=0D
+ migration/postcopy-ram.c | 26 +++++++++++++-----=0D
+ migration/savevm.c       | 57 ++++++++++++++++++++++++++++++++++++++++=0D
+ migration/trace-events   |  3 +++=0D
+ 5 files changed, 149 insertions(+), 9 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
+
 
