@@ -2,84 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4434D2805A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:41:19 +0200 (CEST)
-Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B979280602
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:55:58 +0200 (CEST)
+Received: from localhost ([::1]:49054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2Zy-0004Lo-94
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:41:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
+	id 1kO2o9-0005jv-AY
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kO2NF-0007zQ-Lh
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:28:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50393)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kO2NK-00081e-TE
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:28:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kO2ND-0004bV-Iz
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:28:09 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kO2NI-0004by-NX
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601573286;
+ s=mimecast20190719; t=1601573289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gKmsfsY5pnQvFiZORh5K9yfabUaatXtNZkEd8zVMxKY=;
- b=ALEDcXulbZTuOEmjvKeMikqKA/eytw8K0r/zozNPQmr0eMh6rxUlcKdSI+XRvnXf+8Xs6C
- RrY+7ItEIFzt6XisKe8JusXU0E1MU72Kvfwf+BDv66MeMNfMYD6ER/WmctGXzWh6D42G7Q
- OYP/5k+o4MfRlkXoD7aOM3YlZ3bcSJU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-nSADjhyiM9-Hn9_VKU6EcA-1; Thu, 01 Oct 2020 13:28:05 -0400
-X-MC-Unique: nSADjhyiM9-Hn9_VKU6EcA-1
-Received: by mail-wr1-f71.google.com with SMTP id l9so2307052wrq.20
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 10:28:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gKmsfsY5pnQvFiZORh5K9yfabUaatXtNZkEd8zVMxKY=;
- b=aG3uVmx54fk+Gu+brMK1HWRDUJm2xVlxW/I4U8AKrAaEowPkFpm++ArZ2LhzvHUQPR
- u83faOMF2pQayo5nBy5llDvBPww5sXwo2C6yf1RNi/sucUqwz+1HvoPLT7tzXyZ61UQ2
- T6lTGVfZZnAQp9gv1XB6D2uHHDXRtV2n6Y9vvTiiIrHbrdiF1r3BAQVZTX6Dm0TmTGhN
- fE+2cyNnj5fBNV5nIeaou+rJYqVMylxHWlsL//4IiUxVYoCBm8XWvz+q1jAIkOCz00bO
- jzGxXgsEOkpgcljALfM/fMTMstvjQUwj7vfpGzJzX1+0BeYb4sTdbafHY785rNTbPl6e
- v+TA==
-X-Gm-Message-State: AOAM531azvQEayOXy1U4IqqNS1F1lctXG3VcspYCtya1sLhq1+rVO/G0
- TtRK7RAyb6QXe8U5uqsyp/deQ7aILFC/ujFHs/QX2EWz/li5bNr6wYYc2HyyYEF2cOrB1UEha6m
- vtX2azAtq3yqgdHM=
-X-Received: by 2002:a5d:470f:: with SMTP id y15mr10132552wrq.420.1601573283768; 
- Thu, 01 Oct 2020 10:28:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBWMJvA4kiv0H6UUgNEypCEKZJTY5t+x8tMl0sRx1nr3rujJUriDUfAw8xVMEvimCdrd2jSA==
-X-Received: by 2002:a5d:470f:: with SMTP id y15mr10132528wrq.420.1601573283479; 
- Thu, 01 Oct 2020 10:28:03 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:86de:492a:fae3:16f2?
- ([2001:b07:6468:f312:86de:492a:fae3:16f2])
- by smtp.gmail.com with ESMTPSA id p3sm773401wmm.40.2020.10.01.10.28.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 10:28:01 -0700 (PDT)
-Subject: Re: [PATCH v3 0/3] add MEMORY_FAILURE event
-To: zhenwei pi <pizhenwei@bytedance.com>, peter.maydell@linaro.org
-References: <20200930100440.1060708-1-pizhenwei@bytedance.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e4d4d5c7-20e6-04b5-5483-2659ac65a14a@redhat.com>
-Date: Thu, 1 Oct 2020 19:28:00 +0200
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wDoHdzoesQVFz7Aw+AwSeN8FBVe2o3ehF8dLRMZWWjQ=;
+ b=CgGUoduNEOBTOW6YG3RwdDQtRrQ3OUwK86CnBFERwejKcltE2+E3rZAXZ9thkSXbeutST+
+ 5l5MRguMnKOCMnqDjU01KxJXLHlstXyWcivS08DwZXI4mWCneAZcPqRDrSWcyCNCSV4JcH
+ q5o3n5+ZUB96aW/lWxXYhvtc3zunuh4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-3y2DK4zlMdi9TsCQF5YEUg-1; Thu, 01 Oct 2020 13:28:06 -0400
+X-MC-Unique: 3y2DK4zlMdi9TsCQF5YEUg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18BC51DE00;
+ Thu,  1 Oct 2020 17:28:05 +0000 (UTC)
+Received: from [10.36.112.77] (ovpn-112-77.ams2.redhat.com [10.36.112.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB35419C78;
+ Thu,  1 Oct 2020 17:28:03 +0000 (UTC)
+Subject: Re: [PATCH v1 02/20] s390x/tcg: Implement VECTOR BIT PERMUTE
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200930145523.71087-1-david@redhat.com>
+ <20200930145523.71087-3-david@redhat.com>
+ <84292bd0-7751-1cc8-afc8-83b40d89a754@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat GmbH
+Message-ID: <04d983fd-442e-b4b8-8c83-2c9a9d91f0b0@redhat.com>
+Date: Thu, 1 Oct 2020 19:28:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200930100440.1060708-1-pizhenwei@bytedance.com>
+In-Reply-To: <84292bd0-7751-1cc8-afc8-83b40d89a754@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -88,7 +116,7 @@ X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,54 +129,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/20 12:04, zhenwei pi wrote:
-> v2->v3:
-> Use g_strdup_printf instead of snprintf.
-> Declear memory failure event as 3 parts: 'recipient', 'action', 'flags'.
-> Wrapper function emit_guest_memory_failure&emit_hypervisor_memory_failure.
+On 01.10.20 17:17, Richard Henderson wrote:
+> On 9/30/20 9:55 AM, David Hildenbrand wrote:
+>> +        bit = !!(s390_vec_read_element8(v2, bit_nr / 8) &
+>> +                 (0x80 >> (bit_nr % 8)));
+> 
+> I think this would be clearer as
+> 
+>   bit = (s390_vec_read_element8(v2, bit_nr / 8)
+>          >> (7 - (bit_nr % 8))) & 1;
 
-Queued, thanks.  I took the liberty of adding a fourth value to
-MemoryFailureAction, "reset", since "fatal" was used for two different
-actions.
+Can do, thanks!
 
-Paolo
+> 
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
+> 
 
-> v1->v2:
-> Suggested by Peter Maydell, rename events to make them
-> architecture-neutral:
-> 'PC-RAM' -> 'guest-memory'
-> 'guest-triple-fault' -> 'guest-mce-fatal'
-> 
-> Suggested by Paolo, add more fields in event:
-> 'action-required': boolean type to distinguish a guest-mce is AR/AO.
-> 'recursive': boolean type. set true if: previous MCE in processing
->              in guest, another AO MCE occurs.
-> 
-> v1:
-> Although QEMU could catch signal BUS to handle hardware memory
-> corrupted event, sadly, QEMU just prints a little log and try to fix
-> it silently.
-> 
-> In these patches, introduce a 'MEMORY_FAILURE' event with 4 detailed
-> actions of QEMU, then uplayer could know what situaction QEMU hit and
-> did. And further step we can do: if a host server hits a 'hypervisor-ignore'
-> or 'guest-mce', scheduler could migrate VM to another host; if hitting
-> 'hypervisor-stop' or 'guest-triple-fault', scheduler could select other
-> healthy servers to launch VM.
-> 
-> Zhenwei Pi (3):
->   target-i386: seperate MCIP & MCE_MASK error reason
->   qapi/run-state.json: introduce memory failure event
->   target-i386: post memory failure event to uplayer
-> 
->  qapi/run-state.json  | 85 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  target/i386/helper.c | 47 ++++++++++++++++++++++-------
->  target/i386/kvm.c    | 13 +++++++-
->  3 files changed, 134 insertions(+), 11 deletions(-)
-> 
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
