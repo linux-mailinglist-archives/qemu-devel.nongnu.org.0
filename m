@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5BA280516
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:25:39 +0200 (CEST)
-Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFD9280515
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:25:31 +0200 (CEST)
+Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2Ko-0000pY-4L
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
+	id 1kO2Kg-0002qR-LN
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:25:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kO2EB-0006SN-RT; Thu, 01 Oct 2020 13:18:48 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:47371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kO2E9-0003FJ-Ko; Thu, 01 Oct 2020 13:18:47 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7415B58035A;
- Thu,  1 Oct 2020 13:18:43 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 01 Oct 2020 13:18:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=Jp2+vLCWmnAla+aG26WiCiLnIOr
- tfypV9ShhOvjEb0c=; b=C2qAuqEVobZ8Rkd5xmUoSCz9/e3rEYtzHQXLtN079od
- c4mKN+n5KPMzEjDEaYlEytj7T6uyVNXiTM1fxSgi2fItimuM9XAO3FckyL5Zk73T
- 1W5WL/qk+qGqiDl+yoTPP6fptXwxYg7kEyyAZJu3o/9tKEwJ/6tJQXob6+/GxWvE
- iHRLHm0Arg6JPfXysyvCsBtotrObMUrmVu4jaguXOAumVY6A/EDEzqhZ3wErgyFR
- ASfCOFLuqOkppLJ+7PU5eUs/V9YlHBR9iTjzBu3Zm6pEcvn2BxQLjQ41MRrrQ6nB
- 8nTxfd1NnmJhJe+KRWzslQSmZhj5Bz2SXFpK2vJREDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Jp2+vL
- CWmnAla+aG26WiCiLnIOrtfypV9ShhOvjEb0c=; b=HIOW4T+jpJ8ABea9kXu7/w
- wiihTmEe4L4ESGjvWUqAMShTdb1nUyWkhQdGKw2ErDEQ5P7leqE4XA9mmpiyWvGY
- /O303iAX9dJ0B328bOhbdJe7Tl8wrGFXGyu2WWUsTBdP/tc/lhSJaYwsXanCf0Zk
- ysehrfXm12NxRvqb4PvisLB/t9mgN9xsZ5DRYgX6P+swV2e7BvG5T6JMREGeP+9t
- ntt9CqyHRLt/DcPszUxu2NxPAvZGSe/Bm6et5OdkyPW7FYI3kCZT0P0OTvrkl9Nm
- AFfWsGRAS9EHPEnVT0wf2XRN1WGNS+BQJbRjfVldw6KzcQItVKEdFwzQvmmDVyyw
- ==
-X-ME-Sender: <xms:cg92XxARQ4penD3w5vhGp1UUnL2TwalA5SMIDio-rQ2d4g-pOVPHAw>
- <xme:cg92X_i_mAJsMfboOFU6qP_6RtyShC3ak1TBNLAn_1dfsEQv1VtY4xwDHmeYVLGBc
- tJ75D3ze84ZIJemeI8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdduudefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:cg92X8nkgleEyWu-7roJsKGxFWimnsR7r9Ozuna48bDKZ3rmvD-gBw>
- <xmx:cg92X7xrd1gno87sI1HRZFQc5jAFo1ioGzl-RFXY-Cw7B_W6baanUg>
- <xmx:cg92X2SLN4vLKfzxVtwMlCNlLd7FOcB9SVt8x05mzkk3BJQlIvzcvQ>
- <xmx:cw92XzLQG6GhwLLC9dfVM-A5N3yzqxJXvZrhQzzBOfc4VaXijYnBqA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2642B3064688;
- Thu,  1 Oct 2020 13:18:39 -0400 (EDT)
-Date: Thu, 1 Oct 2020 19:18:37 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
-Message-ID: <20201001171837.GA792691@apples.localdomain>
-References: <20200930220414.562527-1-kbusch@kernel.org>
- <20200930220414.562527-4-kbusch@kernel.org>
- <20201001041057.GC681387@apples.localdomain>
- <20201001152055.GA3343@C02WT3WMHTD6>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kO2HM-00008Z-8F
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:22:08 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kO2HK-0003l5-EF
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:22:03 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x14so6703346wrl.12
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 10:22:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0hSyaOaOpbLlT7IIj7wGmi7/B23DoMri1AJI3zrD9H4=;
+ b=gBni/tVYYku2bSB0YLUCJ91zxMkMRjQmILAvK3cVnbJIEM3MIOwLIgMxKFJ3fwNyZZ
+ V/5S4eRVsvrrrfJPkF1pqKKq5QW4R5uURZRl/xEsH+PHXQKSpyTlF+EZuZFXj7csa9Bx
+ S42FUX9ZKTnP5pATdzLlLubLX4XUhkqcXTs++pmTkMBYPFguKvb9iaIWVz0wDsGdDN0g
+ s3nOH6HTZoY2/ddbeyq9kmaWf882B9cAHaQVdlBURWg4f5zoK/baAxXXZa0YBnm3IA7g
+ k6teqCjeHuzRZmP17OVUd8LRetdKmuDUoxluLR9gS6ezdpppqyxf2ZRtvoKcAU5WF5fD
+ Pr0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=0hSyaOaOpbLlT7IIj7wGmi7/B23DoMri1AJI3zrD9H4=;
+ b=EP859vwC7Mkd//VN+pfmppRBEAVXbdwdTsduaVEU+PFS7AglWdjxjFVUxelTRjeE+l
+ 43xYIJwcsIl+TeduZ4ffvYPe4qNwZml0LVNaEn8rXpjrhn6ixbKsaCucvDlSmxPKxq44
+ H18le61PASn+wbK1r0KMsnuWLr6RqzA4VENeMGEysM9MQpRbQJfVlHLNafjyZgX+t4ML
+ +IQMTt2Xoqj5leUujgWrIs4RHhNr3S6+mgUwlRNZHzFzBj5/ekjlf13L/vW19jwytmH/
+ OgXkSXD2wisWF6S1dJEaLuThNKgE+f66W/1MURUHtpWXiZBK/78txT6aP0qSOFxkfa8k
+ Ieww==
+X-Gm-Message-State: AOAM532Ojv+KaubUYzh4iOFiPaRfgr3N08TMSPaFkM4rGx2MuFtje7v1
+ 1cNLAiMKV9XqKMmOiEycR+d6rtB9MAU=
+X-Google-Smtp-Source: ABdhPJzHXh74MUfNTNCXXnubjsxdjmqLq1nDtO54f8XnwhIjnpdVFHIggqKDLyYtvEVRFp0ExrgpiA==
+X-Received: by 2002:adf:f784:: with SMTP id q4mr10078480wrp.126.1601572920648; 
+ Thu, 01 Oct 2020 10:22:00 -0700 (PDT)
+Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id h8sm9719625wrw.68.2020.10.01.10.21.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 10:22:00 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/16] hw: Let DMA/PCI API take MemTxAttrs argument and
+ propagate MemTxResult
+Date: Thu,  1 Oct 2020 19:21:43 +0200
+Message-Id: <20201001172159.1619456-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
-Content-Disposition: inline
-In-Reply-To: <20201001152055.GA3343@C02WT3WMHTD6>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
- helo=new1-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 13:18:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,77 +86,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a respin of:
 
---Qxx1br4bt0+wmkIi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+"dma: Let the DMA API take MemTxAttrs argument and propagate MemTxResult"
+https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02048.html
 
-On Oct  1 09:20, Keith Busch wrote:
-> On Thu, Oct 01, 2020 at 06:10:57AM +0200, Klaus Jensen wrote:
-> > On Sep 30 15:04, Keith Busch wrote:
-> > > Let the user specify a specific namespace if they want to get access
-> > > stats for a specific namespace.
-> > >=20
-> >=20
-> > I don't think this makes sense for v1.3+.
-> >=20
-> > NVM Express v1.3d, Section 5.14.1.2: "There is no namespace specific
-> > information defined in the SMART / Health log page in this revision of
-> > the specification.  therefore the controller log page and namespace
-> > specific log page contain identical information".
-> >=20
-> > I have no idea why the TWG decided this, but that's the way it is ;)
->=20
-> I don't think they did that. The behavior you're referring to is specific=
- to
-> controllers that operate a particular way: "If the log page is not suppor=
-ted on
-> a per namespace basis ...". They were trying to provide a spec compliant =
-way
-> for controllers to return a success status if you supplied a valid NSID w=
-hen
-> the controller doesn't support per-namespace smart data..
->=20
-> The previous paragraph is more clear on this: "The controller may also su=
-pport
-> requesting the log page on a per namespace basis, as indicated by bit 0 o=
-f the
-> LPA field in the Identify Controller data structure".
+and:
+"pci: Let PCI DMA API functions propagate a MemTxResult"
+https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02048.html
 
-OK, so I agree that it makes sense for it to be supported on a per
-namespace basis, but I think the spec is just keeping the door open for
-future namespace specific stuff in the log page - currently there is
-none.
+The DMA API propagates MemTxResult:
+- MEMTX_OK,
+- MEMTX_device_ERROR,
+- MEMTX_DECODE_ERROR.
 
-Figure 94 (the actual SMART log page) says that the Data Units
-Read/Written are controller wide, so there really is no namespace
-specific information. Maybe this could be in the context of shared
-namespaces? How would a controller know how much data has been
-read/written from it without asking the other controllers? What if a
-controller is detached from the namespace - you'd lose those numbers.
+Let the PCI DMA API propagate them, as they are
+clearer than an undocumented 'int'.
 
---Qxx1br4bt0+wmkIi
-Content-Type: application/pgp-signature; name="signature.asc"
+Klaus Jensen (1):
+  pci: pass along the return value of dma_memory_rw
 
------BEGIN PGP SIGNATURE-----
+Philippe Mathieu-Daudé (15):
+  docs/devel/loads-stores: Add regexp for DMA functions
+  dma: Document address_space_map/address_space_unmap() prototypes
+  dma: Let dma_memory_set() propagate MemTxResult
+  dma: Let dma_memory_rw() propagate MemTxResult
+  dma: Let dma_memory_read() propagate MemTxResult
+  dma: Let dma_memory_write() propagate MemTxResult
+  dma: Let dma_memory_valid() take MemTxAttrs argument
+  dma: Let dma_memory_set() take MemTxAttrs argument
+  dma: Let dma_memory_rw_relaxed() take MemTxAttrs argument
+  dma: Let dma_memory_rw() take MemTxAttrs argument
+  dma: Let dma_memory_read/write() take MemTxAttrs argument
+  dma: Let dma_memory_map() take MemTxAttrs argument
+  pci: Let pci_dma_rw() propagate MemTxResult
+  pci: Let pci_dma_read() propagate MemTxResult
+  pci: Let pci_dma_write() propagate MemTxResult
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl92D2kACgkQTeGvMW1P
-DenZaAgAjAlzBcWB7GuDkZSWqAU6gSowqwJzV2Zr46L+2zRP+7L2qA7o4mPWRB/3
-cLcDoBpbUcwLG9djZlBYu9t0MiVDNHs6rvboc4qeOdlWNtvvSYwZc6kyM34C43dS
-zGpxOmJWGKSa/C5svk3GVGar4jQxEJMoIdwLbEV/MahoboYhDIRzS+N0y9C7Jk//
-yYskd+1SaaaN5l73AnZGX9CoryK+BGKFvplAoX9wjzvJJ9hHrNUOPXENKYUsdJG1
-RKgTsT/7ytajscpFuZ3G+7LpSxJ8hkqcYvIiXko0f6b3YWgiNU0wOQ4bkec4pGC1
-4PgRXvpzGxFGdJbqWyoNmOSKdzEmMQ==
-=xDdb
------END PGP SIGNATURE-----
+ docs/devel/loads-stores.rst   |   2 +
+ include/hw/pci/pci.h          |  57 +++++++++++--
+ include/hw/ppc/spapr_vio.h    |  11 ++-
+ include/sysemu/dma.h          | 155 +++++++++++++++++++++++++++-------
+ dma-helpers.c                 |  16 ++--
+ hw/arm/musicpal.c             |  13 +--
+ hw/arm/smmu-common.c          |   3 +-
+ hw/arm/smmuv3.c               |  14 +--
+ hw/core/generic-loader.c      |   3 +-
+ hw/display/virtio-gpu.c       |   8 +-
+ hw/dma/pl330.c                |  12 ++-
+ hw/dma/sparc32_dma.c          |  16 ++--
+ hw/dma/xlnx-zynq-devcfg.c     |   6 +-
+ hw/dma/xlnx_dpdma.c           |  10 ++-
+ hw/hyperv/vmbus.c             |   8 +-
+ hw/i386/amd_iommu.c           |  16 ++--
+ hw/i386/intel_iommu.c         |  28 +++---
+ hw/ide/ahci.c                 |   9 +-
+ hw/ide/macio.c                |   2 +-
+ hw/intc/spapr_xive.c          |   3 +-
+ hw/intc/xive.c                |   7 +-
+ hw/misc/bcm2835_property.c    |   3 +-
+ hw/misc/macio/mac_dbdma.c     |  10 ++-
+ hw/net/allwinner-sun8i-emac.c |  21 +++--
+ hw/net/ftgmac100.c            |  25 ++++--
+ hw/net/imx_fec.c              |  32 ++++---
+ hw/nvram/fw_cfg.c             |  12 ++-
+ hw/pci-host/pnv_phb3.c        |   5 +-
+ hw/pci-host/pnv_phb3_msi.c    |   9 +-
+ hw/pci-host/pnv_phb4.c        |   7 +-
+ hw/sd/allwinner-sdhost.c      |  14 +--
+ hw/sd/sdhci.c                 |  35 +++++---
+ hw/usb/hcd-dwc2.c             |   8 +-
+ hw/usb/hcd-ehci.c             |   6 +-
+ hw/usb/hcd-ohci.c             |  28 +++---
+ hw/usb/hcd-xhci.c             |  18 ++--
+ hw/usb/libhw.c                |   3 +-
+ hw/virtio/virtio.c            |   6 +-
+ 38 files changed, 439 insertions(+), 202 deletions(-)
 
---Qxx1br4bt0+wmkIi--
+-- 
+2.26.2
+
 
