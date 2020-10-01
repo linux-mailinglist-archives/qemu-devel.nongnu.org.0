@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F6B28022D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:08:52 +0200 (CEST)
-Received: from localhost ([::1]:59210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC54280234
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:11:26 +0200 (CEST)
+Received: from localhost ([::1]:38716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0CR-0005aU-EZ
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43212)
+	id 1kO0Eu-0000Zp-VZ
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:11:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsf-0005GU-M1
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:25 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34689)
+ id 1kNzsg-0005Iw-Ih
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:26 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsd-000309-Pv
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:25 -0400
-Received: by mail-wr1-x443.google.com with SMTP id t10so6134951wrv.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:23 -0700 (PDT)
+ id 1kNzse-00030M-NY
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:26 -0400
+Received: by mail-wr1-x435.google.com with SMTP id w5so6109747wrp.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=1TKuqdKYSMqANiZvdGq2s6JBaVSnghGWY2T9WlsB/o0=;
- b=tGRiWZ4DG87JRyfWPN2OhkeTFYrZy09ZvFLNp/E5M78BzuVRoGIact4AmW+aogE4Wx
- n+hOS7nSSM6sc4wpaJsU/iRdVZq24BxNUV/SdRgDA81Wuf3L8dts6L7aehWZGnglHOHl
- QNdhHlACIsBgkAwtygFeaKMt/QgNFIGu8Jho6fAVC1plFLQQ7OD4/Ke9tPaCyfM+1JK+
- lP5YHbEQ3fF5+px7OjxvICEIur3wkgTYMMM+HmB+wkWikXKnrKLqh/27E2CxGTywUbPw
- gl5aYlrskTealvAP46yQJ72SZo33e6Kw0DsMpqEB6SKnskxbqeG0OZaa8M4gjXOXmpl4
- HOMg==
+ bh=uTbLU0RMMX1YLcqLkOSI8U6uV/lVcqOS45S2U0pseyk=;
+ b=K8LusoQnfADNrQXqHC9Khus/78eeCGB+NtrqK22qAG6aIz0gMwK+qUhqMcxh/W41Wp
+ YwRbCfcWLaHYkLu2QQW2bIJyVMaHUP+wMBFBmODn4ViB2a2qeysst1v/ytbI1bYO1L3l
+ tOwMjHQwCqq+w7IuNJ71ZKjZv3XqGk6nb6cGpcIj2f7gdqLbDWBzzuomfqNdd6oFybqG
+ dj2vl9VaMi6puiFRG24J423J0YKwCsFSLMX91EE5kdpCz8H8jOgwSCqumfbnjGgyA5j2
+ kbAIIVmXiz2hmgj9AbaEp7tJLymsHFFRw1eIXAx9nQtor43nPhXlcO9jb3JAYUnuebZE
+ 9v4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1TKuqdKYSMqANiZvdGq2s6JBaVSnghGWY2T9WlsB/o0=;
- b=VHurTw87nRD0JXd9EcuvqfT3DYSf2TSkeGuRlfGmPs4dw+4JsTfXaVO/dgtJp2TRjt
- 7DkaVAuiFtSk/1Qgw82aVVqvRQepaBwu6EAs+iV9aEwXvXIEv/qJggUF/M+CGa06H6Vo
- Uux4X0xbZCdbLEVP3+nwwgQ6XSSDKnwuXGFH3fQT/njZ0It7LEfhg6zdMJQUJ72NyyPF
- x4SeWT4Lh1PRgdkutN5tAaaTYBBr0P3j0JMrZfGCI1CjiO4qmGHZEYcv5y3TzIZQ75Xe
- Rq4NXh3k1dK2galnKZHulDS9xP6NgMBsdY8zBjYVw3HcvhszW9HcxcFatidb7Yenm+P9
- mEVA==
-X-Gm-Message-State: AOAM533GTfqPphnqqlbhGCOBCyUOMwxwN/l3oKpUuJeA0oczyVi73qrM
- MzgSNkXEYU5Wj0J84EOzqxlHzrpxM6+FYKuz
-X-Google-Smtp-Source: ABdhPJyAi/+YBZke/4hVDlYZOkGuB1GgV2JuKuGkGJddGL2BIrGNFKHq8tcjmlkZfiMR0e9zu0degw==
-X-Received: by 2002:adf:e488:: with SMTP id i8mr10055037wrm.116.1601563702150; 
- Thu, 01 Oct 2020 07:48:22 -0700 (PDT)
+ bh=uTbLU0RMMX1YLcqLkOSI8U6uV/lVcqOS45S2U0pseyk=;
+ b=oK3yEZUxSQkG2YMImAr9mnXwagH9AU5hW7J8tQtNfNrhw/uQfsUBgrznwCl7fXk78O
+ b+Mf8hFLqX8gb1UjS/fvAyZr7tivMp7FNTJJVUDJ6fdwMis5t215K/Li6OImBkCdziL5
+ O/LykLMFl/phCAXMrY/YyVAi4+VsQqkHlZ2bbXM6Vxsd2p6Z+Ov50C82zQuaZW/NkH1y
+ y8ouEKs4Zb3K/qDfOfZwPhaHtEncNd8vqA2gvmFRDQJCimjYlL8QszYZ62AtsTOKcLaa
+ oaQEMgCtExyoBXChiyoJ7xz5mRfcIHet/asO2HXANC65I/1w0k7G8vkquKgqtcjjKmfL
+ YW3g==
+X-Gm-Message-State: AOAM532T1mwImT4kuaAdieYpPA3W2FQp+QmSopT58c+cdcksTxuNY4jH
+ ANn/5FlDsJ4G/h26bn21YTTf4ycVgF0JBXZq
+X-Google-Smtp-Source: ABdhPJzuQAhrMofNwSrXA8UuZVk6mVMvwxAARnZZ/Z8U3RtO/iCtm6U8kDYEBaPgIQLdzpICTxCZ+Q==
+X-Received: by 2002:a5d:44cc:: with SMTP id z12mr9739519wrr.189.1601563703177; 
+ Thu, 01 Oct 2020 07:48:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.21
+ by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:48:21 -0700 (PDT)
+ Thu, 01 Oct 2020 07:48:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/18] hw/arm/raspi: Use more specific machine names
-Date: Thu,  1 Oct 2020 15:47:56 +0100
-Message-Id: <20201001144759.5964-16-peter.maydell@linaro.org>
+Subject: [PULL 16/18] hw/arm/raspi: Introduce RaspiProcessorId enum
+Date: Thu,  1 Oct 2020 15:47:57 +0100
+Message-Id: <20201001144759.5964-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201001144759.5964-1-peter.maydell@linaro.org>
 References: <20201001144759.5964-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,56 +91,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Now that we can instantiate different machines based on their
-board_rev register value, we can have various raspi2 and raspi3.
-
-In commit fc78a990ec103 we corrected the machine description.
-Correct the machine names too. For backward compatibility, add
-an alias to the previous generic name.
+As we only support a reduced set of the REV_CODE_PROCESSOR id
+encoded in the board revision, define the PROCESSOR_ID values
+as an enum. We can simplify the board_soc_type and cores_count
+methods.
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200924111808.77168-6-f4bug@amsat.org
+Message-id: 20200924111808.77168-7-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/raspi.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/arm/raspi.c | 45 +++++++++++++++++++++------------------------
+ 1 file changed, 21 insertions(+), 24 deletions(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 3000e6d57e6..3426521379e 100644
+index 3426521379e..0d8e5a34c78 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -327,6 +327,7 @@ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
+@@ -69,16 +69,33 @@ FIELD(REV_CODE, MANUFACTURER,      16, 4);
+ FIELD(REV_CODE, MEMORY_SIZE,       20, 3);
+ FIELD(REV_CODE, STYLE,             23, 1);
  
-+    mc->alias = "raspi2";
-     rmc->board_rev = 0xa21041;
-     raspi_machine_class_common_init(mc, rmc->board_rev);
- };
-@@ -337,6 +338,7 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
++typedef enum RaspiProcessorId {
++    PROCESSOR_ID_BCM2836 = 1,
++    PROCESSOR_ID_BCM2837 = 2,
++} RaspiProcessorId;
++
++static const struct {
++    const char *type;
++    int cores_count;
++} soc_property[] = {
++    [PROCESSOR_ID_BCM2836] = {TYPE_BCM2836, BCM283X_NCPUS},
++    [PROCESSOR_ID_BCM2837] = {TYPE_BCM2837, BCM283X_NCPUS},
++};
++
+ static uint64_t board_ram_size(uint32_t board_rev)
+ {
+     assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style */
+     return 256 * MiB << FIELD_EX32(board_rev, REV_CODE, MEMORY_SIZE);
+ }
  
-+    mc->alias = "raspi3";
-     rmc->board_rev = 0xa02082;
-     raspi_machine_class_common_init(mc, rmc->board_rev);
- };
-@@ -344,12 +346,12 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
+-static int board_processor_id(uint32_t board_rev)
++static RaspiProcessorId board_processor_id(uint32_t board_rev)
+ {
++    int proc_id = FIELD_EX32(board_rev, REV_CODE, PROCESSOR);
++
+     assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style */
+-    return FIELD_EX32(board_rev, REV_CODE, PROCESSOR);
++    assert(proc_id < ARRAY_SIZE(soc_property) && soc_property[proc_id].type);
++
++    return proc_id;
+ }
  
- static const TypeInfo raspi_machine_types[] = {
-     {
--        .name           = MACHINE_TYPE_NAME("raspi2"),
-+        .name           = MACHINE_TYPE_NAME("raspi2b"),
-         .parent         = TYPE_RASPI_MACHINE,
-         .class_init     = raspi2b_machine_class_init,
- #ifdef TARGET_AARCH64
-     }, {
--        .name           = MACHINE_TYPE_NAME("raspi3"),
-+        .name           = MACHINE_TYPE_NAME("raspi3b"),
-         .parent         = TYPE_RASPI_MACHINE,
-         .class_init     = raspi3b_machine_class_init,
- #endif
+ static int board_version(uint32_t board_rev)
+@@ -88,32 +105,12 @@ static int board_version(uint32_t board_rev)
+ 
+ static const char *board_soc_type(uint32_t board_rev)
+ {
+-    static const char *soc_types[] = {
+-        NULL, TYPE_BCM2836, TYPE_BCM2837,
+-    };
+-    int proc_id = board_processor_id(board_rev);
+-
+-    if (proc_id >= ARRAY_SIZE(soc_types) || !soc_types[proc_id]) {
+-        error_report("Unsupported processor id '%d' (board revision: 0x%x)",
+-                     proc_id, board_rev);
+-        exit(1);
+-    }
+-    return soc_types[proc_id];
++    return soc_property[board_processor_id(board_rev)].type;
+ }
+ 
+ static int cores_count(uint32_t board_rev)
+ {
+-    static const int soc_cores_count[] = {
+-        0, BCM283X_NCPUS, BCM283X_NCPUS,
+-    };
+-    int proc_id = board_processor_id(board_rev);
+-
+-    if (proc_id >= ARRAY_SIZE(soc_cores_count) || !soc_cores_count[proc_id]) {
+-        error_report("Unsupported processor id '%d' (board revision: 0x%x)",
+-                     proc_id, board_rev);
+-        exit(1);
+-    }
+-    return soc_cores_count[proc_id];
++    return soc_property[board_processor_id(board_rev)].cores_count;
+ }
+ 
+ static const char *board_type(uint32_t board_rev)
 -- 
 2.20.1
 
