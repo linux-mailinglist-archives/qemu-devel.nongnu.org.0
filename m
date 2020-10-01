@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26033280203
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:00:31 +0200 (CEST)
-Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548C92801C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:57:34 +0200 (CEST)
+Received: from localhost ([::1]:55832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO04M-0004Gp-56
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:00:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43094)
+	id 1kO01V-00085T-CV
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsZ-00052Z-L7
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:19 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41194)
+ id 1kNzsa-000552-Ql
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:20 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsX-0002yQ-Mz
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:19 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w5so6109220wrp.8
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:17 -0700 (PDT)
+ id 1kNzsY-0002yg-Px
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:20 -0400
+Received: by mail-wm1-x343.google.com with SMTP id e2so3432888wme.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LdsF1p8GE52TqGxdvPUfjvasVxUb/DF5uSL01W4m9MM=;
- b=FOBdWnudi47dMkUnjuejoP0+G6qqcjBeRrTioihauwB+Q0PQSBeiZW24X19kxEx9tr
- 8tOnfliLpwkkAV5e3C3UNgvHS3gIwIDegNC1yLOMpQ6pK1w7ky1yzttmHB9mhHda+F/q
- aVCWU8i36Z0CjbSM7pTCxtkpP1zYxH4OiIHMTo3S3o1j/JbOycc2IsbP+ICzXPsTKSsd
- bw8Qymti4439LMB43l7EuvTbDLCtmbFfZXPfVUMbMSMAOsvtnb+Sn9LL9Hjj4F2MZnYf
- eB1jRRdBmQgMWtsqvkLVEU2TSgTj1THOWIzJNaT8CP7E7l03RfP23+xWd7OGzqF9q/wK
- A3ig==
+ bh=yp/YjDj5QeuPSc08DCe+GT6Bj66xcIoVhoaUCUMskJk=;
+ b=A8xotYvCTaKUGYSwxBadJsY2MyxpU/HtDYqnsz4MvOK229Rt7Q8tPw0+5AB74Jo4ZM
+ O+4WgY9wa4toQvj6MQPrmViT4KTC97KcmT6DQ67MFQSPZCp7S32MppZSmQ+faMIVdo7N
+ /BpPIQqEcPHltok0WiQbR4IbdsOPyv/Mhu5Re7rjgpzfodizoLbdVPt+yTo6sC3RPEYl
+ UxWS4aF4pmv/Xo+hPDzSgqItYxEeixXi88YRh22FGR92vh02bs0W4xsn49PKtdQCAvv9
+ bQZ5UZNKO2kU2djiD6uo5SaT9IzNBS74prXbKml6cfW8SXwjZtCB2Ml23VQIHbfWNmr2
+ XjYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LdsF1p8GE52TqGxdvPUfjvasVxUb/DF5uSL01W4m9MM=;
- b=IHUgn28hcJuU6mzfo570nRWuAM7GE8ty3SsGwnRv3yIgILx5PyJ2lykTdhjY6kJDiF
- Zn7eGElvAE93/5THbOoxhnkkCye9HSiU3wCiyWO6AB2rreHjcYtoi/HeeDY7l6fbNAFc
- Flpfwkt3WOA4LGasNFQe4jhrGWhl/o+By8LxjFxKlyP8UiZTfwNJAcEbjygtymBhnC5u
- w7cvIMQGX/MxmX7pz/WGKa+JXOGgnrS4QjMFmsnhrushdIHL84U9jQ31gGMuqV7jH1GP
- sUBK/1GmTlFTnorym7t1ygkiSyv9d/mhuWp91+WbIfRn6hzEbBne6YOAbbugorq/WXni
- WoYQ==
-X-Gm-Message-State: AOAM5332E/ts6KXjuTAzZIFzNsNi0WgC9gAN9EwcvYNhBEkFFWLAkff7
- iorr0+0fzG31a60zB1pndVAQDNIw17bEEaE2
-X-Google-Smtp-Source: ABdhPJx0/az8hgbL8CnoO3ZZ36ui7Q/UWseEl3vSiegkhnPXrlAmVhgd5qBRqOtzynVXenD9m0LG/g==
-X-Received: by 2002:adf:e3cf:: with SMTP id k15mr8833337wrm.291.1601563696072; 
- Thu, 01 Oct 2020 07:48:16 -0700 (PDT)
+ bh=yp/YjDj5QeuPSc08DCe+GT6Bj66xcIoVhoaUCUMskJk=;
+ b=Y5nkaYiJMKWzCFY0yL5mz42QZg0D+9cU7TBNcFg3nzQQWPOKF0MWt5m/RjuNZst5fa
+ n3qUsg8TAOj23MWkg86/fklVnsU7Ze00i02YF/mmFytjgQR8fotSAckrCJZOn/zYAmCz
+ sJJp6Dol2w7iiSDBTg37+PzZsFK5w+gBD8h1+oOksz1LkBCbho6Dl15aFCpo2458Vvf0
+ RBnWgIAVet3ecTww8W5LBamQPBZ0HQTW3TP7HT5BRV7FXLDE5h6MJX05PdF5gwmFciNf
+ o55Hk0Z/D0V7NP+PVZbCrrr0qPwArRzYz5OvMLYILdeGeuwPoBmqXVuyeZLg9kEgJ2LG
+ /xyw==
+X-Gm-Message-State: AOAM5302pDQxxaG65k1ZSeyAfdugHYYWm/BvzcXZ3T0sgDa6v2RBu2lW
+ Td2J5x8RdVKVdA7vbgu2RDJFHqVeDW8PhSgO
+X-Google-Smtp-Source: ABdhPJyo/faLOSk98d4VPownqniU+ZzeyFFg430HD9v+K2YBrlMGwdoUCY0b7h7BYlZqL1PxYbfdpQ==
+X-Received: by 2002:a1c:9893:: with SMTP id a141mr375610wme.188.1601563697182; 
+ Thu, 01 Oct 2020 07:48:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.15
+ by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:48:15 -0700 (PDT)
+ Thu, 01 Oct 2020 07:48:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/18] hw/arm/bcm2835: Add more unimplemented peripherals
-Date: Thu,  1 Oct 2020 15:47:50 +0100
-Message-Id: <20201001144759.5964-10-peter.maydell@linaro.org>
+Subject: [PULL 10/18] hw/arm/raspi: Remove ignore_memory_transaction_failures
+ on the raspi2
+Date: Thu,  1 Oct 2020 15:47:51 +0100
+Message-Id: <20201001144759.5964-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201001144759.5964-1-peter.maydell@linaro.org>
 References: <20201001144759.5964-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,60 +92,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The bcm2835-v3d is used since Linux 4.7, see commit
-49ac67e0c39c ("ARM: bcm2835: Add VC4 to the device tree"),
-and the bcm2835-txp since Linux 4.19, see commit
-b7dd29b401f5 ("ARM: dts: bcm283x: Add Transposer block").
+Commit 1c3db49d39 added the raspi3, which uses the same peripherals
+than the raspi2 (but with different ARM cores). The raspi3 was
+introduced without the ignore_memory_transaction_failures flag.
+Almost 2 years later, the machine is usable running U-Boot and
+Linux.
+In commit 00cbd5bd74 we mapped a lot of unimplemented devices,
+commit d442d95f added thermal block and commit 0e5bbd7406 the
+system timer.
+As we are happy with the raspi3, let's remove this flag on the
+raspi2.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-id: 20200921034729.432931-3-f4bug@amsat.org
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200921034729.432931-4-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/bcm2835_peripherals.h | 2 ++
- hw/arm/bcm2835_peripherals.c         | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/arm/raspi.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index 13d7c4c5531..c9ac941a82c 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -45,6 +45,7 @@ struct BCM2835PeripheralState {
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index d2f674587d3..811eaf52ff5 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -321,9 +321,6 @@ static void raspi_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_cpus = mc->min_cpus = mc->max_cpus = cores_count(board_rev);
+     mc->default_ram_size = board_ram_size(board_rev);
+     mc->default_ram_id = "ram";
+-    if (board_version(board_rev) == 2) {
+-        mc->ignore_memory_transaction_failures = true;
+-    }
+ };
  
-     BCM2835SystemTimerState systmr;
-     BCM2835MphiState mphi;
-+    UnimplementedDeviceState txp;
-     UnimplementedDeviceState armtmr;
-     UnimplementedDeviceState cprman;
-     UnimplementedDeviceState a2w;
-@@ -66,6 +67,7 @@ struct BCM2835PeripheralState {
-     UnimplementedDeviceState otp;
-     UnimplementedDeviceState dbus;
-     UnimplementedDeviceState ave0;
-+    UnimplementedDeviceState v3d;
-     UnimplementedDeviceState bscsl;
-     UnimplementedDeviceState smi;
-     DWC2State dwc2;
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index a9d7f53f6e9..15c5c72e465 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -343,6 +343,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-                                INTERRUPT_USB));
- 
-+    create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
-     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
-     create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
-     create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-@@ -356,6 +357,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
-     create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
-     create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
-+    create_unimp(s, &s->v3d, "bcm2835-v3d", V3D_OFFSET, 0x1000);
-     create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
- }
- 
+ static const TypeInfo raspi_machine_types[] = {
 -- 
 2.20.1
 
