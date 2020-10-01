@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC41280320
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:48:35 +0200 (CEST)
-Received: from localhost ([::1]:53302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D22828035F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:59:11 +0200 (CEST)
+Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0os-000178-5k
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
+	id 1kO0z8-0005Vk-A7
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0jE-0004Ro-D8
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:42:44 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:53376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0jB-0004H2-5B
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:42:43 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091Fd98C038087;
- Thu, 1 Oct 2020 15:42:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=YlHduj9Zy7EmZSaNb/IUMUZJPZhicT//8k8I+eUTBss=;
- b=uf5VTgaR/eiZDQyYVdtYJCPGA5k/bZX0muSXgW+9UTK+hMThm/0f1bZKEwFcm8nth/E6
- myF7BOIQTOBfjRlutWp5GW2nh8EjwDmMiixIEdI9KbqZEM6A3TpUJYjuIDtENZ+odh4w
- XJbx2pwsIjyWb18+vPnIDBKtUX9WnjlM4Vj3RreQn66FqrYZx1V+TnDNmJiuNrhV6Azr
- DwclLVVtu+uZQ9Bk1Ifoq8LxnVMTz7/Ud0yEJ+lMg+MzrH7VDZJVnppg8XR3CBLUhdVF
- kYeedPEYlfbRH8olDeSzcbHd9+oUwfTxshTEXD2ZK0w8W1bXHFLsNWBxJt6i1RB/g+3v HA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 33sx9neqrw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 01 Oct 2020 15:42:38 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091FL16o093476;
- Thu, 1 Oct 2020 15:40:37 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 33uv2h3gay-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 01 Oct 2020 15:40:37 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 091FeZwD018693;
- Thu, 1 Oct 2020 15:40:35 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 01 Oct 2020 08:40:35 -0700
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id E196918EE5DB; Thu,  1 Oct 2020 16:40:31 +0100 (IST)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 11/16] scripts/oss-fuzz: Add general-fuzzer build script
-In-Reply-To: <20200921022506.873303-12-alxndr@bu.edu>
-References: <20200921022506.873303-1-alxndr@bu.edu>
- <20200921022506.873303-12-alxndr@bu.edu>
-Date: Thu, 01 Oct 2020 16:40:31 +0100
-Message-ID: <m2blhm6jkg.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO0ld-0007SI-MH
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:45:15 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:47007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO0lb-0004ZX-MK
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:45:13 -0400
+Received: by mail-ot1-x342.google.com with SMTP id a13so3075632otl.13
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:45:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SAx4gnhtdHruOhWaRLw9QvsHsofhvpQMskdiZBpshkk=;
+ b=cO6n5khrUYR6utXhHKtrbdCabb1XzKu+EWxLF8SXEOHiqz2iD8EFJleoLTSc9/CbeP
+ UXupQl98+OcTvrznecDsdLEtbh8VrXwiKVNrUnP5PDdSZ0CL0ci8DVXAGBD3ttYk2zUu
+ basVG/IbQlAeFzcA3G+/8sJLOS1awoyQBAquw5T5Q7YFnhVT+LlmIgXwH/nBf2McbGQv
+ uZ5hbvjfA+yMGvnYH1rlkAqpT6n/FW0zgbq40/gzBz/0A1OR+rNSwrUD1kXd9YH16Q1+
+ r2xZu9Cs7UTTP7oDNdRJD+0EqqZ46d54zAJGJlHohr7g2PPMbJ1zXr3qbcIkL5iKhcpE
+ XEbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SAx4gnhtdHruOhWaRLw9QvsHsofhvpQMskdiZBpshkk=;
+ b=ppHPFGuiTnIC5WrN35MgcsWny1CjeDo107Cv7UZ05fil7WGmZCXtGh6qToiuTusbjA
+ PQ2SwYMzIs9uNgZvrLNS6g6hwnUmXx7ZUdLjZf0/qTzRUr/oTiqTx+xcl1E/oBJkbYtf
+ YptcTevPGh0tobBnZAHIlHZglbH9sVZ2G+yGI45OFZgIJrSrY7rjshR3QO01IWQjHDh7
+ 3TrQJqAvpCdelSUqrAFQzI4FSu8jpSnVhPKTs1vwUACVmFBhLEDO9AD/VaZcFawFP/Re
+ +s01RTfeTqfYJEZ/E0P/V1fjQb919ulZG7BregMSHXeZlrGu41UeclgiutpNdag0gTSc
+ yeUg==
+X-Gm-Message-State: AOAM533NneTTpOCviOCJ2hHgroCa30OFV0kBng/xDcOc2TWKoeKugvc9
+ iBln9SEFlf02SVeRHN5oM1LDwQ==
+X-Google-Smtp-Source: ABdhPJz4nfPUAh28uZWhzPAS0sOQDHroJeGdceP2lELr6+QRo0bjwpiIprfn+SQ6rdxY8dqQk9tIPw==
+X-Received: by 2002:a05:6830:1bf9:: with SMTP id
+ k25mr5382059otb.310.1601567110235; 
+ Thu, 01 Oct 2020 08:45:10 -0700 (PDT)
+Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id 187sm1113366oie.42.2020.10.01.08.45.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Oct 2020 08:45:09 -0700 (PDT)
+Subject: Re: [PATCH v1 04/20] s390x/tcg: Implement 32/128 bit for VECTOR FP ADD
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200930145523.71087-1-david@redhat.com>
+ <20200930145523.71087-5-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <eda4575a-574b-1aa9-c51b-cb205786130c@linaro.org>
+Date: Thu, 1 Oct 2020 10:45:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- suspectscore=2 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010132
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- suspectscore=2
- phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010133
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=darren.kenny@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:29:20
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200930145523.71087-5-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,125 +91,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- bsd@redhat.com, stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- philmd@redhat.com
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On 9/30/20 9:55 AM, David Hildenbrand wrote:
+> -typedef uint64_t (*vop64_3_fn)(uint64_t a, uint64_t b, float_status *s);
+> -static void vop64_3(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
+> -                    CPUS390XState *env, bool s, vop64_3_fn fn,
+> -                    uintptr_t retaddr)
+> -{
+> -    uint8_t vxc, vec_exc = 0;
+> -    S390Vector tmp = {};
+> -    int i;
+> -
+> -    for (i = 0; i < 2; i++) {
+> -        const uint64_t a = s390_vec_read_element64(v2, i);
+> -        const uint64_t b = s390_vec_read_element64(v3, i);
+> -
+> -        s390_vec_write_element64(&tmp, i, fn(a, b, &env->fpu_status));
+> -        vxc = check_ieee_exc(env, i, false, &vec_exc);
+> -        if (s || vxc) {
+> -            break;
+> -        }
+> -    }
+> -    handle_ieee_exc(env, vxc, vec_exc, retaddr);
+> -    *v1 = tmp;
+> -}
+...
+> +#define DEF_VOP_3(BITS)                                                        \
+> +typedef float##BITS (*vop##BITS##_3_fn)(float##BITS a, float##BITS b,          \
+> +                                        float_status *s);                      \
+> +static void vop##BITS##_3(S390Vector *v1, const S390Vector *v2,                \
+> +                          const S390Vector *v3, CPUS390XState *env, bool s,    \
+> +                          vop##BITS##_3_fn fn, uintptr_t retaddr)              \
+> +{                                                                              \
+> +    uint8_t vxc, vec_exc = 0;                                                  \
+> +    S390Vector tmp = {};                                                       \
+> +    int i;                                                                     \
+> +                                                                               \
+> +    for (i = 0; i < (128 / BITS); i++) {                                       \
+> +        const float##BITS a = s390_vec_read_float##BITS(v2, i);                \
+> +        const float##BITS b = s390_vec_read_float##BITS(v3, i);                \
+> +                                                                               \
+> +        s390_vec_write_float##BITS(&tmp, i, fn(a, b, &env->fpu_status));       \
+> +        vxc = check_ieee_exc(env, i, false, &vec_exc);                         \
+> +        if (s || vxc) {                                                        \
+> +            break;                                                             \
+> +        }                                                                      \
+> +    }                                                                          \
+> +    handle_ieee_exc(env, vxc, vec_exc, retaddr);                               \
+> +    *v1 = tmp;                                                                 \
+> +}
+> +DEF_VOP_3(32)
+> +DEF_VOP_3(64)
+> +DEF_VOP_3(128)
 
-On Sunday, 2020-09-20 at 22:25:01 -04, Alexander Bulekov wrote:
-> This parses a yaml file containing general-fuzzer configs and builds a
-> separate oss-fuzz wrapper binary for each one, changing some
-> preprocessor macros for each configuration. To avoid dealing with
-> escaping and stringifying, convert each string into a byte-array
-> representation
->
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  scripts/oss-fuzz/build_general_fuzzers.py | 69 +++++++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100755 scripts/oss-fuzz/build_general_fuzzers.py
->
-> diff --git a/scripts/oss-fuzz/build_general_fuzzers.py b/scripts/oss-fuzz/build_general_fuzzers.py
-> new file mode 100755
-> index 0000000000..918f1143a5
-> --- /dev/null
-> +++ b/scripts/oss-fuzz/build_general_fuzzers.py
-> @@ -0,0 +1,69 @@
-> +#!/usr/bin/env python3
-> +# -*- coding: utf-8 -*-
-> +
-> +"""
-> +This script creates wrapper binaries that invoke the general-device-fuzzer with
-> +configurations specified in a yaml config file.
-> +"""
-> +import sys
-> +import os
-> +import yaml
-> +import tempfile
-> +
-> +CC = ""
-> +TEMPLATE_FILENAME = "target_template.c"
-> +TEMPLATE_PATH = ""
-> +
-> +
-> +def usage():
-> +    print("Usage: CC=COMPILER {} CONFIG_PATH \
-> +OUTPUT_PATH_PREFIX".format(sys.argv[0]))
+While this works, you won't be able to step through this function in the
+debugger anymore, because it now has one source line: at the point of expansion.
 
-The indentation of this seems off.
+We do have plenty of these around the code base, I know.  This is small enough
+that I think it's reasonable to simply have three copies, one for each type.
 
-Python will concatenate 2 or more strings that appear one after the
-other, so it might be cleaner to write them like:
-
-    print("Usage: CC=COMPILER {} CONFIG_PATH "
-          "OUTPUT_PATH_PREFIX".format(sys.argv[0]))
-
-There is no need for the backslash at the end due to the use of the
-braces '()' here.
-
-
-> +    sys.exit(0)
+> +#define DEF_GVEC_FVA(BITS)                                                     \
+> +void HELPER(gvec_vfa##BITS)(void *v1, const void *v2, const void *v3,          \
+> +                            CPUS390XState *env, uint32_t desc)                 \
+> +{                                                                              \
+> +    vop##BITS##_3(v1, v2, v3, env, false, float##BITS##_add, GETPC());         \
+> +}
+> +DEF_GVEC_FVA(32)
+> +DEF_GVEC_FVA(64)
+> +DEF_GVEC_FVA(128)
 > +
-> +
-> +def str_to_c_byte_array(s):
-> +    """
-> +    Convert strings to byte-arrays so we don't worry about formatting
-> +    strings to play nicely with cc -DQEMU_FUZZARGS etc
-> +    """
-> +    return ','.join('0x{:02x}'.format(ord(x)) for x in s)
-> +
-> +
-> +def compile_wrapper(cfg, path):
-> +    os.system('$CC -DQEMU_FUZZ_ARGS="{fuzz_args}" \
-> +               -DQEMU_FUZZ_OBJECTS="{fuzz_objs}" \
-> +               {wrapper_template} -o {output_bin}'.format(
-> +                   fuzz_args=str_to_c_byte_array(cfg["args"].replace("\n", " ")),
-> +                   fuzz_objs=str_to_c_byte_array(cfg["objects"].replace("\n", " ")),
-> +                   wrapper_template=TEMPLATE_PATH,
-> +                   output_bin=path))
-> +
+> +#define DEF_GVEC_FVA_S(BITS)                                                   \
+> +void HELPER(gvec_vfa##BITS##s)(void *v1, const void *v2, const void *v3,       \
+> +                               CPUS390XState *env, uint32_t desc)              \
+> +{                                                                              \
+> +    vop##BITS##_3(v1, v2, v3, env, true, float##BITS##_add, GETPC());          \
+> +}
+> +DEF_GVEC_FVA_S(32)
+> +DEF_GVEC_FVA_S(64)
+I think you're defining these macros with the wrong parameters.  Think of how
+to use the same macros for all of add/sub/etc.
 
-Similarly here, it might look better as:
+E.g.
 
-    os.system('$CC -DQEMU_FUZZ_ARGS="{fuzz_args}" '
-              '-DQEMU_FUZZ_OBJECTS="{fuzz_objs}" '
-              '{wrapper_template} -o {output_bin}'.format(
-                   fuzz_args=str_to_c_byte_array(cfg["args"].replace("\n", " ")),
-                   fuzz_objs=str_to_c_byte_array(cfg["objects"].replace("\n", " ")),
-                   wrapper_template=TEMPLATE_PATH,
-                   output_bin=path))
+#define DEF_FOP3_B(NAME, OP, BITS) \...
+  void HELPER(gvec_##NAME##BITS)(void *v1, const void *v2,
+      const void *v3, CPUS390XState *env, uint32_t desc)
+  {
+    vop##BITS##_3(v1, v2, v3, env, false,
+                  float##BITS##_##OP, GETPC());
+  }
+  void HELPER(gvec_##NAME##BITS##s)(void *v1, const void *v2,
+      const void *v3, CPUS390XState *env, uint32_t desc)
+  {
+    vop##BITS##_3(v1, v2, v3, env, true,
+                  float##BITS##_##OP, GETPC());
+  }
 
-> +
-> +
-> +def main():
-> +    global CC
-> +    global TEMPLATE_PATH
-> +    global OUTPUT_BIN_NAME
-> +
-> +    if len(sys.argv) != 3:
-> +        usage()
-> +
-> +    cfg_path = sys.argv[1]
-> +    out_path = sys.argv[2]
-> +
-> +    CC = os.getenv("CC", default="cc")
-> +    TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), TEMPLATE_FILENAME)
-> +    if not os.path.exists(TEMPLATE_PATH):
-> +        print("Error {} doesn't exist".format(TEMPLATE_PATH))
-> +        sys.exit(1)
-> +
-> +    with open(cfg_path, "r") as f:
-> +        configs = yaml.load(f)["configs"]
+#define DEF_FOP3(NAME, OP) \
+  DEF_FOP3_B(NAME, OP, 32) \
+  DEF_FOP3_B(NAME, OP, 64) \
+  DEF_FOP3_B(NAME, OP, 128)
 
-Just in case, the use of .get("config". []) might work better here.
+DEF_FOP3(vfa, add)
+DEF_FOP3(vfd, div)
+DEF_FOP3(vfm, mul)
 
-But also check if yaml.load() could possibly throw an exception if the
-file, despite existing isn't able to be parsed.
+etc.
 
-Thanks,
 
-Darren.
+r~
 
