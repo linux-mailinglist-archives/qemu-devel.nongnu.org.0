@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9620280654
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:13:52 +0200 (CEST)
-Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5989A28065D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:17:33 +0200 (CEST)
+Received: from localhost ([::1]:38908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO35T-0006Jh-SP
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39020)
+	id 1kO392-000102-Ce
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kO2nq-0006X7-Uz; Thu, 01 Oct 2020 13:55:38 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kO2nn-00081d-7R; Thu, 01 Oct 2020 13:55:38 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z1so6836969wrt.3;
- Thu, 01 Oct 2020 10:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=M7t19Tqf063/zL/LgCE73iryE3zXZ+xrQJRxmqL2iCE=;
- b=kKc2TIuKF92KNBFSi2URXn92T85dgW2C8SiSZJ/RHPnyVPsl7jVgJFIyjIsQasMnuY
- ofmCFk0C2l1E4Fn5bICHm5J8gYcBsk0U/XOiXPdGwTUOl5lXsIXc3pLYhjyKqdqVI91x
- CR5E/tK0uLg2oDwgO2Yhy0CcptH4kIr7e/inmUsFSA/vfJfgHwYgiKIIAD/2ROcQcx5y
- CrO7d506C5pqz/4jwzVS6EpE2D/AUyItDeBBLW7z1bqUrA5f8p5oOzN13zy+RLK+FtGx
- HgaVw0FE3okAF3OITQNEtnbNh9CNNL21ih/htJQqhNWUemj20Iiy3Cs+rIPt3WHEglr4
- a3kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=M7t19Tqf063/zL/LgCE73iryE3zXZ+xrQJRxmqL2iCE=;
- b=Oc6VKw3ilRrKLtCsh6oaV4r0kQuP0APwyRrSXIRL8Kevn/ru2T2j8YzCTCz8e2X9UB
- rAUkGQKHftof5R0hOGcKNiRFozvkQb/bpcY6Ed5nOoqR+SIuDQWCmEAieuE2QpAs/ZON
- 2135BOaFJ7eWx6jB0GFkLkktZnfyOdejDpM67A+fR27JB0M7cgRuLJQo6M8fwPPwP+oe
- 7Bd3Iikjcx1x+bPLPbOWQL9X34Zluqu1i3aBDrx44OjgbDyuMz5o/KBI1nPxp8/JxU75
- Gy0JNs7RU9QycQtS8WCqWx9foV5HE2kYyeVQpWD2q8NFhK+3XxcBDTuRnuSQ8tS1T4FF
- cWNw==
-X-Gm-Message-State: AOAM530uMfTe053+Rx5WWPHac8H+Bj4miPL3wFwtfzer0vFOXqDhko/N
- lNH8DxRuw+KRdUcDinzBfWhwIwbaaVA=
-X-Google-Smtp-Source: ABdhPJxoOib+QkZmeVBWkef8EGZKrstXlCvY0qmY/+U6AO/kYKPIz2PInu86qUIPOI4j+cub6vN3kg==
-X-Received: by 2002:a5d:460c:: with SMTP id t12mr10449649wrq.225.1601574933052; 
- Thu, 01 Oct 2020 10:55:33 -0700 (PDT)
-Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id i26sm1019315wmb.17.2020.10.01.10.55.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 10:55:32 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] cpus: Do not dump CPU state when calling hw_error()
-Date: Thu,  1 Oct 2020 19:55:31 +0200
-Message-Id: <20201001175531.1623361-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO2p4-0008Ba-JW
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:56:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO2p2-0008Gb-US
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:56:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601575010;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FIvUOwW3qme1A3loFSMi1+8exHY8qAY72cgyMrRkcO8=;
+ b=P2HiPRYJmwrv9E9VoX2pUOAoB5FTH0KxppVoh+B0RcWiZK4awCu8ieD/GTJB6FdbqetyMA
+ we0ektznDV4X4ks4awYm78r4999ijCyEGqsNnshrFik6KRngkI78YiO4IcTwGC/iwB/1my
+ O9M7je6OnoXv/Yiwe3m1TjIxOEbHZKM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-Aw7a2JZWPxyuG8SsH8cRWQ-1; Thu, 01 Oct 2020 13:56:45 -0400
+X-MC-Unique: Aw7a2JZWPxyuG8SsH8cRWQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8312E801AB1;
+ Thu,  1 Oct 2020 17:56:44 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4041655770;
+ Thu,  1 Oct 2020 17:56:44 +0000 (UTC)
+Date: Thu, 1 Oct 2020 13:56:42 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/core/cpu: Add missing 'exec/cpu-common.h' include
+Message-ID: <20201001175642.GH3717385@habkost.net>
+References: <20200908123433.105706-1-philmd@redhat.com>
+ <ff99f676-2e6d-2f23-5a09-96cc77fb8469@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <ff99f676-2e6d-2f23-5a09-96cc77fb8469@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,47 +83,28 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <rth@twiddle.net>
+ qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dumping the state of all CPUs is not helpful in any of the contexts
-where hw_error() is used.
-We already have cpu_abort() to dump CPU states and abort.
+On Thu, Oct 01, 2020 at 07:44:57PM +0200, Philippe Mathieu-Daudé wrote:
+> ping?
+> 
+> On 9/8/20 2:34 PM, Philippe Mathieu-Daudé wrote:
+> > cpu_common_reset() uses tcg_flush_softmmu_tlb() which is
+> > declared in "exec/cpu-common.h". Add the missing header
+> > to avoid when refactoring other headers:
+> > 
+> >   hw/core/cpu.c: In function ‘cpu_common_reset’:
+> >   hw/core/cpu.c:273:9: error: implicit declaration of function ‘tcg_flush_softmmu_tlb’ [-Werror=implicit-function-declaration]
+> >     273 |         tcg_flush_softmmu_tlb(cpu);
+> >         |         ^~~~~~~~~~~~~~~~~~~~~
+> > 
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Restrict hw_error() to peripheral errors, hoping we can completely
-remove it by proper functions from "error-report.h" in the future.
+Qeueued, thanks!
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- softmmu/cpus.c | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index ac8940d52e..da45cbf989 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -913,16 +913,11 @@ static void stop_tcg_kick_timer(void)
- void hw_error(const char *fmt, ...)
- {
-     va_list ap;
--    CPUState *cpu;
- 
-     va_start(ap, fmt);
-     fprintf(stderr, "qemu: hardware error: ");
-     vfprintf(stderr, fmt, ap);
-     fprintf(stderr, "\n");
--    CPU_FOREACH(cpu) {
--        fprintf(stderr, "CPU #%d:\n", cpu->cpu_index);
--        cpu_dump_state(cpu, stderr, CPU_DUMP_FPU);
--    }
-     va_end(ap);
-     abort();
- }
 -- 
-2.26.2
+Eduardo
 
 
