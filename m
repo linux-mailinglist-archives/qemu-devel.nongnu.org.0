@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B9C28020A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:02:53 +0200 (CEST)
-Received: from localhost ([::1]:42218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EAE28021D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:05:28 +0200 (CEST)
+Received: from localhost ([::1]:50732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO06e-0005h8-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:02:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42974)
+	id 1kO099-0001Lm-Nk
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsT-0004oR-MH
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:13 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39417)
+ id 1kNzsc-00059b-Mx
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:22 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsR-0002x4-Nv
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:13 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k10so6120356wru.6
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:11 -0700 (PDT)
+ id 1kNzsa-0002zD-U5
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:22 -0400
+Received: by mail-wm1-x344.google.com with SMTP id x23so3210493wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7IRmJR4QLq1yyKkeN0MLbFHRplQff2bZm6Ce52F5OFc=;
- b=K0wFdEMAOc+stAy/xWe+yZhe/qeJrWcAI6FXxTve7h6UUNibEs0StQhdGiheTC6xLt
- qSW9VrMhNbanDtzH1hbrKnA7a+GUSoPLbppFphN/2GcME/OlXO7PJwa0y8X2/6gSup6b
- nM/3Kv4jofGf/boWd5IKEfNANHuWlwE7PhFL57F/wzC1QJJVAfJMIxj3FYuGmXu63tBo
- 5efwdfvpqD/N4+fli7evo0loUFgW6aRg2+JBuO7kgnWFNdtjwWC1QRqgvBTnI4iLnHgt
- GRilFtx1vPk5IX66tkQ0Jd8+XnylOzPcHXGsP/Rf2CkrB+lv86ptiHAQQlGlnl0tZcKm
- 8kKw==
+ bh=Y9QAXyCiJEecHCo6d8W/TvowXPNACal12JRPHiqZM5o=;
+ b=gkLiE5rvgZITNQ4D3ztfYmUIMxNWVbDr9JPjXZqX+wDzn0Wo3iSuXpv1nCYitE5UL3
+ c2KKPCR7Zjzcj0y5V+983kfUBbKHPO6rFV48RrSf9qzx9ndkk6FoAoZqGWtcfh6YlVWq
+ X2B6o/bc8R/J/ekkxlOTeos0Di5cT6tIXcejOGc3NtadlgmCABBMz/6K3ya4JmIZncSO
+ tfq/CCPAmaZ9SBInKoq1gwGusPUNEBkPjdYq7SeJvHF9n2/Bwrm3aZ1yeURVWQ67aj96
+ YvWQ6+9bboYEadf4pp4D/AKT5N0+2WnykLcO+6LNPR9/51UlVfqBvW8Sb+cEBPBfW+0y
+ VgxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7IRmJR4QLq1yyKkeN0MLbFHRplQff2bZm6Ce52F5OFc=;
- b=dcpFULG6TGtsl5TQKC/JNZQ7BOpEJ7HGnYZL+cwJX1LyXDPztLhVt5tK4ct00V9N6S
- Rx31g2QMpugqEO8FelPpadfyvGNT7bnzYHAiW4ZnecwVkzGhCHJQmA1E7x9KYBXz+uxu
- VjrbulnrkFkpMYhjjeRzSbH1mUT4IDzCoZjyZCaqx8ZLb+gm9h/MmzMw8HO2fMqBuFLN
- usoY3VrTzprNA/XvaU3LDqrE8Fn0RXA7G+QfYz5J0kmeUFVxPpmEOwGSyKH6T4vz7S2W
- 70af1bBdOwB1sY3rF6ExFkJHo+WhFvrp3ECFR9rOn1K9AbwxBWoEfO7+UBBFzZ/X2SfO
- OCeg==
-X-Gm-Message-State: AOAM531ozUqWacADIv2/+UlpocXfriiPRGJyweRNrXPdav/hUQLjD+69
- QUysO3CE+RDwUUAPKdXTvuaIqsizXcYEeue/
-X-Google-Smtp-Source: ABdhPJy2D0tCtalSgxU8XAvJeJP54toi44akejCLNrejYTQqd+G/yPOOEpoJ4QYu2PoVx5OLqIMIeg==
-X-Received: by 2002:a5d:6551:: with SMTP id z17mr9450772wrv.200.1601563689663; 
- Thu, 01 Oct 2020 07:48:09 -0700 (PDT)
+ bh=Y9QAXyCiJEecHCo6d8W/TvowXPNACal12JRPHiqZM5o=;
+ b=ERNs1zn8qV8aJaefpTyPlKYYPGRiV2PbYutqUP3Lkc0aV9T8Cx2GTVJGDSkUG/HgyO
+ urJfh32DM3XLcfV+rAgwijjidgJjbg6/OE7O6KzrDS0eww+uWdg/l+zThzJZ8YIc+Pjj
+ ITqYZaP8Nfyu6Lj+ObRtV1CI/cXRZlTu/DjhUZiQpb+AowgW+fxeo4ltdvI9S6QCWwMH
+ 0zwxvJ4jpOY6MyUxZZQx6EJEHRJe2wIsXyek4LxaC6sSWwlHVFfk0qPM1Zx411GMDybF
+ 4rQlmZW8SLoTIG8D+bkHWp/GEz8W5z/e86kdco6kWOSj+y4iWQpB5HvF8EBFs4rPTpj+
+ QjBA==
+X-Gm-Message-State: AOAM5325kbgXNbGQvPID26h7Ps8WMM75/9VZJdjdtht4nl8c9e4tKfaF
+ bVkRVMrdAUO22/zgLXtQtQcNp0gdv43rSL6F
+X-Google-Smtp-Source: ABdhPJzE3ZWm8fl575N6gh2T77sJF+IGK577O3lT7Bjvfxk8XwH0M3Os8/55JRELsLlsQgUWoWdUhQ==
+X-Received: by 2002:a7b:c0ca:: with SMTP id s10mr345967wmh.103.1601563699175; 
+ Thu, 01 Oct 2020 07:48:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.08
+ by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:48:08 -0700 (PDT)
+ Thu, 01 Oct 2020 07:48:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/18] hw/intc/armv7m_nvic: Only show ID register values for
- Main Extension CPUs
-Date: Thu,  1 Oct 2020 15:47:44 +0100
-Message-Id: <20201001144759.5964-4-peter.maydell@linaro.org>
+Subject: [PULL 12/18] hw/arm/raspi: Load the firmware on the first core
+Date: Thu,  1 Oct 2020 15:47:53 +0100
+Message-Id: <20201001144759.5964-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201001144759.5964-1-peter.maydell@linaro.org>
 References: <20201001144759.5964-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,106 +89,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-M-profile CPUs only implement the ID registers as guest-visible if
-the CPU implements the Main Extension (all our current CPUs except
-the Cortex-M0 do).
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Currently we handle this by having the Cortex-M0 leave the ID
-register values in the ARMCPU struct as zero, but this conflicts with
-our design decision to make QEMU behaviour be keyed off ID register
-fields wherever possible.
+The 'first_cpu' is more a QEMU accelerator-related concept
+than a variable the machine requires to use.
+Since the machine is aware of its CPUs, directly use the
+first one to load the firmware.
 
-Explicitly code the ID registers in the NVIC to return 0 if the Main
-Extension is not implemented, so we can make the M0 model set the
-ARMCPU struct fields to obtain the correct behaviour without those
-values becoming guest-visible.
-
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200924111808.77168-3-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200910173855.4068-4-peter.maydell@linaro.org
 ---
- hw/intc/armv7m_nvic.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ hw/arm/raspi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index a28be49c1e9..42b1ad59e65 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -1238,32 +1238,74 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
-                       "Aux Fault status registers unimplemented\n");
-         return 0;
-     case 0xd40: /* PFR0.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_pfr0;
-     case 0xd44: /* PFR1.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_pfr1;
-     case 0xd48: /* DFR0.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_dfr0;
-     case 0xd4c: /* AFR0.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->id_afr0;
-     case 0xd50: /* MMFR0.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_mmfr0;
-     case 0xd54: /* MMFR1.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_mmfr1;
-     case 0xd58: /* MMFR2.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_mmfr2;
-     case 0xd5c: /* MMFR3.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_mmfr3;
-     case 0xd60: /* ISAR0.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_isar0;
-     case 0xd64: /* ISAR1.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_isar1;
-     case 0xd68: /* ISAR2.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_isar2;
-     case 0xd6c: /* ISAR3.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_isar3;
-     case 0xd70: /* ISAR4.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_isar4;
-     case 0xd74: /* ISAR5.  */
-+        if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_offset;
-+        }
-         return cpu->isar.id_isar5;
-     case 0xd78: /* CLIDR */
-         return cpu->clidr;
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 46d9ed7f054..8716a80a75e 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -205,6 +205,7 @@ static void reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
+ 
+ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+ {
++    RaspiMachineState *s = RASPI_MACHINE(machine);
+     static struct arm_boot_info binfo;
+     int r;
+ 
+@@ -253,7 +254,7 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+         binfo.firmware_loaded = true;
+     }
+ 
+-    arm_load_kernel(ARM_CPU(first_cpu), machine, &binfo);
++    arm_load_kernel(&s->soc.cpu[0].core, machine, &binfo);
+ }
+ 
+ static void raspi_machine_init(MachineState *machine)
 -- 
 2.20.1
 
