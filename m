@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588E1280619
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:00:46 +0200 (CEST)
-Received: from localhost ([::1]:36232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C53C280626
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:02:29 +0200 (CEST)
+Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2sn-0003tc-8O
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:00:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
+	id 1kO2uR-0005W6-Hp
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2fb-0003aD-P3
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:47:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57380)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2fW-0006pR-Tn
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:47:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601574422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cmimizovWQ8kEMBX0Xd3BqYrtymzyrFOHBYXTZjWNPQ=;
- b=E7FB30Wye4yIBn6RZCJz9upgsYT9NiqsXfEW09dW/4TkzZ09Hvfk9KttqW17ceVl5WN9I/
- 5Dbdiy4kIVdbRpWv9vk3nb6ukZ7MvzSw0ovl/q0wQVvfxcv0oOHDQmvo/7dPkA4x/x3jxp
- crMFaueM+xg4NTsg69vS2By8bYbwyos=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-2Nq6EXG2PQO_uDQ495g0UQ-1; Thu, 01 Oct 2020 13:46:58 -0400
-X-MC-Unique: 2Nq6EXG2PQO_uDQ495g0UQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7925801AC2;
- Thu,  1 Oct 2020 17:46:56 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 300545C1CF;
- Thu,  1 Oct 2020 17:46:55 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 2/9] hw/ide/ahci: Do not dma_memory_unmap(NULL)
-Date: Thu,  1 Oct 2020 13:46:42 -0400
-Message-Id: <20201001174649.1911016-3-jsnow@redhat.com>
-In-Reply-To: <20201001174649.1911016-1-jsnow@redhat.com>
-References: <20201001174649.1911016-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO2PW-0002HP-M5
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:30:30 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33936)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO2PU-0004vl-KT
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:30:30 -0400
+Received: by mail-ot1-x342.google.com with SMTP id h17so6262048otr.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 10:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2zTn6UmRDFxIs8ngnHnsvmIE7cYSTi6nE7o8QaMVh/4=;
+ b=gIce9xcGe73X1XlmKYURkfoFvoZRnStNNJWyumKgE6G4bW3pCOdtLbr4JBILIEhNs/
+ sywA8Hk6FJKbNJeHy4qEfUMnIf/6krJHv+BqekgEZquLrAr0iSqT+Ag6N/dlMPOqsqCQ
+ 4PKqG6IGTzRbJGi8UYbs/JqxCJZYBSATYWf1WHFxj8tGDxBRZQBq7OQIEdr70Zbqqxas
+ UkrHek1J0nT8K6gUumjQTYyaUqCIZbbGJz3u7zDR/mBt257qwJU3JtBsu4CBbj92iKUm
+ PFgr/2WDpC6PFBYGQWM+rV+IGQDCYxu6ln8SIHo1J/OMIJF2Tfps15nD04w4BcQqOLq9
+ osSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2zTn6UmRDFxIs8ngnHnsvmIE7cYSTi6nE7o8QaMVh/4=;
+ b=gOVkWgv+NN6ylF3GX43VE6cMsji3pU5k2JP3cuYRKQWye+SXvnwYqjEfP5ldQWtsQI
+ ox5XE+OuifKsaPYHPT6gEzGtH1pZDzIE24CKkppAE/7hF2SMUkOiNkENP7+p3XOxPlFP
+ YVEcyCiSSWhvFcXK6gCksZbyq0iYEQokWJMLEzYioY3WVwIbU/TgcIh11d8ox+E7KnSA
+ u2iL7vQmjILOKeG+Qzn+LH2ySUog4w4lgXtooMt0Fy6JTuoRfCFkvdbRRowCqrR2Ryq/
+ WUiXxVXXOMjSKgi+yZbzV0pOo+GTgEO5R6qB46o1VzuiRJ+DXLhla/5E2jVZSy4gEaN9
+ woGw==
+X-Gm-Message-State: AOAM533mwOzjgHFuR8A8bdeSPJ8/hzUnwpDAGk4hN9aFY1ndBHCmCuze
+ HxuU9JMFo1F2bWfOCNyoZ0hsxA==
+X-Google-Smtp-Source: ABdhPJwA7IsNAMHtf8Ilb++VnjC5zb040uvQ3EaOqsxb03NjE5mdqfYClFCr9x+r4M8ZqPJ3cDWmDw==
+X-Received: by 2002:a05:6830:124d:: with SMTP id
+ s13mr5560103otp.12.1601573425829; 
+ Thu, 01 Oct 2020 10:30:25 -0700 (PDT)
+Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id u2sm1467840oot.39.2020.10.01.10.30.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Oct 2020 10:30:25 -0700 (PDT)
+Subject: Re: [PATCH 4/5] target/riscv: Add V extention state description
+To: Yifei Jiang <jiangyifei@huawei.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20200929020337.1559-1-jiangyifei@huawei.com>
+ <20200929020337.1559-5-jiangyifei@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <adfc3dc2-606f-5670-4b3b-c0719826a60e@linaro.org>
+Date: Thu, 1 Oct 2020 12:30:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200929020337.1559-5-jiangyifei@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,63 +92,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, qemu-stable@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, victor.zhangxiaofeng@huawei.com,
+ Alistair.Francis@wdc.com, yinyipeng1@huawei.com, palmer@dabbelt.com,
+ wu.wubin@huawei.com, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 9/28/20 9:03 PM, Yifei Jiang wrote:
+> In the case of supporting V extention, add V extention description
+> to vmstate_riscv_cpu.
+> 
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+> ---
+>  target/riscv/machine.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 
-libFuzzer triggered the following assertion:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-  cat << EOF | qemu-system-i386 -M pc-q35-5.0 \
-    -nographic -monitor none -serial none -qtest stdio
-  outl 0xcf8 0x8000fa24
-  outl 0xcfc 0xe1068000
-  outl 0xcf8 0x8000fa04
-  outw 0xcfc 0x7
-  outl 0xcf8 0x8000fb20
-  write 0xe1068304 0x1 0x21
-  write 0xe1068318 0x1 0x21
-  write 0xe1068384 0x1 0x21
-  write 0xe1068398 0x2 0x21
-  EOF
-  qemu-system-i386: exec.c:3621: address_space_unmap: Assertion `mr != NULL' failed.
-  Aborted (core dumped)
+Though of course this is racing with the v1.0 patch set, which changes the set
+of vector csrs.
 
-This is because we don't check the return value from dma_memory_map()
-which can return NULL, then we call dma_memory_unmap(NULL) which is
-illegal. Fix by only unmap if the value is not NULL (and the size is
-not the expected one).
 
-Cc: qemu-stable@nongnu.org
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200718072854.7001-1-f4bug@amsat.org
-Fixes: f6ad2e32f8 ("ahci: add ahci emulation")
-BugLink: https://bugs.launchpad.net/qemu/+bug/1884693
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- hw/ide/ahci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index ee1d47ff756..680304a24c3 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -250,7 +250,7 @@ static void map_page(AddressSpace *as, uint8_t **ptr, uint64_t addr,
-     }
- 
-     *ptr = dma_memory_map(as, addr, &len, DMA_DIRECTION_FROM_DEVICE);
--    if (len < wanted) {
-+    if (len < wanted && *ptr) {
-         dma_memory_unmap(as, *ptr, len, DMA_DIRECTION_FROM_DEVICE, len);
-         *ptr = NULL;
-     }
--- 
-2.26.2
-
+r~
 
