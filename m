@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C368B280717
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:41:18 +0200 (CEST)
-Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009D0280721
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:43:52 +0200 (CEST)
+Received: from localhost ([::1]:40392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO3W1-0005oc-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49224)
+	id 1kO3YU-0001U5-S3
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:43:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kO3PG-0002HQ-KJ; Thu, 01 Oct 2020 14:34:20 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:51333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kO3PB-0004f1-09; Thu, 01 Oct 2020 14:34:18 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3ED57580350;
- Thu,  1 Oct 2020 14:34:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 01 Oct 2020 14:34:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=ZtS1FCTdFkhV1Mkh0zH0GD6ZHgH
- xpBsii6MwKJKn9Lw=; b=J8x0h2RJahM6LCfRdeEYQLsLaNSwzS2HTaG+l36zhF1
- PnHH0Szotn0dtAQB2Zl8Zi0tX0lHxYGNAnOyL3DJdi+HPb90pfk+uU5pFKSsFNx7
- A1WZVnH7y5Y8mZEj8fS6O3lIFqDCrFTTPTVX0y8c1Z2G1i59enoLsGxhrcs77onp
- lUK7A6dTjoa+sgZOV3rtJMZY3wa/yYlQB7qD78gPEmXddYXoADWZJ8dPPMF2Lw9z
- plKNlzPpIHfr3LkMD01waxL0PATCJwn5GpA73W44kM2XXkChq94TvgVPD1FFI93R
- 9C9SU0sJVOm/bERGd9remuJoyWPgEbr92EUb+QYWdQw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZtS1FC
- TdFkhV1Mkh0zH0GD6ZHgHxpBsii6MwKJKn9Lw=; b=j9a94uJlPtiyw3h8BL3Qqj
- lYLcbjIMQq/OitpW01La+a6Curd6FrlNdy02J82A5FED+jo1jSW6PfVadXjtKgFJ
- FWZMFbjMlXu/F4WDwPjpeVlyFz3lSZW4DzuQM3dZpdMFMSQWpG5eqJdG8cAv8oyJ
- OBooBW2ZDW8wCbxzoICTd+OTEBrLdGhm/TCSbAjmO0D7pHrsOwMjbQM4JwkV5m5u
- 16i+yQLiksGqwY2cycsWaVnu75Dmb6bpQy5wmuOUa7TCqzHV+RHQb3JVdg8PlL2/
- OjY7KkgCLTAO8ZDEd0ja++ZXIjmdjPvcOPEr+xHh0+O8s8M7yyH1b4PxKSyglVvQ
- ==
-X-ME-Sender: <xms:HSF2X5qConrH3TM2uYLQFd-vNFOdi9awgTVTGnJ4v83myHGG2dfUMw>
- <xme:HSF2X7oTdnJIT5v549NTDa7sENIlsMDklzuA9oQ35_7P5yoto_4rnc_MOuQWbY56d
- v_oaKMa75Lec8xW-qs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdduvdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:HSF2X2Pa10SP6ELwhk0mJs94t_OmyY36KxoP7LDQKoh3dhLrRKucBw>
- <xmx:HSF2X05aRLAmKTKU6eZbgduQq6jlyTHXnsjH-ZoEaQsv9Byps78-7Q>
- <xmx:HSF2X45LaJaJkwlonZqJyxaJ8L7q1ByDgbRTO8Lp9Lmoynv_PgWi_A>
- <xmx:HiF2XyQaHBH0N1WmLLuBkr9DJupuLTP6v_7JGKLXPnpWrcxrsaWwpg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id BF2533064674;
- Thu,  1 Oct 2020 14:34:03 -0400 (EDT)
-Date: Thu, 1 Oct 2020 20:34:01 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 1/9] hw/block/nvme: remove pointless rw indirection
-Message-ID: <20201001183401.GC792691@apples.localdomain>
-References: <20200930220414.562527-1-kbusch@kernel.org>
- <20200930220414.562527-2-kbusch@kernel.org>
- <20201001040508.GA681387@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO3Xg-0000e9-9E
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:43:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO3Xd-0005kn-Un
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:42:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601577776;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V1SCDp4hy1FKNoF+R4/BFbx+dcTDTU9haxk2VctjCS0=;
+ b=LahHLSdiFJwv0SCK2Awp5tBs+t6IUDAztYt/N0D+HfJaCYvcjTY0jtvG3uxbLUoC7wuM2r
+ mgvngSBMBwa5pfgJU7KKtnSAiA21VIrF5Rmv+nEzAgRuoZGr5hV0SD2kwwPT4/Wh/toTFI
+ rvZ2COYTJJ4coNsX9h9Ec/QyWP8Wbd4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-G0-5WzctPuukBUUg2uoSDg-1; Thu, 01 Oct 2020 14:42:52 -0400
+X-MC-Unique: G0-5WzctPuukBUUg2uoSDg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7773108E1CB;
+ Thu,  1 Oct 2020 18:42:48 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 306415DA74;
+ Thu,  1 Oct 2020 18:42:39 +0000 (UTC)
+Date: Thu, 1 Oct 2020 14:42:38 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 1/3] util/cutils: Introduce freq_to_str() to display
+ Hertz units
+Message-ID: <20201001184238.GI3717385@habkost.net>
+References: <20201001164322.1585392-1-f4bug@amsat.org>
+ <20201001164322.1585392-2-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eRtJSFbw+EEWtPj3"
+In-Reply-To: <20201001164322.1585392-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201001040508.GA681387@apples.localdomain>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
- helo=new1-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 13:18:43
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,211 +83,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Havard Skinnemoen <hskinnemoen@google.com>,
+ Tyrone Ting <kfting@nuvoton.com>, Damien Hedde <damien.hedde@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc@lmichel.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 01, 2020 at 06:43:20PM +0200, Philippe Mathieu-Daudé wrote:
+> Introduce freq_to_str() to convert frequency values in human
+> friendly units using the SI units for Hertz.
+> 
+> Suggested-by: Luc Michel <luc@lmichel.fr>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/qemu/cutils.h | 12 ++++++++++++
+>  util/cutils.c         | 14 ++++++++++++++
+>  2 files changed, 26 insertions(+)
+> 
+> diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+> index 3a86ec0321..4bbf4834ea 100644
+> --- a/include/qemu/cutils.h
+> +++ b/include/qemu/cutils.h
+> @@ -158,6 +158,18 @@ int qemu_strtosz_metric(const char *nptr, const char **end, uint64_t *result);
+>  
+>  char *size_to_str(uint64_t val);
+>  
+> +/**
+> + * freq_to_str:
+> + * @freq_hz: frequency to stringify
+> + *
+> + * Return human readable string for frequency @freq_hz.
+> + * Use SI units like KHz, MHz, and so forth.
+> + *
+> + * The caller is responsible for releasing the value returned
+> + * with g_free() after use.
+> + */
+> +char *freq_to_str(uint64_t freq_hz);
+> +
+>  /* used to print char* safely */
+>  #define STR_OR_NULL(str) ((str) ? (str) : "null")
+>  
+> diff --git a/util/cutils.c b/util/cutils.c
+> index 8da34e04b0..be4e43a9ef 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -885,6 +885,20 @@ char *size_to_str(uint64_t val)
+>      return g_strdup_printf("%0.3g %sB", (double)val / div, suffixes[i]);
+>  }
+>  
+> +char *freq_to_str(uint64_t freq_hz)
+> +{
+> +    static const char *const suffixes[] = { "", "K", "M", "G", "T", "P", "E" };
+> +    double freq = freq_hz;
+> +    size_t idx = 0;
+> +
+> +    while (freq >= 1000.0 && idx < ARRAY_SIZE(suffixes)) {
+> +        freq /= 1000.0;
+> +        idx++;
+> +    }
+> +
+> +    return g_strdup_printf("%0.3g %sHz", freq, suffixes[idx]);
 
---eRtJSFbw+EEWtPj3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The only thing protecting this from out of bounds array access is
+the fact that UINT64_MAX is smaller than 1000E.  I wonder if this
+causes a Coverity warning.
 
-On Oct  1 06:05, Klaus Jensen wrote:
-> On Sep 30 15:04, Keith Busch wrote:
-> > The code switches on the opcode to invoke a function specific to that
-> > opcode. There's no point in consolidating back to a common function that
-> > just switches on that same opcode without any actual common code.
-> > Restore the opcode specific behavior without going back through another
-> > level of switches.
-> >=20
-> > Signed-off-by: Keith Busch <kbusch@kernel.org>
->=20
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Point taken. I could've sweared I had a better reason for this.
->=20
-> > ---
-> >  hw/block/nvme.c | 91 ++++++++++++++++---------------------------------
-> >  1 file changed, 29 insertions(+), 62 deletions(-)
-> >=20
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index da8344f196..db52ea0db9 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -927,68 +927,12 @@ static void nvme_rw_cb(void *opaque, int ret)
-> >      nvme_enqueue_req_completion(nvme_cq(req), req);
-> >  }
-> > =20
-> > -static uint16_t nvme_do_aio(BlockBackend *blk, int64_t offset, size_t =
-len,
-> > -                            NvmeRequest *req)
-> > -{
-> > -    BlockAcctCookie *acct =3D &req->acct;
-> > -    BlockAcctStats *stats =3D blk_get_stats(blk);
-> > -
-> > -    bool is_write =3D false;
-> > -
-> > -    trace_pci_nvme_do_aio(nvme_cid(req), req->cmd.opcode,
-> > -                          nvme_io_opc_str(req->cmd.opcode), blk_name(b=
-lk),
-> > -                          offset, len);
-> > -
-> > -    switch (req->cmd.opcode) {
-> > -    case NVME_CMD_FLUSH:
-> > -        block_acct_start(stats, acct, 0, BLOCK_ACCT_FLUSH);
-> > -        req->aiocb =3D blk_aio_flush(blk, nvme_rw_cb, req);
-> > -        break;
-> > -
-> > -    case NVME_CMD_WRITE_ZEROES:
-> > -        block_acct_start(stats, acct, len, BLOCK_ACCT_WRITE);
-> > -        req->aiocb =3D blk_aio_pwrite_zeroes(blk, offset, len,
-> > -                                           BDRV_REQ_MAY_UNMAP, nvme_rw=
-_cb,
-> > -                                           req);
-> > -        break;
-> > -
-> > -    case NVME_CMD_WRITE:
-> > -        is_write =3D true;
-> > -
-> > -        /* fallthrough */
-> > -
-> > -    case NVME_CMD_READ:
-> > -        block_acct_start(stats, acct, len,
-> > -                         is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ=
-);
-> > -
-> > -        if (req->qsg.sg) {
-> > -            if (is_write) {
-> > -                req->aiocb =3D dma_blk_write(blk, &req->qsg, offset,
-> > -                                           BDRV_SECTOR_SIZE, nvme_rw_c=
-b, req);
-> > -            } else {
-> > -                req->aiocb =3D dma_blk_read(blk, &req->qsg, offset,
-> > -                                          BDRV_SECTOR_SIZE, nvme_rw_cb=
-, req);
-> > -            }
-> > -        } else {
-> > -            if (is_write) {
-> > -                req->aiocb =3D blk_aio_pwritev(blk, offset, &req->iov,=
- 0,
-> > -                                             nvme_rw_cb, req);
-> > -            } else {
-> > -                req->aiocb =3D blk_aio_preadv(blk, offset, &req->iov, =
-0,
-> > -                                            nvme_rw_cb, req);
-> > -            }
-> > -        }
-> > -
-> > -        break;
-> > -    }
-> > -
-> > -    return NVME_NO_COMPLETE;
-> > -}
-> > -
-> >  static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
-> >  {
-> > -    NvmeNamespace *ns =3D req->ns;
-> > -    return nvme_do_aio(ns->blkconf.blk, 0, 0, req);
-> > +    block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
+> +}
+> +
+>  int qemu_pstrcmp0(const char **str1, const char **str2)
+>  {
+>      return g_strcmp0(*str1, *str2);
+> -- 
+> 2.26.2
+> 
 
-Uh, ouch!
+-- 
+Eduardo
 
-This and the rest needs to be changed to ns->blkconf.blk and not
-n->conf.blk.
-
-> > +                     BLOCK_ACCT_FLUSH);
-> > +    req->aiocb =3D blk_aio_flush(n->conf.blk, nvme_rw_cb, req);
-> > +    return NVME_NO_COMPLETE;
-> >  }
-> > =20
-> >  static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
-> > @@ -1009,7 +953,11 @@ static uint16_t nvme_write_zeroes(NvmeCtrl *n, Nv=
-meRequest *req)
-> >          return status;
-> >      }
-> > =20
-> > -    return nvme_do_aio(ns->blkconf.blk, offset, count, req);
-> > +    block_acct_start(blk_get_stats(n->conf.blk), &req->acct, 0,
-> > +                     BLOCK_ACCT_WRITE);
-> > +    req->aiocb =3D blk_aio_pwrite_zeroes(n->conf.blk, offset, count,
-> > +                                       BDRV_REQ_MAY_UNMAP, nvme_rw_cb,=
- req);
-> > +    return NVME_NO_COMPLETE;
-> >  }
-> > =20
-> >  static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
-> > @@ -1023,6 +971,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *=
-req)
-> >      uint64_t data_offset =3D nvme_l2b(ns, slba);
-> >      enum BlockAcctType acct =3D req->cmd.opcode =3D=3D NVME_CMD_WRITE ?
-> >          BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
-> > +    BlockBackend *blk =3D ns->blkconf.blk;
-> >      uint16_t status;
-> > =20
-> >      trace_pci_nvme_rw(nvme_cid(req), nvme_io_opc_str(rw->opcode),
-> > @@ -1045,7 +994,25 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest =
-*req)
-> >          goto invalid;
-> >      }
-> > =20
-> > -    return nvme_do_aio(ns->blkconf.blk, data_offset, data_size, req);
-> > +    block_acct_start(blk_get_stats(blk), &req->acct, data_size, acct);
-> > +    if (req->qsg.sg) {
-> > +        if (acct =3D=3D BLOCK_ACCT_WRITE) {
-> > +            req->aiocb =3D dma_blk_write(blk, &req->qsg, data_offset,
-> > +                                       BDRV_SECTOR_SIZE, nvme_rw_cb, r=
-eq);
-> > +        } else {
-> > +            req->aiocb =3D dma_blk_read(blk, &req->qsg, data_offset,
-> > +                                      BDRV_SECTOR_SIZE, nvme_rw_cb, re=
-q);
-> > +        }
-> > +    } else {
-> > +        if (acct =3D=3D BLOCK_ACCT_WRITE) {
-> > +            req->aiocb =3D blk_aio_pwritev(blk, data_offset, &req->iov=
-, 0,
-> > +                                         nvme_rw_cb, req);
-> > +        } else {
-> > +            req->aiocb =3D blk_aio_preadv(blk, data_offset, &req->iov,=
- 0,
-> > +                                        nvme_rw_cb, req);
-> > +        }
-> > +    }
-> > +    return NVME_NO_COMPLETE;
-> > =20
-> >  invalid:
-> >      block_acct_invalid(blk_get_stats(ns->blkconf.blk), acct);
-> > --=20
-> > 2.24.1
-> >=20
-> >=20
->=20
-> --=20
-> One of us - No more doubt, silence or taboo about mental illness.
-
-
-
---=20
-One of us - No more doubt, silence or taboo about mental illness.
-
---eRtJSFbw+EEWtPj3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl92IRcACgkQTeGvMW1P
-DembhQgAh5gBHGX1ArmMrnYcgsSLGWyV4Z6GZee+MKubT2gBYQwUDvGk93YoY/dc
-nm/RtDuYGdwcYLMD6UU/c5BQ6NOZXIzx7dO4EmtGVtf7ag1KQtcbsUn1ao5h3CNX
-NBZrsc824GIwPWscbzj8tOOIKJGtxDMKnUtfutffBIDcMqZWLKKpVXYZmu080TzK
-QnY6eLw0cHaa9/ZWF/2c/w1ukU9IAlY/ukzD7+QlzX7tuUjES9AbhNbU4l1fcg6s
-fbZpqmkxH5MpQMtE/Klb/vCMJhrMEFPkL1ONm1msa+HwLlyQ9DtwigSleZvdY0ZE
-pH75e3d0fLmFkOZo7gK9gf8UURBL0w==
-=Cx7L
------END PGP SIGNATURE-----
-
---eRtJSFbw+EEWtPj3--
 
