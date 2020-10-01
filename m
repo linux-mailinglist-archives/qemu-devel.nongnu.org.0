@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C0B27F962
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:19:07 +0200 (CEST)
-Received: from localhost ([::1]:49662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E872827F965
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:21:02 +0200 (CEST)
+Received: from localhost ([::1]:55892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNrvm-0005xN-QT
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38300)
+	id 1kNrxe-0008Uk-0h
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:21:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kNruI-00049w-DY
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28508)
+ id 1kNruJ-0004Bw-1x
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kNruD-0003r4-UL
+ id 1kNruG-0003ra-Hc
  for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:34 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601533049;
+ s=mimecast20190719; t=1601533051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8eBQ4xArbNe0H4b51EnwvK//0iqdyYTLDLzz0NqmkOk=;
- b=g6kPRmo7pQnWntj1NzBAxqqw4fD8z5vzaLAKXPvovIBCK9kRyVF0zGUhkZJiehE9gkjybB
- WPlv0R8u/RjhZnJs01VDvv0haHBEt/CboT4phH8rZwdqsoagK+w53RzeMFmi9NYzpU4WyC
- hYOryPeudz4h6P8Pwd7BXY/GezN0VX4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ieUA5yF+LXhcrhfytruIU7n15HTff8gqNaSJB/pnLxM=;
+ b=cOAbjqrXm/xkoqeptAEajQgt2KicaHhks6hTnpcDy+rX0kSsDgGpWNXaduZXaFsmXm/ksS
+ mfDxBoerSwY3LZonziXAA3TBQZukXvO1CsdqzlKu/eMj2yX0py9bVs23T3skNvyeLTTk9c
+ OPFIxN5Cz1BwBz8KKMng1rbikiSL0UI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-0t21fm0lNFevAFt8wBbkrA-1; Thu, 01 Oct 2020 02:17:26 -0400
-X-MC-Unique: 0t21fm0lNFevAFt8wBbkrA-1
+ us-mta-440-H-sVKAD4MY24D7GRkCZAHg-1; Thu, 01 Oct 2020 02:17:27 -0400
+X-MC-Unique: H-sVKAD4MY24D7GRkCZAHg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D304E185A0E1;
- Thu,  1 Oct 2020 06:17:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEF148030B2;
+ Thu,  1 Oct 2020 06:17:26 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 063275578D;
- Thu,  1 Oct 2020 06:17:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C4E35577A;
+ Thu,  1 Oct 2020 06:17:25 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v4 0/6] hw/arm/virt: Introduce kvm-steal-time
-Date: Thu,  1 Oct 2020 08:17:12 +0200
-Message-Id: <20201001061718.101915-1-drjones@redhat.com>
+Subject: [PATCH v4 1/6] linux headers: sync to 5.9-rc7
+Date: Thu,  1 Oct 2020 08:17:13 +0200
+Message-Id: <20201001061718.101915-2-drjones@redhat.com>
+In-Reply-To: <20201001061718.101915-1-drjones@redhat.com>
+References: <20201001061718.101915-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -55,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 00:27:22
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -78,68 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, eric.auger@redhat.com
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
+ eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v4:
-  - Rebased to latest master
-  - Added an official linux header synch patch, replacing the
-    hack patch used in v3
-  - Added a patch to restore the arm-cpu-features test for AArch64
-    that got lost in the meson shuffle
-  - Added Eric's R-b's
+Update against Linux 5.9-rc7.
 
-v3:
-  - Rebased: 5.2 machine type and kvm32 drop now included
-  - Switched to using new KVM cap that has been merged upstream
-  - Picked up some r-b's and some of Eric's comments from v2
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+---
+ linux-headers/linux/kvm.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727588.html
-
-KVM supports the ability to publish the amount of time that VCPUs
-were runnable, but not running due to other host threads running
-instead, to the guest. The guest scheduler may use that information
-when making decisions and the guest may expose it to its userspace
-(Linux publishes this information in /proc/stat). This feature is
-called "steal time" as it represents the amount of time stolen from
-a guest by scheduling out its VCPUs. To enable this feature KVM
-userspace must provide a memory region that will be used to publish
-the information to the guest. The memory region is typical migratable
-region. The GPA of the region is given to KVM through a VCPU device
-ioctl interface. This feature is only available for 64-bit guests
-per the Arm PVTIME specification (DEN0057A).
-
-This series provides the QEMU support of this feature. It will
-be enabled by default for 5.2 machine types and later, but may
-be disabled with a new CPU property "kvm-steal-time".
-
-Thanks,
-drew
-
-
-Andrew Jones (6):
-  linux headers: sync to 5.9-rc7
-  target/arm/kvm: Make uncalled stubs explicitly unreachable
-  hw/arm/virt: Move post cpu realize check into its own function
-  hw/arm/virt: Move kvm pmu setup to virt_cpu_post_init
-  tests/qtest: Restore aarch64 arm-cpu-features test
-  hw/arm/virt: Implement kvm-steal-time
-
- docs/system/arm/cpu-features.rst |  11 ++++
- hw/arm/virt.c                    | 110 ++++++++++++++++++++++---------
- include/hw/arm/virt.h            |   5 ++
- linux-headers/linux/kvm.h        |   6 +-
- target/arm/cpu.c                 |   8 +++
- target/arm/cpu.h                 |   4 ++
- target/arm/kvm.c                 |  16 +++++
- target/arm/kvm64.c               |  64 ++++++++++++++++--
- target/arm/kvm_arm.h             |  94 ++++++++++++++++++++------
- target/arm/monitor.c             |   2 +-
- tests/qtest/arm-cpu-features.c   |  25 +++++--
- tests/qtest/meson.build          |   3 +-
- 12 files changed, 286 insertions(+), 62 deletions(-)
-
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 6683e2e1b0a0..43580c767c33 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -790,9 +790,10 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_VM_PPC_HV 1
+ #define KVM_VM_PPC_PR 2
+ 
+-/* on MIPS, 0 forces trap & emulate, 1 forces VZ ASE */
+-#define KVM_VM_MIPS_TE		0
++/* on MIPS, 0 indicates auto, 1 forces VZ ASE, 2 forces trap & emulate */
++#define KVM_VM_MIPS_AUTO	0
+ #define KVM_VM_MIPS_VZ		1
++#define KVM_VM_MIPS_TE		2
+ 
+ #define KVM_S390_SIE_PAGE_OFFSET 1
+ 
+@@ -1035,6 +1036,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_LAST_CPU 184
+ #define KVM_CAP_SMALLER_MAXPHYADDR 185
+ #define KVM_CAP_S390_DIAG318 186
++#define KVM_CAP_STEAL_TIME 187
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
 2.26.2
 
