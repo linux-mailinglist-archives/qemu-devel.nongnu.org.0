@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C54280648
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:11:09 +0200 (CEST)
-Received: from localhost ([::1]:53860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9620280654
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:13:52 +0200 (CEST)
+Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO32q-0003M4-NN
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36980)
+	id 1kO35T-0006Jh-SP
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2fp-0003fP-Ae
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:47:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2fn-0006sP-E5
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:47:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601574438;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dUHnpLwVdnwHzpPtlw7iMCZujqB+2ubRgsKhRQHIqYE=;
- b=MM3xfBuzaYLsFRGfjj2w/iQndaHHR/3juOsLSicpRrTxfCVJ5CmOcBv7tGKVpTLrWA0gKf
- RJlfLjwt5lF4bOsjQwf9b458epU9skgZOKk0on0GwF7lv/WkthA2ECd1VrPYB92HN4Ei2K
- bjSIvUNMzSv+m+Rr+8oBIvIdP/jp7OE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-PGlBVT1lOTOQmRL2sltrzw-1; Thu, 01 Oct 2020 13:47:03 -0400
-X-MC-Unique: PGlBVT1lOTOQmRL2sltrzw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DB3C10060C1;
- Thu,  1 Oct 2020 17:47:02 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1332B5C1CF;
- Thu,  1 Oct 2020 17:47:01 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 9/9] ide: cancel pending callbacks on SRST
-Date: Thu,  1 Oct 2020 13:46:49 -0400
-Message-Id: <20201001174649.1911016-10-jsnow@redhat.com>
-In-Reply-To: <20201001174649.1911016-1-jsnow@redhat.com>
-References: <20201001174649.1911016-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kO2nq-0006X7-Uz; Thu, 01 Oct 2020 13:55:38 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kO2nn-00081d-7R; Thu, 01 Oct 2020 13:55:38 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z1so6836969wrt.3;
+ Thu, 01 Oct 2020 10:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M7t19Tqf063/zL/LgCE73iryE3zXZ+xrQJRxmqL2iCE=;
+ b=kKc2TIuKF92KNBFSi2URXn92T85dgW2C8SiSZJ/RHPnyVPsl7jVgJFIyjIsQasMnuY
+ ofmCFk0C2l1E4Fn5bICHm5J8gYcBsk0U/XOiXPdGwTUOl5lXsIXc3pLYhjyKqdqVI91x
+ CR5E/tK0uLg2oDwgO2Yhy0CcptH4kIr7e/inmUsFSA/vfJfgHwYgiKIIAD/2ROcQcx5y
+ CrO7d506C5pqz/4jwzVS6EpE2D/AUyItDeBBLW7z1bqUrA5f8p5oOzN13zy+RLK+FtGx
+ HgaVw0FE3okAF3OITQNEtnbNh9CNNL21ih/htJQqhNWUemj20Iiy3Cs+rIPt3WHEglr4
+ a3kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=M7t19Tqf063/zL/LgCE73iryE3zXZ+xrQJRxmqL2iCE=;
+ b=Oc6VKw3ilRrKLtCsh6oaV4r0kQuP0APwyRrSXIRL8Kevn/ru2T2j8YzCTCz8e2X9UB
+ rAUkGQKHftof5R0hOGcKNiRFozvkQb/bpcY6Ed5nOoqR+SIuDQWCmEAieuE2QpAs/ZON
+ 2135BOaFJ7eWx6jB0GFkLkktZnfyOdejDpM67A+fR27JB0M7cgRuLJQo6M8fwPPwP+oe
+ 7Bd3Iikjcx1x+bPLPbOWQL9X34Zluqu1i3aBDrx44OjgbDyuMz5o/KBI1nPxp8/JxU75
+ Gy0JNs7RU9QycQtS8WCqWx9foV5HE2kYyeVQpWD2q8NFhK+3XxcBDTuRnuSQ8tS1T4FF
+ cWNw==
+X-Gm-Message-State: AOAM530uMfTe053+Rx5WWPHac8H+Bj4miPL3wFwtfzer0vFOXqDhko/N
+ lNH8DxRuw+KRdUcDinzBfWhwIwbaaVA=
+X-Google-Smtp-Source: ABdhPJxoOib+QkZmeVBWkef8EGZKrstXlCvY0qmY/+U6AO/kYKPIz2PInu86qUIPOI4j+cub6vN3kg==
+X-Received: by 2002:a5d:460c:: with SMTP id t12mr10449649wrq.225.1601574933052; 
+ Thu, 01 Oct 2020 10:55:33 -0700 (PDT)
+Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id i26sm1019315wmb.17.2020.10.01.10.55.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 10:55:32 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] cpus: Do not dump CPU state when calling hw_error()
+Date: Thu,  1 Oct 2020 19:55:31 +0200
+Message-Id: <20201001175531.1623361-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,105 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SRST implementation did not keep up with the rest of IDE; it is
-possible to perform a weak reset on an IDE device to remove the BSY/DRQ
-bits, and then issue writes to the control/device registers which can
-cause chaos with the state machine.
+Dumping the state of all CPUs is not helpful in any of the contexts
+where hw_error() is used.
+We already have cpu_abort() to dump CPU states and abort.
 
-Fix that by actually performing a real reset.
+Restrict hw_error() to peripheral errors, hoping we can completely
+remove it by proper functions from "error-report.h" in the future.
 
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Fixes: https://bugs.launchpad.net/qemu/+bug/1878253
-Fixes: https://bugs.launchpad.net/qemu/+bug/1887303
-Fixes: https://bugs.launchpad.net/qemu/+bug/1887309
-Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ide/core.c | 58 +++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 40 insertions(+), 18 deletions(-)
+ softmmu/cpus.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 0d745d63a18..0e32abd7796 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -2241,6 +2241,37 @@ uint32_t ide_status_read(void *opaque, uint32_t addr)
-     return ret;
- }
- 
-+static void ide_perform_srst(IDEState *s)
-+{
-+    s->status |= BUSY_STAT;
-+
-+    /* Halt PIO (Via register state); PIO BH remains scheduled. */
-+    ide_transfer_halt(s);
-+
-+    /* Cancel DMA -- may drain block device and invoke callbacks */
-+    ide_cancel_dma_sync(s);
-+
-+    /* Cancel PIO callback, reset registers/signature, etc */
-+    ide_reset(s);
-+
-+    if (s->drive_kind == IDE_CD) {
-+        /* ATAPI drives do not set READY or SEEK */
-+        s->status = 0x00;
-+    }
-+}
-+
-+static void ide_bus_perform_srst(void *opaque)
-+{
-+    IDEBus *bus = opaque;
-+    IDEState *s;
-+    int i;
-+
-+    for (i = 0; i < 2; i++) {
-+        s = &bus->ifs[i];
-+        ide_perform_srst(s);
-+    }
-+}
-+
- void ide_ctrl_write(void *opaque, uint32_t addr, uint32_t val)
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index ac8940d52e..da45cbf989 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -913,16 +913,11 @@ static void stop_tcg_kick_timer(void)
+ void hw_error(const char *fmt, ...)
  {
-     IDEBus *bus = opaque;
-@@ -2249,26 +2280,17 @@ void ide_ctrl_write(void *opaque, uint32_t addr, uint32_t val)
+     va_list ap;
+-    CPUState *cpu;
  
-     trace_ide_ctrl_write(addr, val, bus);
- 
--    /* common for both drives */
--    if (!(bus->cmd & IDE_CTRL_RESET) &&
--        (val & IDE_CTRL_RESET)) {
--        /* reset low to high */
--        for(i = 0;i < 2; i++) {
-+    /* Device0 and Device1 each have their own control register,
-+     * but QEMU models it as just one register in the controller. */
-+    if ((bus->cmd & IDE_CTRL_RESET) &&
-+        !(val & IDE_CTRL_RESET)) {
-+        /* SRST triggers on falling edge */
-+        for (i = 0; i < 2; i++) {
-             s = &bus->ifs[i];
--            s->status = BUSY_STAT | SEEK_STAT;
--            s->error = 0x01;
--        }
--    } else if ((bus->cmd & IDE_CTRL_RESET) &&
--               !(val & IDE_CTRL_RESET)) {
--        /* high to low */
--        for(i = 0;i < 2; i++) {
--            s = &bus->ifs[i];
--            if (s->drive_kind == IDE_CD)
--                s->status = 0x00; /* NOTE: READY is _not_ set */
--            else
--                s->status = READY_STAT | SEEK_STAT;
--            ide_set_signature(s);
-+            s->status |= BUSY_STAT;
-         }
-+        aio_bh_schedule_oneshot(qemu_get_aio_context(),
-+                                ide_bus_perform_srst, bus);
-     }
- 
-     bus->cmd = val;
+     va_start(ap, fmt);
+     fprintf(stderr, "qemu: hardware error: ");
+     vfprintf(stderr, fmt, ap);
+     fprintf(stderr, "\n");
+-    CPU_FOREACH(cpu) {
+-        fprintf(stderr, "CPU #%d:\n", cpu->cpu_index);
+-        cpu_dump_state(cpu, stderr, CPU_DUMP_FPU);
+-    }
+     va_end(ap);
+     abort();
+ }
 -- 
 2.26.2
 
