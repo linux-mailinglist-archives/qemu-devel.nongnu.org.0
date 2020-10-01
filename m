@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E6D280398
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:11:00 +0200 (CEST)
-Received: from localhost ([::1]:50198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9250F2803A3
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:14:46 +0200 (CEST)
+Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1AZ-0000sw-C2
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:10:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35624)
+	id 1kO1ED-0006EZ-8Y
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kO11I-0008Jr-Pt
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:01:24 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54078)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kO11F-00073w-4u
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:01:24 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x23so3472242wmi.3
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KAzkYKKavvSQCbtYv8JWrT8eSXOG4QFZI4u6wSWQ8vA=;
- b=tdkSmxE/9EiRElzDrY2wQBZnB3pVSNUXe5ynTRBOkvAJj+0svkXHH2m3GkUCd3Ho7Z
- tpNXxCcSZu0MOxFdGC891pkbz/48CSjrdeYBvi5ZouQBc7LB37kF/OuKryoKfkjj05bs
- Vd8o17yYjijMoXfKwwTGboB58GJj9v8bLSYUh5P8SuP8uJCS+r4+7RHYNuK4JJFty6s+
- OrhKTMnis42frzYtG4IRImmUs8VzSCpT+0ELbrxr2MxmqyxWZKJCsxBBwZe6sdkrqlHF
- u9UfjzkCNaeQridLKDJdEMxqdbVM2mLCoN5G3JizhSbCy6RpgeQIK9xNbdJ9cz17H7Sc
- DJ2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KAzkYKKavvSQCbtYv8JWrT8eSXOG4QFZI4u6wSWQ8vA=;
- b=o417lXAEorMwxbPfXTj1/vnBLrD1pfnER5m3O81L8yjgGmjc9tD5wqlfWAHoDpGqdi
- nFhaRULLUx24v1snUy24nDd3ng4DySkOIfibmMHpd42xpJWRQF5t2vo5R0YwbAEjz+uO
- 6bf+GwoE7G0pvLOqFxNcZLsvx56sRxDeCZBDDTrXHO8O/S7Zu1DrLc7E5gYm0z0+cokY
- T35mywmxO0CvztJ6lwQjlVbhwKqt+uZE9KnLgo/f0XYOyQgHIsXrzw8La7lVcMW21Z+O
- sEbedVNQzvRHANJhrmcQsUGPgqQjfLoW5sPCxMHGEyJYSfMHAkE6TFrTzkDzvfEgfaB8
- MX4w==
-X-Gm-Message-State: AOAM531elP4Zc6fNlHiMctFQs3/QNIZMhEJOgJ/rM0qg+1TIo5Exl3+U
- tV9GvwYynTuAeVXWMCrQI6fXXQ==
-X-Google-Smtp-Source: ABdhPJy1MSPrl3CUXTtT61ibV/mY04MftSuHWAxNVyk4/H4X+s9gZgvHfn5gZFTr1+LP4x07IhqW2w==
-X-Received: by 2002:a7b:cb07:: with SMTP id u7mr673347wmj.57.1601568079212;
- Thu, 01 Oct 2020 09:01:19 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y207sm587123wmc.17.2020.10.01.09.01.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 09:01:18 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Make '-cpu max' have a 48-bit PA
-Date: Thu,  1 Oct 2020 17:01:16 +0100
-Message-Id: <20201001160116.18095-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO14q-0003A6-Sr
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:05:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45169)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO14n-0007hr-4Y
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:05:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601568298;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a0LdREGamTfFkyAK/AKSpatlUwBvQx5+xzAfBjq7pmg=;
+ b=EPv6kCnEB3ycCfuRODNsNKunYB9EKdqHg5iInuBlEGYY2IGx9JaXKl3zCgjMhy8olfKA2f
+ Vz6XYqnDDl3/QFy8FIADdKnXl9N/EkGjsgXNOoBhR+5C/Xwy+ao1iAMi0yUGTBI5YC1ARi
+ YrbEZ+ORp2w2eg3m2VHcONzMf258pzk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-Yro1V5aUMtiR9rPajWQ_OA-1; Thu, 01 Oct 2020 12:04:55 -0400
+X-MC-Unique: Yro1V5aUMtiR9rPajWQ_OA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6C2F9CC05;
+ Thu,  1 Oct 2020 16:04:53 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6474660BF1;
+ Thu,  1 Oct 2020 16:04:53 +0000 (UTC)
+Date: Thu, 1 Oct 2020 12:04:52 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: Re: [PULL 2/2] core/register: Specify instance_size in the TypeInfo
+Message-ID: <20201001160452.GF3717385@habkost.net>
+References: <20200927134609.2358960-1-alistair.francis@wdc.com>
+ <20200927134609.2358960-3-alistair.francis@wdc.com>
+ <CAFEAcA9Rduz5RB4oUD_wR41_oEfdRSbB8O=99pb+AjXM8gLG6A@mail.gmail.com>
+ <20200929132216.GI3717385@habkost.net>
+ <CAKmqyKMemWmj2we2uN0bYCFOyo3_dFhoBgeC4qRv7LFxj20ExA@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAKmqyKMemWmj2we2uN0bYCFOyo3_dFhoBgeC4qRv7LFxj20ExA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU supports a 48-bit physical address range, but we don't currently
-expose it in the '-cpu max' ID registers (you get the same range as
-Cortex-A57, which is 44 bits).
+On Thu, Oct 01, 2020 at 08:37:31AM -0700, Alistair Francis wrote:
+> On Tue, Sep 29, 2020 at 6:22 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >
+> > On Tue, Sep 29, 2020 at 01:55:35PM +0100, Peter Maydell wrote:
+> > > On Sun, 27 Sep 2020 at 15:00, Alistair Francis <alistair.francis@wdc.com> wrote:
+> > > >
+> > > > Reported-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > > > Message-Id: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.alistair.francis@wdc.com>
+> > > > ---
+> > > > @@ -269,13 +258,18 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
+> > > >          int index = rae[i].addr / data_size;
+> > > >          RegisterInfo *r = &ri[index];
+> > > >
+> > > > -        *r = (RegisterInfo) {
+> > > > -            .data = data + data_size * index,
+> > > > -            .data_size = data_size,
+> > > > -            .access = &rae[i],
+> > > > -            .opaque = owner,
+> > > > -        };
+> > > > -        register_init(r);
+> > > > +        if (data + data_size * index == 0 || !&rae[i]) {
+> > > > +            continue;
+> > >
+> > > Coverity thinks (CID 1432800) that this is dead code, because
+> > > "data + data_size * index" can never be NULL[*]. What was this
+> > > intending to test for ? (maybe data == NULL? Missing dereference
+> > > operator ?)
+> >
+> > I believe the original check in the old register_init() function
+> > were just to make the function more flexible by allowing NULL
+> > arguments, but it was always unnecessary.  We have 4 callers of
+> > register_init_block*() and neither rae or data are NULL on those
+> > calls.
+> 
+> In this case *data is an array, I guess the idea was to try and catch
+> if somehow a point in the array was NULL?
 
-Set the ID_AA64MMFR0.PARange field to indicate 48 bits.
+I don't understand what you mean.  The area pointed by data
+doesn't contain any pointers, just the register values.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-I forget why I wanted this patch originally, it's been so long
-since I wrote it, but it seems like a useful thing to allow -cpu max
-to have a big PA range...
----
- target/arm/cpu64.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> 
+> I'll send a patch to remove the check.
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 3c2b3d95993..3ba7f1675cc 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -653,6 +653,10 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
-         cpu->isar.id_aa64pfr1 = t;
- 
-+        t = cpu->isar.id_aa64mmfr0;
-+        t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 5); /* PARange: 48 bits */
-+        cpu->isar.id_aa64mmfr0 = t;
-+
-         t = cpu->isar.id_aa64mmfr1;
-         t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
-         t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
+Thanks!
+
 -- 
-2.20.1
+Eduardo
 
 
