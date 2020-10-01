@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C01F28043E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:48:59 +0200 (CEST)
-Received: from localhost ([::1]:42300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A673280457
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:56:40 +0200 (CEST)
+Received: from localhost ([::1]:58956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1lK-0004td-FR
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
+	id 1kO1sk-0003st-Pl
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kO1g4-0000DC-V3
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:43:32 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52221)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO1m8-0006vQ-IM
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:49:48 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kO1g3-0006EW-F5
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:43:32 -0400
-Received: by mail-wm1-x343.google.com with SMTP id w2so3612209wmi.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=x6kGxn4MIKwxLSY1d8I1BClrthzon31d/eVho3rjiZ8=;
- b=ELPRRGRbY7jF8iKPppxzJ2VWwa9q8WcGGkVjdYjcC0dlecF+4CTwdjvkhyhIcoTWOD
- lPedZtfDzWDGy6q2GRfeBDaNu0KgPDF8ymxFIFnRQFu9uGprn3rfj6u/dLVBBzpCf0ey
- OOtaFz4ZLCSVikI/DHFnvJM+u0KCM9RnPbYvR189hSbyyJD4BHmy1nWrQ13kA6Xn1sRF
- wwT+6pKSbt+2rjrvDqIiOtbNjs7p1EYzMgSJusCbnJdND55XOidN+SMF3vxVatLylTMh
- 0ezFQ4amWpk/JTp5LZ6MrCLvP606Js439iDCXQI5PcXFKrcK/24DWnUOBC00eLV99XwU
- OOhg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO1m6-00072X-Np
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:49:48 -0400
+Received: by mail-oi1-x243.google.com with SMTP id 26so6286708ois.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:49:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uvSNf3LD757ms7HgUnW5hl391h8DLb7H6BEnkQSAW4E=;
+ b=Cye6oNN+o3btq1+3r7BCSHmIuFhtZ0keKiDjgf8rR88A/w22A70VaS4d3dhdiQswj/
+ /9n3K89XhSi52Wd3N3JmbX26LIH0RAhQfjfeZEB7xpIJUFgAaHRgu+YqAeXdfFL6legE
+ gLgdVQsMUX538NIaNrYmwV83wr3eEehlQKxoHz+ZB41onX4k0pQkAYQp32x+yXV0VQg7
+ YXN/Nt9BolFwXo7aqqVwrJi7vuZsJzofVOwaSvM4gbUEntRc0/2dUmbgaRWg6pOz6jkO
+ FZdGhIyK+MSbAxP7l9lxeLeT/GDf+NKk5HkYrwY2QEu/KeWFRSakZunhL0HpdmgFTB3A
+ Hjvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=x6kGxn4MIKwxLSY1d8I1BClrthzon31d/eVho3rjiZ8=;
- b=AFoB4q9Fuq1st7llW7LwvgL7oQ8nTxzac4CfI+ywuCf5sdPJJ7vxxW7+becf3naGbJ
- T1tWb9ecqwoNn+lt09uPc5H2EhGKRVx9R+uwjKv4cT256sho9k5sDFbIwxJ4w95v9t8h
- i+Y0BFKSF9eJmkc6FHK1gTgNRWJr+mvqH+bUxt+6qkRt6ze2RWUl9MDNy3W6YA6GfAwx
- Nz9lG0FSpoLo8fUZGOMJyqgRmw/pCRB4QT3DKXKaag4feT+f2MWptWajIa4muOrSmAQk
- ySTIlVbzvSTFB+ZE+Wvnk7Rf0yICHzz4PjDfB5/l0cHLhJCvpa2xrPZv/09MHydoX2SM
- oAFA==
-X-Gm-Message-State: AOAM5316eWT4XIGbwNk6eChtxqF6zlo/uDV7crrixIxg2Co4YTVM51Lv
- Ba/pfVOJk/oIp90TEqFuYHyY6SEHP9M=
-X-Google-Smtp-Source: ABdhPJzUKjYZ43UDfU3PfSgZBmfvr7oaaVYiChY6anQdEbmd5PfZ9Gz/Sg4pAiJvwmNfXpWHiIdEdw==
-X-Received: by 2002:a05:600c:414a:: with SMTP id
- h10mr919597wmm.79.1601570609879; 
- Thu, 01 Oct 2020 09:43:29 -0700 (PDT)
-Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id h3sm10733059wrq.0.2020.10.01.09.43.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 09:43:29 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] hw/qdev-clock: Display error hint when clock is
- missing from device
-Date: Thu,  1 Oct 2020 18:43:22 +0200
-Message-Id: <20201001164322.1585392-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201001164322.1585392-1-f4bug@amsat.org>
-References: <20201001164322.1585392-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uvSNf3LD757ms7HgUnW5hl391h8DLb7H6BEnkQSAW4E=;
+ b=il4z1cudkogpD98AwYF7u4hQI0Gaclx7TtYV2ErYupHcQgfpUDctHDBmHBSxGTlzQ2
+ PEeSFS8LSXgtsXd/qI8ud+xTXdNdkoJBU1ZNV5BeXXeExC/SuX5x74OGnETsrRbuuo/3
+ Yl7gopd/YYLUQ3JCXagsZBH580Lp1wrhhCx4OYfsv9JFnL9FtP51KjqtnyyWtdVWIXfE
+ +URm7ynf7plcDdzY9WbFaO0rvLua/iHRj6XQi91MeFqK5CEmzy6z7H5HaDVMW6Z11R0+
+ hu2Pep1IE0gpcgBFTUGo6SMXF6Tfvs1BWG2pqPZA+85+wKOcpQIbbO6sz7pzp5gZZB5n
+ Rskw==
+X-Gm-Message-State: AOAM530Bre6M5X2PHZYmWyGPTflaMTBpU9GcMdZCyQ8B6Chyv4La/Wbs
+ Ln0oMGqTYJHd+/aKHu8lGqV0nA==
+X-Google-Smtp-Source: ABdhPJxO8R9CYMDLPFssZq401l6EfAIQoLfHTEX5tiPNq1Y4DGkVN8gtQBrnYQHDT3C8964pgbIuxw==
+X-Received: by 2002:aca:db42:: with SMTP id s63mr540866oig.4.1601570983843;
+ Thu, 01 Oct 2020 09:49:43 -0700 (PDT)
+Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id h204sm217801oib.52.2020.10.01.09.49.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Oct 2020 09:49:43 -0700 (PDT)
+Subject: Re: [PATCH v1 18/20] s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200930145523.71087-1-david@redhat.com>
+ <20200930145523.71087-19-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a8050a4c-e613-7d80-f243-43098b0fb9b6@linaro.org>
+Date: Thu, 1 Oct 2020 11:49:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+In-Reply-To: <20200930145523.71087-19-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,67 +90,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, Luc Michel <luc@lmichel.fr>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Tyrone Ting <kfting@nuvoton.com>, Damien Hedde <damien.hedde@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of directly aborting, display a hint to help the developer
-figure out the problem (likely trying to connect a clock to a device
-pre-dating the Clock API, thus not expecting clocks).
+On 9/30/20 9:55 AM, David Hildenbrand wrote:
+> +typedef enum S390MinMaxType {
+> +    s390_minmax_java_math_min,
+> +    s390_minmax_java_math_max,
+> +    s390_minmax_c_macro_min,
+> +    s390_minmax_c_macro_max,
+> +    s390_minmax_fmin,
+> +    s390_minmax_fmax,
+> +    s390_minmax_cpp_alg_min,
+> +    s390_minmax_cpp_alg_max,
+> +} S390MinMaxType;
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/core/qdev-clock.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+I think you'd do just as well making this enum match M6, so that no translation
+is necessary.
 
-diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
-index 47ecb5b4fa..33bd4a9d52 100644
---- a/hw/core/qdev-clock.c
-+++ b/hw/core/qdev-clock.c
-@@ -12,6 +12,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/error-report.h"
- #include "hw/qdev-clock.h"
- #include "hw/qdev-core.h"
- #include "qapi/error.h"
-@@ -153,6 +154,11 @@ Clock *qdev_get_clock_in(DeviceState *dev, const char *name)
-     assert(name);
- 
-     ncl = qdev_get_clocklist(dev, name);
-+    if (!ncl) {
-+        error_report("can not find clock-in '%s' for device type '%s'",
-+                     name, object_get_typename(OBJECT(dev)));
-+        abort();
-+    }
-     assert(!ncl->output);
- 
-     return ncl->clock;
-@@ -165,6 +171,11 @@ Clock *qdev_get_clock_out(DeviceState *dev, const char *name)
-     assert(name);
- 
-     ncl = qdev_get_clocklist(dev, name);
-+    if (!ncl) {
-+        error_report("can not find clock-out '%s' for device type '%s'",
-+                     name, object_get_typename(OBJECT(dev)));
-+        abort();
-+    }
-     assert(ncl->output);
- 
-     return ncl->clock;
--- 
-2.26.2
+> +
+> +#define S390_MINMAX(BITS, TYPE)                                                \
+> +static float##BITS TYPE##BITS(float##BITS a, float##BITS b, float_status *s)   \
+> +{                                                                              \
+> +    const bool zero_a = float##BITS##_is_infinity(a);                          \
+> +    const bool zero_b = float##BITS##_is_infinity(b);                          \
+> +    const bool inf_a = float##BITS##_is_infinity(a);                           \
+> +    const bool inf_b = float##BITS##_is_infinity(b);                           \
+> +    const bool nan_a = float##BITS##_is_infinity(a);                           \
+> +    const bool nan_b = float##BITS##_is_infinity(b);                           \
 
+Wrong lookups.
+
+Note that you've already got float*_dcmask which you could use to help out
+here.  You just need some named constants to help with the 12 different bits.
+
+> +        switch (TYPE) {                                                        \
+> +        case s390_minmax_java_math_min:                                        \
+> +        case s390_minmax_java_math_max:                                        \
+
+I think you should make TYPE a function parameter, and not replicate this
+function N times, and so you also don't need
+
+> +static vop32_3_fn const vfmax_fns32[16] = {
+> +    [0] = float32_maxnum,
+> +    [1] = s390_minmax_java_math_max32,
+> +    [2] = s390_minmax_c_macro_max32,
+> +    [3] = s390_minmax_cpp_alg_max32,
+> +    [4] = s390_minmax_fmax32,
+> +    [8] = float32_maxnummag,
+> +    [9] = s390_minmax_java_math_max_abs32,
+> +    [10] = s390_minmax_c_macro_max_abs32,
+> +    [11] = s390_minmax_cpp_alg_max_abs32,
+> +    [12] = s390_minmax_fmax_abs32,
+> +};
+> +
+> +static vop64_3_fn const vfmax_fns64[16] = {
+> +    [0] = float64_maxnum,
+> +    [1] = s390_minmax_java_math_max64,
+> +    [2] = s390_minmax_c_macro_max64,
+> +    [3] = s390_minmax_cpp_alg_max64,
+> +    [4] = s390_minmax_fmax64,
+> +    [8] = float64_maxnummag,
+> +    [9] = s390_minmax_java_math_max_abs64,
+> +    [10] = s390_minmax_c_macro_max_abs64,
+> +    [11] = s390_minmax_cpp_alg_max_abs64,
+> +    [12] = s390_minmax_fmax_abs64,
+> +};
+> +
+> +static vop128_3_fn const vfmax_fns128[16] = {
+> +    [0] = float128_maxnum,
+> +    [1] = s390_minmax_java_math_max128,
+> +    [2] = s390_minmax_c_macro_max128,
+> +    [3] = s390_minmax_cpp_alg_max128,
+> +    [4] = s390_minmax_fmax128,
+> +    [8] = float128_maxnummag,
+> +    [9] = s390_minmax_java_math_max_abs128,
+> +    [10] = s390_minmax_c_macro_max_abs128,
+> +    [11] = s390_minmax_cpp_alg_max_abs128,
+> +    [12] = s390_minmax_fmax_abs128,
+> +};
+
+these tables.
+
+I think that the bulk of your minmax could be done exclusively with dcmask, so
+there could be a common non-macroized function that returns an indication of
+whether A or B (possibly silenced) should be the result, or if we should use
+one of your two compare cases.
+
+BTW, for your two "simple comparison" cases, have we eliminated all of the
+special cases?  Could we in fact be calling floatN_min/max instead of
+floatN_le_quiet?
+
+
+r~
 
