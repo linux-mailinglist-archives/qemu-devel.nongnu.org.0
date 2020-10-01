@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627202805EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:51:59 +0200 (CEST)
-Received: from localhost ([::1]:59152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151D22805F3
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:53:55 +0200 (CEST)
+Received: from localhost ([::1]:41964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2kI-0006Q5-1i
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33672)
+	id 1kO2m9-0002jQ-Su
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kO2Tu-0006dy-49; Thu, 01 Oct 2020 13:35:02 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:59767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kO2Tr-0005Jn-R3; Thu, 01 Oct 2020 13:35:01 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 74F74580195;
- Thu,  1 Oct 2020 13:34:58 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 01 Oct 2020 13:34:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=QTGNeeeaP4RT7A2XHXbgT2geVsC
- cXEG3ugOOVsTuYKs=; b=IJA2KZBpOO0TY664d8hGM5+LY1mmnUihjexvcemaFG5
- ko5g7XPVjZHw7MDdzNAccqshiOkxKpcrasYo7y7Ud/EZVmqzeX7I9A1ieIlmGphT
- 2zXk7SRjP71VtcxyW0OmuRAFfW2kihUfr46Thc0BBJMw1OnY4Q38EiCzevFo3MOu
- mwfMXCthlb8tGOf9dyhNvi9kZT7xSEPTyl1qtuku+e59+ojQWfkOfpHqvUplCS5v
- MzEtaT253b6DcYSLh7MlKgkMOdXuqX+r5iwzuQJidOh0pbSgxZD3NUnVjLIWwn5o
- Fmf5My7L1MvylptL1JtuYQJzP/TzjhU8Jb4vMIy/eCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=QTGNee
- eaP4RT7A2XHXbgT2geVsCcXEG3ugOOVsTuYKs=; b=H9x0BFAQ1ft19RkSxaYzyn
- IQo4Txg+xZohT5aUz+QMCVU5k1M5nKkxFIjHLcvf9V8gj1aQCgLn604yA41NQy7b
- 709dseCjPXY41Hdvo46H6LenL2w5k/toVE0cuIHZDwZPS103DuV3sXwMPUlmEgOU
- tXzLNH9qCJgO4m+DgrLE8f5v37pNOssqN4/0ku/+dNcMnMAv1i3g4K7pi2h4NnCQ
- ScSJwgbKgXwuNa/QJZQ0pm/x6cTWl6W02DmNwc9Chi29GxjPSI6C6ATqppsv4AZn
- hDgtpRBf/ATVTnQl21/ysnApvQtsDBE8VdXsxE500nddOi+LP9IDC1hwHb85HDuw
- ==
-X-ME-Sender: <xms:QBN2X5VqEbUIElpalEnAO4JxqvlG-H-ajG4ieqancWMOnDr40RD00g>
- <xme:QBN2X5lbfn3eSGztEQTpDLoYSeLkgEl5nDSpSa46YHCag9Biu_rimFssrHAEr62_b
- zHpxk_mMf4ylOB4Cr4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdduudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:QBN2X1bOhAuXrBg92ruykiGWv8Di4iX3cyCHuISudERQt_J0sAvrYA>
- <xmx:QBN2X8WKGEn7TvGZMFtcMjAcvjIwvnz0_yu0lx7Zun20S8-6VDfQ7Q>
- <xmx:QBN2XznY_yvzecrvu2gZcLcmFrbXu_t2lWUkSv2B4zJzRN3yRZ1VLA>
- <xmx:QRN2X-sQIluxHzK__QeqgRaWAxPCKmPUOFzb8GS0Vywn6DM2J2JiUQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 940BE306467E;
- Thu,  1 Oct 2020 13:34:54 -0400 (EDT)
-Date: Thu, 1 Oct 2020 19:34:52 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
-Message-ID: <20201001173452.GB792691@apples.localdomain>
-References: <20200930220414.562527-1-kbusch@kernel.org>
- <20200930220414.562527-4-kbusch@kernel.org>
- <20201001041057.GC681387@apples.localdomain>
- <20201001152055.GA3343@C02WT3WMHTD6>
- <20201001171837.GA792691@apples.localdomain>
- <20201001173043.GA564827@dhcp-10-100-145-180.wdl.wdc.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO2UK-0006x5-84; Thu, 01 Oct 2020 13:35:28 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:33704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO2UG-0005Km-7D; Thu, 01 Oct 2020 13:35:27 -0400
+Received: by mail-pg1-x531.google.com with SMTP id o25so4588559pgm.0;
+ Thu, 01 Oct 2020 10:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p+PdtlFhZvZMf7BCsHxu1J7b2TEb49Uv54DWYri8UQY=;
+ b=S69p07qxglcxtgpbUNGRGPWkew5MQKuzKH7cJTB8m8b8wvGR+s+jlcVFSt2OU6EsPE
+ Pa/GtkogMPWgRBPA9R/ytpN0lVUSSHtVVq/wie0yXSEXBzl1pPC6f4pm9vgABjjTmUDU
+ HPlD0jI+Sz3o+y8AfeNh4bvhw/M6oZwTUEa23XfsQ7UTIcSeHp7i1xfV/kQg4h0KviNE
+ SzEZwHvF9OgmP6DWM1UYUCEeie8eBSWsEx5bwKJzZImn+tiC0fChIPcvLs/DdiIELlzL
+ I0CAO2D2cZLis4SYmx3ccXDNdOKDZBUcVx4Ty6W5VtPNLOy7Z6juFPwdY2wriiGtg9rm
+ lH5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p+PdtlFhZvZMf7BCsHxu1J7b2TEb49Uv54DWYri8UQY=;
+ b=MfP1ml/gZtRlMWgks2+n19006HNRPQ0mlZbh5BaqdrGdo7oUlTerY9qGgo4D/W+QOV
+ Clr+2F/gkC2+0axeWMMbtq2cnUkOmu0EJ1PE1IJjEGM4vuXpLhsVJYuaDN9fwFkqRgSt
+ SX6OxS8zHfOKk9auhR55MTc2iCn5j/kes0kn++Gppa1mWhNPhFzFIXbMl+FNLifpRVLJ
+ Pumqsjxr4/hODndolq3l3aFnMfFWD5hHwBvolF4zLi8w3LPfI1QAfXS9tyrS3v2qi/j7
+ oBZokm4JuP7ahEUFdOQPMk9aUF/4+S+0cc+KBL6YrD0X5klVG7c9vEvonYyCfSOTJuQX
+ 4Efg==
+X-Gm-Message-State: AOAM53023a522me+sIdMiR02oasEHACxgNEfBBocakTYMh4pMUqdRiWi
+ RlZmW3s8ttBgR2KAkq+9IERu/ZQotch4XQ==
+X-Google-Smtp-Source: ABdhPJxviQoj2zAsX9gtAUtUaj4mwCn0l1adcThmYTRf2LSHDjGRYPiY0OAQpxhFrAK0xNvvk2YAwQ==
+X-Received: by 2002:a63:1d26:: with SMTP id d38mr7283230pgd.0.1601573721919;
+ Thu, 01 Oct 2020 10:35:21 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id b7sm4445646pjq.1.2020.10.01.10.35.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 10:35:21 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] Texi cleanup
+Date: Fri,  2 Oct 2020 01:35:02 +0800
+Message-Id: <20201001173503.1107-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GRPZ8SYKNexpdSJ7"
-Content-Disposition: inline
-In-Reply-To: <20201001173043.GA564827@dhcp-10-100-145-180.wdl.wdc.com>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
- helo=new1-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 13:18:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x531.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,62 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, QEMU Trivial <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---GRPZ8SYKNexpdSJ7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Oct  1 10:30, Keith Busch wrote:
-> On Thu, Oct 01, 2020 at 07:18:37PM +0200, Klaus Jensen wrote:
-> > OK, so I agree that it makes sense for it to be supported on a per
-> > namespace basis, but I think the spec is just keeping the door open for
-> > future namespace specific stuff in the log page - currently there is
-> > none.
-> >=20
-> > Figure 94 (the actual SMART log page) says that the Data Units
-> > Read/Written are controller wide, so there really is no namespace
-> > specific information. Maybe this could be in the context of shared
-> > namespaces? How would a controller know how much data has been
-> > read/written from it without asking the other controllers? What if a
-> > controller is detached from the namespace - you'd lose those numbers.
->=20
-> That text is wrong. There is no "controller" scope to the smart log.
-> Figure 191 says the smart scope is to the subsystem or the namespace. It
-> doesn't matter which controller performed an IO to a particular
-> namespace; the log needs to report the same information regardless of
-> which controller you query. How that is coordinated within the subsystem
-> is a detail not defined by spec.
->=20
-
-Oh! Thats new in v1.4. So they updated that, but forgot figure 194. In
-v1.3 it is controller and namespace scope.
-
-Anyway, fair enough. In that case,
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---GRPZ8SYKNexpdSJ7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl92EzoACgkQTeGvMW1P
-DekweAgAkdjYb1R8hcdZW9G/5O4aNtEqs+B1H2Kgv+yHCoIR6jF4Wf8Wwkd52NIb
-RdAJDVKdY4LB356v4QQsb2XMivIaVdl58aEJIMieozqoro+dsOq20AFYJW38BRuf
-dAqShAUSDkZJXyS3epiCe+Cbjel1eNqk1kuy9sCHEEUl+zjEn4+Z+HioX2KxKKbR
-+tDeujRHU3GgbA6i7MGdB37iDK8xQ9SnAwkSrnajXR6VJ42DGQIal2nBzS65WALe
-t4o38bGtYnk0Wb0yxkCUU2/Gn0ZfdjA33S8ELUbCK9+uD0RN01LRMStIU2HfqqKv
-qf7AVaI69XfbiN8QBGzTNLWcKQPV5Q==
-=kuBK
------END PGP SIGNATURE-----
-
---GRPZ8SYKNexpdSJ7--
+Texi cleanup=0D
+=0D
+V1-V2=0D
+Fixes with=0D
+ doc: Remove texi referenced in qemu-img-cmds.hx and target/i386/cpu.c=0D
+=0D
+Yonggang Luo (2):=0D
+  doc: Remove texi referenced in qemu-img-cmds.hx and target/i386/cpu.c=0D
+  doc: remove hxtool-conv.pl=0D
+=0D
+ qemu-img-cmds.hx       |   2 +-=0D
+ scripts/hxtool-conv.pl | 137 -----------------------------------------=0D
+ target/i386/cpu.c      |   2 +-=0D
+ 3 files changed, 2 insertions(+), 139 deletions(-)=0D
+ delete mode 100755 scripts/hxtool-conv.pl=0D
+=0D
+-- =0D
+2.28.0.windows.1=0D
+=0D
 
