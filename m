@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373C727F961
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:19:07 +0200 (CEST)
-Received: from localhost ([::1]:49518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409AF27F968
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:22:29 +0200 (CEST)
+Received: from localhost ([::1]:60472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNrvm-0005sa-9L
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38298)
+	id 1kNrz2-00022N-BP
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kNruI-00049J-48
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54407)
+ id 1kNruM-0004M5-Pg
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kNruG-0003rc-A0
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:33 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601533051;
+ id 1kNruJ-0003sE-PD
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601533055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JYA+zFKDmKH8V8HXIMs/oeL/JdVQqc9A9vJ3k5IO9KY=;
- b=QhyUjCvtNw0NSTpz7WLWfX29C9g0ixbZpMVFYfeyloQPkJprPFDip2e4TgzCoezs61PfJe
- yBiR+DiCmF920t74Gt8NmAvUGuv9jQjWAnK+7Uer+U3h/gA1HF7frU42Kj06lZniqeUdjp
- t7AsVJakW3U/+mTDw9q2IeZAuxoxnO8=
+ bh=jlrJ3kLUFV/YV4bCTxJQhgwV/nme212RrN8MphOvkyM=;
+ b=iEPvECuUllH0Zg4TYBL2CsCCP8lt1HYrhg0wt79g44kMte51LcOZKEMh8iA13DPdu9Lchv
+ WVseNVr2l075XMSXRmK1oTqs1+htqH0QQvFWH4hlW8cR3/ezRhLtL6XNDtypjPQ6oqejem
+ MyYbhCVXN7APDo8gpuADb7XYxpM19Gk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-APwsy-Q3OPib-FGkSGNRTA-1; Thu, 01 Oct 2020 02:17:29 -0400
-X-MC-Unique: APwsy-Q3OPib-FGkSGNRTA-1
+ us-mta-21-zvIE77b3M4W4CAqok1rnRQ-1; Thu, 01 Oct 2020 02:17:33 -0400
+X-MC-Unique: zvIE77b3M4W4CAqok1rnRQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B743851B2;
- Thu,  1 Oct 2020 06:17:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A9A31868433;
+ Thu,  1 Oct 2020 06:17:32 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4830355797;
- Thu,  1 Oct 2020 06:17:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21FCA5577A;
+ Thu,  1 Oct 2020 06:17:28 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v4 2/6] target/arm/kvm: Make uncalled stubs explicitly
- unreachable
-Date: Thu,  1 Oct 2020 08:17:14 +0200
-Message-Id: <20201001061718.101915-3-drjones@redhat.com>
+Subject: [PATCH v4 3/6] hw/arm/virt: Move post cpu realize check into its own
+ function
+Date: Thu,  1 Oct 2020 08:17:15 +0200
+Message-Id: <20201001061718.101915-4-drjones@redhat.com>
 In-Reply-To: <20201001061718.101915-1-drjones@redhat.com>
 References: <20201001061718.101915-1-drjones@redhat.com>
 MIME-Version: 1.0
@@ -86,104 +86,86 @@ Cc: peter.maydell@linaro.org, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we compile without KVM support !defined(CONFIG_KVM) we generate
-stubs for functions that the linker will still encounter. Sometimes
-these stubs can be executed safely and are placed in paths where they
-get executed with or without KVM. Other functions should never be
-called without KVM. Those functions should be guarded by kvm_enabled(),
-but should also be robust to refactoring mistakes. Putting a
-g_assert_not_reached() in the function should help. Additionally,
-the g_assert_not_reached() calls may actually help the linker remove
-some code.
+We'll add more to this new function in coming patches so we also
+state the gic must be created and call it below create_gic().
 
-We remove the stubs for kvm_arm_get/put_virtual_time(), as they aren't
-necessary at all - the only caller is in kvm.c
+No functional change intended.
 
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- target/arm/kvm_arm.h | 51 +++++++++++++++++++++++++++-----------------
- 1 file changed, 32 insertions(+), 19 deletions(-)
+ hw/arm/virt.c | 43 +++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index bc178eeb84c0..f513702176a7 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -344,18 +344,10 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
- 
- #else
- 
--static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
--{
--    /*
--     * This should never actually be called in the "not KVM" case,
--     * but set up the fields to indicate an error anyway.
--     */
--    cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
--    cpu->host_cpu_probe_failed = true;
--}
--
--static inline void kvm_arm_add_vcpu_properties(Object *obj) {}
--
-+/*
-+ * It's safe to call these functions without KVM support.
-+ * They should either do nothing or return "not supported".
-+ */
- static inline bool kvm_arm_aarch32_supported(void)
- {
-     return false;
-@@ -371,23 +363,44 @@ static inline bool kvm_arm_sve_supported(void)
-     return false;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 1231a197c850..524eafe22df8 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1672,6 +1672,31 @@ static void finalize_gic_version(VirtMachineState *vms)
+     }
  }
  
 +/*
-+ * These functions should never actually be called without KVM support.
++ * virt_cpu_post_init() must be called after the CPUs have
++ * been realized and the GIC has been created.
 + */
-+static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
++static void virt_cpu_post_init(VirtMachineState *vms)
 +{
-+    g_assert_not_reached();
++    bool aarch64;
++
++    aarch64 = object_property_get_bool(OBJECT(first_cpu), "aarch64", NULL);
++
++    if (!kvm_enabled()) {
++        if (aarch64 && vms->highmem) {
++            int requested_pa_size = 64 - clz64(vms->highest_gpa);
++            int pamax = arm_pamax(ARM_CPU(first_cpu));
++
++            if (pamax < requested_pa_size) {
++                error_report("VCPU supports less PA bits (%d) than "
++                             "requested by the memory map (%d)",
++                             pamax, requested_pa_size);
++                exit(1);
++            }
++        }
++    }
 +}
 +
-+static inline void kvm_arm_add_vcpu_properties(Object *obj)
-+{
-+    g_assert_not_reached();
-+}
-+
- static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+ static void machvirt_init(MachineState *machine)
  {
--    return -ENOENT;
-+    g_assert_not_reached();
- }
+     VirtMachineState *vms = VIRT_MACHINE(machine);
+@@ -1886,22 +1911,6 @@ static void machvirt_init(MachineState *machine)
+     fdt_add_timer_nodes(vms);
+     fdt_add_cpu_nodes(vms);
  
- static inline int kvm_arm_vgic_probe(void)
- {
--    return 0;
-+    g_assert_not_reached();
- }
+-   if (!kvm_enabled()) {
+-        ARMCPU *cpu = ARM_CPU(first_cpu);
+-        bool aarch64 = object_property_get_bool(OBJECT(cpu), "aarch64", NULL);
+-
+-        if (aarch64 && vms->highmem) {
+-            int requested_pa_size, pamax = arm_pamax(cpu);
+-
+-            requested_pa_size = 64 - clz64(vms->highest_gpa);
+-            if (pamax < requested_pa_size) {
+-                error_report("VCPU supports less PA bits (%d) than requested "
+-                            "by the memory map (%d)", pamax, requested_pa_size);
+-                exit(1);
+-            }
+-        }
+-    }
+-
+     memory_region_add_subregion(sysmem, vms->memmap[VIRT_MEM].base,
+                                 machine->ram);
+     if (machine->device_memory) {
+@@ -1913,6 +1922,8 @@ static void machvirt_init(MachineState *machine)
  
--static inline void kvm_arm_pmu_set_irq(CPUState *cs, int irq) {}
--static inline void kvm_arm_pmu_init(CPUState *cs) {}
-+static inline void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
-+{
-+    g_assert_not_reached();
-+}
+     create_gic(vms);
  
--static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map) {}
-+static inline void kvm_arm_pmu_init(CPUState *cs)
-+{
-+    g_assert_not_reached();
-+}
++    virt_cpu_post_init(vms);
 +
-+static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map)
-+{
-+    g_assert_not_reached();
-+}
+     fdt_add_pmu_nodes(vms);
  
--static inline void kvm_arm_get_virtual_time(CPUState *cs) {}
--static inline void kvm_arm_put_virtual_time(CPUState *cs) {}
- #endif
- 
- static inline const char *gic_class_name(void)
+     create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
 -- 
 2.26.2
 
