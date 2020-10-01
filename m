@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF652802E7
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:36:29 +0200 (CEST)
-Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADC82802C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:32:17 +0200 (CEST)
+Received: from localhost ([::1]:40664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0d9-0005Nt-Ub
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
+	id 1kO0Z6-0000No-7x
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0Vh-0006JF-ER
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:28:49 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0Vb-0001gw-UX
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:28:43 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.95])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id A428667AE732;
- Thu,  1 Oct 2020 17:28:34 +0200 (CEST)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 1 Oct 2020
- 17:28:33 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004a7bdb1ee-9f33-4b8f-a548-6bf85f7ed5d2,
- 2FD1C644E9D11323632A639817FC6AC7C89AF497) smtp.auth=clg@kaod.org
-Subject: Re: [RFC 0/3] QEMU as IPMI BMC emulator
-To: Havard Skinnemoen <hskinnemoen@google.com>
-References: <20200929003916.4183696-1-hskinnemoen@google.com>
- <c6d40849-7c80-9cd1-0a31-696f1175d463@kaod.org>
- <CAFQmdRZbhF+BpLK8YVHLOL=Hu-JxcMEoDskidtT8t_j+fHtG6Q@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <3c3334cf-1edc-d399-fd63-92ea7835b2a9@kaod.org>
-Date: Thu, 1 Oct 2020 17:28:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO0WB-0006Wb-Bm
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:29:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kO0W9-0001ly-8C
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:29:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601566152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f5pHWvDCyABD6d0YVAKEAIJ46zXaao01/+3Oj0tCg7w=;
+ b=MhIMYKwh6MPGoK1c7cI+9AjGISqHOdcrluWCHgm0Es19uiNfqYmtbWgJg72nbzaprm68Li
+ bRYqHo7xGvO24L+gO/bQUdPjslH6XmsRPYvJfsWdA/PH0XQV5E6fXHw53UcBBXZ3icukZ7
+ czhJOA7n34fOQ7Qt+5segq1nPqv6iwU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-sNuLgNiQMQu4IYVGAAYutg-1; Thu, 01 Oct 2020 11:29:09 -0400
+X-MC-Unique: sNuLgNiQMQu4IYVGAAYutg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B75BD1029D20;
+ Thu,  1 Oct 2020 15:29:07 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E7C21001901;
+ Thu,  1 Oct 2020 15:29:05 +0000 (UTC)
+Date: Thu, 1 Oct 2020 11:29:05 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 3/3] target/i386: Restrict X86CPUFeatureWord to X86
+ targets
+Message-ID: <20201001152905.GC3717385@habkost.net>
+References: <20201001144152.1555659-1-philmd@redhat.com>
+ <20201001144152.1555659-4-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFQmdRZbhF+BpLK8YVHLOL=Hu-JxcMEoDskidtT8t_j+fHtG6Q@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+In-Reply-To: <20201001144152.1555659-4-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: f072312b-ec1e-4df6-9366-08ecc285a938
-X-Ovh-Tracer-Id: 17699709489456843567
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdeludcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehuedtheeghfdvhedtueelteegvdefueektdefiefhffffieduuddtudfhgfevtdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 10:56:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.26,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,98 +83,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, minyard@acm.org,
- Patrick Venture <venture@google.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Hao Wu <wuhaotsh@google.com>, CS20 KFTing <kfting@nuvoton.com>,
- Joel Stanley <joel@jms.id.au>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-trivial@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/20 6:28 PM, Havard Skinnemoen wrote:
-> On Mon, Sep 28, 2020 at 10:27 PM Cédric Le Goater <clg@kaod.org> wrote:
->>
->> On 9/29/20 2:39 AM, Havard Skinnemoen wrote:
->>> This series briefly documents the existing IPMI device support for main
->>> processor emulation, and goes on to propose a similar device structure to
->>> emulate IPMI responder devices in BMC machines. This would allow a qemu
->>> instance running BMC firmware to serve as an external BMC for a qemu instance
->>> running server software.
->>
->> Great idea !
->>
->> I started working on this topic some years ago with the QEMU PowerNV machine
->> and the Aspeed machine. They can communicate over network with this iBT device
->> patch :
->>
->>   https://github.com/legoater/qemu/commit/3677ee52f75065b0f65f36382a62f080ac74d683
+On Thu, Oct 01, 2020 at 04:41:52PM +0200, Philippe Mathieu-Daudé wrote:
+> Only qemu-system-FOO and qemu-storage-daemon provide QMP
+> monitors, therefore such declarations and definitions are
+> irrelevant for user-mode emulation.
 > 
-> Oh, cool, if we split that into an Aspeed part and a VM protocol part,
-> it's basically what I had in mind. Are you planning to submit that, or
-> would it be OK if we base our work on it?
+> Restricting the x86-specific commands to machine-target.json
+> pulls less QAPI-generated code into user-mode.
 
-I had no plan to send it any time soon. You can base your work on this patch.
+Is this still true without "qapi: Restrict code generated for
+user-mode"?
 
->> This is good enough for the IPMI needs of OpenPOWER systems but the overall
->> system lacks a few bus. An important one being the LPC bus which we use for
->> PNOR mappings.
+Markus, Eric: what's the difference between machine.json and
+machine-target.json? commit 7f7b4e7abef4 ("qapi: Split
+machine-target.json off target.json and misc.json") explains what
+but not why.
+
 > 
-> Right. Perhaps the next step should be an out-of-process flash protocol?
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-OpenPOWER systems use the hiomap protocol for that :
+Why the visit_type_X86CPUFeatureWordInfoList() stub was required
+in v3, but not in this version?
 
-  https://github.com/openbmc/hiomapd/blob/master/Documentation/protocol.md#create_read_window-command
 
-It's based on IPMI but the reads are still done from the LPC bus. We would
-need a way to transfer the mem ops between processes.  
-
->> So, we added a little PNOR device in the QEMU PowerNV machine and mapped
->> its contents in the FW address space of the LPC bus. With the internal IPMI
->> BMC simulator, it mimics well enough an OpenPOWER system from the host
->> perspective.
+> ---
+>  qapi/machine-target.json | 45 ++++++++++++++++++++++++++++++++++++++++
+>  qapi/machine.json        | 42 -------------------------------------
+>  target/i386/cpu.c        |  2 +-
+>  3 files changed, 46 insertions(+), 43 deletions(-)
 > 
-> Cool.
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index 698850cc78..b4d769a53b 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -4,6 +4,51 @@
+>  # This work is licensed under the terms of the GNU GPL, version 2 or later.
+>  # See the COPYING file in the top-level directory.
+>  
+> +##
+> +# @X86CPURegister32:
+> +#
+> +# A X86 32-bit register
+> +#
+> +# Since: 1.5
+> +##
+> +{ 'enum': 'X86CPURegister32',
+> +  'data': [ 'EAX', 'EBX', 'ECX', 'EDX', 'ESP', 'EBP', 'ESI', 'EDI' ],
+> +  'if': 'defined(TARGET_I386)' }
+> +
+> +##
+> +# @X86CPUFeatureWordInfo:
+> +#
+> +# Information about a X86 CPU feature word
+> +#
+> +# @cpuid-input-eax: Input EAX value for CPUID instruction for that feature word
+> +#
+> +# @cpuid-input-ecx: Input ECX value for CPUID instruction for that
+> +#                   feature word
+> +#
+> +# @cpuid-register: Output register containing the feature bits
+> +#
+> +# @features: value of output register, containing the feature bits
+> +#
+> +# Since: 1.5
+> +##
+> +{ 'struct': 'X86CPUFeatureWordInfo',
+> +  'data': { 'cpuid-input-eax': 'int',
+> +            '*cpuid-input-ecx': 'int',
+> +            'cpuid-register': 'X86CPURegister32',
+> +            'features': 'int' },
+> +  'if': 'defined(TARGET_I386)' }
+> +
+> +##
+> +# @DummyForceArrays:
+> +#
+> +# Not used by QMP; hack to let us use X86CPUFeatureWordInfoList internally
+> +#
+> +# Since: 2.5
+> +##
+> +{ 'struct': 'DummyForceArrays',
+> +  'data': { 'unused': ['X86CPUFeatureWordInfo'] },
+> +  'if': 'defined(TARGET_I386)' }
+> +
+>  ##
+>  # @CpuModelInfo:
+>  #
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 756dacb06f..995e972858 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -574,48 +574,6 @@
+>     'dst': 'uint16',
+>     'val': 'uint8' }}
+>  
+> -##
+> -# @X86CPURegister32:
+> -#
+> -# A X86 32-bit register
+> -#
+> -# Since: 1.5
+> -##
+> -{ 'enum': 'X86CPURegister32',
+> -  'data': [ 'EAX', 'EBX', 'ECX', 'EDX', 'ESP', 'EBP', 'ESI', 'EDI' ] }
+> -
+> -##
+> -# @X86CPUFeatureWordInfo:
+> -#
+> -# Information about a X86 CPU feature word
+> -#
+> -# @cpuid-input-eax: Input EAX value for CPUID instruction for that feature word
+> -#
+> -# @cpuid-input-ecx: Input ECX value for CPUID instruction for that
+> -#                   feature word
+> -#
+> -# @cpuid-register: Output register containing the feature bits
+> -#
+> -# @features: value of output register, containing the feature bits
+> -#
+> -# Since: 1.5
+> -##
+> -{ 'struct': 'X86CPUFeatureWordInfo',
+> -  'data': { 'cpuid-input-eax': 'int',
+> -            '*cpuid-input-ecx': 'int',
+> -            'cpuid-register': 'X86CPURegister32',
+> -            'features': 'int' } }
+> -
+> -##
+> -# @DummyForceArrays:
+> -#
+> -# Not used by QMP; hack to let us use X86CPUFeatureWordInfoList internally
+> -#
+> -# Since: 2.5
+> -##
+> -{ 'struct': 'DummyForceArrays',
+> -  'data': { 'unused': ['X86CPUFeatureWordInfo'] } }
+> -
+>  ##
+>  # @NumaCpuOptions:
+>  #
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 9f72342506..848a65ded2 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -38,7 +38,7 @@
+>  #include "qemu/option.h"
+>  #include "qemu/config-file.h"
+>  #include "qapi/error.h"
+> -#include "qapi/qapi-visit-machine.h"
+> +#include "qapi/qapi-visit-machine-target.h"
+>  #include "qapi/qapi-visit-run-state.h"
+>  #include "qapi/qmp/qdict.h"
+>  #include "qapi/qmp/qerror.h"
+> -- 
+> 2.26.2
 > 
->> All this to say, that if the goal is full system emulation, we should may
->> be take another approach and work on the QEMU internals to run multiple
->> architectures in the same QEMU binary.
-> 
-> Interesting. Will it be too slow to run the server and BMC in separate
-> processes?
 
-No. It will be much simpler to run in a single process I think. Memory
-operation, gpio lines can cross borders between architectures.
- 
-> We might actually be more interested in going the other way and move
-> more things out of process, as we start to tackle larger, more complex
-> systems.
->
->> According to Peter, this is mostly a configure/build issue and cleanups
->> are needed to remove the assumptions that were done with single arch
->> binaries. A big task but not necessarily difficult. I will help for
->> ARM and PPC !
-> 
-> It sounds great to have the option to simulate multiple architectures
-> in the same process, and getting rid of single-arch assumptions seems
-> like a nice cleanup. However, I'm hoping we'll still support
-> multi-process system emulation (and the MultiProcessQEMU work seems to
-> be moving in that direction as well).
-
-I haven't been following that closely enough but it looked promising.
-Having a way to offload mem operations and interrupts should help
-modeling in some areas, such as interconnecting external simulators. 
-But that might raise some other issues like time control.  
-
->> Anyhow, the IPMI documentation you provided is good to have.
-> 
-> If you like, I can split off patch 1-2 (or just 2) and post them
-> separately while we work on the BMC-side device emulation. If we
-> decide to keep patch 1 and the block diagrams, we probably need to do
-> something better for the font path.
-
-These looked good as they were. Were there any objections ? 
-
-Thanks,
-
-C. 
+-- 
+Eduardo
 
 
