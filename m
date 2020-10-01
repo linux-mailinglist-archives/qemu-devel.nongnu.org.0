@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A7327F966
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:21:11 +0200 (CEST)
-Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570D327F96D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:23:37 +0200 (CEST)
+Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNrxm-0000Vp-O1
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38396)
+	id 1kNs08-0002uU-Dt
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:23:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kNruP-0004Sl-Bw
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27392)
+ id 1kNruQ-0004WE-J9
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kNruN-0003sn-Hv
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:40 -0400
+ id 1kNruN-0003sr-Kh
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:42 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601533058;
+ s=mimecast20190719; t=1601533059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=64SmcdMkYwsAhSqPe415zi6gYv89e19emOMuW+84nos=;
- b=ZDHnwfgaG/nDyy66FKEdMGfCzkZtrFlj0WtQov1d2/1bojhIy+v4WkDfOfRz/zXWeQqRhQ
- +l9TjpDqr75W+z8g3M1Np3g1DOPdOgUvRMAHrz4ASg54uhP+ZcD4yeQCAEIUOeqRGS4bWY
- YPNCGkgvdIVbJB7ARPBJjr1W0oj+Xq0=
+ bh=qozuzyWIIUkD3H8iW/Pdp1MSaWMoH53JCt3b3Tc2H3E=;
+ b=ZENHq90jr4p3Gub/DYi3GxP+jbiIrgSlsk082gyQT8Q9t6Tn7qsyBdhw15kjq+mwZvN36u
+ /Kq+Okp4KqByws79zndctaTMet+Usg31TTW7BnuB7AuGo4XKzp2KkVD1E2Vry0GAE2VdP+
+ 8ydVL94gN+sGi6WmNcv/I2uvQ56IMuU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-gdTuDkUTNK6NmS9NL2vPOQ-1; Thu, 01 Oct 2020 02:17:35 -0400
-X-MC-Unique: gdTuDkUTNK6NmS9NL2vPOQ-1
+ us-mta-237-EF1c7_qEP0mNeAv4hqsqaA-1; Thu, 01 Oct 2020 02:17:37 -0400
+X-MC-Unique: EF1c7_qEP0mNeAv4hqsqaA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45D231868410;
- Thu,  1 Oct 2020 06:17:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA0680EF9B;
+ Thu,  1 Oct 2020 06:17:36 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.40.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C95685577A;
- Thu,  1 Oct 2020 06:17:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A328E55797;
+ Thu,  1 Oct 2020 06:17:34 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH v4 4/6] hw/arm/virt: Move kvm pmu setup to virt_cpu_post_init
-Date: Thu,  1 Oct 2020 08:17:16 +0200
-Message-Id: <20201001061718.101915-5-drjones@redhat.com>
+Subject: [PATCH v4 5/6] tests/qtest: Restore aarch64 arm-cpu-features test
+Date: Thu,  1 Oct 2020 08:17:17 +0200
+Message-Id: <20201001061718.101915-6-drjones@redhat.com>
 In-Reply-To: <20201001061718.101915-1-drjones@redhat.com>
 References: <20201001061718.101915-1-drjones@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 00:27:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -85,84 +85,28 @@ Cc: peter.maydell@linaro.org, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the KVM PMU setup part of fdt_add_pmu_nodes() to
-virt_cpu_post_init(), which is a more appropriate location. Now
-fdt_add_pmu_nodes() is also named more appropriately, because it
-no longer does anything but fdt node creation.
+arm-cpu-features got dropped from the AArch64 tests during the meson
+conversion shuffle.
 
-No functional change intended.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- hw/arm/virt.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ tests/qtest/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 524eafe22df8..92ab0fd094dc 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -521,21 +521,12 @@ static void fdt_add_gic_node(VirtMachineState *vms)
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 874b5be62be2..db169a53b530 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -146,7 +146,8 @@ qtests_aarch64 = \
+   (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+-  ['numa-test',
++  ['arm-cpu-features',
++   'numa-test',
+    'boot-serial-test',
+    'migration-test']
  
- static void fdt_add_pmu_nodes(const VirtMachineState *vms)
- {
--    CPUState *cpu;
--    ARMCPU *armcpu;
-+    ARMCPU *armcpu = ARM_CPU(first_cpu);
-     uint32_t irqflags = GIC_FDT_IRQ_FLAGS_LEVEL_HI;
- 
--    CPU_FOREACH(cpu) {
--        armcpu = ARM_CPU(cpu);
--        if (!arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
--            return;
--        }
--        if (kvm_enabled()) {
--            if (kvm_irqchip_in_kernel()) {
--                kvm_arm_pmu_set_irq(cpu, PPI(VIRTUAL_PMU_IRQ));
--            }
--            kvm_arm_pmu_init(cpu);
--        }
-+    if (!arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
-+        assert(!object_property_get_bool(OBJECT(armcpu), "pmu", NULL));
-+        return;
-     }
- 
-     if (vms->gic_version == VIRT_GIC_VERSION_2) {
-@@ -544,7 +535,6 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
-                              (1 << vms->smp_cpus) - 1);
-     }
- 
--    armcpu = ARM_CPU(qemu_get_cpu(0));
-     qemu_fdt_add_subnode(vms->fdt, "/pmu");
-     if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
-         const char compat[] = "arm,armv8-pmuv3";
-@@ -1678,11 +1668,23 @@ static void finalize_gic_version(VirtMachineState *vms)
-  */
- static void virt_cpu_post_init(VirtMachineState *vms)
- {
--    bool aarch64;
-+    bool aarch64, pmu;
-+    CPUState *cpu;
- 
-     aarch64 = object_property_get_bool(OBJECT(first_cpu), "aarch64", NULL);
-+    pmu = object_property_get_bool(OBJECT(first_cpu), "pmu", NULL);
- 
--    if (!kvm_enabled()) {
-+    if (kvm_enabled()) {
-+        CPU_FOREACH(cpu) {
-+            if (pmu) {
-+                assert(arm_feature(&ARM_CPU(cpu)->env, ARM_FEATURE_PMU));
-+                if (kvm_irqchip_in_kernel()) {
-+                    kvm_arm_pmu_set_irq(cpu, PPI(VIRTUAL_PMU_IRQ));
-+                }
-+                kvm_arm_pmu_init(cpu);
-+            }
-+        }
-+    } else {
-         if (aarch64 && vms->highmem) {
-             int requested_pa_size = 64 - clz64(vms->highest_gpa);
-             int pamax = arm_pamax(ARM_CPU(first_cpu));
 -- 
 2.26.2
 
