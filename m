@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB15E2809B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 23:53:27 +0200 (CEST)
-Received: from localhost ([::1]:42344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80652809D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 00:02:10 +0200 (CEST)
+Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO6Vy-0001DM-82
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 17:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
+	id 1kO6eP-0007O8-5b
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 18:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kO6U3-0000dr-IF
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 17:51:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37190)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kO6U0-00034a-QJ
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 17:51:27 -0400
-Received: by mail-wr1-x444.google.com with SMTP id z4so362398wrr.4
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 14:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7Pi2MLqv9eXoByMXGqOMrEtbyvdvwGhIllgml8Al4t0=;
- b=RNJtL65ksVu4fuKTPMzDNBBB8MUL0ykcWhBIkOW/YGSEcAP+PBOsNehssXrYESJWEI
- SsJF4t55AHGjVKd4iQLhtD8Y+SJAxr+Xp+eWkXBU1CI05Kwg9vGYedjIy4CqkfkUf1P0
- 5uOn3sgDESSxXx4XAp5Ublc9LaN3H5zUxYNBedIBUnuSoP1wQ9vp55KY/7x0MeLXrmMu
- 6k/F2dvx+aqFQRhjZI1ua2Z6q+h0KDgdwqR6IaXgj+igYWrd/0xRjPrT3xavBGsugtNK
- 0Gcxoa9TCHcudLi06SeCcEfDUacXsNi9ArDfFKLYW+Ta+C+E6fxCM8Y+xWxznjILKa2Y
- nXiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7Pi2MLqv9eXoByMXGqOMrEtbyvdvwGhIllgml8Al4t0=;
- b=Jn4SApRlWipzRR9WlWWPcuQwflZYKqxUz+yoywcYsO1wWbE82DmLk6R1fpL3ztcd1u
- scd9FyLZIRlM9Xu9B1s8Qv3WuR/diPBHURurWTdNgm9LKgVHUMhHyHBka70bhgJoHmZb
- c4yLFrdozTTF4SUvsrms3T0S4kZ2hXVp4lf6wDVL/UpBNVtWhNhR0DvDfMND4pb97hhQ
- Rv+4Ot5keG2e8n9e/2V0zfb8/4/V0y2z3VMBlr4xCMfrxCq1Q+MaWk16QE3if+sfxY12
- A8FpEj2uq7qR/06JBCTuU+NT9EwejYIh6eFeLeG8EZUwPEy5E67s9p7Kr9MxLv01Ny5K
- ptCg==
-X-Gm-Message-State: AOAM530EcP3cwTSIGnh16DlVpKxmdQacdKnWmIxcqowFLnda1t0H525T
- QW52AdEMNlL/rlXaFQzM5aViHw==
-X-Google-Smtp-Source: ABdhPJwc2F+4faW9HRTZZAsZAS9s8yBLHkHwSY4hm1IordkiXNOLwWBhvo+3rgaIfspaBSomKWvVEg==
-X-Received: by 2002:adf:82ce:: with SMTP id 72mr11103641wrc.404.1601589082944; 
- Thu, 01 Oct 2020 14:51:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t5sm11280966wrb.21.2020.10.01.14.51.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 14:51:21 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 398DD1FF7E;
- Thu,  1 Oct 2020 22:51:21 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab: move linux-user plugins test across to gitlab
-Date: Thu,  1 Oct 2020 22:51:14 +0100
-Message-Id: <20201001215114.28154-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO6bu-0006hZ-Ae
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 17:59:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO6bq-00041G-Ea
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 17:59:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601589568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N4uP3DJlDSs57FZmTVaCSiAgusoYFv+YV3PJ1v0rB5w=;
+ b=OGvFtc1Rynqp4D+xD0JF7rsklJ13glge/SIPL24xWP/2Es/RWSmuOcs43KkGn9fCZQ8vuf
+ TCUahHNKjgOfzmWgSR/zvI9UPyyjB6lcy3733ugiPMTGFbXkVrBsuNxuiJu2NhtC6Y7aj+
+ iJRWbv1zwJevsTxgV1sp8Emu4BspKPc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-BgUVBl2fMN208bEn3h-uIQ-1; Thu, 01 Oct 2020 17:59:25 -0400
+X-MC-Unique: BgUVBl2fMN208bEn3h-uIQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D497E85C732;
+ Thu,  1 Oct 2020 21:59:23 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DA3E10013C4;
+ Thu,  1 Oct 2020 21:59:22 +0000 (UTC)
+Subject: Re: [PATCH 1/9] scripts/performance: Refactor topN_perf.py
+From: John Snow <jsnow@redhat.com>
+To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>, qemu-devel@nongnu.org,
+ aleksandar.qemu.devel@gmail.com, philmd@redhat.com, alex.bennee@linaro.org,
+ eblake@redhat.com, ldoktor@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
+ crosa@redhat.com
+References: <20200828104102.4490-1-ahmedkhaledkaraman@gmail.com>
+ <20200828104102.4490-2-ahmedkhaledkaraman@gmail.com>
+ <ec6e7528-0281-9bdc-5afc-4b9c8a541f13@redhat.com>
+Message-ID: <85440dcc-07cf-b699-98b1-09e1f9b291d5@redhat.com>
+Date: Thu, 1 Oct 2020 17:59:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <ec6e7528-0281-9bdc-5afc-4b9c8a541f13@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,83 +87,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even with the recent split moving beefier plugins into contrib and
-dropping them from the check-tcg tests we are still hitting time
-limits. This possibly points to a slow down of --debug-tcg but seeing
-as we are migrating stuff to gitlab we might as well take advantage of
-the ability to properly split our builds.
+On 10/1/20 4:41 PM, John Snow wrote:
+> I realize this review comes well after you are no longer being paid to 
+> work on this, so I am offering my time to help polish your patches if 
+> you would like.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.yml | 23 +++++++++++++++++++++++
- .travis.yml    | 11 -----------
- 2 files changed, 23 insertions(+), 11 deletions(-)
+Actually, I see now that you are adding your name to the MAINTAINERS 
+file here, so I suspect you probably rather want to be more involved 
+than not.
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index c265e7f8ab..cc16385d65 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -244,6 +244,29 @@ build-user:
-     CONFIGURE_ARGS: --disable-tools --disable-system
-     MAKE_CHECK_ARGS: check-tcg
- 
-+# Run check-tcg against linux-user (with plugins)
-+# we skip sparc64-linux-user until it has been fixed somewhat
-+# we skip cris-linux-user as it doesn't use the common run loop
-+build-user-plugins:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: debian-all-test-cross
-+    CONFIGURE_ARGS: --disable-tools --disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user
-+    MAKE_CHECK_ARGS: build-tcg
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-user-plugins:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-user-plugins
-+      artifacts: true
-+  variables:
-+    IMAGE: debian-all-test-cross
-+    MAKE_CHECK_ARGS: check-tcg
-+
- build-clang:
-   <<: *native_build_job_definition
-   variables:
-diff --git a/.travis.yml b/.travis.yml
-index c255c331a7..519e62432d 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -311,17 +311,6 @@ jobs:
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
--    # Run check-tcg against linux-user (with plugins)
--    # we skip sparc64-linux-user until it has been fixed somewhat
--    # we skip cris-linux-user as it doesn't use the common run loop
--    - name: "GCC plugins check-tcg (user)"
--      env:
--        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user"
--        - TEST_BUILD_CMD="make build-tcg"
--        - TEST_CMD="make check-tcg"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
--
--
-     # Run check-tcg against softmmu targets
-     - name: "GCC check-tcg (some-softmmu)"
-       env:
--- 
-2.20.1
+I cleaned up patch 1/9 provisionally with my own style preferences, but 
+it's all just style stuff, and it's mostly things I wouldn't actually 
+require you to do (...I went way overboard.)
+
+https://gitlab.com/jsnow/qemu/-/commit/c66a4a6ca8ccc3d406b92796935f92057bf1e48d
+
+
+What I'd recommend for your cleanup is actually *much* simpler;
+
+Use pylint 2.6.0 and flake8 3.8.3:
+
+ > pip3 install --user pylint==2.6.0 flake8==3.8.3
+
+flake8's default settings should be pretty good, but pylint has a lot of 
+warnings you can ignore.
+
+In particular, it's OK to use script-style python (Scripts with a 
+#!/usr/bin/env python3, and where you do not use python functions to 
+avoid side-effects that occur on 'import'.) In this case, IGNORE any of 
+pylint's warnings telling you that you have too many lines, that you 
+need to UPPERCASE variable names, etc. It just hurts readability here.
+
+So I'd actually ask that you revise these patches to remove all of the 
+UPPERCASE variable names, and then check your code with these:
+
+flake8 topN_perf.py
+pylint --disable=invalid-name topN_perf.py
+
+Use your best judgment -- If something seems like it looks worse, it 
+probably is. If in doubt, please reach out and ask.
+
+--js
 
 
