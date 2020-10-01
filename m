@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027122801B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:55:08 +0200 (CEST)
-Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26033280203
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:00:31 +0200 (CEST)
+Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNzz8-0004WU-Vd
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:55:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
+	id 1kO04M-0004Gp-56
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:00:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsZ-00051Q-6c
+ id 1kNzsZ-00052Z-L7
  for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:19 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46658)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsW-0002yB-Mf
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id o5so6099133wrn.13
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:16 -0700 (PDT)
+ id 1kNzsX-0002yQ-Mz
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:19 -0400
+Received: by mail-wr1-x444.google.com with SMTP id w5so6109220wrp.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EQ9bzBvmQ+5iN3kjFYcuQfzs+gLXhURXfJjK+aJw7Kg=;
- b=aQghKDQILFuH1kS/vyzOVtdVkZZ2FUjKXmLg+VwzUinzGi4lRiyTsDg46iWxXl013P
- jqVMhWrmC/X/l8fzGa2xLCJV6f91sOQoYd+7oS9fqgc4t9lZItG2F+7cMBa7hgA67gfQ
- q7EAjWh5Dfo6DcXEqrAmKLRz/TbWOhmsOYx9XlPf7u03u8+9xDssKdv6YUFDuPIA+2KN
- +PigLHL0sLPZmBtgPkpiHhBJRmDs2SENILv15LMip0RCTVtJeB8zmLudyYqH7ZDbBnxN
- XRpwY9/89RynMtEXzzh+0nStI/TPTz11dQofpPhn+6vXzNtM0QPRGyiMCq24L4OBqeav
- 5+kQ==
+ bh=LdsF1p8GE52TqGxdvPUfjvasVxUb/DF5uSL01W4m9MM=;
+ b=FOBdWnudi47dMkUnjuejoP0+G6qqcjBeRrTioihauwB+Q0PQSBeiZW24X19kxEx9tr
+ 8tOnfliLpwkkAV5e3C3UNgvHS3gIwIDegNC1yLOMpQ6pK1w7ky1yzttmHB9mhHda+F/q
+ aVCWU8i36Z0CjbSM7pTCxtkpP1zYxH4OiIHMTo3S3o1j/JbOycc2IsbP+ICzXPsTKSsd
+ bw8Qymti4439LMB43l7EuvTbDLCtmbFfZXPfVUMbMSMAOsvtnb+Sn9LL9Hjj4F2MZnYf
+ eB1jRRdBmQgMWtsqvkLVEU2TSgTj1THOWIzJNaT8CP7E7l03RfP23+xWd7OGzqF9q/wK
+ A3ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EQ9bzBvmQ+5iN3kjFYcuQfzs+gLXhURXfJjK+aJw7Kg=;
- b=nt1w3YYe3J//qnrSIE8p1uBTgLfc2LNCk8AUNZwrakry9cZgzgaMsZj5OEpnvB0V3n
- KEHrNmJ4OYItNVTUAQ9AQBgObA9uh+Hb78Mzmz6Zz+CShQ6SB+/vjJBklHidnt7S1kbz
- 3Acbj+5R9P1zMlVUHRhnMN5/c41CZXfxcBAyDqSF4XzqFZFjakPyEcHvAfry0Zdhv+nN
- 1CXEQTPqs3j09ExuWepeonbSW5VI+WxpTBCuBKFnw8Z+vutlx7UY+zZvJF5QZscVU0He
- 7K/u2uW+HY5nrzzpWe0gX9u97jGJx/269182COpNTMEWf3Uny/5T057tvnXmY75kKrll
- dVUA==
-X-Gm-Message-State: AOAM531dod7+2u891HbA7lQDBW+vBS0srLV6Xe53GN2jhdUYEh5yrote
- 654p5M6P6vbQXMEPFj9SHJuT4o4JHjqm1aIV
-X-Google-Smtp-Source: ABdhPJxaGu24szRug0JYP2C2HhQTGLxNDuFTD4HBPYl0WPXBWHCbgimyuYOdGbzmIF2+t2VxDQm3DA==
-X-Received: by 2002:a5d:4f12:: with SMTP id c18mr8913471wru.33.1601563694927; 
- Thu, 01 Oct 2020 07:48:14 -0700 (PDT)
+ bh=LdsF1p8GE52TqGxdvPUfjvasVxUb/DF5uSL01W4m9MM=;
+ b=IHUgn28hcJuU6mzfo570nRWuAM7GE8ty3SsGwnRv3yIgILx5PyJ2lykTdhjY6kJDiF
+ Zn7eGElvAE93/5THbOoxhnkkCye9HSiU3wCiyWO6AB2rreHjcYtoi/HeeDY7l6fbNAFc
+ Flpfwkt3WOA4LGasNFQe4jhrGWhl/o+By8LxjFxKlyP8UiZTfwNJAcEbjygtymBhnC5u
+ w7cvIMQGX/MxmX7pz/WGKa+JXOGgnrS4QjMFmsnhrushdIHL84U9jQ31gGMuqV7jH1GP
+ sUBK/1GmTlFTnorym7t1ygkiSyv9d/mhuWp91+WbIfRn6hzEbBne6YOAbbugorq/WXni
+ WoYQ==
+X-Gm-Message-State: AOAM5332E/ts6KXjuTAzZIFzNsNi0WgC9gAN9EwcvYNhBEkFFWLAkff7
+ iorr0+0fzG31a60zB1pndVAQDNIw17bEEaE2
+X-Google-Smtp-Source: ABdhPJx0/az8hgbL8CnoO3ZZ36ui7Q/UWseEl3vSiegkhnPXrlAmVhgd5qBRqOtzynVXenD9m0LG/g==
+X-Received: by 2002:adf:e3cf:: with SMTP id k15mr8833337wrm.291.1601563696072; 
+ Thu, 01 Oct 2020 07:48:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.14
+ by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:48:14 -0700 (PDT)
+ Thu, 01 Oct 2020 07:48:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] hw/arm/raspi: Define various blocks base addresses
-Date: Thu,  1 Oct 2020 15:47:49 +0100
-Message-Id: <20201001144759.5964-9-peter.maydell@linaro.org>
+Subject: [PULL 09/18] hw/arm/bcm2835: Add more unimplemented peripherals
+Date: Thu,  1 Oct 2020 15:47:50 +0100
+Message-Id: <20201001144759.5964-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201001144759.5964-1-peter.maydell@linaro.org>
 References: <20201001144759.5964-1-peter.maydell@linaro.org>
@@ -91,115 +91,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The Raspberry firmware is closed-source. While running it, it
-accesses various I/O registers. Logging these accesses as UNIMP
-(unimplemented) help to understand what the firmware is doing
-(ideally we want it able to boot a Linux kernel).
+The bcm2835-v3d is used since Linux 4.7, see commit
+49ac67e0c39c ("ARM: bcm2835: Add VC4 to the device tree"),
+and the bcm2835-txp since Linux 4.19, see commit
+b7dd29b401f5 ("ARM: dts: bcm283x: Add Transposer block").
 
-Document various blocks we might use later.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-id: 20200921034729.432931-2-f4bug@amsat.org
+Message-id: 20200921034729.432931-3-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/raspi_platform.h | 51 +++++++++++++++++++++++++++------
- 1 file changed, 43 insertions(+), 8 deletions(-)
+ include/hw/arm/bcm2835_peripherals.h | 2 ++
+ hw/arm/bcm2835_peripherals.c         | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
-index 61b04a1bd4a..c7f50b260f6 100644
---- a/include/hw/arm/raspi_platform.h
-+++ b/include/hw/arm/raspi_platform.h
-@@ -20,20 +20,29 @@
-  * You should have received a copy of the GNU General Public License
-  * along with this program; if not, write to the Free Software
-  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+ *
-+ * Various undocumented addresses and names come from Herman Hermitage's VC4
-+ * documentation:
-+ * https://github.com/hermanhermitage/videocoreiv/wiki/MMIO-Register-map
-  */
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+index 13d7c4c5531..c9ac941a82c 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -45,6 +45,7 @@ struct BCM2835PeripheralState {
  
- #ifndef HW_ARM_RASPI_PLATFORM_H
- #define HW_ARM_RASPI_PLATFORM_H
+     BCM2835SystemTimerState systmr;
+     BCM2835MphiState mphi;
++    UnimplementedDeviceState txp;
+     UnimplementedDeviceState armtmr;
+     UnimplementedDeviceState cprman;
+     UnimplementedDeviceState a2w;
+@@ -66,6 +67,7 @@ struct BCM2835PeripheralState {
+     UnimplementedDeviceState otp;
+     UnimplementedDeviceState dbus;
+     UnimplementedDeviceState ave0;
++    UnimplementedDeviceState v3d;
+     UnimplementedDeviceState bscsl;
+     UnimplementedDeviceState smi;
+     DWC2State dwc2;
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index a9d7f53f6e9..15c5c72e465 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -343,6 +343,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
+                                INTERRUPT_USB));
  
- #define MSYNC_OFFSET            0x0000   /* Multicore Sync Block */
--#define IC0_OFFSET              0x2000
-+#define CCPT_OFFSET             0x1000   /* Compact Camera Port 2 TX */
-+#define INTE_OFFSET             0x2000   /* VC Interrupt controller */
- #define ST_OFFSET               0x3000   /* System Timer */
-+#define TXP_OFFSET              0x4000   /* Transposer */
-+#define JPEG_OFFSET             0x5000
- #define MPHI_OFFSET             0x6000   /* Message-based Parallel Host Intf. */
- #define DMA_OFFSET              0x7000   /* DMA controller, channels 0-14 */
--#define ARM_OFFSET              0xB000   /* BCM2708 ARM control block */
-+#define ARBA_OFFSET             0x9000
-+#define BRDG_OFFSET             0xa000
-+#define ARM_OFFSET              0xB000   /* ARM control block */
- #define ARMCTRL_OFFSET          (ARM_OFFSET + 0x000)
- #define ARMCTRL_IC_OFFSET       (ARM_OFFSET + 0x200) /* Interrupt controller */
--#define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 */
-+#define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 (SP804) */
- #define ARMCTRL_0_SBM_OFFSET    (ARM_OFFSET + 0x800) /* User 0 (ARM) Semaphores
-                                                       * Doorbells & Mailboxes */
- #define CPRMAN_OFFSET           0x100000 /* Power Management, Watchdog */
-@@ -42,24 +51,50 @@
- #define AVS_OFFSET              0x103000 /* Audio Video Standard */
- #define RNG_OFFSET              0x104000
- #define GPIO_OFFSET             0x200000
--#define UART0_OFFSET            0x201000
--#define MMCI0_OFFSET            0x202000
--#define I2S_OFFSET              0x203000
--#define SPI0_OFFSET             0x204000
-+#define UART0_OFFSET            0x201000 /* PL011 */
-+#define MMCI0_OFFSET            0x202000 /* Legacy MMC */
-+#define I2S_OFFSET              0x203000 /* PCM */
-+#define SPI0_OFFSET             0x204000 /* SPI master */
- #define BSC0_OFFSET             0x205000 /* BSC0 I2C/TWI */
-+#define PIXV0_OFFSET            0x206000
-+#define PIXV1_OFFSET            0x207000
-+#define DPI_OFFSET              0x208000
-+#define DSI0_OFFSET             0x209000 /* Display Serial Interface */
-+#define PWM_OFFSET              0x20c000
-+#define PERM_OFFSET             0x20d000
-+#define TEC_OFFSET              0x20e000
- #define OTP_OFFSET              0x20f000
-+#define SLIM_OFFSET             0x210000 /* SLIMbus */
-+#define CPG_OFFSET              0x211000
- #define THERMAL_OFFSET          0x212000
--#define BSC_SL_OFFSET           0x214000 /* SPI slave */
-+#define AVSP_OFFSET             0x213000
-+#define BSC_SL_OFFSET           0x214000 /* SPI slave (bootrom) */
- #define AUX_OFFSET              0x215000 /* AUX: UART1/SPI1/SPI2 */
- #define EMMC1_OFFSET            0x300000
-+#define EMMC2_OFFSET            0x340000
-+#define HVS_OFFSET              0x400000
- #define SMI_OFFSET              0x600000
-+#define DSI1_OFFSET             0x700000
-+#define UCAM_OFFSET             0x800000
-+#define CMI_OFFSET              0x802000
- #define BSC1_OFFSET             0x804000 /* BSC1 I2C/TWI */
- #define BSC2_OFFSET             0x805000 /* BSC2 I2C/TWI */
-+#define VECA_OFFSET             0x806000
-+#define PIXV2_OFFSET            0x807000
-+#define HDMI_OFFSET             0x808000
-+#define HDCP_OFFSET             0x809000
-+#define ARBR0_OFFSET            0x80a000
- #define DBUS_OFFSET             0x900000
- #define AVE0_OFFSET             0x910000
- #define USB_OTG_OFFSET          0x980000 /* DTC_OTG USB controller */
-+#define V3D_OFFSET              0xc00000
- #define SDRAMC_OFFSET           0xe00000
-+#define L2CC_OFFSET             0xe01000 /* Level 2 Cache controller */
-+#define L1CC_OFFSET             0xe02000 /* Level 1 Cache controller */
-+#define ARBR1_OFFSET            0xe04000
- #define DMA15_OFFSET            0xE05000 /* DMA controller, channel 15 */
-+#define DCRC_OFFSET             0xe07000
-+#define AXIP_OFFSET             0xe08000
++    create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
+     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+     create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
+     create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
+@@ -356,6 +357,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+     create_unimp(s, &s->otp, "bcm2835-otp", OTP_OFFSET, 0x80);
+     create_unimp(s, &s->dbus, "bcm2835-dbus", DBUS_OFFSET, 0x8000);
+     create_unimp(s, &s->ave0, "bcm2835-ave0", AVE0_OFFSET, 0x8000);
++    create_unimp(s, &s->v3d, "bcm2835-v3d", V3D_OFFSET, 0x1000);
+     create_unimp(s, &s->sdramc, "bcm2835-sdramc", SDRAMC_OFFSET, 0x100);
+ }
  
- /* GPU interrupts */
- #define INTERRUPT_TIMER0               0
 -- 
 2.20.1
 
