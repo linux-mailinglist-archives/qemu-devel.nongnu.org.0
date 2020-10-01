@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7A2280127
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:19:50 +0200 (CEST)
-Received: from localhost ([::1]:45332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82812280144
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:30:15 +0200 (CEST)
+Received: from localhost ([::1]:58408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNzQz-0003lG-9X
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34642)
+	id 1kNzb4-00010h-Bp
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:30:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kNzPu-0002se-Dj
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:18:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21099)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNzZj-0000Ux-V2
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:28:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kNzPr-0007Gs-UI
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:18:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kNzZh-0000Qp-Hh
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:28:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601561918;
+ s=mimecast20190719; t=1601562525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JiIm316CXm7TJNcJXFVzRosBJ5WcxDhBm4d337O1ezI=;
- b=XNP5o1YEjirnxrB1npVdmgJHJuxLex8KCvDNN5Ijuy4wHcLfBSrfVsUDIo1N814vR+DAi0
- 3AWIH8s8PcavXaGImhHCoFl4KuUlQ1CQBVD8E2ZfcfTpfhKEs2B3vbVnqlmbIhNfdumhkz
- 9ze8BnyeQvOPgOtaMPV99jmzn22pqAo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DSpBdH06BLyNKakHlN/LiGUS0LibMOVMxc/VUriZ7lI=;
+ b=C9tDjDN13E1ssexCDMvl6zSHlb03ekSIjNx9gKwfID6W3iSN1W5xlOjTfn02Zf+OtDvxO+
+ PimiBzmBZC1+wqJJuHOrKi9+hWJqNSIQXlw1oEnWF5nx+dHPMy/UAQAPVY7UPKi5MH5N0t
+ OSg74RMCLUrVXdZ4S/uTkBVrAJz3EeQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-cuJ1gj4ENx-YqWo5ZFgarA-1; Thu, 01 Oct 2020 10:18:36 -0400
-X-MC-Unique: cuJ1gj4ENx-YqWo5ZFgarA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-473-IEQdicZ6MJWTfU-cD_BC4A-1; Thu, 01 Oct 2020 10:28:44 -0400
+X-MC-Unique: IEQdicZ6MJWTfU-cD_BC4A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C93B61074664;
- Thu,  1 Oct 2020 14:18:34 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-181.ams2.redhat.com
- [10.36.113.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96D5978806;
- Thu,  1 Oct 2020 14:18:32 +0000 (UTC)
-Subject: Re: [PATCH qemu 1/4] drive-mirror: add support for sync=bitmap
- mode=never
-To: =?UTF-8?Q?Fabian_Gr=c3=bcnbichler?= <f.gruenbichler@proxmox.com>,
- qemu-devel@nongnu.org
-References: <20200922091418.53562-1-f.gruenbichler@proxmox.com>
- <20200922091418.53562-2-f.gruenbichler@proxmox.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <408ee1bb-9932-c724-ca43-6ab9a9014a0e@redhat.com>
-Date: Thu, 1 Oct 2020 16:18:30 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F30FF907E8D;
+ Thu,  1 Oct 2020 14:28:42 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DDCF73671;
+ Thu,  1 Oct 2020 14:28:41 +0000 (UTC)
+Subject: Re: [PATCH v4 04/46] qapi: modify docstrings to be sphinx-compatible
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200930043150.1454766-1-jsnow@redhat.com>
+ <20200930043150.1454766-5-jsnow@redhat.com>
+ <87wo0bejmy.fsf@dusky.pond.sub.org>
+ <4bb15cb7-ddcc-ae41-dcb8-81aaa7117ffa@redhat.com>
+ <87a6x6498t.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <c20ddc31-2d7a-bc83-ce4c-556441bd55ed@redhat.com>
+Date: Thu, 1 Oct 2020 10:28:41 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200922091418.53562-2-f.gruenbichler@proxmox.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <87a6x6498t.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="myLzpRLFoyaqjfhx0pw0btyeIU7MODDLE"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -109,118 +86,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Ma Haocong <mahaocong@didichuxing.com>, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---myLzpRLFoyaqjfhx0pw0btyeIU7MODDLE
-Content-Type: multipart/mixed; boundary="O72jMQwYIXwUprHn06KUuXOFhhJqMm8Lh"
+On 10/1/20 4:54 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 9/30/20 4:47 AM, Markus Armbruster wrote:
+>>> Sadly, the fact that start_if() and end_if() are functions isn't
+>>> immediately obvious anymore.
+>>> I've seen :func:`start_if` elsewhere.  Is this something we should
+>>> or
+>>> want to use?
+>>
+>> Looks like `start_if()` works just fine too. If you are hard-set in
+>> wanting to see those parentheses I can use this style, but admit I am
+>> not likely to use them myself in newer docstrings, and there's no way
+>> to enforce their presence OR absence that I am aware of.
+> 
+> Well, there's no way to enforce presence or absence of ` either, right?
+> 
 
---O72jMQwYIXwUprHn06KUuXOFhhJqMm8Lh
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Yeah, just a warning that enforcing mechanical consistency along these 
+lines is not something we can do at the moment.
 
-On 22.09.20 11:14, Fabian Gr=C3=BCnbichler wrote:
-> From: John Snow <jsnow@redhat.com>
->=20
-> This patch adds support for the "BITMAP" sync mode to drive-mirror and
-> blockdev-mirror. It adds support only for the BitmapSyncMode "never,"
-> because it's the simplest mode.
->=20
-> This mode simply uses a user-provided bitmap as an initial copy
-> manifest, and then does not clear any bits in the bitmap at the
-> conclusion of the operation.
->=20
-> Any new writes dirtied during the operation are copied out, in contrast
-> to backup. Note that whether these writes are reflected in the bitmap
-> at the conclusion of the operation depends on whether that bitmap is
-> actually recording!
->=20
-> This patch was originally based on one by Ma Haocong, but it has since
-> been modified pretty heavily.
->=20
-> Suggested-by: Ma Haocong <mahaocong@didichuxing.com>
-> Signed-off-by: Ma Haocong <mahaocong@didichuxing.com>
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Signed-off-by: Fabian Gr=C3=BCnbichler <f.gruenbichler@proxmox.com>
-> ---
->  include/block/block_int.h   |  4 +-
->  block/mirror.c              | 98 ++++++++++++++++++++++++++++++-------
->  blockdev.c                  | 39 +++++++++++++--
->  tests/test-block-iothread.c |  4 +-
->  qapi/block-core.json        | 29 +++++++++--
->  5 files changed, 145 insertions(+), 29 deletions(-)
+(We maybe could by creating a sphinx plugin, but that's a bridge to 
+cross much, much later. Anything is possible with time, engineers, and 
+money, right?)
 
-[...]
+> Aside: checking the enclosed text resolves as a cross-reference could
+> provide good-enough enforcement of absence, but enclosing stuff in `
+> when you shouldn't is probably the lesser issue.
+> 
+>> I'll bake that change in for now until I see another reply.
+> 
+> Since this is a side show right now, consider the arguments raised so
+> far, use your judgement, and move on to the main show.
+> 
 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 2d94873ca0..dac5497084 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
+Keeping emails out of my inbox is presently the nicest thing :)
 
-[...]
+Thanks for looking.
 
-> @@ -2270,10 +2281,19 @@
->  #        (all the disk, only the sectors allocated in the topmost image,=
- or
->  #        only new I/O).
->  #
-> +# @bitmap: The name of a bitmap to use for sync=3Dbitmap mode. This argu=
-ment must
-> +#          be present for bitmap mode and absent otherwise. The bitmap's
-> +#          granularity is used instead of @granularity (since 5.2).
-> +#
-> +# @bitmap-mode: Specifies the type of data the bitmap should contain aft=
-er
-> +#               the operation concludes. Must be present if sync is "bit=
-map".
-> +#               Must NOT be present otherwise. (Since 5.2)
-> +#
->  # @granularity: granularity of the dirty bitmap, default is 64K
->  #               if the image format doesn't have clusters, 4K if the clu=
-sters
->  #               are smaller than that, else the cluster size.  Must be a
-> -#               power of 2 between 512 and 64M
-> +#               power of 2 between 512 and 64M . Must not be specified i=
-f
-
-s/ \./\./
-
-(What a cheerful-looking regex.)
-
-With that fixed:
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-> +#               @bitmap is present.
->  #
->  # @buf-size: maximum amount of data in flight from source to
->  #            target
-
-
---O72jMQwYIXwUprHn06KUuXOFhhJqMm8Lh--
-
---myLzpRLFoyaqjfhx0pw0btyeIU7MODDLE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl915TYACgkQ9AfbAGHV
-z0DgtggAjp9fYLn0Bs6YtauELsoXNNAc4wpbWjOhkgl6HoHYqwDb4iGMVm39QfOJ
-aVhJcFfvcRysx/CWo4nyeLLv+7ERUiPlNX/M4uEBacu10k6EtENJ579iCYvHzsoD
-N2+OCFGiCbK7+WHENNJw22mQsmprnmrcqx1hgquMeLhhxu+twjOxyttGh968fxBT
-mrQBEv8DYowZxPla8z9CujmkMwnVeiY9lmsb7dg8/8OFAg7WlLlnV2dT4LZDpCGX
-P5ILKP0Z+/th0eH/wce50RgP76/rwLi7ez38wbkokORQyOiWZtbzsgX/dbcakxtr
-kiLxk5aafjoAdjtDBWKNiyeT/6Z/yQ==
-=Xoaq
------END PGP SIGNATURE-----
-
---myLzpRLFoyaqjfhx0pw0btyeIU7MODDLE--
+--js
 
 
