@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF6B28021B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:04:23 +0200 (CEST)
-Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F6B28022D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:08:52 +0200 (CEST)
+Received: from localhost ([::1]:59210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO086-0008Fs-B0
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43180)
+	id 1kO0CR-0005aU-EZ
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsd-0005CP-Ue
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:23 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33596)
+ id 1kNzsf-0005GU-M1
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:25 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsb-0002zc-Qw
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:23 -0400
-Received: by mail-wr1-x429.google.com with SMTP id m6so6131625wrn.0
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:21 -0700 (PDT)
+ id 1kNzsd-000309-Pv
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:25 -0400
+Received: by mail-wr1-x443.google.com with SMTP id t10so6134951wrv.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=29OqS31hrytI/JoxBJLw6VhtEjpyT0FqbJQ+mpvhcW8=;
- b=fuUMG1omCrZ2z7BoCou5UQVfi4XoT29zKFz5Sf0WsLddKjB6i1xtyY3Lal2PNvCqmO
- 2Q2F4P+0DydOEsjs2P54BFzga4EUpivdSDO94sg1WL4XLSg199kAY7N8wvfZ7r50sNZE
- ZJSEjsSWlAZ9XOafGBkAXaABN9hZXXTUTrRGlf4NFvk7rmjBd2R2Eoos5w5d7iVMrutc
- Y5b+KMGT4+gqs1Cm+KBXs7Yt6ZjoBKbrct99DtR1E1fWWYp0WHOVqCt0TsPdrIWMJX+1
- j2u9lOjsmFR7infkBnZH9lTIneOmx31uxlj23wMRcNax8AoDVDpuWDJTn8Re1uctJFiA
- V0Cw==
+ bh=1TKuqdKYSMqANiZvdGq2s6JBaVSnghGWY2T9WlsB/o0=;
+ b=tGRiWZ4DG87JRyfWPN2OhkeTFYrZy09ZvFLNp/E5M78BzuVRoGIact4AmW+aogE4Wx
+ n+hOS7nSSM6sc4wpaJsU/iRdVZq24BxNUV/SdRgDA81Wuf3L8dts6L7aehWZGnglHOHl
+ QNdhHlACIsBgkAwtygFeaKMt/QgNFIGu8Jho6fAVC1plFLQQ7OD4/Ke9tPaCyfM+1JK+
+ lP5YHbEQ3fF5+px7OjxvICEIur3wkgTYMMM+HmB+wkWikXKnrKLqh/27E2CxGTywUbPw
+ gl5aYlrskTealvAP46yQJ72SZo33e6Kw0DsMpqEB6SKnskxbqeG0OZaa8M4gjXOXmpl4
+ HOMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=29OqS31hrytI/JoxBJLw6VhtEjpyT0FqbJQ+mpvhcW8=;
- b=abXhNNoIVOWQYbhz3eTk8OE+uKKs+CjeErAxfLmz/rNHTbbeIvs+MgfyzSmuTTuUS2
- Kh2pvfcBCQW2nU0i8pgRI422pTcQIRYBfeJkXg2Xlb4g+E1EuB+f0JURHs4gmE+fhNFl
- SUjbrehBlN+PMrX+JTMkJILTFM5PDIWP7fgnrl4P53LyKBXLGAAPyUXr+XnRApe/7kMC
- 3nQHAObWkxQvg9RNkeViLComElWYy/RfY8rWcjBlGD2SGF3nslGF27JSL77OOepMB1nF
- AVTnFMZQIqDPXXqpl1nNWBCbnnfXuJj/M+pKvb42hOEQAU11842utgqevhrqVv+sz1Gk
- 5lBg==
-X-Gm-Message-State: AOAM530dL7LPztdIh2fJI8Z1wrAi1eaSOSwGYRCH7DXIvMUdNCynrwso
- IDWLfB7BMKx/+jia6rBLRyLAaxK1uDYQkoHA
-X-Google-Smtp-Source: ABdhPJyAoN1XhlAfzD/6woo2ds1XezDQr7qUd0KLBDHdOyYrm0f8PAKUkWVkjsrEouOlly7iqBqWaQ==
-X-Received: by 2002:a5d:4081:: with SMTP id o1mr9764539wrp.338.1601563700166; 
- Thu, 01 Oct 2020 07:48:20 -0700 (PDT)
+ bh=1TKuqdKYSMqANiZvdGq2s6JBaVSnghGWY2T9WlsB/o0=;
+ b=VHurTw87nRD0JXd9EcuvqfT3DYSf2TSkeGuRlfGmPs4dw+4JsTfXaVO/dgtJp2TRjt
+ 7DkaVAuiFtSk/1Qgw82aVVqvRQepaBwu6EAs+iV9aEwXvXIEv/qJggUF/M+CGa06H6Vo
+ Uux4X0xbZCdbLEVP3+nwwgQ6XSSDKnwuXGFH3fQT/njZ0It7LEfhg6zdMJQUJ72NyyPF
+ x4SeWT4Lh1PRgdkutN5tAaaTYBBr0P3j0JMrZfGCI1CjiO4qmGHZEYcv5y3TzIZQ75Xe
+ Rq4NXh3k1dK2galnKZHulDS9xP6NgMBsdY8zBjYVw3HcvhszW9HcxcFatidb7Yenm+P9
+ mEVA==
+X-Gm-Message-State: AOAM533GTfqPphnqqlbhGCOBCyUOMwxwN/l3oKpUuJeA0oczyVi73qrM
+ MzgSNkXEYU5Wj0J84EOzqxlHzrpxM6+FYKuz
+X-Google-Smtp-Source: ABdhPJyAi/+YBZke/4hVDlYZOkGuB1GgV2JuKuGkGJddGL2BIrGNFKHq8tcjmlkZfiMR0e9zu0degw==
+X-Received: by 2002:adf:e488:: with SMTP id i8mr10055037wrm.116.1601563702150; 
+ Thu, 01 Oct 2020 07:48:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.19
+ by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:48:19 -0700 (PDT)
+ Thu, 01 Oct 2020 07:48:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/18] hw/arm/raspi: Move arm_boot_info structure to
- RaspiMachineState
-Date: Thu,  1 Oct 2020 15:47:54 +0100
-Message-Id: <20201001144759.5964-14-peter.maydell@linaro.org>
+Subject: [PULL 15/18] hw/arm/raspi: Use more specific machine names
+Date: Thu,  1 Oct 2020 15:47:56 +0100
+Message-Id: <20201001144759.5964-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201001144759.5964-1-peter.maydell@linaro.org>
 References: <20201001144759.5964-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,90 +91,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The arm_boot_info structure belong to the machine,
-move it to RaspiMachineState.
+Now that we can instantiate different machines based on their
+board_rev register value, we can have various raspi2 and raspi3.
+
+In commit fc78a990ec103 we corrected the machine description.
+Correct the machine names too. For backward compatibility, add
+an alias to the previous generic name.
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200924111808.77168-4-f4bug@amsat.org
+Message-id: 20200924111808.77168-6-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/raspi.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ hw/arm/raspi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 8716a80a75e..16e6c83c925 100644
+index 3000e6d57e6..3426521379e 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -41,6 +41,7 @@ struct RaspiMachineState {
-     MachineState parent_obj;
-     /*< public >*/
-     BCM283XState soc;
-+    struct arm_boot_info binfo;
+@@ -327,6 +327,7 @@ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
+ 
++    mc->alias = "raspi2";
+     rmc->board_rev = 0xa21041;
+     raspi_machine_class_common_init(mc, rmc->board_rev);
  };
- typedef struct RaspiMachineState RaspiMachineState;
+@@ -337,6 +338,7 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
  
-@@ -206,12 +207,11 @@ static void reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
- static void setup_boot(MachineState *machine, int version, size_t ram_size)
- {
-     RaspiMachineState *s = RASPI_MACHINE(machine);
--    static struct arm_boot_info binfo;
-     int r;
++    mc->alias = "raspi3";
+     rmc->board_rev = 0xa02082;
+     raspi_machine_class_common_init(mc, rmc->board_rev);
+ };
+@@ -344,12 +346,12 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
  
--    binfo.board_id = MACH_TYPE_BCM2708;
--    binfo.ram_size = ram_size;
--    binfo.nb_cpus = machine->smp.cpus;
-+    s->binfo.board_id = MACH_TYPE_BCM2708;
-+    s->binfo.ram_size = ram_size;
-+    s->binfo.nb_cpus = machine->smp.cpus;
- 
-     if (version <= 2) {
-         /* The rpi1 and 2 require some custom setup code to run in Secure
-@@ -220,21 +220,21 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-          * firmware for some cache maintenance operations.
-          * The rpi3 doesn't need this.
-          */
--        binfo.board_setup_addr = BOARDSETUP_ADDR;
--        binfo.write_board_setup = write_board_setup;
--        binfo.secure_board_setup = true;
--        binfo.secure_boot = true;
-+        s->binfo.board_setup_addr = BOARDSETUP_ADDR;
-+        s->binfo.write_board_setup = write_board_setup;
-+        s->binfo.secure_board_setup = true;
-+        s->binfo.secure_boot = true;
-     }
- 
-     /* Pi2 and Pi3 requires SMP setup */
-     if (version >= 2) {
--        binfo.smp_loader_start = SMPBOOT_ADDR;
-+        s->binfo.smp_loader_start = SMPBOOT_ADDR;
-         if (version == 2) {
--            binfo.write_secondary_boot = write_smpboot;
-+            s->binfo.write_secondary_boot = write_smpboot;
-         } else {
--            binfo.write_secondary_boot = write_smpboot64;
-+            s->binfo.write_secondary_boot = write_smpboot64;
-         }
--        binfo.secondary_cpu_reset_hook = reset_secondary;
-+        s->binfo.secondary_cpu_reset_hook = reset_secondary;
-     }
- 
-     /* If the user specified a "firmware" image (e.g. UEFI), we bypass
-@@ -250,11 +250,11 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-             exit(1);
-         }
- 
--        binfo.entry = firmware_addr;
--        binfo.firmware_loaded = true;
-+        s->binfo.entry = firmware_addr;
-+        s->binfo.firmware_loaded = true;
-     }
- 
--    arm_load_kernel(&s->soc.cpu[0].core, machine, &binfo);
-+    arm_load_kernel(&s->soc.cpu[0].core, machine, &s->binfo);
- }
- 
- static void raspi_machine_init(MachineState *machine)
+ static const TypeInfo raspi_machine_types[] = {
+     {
+-        .name           = MACHINE_TYPE_NAME("raspi2"),
++        .name           = MACHINE_TYPE_NAME("raspi2b"),
+         .parent         = TYPE_RASPI_MACHINE,
+         .class_init     = raspi2b_machine_class_init,
+ #ifdef TARGET_AARCH64
+     }, {
+-        .name           = MACHINE_TYPE_NAME("raspi3"),
++        .name           = MACHINE_TYPE_NAME("raspi3b"),
+         .parent         = TYPE_RASPI_MACHINE,
+         .class_init     = raspi3b_machine_class_init,
+ #endif
 -- 
 2.20.1
 
