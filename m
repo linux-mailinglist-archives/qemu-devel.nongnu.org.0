@@ -2,119 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08B028035A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:58:42 +0200 (CEST)
-Received: from localhost ([::1]:52786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B019280385
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:06:07 +0200 (CEST)
+Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0yf-00052D-Kf
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
+	id 1kO15q-0002e7-5d
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0xQ-0003xg-9N
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0xN-0006F5-9a
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:57:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601567839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=lLhgaKsAuj+WKn4W+SZti0pTbhlGxZy5ViL6pDcCLoA=;
- b=PWZJO1AEkhA2JrDzzYqRyS79trwiK71v4plYBBIObmD4D9uHNEraSi14xq6Z/f5RGm+ZqJ
- S9ZsDvfdjZB0zik6P4owzpyrBM/mKq5tmLvW4oPdQ7bHrVroo0nLhTeieeWm1AnRLsk7l6
- NKGM4LmQfq67+N+p1cZgLDTu5pFLVcQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-s3YCCS9kPNuRWVFnxJ11Dg-1; Thu, 01 Oct 2020 11:57:17 -0400
-X-MC-Unique: s3YCCS9kPNuRWVFnxJ11Dg-1
-Received: by mail-wm1-f70.google.com with SMTP id b14so1050190wmj.3
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:57:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO0ig-0003hC-GF
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:42:10 -0400
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:32892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO0ie-0004Ao-ED
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:42:10 -0400
+Received: by mail-lf1-x131.google.com with SMTP id 77so7162954lfj.0
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=q2IsAy/dX/jXDCaeyoskRGd89eYqek5dSGcmTDMbW08=;
+ b=H5opxusZP4QrprXV2Kv/dQM8v5tVVBYWwh182JSuej8kJ8eN5bahjVE7R2utC6ZAJV
+ wow2rW8Seo56fmthKvBYHHpsdEojXK3HzTndLf0fqFhmRAHEaIi10nNyU104iP7dobsr
+ 2SS0jjjaeJjAAsI8cGkaCyw/y5J28FldCygkCaOw6LHUFBVxCz98AhsI/bvA1i+a5/kz
+ 02XQqXTKfPh3CESkXxM9GVZ5bc53uoxyTUpccsqb9EAbZQcDeQ9WlBAyLC69p/viQ8Fl
+ 7OtW0UQjr0LznE8goDou6G/PUzuADn4zX6DmhVSzpOQ/gvHJxqysR3PDAlZ/h58kny2z
+ JdKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=lLhgaKsAuj+WKn4W+SZti0pTbhlGxZy5ViL6pDcCLoA=;
- b=hGT0iu7elJPDV0cFP95/VAgd13Rfmrg5M7Kfglp8Bgc/clxhmvg560brvHRgFE4vQk
- hRBXkTNhu7z2AYnAWoROu7Mdp6+a67G0TG5vjsLBMWZTtj4g1m9DvMfO17mdX9/iwFXy
- 3yNwIbq+VZD/gy9XsRyPnQtrp8YHH3QvMxY25G084CC2eSTPZW9C9TyC9Z0ZXECH9nA3
- MGIX5epmG8RTGZL7simJdZ6wdSZ1F0jeUsv1SKYrUjPPSsB/IgZstNX+hYwYX+V6eWmx
- IkO+3UU97SO4CCizJQbmpqpSPr6JUFbBujDocVhhi38NXLCLZJxYqpCnaBnDuvDs3951
- 4O5Q==
-X-Gm-Message-State: AOAM530pz8qlzwL0n/d2HlBvvvGd+tfxNlwoYCuye73a8XnnsfBElIug
- n1og2Vf8AqrmzzishXk/M3melMm+Ptx4618T/eDw+t88t3Rv5/rEnQIpWDs9TGTNTaTvvNWmdXh
- TrSPehvr0t4mFEkg=
-X-Received: by 2002:adf:9e05:: with SMTP id u5mr9727480wre.78.1601567836535;
- Thu, 01 Oct 2020 08:57:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQEO+Y5GSTTvkuXghNOAb2mRIpDjMduEfLv4gfNel/GPq/wqac1HqmXRMEmQe/hIdZKcZvmA==
-X-Received: by 2002:adf:9e05:: with SMTP id u5mr9727448wre.78.1601567836269;
- Thu, 01 Oct 2020 08:57:16 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id k15sm10196060wrv.90.2020.10.01.08.57.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 08:57:15 -0700 (PDT)
-Subject: Re: [PATCH v4 2/3] target/i386/cpu: Restrict some of feature-words
- uses to system-mode
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201001144152.1555659-1-philmd@redhat.com>
- <20201001144152.1555659-3-philmd@redhat.com>
- <933089b7-a088-d142-bf0c-55cae3e9bd70@redhat.com>
- <53758e35-f596-8e17-12cf-58b1a81f98e3@redhat.com>
- <20201001153725.GD3717385@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <0766785b-29a5-b145-2685-781fbee86add@redhat.com>
-Date: Thu, 1 Oct 2020 17:57:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=q2IsAy/dX/jXDCaeyoskRGd89eYqek5dSGcmTDMbW08=;
+ b=Pm3k4GTMZD0DXehHG8C56Z3eObI3Af0Vwjzp0D64KHGNc10kelGgKK72Er+SbM1QvS
+ 7EbX4O3bG7/p2+xBWweitUyCVTrdM5Vc17HZAOVuIdNXRBNeavpKbKpTbe4lYsKreBvx
+ lNp1ZTgBNqFdkhS5IGTZsAH1B3jbZFZevL63pclVCFjvDHrqe8N7O+vlLtK20rO/p3bV
+ QP+19sRgvf1jnxu7efUhZN9azOEijyQW3Xfam05+UmsjmmGVOQh2YY09QZEFk67fCM75
+ tMRbeWsIGV25k6ZuASu/Zg3hu91k6Qc160GJLQSrANRMQcr7Ubep19XkqbHKQyRciwbb
+ tJ6w==
+X-Gm-Message-State: AOAM531bw7W8rn6kDki4qPMvvBzt1iJAPbZtVidcl6/ew9WZ6MxT7+Ix
+ cBGA7IGrt8LUwVVaKy0QPooA3SL6ZybPvlg7G/Y=
+X-Google-Smtp-Source: ABdhPJzCQE5ji2e+WPkXJ6dnmNL1wT3TjES360pnfOsv7Ybbh6u1ba3XXGMwLr3+C1zZ7ydn8OQUez3oOYAoSXfEnww=
+X-Received: by 2002:a19:9141:: with SMTP id y1mr2621314lfj.554.1601566926593; 
+ Thu, 01 Oct 2020 08:42:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201001153725.GD3717385@habkost.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20200930195850.278104-1-pbonzini@redhat.com>
+ <CAFEAcA_8zHiTGZQBzun=aSAD-kX7wp4S7RVwPGK2SmR4HuO0Tg@mail.gmail.com>
+In-Reply-To: <CAFEAcA_8zHiTGZQBzun=aSAD-kX7wp4S7RVwPGK2SmR4HuO0Tg@mail.gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Thu, 1 Oct 2020 23:41:56 +0800
+Message-ID: <CAE2XoE9CnCKHv0Y8_nU-x6GWQo8sqfo_BYRjn0cktEU83VjT2g@mail.gmail.com>
+Subject: Re: [PULL v8 00/86] Misc QEMU patches for 2020-09-24
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000be643505b09ddbb6"
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x131.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,48 +80,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>,
- qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: luoyonggang@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/20 5:37 PM, Eduardo Habkost wrote:
-> On Thu, Oct 01, 2020 at 05:27:32PM +0200, Philippe Mathieu-Daudé wrote:
->> On 10/1/20 5:14 PM, Paolo Bonzini wrote:
->>> On 01/10/20 16:41, Philippe Mathieu-Daudé wrote:
->>>> The feature-words properties are not used in user-mode emulation,
->>>> restrict it to system-mode.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>
->>> This seems a bit pointless honestly.  It's going to be a few KBs of code
->>> at most.  I would end the work with the patches that have already been
->>> queued.
->>
->> I'll let Eduardo and you discuss that, as he suggested the #ifdef
->> instead of the stub. The two options are on the list, whichever
->> you guys prefer :)
-> 
-> Having neither the stub or the #ifdef is even better.  :)
-> 
-> I assumed the stub was necessary as a means for an end, but now I
-> don't understand why the stub was necessary in the first place.
+--000000000000be643505b09ddbb6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-x86_cpu_get_feature_words() calls QAPI-generated
-visit_type_X86CPUFeatureWordInfoList().
+On Thu, Oct 1, 2020 at 10:36 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+>
+> On Wed, 30 Sep 2020 at 21:04, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > The following changes since commit
+cbba3dc6ea3fc9aa66e9f9eb41051536e3ad7cd0:
+> >
+> >   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into
+staging (2020-09-30 11:40:38 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> >
+> > for you to fetch changes up to 37aeb7a28ddbf52dd25dd53ae1b8391bc2287858=
+:
+> >
+> >   hw/net/can: Correct Kconfig dependencies (2020-09-30 19:11:37 +0200)
+> >
+> > ----------------------------------------------------------------
+> > * SCSI fix (Dmitry, Li Feng, Li Qiang)
+> > * memory API fixes (Eduardo)
+> > * removal of deprecated '-numa node', 'cpu-add', '-smp' (Igor)
+> > * ACPI fix for VMBus (Jon)
+> > * relocatable install (myself)
+> > * always remove docker containers (myself)
+> > * serial cleanups (Philippe)
+> > * vmware cpuid leaf for tsc and apic frequency (Sunil)
+> > * KVM_FEATURE_ASYNC_PF_INT support (Vitaly)
+> > * i386 XSAVE bugfix (Xiaoyao)
+> > * QOM developer documentation in docs/devel (Eduardo)
+> > * new checkpatch tests (Dov)
+> > * x86_64 syscall fix (Douglas)
+> > * interrupt-based APF fix (Vitaly)
+> > * always create kvmclock (Vitaly)
+> > * fix bios-tables-test (Eduardo)
+> > * KVM PV features cleanup (myself)
+> > * CAN FD (Pavel)
+> >
+> > meson:
+> > * fixes (Marc-Andr=C3=A9, Max, Stefan, Alexander, myself)
+> > * moved libmpathpersist, cocoa, malloc tests (myself)
+> > * support for 0.56 introspected test dependencies (myself)
+> >
+>
+>
+> Applied, thanks.
+>
+> Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+> for any user-visible changes.
+>
+> -- PMM
+>
+Long awating, wonderfull
 
-Since "Only qemu-system-FOO and qemu-storage-daemon provide QMP
-monitors", this code is unreachable on user-mode.
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-I tried to get a "no ifdef/no stub" codebase by not removing the
-QAPI uses from user-mode code, and build it without QAPI-generated
-files. I could only start the work and realized it is a huge effort.
-In particular since nobody sees the point of doing this cleanup...
+--000000000000be643505b09ddbb6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
+<div dir=3D"ltr"><br><br>On Thu, Oct 1, 2020 at 10:36 PM Peter Maydell &lt;=
+<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt=
+; wrote:<br>&gt;<br>&gt; On Wed, 30 Sep 2020 at 21:04, Paolo Bonzini &lt;<a=
+ href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br>=
+&gt; &gt;<br>&gt; &gt; The following changes since commit cbba3dc6ea3fc9aa6=
+6e9f9eb41051536e3ad7cd0:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 Merge remote-trac=
+king branch &#39;remotes/mst/tags/for_upstream&#39; into staging (2020-09-3=
+0 11:40:38 +0100)<br>&gt; &gt;<br>&gt; &gt; are available in the Git reposi=
+tory at:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 <a href=3D"https://gitlab.com/bon=
+zini/qemu.git">https://gitlab.com/bonzini/qemu.git</a> tags/for-upstream<br=
+>&gt; &gt;<br>&gt; &gt; for you to fetch changes up to 37aeb7a28ddbf52dd25d=
+d53ae1b8391bc2287858:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 hw/net/can: Correct =
+Kconfig dependencies (2020-09-30 19:11:37 +0200)<br>&gt; &gt;<br>&gt; &gt; =
+----------------------------------------------------------------<br>&gt; &g=
+t; * SCSI fix (Dmitry, Li Feng, Li Qiang)<br>&gt; &gt; * memory API fixes (=
+Eduardo)<br>&gt; &gt; * removal of deprecated &#39;-numa node&#39;, &#39;cp=
+u-add&#39;, &#39;-smp&#39; (Igor)<br>&gt; &gt; * ACPI fix for VMBus (Jon)<b=
+r>&gt; &gt; * relocatable install (myself)<br>&gt; &gt; * always remove doc=
+ker containers (myself)<br>&gt; &gt; * serial cleanups (Philippe)<br>&gt; &=
+gt; * vmware cpuid leaf for tsc and apic frequency (Sunil)<br>&gt; &gt; * K=
+VM_FEATURE_ASYNC_PF_INT support (Vitaly)<br>&gt; &gt; * i386 XSAVE bugfix (=
+Xiaoyao)<br>&gt; &gt; * QOM developer documentation in docs/devel (Eduardo)=
+<br>&gt; &gt; * new checkpatch tests (Dov)<br>&gt; &gt; * x86_64 syscall fi=
+x (Douglas)<br>&gt; &gt; * interrupt-based APF fix (Vitaly)<br>&gt; &gt; * =
+always create kvmclock (Vitaly)<br>&gt; &gt; * fix bios-tables-test (Eduard=
+o)<br>&gt; &gt; * KVM PV features cleanup (myself)<br>&gt; &gt; * CAN FD (P=
+avel)<br>&gt; &gt;<br>&gt; &gt; meson:<br>&gt; &gt; * fixes (Marc-Andr=C3=
+=A9, Max, Stefan, Alexander, myself)<br>&gt; &gt; * moved libmpathpersist, =
+cocoa, malloc tests (myself)<br>&gt; &gt; * support for 0.56 introspected t=
+est dependencies (myself)<br>&gt; &gt;<br>&gt;<br>&gt;<br>&gt; Applied, tha=
+nks.<br>&gt;<br>&gt; Please update the changelog at <a href=3D"https://wiki=
+.qemu.org/ChangeLog/5.2">https://wiki.qemu.org/ChangeLog/5.2</a><br>&gt; fo=
+r any user-visible changes.<br>&gt;<br>&gt; -- PMM<br>&gt;<br>Long awating,=
+ wonderfull<br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=
+=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 s=
+incerely,<br>Yonggang Luo</div>
 
-Phil.
-
+--000000000000be643505b09ddbb6--
 
