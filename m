@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD2C28042E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:46:00 +0200 (CEST)
-Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514A7280445
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:50:56 +0200 (CEST)
+Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1iR-0002C3-Vf
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:45:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45150)
+	id 1kO1nD-0005rZ-Bo
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1Xj-0005IY-VD
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:55 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:36606)
+ id 1kO1Xm-0005Ob-5c
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:58 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1Xi-0004XS-72
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:55 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id x16so4450653pgj.3
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:34:53 -0700 (PDT)
+ id 1kO1Xk-0004Xi-D9
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:57 -0400
+Received: by mail-pf1-x442.google.com with SMTP id z19so5022351pfn.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:34:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9ZjByY0MppOyobXen+0uddzbK8uVuelULUAbb8n9Gk0=;
- b=emeFHzIS4iUEPcOCm6oli21aRFjvflj6+e9WjiCh8H/iY187imDjCWK9EJQb1rhZit
- DBynOuKfl6SmxaGApwtcEBehUQHWD4KBU8k94ZGWh5KuezFmI+aKA87UXftdEa5+/gPo
- T7fddsmZrmOCbRrFHGvq6etjtZpZOJ7V5cTghV7k7fVZqOu2/HwqjP1raI8bfOxoeAvp
- BjwMxSwAfh/ZpLz0gXKMlnIjux2vFERHlbRYWyM3s1QYOxTDVzYtDnJLuEIK2BjdTpxy
- qMqwKMQEjxZb5m6IRQY0ZhLLUdzVvOzi0FzwB18JQNMTa9XekkOnb8QoyQTT2+lH5LUc
- vw6g==
+ bh=NvLtiyHs+KiFJYMlTYLprFvkLKXdUBj8PVZZFjf+6Lo=;
+ b=gRBKopZ5k7eugv/EgooL0pPA7gnLBcXcNRcYQymFzjxUPK3ds7TLyFrdg6YoO598SU
+ UuIYBZX11eEDyke335iugbRRZx0QmA+VHJwoRJp+J10TFB9WG5IBMJS2Uz7WTgP+O8Tq
+ cszXAi1fJh559GFenDszNZbgNz6JZMPxJXq3cPcefRKqCnRkUFG/97vf3Swr6awHA4nl
+ yadk9lodPMy9YZOKW6tN47bsIYBvqzmzZdcKZAsA2g4dRM9YtL5yhcJye1OGYyVZSDsp
+ 4sx3+afX2BJvoY2+ZYcREPfY36Naa1kpcgLbMVJtPXxPgh3R1bKYtzaxXz2lCHEQcJTE
+ iefg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9ZjByY0MppOyobXen+0uddzbK8uVuelULUAbb8n9Gk0=;
- b=FZZdNAwftNQD3urNo7G0EaU9E2FCtpg7DJn10yz670qfKioRFgNWt8c3JTYSy29W1U
- 1SGTEH6bexwM5pp8NuUxid20o17wsl6UTVGql4xg93KWkuB8BqbKIF1sMpeBiixpNyeC
- O60kfZOi7L8cenethr0NlJOTVFhsSWntEJGtnlX42biYMljLqq2jrvYesHlvmoxsXFBw
- ry0xQWiU8tR2jT9aoEU/yBHb+4pqAuQl8SZsdeFn3b9IyrHKwxZbdQHyy5ejnx/cEimS
- pmuph+rBRER2wpawJjbp8mrEyvl4vxmKBwF+tYgi/49uGvhpN1IMFqQ7FzK3ZmXucW14
- o1XA==
-X-Gm-Message-State: AOAM533qNKj0eON99m26vm9h3Q0GkNwoHvxVccF9FfKdEsdijUvBFX2F
- NNfTgYaTVt2+JIlOZJ0qsoUA1U+BpvDVSA==
-X-Google-Smtp-Source: ABdhPJwkbMMTrDFEfLzzTDS08GRqgGfcGmqew3lVoJt5gCDzBePL6nEjFQl/iPekNZuUbGxp2ZDZCA==
-X-Received: by 2002:a17:902:6b8b:b029:d2:173:33d0 with SMTP id
- p11-20020a1709026b8bb02900d2017333d0mr7693596plk.62.1601570092328; 
- Thu, 01 Oct 2020 09:34:52 -0700 (PDT)
+ bh=NvLtiyHs+KiFJYMlTYLprFvkLKXdUBj8PVZZFjf+6Lo=;
+ b=IFZS2IjCx9vvI1fvhLexMgGCSjbpxGyQHQUTRySYQ6ofeeHh0svdIBO71OqbmecPkV
+ Be8ohp+u8dxXmZwEIFRsrPnmy/HKCEeUK5jXMgeimA44LBXdtt5FArdioK6pyNoXg3Hi
+ De07cviVisZAbEV9hUpoC2BSJ5EttfJV4rz8l52k2ZTvDVx5zgvry2HmTv4yQKuT4kHN
+ WESvT39GDlfWTD6VIMcMGLLwEDu1wpQoVHGqe1h4I0ekNt4Z3VkwUQDpi5HTa9hLNyiS
+ mldkEtkUJzuSl+SWBTsWUo5Yspt+mtJI67KNUU4a6hhZC5MOH9Qv2DjD5h1gC+DPRO08
+ 8LmQ==
+X-Gm-Message-State: AOAM5321viNEncC3e+VEvnXm89EYPaR2EznsIRL/lkgAlI39csGQKEUO
+ Z7Ld7VteEsw4Pd3BiSSTTI5cfL5kpy86tw==
+X-Google-Smtp-Source: ABdhPJziI5C9/ud5GDMdxRx7LGgB+7Qcn8YQzlSjAY7QTUxKC42FYTz490shKXjdgH8+oN/vW+lhxA==
+X-Received: by 2002:a63:5653:: with SMTP id g19mr6706615pgm.151.1601570094674; 
+ Thu, 01 Oct 2020 09:34:54 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id t12sm6946028pfh.73.2020.10.01.09.34.50
+ by smtp.googlemail.com with ESMTPSA id t12sm6946028pfh.73.2020.10.01.09.34.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 09:34:51 -0700 (PDT)
+ Thu, 01 Oct 2020 09:34:53 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/6] cirrus: Enable plugin in cirrus for windows
-Date: Fri,  2 Oct 2020 00:34:26 +0800
-Message-Id: <20201001163429.1348-4-luoyonggang@gmail.com>
+Subject: [PATCH v3 4/6] plugin: define QEMU_PLUGIN_API_IMPLEMENTATION first
+Date: Fri,  2 Oct 2020 00:34:27 +0800
+Message-Id: <20201001163429.1348-5-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201001163429.1348-1-luoyonggang@gmail.com>
 References: <20201001163429.1348-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,25 +90,39 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is used to distinguish from the qemu and plugin in
+header qemu-plugin.h
+
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- .cirrus.yml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ plugins/api.c  | 1 +
+ plugins/core.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 86ea33926a..5363142373 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -104,7 +104,8 @@ windows_msys2_task:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
-       --python=python3 --ninja=ninja
--      --target-list-exclude=i386-softmmu,arm-softmmu,ppc-softmmu,mips-softmmu"
-+      --target-list-exclude=i386-softmmu,arm-softmmu,ppc-softmmu,mips-softmmu
-+      --enable-plugins"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j$NUMBER_OF_PROCESSORS"
-   test_script:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
+diff --git a/plugins/api.c b/plugins/api.c
+index bbdc5a4eb4..f16922ca8b 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -35,6 +35,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#define QEMU_PLUGIN_API_IMPLEMENTATION
+ #include "qemu/plugin.h"
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+diff --git a/plugins/core.c b/plugins/core.c
+index 51bfc94787..7a79ea4179 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -12,6 +12,7 @@
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+ #include "qemu/osdep.h"
++#define QEMU_PLUGIN_API_IMPLEMENTATION
+ #include "qemu/error-report.h"
+ #include "qemu/config-file.h"
+ #include "qapi/error.h"
 -- 
 2.28.0.windows.1
 
