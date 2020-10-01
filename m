@@ -2,91 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7015628038D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:09:09 +0200 (CEST)
-Received: from localhost ([::1]:45490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902B328039E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:13:04 +0200 (CEST)
+Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO18l-0007Ec-RU
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
+	id 1kO1CZ-0002y6-HB
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0lA-00074f-8E
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:44:45 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:53364)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0l5-0004WF-Lj
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:44:43 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091Fde3h070740;
- Thu, 1 Oct 2020 15:44:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=zKiUacOBhjrZx41UJn7rlfAWGBkrrgBjE0ynnyqD5/g=;
- b=UpRjnl0/OVZSpjrsbtA9cUA/jMtCELQMfp1vz17H12xYh1VN9xcNdPwoLagxhOLS4esp
- uU7WIr8EnT4BClcBlDAhmbKKcRzqzU31qhT5kRJNHII1UlxUPOJifr2PoxGjwQQrprYi
- kz2npT9+5Td76ZSzM5Ass+5/V++tkoLmXerTrhrhCdE1L5l/DsmN0BukDVnMhfKHVk89
- mQJ1F0vihF80ADS2r6L3j90rH3DycfamMLXJdtzLGae+aC+wP1esgrbilQaHvnJqYyAK
- OaAasNcNY2xDxrs6JV1zBoORdOSo8xFYEWug3kWJu5gIHWQ1uyGsVikyAliVZZ3Hk8Sk SA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 33swkm6scc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 01 Oct 2020 15:44:35 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091Fdqi3057400;
- Thu, 1 Oct 2020 15:44:34 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 33tfk1rwr4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 01 Oct 2020 15:44:34 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 091FiXF4013561;
- Thu, 1 Oct 2020 15:44:33 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 01 Oct 2020 08:44:33 -0700
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id B811D18EE754; Thu,  1 Oct 2020 16:44:29 +0100 (IST)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 16/16] fuzz: Add instructions for using general-fuzz
-In-Reply-To: <20200921022506.873303-17-alxndr@bu.edu>
-References: <20200921022506.873303-1-alxndr@bu.edu>
- <20200921022506.873303-17-alxndr@bu.edu>
-Date: Thu, 01 Oct 2020 16:44:29 +0100
-Message-ID: <m28scq6jdu.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0pn-00049c-VX
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:49:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0pl-0005C1-Qw
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:49:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601567366;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ff1d5BbPcg5H7B2Vhm0pnCgFm0nkBZG1PxeecPHHbUg=;
+ b=gqEM/erH19YYNLTmi5SquuzHPvt9wp0cxVQSKITEq93g/78Va6upTXih9iBFsoaC69thrx
+ JykKNh2akBvE1tOUDvVRmANCUrxn0BDiRLicF/VJUT+tde3Zp6VUlYkIk7CWTtSwZCVt6X
+ o+2uOXwVjFmNvqOVDCEe9W7LHEtZ2hM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-8sKe-jigPjSbyxEiWzo3Vg-1; Thu, 01 Oct 2020 11:49:24 -0400
+X-MC-Unique: 8sKe-jigPjSbyxEiWzo3Vg-1
+Received: by mail-wr1-f71.google.com with SMTP id g6so2228548wrv.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:49:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ff1d5BbPcg5H7B2Vhm0pnCgFm0nkBZG1PxeecPHHbUg=;
+ b=FwJIdoLx8RvwJOUKwOEg9TKloQBbW1t48c0yFpArY+bNvN1LuCi0ux4ItsnHxtZ/Az
+ PZe3jILSgf1goSrSB0q6eOmP0zTCyLoQ6yoiveHPRN087fFR/LTGVUsIo2qcUhN+SeUg
+ vTMUAXOldlILaeGMzovHTErkLHk+ArMmKevwsIYpd5dEQtfe7FIukQnxRJVkK6/HYYdI
+ VKuhsACHV5f3PNsBTYH6EX4lIBvU4jrJ4olDb6fCzAfqUNKg4ka3hCUcRKMKJitY1VMK
+ nZ5andvXJ9pCi+O7SCa9QSyPvgbKRGJvF9wbsfa85a/K27xG1VbeSveLHE/K2ecB+acD
+ pgSQ==
+X-Gm-Message-State: AOAM530/TvqdFOdnr7PlWX0L9MmUDfRc+fdWjthEG7Q7BexOzllUxgaT
+ KmYpNbn9Qd1vVs3UxHYfH8764JQ0McbfJcNDMgH88+mmJqiDIl3du1eBBaSXm9y5lSHPf5Y9G5K
+ JOuGtu7PTjdSM6wE=
+X-Received: by 2002:a7b:c393:: with SMTP id s19mr703581wmj.78.1601567362885;
+ Thu, 01 Oct 2020 08:49:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyon1b9e8FsFIDIJWQz8gWUKpVCZCLoP+RVYbBRGhC8re1SA/GRB8xV7PeCy5NxS11jBwFo0w==
+X-Received: by 2002:a7b:c393:: with SMTP id s19mr703556wmj.78.1601567362641;
+ Thu, 01 Oct 2020 08:49:22 -0700 (PDT)
+Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id t10sm539681wmi.1.2020.10.01.08.49.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Oct 2020 08:49:21 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] MAINTAINERS: Add Python library stanza
+To: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20200922230505.4089701-1-jsnow@redhat.com>
+ <20200922230505.4089701-2-jsnow@redhat.com>
+ <87wo0k34qp.fsf@dusky.pond.sub.org>
+ <ce23c70a-2e0e-0ca1-5260-812d713f04a8@redhat.com>
+ <20200923153707.GP3312949@habkost.net>
+ <f0e34f41-ba30-770e-068f-dc6ccc92ed33@redhat.com>
+ <8ce21cbd-2b7a-dbb7-46e3-026621ad0568@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <066ea3d8-156f-b1fd-93ea-dd3372962f81@redhat.com>
+Date: Thu, 1 Oct 2020 17:49:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0 mlxscore=0
- phishscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=1
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010133
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 phishscore=0
- suspectscore=1 mlxlogscore=999 clxscore=1015 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010133
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:44:38
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <8ce21cbd-2b7a-dbb7-46e3-026621ad0568@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,84 +128,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- bsd@redhat.com, stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- philmd@redhat.com
+Cc: peter.maydell@linaro.org, crosa@redhat.com, alex.bennee@linaro.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sunday, 2020-09-20 at 22:25:06 -04, Alexander Bulekov wrote:
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  docs/devel/fuzzing.txt | 38 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
->
-> diff --git a/docs/devel/fuzzing.txt b/docs/devel/fuzzing.txt
-> index 96d71c94d7..208b0c8360 100644
-> --- a/docs/devel/fuzzing.txt
-> +++ b/docs/devel/fuzzing.txt
-> @@ -125,6 +125,44 @@ provided by libfuzzer. Libfuzzer passes a byte array and length. Commonly the
->  fuzzer loops over the byte-array interpreting it as a list of qtest commands,
->  addresses, or values.
->  
-> +== The General Fuzzer ==
-> +Writing a fuzz target can be a lot of effort (especially if a device driver has
-> +not be built-out within libqos). Many devices can be fuzzed to some degree,
-> +without any device-specific code, using the general-fuzz target.
-> +
-> +The general-fuzz target is capable of fuzzing devices over their PIO, MMIO,
-> +and DMA input-spaces. To apply the general-fuzz to a device, we need to define
-> +two env-variables, at minimum:
-> +
-> +QEMU_FUZZ_ARGS= is the set of QEMU arguments used to configure a machine, with
-> +the device attached. For example, if we want to fuzz the virtio-net device
-> +attached to a pc-i440fx machine, we can specify:
-> +QEMU_FUZZ_ARGS="-M pc -nodefaults -netdev user,id=user0 \
-> +                -device virtio-net,netdev=user0"
-> +
-> +QEMU_FUZZ_OBJECTS= is a set of space-delimited strings used to identify the
-> +MemoryRegions that will be fuzzed. These strings are compared against
-> +MemoryRegion names and MemoryRegion owner names, to decide whether each
-> +MemoryRegion should be fuzzed. These strings support globbing. For the
-> +virtio-net example, we could use
-> +QEMU_FUZZ_OBJECTS='virtio-net'
-> +QEMU_FUZZ_OBJECTS='virtio*'
-> +QEMU_FUZZ_OBJECTS='virtio* pcspk' # Fuzz the virtio-net device and the PC speaker...
-> +QEMU_FUZZ_OBJECTS='*' # Fuzz the whole machine
-> +
+On 10/1/20 5:27 PM, John Snow wrote:
+> On 9/23/20 12:49 PM, Philippe Mathieu-Daudé wrote:
+>> On 9/23/20 5:37 PM, Eduardo Habkost wrote:
+>>> On Wed, Sep 23, 2020 at 11:17:01AM -0400, John Snow wrote:
+>>>> On 9/23/20 11:14 AM, Markus Armbruster wrote:
+>>>>> John Snow <jsnow@redhat.com> writes:
+>>>>>
+>>>>>> I'm proposing that I split the actual Python library off from the
+>>>>>> other
+>>>>>> miscellaneous python scripts we have and declare it maintained. Add
+>>>>>> myself as a maintainer of this folder, along with Cleber.
+>>>>>>
+>>>>>> v2: change python/* to python/, thanks Alex.
+>>>>>>
+>>>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>>> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>>>>> Acked-by: Cleber Rosa <crosa@redhat.com>
+>>>>>> Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+>>>>>> ---
+>>>>>>    MAINTAINERS | 9 ++++++++-
+>>>>>>    1 file changed, 8 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>>>> index 3d17cad19a..c0222ee645 100644
+>>>>>> --- a/MAINTAINERS
+>>>>>> +++ b/MAINTAINERS
+>>>>>> @@ -2355,11 +2355,18 @@ S: Maintained
+>>>>>>    F: include/sysemu/cryptodev*.h
+>>>>>>    F: backends/cryptodev*.c
+>>>>>> +Python library
+>>>>>> +M: John Snow <jsnow@redhat.com>
+>>>>>> +M: Cleber Rosa <crosa@redhat.com>
+>>>>>> +R: Eduardo Habkost <ehabkost@redhat.com>
+>>>>>> +S: Maintained
+>>>>>> +F: python/
+>>>>>> +T: git https://gitlab.com/jsnow/qemu.git python
+>>>>>> +
+>>>>>>    Python scripts
+>>>>>>    M: Eduardo Habkost <ehabkost@redhat.com>
+>>>>>>    M: Cleber Rosa <crosa@redhat.com>
+>>>>>>    S: Odd fixes
+>>>>>> -F: python/qemu/*py
+>>>>>>    F: scripts/*.py
+>>>>>>    F: tests/*.py
+>>>>>
+>>>>> Separate sections just so you can have the appropriate S:, or is
+>>>>> there a
+>>>>> deeper logic behind the split?
+>>>>>
+>>>>
+>>>> Yes, different intended levels of support. I don't currently have the
+>>>> bandwidth to promise support for the miscellaneous Python scripts in
+>>>> ./scripts, but I do promise to support to a higher level the code in
+>>>> ./python.
+>>>>
+>>>> Over time, I intend to migrate things into ./python, but there are some
+>>>> series that need to happen first before I start doing that.
+>>>
+>>> Also, the actual owners for most scripts in ./scripts are already
+>>> listed elsewhere.  I believe we shouldn't really have M: lines
+>>> for the scripts/*.py section, just R:.
+>>
+>> Agreed. Maybe worth a comment in the section although.
+>>
+> 
+> *in* the section? There is no precedent for that. Is this really so
+> important?
 
-Maybe format these as lists, where each list item is the variable?
+Well if this file is only consumed by scripts, and no human reads it,
+then it is pointless indeed.
 
-> +The "info mtree" and "info qom-tree" monitor commands can be especially useful
-> +for identifying the MemoryRegion and Object names used for matching.
-> +
-> +As a general rule-of-thumb, the more MemoryRegions/Devices we match, the greater
-> +the input-space, and the smaller the probability of finding crashing inputs for
-> +individual devices. As such, it is usually a good idea to limit the fuzzer to
-> +only a few MemoryRegions.
-> +
-> +To ensure that these env variables have been configured correctly, we can use:
+> 
+> I'll give you a commit message blurb.
 
-Add a blank line here?
+That sometime works, thanks.
 
-> +./qemu-fuzz-i386 --fuzz-target=general-fuzz -runs=0
-> +
-> +The output should contain a complete list of matched MemoryRegions.
-> +
->  = Implementation Details =
->  
->  == The Fuzzer's Lifecycle ==
+> 
+> --js
+> 
 
-
-Not this patch, but this text file is partially written in Restructured
-Text format, but not completely. Should it be converted to RsT format
-properly - doesn't have to be now, but something we could consider.
-
-Otherwise, it looks find to me, so:
-
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-
-Thanks,
-
-Darren.
 
