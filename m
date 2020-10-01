@@ -2,84 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09151280611
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:59:03 +0200 (CEST)
-Received: from localhost ([::1]:57564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918CF28059B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:40:09 +0200 (CEST)
+Received: from localhost ([::1]:59934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2r8-00010J-09
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60472)
+	id 1kO2Yq-0002h0-KB
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:40:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO2NZ-0008BE-QP
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:28:29 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:41070)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO2NX-0004dr-Tu
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:28:29 -0400
-Received: by mail-oi1-x231.google.com with SMTP id x69so6427785oia.8
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 10:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Vy+r5hxGZwwtLf/uYAutZcZKgInNFibT2LV9eyEsjqY=;
- b=c5D7Pe18TRQs347pr/QyD9gnkgvRfLQRxtC8riJLlR0PupE6ix1E4H8kY3E5gIqQea
- hv9H1eerUq1/vM2EnHtXyNHIlAuAi+UjL11tnYfalYntzODAn84MIHzUZEC0XRDtq1U7
- YUw0Pqd6ASHWSzqT9JS3+e9G9D/cUnQZ4/XeMBKo/5c0xPXDw63bTyzFmHqQJNAk/d2l
- GQoAoQGhvOdO6x9R1JuxbS+6HMLPsRkGLsDYpOhSuo7xaENuj+sh7sNofFZOkmVaY4l3
- n3JidHG2Q1+X6cs2++MHvIDvTq1m6vD0TCloSi8GmLyN9fsiDRM8FwjXHxPWf08ZwJM6
- Z2bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Vy+r5hxGZwwtLf/uYAutZcZKgInNFibT2LV9eyEsjqY=;
- b=R7md7mf9clNE1p5L17HBVvdMvrZFUj5PYakr5zIsEe6E316tk1eWPZ+RKvi21uOke/
- 8sDikTMgKuWMx1qMx90q6kEBQtbZYQeKoJsCUx0NqnMdLrIQdlNPhdhi7WGYw8ZKbhGl
- I3/BG9XfM5coGA7vLRog6EXEW2SgJipCkoK3OxC+KtEhuEUnOkYoRhpFHvixBrm/3lxc
- U+2JPJNiRyn880sURe6BXDa10BvHQcN9vV2r2fSQs9YwlTbh4ZxI+bhgsbRKRKTJWIqb
- 03SLJa2vGqs2lMGbaKB7M57dAlgizBFsF7NNal2lPFRQf0h87CYR9f1lITjF7hX2GkkH
- fDJw==
-X-Gm-Message-State: AOAM531M4hY1HCRag1Npg6v88lw/xXZgMc2m7t0h7vF+p2JLY75tl2Ig
- /unY1h6/3d3HfVhpLCmq/l3lhw==
-X-Google-Smtp-Source: ABdhPJxF4JwGl/3dWlZ49sFLkxDWP2tluvSCWg/3efw6j4Wj8ekwzpT2P4qYz8APyYH4UMbR56O9YQ==
-X-Received: by 2002:a05:6808:9bc:: with SMTP id
- e28mr647059oig.71.1601573306020; 
- Thu, 01 Oct 2020 10:28:26 -0700 (PDT)
-Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id j24sm1344049otn.64.2020.10.01.10.28.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 10:28:25 -0700 (PDT)
-Subject: Re: [PATCH 3/5] target/riscv: Add H extention state description
-To: Yifei Jiang <jiangyifei@huawei.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20200929020337.1559-1-jiangyifei@huawei.com>
- <20200929020337.1559-4-jiangyifei@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2e725e26-3952-dbd2-c4aa-d9e933406220@linaro.org>
-Date: Thu, 1 Oct 2020 12:28:21 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kO2Q0-0002hv-Rz
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:31:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kO2Ps-00051Y-Dt
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:30:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601573451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=HKNMswTN1113NtwpvIjxyVH7EOFTcQvPOD8dmxhJgNY=;
+ b=EsfdXtJAV/pp2DCeAofggnLC8tgZkLY2VS82oLbfOCY7qSrhqYBSEYGd8uu0Rt3LFS/2IQ
+ gmTVDy/umXUN1Pwpk5m1iNeDrUm9ifDl9ci7LToRFDhUHEEFXuFgOCaarg9lzMAZiG471u
+ EDYWZ9pT4+HaJK9LEPJPhvfsj7zXOBo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-nlf_S5MgNBCGDmrNjxHKZQ-1; Thu, 01 Oct 2020 13:30:49 -0400
+X-MC-Unique: nlf_S5MgNBCGDmrNjxHKZQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D90B564082;
+ Thu,  1 Oct 2020 17:30:47 +0000 (UTC)
+Received: from [10.36.112.77] (ovpn-112-77.ams2.redhat.com [10.36.112.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CCF510013BD;
+ Thu,  1 Oct 2020 17:30:45 +0000 (UTC)
+Subject: Re: [PATCH v1 03/20] s390x/tcg: Implement VECTOR MULTIPLY SUM LOGICAL
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200930145523.71087-1-david@redhat.com>
+ <20200930145523.71087-4-david@redhat.com>
+ <aada8ec1-6776-6674-e795-5f10909a02fe@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABtCREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT6JAlgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63W5Ag0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAGJAjwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat GmbH
+Message-ID: <c40796ff-3d24-b043-1a64-ba944faaabbc@redhat.com>
+Date: Thu, 1 Oct 2020 19:30:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200929020337.1559-4-jiangyifei@huawei.com>
+In-Reply-To: <aada8ec1-6776-6674-e795-5f10909a02fe@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x231.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,31 +129,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, victor.zhangxiaofeng@huawei.com,
- Alistair.Francis@wdc.com, yinyipeng1@huawei.com, palmer@dabbelt.com,
- wu.wubin@huawei.com, dengkai1@huawei.com
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/20 9:03 PM, Yifei Jiang wrote:
-> +        VMSTATE_UINTTL(env.vsstatus, RISCVCPU),
-> +        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
-> +        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
-> +        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
-> +        VMSTATE_UINTTL(env.vscause, RISCVCPU),
-> +        VMSTATE_UINTTL(env.vstval, RISCVCPU),
-> +        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
+On 01.10.20 17:26, Richard Henderson wrote:
+> On 9/30/20 9:55 AM, David Hildenbrand wrote:
+>> +    /* Multipy both even elements from v2 and v3 */
+>> +    read_vec_element_i64(l1, get_field(s, v2), 0, ES_64);
+>> +    read_vec_element_i64(h1, get_field(s, v3), 0, ES_64);
+>> +    tcg_gen_mulu2_i64(l1, h1, l1, h1);
+>> +    /* Shift result left by one bit if requested */
+>> +    if (extract32(get_field(s, m6), 3, 1)) {
+>> +        tcg_gen_extract2_i64(h1, l1, h1, 63);
+>> +        tcg_gen_shli_i64(l1, l1, 1);
+>> +    }
+> 
+> Not a bug, but some hosts require 3 insns for extract2 (so 4 total for this
+> sequence).
+> 
+> This doubling can also be had via add2:
+> 
+>     tcg_gen_add2_i64(l1, h1, l1, h1, l1, h1);
 
-So... if I understand things correctly, this is synthetic state, internal to
-QEMU.  It is generally better to only serialize architectural state, so that if
-qemu internals are rearranged, it is easy to decide on the correct sequence of
-operations.
+Took me longer than it should to realize this is really just doubling
+the value ... will use tcg_gen_add2_i64() and add a comment.
 
-It seems like this should be re-generated with a post_load hook, calling some
-of the code currently in riscv_cpu_swap_hypervisor_regs().  Note that some
-minor rearrangement would be needed to call that code from this new context.
+Thanks!
 
 
-r~
+-- 
+Thanks,
+
+David / dhildenb
+
 
