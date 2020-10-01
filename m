@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAA72801B2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:54:44 +0200 (CEST)
-Received: from localhost ([::1]:45754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55892801D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:58:03 +0200 (CEST)
+Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNzyl-0003rW-8k
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43020)
+	id 1kO01y-0000s5-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:58:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsW-0004vR-Dn
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:16 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43457)
+ id 1kNzsX-0004xd-Au
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:17 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsU-0002xl-LV
+ id 1kNzsV-0002xx-Jz
  for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:16 -0400
-Received: by mail-wr1-x442.google.com with SMTP id k15so6104266wrn.10
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:14 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id k10so6120653wru.6
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xJiJCZ6Kf1JVAV1tSNe0wywihXchNANfTnHnXrmJzNE=;
- b=wmW5cn7Mclc+G0aMQ0+gWIYFekQPm1cNJwPrqECtO96hXDdts8lBFE8QzD/Fu5SxbF
- 3hf0jzILdK4d01z9bY98GN6KVb9GqQjeqINyBpUzphkk9ISCP9a68+ynXr8F4smNlAx1
- +JrZdgCFtrm0bCKnQoa8pSGIY0neHMdFq1fFyXl3rxMrdfp6dOZG4GXsES1GovvM0jUU
- igwTWpz1uVjv22aAIXNh2ZpjOlTVvjRsBKEHuMcA7uoeHCoaMH2tV27VeO/X+jwWFpad
- MxR40hn5AYPI9vVqkpWy8+B8Pyh3RuEzb8CXmXSFid3HxErxo1V/9Uv4MWayRzwPRk48
- gLLg==
+ bh=y6I5QICCFwQmxXiOl7eP0bsK70GOlJj1SrtQFboL2uA=;
+ b=SxO4C52xk83epbAoQkGCOu+1ksTdDpdeBcLMC0SkSra0nvVtgLRNIYB1Ki1HhxDPYf
+ xHoc+kpbRk6l0kZwiLkajkENLrmrpKJ6CW1TvNd0cX0rUaT8tmEEIN5fC+vdi9gzNgyW
+ 4sEY2zqwkNG1xsbtpZhMT+apD+cFmZFpOUDLvhFalv/bDrSmRRqk41hFnJ/HctTF/zlL
+ A8ty0VmXxINbFxpNHMWoD/ubh5tdsrK68EV27iwsr5gipPMnzVR7Z8RvZAUdb79Qxezv
+ iGW9olo/97U/bjZW5RTHn6QO0TO0hwSmzUiTNjQ3O3Cod6KHWjmG9H6cgTyhNLsLL0wC
+ mj3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xJiJCZ6Kf1JVAV1tSNe0wywihXchNANfTnHnXrmJzNE=;
- b=N3SHam37QHc1b0K0cPJtHZao4UKWTx0vkaL1KHgdnXcoXyREN/0FnIm/PYwuJ8413o
- BmJnEAFTT/Cvsqg8oX4RQOEPe2nBW31/uT2GWw8B7MZbgQqNiqJ1+IekZL266+ZvMKOM
- nV1Ci08USWNKzjNcg7bsbx7CI1ExiU6RBuyHMIBy+hWZq4Yojj/OXgGHkPOV1h3RU5Er
- gNczLM4115mICMqdAsYw2A1fR6DPtMkPjLU+XkAp6/86xxnXWMkrAkGf4KW/aEJSChWK
- 5MX0G0WD2BSkuBAq4WsFXBZFMK/RYwCtmZz4I1+wQVJvpWjktYsXMwOdEfZlJx6JovRB
- j8Ww==
-X-Gm-Message-State: AOAM533Yz70tpiv0KTxCXsd1cAzN9HU2aFvO0xaCZSoedYNJrtIXnlv3
- iYkT/Us70ZsCHeD2CVpxOhYOR/cto3V2Fhdx
-X-Google-Smtp-Source: ABdhPJwms7jYu2ZXDD4CW5n+YOxVn1J5U//kk5pKN2w9KBSjHQi+45+Z0ihe8d1P9op6b9BlBVXlsg==
-X-Received: by 2002:adf:dcc7:: with SMTP id x7mr9598833wrm.203.1601563693036; 
+ bh=y6I5QICCFwQmxXiOl7eP0bsK70GOlJj1SrtQFboL2uA=;
+ b=DbJfFO25Y2Ver8ngBuG3xnFbHqMWNyV/N1WOKudBt2ResahThXK48TYezUUqwSS+lR
+ /H5SrlmUX4Cxj+FUBeDMc/q+1NQJeiobzpWQhz3AsBKPSRAx2HOyU1mjvf6jHuWnwAie
+ xJAtumH35kqW0muaH1DBoakaWmWwDvzfcRRoffNSjB0LrSUuxDCa0tJYUvBBryLDC9I5
+ +IhJU9BN5szGSIQpVsOG+JQZSrRlQq5dbBWXWNWq16UjG2vrXRBL+k6OLANVCALTut7U
+ gKG76Rvfd54UlW/9Wt1jIMdd1CKID1nDMxdXbLgA1YJHdy7ZS63B9ufk4bmbymz+scMF
+ 7KXg==
+X-Gm-Message-State: AOAM530/lv3si3pa0HicrPVHFOt4rfDegfgK9l1DcsvrNitXkgzRnv8+
+ Kdlcu3Xhodg8WSy5pGha2Gp5dS9V5XB+2WSx
+X-Google-Smtp-Source: ABdhPJy+5wQgs0kvFVa92k4FTHKABvp87KoLSOLgt0SYcuMNvYMz24pa07WQmNKWqLpwFNWT+ygGBQ==
+X-Received: by 2002:a5d:4f82:: with SMTP id d2mr9371112wru.65.1601563693944;
  Thu, 01 Oct 2020 07:48:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.12
+ by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:48:12 -0700 (PDT)
+ Thu, 01 Oct 2020 07:48:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/18] target/arm: Fix sve ldr/str
-Date: Thu,  1 Oct 2020 15:47:47 +0100
-Message-Id: <20201001144759.5964-7-peter.maydell@linaro.org>
+Subject: [PULL 07/18] target/arm: Fix SVE splice
+Date: Thu,  1 Oct 2020 15:47:48 +0100
+Message-Id: <20201001144759.5964-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201001144759.5964-1-peter.maydell@linaro.org>
 References: <20201001144759.5964-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,39 +90,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The mte update missed a bit when producing clean addresses.
+While converting to gen_gvec_ool_zzzp, we lost passing
+a->esz as the data argument to the function.
 
-Fixes: b2aa8879b88
+Fixes: 36cbb7a8e71
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200916014102.2446323-1-richard.henderson@linaro.org
+Message-id: 20200918000500.2690937-1-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-sve.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/translate-sve.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index e4cd6b62517..c0d8a5863a2 100644
+index c0d8a5863a2..9095586fc93 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -4290,7 +4290,7 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         for (i = 0; i < len_align; i += 8) {
-             tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ);
-             tcg_gen_st_i64(t0, cpu_env, vofs + i);
--            tcg_gen_addi_i64(clean_addr, cpu_reg_sp(s, rn), 8);
-+            tcg_gen_addi_i64(clean_addr, clean_addr, 8);
-         }
-         tcg_temp_free_i64(t0);
-     } else {
-@@ -4379,7 +4379,7 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         for (i = 0; i < len_align; i += 8) {
-             tcg_gen_ld_i64(t0, cpu_env, vofs + i);
-             tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEQ);
--            tcg_gen_addi_i64(clean_addr, cpu_reg_sp(s, rn), 8);
-+            tcg_gen_addi_i64(clean_addr, clean_addr, 8);
-         }
-         tcg_temp_free_i64(t0);
-     } else {
+@@ -2689,7 +2689,7 @@ static bool trans_SPLICE(DisasContext *s, arg_rprr_esz *a)
+ {
+     if (sve_access_check(s)) {
+         gen_gvec_ool_zzzp(s, gen_helper_sve_splice,
+-                          a->rd, a->rn, a->rm, a->pg, 0);
++                          a->rd, a->rn, a->rm, a->pg, a->esz);
+     }
+     return true;
+ }
 -- 
 2.20.1
 
