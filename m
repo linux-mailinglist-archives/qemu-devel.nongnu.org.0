@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507482801B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:55:06 +0200 (CEST)
-Received: from localhost ([::1]:47212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FED32801B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:52:38 +0200 (CEST)
+Received: from localhost ([::1]:38818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNzz7-0004SQ-Cy
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:55:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
+	id 1kNzwj-0000uD-2i
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsU-0004q9-9w
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:14 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36219)
+ id 1kNzsV-0004tC-JC
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:15 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kNzsS-0002xM-Gm
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:13 -0400
-Received: by mail-wm1-x343.google.com with SMTP id e2so3432441wme.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:12 -0700 (PDT)
+ id 1kNzsT-0002xW-KV
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:48:15 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id v12so3424182wmh.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9fs8CDgZB0euLlKk3g1JwM1NPKjUQ8Bto5n+KMpexUU=;
- b=n0Ayx3euAVxMQQfkyRHMVzOFpjnpFqvX4hb8t343zEar4Tn7MXmrHiP7OKzTsgJLX8
- kajY2DmFFNsBp9UcK69192o5EvYe10MqOge0UMPvx0XZd3Hr/Sa4GAcMZsjmV014PIZM
- QXxfErvDl5vHaA7cpgtLvnBp+vQLLRbsxjJot6iSpnmipdGKSKgB6WHRsMY1PegjlkTx
- mITR5DxzsCE8dn4wNsL4Y2vbo3FaolcSrfCB6qTgDJv1jN+JiUJDkYYXuN+w4wxoJfHc
- BividLLDw7z2G34Fem7+mHEUd32zuORnXz8gp761FSWETYIybZp06sPAgAJGV3Rnu8Ej
- JDeg==
+ bh=hTO8btZSlaFpXoB+S1LGr70eAkhckSw0xm/svAQpL/0=;
+ b=CpPoE5TKyiVyHonFVNtrXEsnMxnRJgrT/fEGqJwWCrLpMMhflBz7s3jerasJCuijiQ
+ 8TSMO7dRoMtxjID5HAzD4xBj765lN4uTWRKaGFkVANEjWUmiSMIBD1hDaP0D5NshKaL4
+ BqXb6TP4R+w8D8EXjsI2BKSpHFJX5cDT4mD7s/2d2zwztefF5zgT7KP60y5MttOt+jiD
+ F6VvTsTTqYPLuM+f5XEjncVcNh7EHDfGpHeZTbd1emjy1aTtiMxSkRCFdDb42vn2Lu/y
+ 4D6x4GGhSr478LkjMs1Un18gBe6TmZ/DtLPjz6lutV0d/HiC4F/6teZa4UufALr2o/Zh
+ isTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9fs8CDgZB0euLlKk3g1JwM1NPKjUQ8Bto5n+KMpexUU=;
- b=gbrpFQS6r2rCyS+x1ksw3vFfwDdcu/pOuSKX9G/LThj9k+lICNkVWsQdl6PQLdWGf3
- WJWU1a5I+CnCQj0NQYixJ1ROp6NH1n4Q0LBFTxEV5c8zrlGMec8uKCaBrnx/ml830tbG
- GUy+PVbNoQPGhB37XVSzGanA2ibgiovrJ9jDGV17Gdu3zDCEbDlDetxRHiAipZskFoXJ
- eS2g7nkcCXhmivz6BApF+mzszs6zERGhpNLSXiLBui6hN5+NYc5NeSn8lvH/Q6urt4yX
- WYCBQu8DzbzgTcVRr7o15KCMVCJM2oqg8Z2+wJitq5YFlO4VYKDiTyS/Hq6LcqbxGBg1
- RaAg==
-X-Gm-Message-State: AOAM532qTHwH4GGux8jJrZgZ+YD+Ooj1gThUVbJiqRbc3knyn6nfeQsR
- YqiTpeD/oXHNwCTSM2SH1Pixu9Gc7Ei+Joza
-X-Google-Smtp-Source: ABdhPJwsdUuqmOudMHbFjC/TmA7m9hAFqSoOA/ig/MQ8OqYvhic2XEYSeWm1OqquvVMGA+FySjQIUA==
-X-Received: by 2002:a1c:2403:: with SMTP id k3mr328238wmk.153.1601563690826;
- Thu, 01 Oct 2020 07:48:10 -0700 (PDT)
+ bh=hTO8btZSlaFpXoB+S1LGr70eAkhckSw0xm/svAQpL/0=;
+ b=m1hCe44YTKlCOQIckyKwY7eoycPSzCazeZxptYr1NTgwkFO7BfNhWKPRxqcEau4csb
+ 1Zo95J5logpBj7nikYN5sNsGBxebLHATgkh7yytzD5sB9L1Yb0iC2Mu9eBu8jr6kqMgA
+ GDKKpMvAbN/frRO2OzHWeBBjo1M3Me5RW1aF3shBoksEMxoECdX3ydp4OihwYBNmK4lr
+ 40Sla2EqR4J+O/lEv1+V7udaVHhRLH4IKnESZ68La7H7FNecnVED9aoItToaFqImGh8k
+ 4pSpuMbaFJ7KQPoleWuNY376LsStDZhMbokcFO3/Tg5mTzKD3iairyAMZUNkMKunw14/
+ tVdg==
+X-Gm-Message-State: AOAM530jT7vesJzJSKN0QvbPsh0ZVkUdI2reXnoPh6P7c/fac5AeBRYJ
+ USg/Vz+rBWREOYca1I08Kc8RZEZoUiDI9dBw
+X-Google-Smtp-Source: ABdhPJxSEw7uHN4iCaReYC20971KvBjpAp/w4QH2zCJ0j7B0lo5lve1PtkvN+80xwTESdeeeSWrmDA==
+X-Received: by 2002:a05:600c:2103:: with SMTP id
+ u3mr368022wml.132.1601563691871; 
+ Thu, 01 Oct 2020 07:48:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.09
+ by smtp.gmail.com with ESMTPSA id 70sm342052wme.15.2020.10.01.07.48.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:48:09 -0700 (PDT)
+ Thu, 01 Oct 2020 07:48:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/18] target/arm: Add ID register values for Cortex-M0
-Date: Thu,  1 Oct 2020 15:47:45 +0100
-Message-Id: <20201001144759.5964-5-peter.maydell@linaro.org>
+Subject: [PULL 05/18] target/arm: Make isar_feature_aa32_fp16_arith() handle
+ M-profile
+Date: Thu,  1 Oct 2020 15:47:46 +0100
+Message-Id: <20201001144759.5964-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201001144759.5964-1-peter.maydell@linaro.org>
 References: <20201001144759.5964-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,53 +90,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Give the Cortex-M0 ID register values corresponding to its
-implemented behaviour.  These will not be guest-visible but will be
-used to govern the behaviour of QEMU's emulation.  We use the same
-values that the Cortex-M3 does.
+The M-profile definition of the MVFR1 ID register differs slightly
+from the A-profile one, and in particular the check for "does the CPU
+support fp16 arithmetic" is not the same.
+
+We don't currently implement any M-profile CPUs with fp16 arithmetic,
+so this is not yet a visible bug, but correcting the logic now
+disarms this beartrap for when we eventually do.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200910173855.4068-5-peter.maydell@linaro.org
+Message-id: 20200910173855.4068-6-peter.maydell@linaro.org
 ---
- target/arm/cpu_tcg.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ target/arm/cpu.h | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index a9b7cf52550..0013e25412f 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -256,6 +256,30 @@ static void cortex_m0_initfn(Object *obj)
-     set_feature(&cpu->env, ARM_FEATURE_M);
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index a36edd2dc3d..e4549a8cc0c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1799,6 +1799,15 @@ FIELD(ID_MMFR4, LSM, 20, 4)
+ FIELD(ID_MMFR4, CCIDX, 24, 4)
+ FIELD(ID_MMFR4, EVT, 28, 4)
  
-     cpu->midr = 0x410cc200;
++FIELD(ID_PFR1, PROGMOD, 0, 4)
++FIELD(ID_PFR1, SECURITY, 4, 4)
++FIELD(ID_PFR1, MPROGMOD, 8, 4)
++FIELD(ID_PFR1, VIRTUALIZATION, 12, 4)
++FIELD(ID_PFR1, GENTIMER, 16, 4)
++FIELD(ID_PFR1, SEC_FRAC, 20, 4)
++FIELD(ID_PFR1, VIRT_FRAC, 24, 4)
++FIELD(ID_PFR1, GIC, 28, 4)
 +
-+    /*
-+     * These ID register values are not guest visible, because
-+     * we do not implement the Main Extension. They must be set
-+     * to values corresponding to the Cortex-M0's implemented
-+     * features, because QEMU generally controls its emulation
-+     * by looking at ID register fields. We use the same values as
-+     * for the M3.
-+     */
-+    cpu->isar.id_pfr0 = 0x00000030;
-+    cpu->isar.id_pfr1 = 0x00000200;
-+    cpu->isar.id_dfr0 = 0x00100000;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x00000030;
-+    cpu->isar.id_mmfr1 = 0x00000000;
-+    cpu->isar.id_mmfr2 = 0x00000000;
-+    cpu->isar.id_mmfr3 = 0x00000000;
-+    cpu->isar.id_isar0 = 0x01141110;
-+    cpu->isar.id_isar1 = 0x02111000;
-+    cpu->isar.id_isar2 = 0x21112231;
-+    cpu->isar.id_isar3 = 0x01111110;
-+    cpu->isar.id_isar4 = 0x01310102;
-+    cpu->isar.id_isar5 = 0x00000000;
-+    cpu->isar.id_isar6 = 0x00000000;
+ FIELD(ID_AA64ISAR0, AES, 4, 4)
+ FIELD(ID_AA64ISAR0, SHA1, 8, 4)
+ FIELD(ID_AA64ISAR0, SHA2, 12, 4)
+@@ -1916,10 +1925,12 @@ FIELD(MVFR0, FPROUND, 28, 4)
+ 
+ FIELD(MVFR1, FPFTZ, 0, 4)
+ FIELD(MVFR1, FPDNAN, 4, 4)
+-FIELD(MVFR1, SIMDLS, 8, 4)
+-FIELD(MVFR1, SIMDINT, 12, 4)
+-FIELD(MVFR1, SIMDSP, 16, 4)
+-FIELD(MVFR1, SIMDHP, 20, 4)
++FIELD(MVFR1, SIMDLS, 8, 4) /* A-profile only */
++FIELD(MVFR1, SIMDINT, 12, 4) /* A-profile only */
++FIELD(MVFR1, SIMDSP, 16, 4) /* A-profile only */
++FIELD(MVFR1, SIMDHP, 20, 4) /* A-profile only */
++FIELD(MVFR1, MVE, 8, 4) /* M-profile only */
++FIELD(MVFR1, FP16, 20, 4) /* M-profile only */
+ FIELD(MVFR1, FPHP, 24, 4)
+ FIELD(MVFR1, SIMDFMAC, 28, 4)
+ 
+@@ -3522,9 +3533,19 @@ static inline bool isar_feature_aa32_predinv(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_isar6, ID_ISAR6, SPECRES) != 0;
  }
  
- static void cortex_m3_initfn(Object *obj)
++static inline bool isar_feature_aa32_mprofile(const ARMISARegisters *id)
++{
++    return FIELD_EX32(id->id_pfr1, ID_PFR1, MPROGMOD) != 0;
++}
++
+ static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
+ {
+-    return FIELD_EX32(id->mvfr1, MVFR1, FPHP) >= 3;
++    /* Sadly this is encoded differently for A-profile and M-profile */
++    if (isar_feature_aa32_mprofile(id)) {
++        return FIELD_EX32(id->mvfr1, MVFR1, FP16) > 0;
++    } else {
++        return FIELD_EX32(id->mvfr1, MVFR1, FPHP) >= 3;
++    }
+ }
+ 
+ static inline bool isar_feature_aa32_vfp_simd(const ARMISARegisters *id)
 -- 
 2.20.1
 
