@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB0C280341
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:53:11 +0200 (CEST)
-Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1A128033D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:51:53 +0200 (CEST)
+Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0tK-0007H4-CH
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:53:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60520)
+	id 1kO0s4-0005ce-9b
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kO0pG-0003Ce-Nj
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:48:58 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kO0pE-000588-PL
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:48:58 -0400
-Received: by mail-io1-xd43.google.com with SMTP id u6so7166247iow.9
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JqQAVUCi7XdpNp2minhVyLs3XiU/HhORo/OS1yRpvKg=;
- b=HaLQLsLOBJLkyWioGBiNE9sZgM94zKuhpiMGKuiLGbgDjAOEaBXiX+EO84TxtsWd9j
- 4ZIQC8IVZXFI3nwpmJwUIo34qy0bJCj4/rgwSCLkf/hF7fNpR5i2fY2QYAoULb/6Tc0u
- 5pQiEoC9aYn9+AKLQioXa+sSzk09O7rEH52CYVefT3MUVkHAw4cv7OHNjPwhhU8GPBCI
- EjaOfZp6VkCGOUK/eEcfM4hMAtHtPvMg0Cj9/Rc7ixEGqGBVc/a63kwTyHn/BKJo4//k
- SsEBT9/nXDrYPXhvi3t+2CEadrEWGpE7qMArzUXmHG3LYU1YGyyDJf1m6omjhbrQcvTr
- 70wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JqQAVUCi7XdpNp2minhVyLs3XiU/HhORo/OS1yRpvKg=;
- b=LmtLrwnJMHWeeUjoDyMUkskeKTCZ5uFj3ePJbXu2pFLdRZYzjG+7zLCh0gbZnjJKhN
- 5mB/hNIvmZiB9SIpZDwqehrmarSsy3r3z5RdN1HWN8Qk0Pw4MTZ4+fcUCLXO5syuyJak
- whnNtfbs8MdcPpqm7SZ0gWaa5TKVLJnVcLzinjZsiathoK5fGsuyxppgCcqDA43TE7KG
- 54K4uqYtMU7E9+9Ko8nqugrNpOrHApooI0bSALu91m8iXzmlrmhkCT5aNp9oaUVgzt/J
- rsIvfZvZXCXIHE1sHWvCznsrSaGPB6lILPmcBVfymgZ68IfgOv3l16seldT3xgPAoWPw
- 2qDA==
-X-Gm-Message-State: AOAM531snbTCCgwYTjqjfwFuzQi+36cPjtUIBTiH57GBo7zadhRSKloq
- 9Taj9rvhKEu/eLLXzr7ifaus/1ov93SU/CKueTM=
-X-Google-Smtp-Source: ABdhPJziTMqM7gsRnUB2+8kldYYRPKkQzXiYyUgiQGvk1VzOx9O1hzR1NiFCMboPbQWFgcdHOm7h02Z6HSxmJtJbHr4=
-X-Received: by 2002:a05:6602:2245:: with SMTP id
- o5mr5950876ioo.105.1601567335746; 
- Thu, 01 Oct 2020 08:48:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO0fi-0000Kp-Ii
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:39:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO0fg-0003QY-Gz
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:39:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601566743;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uq/0OL4jeyv8I8sTAcJSHGAFM7d0Pxmhnkrtqae90ME=;
+ b=fOmjCHHQ5VpQYe83TJr/ZJ+IRmV+nAC2cFbHcTriAyN7yVjg9UTktLuqSK/h87S0wdYa1H
+ La+jFl7giO4SNfTR206B9W/H8f98dwLXzNdAjWnXcbYmsLVDulVb8YTpTJtLCU4auVWTJW
+ 8Kz2CtnCMO0UOSvBMR5rVr948/3Ad2U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-jXKqdq_HMWOTUZA9ZPYQeA-1; Thu, 01 Oct 2020 11:38:59 -0400
+X-MC-Unique: jXKqdq_HMWOTUZA9ZPYQeA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99CD8425D0;
+ Thu,  1 Oct 2020 15:38:58 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D43119C59;
+ Thu,  1 Oct 2020 15:38:57 +0000 (UTC)
+Subject: Re: [PATCH v2] fdc: check null block pointer before r/w data transfer
+To: P J P <ppandit@redhat.com>
+References: <20200922092722.344518-1-ppandit@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <623a950a-26a6-d215-9d97-6f4efd33c6c3@redhat.com>
+Date: Thu, 1 Oct 2020 11:38:57 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200927134609.2358960-1-alistair.francis@wdc.com>
- <20200927134609.2358960-3-alistair.francis@wdc.com>
- <CAFEAcA9Rduz5RB4oUD_wR41_oEfdRSbB8O=99pb+AjXM8gLG6A@mail.gmail.com>
- <20200929132216.GI3717385@habkost.net>
-In-Reply-To: <20200929132216.GI3717385@habkost.net>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 1 Oct 2020 08:37:31 -0700
-Message-ID: <CAKmqyKMemWmj2we2uN0bYCFOyo3_dFhoBgeC4qRv7LFxj20ExA@mail.gmail.com>
-Subject: Re: [PULL 2/2] core/register: Specify instance_size in the TypeInfo
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200922092722.344518-1-ppandit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,72 +82,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Ruhr-University <bugs-syssec@rub.de>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block@nongnu.org,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 29, 2020 at 6:22 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
-:
->
-> On Tue, Sep 29, 2020 at 01:55:35PM +0100, Peter Maydell wrote:
-> > On Sun, 27 Sep 2020 at 15:00, Alistair Francis <alistair.francis@wdc.co=
-m> wrote:
-> > >
-> > > Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > Message-Id: <4cf1beb7dafb9143c261d266557d3173bf160524.1598376594.git.=
-alistair.francis@wdc.com>
-> > > ---
-> > > @@ -269,13 +258,18 @@ static RegisterInfoArray *register_init_block(D=
-eviceState *owner,
-> > >          int index =3D rae[i].addr / data_size;
-> > >          RegisterInfo *r =3D &ri[index];
-> > >
-> > > -        *r =3D (RegisterInfo) {
-> > > -            .data =3D data + data_size * index,
-> > > -            .data_size =3D data_size,
-> > > -            .access =3D &rae[i],
-> > > -            .opaque =3D owner,
-> > > -        };
-> > > -        register_init(r);
-> > > +        if (data + data_size * index =3D=3D 0 || !&rae[i]) {
-> > > +            continue;
-> >
-> > Coverity thinks (CID 1432800) that this is dead code, because
-> > "data + data_size * index" can never be NULL[*]. What was this
-> > intending to test for ? (maybe data =3D=3D NULL? Missing dereference
-> > operator ?)
->
-> I believe the original check in the old register_init() function
-> were just to make the function more flexible by allowing NULL
-> arguments, but it was always unnecessary.  We have 4 callers of
-> register_init_block*() and neither rae or data are NULL on those
-> calls.
+On 9/22/20 5:27 AM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+> 
+> While transferring data via fdctrl_read/write_data() routines,
+> check that current drive does not have a null block pointer.
+> Avoid null pointer dereference.
+> 
 
-In this case *data is an array, I guess the idea was to try and catch
-if somehow a point in the array was NULL?
+Will get to these and other IDE issues ASAP.
 
-I'll send a patch to remove the check.
+--js
 
-Alistair
-
->
-> >
-> > [*] The C spec is quite strict about what valid pointer arithmetic
-> > is; in particular adding to a NULL pointer is undefined behaviour,
-> > and pointer arithmetic that overflows and wraps around is
-> > undefined behaviour, so there's no way to get a 0 result from
-> > "ptr + offset" without the expression being UB.
-> >
-> > thanks
-> > -- PMM
-> >
->
-> --
-> Eduardo
->
 
