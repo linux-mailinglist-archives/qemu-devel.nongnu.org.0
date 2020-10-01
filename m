@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA0C280182
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:43:55 +0200 (CEST)
-Received: from localhost ([::1]:46616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F145428018F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 16:45:36 +0200 (CEST)
+Received: from localhost ([::1]:51136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNzoI-0000Ll-3K
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41092)
+	id 1kNzpw-0002Ia-02
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 10:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNzmb-0007Iz-74
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:42:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54899)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNzmg-0007MM-Bd
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:42:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNzmZ-0002DV-3T
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:42:08 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kNzmb-0002E0-0j
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:42:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601563322;
+ s=mimecast20190719; t=1601563328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZpPmzecL1JnaAFfxJvQhWfBsNXB+MnX+YoPFlhUhAaM=;
- b=Ghsw2t1zUezR7K21U9XuJwMRLm5TpexpzuTM7/x7iuojdz6F2HCspYML52EGW80jR9GEg0
- WKaZI7mpw9zD9dasH4gt5oEAEQjpWwlE24lhGYc+3DVMD8xm2t1KVm6FjcnWEsCFMpihnc
- s2Kx+s3DhYkjCTcDNjFaByWSuN/JQZk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-hId5VefkNrahtWTpo-cDpw-1; Thu, 01 Oct 2020 10:42:01 -0400
-X-MC-Unique: hId5VefkNrahtWTpo-cDpw-1
-Received: by mail-wm1-f71.google.com with SMTP id 13so32713wmf.0
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:42:00 -0700 (PDT)
+ bh=13dFYoU6KvfqYyBOP1RLSUELKZQPOuaHJ8QYH3lau34=;
+ b=BAJC5M41zf1AAgYqMOW9lah3fXDlsFm9sD/DABlOe7kameH4X/WJ8BYe1SNzAitiCzPkzv
+ nxuilhB60xvMtJ1EJHvACeodXb+3sVZXAOb2+J84aXWRUhJpxmupGLPycT8ZkSUARFeruL
+ XuVvrh+RQUVlEmabWfKpvGlNSxK1ej8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436--a3oxEwWOeqR_MWeyVB16Q-1; Thu, 01 Oct 2020 10:42:06 -0400
+X-MC-Unique: -a3oxEwWOeqR_MWeyVB16Q-1
+Received: by mail-wm1-f72.google.com with SMTP id f2so384010wml.6
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:42:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZpPmzecL1JnaAFfxJvQhWfBsNXB+MnX+YoPFlhUhAaM=;
- b=thzryQ8rywpAehc2/i0bdKF+a3+p4naWoSe+5cVAsMWRK+pUo8em0IRPEI8+kBzPZw
- PorzwCexBwe8Kw3aq3bJRYca+not54hoY5DB4uihiuTU8sF/PjdX+EdamAwauAEjtFLH
- 24EDrTTZdDjNBn9zuFSZ/xoITfDY9Tzs1pM/pzUP44a2uj9AzkbMjiZWsCx0HIPBIvEk
- qw3MV5HbhbeLWZ++Q6X9jamCQq/8qBNg8wqMTmonBCqbJND7PPJ5j4fdJDCpHXBNkEzi
- VBNbx1UpKszuJXys7E3xbsHCp1gqJZsfWoV7NPso/sbZwIe2gEsFuf5hEF9xukp/Zh87
- 058g==
-X-Gm-Message-State: AOAM533AuMU/Xs22SluDL7JZ02Ol2BTrmkP7oWIVA4ZC1WH09j/PX7b3
- Pqc4Aes+mkYFl9oN7030pWOmFo7k5dW5aXoRQR0u2uYCnPsHva28HGPdXO8xF3cyOP7Nhk3rj9L
- rF2oNQFVqqoiIpqg=
-X-Received: by 2002:a1c:1fc6:: with SMTP id f189mr389800wmf.20.1601563319922; 
- Thu, 01 Oct 2020 07:41:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2AAR5AwX//vaLlPmReSLdJYvN2sSBWcXdstcx/2WdlHHsuG5ZThU4FZ3f6fFxfbGf2Mb3Lg==
-X-Received: by 2002:a1c:1fc6:: with SMTP id f189mr389784wmf.20.1601563319688; 
- Thu, 01 Oct 2020 07:41:59 -0700 (PDT)
+ bh=13dFYoU6KvfqYyBOP1RLSUELKZQPOuaHJ8QYH3lau34=;
+ b=cEF8QW3i6ESYzYk9Oj0lZLmQllxJnVN8d6oKf4Jx2Zn6M+3kKshOPvVEzZiiowhnGG
+ Jo18w/j3Zbr+WY+D9lPFpiqt5RhPMA7An8Cb8dxWE3ovUEyxAf3O1dcrWA2MF1prtDl1
+ wBKwUXM/Q32j+PHYUNVUbk9W4Mz7FPFb/F4UM4UyXw3XpJapiY0jncbmxSBC2neeHJpJ
+ NU+f/3AHsKfRynujPSpPTU2Jij/I78TCj8gYJi03M/JYEFz1047T6U8L25GdwAx1lESg
+ KAnwe2UhMHKU9a2HvcWwVQi4jQUL/5qChVhydlc9h94ja2ZXHhuOrDwQ5DWKe8Dmytoy
+ +YxQ==
+X-Gm-Message-State: AOAM532urSi8ELHxeros2ClhdqkYby9WZeveF5WUIxS+EJzp0gL2PE4Y
+ 9+upnZel861Zw6OCMEGPPTIvmx74JAVhOY67yWS9ivxXGZ0+LXH3sLJEq9BnBtHBFeUaUd7IGB6
+ qwco/fqx7baU4K/w=
+X-Received: by 2002:a05:6000:151:: with SMTP id
+ r17mr9251136wrx.311.1601563325333; 
+ Thu, 01 Oct 2020 07:42:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrzt9S3V7X1vy2AEYQIyqcVrhP7bOQbPWynLiIbO1fC4A1y5IZ7wB2zXD9goNUo4cVKkvc5w==
+X-Received: by 2002:a05:6000:151:: with SMTP id
+ r17mr9251103wrx.311.1601563325121; 
+ Thu, 01 Oct 2020 07:42:05 -0700 (PDT)
 Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id z67sm235870wme.41.2020.10.01.07.41.58
+ by smtp.gmail.com with ESMTPSA id o194sm301374wme.24.2020.10.01.07.42.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 07:41:58 -0700 (PDT)
+ Thu, 01 Oct 2020 07:42:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Laurent Vivier <laurent@vivier.eu>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v4 1/3] target/i386/cpu: Trivial code movement
-Date: Thu,  1 Oct 2020 16:41:50 +0200
-Message-Id: <20201001144152.1555659-2-philmd@redhat.com>
+Subject: [PATCH v4 2/3] target/i386/cpu: Restrict some of feature-words uses
+ to system-mode
+Date: Thu,  1 Oct 2020 16:41:51 +0200
+Message-Id: <20201001144152.1555659-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201001144152.1555659-1-philmd@redhat.com>
 References: <20201001144152.1555659-1-philmd@redhat.com>
@@ -73,9 +76,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,52 +106,76 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trivial code movement to reduce #ifdef'ry in the next commit.
+The feature-words properties are not used in user-mode emulation,
+restrict it to system-mode.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/i386/cpu.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ target/i386/cpu.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3ffd877dd5..2eec53ca22 100644
+index 2eec53ca22..9f72342506 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -4643,16 +4643,6 @@ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
-     visit_type_X86CPUFeatureWordInfoList(v, "feature-words", &list, errp);
+@@ -4607,6 +4607,7 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
+     cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
  }
  
--/* Convert all '_' in a feature string option name to '-', to make feature
-- * name conform to QOM property naming rule, which uses '-' instead of '_'.
-- */
--static inline void feat2prop(char *s)
--{
--    while ((s = strchr(s, '_'))) {
--        *s = '-';
--    }
--}
--
- /* Return the feature property name for a feature flag bit */
- static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
- {
-@@ -4677,6 +4667,17 @@ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
++#if !defined(CONFIG_USER_ONLY)
+ /* Generic getter for "feature-words" and "filtered-features" properties */
+ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+                                       const char *name, void *opaque,
+@@ -4666,6 +4667,7 @@ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
+     assert(bitnr < 32 || !(name && feature_word_info[w].type == CPUID_FEATURE_WORD));
      return name;
  }
++#endif /* CONFIG_USER_ONLY */
  
-+/*
-+ * Convert all '_' in a feature string option name to '-', to make feature
-+ * name conform to QOM property naming rule, which uses '-' instead of '_'.
-+ */
-+static inline void feat2prop(char *s)
-+{
-+    while ((s = strchr(s, '_'))) {
-+        *s = '-';
-+    }
-+}
-+
- /* Compatibily hack to maintain legacy +-feat semantic,
-  * where +-feat overwrites any feature set by
-  * feat=on|feat even if the later is parsed after +-feat
+ /*
+  * Convert all '_' in a feature string option name to '-', to make feature
+@@ -4783,6 +4785,7 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
+ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
+ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose);
+ 
++#if !defined(CONFIG_USER_ONLY)
+ /* Build a list with the name of all features on a feature word array */
+ static void x86_cpu_list_feature_names(FeatureWordArray features,
+                                        strList **feat_names)
+@@ -4853,6 +4856,7 @@ static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
+ 
+     object_unref(OBJECT(xc));
+ }
++#endif /* CONFIG_USER_ONLY */
+ 
+ /* Print all cpuid feature names in featureset
+  */
+@@ -4987,7 +4991,9 @@ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
+ 
+     info = g_malloc0(sizeof(*info));
+     info->name = x86_cpu_class_get_model_name(cc);
++#if !defined(CONFIG_USER_ONLY)
+     x86_cpu_class_check_missing_features(cc, &info->unavailable_features);
++#endif
+     info->has_unavailable_features = true;
+     info->q_typename = g_strdup(object_class_get_name(oc));
+     info->migration_safe = cc->migration_safe;
+@@ -6941,6 +6947,7 @@ static void x86_cpu_initfn(Object *obj)
+     object_property_add(obj, "tsc-frequency", "int",
+                         x86_cpuid_get_tsc_freq,
+                         x86_cpuid_set_tsc_freq, NULL, NULL);
++#if !defined(CONFIG_USER_ONLY)
+     object_property_add(obj, "feature-words", "X86CPUFeatureWordInfo",
+                         x86_cpu_get_feature_words,
+                         NULL, NULL, (void *)env->features);
+@@ -6957,7 +6964,6 @@ static void x86_cpu_initfn(Object *obj)
+                         x86_cpu_get_unavailable_features,
+                         NULL, NULL, NULL);
+ 
+-#if !defined(CONFIG_USER_ONLY)
+     object_property_add(obj, "crash-information", "GuestPanicInformation",
+                         x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
+ #endif
 -- 
 2.26.2
 
