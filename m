@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87954280220
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:05:52 +0200 (CEST)
-Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF3828026F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:19:34 +0200 (CEST)
+Received: from localhost ([::1]:32948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO09X-0001gF-H7
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46544)
+	id 1kO0Mn-00020u-So
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kO036-0003zx-Rp
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:59:13 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:33957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kO034-0004Wy-Uu
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 10:59:12 -0400
-Received: by mail-ej1-x642.google.com with SMTP id gr14so8579401ejb.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 07:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OhshDeuTlYrET9+GxlQx3YF2YV3AKQdS3Wg0wje5TlM=;
- b=zgEd70E5lWpK0BNNnExUiniMgnkdJqWOYaP1mhe2I5Wq20za4/XxT2vC6VPHEB9G9m
- wnxAXEL3ndG5NdrUawXejsRCL3Q+I8gy5T4nJulCP6BkI3HZunMptv6tL6zFvKFNhJsp
- RJUXxvy3WX3P4s8a24XSnqQX/mtgPimKXq8ujnpBVXefg5dhskXSTWBTAymxUf6ttwHm
- Hzw87JB3Bern0PKoPrhjk7zzKxVn2WT5E7pEMhezTXnvjdxc9NVfDg0Ucf+L7rCTnh1i
- E2qx+8v37WWHE8Qag+yHoJ7i9bbUv9uiK+Jb5WvJpJIddIXkXx9MS3a/z4v8TWjsi64D
- uTPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OhshDeuTlYrET9+GxlQx3YF2YV3AKQdS3Wg0wje5TlM=;
- b=Ajo7k+0FKObKZG5TJQNKgdPbo7kiTpqHdHymX74K+9rM5ZB3WD4Bj7cPSLRQMCIaRe
- 9cLt9cnnIuBxM8D4MZUP4hk222tEZXIKuEk6lHptOE05Wz2Q+H4bXShdwLpR1EHqUXkX
- CM0TdXQpeE0c0fCrlsJKwcZNv4lAv/1hem/gc+XHOBgIYAgdfWWNYOC2YAkFoNU+rhgg
- 0suHIWaQslU+3y/3cRe7Ep1TVKEL7EMrQ4hyTRwgiVWSJv8MUjQTJOMHlUki488Wjvsv
- ZlnnHq7tESBD7DUrx9oKHMJFpbiTv2ri3lxi7AohAY9x7vFl992Zg417yOY4iY54+xpp
- Z1cg==
-X-Gm-Message-State: AOAM530t5rPCfalRB5yU0dhEe+t+QH64y4LE3tq4Jl0wt2sD4PvJ9Jw7
- g6e+Ike3t/dWd92y7wQs+/mxd8TUbQP1Mu1naol/WQ==
-X-Google-Smtp-Source: ABdhPJyOjnpHfGwczCBwoJ71JvES2B8KmZ/m0+xHNfGOq5dYyFCqL/duxIXOp/9Vdi3ejwj69VxB4vYdvaD45Bd3hHY=
-X-Received: by 2002:a17:906:c7d9:: with SMTP id
- dc25mr4465954ejb.482.1601564349377; 
- Thu, 01 Oct 2020 07:59:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kO05y-0006j8-2t
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:02:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kO05t-0005D4-Fs
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:02:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601564524;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VjY980M3j683XwjxRN64oS8USRfLJqvigyVnEBEuKZY=;
+ b=cHBPzZyBvudLEhb8zMq6GKmFkLditDM/fw8uGk+Mkd2LXsLY+KW685eMc8prANrexnpd8/
+ c1owX4p99FmSS6noeIoqdIGWl5UiOzhELGWAMwfA+AhkNUZM6lptjf7tXZuhNqEnWKeGh/
+ Lnqeh+nCMsFKS4/3TmN76cosRq8qdJk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-v9Oy-dE7NA6SOSXlyHuh9Q-1; Thu, 01 Oct 2020 11:02:00 -0400
+X-MC-Unique: v9Oy-dE7NA6SOSXlyHuh9Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEA1E1882FA3;
+ Thu,  1 Oct 2020 15:01:57 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-107.ams2.redhat.com [10.36.112.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18F6773678;
+ Thu,  1 Oct 2020 15:01:54 +0000 (UTC)
+Subject: Re: [PATCH] elfload: use g_new instead of malloc
+To: Elena Afanasova <eafanasova@gmail.com>, qemu-devel@nongnu.org
+References: <20201001123807.42978-1-eafanasova@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <3acc2481-a3ac-9ec4-9520-10727cc92ef3@redhat.com>
+Date: Thu, 1 Oct 2020 17:01:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200925024143.26492-1-maxim.cournoyer@gmail.com>
- <CAFEAcA_wU73U6eaHU0mwccr-E0EHSKzFJ1yiR++YEKv=1LneJQ@mail.gmail.com>
- <87mu1dtao6.fsf@gmail.com>
- <CAFEAcA_4wXqGeOgsY2GbY1mk==DCz--j-jhs+OdGQnOHEf+D_A@mail.gmail.com>
- <87wo0grmae.fsf@gmail.com>
-In-Reply-To: <87wo0grmae.fsf@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 1 Oct 2020 15:58:58 +0100
-Message-ID: <CAFEAcA-ZcMQB+7P1r3u8m4wM7mJ_ogPrqasKSqL_9XPS+xQ3yw@mail.gmail.com>
-Subject: Re: [PATCH] build: Build and install the info manual.
-To: Maxim Cournoyer <maxim.cournoyer@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20201001123807.42978-1-eafanasova@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,45 +82,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+ Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 27 Sep 2020 at 03:21, Maxim Cournoyer <maxim.cournoyer@gmail.com> wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > It is the best way we found for getting Sphinx to do what we wanted.
-> > I agree that it would be nicer to have one manual with all the user
-> > facing parts in it, but it is apparently not possible to do that without
-> > shipping the devel docs to users, which we didn't want to do.
->
-> I personally don't understand the rationale of hiding the devel section
-> from users, especially given the kind of users QEMU is likely to attract
-> (e.g, teksavvy people, perhaps themselves developers that could be
-> curious peeking into that section to deepen their understanding of
-> QEMU's architecture and internals).
+On 01/10/2020 14.38, Elena Afanasova wrote:
+> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+> ---
+>  bsd-user/elfload.c | 92 +++++++++++++++-------------------------------
+>  1 file changed, 30 insertions(+), 62 deletions(-)
+> 
+> diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+> index 32378af7b2..e10ca54eb7 100644
+> --- a/bsd-user/elfload.c
+> +++ b/bsd-user/elfload.c
+> @@ -867,18 +867,14 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
+>          if (sizeof(struct elf_phdr) * interp_elf_ex->e_phnum > TARGET_PAGE_SIZE)
+>              return ~(abi_ulong)0UL;
+>  
+> -        elf_phdata =  (struct elf_phdr *)
+> -                malloc(sizeof(struct elf_phdr) * interp_elf_ex->e_phnum);
+> -
+> -        if (!elf_phdata)
+> -          return ~((abi_ulong)0UL);
+> +        elf_phdata = g_new(struct elf_phdr, interp_elf_ex->e_phnum);
+>  
+>          /*
+>           * If the size of this structure has changed, then punt, since
+>           * we will be doing the wrong thing.
+>           */
+>          if (interp_elf_ex->e_phentsize != sizeof(struct elf_phdr)) {
+> -            free(elf_phdata);
+> +            g_free(elf_phdata);
+>              return ~((abi_ulong)0UL);
+>          }
+>  
+> @@ -890,9 +886,8 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
+>          }
+>          if (retval < 0) {
+>                  perror("load_elf_interp");
+> +                g_free(elf_phdata);
+>                  exit(-1);
+> -                free (elf_phdata);
+> -                return retval;
+>          }
+>  #ifdef BSWAP_NEEDED
+>          eppnt = elf_phdata;
+> @@ -940,7 +935,7 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
+>              if (error == -1) {
+>                /* Real error */
+>                close(interpreter_fd);
+> -              free(elf_phdata);
+> +              g_free(elf_phdata);
+>                return ~((abi_ulong)0UL);
+>              }
+>  
+> @@ -983,7 +978,7 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
+>                          PROT_READ|PROT_WRITE|PROT_EXEC,
+>                          MAP_FIXED|MAP_PRIVATE|MAP_ANON, -1, 0);
+>          }
+> -        free(elf_phdata);
+> +        g_free(elf_phdata);
+>  
+>          *interp_load_addr = load_addr;
+>          return ((abi_ulong) interp_elf_ex->e_entry) + load_addr;
+> @@ -1064,24 +1059,15 @@ static void load_symbols(struct elfhdr *hdr, int fd)
+>  
+>   found:
+>      /* Now know where the strtab and symtab are.  Snarf them. */
+> -    s = malloc(sizeof(*s));
+> -    syms = malloc(symtab.sh_size);
+> -    if (!syms) {
+> -        free(s);
+> -        return;
+> -    }
+> -    s->disas_strtab = strings = malloc(strtab.sh_size);
+> -    if (!s->disas_strtab) {
+> -        free(s);
+> -        free(syms);
+> -        return;
+> -    }
+> +    s = g_new(struct syminfo, 1);
+> +    syms = g_new(symtab.sh_size, 1);
+> +    s->disas_strtab = strings = g_new(strtab.sh_size, 1);
+>  
+>      lseek(fd, symtab.sh_offset, SEEK_SET);
+>      if (read(fd, syms, symtab.sh_size) != symtab.sh_size) {
+> -        free(s);
+> -        free(syms);
+> -        free(strings);
+> +        g_free(s);
+> +        g_free(syms);
+> +        g_free(strings);
+>          return;
+>      }
+>  
+> @@ -1113,22 +1099,16 @@ static void load_symbols(struct elfhdr *hdr, int fd)
+>          that we threw away.  Whether or not this has any effect on the
+>          memory allocation depends on the malloc implementation and how
+>          many symbols we managed to discard. */
+> -    new_syms = realloc(syms, nsyms * sizeof(*syms));
+> -    if (new_syms == NULL) {
+> -        free(s);
+> -        free(syms);
+> -        free(strings);
+> -        return;
+> -    }
+> +    new_syms = g_realloc(syms, nsyms * sizeof(*syms));
+>      syms = new_syms;
+>  
+>      qsort(syms, nsyms, sizeof(*syms), symcmp);
+>  
+>      lseek(fd, strtab.sh_offset, SEEK_SET);
+>      if (read(fd, strings, strtab.sh_size) != strtab.sh_size) {
+> -        free(s);
+> -        free(syms);
+> -        free(strings);
+> +        g_free(s);
+> +        g_free(syms);
+> +        g_free(strings);
+>          return;
+>      }
+[...]
 
-Mostly I think we came to this opinion because
-(a) it was how we handled developer docs before -- they tended
-to be standalone files in docs/ somewhere, not part of the
-old shipped-to-user Texinfo docs
-(b) internals docs are much more likely to become quickly outdated:
-you almost always want to be looking at the docs for current-git,
-not for some older distro-installed QEMU version
-(c) sure, some users might want to look at QEMU internals docs,
-but they are definitely going to be the minority
-(d) the developer docs are rougher in quality overall
-(e) you need the source tree anyway if you're interested in
-the internals, because so much is not documented, or not in
-the rST manuals
+ Hi!
 
-That said, we are kind of working against the grain of how
-Sphinx wants to be used here, which is usually not a great idea,
-and it does result in some awkwardnesses (it would be nice to
-have the devel docs on the qemu.org website, for instance).
-I asked around on IRC and nobody seemed to be very strongly
-against moving to the just-one-manual setup. So maybe we should
-do that.
+That clean-up sounds like a very good idea ... but I think this would be
+a perfect place to use g_autofree in the declaration of the variables,
+then you can get rid of the free() calls completely!
 
-thanks
--- PMM
+ Thomas
+
 
