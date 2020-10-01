@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B694428087C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 22:33:33 +0200 (CEST)
-Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373082808D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 22:52:11 +0200 (CEST)
+Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO5Ge-0006Ba-8t
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 16:33:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45242)
+	id 1kO5Yg-0005qr-Ap
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 16:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.otavio@gmail.com>)
- id 1kO3Bb-00048D-GM
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:20:11 -0400
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:34235)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bruno.otavio@gmail.com>)
- id 1kO3BZ-0002WD-30
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 14:20:11 -0400
-Received: by mail-oo1-xc2a.google.com with SMTP id o20so1737005ook.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 11:20:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dcomp-ufs-br.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to;
- bh=xRpi/SLAOr5/jfyMH0LPVLexqnJ/F0iFg0GDKdiDpWs=;
- b=iwdGP1m+DFUfROSsQtXcYZrYfRp0QIC4xiOOTVnOi4EhASGL55tq/XNKb+QAlyNwBb
- vjd9dRFvQp4sqqyugqXD0tAJ83mKz3Ghg+EJCLr7xnrE3TFRJTsTLD8i3JwIjr8jArEX
- AJt94iqTXnjF8W3uBzKU9dWyrTgmODV6AhYYMfosck4lQe6zEwEgzuIH6+pnoI1CXQee
- qkvLuQd5Hh3DD+Vn0fpl2Lve7PSrt86ez9w7R5TaBxoweGDVsW9d/QnY2h10MM4uIXMu
- vNopsfeMUJLGJVJy0QT+NIGrY1Mc0hPpcDYbuZnG8Lyo+Fz94b4VnU3vTwPstnhZsLz0
- UdFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=xRpi/SLAOr5/jfyMH0LPVLexqnJ/F0iFg0GDKdiDpWs=;
- b=IGjqfX1A8JuysVpGbu+j6iE772M/5eZnjO780HmNs6zI0DsntAcUNFOxB2PpZWF9Rw
- TP1VcMdcOq2svVNEXty1PLH58pOC/9q0qqCjxFm/BOtPLb0+pENMkIF5VP0hd6d0D7oR
- 0qi2l+waMH9XI1cjSxTBavplv2qKZKTzj+20+Y6hJEqYNoG17LQWZUtKgjFfDlTWPGrj
- 7P/gEK4ZUOxuKnAiMWNmg/Lni/PKcxyedUAJO3IZE6uI/KuqQXfkWt9UVVe+sCZHnTQz
- TdCedzUWlA+cXjrF3QmB3Cb3QxVWPWHeGJrhzWrQv+G4JTr3GqVXIpujWH4LUcAWo3ZC
- ms2Q==
-X-Gm-Message-State: AOAM533VbnobIOZdQZJ6/DNFfPg8EtccF8d6WkzPm53l18+bamQR43bz
- TajNJ3YBKxY2C3pzKOdEX63ff2H+r6yrtPdkmnmRVYOO
-X-Google-Smtp-Source: ABdhPJxLZA1F+vHxfU4bgY3dK+3bVGvu4y7l5II9IsxKq9CBt7dgZAolJxaXWutq6kuMtuUELoeSSrN4XQd/avyDpIc=
-X-Received: by 2002:a4a:b30d:: with SMTP id m13mr6459830ooo.50.1601576407420; 
- Thu, 01 Oct 2020 11:20:07 -0700 (PDT)
-MIME-Version: 1.0
-From: Bruno Prado <bruno@dcomp.ufs.br>
-Date: Thu, 1 Oct 2020 15:19:31 -0300
-Message-ID: <CAD5Umjr6Nu6fddP2LgkfxtTTKduHEMs=C49C2r_ZcMkopsYidw@mail.gmail.com>
-Subject: ARM semihosting issue
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000d8546e05b0a0106f"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
- envelope-from=bruno.otavio@gmail.com; helo=mail-oo1-xc2a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
+ id 1kO5XS-0005PT-Km; Thu, 01 Oct 2020 16:50:54 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:60756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
+ id 1kO5XQ-0004Nn-HA; Thu, 01 Oct 2020 16:50:54 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091KjAkG062179;
+ Thu, 1 Oct 2020 20:50:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=8H9Ag6o6uaSag0bF0YbC/ln1A3v4HCanhVapMPjUJ0k=;
+ b=yYoCp3qBMgFB3u8fW1xEBcb5N2iEfdf174bOyKGX8IE8yBSa0eLH4OOHurr8NZ3sueUp
+ iyzVvabRaKMQG79iXVx/o2nD+Nl5+7WJVNMTadB/wbJi9UheKnX1ycsRYNUS6TrZtkV9
+ IausLKPKf29xJYByCOUb5w4XvV1qttEp2ptCN9e/G3OyWr89oAXaEQn2qHqAI2tSiRqd
+ N/kyUlO2Iakp2O9ZoldbElNtNryrKY0EW+IX7c820hC317JIwPogFD47ruE+mq9lbzVL
+ Hq/2ipLKsSGck9/YkedE0GYiBxZiMksW2EV/AzUIXVW7neebm8/sVrL6Z2TxRxn/XO25 Fg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 33sx9ng8uq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 01 Oct 2020 20:50:48 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091KiwNv097719;
+ Thu, 1 Oct 2020 20:50:47 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 33uv2hdxp8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 01 Oct 2020 20:50:47 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 091Kok7q003698;
+ Thu, 1 Oct 2020 20:50:46 GMT
+Received: from ban25x6uut24.us.oracle.com (/10.153.73.24)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 01 Oct 2020 13:50:46 -0700
+From: Si-Wei Liu <si-wei.liu@oracle.com>
+To: mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH] vhost-vdpa: negotiate VIRTIO_NET_F_STATUS with driver
+Date: Thu,  1 Oct 2020 16:09:45 -0400
+Message-Id: <1601582985-14944-1-git-send-email-si-wei.liu@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ spamscore=0 adultscore=0
+ suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2010010168
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=0
+ phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
+ spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2010010168
+Received-SPF: pass client-ip=156.151.31.85; envelope-from=si-wei.liu@oracle.com;
+ helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 16:50:49
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 01 Oct 2020 16:32:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,36 +90,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: joao.m.martins@oracle.com, boris.ostrovsky@oracle.com,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d8546e05b0a0106f
-Content-Type: text/plain; charset="UTF-8"
+Vendor driver may not support or implement config
+interrupt delivery for link status notifications.
+In this event, vendor driver is expected to NACK
+the feature, but guest will keep link always up.
 
-Hi,
+Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+---
+ net/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I was able to use stdout, stderr for output and files for both input and
-output in qemu-system-arm, but stdin is not working (always returns -1 from
-syscall). I found no information and have already checked the code for
-possible hints.
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index bc0e0d2..55e01d9 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -55,6 +55,7 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
++    VIRTIO_NET_F_STATUS,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+-- 
+1.8.3.1
 
-I am on Arch Linux LTS + QEMU 5.1.0.
-
-Thanks,
-----
-Bruno Prado
-
---000000000000d8546e05b0a0106f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>I was able to use stdout, stderr fo=
-r output and files for both input and output in qemu-system-arm, but stdin =
-is not working (always returns -1 from syscall). I found no information and=
- have already checked the code for possible hints.</div><div><br></div><div=
->I am on Arch Linux LTS=C2=A0+ QEMU 5.1.0.</div><div><br></div><div>Thanks,=
-<br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_signature" data-smar=
-tmail=3D"gmail_signature">----<br>Bruno Prado</div></div></div></div>
-
---000000000000d8546e05b0a0106f--
 
