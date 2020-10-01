@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E968627FE7D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 13:35:00 +0200 (CEST)
-Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2DF27FE87
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 13:37:04 +0200 (CEST)
+Received: from localhost ([::1]:40898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNwrT-0002wn-I9
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 07:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46776)
+	id 1kNwtT-00054g-7u
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 07:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kNwqW-0002Ww-QZ
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 07:34:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44280)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kNwqU-0000d8-Fy
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 07:34:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601552037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=M0eMtFwx7HCmClTeR5uMXzCUF6n3RdR6tsK84I44RNI=;
- b=AjHB41CqxnzuGppNLEQe1TVL/pPG/nyk+w3Y6OTBWQfyJElwG/jK+JvSMRnTkhhekmapGR
- O1duRMxtQpHsnBH7sxYfp8jpfGCFdpBy6KS2hJAdtp+BC5WipMbMVtawkyn1LZduLRMk4f
- HoVdz2EuGY0ZVNmRZQAQjsiNwroTP1w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-_o3AVmP3Oiq_xUl8Kb0D5g-1; Thu, 01 Oct 2020 07:33:55 -0400
-X-MC-Unique: _o3AVmP3Oiq_xUl8Kb0D5g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E61064082;
- Thu,  1 Oct 2020 11:33:54 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-92.ams2.redhat.com [10.36.114.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 463F85C1D0;
- Thu,  1 Oct 2020 11:33:53 +0000 (UTC)
-Date: Thu, 1 Oct 2020 13:33:51 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 1/4] keyval: Parse help options
-Message-ID: <20201001113351.GB6673@linux.fritz.box>
-References: <20200930124557.51835-1-kwolf@redhat.com>
- <20200930124557.51835-2-kwolf@redhat.com>
- <001c321e-7400-f680-45ce-c920f078d5d8@redhat.com>
- <20200930151006.GF9292@linux.fritz.box>
- <87lfgq1bfx.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kNwqw-0002vw-6g
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 07:34:26 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kNwqt-0000h8-Vf
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 07:34:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=BGyhHyoCc1oV93JXqnUM17bJ5L+DMHTD5a28udAEA5o=; b=JXcWBI7SonwK4nRaC6LHvTFCCR
+ bRuivhIrcJkZ6jLa4yalxwzuzUrIS0j+2nUeShD7qHrywvV2OouiYj48rVuoSAQ/EaQ9hRrSGOKbf
+ 9m4k0CdW+VdrsoTQtAwME8rc2OdBIzkmPcHVKRFDn5j8HgXEvyG/GEzEzXNl+9lZ27ZHFsFgs8r8E
+ xIYbJP7w9ksbdreCSZiY/tQ0duaGN+ceuW5Q8UzLZEQb4BRtto/aw44ciW6UPXcCa5TulDjb6I4wS
+ jsjuC0xP2NHvMbrpUcNnQcyqvcE31kuxVPOCrHYRSf9SoHZts6IU4ccb9yFcKJkwN1uKo3xyD+1j3
+ QPEXb95g==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 08/12] tests/9pfs: refactor test names and test devices
+Date: Thu, 01 Oct 2020 13:34:18 +0200
+Message-ID: <2296259.KyODYMqAT8@silver>
+In-Reply-To: <0cafb215-e49e-902c-4794-bdb696a892d6@redhat.com>
+References: <cover.1601203436.git.qemu_oss@crudebyte.com>
+ <9648157.mzsJ5Dm3EP@silver> <0cafb215-e49e-902c-4794-bdb696a892d6@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87lfgq1bfx.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 07:34:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,71 +66,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.10.2020 um 12:34 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On Montag, 28. September 2020 18:38:00 CEST Paolo Bonzini wrote:
+> On 28/09/20 15:35, Christian Schoenebeck wrote:
+> >> As I said, the first two patches make total sense.  They would be useful
+> >> for testing both packed and split virtqueues, for example.  However, I
+> >> think the (useful) feature is being misused here.
+> > 
+> > I haven't understood why my suggested mult-device use case imposes a
+> > misusage, but okay, unless I hear different opinions, I'll prepare a v2
+> > with that (IMO hackish) CL fiddling instead in couple days or so.
 > 
-> > Am 30.09.2020 um 15:35 hat Eric Blake geschrieben:
-> >> On 9/30/20 7:45 AM, Kevin Wolf wrote:
-> >> > This adds a new parameter 'help' to keyval_parse() that enables parsing
-> >> > of help options. If NULL is passed, the function behaves the same as
-> >> > before. But if a bool pointer is given, it contains the information
-> >> > whether an option "help" without value was given (which would otherwise
-> >> > either result in an error or be interpreted as the value for an implied
-> >> > key).
-> >> > 
-> >> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> [...]
-> >> > +++ b/util/keyval.c
-> >> > @@ -166,7 +166,7 @@ static QObject *keyval_parse_put(QDict *cur,
-> >> >   * On failure, return NULL.
-> >> >   */
-> >> >  static const char *keyval_parse_one(QDict *qdict, const char *params,
-> >> > -                                    const char *implied_key,
-> >> > +                                    const char *implied_key, bool *help,
-> >> >                                      Error **errp)
-> >> >  {
-> >> >      const char *key, *key_end, *s, *end;
-> >> > @@ -238,13 +238,20 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
-> >> >      if (key == implied_key) {
-> >> >          assert(!*s);
-> >> >          s = params;
-> >> > +    } else if (*s == '=') {
-> >> > +        s++;
-> >> >      } else {
-> >> > -        if (*s != '=') {
-> >> > +        if (help && !strncmp(key, "help", s - key)) {
-> >> 
-> >> Should this use is_help_option() to also accept "?", or are we okay
-> >> demanding exactly "help"?
-> >
-> > The comment for is_help_option() calls "?" deprecated, so I think we
-> > don't want to enable it in a new parser.
-> 
-> Valid point.
-> 
-> But do we really want comparisons for "help" inline everywhere we want
-> to check for non-deprecated help requests?  Would a common helper
-> function be better?
+> Because in my opinion the backend in use is a property of the test
+> rather than a property of the device.
 
-How many more parsers are we going to add? I thought we intended the
-keyval parser to be the one canoncial place in the long term?
+Paolo, I'm back at square one after changing to single-device model as you 
+suggested:
 
-If you prefer, I can make this a second static inline function in
-include/qemu/help_option.h (that would have to work both as strcmp and
-as strncmp), but I don't see a second user that would make it a "common"
-helper.
+GTest: run: /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/pci-
+device/pci-device-tests/nop
+Run QEMU with: '-M pc  -device virtio-9p-pci'
+(MSG: starting QEMU: exec x86_64-softmmu/qemu-system-x86_64 -qtest unix:/tmp/
+qtest-18032.sock -qtest-log /dev/null -chardev socket,path=/tmp/
+qtest-18032.qmp,id=char0 -mon chardev=char0,mode=control -display none -M pc  
+-device virtio-9p-pci -accel qtest)
+qemu-system-x86_64: -device virtio-9p-pci: 9pfs device couldn't find fsdev 
+with the id = NULL
+Broken pipe
 
-> On the deprecation of "?": the comment is more than eight years old
-> (commit c8057f951d6).  We didn't have a deprecation process back then,
-> but we did purge '?' from the documentation.  Can we finally drop it?
-> I'm going to ask that in a new thread.
+This fundamental virtio-9p-pci test obviously needs a complete 9p command 
+line, that is either a 'synth' driver one, or a 'local' one. But simply either 
+picking one or another is inappropriate here. This test should run once for 
+'synth' and once for 'local'.
 
-I guess we can.
+Still not convinced that the multi-device route is the way to go?
 
-Kevin
+Best regards,
+Christian Schoenebeck
+
 
 
