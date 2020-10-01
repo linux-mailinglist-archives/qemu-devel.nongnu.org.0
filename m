@@ -2,92 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2B6280309
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:41:23 +0200 (CEST)
-Received: from localhost ([::1]:33448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E47828031B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:48:07 +0200 (CEST)
+Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0hu-000145-NQ
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:41:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56494)
+	id 1kO0oQ-0000qQ-8X
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0aR-0002gb-Go
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:33:39 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:37910)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0ZQ-0001yl-QQ
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:32:36 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:33937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0aL-0002Uf-EF
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:33:39 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091FJuUR156374;
- Thu, 1 Oct 2020 15:33:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=vOa43DurMXT/ALjF4zRlLkeIJcpT4yC4tq1PANvrQIA=;
- b=Whe9Id25vbxDx+y8rBM8Kpr4JmJg69sDycFobBk02YlT04XL2l3e1EGsCijJoy707X8I
- 9UR5/pADVktnMAHJDBv3k0J06L6IyKeR1kL6R27lisgMh/j1vXRNlQMgOYa5/LR7uX5C
- 4Euzg7k2xNrKTH8b+HkAPlQiXGkQHsJKmrTm5h7NXD+r/kh/PeAo+tH9ximLbTV22yRp
- oWvnymCBlMGppaiFZMnAULq5WO6eHyvvh1u7+PWEBINhqQimydFHYX916GETDSGyYyxA
- c/IvhIQHoPvMJYV+ZQtJbhFaXfpsj3mhoR4wwEWMEPJ+W8XqT3QVSoqax6EMampoBCBY 6Q== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 33su5b6ukk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 01 Oct 2020 15:33:30 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091FL0Mj093342;
- Thu, 1 Oct 2020 15:31:29 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 33uv2h36fm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 01 Oct 2020 15:31:29 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 091FVSPI019724;
- Thu, 1 Oct 2020 15:31:28 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 01 Oct 2020 08:31:27 -0700
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id AE86318EE1D4; Thu,  1 Oct 2020 16:31:24 +0100 (IST)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 09/16] fuzz: add a crossover function to generic-fuzzer
-In-Reply-To: <20200921022506.873303-10-alxndr@bu.edu>
-References: <20200921022506.873303-1-alxndr@bu.edu>
- <20200921022506.873303-10-alxndr@bu.edu>
-Date: Thu, 01 Oct 2020 16:31:24 +0100
-Message-ID: <m2eemi6jzn.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kO0ZO-0002L3-6f
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:32:36 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.35])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 04D74610C859;
+ Thu,  1 Oct 2020 17:32:31 +0200 (CEST)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 1 Oct 2020
+ 17:32:30 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0019824fd23-98ff-4ed8-a769-bf260a2596f9,
+ 2FD1C644E9D11323632A639817FC6AC7C89AF497) smtp.auth=clg@kaod.org
+Subject: Re: [RFC 0/3] QEMU as IPMI BMC emulator
+To: Havard Skinnemoen <hskinnemoen@google.com>, <minyard@acm.org>
+References: <20200929003916.4183696-1-hskinnemoen@google.com>
+ <20200929174644.GW3674@minyard.net>
+ <CAFQmdRaJOqDxOWgoJ6c4TFuJGw5zvb6KyUXoYT0SFJe1xJZhNQ@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <1804e3ba-f881-51cf-f1df-ba64ad303bf6@kaod.org>
+Date: Thu, 1 Oct 2020 17:32:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- suspectscore=1 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010132
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- suspectscore=1
- lowpriorityscore=0 spamscore=0 clxscore=1015 mlxscore=0 impostorscore=0
- malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010132
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=darren.kenny@oracle.com; helo=aserp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 09:58:19
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <CAFQmdRaJOqDxOWgoJ6c4TFuJGw5zvb6KyUXoYT0SFJe1xJZhNQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3128857c-7900-4de2-a1cf-47723b178c49
+X-Ovh-Tracer-Id: 17766137582518963052
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdelvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegvdeijeefvdfhudfhffeuveehledufffhvdekheelgedttddthfeigeevgefhffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehhshhkihhnnhgvmhhovghnsehgohhoghhlvgdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:04:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,138 +72,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Patrick Venture <venture@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
+ CS20 KFTing <kfting@nuvoton.com>, Joel Stanley <joel@jms.id.au>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As mentioned in an earlier patch, maybe the definition of SEPARATOR
-should be here as well as some of the comments you provided in the
-replies to it.
+ 
+>> Power handling is going to be a bit weird.  The OpenIPMI emulator
+>> starts/stops qemu based upon power control.  It might be possible to do
+>> the same thing in this sort of emulator.
+> 
+> Hmm, yeah, I guess we can't kill/restart qemu from within qemu itself.
+> But perhaps stopping all CPUs and doing a full system reset might be a
+> good enough approximation for power-off?
 
-Otherwise, this looks good,
+You can take a look at the QEMU PowerNV machine. It powers down through IPMI.
+Power ON is another story  ...
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-
-Thanks,
-
-Darren.
-
-On Sunday, 2020-09-20 at 22:24:59 -04, Alexander Bulekov wrote:
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  tests/qtest/fuzz/general_fuzz.c | 90 ++++++++++++++++++++++++++++++++-
->  1 file changed, 89 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/qtest/fuzz/general_fuzz.c b/tests/qtest/fuzz/general_fuzz.c
-> index 656ec7fd55..3833b505c8 100644
-> --- a/tests/qtest/fuzz/general_fuzz.c
-> +++ b/tests/qtest/fuzz/general_fuzz.c
-> @@ -741,6 +741,92 @@ static void general_pre_fuzz(QTestState *s)
->  
->      counter_shm_init();
->  }
-> +
-> +/*
-> + * When libfuzzer gives us two inputs to combine, return a new input with the
-> + * following structure:
-> + *
-> + * Input 1 (data1)
-> + * SEPARATOR
-> + * Clear out the DMA Patterns
-> + * SEPARATOR
-> + * Disable the pci_read/write instructions
-> + * SEPARATOR
-> + * Input 2 (data2)
-> + *
-> + * The idea is to collate the core behaviors of the two inputs.
-> + * For example:
-> + * Input 1: maps a device's BARs, sets up three DMA patterns, and triggers
-> + *          device functionality A
-> + * Input 2: maps a device's BARs, sets up one DMA pattern, and triggers device
-> + *          functionality B
-> + *
-> + * This function attempts to produce an input that:
-> + * Ouptut: maps a device's BARs, set up three DMA patterns, triggers
-> + *          functionality A device, replaces the DMA patterns with a single
-> + *          patten, and triggers device functionality B.
-> + */
-> +static size_t general_fuzz_crossover(const uint8_t *data1, size_t size1, const
-> +                                     uint8_t *data2, size_t size2, uint8_t *out,
-> +                                     size_t max_out_size, unsigned int seed)
-> +{
-> +    size_t copy_len = 0, size = 0;
-> +
-> +    /* Check that we have enough space for data1 and at least part of data2 */
-> +    if (max_out_size <= size + strlen(SEPARATOR) * 3 + 2) {
-> +        return 0;
-> +    }
-> +
-> +    /* Copy_Len in the first input */
-> +    copy_len = size1;
-> +    memcpy(out + size, data1, copy_len);
-> +    size += copy_len;
-> +    max_out_size -= copy_len;
-> +
-> +    /* Append a separator */
-> +    copy_len = strlen(SEPARATOR);
-> +    memcpy(out + size, SEPARATOR, copy_len);
-> +    size += copy_len;
-> +    max_out_size -= copy_len;
-> +
-> +    /* Clear out the DMA Patterns */
-> +    copy_len = 1;
-> +    if (copy_len) {
-> +        out[size] = OP_CLEAR_DMA_PATTERNS;
-> +    }
-> +    size += copy_len;
-> +    max_out_size -= copy_len;
-> +
-> +    /* Append a separator */
-> +    copy_len = strlen(SEPARATOR);
-> +    memcpy(out + size, SEPARATOR, copy_len);
-> +    size += copy_len;
-> +    max_out_size -= copy_len;
-> +
-> +    /* Disable PCI ops. Assume data1 took care of setting up PCI */
-> +    copy_len = 1;
-> +    if (copy_len) {
-> +        out[size] = OP_DISABLE_PCI;
-> +    }
-> +    size += copy_len;
-> +    max_out_size -= copy_len;
-> +
-> +    /* Append a separator */
-> +    copy_len = strlen(SEPARATOR);
-> +    memcpy(out + size, SEPARATOR, copy_len);
-> +    size += copy_len;
-> +    max_out_size -= copy_len;
-> +
-> +    /* Copy_Len over the second input */
-> +    copy_len = MIN(size2, max_out_size);
-> +    memcpy(out + size, data2, copy_len);
-> +    size += copy_len;
-> +    max_out_size -= copy_len;
-> +
-> +    return  size;
-> +}
-> +
-> +
->  static GString *general_fuzz_cmdline(FuzzTarget *t)
->  {
->      GString *cmd_line = g_string_new(TARGET_NAME);
-> @@ -760,7 +846,9 @@ static void register_general_fuzz_targets(void)
->              .description = "Fuzz based on any qemu command-line args. ",
->              .get_init_cmdline = general_fuzz_cmdline,
->              .pre_fuzz = general_pre_fuzz,
-> -            .fuzz = general_fuzz});
-> +            .fuzz = general_fuzz,
-> +            .crossover = general_fuzz_crossover
-> +    });
->  }
->  
->  fuzz_target_init(register_general_fuzz_targets);
-> -- 
-> 2.28.0
+C. 
+  
+ 
 
