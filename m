@@ -2,95 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D1280312
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:44:32 +0200 (CEST)
-Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CA7280300
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:40:16 +0200 (CEST)
+Received: from localhost ([::1]:59452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0kw-0005yD-Hz
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:44:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55554)
+	id 1kO0gp-0008TV-V7
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:40:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0WL-0006sD-6X
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:29:25 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:41148)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kO0WR-0006z3-5q; Thu, 01 Oct 2020 11:29:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1kO0WI-0001mo-4h
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:29:24 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091FJA7L003665;
- Thu, 1 Oct 2020 15:29:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=S0VVepJldlhplNlO5roQ4HUuf861U5hrJiC2ntMjPxk=;
- b=jeGnboacDKtFFwLbXQUE62L5+kqmtl+WFokXM21XSdEimhgXSpbNfxKBVxCT9QNaoj3C
- HqvsFEEApBSncWUgbDjkKK5FjN+JhjDsNm1XtVFicim1MyddsfNg7vTD1/lSTDkKSyNP
- 3T1u+toaV6sr484sfbQ2GZqqjWwuV6WipUMDWtwdCnjcVy4FfviCCORjo6nXNLPg0FZV
- s+FOlFDSaM423kcUwzgs0PZXzY496lUrmVCgCMs4G3kTwpnbIaz8R2IfcIYkxEiIRnzC
- mQzSWhxm/nl79uVDne54qNkx0s1NkAq1UhnXa77HnBQPhIJTz5aMAyA65aIGQHOi0pCu 3w== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 33sx9nen5r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 01 Oct 2020 15:29:18 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 091FL0M1093264;
- Thu, 1 Oct 2020 15:29:18 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 33uv2h336y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 01 Oct 2020 15:29:17 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 091FTGm6012036;
- Thu, 1 Oct 2020 15:29:16 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 01 Oct 2020 08:29:16 -0700
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id 958A818EE03C; Thu,  1 Oct 2020 16:29:12 +0100 (IST)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 02/16] fuzz: Add general virtual-device fuzzer
-In-Reply-To: <20200921143405.3taiymgzwvscxsry@mozz.bu.edu>
-References: <20200921022506.873303-1-alxndr@bu.edu>
- <20200921022506.873303-3-alxndr@bu.edu>
- <63ca7622-557b-4217-f15e-ee9b024fbd77@redhat.com>
- <20200921143405.3taiymgzwvscxsry@mozz.bu.edu>
-Date: Thu, 01 Oct 2020 16:29:12 +0100
-Message-ID: <m2h7re6k3b.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kO0WN-0001oY-7Y; Thu, 01 Oct 2020 11:29:30 -0400
+Received: from C02WT3WMHTD6 (rap-us.hgst.com [199.255.44.250])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7CE4420719;
+ Thu,  1 Oct 2020 15:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601566165;
+ bh=555IYNNoaWfxGKgf/qxov85wrFNy355cbjX1Rfz6uAg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kQ8kjSWjHMzzIeOS9sT+cW+b5zY6oBvnuQ8kBKP3+iqkzod/bR9HCRWipF59HI5XR
+ dBdCYIR15aRXSGaVHPn+GG5FJMv3KTshJsBEK3lGzWPFBVKczUn5TLfGOk580C6vHe
+ OjTVZrM1Tx1VmpVHktJyx1RRthjnWsjiatbn4Krk=
+Date: Thu, 1 Oct 2020 09:29:22 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [PATCH v5 05/14] hw/block/nvme: Add support for Namespace Types
+Message-ID: <20201001152922.GC3343@C02WT3WMHTD6>
+References: <20200928023528.15260-1-dmitry.fomichev@wdc.com>
+ <20200928023528.15260-6-dmitry.fomichev@wdc.com>
+ <20201001112245.GA316454@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010132
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- suspectscore=0
- phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010010132
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=darren.kenny@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:29:20
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201001112245.GA316454@localhost.localdomain>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:20:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,138 +64,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, bsd@redhat.com, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Thu, Oct 01, 2020 at 11:22:46AM +0000, Niklas Cassel wrote:
+> On Mon, Sep 28, 2020 at 11:35:19AM +0900, Dmitry Fomichev wrote:
+> > From: Niklas Cassel <niklas.cassel@wdc.com>
+> > @@ -2222,6 +2328,30 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+> >          break;
+> >      case 0x14:  /* CC */
+> >          trace_pci_nvme_mmio_cfg(data & 0xffffffff);
+> > +
+> > +        if (NVME_CC_CSS(data) != NVME_CC_CSS(n->bar.cc)) {
+> > +            if (NVME_CC_EN(n->bar.cc)) {
+> 
+> I just saw this print when doing controller reset on a live system.
+> 
+> Added a debug print:
+> nvme_write_bar WRITING: 0x0 previous: 0x464061
+> 
+> so the second if-statement has to be:
+> 
+>     if (NVME_CC_EN(n->bar.cc) && NVME_CC_EN(data)) {
+> 
+> Sorry for introducing the bug in the first place.
 
-On Monday, 2020-09-21 at 10:34:05 -04, Alexander Bulekov wrote:
-> On 200921 0743, Philippe Mathieu-Daud=C3=A9 wrote:
->> Hi Alexander,
->>=20
->> On 9/21/20 4:24 AM, Alexander Bulekov wrote:
->> > This is a generic fuzzer designed to fuzz a virtual device's
->> > MemoryRegions, as long as they exist within the Memory or Port IO (if =
-it
->> > exists) AddressSpaces. The fuzzer's input is interpreted into a sequen=
-ce
->> > of qtest commands (outb, readw, etc). The interpreted commands are
->> > separated by a magic seaparator, which should be easy for the fuzzer to
->> > guess. Without ASan, the separator can be specified as a "dictionary
->> > value" using the -dict argument (see libFuzzer documentation).
->> >=20
->> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->> > ---
->> >  tests/qtest/fuzz/general_fuzz.c | 498 ++++++++++++++++++++++++++++++++
->> >  tests/qtest/fuzz/meson.build    |   1 +
->> >  2 files changed, 499 insertions(+)
->> >  create mode 100644 tests/qtest/fuzz/general_fuzz.c
->> >=20
->> > diff --git a/tests/qtest/fuzz/general_fuzz.c b/tests/qtest/fuzz/genera=
-l_fuzz.c
->> > new file mode 100644
->> > index 0000000000..bf75b215ca
->> > --- /dev/null
->> > +++ b/tests/qtest/fuzz/general_fuzz.c
->> > @@ -0,0 +1,498 @@
->> > +/*
->> > + * General Virtual-Device Fuzzing Target
->> > + *
->> > + * Copyright Red Hat Inc., 2020
->> > + *
->> > + * Authors:
->> > + *  Alexander Bulekov   <alxndr@bu.edu>
->> > + *
->> > + * This work is licensed under the terms of the GNU GPL, version 2 or=
- later.
->> > + * See the COPYING file in the top-level directory.
->> > + */
->> > +
->> > +#include "qemu/osdep.h"
->> > +
->> > +#include <wordexp.h>
->> > +
->> > +#include "hw/core/cpu.h"
->> > +#include "tests/qtest/libqos/libqtest.h"
->> > +#include "fuzz.h"
->> > +#include "fork_fuzz.h"
->> > +#include "exec/address-spaces.h"
->> > +#include "string.h"
->> > +#include "exec/memory.h"
->> > +#include "exec/ramblock.h"
->> > +#include "exec/address-spaces.h"
->> > +#include "hw/qdev-core.h"
->> > +
->> > +/*
->> > + * SEPARATOR is used to separate "operations" in the fuzz input
->> > + */
->> > +#define SEPARATOR "FUZZ"
->>=20
->> Why use a separator when all pkt sizes are known?
-> Good point.=20
-> 1. When we add the DMA Pattern OP in patch 04/16, we now have
-> variable-width OPs.
-> 2. Even when everything has a known size, take for example the input:
-> Acb Bd Caaaa Effff
-> Where Operation A has size 3, B: size 2, C size 5 ...:
-> Simply by removing the first byte, we now have a completely different
-> sequence of operations:
-> Cbbdc Aaa Aef Ff...
-> Thus the separators "add some stability" to random mutations:
-> Cb FUZZ Bd FUZZ Caaaa FUZZ Effff ...
-> (Cb is now invalid/ignored, but the rest of the commands are still
-> intact)
-> There is some libfuzzer documentation about this technique:
-> https://github.com/google/fuzzing/blob/master/docs/split-inputs.md#magic-=
-separator
->
-> There is also a promising "FuzzDataProvider" header library that lets
-> you directly call functions, such as ConsumeBytes, or
-> ConsumeIntegralInRange, but unfortunately it is a C++ header.
+No worries.
 
-It might make sense to put the definition of SEPARATOR and some variant
-of the above the comments in patch 9 where you're adding this related
-functionality?
-
-It seems a little out of place here.
-
-Thanks,
-
-Darren.
-
->>=20
->> Can you fuzz writing "FUZZ" in memory? Like:
->> OP_WRITE(0x100000, "UsingLibFUZZerString")?
->
-> No.. Hopefully that's not a huge problem.
->
->> > +
->> > +enum cmds {
->> > +    OP_IN,
->> > +    OP_OUT,
->> > +    OP_READ,
->> > +    OP_WRITE,
->> > +    OP_CLOCK_STEP,
->> > +};
->> > +
->> > +#define DEFAULT_TIMEOUT_US 100000
->> > +#define USEC_IN_SEC 100000000
->>=20
->> Are you sure this definition is correct?
->>=20
-> Thanks for the catch...
->
->> > +
->> > +typedef struct {
->> > +    ram_addr_t addr;
->> > +    ram_addr_t size; /* The number of bytes until the end of the I/O =
-region */
->> > +} address_range;
->> > +
->> > +static useconds_t timeout =3D 100000;
->> [...]
->>=20
+I don't think the check should be here at all, really. The only check for valid
+CSS should be in nvme_start_ctrl(), which I posted yesterday.
+ 
+> > +                NVME_GUEST_ERR(pci_nvme_err_change_css_when_enabled,
+> > +                               "changing selected command set when enabled");
+> > +            } else {
+> > +                switch (NVME_CC_CSS(data)) {
+> > +                case CSS_NVM_ONLY:
+> > +                    trace_pci_nvme_css_nvm_cset_selected_by_host(data &
+> > +                                                                 0xffffffff);
+> > +                    break;
+> > +                case CSS_CSI:
+> > +                    NVME_SET_CC_CSS(n->bar.cc, CSS_CSI);
+> > +                    trace_pci_nvme_css_all_csets_sel_by_host(data & 0xffffffff);
+> > +                    break;
+> > +                case CSS_ADMIN_ONLY:
+> > +                    break;
+> > +                default:
+> > +                    NVME_GUEST_ERR(pci_nvme_ub_unknown_css_value,
+> > +                                   "unknown value in CC.CSS field");
+> > +                }
+> > +            }
+> > +        }
 
