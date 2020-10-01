@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC3A280296
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:23:26 +0200 (CEST)
-Received: from localhost ([::1]:47364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE045280249
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:15:03 +0200 (CEST)
+Received: from localhost ([::1]:49514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0QX-00085h-48
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49390)
+	id 1kO0IQ-0005Cm-9t
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO0BC-0004zI-1L
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:07:39 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34089)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kO0Fx-00039Z-CL
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:12:29 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:42920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO0B7-0006df-Sb
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:07:31 -0400
-Received: by mail-oi1-x241.google.com with SMTP id n2so5921312oij.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:07:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kO0Fu-0007Oh-SI
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:12:29 -0400
+Received: by mail-ej1-x636.google.com with SMTP id q13so8588427ejo.9
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:12:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ONkJIrbK1torrDdBGJJRgeh6kaC1KL96oZt5PF7RaCQ=;
- b=za4NkfDvWN13fGfHboT8pvEUjuwwCA5EtexythSanAihYxOnDZWA8VRW0Ni+Ix2NSy
- XVc3JDU0FtNDuHrSxnjuU9N3h4c3Y184susuYGN52YY39OMtb7mZFLdqTb0KWlN6jPI6
- tSGwV1ly3j+ciq+pPccJdlxfwv2qcWpEawqpYDeQJKhf6cnPOpWwzSb58EVAx8ZH2DdP
- NxuPnFm5h3m0uVPdW0lLq3hKDjCFNIAMIfLIJFaiBeVB168b3l8M3Q6aAecsggrrC7kq
- 4FMiYqYKhr312MPrmiy4nz8l1AGS8FzyfpuQV47tiSF8pr6j4mV4P4pyk9Yg8S92mn4/
- RxMQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ufkl596PRR/6f6zA/XRuoULkdebSj0NrQU1kYj2pEbg=;
+ b=mE/fqbCr1cdOZZ9oCXoPuft5c0iWmSnS7pcvDfzrdYkAcixX56Gl6bP06XQ0RFP6/4
+ keuMxYT5MpvxGJs9fhEPd6vtDSwWgIFdPk13RkLnlQJr9dsMjsj0un1t82O/NteTZOSc
+ eSz0G0JxKlRAymBoz76hSQwvqYBYWD1jBx1QX+88/mMpdQKSi2uQShZm697adsvjuadq
+ LGcO7FgD80r8+D/ayJ69VLy74lp47FloScKNmHCCdsqZNQSiGCEqOCy7Zf4E0LEpcfcm
+ ULg8v3Zg9Bnn478eeNXcL9QYqKAo6h7hS6MdttTS2EiIdZ/PGHeMTzUFYnSi+pFnrw8T
+ //Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ONkJIrbK1torrDdBGJJRgeh6kaC1KL96oZt5PF7RaCQ=;
- b=eaRreIGT0kcovGZXQlUgmzsRg+d9Tp7G1DFlIPCYwQRZS7jjeXB9VMa7vpOzO274Ci
- xZ6eus6+EqrmaML3v1OWAK7po3+2vX4L5/P/zd8uGzsdJezWgaJ0/8qGEhAv9wLKLNKs
- WTIVIHFEoXUTTfGOXSnUyQYRkRB36+pJJ7QdcVt8kgrpjH+Xpha8FG/1V0zl6RVVhwIC
- uY430gUV3MqGC2GUgzNt4aNoeJwA6Dh+S//SNCvWqMWmbx46YKSMBmGlXZGlfQQxVCWo
- hsbh3ipXlRQWtOklB/J+Yfr2mfjNHfndusHpWrVnb/35TLdHwjwCUO8SIUk6Rv5leuZB
- boyg==
-X-Gm-Message-State: AOAM530HIcaa7DVUDc8VljxbUEE1dGS8d9Sn7YVmZBujKaJb7kqaeRyB
- JAcbdQFD1FJcajN6BN/otajsPw==
-X-Google-Smtp-Source: ABdhPJzApCoMru70RR/TeB1THPIUStEW2ZhYghkU4YNToQFenvAvI66QXMb34m98QzSthuaM+fxpyA==
-X-Received: by 2002:a54:4501:: with SMTP id l1mr234140oil.165.1601564848549;
- Thu, 01 Oct 2020 08:07:28 -0700 (PDT)
-Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id y69sm648484otb.69.2020.10.01.08.07.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 08:07:27 -0700 (PDT)
-Subject: Re: [PATCH v1 00/20] s390x/tcg: Implement Vector enhancements
- facility and switch to z14
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20200930145523.71087-1-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5f9e3398-d84c-17af-42b2-c011cb5074f3@linaro.org>
-Date: Thu, 1 Oct 2020 10:07:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ufkl596PRR/6f6zA/XRuoULkdebSj0NrQU1kYj2pEbg=;
+ b=pGNvHzkqSFdCFo0WjgBrJHm/L/L0Uxo3Scth8RxgLXRVv2n5TLSiADNzBTxslSwZub
+ ePJqhdG+n2WgWnNXf2MqtvlsoBpRffFnmms4M0gEdor8WD725u1XMSLn1ehvZhL8o3UT
+ kogf1IQJpF2SUdEd5ScYIPUpfNpzD8rNBUtw+o/rb+vlqcUevQbwymOureFfP+X/mTu0
+ vcIhTFDlxnQahTRPu91tF04i/hQwdvtmt0R+HxpxNjOLt8ZDOAblz3Sa3X8v7GFQEfCQ
+ qQlveIUBiw87DAkr/+LcO4x5vCMsNMCqLSQuk2VKNfxQFNJKSm9QpU68LDuzzbchMm7K
+ lh6A==
+X-Gm-Message-State: AOAM531xmCMrj6yS3mYe4oQQ8TqOkiAiCiMTWYKB2QB51DjCdAa9n7n8
+ LuLY6OGAF/rVBmZ0VNSGnKywMXhHdJTwkPcZVSuMxA==
+X-Google-Smtp-Source: ABdhPJyE3kID8BEnbuvFOX5MhmFuDbHIyIFf9OwQieeU41ZeN6k+cU1/vgNanwNpWmnmClhP6BtLD0Kq5WDgFWV7w80=
+X-Received: by 2002:a17:906:c7d9:: with SMTP id
+ dc25mr4533419ejb.482.1601565143587; 
+ Thu, 01 Oct 2020 08:12:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200930145523.71087-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
+References: <20200930101305.305302-1-stefanha@redhat.com>
+ <CAFEAcA87+50vkXLkLwVtrtNn4No4Fvsjd+LDEEu2cmhJcQdZ=A@mail.gmail.com>
+ <20201001150248.GB559957@stefanha-x1.localdomain>
+In-Reply-To: <20201001150248.GB559957@stefanha-x1.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 1 Oct 2020 16:12:12 +0100
+Message-ID: <CAFEAcA9JdhSSJesCLB=F+GMc-wK4+ukHQwA18wdU7HaqoPiTfg@mail.gmail.com>
+Subject: Re: [PULL 00/17] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,28 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/20 9:55 AM, David Hildenbrand wrote:
-> This series adds support for the "Vector enhancements facility" and bumps
-> the qemu CPU model tp to a stripped-down z14.
-> 
-> I yet have to find a way to get more test coverage - looks like some of
-> the functions aren't used anywhere yet (e.g., VECTOR FP MAXIMUM), writing
-> unit tests to cover all functions and cases is just nasty. But I might be
-> wrong - I'm planning to at least test basic functionality of all new added
-> instructions.
+On Thu, 1 Oct 2020 at 16:03, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Thu, Oct 01, 2020 at 12:23:00PM +0100, Peter Maydell wrote:
+> > This produces this error message on ppc64be Linux:
+> >
+> > make: Entering directory `/home/pm215/qemu/build/all'
+> > make[1]: Entering directory `/home/pm215/qemu/slirp'
+> > make[1]: Nothing to be done for `all'.
+> > make[1]: Leaving directory `/home/pm215/qemu/slirp'
+> > Generating qemu-version.h with a meson_exe.py custom command
+> > Generating qemu-options.def with a meson_exe.py custom command
+> > Generating block-gen.c with a custom command
+> > YAML:1:83: error: unknown enumerated scalar
+> > {"IndentWidth": 4, "BraceWrapping": {"AfterFunction": true},
+> > "BreakBeforeBraces": "Custom", "SortIncludes": false,
+> > "MaxEmptyLinesToKeep": 2}
+> >
+> >            ^~~~~~~~
+> > Error parsing -style: Invalid argument, using LLVM style
+> > YAML:1:83: error: unknown enumerated scalar
+> > {"IndentWidth": 4, "BraceWrapping": {"AfterFunction": true},
+> > "BreakBeforeBraces": "Custom", "SortIncludes": false,
+> > "MaxEmptyLinesToKeep": 2}
+> >
+> >            ^~~~~~~~
+> > Error parsing -style: Invalid argument, using LLVM style
+> > Compiling C object libqemuutil.a.p/util_qemu-error.c.o
+> > Compiling C object libqemuutil.a.p/util_qemu-sockets.c.o
+> > Compiling C object libqemuutil.a.p/util_aio-posix.c.o
+> > Compiling C object libqemuutil.a.p/util_osdep.c.o
+> >
+> > The error does not cause the build to fail, which seems
+> > like it's also a bug...
+> >
+> > (My guess is this is due to some script implicitly wanting
+> > a newer version of something or other than the PPC box
+> > happens to have installed, rather than being an endianness
+> > issue.)
+>
+> Please rerun with make -j1 V=1 so the full command is printed. I'm not
+> sure what is emitting these errors.
 
-This is where RISU can be helpful.  Auto-generate 100k random variations,
-record known good results on hardware, verify that replay on qemu produces the
-same results.
+Build tree already overwritten to handle a different pullreq,
+I'm afraid. I can come back and retry later...
 
-
-r~
+thanks
+-- PMM
 
