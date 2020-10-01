@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73879280524
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:28:04 +0200 (CEST)
-Received: from localhost ([::1]:58682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569E5280582
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:36:00 +0200 (CEST)
+Received: from localhost ([::1]:49142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2N9-0006Wt-Fe
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59420)
+	id 1kO2Up-0006TK-F5
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO2Kh-0003zb-5h
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:25:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO2Ke-00048r-Ik
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:25:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601573127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Lv4WLDxnJrkoZQBcscmISvfcvYSoSChdT3SRgd724Yc=;
- b=S4ojbtCH8mNjvGd0GJfZ/lsLtAqoTcgR9i7glepWy0NggzZ9Yd3NGs4oDkgN6KoZ96njeG
- 5bVR5FLqOvixURyvd9a5yxmzR0T7munii/rDODIhSX1cnFEwsInesyTaDqGdNrrjWOTO+i
- AJLFqBVwQjQjA+ANlGJwG0wEgo1o8Oo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-MXJyYmrfOgesPyWk9BAuow-1; Thu, 01 Oct 2020 13:25:23 -0400
-X-MC-Unique: MXJyYmrfOgesPyWk9BAuow-1
-Received: by mail-wr1-f70.google.com with SMTP id b7so2333622wrn.6
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 10:25:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lv4WLDxnJrkoZQBcscmISvfcvYSoSChdT3SRgd724Yc=;
- b=oRc3WWV085/dTPRPdlXmgbsFhDt+1lDHXr98W0IPoM425a36DqjFwlGZL9WPSDg/X9
- HOqi4T93XW46LdWYHIGHrhfhJwlU3CVSvkW6FUYGIpE+4sv9z5cewyUxHXLKpY1fUnHC
- aRE2XeQvJ5w+xTMb1c3q8AHrAg7Yn3kmKQwwag3Tr1qC7Fvth0/+M99jwa205hj/tgrH
- cTSZxRTYwdi2b+jomzaexdjuCJe40fGRW3fj/BaWXHkK5rWU0eqHPn8yY7vuHkHVNbJT
- bOE/cyxavhtXnvAhH2ONF0YtpwHukYv7ypf6y2ohdEaRGUSfu0ZHAjl37/w49dcCBHbl
- SGiw==
-X-Gm-Message-State: AOAM531CEbu3uTL0r2fMFgc9MhCWKb671UXpFQXWtJja3V1j0kfnq1SP
- TKSEDobMbVF1fKwvI6hLIB/5GFu+GePS4V8F2QRDs11cVvA1PYHqxe7Up78MKrYtMUqSWsfIddw
- zeM36iDgwt6s9/Y8=
-X-Received: by 2002:a1c:2d86:: with SMTP id t128mr1095969wmt.189.1601573121843; 
- Thu, 01 Oct 2020 10:25:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8EiCPF2RTHwLfVIznuGhrjHqtAqJ6D72AoU53KJgHIX7ZN7MXBehfvtde1YgEg4frs25cuw==
-X-Received: by 2002:a1c:2d86:: with SMTP id t128mr1095952wmt.189.1601573121638; 
- Thu, 01 Oct 2020 10:25:21 -0700 (PDT)
-Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id a15sm10873449wrn.3.2020.10.01.10.25.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 10:25:21 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v2 00/16] hw: Let DMA/PCI API take MemTxAttrs argument
- and propagate MemTxResult
-Date: Thu,  1 Oct 2020 19:25:03 +0200
-Message-Id: <20201001172519.1620782-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kO2Ks-0004NC-Hp
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:25:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46880)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kO2Kq-0004F8-9B
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:25:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kO2Ko-0001bX-7C
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 17:25:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 334B92E8025
+ for <qemu-devel@nongnu.org>; Thu,  1 Oct 2020 17:25:38 +0000 (UTC)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 01 Oct 2020 17:20:32 -0000
+From: Ophir LOJKINE <1898084@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pere-jobs
+X-Launchpad-Bug-Reporter: Ophir LOJKINE (pere-jobs)
+X-Launchpad-Bug-Modifier: Ophir LOJKINE (pere-jobs)
+Message-Id: <160157283310.5327.3681752113841049978.malonedeb@soybean.canonical.com>
+Subject: [Bug 1898084] [NEW] Assertion failed: (buf_len != 0), function soread,
+ file socket.c, line 183.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
+X-Launchpad-Hash: 24564ec3b74af9e61ebdd9c4d82493833731e514
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 13:25:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,90 +71,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1898084 <1898084@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a respin of:
+Public bug reported:
 
-"dma: Let the DMA API take MemTxAttrs argument and propagate MemTxResult"
-https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02048.html
+I have a virtual raspberry py that I am running qemu 5.1.0 for MacOS.
 
-and:
-"pci: Let PCI DMA API functions propagate a MemTxResult"
-https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02048.html
+Here is the command line I used:
 
-(resent using correct git-profile).
+qemu-system-arm \
+  -M versatilepb \
+  -cpu arm1176 \
+  -m 256 \
+  -drive file=3D2020-08-20-raspios-buster-armhf-lite.img,if=3Dnone,index=3D=
+0,media=3Ddisk,format=3Draw,id=3Ddisk0 \
+  -device virtio-blk-pci,drive=3Ddisk0,disable-modern=3Don,disable-legacy=
+=3Doff \
+  -net nic -net user,hostfwd=3Dtcp::5022-:22 \
+  -dtb versatile-pb-buster-5.4.51.dtb \
+  -kernel kernel-qemu-5.4.51-buster \
+  -append "root=3D/dev/vda2 panic=3D1" \
+  -no-reboot \
+  -serial stdio
 
-The DMA API propagates MemTxResult:
-- MEMTX_OK,
-- MEMTX_device_ERROR,
-- MEMTX_DECODE_ERROR.
+When trying to ssh from another machine while docker was running inside
+the VM, I got the following error:
 
-Let the PCI DMA API propagate them, as they are
-clearer than an undocumented 'int'.
+Assertion failed: (buf_len !=3D 0), function soread, file /private/tmp/qemu=
+-20200813-13289-1g95loa/qemu-5.1.0/slirp/src/socket.c, line 183
+../boot.sh: line 12:  8592 Abort trap: 6
 
-Klaus Jensen (1):
-  pci: pass along the return value of dma_memory_rw
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-Philippe Mathieu-Daudé (15):
-  docs/devel/loads-stores: Add regexp for DMA functions
-  dma: Document address_space_map/address_space_unmap() prototypes
-  dma: Let dma_memory_set() propagate MemTxResult
-  dma: Let dma_memory_rw() propagate MemTxResult
-  dma: Let dma_memory_read() propagate MemTxResult
-  dma: Let dma_memory_write() propagate MemTxResult
-  dma: Let dma_memory_valid() take MemTxAttrs argument
-  dma: Let dma_memory_set() take MemTxAttrs argument
-  dma: Let dma_memory_rw_relaxed() take MemTxAttrs argument
-  dma: Let dma_memory_rw() take MemTxAttrs argument
-  dma: Let dma_memory_read/write() take MemTxAttrs argument
-  dma: Let dma_memory_map() take MemTxAttrs argument
-  pci: Let pci_dma_rw() propagate MemTxResult
-  pci: Let pci_dma_read() propagate MemTxResult
-  pci: Let pci_dma_write() propagate MemTxResult
+-- =
 
- docs/devel/loads-stores.rst   |   2 +
- include/hw/pci/pci.h          |  57 +++++++++++--
- include/hw/ppc/spapr_vio.h    |  11 ++-
- include/sysemu/dma.h          | 155 +++++++++++++++++++++++++++-------
- dma-helpers.c                 |  16 ++--
- hw/arm/musicpal.c             |  13 +--
- hw/arm/smmu-common.c          |   3 +-
- hw/arm/smmuv3.c               |  14 +--
- hw/core/generic-loader.c      |   3 +-
- hw/display/virtio-gpu.c       |   8 +-
- hw/dma/pl330.c                |  12 ++-
- hw/dma/sparc32_dma.c          |  16 ++--
- hw/dma/xlnx-zynq-devcfg.c     |   6 +-
- hw/dma/xlnx_dpdma.c           |  10 ++-
- hw/hyperv/vmbus.c             |   8 +-
- hw/i386/amd_iommu.c           |  16 ++--
- hw/i386/intel_iommu.c         |  28 +++---
- hw/ide/ahci.c                 |   9 +-
- hw/ide/macio.c                |   2 +-
- hw/intc/spapr_xive.c          |   3 +-
- hw/intc/xive.c                |   7 +-
- hw/misc/bcm2835_property.c    |   3 +-
- hw/misc/macio/mac_dbdma.c     |  10 ++-
- hw/net/allwinner-sun8i-emac.c |  21 +++--
- hw/net/ftgmac100.c            |  25 ++++--
- hw/net/imx_fec.c              |  32 ++++---
- hw/nvram/fw_cfg.c             |  12 ++-
- hw/pci-host/pnv_phb3.c        |   5 +-
- hw/pci-host/pnv_phb3_msi.c    |   9 +-
- hw/pci-host/pnv_phb4.c        |   7 +-
- hw/sd/allwinner-sdhost.c      |  14 +--
- hw/sd/sdhci.c                 |  35 +++++---
- hw/usb/hcd-dwc2.c             |   8 +-
- hw/usb/hcd-ehci.c             |   6 +-
- hw/usb/hcd-ohci.c             |  28 +++---
- hw/usb/hcd-xhci.c             |  18 ++--
- hw/usb/libhw.c                |   3 +-
- hw/virtio/virtio.c            |   6 +-
- 38 files changed, 439 insertions(+), 202 deletions(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1898084
 
--- 
-2.26.2
+Title:
+  Assertion failed: (buf_len !=3D 0), function soread, file socket.c, line
+  183.
 
+Status in QEMU:
+  New
+
+Bug description:
+  I have a virtual raspberry py that I am running qemu 5.1.0 for MacOS.
+
+  Here is the command line I used:
+
+  qemu-system-arm \
+    -M versatilepb \
+    -cpu arm1176 \
+    -m 256 \
+    -drive file=3D2020-08-20-raspios-buster-armhf-lite.img,if=3Dnone,index=
+=3D0,media=3Ddisk,format=3Draw,id=3Ddisk0 \
+    -device virtio-blk-pci,drive=3Ddisk0,disable-modern=3Don,disable-legacy=
+=3Doff \
+    -net nic -net user,hostfwd=3Dtcp::5022-:22 \
+    -dtb versatile-pb-buster-5.4.51.dtb \
+    -kernel kernel-qemu-5.4.51-buster \
+    -append "root=3D/dev/vda2 panic=3D1" \
+    -no-reboot \
+    -serial stdio
+
+  When trying to ssh from another machine while docker was running
+  inside the VM, I got the following error:
+
+  Assertion failed: (buf_len !=3D 0), function soread, file /private/tmp/qe=
+mu-20200813-13289-1g95loa/qemu-5.1.0/slirp/src/socket.c, line 183
+  ../boot.sh: line 12:  8592 Abort trap: 6
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1898084/+subscriptions
 
