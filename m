@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D9C27F8EC
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 07:10:40 +0200 (CEST)
-Received: from localhost ([::1]:32834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA1E27F963
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:19:45 +0200 (CEST)
+Received: from localhost ([::1]:51680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNqrX-0002iL-7s
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 01:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53970)
+	id 1kNrwN-0006lB-Or
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNqqH-0002AH-Al
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 01:09:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38433)
+ (Exim 4.90_1) (envelope-from <jfreimann@redhat.com>)
+ id 1kNrtq-0003jW-FH
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNqqF-0004Vt-LD
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 01:09:21 -0400
+ (Exim 4.90_1) (envelope-from <jfreimann@redhat.com>)
+ id 1kNrto-0003oT-4A
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:06 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601528957;
+ s=mimecast20190719; t=1601533022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K9lCOsKD2b4dh8GnAReuq9vVLCVB81CtqawkVpAhRsc=;
- b=bY9pyMSYSii5GdTmPmJxQ85fqJSQlITojPlp4QtDatM4X1cPptfstHG0BhA6FuQDeHmMdi
- ILsYhy+/6EfdHB0f96HrLBH0fUIFLcX+4mLb6RwTKOXE0BGB1IjKvHzwGR8QxuX0cyCiu2
- iXsah6JBQ11jf6VqGNJgrHlqiZf0Gv4=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mDdZmpl8jPsER4JHBLbpGGbk5Zu+2zI44eesLxjsBHU=;
+ b=LpkeohIe/Dj/Jlah9etwSYlYzPdF9sp5a0WMG8tRIYDN+9eoboIg9EdUd+SNoXFaom78Uz
+ BH/NTgixKckYeh9owGElyvMzeHul58veA27hEpHi3tw9wk96+xsYJ38KQfwvQK0wwW9R7s
+ 1QsP3DDS1V3Rfau+YjNHDzWjsv7MGQo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-cgAPHMM2NqGHoKTfyDiZuw-1; Thu, 01 Oct 2020 01:09:15 -0400
-X-MC-Unique: cgAPHMM2NqGHoKTfyDiZuw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-252-yn6HIPvmOIyfRU2YcEUbzw-1; Thu, 01 Oct 2020 02:15:28 -0400
+X-MC-Unique: yn6HIPvmOIyfRU2YcEUbzw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3225E7A1E3;
- Thu,  1 Oct 2020 05:09:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
- [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D60307880B;
- Thu,  1 Oct 2020 05:09:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 53096113864A; Thu,  1 Oct 2020 07:09:12 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 11/11] qapi: Restrict code generated for user-mode
-References: <20200930164949.1425294-1-philmd@redhat.com>
- <20200930164949.1425294-12-philmd@redhat.com>
-Date: Thu, 01 Oct 2020 07:09:12 +0200
-In-Reply-To: <20200930164949.1425294-12-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 30 Sep 2020 18:49:49
- +0200")
-Message-ID: <87mu164jnr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8FB1807350
+ for <qemu-devel@nongnu.org>; Thu,  1 Oct 2020 06:15:27 +0000 (UTC)
+Received: from localhost (ovpn-112-119.ams2.redhat.com [10.36.112.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04B155578E;
+ Thu,  1 Oct 2020 06:15:20 +0000 (UTC)
+From: Jens Freimann <jfreimann@redhat.com>
+To: dgilbert@redhat.com,
+	stefanha@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [RFC 0/1] tools/virtiofsd: don't create temporary directory in /
+Date: Thu,  1 Oct 2020 08:15:18 +0200
+Message-Id: <20201001061519.636959-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfreimann@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jfreimann@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 00:27:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -85,122 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Richard Henderson <rth@twiddle.net>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: fidencio@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+When running a Kata container with virtiofs in OpenShift/k8s I get a
+"Operation not permitted" error from a mkdtemp() call in virtiofsd
+because it is trying to create a directory like /virtiofsd.11RAND
 
-> A lot of QAPI generated code is never used by user-mode.
->
-> Split out qapi_system_modules and qapi_system_or_tools_modules
-> from the qapi_all_modules array. We now have 3 groups:
-> - always used
-> - use by system-mode or tools (usually by the block layer)
-> - only used by system-mode
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Resetting due to Meson update:
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  qapi/meson.build | 51 ++++++++++++++++++++++++++++++++++--------------
->  1 file changed, 36 insertions(+), 15 deletions(-)
->
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index 7c4a89a882..ba9677ba97 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -14,39 +14,60 @@ util_ss.add(files(
->  ))
-> =20
->  qapi_all_modules =3D [
-> +  'common',
-> +  'introspect',
-> +  'misc',
-> +]
-> +
-> +qapi_system_modules =3D [
->    'acpi',
->    'audio',
-> +  'dump',
-> +  'machine-target',
-> +  'machine',
-> +  'migration',
-> +  'misc-target',
-> +  'net',
-> +  'pci',
-> +  'qdev',
-> +  'rdma',
-> +  'rocker',
-> +  'tpm',
-> +  'trace',
-> +]
-> +
-> +# system or tools
-> +qapi_block_modules =3D [
->    'authz',
->    'block-core',
->    'block',
->    'char',
-> -  'common',
->    'control',
->    'crypto',
-> -  'dump',
->    'error',
-> -  'introspect',
->    'job',
-> -  'machine',
-> -  'machine-target',
-> -  'migration',
-> -  'misc',
-> -  'misc-target',
-> -  'net',
->    'pragma',
-> -  'qdev',
-> -  'pci',
->    'qom',
-> -  'rdma',
-> -  'rocker',
->    'run-state',
->    'sockets',
-> -  'tpm',
-> -  'trace',
->    'transaction',
->    'ui',
->  ]
+To avoid this change in virtiofsd, I've tried to set the TMPDIR
+environment variable for the virtiofsd process, hoping that mkdtemp()
+would use it, but it does not. Looking at glibc code it seems to be used
+by tmpfile() etc. only. 
 
-Most of these aren't "block modules".  Name the thing
-qapi_system_or_tools_modules?
+I'm sending this as an RFC because:
+Maybe just prepending "/tmp" is not generic enough and we should make it
+somehow configurable or use $TMPDIR. Also there might be security
+implications I'm not aware of.
+The process is running with container_kvm_t context which also needs
+a change to be allowed to create files in tmpfs to make it work.
 
-> +if have_system
-> +  qapi_all_modules +=3D qapi_system_modules
-> +elif have_user
-> +  # Temporary kludge because X86CPUFeatureWordInfo is not
-> +  # restricted to system-mode. This should be removed (along
-> +  # with target/i386/feature-stub.c) once target/i386/cpu.c
-> +  # has been cleaned.
-> +  qapi_all_modules +=3D ['machine-target']
-> +endif
-> +
-> +if have_block
 
-Aha, precedence for using "block" as an abbreviation of "system or
-tools".  I find that confusing.
 
-> +  qapi_all_modules +=3D qapi_block_modules
-> +endif
-> +
->  qapi_storage_daemon_modules =3D [
->    'block-core',
->    'char',
+Jens Freimann (1):
+  tools/virtiofsd: create tmpdir in /tmp
+
+ tools/virtiofsd/passthrough_ll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.26.2
 
 
