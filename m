@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA1E27F963
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:19:45 +0200 (CEST)
-Received: from localhost ([::1]:51680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E5E27F960
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 08:18:19 +0200 (CEST)
+Received: from localhost ([::1]:45168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNrwN-0006lB-Or
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38128)
+	id 1kNrv0-00045O-DG
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 02:18:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jfreimann@redhat.com>)
- id 1kNrtq-0003jW-FH
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33215)
+ id 1kNrtW-0003V6-NQ
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:16:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jfreimann@redhat.com>)
- id 1kNrto-0003oT-4A
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:17:06 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601533022;
+ id 1kNrtU-0003nH-PY
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 02:16:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601533003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mDdZmpl8jPsER4JHBLbpGGbk5Zu+2zI44eesLxjsBHU=;
- b=LpkeohIe/Dj/Jlah9etwSYlYzPdF9sp5a0WMG8tRIYDN+9eoboIg9EdUd+SNoXFaom78Uz
- BH/NTgixKckYeh9owGElyvMzeHul58veA27hEpHi3tw9wk96+xsYJ38KQfwvQK0wwW9R7s
- 1QsP3DDS1V3Rfau+YjNHDzWjsv7MGQo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jMhiCYTulrCs3rMIemToNNTiMynHjt1hcbHGDIKvN+U=;
+ b=b9gumycU8giDhtcXROkU3XGfAATPsemOoWuGw4fnUP8dowkFZHEdLdRY4CLlsSkn4L6fr5
+ gT51lAOoZMOx7W52dqqKcu+VAZ4YF2DeA2NK4WoAXfnzA9EluOV4vJbXsu8lvEsyvNr0tO
+ 3ZqyHEm19VgnONx8U/RzrMbWYWbOxAk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-yn6HIPvmOIyfRU2YcEUbzw-1; Thu, 01 Oct 2020 02:15:28 -0400
-X-MC-Unique: yn6HIPvmOIyfRU2YcEUbzw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-262-Q7nUXxa3OKy3j_9XhKaH7g-1; Thu, 01 Oct 2020 02:15:37 -0400
+X-MC-Unique: Q7nUXxa3OKy3j_9XhKaH7g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8FB1807350
- for <qemu-devel@nongnu.org>; Thu,  1 Oct 2020 06:15:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92FDF1DDFE
+ for <qemu-devel@nongnu.org>; Thu,  1 Oct 2020 06:15:36 +0000 (UTC)
 Received: from localhost (ovpn-112-119.ams2.redhat.com [10.36.112.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04B155578E;
- Thu,  1 Oct 2020 06:15:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A89105C1CF;
+ Thu,  1 Oct 2020 06:15:29 +0000 (UTC)
 From: Jens Freimann <jfreimann@redhat.com>
 To: dgilbert@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [RFC 0/1] tools/virtiofsd: don't create temporary directory in /
-Date: Thu,  1 Oct 2020 08:15:18 +0200
-Message-Id: <20201001061519.636959-1-jfreimann@redhat.com>
+Subject: [RFC 1/1] tools/virtiofsd: create temporary directory in /tmp
+Date: Thu,  1 Oct 2020 08:15:19 +0200
+Message-Id: <20201001061519.636959-2-jfreimann@redhat.com>
+In-Reply-To: <20201001061519.636959-1-jfreimann@redhat.com>
+References: <20201001061519.636959-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfreimann@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,30 +86,31 @@ Cc: fidencio@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running a Kata container with virtiofs in OpenShift/k8s I get a
-"Operation not permitted" error from a mkdtemp() call in virtiofsd
-because it is trying to create a directory like /virtiofsd.11RAND
+mkdtemp() will try to create a current directory in the working
+directory of the process. In this case it's trying to create it in /.
+This is a problem when the process doesn't have write access there.
 
-To avoid this change in virtiofsd, I've tried to set the TMPDIR
-environment variable for the virtiofsd process, hoping that mkdtemp()
-would use it, but it does not. Looking at glibc code it seems to be used
-by tmpfile() etc. only. 
+This patch changes the template string and prepends "/tmp" which is
+typically writable.
 
-I'm sending this as an RFC because:
-Maybe just prepending "/tmp" is not generic enough and we should make it
-somehow configurable or use $TMPDIR. Also there might be security
-implications I'm not aware of.
-The process is running with container_kvm_t context which also needs
-a change to be allowed to create files in tmpfs to make it work.
-
-
-
-Jens Freimann (1):
-  tools/virtiofsd: create tmpdir in /tmp
-
+Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+---
  tools/virtiofsd/passthrough_ll.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 0b229ebd57..f79bcce0d7 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2393,7 +2393,7 @@ static void setup_wait_parent_capabilities(void)
+ static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
+ {
+     pid_t child;
+-    char template[] = "virtiofsd-XXXXXX";
++    char template[] = "/tmp/virtiofsd-XXXXXX";
+     char *tmpdir;
+ 
+     /*
 -- 
 2.26.2
 
