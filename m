@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1275F280427
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:43:21 +0200 (CEST)
-Received: from localhost ([::1]:55254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68157280422
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:41:19 +0200 (CEST)
+Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1fs-0006zv-3k
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
+	id 1kO1du-0003z5-F5
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:41:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO1Sq-0000Is-W5
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:29:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40636)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO1Sl-0003cu-Ek
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:29:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601569786;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GFpPeAXjKc/8xBfSvvEE2WqFS5XinOd4OXRsQgDMK1U=;
- b=DP/RrD+BsQqiCGbYgawf4Q22qxh2yBH/gTaCSXp4b4G2FGYoP253cyVKJrpEK4meu+jW44
- jAHNk0chO4EpJGSvrFN3Sv0dQoT/MMiIziHPfXCoKyBWVGQA1QtYkagYXWhiIKHyIcowey
- MOp+vQFeGeq6qg0wG9W91ARlJGlFIFM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-pTRD-Oa8NJ2o_8drGXtSkQ-1; Thu, 01 Oct 2020 12:29:45 -0400
-X-MC-Unique: pTRD-Oa8NJ2o_8drGXtSkQ-1
-Received: by mail-wr1-f72.google.com with SMTP id f18so2257971wrv.19
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:29:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO1TQ-0001C2-5H
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:30:28 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO1TN-0003kS-U5
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:30:27 -0400
+Received: by mail-ot1-x342.google.com with SMTP id m12so6074865otr.0
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=22dMjxOWJhqG+irRskkFjwXOStfShxVwK0tEpj/xEEo=;
+ b=PbARUAn8z8Q+WWaBbK2PCktSA20FwJ/Gie1PmoKW+E1p1KuKX90LKhwnCq+Qim5jrE
+ rY/9vtP7d5JfOAJcNcLtmg2XYuECq/QLavsAPebPx2DpGUSON6YceDKVF4GadmOIzXNw
+ szbImPWwxfh07sgP035hAhSZED43uG4dGPrmtzH+oJcGHVVMER+LT9fKXqmErOOsEQmm
+ d24fBszEzS7fcivEywKGhDI7fRSuqwG9F68ZlykXr/+dzoBePPKQN+QrV5psreIT580h
+ Ueld4KH/C78jQqAvuIr9fxeb/erqqWpIDSVXtRGLGwd7PQMIYDvoJrcqQKAbwV4VVLeL
+ CjDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GFpPeAXjKc/8xBfSvvEE2WqFS5XinOd4OXRsQgDMK1U=;
- b=miEgASn+TvBc0UXZC4yDoHfFCq8nGimssEA7+aeYmQCZiXTQ/plq0LHfeBQTTo6nW6
- agSRoTBQH1AypgVSbOiu2z9HseB3AZlQUzJKVRfdMCE0YtXeV028VWYIwqh/UpNKYsDW
- vqztFNXo2/AiJ1fZhYGvx6x9PXchMyGu5kIMtPgPI8LuIvvBIgr5FovqQT1K70coHx5z
- oxDtV8zf8fMYy6jF16DIUOYMcJ/cYLNVIJJXa/jJ9CME8GxFiJWNC2wP/Y/5GgLrHclm
- iby6mfeqFSjkGjsBaGduZ/IfqXMMVAfgPzSAJ3zILUtQ6fisvKtt3/i9QH6N8PfOrxv3
- QT8w==
-X-Gm-Message-State: AOAM530KbBQCaBU/p03Eh8Mzsviy4te7e1Dln9ZJcXH6HUDI4uR5x4mW
- W8CepfVWBhmMwPwbU2Q4WF2lN8KUHqWkWcivsFpU7/G+4QwovZN9jXsRLXgijj/aGbcZjhLI0oL
- 43BOItC9XCrQMA9w=
-X-Received: by 2002:a5d:4811:: with SMTP id l17mr10297747wrq.252.1601569782890; 
- Thu, 01 Oct 2020 09:29:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwjTaHuHL75fRAn9iekkKWdwW9UYcdNq30QjO1/sEKgB54Xr0JqhV2TL9p0wC9M0U6PZhXgwg==
-X-Received: by 2002:a5d:4811:: with SMTP id l17mr10297721wrq.252.1601569782655; 
- Thu, 01 Oct 2020 09:29:42 -0700 (PDT)
-Received: from x1w.redhat.com (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id m13sm704376wml.5.2020.10.01.09.29.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 09:29:41 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] block/nvme: Add driver statistics for access alignment and
- hw errors
-Date: Thu,  1 Oct 2020 18:29:39 +0200
-Message-Id: <20201001162939.1567915-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ bh=22dMjxOWJhqG+irRskkFjwXOStfShxVwK0tEpj/xEEo=;
+ b=hFAGLiLrdHVK0lEi3mt9QKHHAik8UtfTkz/cvNyyF1LoxL6bC8anBkIbU3fFXTphhz
+ ZnMHBXpQsPvGMTlyHSQU3JaB9k6+GyS7to/kn4b+ULIQQUfAC7tlD1CEcjZ/q5HMdnEE
+ 8LY09Z0pDU1wQ4wYiKr9kF6FxwWKQMBJKcia+iGSb5TFLukMPp0O9UA9XkKAERiFh2ay
+ AvuNwm2NuCUJqoxyN195qnBH+/6lVrfEV4lxuW0HOfev/FlLrWXXDiNEucyx8HFQLY92
+ W5+BlOs0nwpFUQrfSoyKYM7vAMlrNADriSgTk2CBgQ04xeCY3vAdN2XWlalKTmMzGnTq
+ a/YQ==
+X-Gm-Message-State: AOAM5319LjWtewsTDnBXvtmfwt3p6RoQnERIMR4cIZa7YxpmqqZ4zZSM
+ lGD+wPrhLrVHX9YtQz8o6U+AJQ==
+X-Google-Smtp-Source: ABdhPJwxCAVGwhMtQfmMS+GBf5yXsoHub7oDrtOmnycaxWEsVS2cUP6qKhWSCCYnOioWYOB2xWXNNw==
+X-Received: by 2002:a9d:24aa:: with SMTP id z39mr5529475ota.258.1601569824635; 
+ Thu, 01 Oct 2020 09:30:24 -0700 (PDT)
+Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id i6sm1229838oig.54.2020.10.01.09.30.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Oct 2020 09:30:23 -0700 (PDT)
+Subject: Re: [PATCH v1 15/20] s390x/tcg: Implement 32/128 bit for VECTOR FP
+ TEST DATA CLASS IMMEDIATE
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200930145523.71087-1-david@redhat.com>
+ <20200930145523.71087-16-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <755b4603-cca0-c5fc-6996-e521a3bec12f@linaro.org>
+Date: Thu, 1 Oct 2020 11:30:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200930145523.71087-16-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,176 +91,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keep statistics of some hardware errors, and number of
-aligned/unaligned I/O accesses.
+On 9/30/20 9:55 AM, David Hildenbrand wrote:
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/helper.h           |  3 ++
+>  target/s390x/translate_vx.c.inc | 26 ++++++++---
+>  target/s390x/vec_fpu_helper.c   | 76 +++++++++++++++++++--------------
+>  3 files changed, 69 insertions(+), 36 deletions(-)
+> 
+> diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+> index bee283e3d4..c2ded83669 100644
+> --- a/target/s390x/helper.h
+> +++ b/target/s390x/helper.h
+> @@ -331,8 +331,11 @@ DEF_HELPER_FLAGS_5(gvec_vfs32s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+>  DEF_HELPER_FLAGS_5(gvec_vfs64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+>  DEF_HELPER_FLAGS_5(gvec_vfs64s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+>  DEF_HELPER_FLAGS_5(gvec_vfs128, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+> +DEF_HELPER_4(gvec_vftci32, void, ptr, cptr, env, i32)
+> +DEF_HELPER_4(gvec_vftci32s, void, ptr, cptr, env, i32)
+>  DEF_HELPER_4(gvec_vftci64, void, ptr, cptr, env, i32)
+>  DEF_HELPER_4(gvec_vftci64s, void, ptr, cptr, env, i32)
+> +DEF_HELPER_4(gvec_vftci128, void, ptr, cptr, env, i32)
+>  
+>  #ifndef CONFIG_USER_ONLY
+>  DEF_HELPER_3(servc, i32, env, i64, i64)
+> diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
+> index 7d4811ccf7..6bd599b319 100644
+> --- a/target/s390x/translate_vx.c.inc
+> +++ b/target/s390x/translate_vx.c.inc
+> @@ -2991,16 +2991,32 @@ static DisasJumpType op_vftci(DisasContext *s, DisasOps *o)
+>      const uint16_t i3 = get_field(s, i3);
+>      const uint8_t fpf = get_field(s, m4);
+>      const uint8_t m5 = get_field(s, m5);
+> -    gen_helper_gvec_2_ptr *fn = gen_helper_gvec_vftci64;
+> +    const bool se = extract32(m5, 3, 1);
+> +    gen_helper_gvec_2_ptr *fn = NULL;
+>  
+> -    if (fpf != FPF_LONG || extract32(m5, 0, 3)) {
+> +    switch (fpf) {
+> +    case FPF_SHORT:
+> +        if (s390_has_feat(S390_FEAT_VECTOR_ENH)) {
+> +            fn = se ? gen_helper_gvec_vftci32s : gen_helper_gvec_vftci32;
+> +        }
+> +        break;
+> +    case FPF_LONG:
+> +        fn = se ? gen_helper_gvec_vftci64s : gen_helper_gvec_vftci64;
+> +        break;
+> +    case FPF_EXT:
+> +        if (s390_has_feat(S390_FEAT_VECTOR_ENH)) {
+> +            fn = gen_helper_gvec_vftci128;
+> +        }
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    if (!fn || extract32(m5, 0, 3)) {
+>          gen_program_exception(s, PGM_SPECIFICATION);
+>          return DISAS_NORETURN;
+>      }
+>  
+> -    if (extract32(m5, 3, 1)) {
+> -        fn = gen_helper_gvec_vftci64s;
+> -    }
+>      gen_gvec_2_ptr(get_field(s, v1), get_field(s, v2), cpu_env, i3, fn);
+>      set_cc_static(s);
+>      return DISAS_NEXT;
+> diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
+> index b7045e85d6..f18f0ae8e2 100644
+> --- a/target/s390x/vec_fpu_helper.c
+> +++ b/target/s390x/vec_fpu_helper.c
+> @@ -23,6 +23,9 @@
+>  const float32 float32_ones = make_float32(-1u);
+>  const float64 float64_ones = make_float64(-1ull);
+>  const float128 float128_ones = make_float128(-1ull, -1ull);
+> +const float32 float32_zeroes = make_float32(0);
+> +const float64 float64_zeroes = make_float64(0);
+> +const float128 float128_zeroes = make_float128(0, 0);
 
-QMP example booting a full RHEL 8.3 aarch64 guest:
+These already exist as "zero" not "zeroes".
 
-{ "execute": "query-blockstats" }
-{
-    "return": [
-        {
-            "device": "",
-            "node-name": "drive0",
-            "stats": {
-                "flush_total_time_ns": 6026948,
-                "wr_highest_offset": 3383991230464,
-                "wr_total_time_ns": 807450995,
-                "failed_wr_operations": 0,
-                "failed_rd_operations": 0,
-                "wr_merged": 3,
-                "wr_bytes": 50133504,
-                "failed_unmap_operations": 0,
-                "failed_flush_operations": 0,
-                "account_invalid": false,
-                "rd_total_time_ns": 1846979900,
-                "flush_operations": 130,
-                "wr_operations": 659,
-                "rd_merged": 1192,
-                "rd_bytes": 218244096,
-                "account_failed": false,
-                "idle_time_ns": 2678641497,
-                "rd_operations": 7406,
-            },
-            "driver-specific": {
-                "driver": "nvme",
-                "completion-errors": 0,
-                "unaligned-accesses": 2959,
-                "aligned-accesses": 4477
-            },
-            "qdev": "/machine/peripheral-anon/device[0]/virtio-backend"
-        }
-    ]
-}
+Otherwise looks ok, modulo the same comments as for all the other macros in
+this series.
 
-Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v2: 'access-nb' -> 'accesses' (Stefan)
----
- qapi/block-core.json | 24 +++++++++++++++++++++++-
- block/nvme.c         | 27 +++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 86ed72ef9f..dec17e3036 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -941,6 +941,27 @@
-       'discard-nb-failed': 'uint64',
-       'discard-bytes-ok': 'uint64' } }
- 
-+##
-+# @BlockStatsSpecificNvme:
-+#
-+# NVMe driver statistics
-+#
-+# @completion-errors: The number of completion errors.
-+#
-+# @aligned-accesses: The number of aligned accesses performed by
-+#                    the driver.
-+#
-+# @unaligned-accesses: The number of unaligned accesses performed by
-+#                      the driver.
-+#
-+# Since: 5.2
-+##
-+{ 'struct': 'BlockStatsSpecificNvme',
-+  'data': {
-+      'completion-errors': 'uint64',
-+      'aligned-accesses': 'uint64',
-+      'unaligned-accesses': 'uint64' } }
-+
- ##
- # @BlockStatsSpecific:
- #
-@@ -953,7 +974,8 @@
-   'discriminator': 'driver',
-   'data': {
-       'file': 'BlockStatsSpecificFile',
--      'host_device': 'BlockStatsSpecificFile' } }
-+      'host_device': 'BlockStatsSpecificFile',
-+      'nvme': 'BlockStatsSpecificNvme' } }
- 
- ##
- # @BlockStats:
-diff --git a/block/nvme.c b/block/nvme.c
-index f4f27b6da7..ba6d066067 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -133,6 +133,12 @@ struct BDRVNVMeState {
- 
-     /* PCI address (required for nvme_refresh_filename()) */
-     char *device;
-+
-+    struct {
-+        uint64_t completion_errors;
-+        uint64_t aligned_accesses;
-+        uint64_t unaligned_accesses;
-+    } stats;
- };
- 
- #define NVME_BLOCK_OPT_DEVICE "device"
-@@ -389,6 +395,9 @@ static bool nvme_process_completion(NVMeQueuePair *q)
-             break;
-         }
-         ret = nvme_translate_error(c);
-+        if (ret) {
-+            s->stats.completion_errors++;
-+        }
-         q->cq.head = (q->cq.head + 1) % NVME_QUEUE_SIZE;
-         if (!q->cq.head) {
-             q->cq_phase = !q->cq_phase;
-@@ -1146,8 +1155,10 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-     assert(QEMU_IS_ALIGNED(bytes, s->page_size));
-     assert(bytes <= s->max_transfer);
-     if (nvme_qiov_aligned(bs, qiov)) {
-+        s->stats.aligned_accesses++;
-         return nvme_co_prw_aligned(bs, offset, bytes, qiov, is_write, flags);
-     }
-+    s->stats.unaligned_accesses++;
-     trace_nvme_prw_buffered(s, offset, bytes, qiov->niov, is_write);
-     buf = qemu_try_memalign(s->page_size, bytes);
- 
-@@ -1443,6 +1454,21 @@ static void nvme_unregister_buf(BlockDriverState *bs, void *host)
-     qemu_vfio_dma_unmap(s->vfio, host);
- }
- 
-+static BlockStatsSpecific *nvme_get_specific_stats(BlockDriverState *bs)
-+{
-+    BlockStatsSpecific *stats = g_new(BlockStatsSpecific, 1);
-+    BDRVNVMeState *s = bs->opaque;
-+
-+    stats->driver = BLOCKDEV_DRIVER_NVME;
-+    stats->u.nvme = (BlockStatsSpecificNvme) {
-+        .completion_errors = s->stats.completion_errors,
-+        .aligned_accesses = s->stats.aligned_accesses,
-+        .unaligned_accesses = s->stats.unaligned_accesses,
-+    };
-+
-+    return stats;
-+}
-+
- static const char *const nvme_strong_runtime_opts[] = {
-     NVME_BLOCK_OPT_DEVICE,
-     NVME_BLOCK_OPT_NAMESPACE,
-@@ -1476,6 +1502,7 @@ static BlockDriver bdrv_nvme = {
-     .bdrv_refresh_filename    = nvme_refresh_filename,
-     .bdrv_refresh_limits      = nvme_refresh_limits,
-     .strong_runtime_opts      = nvme_strong_runtime_opts,
-+    .bdrv_get_specific_stats  = nvme_get_specific_stats,
- 
-     .bdrv_detach_aio_context  = nvme_detach_aio_context,
-     .bdrv_attach_aio_context  = nvme_attach_aio_context,
--- 
-2.26.2
-
+r~
 
