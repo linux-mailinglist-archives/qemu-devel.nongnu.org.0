@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1820C27F8D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 07:06:03 +0200 (CEST)
-Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D9C27F8EC
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 07:10:40 +0200 (CEST)
+Received: from localhost ([::1]:32834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNqn3-0001J5-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 01:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53348)
+	id 1kNqrX-0002iL-7s
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 01:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNqlm-0000np-Dh
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 01:04:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58591)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNqqH-0002AH-Al
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 01:09:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNqli-00041q-NE
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 01:04:40 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kNqqF-0004Vt-LD
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 01:09:21 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601528677;
+ s=mimecast20190719; t=1601528957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=js7B9kz5ewfu0B8efl/cp9tOZCe9DBi689U5gUagsk4=;
- b=TLPwjI+OZ1LCXJfj5WyvLJRaG6sHPvcHHm7Ju8W3VFEKVRvjH9JkDoXXaHs95qirot2IcW
- 6pH2Kkrm07mQo51kbHDjHdmny8mxvaT98L1G07XoW4r8KBfxHoiCpHm/aFl0qqVKD63wux
- pf7t/nz9IdFnpcEmqek/AoY4X0G0PFs=
+ bh=K9lCOsKD2b4dh8GnAReuq9vVLCVB81CtqawkVpAhRsc=;
+ b=bY9pyMSYSii5GdTmPmJxQ85fqJSQlITojPlp4QtDatM4X1cPptfstHG0BhA6FuQDeHmMdi
+ ILsYhy+/6EfdHB0f96HrLBH0fUIFLcX+4mLb6RwTKOXE0BGB1IjKvHzwGR8QxuX0cyCiu2
+ iXsah6JBQ11jf6VqGNJgrHlqiZf0Gv4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-1Pt2x0t_OJ6UdgTv8Zd5Pg-1; Thu, 01 Oct 2020 01:04:36 -0400
-X-MC-Unique: 1Pt2x0t_OJ6UdgTv8Zd5Pg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-441-cgAPHMM2NqGHoKTfyDiZuw-1; Thu, 01 Oct 2020 01:09:15 -0400
+X-MC-Unique: cgAPHMM2NqGHoKTfyDiZuw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57015100A245;
- Thu,  1 Oct 2020 05:04:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3225E7A1E3;
+ Thu,  1 Oct 2020 05:09:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0A5060DA0;
- Thu,  1 Oct 2020 05:04:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D60307880B;
+ Thu,  1 Oct 2020 05:09:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2AC6D113864A; Thu,  1 Oct 2020 07:04:32 +0200 (CEST)
+ id 53096113864A; Thu,  1 Oct 2020 07:09:12 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 01/11] qapi: Restrict query-uuid command to block code
+Subject: Re: [PATCH v3 11/11] qapi: Restrict code generated for user-mode
 References: <20200930164949.1425294-1-philmd@redhat.com>
- <20200930164949.1425294-2-philmd@redhat.com>
-Date: Thu, 01 Oct 2020 07:04:32 +0200
-In-Reply-To: <20200930164949.1425294-2-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 30 Sep 2020 18:49:39
+ <20200930164949.1425294-12-philmd@redhat.com>
+Date: Thu, 01 Oct 2020 07:09:12 +0200
+In-Reply-To: <20200930164949.1425294-12-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 30 Sep 2020 18:49:49
  +0200")
-Message-ID: <87r1qi4jvj.fsf@dusky.pond.sub.org>
+Message-ID: <87mu164jnr.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -72,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.469,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,6 +88,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>,
  "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
  Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
  Richard Henderson <rth@twiddle.net>, Peter Lieven <pl@kamp.de>,
  qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  Ronnie Sahlberg <ronniesahlberg@gmail.com>,
@@ -98,25 +99,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> In commit f68c01470b we restricted the query-uuid command to
-> machine code, but it is incorrect, as it is also used by the
-> tools.  Therefore move this command again, but to block.json,
-> which is shared by machine code and tools.
+> A lot of QAPI generated code is never used by user-mode.
 >
-> Fixes: f68c01470b ("qapi: Restrict query-uuid command to machine code")
+> Split out qapi_system_modules and qapi_system_or_tools_modules
+> from the qapi_all_modules array. We now have 3 groups:
+> - always used
+> - use by system-mode or tools (usually by the block layer)
+> - only used by system-mode
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Resetting due to Meson update:
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  qapi/meson.build | 51 ++++++++++++++++++++++++++++++++++--------------
+>  1 file changed, 36 insertions(+), 15 deletions(-)
+>
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index 7c4a89a882..ba9677ba97 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -14,39 +14,60 @@ util_ss.add(files(
+>  ))
+> =20
+>  qapi_all_modules =3D [
+> +  'common',
+> +  'introspect',
+> +  'misc',
+> +]
+> +
+> +qapi_system_modules =3D [
+>    'acpi',
+>    'audio',
+> +  'dump',
+> +  'machine-target',
+> +  'machine',
+> +  'migration',
+> +  'misc-target',
+> +  'net',
+> +  'pci',
+> +  'qdev',
+> +  'rdma',
+> +  'rocker',
+> +  'tpm',
+> +  'trace',
+> +]
+> +
+> +# system or tools
+> +qapi_block_modules =3D [
+>    'authz',
+>    'block-core',
+>    'block',
+>    'char',
+> -  'common',
+>    'control',
+>    'crypto',
+> -  'dump',
+>    'error',
+> -  'introspect',
+>    'job',
+> -  'machine',
+> -  'machine-target',
+> -  'migration',
+> -  'misc',
+> -  'misc-target',
+> -  'net',
+>    'pragma',
+> -  'qdev',
+> -  'pci',
+>    'qom',
+> -  'rdma',
+> -  'rocker',
+>    'run-state',
+>    'sockets',
+> -  'tpm',
+> -  'trace',
+>    'transaction',
+>    'ui',
+>  ]
 
-UUIDs are not really a block-specific thing.
+Most of these aren't "block modules".  Name the thing
+qapi_system_or_tools_modules?
 
-QMP query-uuid and HMP info uuid are about the VM, like query-name.
-That's why they used to be next to query-name in misc.json.
+> +if have_system
+> +  qapi_all_modules +=3D qapi_system_modules
+> +elif have_user
+> +  # Temporary kludge because X86CPUFeatureWordInfo is not
+> +  # restricted to system-mode. This should be removed (along
+> +  # with target/i386/feature-stub.c) once target/i386/cpu.c
+> +  # has been cleaned.
+> +  qapi_all_modules +=3D ['machine-target']
+> +endif
+> +
+> +if have_block
 
-There's one additional use in block/iscsi.c's get_initiator_name().  I
-figure that's what pulls it into tools via qemu-img.
+Aha, precedence for using "block" as an abbreviation of "system or
+tools".  I find that confusing.
 
-Which other QAPI modules are shared by all the executables that use it?
-
-What about reverting the commit?  How bad would that be for user mode?
+> +  qapi_all_modules +=3D qapi_block_modules
+> +endif
+> +
+>  qapi_storage_daemon_modules =3D [
+>    'block-core',
+>    'char',
 
 
