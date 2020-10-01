@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF82280424
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:42:24 +0200 (CEST)
-Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE49C28042B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:44:51 +0200 (CEST)
+Received: from localhost ([::1]:33296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1ex-0005P4-S1
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45108)
+	id 1kO1hK-00015R-Qb
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1Xg-00058Q-3Z
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:52 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:36113)
+ id 1kO1Xh-0005CZ-MI
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:53 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1Xd-0004WQ-E2
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:51 -0400
-Received: by mail-pf1-x441.google.com with SMTP id d9so5046497pfd.3
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:34:49 -0700 (PDT)
+ id 1kO1Xf-0004X0-Sn
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:53 -0400
+Received: by mail-pf1-x444.google.com with SMTP id d9so5046642pfd.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EmMCKff5D2NhzruLHhJVDlZo6kyMN39ZVhWfzFJSsKo=;
- b=ILxu3v20xdckSh+UCVTk+eWOblJRoGHQ6wdhsBBTwHfjSQNMs8iWh0Y7j0aAFpmwgU
- U2mZYEWq7LCYh6BSyqMxFtbTgdFG9b0wG2s70OSrfr+qGaDAqkhghozy4dERKjVLYXZC
- t61jHeDEPKULXHa2vwf7Ysugvn8R8iXktxHwflZwDKlTUZI+6yawt90kcshP/kZ4J6IH
- K1rpvR10F9ZK2npmZtQTIjQEM4ZTLk0EXfQmTsNYPhi3rZssmC/9q7yuM/i5UgbCcnm2
- zbvfbuq6C7ZHL7GlBjvdVc98mSDM/sp6VQTUfWByn+arYEW/2JYVPXQzpDPtJoWULX/e
- B2fA==
+ bh=ftwAsBeI7Tx5KHajpgLxYQyV0gF6bUfHmuSitMUFQwc=;
+ b=GotOFXktQIjUWL1k2r5N1ARvqP+ispCqYqw2LhSYqvQHjOTOUYhSXVacojKajMcP76
+ /hGo6TB83Jl1+LAS/g7/YrqsO+z8l9fpz7gJIbBxAtlwven5vFpJa9J/rpn6zUf14aKe
+ a3O7Ut7JwPoEzlsG67Xt+hNsXsxyyIeRUq6wirGj0AJjWTETnZ5tMXRWT8y9zlepx0aW
+ Zonr+Lj6i9YOfNYT4+SoZU0gKfCN4Xc3KGfuS6Cl72vXdwvJ2hGQ86JVhgUrP3Wt85lW
+ wV/7t47aJGB0sanZX4iQ//kS7+BgEXIBZ9QVOgPZCi9mLR0zhfuIKJLRSl/mwWRjGEzM
+ AVIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EmMCKff5D2NhzruLHhJVDlZo6kyMN39ZVhWfzFJSsKo=;
- b=H8YOlSDWeSaafam+Duj85iJMCgc8lgsu9eDse+2z16DygQf8UIIov/JraCo+8OJyLV
- WdiqnTo3ENvs/g9DBWUma/ML6PV9cg0DBWNMju3B4wBYJSaRoozDfnPoOdkiq25+Hb3f
- MXnpECkMTG9ntw0bWJ5aAPHy12SvOFudbmhfA5l/5cjUnNSaQL5yERYCwInxphRRYE5V
- sU7o0JJlXqvWp83m9VzpkDjPrk4kSnVocdnnPO3voFj91wf2ej2IXA7zm5OIcZErNtzG
- +ZWoMKkVay/qDvsk7UXG8xtcx7KpsIB/8Pp6CUnzFe0hKqegjhcNMYcOf0/+PjhKzjSe
- AzGg==
-X-Gm-Message-State: AOAM532MxhFaolBoheN10S/5Dt+OC/F+DXgHHKm6UMmvpWy5MTDABuNo
- 6MdTo+4PckGhS5tb5QIKUiVR2wBtpKaC2g==
-X-Google-Smtp-Source: ABdhPJxmBQmurc+OFlBx1Jpe4pBjwurc1K2liVePb8iyunzGU3XJDad0CdNfXGm3Cs11pe3dr0QmWA==
-X-Received: by 2002:a63:c04d:: with SMTP id z13mr6913665pgi.215.1601570087454; 
- Thu, 01 Oct 2020 09:34:47 -0700 (PDT)
+ bh=ftwAsBeI7Tx5KHajpgLxYQyV0gF6bUfHmuSitMUFQwc=;
+ b=o2qKPvKNpKQURX0MLaAOW3mmxWNos1SV2AZr3gUEWVzQGTk9AZsQ38YwnsNItYUJkg
+ b8Va727ietpCsNW7wvSDrz/SLIGEECcpfc8Y2fHrkNV4sQQuQb1P9L7RRFckd6DaxQoa
+ QDZfOwhOnxdRqPlo5DjSvydZWhrpnT4V+XVP31fn4wsphpTPK0mBNLzzeH3LVnJTiPB0
+ LGxlpvzOsibuw6bl/TgWl746QydYswtpdt6J7QdeE63zqHihQ36pJoz8a9RKImGExvPJ
+ 3/NClV9bF+CQcWaNLFBTcPay6+BdHMXWfTM0zGiEa5XghHIVYb/vktZ4VpYnSRP+fhbT
+ fWIA==
+X-Gm-Message-State: AOAM532kPZp5nOdzTf0O7omNDrFUDlKeJ+0ma6ZrHTzPDk+gcOV3V/BX
+ szYGI5qrKfb35S6TerfdMhH9elM5O3PIUQ==
+X-Google-Smtp-Source: ABdhPJwim4F4NTOiNbUUZosAV07I5UFdiua8F/S1Ycdlqql2JU5jwotaUc3DWvn6KRq/PMq1KC0Cow==
+X-Received: by 2002:a63:1c4e:: with SMTP id c14mr6614918pgm.98.1601570089985; 
+ Thu, 01 Oct 2020 09:34:49 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id t12sm6946028pfh.73.2020.10.01.09.34.45
+ by smtp.googlemail.com with ESMTPSA id t12sm6946028pfh.73.2020.10.01.09.34.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 09:34:46 -0700 (PDT)
+ Thu, 01 Oct 2020 09:34:49 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] plugins: Fixes a issue when dlsym failed,
- the handle not closed
-Date: Fri,  2 Oct 2020 00:34:24 +0800
-Message-Id: <20201001163429.1348-2-luoyonggang@gmail.com>
+Subject: [PATCH v3 2/6] plugin: Fixes compiling errors on msys2/mingw
+Date: Fri,  2 Oct 2020 00:34:25 +0800
+Message-Id: <20201001163429.1348-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201001163429.1348-1-luoyonggang@gmail.com>
 References: <20201001163429.1348-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,21 +95,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- plugins/loader.c | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/plugins/hotblocks.c | 2 +-
+ tests/plugin/bb.c           | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/plugins/loader.c b/plugins/loader.c
-index 685d334e1a..8ac5dbc20f 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -235,6 +235,7 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
-     return rc;
+diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
+index 3942a2ca54..37435a3fc7 100644
+--- a/contrib/plugins/hotblocks.c
++++ b/contrib/plugins/hotblocks.c
+@@ -102,7 +102,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ {
+     ExecCount *cnt;
+     uint64_t pc = qemu_plugin_tb_vaddr(tb);
+-    unsigned long insns = qemu_plugin_tb_n_insns(tb);
++    size_t insns = qemu_plugin_tb_n_insns(tb);
+     uint64_t hash = pc ^ insns;
  
-  err_symbol:
-+    g_module_close(ctx->handle);
-  err_dlopen:
-     qemu_vfree(ctx);
-     return 1;
+     g_mutex_lock(&lock);
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index e4cc7fdd6e..de09bdde4e 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -72,7 +72,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
+     CPUCount *count = max_cpus ?
+         g_ptr_array_index(counts, cpu_index) : &inline_count;
+ 
+-    unsigned long n_insns = (unsigned long)udata;
++    uintptr_t n_insns = (uintptr_t)udata;
+     g_mutex_lock(&count->lock);
+     count->insn_count += n_insns;
+     count->bb_count++;
+@@ -81,7 +81,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
+ 
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ {
+-    unsigned long n_insns = qemu_plugin_tb_n_insns(tb);
++    size_t n_insns = qemu_plugin_tb_n_insns(tb);
+ 
+     if (do_inline) {
+         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
 -- 
 2.28.0.windows.1
 
