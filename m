@@ -2,100 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F9D2804F8
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:18:41 +0200 (CEST)
-Received: from localhost ([::1]:37016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5BA280516
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:25:39 +0200 (CEST)
+Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2E5-0005M6-0l
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:18:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57504)
+	id 1kO2Ko-0000pY-4L
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kO2CG-0003no-11
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:16:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kO2CB-00032S-QZ
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:16:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601572600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xE/7F3owQGfjFOBf56+LTGDLI24E4yXIkahNGqbXos0=;
- b=i9U07dg+EbdgPawrqA4LRW7huzPxVbv54rbKk7A1qfL8CEcPqfaGBwBGIKTfkAfDByU3cg
- hHHdpAj2e4PuVKSef4o8uSEX3s5fXbtr6e57PCjaJz+moJAtQLyvgkFtxtS84poVDh6ue4
- eqcl08VLQknzPj95VlD2sxVkG6nJ9zY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-y1K-7RwhNbadby8p1NerCw-1; Thu, 01 Oct 2020 13:16:34 -0400
-X-MC-Unique: y1K-7RwhNbadby8p1NerCw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25377801ADA;
- Thu,  1 Oct 2020 17:16:33 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-181.ams2.redhat.com
- [10.36.113.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88BBA5C1CF;
- Thu,  1 Oct 2020 17:16:31 +0000 (UTC)
-Subject: Re: [PATCH qemu 3/4] mirror: move some checks to qmp
-To: =?UTF-8?Q?Fabian_Gr=c3=bcnbichler?= <f.gruenbichler@proxmox.com>,
- qemu-devel@nongnu.org
-References: <20200922091418.53562-1-f.gruenbichler@proxmox.com>
- <20200922091418.53562-4-f.gruenbichler@proxmox.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <163ad43a-450b-7ecd-e678-c44c5b056b1a@redhat.com>
-Date: Thu, 1 Oct 2020 19:16:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kO2EB-0006SN-RT; Thu, 01 Oct 2020 13:18:48 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:47371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kO2E9-0003FJ-Ko; Thu, 01 Oct 2020 13:18:47 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7415B58035A;
+ Thu,  1 Oct 2020 13:18:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 01 Oct 2020 13:18:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=Jp2+vLCWmnAla+aG26WiCiLnIOr
+ tfypV9ShhOvjEb0c=; b=C2qAuqEVobZ8Rkd5xmUoSCz9/e3rEYtzHQXLtN079od
+ c4mKN+n5KPMzEjDEaYlEytj7T6uyVNXiTM1fxSgi2fItimuM9XAO3FckyL5Zk73T
+ 1W5WL/qk+qGqiDl+yoTPP6fptXwxYg7kEyyAZJu3o/9tKEwJ/6tJQXob6+/GxWvE
+ iHRLHm0Arg6JPfXysyvCsBtotrObMUrmVu4jaguXOAumVY6A/EDEzqhZ3wErgyFR
+ ASfCOFLuqOkppLJ+7PU5eUs/V9YlHBR9iTjzBu3Zm6pEcvn2BxQLjQ41MRrrQ6nB
+ 8nTxfd1NnmJhJe+KRWzslQSmZhj5Bz2SXFpK2vJREDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Jp2+vL
+ CWmnAla+aG26WiCiLnIOrtfypV9ShhOvjEb0c=; b=HIOW4T+jpJ8ABea9kXu7/w
+ wiihTmEe4L4ESGjvWUqAMShTdb1nUyWkhQdGKw2ErDEQ5P7leqE4XA9mmpiyWvGY
+ /O303iAX9dJ0B328bOhbdJe7Tl8wrGFXGyu2WWUsTBdP/tc/lhSJaYwsXanCf0Zk
+ ysehrfXm12NxRvqb4PvisLB/t9mgN9xsZ5DRYgX6P+swV2e7BvG5T6JMREGeP+9t
+ ntt9CqyHRLt/DcPszUxu2NxPAvZGSe/Bm6et5OdkyPW7FYI3kCZT0P0OTvrkl9Nm
+ AFfWsGRAS9EHPEnVT0wf2XRN1WGNS+BQJbRjfVldw6KzcQItVKEdFwzQvmmDVyyw
+ ==
+X-ME-Sender: <xms:cg92XxARQ4penD3w5vhGp1UUnL2TwalA5SMIDio-rQ2d4g-pOVPHAw>
+ <xme:cg92X_i_mAJsMfboOFU6qP_6RtyShC3ak1TBNLAn_1dfsEQv1VtY4xwDHmeYVLGBc
+ tJ75D3ze84ZIJemeI8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdduudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:cg92X8nkgleEyWu-7roJsKGxFWimnsR7r9Ozuna48bDKZ3rmvD-gBw>
+ <xmx:cg92X7xrd1gno87sI1HRZFQc5jAFo1ioGzl-RFXY-Cw7B_W6baanUg>
+ <xmx:cg92X2SLN4vLKfzxVtwMlCNlLd7FOcB9SVt8x05mzkk3BJQlIvzcvQ>
+ <xmx:cw92XzLQG6GhwLLC9dfVM-A5N3yzqxJXvZrhQzzBOfc4VaXijYnBqA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2642B3064688;
+ Thu,  1 Oct 2020 13:18:39 -0400 (EDT)
+Date: Thu, 1 Oct 2020 19:18:37 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
+Message-ID: <20201001171837.GA792691@apples.localdomain>
+References: <20200930220414.562527-1-kbusch@kernel.org>
+ <20200930220414.562527-4-kbusch@kernel.org>
+ <20201001041057.GC681387@apples.localdomain>
+ <20201001152055.GA3343@C02WT3WMHTD6>
 MIME-Version: 1.0
-In-Reply-To: <20200922091418.53562-4-f.gruenbichler@proxmox.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="5XeVBB6bvoQl4FNFajDw2P5Zzk0PbYd6J"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
+ protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
+Content-Disposition: inline
+In-Reply-To: <20201001152055.GA3343@C02WT3WMHTD6>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 13:18:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,53 +98,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5XeVBB6bvoQl4FNFajDw2P5Zzk0PbYd6J
-Content-Type: multipart/mixed; boundary="GFu8v6G0zEGsXXIopykIIgwH2FKMTHUpn"
 
---GFu8v6G0zEGsXXIopykIIgwH2FKMTHUpn
+--Qxx1br4bt0+wmkIi
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 22.09.20 11:14, Fabian Gr=C3=BCnbichler wrote:
-> and assert the passing conditions in block/mirror.c. while incremental
-> mode was never available for drive-mirror, it makes the interface more
-> in line with  backup block jobs.
+On Oct  1 09:20, Keith Busch wrote:
+> On Thu, Oct 01, 2020 at 06:10:57AM +0200, Klaus Jensen wrote:
+> > On Sep 30 15:04, Keith Busch wrote:
+> > > Let the user specify a specific namespace if they want to get access
+> > > stats for a specific namespace.
+> > >=20
+> >=20
+> > I don't think this makes sense for v1.3+.
+> >=20
+> > NVM Express v1.3d, Section 5.14.1.2: "There is no namespace specific
+> > information defined in the SMART / Health log page in this revision of
+> > the specification.  therefore the controller log page and namespace
+> > specific log page contain identical information".
+> >=20
+> > I have no idea why the TWG decided this, but that's the way it is ;)
 >=20
-> Signed-off-by: Fabian Gr=C3=BCnbichler <f.gruenbichler@proxmox.com>
-> ---
->  block/mirror.c | 28 +++++-----------------------
->  blockdev.c     | 29 +++++++++++++++++++++++++++++
->  2 files changed, 34 insertions(+), 23 deletions(-)
+> I don't think they did that. The behavior you're referring to is specific=
+ to
+> controllers that operate a particular way: "If the log page is not suppor=
+ted on
+> a per namespace basis ...". They were trying to provide a spec compliant =
+way
+> for controllers to return a success status if you supplied a valid NSID w=
+hen
+> the controller doesn't support per-namespace smart data..
+>=20
+> The previous paragraph is more clear on this: "The controller may also su=
+pport
+> requesting the log page on a per namespace basis, as indicated by bit 0 o=
+f the
+> LPA field in the Identify Controller data structure".
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+OK, so I agree that it makes sense for it to be supported on a per
+namespace basis, but I think the spec is just keeping the door open for
+future namespace specific stuff in the log page - currently there is
+none.
 
+Figure 94 (the actual SMART log page) says that the Data Units
+Read/Written are controller wide, so there really is no namespace
+specific information. Maybe this could be in the context of shared
+namespaces? How would a controller know how much data has been
+read/written from it without asking the other controllers? What if a
+controller is detached from the namespace - you'd lose those numbers.
 
---GFu8v6G0zEGsXXIopykIIgwH2FKMTHUpn--
-
---5XeVBB6bvoQl4FNFajDw2P5Zzk0PbYd6J
+--Qxx1br4bt0+wmkIi
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl92Du0ACgkQ9AfbAGHV
-z0ArjQf/ZuKRdvVSzJ4uOd3SrDePULTGavV/GziCUf9UCQH0JLQgjYZVLLUCK4dO
-vNaZmJH8tPe79mgEfWtCHOxDVX3lCueO2rGCoYp4EA5qsiwgc1XVwnpnM5xIlTgV
-5u3ckg7YBuf+vw4228Z3zSvlA+1XV6vU2fiH6G3p7JEavUxPvs0GSBSmunMwO51w
-SLZvZagZ4UXk9x+MPAAZj4j0mZYsrFqFHaQ/x6xFVz+tJ29EbF1J/kDRkzUIOY1F
-UPDKFeDqL4I0jwHa7MRcR76a8Gaq4jhdrAO5NeG/G+27W2eauA/LZH2PJFP7wHfy
-9HtLHcybadFiCjOh7OV3SKD0HEg1og==
-=TEYT
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl92D2kACgkQTeGvMW1P
+DenZaAgAjAlzBcWB7GuDkZSWqAU6gSowqwJzV2Zr46L+2zRP+7L2qA7o4mPWRB/3
+cLcDoBpbUcwLG9djZlBYu9t0MiVDNHs6rvboc4qeOdlWNtvvSYwZc6kyM34C43dS
+zGpxOmJWGKSa/C5svk3GVGar4jQxEJMoIdwLbEV/MahoboYhDIRzS+N0y9C7Jk//
+yYskd+1SaaaN5l73AnZGX9CoryK+BGKFvplAoX9wjzvJJ9hHrNUOPXENKYUsdJG1
+RKgTsT/7ytajscpFuZ3G+7LpSxJ8hkqcYvIiXko0f6b3YWgiNU0wOQ4bkec4pGC1
+4PgRXvpzGxFGdJbqWyoNmOSKdzEmMQ==
+=xDdb
 -----END PGP SIGNATURE-----
 
---5XeVBB6bvoQl4FNFajDw2P5Zzk0PbYd6J--
-
+--Qxx1br4bt0+wmkIi--
 
