@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68157280422
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:41:19 +0200 (CEST)
-Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB5A280419
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:39:22 +0200 (CEST)
+Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1du-0003z5-F5
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:41:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43578)
+	id 1kO1c1-0001py-Ji
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:39:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO1TQ-0001C2-5H
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:30:28 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32834)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO1Xc-000501-W4
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:49 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:44120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO1TN-0003kS-U5
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:30:27 -0400
-Received: by mail-ot1-x342.google.com with SMTP id m12so6074865otr.0
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=22dMjxOWJhqG+irRskkFjwXOStfShxVwK0tEpj/xEEo=;
- b=PbARUAn8z8Q+WWaBbK2PCktSA20FwJ/Gie1PmoKW+E1p1KuKX90LKhwnCq+Qim5jrE
- rY/9vtP7d5JfOAJcNcLtmg2XYuECq/QLavsAPebPx2DpGUSON6YceDKVF4GadmOIzXNw
- szbImPWwxfh07sgP035hAhSZED43uG4dGPrmtzH+oJcGHVVMER+LT9fKXqmErOOsEQmm
- d24fBszEzS7fcivEywKGhDI7fRSuqwG9F68ZlykXr/+dzoBePPKQN+QrV5psreIT580h
- Ueld4KH/C78jQqAvuIr9fxeb/erqqWpIDSVXtRGLGwd7PQMIYDvoJrcqQKAbwV4VVLeL
- CjDA==
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO1Xb-0004VS-8l
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 12:34:48 -0400
+Received: by mail-pf1-x430.google.com with SMTP id o20so5011209pfp.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 09:34:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gjtM93cPfHXC/wpcKA/3KPJAzih780/GtMQx/utGEfc=;
+ b=r+zLAJ+4qp9vNURa0kuTMTdE7TwaM2Pc7vY7vK8j6yaub9u8bvLzmsRzfdeJ8c/BSB
+ LUaARnqZeh5D4xkwXb77ECFAU5cmc8r5eurRMj99nw6mBYcAKPLd9Foz5lRZT4Yl1NRI
+ LNT+IMGoaJSp2pCEKhfrWA5hSpCxx/382QcqDyFEU6BaTsjwFUgtFlKAU/Myu4Zw5INr
+ IQLUGp6nSCclQeGJAZ4PFRsr5ekbTwcsjEcamMkServDETYG2Etua4VpyZk44ctFFhS+
+ W4B8+bvKByasd2fak0z9EFBfioaG/3a2/EfSjewGMQM0Sh72HSpdFxo8oXjm+xIre1DE
+ syWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=22dMjxOWJhqG+irRskkFjwXOStfShxVwK0tEpj/xEEo=;
- b=hFAGLiLrdHVK0lEi3mt9QKHHAik8UtfTkz/cvNyyF1LoxL6bC8anBkIbU3fFXTphhz
- ZnMHBXpQsPvGMTlyHSQU3JaB9k6+GyS7to/kn4b+ULIQQUfAC7tlD1CEcjZ/q5HMdnEE
- 8LY09Z0pDU1wQ4wYiKr9kF6FxwWKQMBJKcia+iGSb5TFLukMPp0O9UA9XkKAERiFh2ay
- AvuNwm2NuCUJqoxyN195qnBH+/6lVrfEV4lxuW0HOfev/FlLrWXXDiNEucyx8HFQLY92
- W5+BlOs0nwpFUQrfSoyKYM7vAMlrNADriSgTk2CBgQ04xeCY3vAdN2XWlalKTmMzGnTq
- a/YQ==
-X-Gm-Message-State: AOAM5319LjWtewsTDnBXvtmfwt3p6RoQnERIMR4cIZa7YxpmqqZ4zZSM
- lGD+wPrhLrVHX9YtQz8o6U+AJQ==
-X-Google-Smtp-Source: ABdhPJwxCAVGwhMtQfmMS+GBf5yXsoHub7oDrtOmnycaxWEsVS2cUP6qKhWSCCYnOioWYOB2xWXNNw==
-X-Received: by 2002:a9d:24aa:: with SMTP id z39mr5529475ota.258.1601569824635; 
- Thu, 01 Oct 2020 09:30:24 -0700 (PDT)
-Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id i6sm1229838oig.54.2020.10.01.09.30.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 09:30:23 -0700 (PDT)
-Subject: Re: [PATCH v1 15/20] s390x/tcg: Implement 32/128 bit for VECTOR FP
- TEST DATA CLASS IMMEDIATE
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20200930145523.71087-1-david@redhat.com>
- <20200930145523.71087-16-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <755b4603-cca0-c5fc-6996-e521a3bec12f@linaro.org>
-Date: Thu, 1 Oct 2020 11:30:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=gjtM93cPfHXC/wpcKA/3KPJAzih780/GtMQx/utGEfc=;
+ b=TSo+tiNlsbEeA60wWQyLPdSuCcyfPAgFyUZGphzF2h9vNTx25IHOCrTFAJiJbbuYrJ
+ q1reBTq/EAh1y/0idrD5kj5BkR89I+PePDk9WUmye+Duq8kj6WZ43RQK26ALfNi+lfXK
+ q1ojnuegkMiHwC0ikxsdgJnd914hQIvWsJYDqXFb7ZVabU11ypHHiSBqc5VvMjKHAYdH
+ +coKAfETUM5KmK5twR+epR/SkNQhwbWJsgBNGS0nujfgeOk6rd/1tkkh8/1c0ibVsU6y
+ zcA09wTQjAuEY6sVuvphtu/F+WaXzzxxzMLM2FKMEvEXuMOSEyoWs8xQeaYMZ/3by5eH
+ uNkA==
+X-Gm-Message-State: AOAM533Z+Ac/eZDdt6qc38NP3NJaapeXHaQU6wy0iybLSdUzjCxVY88i
+ BwgIOlux4WsoCd9TskEWGI6jNg+t8mnVkw==
+X-Google-Smtp-Source: ABdhPJwlsnvg8Zqlcdr8ZtggEGFdbp9TK7Y2PLqtsSxcP+v5KDfhTc5Gxv+co/dbQsHTAT/VJZvE3w==
+X-Received: by 2002:a17:902:7005:b029:d2:ab25:53d5 with SMTP id
+ y5-20020a1709027005b02900d2ab2553d5mr8009407plk.57.1601570084899; 
+ Thu, 01 Oct 2020 09:34:44 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id t12sm6946028pfh.73.2020.10.01.09.34.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 09:34:44 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/6] Enable plugin support on msys2/mingw
+Date: Fri,  2 Oct 2020 00:34:23 +0800
+Message-Id: <20201001163429.1348-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20200930145523.71087-16-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,94 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/20 9:55 AM, David Hildenbrand wrote:
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/helper.h           |  3 ++
->  target/s390x/translate_vx.c.inc | 26 ++++++++---
->  target/s390x/vec_fpu_helper.c   | 76 +++++++++++++++++++--------------
->  3 files changed, 69 insertions(+), 36 deletions(-)
-> 
-> diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-> index bee283e3d4..c2ded83669 100644
-> --- a/target/s390x/helper.h
-> +++ b/target/s390x/helper.h
-> @@ -331,8 +331,11 @@ DEF_HELPER_FLAGS_5(gvec_vfs32s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
->  DEF_HELPER_FLAGS_5(gvec_vfs64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
->  DEF_HELPER_FLAGS_5(gvec_vfs64s, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
->  DEF_HELPER_FLAGS_5(gvec_vfs128, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
-> +DEF_HELPER_4(gvec_vftci32, void, ptr, cptr, env, i32)
-> +DEF_HELPER_4(gvec_vftci32s, void, ptr, cptr, env, i32)
->  DEF_HELPER_4(gvec_vftci64, void, ptr, cptr, env, i32)
->  DEF_HELPER_4(gvec_vftci64s, void, ptr, cptr, env, i32)
-> +DEF_HELPER_4(gvec_vftci128, void, ptr, cptr, env, i32)
->  
->  #ifndef CONFIG_USER_ONLY
->  DEF_HELPER_3(servc, i32, env, i64, i64)
-> diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
-> index 7d4811ccf7..6bd599b319 100644
-> --- a/target/s390x/translate_vx.c.inc
-> +++ b/target/s390x/translate_vx.c.inc
-> @@ -2991,16 +2991,32 @@ static DisasJumpType op_vftci(DisasContext *s, DisasOps *o)
->      const uint16_t i3 = get_field(s, i3);
->      const uint8_t fpf = get_field(s, m4);
->      const uint8_t m5 = get_field(s, m5);
-> -    gen_helper_gvec_2_ptr *fn = gen_helper_gvec_vftci64;
-> +    const bool se = extract32(m5, 3, 1);
-> +    gen_helper_gvec_2_ptr *fn = NULL;
->  
-> -    if (fpf != FPF_LONG || extract32(m5, 0, 3)) {
-> +    switch (fpf) {
-> +    case FPF_SHORT:
-> +        if (s390_has_feat(S390_FEAT_VECTOR_ENH)) {
-> +            fn = se ? gen_helper_gvec_vftci32s : gen_helper_gvec_vftci32;
-> +        }
-> +        break;
-> +    case FPF_LONG:
-> +        fn = se ? gen_helper_gvec_vftci64s : gen_helper_gvec_vftci64;
-> +        break;
-> +    case FPF_EXT:
-> +        if (s390_has_feat(S390_FEAT_VECTOR_ENH)) {
-> +            fn = gen_helper_gvec_vftci128;
-> +        }
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    if (!fn || extract32(m5, 0, 3)) {
->          gen_program_exception(s, PGM_SPECIFICATION);
->          return DISAS_NORETURN;
->      }
->  
-> -    if (extract32(m5, 3, 1)) {
-> -        fn = gen_helper_gvec_vftci64s;
-> -    }
->      gen_gvec_2_ptr(get_field(s, v1), get_field(s, v2), cpu_env, i3, fn);
->      set_cc_static(s);
->      return DISAS_NEXT;
-> diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
-> index b7045e85d6..f18f0ae8e2 100644
-> --- a/target/s390x/vec_fpu_helper.c
-> +++ b/target/s390x/vec_fpu_helper.c
-> @@ -23,6 +23,9 @@
->  const float32 float32_ones = make_float32(-1u);
->  const float64 float64_ones = make_float64(-1ull);
->  const float128 float128_ones = make_float128(-1ull, -1ull);
-> +const float32 float32_zeroes = make_float32(0);
-> +const float64 float64_zeroes = make_float64(0);
-> +const float128 float128_zeroes = make_float128(0, 0);
-
-These already exist as "zero" not "zeroes".
-
-Otherwise looks ok, modulo the same comments as for all the other macros in
-this series.
-
-
-r~
+V2-V3=0D
+Split following patches out=0D
+=0D
+V1-V2=0D
+1. Fixes review comments=0D
+2. Increase QEMU_PLUGIN_VERSION to 1 for compat  QEMU_PLUGIN_VERSION 0=0D
+3. Revise the loader to support for version 0 and 1=0D
+4. By export function qemu_plugin_initialize in plugin, and call it in load=
+er=3D=0D
+, so=0D
+  we have no need call it in every plugin. And also provide a standard impl=
+em=3D=0D
+entation,=0D
+  anyway, use can also override it.=0D
+=0D
+Add this feature on msys2/mingw by using glib provided cross-platform dlsym=
+ f=3D=0D
+unctional.=0D
+=0D
+Yonggang Luo (6):=0D
+  plugins: Fixes a issue when dlsym failed, the handle not closed=0D
+  plugin: Fixes compiling errors on msys2/mingw=0D
+  cirrus: Enable plugin in cirrus for windows=0D
+  plugin: define QEMU_PLUGIN_API_IMPLEMENTATION first=0D
+  plugin: getting qemu_plugin_get_hwaddr only expose one function=0D
+    prototype=0D
+  plugin: Getting qemu-plugin works under win32.=0D
+=0D
+ .cirrus.yml                  |   3 +-=0D
+ Makefile                     |   1 -=0D
+ configure                    |  71 -------------=0D
+ contrib/plugins/hotblocks.c  |   3 +-=0D
+ contrib/plugins/hotpages.c   |   1 +=0D
+ contrib/plugins/howvec.c     |   1 +=0D
+ contrib/plugins/lockstep.c   |   1 +=0D
+ include/qemu/qemu-plugin.h   | 197 +++++++++++++++++++++++++++--------=0D
+ meson.build                  |   6 +-=0D
+ plugins/api.c                |  71 +++++++------=0D
+ plugins/core.c               |  11 +-=0D
+ plugins/loader.c             |  51 ++++++++-=0D
+ plugins/meson.build          |  10 +-=0D
+ plugins/plugin.h             |   1 +=0D
+ plugins/qemu-plugins.symbols |  40 -------=0D
+ tests/plugin/bb.c            |   5 +-=0D
+ tests/plugin/empty.c         |   1 +=0D
+ tests/plugin/insn.c          |   1 +=0D
+ tests/plugin/mem.c           |   1 +=0D
+ 19 files changed, 262 insertions(+), 214 deletions(-)=0D
+ delete mode 100644 plugins/qemu-plugins.symbols=0D
+=0D
+--=3D20=0D
+2.28.0.windows.1=0D
+=0D
 
