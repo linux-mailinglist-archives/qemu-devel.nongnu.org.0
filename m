@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBF2280604
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:56:32 +0200 (CEST)
-Received: from localhost ([::1]:50472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 627202805EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:51:59 +0200 (CEST)
+Received: from localhost ([::1]:59152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2oh-0006P6-Mq
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33390)
+	id 1kO2kI-0006Q5-1i
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO2Rv-0004ic-3q; Thu, 01 Oct 2020 13:32:59 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO2Rs-0005Df-N7; Thu, 01 Oct 2020 13:32:58 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b124so5190339pfg.13;
- Thu, 01 Oct 2020 10:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=38P1i5JkQS7ofb/RLUKRo29Ks91Vqq7zgVYwAGpHkHw=;
- b=lMQzmh67JMvOY+1NHCOZ+gV9iKaz83cqeGY4LxAfoaX6VrBTyYeCQqURxtaCNMJ30S
- XDVK5nyLE9huVIUmYVMgWtLQC6BCqbInNTzcLcyY4uBd38Ft7HXCswWKzO4riPKTzAHc
- iDRQeKvaC/Df50aMUMg9XkWALGL3+c+T8t9EbHTr3qxgh2n5dJEeUH7+CZj5qMDN9CmR
- HEFXY3qjFQ5vGSdP6+nFk19UKG5XuxQiMS0txhgpmrJFRMrOSITgwVQGujdZqMZZbJ40
- cSXX7Y20VY3DSl07tgXITeS68WIugnb+O0E9LNw7HTjRS93pISn7rY/SIQe+yr/9FQMb
- xjLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=38P1i5JkQS7ofb/RLUKRo29Ks91Vqq7zgVYwAGpHkHw=;
- b=Ed7X6oMuFjfsWwc6Ks3bLBBJoDP/FI5tcT0nH0GNW5/Uzy/bgnZnOlfnrOxk29mGN0
- lZkHq7AVaATpSQxTAmxh5a4AIoMxJZkCHgFZO1UPfIvrDe3UojmPujxWiAhRdEcCvS1C
- 4Sl459Dz6/Ng0IuJg0mlaijj3CF1WmYwe8TFXb28yPcu/XtPDKVE7lk8q+/fAUBIKkgX
- M+Uqq+aEkJFE/CydZ2mUi8oK3snDSHA2Hb/XXq5GIMaTwQSZVC4p7tA/9XJeMCO/U+za
- /zU05hkenHV406m1ORqBu8Be5g1O3gHK+9S/ucIRfVnM//YpkE4venVDdcLJRjQa1AdM
- Jvhg==
-X-Gm-Message-State: AOAM533h/eKo91YXlBMfzV5G0lhYLbPdk6p2oO2yvEUU6auJcPPJYsv+
- pJ3LqighISnUAvq3ZrtB0KUjurOZnOnJBw==
-X-Google-Smtp-Source: ABdhPJyih6h3zqzIPgZyn4H2VOmauvHJ/HkC+Kp4cwoXY9Moba4Ikmr9XpSmSYYhU6ZJJBaioC2xCQ==
-X-Received: by 2002:a63:1863:: with SMTP id 35mr6999333pgy.413.1601573574454; 
- Thu, 01 Oct 2020 10:32:54 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id b20sm7253767pfb.198.2020.10.01.10.32.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 10:32:53 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 2/4] curses: Fixes compiler error that complain don't have
- langinfo.h on msys2/mingw
-Date: Fri,  2 Oct 2020 01:32:28 +0800
-Message-Id: <20201001173230.829-3-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20201001173230.829-1-luoyonggang@gmail.com>
-References: <20201001173230.829-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kO2Tu-0006dy-49; Thu, 01 Oct 2020 13:35:02 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:59767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kO2Tr-0005Jn-R3; Thu, 01 Oct 2020 13:35:01 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 74F74580195;
+ Thu,  1 Oct 2020 13:34:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 01 Oct 2020 13:34:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=QTGNeeeaP4RT7A2XHXbgT2geVsC
+ cXEG3ugOOVsTuYKs=; b=IJA2KZBpOO0TY664d8hGM5+LY1mmnUihjexvcemaFG5
+ ko5g7XPVjZHw7MDdzNAccqshiOkxKpcrasYo7y7Ud/EZVmqzeX7I9A1ieIlmGphT
+ 2zXk7SRjP71VtcxyW0OmuRAFfW2kihUfr46Thc0BBJMw1OnY4Q38EiCzevFo3MOu
+ mwfMXCthlb8tGOf9dyhNvi9kZT7xSEPTyl1qtuku+e59+ojQWfkOfpHqvUplCS5v
+ MzEtaT253b6DcYSLh7MlKgkMOdXuqX+r5iwzuQJidOh0pbSgxZD3NUnVjLIWwn5o
+ Fmf5My7L1MvylptL1JtuYQJzP/TzjhU8Jb4vMIy/eCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=QTGNee
+ eaP4RT7A2XHXbgT2geVsCcXEG3ugOOVsTuYKs=; b=H9x0BFAQ1ft19RkSxaYzyn
+ IQo4Txg+xZohT5aUz+QMCVU5k1M5nKkxFIjHLcvf9V8gj1aQCgLn604yA41NQy7b
+ 709dseCjPXY41Hdvo46H6LenL2w5k/toVE0cuIHZDwZPS103DuV3sXwMPUlmEgOU
+ tXzLNH9qCJgO4m+DgrLE8f5v37pNOssqN4/0ku/+dNcMnMAv1i3g4K7pi2h4NnCQ
+ ScSJwgbKgXwuNa/QJZQ0pm/x6cTWl6W02DmNwc9Chi29GxjPSI6C6ATqppsv4AZn
+ hDgtpRBf/ATVTnQl21/ysnApvQtsDBE8VdXsxE500nddOi+LP9IDC1hwHb85HDuw
+ ==
+X-ME-Sender: <xms:QBN2X5VqEbUIElpalEnAO4JxqvlG-H-ajG4ieqancWMOnDr40RD00g>
+ <xme:QBN2X5lbfn3eSGztEQTpDLoYSeLkgEl5nDSpSa46YHCag9Biu_rimFssrHAEr62_b
+ zHpxk_mMf4ylOB4Cr4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeggdduudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:QBN2X1bOhAuXrBg92ruykiGWv8Di4iX3cyCHuISudERQt_J0sAvrYA>
+ <xmx:QBN2X8WKGEn7TvGZMFtcMjAcvjIwvnz0_yu0lx7Zun20S8-6VDfQ7Q>
+ <xmx:QBN2XznY_yvzecrvu2gZcLcmFrbXu_t2lWUkSv2B4zJzRN3yRZ1VLA>
+ <xmx:QRN2X-sQIluxHzK__QeqgRaWAxPCKmPUOFzb8GS0Vywn6DM2J2JiUQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 940BE306467E;
+ Thu,  1 Oct 2020 13:34:54 -0400 (EDT)
+Date: Thu, 1 Oct 2020 19:34:52 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
+Message-ID: <20201001173452.GB792691@apples.localdomain>
+References: <20200930220414.562527-1-kbusch@kernel.org>
+ <20200930220414.562527-4-kbusch@kernel.org>
+ <20201001041057.GC681387@apples.localdomain>
+ <20201001152055.GA3343@C02WT3WMHTD6>
+ <20201001171837.GA792691@apples.localdomain>
+ <20201001173043.GA564827@dhcp-10-100-145-180.wdl.wdc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GRPZ8SYKNexpdSJ7"
+Content-Disposition: inline
+In-Reply-To: <20201001173043.GA564827@dhcp-10-100-145-180.wdl.wdc.com>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 13:18:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,87 +100,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-msys2/mingw lacks the POSIX-required langinfo.h.
 
-gcc test.c -DNCURSES_WIDECHAR -I/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
-test.c:4:10: fatal error: langinfo.h: No such file or directory
-    4 | #include <langinfo.h>
-      |          ^~~~~~~~~~~~
-compilation terminated.
+--GRPZ8SYKNexpdSJ7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So we using g_get_codeset instead of nl_langinfo(CODESET)
+On Oct  1 10:30, Keith Busch wrote:
+> On Thu, Oct 01, 2020 at 07:18:37PM +0200, Klaus Jensen wrote:
+> > OK, so I agree that it makes sense for it to be supported on a per
+> > namespace basis, but I think the spec is just keeping the door open for
+> > future namespace specific stuff in the log page - currently there is
+> > none.
+> >=20
+> > Figure 94 (the actual SMART log page) says that the Data Units
+> > Read/Written are controller wide, so there really is no namespace
+> > specific information. Maybe this could be in the context of shared
+> > namespaces? How would a controller know how much data has been
+> > read/written from it without asking the other controllers? What if a
+> > controller is detached from the namespace - you'd lose those numbers.
+>=20
+> That text is wrong. There is no "controller" scope to the smart log.
+> Figure 191 says the smart scope is to the subsystem or the namespace. It
+> doesn't matter which controller performed an IO to a particular
+> namespace; the log needs to report the same information regardless of
+> which controller you query. How that is coordinated within the subsystem
+> is a detail not defined by spec.
+>=20
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
----
- ui/curses.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Oh! Thats new in v1.4. So they updated that, but forgot figure 194. In
+v1.3 it is controller and namespace scope.
 
-diff --git a/ui/curses.c b/ui/curses.c
-index a59b23a9cf..12bc682cf9 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -30,7 +30,6 @@
- #endif
- #include <locale.h>
- #include <wchar.h>
--#include <langinfo.h>
- #include <iconv.h>
- 
- #include "qapi/error.h"
-@@ -526,6 +525,7 @@ static void font_setup(void)
-     iconv_t nativecharset_to_ucs2;
-     iconv_t font_conv;
-     int i;
-+    g_autofree gchar *local_codeset = g_get_codeset();
- 
-     /*
-      * Control characters are normally non-printable, but VGA does have
-@@ -566,14 +566,14 @@ static void font_setup(void)
-       0x25bc
-     };
- 
--    ucs2_to_nativecharset = iconv_open(nl_langinfo(CODESET), "UCS-2");
-+    ucs2_to_nativecharset = iconv_open(local_codeset, "UCS-2");
-     if (ucs2_to_nativecharset == (iconv_t) -1) {
-         fprintf(stderr, "Could not convert font glyphs from UCS-2: '%s'\n",
-                         strerror(errno));
-         exit(1);
-     }
- 
--    nativecharset_to_ucs2 = iconv_open("UCS-2", nl_langinfo(CODESET));
-+    nativecharset_to_ucs2 = iconv_open("UCS-2", local_codeset);
-     if (nativecharset_to_ucs2 == (iconv_t) -1) {
-         iconv_close(ucs2_to_nativecharset);
-         fprintf(stderr, "Could not convert font glyphs to UCS-2: '%s'\n",
-@@ -581,7 +581,7 @@ static void font_setup(void)
-         exit(1);
-     }
- 
--    font_conv = iconv_open(nl_langinfo(CODESET), font_charset);
-+    font_conv = iconv_open(local_codeset, font_charset);
-     if (font_conv == (iconv_t) -1) {
-         iconv_close(ucs2_to_nativecharset);
-         iconv_close(nativecharset_to_ucs2);
-@@ -602,7 +602,7 @@ static void font_setup(void)
-     /* DEL */
-     convert_ucs(0x7F, 0x2302, ucs2_to_nativecharset);
- 
--    if (strcmp(nl_langinfo(CODESET), "UTF-8")) {
-+    if (strcmp(local_codeset, "UTF-8")) {
-         /* Non-Unicode capable, use termcap equivalents for those available */
-         for (i = 0; i <= 0xFF; i++) {
-             wchar_t wch[CCHARW_MAX];
--- 
-2.28.0.windows.1
+Anyway, fair enough. In that case,
 
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--GRPZ8SYKNexpdSJ7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl92EzoACgkQTeGvMW1P
+DekweAgAkdjYb1R8hcdZW9G/5O4aNtEqs+B1H2Kgv+yHCoIR6jF4Wf8Wwkd52NIb
+RdAJDVKdY4LB356v4QQsb2XMivIaVdl58aEJIMieozqoro+dsOq20AFYJW38BRuf
+dAqShAUSDkZJXyS3epiCe+Cbjel1eNqk1kuy9sCHEEUl+zjEn4+Z+HioX2KxKKbR
++tDeujRHU3GgbA6i7MGdB37iDK8xQ9SnAwkSrnajXR6VJ42DGQIal2nBzS65WALe
+t4o38bGtYnk0Wb0yxkCUU2/Gn0ZfdjA33S8ELUbCK9+uD0RN01LRMStIU2HfqqKv
+qf7AVaI69XfbiN8QBGzTNLWcKQPV5Q==
+=kuBK
+-----END PGP SIGNATURE-----
+
+--GRPZ8SYKNexpdSJ7--
 
