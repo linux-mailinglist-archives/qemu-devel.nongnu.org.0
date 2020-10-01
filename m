@@ -2,112 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918CF28059B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:40:09 +0200 (CEST)
-Received: from localhost ([::1]:59934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F122805B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 19:43:22 +0200 (CEST)
+Received: from localhost ([::1]:39878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2Yq-0002h0-KB
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32872)
+	id 1kO2bx-0006Mz-8B
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 13:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kO2Q0-0002hv-Rz
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:31:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43370)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kO2QP-00036K-83
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:31:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kO2Ps-00051Y-Dt
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:30:55 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kO2QN-00055I-0Y
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:31:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601573451;
+ s=mimecast20190719; t=1601573481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HKNMswTN1113NtwpvIjxyVH7EOFTcQvPOD8dmxhJgNY=;
- b=EsfdXtJAV/pp2DCeAofggnLC8tgZkLY2VS82oLbfOCY7qSrhqYBSEYGd8uu0Rt3LFS/2IQ
- gmTVDy/umXUN1Pwpk5m1iNeDrUm9ifDl9ci7LToRFDhUHEEFXuFgOCaarg9lzMAZiG471u
- EDYWZ9pT4+HaJK9LEPJPhvfsj7zXOBo=
+ bh=4U8U4/hvtLzLzVU5QfqRX5hqIJB7EcGBHRieizUMcqI=;
+ b=KLXzNzXA39vH7o836D2AvHPARisY3LPLJ231fbmo1Qf6VuEg0LN82nrwW9P4oJfop4z6Yl
+ 2yK290Ktn9rIjHJ2WBVtXolbGM9KvuLXDYhfy3VEYXUQmQ7rG+rthiZfovaW7C7xQ2l4Z+
+ ga6OuSuycrdPDPHkuFTbWK0WgsWFG44=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-nlf_S5MgNBCGDmrNjxHKZQ-1; Thu, 01 Oct 2020 13:30:49 -0400
-X-MC-Unique: nlf_S5MgNBCGDmrNjxHKZQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-208-EMkMKcKMMCaNLPxgOZfykA-1; Thu, 01 Oct 2020 13:31:19 -0400
+X-MC-Unique: EMkMKcKMMCaNLPxgOZfykA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D90B564082;
- Thu,  1 Oct 2020 17:30:47 +0000 (UTC)
-Received: from [10.36.112.77] (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CCF510013BD;
- Thu,  1 Oct 2020 17:30:45 +0000 (UTC)
-Subject: Re: [PATCH v1 03/20] s390x/tcg: Implement VECTOR MULTIPLY SUM LOGICAL
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200930145523.71087-1-david@redhat.com>
- <20200930145523.71087-4-david@redhat.com>
- <aada8ec1-6776-6674-e795-5f10909a02fe@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <c40796ff-3d24-b043-1a64-ba944faaabbc@redhat.com>
-Date: Thu, 1 Oct 2020 19:30:44 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C25821891E83;
+ Thu,  1 Oct 2020 17:31:18 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-181.ams2.redhat.com
+ [10.36.113.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 19E495D9D3;
+ Thu,  1 Oct 2020 17:31:16 +0000 (UTC)
+Subject: Re: [PATCH qemu 4/4] iotests: add test for bitmap mirror
+To: =?UTF-8?Q?Fabian_Gr=c3=bcnbichler?= <f.gruenbichler@proxmox.com>,
+ qemu-devel@nongnu.org
+References: <20200922091418.53562-1-f.gruenbichler@proxmox.com>
+ <20200922091418.53562-5-f.gruenbichler@proxmox.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5336db8d-b54a-0881-5675-ca23f9645e65@redhat.com>
+Date: Thu, 1 Oct 2020 19:31:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <aada8ec1-6776-6674-e795-5f10909a02fe@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200922091418.53562-5-f.gruenbichler@proxmox.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0.0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Py0oRnMf4lIeVf9GJxzWIvoocAM1qNkgf"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -129,39 +108,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.10.20 17:26, Richard Henderson wrote:
-> On 9/30/20 9:55 AM, David Hildenbrand wrote:
->> +    /* Multipy both even elements from v2 and v3 */
->> +    read_vec_element_i64(l1, get_field(s, v2), 0, ES_64);
->> +    read_vec_element_i64(h1, get_field(s, v3), 0, ES_64);
->> +    tcg_gen_mulu2_i64(l1, h1, l1, h1);
->> +    /* Shift result left by one bit if requested */
->> +    if (extract32(get_field(s, m6), 3, 1)) {
->> +        tcg_gen_extract2_i64(h1, l1, h1, 63);
->> +        tcg_gen_shli_i64(l1, l1, 1);
->> +    }
-> 
-> Not a bug, but some hosts require 3 insns for extract2 (so 4 total for this
-> sequence).
-> 
-> This doubling can also be had via add2:
-> 
->     tcg_gen_add2_i64(l1, h1, l1, h1, l1, h1);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Py0oRnMf4lIeVf9GJxzWIvoocAM1qNkgf
+Content-Type: multipart/mixed; boundary="BEqjfZStfHpBPSDCwnWa4tQ40NQV2Xcj4"
 
-Took me longer than it should to realize this is really just doubling
-the value ... will use tcg_gen_add2_i64() and add a comment.
+--BEqjfZStfHpBPSDCwnWa4tQ40NQV2Xcj4
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On 22.09.20 11:14, Fabian Gr=C3=BCnbichler wrote:
+> heavily based on/practically forked off iotest 257 for bitmap backups,
+> but:
+>=20
+> - no writes to filter node 'mirror-top' between completion and
+> finalization, as those seem to deadlock?
+> - no inclusion of not-yet-available full/top sync modes in combination
+> with bitmaps
+> - extra set of reference/test mirrors to verify that writes in parallel
+> with active mirror work
+>=20
+> intentionally keeping copyright and ownership of original test case to
+> honor provenance.
+>=20
+> Signed-off-by: Fabian Gr=C3=BCnbichler <f.gruenbichler@proxmox.com>
+> ---
+>  tests/qemu-iotests/306     |  546 +++++++
+>  tests/qemu-iotests/306.out | 2846 ++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/group   |    1 +
+>  3 files changed, 3393 insertions(+)
+>  create mode 100755 tests/qemu-iotests/306
+>  create mode 100644 tests/qemu-iotests/306.out
+>=20
+> diff --git a/tests/qemu-iotests/306 b/tests/qemu-iotests/306
+> new file mode 100755
+> index 0000000000..1bb8bd4138
+> --- /dev/null
+> +++ b/tests/qemu-iotests/306
+
+[...]
+
+> +def test_bitmap_sync(bsync_mode, msync_mode=3D'bitmap', failure=3DNone):
+> +    """
+> +    Test bitmap mirror routines.
+> +
+> +    :param bsync_mode: Is the Bitmap Sync mode, and can be any of:
+> +        - on-success: This is the "incremental" style mode. Bitmaps are
+> +                      synchronized to what was copied out only on succes=
+s.
+> +                      (Partial images must be discarded.)
+> +        - never:      This is the "differential" style mode.
+> +                      Bitmaps are never synchronized.
+> +        - always:     This is a "best effort" style mode.
+> +                      Bitmaps are always synchronized, regardless of fai=
+lure.
+> +                      (Partial images must be kept.)
+> +
+> +    :param msync_mode: The mirror sync mode to use for the first mirror.
+> +                       Can be any one of:
+> +        - bitmap: mirrors based on bitmap manifest.
+> +        - full:   Full mirrors.
+> +        - top:    Full mirrors of the top layer only.
+> +
+> +    :param failure: Is the (optional) failure mode, and can be any of:
+> +        - None:         No failure. Test the normative path. Default.
+> +        - simulated:    Cancel the job right before it completes.
+> +                        This also tests writes "during" the job.
+> +        - intermediate: This tests a job that fails mid-process and prod=
+uces
+> +                        an incomplete mirror. Testing limitations preven=
+t
+> +                        testing competing writes.
+> +    """
+> +    with iotests.FilePath('img', 'bsync1', 'bsync2', 'bsync3',
+> +                            'fmirror0', 'fmirror1', 'fmirror2', 'fmirror=
+3') as \
+
+The indentation is off now.
+
+> +                            (img_path, bsync1, bsync2, bsync3,
+> +                             fmirror0, fmirror1, fmirror2, fmirror3), \
+> +         iotests.VM() as vm:
+Hm.  On tmpfs, this test fails for me:
+
+($ TEST_DIR=3D/tmp/iotest ./check -qcow2 306)
+
+@@ -170,7 +170,7 @@
+     "drive0": [
+       {
+         "busy": false,
+-        "count": 262144,
++        "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+         "recording": true,
+@@ -464,7 +464,7 @@
+     "drive0": [
+       {
+         "busy": false,
+-        "count": 262144,
++        "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+         "recording": true,
+@@ -760,7 +760,7 @@
+     "drive0": [
+       {
+         "busy": false,
+-        "count": 262144,
++        "count": 393216,
+         "granularity": 65536,
+         "persistent": false,
+         "recording": true,
+@@ -1056,7 +1056,7 @@
+     "drive0": [
+       {
+         "busy": false,
+-        "count": 262144,
++        "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+         "recording": true,
+@@ -1350,7 +1350,7 @@
+     "drive0": [
+       {
+         "busy": false,
+-        "count": 262144,
++        "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+         "recording": true,
+@@ -2236,7 +2236,7 @@
+     "drive0": [
+       {
+         "busy": false,
+-        "count": 262144,
++        "count": 458752,
+         "granularity": 65536,
+         "persistent": false,
+         "recording": true,
+
+Can you see the same?
+
+Max
 
 
--- 
-Thanks,
+--BEqjfZStfHpBPSDCwnWa4tQ40NQV2Xcj4--
 
-David / dhildenb
+--Py0oRnMf4lIeVf9GJxzWIvoocAM1qNkgf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl92EmMACgkQ9AfbAGHV
+z0B7sAf8CIzGxUiudEcEmlJMZ+wvHAmraHMCMKbGYgW7FW0jkyjRdfl013b3KdPV
+7kqHBKfunvMPBvfuT2pGsSzN4JpL8AlPhJH9SFUl0mSVgamwGdcqUuMTZnkflcwR
+0NFSYybgbo/SiNXeayz2VNnHDS+yUMplEVDrbHFKC4/3WDzoudW7bNiA8CKjMLTf
+JZrEFBaPZz53Rzn7ZOqY/xNEwAxavtVqiAKgAiF5q5qLtnQv96cmz8fYGGd6+7Wc
+Nw4mOQiPMo7NFvQWO4h7rAeBEpTFCvBhge8KOne9BTVNYGpio8m+QRDbies7A39i
+7rz2SlrBcRBU/xoBbV3BtkcIwcVqsw==
+=UYaD
+-----END PGP SIGNATURE-----
+
+--Py0oRnMf4lIeVf9GJxzWIvoocAM1qNkgf--
 
 
