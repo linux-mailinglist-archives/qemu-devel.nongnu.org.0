@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C53C280626
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:02:29 +0200 (CEST)
-Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7944280637
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:08:09 +0200 (CEST)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2uR-0005W6-Hp
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60930)
+	id 1kO2zw-0000pj-Li
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO2PW-0002HP-M5
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:30:30 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kO2PU-0004vl-KT
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:30:30 -0400
-Received: by mail-ot1-x342.google.com with SMTP id h17so6262048otr.1
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 10:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2zTn6UmRDFxIs8ngnHnsvmIE7cYSTi6nE7o8QaMVh/4=;
- b=gIce9xcGe73X1XlmKYURkfoFvoZRnStNNJWyumKgE6G4bW3pCOdtLbr4JBILIEhNs/
- sywA8Hk6FJKbNJeHy4qEfUMnIf/6krJHv+BqekgEZquLrAr0iSqT+Ag6N/dlMPOqsqCQ
- 4PKqG6IGTzRbJGi8UYbs/JqxCJZYBSATYWf1WHFxj8tGDxBRZQBq7OQIEdr70Zbqqxas
- UkrHek1J0nT8K6gUumjQTYyaUqCIZbbGJz3u7zDR/mBt257qwJU3JtBsu4CBbj92iKUm
- PFgr/2WDpC6PFBYGQWM+rV+IGQDCYxu6ln8SIHo1J/OMIJF2Tfps15nD04w4BcQqOLq9
- osSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2zTn6UmRDFxIs8ngnHnsvmIE7cYSTi6nE7o8QaMVh/4=;
- b=gOVkWgv+NN6ylF3GX43VE6cMsji3pU5k2JP3cuYRKQWye+SXvnwYqjEfP5ldQWtsQI
- ox5XE+OuifKsaPYHPT6gEzGtH1pZDzIE24CKkppAE/7hF2SMUkOiNkENP7+p3XOxPlFP
- YVEcyCiSSWhvFcXK6gCksZbyq0iYEQokWJMLEzYioY3WVwIbU/TgcIh11d8ox+E7KnSA
- u2iL7vQmjILOKeG+Qzn+LH2ySUog4w4lgXtooMt0Fy6JTuoRfCFkvdbRRowCqrR2Ryq/
- WUiXxVXXOMjSKgi+yZbzV0pOo+GTgEO5R6qB46o1VzuiRJ+DXLhla/5E2jVZSy4gEaN9
- woGw==
-X-Gm-Message-State: AOAM533mwOzjgHFuR8A8bdeSPJ8/hzUnwpDAGk4hN9aFY1ndBHCmCuze
- HxuU9JMFo1F2bWfOCNyoZ0hsxA==
-X-Google-Smtp-Source: ABdhPJwA7IsNAMHtf8Ilb++VnjC5zb040uvQ3EaOqsxb03NjE5mdqfYClFCr9x+r4M8ZqPJ3cDWmDw==
-X-Received: by 2002:a05:6830:124d:: with SMTP id
- s13mr5560103otp.12.1601573425829; 
- Thu, 01 Oct 2020 10:30:25 -0700 (PDT)
-Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u2sm1467840oot.39.2020.10.01.10.30.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 10:30:25 -0700 (PDT)
-Subject: Re: [PATCH 4/5] target/riscv: Add V extention state description
-To: Yifei Jiang <jiangyifei@huawei.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20200929020337.1559-1-jiangyifei@huawei.com>
- <20200929020337.1559-5-jiangyifei@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <adfc3dc2-606f-5670-4b3b-c0719826a60e@linaro.org>
-Date: Thu, 1 Oct 2020 12:30:21 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kO2Ps-0002g7-RB; Thu, 01 Oct 2020 13:30:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kO2Pp-0004z6-De; Thu, 01 Oct 2020 13:30:52 -0400
+Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0C8872085B;
+ Thu,  1 Oct 2020 17:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1601573445;
+ bh=M0nVfKA4hHFwDxCFHpx3AXw35cp8CwCQhDbIV5gAD/4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tGF9PM98gOS3xckwGsAC+pL3jhCLU1ClWt9vFChCJtEl+ikUPBkqEkRPTNdJ1XHWX
+ MhMIMODBONxGj1tD7Z5Y+W7ciCOWbAW0yFQDCxUix4t3KnGT70ODhfIppFHsr7zLYv
+ SWa5X++xskA2TcgOiSxa8k2XPOZJzdnH3K76MA08=
+Date: Thu, 1 Oct 2020 10:30:43 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
+Message-ID: <20201001173043.GA564827@dhcp-10-100-145-180.wdl.wdc.com>
+References: <20200930220414.562527-1-kbusch@kernel.org>
+ <20200930220414.562527-4-kbusch@kernel.org>
+ <20201001041057.GC681387@apples.localdomain>
+ <20201001152055.GA3343@C02WT3WMHTD6>
+ <20201001171837.GA792691@apples.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200929020337.1559-5-jiangyifei@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201001171837.GA792691@apples.localdomain>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:20:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,28 +66,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, victor.zhangxiaofeng@huawei.com,
- Alistair.Francis@wdc.com, yinyipeng1@huawei.com, palmer@dabbelt.com,
- wu.wubin@huawei.com, dengkai1@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/20 9:03 PM, Yifei Jiang wrote:
-> In the case of supporting V extention, add V extention description
-> to vmstate_riscv_cpu.
+On Thu, Oct 01, 2020 at 07:18:37PM +0200, Klaus Jensen wrote:
+> OK, so I agree that it makes sense for it to be supported on a per
+> namespace basis, but I think the spec is just keeping the door open for
+> future namespace specific stuff in the log page - currently there is
+> none.
 > 
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
-> ---
->  target/riscv/machine.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+> Figure 94 (the actual SMART log page) says that the Data Units
+> Read/Written are controller wide, so there really is no namespace
+> specific information. Maybe this could be in the context of shared
+> namespaces? How would a controller know how much data has been
+> read/written from it without asking the other controllers? What if a
+> controller is detached from the namespace - you'd lose those numbers.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+That text is wrong. There is no "controller" scope to the smart log.
+Figure 191 says the smart scope is to the subsystem or the namespace. It
+doesn't matter which controller performed an IO to a particular
+namespace; the log needs to report the same information regardless of
+which controller you query. How that is coordinated within the subsystem
+is a detail not defined by spec.
 
-Though of course this is racing with the v1.0 patch set, which changes the set
-of vector csrs.
-
-
-r~
+Not that that particular detail matters here, as we don't support
+multi-controller subsystems (yet!). But the smart log text has missed an
+update to reflect this, so it looks like trivial ECN material to me.
 
