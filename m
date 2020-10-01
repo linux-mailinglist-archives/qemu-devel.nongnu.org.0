@@ -2,120 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902B328039E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:13:04 +0200 (CEST)
-Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E512803A8
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:15:57 +0200 (CEST)
+Received: from localhost ([::1]:34878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1CZ-0002y6-HB
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
+	id 1kO1FL-000716-J2
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:15:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0pn-00049c-VX
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:49:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24250)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kO0pl-0005C1-Qw
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:49:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601567366;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ff1d5BbPcg5H7B2Vhm0pnCgFm0nkBZG1PxeecPHHbUg=;
- b=gqEM/erH19YYNLTmi5SquuzHPvt9wp0cxVQSKITEq93g/78Va6upTXih9iBFsoaC69thrx
- JykKNh2akBvE1tOUDvVRmANCUrxn0BDiRLicF/VJUT+tde3Zp6VUlYkIk7CWTtSwZCVt6X
- o+2uOXwVjFmNvqOVDCEe9W7LHEtZ2hM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-8sKe-jigPjSbyxEiWzo3Vg-1; Thu, 01 Oct 2020 11:49:24 -0400
-X-MC-Unique: 8sKe-jigPjSbyxEiWzo3Vg-1
-Received: by mail-wr1-f71.google.com with SMTP id g6so2228548wrv.3
- for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:49:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO0sZ-0007Qy-5f
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:52:23 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kO0sW-0005dq-0q
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:52:22 -0400
+Received: by mail-ot1-x329.google.com with SMTP id 60so5903117otw.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Oct 2020 08:52:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Rp1olVyD10Ryn3kxXfDXwCjSIOO1hy/QgnZ5VdrFGDM=;
+ b=LYmz2ucpkHzvfR6r1vKM2HPrAuVxkoNhqINPuG2w6VQyYpBqSoOm4alWp+oGmtGzoo
+ sVCnAIbBAwDgadFmGvBDxrDcV5zTjtkWB5bIHKG9VK/f0uBh5/PYBvxGXWf6btpqxdKO
+ ooMogHmmk5vcVv/hPc/ikbm6rzD78DMKzKin1pOOcqRHYAV6rYtNzOcVik2ICnuIxEPk
+ iulSXsoA7sIxwTUyFzO+qoAtKpPUuJj5kr6RqQyk1OE90xgEyAmeqXHa6Ey/Gr9nJmTO
+ rOLaCuIe+aY0nSkb8DaGZrpvF7dgZFYUw1rntUvMkMNta4f6W5XcccA6OaAg6HUGUP/r
+ VByg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ff1d5BbPcg5H7B2Vhm0pnCgFm0nkBZG1PxeecPHHbUg=;
- b=FwJIdoLx8RvwJOUKwOEg9TKloQBbW1t48c0yFpArY+bNvN1LuCi0ux4ItsnHxtZ/Az
- PZe3jILSgf1goSrSB0q6eOmP0zTCyLoQ6yoiveHPRN087fFR/LTGVUsIo2qcUhN+SeUg
- vTMUAXOldlILaeGMzovHTErkLHk+ArMmKevwsIYpd5dEQtfe7FIukQnxRJVkK6/HYYdI
- VKuhsACHV5f3PNsBTYH6EX4lIBvU4jrJ4olDb6fCzAfqUNKg4ka3hCUcRKMKJitY1VMK
- nZ5andvXJ9pCi+O7SCa9QSyPvgbKRGJvF9wbsfa85a/K27xG1VbeSveLHE/K2ecB+acD
- pgSQ==
-X-Gm-Message-State: AOAM530/TvqdFOdnr7PlWX0L9MmUDfRc+fdWjthEG7Q7BexOzllUxgaT
- KmYpNbn9Qd1vVs3UxHYfH8764JQ0McbfJcNDMgH88+mmJqiDIl3du1eBBaSXm9y5lSHPf5Y9G5K
- JOuGtu7PTjdSM6wE=
-X-Received: by 2002:a7b:c393:: with SMTP id s19mr703581wmj.78.1601567362885;
- Thu, 01 Oct 2020 08:49:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyon1b9e8FsFIDIJWQz8gWUKpVCZCLoP+RVYbBRGhC8re1SA/GRB8xV7PeCy5NxS11jBwFo0w==
-X-Received: by 2002:a7b:c393:: with SMTP id s19mr703556wmj.78.1601567362641;
- Thu, 01 Oct 2020 08:49:22 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id t10sm539681wmi.1.2020.10.01.08.49.21
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Rp1olVyD10Ryn3kxXfDXwCjSIOO1hy/QgnZ5VdrFGDM=;
+ b=KQidiXymk303i05sav8N3Lb3E/enyjxcb8mGHtQYrkKISK6hj8PYqqJ/WYCbg/V5/R
+ sWClyc6g6plNLMMGz5SNFyt1gR8etCcbMWb0ymjvhRRIq+RjJGBEzKlQvno5bu/oNIxc
+ eOd1rQNXGjO0KMtDzW+07GIlFObPtA73cUXKUWK1fynON+5Q7QzSFxn6ptw8Y+4r5Bs8
+ 4T2eAuijQ9dqWnZ26x7L+BqHtdEJyINW+iToT9/uvTYfjJ9Xo2WQqmTkXBk/QvUD9his
+ gVf3Tim3r75+06DJmq/my5z3IvtyBXgGp1+xsCEt1CsE4WF3sXjyB3IZuyExDil681qu
+ jLYw==
+X-Gm-Message-State: AOAM531JBwtDTd0aTapljh2nMPRKRwWRVTEWDIaj6ctv9I3wBK8DPJEY
+ VkmomtLCbHb83VnAfySUXDlGlA==
+X-Google-Smtp-Source: ABdhPJyz9BqtWIhQ+SzHlg0oVcXIdCZqVdUTQ+dWqQCkbIaH7/7d1ERn2PAP8kccalpcFpuzfRt16Q==
+X-Received: by 2002:a9d:360b:: with SMTP id w11mr5691634otb.203.1601567538813; 
+ Thu, 01 Oct 2020 08:52:18 -0700 (PDT)
+Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id b16sm1280202otq.31.2020.10.01.08.52.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Oct 2020 08:49:21 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] MAINTAINERS: Add Python library stanza
-To: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20200922230505.4089701-1-jsnow@redhat.com>
- <20200922230505.4089701-2-jsnow@redhat.com>
- <87wo0k34qp.fsf@dusky.pond.sub.org>
- <ce23c70a-2e0e-0ca1-5260-812d713f04a8@redhat.com>
- <20200923153707.GP3312949@habkost.net>
- <f0e34f41-ba30-770e-068f-dc6ccc92ed33@redhat.com>
- <8ce21cbd-2b7a-dbb7-46e3-026621ad0568@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <066ea3d8-156f-b1fd-93ea-dd3372962f81@redhat.com>
-Date: Thu, 1 Oct 2020 17:49:20 +0200
+ Thu, 01 Oct 2020 08:52:18 -0700 (PDT)
+Subject: Re: [PATCH v1 08/20] s390x/tcg: Implement 32/128 bit for VECTOR FP
+ COMPARE (AND SIGNAL) SCALAR
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200930145523.71087-1-david@redhat.com>
+ <20200930145523.71087-9-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e87d0716-2e62-33dc-a5b6-6e29d19d225b@linaro.org>
+Date: Thu, 1 Oct 2020 10:52:15 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <8ce21cbd-2b7a-dbb7-46e3-026621ad0568@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200930145523.71087-9-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x329.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,91 +91,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, crosa@redhat.com, alex.bennee@linaro.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/20 5:27 PM, John Snow wrote:
-> On 9/23/20 12:49 PM, Philippe Mathieu-Daudé wrote:
->> On 9/23/20 5:37 PM, Eduardo Habkost wrote:
->>> On Wed, Sep 23, 2020 at 11:17:01AM -0400, John Snow wrote:
->>>> On 9/23/20 11:14 AM, Markus Armbruster wrote:
->>>>> John Snow <jsnow@redhat.com> writes:
->>>>>
->>>>>> I'm proposing that I split the actual Python library off from the
->>>>>> other
->>>>>> miscellaneous python scripts we have and declare it maintained. Add
->>>>>> myself as a maintainer of this folder, along with Cleber.
->>>>>>
->>>>>> v2: change python/* to python/, thanks Alex.
->>>>>>
->>>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->>>>>> Acked-by: Cleber Rosa <crosa@redhat.com>
->>>>>> Acked-by: Eduardo Habkost <ehabkost@redhat.com>
->>>>>> ---
->>>>>>    MAINTAINERS | 9 ++++++++-
->>>>>>    1 file changed, 8 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>>>> index 3d17cad19a..c0222ee645 100644
->>>>>> --- a/MAINTAINERS
->>>>>> +++ b/MAINTAINERS
->>>>>> @@ -2355,11 +2355,18 @@ S: Maintained
->>>>>>    F: include/sysemu/cryptodev*.h
->>>>>>    F: backends/cryptodev*.c
->>>>>> +Python library
->>>>>> +M: John Snow <jsnow@redhat.com>
->>>>>> +M: Cleber Rosa <crosa@redhat.com>
->>>>>> +R: Eduardo Habkost <ehabkost@redhat.com>
->>>>>> +S: Maintained
->>>>>> +F: python/
->>>>>> +T: git https://gitlab.com/jsnow/qemu.git python
->>>>>> +
->>>>>>    Python scripts
->>>>>>    M: Eduardo Habkost <ehabkost@redhat.com>
->>>>>>    M: Cleber Rosa <crosa@redhat.com>
->>>>>>    S: Odd fixes
->>>>>> -F: python/qemu/*py
->>>>>>    F: scripts/*.py
->>>>>>    F: tests/*.py
->>>>>
->>>>> Separate sections just so you can have the appropriate S:, or is
->>>>> there a
->>>>> deeper logic behind the split?
->>>>>
->>>>
->>>> Yes, different intended levels of support. I don't currently have the
->>>> bandwidth to promise support for the miscellaneous Python scripts in
->>>> ./scripts, but I do promise to support to a higher level the code in
->>>> ./python.
->>>>
->>>> Over time, I intend to migrate things into ./python, but there are some
->>>> series that need to happen first before I start doing that.
->>>
->>> Also, the actual owners for most scripts in ./scripts are already
->>> listed elsewhere.  I believe we shouldn't really have M: lines
->>> for the scripts/*.py section, just R:.
->>
->> Agreed. Maybe worth a comment in the section although.
->>
-> 
-> *in* the section? There is no precedent for that. Is this really so
-> important?
+On 9/30/20 9:55 AM, David Hildenbrand wrote:
+> @@ -2601,19 +2601,41 @@ static DisasJumpType op_wfc(DisasContext *s, DisasOps *o)
+>  {
+>      const uint8_t fpf = get_field(s, m3);
+>      const uint8_t m4 = get_field(s, m4);
+> +    gen_helper_gvec_2_ptr *fn = NULL;
+>  
+> -    if (fpf != FPF_LONG || m4) {
+> +    switch (fpf) {
+> +    case FPF_SHORT:
+> +        if (s390_has_feat(S390_FEAT_VECTOR_ENH)) {
+> +            fn = gen_helper_gvec_wfk32;
+> +            if (s->fields.op2 == 0xcb) {
 
-Well if this file is only consumed by scripts, and no human reads it,
-then it is pointless indeed.
+Hoist and name this comparision (e.g. bool signal = ...).
 
-> 
-> I'll give you a commit message blurb.
+> -static int wfc64(const S390Vector *v1, const S390Vector *v2,
+> -                 CPUS390XState *env, bool signal, uintptr_t retaddr)
+> -{
+> -    /* only the zero-indexed elements are compared */
+> -    const float64 a = s390_vec_read_element64(v1, 0);
+> -    const float64 b = s390_vec_read_element64(v2, 0);
+> -    uint8_t vxc, vec_exc = 0;
+> -    int cmp;
+> -
+> -    if (signal) {
+> -        cmp = float64_compare(a, b, &env->fpu_status);
+> -    } else {
+> -        cmp = float64_compare_quiet(a, b, &env->fpu_status);
+> -    }
+> -    vxc = check_ieee_exc(env, 0, false, &vec_exc);
+> -    handle_ieee_exc(env, vxc, vec_exc, retaddr);
+> -
+> -    return float_comp_to_cc(env, cmp);
+> +#define DEF_WFC(BITS)                                                          \
+> +static int wfc##BITS(const S390Vector *v1, const S390Vector *v2,               \
+> +                     CPUS390XState *env, bool signal, uintptr_t retaddr)       \
+> +{                                                                              \
+> +    /* only the zero-indexed elements are compared */                          \
+> +    const float##BITS a = s390_vec_read_float##BITS(v1, 0);                    \
+> +    const float##BITS b = s390_vec_read_float##BITS(v2, 0);                    \
+> +    uint8_t vxc, vec_exc = 0;                                                  \
+> +    int cmp;                                                                   \
+> +                                                                               \
+> +    if (signal) {                                                              \
+> +        cmp = float##BITS##_compare(a, b, &env->fpu_status);                   \
+> +    } else {                                                                   \
+> +        cmp = float##BITS##_compare_quiet(a, b, &env->fpu_status);             \
+> +    }                                                                          \
+> +    vxc = check_ieee_exc(env, 0, false, &vec_exc);                             \
+> +    handle_ieee_exc(env, vxc, vec_exc, retaddr);                               \
+> +                                                                               \
+> +    return float_comp_to_cc(env, cmp);                                         \
+>  }
+> +DEF_WFC(32)
+> +DEF_WFC(64)
+> +DEF_WFC(128)
 
-That sometime works, thanks.
+So, same issue here vs debugging.
 
-> 
-> --js
-> 
+If you keep this macroized, I don't see the value in two levels of macros...
+
+> +#define DEF_GVEC_WFC(BITS)                                                     \
+> +void HELPER(gvec_wfc##BITS)(const void *v1, const void *v2, CPUS390XState *env,\
+> +                            uint32_t desc)                                     \
+> +{                                                                              \
+> +    env->cc_op = wfc##BITS(v1, v2, env, false, GETPC());                       \
+>  }
+> +DEF_GVEC_WFC(32)
+> +DEF_GVEC_WFC(64)
+> +DEF_GVEC_WFC(128)
+>  
+> +#define DEF_GVEC_WFK(BITS)                                                     \
+> +void HELPER(gvec_wfk##BITS)(const void *v1, const void *v2, CPUS390XState *env,\
+> +                            uint32_t desc)                                     \
+> +{                                                                              \
+> +    env->cc_op = wfc##BITS(v1, v2, env, true, GETPC());                        \
+>  }
+> +DEF_GVEC_WFK(32)
+> +DEF_GVEC_WFK(64)
+> +DEF_GVEC_WFK(128)
+
+These could be folded in to the first macro via parameters.
+
+
+r~
 
 
