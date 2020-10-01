@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953D528033B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:51:40 +0200 (CEST)
-Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B634F280343
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 17:53:41 +0200 (CEST)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO0rr-0004uN-Km
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59798)
+	id 1kO0to-0008EJ-Q2
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 11:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kO0mO-00088K-3j
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:46:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51483)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kO0mu-0000uH-FV
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:46:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kO0mL-0004qO-Iv
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:45:59 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kO0ms-0004ve-Nv
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 11:46:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601567156;
+ s=mimecast20190719; t=1601567190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=yiO6tXO0ygFISKydfb+pwy+4K+9zPyra2suwmLSgxEk=;
- b=ICiaw6UwggeGwNkNxaO35w1BZI86dQwJsZoTcy4+TtK+nMRqnOviWIJm73Wd1TaFE0f1m7
- jTTcv4E2GD/vQzPZV3Oo8/Oc7itGOfKQRBMb4ck4QZb2TO7kDUdJ2ibwacwgHK6SwnUnmZ
- Ls8tRxCMVEZ1J49OCU0E/i0Yzb5lde0=
+ bh=vBQKHIN608+tjZJbhahnx6v4ueZgeCoA0FWTzegXEZ4=;
+ b=RDQaJ0P5CUoDoaxtTKpsLMEXI1z4ynTdgB2v5CWdNZyMh49f3ocIbI/F70WcdNYk7O0BG+
+ 6VS4Enn8CoM87mdO6z94XwVzVAfeNG8/TvqztiPdrDLIShKJfP9/gh3Cu/iSlU/1MPkAfn
+ W/OS4kuv+Pb7oGuwmXu/q5+DLK9BC3U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-ZSRazObFPqSJshUVZO-6_Q-1; Thu, 01 Oct 2020 11:45:54 -0400
-X-MC-Unique: ZSRazObFPqSJshUVZO-6_Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-588-GfEEUGTuOcKY4i5sRiCrUw-1; Thu, 01 Oct 2020 11:46:26 -0400
+X-MC-Unique: GfEEUGTuOcKY4i5sRiCrUw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59CE58015A5;
- Thu,  1 Oct 2020 15:45:53 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-92.ams2.redhat.com [10.36.114.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FD665C1CF;
- Thu,  1 Oct 2020 15:45:52 +0000 (UTC)
-Date: Thu, 1 Oct 2020 17:45:50 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: Use of "?" for help has been deprecated for 8 years, can we drop
- it?
-Message-ID: <20201001154550.GB41938@linux.fritz.box>
-References: <87k0wa1bf8.fsf@dusky.pond.sub.org>
- <CAFEAcA9CNLdxAwq9ya5U_rUV2hdsHWwtwsgNws0+aUjDsAEwYw@mail.gmail.com>
- <2ac2d7da-fd5f-babf-a0ec-b733552d1978@de.ibm.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 405DF64088;
+ Thu,  1 Oct 2020 15:46:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B3121002397;
+ Thu,  1 Oct 2020 15:46:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 769751132784; Thu,  1 Oct 2020 17:46:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 1/4] keyval: Parse help options
+References: <20200930124557.51835-1-kwolf@redhat.com>
+ <20200930124557.51835-2-kwolf@redhat.com>
+Date: Thu, 01 Oct 2020 17:46:20 +0200
+In-Reply-To: <20200930124557.51835-2-kwolf@redhat.com> (Kevin Wolf's message
+ of "Wed, 30 Sep 2020 14:45:54 +0200")
+Message-ID: <87o8lmx837.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <2ac2d7da-fd5f-babf-a0ec-b733552d1978@de.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 02:15:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,30 +82,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.10.2020 um 17:23 hat Christian Borntraeger geschrieben:
-> 
-> 
-> On 01.10.20 13:20, Peter Maydell wrote:
-> > On Thu, 1 Oct 2020 at 11:35, Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> We deprecated "?" more than eight years ago.  We didn't have a
-> >> deprecation process back then, but we did purge "?" from the
-> >> documentation and from help texts.  Can we finally drop it?
-> > 
-> > Is it really that terrible a burden to support having an
-> > alias for 'help' ?
-> 
-> I agree. Having the "?" is really convenient. 
+Fried brain today, I have to go through this real slow.  I apologize in
+advance for being denser and more error-prone than usual.
 
-If people actually care about "?", can one of you send a patch to remove
-the comment that declares it deprecated?
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Kevin
+> This adds a new parameter 'help' to keyval_parse() that enables parsing
+> of help options. If NULL is passed, the function behaves the same as
+> before. But if a bool pointer is given, it contains the information
+> whether an option "help" without value was given (which would otherwise
+> either result in an error or be interpreted as the value for an implied
+> key).
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+
+You change the parser, but neglected to update the grammar in the big
+file comment.
+
+I made the mistake of attempting to review the parser change without
+fixing up the grammar first, and got lost in the weeds.  In part because
+today is not my day, but also because doing parsers without a grammar
+never works out well for me.
+
+Grammar from the big file comment:
+
+ * KEY=VALUE,... syntax:
+ *
+ *   key-vals     = [ key-val { ',' key-val } [ ',' ] ]
+ *   key-val      = key '=' val
+ *   key          = key-fragment { '.' key-fragment }
+ *   key-fragment = / [^=,.]* /
+ *   val          = { / [^,]* / | ',,' }
+
+and
+
+ * Additional syntax for use with an implied key:
+ *
+ *   key-vals-ik  = val-no-key [ ',' key-vals ]
+ *   val-no-key   = / [^=,]* /
+ *
+ * where no-key is syntactic sugar for implied-key=val-no-key.
+
+According to the commit message, we want to recognize "help" in place of
+key-val and val-no-key, but only for callers that opt in.
+
+This is more complex than recognizing it in place of just key-vals.  The
+commit message doesn't say why the extra complexity is wanted.  Peeking
+ahead in the series, I can see it's for supporting
+
+    -object TYPE,help
+
+in addition to
+
+    -object help
+
+I see.
+
+Making help support opt-in complicates things.  Is there a genuine use
+for not supporting help?  Or is just to keep the users that don't
+support help yet (but should) working without change?  Mind, I'm not
+asking you to make them work, I'm only asking whether you can think of a
+genuine case where help should not work.
+
+What are the existing users that don't support help?  Let's see... many
+in tests/test-keyval.c (ignore), and qobject_input_visitor_new_str().
+That one's used for qemu-system-FOO -audiodev, -display, -blockdev, and
+for qemu-storage-daemon --blockdev, --export, --monitor, --nbd-server.
+
+Attempting to get help for them fails like this:
+
+    $ bld-x86/storage-daemon/qemu-storage-daemon --blockdev help
+    qemu-storage-daemon: Invalid parameter 'help'
+    $ bld-x86/storage-daemon/qemu-storage-daemon --blockdev file,help
+    qemu-storage-daemon: Expected '=' after parameter 'help'
+
+I believe making them fail like
+
+    qemu-storage-daemon: no help available
+
+would actually be an improvement.
+
+If we get rid of the case "help is not supported", the grammar update
+isn't too bad, something like
+
+ *   key-val      = 'help' | key '=' val
+
+and
+
+ *   key-vals-ik  = 'help' | val-no-key [ ',' key-vals ]
+
+Done for today, hope my brain unfries itself overnight.
+
+[...]
 
 
