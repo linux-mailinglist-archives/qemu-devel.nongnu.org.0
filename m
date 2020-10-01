@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB83280416
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:37:24 +0200 (CEST)
-Received: from localhost ([::1]:35378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01118280425
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:42:47 +0200 (CEST)
+Received: from localhost ([::1]:52372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1a7-00079D-55
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42820)
+	id 1kO1fK-0005pg-0G
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1Qb-0005m3-NP; Thu, 01 Oct 2020 12:27:33 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43517)
+ id 1kO1Qd-0005s1-On; Thu, 01 Oct 2020 12:27:35 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1QX-0003E3-Mf; Thu, 01 Oct 2020 12:27:33 -0400
-Received: by mail-pf1-x441.google.com with SMTP id f18so4998005pfa.10;
- Thu, 01 Oct 2020 09:27:28 -0700 (PDT)
+ id 1kO1Qb-0003GF-Qf; Thu, 01 Oct 2020 12:27:35 -0400
+Received: by mail-pf1-x436.google.com with SMTP id b124so4985527pfg.13;
+ Thu, 01 Oct 2020 09:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CBOHCjIK1sZQcljIQo3RuLz+8eqKABqWe+n9Gj0wJng=;
- b=oxh9Ke+OW8Y92hFsdJ6SL2bq/L7e1taIKTac06Tle3DALzrj2CPE1EKwwo68rnXBcP
- /Z0uCsh1mNw8F1BHDKAbNwBc2aCZgCl8DakG1DC1AwG+Ud9FzxrbxLcP+Uxszc1/md1l
- xd/oReBUPW+e7NCn9xHPxBoyJX3wTyxZqcsUSGlkMuB9XOUIIn7dj+dG+GBCE5LF7vzk
- Abw6lSxnB2Rw0rbdTv1VzHs0I09cvBFZfjdbL1Cx1acaPFccMQBmqezXqBNf0F6yDRAq
- YhUQXVknQIkg6QldcmnBKeSjc+0Jzvg5eHrr4KbAkGsVCvl6b6TTI/YyIjuXUjCdyBHl
- 6EFA==
+ bh=FJ7Ef1/m9lpzTEr425fS28KWzMjxylwCQmwLFMMCyOg=;
+ b=BTEX8tgWcGQuIWjA9Oid5gYrnEjazYqO2GpNYckvSkQglFkKPoJTkl1nBKw28xL+CL
+ RsplShqHsOSl0y3dr9mBrWkom4KfqUQZJZCbaKJ7QHjZXes76QcY/D5VtIAAJHppIyEa
+ 6qloXs9tunrJNbELm4XSfRGvLIbG7wsp1JHMSyitPSxkPRA5WeJ0qVK4hec+I3dkrzt+
+ f/CGVpyUb2WtGQ69A0G6LabymE5r2gI1QRMy/loB7V7gTvHNVyCB4B+dY9O4lQ+Fzob+
+ DghjpW5ZTn43IeDnNw5MkMuo8JUlZkKSSKWJphLr8arsA8Fcs5Dax6A1SSn+Yve4bQin
+ kNEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CBOHCjIK1sZQcljIQo3RuLz+8eqKABqWe+n9Gj0wJng=;
- b=T/IxzzfvI0RTO5wLrDZ2WVgxfKLX9i4h5KUEEfoaEl82btvDIYWD9y8eEnptm9z6ZU
- qbukGIgci3klJ/iyeJS03QsavT9DkuL4RpnJCzIEhx/6nXbHSEUEKStKYJ2qPNC+6HMW
- XQ1V+Kqt7JsDbqJiJYGRbv63ryLXe8vhUD06WqpF3tu5gltaGImiHMWVvr0qpkKHctG5
- 4/MCulJj1N4383beViRsqqRJ4KiTjwHXDA/9IXA5+Uqyoyoi8XtRMV4ozzSTyN7Waq4w
- ZrbNGFBW9RgimRpGi+eInVKT5epWlfvYofBmZRaMNPUDWdDVB71tVgQTFREyeqhWh5Vi
- SmtQ==
-X-Gm-Message-State: AOAM533u8MGAvpOkxqlSvduNiA5ofuSmtXCXyAprdhmKC0CwVDYbJ1vF
- x5qHcKH67XwpHL+RhTT9Oozd98dPL4EMZA==
-X-Google-Smtp-Source: ABdhPJzsh7/Gc+x81A/PgVMt1m9PAjMePjscvS9qwA12cOnKG6zCwhL4HF3Of0mNw3x3YCfkaDqzNQ==
-X-Received: by 2002:a62:26c1:0:b029:142:2501:35ef with SMTP id
- m184-20020a6226c10000b0290142250135efmr7786204pfm.79.1601569647211; 
- Thu, 01 Oct 2020 09:27:27 -0700 (PDT)
+ bh=FJ7Ef1/m9lpzTEr425fS28KWzMjxylwCQmwLFMMCyOg=;
+ b=L0QnrVWzdUe5e2CTdqFDLkT4fdqfzDosFZcyGcLlQQ1RqTaqJsaz73gnKcebkwqc6b
+ RZkTIt+sSaOqAcO8hRhu5HfA/nnH5DR/TzlD7Z7A1huxx3VE412wN+xtOhAzzmzZs9PT
+ Nhp40wHX3g+5PBHoZyfbJP2H5spSrVYyAdWMj1TLNovh4kqFq4HIdATa1PUM/sN0w7Ie
+ t0OebS/PwEyCEI/6t18Tkub25awV5o6qn4imG3/xUE8Y6A/2unBaQdFyI3wbEWZsNgnc
+ NDhClYzwbsRI0agJppeQPWQPeTO97UtYKsDgAFMW055O9ncgqP5g1p3Do4UHI5FKbD0F
+ D1lQ==
+X-Gm-Message-State: AOAM532x4JpJJrksBdWKBz+Yme46R/jafO7+Yq+zCnb/ScaE7PtigtIZ
+ qlLtHuTqrFEyLYaedTEHb6F0LmcEA75VUg==
+X-Google-Smtp-Source: ABdhPJxmtZd1D16RunNdWgSzONRb1c7CGzz4om7chKQlpw7y1DgoCta9TJUPgqKTfVEhwUE0wPMcLQ==
+X-Received: by 2002:a62:7b90:0:b029:152:ebe:828 with SMTP id
+ w138-20020a627b900000b02901520ebe0828mr3057133pfc.38.1601569649985; 
+ Thu, 01 Oct 2020 09:27:29 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id e8sm3810174pgj.8.2020.10.01.09.27.24
+ by smtp.googlemail.com with ESMTPSA id e8sm3810174pgj.8.2020.10.01.09.27.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 09:27:26 -0700 (PDT)
+ Thu, 01 Oct 2020 09:27:29 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] doc: more texi cleanup
-Date: Fri,  2 Oct 2020 00:27:04 +0800
-Message-Id: <20201001162705.219-2-luoyonggang@gmail.com>
+Subject: [PATCH 2/2] doc: remove hxtool-conv.pl
+Date: Fri,  2 Oct 2020 00:27:05 +0800
+Message-Id: <20201001162705.219-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201001162705.219-1-luoyonggang@gmail.com>
 References: <20201001162705.219-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,36 +89,157 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This script doesn't need anymore as all texi are already convert to rST
+
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- qemu-img-cmds.hx  | 2 +-
- target/i386/cpu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/hxtool-conv.pl | 137 -----------------------------------------
+ 1 file changed, 137 deletions(-)
+ delete mode 100755 scripts/hxtool-conv.pl
 
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index b89c019b76..cab8234235 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -1,5 +1,5 @@
- HXCOMM Keep the list of subcommands sorted by name.
--HXCOMM Use DEFHEADING() to define headings in both help text and texi
-+HXCOMM Use DEFHEADING() to define headings in both help text and rST
- HXCOMM Text between SRST and ERST are copied to rST version and
- HXCOMM discarded from C version
- HXCOMM DEF(command, callback, arg_string) is used to construct
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index f37eb7b675..f8231f56b6 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4127,7 +4127,7 @@ static PropValue tcg_default_props[] = {
-  * We resolve CPU model aliases using -v1 when using "-machine
-  * none", but this is just for compatibility while libvirt isn't
-  * adapted to resolve CPU model versions before creating VMs.
-- * See "Runnability guarantee of CPU models" at * qemu-deprecated.texi.
-+ * See "Runnability guarantee of CPU models" at * deprecated.rst.
-  */
- X86CPUVersion default_cpu_version = 1;
- 
+diff --git a/scripts/hxtool-conv.pl b/scripts/hxtool-conv.pl
+deleted file mode 100755
+index eede40b346..0000000000
+--- a/scripts/hxtool-conv.pl
++++ /dev/null
+@@ -1,137 +0,0 @@
+-#!/usr/bin/perl -w
+-#
+-# Script to convert .hx file STEXI/ETEXI blocks to SRST/ERST
+-#
+-# Copyright (C) 2020 Linaro
+-#
+-# This work is licensed under the terms of the GNU GPL, version 2 or
+-# (at your option) any later version. See the COPYING file in the
+-# top-level directory.
+-
+-# This script was only ever intended as a one-off conversion operation.
+-# Please excuse the places where it is a bit hacky.
+-# Some manual intervention after the conversion is expected, as are
+-# some warnings from makeinfo.
+-# Warning: this script is not idempotent: don't try to run it on
+-# a .hx file that already has SRST/ERST sections.
+-
+-# Expected usage:
+-# scripts/hxtool-conv.pl file.hx > file.hx.new
+-
+-use utf8;
+-
+-my $reading_texi = 0;
+-my $texiblock = '';
+-my @tables = ();
+-
+-sub update_tables($) {
+-    my ($texi) = @_;
+-    # Update our list of open table directives: every @table
+-    # line in the texi fragment is added to the list, and every
+-    # @end table line means we remove an entry from the list.
+-    # If this fragment had a completely self contained table with
+-    # both the @table and @end table lines, this will be a no-op.
+-    foreach (split(/\n/, $texi)) {
+-        push @tables, $_ if /^\@table/;
+-        pop @tables if /^\@end table/;
+-    }
+-}
+-
+-sub only_table_directives($) {
+-    # Return true if every line in the fragment is a start or end table directive
+-    my ($texi) = @_;
+-    foreach (split(/\n/, $texi)) {
+-        return 0 unless /^\@table/ or /^\@end table/;
+-    }
+-    return 1;
+-}
+-
+-sub output_rstblock($) {
+-    # Write the output to /tmp/frag.texi, wrapped in whatever current @table
+-    # lines we need.
+-    my ($texi) = @_;
+-
+-    # As a special case, if this fragment is only table directives and
+-    # nothing else, update our set of open table directives but otherwise
+-    # ignore it. This avoids emitting an empty SRST/ERST block.
+-    if (only_table_directives($texi)) {
+-        update_tables($texi);
+-        return;
+-    }
+-
+-    open(my $fragfh, '>', '/tmp/frag.texi');
+-    # First output the currently active set of open table directives
+-    print $fragfh join("\n", @tables);
+-    # Next, update our list of open table directives.
+-    # We need to do this before we emit the closing table directives
+-    # so that we emit the right number if this fragment had an
+-    # unbalanced set of directives.
+-    update_tables($texi);
+-    # Then emit the texi fragment itself.
+-    print $fragfh "\n$texi\n";
+-    # Finally, add the necessary closing table directives.
+-    print $fragfh "\@end table\n" x scalar @tables;
+-    close $fragfh;
+-
+-    # Now invoke makeinfo/pandoc on it and slurp the results into a string
+-    open(my $fh, '-|', "makeinfo --force -o - --docbook "
+-         . "-D 'qemu_system_x86 QEMU_SYSTEM_X86_MACRO' "
+-         . "-D 'qemu_system     QEMU_SYSTEM_MACRO'  /tmp/frag.texi "
+-         . " | pandoc  -f docbook -t rst")
+-        or die "can't start makeinfo/pandoc: $!";
+-
+-    binmode $fh, ':encoding(utf8)';
+-
+-    print "SRST\n";
+-
+-    # Slurp the whole thing into a string so we can do multiline
+-    # string matches on it.
+-    my $rst = do {
+-        local $/ = undef;
+-        <$fh>;
+-    };
+-    $rst =~ s/^-  − /-  /gm;
+-    $rst =~ s/“/"/gm;
+-    $rst =~ s/”/"/gm;
+-    $rst =~ s/‘/'/gm;
+-    $rst =~ s/’/'/gm;
+-    $rst =~ s/QEMU_SYSTEM_MACRO/|qemu_system|/g;
+-    $rst =~ s/QEMU_SYSTEM_X86_MACRO/|qemu_system_x86|/g;
+-    $rst =~ s/(?=::\n\n +\|qemu)/.. parsed-literal/g;
+-    $rst =~ s/:\n\n::$/::/gm;
+-
+-    # Fix up the invalid reference format makeinfo/pandoc emit:
+-    # `Some string here <#anchorname>`__
+-    # should be:
+-    # :ref:`anchorname`
+-    $rst =~ s/\`[^<`]+\<\#([^>]+)\>\`__/:ref:`$1`/gm;
+-    print $rst;
+-
+-    close $fh or die "error on close: $!";
+-    print "ERST\n";
+-}
+-
+-# Read the whole .hx input file.
+-while (<>) {
+-    # Always print the current line
+-    print;
+-    if (/STEXI/) {
+-        $reading_texi = 1;
+-        $texiblock = '';
+-        next;
+-    }
+-    if (/ETEXI/) {
+-        $reading_texi = 0;
+-        # dump RST version of block
+-        output_rstblock($texiblock);
+-        next;
+-    }
+-    if ($reading_texi) {
+-        # Accumulate the texi into a string
+-        # but drop findex entries as they will confuse makeinfo
+-        next if /^\@findex/;
+-        $texiblock .= $_;
+-    }
+-}
+-
+-die "Unexpectedly still in texi block at EOF" if $reading_texi;
 -- 
 2.28.0.windows.1
 
