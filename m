@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2CF28041A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:39:30 +0200 (CEST)
-Received: from localhost ([::1]:43488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB83280416
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 18:37:24 +0200 (CEST)
+Received: from localhost ([::1]:35378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO1c9-00029F-7L
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42792)
+	id 1kO1a7-00079D-55
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 12:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1QX-0005j8-0G; Thu, 01 Oct 2020 12:27:29 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:33404)
+ id 1kO1Qb-0005m3-NP; Thu, 01 Oct 2020 12:27:33 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO1QV-0003DY-1h; Thu, 01 Oct 2020 12:27:28 -0400
-Received: by mail-pg1-x530.google.com with SMTP id o25so4447028pgm.0;
- Thu, 01 Oct 2020 09:27:26 -0700 (PDT)
+ id 1kO1QX-0003E3-Mf; Thu, 01 Oct 2020 12:27:33 -0400
+Received: by mail-pf1-x441.google.com with SMTP id f18so4998005pfa.10;
+ Thu, 01 Oct 2020 09:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OxTuJZi4yOFQzwAVxPQMOtb1M7Vd0gQ3V5Fr2XqNTNg=;
- b=hKE1a0dsPW1Nppv3z+t3JlysETzzJJQpK3dj6hiWfV8VEILCubk4bFpGOUgHyhIYqP
- V0oAQE8wkx4Gw4DiXFNotPqAM1I/Sr9KjCd4ZCxUqIUoYZpz/2Y4QSMskw0j/MpuiLsS
- naREpQU+A2xQK2YWTDhkKRPrmluT/llteUbPfpbyIPl/jpTzSSOrd7w3zyICiq6aJIXs
- 5kZtyzfS7Eu9fxhhOYROuAOxj9I9Ywi+a9XP5ekcKdBSYpurlolL50VA93dN7lMLyzX+
- ImHA8HSLSAVeTJzcAORXYn1jubPLNF8+YwH6FfcN/aY7CG5SPjoHTmd1pCCwz75q1Gzo
- Kzeg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CBOHCjIK1sZQcljIQo3RuLz+8eqKABqWe+n9Gj0wJng=;
+ b=oxh9Ke+OW8Y92hFsdJ6SL2bq/L7e1taIKTac06Tle3DALzrj2CPE1EKwwo68rnXBcP
+ /Z0uCsh1mNw8F1BHDKAbNwBc2aCZgCl8DakG1DC1AwG+Ud9FzxrbxLcP+Uxszc1/md1l
+ xd/oReBUPW+e7NCn9xHPxBoyJX3wTyxZqcsUSGlkMuB9XOUIIn7dj+dG+GBCE5LF7vzk
+ Abw6lSxnB2Rw0rbdTv1VzHs0I09cvBFZfjdbL1Cx1acaPFccMQBmqezXqBNf0F6yDRAq
+ YhUQXVknQIkg6QldcmnBKeSjc+0Jzvg5eHrr4KbAkGsVCvl6b6TTI/YyIjuXUjCdyBHl
+ 6EFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OxTuJZi4yOFQzwAVxPQMOtb1M7Vd0gQ3V5Fr2XqNTNg=;
- b=jzQXcTh0sFxGcDkteZpBETZ9zTIHPZWwWNV9tk4ObgxtaL9dRRd4r4jw9Zf/Bo17gD
- wHoCEPHed4JtOVpsT5eBSrfkn6TMrPwcr/Vuc79EvbiJvgWRMrHSpmPEnoFQ09Zl7W1Q
- ilrnkCMc6p3t45I9UHkIsX6ErqAG2UpXGEOuthT1siHmePlZqxJ0ljD/pckQjccKg1fC
- hAHaL2h0VtOfoNFqJNKlgTrfTxpvSRb0ym5KcOJciiqasWaodc5y+u5oZwJPuRfkugYL
- iz511cfwaMitq28UFMJcaG5XzyMeMPn61tjo3fag8j4n+2G/3BKWqsiAHPbdT0YiIp9L
- F1QA==
-X-Gm-Message-State: AOAM531R4Gqdle6muO/QPp/nV1WDX5/IHdjs9zfCQVnMHZBOTl9Si0QI
- QoV//8rFnlPWrr6De/Z2/JhlPF4DQajsbw==
-X-Google-Smtp-Source: ABdhPJx/N8YnbC/PokkUjn9uTYLqCjTnCCIA+oMgYRE2W1Q6ubAyB++OEHzz0dPr86kysAO274Wvsg==
-X-Received: by 2002:a62:3802:0:b029:142:2501:397e with SMTP id
- f2-20020a6238020000b02901422501397emr3400650pfa.67.1601569644634; 
- Thu, 01 Oct 2020 09:27:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CBOHCjIK1sZQcljIQo3RuLz+8eqKABqWe+n9Gj0wJng=;
+ b=T/IxzzfvI0RTO5wLrDZ2WVgxfKLX9i4h5KUEEfoaEl82btvDIYWD9y8eEnptm9z6ZU
+ qbukGIgci3klJ/iyeJS03QsavT9DkuL4RpnJCzIEhx/6nXbHSEUEKStKYJ2qPNC+6HMW
+ XQ1V+Kqt7JsDbqJiJYGRbv63ryLXe8vhUD06WqpF3tu5gltaGImiHMWVvr0qpkKHctG5
+ 4/MCulJj1N4383beViRsqqRJ4KiTjwHXDA/9IXA5+Uqyoyoi8XtRMV4ozzSTyN7Waq4w
+ ZrbNGFBW9RgimRpGi+eInVKT5epWlfvYofBmZRaMNPUDWdDVB71tVgQTFREyeqhWh5Vi
+ SmtQ==
+X-Gm-Message-State: AOAM533u8MGAvpOkxqlSvduNiA5ofuSmtXCXyAprdhmKC0CwVDYbJ1vF
+ x5qHcKH67XwpHL+RhTT9Oozd98dPL4EMZA==
+X-Google-Smtp-Source: ABdhPJzsh7/Gc+x81A/PgVMt1m9PAjMePjscvS9qwA12cOnKG6zCwhL4HF3Of0mNw3x3YCfkaDqzNQ==
+X-Received: by 2002:a62:26c1:0:b029:142:2501:35ef with SMTP id
+ m184-20020a6226c10000b0290142250135efmr7786204pfm.79.1601569647211; 
+ Thu, 01 Oct 2020 09:27:27 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id e8sm3810174pgj.8.2020.10.01.09.27.22
+ by smtp.googlemail.com with ESMTPSA id e8sm3810174pgj.8.2020.10.01.09.27.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 09:27:23 -0700 (PDT)
+ Thu, 01 Oct 2020 09:27:26 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Texi cleanup
-Date: Fri,  2 Oct 2020 00:27:03 +0800
-Message-Id: <20201001162705.219-1-luoyonggang@gmail.com>
+Subject: [PATCH 1/2] doc: more texi cleanup
+Date: Fri,  2 Oct 2020 00:27:04 +0800
+Message-Id: <20201001162705.219-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201001162705.219-1-luoyonggang@gmail.com>
+References: <20201001162705.219-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x530.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,19 +88,37 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Texi cleanup=0D
-=0D
-Yonggang Luo (2):=0D
-  doc: more texi cleanup=0D
-  doc: remove hxtool-conv.pl=0D
-=0D
- qemu-img-cmds.hx       |   2 +-=0D
- scripts/hxtool-conv.pl | 137 -----------------------------------------=0D
- target/i386/cpu.c      |   2 +-=0D
- 3 files changed, 2 insertions(+), 139 deletions(-)=0D
- delete mode 100755 scripts/hxtool-conv.pl=0D
-=0D
--- =0D
-2.28.0.windows.1=0D
-=0D
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ qemu-img-cmds.hx  | 2 +-
+ target/i386/cpu.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index b89c019b76..cab8234235 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -1,5 +1,5 @@
+ HXCOMM Keep the list of subcommands sorted by name.
+-HXCOMM Use DEFHEADING() to define headings in both help text and texi
++HXCOMM Use DEFHEADING() to define headings in both help text and rST
+ HXCOMM Text between SRST and ERST are copied to rST version and
+ HXCOMM discarded from C version
+ HXCOMM DEF(command, callback, arg_string) is used to construct
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index f37eb7b675..f8231f56b6 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4127,7 +4127,7 @@ static PropValue tcg_default_props[] = {
+  * We resolve CPU model aliases using -v1 when using "-machine
+  * none", but this is just for compatibility while libvirt isn't
+  * adapted to resolve CPU model versions before creating VMs.
+- * See "Runnability guarantee of CPU models" at * qemu-deprecated.texi.
++ * See "Runnability guarantee of CPU models" at * deprecated.rst.
+  */
+ X86CPUVersion default_cpu_version = 1;
+ 
+-- 
+2.28.0.windows.1
+
 
