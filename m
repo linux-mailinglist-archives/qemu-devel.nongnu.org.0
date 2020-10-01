@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD7E27FB7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 10:31:12 +0200 (CEST)
-Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9514927FB86
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 10:35:30 +0200 (CEST)
+Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kNtzZ-0007cc-M4
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 04:31:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
+	id 1kNu3i-0003xC-38
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 04:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNtxW-0005uQ-Gp
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 04:29:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33243)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNtxZ-0005xz-7v
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 04:29:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNtxT-0002Li-Ru
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 04:29:02 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kNtxU-0002Lz-37
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 04:29:04 -0400
 Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601540939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ap+dbpZQCTL9TeyQPLqP0CXnuaDCGTJnooL8v1braXg=;
- b=N7S/OeqC/kmxPQ7hMNKCuE/xgCztiafH7o0H7rkTCxwBmAoDknPR4ADLlyfe5tEvVpPyUh
- zF6raQHNmi9ZCz3/QEm/V4HMrF8mdbrwnkKiD6LKw9j+J5sdlzq8cQPjd2eEas0tn3P8z/
- EM7UQMKxirpzgVAuDdT+AJpTWVegP2U=
+ bh=RIIAH9em71dl76nnlBb8T+Czx8DdEH5u1rF5hNKxUTw=;
+ b=guHWvZPRXvE/ea06R4JmMdspV/qMPH2BBBCnX+0JZn2qFetzVYa/4zWwYr31XBWqrWek7m
+ UID2R9yEluMwyJPymMifQrzVb55eWZOctNOVxSzUVNxzjp2/uFIuRHpT8izchKtEPVIYWA
+ ZsfDVwvpzLPKbBA91ZaI9zffN6R/NlM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-9EgpA5RnOiWtx_CIkA9Exw-1; Thu, 01 Oct 2020 04:28:57 -0400
-X-MC-Unique: 9EgpA5RnOiWtx_CIkA9Exw-1
+ us-mta-437-AeAr6cBBMQehoMbAhE8scw-1; Thu, 01 Oct 2020 04:28:58 -0400
+X-MC-Unique: AeAr6cBBMQehoMbAhE8scw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0465F19080AC;
- Thu,  1 Oct 2020 08:28:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF91280BD65;
+ Thu,  1 Oct 2020 08:28:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADA1A5578A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9D7B55786;
  Thu,  1 Oct 2020 08:28:52 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 220FC31E21; Thu,  1 Oct 2020 10:28:35 +0200 (CEST)
+ id 2B2CB31E23; Thu,  1 Oct 2020 10:28:35 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/9] tests/acpi: add microvm usb test
-Date: Thu,  1 Oct 2020 10:28:32 +0200
-Message-Id: <20201001082834.15821-8-kraxel@redhat.com>
+Subject: [PATCH v2 8/9] tests/acpi: add microvm rtc test
+Date: Thu,  1 Oct 2020 10:28:33 +0200
+Message-Id: <20201001082834.15821-9-kraxel@redhat.com>
 In-Reply-To: <20201001082834.15821-1-kraxel@redhat.com>
 References: <20201001082834.15821-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -96,20 +96,20 @@ Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
  1 file changed, 12 insertions(+)
 
 diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index edf672d26f0b..ed7aba69c9bd 100644
+index ed7aba69c9bd..e62918a5f495 100644
 --- a/tests/qtest/bios-tables-test.c
 +++ b/tests/qtest/bios-tables-test.c
-@@ -1091,6 +1091,17 @@ static void test_acpi_microvm_tcg(void)
+@@ -1102,6 +1102,17 @@ static void test_acpi_microvm_usb_tcg(void)
      free_test_data(&data);
  }
  
-+static void test_acpi_microvm_usb_tcg(void)
++static void test_acpi_microvm_rtc_tcg(void)
 +{
 +    test_data data;
 +
 +    test_acpi_microvm_prepare(&data);
-+    data.variant = ".usb";
-+    test_acpi_one(" -machine microvm,acpi=on,usb=on,rtc=off",
++    data.variant = ".rtc";
++    test_acpi_one(" -machine microvm,acpi=on,rtc=on",
 +                  &data);
 +    free_test_data(&data);
 +}
@@ -117,11 +117,11 @@ index edf672d26f0b..ed7aba69c9bd 100644
  static void test_acpi_microvm_pcie_tcg(void)
  {
      test_data data;
-@@ -1225,6 +1236,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
+@@ -1237,6 +1248,7 @@ int main(int argc, char *argv[])
          qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
          qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-+        qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
+         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
++        qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
          if (strcmp(arch, "x86_64") == 0) {
              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
          }
