@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7944280637
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:08:09 +0200 (CEST)
-Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9E0280658
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:16:27 +0200 (CEST)
+Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO2zw-0000pj-Li
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32828)
+	id 1kO37y-0008W8-Ls
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kO2Ps-0002g7-RB; Thu, 01 Oct 2020 13:30:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kO2Pp-0004z6-De; Thu, 01 Oct 2020 13:30:52 -0400
-Received: from dhcp-10-100-145-180.wdl.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0C8872085B;
- Thu,  1 Oct 2020 17:30:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601573445;
- bh=M0nVfKA4hHFwDxCFHpx3AXw35cp8CwCQhDbIV5gAD/4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tGF9PM98gOS3xckwGsAC+pL3jhCLU1ClWt9vFChCJtEl+ikUPBkqEkRPTNdJ1XHWX
- MhMIMODBONxGj1tD7Z5Y+W7ciCOWbAW0yFQDCxUix4t3KnGT70ODhfIppFHsr7zLYv
- SWa5X++xskA2TcgOiSxa8k2XPOZJzdnH3K76MA08=
-Date: Thu, 1 Oct 2020 10:30:43 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
-Message-ID: <20201001173043.GA564827@dhcp-10-100-145-180.wdl.wdc.com>
-References: <20200930220414.562527-1-kbusch@kernel.org>
- <20200930220414.562527-4-kbusch@kernel.org>
- <20201001041057.GC681387@apples.localdomain>
- <20201001152055.GA3343@C02WT3WMHTD6>
- <20201001171837.GA792691@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO2Rr-0004f7-Id; Thu, 01 Oct 2020 13:32:55 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:34701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kO2Rp-0005DB-Uw; Thu, 01 Oct 2020 13:32:55 -0400
+Received: by mail-pf1-x435.google.com with SMTP id k13so5248383pfg.1;
+ Thu, 01 Oct 2020 10:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mx63Gw3pO3Gs0HPOi87krsZJjwOs0SaCSfVW17FzaIM=;
+ b=Y0hqDjghlMJ37kvgLs2pF9l6+r0o4jE73xlk2UqG3Ha4fwgJNzXNwC0wBkYCJZ95y0
+ LJy9kukMqMJk0b+dozDkUsv8F+IVwr4d3ctanKys6avh00rguCrW2xUG2WXIQKpodDSc
+ wJU367Y/U5NPaEhsyCd6szXmEr9/WT+U09NoqD2pL3vYS3i2x5CbvQ3KwIDXp/J4Y7N5
+ 5tEKXkovUsTqs0jNeLbURir9Tq8y+tFuOhgkHVAZ5shtdBe/ObONYpGJK2qkFy9eicFV
+ dHVSVwY94IwH7oHtotyB/lnUPh68Wp6QidONIK1hmKjEF3zRwrv5k68JLB9s9ZZwA9A0
+ MTmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mx63Gw3pO3Gs0HPOi87krsZJjwOs0SaCSfVW17FzaIM=;
+ b=tH4kPwSTLRdZxv0Y8gL+JRgoDWUDWAxWuoCB0rUrfsAp1M2EWn1Qk/+tWiM7O+NSTn
+ H9HxKj4fxgi8XU7sEBqXtKr4R8f16kY/J6kwpnJHZ9n2NGp4j2xtB2zS8cMaZmVthPkU
+ PU1ojenGTzZF2C/9gng+wgXPwf7rW/n7n5kMpyxourWX9IsURZRpZIiwp+g0XXkRPDGj
+ q5Q3lwacjGxUtw0W/K/ZHSV4CKOGtvT0YycmL5Wy2hkt2aiOiRmtymaD6Sx5I8/0/zmA
+ 90Vf7mWYVWvY15MeHbTdHiUzJtSxW64grM8Vawxq/EbwKZ3NphooMdmJGTrFRR71GRUV
+ gozg==
+X-Gm-Message-State: AOAM533I2kTeyPXkFl48zZY+SGdXqX+prPQ4S6I5JaHLIGbc5ujZBDtz
+ W0wyvcMlE6sFmdj1Efw9B+J5/II22aXmhg==
+X-Google-Smtp-Source: ABdhPJzZ9kHKBIsmkfwDeb0hgp2OcM9817JULgP8tt3etNELAIUR18qX6yCBVoJ+opZyGZiqKfNt+A==
+X-Received: by 2002:a17:902:b685:b029:d2:1e62:4cbe with SMTP id
+ c5-20020a170902b685b02900d21e624cbemr8239526pls.58.1601573568339; 
+ Thu, 01 Oct 2020 10:32:48 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id b20sm7253767pfb.198.2020.10.01.10.32.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Oct 2020 10:32:47 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/4] Fixes curses on msys2/mingw
+Date: Fri,  2 Oct 2020 01:32:26 +0800
+Message-Id: <20201001173230.829-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201001171837.GA792691@apples.localdomain>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 11:20:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x435.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,34 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Yonggang Luo <luoyonggang@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 01, 2020 at 07:18:37PM +0200, Klaus Jensen wrote:
-> OK, so I agree that it makes sense for it to be supported on a per
-> namespace basis, but I think the spec is just keeping the door open for
-> future namespace specific stuff in the log page - currently there is
-> none.
-> 
-> Figure 94 (the actual SMART log page) says that the Data Units
-> Read/Written are controller wide, so there really is no namespace
-> specific information. Maybe this could be in the context of shared
-> namespaces? How would a controller know how much data has been
-> read/written from it without asking the other controllers? What if a
-> controller is detached from the namespace - you'd lose those numbers.
-
-That text is wrong. There is no "controller" scope to the smart log.
-Figure 191 says the smart scope is to the subsystem or the namespace. It
-doesn't matter which controller performed an IO to a particular
-namespace; the log needs to report the same information regardless of
-which controller you query. How that is coordinated within the subsystem
-is a detail not defined by spec.
-
-Not that that particular detail matters here, as we don't support
-multi-controller subsystems (yet!). But the smart log text has missed an
-update to reflect this, so it looks like trivial ECN material to me.
+And also convert related configure script to meson.=0D
+V5-V6=0D
+Dropping configure: Fixes ncursesw detection under msys2/mingw by convert t=
+he=3D=0D
+m to meson first.=0D
+That need the meson 0.56 upstream to fixes the curses detection.=0D
+Add=0D
+* configure: fixes indent of $meson setup=0D
+=0D
+Yonggang Luo (4):=0D
+  configure: fixes indent of $meson setup=0D
+  curses: Fixes compiler error that complain don't have langinfo.h on=0D
+    msys2/mingw=0D
+  curses: Fixes curses compiling errors.=0D
+  win32: Simplify gmtime_r detection not depends on if  _POSIX_C_SOURCE=0D
+    are defined on msys2/mingw=0D
+=0D
+ configure                 | 42 ++++-----------------------------------=0D
+ include/sysemu/os-win32.h |  4 ++--=0D
+ ui/curses.c               | 14 ++++++-------=0D
+ util/oslib-win32.c        |  4 ++--=0D
+ 4 files changed, 15 insertions(+), 49 deletions(-)=0D
+=0D
+--=3D20=0D
+2.28.0.windows.1=0D
+=0D
 
