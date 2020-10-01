@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9E0280658
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:16:27 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D93280668
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:20:16 +0200 (CEST)
+Received: from localhost ([::1]:43662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO37y-0008W8-Ls
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:16:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
+	id 1kO3Bd-0003Br-Ti
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:20:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO2Rr-0004f7-Id; Thu, 01 Oct 2020 13:32:55 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:34701)
+ id 1kO2Rx-0004kG-In; Thu, 01 Oct 2020 13:33:06 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO2Rp-0005DB-Uw; Thu, 01 Oct 2020 13:32:55 -0400
-Received: by mail-pf1-x435.google.com with SMTP id k13so5248383pfg.1;
- Thu, 01 Oct 2020 10:32:49 -0700 (PDT)
+ id 1kO2Rv-0005Dw-MY; Thu, 01 Oct 2020 13:33:01 -0400
+Received: by mail-pg1-x542.google.com with SMTP id 34so4537030pgo.13;
+ Thu, 01 Oct 2020 10:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mx63Gw3pO3Gs0HPOi87krsZJjwOs0SaCSfVW17FzaIM=;
- b=Y0hqDjghlMJ37kvgLs2pF9l6+r0o4jE73xlk2UqG3Ha4fwgJNzXNwC0wBkYCJZ95y0
- LJy9kukMqMJk0b+dozDkUsv8F+IVwr4d3ctanKys6avh00rguCrW2xUG2WXIQKpodDSc
- wJU367Y/U5NPaEhsyCd6szXmEr9/WT+U09NoqD2pL3vYS3i2x5CbvQ3KwIDXp/J4Y7N5
- 5tEKXkovUsTqs0jNeLbURir9Tq8y+tFuOhgkHVAZ5shtdBe/ObONYpGJK2qkFy9eicFV
- dHVSVwY94IwH7oHtotyB/lnUPh68Wp6QidONIK1hmKjEF3zRwrv5k68JLB9s9ZZwA9A0
- MTmA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=fONA64XSdMINk4Pb3HJvl02BkTmqUfaoSQk6W/tx2aE=;
+ b=IT48uJ8Oogwk5GsnihTnyaZSDwD7aCafCsUZ2WW7LQjdjuVGlT8KUCWS47J743hNlS
+ lzpnc70rFrht6tvw8vQsDJxMipRqJPGDTySNWZGjq1AC8OGWZABOQNB5c0vKr5z9dT6i
+ lLtSCGxRKto77JhwQlwclOuM0decnuU9eUXqRS+WcOKFCCc4Q0cBepTcuGiRP/JCfIrj
+ MHfaoIElsqUNp6uOSxtJFnx/dGAsHQ9+h0VI4+cDYQGGzuhL86z1Fq52dW+htA88PBVC
+ Edxy4BOOraBE6zflo8u3SRATJkMTjxiJ1lOJ6kOmZcR9PTMRKW+K3PFP9ChJm9S+Hok3
+ 2Qaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mx63Gw3pO3Gs0HPOi87krsZJjwOs0SaCSfVW17FzaIM=;
- b=tH4kPwSTLRdZxv0Y8gL+JRgoDWUDWAxWuoCB0rUrfsAp1M2EWn1Qk/+tWiM7O+NSTn
- H9HxKj4fxgi8XU7sEBqXtKr4R8f16kY/J6kwpnJHZ9n2NGp4j2xtB2zS8cMaZmVthPkU
- PU1ojenGTzZF2C/9gng+wgXPwf7rW/n7n5kMpyxourWX9IsURZRpZIiwp+g0XXkRPDGj
- q5Q3lwacjGxUtw0W/K/ZHSV4CKOGtvT0YycmL5Wy2hkt2aiOiRmtymaD6Sx5I8/0/zmA
- 90Vf7mWYVWvY15MeHbTdHiUzJtSxW64grM8Vawxq/EbwKZ3NphooMdmJGTrFRR71GRUV
- gozg==
-X-Gm-Message-State: AOAM533I2kTeyPXkFl48zZY+SGdXqX+prPQ4S6I5JaHLIGbc5ujZBDtz
- W0wyvcMlE6sFmdj1Efw9B+J5/II22aXmhg==
-X-Google-Smtp-Source: ABdhPJzZ9kHKBIsmkfwDeb0hgp2OcM9817JULgP8tt3etNELAIUR18qX6yCBVoJ+opZyGZiqKfNt+A==
-X-Received: by 2002:a17:902:b685:b029:d2:1e62:4cbe with SMTP id
- c5-20020a170902b685b02900d21e624cbemr8239526pls.58.1601573568339; 
- Thu, 01 Oct 2020 10:32:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=fONA64XSdMINk4Pb3HJvl02BkTmqUfaoSQk6W/tx2aE=;
+ b=o12+pvVAKh/WjGIVB38X5QQkpE0X9Q29ULQo0eMdRs8jZWc3fV0bUqTrA7F1PY/gNf
+ smSKqwgCvjUB5JQy1JcsasINcnxKWAfPlhknJbbiseELoM1YI3iUJxVUXUGlznj4SMfR
+ jZTTRQGmmQHFzcW0j2KbRj27jHy2D02JT9IMEr9vNe+488pM6vOksn26pIlrP6TTe940
+ zeWV+vJq2jlXqS5CN3MWPPQN1cmDqG9AHnH2iF8h6lnIPMnNAiZTbjpTmpzqy+YjHDtS
+ rT+JcPwPwHiOCkYU16BcjvVrkwPipANva2MgnYfKR0BGeZA6InUqG9QyvU/OhDwmcL+5
+ B+Jw==
+X-Gm-Message-State: AOAM533UnIh2SGCtcviegNWUKx+ixeYu/rqvAEMdvMU+HsorPREHiqHD
+ ZswgZ+qyzhX5Ldnk1kHZTMhZm+1sbEDgrQ==
+X-Google-Smtp-Source: ABdhPJyxsndO8jkD959aWajrjHZpovJmNt/OSxg3ig4uAiCw75y1ISv3Ijas1T0GPjXShSOfPhTgsQ==
+X-Received: by 2002:a05:6a00:2db:b029:142:2501:34ed with SMTP id
+ b27-20020a056a0002dbb0290142250134edmr7799155pft.70.1601573577627; 
+ Thu, 01 Oct 2020 10:32:57 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id b20sm7253767pfb.198.2020.10.01.10.32.45
+ by smtp.googlemail.com with ESMTPSA id b20sm7253767pfb.198.2020.10.01.10.32.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 10:32:47 -0700 (PDT)
+ Thu, 01 Oct 2020 10:32:56 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 0/4] Fixes curses on msys2/mingw
-Date: Fri,  2 Oct 2020 01:32:26 +0800
-Message-Id: <20201001173230.829-1-luoyonggang@gmail.com>
+Subject: [PATCH v6 3/4] curses: Fixes curses compiling errors.
+Date: Fri,  2 Oct 2020 01:32:29 +0800
+Message-Id: <20201001173230.829-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
+In-Reply-To: <20201001173230.829-1-luoyonggang@gmail.com>
+References: <20201001173230.829-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x435.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,7 +84,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, Yonggang Luo <luoyonggang@gmail.com>,
@@ -91,30 +94,54 @@ Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And also convert related configure script to meson.=0D
-V5-V6=0D
-Dropping configure: Fixes ncursesw detection under msys2/mingw by convert t=
-he=3D=0D
-m to meson first.=0D
-That need the meson 0.56 upstream to fixes the curses detection.=0D
-Add=0D
-* configure: fixes indent of $meson setup=0D
-=0D
-Yonggang Luo (4):=0D
-  configure: fixes indent of $meson setup=0D
-  curses: Fixes compiler error that complain don't have langinfo.h on=0D
-    msys2/mingw=0D
-  curses: Fixes curses compiling errors.=0D
-  win32: Simplify gmtime_r detection not depends on if  _POSIX_C_SOURCE=0D
-    are defined on msys2/mingw=0D
-=0D
- configure                 | 42 ++++-----------------------------------=0D
- include/sysemu/os-win32.h |  4 ++--=0D
- ui/curses.c               | 14 ++++++-------=0D
- util/oslib-win32.c        |  4 ++--=0D
- 4 files changed, 15 insertions(+), 49 deletions(-)=0D
-=0D
---=3D20=0D
-2.28.0.windows.1=0D
-=0D
+This is the compiling error:
+../ui/curses.c: In function 'curses_refresh':
+../ui/curses.c:256:5: error: 'next_maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
+      |     ^~~~~~~~~~
+../ui/curses.c:302:32: note: 'next_maybe_keycode' was declared here
+  302 |             enum maybe_keycode next_maybe_keycode;
+      |                                ^~~~~~~~~~~~~~~~~~
+../ui/curses.c:256:5: error: 'maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
+      |     ^~~~~~~~~~
+../ui/curses.c:265:24: note: 'maybe_keycode' was declared here
+  265 |     enum maybe_keycode maybe_keycode;
+      |                        ^~~~~~~~~~~~~
+cc1.exe: all warnings being treated as errors
+
+gcc version 10.2.0 (Rev1, Built by MSYS2 project)
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ ui/curses.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ui/curses.c b/ui/curses.c
+index 12bc682cf9..e4f9588c3e 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -262,7 +262,7 @@ static int curses2foo(const int _curses2foo[], const int _curseskey2foo[],
+ static void curses_refresh(DisplayChangeListener *dcl)
+ {
+     int chr, keysym, keycode, keycode_alt;
+-    enum maybe_keycode maybe_keycode;
++    enum maybe_keycode maybe_keycode = CURSES_KEYCODE;
+ 
+     curses_winch_check();
+ 
+@@ -299,7 +299,7 @@ static void curses_refresh(DisplayChangeListener *dcl)
+ 
+         /* alt or esc key */
+         if (keycode == 1) {
+-            enum maybe_keycode next_maybe_keycode;
++            enum maybe_keycode next_maybe_keycode = CURSES_KEYCODE;
+             int nextchr = console_getch(&next_maybe_keycode);
+ 
+             if (nextchr != -1) {
+-- 
+2.28.0.windows.1
+
 
