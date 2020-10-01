@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8B6280673
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:23:26 +0200 (CEST)
-Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A0128061E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Oct 2020 20:02:03 +0200 (CEST)
+Received: from localhost ([::1]:39140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kO3Ej-0006Fb-DW
-	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33426)
+	id 1kO2u2-0005Bj-7I
+	for lists+qemu-devel@lfdr.de; Thu, 01 Oct 2020 14:02:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO2S2-0004ky-Um; Thu, 01 Oct 2020 13:33:08 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kO2Rz-0005EC-0z; Thu, 01 Oct 2020 13:33:06 -0400
-Received: by mail-pg1-x543.google.com with SMTP id y14so4542755pgf.12;
- Thu, 01 Oct 2020 10:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RL47DD7jczS4ueH47GPQF+C3dft0LjdpTt4m7Cc68+Y=;
- b=MBVaoiI+/YlTjj/Ue5bLeFkL4gKvwfuiYOIb7vAFJXA2r7BiIIvoDL7JmQ6Xy42r28
- m3ZVanfSjA2kGaF5qQ5HvUjDSjmazZWXrdRr4QeJnE8Zg/4BkUR7wVGUxGy1jHi7K81u
- /3eLyiwFILzEL0OHPzO8hGQUHFgR6abhjdBdRjzRVv5m6RvcTfmmo2sEqERTSVK0qLB8
- +mUMpb49D/mKC7E1Nua8p8Gl3aVoBqjfBvsbRWDcaN1LFRk3AoFOwqy5wg23mH9ds3sn
- Gp+cbVrrtPdSFIAoTFjZ4eDJ5hShMJ6+Uj42YrTp6GHG2Du5eKimAqqtF1OfO/hPXW9B
- V5RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RL47DD7jczS4ueH47GPQF+C3dft0LjdpTt4m7Cc68+Y=;
- b=n7uJ3h2UEztP9fOEkRKV17JnzKQ0fx+AgPmpD7ZxPbij5h3ctkt1tXr7Xr/msGmozz
- Cc+LtXU7KZLDluXzl2f9RAisx0hC9xs5k/albXhQP+XXvLR9YJrIUyMs0hQMylYfDnoR
- NGbiizrm+yu9DaaSBl3xkUKhahLGine/dJYD4vnzXfL1NoLgDa4bQsoCk4aYXmR84+6e
- UX4NuRprQwAL4YQ0NWuxYSWnI8a/5NEp/v3mV3q1SHCTQNbySas3DpuBhbl2CYwdxSvC
- s6GgfPjna15SPSHjhfByzvxz/obhQ20NTt9hhlwhRU34swM/xkS6oCM8TI5/JUPxTR2b
- 4esw==
-X-Gm-Message-State: AOAM531wUJupvnKILH11+vBV2AUD0Iy/IHBE5BP4aGa89I/KBI6tJuwm
- rC/aIvC8u/gjjMbYgr/RV4+NqrPBtAUZFw==
-X-Google-Smtp-Source: ABdhPJwvicv5NhXw8lS6X/ZM4YMCOJi5+XqEJoii8mMx/X2/YoxpT3VVBHofO0cFeKixIibHUrnDWA==
-X-Received: by 2002:a05:6a00:14cb:b029:142:2501:34eb with SMTP id
- w11-20020a056a0014cbb0290142250134ebmr8046038pfu.68.1601573580733; 
- Thu, 01 Oct 2020 10:33:00 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id b20sm7253767pfb.198.2020.10.01.10.32.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Oct 2020 10:32:59 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/4] win32: Simplify gmtime_r detection not depends on if
- _POSIX_C_SOURCE are defined on msys2/mingw
-Date: Fri,  2 Oct 2020 01:32:30 +0800
-Message-Id: <20201001173230.829-5-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20201001173230.829-1-luoyonggang@gmail.com>
-References: <20201001173230.829-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2fU-0003PS-4e
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:47:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48174)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kO2fR-0006oV-11
+ for qemu-devel@nongnu.org; Thu, 01 Oct 2020 13:46:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601574413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QX4TOfYM+e5sPgITVFJGKCkwky6vjqx01fxRK7Ks3x8=;
+ b=O2IBbyyIHerc8ujaatsDvJqPVA9gxZm60P1VB06gLt28HxtiCNO7MBuK9jTzkTls44/z82
+ v8BgTU1xVhNQlyKtGRs5Els4uJGTTAgSPl2+FSTH0pb7g83/bdxXFjHtgYcwLCfjnuEgEM
+ XcKg4BIwWORVrIBEN/PMCfZkoNHlWr0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-U_zG-SEaOsWZEZDcnNKHEQ-1; Thu, 01 Oct 2020 13:46:52 -0400
+X-MC-Unique: U_zG-SEaOsWZEZDcnNKHEQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1B5D107465A;
+ Thu,  1 Oct 2020 17:46:50 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 056B05C1CF;
+ Thu,  1 Oct 2020 17:46:49 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/9] Ide patches
+Date: Thu,  1 Oct 2020 13:46:40 -0400
+Message-Id: <20201001174649.1911016-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 04:25:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,194 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Yonggang Luo <luoyonggang@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We remove the CONFIG_LOCALTIME_R detection option in configure, and move the check
-existence of gmtime_r from configure into C header and source directly by using macro
-`_POSIX_THREAD_SAFE_FUNCTIONS`.
-Before this patch, the configure script are always assume the compiler doesn't define
-_POSIX_C_SOURCE macro at all, but that's not true, because thirdparty library such
-as ncursesw may define -D_POSIX_C_SOURCE in it's pkg-config file. And that C Flags will
-added -D_POSIX_C_SOURCE into each QEMU_CFLAGS. And that's causing the following compiling error:
-n file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../softmmu/main.c:25:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:53:12: error: redundant redeclaration of 'gmtime_r' [-Werror=redundant-decls]
-   53 | struct tm *gmtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../softmmu/main.c:25:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:284:36: note: previous definition of 'gmtime_r' was here
-  284 | __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../softmmu/main.c:25:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:55:12: error: redundant redeclaration of 'localtime_r' [-Werror=redundant-decls]
-   55 | struct tm *localtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../softmmu/main.c:25:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:281:36: note: previous definition of 'localtime_r' was here
-  281 | __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~~~~
-Compiling C object libcommon.fa.p/hw_gpio_zaurus.c.obj
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:53:12: error: redundant redeclaration of 'gmtime_r' [-Werror=redundant-decls]
-   53 | struct tm *gmtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:284:36: note: previous definition of 'gmtime_r' was here
-  284 | __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:55:12: error: redundant redeclaration of 'localtime_r' [-Werror=redundant-decls]
-   55 | struct tm *localtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:281:36: note: previous definition of 'localtime_r' was here
-  281 | __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~~~~
-Compiling C object libcommon.fa.p/hw_dma_xilinx_axidma.c.obj
-
-After this patch, whenever ncursesw or other thirdparty libraries tried to define or not
-define  _POSIX_C_SOURCE, the source will building properly. Because now, we don't make any
-assumption if _POSIX_C_SOURCE are defined. We solely relied on if the macro `_POSIX_THREAD_SAFE_FUNCTIONS`
-are defined in msys2/mingw header.
-
-The _POSIX_THREAD_SAFE_FUNCTIONS are defined in mingw header like this:
-
-```
-#if defined(_POSIX_C_SOURCE) && !defined(_POSIX_THREAD_SAFE_FUNCTIONS)
-#define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
-#endif
-
-#ifdef _POSIX_THREAD_SAFE_FUNCTIONS
-__forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
-  return localtime_s(_Tm, _Time) ? NULL : _Tm;
-}
-__forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
-  return gmtime_s(_Tm, _Time) ? NULL : _Tm;
-}
-__forceinline char *__CRTDECL ctime_r(const time_t *_Time, char *_Str) {
-  return ctime_s(_Str, 0x7fffffff, _Time) ? NULL : _Str;
-}
-__forceinline char *__CRTDECL asctime_r(const struct tm *_Tm, char * _Str) {
-  return asctime_s(_Str, 0x7fffffff, _Tm) ? NULL : _Str;
-}
-#endif
-```
-
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- configure                 | 34 ----------------------------------
- include/sysemu/os-win32.h |  4 ++--
- util/oslib-win32.c        |  4 ++--
- 3 files changed, 4 insertions(+), 38 deletions(-)
-
-diff --git a/configure b/configure
-index 8f7bdbfdd3..d6dd147235 100755
---- a/configure
-+++ b/configure
-@@ -2500,37 +2500,6 @@ if test "$vhost_net" = ""; then
-   test "$vhost_kernel" = "yes" && vhost_net=yes
- fi
- 
--##########################################
--# MinGW / Mingw-w64 localtime_r/gmtime_r check
--
--if test "$mingw32" = "yes"; then
--    # Some versions of MinGW / Mingw-w64 lack localtime_r
--    # and gmtime_r entirely.
--    #
--    # Some versions of Mingw-w64 define a macro for
--    # localtime_r/gmtime_r.
--    #
--    # Some versions of Mingw-w64 will define functions
--    # for localtime_r/gmtime_r, but only if you have
--    # _POSIX_THREAD_SAFE_FUNCTIONS defined. For fun
--    # though, unistd.h and pthread.h both define
--    # that for you.
--    #
--    # So this #undef localtime_r and #include <unistd.h>
--    # are not in fact redundant.
--cat > $TMPC << EOF
--#include <unistd.h>
--#include <time.h>
--#undef localtime_r
--int main(void) { localtime_r(NULL, NULL); return 0; }
--EOF
--    if compile_prog "" "" ; then
--        localtime_r="yes"
--    else
--        localtime_r="no"
--    fi
--fi
--
- ##########################################
- # pkg-config probe
- 
-@@ -6937,9 +6906,6 @@ if [ "$bsd" = "yes" ] ; then
-   echo "CONFIG_BSD=y" >> $config_host_mak
- fi
- 
--if test "$localtime_r" = "yes" ; then
--  echo "CONFIG_LOCALTIME_R=y" >> $config_host_mak
--fi
- if test "$qom_cast_debug" = "yes" ; then
-   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
- fi
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index d8978e28c0..5346d51e89 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -48,12 +48,12 @@
- #define siglongjmp(env, val) longjmp(env, val)
- 
- /* Missing POSIX functions. Don't use MinGW-w64 macros. */
--#ifndef CONFIG_LOCALTIME_R
-+#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
- #undef gmtime_r
- struct tm *gmtime_r(const time_t *timep, struct tm *result);
- #undef localtime_r
- struct tm *localtime_r(const time_t *timep, struct tm *result);
--#endif /* CONFIG_LOCALTIME_R */
-+#endif /* _POSIX_THREAD_SAFE_FUNCTIONS */
- 
- static inline void os_setup_signal_handling(void) {}
- static inline void os_daemonize(void) {}
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 051afb217b..e99debfb8d 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -106,7 +106,7 @@ void qemu_anon_ram_free(void *ptr, size_t size)
-     }
- }
- 
--#ifndef CONFIG_LOCALTIME_R
-+#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
- /* FIXME: add proper locking */
- struct tm *gmtime_r(const time_t *timep, struct tm *result)
- {
-@@ -130,7 +130,7 @@ struct tm *localtime_r(const time_t *timep, struct tm *result)
-     }
-     return p;
- }
--#endif /* CONFIG_LOCALTIME_R */
-+#endif /* _POSIX_THREAD_SAFE_FUNCTIONS */
- 
- static int socket_error(void)
- {
--- 
-2.28.0.windows.1
+The following changes since commit 37a712a0f969ca2df7f01182409a6c4825cebfb5=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
+nto staging (2020-10-01 12:23:19 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/jsnow/qemu.git tags/ide-pull-request=0D
+=0D
+for you to fetch changes up to 55adb3c45620c31f29978f209e2a44a08d34e2da:=0D
+=0D
+  ide: cancel pending callbacks on SRST (2020-10-01 13:04:16 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+John Snow (8):=0D
+  MAINTAINERS: Update my git address=0D
+  ide: rename cmd_write to ctrl_write=0D
+  ide: don't tamper with the device register=0D
+  ide: model HOB correctly=0D
+  ide: reorder set/get sector functions=0D
+  ide: remove magic constants from the device register=0D
+  ide: clear interrupt on command write=0D
+  ide: cancel pending callbacks on SRST=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (1):=0D
+  hw/ide/ahci: Do not dma_memory_unmap(NULL)=0D
+=0D
+ include/hw/ide/internal.h |  21 +++++--=0D
+ hw/ide/ahci.c             |   2 +-=0D
+ hw/ide/core.c             | 124 +++++++++++++++++++++++---------------=0D
+ hw/ide/ioport.c           |   2 +-=0D
+ hw/ide/macio.c            |   2 +-=0D
+ hw/ide/mmio.c             |   8 +--=0D
+ hw/ide/pci.c              |  12 ++--=0D
+ MAINTAINERS               |   6 +-=0D
+ hw/ide/trace-events       |   2 +-=0D
+ 9 files changed, 110 insertions(+), 69 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
