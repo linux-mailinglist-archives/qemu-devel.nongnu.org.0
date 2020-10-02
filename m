@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D192815A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:48:51 +0200 (CEST)
-Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E672815A6
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:48:58 +0200 (CEST)
+Received: from localhost ([::1]:38294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMMc-0006iS-IW
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34194)
+	id 1kOMMj-0006vc-Cs
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:48:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHu-00014M-L6
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51506)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI2-00018s-GC
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHs-0004UP-GB
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:43:58 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHw-0004Uq-DI
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649835;
+ s=mimecast20190719; t=1601649838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dqfdCh9kh4dBevakPfHxbGex7Zs1YdmzJFjhoYD6CpY=;
- b=e33j4ufqyqejXZ/lQjYE4DHi/NnnldOrKugrbHaF9N7qOJJw84xBgTR4QNXsJUWSc4Vx+i
- wpCMy31DkyFCehZ9RgvezUCH6Uuo2HRdIk7W/SVdpgqSzh2VtHf5kP44FrhbCL3QAx6I7+
- kXC+9qeYFF5TcKsvT2Y+PFuzbpNYhcs=
+ bh=sLo0Eg1mpbeKRuqAT19w0FuaQCf7Jkcjj2S3lJskp6Y=;
+ b=MX/Si9EfAZy1dxfZTePoRvS91/+uD9bf2tiThJ3h7g8FFIX1ks0xHielVO6ky3R2HOkveV
+ DHZjfQM3Oa++VTjmZolOnynAEa3MAK+68bJOvAy1gzo0ALgp1Iv+zgzq08nLJygfB2GnyD
+ 4tI9g5znn0//pIG9obDVI1Xr3ShtOhI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-IX4Ky6DeMH2uxo5qMb9XBg-1; Fri, 02 Oct 2020 10:43:53 -0400
-X-MC-Unique: IX4Ky6DeMH2uxo5qMb9XBg-1
+ us-mta-225-umklMTBTODy0_VKXPQgjwA-1; Fri, 02 Oct 2020 10:43:54 -0400
+X-MC-Unique: umklMTBTODy0_VKXPQgjwA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71855A742D;
- Fri,  2 Oct 2020 14:43:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B16B08064B9;
+ Fri,  2 Oct 2020 14:43:53 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
  [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74E045D9D3;
- Fri,  2 Oct 2020 14:43:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BAF245D9D3;
+ Fri,  2 Oct 2020 14:43:52 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/37] block/sheepdog: Replace magic val by
- NANOSECONDS_PER_SECOND definition
-Date: Fri,  2 Oct 2020 16:43:09 +0200
-Message-Id: <20201002144345.253865-2-kwolf@redhat.com>
+Subject: [PULL 02/37] tests/check-block: Do not run the iotests with old
+ versions of bash
+Date: Fri,  2 Oct 2020 16:43:10 +0200
+Message-Id: <20201002144345.253865-3-kwolf@redhat.com>
 In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
 References: <20201002144345.253865-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,32 +84,39 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Use self-explicit NANOSECONDS_PER_SECOND definition instead
-of magic value.
+macOS is shipped with a very old version of the bash (3.2), which
+is currently not suitable for running the iotests anymore (e.g.
+it is missing support for "readarray" which is used in the file
+tests/qemu-iotests/common.filter). Add a check to skip the iotests
+in this case - if someone still wants to run the iotests on macOS,
+they can install a newer version from homebrew, for example.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200921110145.520944-1-philmd@redhat.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200918153514.330705-1-thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/sheepdog.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/check-block.sh | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index 2f5c0eb376..25111d5a70 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -740,7 +740,7 @@ static coroutine_fn void reconnect_to_sdog(void *opaque)
-         if (s->fd < 0) {
-             trace_sheepdog_reconnect_to_sdog();
-             error_report_err(local_err);
--            qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 1000000000ULL);
-+            qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, NANOSECONDS_PER_SECOND);
-         }
-     };
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index a5a69060e1..f6b1bda7b9 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -46,6 +46,11 @@ if ! command -v bash >/dev/null 2>&1 ; then
+     exit 0
+ fi
  
++if LANG=C bash --version | grep -q 'GNU bash, version [123]' ; then
++    echo "bash version too old ==> Not running the qemu-iotests."
++    exit 0
++fi
++
+ if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
+     if ! command -v gsed >/dev/null 2>&1; then
+         echo "GNU sed not available ==> Not running the qemu-iotests."
 -- 
 2.25.4
 
