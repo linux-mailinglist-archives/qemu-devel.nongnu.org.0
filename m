@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40405280E80
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 10:06:58 +0200 (CEST)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4767280E8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 10:11:15 +0200 (CEST)
+Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOG5h-0000PL-CD
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 04:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35146)
+	id 1kOG9q-0003CQ-PI
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 04:11:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOG3S-0007aI-Hc
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:04:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOG3O-0007jd-AQ
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:04:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601625872;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zc1SUcJRimhAfLsJiL/bcfHJP3rIiAU0qw3VDqo/jbI=;
- b=EWTox/IMQOnmwwa21APsFQRtmpZ4ZChEioFwGxRWbU4EEsmhcOMGs9JxVPFGaEWeYS+thA
- cKJGUS/MIqGZHdTJ7TcMfgw42f5cG7r8ky5uE4gCsgUY+mPSpNrEDZI1RTGtYrJcWPXWjq
- RZ1Cv/0/PuewTZExgwBStMBrDg7pn3k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-F-hsCoZ7PDeY8dYXHTKKpg-1; Fri, 02 Oct 2020 04:04:31 -0400
-X-MC-Unique: F-hsCoZ7PDeY8dYXHTKKpg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C98C21029D21;
- Fri,  2 Oct 2020 08:04:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
- [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41F57196FD;
- Fri,  2 Oct 2020 08:04:27 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B7B8B1132784; Fri,  2 Oct 2020 10:04:25 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 06/13] qmp: Call monitor_set_cur() only in
- qmp_dispatch()
-References: <20200909151149.490589-7-kwolf@redhat.com>
- <877dswo0mf.fsf@dusky.pond.sub.org>
- <20200925151304.GE5731@linux.fritz.box>
- <87ft72i0v8.fsf@dusky.pond.sub.org>
- <20200928143052.GH5451@linux.fritz.box>
- <87h7rfehtr.fsf@dusky.pond.sub.org>
- <20200930112903.GA9292@linux.fritz.box>
- <87o8ln9zl3.fsf@dusky.pond.sub.org>
- <20200930140051.GC9292@linux.fritz.box>
- <20200930172020.GE2783@work-vm>
- <20201001101403.GA6673@linux.fritz.box>
- <87imbux7f4.fsf@dusky.pond.sub.org>
-Date: Fri, 02 Oct 2020 10:04:25 +0200
-In-Reply-To: <87imbux7f4.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Thu, 01 Oct 2020 18:00:47 +0200")
-Message-ID: <871rihoxyu.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kOG8M-0002LG-9I; Fri, 02 Oct 2020 04:09:42 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kOG8K-0008HQ-S3; Fri, 02 Oct 2020 04:09:42 -0400
+Received: by mail-wr1-x442.google.com with SMTP id o5so714698wrn.13;
+ Fri, 02 Oct 2020 01:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T2KAyG9+GcnWb+hQJRM2BaLdbK3udo5BOAO1tzVT6Qg=;
+ b=PNzO/eOGDc7X3YLvqMbuE/63cB5ZTHcUJXofMZ9/m2QgSUT1VNQZDbMQxvW2hRapkW
+ FOB42j/7MsC8q4AUWOyk0LXjBL3kAqshH6a1lviDCkDAaOSwrAe7rL3LwXoCUkIRbCQr
+ jks3ZuKYu1+ASEAKOmJ692WNcLhWHOWxfnKvKpIgYDViSJucKyX/HU9thN/cpSS8uKep
+ bOYO21tUyb+T2hd89Eb+P1y4gBBtXOafMMfuqhzQLl2b3mnbCL54CpCs6Qsy0s7Km30m
+ pDyNmZdS2/cCeTf0FwnxZmub189Oe+K87D2z0pyTwZy+SDcPw+Rp/pRWKueQQmC+SWGh
+ s7kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=T2KAyG9+GcnWb+hQJRM2BaLdbK3udo5BOAO1tzVT6Qg=;
+ b=FxsYhc5LX1D8isyQfBc8haQVrE1WNkfSnuR7csFd6c9joYTWjIxKbkrOFHZxFroMRq
+ a4aPgDl920bHK7L8H+YFcj90nAA5iw5z6GVWX+0S7MQtscEVcOHeHvEsdwfTq3eW+im9
+ GpzNbBKN5dUAt6ElitcmWR75nUswdxeXAUm9NTjqy3syUAKifTL2niM+CMwSwGUv8wLt
+ uSVXRqKWYB57LilPd22kxhsWUEWhLJSAyJrkxUEYvoWqyC21Zv5WZYs7DcfWAeYV8fIN
+ 7EqWkmgtPFmVm4+qrUSOolzuouXneIU/kAMOT3YuB8AA6jQtuyxtYlB6nn4cVrkUjQdI
+ PibA==
+X-Gm-Message-State: AOAM530Mk7Mu84CKH0QaB7KuqUHgwrQ9xVhOZsId82vom/weY2UP8Dzx
+ XiHFzh4X394IJit3O2cxRtZeB+QPyvg=
+X-Google-Smtp-Source: ABdhPJzEM8ZFvjX/uiTI27DM16nhmTSh4YFta/YMDG9oNLM6c629d5QCpD8AXCSGdBYdfrOWMiH6OQ==
+X-Received: by 2002:adf:ef0a:: with SMTP id e10mr1554020wro.362.1601626178249; 
+ Fri, 02 Oct 2020 01:09:38 -0700 (PDT)
+Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id t203sm838508wmg.43.2020.10.02.01.09.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Oct 2020 01:09:37 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/arm/fsl-imx25: Fix a typo
+Date: Fri,  2 Oct 2020 10:09:35 +0200
+Message-Id: <20201002080935.1660005-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,25 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, marcandre.lureau@gmail.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/arm/fsl-imx25.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Kevin Wolf <kwolf@redhat.com> writes:
-[...]
->> I'll just change this one in the next version. Changing a single
->> well-known instance not a big problem. It's just unfortunate that there
->> are "A few more in PATCH 08-11" and I don't know how to identify them.
->
-> When I do that, and you'd rather have a complete list, just ask.  Out of
-> time for today, but I can get it for you first thing tomorrow.
->
-> [...]
-
-Done, with the detail level cranked up to "lots" ;)
+diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
+index 971f35dd16..c1603b2ac2 100644
+--- a/include/hw/arm/fsl-imx25.h
++++ b/include/hw/arm/fsl-imx25.h
+@@ -179,7 +179,7 @@ struct FslIMX25State {
+  * 0xBB00_0000 0xBB00_0FFF 4 Kbytes     NAND flash main area buffer
+  * 0xBB00_1000 0xBB00_11FF 512 B        NAND flash spare area buffer
+  * 0xBB00_1200 0xBB00_1DFF 3 Kbytes     Reserved
+- * 0xBB00_1E00 0xBB00_1FFF 512 B        NAND flash control regisers
++ * 0xBB00_1E00 0xBB00_1FFF 512 B        NAND flash control registers
+  * 0xBB01_2000 0xBFFF_FFFF 96 Mbytes (minus 8 Kbytes) Reserved
+  * 0xC000_0000 0xFFFF_FFFF 1024 Mbytes  Reserved
+  */
+-- 
+2.26.2
 
 
