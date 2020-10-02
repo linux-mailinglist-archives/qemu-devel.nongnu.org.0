@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887D62816AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:33:30 +0200 (CEST)
-Received: from localhost ([::1]:46904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA570281727
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:52:13 +0200 (CEST)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kON3p-0000gh-I8
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45140)
+	id 1kONLx-00048t-1V
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1kON1Z-0007pe-Nf
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:31:11 -0400
-Received: from foss.arm.com ([217.140.110.172]:60138)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1kON1U-0002mJ-E0
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:31:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AEAE1396;
- Fri,  2 Oct 2020 08:31:01 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9EF43F73B;
- Fri,  2 Oct 2020 08:30:58 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] arm64: kvm: Introduce MTE VCPU feature
-To: Andrew Jones <drjones@redhat.com>
-References: <20200925093607.3051-1-steven.price@arm.com>
- <20200925093607.3051-3-steven.price@arm.com>
- <20201002143050.zamkpmqysy6k5ngl@kamzik.brq.redhat.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <8b617aef-2bff-8af0-df47-f9f863ab6fa0@arm.com>
-Date: Fri, 2 Oct 2020 16:30:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=537b2d3de=alistair.francis@wdc.com>)
+ id 1kONCD-0004At-6N; Fri, 02 Oct 2020 11:42:10 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:11357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=537b2d3de=alistair.francis@wdc.com>)
+ id 1kONC9-000453-M6; Fri, 02 Oct 2020 11:42:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1601653326; x=1633189326;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0HTateo18iUxCP/o7SnyVlB7WB9LUVcNYksYzOjQ5cg=;
+ b=l9vnh3JCtg8Io0Y783u8Zg6SxTkDr7srjdg1s6pRAmxtpcXvXsgGRaub
+ A+mqQi1LUjsE+9kJSSyUOy/62CPCIUSrUbFDdDEMgckLjJkIBchjyzhWj
+ vXig4y8wKHakTj1clFl0jzoFjw3r9184kcnBgcTDuNxuqh5rA6BWhCRz8
+ O46dJTrFw5E3fjMtXf0+OsBb225sp33+9hctEQKVpveM3Ukq2XmDyxaYo
+ WbQ2mKWr4cUkZ/2sFamcoFunZIEUFCorw9r/Efnd7pUg6l042w9qXjlP8
+ XEtJW4j6julxmU2nuxNTxEcPrXdWRkqs+gnc2kqZ52VbDQz0nyqm9pT/u w==;
+IronPort-SDR: wIiYb1EdMaWOzKuTGSVRyv3jEIx1IYYL6/aat7dUBy//ZC8CXT/1kyNznp1JKajz0ii7Yu2rAY
+ DozBR7TQWdVGhERI2eTIvMzUZFVi1jJ/wYmSFzkzeS1XW/alaS7E5ZEmd5bCidsfC3/cxWkjDU
+ aQgaH2L5bFfwrop0qUVhGxoLi0BvplJSx/4OUKNam9bOaJrdWsUHpHwbpSuxM2bG8pOdhdOfCw
+ TIXCoGjrNf3OPNUTKjwV+cnYhQF7ehF2JR+Guzz88k4PTjB2xsuhKKAST1zVW2tMzdJ0Ouw+WE
+ sfo=
+X-IronPort-AV: E=Sophos;i="5.77,328,1596470400"; d="scan'208";a="148978269"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Oct 2020 23:42:03 +0800
+IronPort-SDR: eqEUKi7pxiYoc9OwYRgvbLUaqhyoqtGj2v4mqSUwTX5edXt9pLXoZULLGBuq7LKdqWFlSgSTqy
+ laYLjZUZgl7Q==
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2020 08:28:52 -0700
+IronPort-SDR: /1b0orLLVyWGDT5kvADUc29Xg3gz0IVOnq7/y7uDjslv6l7UelpmUujTrtLrPqGKS+MGWiH4yb
+ xynpdB3s9ZsA==
+WDCIronportException: Internal
+Received: from dbzljc2.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.59.174])
+ by uls-op-cesaip02.wdc.com with ESMTP; 02 Oct 2020 08:42:02 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 0/4]  Allow loading a no MMU kernel
+Date: Fri,  2 Oct 2020 08:31:02 -0700
+Message-Id: <cover.1601652616.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201002143050.zamkpmqysy6k5ngl@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 11:31:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=537b2d3de=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 11:42:03
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.256,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,189 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>, kvmarm@lists.cs.columbia.edu,
- Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/10/2020 15:30, Andrew Jones wrote:
-> On Fri, Sep 25, 2020 at 10:36:07AM +0100, Steven Price wrote:
->> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
->> for a VM. This exposes the feature to the guest and automatically tags
->> memory pages touched by the VM as PG_mte_tagged (and clears the tags
->> storage) to ensure that the guest cannot see stale tags, and so that the
->> tags are correctly saved/restored across swap.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->>   arch/arm64/include/asm/kvm_emulate.h |  3 +++
->>   arch/arm64/include/asm/kvm_host.h    |  3 +++
->>   arch/arm64/kvm/arm.c                 |  9 +++++++++
->>   arch/arm64/kvm/mmu.c                 | 15 +++++++++++++++
->>   arch/arm64/kvm/sys_regs.c            |  6 +++++-
->>   include/uapi/linux/kvm.h             |  1 +
->>   6 files changed, 36 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
->> index 49a55be2b9a2..4923a566ae6e 100644
->> --- a/arch/arm64/include/asm/kvm_emulate.h
->> +++ b/arch/arm64/include/asm/kvm_emulate.h
->> @@ -79,6 +79,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
->>   	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
->>   	    vcpu_el1_is_32bit(vcpu))
->>   		vcpu->arch.hcr_el2 |= HCR_TID2;
->> +
->> +	if (vcpu->kvm->arch.mte_enabled)
->> +		vcpu->arch.hcr_el2 |= HCR_ATA;
->>   }
->>   
->>   static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
->> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
->> index 4f4360dd149e..1379300c1487 100644
->> --- a/arch/arm64/include/asm/kvm_host.h
->> +++ b/arch/arm64/include/asm/kvm_host.h
->> @@ -110,6 +110,9 @@ struct kvm_arch {
->>   	 * supported.
->>   	 */
->>   	bool return_nisv_io_abort_to_user;
->> +
->> +	/* Memory Tagging Extension enabled for the guest */
->> +	bool mte_enabled;
->>   };
->>   
->>   struct kvm_vcpu_fault_info {
->> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->> index 46dc3d75cf13..624edca0a1fa 100644
->> --- a/arch/arm64/kvm/arm.c
->> +++ b/arch/arm64/kvm/arm.c
->> @@ -87,6 +87,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->>   		r = 0;
->>   		kvm->arch.return_nisv_io_abort_to_user = true;
->>   		break;
->> +	case KVM_CAP_ARM_MTE:
->> +		if (!system_supports_mte() || kvm->created_vcpus)
->> +			return -EINVAL;
->> +		r = 0;
->> +		kvm->arch.mte_enabled = true;
->> +		break;
->>   	default:
->>   		r = -EINVAL;
->>   		break;
->> @@ -206,6 +212,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>   		 */
->>   		r = 1;
->>   		break;
->> +	case KVM_CAP_ARM_MTE:
->> +		r = system_supports_mte();
->> +		break;
->>   	default:
->>   		r = kvm_arch_vm_ioctl_check_extension(kvm, ext);
->>   		break;
->> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
->> index ba00bcc0c884..befb9e1f0aa6 100644
->> --- a/arch/arm64/kvm/mmu.c
->> +++ b/arch/arm64/kvm/mmu.c
->> @@ -1949,6 +1949,21 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
->>   	if (vma_pagesize == PAGE_SIZE && !force_pte)
->>   		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
->>   							   &pfn, &fault_ipa);
->> +	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
-> 
-> 'system_supports_mte() && kvm->arch.mte_enabled' is redundant, but I
-> assume system_supports_mte() is there to improve the efficiency of the
-> branch, as it's using cpus_have_const_cap().
+This series allows loading a noMMU kernel using the -kernel option.
+Currently if using -kernel QEMU assumes you also have firmware and loads
+the kernel at a hardcoded offset. This series changes that so we only
+load the kernel at an offset if a firmware (-bios) was loaded.
 
-system_supports_mte() compiles to 0 when MTE support isn't built in, so 
-this code can be removed by the compiler, whereas with 
-kvm->arch.mte_enabled I doubt the compiler can deduce that it is never set.
+This series also adds a function to check if the CPU is 32-bit. This is
+a step towards running 32-bit and 64-bit CPUs on the 64-bit RISC-V build
+by using run time checks instead of compile time checks. We also allow
+the user to sepcify a CPU for the sifive_u machine.
 
-> Maybe a helper like
-> 
->   static inline bool kvm_arm_mte_enabled(struct kvm *kvm)
->   {
->     return system_supports_mte() && kvm->arch.mte_enabled;
->   }
-> 
-> would allow both the more efficient branch and look less confusing
-> where it gets used.
+Alistair Francis (4):
+  hw/riscv: sifive_u: Allow specifying the CPU
+  hw/riscv: Return the end address of the loaded firmware
+  hw/riscv: Add a riscv_is_32_bit() function
+  hw/riscv: Load the kernel after the firmware
 
-I wasn't sure it was worth having a helper since this was the only place 
-checking this condition. It's also a bit tricky putting this in a 
-logical header file, kvm_host.h doesn't work because struct kvm hasn't 
-been defined by then.
+ include/hw/riscv/boot.h     | 11 +++++----
+ include/hw/riscv/sifive_u.h |  1 +
+ hw/riscv/boot.c             | 47 ++++++++++++++++++++++++-------------
+ hw/riscv/opentitan.c        |  3 ++-
+ hw/riscv/sifive_e.c         |  3 ++-
+ hw/riscv/sifive_u.c         | 31 ++++++++++++++++++------
+ hw/riscv/spike.c            | 14 ++++++++---
+ hw/riscv/virt.c             | 14 ++++++++---
+ 8 files changed, 89 insertions(+), 35 deletions(-)
 
-Steve
-
->> +		/*
->> +		 * VM will be able to see the page's tags, so we must ensure
->> +		 * they have been initialised.
->> +		 */
->> +		struct page *page = pfn_to_page(pfn);
->> +		long i, nr_pages = compound_nr(page);
->> +
->> +		/* if PG_mte_tagged is set, tags have already been initialised */
->> +		for (i = 0; i < nr_pages; i++, page++) {
->> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
->> +				mte_clear_page_tags(page_address(page));
->> +		}
->> +	}
->> +
->>   	if (writable)
->>   		kvm_set_pfn_dirty(pfn);
->>   
->> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
->> index a655f172b5ad..5010a47152b4 100644
->> --- a/arch/arm64/kvm/sys_regs.c
->> +++ b/arch/arm64/kvm/sys_regs.c
->> @@ -1132,7 +1132,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
->>   			val &= ~(0xfUL << ID_AA64PFR0_SVE_SHIFT);
->>   		val &= ~(0xfUL << ID_AA64PFR0_AMU_SHIFT);
->>   	} else if (id == SYS_ID_AA64PFR1_EL1) {
->> -		val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
->> +		if (!vcpu->kvm->arch.mte_enabled)
->> +			val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
->>   	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
->>   		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
->>   			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
->> @@ -1394,6 +1395,9 @@ static bool access_mte_regs(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
->>   static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
->>   				   const struct sys_reg_desc *rd)
->>   {
->> +	if (vcpu->kvm->arch.mte_enabled)
->> +		return 0;
->> +
->>   	return REG_HIDDEN_USER | REG_HIDDEN_GUEST;
->>   }
->>   
->> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> index f6d86033c4fa..87678ed82ab4 100644
->> --- a/include/uapi/linux/kvm.h
->> +++ b/include/uapi/linux/kvm.h
->> @@ -1035,6 +1035,7 @@ struct kvm_ppc_resize_hpt {
->>   #define KVM_CAP_LAST_CPU 184
->>   #define KVM_CAP_SMALLER_MAXPHYADDR 185
->>   #define KVM_CAP_S390_DIAG318 186
->> +#define KVM_CAP_ARM_MTE 188
->>   
->>   #ifdef KVM_CAP_IRQ_ROUTING
->>   
->> -- 
->> 2.20.1
->>
->>
-> 
-> Besides the helper suggestion nit
-> 
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
-> 
+-- 
+2.28.0
 
 
