@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C2D281308
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:44:26 +0200 (CEST)
-Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680052812FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:42:06 +0200 (CEST)
+Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOKQD-0000nR-A7
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:44:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
+	id 1kOKNw-0007Rq-K4
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOKJ6-0003X9-AG
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:37:04 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:45224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOKJ4-0006j6-MA
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:37:04 -0400
-Received: by mail-ej1-x641.google.com with SMTP id i26so1724685ejb.12
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 05:37:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j63E2tRroDA+OMewjGQyEGOgm0+HubdVlbniVt+SiO8=;
- b=DwGT3dKT85NdwiMhqBNVmdCqd12TUJ+pLGPTI+X7jVMXvV+ubsjR1m2atq28MDguM4
- RxBlVlXem9FI3sotIIgaZ3FtJU72giVvQyPjY47I/xFpZ18i/FAglGKhHhs+9HOfGIkP
- wah/VTG1dr+4w+CuoVF+iRglVJvK/DoBB7PE/eShdgaVj0I9OLWieTGmp0UvXoxN6Fjb
- RMT9U+W2bTgAAxKZ+foG0+kN1mMY2b5f+1snWb9aOpwgi7kQofsWukC7elEx4nbM+NBM
- u+d4HpXSZu9s2rQ0D9Hrwf8vi8HOY1P1mxYjfSH7a2H2uzXYIp2GMbUBJXP/VYe4G7WT
- q2qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=j63E2tRroDA+OMewjGQyEGOgm0+HubdVlbniVt+SiO8=;
- b=OtKDx1wRJYkXj6M8Ia7LyUY85whKxh+v1bVaEtipMktKtSdD9rq3sNp6ahQkh1bref
- R4RvEib1OAGNAmwe/n2XDN0NkgP3sY/QhLeZIoX2aMWrUHSAIyzKGooF6pqlA4T4GPkv
- wOeSOouEfVVpOILhNrCU1j292QAyUOXb35PiM6jauxXMu8yl9cZSml6jX4J3QgkIW3J5
- raYdtflRumiIEXdHUsO4J2ayKzjF/gqVQafS+7Oh+7ycSiHstbfMHww7F0H2jrU6Tv52
- 6OqyrcL4McpY+Vjy43FcyUWYfS7q37VgR3Lu88yrM69Bl3PY5DqFiZK4GvjwJ9SnsB2I
- GQOg==
-X-Gm-Message-State: AOAM5327XE1lVBUV4udPFwg11cWXfGpDiNpJ2HXLJZtisL+jAj+kr4Yi
- R7Ooyrx2BsJAVdyI/kNfm0CCgQppqKVg84+KGrD/UQ==
-X-Google-Smtp-Source: ABdhPJwFBiKxFL+4hjkVhHIOmkggbXzXHhiJXDxL068mS/hNLk9jPD6mn1t0pBux9mcmzuH7OE4fqzeVZcLrPerUTYU=
-X-Received: by 2002:a17:906:d936:: with SMTP id
- rn22mr2092079ejb.4.1601642220917; 
- Fri, 02 Oct 2020 05:37:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kOKMP-0006le-JY
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:40:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kOKMN-000730-Mc
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:40:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601642426;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wBHth+zBdENXWz8dYgWbeheAt9El7VbwKvgpqtJu8UE=;
+ b=T0dCy0+XuXuFoFIpn0SI9T5VWrJbi3AA3v6X99WO26ePADzZcVNY2iRdQxmwj2S8AQULrk
+ ABBJTQJ853TUqka6VGCs6zdtC9GHW03XJ6a95t41rQAqTTpo7qTWUPlbooMpL5RqAZ8H8w
+ 9bv7Vh1YhtV1Lmpm3o5MXUF7BFtgQIw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-NlRPNz8YNCGGJgAdw--t8Q-1; Fri, 02 Oct 2020 08:40:23 -0400
+X-MC-Unique: NlRPNz8YNCGGJgAdw--t8Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D0D81084C85;
+ Fri,  2 Oct 2020 12:40:22 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-114-192.ams2.redhat.com
+ [10.36.114.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B67C078806;
+ Fri,  2 Oct 2020 12:40:18 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	alex.bennee@linaro.org,
+	stefanha@redhat.com
+Subject: [PATCH] virtiofsd: Call qemu_init_exec_dir
+Date: Fri,  2 Oct 2020 13:40:15 +0100
+Message-Id: <20201002124015.44820-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20201002105239.2444-1-peter.maydell@linaro.org>
- <b1a6000a-c9a1-43fb-7646-b6ea87797b2e@redhat.com>
- <CAFEAcA9PbBByROzJ3+pfxycAoP-C5JnmfxQEt5jm6+3A3n2fbw@mail.gmail.com>
-In-Reply-To: <CAFEAcA9PbBByROzJ3+pfxycAoP-C5JnmfxQEt5jm6+3A3n2fbw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 2 Oct 2020 13:36:49 +0100
-Message-ID: <CAFEAcA96sZqqSNSJT7TET8qfArLnWJr5tu1YLqFGBsnca3YoFQ@mail.gmail.com>
-Subject: Re: [PATCH] meson.build: Don't look for libudev for static builds
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,19 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2 Oct 2020 at 13:35, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 2 Oct 2020 at 13:02, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > - the workaround: just leave things as they are and add
-> > --disable-libudev to your script.
->
-> There is no --disable-udev !
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-...and there's no --disable-libudev either :-)
+Since fcb4f59c879 qemu_get_local_state_pathname relies on the
+init_exec_dir, and virtiofsd asserts because we never set it.
+Set it.
 
--- PMM
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tools/virtiofsd/passthrough_ll.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 0b229ebd57..cce983ca63 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2839,6 +2839,8 @@ int main(int argc, char *argv[])
+     /* Don't mask creation mode, kernel already did that */
+     umask(0);
+ 
++    qemu_init_exec_dir(argv[0]);
++
+     pthread_mutex_init(&lo.mutex, NULL);
+     lo.inodes = g_hash_table_new(lo_key_hash, lo_key_equal);
+     lo.root.fd = -1;
+-- 
+2.26.2
+
 
