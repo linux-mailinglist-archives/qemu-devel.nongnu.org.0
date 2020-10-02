@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD429281615
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:07:16 +0200 (CEST)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FCE281620
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:09:33 +0200 (CEST)
+Received: from localhost ([::1]:42628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMeR-00041y-Sl
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34812)
+	id 1kOMge-0007u0-FZ
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIN-0001y3-1a
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50085)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIQ-00026e-9w
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIK-0004az-KF
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:26 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIO-0004bh-2X
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649863;
+ s=mimecast20190719; t=1601649867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/NI5Nalha+zIv9JxQl9J8LkMCQU3jKRz4V7N1PNX5Ec=;
- b=Wj0+DGRbFHPs9Ey6Y7Oa4N+dMuy3OMZE0vewh/lPzZMhEN8NDlVSx8Wr23Y3b0SFhj1eIm
- vX0KXkBKHLC8lDfv4/WUyCbq9ec9veojkEqPuJIgHhbbKVN+ATHNThSK2YE+C9c1PJjYr+
- Js6KeBbmwlVeS0HkHQzVnE4x6z7Rq44=
+ bh=oyskWpBX4Rds1CxIX3qvpctviEjkktErolqAZBB8lr8=;
+ b=cX/0dF8/rtri+hRoIr/rZaJ4hncnU9a0fTff1MyDkS4mazKHmS1kIzs9rqsMUmWYEVRFSf
+ q2axdOul2Upifk4lq+OaLMJyyLatzGa5IR3bBE6P4kSUyPPyibFPTLFodNWeenq/9Gmw1Z
+ AixkgDQOc+fxJDqfNWyUquVlDdta7Oc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-IDWSiFUCM8mOFZymelXQTg-1; Fri, 02 Oct 2020 10:44:21 -0400
-X-MC-Unique: IDWSiFUCM8mOFZymelXQTg-1
+ us-mta-278-GxSczJ1_OHqAqZ__YpFgyA-1; Fri, 02 Oct 2020 10:44:25 -0400
+X-MC-Unique: GxSczJ1_OHqAqZ__YpFgyA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64F548015B0;
- Fri,  2 Oct 2020 14:44:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 333CB8030D5;
+ Fri,  2 Oct 2020 14:44:24 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
  [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 714A15D9D3;
- Fri,  2 Oct 2020 14:44:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD4A35D9D3;
+ Fri,  2 Oct 2020 14:44:20 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/37] block/export: Add blk_exp_close_all(_type)
-Date: Fri,  2 Oct 2020 16:43:29 +0200
-Message-Id: <20201002144345.253865-22-kwolf@redhat.com>
+Subject: [PULL 22/37] block/export: Add 'id' option to block-export-add
+Date: Fri,  2 Oct 2020 16:43:30 +0200
+Message-Id: <20201002144345.253865-23-kwolf@redhat.com>
 In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
 References: <20201002144345.253865-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,338 +83,203 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a function to shut down all block exports, and another one to
-shut down the block exports of a single type. The latter is used for now
-when stopping the NBD server. As soon as we implement support for
-multiple NBD servers, we'll need a per-server list of exports and it
-will be replaced by a function using that.
+We'll need an id to identify block exports in monitor commands. This
+adds one.
 
-As a side effect, the BlockExport layer has a list tracking all existing
-exports now. closed_exports loses its only user and can go away.
+Note that this is different from the 'name' option in the NBD server,
+which is the externally visible export name. While block export ids need
+to be unique in the whole process, export names must be unique only for
+the same server. Different export types or (potentially in the future)
+multiple NBD servers can have the same export name externally, but still
+need different block export ids internally.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200924152717.287415-18-kwolf@redhat.com>
+Message-Id: <20200924152717.287415-19-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/export.h | 15 ++++++++
- include/block/nbd.h    |  2 -
- block.c                |  2 +-
- block/export/export.c  | 86 +++++++++++++++++++++++++++++++++++++++++-
- blockdev-nbd.c         |  2 +-
- nbd/server.c           | 34 +++--------------
- qemu-nbd.c             |  2 +-
- 7 files changed, 107 insertions(+), 36 deletions(-)
+ qapi/block-export.json               |  5 +++++
+ include/block/export.h               |  3 +++
+ block/export/export.c                | 26 ++++++++++++++++++++++++++
+ blockdev-nbd.c                       |  1 +
+ qemu-nbd.c                           |  1 +
+ storage-daemon/qemu-storage-daemon.c |  2 +-
+ tests/qemu-iotests/223.out           |  4 ++--
+ 7 files changed, 39 insertions(+), 3 deletions(-)
 
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index 1091c97f6f..658bdf05e1 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -105,6 +105,8 @@
+ #
+ # Export a block node to QEMU's embedded NBD server.
+ #
++# The export name will be used as the id for the resulting block export.
++#
+ # Returns: error if the server is not running, or export with the same name
+ #          already exists.
+ #
+@@ -182,6 +184,8 @@
+ # Describes a block export, i.e. how single node should be exported on an
+ # external interface.
+ #
++# @id: A unique identifier for the block export (across all export types)
++#
+ # @node-name: The node name of the block node to be exported (since: 5.2)
+ #
+ # @writethrough: If true, caches are flushed after every write request to the
+@@ -192,6 +196,7 @@
+ ##
+ { 'union': 'BlockExportOptions',
+   'base': { 'type': 'BlockExportType',
++            'id': 'str',
+             'node-name': 'str',
+             '*writethrough': 'bool' },
+   'discriminator': 'type',
 diff --git a/include/block/export.h b/include/block/export.h
-index cf9b1c9dad..6fffcb5651 100644
+index 6fffcb5651..cdc6e161ea 100644
 --- a/include/block/export.h
 +++ b/include/block/export.h
-@@ -15,6 +15,7 @@
- #define BLOCK_EXPORT_H
- 
- #include "qapi/qapi-types-block-export.h"
-+#include "qemu/queue.h"
- 
- typedef struct BlockExport BlockExport;
- 
-@@ -36,6 +37,14 @@ typedef struct BlockExportDriver {
-      * references have been dropped.
-      */
-     void (*delete)(BlockExport *);
-+
-+    /*
-+     * Start to disconnect all clients and drop other references held
-+     * internally by the export driver. When the function returns, there may
-+     * still be active references while the export is in the process of
-+     * shutting down.
-+     */
-+    void (*request_shutdown)(BlockExport *);
- } BlockExportDriver;
- 
+@@ -50,6 +50,9 @@ typedef struct BlockExportDriver {
  struct BlockExport {
-@@ -50,10 +59,16 @@ struct BlockExport {
+     const BlockExportDriver *drv;
  
-     /* The AioContext whose lock protects this BlockExport object. */
-     AioContext *ctx;
++    /* Unique identifier for the export */
++    char *id;
 +
-+    /* List entry for block_exports */
-+    QLIST_ENTRY(BlockExport) next;
- };
- 
- BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp);
- void blk_exp_ref(BlockExport *exp);
- void blk_exp_unref(BlockExport *exp);
-+void blk_exp_request_shutdown(BlockExport *exp);
-+void blk_exp_close_all(void);
-+void blk_exp_close_all_type(BlockExportType type);
- 
- #endif
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index fc2c153d5b..0b9f3e5d4e 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -337,12 +337,10 @@ int nbd_export_new(BlockExport *blk_exp, BlockDriverState *bs,
-                    const char *bitmap, bool readonly, bool shared,
-                    bool writethrough, Error **errp);
- void nbd_export_set_on_eject_blk(BlockExport *exp, BlockBackend *blk);
--void nbd_export_close(NBDExport *exp);
- void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp);
- 
- AioContext *nbd_export_aio_context(NBDExport *exp);
- NBDExport *nbd_export_find(const char *name);
--void nbd_export_close_all(void);
- 
- void nbd_client_new(QIOChannelSocket *sioc,
-                     QCryptoTLSCreds *tlscreds,
-diff --git a/block.c b/block.c
-index f72a2e26e8..f4b6dd5d3d 100644
---- a/block.c
-+++ b/block.c
-@@ -4462,7 +4462,7 @@ static void bdrv_close(BlockDriverState *bs)
- void bdrv_close_all(void)
- {
-     assert(job_next(NULL) == NULL);
--    nbd_export_close_all();
-+    blk_exp_close_all();
- 
-     /* Drop references from requests still in flight, such as canceled block
-      * jobs whose AIO context has not been polled yet */
+     /*
+      * Reference count for this block export. This includes strong references
+      * both from the owner (qemu-nbd or the monitor) and clients connected to
 diff --git a/block/export/export.c b/block/export/export.c
-index 6b2b29078b..e94a68c183 100644
+index e94a68c183..7a4a78449a 100644
 --- a/block/export/export.c
 +++ b/block/export/export.c
-@@ -24,6 +24,10 @@ static const BlockExportDriver *blk_exp_drivers[] = {
-     &blk_exp_nbd,
- };
+@@ -19,6 +19,7 @@
+ #include "block/nbd.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-block-export.h"
++#include "qemu/id.h"
  
-+/* Only accessed from the main thread */
-+static QLIST_HEAD(, BlockExport) block_exports =
-+    QLIST_HEAD_INITIALIZER(block_exports);
+ static const BlockExportDriver *blk_exp_drivers[] = {
+     &blk_exp_nbd,
+@@ -28,6 +29,19 @@ static const BlockExportDriver *blk_exp_drivers[] = {
+ static QLIST_HEAD(, BlockExport) block_exports =
+     QLIST_HEAD_INITIALIZER(block_exports);
+ 
++static BlockExport *blk_exp_find(const char *id)
++{
++    BlockExport *exp;
++
++    QLIST_FOREACH(exp, &block_exports, next) {
++        if (strcmp(id, exp->id) == 0) {
++            return exp;
++        }
++    }
++
++    return NULL;
++}
 +
  static const BlockExportDriver *blk_exp_find_driver(BlockExportType type)
  {
      int i;
-@@ -61,6 +65,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+@@ -46,6 +60,15 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     BlockExport *exp;
+     int ret;
+ 
++    if (!id_wellformed(export->id)) {
++        error_setg(errp, "Invalid block export id");
++        return NULL;
++    }
++    if (blk_exp_find(export->id)) {
++        error_setg(errp, "Block export id '%s' is already in use", export->id);
++        return NULL;
++    }
++
+     drv = blk_exp_find_driver(export->type);
+     if (!drv) {
+         error_setg(errp, "No driver found for the requested export type");
+@@ -57,10 +80,12 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     *exp = (BlockExport) {
+         .drv        = drv,
+         .refcount   = 1,
++        .id         = g_strdup(export->id),
+     };
+ 
+     ret = drv->create(exp, export, errp);
+     if (ret < 0) {
++        g_free(exp->id);
+         g_free(exp);
          return NULL;
      }
+@@ -87,6 +112,7 @@ static void blk_exp_delete_bh(void *opaque)
+     assert(exp->refcount == 0);
+     QLIST_REMOVE(exp, next);
+     exp->drv->delete(exp);
++    g_free(exp->id);
+     g_free(exp);
  
-+    QLIST_INSERT_HEAD(&block_exports, exp, next);
-     return exp;
- }
- 
-@@ -71,14 +76,91 @@ void blk_exp_ref(BlockExport *exp)
-     exp->refcount++;
- }
- 
-+/* Runs in the main thread */
-+static void blk_exp_delete_bh(void *opaque)
-+{
-+    BlockExport *exp = opaque;
-+    AioContext *aio_context = exp->ctx;
-+
-+    aio_context_acquire(aio_context);
-+
-+    assert(exp->refcount == 0);
-+    QLIST_REMOVE(exp, next);
-+    exp->drv->delete(exp);
-+    g_free(exp);
-+
-+    aio_context_release(aio_context);
-+}
-+
- /* Callers must hold exp->ctx lock */
- void blk_exp_unref(BlockExport *exp)
- {
-     assert(exp->refcount > 0);
-     if (--exp->refcount == 0) {
--        exp->drv->delete(exp);
--        g_free(exp);
-+        /* Touch the block_exports list only in the main thread */
-+        aio_bh_schedule_oneshot(qemu_get_aio_context(), blk_exp_delete_bh,
-+                                exp);
-+    }
-+}
-+
-+/*
-+ * Drops the user reference to the export and requests that all client
-+ * connections and other internally held references start to shut down. When
-+ * the function returns, there may still be active references while the export
-+ * is in the process of shutting down.
-+ *
-+ * Acquires exp->ctx internally. Callers must *not* hold the lock.
-+ */
-+void blk_exp_request_shutdown(BlockExport *exp)
-+{
-+    AioContext *aio_context = exp->ctx;
-+
-+    aio_context_acquire(aio_context);
-+    exp->drv->request_shutdown(exp);
-+    aio_context_release(aio_context);
-+}
-+
-+/*
-+ * Returns whether a block export of the given type exists.
-+ * type == BLOCK_EXPORT_TYPE__MAX checks for an export of any type.
-+ */
-+static bool blk_exp_has_type(BlockExportType type)
-+{
-+    BlockExport *exp;
-+
-+    if (type == BLOCK_EXPORT_TYPE__MAX) {
-+        return !QLIST_EMPTY(&block_exports);
-+    }
-+
-+    QLIST_FOREACH(exp, &block_exports, next) {
-+        if (exp->drv->type == type) {
-+            return true;
-+        }
-     }
-+
-+    return false;
-+}
-+
-+/* type == BLOCK_EXPORT_TYPE__MAX for all types */
-+void blk_exp_close_all_type(BlockExportType type)
-+{
-+    BlockExport *exp, *next;
-+
-+    assert(in_aio_context_home_thread(qemu_get_aio_context()));
-+
-+    QLIST_FOREACH_SAFE(exp, &block_exports, next, next) {
-+        if (type != BLOCK_EXPORT_TYPE__MAX && exp->drv->type != type) {
-+            continue;
-+        }
-+        blk_exp_request_shutdown(exp);
-+    }
-+
-+    AIO_WAIT_WHILE(NULL, blk_exp_has_type(type));
-+}
-+
-+void blk_exp_close_all(void)
-+{
-+    blk_exp_close_all_type(BLOCK_EXPORT_TYPE__MAX);
- }
- 
- void qmp_block_export_add(BlockExportOptions *export, Error **errp)
+     aio_context_release(aio_context);
 diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index b34f159888..f927264777 100644
+index f927264777..814554dd90 100644
 --- a/blockdev-nbd.c
 +++ b/blockdev-nbd.c
-@@ -345,7 +345,7 @@ void qmp_nbd_server_stop(Error **errp)
-         return;
-     }
- 
--    nbd_export_close_all();
-+    blk_exp_close_all_type(BLOCK_EXPORT_TYPE_NBD);
- 
-     nbd_server_free(nbd_server);
-     nbd_server = NULL;
-diff --git a/nbd/server.c b/nbd/server.c
-index f31d8bbb60..32147e4871 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -100,8 +100,6 @@ struct NBDExport {
- };
- 
- static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
--static QTAILQ_HEAD(, NBDExport) closed_exports =
--        QTAILQ_HEAD_INITIALIZER(closed_exports);
- 
- /* NBDExportMetaContexts represents a list of contexts to be exported,
-  * as selected by NBD_OPT_SET_META_CONTEXT. Also used for
-@@ -1494,12 +1492,8 @@ static void blk_aio_detach(void *opaque)
- static void nbd_eject_notifier(Notifier *n, void *data)
- {
-     NBDExport *exp = container_of(n, NBDExport, eject_notifier);
--    AioContext *aio_context;
- 
--    aio_context = exp->common.ctx;
--    aio_context_acquire(aio_context);
--    nbd_export_close(exp);
--    aio_context_release(aio_context);
-+    blk_exp_request_shutdown(&exp->common);
- }
- 
- void nbd_export_set_on_eject_blk(BlockExport *exp, BlockBackend *blk)
-@@ -1652,8 +1646,9 @@ nbd_export_aio_context(NBDExport *exp)
-     return exp->common.ctx;
- }
- 
--void nbd_export_close(NBDExport *exp)
-+static void nbd_export_request_shutdown(BlockExport *blk_exp)
- {
-+    NBDExport *exp = container_of(blk_exp, NBDExport, common);
-     NBDClient *client, *next;
- 
-     blk_exp_ref(&exp->common);
-@@ -1672,7 +1667,6 @@ void nbd_export_close(NBDExport *exp)
-         g_free(exp->name);
-         exp->name = NULL;
-         QTAILQ_REMOVE(&exports, exp, next);
--        QTAILQ_INSERT_TAIL(&closed_exports, exp, next);
-     }
-     blk_exp_unref(&exp->common);
- }
-@@ -1681,7 +1675,7 @@ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp)
- {
-     ERRP_GUARD();
-     if (mode == NBD_SERVER_REMOVE_MODE_HARD || QTAILQ_EMPTY(&exp->clients)) {
--        nbd_export_close(exp);
-+        nbd_export_request_shutdown(&exp->common);
-         return;
-     }
- 
-@@ -1716,9 +1710,6 @@ static void nbd_export_delete(BlockExport *blk_exp)
-         bdrv_dirty_bitmap_set_busy(exp->export_bitmap, false);
-         g_free(exp->export_bitmap_context);
-     }
--
--    QTAILQ_REMOVE(&closed_exports, exp, next);
--    aio_wait_kick();
- }
- 
- const BlockExportDriver blk_exp_nbd = {
-@@ -1726,24 +1717,9 @@ const BlockExportDriver blk_exp_nbd = {
-     .instance_size      = sizeof(NBDExport),
-     .create             = nbd_export_create,
-     .delete             = nbd_export_delete,
-+    .request_shutdown   = nbd_export_request_shutdown,
- };
- 
--void nbd_export_close_all(void)
--{
--    NBDExport *exp, *next;
--    AioContext *aio_context;
--
--    QTAILQ_FOREACH_SAFE(exp, &exports, next, next) {
--        aio_context = exp->common.ctx;
--        aio_context_acquire(aio_context);
--        nbd_export_close(exp);
--        aio_context_release(aio_context);
--    }
--
--    AIO_WAIT_WHILE(NULL, !(QTAILQ_EMPTY(&exports) &&
--                           QTAILQ_EMPTY(&closed_exports)));
--}
--
- static int coroutine_fn nbd_co_send_iov(NBDClient *client, struct iovec *iov,
-                                         unsigned niov, Error **errp)
- {
+@@ -269,6 +269,7 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+     export_opts = g_new(BlockExportOptions, 1);
+     *export_opts = (BlockExportOptions) {
+         .type                   = BLOCK_EXPORT_TYPE_NBD,
++        .id                     = g_strdup(arg->name),
+         .node_name              = g_strdup(bdrv_get_node_name(bs)),
+         .u.nbd = {
+             .has_name           = true,
 diff --git a/qemu-nbd.c b/qemu-nbd.c
-index fe0d1928c3..cfa5b78b1a 100644
+index cfa5b78b1a..66cb8f91b1 100644
 --- a/qemu-nbd.c
 +++ b/qemu-nbd.c
-@@ -1119,7 +1119,7 @@ int main(int argc, char **argv)
-     do {
-         main_loop_wait(false);
-         if (state == TERMINATE) {
--            nbd_export_close_all();
-+            blk_exp_close_all();
-             state = TERMINATED;
-         }
-     } while (state != TERMINATED);
+@@ -1064,6 +1064,7 @@ int main(int argc, char **argv)
+     export_opts = g_new(BlockExportOptions, 1);
+     *export_opts = (BlockExportOptions) {
+         .type               = BLOCK_EXPORT_TYPE_NBD,
++        .id                 = g_strdup("qemu-nbd-export"),
+         .node_name          = g_strdup(bdrv_get_node_name(bs)),
+         .has_writethrough   = true,
+         .writethrough       = writethrough,
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index 0fcab6ed2d..e6157ff518 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -92,7 +92,7 @@ static void help(void)
+ "  --chardev <options>    configure a character device backend\n"
+ "                         (see the qemu(1) man page for possible options)\n"
+ "\n"
+-"  --export [type=]nbd,device=<node-name>[,name=<export-name>]\n"
++"  --export [type=]nbd,device=<node-name>,id=<id>,[,name=<export-name>]\n"
+ "           [,writable=on|off][,bitmap=<name>]\n"
+ "                         export the specified block node over NBD\n"
+ "                         (requires --nbd-server)\n"
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+index e1eaaedb55..31ce9e6fe0 100644
+--- a/tests/qemu-iotests/223.out
++++ b/tests/qemu-iotests/223.out
+@@ -45,7 +45,7 @@ exports available: 0
+ {"execute":"nbd-server-add", "arguments":{"device":"nosuch"}}
+ {"error": {"class": "GenericError", "desc": "Cannot find device=nosuch nor node_name=nosuch"}}
+ {"execute":"nbd-server-add", "arguments":{"device":"n"}}
+-{"error": {"class": "GenericError", "desc": "NBD server already has export named 'n'"}}
++{"error": {"class": "GenericError", "desc": "Block export id 'n' is already in use"}}
+ {"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b2"}}
+ {"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompatible with readonly export"}}
+ {"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b3"}}
+@@ -126,7 +126,7 @@ exports available: 0
+ {"execute":"nbd-server-add", "arguments":{"device":"nosuch"}}
+ {"error": {"class": "GenericError", "desc": "Cannot find device=nosuch nor node_name=nosuch"}}
+ {"execute":"nbd-server-add", "arguments":{"device":"n"}}
+-{"error": {"class": "GenericError", "desc": "NBD server already has export named 'n'"}}
++{"error": {"class": "GenericError", "desc": "Block export id 'n' is already in use"}}
+ {"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b2"}}
+ {"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompatible with readonly export"}}
+ {"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b3"}}
 -- 
 2.25.4
 
