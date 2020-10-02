@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C247281188
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:49:32 +0200 (CEST)
-Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6820A28116E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:45:03 +0200 (CEST)
+Received: from localhost ([::1]:43168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOJZ5-0002TR-KH
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
+	id 1kOJUk-0005G1-FH
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJNI-0006v9-4x
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:20 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41140)
+ id 1kOJNI-0006vA-Cj
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:21 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJND-0007d3-A6
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:19 -0400
-Received: by mail-wr1-x435.google.com with SMTP id w5so1436983wrp.8
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:37:05 -0700 (PDT)
+ id 1kOJND-0007dT-BM
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:20 -0400
+Received: by mail-wr1-x431.google.com with SMTP id s12so1431354wrw.11
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q56uJlplEOGZNO4NGXUUldxlm0BXcxTkBDeUS1B3sak=;
- b=gwdvro64OZ2zEEnvwHmjv0VBLNJDp8RSKnK7OX6S9G1+XS+8crYQdNgMgHMXVF6BXh
- ZSai+R0C06JzYoISoYDjqmFi9TydPicUSES6xGqXevypGDRug5aIFkHNEe1ad2SLVg/+
- cjc1MYbNmMa3SRTNRK13lj8D7WdxNH0a5RyqKSRJEKdGVjEDOPH3lsfbIm+C8kWGYLh0
- VVIzgum7WROCofzGapvEXbXxLNLZzW6NUqFZ6fNB4a4A23lj13sGBlelCeWbWnnV1Fj9
- XpzZ8pFaf90oWWPfgf+lvFLcpVFoOCUdAfxZehqi+b597TUAVX0zfBDm/cqapithqd2J
- 64pA==
+ bh=V8w5gFyqs3rkDT9U+8pSjZ6LqA4RWs5w6dFBc0m5Qgc=;
+ b=QrYtfUb6qXRSi/bmvk0rEdi5naBRbgytq6PBeXPPoQ3sZoC3m/jDV6h0f5XZl1Mu+I
+ poqfxJnCyTNKEf47sP8sqb4+hrrAinEronKY903SijNYElQ4fMWSOe82KokrSdgIdXW+
+ uIs2ldIUYGqnvfaBywLX3VvkMoQaHnaQ1rlA5cnNiTNdWtxfFkGmOweJ7ZkqvGDwEa58
+ Q2WFcioA58CCw3fBsVORXRnBwBDCmHf4BivPAi675Ssy+gBQHhvWrgLuLZuJ71St4hk2
+ Pt2fpYYFgoLRPHrYG3FxNdMS1rWfiXfi2/IgUj9fgIM5Uklwk9eph5uMqkzFboARELRq
+ ccSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q56uJlplEOGZNO4NGXUUldxlm0BXcxTkBDeUS1B3sak=;
- b=Ej1TPc4zmuvuAnQaoIwQAxNQ5wTrE51EWIG7yyROaXc0zAPegpAsCcQhoMVftn0ix5
- j3dEtIFg2JQm3wWkRd8feKP/77Bgkmt+mHlwML8BNGVZImw9pG46gyeN+3sdxT4VbXUa
- ITOzSsIwJkDSsCcffDfQAGWrHekty/BLGCeujg62MI0oeZZmtJv5OgR/FSbbnO+Gaq4g
- 9S5Nw933ItZNTgenXtN1NlnJpOIptGixYPKDpnXs9CbOKlfUJGIobyqw+88VMQdxGEm1
- qXQXVRD4r+bm1JCSHoCGh0MClJTJnsbXyiKgP8cYWbUrt+ZuOsF/OEzwAuqoyvtvuiE6
- +9Kg==
-X-Gm-Message-State: AOAM532EsvP1fe1z+w8C456EyeouOWZAEBEiCrJXosJVGjmV9sH3wHM8
- /21kG0bB4W3UapR3sx9qcuUVBg==
-X-Google-Smtp-Source: ABdhPJxKtenxYzUTj8MtH31IyBu2m1Agitl2H9jeT7cEm9XzkpJSEcgBo0vmEPDKySNimHwvTbbMQQ==
-X-Received: by 2002:a5d:6404:: with SMTP id z4mr2644099wru.423.1601638624398; 
- Fri, 02 Oct 2020 04:37:04 -0700 (PDT)
+ bh=V8w5gFyqs3rkDT9U+8pSjZ6LqA4RWs5w6dFBc0m5Qgc=;
+ b=qWDw/+YIf6MpzYyWk1ur90w6T46aP6BqMa3hzMjjxP7sBOkotu6CAlhCqtjIo43gNK
+ X7nKjgnrgL+F+9nasqM9wCmW9HqJYcaq+fDw6uYVdVCinPqX28HavJ05UXQ5rVCbnix2
+ x2eo2hiLE/kP9K0kgN2npNHsdJD3Wo8ELpQN83+JiIzTusyeNDtx+rpu/4yZcFaLwOYq
+ UhLJJxLnNA378awzO0lAVO+kPZMkPLwI7SyamEgmuoiwxtyXgWa5BheRx6Hz74gn1m4n
+ 2WhiSfOILkZeXTV/bC1Jk8+pNcjwnZ4bTVvsc6bWewHcxAp/+/LbFM4FZA7bgc+LveNY
+ CtkQ==
+X-Gm-Message-State: AOAM533sHUhiB7yOEYn7ECF9wY9Bga3mG6TojsyY0Fq+s3CS/0C8a3+k
+ q2Z05eowmM4DkJAJySShE855aw==
+X-Google-Smtp-Source: ABdhPJw4Ia+EleDNsDf5XyotuTl77+zNmyy1QzQulCOPQX5TUyOrxnQdXnoFoozSBZN8RPbghu6ofA==
+X-Received: by 2002:adf:a34b:: with SMTP id d11mr2553815wrb.7.1601638629024;
+ Fri, 02 Oct 2020 04:37:09 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f63sm184597wme.38.2020.10.02.04.36.53
+ by smtp.gmail.com with ESMTPSA id f14sm1591402wrv.72.2020.10.02.04.36.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 02 Oct 2020 04:37:01 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 131C11FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 29DA41FF9C;
  Fri,  2 Oct 2020 12:36:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/14] configure: Bump the minimum required Python version to
- 3.6
-Date: Fri,  2 Oct 2020 12:36:43 +0100
-Message-Id: <20201002113645.17693-13-alex.bennee@linaro.org>
+Subject: [PULL 13/14] gitlab: move linux-user plugins test across to gitlab
+Date: Fri,  2 Oct 2020 12:36:44 +0100
+Message-Id: <20201002113645.17693-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201002113645.17693-1-alex.bennee@linaro.org>
 References: <20201002113645.17693-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -76,7 +75,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,69 +88,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Even with the recent split moving beefier plugins into contrib and
+dropping them from the check-tcg tests we are still hitting time
+limits. This possibly points to a slow down of --debug-tcg but seeing
+as we are migrating stuff to gitlab we might as well move there and
+bump the timeout.
 
-All our supported build platforms have Python 3.6 or newer nowadays, and
-there are some useful features in Python 3.6 which are not available in
-3.5 yet (e.g. the type hint annotations which will allow us to statically
-type the QAPI parser), so let's bump the minimum Python version to 3.6 now.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200923162908.95372-1-thuth@redhat.com>
-Message-Id: <20200925154027.12672-16-alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201002103223.24022-1-alex.bennee@linaro.org>
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 606f623211..00e1b750e2 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -36,9 +36,9 @@ from sphinx.errors import ConfigError
- # In newer versions of Sphinx this will display nicely; in older versions
- # Sphinx will also produce a Python backtrace but at least the information
- # gets printed...
--if sys.version_info < (3,5):
-+if sys.version_info < (3,6):
-     raise ConfigError(
--        "QEMU requires a Sphinx that uses Python 3.5 or better\n")
-+        "QEMU requires a Sphinx that uses Python 3.6 or better\n")
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index c265e7f8ab..346f23acf7 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -244,6 +244,17 @@ build-user:
+     CONFIGURE_ARGS: --disable-tools --disable-system
+     MAKE_CHECK_ARGS: check-tcg
  
- # The per-manual conf.py will set qemu_docdir for a single-manual build;
- # otherwise set it here if this is an entire-manual-set build.
-diff --git a/configure b/configure
-index ca9b458ea0..a5841241be 100755
---- a/configure
-+++ b/configure
-@@ -1964,8 +1964,8 @@ fi
++# Run check-tcg against linux-user (with plugins)
++# we skip sparc64-linux-user until it has been fixed somewhat
++# we skip cris-linux-user as it doesn't use the common run loop
++build-user-plugins:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-all-test-cross
++    CONFIGURE_ARGS: --disable-tools --disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user
++    MAKE_CHECK_ARGS: check-tcg
++  timeout: 1h 30m
++
+ build-clang:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/.travis.yml b/.travis.yml
+index c255c331a7..519e62432d 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -311,17 +311,6 @@ jobs:
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
  
- # Note that if the Python conditional here evaluates True we will exit
- # with status 1 which is a shell 'false' value.
--if ! $python -c 'import sys; sys.exit(sys.version_info < (3,5))'; then
--  error_exit "Cannot use '$python', Python >= 3.5 is required." \
-+if ! $python -c 'import sys; sys.exit(sys.version_info < (3,6))'; then
-+  error_exit "Cannot use '$python', Python >= 3.6 is required." \
-       "Use --python=/path/to/python to specify a supported Python."
- fi
  
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 91e4a57126..f48460480a 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -40,8 +40,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qtest
- from qemu.qmp import QMPMessage
- 
--assert sys.version_info >= (3, 6)
+-    # Run check-tcg against linux-user (with plugins)
+-    # we skip sparc64-linux-user until it has been fixed somewhat
+-    # we skip cris-linux-user as it doesn't use the common run loop
+-    - name: "GCC plugins check-tcg (user)"
+-      env:
+-        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user"
+-        - TEST_BUILD_CMD="make build-tcg"
+-        - TEST_CMD="make check-tcg"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
 -
- # Use this logger for logging messages directly from the iotests module
- logger = logging.getLogger('qemu.iotests')
- logger.addHandler(logging.NullHandler())
+-
+     # Run check-tcg against softmmu targets
+     - name: "GCC check-tcg (some-softmmu)"
+       env:
 -- 
 2.20.1
 
