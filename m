@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5B02815C9
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:51:22 +0200 (CEST)
-Received: from localhost ([::1]:46674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D192815A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:48:51 +0200 (CEST)
+Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMP3-0001t5-5a
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:51:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34234)
+	id 1kOMMc-0006iS-IW
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHw-00015Q-OW
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHu-0004UY-BS
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHu-00014M-L6
  for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHs-0004UP-GB
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:43:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649837;
+ s=mimecast20190719; t=1601649835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ALB/FaNk12kyGw2O7Nm1BIYejy+pp+h9g1HM6AxLjHY=;
- b=O9WT9mfrjeM/Op268CfYa4h6G0e126w9MLfmGF7w1jfeuvR5XnIMg01FbUJyE6jWA+L0bu
- ocWasMN95aJFTA3ybaH1ngTLfko5kPuJKhNpLCHmWrIqY8WFwgsarXTxMifDVF1D0nvyUx
- qtM3xIZAfe7u00c62VH4Q9bugSPgSdg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dqfdCh9kh4dBevakPfHxbGex7Zs1YdmzJFjhoYD6CpY=;
+ b=e33j4ufqyqejXZ/lQjYE4DHi/NnnldOrKugrbHaF9N7qOJJw84xBgTR4QNXsJUWSc4Vx+i
+ wpCMy31DkyFCehZ9RgvezUCH6Uuo2HRdIk7W/SVdpgqSzh2VtHf5kP44FrhbCL3QAx6I7+
+ kXC+9qeYFF5TcKsvT2Y+PFuzbpNYhcs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-W7B2WxsjNyOMJ2J1slQk6g-1; Fri, 02 Oct 2020 10:43:52 -0400
-X-MC-Unique: W7B2WxsjNyOMJ2J1slQk6g-1
+ us-mta-279-IX4Ky6DeMH2uxo5qMb9XBg-1; Fri, 02 Oct 2020 10:43:53 -0400
+X-MC-Unique: IX4Ky6DeMH2uxo5qMb9XBg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 295D8192AB80;
- Fri,  2 Oct 2020 14:43:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71855A742D;
+ Fri,  2 Oct 2020 14:43:52 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
  [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1ED665D9D3;
- Fri,  2 Oct 2020 14:43:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74E045D9D3;
+ Fri,  2 Oct 2020 14:43:51 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 00/37] Block layer patches
-Date: Fri,  2 Oct 2020 16:43:08 +0200
-Message-Id: <20201002144345.253865-1-kwolf@redhat.com>
+Subject: [PULL 01/37] block/sheepdog: Replace magic val by
+ NANOSECONDS_PER_SECOND definition
+Date: Fri,  2 Oct 2020 16:43:09 +0200
+Message-Id: <20201002144345.253865-2-kwolf@redhat.com>
+In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
+References: <20201002144345.253865-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -53,9 +57,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,110 +84,33 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0d2a4545bf7e763984d3ee3e802617544cb7fc7a:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-python-021020-1' into staging (2020-10-02 13:39:20 +0100)
+Use self-explicit NANOSECONDS_PER_SECOND definition instead
+of magic value.
 
-are available in the Git repository at:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200921110145.520944-1-philmd@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/sheepdog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
-
-for you to fetch changes up to c508c73dca636cc0fc7413d1e4a43fcfe4a5698c:
-
-  qcow2: Use L1E_SIZE in qcow2_write_l1_entry() (2020-10-02 15:46:40 +0200)
-
-----------------------------------------------------------------
-Block layer patches:
-
-- Add block export infrastructure
-- iotests improvements
-- Document the throttle block filter
-- Misc code cleanups
-
-----------------------------------------------------------------
-Alberto Garcia (2):
-      docs: Document the throttle block filter
-      qcow2: Use L1E_SIZE in qcow2_write_l1_entry()
-
-Dr. David Alan Gilbert (1):
-      qemu-io-cmds: Simplify help_oneline
-
-Kevin Wolf (32):
-      nbd: Remove unused nbd_export_get_blockdev()
-      qapi: Create block-export module
-      qapi: Rename BlockExport to BlockExportOptions
-      block/export: Add BlockExport infrastructure and block-export-add
-      qemu-storage-daemon: Use qmp_block_export_add()
-      qemu-nbd: Use raw block driver for --offset
-      block/export: Remove magic from block-export-add
-      nbd: Add max-connections to nbd-server-start
-      nbd: Add writethrough to block-export-add
-      nbd: Remove NBDExport.close callback
-      qemu-nbd: Use blk_exp_add() to create the export
-      nbd/server: Simplify export shutdown
-      block/export: Move refcount from NBDExport to BlockExport
-      block/export: Move AioContext from NBDExport to BlockExport
-      block/export: Add node-name to BlockExportOptions
-      block/export: Allocate BlockExport in blk_exp_add()
-      block/export: Add blk_exp_close_all(_type)
-      block/export: Add 'id' option to block-export-add
-      block/export: Move strong user reference to block_exports
-      block/export: Add block-export-del
-      block/export: Add BLOCK_EXPORT_DELETED event
-      block/export: Move blk to BlockExport
-      block/export: Create BlockBackend in blk_exp_add()
-      block/export: Add query-block-exports
-      block/export: Move writable to BlockExportOptions
-      nbd: Merge nbd_export_new() and nbd_export_create()
-      nbd: Deprecate nbd-server-add/remove
-      iotests: Factor out qemu_tool_pipe_and_status()
-      iotests: Introduce qemu_nbd_list_log()
-      iotests: Allow supported and unsupported formats at the same time
-      iotests: Test block-export-* QMP interface
-      qemu-storage-daemon: Fix help line for --export
-
-Philippe Mathieu-Daudé (1):
-      block/sheepdog: Replace magic val by NANOSECONDS_PER_SECOND definition
-
-Thomas Huth (1):
-      tests/check-block: Do not run the iotests with old versions of bash
-
- qapi/block-core.json                 | 166 ------------------
- qapi/block-export.json               | 291 +++++++++++++++++++++++++++++++
- qapi/qapi-schema.json                |   1 +
- docs/system/deprecated.rst           |   6 +
- docs/throttle.txt                    | 108 +++++++++++-
- include/block/export.h               |  89 ++++++++++
- include/block/nbd.h                  |  22 +--
- block.c                              |   2 +-
- block/export/export.c                | 325 +++++++++++++++++++++++++++++++++++
- block/monitor/block-hmp-cmds.c       |  13 +-
- block/qcow2-cluster.c                |   4 +-
- block/sheepdog.c                     |   2 +-
- blockdev-nbd.c                       | 171 +++++++++---------
- nbd/server.c                         | 309 ++++++++++++++-------------------
- qemu-io-cmds.c                       |  11 +-
- qemu-nbd.c                           |  67 ++++----
- storage-daemon/qemu-storage-daemon.c |  27 +--
- tests/qemu-iotests/iotests.py        |  68 ++++----
- block/export/meson.build             |   1 +
- block/meson.build                    |   2 +
- meson.build                          |   2 +-
- qapi/meson.build                     |   4 +-
- storage-daemon/qapi/qapi-schema.json |   1 +
- tests/check-block.sh                 |   5 +
- tests/qemu-iotests/140               |   9 +-
- tests/qemu-iotests/140.out           |   2 +-
- tests/qemu-iotests/223.out           |   8 +-
- tests/qemu-iotests/307               | 132 ++++++++++++++
- tests/qemu-iotests/307.out           | 124 +++++++++++++
- tests/qemu-iotests/group             |   1 +
- 30 files changed, 1428 insertions(+), 545 deletions(-)
- create mode 100644 qapi/block-export.json
- create mode 100644 include/block/export.h
- create mode 100644 block/export/export.c
- create mode 100644 block/export/meson.build
- create mode 100755 tests/qemu-iotests/307
- create mode 100644 tests/qemu-iotests/307.out
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index 2f5c0eb376..25111d5a70 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -740,7 +740,7 @@ static coroutine_fn void reconnect_to_sdog(void *opaque)
+         if (s->fd < 0) {
+             trace_sheepdog_reconnect_to_sdog();
+             error_report_err(local_err);
+-            qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 1000000000ULL);
++            qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, NANOSECONDS_PER_SECOND);
+         }
+     };
+ 
+-- 
+2.25.4
 
 
