@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4122812DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:36:46 +0200 (CEST)
-Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A572812E8
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:39:27 +0200 (CEST)
+Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOKIn-00022b-2T
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60000)
+	id 1kOKLO-00055u-47
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOK9C-0000xZ-Np
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:26:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOK9A-0005QV-BL
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:26:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601641607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UPD5ZkCdUHzN9In2eCSpp9UkEGz0LHZrsUBGkPO7z10=;
- b=avl1VrPNXNg+k3kojGWdpfGze2NDfFNKhRw3Aygkur5B2pZ7z5hD7vPEUaPIn3IAi8xaRR
- lobTLCr0OfiYGdLMR/oqeJELi/fur4HcomGe+lOFmMb0LfD1bbALmLezbS7cw440CiF2NJ
- TmzzvIwrjrq85hY7jo+RKsTARSqM2x0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-uJ-gQmSyNqKKXp4JFJJ8eQ-1; Fri, 02 Oct 2020 08:26:45 -0400
-X-MC-Unique: uJ-gQmSyNqKKXp4JFJJ8eQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD8CA1005F70;
- Fri,  2 Oct 2020 12:26:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
- [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF55B5C1D7;
- Fri,  2 Oct 2020 12:26:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 39F1E1132784; Fri,  2 Oct 2020 14:26:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 4/4] qemu-storage-daemon: Remove QemuOpts from
- --object parser
-References: <20200930124557.51835-1-kwolf@redhat.com>
- <20200930124557.51835-5-kwolf@redhat.com>
-Date: Fri, 02 Oct 2020 14:26:43 +0200
-In-Reply-To: <20200930124557.51835-5-kwolf@redhat.com> (Kevin Wolf's message
- of "Wed, 30 Sep 2020 14:45:57 +0200")
-Message-ID: <874kncke4c.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kOKII-0002Ip-71
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:36:14 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:42144)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kOKIE-0006cU-Ll
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:36:13 -0400
+Received: by mail-ed1-x542.google.com with SMTP id j2so1457826eds.9
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 05:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z1MGB7e7iKO9Iof+fHKLrEADbXc8otwFgEoTiN8RdEs=;
+ b=wJNpL5XI0DYUQPokkb3KXSs83dG8hKfRFsg1xfN6kGMPm5WetlAVeUBmB8PkFTPbw+
+ o+Xn4ABpf9/GDYgncAkCe6KcKa5myJaf+SGPXvjY0EnVUsaJLbw8uZl19Aw1VO0hk4Sb
+ qfgpRszpvtzKdIsdr7rnLXYdcnIWUt0R43bDv73v42yr/7wyTdoWXrs/45ktIW/3Zvhi
+ tSxZVxIwATIXQKBCsPLsqTf5qIhs+nuAbuwAhmzsN+bltCBQ0LCwYDf2YjaOc55mXDPC
+ mY4l5dwggu+Bo3eBHv3KMwI+r+Aqho/7sDzn1iervC/8cBnQHxnOJ2FUBUjJMXvN4n6u
+ 5XhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z1MGB7e7iKO9Iof+fHKLrEADbXc8otwFgEoTiN8RdEs=;
+ b=qP6CxrjrrNtzfa7ICNIdgrgCd86rXrcfBzpGFZbzsPa26FVgMlkBNI/+SaXeu7/yMs
+ Dgye8OxWXUXtXQXTKqSMzoJJVKgAnfj8eVcnHrHt9sewp6PI3Sobh/ag2kN5FagjtVwW
+ YSM2Ga4MjL4KS6A/4sJDzF+GymBFcCoHu7oj7dApeuEvrZmJMtD/ra8rTO1kACVTBpsG
+ OlT+bZjuKmQdmBJUZNgp7wykCM9eEL099gfg2t3q5y+PE0JGA5INORJ7bz3ekBX8Fl+t
+ pjpIwzwnxP7jayjSEdh7FqslFCQOh8u5PaExP7Cozs5A24czZjEJNoOtx1jpYMJgtmoc
+ iEzw==
+X-Gm-Message-State: AOAM531A5dae0i7j6CYkXP9R5vjoIgFztlJHDICXh5u3mxmrSlx12lSY
+ O3VUCoII3XUr+QsgOSDBmitDV3eFVNPrsCHw9nNB/A==
+X-Google-Smtp-Source: ABdhPJyvgOLbhf2J1lol8SnE8icQP506VtEOJ0QJatpoHvbjCZFBKjg8hGnmSaK+wo8/wLz0St14eRCs+u3zGNKwcBo=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr2153957edm.100.1601642168977; 
+ Fri, 02 Oct 2020 05:36:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201002105239.2444-1-peter.maydell@linaro.org>
+ <b1a6000a-c9a1-43fb-7646-b6ea87797b2e@redhat.com>
+In-Reply-To: <b1a6000a-c9a1-43fb-7646-b6ea87797b2e@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 2 Oct 2020 13:35:57 +0100
+Message-ID: <CAFEAcA9PbBByROzJ3+pfxycAoP-C5JnmfxQEt5jm6+3A3n2fbw@mail.gmail.com>
+Subject: Re: [PATCH] meson.build: Don't look for libudev for static builds
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +79,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
-
-> The command line parser for --object parses the input twice: Once into
-> QemuOpts just for detecting help options, and then again into a QDict
-> using the keyval parser for actually creating the object.
+On Fri, 2 Oct 2020 at 13:02, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Now that the keyval parser can also detect help options, we can simplify
-> this and remove the QemuOpts part.
+> On 02/10/20 12:52, Peter Maydell wrote:
+> > commit f01496a314d916 moved the logic for detecting libudev from
+> > configure to meson.build, but in the process it dropped the condition
+> > that meant we only ask pkg-config about libudev for a non-static
+> > build.
+> >
+> > This breaks static builds of the system emulators on at least Ubuntu
+> > 18.04.4, because on that host there is no static libudev but
+> > pkg-config still claims it exists.
+> >
+> > Reinstate the logic that we had in the configure check.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 >
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  storage-daemon/qemu-storage-daemon.c | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
+> I don't think this is a good idea.  Having a completely new build system
+> also lets us notice all these weird one-off tests, decide whether they
+> are worth being kept (like the SDL -Wno-undef workaround) or not, and
+> possibly come up with a policy that avoids having to make one-off decisions.
 >
-> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-> index bb9cb740f0..7cbdbf0b23 100644
-> --- a/storage-daemon/qemu-storage-daemon.c
-> +++ b/storage-daemon/qemu-storage-daemon.c
-> @@ -264,21 +264,14 @@ static void process_options(int argc, char *argv[])
->              }
->          case OPTION_OBJECT:
->              {
-> -                QemuOpts *opts;
-> -                const char *type;
->                  QDict *args;
-> +                bool help;
->  
-> -                /* FIXME The keyval parser rejects 'help' arguments, so we must
-> -                 * unconditionall try QemuOpts first. */
-> -                opts = qemu_opts_parse(&qemu_object_opts,
-> -                                       optarg, true, &error_fatal);
-> -                type = qemu_opt_get(opts, "qom-type");
-> -                if (type && user_creatable_print_help(type, opts)) {
-> +                args = keyval_parse(optarg, "qom-type", &help, &error_fatal);
-> +                if (help) {
-> +                    user_creatable_print_help_from_qdict(args);
->                      exit(EXIT_SUCCESS);
->                  }
-> -                qemu_opts_del(opts);
-> -
-> -                args = keyval_parse(optarg, "qom-type", NULL, &error_fatal);
->                  user_creatable_add_dict(args, true, &error_fatal);
->                  qobject_unref(args);
->                  break;
+> If "../configure --static" worked and now doesn't then it would be a
+> clear regression, but a one off check should have a bigger justification
+> than "39 --disable switches have worked so far and 39 < 40".
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+My configure command line used to work and now it doesn't.
+There is no workaround that I'm aware of that I can use
+by tweaking the configure options. That's a clear regression.
 
+> Here are three alternatives to the patch:
+>
+> - the workaround: just leave things as they are and add
+> --disable-libudev to your script.
+
+There is no --disable-udev ! If there was I'd just have
+used it.
+
+e104462:bionic:static-sys$  '../../configure'
+'--target-list=arm-softmmu' '--enable-debug' '--static'
+'--disable-tools' '--disable-sdl' '--disable-gtk' '--disable-vnc'
+'--disable-virtfs' '--disable-attr' '--disable-libiscsi'
+'--disable-libnfs' '--disable-libusb' '--disable-opengl'
+'--disable-numa' '--disable-usb-redir' '--disable-bzip2'
+'--audio-drv-list=' '--disable-guest-agent' '--disable-vte'
+--disable-udev
+ERROR: unknown option --disable-udev
+Try '../../configure --help' for more information
+
+> We have just added a month ago a
+> completely new dependency that would have the same issue (libu2f); we
+> didn't add "test $static" just because you don't have libu2f installed
+> and therefore you didn't notice.  The day you updated your system ended
+> up with libu2f-dev installed, you would probably just add
+> --disable-libu2f instead of adding a test for $static.  So why should
+> libudev be treated differently?
+
+The last time this came up it was in an all-in-configure
+test, so I took the approach of making the test a bit smarter
+to sanity check that what it was getting from pkg-config
+really worked:
+https://patchew.org/QEMU/20200928160402.7961-1-peter.maydell@linaro.org/
+I don't know enough meson to do that in meson, so this patch is
+the simple change that fixes the regression by reinstating the
+logic configure had.
+
+> - the complicated fix: check which statically linked libraries are
+> available in e.g. Debian and disable _all_ other dependencies with
+> --static (most of them will be the ones that you already have to disable
+>  in your script, and most of them will be in configure).  Based on the
+> outcome, decide whether it's actually possible to build a statically
+> linked emulator that makes sense.
+
+I don't think we want to try to say "look at what statically
+linked libraries are in Debian". The point of configure
+style logic is to look at what is present when we try to compile
+and, when something is an optional feature, only compile it
+in if it's going to work.
+
+It would be better to do the "see if a static library is present"
+test. This isn't too hard to do in configure (compare that
+six line fix to the detection of libgio). Hopefully it is
+not too hard to do in meson ?
+
+> Finally, no matter how we proceed, static building of system emulators
+> is not covered by either CI or tests/docker (only user-mode emulators
+> are).  Even if we deprecate it, we should make sure that your
+> configuration is reproduced in either Travis or GitLab, otherwise people
+> will keep on breaking it.  That would also document that building a
+> statically-linked system emulator is messy and requires a few dozen
+> --disable options.
+
+I agree that we don't really very solidly support this use case,
+and it's pretty much "if it doesn't work we accept point-fixes
+to the build machinery and/or recommend more use of --disable-foo".
+But it is still useful sometimes to have.
+
+thanks
+-- PMM
 
