@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98863281903
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:18:31 +0200 (CEST)
-Received: from localhost ([::1]:47398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9034128191A
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:22:54 +0200 (CEST)
+Received: from localhost ([::1]:57740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOOhS-0008If-N4
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40906)
+	id 1kOOlg-0004YS-9u
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kOOfp-00073A-SO
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:16:49 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34380)
+ id 1kOOjC-00032h-9Y
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:20:21 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kOOfn-00016Y-Ot
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:16:49 -0400
-Received: by mail-ot1-x342.google.com with SMTP id h17so2097093otr.1
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:16:47 -0700 (PDT)
+ id 1kOOj9-0001N4-2m
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:20:16 -0400
+Received: by mail-oi1-x243.google.com with SMTP id 26so1934986ois.5
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TIlz5u8StRwhLPT+BwCkla9BZgqpT5kFw3brQxVWEIo=;
- b=wfLt3rUyrvLyvA1Dc4Vs9AY5rDy+Lbfc24J/6YlphuTrGlhsVPWjj6ZmQC8hwnAU5d
- 6sP7PZQ/La/knrme7wly2OiEABb/pYembnKQkrGhVgjwglxKmfV/JMEvMi5BV041DLD7
- gQo9cr8/2cXov43Baj/SxgDW52zNezqIENo47JCzhzUSFzc39jwoT6cFjF4xdtnuvj6C
- 1tDfBzo/bMryZ+a3ZbXNMtBe1KyVYyvEkKoBI6i4VpNxNWhJwd4YYpa9RvKUqGXChUSM
- HLW3HG1I+flH5tDplxY61w3M+4dQlkAMKbD7YUdHoqYP0RYR+C/XG4spzYC6lr8iYsJK
- /54w==
+ bh=RS7Me5rbRQvs4pHxmBUOrRLZOIJtNuM9wVtAI9//W80=;
+ b=Aw17ZCFrqIyQB6SLrjuBiMAixCIDmcLEwaHkLKx7rDG0E8IDAvBDF+EuPAglNpoFn4
+ cVcAF4fSwL55jyUD/7L3a2ESE9H+Bnl0+BMHixpKEAPGQuRGQOXmX/pZef6JnDaIN40u
+ TzKcpisWlHCs4DGpehN63m2x8YSvTe1mAOT5Unuerl0Jx14HReC1x+RFRswD9tvB6Pod
+ oTLkBq6D8qrQdZduTlcWOUg3xnhUHYCUgrOy41wHDnH16689aujf9tGlW5tFRxZCrNSz
+ fbrXTH4AHqrCoqWy/PT+gqMDBJHVAJsn8IqQZ+mOeWqq7v9iRz3ae5TGZkaXqfkakn0I
+ dgZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TIlz5u8StRwhLPT+BwCkla9BZgqpT5kFw3brQxVWEIo=;
- b=CzGYLgvVL8E74wgBpXBiJJ4K550mJk7yWPhYZ1bicRU+GX0mbmcAGvNkcP6UJXMNFv
- dpCpS3v0iePZcDqRIP1uslz6s8KEJJ6Y61PQQo3iv5z8ijgYkjdmgOEvxiE45lzsMVXO
- GF1m3I9kPUcr1ZmLQRVvYJ3JxWJKQCGu73ccnIQzeUg/400j+cbNYDsMhrYiP6lctWpB
- QfT8akRRRW1U7sQnDZ8xgGZvswnYrvVoeVHT5rzSXxzGkhXvIq2nR8q2QxY3eYqqpDXV
- WnYDGGkoonsXTGhoVQGG0BBtbKxfCRbBTntD7xoB1fVFA+FX61grpxSs/jJcU5d5fzpa
- X98Q==
-X-Gm-Message-State: AOAM5332zfJPwzI/Wl1pHFUnNbhdqaf48qKZfLA08qK1RzwZrvOkrqX3
- DKga7oh1m1Bw5MIFIA7SOkGvFQ==
-X-Google-Smtp-Source: ABdhPJxZP3ejcREhCQJ/udSzYI/0BuL2NLMZWu8JouBJqApWA1e9MOoQCUnKEC1w4WyTproXKrigTg==
-X-Received: by 2002:a9d:37c8:: with SMTP id x66mr2478336otb.290.1601659006443; 
- Fri, 02 Oct 2020 10:16:46 -0700 (PDT)
+ bh=RS7Me5rbRQvs4pHxmBUOrRLZOIJtNuM9wVtAI9//W80=;
+ b=buwHliBmFUzsrGMigYupDG/XQR73WBsLZKA4qAO2bcoTzOihtcI4kFrac6LJpp+rUW
+ P7zA6vBD8xW9LAjndkZ6fB6n67ckLuyX4FV6+eS8KGx6DMoikIWHs25ITzcw+NTK6pTY
+ ElCJPx1nhCaVQS5sCp4tQUv5NTLVcGXndnsPoT8X34h04EHTP/yP+hI3WS9CPP6fmFH5
+ 32n/Zoo2ZPdsHcnAGyRr7EW2b2JRnufPqO7PyK3Xr4ChkHqR8hFoY+2uy7ysTiMVsNM8
+ aIDfLOopVZJv2nuhCNqWisv1A0CTCWPGaULSFqRRzIFhaBoE+IccMb3ZM7luLdVIgIwy
+ KMaw==
+X-Gm-Message-State: AOAM530zwaNHrP+LAqHu+Vw4tNtMZdwCVB0fdzZC0bBK5srJhse/1JbE
+ J5nBicW5GWIHiowPAHJlccNpcg==
+X-Google-Smtp-Source: ABdhPJzN2FkrWC13qndq9j0szUgfHW7SVtyylzuF2TI8T4dsOHgJnsw3zh7Ayyscnz2aZ2P16AOmuA==
+X-Received: by 2002:aca:df84:: with SMTP id w126mr1908150oig.103.1601659213868; 
+ Fri, 02 Oct 2020 10:20:13 -0700 (PDT)
 Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id 187sm387145oie.42.2020.10.02.10.16.44
+ by smtp.gmail.com with ESMTPSA id 109sm487797oty.59.2020.10.02.10.20.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 10:16:45 -0700 (PDT)
-Subject: Re: [RFC PATCH v4 00/29] Hexagon patch series
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1601314138-9930-1-git-send-email-tsimpson@quicinc.com>
+ Fri, 02 Oct 2020 10:20:13 -0700 (PDT)
+Subject: Re: [PATCH 0/4] linux-user: update syscall_nr headers to Linux 5.9-rc7
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200930003033.554124-1-laurent@vivier.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6fb34615-46c3-5b4f-81c6-99b6b4c0c12b@linaro.org>
-Date: Fri, 2 Oct 2020 12:16:43 -0500
+Message-ID: <27c34cc5-d5e2-2672-1d7a-370f81e14ea5@linaro.org>
+Date: Fri, 2 Oct 2020 12:20:10 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1601314138-9930-1-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <20200930003033.554124-1-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -23
@@ -89,103 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
- aleksandar.m.mail@gmail.com
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/20 12:28 PM, Taylor Simpson wrote:
-> This series adds support for the Hexagon processor with Linux user support
-> 
-> See patch 02/34 Hexagon README for detailed information.
-> 
-> Once the series is applied, the Hexagon port will pass "make check-tcg".
-> The series also includes Hexagon-specific tests in tcg/tests/hexagon.
-> 
-> The series is also available at https://github.com/quic/qemu on branch
-> small_series_v4.
+On 9/29/20 7:30 PM, Laurent Vivier wrote:
+> Laurent Vivier (4):
+>   linux-user: update syscall_nr.h to Linux 5.9-rc7
+>   linux-user: update mips/syscall-args-o32.c.inc to Linux 5.9-rc7
+>   linux-user: update syscall.tbl to Linux 5.9-rc7
+>   linux-user: remove _sysctl
 
-BTW, some whitespace warnings when applying this series.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
-
-
-> Applying: Hexagon Update MAINTAINERS file
-> Applying: Hexagon (target/hexagon) README
-> .git/rebase-apply/patch:247: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon (include/elf.h) ELF machine definition
-> Applying: Hexagon (target/hexagon) scalar core definition
-> Applying: Hexagon (disas) disassembler
-> .git/rebase-apply/patch:87: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon (target/hexagon) register names
-> Applying: Hexagon (target/hexagon) scalar core helpers
-> .git/rebase-apply/patch:431: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon (target/hexagon) GDB Stub
-> Applying: Hexagon (target/hexagon) architecture types
-> Applying: Hexagon (target/hexagon) instruction and packet types
-> Applying: Hexagon (target/hexagon) register fields
-> .git/rebase-apply/patch:132: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon (target/hexagon) instruction attributes
-> .git/rebase-apply/patch:149: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon (target/hexagon) instruction/packet decode
-> Applying: Hexagon (target/hexagon) instruction printing
-> .git/rebase-apply/patch:136: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon (target/hexagon) utility functions
-> .git/rebase-apply/patch:512: new blank line at EOF.
-> +
-> .git/rebase-apply/patch:887: new blank line at EOF.
-> +
-> .git/rebase-apply/patch:1670: new blank line at EOF.
-> +
-> warning: 3 lines add whitespace errors.
-> Applying: Hexagon (target/hexagon/imported) arch import
-> .git/rebase-apply/patch:598: space before tab in indent.
-> 	  		fSETBYTE(i,RdV,fSATUB(fGETHALF(i,RssV)+fGETHALF(i,RttV)));
-> .git/rebase-apply/patch:1329: space before tab in indent.
->  	 		 RdV = RsV;
-> .git/rebase-apply/patch:6793: space before tab in indent.
->    	sys_icinva(thread, (REG),insn->slot);
-> .git/rebase-apply/patch:7280: space before tab in indent.
->          		   fMPY16SS(fGETBYTE(1,RssV),fGETUBYTE(1,RttV)))));
-> .git/rebase-apply/patch:7282: space before tab in indent.
->          		   fMPY16SS(fGETBYTE(3,RssV),fGETUBYTE(3,RttV)))));
-> warning: squelched 41 whitespace errors
-> warning: 46 lines add whitespace errors.
-> Applying: Hexagon (target/hexagon) generator phase 1 - C preprocessor for semantics
-> Applying: Hexagon (target/hexagon) generator phase 2 - generate header files
-> Applying: Hexagon (target/hexagon) generator phase 3 - C preprocessor for decode tree
-> Applying: Hexagon (target/hexagon) generater phase 4 - decode tree
-> Applying: Hexagon (target/hexagon) opcode data structures
-> Applying: Hexagon (target/hexagon) macros
-> Applying: Hexagon (target/hexagon) instruction classes
-> .git/rebase-apply/patch:141: new blank line at EOF.
-> +
-> .git/rebase-apply/patch:199: new blank line at EOF.
-> +
-> warning: 2 lines add whitespace errors.
-> Applying: Hexagon (target/hexagon) TCG generation
-> Applying: Hexagon (target/hexagon) TCG for instructions with multiple definitions
-> Applying: Hexagon (target/hexagon) translation
-> Applying: Hexagon (linux-user/hexagon) Linux user emulation
-> .git/rebase-apply/patch:405: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon (tests/tcg/hexagon) TCG tests
-> .git/rebase-apply/patch:1314: new blank line at EOF.
-> +
-> warning: 1 line adds whitespace errors.
-> Applying: Hexagon build infrastructure
 
