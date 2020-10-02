@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802E8281164
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:44:27 +0200 (CEST)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C70828117F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:47:33 +0200 (CEST)
+Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOJUA-0004BE-J6
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1kOJXA-0007Rn-33
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:47:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJNH-0006uO-0m
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:19 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37586)
+ id 1kOJNH-0006v8-Sp
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:20 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJND-0007ck-9W
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:18 -0400
-Received: by mail-wr1-x432.google.com with SMTP id z4so1450212wrr.4
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:37:00 -0700 (PDT)
+ id 1kOJND-0007dF-AN
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:19 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id k10so1443421wru.6
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FdZVboiRsX0vwAb55bJ/MQ8ltmQwJ2NTTvZnOTUpUYc=;
- b=jNsiI6A2XhH2a2c9Dxy3v8bNCATZSXWLouRDx+BUlHHgCER61+1ToOzJb0PgQWourX
- 3YvUhDo/NhiH/wnxlxsKQ6MRnCC/jDraV6UDeODwZ6ycQgtih0mSmDGNFJXbXiAVA16Z
- F3fxb+sBGTneXLK4z3aIcWWEaz8O1a0FK183cVGuB2SKkjoPDF9SoEFlFuNsrxk1A3wV
- Iy0M1c2Mrgwh8M8GzZDGniIHth1M20TmG4F7B4R8FqXQJOz/5nJboJQd+X1UP1x4GLwR
- K/K0zGKDob17rqMrA3mcw+KAyPN0AC1rPEYblxeU79g/zQicLbodiAAnT6erELF5a/I+
- lOBQ==
+ bh=yf34W0UG9bSoWU3PdrQbo/iXmFEGMdKNNVCv6EMFOfE=;
+ b=rXA1enb3RAAk6f3vNqwiAxtT0KL4mvAmMuiXh4fFGMRUA2P/X6fYXsZg9jo8XSyMPi
+ xNJE8pff60wzFkCVLLOoMxOaDmNEPFKnAzZKUaRP9dsOLYqr+T3DkITBEJ5V5aOs/3H0
+ Z6Kp/jwfun3sEYQ9iCo+TZRFAfTVI/wP8M/t+iJWVuSTFm1lHUotfq2o04aA9fQY8pcq
+ nBQET+zXcfHOxC87gWYDn1+mgyM/vZLjv6K2s8kFihro1Eghi/FNArmR314k+G6HiH1F
+ b9JAxO3SK5nrS5i1j/t4LrOe6pUnvAuVB/0mBddUE1Pjxs1WdGhoKPLkskc7HxA/n8DD
+ 9qHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FdZVboiRsX0vwAb55bJ/MQ8ltmQwJ2NTTvZnOTUpUYc=;
- b=flo2bOq2bqJdMUeO+pAyqtYoUhLcXhjQxERo2yamoo/J0RS1BA6wmL7ebsW9OXNR37
- ecUgVsdTYsteIyhHhoVbTkl4nRMABSXe5k6YPPmUlTZ4HQrxYVmWI/lTtGU2cuuJj5uZ
- ft8HqwLlFnMYbLi64A1OVVmU9ayuibcWG1539/0kSHngDSfBHHSFs4A0oE0nk5VaRqg6
- FZa8I2qdv+6Equ0BthPWDxFONopFOzwaXAepMHSsOCub3axqEqWH1/H/dk2vZgF+u3ie
- o2Gxm52XOLtEl/T0Fc9VKxilU01Pu4EmROVrCXaOr4Q6Kz8YWMTOb6p6ip7oNsVKjP1z
- 53Tg==
-X-Gm-Message-State: AOAM533f8T3af7OH4vRUDfOrLFQ89syEvdEHJXFLKlfnYYG6GAWs1faK
- ueIzewMw8uqCYlffaScC/rDICw==
-X-Google-Smtp-Source: ABdhPJxwJ07QI3oja8/RwKOF12OJak5t3ILAxRC9CURtP1+sfrXPHp5eLT1G1nLxLOJbJRTKMpM7EA==
-X-Received: by 2002:adf:f106:: with SMTP id r6mr2622378wro.106.1601638619647; 
- Fri, 02 Oct 2020 04:36:59 -0700 (PDT)
+ bh=yf34W0UG9bSoWU3PdrQbo/iXmFEGMdKNNVCv6EMFOfE=;
+ b=c8t9jiPXD/kV/QJKsHRnOjElsTZTkZg5/iHPx9norVfVcipTDWnRD9um2tCs29fjNj
+ ZKobovy6WfQFjkbSGbD5KRQQSKqdjEYzzclaXqZY4ZEFmdZ/Iz+lVjcOkbQxxIIxPCVw
+ TXkBe5EwgeTtEYLHsT+mooUyy9j4cHI0qs3r9yz0CYMCKS9SFHgvsDTHwUIpp4Zztcct
+ tMay+Vh+8qDpUW4wjsafBWhgNarzy2/zyO2A65MHG0/o9yeOHLVjpsSj2ozMblBEPBmt
+ ybxIBqNdd7TZxDmku29BErPpMcox2M0yx0G54IfTAlNwI5gaLJfabZqMWLnl7ZU0Omt/
+ AtXQ==
+X-Gm-Message-State: AOAM5315/PzDWKWGVLJZS4kRdxaX+Y12RKFg6lZk/FQXcAE0/O6kQigC
+ PeHXax/FH6apZDUTbSDIz4iv0EmfgEN+8w==
+X-Google-Smtp-Source: ABdhPJyp4DW+YproEUVgcFyiI35IFSvE1zfVoZbZEsUAKAez2q1U83ZzEfa4PWZCf3TSeVGTe+aq9w==
+X-Received: by 2002:adf:ea0f:: with SMTP id q15mr2713687wrm.371.1601638625708; 
+ Fri, 02 Oct 2020 04:37:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u127sm1627800wmu.48.2020.10.02.04.36.49
+ by smtp.gmail.com with ESMTPSA id d19sm1560755wmd.0.2020.10.02.04.36.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 04:36:51 -0700 (PDT)
+ Fri, 02 Oct 2020 04:37:01 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AC8531FF96;
+ by zen.linaroharston (Postfix) with ESMTP id C333C1FF98;
  Fri,  2 Oct 2020 12:36:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 08/14] tests/docker: Update the tricore container to debian 10
-Date: Fri,  2 Oct 2020 12:36:39 +0100
-Message-Id: <20201002113645.17693-9-alex.bennee@linaro.org>
+Subject: [PULL 09/14] shippable.yml: Remove the Debian9-based MinGW
+ cross-compiler tests
+Date: Fri,  2 Oct 2020 12:36:40 +0100
+Message-Id: <20201002113645.17693-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201002113645.17693-1-alex.bennee@linaro.org>
 References: <20201002113645.17693-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,66 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-We do not support Debian 9 anymore, thus update the Tricore container
-to Debian 10 now.
+We're not supporting Debian 9 anymore, and we are now testing
+MinGW cross-compiler builds in the gitlab-CI, too, so we do not
+really need these jobs in the shippable.yml anymore.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200921174320.46062-4-thuth@redhat.com>
-Message-Id: <20200925154027.12672-12-alex.bennee@linaro.org>
+Message-Id: <20200921174320.46062-5-thuth@redhat.com>
+Message-Id: <20200925154027.12672-13-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 6769eef0ff..089cea7c14 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -210,7 +210,7 @@ sparc64-debian-cross-container:
- tricore-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
--  needs: ['amd64-debian9-container']
-+  needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-tricore-cross
- 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 75704268ff..02ec92830b 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -137,7 +137,7 @@ docker-image-debian-sparc64-cross: docker-image-debian10
- docker-image-travis: NOUSER=1
- 
- # Specialist build images, sometimes very limited tools
--docker-image-debian-tricore-cross: docker-image-debian9
-+docker-image-debian-tricore-cross: docker-image-debian10
- docker-image-debian-all-test-cross: docker-image-debian10
- docker-image-debian-arm64-test-cross: docker-image-debian11
- 
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 769d95c77b..985925134c 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -7,7 +7,7 @@
- #
- # SPDX-License-Identifier: GPL-2.0-or-later
- #
--FROM qemu/debian9
-+FROM qemu/debian10
- 
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
+diff --git a/.shippable.yml b/.shippable.yml
+index 0b4fd6df1d..14350e6de8 100644
+--- a/.shippable.yml
++++ b/.shippable.yml
+@@ -7,10 +7,6 @@ env:
+   matrix:
+     - IMAGE=debian-amd64
+       TARGET_LIST=x86_64-softmmu,x86_64-linux-user
+-    - IMAGE=debian-win32-cross
+-      TARGET_LIST=arm-softmmu,i386-softmmu
+-    - IMAGE=debian-win64-cross
+-      TARGET_LIST=aarch64-softmmu,sparc64-softmmu,x86_64-softmmu
+     - IMAGE=debian-armel-cross
+       TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
+     - IMAGE=debian-armhf-cross
 -- 
 2.20.1
 
