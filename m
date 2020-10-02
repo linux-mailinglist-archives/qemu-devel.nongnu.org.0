@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0942812B1
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:29:56 +0200 (CEST)
-Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEFE28132F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:54:18 +0200 (CEST)
+Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOKCB-0003wa-S4
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57044)
+	id 1kOKZl-0001uv-DD
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvP-0004pN-BJ
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31993)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvN-0003Wz-Gx
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601640752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W5jeL73icdSoEitdtgj4079z9kZgec574FtVJbMWvcM=;
- b=CaflgcL0mx5Hj9WF11wdXHVkFmdu7OIxP9tOmqX0j5a+9j+omsmyld/+iBgxABQ0B0PzE9
- FyNpI8E8qz/dJYwduydaLj+dJrGCzNND7W81miX3RBiVtIFn2nuVZeW6ylXYlXyQ+WvCVW
- IlX1eec4D3+v8K0sXwvQLF8ONmIpEmc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-GjkcAVbvM_-cMIYqXhhyhg-1; Fri, 02 Oct 2020 08:12:30 -0400
-X-MC-Unique: GjkcAVbvM_-cMIYqXhhyhg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8390A873119;
- Fri,  2 Oct 2020 12:12:29 +0000 (UTC)
-Received: from localhost (ovpn-112-216.ams2.redhat.com [10.36.112.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57C865D9D5;
- Fri,  2 Oct 2020 12:12:26 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 16/19] s390x/tcg: Implement BRANCH INDIRECT ON CONDITION (BIC)
-Date: Fri,  2 Oct 2020 14:11:15 +0200
-Message-Id: <20201002121118.180315-17-cohuck@redhat.com>
-In-Reply-To: <20201002121118.180315-1-cohuck@redhat.com>
-References: <20201002121118.180315-1-cohuck@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+ (Exim 4.90_1)
+ (envelope-from <813e27cea046e75b0c8a249637a4ebf20d687d02@lizzy.crudebyte.com>)
+ id 1kOKYQ-0001FS-S6
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:52:54 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <813e27cea046e75b0c8a249637a4ebf20d687d02@lizzy.crudebyte.com>)
+ id 1kOKYP-0008Q6-Ac
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:52:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=iovGPj5Q92eV7i24vjrQeAdFBH4d8kiFupqK9XpeZzs=; b=bQRIG
+ I8CdoDpZkhpZnGOVGeDZstJRMUzzuBJhAWzWi0J4/bP/r+oCstfOlA0Fy7FkoG78hHrWcQS3Wv5Ix
+ 72p6+dvc1BmXx21dtwFea7WQLZKrBuPvLZZX4y7/mHNsFKXZxKBkn4QFaUdk3lwPHHjm8QRfjCF0c
+ P2RDIIrEEzxJNSh2HJzLS9JRv3Y3m1q8EN8PYsVtm7tE0azKqRKaTouJ5gWVTLmuzL55iAYU1VbrY
+ k3hAI0wUgAr8xK2sxgBfTxdds9iQKj9GQMoPHElCv+fZbSZCSNM84M3soJS8Va2wvazgjxYV1Xgzx
+ INFHJw++hVU9sGa6Bm3TNP72emLDA==;
+Message-Id: <813e27cea046e75b0c8a249637a4ebf20d687d02.1601639563.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1601639563.git.qemu_oss@crudebyte.com>
+References: <cover.1601639563.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 2 Oct 2020 13:51:54 +0200
+Subject: [PATCH v2 06/11] tests/qtest/qos-test: dump QEMU command if verbose
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=813e27cea046e75b0c8a249637a4ebf20d687d02@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 08:18:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,61 +64,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+If qtests are run in verbose mode (i.e. if --verbose CL argument
+was provided) then print the assembled qemu command line for each
+test.
 
-Just like BRANCH ON CONDITION - however the address is read from memory
-(always 8 bytes are read), we have to wrap the address manually. The
-address is read using current CPU DAT/address-space controls, just like
-ordinary data.
+Instead of using g_test_message() rather use printf() in combination
+with g_test_verbose(), to avoid g_test_message() cluttering the
+output.
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200928122717.30586-7-david@redhat.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- target/s390x/insn-data.def | 2 ++
- target/s390x/translate.c   | 8 ++++++++
- 2 files changed, 10 insertions(+)
+ tests/qtest/qos-test.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index bf18d8aaf43e..3322e5f2a504 100644
---- a/target/s390x/insn-data.def
-+++ b/target/s390x/insn-data.def
-@@ -115,6 +115,8 @@
- /* BRANCH RELATIVE AND SAVE */
-     C(0xa705, BRAS,    RI_b,  Z,   0, 0, r1, 0, basi, 0)
-     C(0xc005, BRASL,   RIL_b, Z,   0, 0, r1, 0, basi, 0)
-+/* BRANCH INDIRECT ON CONDITION */
-+    C(0xe347, BIC,     RXY_b, MIE2,0, m2_64w, 0, 0, bc, 0)
- /* BRANCH ON CONDITION */
-     C(0x0700, BCR,     RR_b,  Z,   0, r2_nz, 0, 0, bc, 0)
-     C(0x4700, BC,      RX_b,  Z,   0, a2, 0, 0, bc, 0)
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index 66a3693d128c..27fb7af8fb1c 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -5956,6 +5956,14 @@ static void in2_m2_64(DisasContext *s, DisasOps *o)
- }
- #define SPEC_in2_m2_64 0
+diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+index fe240b32a7..b9f0942386 100644
+--- a/tests/qtest/qos-test.c
++++ b/tests/qtest/qos-test.c
+@@ -89,6 +89,9 @@ static void qos_set_machines_devices_available(void)
  
-+static void in2_m2_64w(DisasContext *s, DisasOps *o)
-+{
-+    in2_a2(s, o);
-+    tcg_gen_qemu_ld64(o->in2, o->in2, get_mem_index(s));
-+    gen_addi_and_wrap_i64(s, o->in2, o->in2, 0);
-+}
-+#define SPEC_in2_m2_64w 0
-+
- #ifndef CONFIG_USER_ONLY
- static void in2_m2_64a(DisasContext *s, DisasOps *o)
+ static void restart_qemu_or_continue(char *path)
  {
++    if (g_test_verbose()) {
++        printf("Run QEMU with: '%s'\n", path);
++    }
+     /* compares the current command line with the
+      * one previously executed: if they are the same,
+      * don't restart QEMU, if they differ, stop previous
 -- 
-2.25.4
+2.20.1
 
 
