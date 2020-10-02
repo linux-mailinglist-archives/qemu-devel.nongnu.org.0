@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0961D28165D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:17:19 +0200 (CEST)
-Received: from localhost ([::1]:40246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5280728163E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:12:58 +0200 (CEST)
+Received: from localhost ([::1]:55484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMoA-0001vw-2h
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35242)
+	id 1kOMjx-0004oY-7x
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:12:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIk-0002pt-9E
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIi-0004hZ-5K
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LteUSjH8C/apV4qZw20/FZhaZ/IKv9PqNSiRwh7q7SM=;
- b=eHIuupT0or8iEf+/CBdwsxuXlmDdKJkU6bYobw26oZTPAF/vqARWR8A7Zu/PQwd/xpzTag
- hsC9ce0xAzkZ+zRtrN8GwEHK5kf5AnylPzlI1yoJzdHpQo4Fotj9fxd+w2c/2nI95oArQg
- yowbSFjKP3TZ7DTG51cFip4SoZGcQ0c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-xcMNjF1ZPWC314t1H-2hsQ-1; Fri, 02 Oct 2020 10:44:44 -0400
-X-MC-Unique: xcMNjF1ZPWC314t1H-2hsQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C960A7420;
- Fri,  2 Oct 2020 14:44:43 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
- [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 473425D9D3;
- Fri,  2 Oct 2020 14:44:42 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 37/37] qcow2: Use L1E_SIZE in qcow2_write_l1_entry()
-Date: Fri,  2 Oct 2020 16:43:45 +0200
-Message-Id: <20201002144345.253865-38-kwolf@redhat.com>
-In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
-References: <20201002144345.253865-1-kwolf@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+ (Exim 4.90_1) (envelope-from <rafaeldtinocoextra@gmail.com>)
+ id 1kOMIY-0002Ra-CJ
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:38 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:34921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rafaeldtinocoextra@gmail.com>)
+ id 1kOMIW-0004eo-O9
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:38 -0400
+Received: by mail-qk1-f194.google.com with SMTP id q5so1573071qkc.2
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 07:44:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:cc:date:message-id:in-reply-to
+ :references:reply-to:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=/Pmjcl4A+vC2oLSf2jZDBTV0a+8ynh/nNEtRUbNYiG0=;
+ b=i536VUd/uKW+zKSgLYrBHmlD4Di0et+y+nASzdNjG567kiAc+r5e4z72W7m6stw1/Q
+ bvkQSJKCY0XlAp/GUelc+9OR24ANGZgphRkon3b9rGLqapTg0lHPpqKqeppSnuCqci6m
+ gAKsN45VkBjQbMnmL6i/3ohoViUMmizztsfFxs5Y8Ph2Ug25gYHEngi/zouNY4joacwD
+ VXaPpwA4g7zDJdO2DSRtkD+ulWNEtMIICpz3WD+/9Mur7Ibc4y05moAgEwzr8BHcjqPq
+ XS5JVY0R7Kc5rLW1dFmpuedrdpec1NPEZxVtfsG5r9dntVjhWVQwaOwRuSerErY1emGE
+ BBKw==
+X-Gm-Message-State: AOAM533XZ3BkLpqFbsJsfDI6LoL3hv8LjuEkWvlbWWiZ4cHIT1MC+sAJ
+ XMF7//gyzJW1hyu3uBPyi0M=
+X-Google-Smtp-Source: ABdhPJy7nN8rnnbwy6m2rv4WJxCY1Yw//AQLhAsjAvz3/hD7C5jSloHdhoZPTrZUqVta8x34CkOUtw==
+X-Received: by 2002:a05:620a:24c2:: with SMTP id
+ m2mr2321185qkn.14.1601649875218; 
+ Fri, 02 Oct 2020 07:44:35 -0700 (PDT)
+Received: from [10.5.0.2] ([192.154.198.30])
+ by smtp.gmail.com with ESMTPSA id 16sm1161657qks.102.2020.10.02.07.44.31
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 02 Oct 2020 07:44:33 -0700 (PDT)
+From: "Rafael David Tinoco" <rafaeldtinoco@ubuntu.com>
+To: "Peter Maydell" <peter.maydell@linaro.org>,
+ =?utf-8?q?Daniel=20P=2e=20Berrang=c3=a9?= <berrange@redhat.com>
+Subject: Re: [PATCH] configure: actually disable 'git_update' mode with
+ --disable-git-update
+Date: Fri, 02 Oct 2020 14:44:28 +0000
+Message-Id: <em1ae41357-e633-47b8-b332-dff2e66999f6@lenovo>
+In-Reply-To: <CAFEAcA-PGNqugn-deNMJv1v49GRB=8UbhXYL3Fpko9do4+rsWQ@mail.gmail.com>
+References: <e55fea6e-e403-166f-e693-9e73ae29e5cc@msgid.tls.msk.ru>
+ <20200729195829.1335082-1-ddstreet@canonical.com>
+ <20200922163441.GA2049853@redhat.com>
+ <CAOZ2QJPsSTH4MStgduBGjhvaH-5-Tgj7-++qYLbSmQnqWQPpug@mail.gmail.com>
+ <20201002131130.GB2338114@redhat.com>
+ <CAFEAcA-PGNqugn-deNMJv1v49GRB=8UbhXYL3Fpko9do4+rsWQ@mail.gmail.com>
+User-Agent: eM_Client/8.0.3385.0
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.222.194;
+ envelope-from=rafaeldtinocoextra@gmail.com; helo=mail-qk1-f194.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 10:44:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +85,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Reply-To: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>
+Cc: Dan Streetman <ddstreet@canonical.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
 
-We overlooked these in 02b1ecfa100e7ecc2306560cd27a4a2622bfeb04
+>>  Assuming you're just using git for conveniently applying local
+>>  downstream patches, you don't need the git repo to exist once
+>>  getting to the build stage. IOW just delete the .git dir after
+>>  applying patches before running a build.
+>
+>...then what do you do if the build fails and you want to
+>edit/update the patch before retrying? "Blow away your .git
+>tree every time you build and reconstitute it somehow later"
+>doesn't seem like a very friendly thing to require...
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <20200928162333.14998-1-berto@igalia.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/qcow2-cluster.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 9acc6ce4ae..aa87d3e99b 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -240,14 +240,14 @@ int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
-     }
- 
-     ret = qcow2_pre_write_overlap_check(bs, QCOW2_OL_ACTIVE_L1,
--            s->l1_table_offset + 8 * l1_start_index, bufsize, false);
-+            s->l1_table_offset + L1E_SIZE * l1_start_index, bufsize, false);
-     if (ret < 0) {
-         return ret;
-     }
- 
-     BLKDBG_EVENT(bs->file, BLKDBG_L1_UPDATE);
-     ret = bdrv_pwrite_sync(bs->file,
--                           s->l1_table_offset + 8 * l1_start_index,
-+                           s->l1_table_offset + L1E_SIZE * l1_start_index,
-                            buf, bufsize);
-     if (ret < 0) {
-         return ret;
--- 
-2.25.4
++1. This option is disconnected with sustaining engineering reality=20
+IMHO: tons of interactive rebases, adding and dropping patches,=20
+re-orderings - so previous existing patches can allow the new ones (or=20
+even existing ones) to become clean cherry-picks - in between patch sets=20
+being worked on, bisections before continuing all this, etc.
 
 
