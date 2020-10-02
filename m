@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C438D2819F8
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:42:57 +0200 (CEST)
-Received: from localhost ([::1]:41690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCD3281A15
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:49:08 +0200 (CEST)
+Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOP56-0005wt-Qf
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45136)
+	id 1kOPB5-0004CG-BK
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyc-0000a5-5C
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:15 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyY-0003L3-Th
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:12 -0400
-Received: by mail-wm1-x343.google.com with SMTP id l15so1578467wmh.1
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3dT+wfpw6iT83ImSmB/t0Y9AbcGGqtgwVgpoltnvTmU=;
- b=jM994VAwFUd4S6HLbQikrvILMHMn7E6vYTB7EcTD3IqNL9SHCAvCm46tfv1s9bpMwo
- +5ZdUDrE6OtbQtO4dQso6RfvNda5aB3jX35s1g5RiXR8UwBKEifsp1GmTpE5iimE58AT
- B7hc2eG3PjtKdDQlpdpK52QUs0z6TOFaVIDst7JTCw/mmR1oFf41scQo+0RI1FE+ErPq
- sc3K/hRugS49YU8kVSKTUC7IBxRQVGfH06Z5gCkduMWcirgJfiNiMg/9FD9TO7JGoUed
- 4aTB1XPnH/f/cWaxpUa2SNkN/tnnOwKUHDhCTwHBtlCMsKOUKOkie5AprHIypZRoGArd
- WZoA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kOP6n-0000XM-SV
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:44:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kOP6l-00046q-E8
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:44:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601660677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HIea7y7X+NxBpHc47NyrmUwfwINqhs69uPOP9YCfci8=;
+ b=ZTLbFHhV4iOZPZXLzLwIbzsDkzPAEBeNQjyXCUCBw/vjPhqm3JveKpc6O76sgrDcys7kcn
+ xPG7MtP3vecKXaCGkREPrPXop38ABgeCBFom/EbLxneAsuML9WVZkQRwxJTUQgQgRhD43c
+ TOZthFY2WiakUC9FiOfRLoGs57r5Fuo=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-X5em2jJwPkiNsLnZFUi5lw-1; Fri, 02 Oct 2020 13:44:35 -0400
+X-MC-Unique: X5em2jJwPkiNsLnZFUi5lw-1
+Received: by mail-qv1-f70.google.com with SMTP id ct11so1272031qvb.16
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:44:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3dT+wfpw6iT83ImSmB/t0Y9AbcGGqtgwVgpoltnvTmU=;
- b=GxR9r6k+/VNYEywFYgOfffjvpEDrnUjWCPNiOO+GWeH9MOd9ZCeCmxeZ5pU3HtnC1n
- xKYoaXhqv6f7WsUJauhVwyp+JrMvafZhTM0vfE75FcDAthV3+uJ4Xva0SIPGDA7S57Ea
- muaIIfZ1m+Ky09DHIiGD3nr1+tY2TH+z+ASeq7kCtNQtDAR1037LRwTvfHRcLOcnLSob
- ck22mIEYS26e29PGkgMLgnOm32/vxEryLESDxosvKbcoY4+GZknoFKARGnXj3q5VKpqP
- SXsBss7SuqU5iJR8uff1o2aaqN+VJlvmcX7eG8NdQPTvotQqL+CQr1BTqpwqj9dCEQjg
- 5Z9A==
-X-Gm-Message-State: AOAM530tmOZNbJBHb8KuD1LlFoofpRMaG8xYh0knTAe7jFDwCksUDeLO
- c6Nf138ETSpvZ2d2xrAzzJTOqM7GbvQ=
-X-Google-Smtp-Source: ABdhPJyYuF53zLkewCty6KI9zEMvxliH6sNtLoTafWZ/3+3Fs1FBMvnsO6IoycuRe8jY/qCTTesBxg==
-X-Received: by 2002:a1c:7405:: with SMTP id p5mr4042979wmc.35.1601660169085;
- Fri, 02 Oct 2020 10:36:09 -0700 (PDT)
-Received: from donizetti.redhat.com ([2001:b07:6468:f312:47e0:e742:75ba:b84d])
- by smtp.gmail.com with ESMTPSA id
- l8sm2516454wrx.22.2020.10.02.10.36.08
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HIea7y7X+NxBpHc47NyrmUwfwINqhs69uPOP9YCfci8=;
+ b=bsADje/iYyHQz5GzPR6E7Yg+6CevHoEx5KaVzPPVUCqAYzOJmTQg252aoQD9HiEkh1
+ jzYmARO5+HoSmhTnFFPla/3zRGqko+SQcngxoqTKe6V9XLWqcjb+G62fB2oz+J1r+AeF
+ by5IPMQxvNlDH3ZYdD2nC0Y7HG3glpJQF1vxbpSQLS5iQ60O+SFyeAADQORXHM2e4SZ4
+ d8yMepunB0dK1VZgfiXvlzEHikN5VpGlbKijEhYEU7tH42QvIhpTS+8qDg57u23aOTiy
+ OAYxcGbXdIgxe8ZiXZ4DGX8/5WrUFoWO0jVEVoXGKbUNmZ+CjGFFVw+M8F+TJ0pN1rUR
+ 1CAg==
+X-Gm-Message-State: AOAM533ZR/TQ/PjzdsGWfrLbjRPe+hVBs5NNZig0HT2OHXrtORn7qnbA
+ UFOOOrFrc68v0aZhJMbnxMyRJINZimzdqw7pxeDdAG20KH3M4Wa/jNNo6FkUuQNj/tmYparcM0O
+ MmMYD3m/Taq5gZYU=
+X-Received: by 2002:aed:3ee7:: with SMTP id o36mr3442883qtf.244.1601660674747; 
+ Fri, 02 Oct 2020 10:44:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwg4VgrGKGPkMF9NeKXatid1AH3tc3wg8UQjvOXc9SwfgcGXpQbkhkhJjsAJFMLJ291weJCRA==
+X-Received: by 2002:aed:3ee7:: with SMTP id o36mr3442848qtf.244.1601660674408; 
+ Fri, 02 Oct 2020 10:44:34 -0700 (PDT)
+Received: from xz-x1 (toroon474qw-lp130-09-184-147-14-204.dsl.bell.ca.
+ [184.147.14.204])
+ by smtp.gmail.com with ESMTPSA id d21sm1491077qtp.97.2020.10.02.10.44.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 10:36:08 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/10] scsi/scsi_bus: fix races in REPORT LUNS
-Date: Fri,  2 Oct 2020 19:35:58 +0200
-Message-Id: <20201002173558.232960-11-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201002173558.232960-1-pbonzini@redhat.com>
-References: <20201002173558.232960-1-pbonzini@redhat.com>
+ Fri, 02 Oct 2020 10:44:33 -0700 (PDT)
+Date: Fri, 2 Oct 2020 13:44:32 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 4/4] migration: Sync requested pages after postcopy
+ recovery
+Message-ID: <20201002174432.GC5473@xz-x1>
+References: <20201001182641.80232-1-peterx@redhat.com>
+ <20201001182641.80232-5-peterx@redhat.com>
+ <20201002172646.GL3286@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201002172646.GL3286@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,134 +96,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Xiaohui Li <xiaohli@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+On Fri, Oct 02, 2020 at 06:26:46PM +0100, Dr. David Alan Gilbert wrote:
+> > +    trace_postcopy_page_req_sync((uint64_t)(uintptr_t)host_addr);
+> 
+> Again that's a case for host_addr and a %p I think.
 
-Currently scsi_target_emulate_report_luns iterates over the child device list
-twice, and there is no guarantee that this list is the same in both iterations.
+Yeah, I'll fix both places and repost.  Thanks.
 
-The reason for iterating twice is that the first iteration calculates
-how much memory to allocate.  However if we use a dynamic array we can
-avoid iterating twice, and therefore we avoid this race.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1866707
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200913160259.32145-10-mlevitsk@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/scsi/scsi-bus.c | 68 ++++++++++++++++++++++------------------------
- 1 file changed, 33 insertions(+), 35 deletions(-)
-
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index eda8cb7e70..b901e701f0 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -438,19 +438,23 @@ struct SCSITargetReq {
- static void store_lun(uint8_t *outbuf, int lun)
- {
-     if (lun < 256) {
-+        /* Simple logical unit addressing method*/
-+        outbuf[0] = 0;
-         outbuf[1] = lun;
--        return;
-+    } else {
-+        /* Flat space addressing method */
-+        outbuf[0] = 0x40 | (lun >> 8);
-+        outbuf[1] = (lun & 255);
-     }
--    outbuf[1] = (lun & 255);
--    outbuf[0] = (lun >> 8) | 0x40;
- }
- 
- static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
- {
-     BusChild *kid;
--    int i, len, n;
-     int channel, id;
--    bool found_lun0;
-+    uint8_t tmp[8] = {0};
-+    int len = 0;
-+    GByteArray *buf;
- 
-     if (r->req.cmd.xfer < 16) {
-         return false;
-@@ -458,46 +462,40 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
-     if (r->req.cmd.buf[2] > 2) {
-         return false;
-     }
-+
-+    /* reserve space for 63 LUNs*/
-+    buf = g_byte_array_sized_new(512);
-+
-     channel = r->req.dev->channel;
-     id = r->req.dev->id;
--    found_lun0 = false;
--    n = 0;
- 
--    RCU_READ_LOCK_GUARD();
-+    /* add size (will be updated later to correct value */
-+    g_byte_array_append(buf, tmp, 8);
-+    len += 8;
- 
--    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
-+    /* add LUN0 */
-+    g_byte_array_append(buf, tmp, 8);
-+    len += 8;
- 
--        if (dev->channel == channel && dev->id == id) {
--            if (dev->lun == 0) {
--                found_lun0 = true;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
-+            DeviceState *qdev = kid->child;
-+            SCSIDevice *dev = SCSI_DEVICE(qdev);
-+
-+            if (dev->channel == channel && dev->id == id && dev->lun != 0) {
-+                store_lun(tmp, dev->lun);
-+                g_byte_array_append(buf, tmp, 8);
-+                len += 8;
-             }
--            n += 8;
-         }
-     }
--    if (!found_lun0) {
--        n += 8;
--    }
--
--    scsi_target_alloc_buf(&r->req, n + 8);
--
--    len = MIN(n + 8, r->req.cmd.xfer & ~7);
--    memset(r->buf, 0, len);
--    stl_be_p(&r->buf[0], n);
--    i = found_lun0 ? 8 : 16;
--    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
- 
--        if (dev->channel == channel && dev->id == id) {
--            store_lun(&r->buf[i], dev->lun);
--            i += 8;
--        }
--    }
-+    r->buf_len = len;
-+    r->buf = g_byte_array_free(buf, FALSE);
-+    r->len = MIN(len, r->req.cmd.xfer & ~7);
- 
--    assert(i == n + 8);
--    r->len = len;
-+    /* store the LUN list length */
-+    stl_be_p(&r->buf[0], len - 8);
-     return true;
- }
- 
 -- 
-2.26.2
+Peter Xu
 
 
