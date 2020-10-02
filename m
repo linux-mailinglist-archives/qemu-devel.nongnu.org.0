@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9933281222
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:20:12 +0200 (CEST)
-Received: from localhost ([::1]:33994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD56281274
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:24:26 +0200 (CEST)
+Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOK2l-0001lF-NA
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56946)
+	id 1kOK6r-0006Mp-Ps
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvC-0004Hs-8f
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52957)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvD-0004LL-Dv
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJv7-0003TI-5x
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:21 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJv9-0003U6-T3
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601640736;
+ s=mimecast20190719; t=1601640739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hPTjbg3bmFDvw2kmM1Ei6ooKLVnZmRUMPNWDvSe394k=;
- b=VNutemcDHN1dtczQu54qKQLlyexHByM6Sa7q14CtVJz6WO0Qb/2OmtLkarZisgv7ZFipr9
- 72/+dY2aa5LhF8wvpy2Oumr5iwhIPFh8oA2HYb01k3bv9z1Y2X+2FywsVXwz/mxuCgdjgM
- 6bK3DxbLuc0KxiBl4LGRIazi4WfUeG8=
+ bh=FHBD8OAxwN2Hc4y4W0/2DnSeC8GEqaSX4FvJUa6OKqg=;
+ b=GWwYlHh9M8yVq1dmTKSiSzcwCvBCOxLdkUX09Fjk75IuR+4I80WExPSS5+IVChsslzwcEA
+ dv7+WkjdxJQFJUvgcLERMwrOekaSXBtts6jGcXzuZe1z+mbkQ2mVYa4ozHkkRC0m60g5dE
+ 6K1P5+aQ047hcUercLAaaO4+Zwwnp2w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-umG1TdCsPFSDfKsNmSPt2Q-1; Fri, 02 Oct 2020 08:12:13 -0400
-X-MC-Unique: umG1TdCsPFSDfKsNmSPt2Q-1
+ us-mta-384-py4E2dTyOFKei0MD3kD-Yw-1; Fri, 02 Oct 2020 08:12:17 -0400
+X-MC-Unique: py4E2dTyOFKei0MD3kD-Yw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBD50803F7B;
- Fri,  2 Oct 2020 12:12:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF6D480EDAE;
+ Fri,  2 Oct 2020 12:12:14 +0000 (UTC)
 Received: from localhost (ovpn-112-216.ams2.redhat.com [10.36.112.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D29119C66;
- Fri,  2 Oct 2020 12:12:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7609019C66;
+ Fri,  2 Oct 2020 12:12:14 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/19] s390x/tcg: Implement ADD HALFWORD (AGH)
-Date: Fri,  2 Oct 2020 14:11:11 +0200
-Message-Id: <20201002121118.180315-13-cohuck@redhat.com>
+Subject: [PULL 13/19] s390x/tcg: Implement SUBTRACT HALFWORD (SGH)
+Date: Fri,  2 Oct 2020 14:11:12 +0200
+Message-Id: <20201002121118.180315-14-cohuck@redhat.com>
 In-Reply-To: <20201002121118.180315-1-cohuck@redhat.com>
 References: <20201002121118.180315-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -87,42 +87,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Easy, just like ADD HALFWORD IMMEDIATE (AGHI).
+Easy to wire up.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200928122717.30586-3-david@redhat.com>
+Message-Id: <20200928122717.30586-4-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
  target/s390x/insn-data.def | 1 +
- target/s390x/translate.c   | 1 +
- 2 files changed, 2 insertions(+)
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index e14cbd63fa0a..dbcdb4c387fa 100644
+index dbcdb4c387fa..e994d32d96bd 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -52,6 +52,7 @@
- /* ADD HALFWORD */
-     C(0x4a00, AH,      RX_a,  Z,   r1, m2_16s, new, r1_32, add, adds32)
-     C(0xe37a, AHY,     RXY_a, LD,  r1, m2_16s, new, r1_32, add, adds32)
-+    C(0xe338, AGH,     RXY_a, MIE2,r1, m2_16s, r1, 0, add, adds64)
- /* ADD HALFWORD IMMEDIATE */
-     C(0xa70a, AHI,     RI_a,  Z,   r1, i2, new, r1_32, add, adds32)
-     C(0xa70b, AGHI,    RI_a,  Z,   r1, i2, r1, 0, add, adds64)
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index 90dc1740e7ab..7ea666b9a7fb 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -6119,6 +6119,7 @@ enum DisasInsnEnum {
- #define FAC_AIS         S390_FEAT_ADAPTER_INT_SUPPRESSION
- #define FAC_V           S390_FEAT_VECTOR /* vector facility */
- #define FAC_VE          S390_FEAT_VECTOR_ENH /* vector enhancements facility 1 */
-+#define FAC_MIE2        S390_FEAT_MISC_INSTRUCTION_EXT2 /* miscellaneous-instruction-extensions facility 2 */
- 
- static const DisasInsn insn_info[] = {
- #include "insn-data.def"
+@@ -886,6 +886,7 @@
+ /* SUBTRACT HALFWORD */
+     C(0x4b00, SH,      RX_a,  Z,   r1, m2_16s, new, r1_32, sub, subs32)
+     C(0xe37b, SHY,     RXY_a, LD,  r1, m2_16s, new, r1_32, sub, subs32)
++    C(0xe339, SGH,     RXY_a, MIE2,r1, m2_16s, r1, 0, sub, subs64)
+ /* SUBTRACT HIGH */
+     C(0xb9c9, SHHHR,   RRF_a, HW,  r2_sr32, r3_sr32, new, r1_32h, sub, subs32)
+     C(0xb9d9, SHHLR,   RRF_a, HW,  r2_sr32, r3, new, r1_32h, sub, subs32)
 -- 
 2.25.4
 
