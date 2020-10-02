@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6A1281939
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:28:30 +0200 (CEST)
-Received: from localhost ([::1]:46404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D6428192E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:26:57 +0200 (CEST)
+Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOOr7-0003UU-JO
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:28:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42480)
+	id 1kOOpc-0001LT-SX
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <8d8b242f38caccd81c27125167862f4457e8a22f@lizzy.crudebyte.com>)
- id 1kOOmY-0006oh-Hp
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:23:46 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42627)
+ (envelope-from <d63b603a48ebbc92bab3eddc161a4c7fcc2fa3f3@lizzy.crudebyte.com>)
+ id 1kOOkW-0004Wh-Ev
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:21:43 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:55943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <8d8b242f38caccd81c27125167862f4457e8a22f@lizzy.crudebyte.com>)
- id 1kOOmW-0001jq-Qh
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:23:46 -0400
+ (envelope-from <d63b603a48ebbc92bab3eddc161a4c7fcc2fa3f3@lizzy.crudebyte.com>)
+ id 1kOOkU-0001UN-4l
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:21:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=44zIO6oSJBtCMtx0lPpF1Gk4m8vRKjg9xvEFAgJFrqw=; b=hFgB7
- gMjVjv/iw/9uVSUHDXBzaILgWeLdBh73nihuh8KweK0z9eKQQOEPYpTM3CUkkpfuldUpndy/5/qDL
- BaqStNZXbcPZJFzod6TojpA4TxW5M3/vnQc7tKPhaiai6ifHfqr/UiIrqGqls/3xbBUfylUXL0uy9
- TEBtuRfQcpPBekmCw6sGGavvZFOddH4DEmnkLNSVh14NXhmPGaAQukzpiqfe7KAgECSO5kLPuUc5V
- DY1AjHhUICHVKKRc27s2tKvF6DwT7jMDlRgK03YbyIJIkuwTc5rkhGJhzU77yVub93fxvbIIyvxO5
- s7Ea04bHExDNoWAdvfDX6gYWjULUg==;
-Message-Id: <8d8b242f38caccd81c27125167862f4457e8a22f.1601655308.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=MOuYzYgoUjX0F+dL6MaCElse45kBDIj3nDYLLbxQJyQ=; b=I8igD
+ XgOsJvooQEGOL2m1nGZfMDRIzLUjw3ZAFkBylrlY4hVYe/4YEbWzowymbXe4pTyHXDF8iqn0taPaV
+ NhGWtCAMmkTxRVd0cYrX4knVdYghwfFo+d40cDt+JIb4Z4rnqTWbjOnLrolP/s09SUCm0QNuaW80v
+ k5NyXM1ni+FW5W7deplBrnTMuLsg3TkNuHwoFGRZGlxqg4mhJhO6fIV7ai/KJNn9HbKRVGmfNkOZ6
+ 5ZSB4fwNuEFHQALEWQVR6wGanrMDuyPe50ot6CJT5Gj9jWmi4D6YvkQcStpaf+CP+edHhupqngqon
+ wQfBceErrEMP3irWWGJ+u62no33Ag==;
+Message-Id: <d63b603a48ebbc92bab3eddc161a4c7fcc2fa3f3.1601655308.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1601655308.git.qemu_oss@crudebyte.com>
 References: <cover.1601655308.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 2 Oct 2020 18:15:05 +0200
-Subject: [PATCH v3 05/11] tests/qtest/qos-test: dump environment variables if
- verbose
+Subject: [PATCH v3 03/11] libqos/qgraph: add qos_dump_graph()
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
  Greg Kurz <groug@kaod.org>, berrange@redhat.com
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=8d8b242f38caccd81c27125167862f4457e8a22f@lizzy.crudebyte.com;
+ envelope-from=d63b603a48ebbc92bab3eddc161a4c7fcc2fa3f3@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 08:18:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,41 +67,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If qtests are run in verbose mode (i.e. if --verbose CL argument
-was provided) then print all environment variables to stdout
-before running the individual tests.
+This new function is purely for debugging purposes. It prints the
+current qos graph to stdout and allows to identify problems in the
+created qos graph e.g. when writing new qos tests.
 
-Instead of using g_test_message() rather use printf() in combination
-with g_test_verbose(), to avoid g_test_message() cluttering the
-output.
+Coloured output is used to mark available nodes in green colour,
+whereas unavailable nodes are marked in red colour.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/qos-test.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tests/qtest/libqos/qgraph.c | 54 +++++++++++++++++++++++++++++++++++++
+ tests/qtest/libqos/qgraph.h | 20 ++++++++++++++
+ 2 files changed, 74 insertions(+)
 
-diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index d98ef78613..fe240b32a7 100644
---- a/tests/qtest/qos-test.c
-+++ b/tests/qtest/qos-test.c
-@@ -313,9 +313,16 @@ static void walk_path(QOSGraphNode *orig_path, int len)
-  *   machine/drivers/test objects
-  * - Cleans up everything
-  */
--int main(int argc, char **argv)
-+int main(int argc, char **argv, char** envp)
- {
-     g_test_init(&argc, &argv, NULL);
-+    if (g_test_verbose()) {
-+        printf("ENVIRONMENT VARIABLES: {\n");
-+        for (char **env = envp; *env != 0; env++) {
-+            printf("\t%s\n", *env);
+diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
+index 61faf6b27d..e70635750e 100644
+--- a/tests/qtest/libqos/qgraph.c
++++ b/tests/qtest/libqos/qgraph.c
+@@ -805,3 +805,57 @@ void qos_delete_cmd_line(const char *name)
+         node->command_line = NULL;
+     }
+ }
++
++#define RED(txt) (    \
++    "\033[0;91m" txt  \
++    "\033[0m"         \
++)
++
++#define GREEN(txt) (    \
++    "\033[0;92m" txt  \
++    "\033[0m"         \
++)
++
++void qos_dump_graph(void)
++{
++    GList *keys;
++    GList *l;
++    QOSGraphEdgeList *list;
++    QOSGraphEdge *e, *next;
++    QOSGraphNode *dest_node, *node;
++
++    printf("ALL QGRAPH EDGES: {\n");
++    keys = g_hash_table_get_keys(edge_table);
++    for (l = keys; l != NULL; l = l->next) {
++        const gchar *key = l->data;
++        printf("\t src='%s'\n", key);
++        list = get_edgelist(key);
++        QSLIST_FOREACH_SAFE(e, list, edge_list, next) {
++            dest_node = g_hash_table_lookup(node_table, e->dest);
++            printf("\t\t|-> dest='%s' type=%d (node=%p)",
++                   e->dest, e->type, dest_node);
++            if (!dest_node) {
++                printf(RED(" <------- ERROR !"));
++            }
++            printf("\n");
 +        }
-+        printf("}\n");
 +    }
-     qos_graph_init();
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_LIBQOS);
++    g_list_free(keys);
++    printf("}\n");
++
++    printf("ALL QGRAPH NODES: {\n");
++    keys = g_hash_table_get_keys(node_table);
++    for (l = keys; l != NULL; l = l->next) {
++        const gchar *key = l->data;
++        node = g_hash_table_lookup(node_table, key);
++        printf("\t name='%s' ", key);
++        if (node->qemu_name) {
++            printf("qemu_name='%s' ", node->qemu_name);
++        }
++        printf("type=%d cmd_line='%s' [%s]\n",
++               node->type, node->command_line,
++               node->available ? GREEN("available") : RED("UNAVAILBLE"));
++    }
++    g_list_free(keys);
++    printf("}\n");
++}
+diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
+index f472949f68..07a32535f1 100644
+--- a/tests/qtest/libqos/qgraph.h
++++ b/tests/qtest/libqos/qgraph.h
+@@ -586,5 +586,25 @@ QOSGraphObject *qos_machine_new(QOSGraphNode *node, QTestState *qts);
+ QOSGraphObject *qos_driver_new(QOSGraphNode *node, QOSGraphObject *parent,
+                                QGuestAllocator *alloc, void *arg);
+ 
++/**
++ * Just for debugging purpose: prints all currently existing nodes and
++ * edges to stdout.
++ *
++ * All qtests add themselves to the overall qos graph by calling qgraph
++ * functions that add device nodes and edges between the individual graph
++ * nodes for tests. As the actual graph is assmbled at runtime by the qos
++ * subsystem, it is sometimes not obvious how the overall graph looks like.
++ * E.g. when writing new tests it may happen that those new tests are simply
++ * ignored by the qtest framework.
++ *
++ * This function allows to identify problems in the created qgraph. Keep in
++ * mind: only tests with a path down from the actual test case node (leaf) up
++ * to the graph's root node are actually executed by the qtest framework. And
++ * the qtest framework uses QMP to automatically check which QEMU drivers are
++ * actually currently available, and accordingly qos marks certain pathes as
++ * 'unavailable' in such cases (e.g. when QEMU was compiled without support for
++ * a certain feature).
++ */
++void qos_dump_graph(void);
+ 
+ #endif
 -- 
 2.20.1
 
