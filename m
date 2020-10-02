@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190F628115E
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:41:59 +0200 (CEST)
-Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C73128115C
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:41:01 +0200 (CEST)
+Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOJRe-0001mM-6g
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48338)
+	id 1kOJQq-0000qF-G0
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:41:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJMx-0006nf-5R
+ id 1kOJMv-0006nb-IN
  for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:00 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54698)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJMo-0007bY-Gn
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:36:57 -0400
-Received: by mail-wm1-x333.google.com with SMTP id s13so1319421wmh.4
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:36:49 -0700 (PDT)
+ id 1kOJMo-0007bd-ND
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:36:54 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id k15so1437569wrn.10
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SQyO3Kef6zcKpO5tCbzV7xmtVYwXRFNO6UXv4vz6r0Y=;
- b=hw+HZgX7Iqx5ER4BcS6PTK05vFZMep+OtcgfxCV0M7hh14PjwIzeu55zMQW7elfgiN
- c+VmjFOxP5PlNnPf8o0ERTlWvbWilokP8XZ8p5bLk5o1nXdFwzx30aP3IZOUb0Igjgqk
- MErDhYS7FWD4FpgHR1wqYxYJBMRelJNANBfCA0NJ9AVCTLRNMiG4ph/FktXz1uxOmfCP
- FXTrbc7A6ebl70X7mCY81/9jzE8pKRflRzpUV1fqbnGO+LgAXJityV4xwtCRMj8mOeYU
- GSEicVg4McdZLoBxHeeMBqLa3PPphrm2m/mqmrgWk0B7B2pzfCg0Ny58q8tr+tXrE+Ve
- zdaA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dapbAby+p+IB97tixpUV9qcke8guPCQp0Q97X2paJKo=;
+ b=cNMioLAmqS0sE4QwG7m5Zykam0aEw+OAy/8SEUBm08fCjUCaOFi8CNZGt0KqY0tVQz
+ PKbop8DuzpByiCDMV9qVDNViMzYo/1C2tBTUJDESD7IoT8AeAFNlDkkbGUK3wwZHgRnv
+ VwTbyGfN4rFE+6nuRO9XrADSTWuXbzdNHnVkXfQdoWVp5d3DB9JixZmDp7cPNlC7qU7X
+ DyPtdIZ3JZcQojCqQqHwP7B/D/zreiHxvaxsAQsrMb4WokWgElegRYkBKmshMmM7ZqzC
+ 551QGcynN3LgmfhjtB2WStb7ckyhz1ejNiVAJkqoINZzZMwTtABjfR8vFlNS/Gpn0N2k
+ uwoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SQyO3Kef6zcKpO5tCbzV7xmtVYwXRFNO6UXv4vz6r0Y=;
- b=dQx7FYHCei53mH971CLRqMxj7lWDMX1mCVCMyt3N1VMFXCqPOg58TuhYdlnER8rBSR
- Fhz8wgyW60EsKc7/IrbUCqbk7z0tXVrMH8JQKRSgY0430I8H9Uz49JAd4Z1uwpNAufW5
- VwSObQIJO381GqA9js2ZFtx6FTtOKcz2DLMjuAsFsiQlj2Ojqr3kJ1EAh1vjZChVDBzz
- TFSQQr5Ajm7N9U7z1c64uycQNlOkIqy2VHsFmnGRzgk45j/UetOnm4ilr20wD2sa9EWL
- N3Q8qcn2Rrf+cFt3Fl4FlAsqJlO8S9xw+4qv2DErSLHsUrEmgSiD+MqIn4jwzAK81nsY
- qgdQ==
-X-Gm-Message-State: AOAM533nloYvxfgc6F6kyooHmQsssG5SHwWLKrMa5LMgx1yAOd9/kc/U
- MqQ3BG50lerdqiOrcJrwiHpLqQ==
-X-Google-Smtp-Source: ABdhPJxbE+9Jnn4SIslVbqU3NIMZCVTfdNb22Vcaav810IDJeechSp5nfyk+s4hY20Fz8/EtWHzJow==
-X-Received: by 2002:a1c:68d5:: with SMTP id d204mr462815wmc.100.1601638607812; 
- Fri, 02 Oct 2020 04:36:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dapbAby+p+IB97tixpUV9qcke8guPCQp0Q97X2paJKo=;
+ b=qAA22JvrgzQh3GJVm/HcidyBjh3kI+iDv0ZkUXXzE7VmB8JpqjQ4nRRNFblNnLXDSL
+ kD6xbnA4+CLcc+3NNst7vuYjDRRT8ppcgjjdJxx3dEYQrHWeRz2QAaWADdLLbYi3BQpf
+ 7M9TgEvp+RUDPECzDTZMFPxQYqQ4Z7IuturD5AV63J1rnjlFSczYoOjOYOI0kPastNC1
+ 25+1sndwmDnJY+NAVHlc/aGCd7eBkoiEk5dmAfhGWc/viP4i/Qx+7G8BNlqnaT8xkueO
+ cyXpf09TSQNQGjtJ4azr1HbplcdFEimkA2tnYei3VZWJIMjfXgVTxzbmf9LGBjxTtJco
+ 543g==
+X-Gm-Message-State: AOAM532WxF1dkI5iwrV0VG/d0kA9QvXwI5utaomu1aGnAZDRWJXaB5ei
+ urpotT+U/4pRXuOy2G7kiBXLQg==
+X-Google-Smtp-Source: ABdhPJzlG5Hanjkan2nIbrKMLf0U3fYzelH1OQCvLSAqjp2vi9ebTjtwl//lGJya1cYHb8IIJ3euEw==
+X-Received: by 2002:adf:ed12:: with SMTP id a18mr2712195wro.178.1601638609197; 
+ Fri, 02 Oct 2020 04:36:49 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u127sm1627596wmu.48.2020.10.02.04.36.46
+ by smtp.gmail.com with ESMTPSA id w5sm1537648wmg.42.2020.10.02.04.36.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 02 Oct 2020 04:36:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E54B61FF7E;
- Fri,  2 Oct 2020 12:36:45 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 065B01FF87;
+ Fri,  2 Oct 2020 12:36:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/14] testing updates (python, plugins)
-Date: Fri,  2 Oct 2020 12:36:31 +0100
-Message-Id: <20201002113645.17693-1-alex.bennee@linaro.org>
+Subject: [PULL 01/14] migration: Silence compiler warning in
+ global_state_store_running()
+Date: Fri,  2 Oct 2020 12:36:32 +0100
+Message-Id: <20201002113645.17693-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201002113645.17693-1-alex.bennee@linaro.org>
+References: <20201002113645.17693-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,77 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b5ce42f5d138d7546f9faa2decbd6ee8702243a3:
+From: Thomas Huth <thuth@redhat.com>
 
-  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/ide-pull-request' into staging (2020-10-01 19:55:10 +0100)
+GCC 9.3.0 on Ubuntu complains:
 
-are available in the Git repository at:
+In file included from /usr/include/string.h:495,
+                 from /home/travis/build/huth/qemu/include/qemu/osdep.h:87,
+                 from ../migration/global_state.c:13:
+In function ‘strncpy’,
+    inlined from ‘global_state_store_running’ at ../migration/global_state.c:47:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
+ ‘__builtin_strncpy’ specified bound 100 equals destination size [-Werror=stringop-truncation]
+  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-python-021020-1
+... but we apparently really want to do a strncpy here - the size is already
+checked with the assert() statement right in front of it. To silence the
+warning, simply replace it with our strpadcpy() function.
 
-for you to fetch changes up to 2614670b7585ce4ec503546bc3023844d392f270:
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com> (two years ago)
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200918103430.297167-4-thuth@redhat.com>
+Message-Id: <20200925154027.12672-5-alex.bennee@linaro.org>
 
-  gitlab: split deprecated job into build/check stages (2020-10-02 12:31:34 +0100)
-
-----------------------------------------------------------------
-Python testing updates:
-
-  - drop python 3.5 test from travis
-  - replace Debian 9 containers with 10
-  - increase cross build timeout
-  - bump minimum python version in configure
-  - move user plugins tests to gitlab
-  - split deprecated builds into build and test
-
-----------------------------------------------------------------
-Alex Bennée (2):
-      gitlab: move linux-user plugins test across to gitlab
-      gitlab: split deprecated job into build/check stages
-
-Thomas Huth (12):
-      migration: Silence compiler warning in global_state_store_running()
-      travis.yml: Drop the default softmmu builds
-      travis.yml: Update Travis to use Bionic and Focal instead of Xenial
-      travis.yml: Drop the superfluous Python 3.6 build
-      travis.yml: Drop the Python 3.5 build
-      tests/docker: Use Fedora containers for MinGW cross-builds in the gitlab-CI
-      gitlab-ci: Remove the Debian9-based containers and containers-layer3
-      tests/docker: Update the tricore container to debian 10
-      shippable.yml: Remove the Debian9-based MinGW cross-compiler tests
-      tests/docker: Remove old Debian 9 containers
-      gitlab-ci: Increase the timeout for the cross-compiler builds
-      configure: Bump the minimum required Python version to 3.6
-
- docs/conf.py                                       |  4 +-
- configure                                          |  4 +-
- migration/global_state.c                           |  4 +-
- .gitlab-ci.d/containers.yml                        | 38 ++++---------
- .gitlab-ci.d/crossbuilds.yml                       |  5 +-
- .gitlab-ci.yml                                     | 29 +++++++++-
- .shippable.yml                                     |  4 --
- .travis.yml                                        | 66 +++++-----------------
- tests/docker/Makefile.include                      |  2 +-
- .../docker/dockerfiles/debian-tricore-cross.docker |  2 +-
- tests/docker/dockerfiles/debian-win32-cross.docker | 38 -------------
- tests/docker/dockerfiles/debian-win64-cross.docker | 45 ---------------
- tests/docker/dockerfiles/debian9-mxe.docker        | 21 -------
- tests/docker/dockerfiles/debian9.docker            | 32 -----------
- tests/docker/dockerfiles/fedora-win32-cross.docker | 42 ++++++++++++++
- tests/docker/dockerfiles/fedora-win64-cross.docker | 38 +++++++++++++
- tests/qemu-iotests/iotests.py                      |  2 -
- 17 files changed, 142 insertions(+), 234 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/debian-win32-cross.docker
- delete mode 100644 tests/docker/dockerfiles/debian-win64-cross.docker
- delete mode 100644 tests/docker/dockerfiles/debian9-mxe.docker
- delete mode 100644 tests/docker/dockerfiles/debian9.docker
- create mode 100644 tests/docker/dockerfiles/fedora-win32-cross.docker
- create mode 100644 tests/docker/dockerfiles/fedora-win64-cross.docker
-
+diff --git a/migration/global_state.c b/migration/global_state.c
+index 25311479a4..a33947ca32 100644
+--- a/migration/global_state.c
++++ b/migration/global_state.c
+@@ -44,8 +44,8 @@ void global_state_store_running(void)
+ {
+     const char *state = RunState_str(RUN_STATE_RUNNING);
+     assert(strlen(state) < sizeof(global_state.runstate));
+-    strncpy((char *)global_state.runstate,
+-           state, sizeof(global_state.runstate));
++    strpadcpy((char *)global_state.runstate, sizeof(global_state.runstate),
++              state, '\0');
+ }
+ 
+ bool global_state_received(void)
 -- 
 2.20.1
 
