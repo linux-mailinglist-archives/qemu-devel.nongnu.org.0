@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A55E281183
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:48:43 +0200 (CEST)
-Received: from localhost ([::1]:52778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7558281198
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:53:51 +0200 (CEST)
+Received: from localhost ([::1]:37774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOJYI-0000sf-Kj
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
+	id 1kOJdH-0006TB-15
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJTs-00056T-W3
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:44:09 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJTq-0008Jx-QS
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:44:08 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id s12so1453943wrw.11
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Sw/3goSUiCxY/MVA9ukyQAGw3H0eg7e1C2bUH/esumY=;
- b=h0kwz5Z2kppQG2VBDmsPvSw6XMjfCg8NXGr4jGnhp3TzOgNlmn077LDEETklAme38q
- VON3EQrj2MRLN/2yQLywLHDNS+FdVTePHiJdGALGSPxoc/I/6SIBcEv6L+T9dxNyg6jd
- 23z1P0nwX+2FA2dpN3zq/AgV9XGH8/Gx24p7lGGquxWtPG0P6W3Qo0FSyfCwfmGa+JmL
- qLm6nckKXCupP7Q1J/k+ilViqo0f7PDeMYsMreuUKZwhUy6zQRlZl67QcekHEPbgGQ/Y
- 1C2E96+TJewjXEooP2hf0jAyeE9pueNIVcoiemfqwEAHtlMmzyurCIgyGs+FJsAgCjrj
- 7o5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Sw/3goSUiCxY/MVA9ukyQAGw3H0eg7e1C2bUH/esumY=;
- b=Myd9CufteZP76r5byhTpIzJJE3FGn9MkEOVQeWxcyV+iyb1/krOgumkJ7/rrUkTx56
- uyv1fmMgJO+5io8obafvjmUj3nKA9QBaLbtxAHKjKLZOCeddjSM7qDCSAg1xTR7g9c4Z
- eJ409DG2O7RWiTyNVP0HM3GXlRyfvvUBGkTcCPlUJf9yF/0/tWMOfIq8nYf0xkoy2fL4
- 8EqqXf32woPj15oKq3eUQ/5p+cWeQ96JNGzzIAOv4PZrx/lISxuPOkTYxCH5W7tfS+/e
- 2EYWo6WNlF9pO3g1FROSKAdUwj9rpKrQhb416rDz9BEmDL8sY2LvqE52d0qW813dBfIc
- tdMg==
-X-Gm-Message-State: AOAM531FOdGY3pwy7i/8ey+XfcXftVvSaRd78CusKNPhCJyAWvHz7FHq
- mORQ0VYsf/TCb2P3WPszF0tZVQ==
-X-Google-Smtp-Source: ABdhPJyp6XatdRTqCgcSHZStStMo2sZI/YqZCQPFwNQGslpx+80xjB4BeX1rhIBFNBbxViFx1PePmw==
-X-Received: by 2002:adf:f802:: with SMTP id s2mr2487065wrp.328.1601639044868; 
- Fri, 02 Oct 2020 04:44:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 91sm1603548wrq.9.2020.10.02.04.44.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 04:44:03 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 401FE1FF9D;
- Fri,  2 Oct 2020 12:36:47 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 14/14] gitlab: split deprecated job into build/check stages
-Date: Fri,  2 Oct 2020 12:36:45 +0100
-Message-Id: <20201002113645.17693-15-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201002113645.17693-1-alex.bennee@linaro.org>
-References: <20201002113645.17693-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOJVt-0007qU-SD
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:46:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29149)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOJVp-0000EU-Js
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:46:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601639166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FE068GphyT3N3wRrBI2NNYfUgehWHgiVKdwZiJbQi78=;
+ b=dUyHqT8t4sM4E1pgmDD5F2Rj5n+94juwQjns2RLSZHINsBmDiBx2lXhVK3RWJpRL7yO/aJ
+ XPDvgWZe7G0pmrhNrS34/8Y/gIIveg3zzhI1H8cpttHn+tq35OukjZEemhCr5SgZ2XxZfG
+ qLWt7mPp1ZonXBU4jrRAFw6arADwlWs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-RrPovBd6P1aOFQgplJyFoA-1; Fri, 02 Oct 2020 07:46:05 -0400
+X-MC-Unique: RrPovBd6P1aOFQgplJyFoA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9675F1018F84;
+ Fri,  2 Oct 2020 11:46:03 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-112-139.ams2.redhat.com [10.36.112.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B5A119C66;
+ Fri,  2 Oct 2020 11:46:01 +0000 (UTC)
+Date: Fri, 2 Oct 2020 13:46:00 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: mingwei <gongwilliam@163.com>
+Subject: Re: [PATCH v1 1/1] sheepdog driver patch: fixs the problem of qemu
+ process become crashed when the sheepdog gateway break the IO and then
+ recover
+Message-ID: <20201002114600.GC4996@linux.fritz.box>
+References: <20201001022127.7315-1-gongwilliam@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201001022127.7315-1-gongwilliam@163.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,53 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: namei.unix@gmail.com, sheepdog@lists.wpkg.org, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the job is pretty fast for only a few targets we still want to
-catch breakage of the build. By splitting the test step we can
-allow_failures for that while still ensuring we don't miss the build
-breaking.
+Am 01.10.2020 um 04:21 hat mingwei geschrieben:
+> this patch fixs the problem of qemu process become crashed when the sheepdog gateway break the IO for a few seconds and then recover.
+> 
+> problem reproduce:
+> 1.start a fio process in qemu to produce IOs to sheepdog gateway, whatever IO type you like.
+> 2.kill the sheepdog gateway.
+> 3.wait for a few seconds.
+> 4.restart the sheepdog gateway.
+> 5.qemu process crashed with segfault error 6.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201002091538.3017-1-alex.bennee@linaro.org>
+Can you post a stack trace?
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 346f23acf7..a51c89554f 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -270,9 +270,24 @@ build-deprecated:
-   variables:
-     IMAGE: debian-all-test-cross
-     CONFIGURE_ARGS: --disable-docs --disable-tools
--    MAKE_CHECK_ARGS: check-tcg
-+    MAKE_CHECK_ARGS: build-tcg
-     TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
-       unicore32-softmmu
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+# We split the check-tcg step as test failures are expected but we still
-+# want to catch the build breaking.
-+check-deprecated:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-deprecated
-+      artifacts: true
-+  variables:
-+    IMAGE: debian-all-test-cross
-+    MAKE_CHECK_ARGS: check-tcg
-   allow_failure: true
- 
- build-oss-fuzz:
--- 
-2.20.1
+Signal 6 is not a segfault, but SIGABRT.
+
+> problem cause:
+> the last io coroutine will be destroyed after reconnect to sheepdog gateway, but the coroutine still be scheduled and the s->co_recv is still the last io coroutine pointer which had been destroyed, so when this coroutine go to coroutine context switch, it will make qemu process crashed.
+> 
+> problem fix:
+> just make s->co_recv = NULL when the last io coroutine reconnect to sheepdog gateway.
+> 
+> Signed-off-by: mingwei <gongwilliam@163.com>
+> ---
+>  block/sheepdog.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/block/sheepdog.c b/block/sheepdog.c
+> index 2f5c0eb376..3a00f0c1e1 100644
+> --- a/block/sheepdog.c
+> +++ b/block/sheepdog.c
+> @@ -727,6 +727,7 @@ static coroutine_fn void reconnect_to_sdog(void *opaque)
+>                         NULL, NULL, NULL);
+>      close(s->fd);
+>      s->fd = -1;
+> +    s->co_recv = NULL;
+
+If s->co_revc != NULL before this, there is still a coroutine running
+that hasn't terminated yet. Don't we need to make sure that the
+coroutine actually terminates instead of just overwriting the pointer to
+it?
+
+Otherwise, we either leak the coroutine and the memory used for its
+stack, or the coroutine continues to run at some point and might
+interfer with the operation of the new instance.
+
+>      /* Wait for outstanding write requests to be completed. */
+>      while (s->co_send != NULL) {
+           co_write_request(opaque);
+       }
+
+This existing code after your change is wrong, too, by the way. It
+potentially calls aio_co_wake() multiple times in a row, which will
+crash if it ends up only scheduling the coroutine instead of directly
+entering it.
+
+Kevin
 
 
