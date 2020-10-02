@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7234281568
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:40:54 +0200 (CEST)
-Received: from localhost ([::1]:49326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9FF281560
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:38:37 +0200 (CEST)
+Received: from localhost ([::1]:43580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMEv-0007Z6-KK
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60774)
+	id 1kOMCi-0004wn-Ol
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kOMA9-0002qj-Q5
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:35:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27165)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kOMB8-0003hV-7X
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:36:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kOM9z-0003Zc-JQ
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:35:57 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kOMB6-0003iA-2g
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:36:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649346;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=iABMwCheA8fdr3RCr8k/GRg3sQDyCK0PX5UAKX1yzvU=;
- b=guraDtQ411/rW/C5aO191W0Io+zdH4kjpbbg3+vgjV8iaevvxxbMX/FsEhvnfJPmWbAKqY
- Jo7OcTHQYTENbUDaUhgCIsAnnbmaAmMs8DNLBT5g/yerb4GMQk1HbpPSklV2L1XiCPX28C
- acXAngCB2S3Ynb1etxrLbSEVMJ4dLjU=
+ s=mimecast20190719; t=1601649414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RL9FkyEQEEDC7i4TxK7mLdt4FElF6i+ix0CGBCfcTBQ=;
+ b=UzyWzjrD4uKqCnX55w7+tqwTnjOQpkMGOxJMB1MIWjwaH5hVjZSeYYKrNyJLwiwagkldt1
+ HFs6yjc9bjWPrMbsaF+HxdI1vqUnJsABnjVMt8EvbMg2HWEpnCqcp/nYoNsHt0G6Dt2WFm
+ IHaaOdUAH631K9jHmMW4kq/+vUob1Zc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-e5JhMQWnM82Ad4ZdOOKO_Q-1; Fri, 02 Oct 2020 10:35:41 -0400
-X-MC-Unique: e5JhMQWnM82Ad4ZdOOKO_Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-528-O7mBmVrVOh-mquDb9eronA-1; Fri, 02 Oct 2020 10:36:50 -0400
+X-MC-Unique: O7mBmVrVOh-mquDb9eronA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95467425DF;
- Fri,  2 Oct 2020 14:35:40 +0000 (UTC)
-Received: from redhat.com (ovpn-114-9.ams2.redhat.com [10.36.114.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EA955C1DA;
- Fri,  2 Oct 2020 14:35:38 +0000 (UTC)
-Date: Fri, 2 Oct 2020 15:35:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 08/11] tests/9pfs: introduce local tests
-Message-ID: <20201002143535.GG2338114@redhat.com>
-References: <cover.1601639563.git.qemu_oss@crudebyte.com>
- <8dd7d15176ca1e947054dd6891e478cdf7902f7e.1601639563.git.qemu_oss@crudebyte.com>
- <27148257.gUaGpDsOI2@silver>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0DEE8064BD;
+ Fri,  2 Oct 2020 14:36:47 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.194.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4711660BE2;
+ Fri,  2 Oct 2020 14:36:43 +0000 (UTC)
+Date: Fri, 2 Oct 2020 16:36:40 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v3 0/2] MTE support for KVM guest
+Message-ID: <20201002143640.uzsz3nhr45payhlb@kamzik.brq.redhat.com>
+References: <20200925093607.3051-1-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <27148257.gUaGpDsOI2@silver>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20200925093607.3051-1-steven.price@arm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,93 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, kvmarm@lists.cs.columbia.edu,
+ Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 02, 2020 at 04:26:48PM +0200, Christian Schoenebeck wrote:
-> On Freitag, 2. Oktober 2020 13:51:54 CEST Christian Schoenebeck wrote:
-> > This patch introduces 9pfs test cases using the 9pfs 'local'
-> > filesystem driver which reads/writes/creates/deletes real files
-> > and directories.
-> > 
-> > In this initial version, there is only one local test which actually
-> > only checks if the 9pfs 'local' device was created successfully.
-> > 
-> > Before the 9pfs 'local' tests are run, a test directory 'qtest-9p-local'
-> > is created (with world rwx permissions) under the current working
-> > directory. At this point that test directory is not auto deleted yet.
-> > 
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> >  tests/qtest/libqos/virtio-9p.c | 100 +++++++++++++++++++++++++++++++++
-> >  tests/qtest/libqos/virtio-9p.h |   5 ++
-> >  tests/qtest/virtio-9p-test.c   |  44 ++++++++++-----
-> >  3 files changed, 135 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-> > index 2e300063e3..86e40e5d56 100644
-> > --- a/tests/qtest/libqos/virtio-9p.c
-> > +++ b/tests/qtest/libqos/virtio-9p.c
-> > @@ -24,6 +24,63 @@
-> >  #include "qgraph.h"
-> > 
-> >  static QGuestAllocator *alloc;
-> > +static char *local_test_path;
-> > +
-> > +static char *strpr(const char* format, ...) GCC_FMT_ATTR(1, 2);
-> > +
-> > +/* Concatenates the passed 2 pathes. Returned result must be freed. */
-> > +static char *concat_path(const char* a, const char* b)
-> > +{
-> > +    const int len = strlen(a) + strlen("/") + strlen(b);
-> > +    char *path = g_malloc0(len + 1);
-> > +    snprintf(path, len + 1, "%s/%s", a, b);
-> > +    g_assert(strlen(path) == len);
-> > +    return path;
-> > +}
+On Fri, Sep 25, 2020 at 10:36:05AM +0100, Steven Price wrote:
+> Version 3 of adding MTE support for KVM guests. See the previous (v2)
+> posting for background:
 > 
-> Ok, but maybe I could make that concat_path() function wrap g_strconcat().
-
-Or even one of g_build_path or g_build_filename may be useful
-
-> > +/*
-> > + * Lazy sprintf() implementation which auto allocates buffer. Returned
-> > result + * must be freed.
-> > + */
-> > +static char *strpr(const char* format, ...)
-> > +{
-> > +    va_list argp;
-> > +
-> > +    va_start(argp, format);
-> > +    const int sz = vsnprintf(NULL, 0, format, argp) + 1;
-> > +    va_end(argp);
-> > +
-> > +    g_assert(sz > 0);
-> > +    char *s = g_malloc0(sz);
-> > +
-> > +    va_start(argp, format);
-> > +    const int len = vsnprintf(s, sz, format, argp);
-> > +    va_end(argp);
-> > +
-> > +    g_assert(len + 1 == sz);
-> > +    return s;
-> > +}
+>  https://lore.kernel.org/r/20200904160018.29481-1-steven.price%40arm.com
 > 
-> And this strpr() function entirely be replaced by g_strdup_printf().
+> These patches add support to KVM to enable MTE within a guest. They are
+> based on Catalin's v9 MTE user-space support series[1] (currently in
+> next).
+> 
+> Changes since v2:
+> 
+>  * MTE is no longer a VCPU feature, instead it is a VM cap.
+> 
+>  * Being a VM cap means easier probing (check for KVM_CAP_ARM_MTE).
+> 
+>  * The cap must be set before any VCPUs are created, preventing any
+>    shenanigans where MTE is enabled for the guest after memory accesses
+>    have been performed.
+> 
+> [1] https://lore.kernel.org/r/20200904103029.32083-1-catalin.marinas@arm.com
+> 
+> Steven Price (2):
+>   arm64: kvm: Save/restore MTE registers
+>   arm64: kvm: Introduce MTE VCPU feature
+> 
+>  arch/arm64/include/asm/kvm_emulate.h       |  3 +++
+>  arch/arm64/include/asm/kvm_host.h          |  7 +++++++
+>  arch/arm64/include/asm/sysreg.h            |  3 ++-
+>  arch/arm64/kvm/arm.c                       |  9 +++++++++
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 14 ++++++++++++++
+>  arch/arm64/kvm/mmu.c                       | 15 +++++++++++++++
+>  arch/arm64/kvm/sys_regs.c                  | 20 +++++++++++++++-----
+>  include/uapi/linux/kvm.h                   |  1 +
+>  8 files changed, 66 insertions(+), 6 deletions(-)
+> 
+> -- 
+> 2.20.1
+> 
+>
 
-Yep, its preferrable to use g_strdup_printf instead of manually
-allocating.
+Hi Steven,
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+These patches look fine to me, but I'd prefer we have a working
+implementation in QEMU before we get too excited about the KVM
+bits. kvmtool isn't sufficient since it doesn't support migration
+(at least afaik). In the past we've implemented features in KVM
+that look fine, but then issues have been discovered when trying
+to enable them from QEMU, where we also support migration. This
+feature looks like there's risk of issues with the userspace side.
+Although these two patches would probably stay the same, even if
+userspace requires more support.
+
+Thanks,
+drew
 
 
