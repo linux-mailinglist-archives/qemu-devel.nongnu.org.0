@@ -2,81 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB33281643
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:13:33 +0200 (CEST)
-Received: from localhost ([::1]:57854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8597428165B
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:16:56 +0200 (CEST)
+Received: from localhost ([::1]:38482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMkW-0005nN-5Y
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37310)
+	id 1kOMnn-0001Dk-In
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:16:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOMTH-0008QU-EL; Fri, 02 Oct 2020 10:55:43 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOMTE-0005sU-J6; Fri, 02 Oct 2020 10:55:43 -0400
-Received: by mail-wm1-x342.google.com with SMTP id v12so2064872wmh.3;
- Fri, 02 Oct 2020 07:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HIUbFBaGFs+zDNCwEeYpcXbfIO6Aj85k50HldrkBzn4=;
- b=PZqg87mA95FnXhbT77ae5gMalhe5hf5gjBxYNf8cFA1xyTnpHN3yKjO591cPyLT38M
- 4Pdf1QraWbVqtQ6rmBWB0QS/C+xqnO1rer+v+1lTuzkOMXzmoOcRkx569oFBrQZ30LBw
- n7fezWASlK6OavcXrAh8YjYqGU81nCeous9SHtUOIaMCiSGXDAucOV+PKzxqvwVv5L4y
- 4A/EU0T6f9SGhyR8G6ptDBe+y8LhY8ZQXLDFfCb3QdJLZIP7DgDjSaD2tWDfE3+W1iBE
- APd44aO3AObDwYcHT0/ud+InVpSyq811wpCQ4ZQfP20a02ilIQF/LBcyG1ImoTNFt7JL
- Xc1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HIUbFBaGFs+zDNCwEeYpcXbfIO6Aj85k50HldrkBzn4=;
- b=DoGd973mRjcjyCBWtrIitUL4hPjQRYHkdVK+8VOuqLWP+5wRh6fI2LaRUzsCVKa6wD
- 7s/Y8FryXaKg5jBrjMpy+53qdPk5jzckEIN+5CXfcGazx3lZYH36rJWsIvPkE4ar9Sdf
- Rp4oJBEEggAfStgowLeh2VznZnMo1iCbM5K0rUAZFw/7L1zxj83uQ5/XLIjoUUI6Rz7v
- CrAQ6miTlPGJT18S3R0m/zRM9nN83SPgMm+fbRZ4bWnVe9OPM5slJKZGNzi5cm4X3L/q
- ivN3UDpsKXT0a8Ihgv3La4LImjrY/KbhY92dhgIsEQ6SOCUB9VOMmAwDGzxEDaGRfXRk
- 9T/w==
-X-Gm-Message-State: AOAM533PR7XoQr4yrN+r1geHWGMDqYZ9lNtjpaxSaIUAK7dGiFEFKrpD
- RL2bFSa4QC07121sa3WF9Qk=
-X-Google-Smtp-Source: ABdhPJzYWtUf05PtItNzJdRXiT0dGRQYPBke6bwkUMpg5cAyAymdCrGReecLjN+vwOLunQu0Nf9W0Q==
-X-Received: by 2002:a1c:2d85:: with SMTP id t127mr3302101wmt.22.1601650537845; 
- Fri, 02 Oct 2020 07:55:37 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id q13sm2056241wra.93.2020.10.02.07.55.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 07:55:37 -0700 (PDT)
-Subject: Re: [PATCH 11/14] hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
-To: Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
-References: <20200925101731.2159827-1-luc@lmichel.fr>
- <20200925101731.2159827-12-luc@lmichel.fr>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ab123333-fd8b-9334-f70d-501bc2a4fbf0@amsat.org>
-Date: Fri, 2 Oct 2020 16:55:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
+ id 1kOMlJ-0007hu-I2
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:14:21 -0400
+Received: from mail-eopbgr760050.outbound.protection.outlook.com
+ ([40.107.76.50]:56724 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
+ id 1kOMlH-0000YW-PR
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:14:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LmDOmMzjc9wnvcCAXcb22WnSZD5bJcIJsuiagnBODLd8yZQbNznFE27eVr1G+e9KfBR6xm3XfyR9++dON4QJH+kqeO4zXLkTfnLG1BFumDrjy6hUCgBEZnHbOccf6DgcogbWu+HzgZFVL4uCoqeUty7DvUyBeFwZHjal0zxFtYWv33fOy5f/9F1ZU8ffDTM5tpdffi4vYhEWDbSHnfKeyWZCaKYuvg3If8bUfhJUC8kQMPgF785hf2aJkD5dZhEo5p4Q86+/rwyqDRUD14+NS2bOSnZu6O9JNoJJrY5fODG0++kzDXMkCMGAZgWKwHib8Iusf9vZIehjqsR0ESNZig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x79xrtU3Ls9lT/cuxa8oVXbUHFhrJWyup/zQn5stInA=;
+ b=Nez1adtj8ro4eiacPvUt8LwRU0HVC4PvcVP0ue29s2XJRBZIzX3z/xjmbXUit4WlPFfZkgAO2q0AvvzseAjS2yJGVUdwUKvYJA0CPVwmWIMaUBSBaZrOVjE3UA0gkyArImwHAlb7bSCTDt+BR4I/SexP0s8e+pg0tyru1a9QEAOPvNBJ5cZY5Pb/3K7LPidGw7BwIMsvY/RdaSyQkgCwQMGWYd5B7+yPD2LKn6GZThRLQQQmDht8mhP2O0RALopD5dIjq6fERfnwyblYdTRD1IzmxSXeEZ/9pGrQewKlkDsC0bo8h2dneme4ge2tz/RrgrctiOFTNovKi75CbSTPXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x79xrtU3Ls9lT/cuxa8oVXbUHFhrJWyup/zQn5stInA=;
+ b=EXbwckKvedpwTAWUlMKY2OE/6jIP4Rt06gczUNsaVKhtd+qmuNjBdoojvjk6dwrQfFhZBxaihAdq/G02dGc+9Wj9w1u+TPVa17np5TJkyYAuzkZsZkFlPyh9TYGt0Tr3DVqnXq97oXPv2s1FC9Nskjg11ceQQ8tWynX9xqNyPKk=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from CY4PR12MB1494.namprd12.prod.outlook.com (2603:10b6:910:f::22)
+ by CY4PR1201MB2485.namprd12.prod.outlook.com (2603:10b6:903:d2::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32; Fri, 2 Oct
+ 2020 14:59:14 +0000
+Received: from CY4PR12MB1494.namprd12.prod.outlook.com
+ ([fe80::11f9:59c8:16c0:7718]) by CY4PR12MB1494.namprd12.prod.outlook.com
+ ([fe80::11f9:59c8:16c0:7718%8]) with mapi id 15.20.3433.038; Fri, 2 Oct 2020
+ 14:59:14 +0000
+From: Wei Huang <wei.huang2@amd.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH V2 0/3] Passthru device support under emulated amd-iommu
+Date: Fri,  2 Oct 2020 09:59:04 -0500
+Message-Id: <20201002145907.1294353-1-wei.huang2@amd.com>
+X-Mailer: git-send-email 2.25.2
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [165.204.78.2]
+X-ClientProxiedBy: SA9PR10CA0027.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::32) To CY4PR12MB1494.namprd12.prod.outlook.com
+ (2603:10b6:910:f::22)
 MIME-Version: 1.0
-In-Reply-To: <20200925101731.2159827-12-luc@lmichel.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.256,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ethanolx56bbhost.amd.com (165.204.78.2) by
+ SA9PR10CA0027.namprd10.prod.outlook.com (2603:10b6:806:a7::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3433.35 via Frontend Transport; Fri, 2 Oct 2020 14:59:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ed2121fe-9c58-437e-2926-08d866e3ba61
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB2485:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB248500C5E922645FFB3C04F4CF310@CY4PR1201MB2485.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RJYyqHvofR2cM3L26rGk6kEhxoZk8vhV1aeK+/yoO/XQ+GGSfPPq7VrQJg+NZlpByyWAvjohtWw9y77r9V9U7uahSJq4mdOvWXZHOyWR2/UcUyXf32wkQEO/0Px3DGM6qJjVX4xlf3a5PoSW7knvME34Tzi3311DUxAMvc4F72Ys3XnHdDQdEdecFHkEWhoLt5BIiS450OVsCrRy4iDft9THP8FIfBsNYsVAvBH1KPvuHZI0osaQZ0gbcygeRArzGVRxHP3eB/TnjXF0vPeguwRYOH+zDHdyh0ul2j2lT3MZNgfVEcQ12gi8m11IPxnNWm0ZgrIr0mHzw/IrmTYy1Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR12MB1494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(136003)(39860400002)(396003)(8936002)(6916009)(7696005)(6486002)(186003)(8676002)(478600001)(4326008)(26005)(316002)(2616005)(956004)(6666004)(83380400001)(1076003)(52116002)(5660300002)(2906002)(36756003)(16526019)(86362001)(4744005)(66946007)(66476007)(66556008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: HKBa21GMEDYfjg2I/bDQgJMhZvWUpgLHpXD+KNkg1219/n7HUfyLDXbtUMgBM80SS20TRkghFtGWxeYMWjJuW9JCAKOHe5OwILIkSIl3kWMano9x3eLcTxGt1FeHvinsq8Qjrntc+JSI4lTKy6B+KC8gaLQmSrKBC9bT3sUCy9C77L5Rm3VEcWIiDUICnCSKhbNO/HK1GzkVxoxNQSShUCQ4trNzVTEAo+EH7BYYgrFxVqJQQ6oyYTXvtgnOX6YgysWXCxvI1M/qb+e4ipJ/T5CT8T0AJn467q2sYe7JzZGuGe9gXTSiNZdwhlS5ZZJFsC9sJU4ZD7irO2q8M2AdURKwQMnt4XxjT55/wiNiXr5vMrcS89u0WgYrTQlMa5vaxFx9eWvMfSe+BjKfmT3Sj3Yl6hpLtjS+WxMyEDq5P+ueM1luPp5UfqkbTnElcPHK98g/BvRNok33vxCn+sU9ZG9OzZ8PvgVr5EuRGGfhKeI+X0e46dUmv4gRGJmw3kSX79SBHqL9leO3Q/5kyXHibHo+cd4XbKiViLGuE5G/NJcVioQnAdDvwak2R9uOP/BO1wjPldb8lXW1ZzLPQGST/XSvaxLBfo8g39ACiCtGU4ZSGPflpYJwCkge3qnjICW8lqG3ljFWWOLDgkge+bUEtw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed2121fe-9c58-437e-2926-08d866e3ba61
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2020 14:59:14.6292 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VxyG7le4FR1zBudTC3gUEZPx6F26D2HMOn4GEVgjRCqV9iUz7nOd1lsrEOqp1dVY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2485
+Received-SPF: none client-ip=40.107.76.50; envelope-from=Wei.Huang2@amd.com;
+ helo=NAM02-CY1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 11:14:18
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,265 +112,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, wei.huang2@amd.com, peterx@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, Suravee.Suthikulpanit@amd.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/20 12:17 PM, Luc Michel wrote:
-> This simple mux sits between the PLL channels and the DSI0E and DSI0P
-> clock muxes. This mux selects between PLLA-DSI0 and PLLD-DSI0 channel
-> and outputs the selected signal to source number 4 of DSI0E/P clock
-> muxes. It is controlled by the cm_dsi0hsck register.
-> 
-> Signed-off-by: Luc Michel <luc@lmichel.fr>
-> ---
->  include/hw/misc/bcm2835_cprman.h           | 15 +++++
->  include/hw/misc/bcm2835_cprman_internals.h |  6 ++
->  hw/misc/bcm2835_cprman.c                   | 78 +++++++++++++++++++++-
->  3 files changed, 98 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/hw/misc/bcm2835_cprman.h b/include/hw/misc/bcm2835_cprman.h
-> index c2a89e8e90..5555a299fc 100644
-> --- a/include/hw/misc/bcm2835_cprman.h
-> +++ b/include/hw/misc/bcm2835_cprman.h
-> @@ -171,20 +171,35 @@ typedef struct CprmanClockMuxState {
->       * source number.
->       */
->      struct CprmanClockMuxState *backref[CPRMAN_NUM_CLOCK_MUX_SRC];
->  } CprmanClockMuxState;
->  
-> +typedef struct CprmanDsi0HsckMuxState {
-> +    /*< private >*/
-> +    DeviceState parent_obj;
-> +
-> +    /*< public >*/
-> +    CprmanClockMux id;
-> +
-> +    uint32_t *reg_cm;
-> +
-> +    Clock *plla_in;
-> +    Clock *plld_in;
-> +    Clock *out;
-> +} CprmanDsi0HsckMuxState;
-> +
->  struct BCM2835CprmanState {
->      /*< private >*/
->      SysBusDevice parent_obj;
->  
->      /*< public >*/
->      MemoryRegion iomem;
->  
->      CprmanPLLState plls[CPRMAN_NUM_PLL];
->      CprmanPLLChannelState channels[CPRMAN_NUM_PLL_CHANNEL];
->      CprmanClockMuxState clock_muxes[CPRMAN_NUM_CLOCK_MUX];
-> +    CprmanDsi0HsckMuxState dsi0hsck_mux;
->  
->      uint32_t regs[CPRMAN_NUM_REGS];
->      uint32_t xosc_freq;
->  
->      Clock *xosc;
-> diff --git a/include/hw/misc/bcm2835_cprman_internals.h b/include/hw/misc/bcm2835_cprman_internals.h
-> index a2b5a1aa50..ad07cf5276 100644
-> --- a/include/hw/misc/bcm2835_cprman_internals.h
-> +++ b/include/hw/misc/bcm2835_cprman_internals.h
-> @@ -13,17 +13,20 @@
->  #include "hw/misc/bcm2835_cprman.h"
->  
->  #define TYPE_CPRMAN_PLL "bcm2835-cprman-pll"
->  #define TYPE_CPRMAN_PLL_CHANNEL "bcm2835-cprman-pll-channel"
->  #define TYPE_CPRMAN_CLOCK_MUX "bcm2835-cprman-clock-mux"
-> +#define TYPE_CPRMAN_DSI0HSCK_MUX "bcm2835-cprman-dsi0hsck-mux"
->  
->  DECLARE_INSTANCE_CHECKER(CprmanPLLState, CPRMAN_PLL,
->                           TYPE_CPRMAN_PLL)
->  DECLARE_INSTANCE_CHECKER(CprmanPLLChannelState, CPRMAN_PLL_CHANNEL,
->                           TYPE_CPRMAN_PLL_CHANNEL)
->  DECLARE_INSTANCE_CHECKER(CprmanClockMuxState, CPRMAN_CLOCK_MUX,
->                           TYPE_CPRMAN_CLOCK_MUX)
-> +DECLARE_INSTANCE_CHECKER(CprmanDsi0HsckMuxState, CPRMAN_DSI0HSCK_MUX,
-> +                         TYPE_CPRMAN_DSI0HSCK_MUX)
->  
->  /* Register map */
->  
->  /* PLLs */
->  REG32(CM_PLLA, 0x104)
-> @@ -221,10 +224,13 @@ REG32(CM_LOCK, 0x114)
->      FIELD(CM_LOCK, FLOCKD, 11, 1)
->      FIELD(CM_LOCK, FLOCKC, 10, 1)
->      FIELD(CM_LOCK, FLOCKB, 9, 1)
->      FIELD(CM_LOCK, FLOCKA, 8, 1)
->  
-> +REG32(CM_DSI0HSCK, 0x120)
-> +    FIELD(CM_DSI0HSCK, SELPLLD, 0, 1)
-> +
->  /*
->   * This field is common to all registers. Each register write value must match
->   * the CPRMAN_PASSWORD magic value in its 8 MSB.
->   */
->  FIELD(CPRMAN, PASSWORD, 24, 8)
-> diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-> index 75bc11939b..e576ab2642 100644
-> --- a/hw/misc/bcm2835_cprman.c
-> +++ b/hw/misc/bcm2835_cprman.c
-> @@ -327,10 +327,62 @@ static const TypeInfo cprman_clock_mux_info = {
->      .class_init = clock_mux_class_init,
->      .instance_init = clock_mux_init,
->  };
->  
->  
-> +/* DSI0HSCK mux */
-> +
-> +static void dsi0hsck_mux_update(CprmanDsi0HsckMuxState *s)
-> +{
-> +    bool src_is_plld = FIELD_EX32(*s->reg_cm, CM_DSI0HSCK, SELPLLD);
-> +    Clock *src = src_is_plld ? s->plld_in : s->plla_in;
-> +
-> +    clock_update(s->out, clock_get(src));
-> +}
-> +
-> +static void dsi0hsck_mux_in_update(void *opaque)
-> +{
-> +    dsi0hsck_mux_update(CPRMAN_DSI0HSCK_MUX(opaque));
-> +}
-> +
-> +static void dsi0hsck_mux_init(Object *obj)
-> +{
-> +    CprmanDsi0HsckMuxState *s = CPRMAN_DSI0HSCK_MUX(obj);
-> +    DeviceState *dev = DEVICE(obj);
-> +
-> +    s->plla_in = qdev_init_clock_in(dev, "plla-in", dsi0hsck_mux_in_update, s);
-> +    s->plld_in = qdev_init_clock_in(dev, "plld-in", dsi0hsck_mux_in_update, s);
-> +    s->out = qdev_init_clock_out(DEVICE(s), "out");
-> +}
-> +
-> +static const VMStateDescription dsi0hsck_mux_vmstate = {
-> +    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_CLOCK(plla_in, CprmanDsi0HsckMuxState),
-> +        VMSTATE_CLOCK(plld_in, CprmanDsi0HsckMuxState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void dsi0hsck_mux_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->vmsd = &dsi0hsck_mux_vmstate;
-> +}
-> +
-> +static const TypeInfo cprman_dsi0hsck_mux_info = {
-> +    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
-> +    .parent = TYPE_DEVICE,
-> +    .instance_size = sizeof(CprmanDsi0HsckMuxState),
-> +    .class_init = dsi0hsck_mux_class_init,
-> +    .instance_init = dsi0hsck_mux_init,
-> +};
-> +
-> +
->  /* CPRMAN "top level" model */
->  
->  static uint32_t get_cm_lock(const BCM2835CprmanState *s)
->  {
->      static const int CM_LOCK_MAPPING[] = {
-> @@ -488,10 +540,14 @@ static void cprman_write(void *opaque, hwaddr offset,
->      case R_CM_SDCCTL ... R_CM_ARMCTL:
->      case R_CM_AVEOCTL ... R_CM_EMMCDIV:
->      case R_CM_EMMC2CTL ... R_CM_EMMC2DIV:
->          update_mux_from_cm(s, idx);
->          break;
-> +
-> +    case R_CM_DSI0HSCK:
-> +        dsi0hsck_mux_update(&s->dsi0hsck_mux);
-> +        break;
->      }
->  }
->  
->  #undef CASE_PLL_A2W_REGS
->  
-> @@ -519,10 +575,12 @@ static void cprman_reset(DeviceState *dev)
->  
->      for (i = 0; i < CPRMAN_NUM_PLL_CHANNEL; i++) {
->          device_cold_reset(DEVICE(&s->channels[i]));
->      }
->  
-> +    device_cold_reset(DEVICE(&s->dsi0hsck_mux));
-> +
->      for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
->          device_cold_reset(DEVICE(&s->clock_muxes[i]));
->      }
->  
->      clock_update_hz(s->xosc, s->xosc_freq);
-> @@ -560,10 +618,14 @@ static void cprman_init(Object *obj)
->                                  &s->channels[i],
->                                  TYPE_CPRMAN_PLL_CHANNEL);
->          set_pll_channel_init_info(s, &s->channels[i], i);
->      }
->  
-> +    object_initialize_child(obj, "dsi0hsck-mux",
-> +                            &s->dsi0hsck_mux, TYPE_CPRMAN_DSI0HSCK_MUX);
-> +    s->dsi0hsck_mux.reg_cm = &s->regs[R_CM_DSI0HSCK];
-> +
->      for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
->          char *alias;
->  
->          object_initialize_child(obj, CLOCK_MUX_INIT_INFO[i].name,
->                                  &s->clock_muxes[i],
-> @@ -608,11 +670,11 @@ static void connect_mux_sources(BCM2835CprmanState *s,
->          Clock *src;
->  
->          if (mapping == CPRMAN_CLOCK_SRC_FORCE_GROUND) {
->              src = s->gnd;
->          } else if (mapping == CPRMAN_CLOCK_SRC_DSI0HSCK) {
-> -            src = s->gnd; /* TODO */
-> +            src = s->dsi0hsck_mux.out;
->          } else if (i < CPRMAN_CLOCK_SRC_PLLA) {
->              src = CLK_SRC_MAPPING[i];
->          } else {
->              src = s->channels[mapping].out;
->          }
-> @@ -646,10 +708,23 @@ static void cprman_realize(DeviceState *dev, Error **errp)
->          if (!qdev_realize(DEVICE(channel), NULL, errp)) {
->              return;
->          }
->      }
->  
-> +    {
-> +        CprmanDsi0HsckMuxState *dsi0hsck_mux = &s->dsi0hsck_mux;
+This patchset adds support for passthru devices to run inside VMs under
+the management of an emulated amd-iommu device (vIOMMU). This feature
+has a variety of benefits, including enhanced I/O security and user-mode
+driver support, for guest VMs.
 
-Why use a new block?
+This patchset has been tested with various 1G and 10G (SR-IOV) NICs on
+AMD boxes.
 
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+V1->V2:
+ * Remove unnecessary VFIO_IOMMU_MAP_DMA errno check (Alex Williamson)
 
-> +
-> +        clock_set_source(dsi0hsck_mux->plla_in,
-> +                         s->channels[CPRMAN_PLLA_CHANNEL_DSI0].out);
-> +        clock_set_source(dsi0hsck_mux->plld_in,
-> +                         s->channels[CPRMAN_PLLD_CHANNEL_DSI0].out);
-> +
-> +        if (!qdev_realize(DEVICE(dsi0hsck_mux), NULL, errp)) {
-> +            return;
-> +        }
-> +    }
-> +
->      for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
->          CprmanClockMuxState *clock_mux = &s->clock_muxes[i];
->  
->          connect_mux_sources(s, clock_mux, CLOCK_MUX_INIT_INFO[i].src_mapping);
->  
-> @@ -696,8 +771,9 @@ static void cprman_register_types(void)
->  {
->      type_register_static(&cprman_info);
->      type_register_static(&cprman_pll_info);
->      type_register_static(&cprman_pll_channel_info);
->      type_register_static(&cprman_clock_mux_info);
-> +    type_register_static(&cprman_dsi0hsck_mux_info);
->  }
->  
->  type_init(cprman_register_types);
-> 
+Thanks,
+-Wei
+
+Wei Huang (3):
+  amd-iommu: Add address space notifier and replay support
+  amd-iommu: Sync IOVA-to-GPA translation during page invalidation
+  amd-iommu: Fix amdvi_mmio_trace() to differentiate MMIO R/W
+
+ hw/i386/amd_iommu.c | 243 ++++++++++++++++++++++++++++++++++++++++++--
+ hw/i386/amd_iommu.h |  13 +++
+ 2 files changed, 245 insertions(+), 11 deletions(-)
+
+-- 
+2.25.2
+
 
