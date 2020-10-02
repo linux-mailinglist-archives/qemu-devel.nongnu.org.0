@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EE9280E6C
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 10:03:01 +0200 (CEST)
-Received: from localhost ([::1]:36124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F45280E86
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 10:08:39 +0200 (CEST)
+Received: from localhost ([::1]:45052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOG1s-0005Hd-2s
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 04:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34216)
+	id 1kOG7K-0000rQ-BX
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 04:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOG0M-00048U-6v
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:01:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOG0K-0007L6-FD
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:01:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601625683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=irB7e1cOWifyKCzC0f8Oh3RLfWvZPJeP2aD7JY60XMo=;
- b=RaRk+z4T4s9ynufkv8zxH+SUQj+NzNjx9TFaOTdOBoU8kZ7DrUL6Oydf5ZZxYeInaVpYA1
- CzKHjWR9LyAnFRuLpnE3FMNYtuoJG/xTxt2yVkLCdzpoRLSORUVwfn4cP6Mzy6/DcSI6jI
- 1PI8QrN6II3PruXrI09Yuu45e/OHQJ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-vuTzwSkiMr2-lQGeQMYHEQ-1; Fri, 02 Oct 2020 04:01:19 -0400
-X-MC-Unique: vuTzwSkiMr2-lQGeQMYHEQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7210190A3E0;
- Fri,  2 Oct 2020 08:01:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
- [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 638415D9D3;
- Fri,  2 Oct 2020 08:01:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A6F551132784; Fri,  2 Oct 2020 10:01:13 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 09/13] qmp: Move dispatcher to a coroutine
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-10-kwolf@redhat.com>
-Date: Fri, 02 Oct 2020 10:01:13 +0200
-In-Reply-To: <20200909151149.490589-10-kwolf@redhat.com> (Kevin Wolf's message
- of "Wed, 9 Sep 2020 17:11:45 +0200")
-Message-ID: <878scpoy46.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kOG0a-0004Ua-0t; Fri, 02 Oct 2020 04:01:40 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:45375)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kOG0W-0007NR-ES; Fri, 02 Oct 2020 04:01:39 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5C8CA58019B;
+ Fri,  2 Oct 2020 04:01:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 02 Oct 2020 04:01:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ts/HeDudNEBQGzRxTWxnzTiHTUn
+ 4cm1JsEXaqZ3izGE=; b=ynNP3RI2XJFU69fhhvu5JdUn6jGzDhGanj7KKxwUiAC
+ UAN7g2NgJOmhyKTlvZrN89HJ0Lj0UY5EFouzBA04s3ut+bfmtq3Tx4JKHar/d/qj
+ n6oXcr2+TCfF1SdiFXz+CFx3uSQAeE4TmvMoVz8YEnNmqSf2ZwwDbde4qVx+ntc7
+ NxSjQr8pnVMO+AiC01+lcYqeQacBrXuDgmD8OFjhPjyxTQtIxYX7/+poSWz3e3Bs
+ aSIFNg4fKCRvZvcQmUVAVDwCpGPAQdh4aSSvIynIkx9Y338WtShQmH71Jav6DGEL
+ bB+9Fqwb+v+A9jgpPibc9HxHxLVs59RERD66IlLkvXg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ts/HeD
+ udNEBQGzRxTWxnzTiHTUn4cm1JsEXaqZ3izGE=; b=K+nK9o/EtNckoVMaGNbX2l
+ BQpET46AJbEDGn8cavc224WDuY+mahCxJdYwlu7Aeei00j80MzVjhPK8AF66+0hs
+ aeYWYSh77Qo8JbRfjIZgZCJacqA1igwV2IW3go3fYlmgRAA9aLw4836IHn0ak8N7
+ fLqLlCPfLXU3zg6jVq/Be1LUujtZAcMxAcQxuErDAkt9+9wWsTkBMUaC47A9DAz4
+ ei2FWkh3a8FSpSmkrrVIeesWJvID8ucc6yUIB/5PbDlvdNN+4poqiiHTEULoCVdA
+ IKpWcfP1ik4Z5aV96UZt6QJBR8VEKfJSh5JO6mg3hspe23KtehA1R5WzVP5duopw
+ ==
+X-ME-Sender: <xms:Xd52X9Lzajuj6AHPpn8Sov908GiVhbnhsm_U0ciSROD3W0hzHfVdDA>
+ <xme:Xd52X5KYJo3SCOmams4892EYudlKGVeGLMm0jwJptKwEfdw4KSVQKkMr--CBq_8xp
+ UFEqbaD2lQsbhoOl4U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeiucetufdoteggodetrfdotffvucfrrh
+ hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+ lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+ epfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhsucflvghn
+ shgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrhhnpe
+ ejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudffkeenucfk
+ phepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:Xd52X1t6egDkrvLsptm4jYj47vFIcXhzJVAJJ3w89bXoVrihFJ4plg>
+ <xmx:Xd52X-ZG2zg1Kff_vrbvGcMehcLWonkbRVZHuYvwTBM-1LyTmHeZzA>
+ <xmx:Xd52X0aYW0OqfIli9JLCQJ5LXz9_T06fw00Eg8lQfEn6KTAXRZUNlQ>
+ <xmx:Xd52XzzjetdAfs2e6PmGsFFiND7YqtM7Fp1JxJTFkhRf0TuIIkDjqw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B9F3E3064684;
+ Fri,  2 Oct 2020 04:01:31 -0400 (EDT)
+Date: Fri, 2 Oct 2020 10:01:29 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/block/nvme: Simplify timestamp sum
+Message-ID: <20201002080129.GA877411@apples.localdomain>
+References: <20201002075716.1657849-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
+Content-Disposition: inline
+In-Reply-To: <20201002075716.1657849-1-philmd@redhat.com>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 04:01:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,145 +95,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Additional nitpick detail on Kevin's request.
 
-Kevin Wolf <kwolf@redhat.com> writes:
+--2oS5YaxWCcQjTEyO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This moves the QMP dispatcher to a coroutine and runs all QMP command
-> handlers that declare 'coroutine': true in coroutine context so they
-> can avoid blocking the main loop while doing I/O or waiting for other
-> events.
->
-> For commands that are not declared safe to run in a coroutine, the
-> dispatcher drops out of coroutine context by calling the QMP command
-> handler from a bottom half.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[...]
-> diff --git a/monitor/monitor.c b/monitor/monitor.c
-> index 629aa073ee..ac2722bf91 100644
-> --- a/monitor/monitor.c
-> +++ b/monitor/monitor.c
-> @@ -55,8 +55,32 @@ typedef struct {
->  /* Shared monitor I/O thread */
->  IOThread *mon_iothread;
->  
-> -/* Bottom half to dispatch the requests received from I/O thread */
-> -QEMUBH *qmp_dispatcher_bh;
-> +/* Coroutine to dispatch the requests received from I/O thread */
-> +Coroutine *qmp_dispatcher_co;
-> +
-> +/* Set to true when the dispatcher coroutine should terminate */
-> +bool qmp_dispatcher_co_shutdown;
-> +
-> +/*
-> + * qmp_dispatcher_co_busy is used for synchronisation between the
-> + * monitor thread and the main thread to ensure that the dispatcher
-> + * coroutine never gets scheduled a second time when it's already
-> + * scheduled (scheduling the same coroutine twice is forbidden).
-> + *
-> + * It is true if the coroutine is active and processing requests.
-> + * Additional requests may then be pushed onto mon->qmp_requests,
-> + * and @qmp_dispatcher_co_shutdown may be set without further ado.
-> + * @qmp_dispatcher_co_busy must not be woken up in this case.
-> + *
-> + * If false, you also have to set @qmp_dispatcher_co_busy to true and
-> + * wake up @qmp_dispatcher_co after pushing the new requests.
-> + *
-> + * The coroutine will automatically change this variable back to false
-> + * before it yields.  Nobody else may set the variable to false.
-> + *
-> + * Access must be atomic for thread safety.
-> + */
-> +bool qmp_dispatcher_co_busy;
->  
->  /*
->   * Protects mon_list, monitor_qapi_event_state, coroutine_mon,
-> @@ -623,9 +647,24 @@ void monitor_cleanup(void)
->      }
->      qemu_mutex_unlock(&monitor_lock);
->  
-> -    /* QEMUBHs needs to be deleted before destroying the I/O thread */
-> -    qemu_bh_delete(qmp_dispatcher_bh);
-> -    qmp_dispatcher_bh = NULL;
-> +    /*
-> +     * The dispatcher needs to stop before destroying the I/O thread.
-> +     *
-> +     * We need to poll both qemu_aio_context and iohandler_ctx to make
-> +     * sure that the dispatcher coroutine keeps making progress and
-> +     * eventually terminates.  qemu_aio_context is automatically
-> +     * polled by calling AIO_WAIT_WHILE on it, but we must poll
-> +     * iohandler_ctx manually.
-> +     */
-> +    qmp_dispatcher_co_shutdown = true;
-> +    if (!atomic_xchg(&qmp_dispatcher_co_busy, true)) {
-> +        aio_co_wake(qmp_dispatcher_co);
-> +    }
-> +
-> +    AIO_WAIT_WHILE(qemu_get_aio_context(),
-> +                   (aio_poll(iohandler_get_aio_context(), false),
-> +                    atomic_mb_read(&qmp_dispatcher_co_busy)));
-> +
->      if (mon_iothread) {
->          iothread_destroy(mon_iothread);
->          mon_iothread = NULL;
-> @@ -649,9 +688,9 @@ void monitor_init_globals_core(void)
->       * have commands assuming that context.  It would be nice to get
->       * rid of those assumptions.
->       */
-> -    qmp_dispatcher_bh = aio_bh_new(iohandler_get_aio_context(),
-> -                                   monitor_qmp_bh_dispatcher,
-> -                                   NULL);
-> +    qmp_dispatcher_co = qemu_coroutine_create(monitor_qmp_dispatcher_co, NULL);
+On Oct  2 09:57, Philippe Mathieu-Daud=C3=A9 wrote:
+> As the 'timestamp' variable is declared as a 48-bit bitfield,
+> we do not need to wrap the sum result.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Rather long line, caused by rather long identifiers.
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
-Not your fault; you imitated the existing pattern static variable
-qmp_dispatcher_bh / extern function monitor_qmp_bh_dispatcher().  But
-the prefix monitor_qmp_ is awfully long, and not just here.  Let's leave
-this for another day.
+> ---
+>  hw/block/nvme.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 63078f6009..44fa5b9076 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1280,12 +1280,7 @@ static inline uint64_t nvme_get_timestamp(const Nv=
+meCtrl *n)
+> =20
+>      union nvme_timestamp ts;
+>      ts.all =3D 0;
+> -
+> -    /*
+> -     * If the sum of the Timestamp value set by the host and the elapsed
+> -     * time exceeds 2^48, the value returned should be reduced modulo 2^=
+48.
+> -     */
+> -    ts.timestamp =3D (n->host_timestamp + elapsed_time) & 0xffffffffffff;
+> +    ts.timestamp =3D n->host_timestamp + elapsed_time;
+> =20
+>      /* If the host timestamp is non-zero, set the timestamp origin */
+>      ts.origin =3D n->host_timestamp ? 0x01 : 0x00;
+> --=20
+> 2.26.2
+>=20
+>=20
 
-> +    atomic_mb_set(&qmp_dispatcher_co_busy, true);
-> +    aio_co_schedule(iohandler_get_aio_context(), qmp_dispatcher_co);
->  }
->  
->  int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
-[...]
-> diff --git a/util/aio-posix.c b/util/aio-posix.c
-> index f7f13ebfc2..30bb21d699 100644
-> --- a/util/aio-posix.c
-> +++ b/util/aio-posix.c
-> @@ -15,6 +15,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "block/block.h"
-> +#include "qemu/main-loop.h"
->  #include "qemu/rcu.h"
->  #include "qemu/rcu_queue.h"
->  #include "qemu/sockets.h"
-> @@ -558,8 +559,13 @@ bool aio_poll(AioContext *ctx, bool blocking)
->       * There cannot be two concurrent aio_poll calls for the same AioContext (or
->       * an aio_poll concurrent with a GSource prepare/check/dispatch callback).
->       * We rely on this below to avoid slow locked accesses to ctx->notify_me.
-> +     *
-> +     * aio_poll() may only be called in the AioContext's thread. iohandler_ctx
-> +     * is special in that it runs in the main thread, but that thread's context
-> +     * is qemu_aio_context.
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
 
-Wrapping the comment around column 70 or so would make it easier to
-read.  Up to you.
+--2oS5YaxWCcQjTEyO
+Content-Type: application/pgp-signature; name="signature.asc"
 
->       */
-> -    assert(in_aio_context_home_thread(ctx));
-> +    assert(in_aio_context_home_thread(ctx == iohandler_get_aio_context() ?
-> +                                      qemu_get_aio_context() : ctx));
->  
->      qemu_lockcnt_inc(&ctx->list_lock);
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl923lQACgkQTeGvMW1P
+DekPtQf/bbwonD3gH43JRl64udrY31xcysQbMQ5D32zUjUUmYLSLBYxv2y5wfqV0
+cKs7qhwhA4WnZcrHiLdHVPPCHYJu9yUs/mt7QtxLt5Mu+CpYMr+FhLft7Ynoga08
+bmTF8fhO8cX1AE99cKeTqpez371nm+ikL8gYb8zriXgu7CrDrWGbUhh6gCmpYI4x
+wWyxFRqHSJrwjNayc93dZrD3ngubew0gtgKreXaAmbsb/7dxe1gTmXnyuseyp0dP
+7U0nNtgHdUN9SLOWI+NLsmlNiun76IamICaXyMVl+w6sTU5aa75UfiCSoQMJjwsP
+7pkzw2KTLl7t8hvajMexOJCCAFU6+A==
+=EMB+
+-----END PGP SIGNATURE-----
+
+--2oS5YaxWCcQjTEyO--
 
