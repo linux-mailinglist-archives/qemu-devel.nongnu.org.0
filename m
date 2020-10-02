@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DED280E26
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 09:38:24 +0200 (CEST)
-Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772C0280E27
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 09:38:33 +0200 (CEST)
+Received: from localhost ([::1]:37996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOFe3-0001L3-HG
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 03:38:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
+	id 1kOFeC-0001aH-H5
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 03:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOFcF-0000Eg-Gy
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:36:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38107)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOFcI-0000Ja-GU
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:36:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOFcD-0003n5-N4
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:36:31 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOFcG-0003nK-Rg
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:36:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601624188;
+ s=mimecast20190719; t=1601624192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JqCLMkqBYj754181eZJ8yJ6p2u3RwNxOA4vmvwiEdvk=;
- b=P6r3XwVjTJk8ya9lVhitUCmuaJOzv101PqcAHFqT4nzZP+HZCLMDXtXo6bXgah84hz+0Wf
- nTGhzNQc7KHknPuMxCIYD4kgQqWIHDIGAPtNuJTvJVifC0anOYbeT0AKukJ4xmt5tSoof7
- gmXuXv7MhdWedJxHrjnLoNKzMVeQkh8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-AXBEoOE5PYOwMwMZfhy8RQ-1; Fri, 02 Oct 2020 03:36:25 -0400
-X-MC-Unique: AXBEoOE5PYOwMwMZfhy8RQ-1
-Received: by mail-wr1-f69.google.com with SMTP id b2so233412wrs.7
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 00:36:25 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qGIdYV7MY+96XYcLdL6EIBAcSLF+M4Q8s5/QnOUrGIA=;
+ b=F7ghXEfOksAWgkAOQzWdvYfR91jtTYPJZM9GHl2lTvej+XXj2yLiISTxfEN7LhQZMd9MWo
+ M3ppUEufIGDVMi8KCqzlx3jzkofwlB8fZrzRJoQlpGtalLwZ2K2aFMosolBlW097Y30vQn
+ XEg/XZqLJn0F8j6FvBj3hQG/4O1ExjA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-vN8BupmIP32dDnGlFzwZBA-1; Fri, 02 Oct 2020 03:36:30 -0400
+X-MC-Unique: vN8BupmIP32dDnGlFzwZBA-1
+Received: by mail-wm1-f71.google.com with SMTP id m25so237091wmi.0
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 00:36:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JqCLMkqBYj754181eZJ8yJ6p2u3RwNxOA4vmvwiEdvk=;
- b=OCYFYuznA9hPr9HcLqQI0YzXbsFN+XzmPM7iEBDDv7Ydy6Ewk26IaN7uNCbJ8R1FhW
- 9hHyngmzcqeq5NnoOz9LrzRxjxOPyIvNl/X9YbDdy0h1EfIeIHMez8BIwpwtIs/vnBXk
- cRFytDhVWWFz1H6RqZvrH4Nqnb+Z3IoGa16gvvh58L2i4NK17EHBs/qqB/dCOibVkyRu
- Du3L/SQS8ehrdms473nNraQytTQQ0615IzAEIjiY7K5dComS8UIJi030L1xjf/H07Q/c
- I8owPL/oLQqHcMQzVswn22bpauLXXjCpLftE4Bbul91TlJt/wMosI54BgJtC8X3K0Cf0
- xlxw==
-X-Gm-Message-State: AOAM532BTp/HAvWzrjI91fKrL5TtEeQGk2Zfu2OudrimSCXvD9F963g6
- xTjNMPjhtYMI/Z9T6jsum3pqqIOuaXgxKRQsTzOvMNDKHn8uRBCfb+u1GWjHMbCipz5c2UTo0ZZ
- AevW93PtGYyqi/ZQ=
-X-Received: by 2002:a1c:ed05:: with SMTP id l5mr1301689wmh.106.1601624184224; 
- Fri, 02 Oct 2020 00:36:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwUbu8NfvCw/b5dq3GOkswir7KxmzP46GOMWTlbV8aTHIeiY3Ky21awAKPL1KFgcI5Ie8fudw==
-X-Received: by 2002:a1c:ed05:: with SMTP id l5mr1301662wmh.106.1601624183947; 
- Fri, 02 Oct 2020 00:36:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qGIdYV7MY+96XYcLdL6EIBAcSLF+M4Q8s5/QnOUrGIA=;
+ b=SgvoyA5d900tSh3cNuZxMFqvSW9SeGqbpST+gh7cGN540xU2PziwcoXc1NJdX57S4Z
+ p+AVIkwK/V8Ft5dTc2k7H1uU8gPnIkjFcSOQs6Rj7KID4Ckqt0aPcm90Nw69JpbAkCxB
+ UU6HxEY/jkPKL+D81ox1QWWlZBchUVAFngECujL8x3UnRdIedYuE+RE7MEJ77rM/FC7v
+ qGrDlf4AL4qXQCCVUY2SABYGYrDJVyfOLXP7qgwBDMGn/sq/uK3usjmBrxqireGb6Xk6
+ FAtPSpMRg7Ggn/B0o9NHeVMVRMapF209jDas84jDZDJ7n13FyYha5egmvfU5XC4mCtV7
+ r6Dw==
+X-Gm-Message-State: AOAM533YrUHEMbfWDqBBNVDESIYIC5XiAX5jxdnqoJ9lKdFzF4ikSiLz
+ K9mAbkLiKgVIh+WuOaXQdk43RNyANF2yw5WkY32ILNtoGeZV2+FtfnLTjjLJ58QcbxK8WsAvkXr
+ BMXi5XNp1I/T/6do=
+X-Received: by 2002:a5d:5306:: with SMTP id e6mr1475606wrv.156.1601624189352; 
+ Fri, 02 Oct 2020 00:36:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyyIIpVim4lLi37ar85jV86Yzn8xaO1ecsHVFOH1go+IO4UrZLVjI/R1WqlpBxr40olppc4w==
+X-Received: by 2002:a5d:5306:: with SMTP id e6mr1475577wrv.156.1601624189112; 
+ Fri, 02 Oct 2020 00:36:29 -0700 (PDT)
 Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id q12sm725004wrs.48.2020.10.02.00.36.22
+ by smtp.gmail.com with ESMTPSA id d9sm722367wmb.30.2020.10.02.00.36.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 00:36:23 -0700 (PDT)
+ Fri, 02 Oct 2020 00:36:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/1] user-mode: Prune build dependencies (part 3)
-Date: Fri,  2 Oct 2020 09:36:20 +0200
-Message-Id: <20201002073621.1653924-1-philmd@redhat.com>
+Subject: [PATCH v4 1/1] qapi: Restrict code generated for user-mode
+Date: Fri,  2 Oct 2020 09:36:21 +0200
+Message-Id: <20201002073621.1653924-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201002073621.1653924-1-philmd@redhat.com>
+References: <20201002073621.1653924-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -100,39 +103,100 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the third part of a series reducing user-mode
-dependencies. By stripping out unused code, the build
-and testing time is reduced (as is space used by objects).
+A lot of QAPI generated code is never used by user-mode.
 
-Part 3:
-- Reduce user-mode QAPI generated files
+Split out qapi_system_modules and qapi_system_or_tools_modules
+from the qapi_all_modules array. We now have 4 groups:
+- always used
+- only used by system-mode
+- not used by user-mode
+- not used by tools
 
-Since v3:
-- Keep qdev.json in user-mode (no need for qdev-system
-  stub for qapi_event_send_device_deleted, Paolo)
-- Keep machine.json in user-mode (no need to restrict
-  X86CPUFeatureWord to x86 architecture, Eduardo)
-
-Since v2:
-- Fixed UuidInfo placed in incorrect json
-- Rebased on Meson
-- Include X86CPUFeatureWord unmerged from part 2
-
-Since v1:
-- Addressed Richard and Paolo review comments
-
-v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg746423.html
-v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg688879.html
-v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg688486.html
-
-Based on https://github.com/ehabkost/qemu.git machine-next
-
-Philippe Mathieu-Daudé (1):
-  qapi: Restrict code generated for user-mode
-
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
  qapi/meson.build | 51 ++++++++++++++++++++++++++++++++++--------------
  1 file changed, 36 insertions(+), 15 deletions(-)
 
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 7c4a89a882..10cf01ef65 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -14,39 +14,60 @@ util_ss.add(files(
+ ))
+ 
+ qapi_all_modules = [
++  'common',
++  'introspect',
++  'misc',
++]
++
++qapi_system_modules = [
+   'acpi',
+   'audio',
++  'dump',
++  'machine-target',
++  'migration',
++  'misc-target',
++  'net',
++  'pci',
++  'rdma',
++  'rocker',
++  'tpm',
++  'trace',
++]
++
++qapi_system_or_user_modules = [
++  'machine', # X86CPUFeatureWordInfo
++  'qdev',
++]
++
++qapi_system_or_tools_modules = [
+   'authz',
+   'block-core',
+   'block',
+   'char',
+-  'common',
+   'control',
+   'crypto',
+-  'dump',
+   'error',
+-  'introspect',
+   'job',
+-  'machine',
+-  'machine-target',
+-  'migration',
+-  'misc',
+-  'misc-target',
+-  'net',
+   'pragma',
+-  'qdev',
+-  'pci',
+   'qom',
+-  'rdma',
+-  'rocker',
+   'run-state',
+   'sockets',
+-  'tpm',
+-  'trace',
+   'transaction',
+   'ui',
+ ]
+ 
++if have_system
++  qapi_all_modules += qapi_system_modules
++endif
++
++if have_system or have_user
++  qapi_all_modules += qapi_system_or_user_modules
++endif
++
++if have_system or have_tools
++  qapi_all_modules += qapi_system_or_tools_modules
++endif
++
+ qapi_storage_daemon_modules = [
+   'block-core',
+   'char',
 -- 
 2.26.2
 
