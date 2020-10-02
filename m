@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D271281942
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:29:32 +0200 (CEST)
-Received: from localhost ([::1]:48442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA29281954
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:33:29 +0200 (CEST)
+Received: from localhost ([::1]:54392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOOs7-0004Lf-CI
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:29:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43150)
+	id 1kOOvw-00070a-CA
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:33:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kOOpf-0002Lg-46
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:26:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21333)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kOOt0-0005wW-Kj
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:30:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kOOpd-0002KI-7A
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:26:58 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kOOsx-0002dn-FU
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:30:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601659616;
+ s=mimecast20190719; t=1601659822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q3dzw57z7IR2Lb9lQw828Xj60FJFcVO73SVRhw3ANUA=;
- b=KFq8iA17GIVwgatmejYYJupQlvO/zkb3DSOqdh82N3Fc3Fv20EkbgQ0coJFo5M+vILbVLM
- j/CwzwehVhUwGkxF13Db6SAK52VM8frJatUg/iwaKxzqNJrUr4KywsCvtfW5EbYwJ/aKCr
- O8GrT2/4v0tviWjUM5m3jden87e3UF4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-NRL6EtELM2W1TS4wLTiNpg-1; Fri, 02 Oct 2020 13:26:54 -0400
-X-MC-Unique: NRL6EtELM2W1TS4wLTiNpg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBD89186DD32
- for <qemu-devel@nongnu.org>; Fri,  2 Oct 2020 17:26:53 +0000 (UTC)
-Received: from work-vm (ovpn-114-192.ams2.redhat.com [10.36.114.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC4055C1DC;
- Fri,  2 Oct 2020 17:26:49 +0000 (UTC)
-Date: Fri, 2 Oct 2020 18:26:46 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v3 4/4] migration: Sync requested pages after postcopy
- recovery
-Message-ID: <20201002172646.GL3286@work-vm>
-References: <20201001182641.80232-1-peterx@redhat.com>
- <20201001182641.80232-5-peterx@redhat.com>
+ bh=P0R+dDcKewz/RfI4pF+8L26Vm/BbkyD3KIQDYj2FuZ8=;
+ b=PcoXHR25gZB5oV5llz+Nt7omLBfhntccu678CbnsTpONTq8Md4oGuAZQSmbVh5kX8ubmOk
+ PbyQ5NUMsIEkrZ+vzQ6t0U2bn5YbruR1NPBgVQXKO2j9UaYWo8o8K2xOsnNh/eBzfF9qVK
+ xrMMCto79BilkA88MvCvSyzzzlcTJ7w=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-aU_ZHFokN-edQGlkm3z6og-1; Fri, 02 Oct 2020 13:30:20 -0400
+X-MC-Unique: aU_ZHFokN-edQGlkm3z6og-1
+Received: by mail-wm1-f70.google.com with SMTP id l26so645456wmg.7
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:30:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P0R+dDcKewz/RfI4pF+8L26Vm/BbkyD3KIQDYj2FuZ8=;
+ b=VATTorKvSnSxTLOtlsc2DQmboupMf9Gm507OZL9FaNScaqN4L4tQh+p+PWJ7DUZleO
+ DaOoOIkdsS6sP7+vV57aD0A5SD/WL4zkNElh3hhsa0zLQ3Nq0jn7l9WGscBOQiT1QDlA
+ 61JrlnWlAyo4EwfKEqcy88yw/uaHyET/+ZUddbUJpVFeJoNpFPtRf76nJe/vHnwPk2H2
+ hAXyxCB3B1k4oaK40FJilXnPBZLTQdiysUYLfTHcRUt0OTwf7Qp36ZIdm6P3bgdXnF7U
+ On0KKLDGML8/o2K8XnmxSDst0m6jZKkcy4Uc9N2ABKzgrSP2LDBG0JDEJaxx7g5J+c4j
+ WCqQ==
+X-Gm-Message-State: AOAM53093Ie11Nwm5KLkoAoguKoW0AD3FJoCd9hIbD2nbETw89UalLmn
+ iiZTMaSuhoquMYVO5QAIXIF+5uc1ZEZydih7wZycEMrbQlftqeol9Mz34avlWWGK8VvwELJpSm2
+ O71Gw9wZWHmSzcKA=
+X-Received: by 2002:a1c:7c01:: with SMTP id x1mr3876199wmc.57.1601659819093;
+ Fri, 02 Oct 2020 10:30:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBPE5gT4OpxC4Z+uKFMbpNK5KAA3HFoLZgwCrk8mqRpn+IvZo3B5A70EPbmmGXrwMm+qDDxg==
+X-Received: by 2002:a1c:7c01:: with SMTP id x1mr3876182wmc.57.1601659818811;
+ Fri, 02 Oct 2020 10:30:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:47e0:e742:75ba:b84d?
+ ([2001:b07:6468:f312:47e0:e742:75ba:b84d])
+ by smtp.gmail.com with ESMTPSA id r14sm2573469wrn.56.2020.10.02.10.30.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 10:30:18 -0700 (PDT)
+Subject: Re: [PULL v8 00/86] Misc QEMU patches for 2020-09-24
+To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20200930195850.278104-1-pbonzini@redhat.com>
+ <a0b8e23a-cccb-3c5d-dbf7-f489c0d95f93@redhat.com>
+ <20201002162208.GB7303@habkost.net>
+ <a793e75b-47f2-5120-24cd-c50a6a45d04b@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1a98babe-f6b9-fa73-24ca-07ecbf395225@redhat.com>
+Date: Fri, 2 Oct 2020 19:30:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201001182641.80232-5-peterx@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <a793e75b-47f2-5120-24cd-c50a6a45d04b@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,118 +105,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaohui Li <xiaohli@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> We synchronize the requested pages right after a postcopy recovery happens.
-> This helps to synchronize the prioritized pages on source so that the faulted
-> threads can be served faster.
+On 02/10/20 19:26, Michal Prívozník wrote:
+> On 10/2/20 6:22 PM, Eduardo Habkost wrote:
+>> On Fri, Oct 02, 2020 at 05:58:55PM +0200, Michal Prívozník wrote:
+>>> On 9/30/20 9:58 PM, Paolo Bonzini wrote:
+>>>>
+>>>> Eduardo Habkost (10):
+>>> <snip/>
+>>>>         docs: Create docs/devel/qom.rst
+>>>
+>>> cd442a45db60a1a72fcf980c24bd1227f13f8a87 is the first bad commit
+>>>
+>>> Sorry for noticing this earlier, but is this known? The build starts
+>>> failing
+>>> for me after this commit:
+>>>
+>>> /usr/bin/sphinx-build -Dversion=5.1.50 -Drelease= -W
+>>> -Ddepfile=docs/devel.d
+>>> -Ddepfile_stamp=docs/devel.stamp -b html -d
+>>> /home/zippy/work/qemu/qemu.git/build/docs/devel.p
+>>> /home/zippy/work/qemu/qemu.git/docs/devel
+>>> /home/zippy/work/qemu/qemu.git/build/docs/devel
+>>> Running Sphinx v3.2.1
+>>> building [mo]: targets for 0 po files that are out of date
+>>> building [html]: targets for 20 source files that are out of date
+>>> updating environment: [new config] 20 added, 0 changed, 0 removed
+>>> reading sources... [100%] testing
+>>>
+>>>
+>>>
+>>>
+>>> Warning, treated as error:
+>>> /home/zippy/work/qemu/qemu.git/docs/../include/qom/object.h:747:Error in
+>>> declarator
+>>> If declarator-id with parameters (e.g., 'void f(int arg)'):
+>>>    Invalid C declaration: Expected identifier in nested name. [error
+>>> at 24]
+>>>      object_initialize_child ( parent,  propname,  child,  type)
+>>>      ------------------------^
+>>> If parenthesis in noptr-declarator (e.g., 'void (*f(int arg))(double)'):
+>>>    Error in declarator or parameters
+>>>    Invalid C declaration: Expecting "(" in parameters. [error at 32]
+>>>      object_initialize_child ( parent,  propname,  child,  type)
+>>>      --------------------------------^
+>>>
+>>> make[1]: *** [Makefile.ninja:9898: docs/devel.stamp] Error 2
+>>> make[1]: *** Deleting file 'docs/devel.stamp'
+>>> make[1]: Leaving directory '/home/zippy/work/qemu/qemu.git/build'
+>>> make: *** [GNUmakefile:11: all] Error 2
+>>
+>> I can't reproduce it using Sphinx v2.2.2.  I'm still trying to
+>> understand what exactly the error means.
+>>
 > 
-> Reported-by: Xiaohui Li <xiaohli@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/savevm.c     | 57 ++++++++++++++++++++++++++++++++++++++++++
->  migration/trace-events |  1 +
->  2 files changed, 58 insertions(+)
+> Same here.
 > 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 34e4b71052..56a2bfb24c 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2011,6 +2011,49 @@ static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
->      return LOADVM_QUIT;
->  }
->  
-> +/* We must be with page_request_mutex held */
-> +static gboolean postcopy_sync_page_req(gpointer key, gpointer value,
-> +                                       gpointer data)
-> +{
-> +    MigrationIncomingState *mis = data;
-> +    void *host_addr = (void *) key;
-> +    ram_addr_t rb_offset;
-> +    RAMBlock *rb;
-> +    int ret;
-> +
-> +    rb = qemu_ram_block_from_host(host_addr, true, &rb_offset);
-> +    if (!rb) {
-> +        /*
-> +         * This should _never_ happen.  However be nice for a migrating VM to
-> +         * not crash/assert.  Post an error (note: intended to not use *_once
-> +         * because we do want to see all the illegal addresses; and this can
-> +         * never be triggered by the guest so we're safe) and move on next.
-> +         */
-> +        error_report("%s: illegal host addr %p", __func__, host_addr);
-> +        /* Try the next entry */
-> +        return FALSE;
-> +    }
-> +
-> +    ret = migrate_send_rp_message_req_pages(mis, rb, rb_offset);
-> +    if (ret) {
-> +        /* Please refer to above comment. */
-> +        error_report("%s: send rp message failed for addr %p",
-> +                     __func__, host_addr);
-> +        return FALSE;
-> +    }
-> +
-> +    trace_postcopy_page_req_sync((uint64_t)(uintptr_t)host_addr);
-
-Again that's a case for host_addr and a %p I think.
-
-Dave
-
-> +    return FALSE;
-> +}
-> +
-> +static void migrate_send_rp_req_pages_pending(MigrationIncomingState *mis)
-> +{
-> +    WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
-> +        g_tree_foreach(mis->page_requested, postcopy_sync_page_req, mis);
-> +    }
-> +}
-> +
->  static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
->  {
->      if (mis->state != MIGRATION_STATUS_POSTCOPY_RECOVER) {
-> @@ -2033,6 +2076,20 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
->      /* Tell source that "we are ready" */
->      migrate_send_rp_resume_ack(mis, MIGRATION_RESUME_ACK_VALUE);
->  
-> +    /*
-> +     * After a postcopy recovery, the source should have lost the postcopy
-> +     * queue, or potentially the requested pages could have been lost during
-> +     * the network down phase.  Let's re-sync with the source VM by re-sending
-> +     * all the pending pages that we eagerly need, so these threads won't get
-> +     * blocked too long due to the recovery.
-> +     *
-> +     * Without this procedure, the faulted destination VM threads (waiting for
-> +     * page requests right before the postcopy is interrupted) can keep hanging
-> +     * until the pages are sent by the source during the background copying of
-> +     * pages, or another thread faulted on the same address accidentally.
-> +     */
-> +    migrate_send_rp_req_pages_pending(mis);
-> +
->      return 0;
->  }
->  
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 9187b03725..5d0b0662a8 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -49,6 +49,7 @@ vmstate_save(const char *idstr, const char *vmsd_name) "%s, %s"
->  vmstate_load(const char *idstr, const char *vmsd_name) "%s, %s"
->  postcopy_pause_incoming(void) ""
->  postcopy_pause_incoming_continued(void) ""
-> +postcopy_page_req_sync(uint64_t host_addr) "sync page req 0x%"PRIx64
->  
->  # vmstate.c
->  vmstate_load_field_error(const char *field, int ret) "field \"%s\" load failed, ret = %d"
-> -- 
-> 2.26.2
+>> I really wish we used virtualenv + requirements.txt to require a
+>> specific version of Sphinx instead of wasting time dealing a wide
+>> range of Sphinx versions.
+>>
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> I already have a patch that I keep locally to build with v3:
+> 
+> diff --git a/docs/qemu-option-trace.rst.inc
+> b/docs/qemu-option-trace.rst.inc
+> index 7e09773a9c..ae83f6a1a8 100644
+> --- a/docs/qemu-option-trace.rst.inc
+> +++ b/docs/qemu-option-trace.rst.inc
+> @@ -1,7 +1,7 @@
+> 
+>  Specify tracing options.
+> 
+> -.. option:: [enable=]PATTERN
+> +.. option:: enable=PATTERN
+> 
+>    Immediately enable events matching *PATTERN*
+>    (either event name or a globbing pattern).  This option is only
+> 
+> 
+> That said, I'm not objecting to requiring v2 for now and switching to v3
+> later.
+> 
+> 
+> But interestingly, through trial and error I've came across this hack,
+> which allows me to build again. I have no idea why it works:
+> 
+> diff --git i/include/qom/object.h w/include/qom/object.h
+> index 27aaa67e63..59c729ebb7 100644
+> --- i/include/qom/object.h
+> +++ w/include/qom/object.h
+> @@ -762,13 +762,14 @@ bool object_initialize_child_with_propsv(Object
+> *parentobj,
+>   *                                      child, sizeof(*child), type,
+>   *                                      &error_abort, NULL)
+>   */
+> -#define object_initialize_child(parent, propname, child, type)          \
+> -    object_initialize_child_internal((parent), (propname),              \
+> -                                     (child), sizeof(*(child)), (type))
+>  void object_initialize_child_internal(Object *parent, const char
+> *propname,
+>                                        void *child, size_t size,
+>                                        const char *type);
+> 
+> +#define object_initialize_child(parent, propname, child, type)          \
+> +    object_initialize_child_internal((parent), (propname),              \
+> +                                     (child), sizeof(*(child)), (type))
+> +
+
+The error is due to kerneldoc treating the macro definition like a
+function, so that makes sense.  If the docs look good (no reference to
+object_initialize_child_internal) then the patch can be applied.
+
+Paolo
 
 
