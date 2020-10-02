@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CCE2819E0
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:41:17 +0200 (CEST)
-Received: from localhost ([::1]:38910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB202819FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:44:22 +0200 (CEST)
+Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOP3U-0004Xs-9H
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44986)
+	id 1kOP6T-0007qj-Ge
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyT-0000Ok-DT
+ id 1kOOyT-0000PW-UP
  for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:05 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46201)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyR-0003J9-FP
+ id 1kOOyS-0003JE-EE
  for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:05 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id o5so2658235wrn.13
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:36:03 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id s13so2429761wmh.4
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7jnEPHNQolXrIggvM1boO0VCWcKwcGVqxDfZAb/xQC0=;
- b=MNOEfMNrHRG/VRSQki1fA3bHhSb5YxxMfhWtcTXxUkB0l4Fx+Yg3NOeC+RRNIE3xiC
- +GR4vWeSqdcBaATJFC32/nxuZTtr3MgR1sd4+V3jKULrWAePvSGdivWVYczFOh1ZzeEX
- gpJ/qsvjGSh6Dx8A4buL9ecoXiKZ/4qe71mw1Ku+dwg7cWGiDe+AxOO+WsoaG+d/Zcoa
- YSLowmp8GTGHcXwodM6NMEhiLPW3TZaSuXguwuAzUmI0Vr+MIRKrvut7d13nSeCtYJlm
- HlYU/S+SRUDj5Gdf2a6jHbfIoJ3loWyhNgL+5r4ihDAiuZWCg3fCkxXEperZW7AltsqU
- zKtA==
+ bh=hDip1TuoGE2uTB5vESfk4LG+Rb+6jGwMeV9JdwzMKi4=;
+ b=G01H/EcyvqF2YmQZc5uOTabHzb3JS1Jc6ZdneEb/xlYwL+yDSZhNW/y+xqWGtesRzn
+ 0q1syvn1/xfXhMoyDUH77NICImuGynHtEFB5ySQa8/q5lkoz/P76lRYXz2JDPg3DbOj1
+ gJ6oqUa5lH0H2JXn4Bi1oKJYsYow3qArKh+SdyIlG5yvEqgn55X1rdgPSN7gEYkOlDgb
+ zmGwIBpvZ9OeixyGvHAxvVuQHmYXakueSthTRIvWtbGG4tXDc0BmAN9foRO0QX1c/Jvr
+ u/RYwwLyojhYQn50AEU1mDOPIM1kPIZ/3de2wh+J78fOPOYe/d3o8dhfy5JAPCgpFlKd
+ fw7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7jnEPHNQolXrIggvM1boO0VCWcKwcGVqxDfZAb/xQC0=;
- b=l0SLsWRVefroXUS0QlDl6qHaJDg680gkMZ0RwMRAyLnwVf6XsAvSC6oz2ozCy65Btx
- tKgqREQ8hm75YyFYyG1yuKY2yVVBxAEDiwSlpPOYe2cGRMhHK1xjM1Xr4RrCun8I6N5E
- 3DiX59zZI560yGpR1EoIHrfyNiTCzrtreNhxcCWtT4BmYbZumpo4JT4iKTXq1KbDfsTj
- vVP+MpKte3LDt9rUcZWpSkVaBNStBDBMg2TcRUtV+AwfUFVDXilHCFyUOzJhaugYOM3f
- NHc68y4dNQfBfIYO2W2Dhqq4SXpR8DUcxPM03xBDPAKJDo9U/DEHY/yZQPLHxGZ24uMB
- k4BA==
-X-Gm-Message-State: AOAM531Cm9bWt0w97l6y+kz75bTciTMIi8+uqu3IjQxMZR75BcAG7XBJ
- Ozhc7m8+UxiBLAHTdF7p2pVsPeqNa2U=
-X-Google-Smtp-Source: ABdhPJxlZzkfreGBj0je2cBHtA4UrHf0ggRr2S+ZSEgdxRZ9nKD6V5/w9PTGoXdeO8jNEfTywOS+FA==
-X-Received: by 2002:adf:df87:: with SMTP id z7mr4375399wrl.239.1601660161856; 
- Fri, 02 Oct 2020 10:36:01 -0700 (PDT)
+ bh=hDip1TuoGE2uTB5vESfk4LG+Rb+6jGwMeV9JdwzMKi4=;
+ b=cWy4g7AJz39QjOtJjwsFU6e0oUZlEFrAVprNFSANoMRzszrOdQW59EbQLmVIIX9p9v
+ tu8GDj3ABBrSkBeCU+ZOa+gbPGDihKYGaKvI+Gv8FA/+rPBaVbMj9Td64o4++t1waU59
+ C3oMtQICoaX+5nitKaFuxAdqirjfA733gEKW4BbBPobjtCAf3YBc1l4bwlPMyowpNBnZ
+ 8coJ92h57aEBJABWaAFqahq/2srn6Pg3WkNSHCkRoKs1EB8uc+UM1HGMTMtFgvMayeAt
+ KVPe1gtPpl5K19WRb64Yhyqu2jrsJyEPqLgiQtkVuJ2H2lKfcfiLFJ1aFH++7uuRSDLW
+ 0wXA==
+X-Gm-Message-State: AOAM533XT5KziJ2u5m79e8qS3YGYuZDxbc+GP9Qx3gTWZzGoXwRmYNLW
+ q7+ez+hD8aHIfBdyLFaIZdAnyZJaMak=
+X-Google-Smtp-Source: ABdhPJwwZmc8UGnvwiBJtCM53oIJH/kIksxq0VUqQ0TIJXth3yanVdHe73NJ0y3rau+nKuhokhnM7g==
+X-Received: by 2002:a05:600c:2186:: with SMTP id
+ e6mr4329959wme.189.1601660162749; 
+ Fri, 02 Oct 2020 10:36:02 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:47e0:e742:75ba:b84d])
  by smtp.gmail.com with ESMTPSA id
- l8sm2516454wrx.22.2020.10.02.10.36.00 for <qemu-devel@nongnu.org>
+ l8sm2516454wrx.22.2020.10.02.10.36.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 10:36:01 -0700 (PDT)
+ Fri, 02 Oct 2020 10:36:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 02/10] scsi: switch to bus->check_address
-Date: Fri,  2 Oct 2020 19:35:50 +0200
-Message-Id: <20201002173558.232960-3-pbonzini@redhat.com>
+Subject: [PATCH v6 03/10] scsi/scsi_bus: switch search direction in
+ scsi_device_find
+Date: Fri,  2 Oct 2020 19:35:51 +0200
+Message-Id: <20201002173558.232960-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201002173558.232960-1-pbonzini@redhat.com>
 References: <20201002173558.232960-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,198 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Maxim Levitsky <mlevitsk@redhat.com>
+
+This change will allow us to convert the bus children list to RCU,
+while not changing the logic of this function
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200913160259.32145-2-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-bus.c | 122 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 75 insertions(+), 47 deletions(-)
+ hw/scsi/scsi-bus.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 3284a5d1fb..94921c04b1 100644
+index 94921c04b1..69d7c3f90c 100644
 --- a/hw/scsi/scsi-bus.c
 +++ b/hw/scsi/scsi-bus.c
-@@ -22,33 +22,6 @@ static void scsi_req_dequeue(SCSIRequest *req);
- static uint8_t *scsi_target_alloc_buf(SCSIRequest *req, size_t len);
- static void scsi_target_free_buf(SCSIRequest *req);
+@@ -1571,7 +1571,7 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+     BusChild *kid;
+     SCSIDevice *target_dev = NULL;
  
--static Property scsi_props[] = {
--    DEFINE_PROP_UINT32("channel", SCSIDevice, channel, 0),
--    DEFINE_PROP_UINT32("scsi-id", SCSIDevice, id, -1),
--    DEFINE_PROP_UINT32("lun", SCSIDevice, lun, -1),
--    DEFINE_PROP_END_OF_LIST(),
--};
--
--static void scsi_bus_class_init(ObjectClass *klass, void *data)
--{
--    BusClass *k = BUS_CLASS(klass);
--    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
--
--    k->get_dev_path = scsibus_get_dev_path;
--    k->get_fw_dev_path = scsibus_get_fw_dev_path;
--    hc->unplug = qdev_simple_device_unplug_cb;
--}
--
--static const TypeInfo scsi_bus_info = {
--    .name = TYPE_SCSI_BUS,
--    .parent = TYPE_BUS,
--    .instance_size = sizeof(SCSIBus),
--    .class_init = scsi_bus_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { TYPE_HOTPLUG_HANDLER },
--        { }
--    }
--};
- static int next_scsi_bus;
+-    QTAILQ_FOREACH_REVERSE(kid, &bus->qbus.children, sibling) {
++    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
+         DeviceState *qdev = kid->child;
+         SCSIDevice *dev = SCSI_DEVICE(qdev);
  
- static void scsi_device_realize(SCSIDevice *s, Error **errp)
-@@ -160,35 +133,68 @@ static void scsi_dma_restart_cb(void *opaque, int running, RunState state)
-     }
- }
- 
--static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
-+static bool scsi_bus_is_address_free(SCSIBus *bus,
-+				     int channel, int target, int lun,
-+				     SCSIDevice **p_dev)
-+{
-+    SCSIDevice *d = scsi_device_find(bus, channel, target, lun);
-+    if (d && d->lun == lun) {
-+        if (p_dev) {
-+            *p_dev = d;
-+        }
-+        return false;
-+    }
-+    if (p_dev) {
-+        *p_dev = NULL;
-+    }
-+    return true;
-+}
+@@ -1579,7 +1579,15 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+             if (dev->lun == lun) {
+                 return dev;
+             }
+-            target_dev = dev;
 +
-+static bool scsi_bus_check_address(BusState *qbus, DeviceState *qdev, Error **errp)
- {
-     SCSIDevice *dev = SCSI_DEVICE(qdev);
--    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
--    SCSIDevice *d;
--    Error *local_err = NULL;
-+    SCSIBus *bus = SCSI_BUS(qbus);
- 
-     if (dev->channel > bus->info->max_channel) {
-         error_setg(errp, "bad scsi channel id: %d", dev->channel);
--        return;
-+        return false;
-     }
-     if (dev->id != -1 && dev->id > bus->info->max_target) {
-         error_setg(errp, "bad scsi device id: %d", dev->id);
--        return;
-+        return false;
-     }
-     if (dev->lun != -1 && dev->lun > bus->info->max_lun) {
-         error_setg(errp, "bad scsi device lun: %d", dev->lun);
--        return;
-+        return false;
-+    }
++            /*
++             * If we don't find exact match (channel/bus/lun),
++             * we will return the first device which matches channel/bus
++             */
 +
-+    if (dev->id != -1 && dev->lun != -1) {
-+        SCSIDevice *d;
-+        if (!scsi_bus_is_address_free(bus, dev->channel, dev->id, dev->lun, &d)) {
-+            error_setg(errp, "lun already used by '%s'", d->qdev.id);
-+            return false;
-+        }
-     }
- 
-+    return true;
-+}
-+
-+static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
-+{
-+    SCSIDevice *dev = SCSI_DEVICE(qdev);
-+    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
-+    bool is_free;
-+    Error *local_err = NULL;
-+
-     if (dev->id == -1) {
-         int id = -1;
-         if (dev->lun == -1) {
-             dev->lun = 0;
++            if (!target_dev) {
++                target_dev = dev;
++            }
          }
-         do {
--            d = scsi_device_find(bus, dev->channel, ++id, dev->lun);
--        } while (d && d->lun == dev->lun && id < bus->info->max_target);
--        if (d && d->lun == dev->lun) {
-+            is_free = scsi_bus_is_address_free(bus, dev->channel, ++id, dev->lun, NULL);
-+        } while (!is_free && id < bus->info->max_target);
-+        if (!is_free) {
-             error_setg(errp, "no free target");
-             return;
-         }
-@@ -196,20 +202,13 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
-     } else if (dev->lun == -1) {
-         int lun = -1;
-         do {
--            d = scsi_device_find(bus, dev->channel, dev->id, ++lun);
--        } while (d && d->lun == lun && lun < bus->info->max_lun);
--        if (d && d->lun == lun) {
-+            is_free = scsi_bus_is_address_free(bus, dev->channel, dev->id, ++lun, NULL);
-+        } while (!is_free && lun < bus->info->max_lun);
-+        if (!is_free) {
-             error_setg(errp, "no free lun");
-             return;
-         }
-         dev->lun = lun;
--    } else {
--        d = scsi_device_find(bus, dev->channel, dev->id, dev->lun);
--        assert(d);
--        if (d->lun == dev->lun && dev != d) {
--            error_setg(errp, "lun already used by '%s'", d->qdev.id);
--            return;
--        }
      }
- 
-     QTAILQ_INIT(&dev->requests);
-@@ -1709,6 +1708,13 @@ const VMStateDescription vmstate_scsi_device = {
-     }
- };
- 
-+static Property scsi_props[] = {
-+    DEFINE_PROP_UINT32("channel", SCSIDevice, channel, 0),
-+    DEFINE_PROP_UINT32("scsi-id", SCSIDevice, id, -1),
-+    DEFINE_PROP_UINT32("lun", SCSIDevice, lun, -1),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void scsi_device_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *k = DEVICE_CLASS(klass);
-@@ -1739,6 +1745,28 @@ static const TypeInfo scsi_device_type_info = {
-     .instance_init = scsi_dev_instance_init,
- };
- 
-+static void scsi_bus_class_init(ObjectClass *klass, void *data)
-+{
-+    BusClass *k = BUS_CLASS(klass);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
-+
-+    k->get_dev_path = scsibus_get_dev_path;
-+    k->get_fw_dev_path = scsibus_get_fw_dev_path;
-+    k->check_address = scsi_bus_check_address;
-+    hc->unplug = qdev_simple_device_unplug_cb;
-+}
-+
-+static const TypeInfo scsi_bus_info = {
-+    .name = TYPE_SCSI_BUS,
-+    .parent = TYPE_BUS,
-+    .instance_size = sizeof(SCSIBus),
-+    .class_init = scsi_bus_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_HOTPLUG_HANDLER },
-+        { }
-+    }
-+};
-+
- static void scsi_register_types(void)
- {
-     type_register_static(&scsi_bus_info);
+     return target_dev;
 -- 
 2.26.2
 
