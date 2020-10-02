@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B468281329
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:51:23 +0200 (CEST)
-Received: from localhost ([::1]:48722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24CE281338
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:56:10 +0200 (CEST)
+Received: from localhost ([::1]:58278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOKWw-0007b5-Am
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37156)
+	id 1kOKbZ-0003SU-Ub
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3d40fd3055d064497e7f2ec92b759dac824e55bb@lizzy.crudebyte.com>)
- id 1kOKVJ-0006IR-1p
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:49:41 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:49785)
+ (envelope-from <08d91b5509f34ca77940588e0bbe530408f9f8b8@lizzy.crudebyte.com>)
+ id 1kOKZS-00029E-0j
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:53:58 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:37299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3d40fd3055d064497e7f2ec92b759dac824e55bb@lizzy.crudebyte.com>)
- id 1kOKVH-00082r-EU
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:49:40 -0400
+ (envelope-from <08d91b5509f34ca77940588e0bbe530408f9f8b8@lizzy.crudebyte.com>)
+ id 1kOKZQ-0008V0-4E
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:53:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=61K9IPek47Lb/jUIgvqHI9x1BIex8Psn2YIHGCS3rpk=; b=B+UZX
- RvxdX7SDrk+Z0B7EOukhDM5vOzLRCOQGgCN4yu6z3sWXDdkcRaoLkZTPIlw2H30kIhGjqZslxvFJw
- QeTiyFZT1ghA4THo4pSMwDlSuGIFv/1MEo3a/ler766bpVQCKQxZCTvXF9fXs2pUzpLtCgRD39XgZ
- iBXZcgfakUIs3xR9/qVPDrRoVs0au9ZkcVOTOfJF/vF4d2Ae6FXexxu6ObjtM3TUs0CszNcAEQKwT
- JHoK4lu3X8IaszOF+jCZR5gGBdqFBdyHiuaGSjIQieOx2IzNS72TFsUIahgo7499v+DIL/AldPdaq
- kD2BHOPGI8ZlbDUe+Kx16G5qRHRGg==;
-Message-Id: <3d40fd3055d064497e7f2ec92b759dac824e55bb.1601639563.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=baW8d6Af0E+xPV7T/Dn1dnU1Plbu8QKi0pyhr5ugh2A=; b=EhDGb
+ gM+cUceHATB5uVzPRygsEzE0DOlsxqz+WB+OMLPu3s2n72E6o8j+/WiQ0TEebm/9B9lhkC2avS+Hp
+ A3H8iEGjCR9jpsqTOIyd8pI1+ODGPllHFwjrtwX2udQ23KySZI31oQW051DtEGG3+ag0F41U9fIIo
+ Jr8y7v2cXTcqHX7Ba0Bk/ZQWgH/fPEtVZ1YOPbvbGCNd7AbrQ7zWB2CQYYQKtYSSoDQU06uJzN1W2
+ hEnoyzIJlNdwtXFIyEGSR6gh3Ph7m5vu+xjEDABY/TCVfuNmbhh/EzK7eb7kfaj4QheOrXsh8GHkn
+ dPAWjWhkSlVn6WDpTV7+g9tn/92gA==;
+Message-Id: <08d91b5509f34ca77940588e0bbe530408f9f8b8.1601639563.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1601639563.git.qemu_oss@crudebyte.com>
 References: <cover.1601639563.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 2 Oct 2020 13:51:54 +0200
-Subject: [PATCH v2 07/11] tests/9pfs: change qtest name prefix to synth
+Subject: [PATCH v2 02/11] libqos/qgraph: add qos_node_create_driver_named()
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
  Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=3d40fd3055d064497e7f2ec92b759dac824e55bb@lizzy.crudebyte.com;
+ envelope-from=08d91b5509f34ca77940588e0bbe530408f9f8b8@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 08:18:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,65 +67,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All existing 9pfs test cases are using the 'synth' fs driver so far, which
-means they are not accessing real files, but a purely simulated (in RAM
-only) file system.
+So far the qos subsystem of the qtest framework had the limitation
+that only one instance of the same official QEMU (QMP) driver name
+could be created for qtests. That's because a) the created qos
+node names must always be unique, b) the node name must match the
+official QEMU driver name being instantiated and c) all nodes are
+in a global space shared by all tests.
 
-Let's make this clear by changing the prefix of the individual qtest case
-names from 'fs/' to 'synth/'. That way they'll be easily distinguishable
-from upcoming new 9pfs test cases supposed to be using a different fs
-driver.
+This patch removes this limitation by introducing a new function
+qos_node_create_driver_named() which allows test case authors to
+specify a node name being different from the actual associated
+QEMU driver name. It fills the new 'qemu_name' field of
+QOSGraphNode for that purpose.
+
+Adjust build_driver_cmd_line() and qos_graph_node_set_availability()
+to correctly deal with either accessing node name vs. node's
+qemu_name correctly.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ tests/qtest/libqos/qgraph.c | 53 ++++++++++++++++++++++++++++++++++---
+ tests/qtest/libqos/qgraph.h | 16 +++++++++++
+ 2 files changed, 66 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index de30b717b6..3281153b9c 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -897,26 +897,26 @@ static void fs_readdir_split_512(void *obj, void *data,
- 
- static void register_virtio_9p_test(void)
+diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
+index e42f3eaafa..61faf6b27d 100644
+--- a/tests/qtest/libqos/qgraph.c
++++ b/tests/qtest/libqos/qgraph.c
+@@ -287,7 +287,8 @@ static void build_machine_cmd_line(QOSGraphNode *node, const char *args)
+  */
+ static void build_driver_cmd_line(QOSGraphNode *node)
  {
--    qos_add_test("config", "virtio-9p", pci_config, NULL);
--    qos_add_test("fs/version/basic", "virtio-9p", fs_version, NULL);
--    qos_add_test("fs/attach/basic", "virtio-9p", fs_attach, NULL);
--    qos_add_test("fs/walk/basic", "virtio-9p", fs_walk, NULL);
--    qos_add_test("fs/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-+    qos_add_test("synth/config", "virtio-9p", pci_config, NULL);
-+    qos_add_test("synth/version/basic", "virtio-9p", fs_version, NULL);
-+    qos_add_test("synth/attach/basic", "virtio-9p", fs_attach, NULL);
-+    qos_add_test("synth/walk/basic", "virtio-9p", fs_walk, NULL);
-+    qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-                  NULL);
--    qos_add_test("fs/walk/dotdot_from_root", "virtio-9p",
-+    qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
-                  fs_walk_dotdot, NULL);
--    qos_add_test("fs/lopen/basic", "virtio-9p", fs_lopen, NULL);
--    qos_add_test("fs/write/basic", "virtio-9p", fs_write, NULL);
--    qos_add_test("fs/flush/success", "virtio-9p", fs_flush_success,
-+    qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen, NULL);
-+    qos_add_test("synth/write/basic", "virtio-9p", fs_write, NULL);
-+    qos_add_test("synth/flush/success", "virtio-9p", fs_flush_success,
-                  NULL);
--    qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
-+    qos_add_test("synth/flush/ignored", "virtio-9p", fs_flush_ignored,
-                  NULL);
--    qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
--    qos_add_test("fs/readdir/split_512", "virtio-9p",
-+    qos_add_test("synth/readdir/basic", "virtio-9p", fs_readdir, NULL);
-+    qos_add_test("synth/readdir/split_512", "virtio-9p",
-                  fs_readdir_split_512, NULL);
--    qos_add_test("fs/readdir/split_256", "virtio-9p",
-+    qos_add_test("synth/readdir/split_256", "virtio-9p",
-                  fs_readdir_split_256, NULL);
--    qos_add_test("fs/readdir/split_128", "virtio-9p",
-+    qos_add_test("synth/readdir/split_128", "virtio-9p",
-                  fs_readdir_split_128, NULL);
+-    node->command_line = g_strconcat(" -device ", node->name, NULL);
++    const char *name = node->qemu_name ?: node->name;
++    node->command_line = g_strconcat(" -device ", name, NULL);
  }
  
+ /* qos_print_cb(): callback prints all path found by the DFS algorithm. */
+@@ -632,6 +633,15 @@ void qos_node_create_driver(const char *name, QOSCreateDriverFunc function)
+     node->u.driver.constructor = function;
+ }
+ 
++void qos_node_create_driver_named(const char *name, const char *qemu_name,
++                                  QOSCreateDriverFunc function)
++{
++    QOSGraphNode *node = create_node(name, QNODE_DRIVER);
++    node->qemu_name = g_strdup(qemu_name);
++    build_driver_cmd_line(node);
++    node->u.driver.constructor = function;
++}
++
+ void qos_node_contains(const char *container, const char *contained,
+                        QOSGraphEdgeOptions *opts, ...)
+ {
+@@ -664,7 +674,7 @@ void qos_node_consumes(const char *consumer, const char *interface,
+     add_edge(interface, consumer, QEDGE_CONSUMED_BY, opts);
+ }
+ 
+-void qos_graph_node_set_availability(const char *node, bool av)
++static void qos_graph_node_set_availability_explicit(const char *node, bool av)
+ {
+     QOSGraphEdgeList *elist;
+     QOSGraphNode *n = search_node(node);
+@@ -679,9 +689,46 @@ void qos_graph_node_set_availability(const char *node, bool av)
+     }
+     QSLIST_FOREACH_SAFE(e, elist, edge_list, next) {
+         if (e->type == QEDGE_CONTAINS || e->type == QEDGE_PRODUCES) {
+-            qos_graph_node_set_availability(e->dest, av);
++            qos_graph_node_set_availability_explicit(e->dest, av);
++        }
++    }
++}
++
++/*
++ * Behaves as qos_graph_node_set_availability_explicit(), except that the
++ * former always matches by node name only, whereas this function matches both
++ * by node name and node's optional 'qemu_name' field.
++ */
++void qos_graph_node_set_availability(const char *node, bool av)
++{
++    GList *l;
++    QOSGraphEdgeList *elist;
++    QOSGraphEdge *e, *next;
++    QOSGraphNode *n;
++    GList *keys = g_hash_table_get_keys(node_table);
++
++    for (l = keys; l != NULL; l = l->next) {
++        const gchar *key = l->data;
++        n = g_hash_table_lookup(node_table, key);
++        /*
++         * node's 'qemu_name' is set if there is more than one device with
++         * the same QEMU (QMP) device name
++         */
++        const char *node_name = n->qemu_name ?: n->name;
++        if (g_strcmp0(node_name, node) == 0) {
++            n->available = av;
++            elist = get_edgelist(n->name);
++            if (elist) {
++                QSLIST_FOREACH_SAFE(e, elist, edge_list, next) {
++                    if (e->type == QEDGE_CONTAINS || e->type == QEDGE_PRODUCES)
++                    {
++                        qos_graph_node_set_availability_explicit(e->dest, av);
++                    }
++                }
++            }
+         }
+     }
++    g_list_free(keys);
+ }
+ 
+ void qos_graph_foreach_test_path(QOSTestCallback fn)
+diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
+index 5f63d352ca..f472949f68 100644
+--- a/tests/qtest/libqos/qgraph.h
++++ b/tests/qtest/libqos/qgraph.h
+@@ -452,6 +452,22 @@ void qos_node_create_machine_args(const char *name,
+  */
+ void qos_node_create_driver(const char *name, QOSCreateDriverFunc function);
+ 
++/**
++ * Behaves as qos_node_create_driver() with the extension of allowing to
++ * specify a different node name vs. associated QEMU device name.
++ *
++ * Use this function instead of qos_node_create_driver() if you need to create
++ * several instances of the same QEMU device. You are free to choose a custom
++ * node name, however the chosen node name must always be unique.
++ *
++ * @param name: custom, unique name of the node to be created
++ * @param qemu_name: actual (official) QEMU driver name the node shall be
++ *                   associated with
++ * @param function: driver constructor
++ */
++void qos_node_create_driver_named(const char *name, const char *qemu_name,
++                                  QOSCreateDriverFunc function);
++
+ /**
+  * qos_node_contains(): creates one or more edges of type QEDGE_CONTAINS
+  * and adds them to the edge list mapped to @container in the
 -- 
 2.20.1
 
