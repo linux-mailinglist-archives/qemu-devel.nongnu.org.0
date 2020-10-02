@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71034281D12
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 22:43:54 +0200 (CEST)
-Received: from localhost ([::1]:58612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB5E281D27
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 22:52:13 +0200 (CEST)
+Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kORuD-0001V6-2Z
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 16:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51322)
+	id 1kOS2F-0007z9-MP
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 16:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kORsa-0000r3-8U
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 16:42:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55169)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kORsX-0007ee-OH
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 16:42:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601671327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+pnd48btZ+ojFZD7fywCGNuhmWCzwbcMsuMGqQ46Bsw=;
- b=cVgC3uBQM8VDaQ+kngMsz9kOl2whWTIz0McbpknqlhWAgJFlJFT1LYdJneQm1rN31K9Av7
- Rjs97nx2xtczoan7zEIcUfDVltMzYxVXDw1jt3mMBmAi3//EG8EyKzE499aoe1X1DGb1b+
- +Ln3uZcJRH2b0N8jgoNzSnqbAxUHn+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-1DIZH4LiNCKien_XBz4WMw-1; Fri, 02 Oct 2020 16:42:06 -0400
-X-MC-Unique: 1DIZH4LiNCKien_XBz4WMw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 149641006703;
- Fri,  2 Oct 2020 20:42:05 +0000 (UTC)
-Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A68965D9D3;
- Fri,  2 Oct 2020 20:42:04 +0000 (UTC)
-Subject: Re: [PATCH] scripts/qmp/qom-set: Allow setting integer value
-To: Jonatan Palsson <jonatan.p@gmail.com>
-References: <20201002201933.250878-1-jonatan.p@gmail.com>
- <c22a0594-9f8f-3531-cbc3-862ba15d89c9@redhat.com>
- <CAKm+giO8LQCw8g==0zKV2LYvfqxVmimnJ9oWcsdvFZtmPzcq_g@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <eb61cb73-2627-7872-0846-9f663fe4043b@redhat.com>
-Date: Fri, 2 Oct 2020 16:42:03 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kOS0q-0007LL-Kd
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 16:50:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51112)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kOS0m-0000Dk-M6
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 16:50:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kOS0k-0000tl-3V
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 20:50:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 196BC2E80DB
+ for <qemu-devel@nongnu.org>; Fri,  2 Oct 2020 20:50:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAKm+giO8LQCw8g==0zKV2LYvfqxVmimnJ9oWcsdvFZtmPzcq_g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 02 Oct 2020 20:45:02 -0000
+From: Toolybird <1898215@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fredb74 marcandre-lureau toolybird
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Toolybird (toolybird)
+References: <160164961305.8642.6420581526403273155.malonedeb@wampee.canonical.com>
+Message-Id: <160167150222.5387.882289113928718064.malone@soybean.canonical.com>
+Subject: [Bug 1898215] Re: [git][archlinux]Build process is busted in
+ spice-display.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
+X-Launchpad-Hash: c1502414e375ad270c9c9a8f7752cf86ca85f54a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 16:00:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,78 +72,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1898215 <1898215@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/20 4:36 PM, Jonatan Palsson wrote:
-> On Fri, Oct 2, 2020 at 10:29 PM John Snow <jsnow@redhat.com> wrote:
->>
->> On 10/2/20 4:19 PM, Jonatan Pålsson wrote:
->>> If the value appears to be an integer, parse it as such.
->>>
->>> This allows the following:
->>>
->>>       qmp/qom-set -s ~/qmp.sock sensor.temperature 20000
->>>
->>> .. where sensor is a tmp105 device, and temperature is an integer
->>> property.
->>>
->>> Signed-off-by: Jonatan Pålsson <jonatan.p@gmail.com>
->>> ---
->>>    scripts/qmp/qom-set | 5 ++++-
->>>    1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
->>> index 240a78187f..61920680eb 100755
->>> --- a/scripts/qmp/qom-set
->>> +++ b/scripts/qmp/qom-set
->>> @@ -56,7 +56,10 @@ if len(args) > 1:
->>>            path, prop = args[0].rsplit('.', 1)
->>>        except:
->>>            usage_error("invalid format for path/property/value")
->>> -    value = args[1]
->>> +    try:
->>> +        value = int(args[1])
->>> +    except:
->>> +        value = args[1]
->>
->> Please catch the ValueError explicitly.
-> 
-> Sure, I'll send a v2.
-> 
->>
->>>    else:
->>>        usage_error("not enough arguments")
->>>
->>>
->>
->> What happens when you don't convert it to int specifically? Does
->> something break? My understanding was that QOM received everything as a
->> string anyway, and does its own parsing.
-> 
-> With the current implementation, I see this:
-> 
-> scripts/qmp/qom-set -s ~/qmp.sock sensor.temperature 20000
-> Traceback (most recent call last):
->    File "scripts/qmp/qom-set", line 66, in <module>
->      print(srv.command('qom-set', path=path, property=prop, value=value))
->    File "scripts/qmp/../../python/qemu/qmp.py", line 274, in command
->      raise QMPResponseError(ret)
-> qemu.qmp.QMPResponseError: Invalid parameter type for 'temperature',
-> expected: integer
-> 
+Already reported to Arch:
 
-Oh, unfortunate. I hope there aren't any cases where QOM expects a 
-string, but can accept a string where a numerical value is otherwise valid.
+https://bugs.archlinux.org/task/68061
 
-These are just debugging scripts, so I guess this is probably okay to 
-just change and see if anything explodes.
+-- =
 
-(A more robust solution might actually attempt to query QEMU to get the 
-QOM property types and judiciously apply conversions. A problem for 
-another day?)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1898215
 
---js
+Title:
+  [git][archlinux]Build process is busted in spice-display.c
 
+Status in QEMU:
+  New
+
+Bug description:
+  Linux distribution: Archlinux. Crash log added is based on a build
+  from scratch.
+
+  Gcc version: 10.2.0
+
+  Configure options used:
+
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+
+  Crash log:
+
+  ../ui/spice-display.c: In function 'interface_client_monitors_config':
+  ../ui/spice-display.c:682:25: error: 'VD_AGENT_CONFIG_MONITORS_FLAG_PHYSI=
+CAL_SIZE' undeclared (first use in this function); did you mean 'VD_AGENT_C=
+ONFIG_MONITORS_FLAG_USE_POS'?
+    682 |         if (mc->flags & VD_AGENT_CONFIG_MONITORS_FLAG_PHYSICAL_SI=
+ZE) {
+        |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+        |                         VD_AGENT_CONFIG_MONITORS_FLAG_USE_POS
+  ../ui/spice-display.c:682:25: note: each undeclared identifier is reporte=
+d only once for each function it appears in
+  ../ui/spice-display.c:683:13: error: unknown type name 'VDAgentMonitorMM'
+    683 |             VDAgentMonitorMM *mm =3D (void *)&mc->monitors[mc->nu=
+m_of_monitors];
+        |             ^~~~~~~~~~~~~~~~
+  ../ui/spice-display.c:684:37: error: request for member 'width' in someth=
+ing not a structure or union
+    684 |             info.width_mm =3D mm[head].width;
+        |                                     ^
+  ../ui/spice-display.c:685:38: error: request for member 'height' in somet=
+hing not a structure or union
+    685 |             info.height_mm =3D mm[head].height;
+        |                                      ^
+  make: *** [Makefile.ninja:2031: libcommon.fa.p/ui_spice-display.c.o] Erro=
+r 1
+  make: *** Waiting for unfinished jobs....
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1898215/+subscriptions
 
