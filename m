@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FC62815D7
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:54:01 +0200 (CEST)
-Received: from localhost ([::1]:55086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439B72815C4
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:50:34 +0200 (CEST)
+Received: from localhost ([::1]:44106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMRc-0005RZ-Lb
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:54:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
+	id 1kOMOH-0000qU-9s
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI4-0001A4-Pj
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45781)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI7-0001GM-0Y
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI2-0004Vb-72
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:08 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI2-0004Vp-7g
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649842;
+ s=mimecast20190719; t=1601649843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XFeys0fRkZF7aSyHogMPVsv8NICGMjYTpS3rySG33Nk=;
- b=f6gUeeoEyX+cApk3lCofuRz2wQo/hnN/g/LhZY42wrWWwyiTY4njLkdGQDE3nQug1zmDbT
- 6tE/flWzr1JaMum89vweWfuBAWXL+XTcwQ35XhlYR8LJAJbfx6tHCB5hGaginlQKsAsBvs
- SgnZ/d4TH0MvMBF+cR1HrBZGnkJbAfM=
+ bh=qOLmxd9Ii3OcUSp51x9F8U6awMzrSfYzNCZ4u4kOzBY=;
+ b=hrvI6uw8FepYKVQnuviRUdrGAmi3Z1oUTYIWud89+mZiP0R89GYoZ6lCcO/feY7WOSdWzb
+ Gg/jPW9Zm0gDvFXVrO9atKgd6kA8xHDAdSTKKhH3/KNXM7o/O9Y4RNbjc4NeR0phJ90FR9
+ 8g6I6X3Jt2+IiIKsGM/EmDRxzuMNpHk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-9bvrpNG8Ndm0DkD8z7wHtQ-1; Fri, 02 Oct 2020 10:43:58 -0400
-X-MC-Unique: 9bvrpNG8Ndm0DkD8z7wHtQ-1
+ us-mta-574-YP1LBixsMryDvjTvtUu3Vg-1; Fri, 02 Oct 2020 10:43:59 -0400
+X-MC-Unique: YP1LBixsMryDvjTvtUu3Vg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74BBC80B71B;
- Fri,  2 Oct 2020 14:43:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2A0E80B727;
+ Fri,  2 Oct 2020 14:43:58 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
  [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DFF65D9D5;
- Fri,  2 Oct 2020 14:43:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC47C5D9D3;
+ Fri,  2 Oct 2020 14:43:57 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/37] nbd: Remove unused nbd_export_get_blockdev()
-Date: Fri,  2 Oct 2020 16:43:13 +0200
-Message-Id: <20201002144345.253865-6-kwolf@redhat.com>
+Subject: [PULL 06/37] qapi: Create block-export module
+Date: Fri,  2 Oct 2020 16:43:14 +0200
+Message-Id: <20201002144345.253865-7-kwolf@redhat.com>
 In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
 References: <20201002144345.253865-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,46 +83,484 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Move all block export related types and commands from block-core to the
+new QAPI module block-export.
+
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200924152717.287415-2-kwolf@redhat.com>
+Message-Id: <20200924152717.287415-3-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/nbd.h | 2 --
- nbd/server.c        | 5 -----
- 2 files changed, 7 deletions(-)
+ qapi/block-core.json                 | 166 -------------------------
+ qapi/block-export.json               | 174 +++++++++++++++++++++++++++
+ qapi/qapi-schema.json                |   1 +
+ include/block/nbd.h                  |   2 +-
+ block/monitor/block-hmp-cmds.c       |   1 +
+ blockdev-nbd.c                       |   2 +-
+ storage-daemon/qemu-storage-daemon.c |   2 +-
+ qapi/meson.build                     |   4 +-
+ storage-daemon/qapi/qapi-schema.json |   1 +
+ 9 files changed, 183 insertions(+), 170 deletions(-)
+ create mode 100644 qapi/block-export.json
 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 86ed72ef9f..12a24772b5 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5194,172 +5194,6 @@
+              'iothread': 'StrOrNull',
+              '*force': 'bool' } }
+ 
+-##
+-# @NbdServerOptions:
+-#
+-# @addr: Address on which to listen.
+-# @tls-creds: ID of the TLS credentials object (since 2.6).
+-# @tls-authz: ID of the QAuthZ authorization object used to validate
+-#             the client's x509 distinguished name. This object is
+-#             is only resolved at time of use, so can be deleted and
+-#             recreated on the fly while the NBD server is active.
+-#             If missing, it will default to denying access (since 4.0).
+-#
+-# Keep this type consistent with the nbd-server-start arguments. The only
+-# intended difference is using SocketAddress instead of SocketAddressLegacy.
+-#
+-# Since: 4.2
+-##
+-{ 'struct': 'NbdServerOptions',
+-  'data': { 'addr': 'SocketAddress',
+-            '*tls-creds': 'str',
+-            '*tls-authz': 'str'} }
+-
+-##
+-# @nbd-server-start:
+-#
+-# Start an NBD server listening on the given host and port.  Block
+-# devices can then be exported using @nbd-server-add.  The NBD
+-# server will present them as named exports; for example, another
+-# QEMU instance could refer to them as "nbd:HOST:PORT:exportname=NAME".
+-#
+-# Keep this type consistent with the NbdServerOptions type. The only intended
+-# difference is using SocketAddressLegacy instead of SocketAddress.
+-#
+-# @addr: Address on which to listen.
+-# @tls-creds: ID of the TLS credentials object (since 2.6).
+-# @tls-authz: ID of the QAuthZ authorization object used to validate
+-#             the client's x509 distinguished name. This object is
+-#             is only resolved at time of use, so can be deleted and
+-#             recreated on the fly while the NBD server is active.
+-#             If missing, it will default to denying access (since 4.0).
+-#
+-# Returns: error if the server is already running.
+-#
+-# Since: 1.3.0
+-##
+-{ 'command': 'nbd-server-start',
+-  'data': { 'addr': 'SocketAddressLegacy',
+-            '*tls-creds': 'str',
+-            '*tls-authz': 'str'} }
+-
+-##
+-# @BlockExportNbd:
+-#
+-# An NBD block export.
+-#
+-# @device: The device name or node name of the node to be exported
+-#
+-# @name: Export name. If unspecified, the @device parameter is used as the
+-#        export name. (Since 2.12)
+-#
+-# @description: Free-form description of the export, up to 4096 bytes.
+-#               (Since 5.0)
+-#
+-# @writable: Whether clients should be able to write to the device via the
+-#            NBD connection (default false).
+-#
+-# @bitmap: Also export the dirty bitmap reachable from @device, so the
+-#          NBD client can use NBD_OPT_SET_META_CONTEXT with
+-#          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
+-#
+-# Since: 5.0
+-##
+-{ 'struct': 'BlockExportNbd',
+-  'data': {'device': 'str', '*name': 'str', '*description': 'str',
+-           '*writable': 'bool', '*bitmap': 'str' } }
+-
+-##
+-# @nbd-server-add:
+-#
+-# Export a block node to QEMU's embedded NBD server.
+-#
+-# Returns: error if the server is not running, or export with the same name
+-#          already exists.
+-#
+-# Since: 1.3.0
+-##
+-{ 'command': 'nbd-server-add',
+-  'data': 'BlockExportNbd', 'boxed': true }
+-
+-##
+-# @NbdServerRemoveMode:
+-#
+-# Mode for removing an NBD export.
+-#
+-# @safe: Remove export if there are no existing connections, fail otherwise.
+-#
+-# @hard: Drop all connections immediately and remove export.
+-#
+-# Potential additional modes to be added in the future:
+-#
+-# hide: Just hide export from new clients, leave existing connections as is.
+-# Remove export after all clients are disconnected.
+-#
+-# soft: Hide export from new clients, answer with ESHUTDOWN for all further
+-# requests from existing clients.
+-#
+-# Since: 2.12
+-##
+-{'enum': 'NbdServerRemoveMode', 'data': ['safe', 'hard']}
+-
+-##
+-# @nbd-server-remove:
+-#
+-# Remove NBD export by name.
+-#
+-# @name: Export name.
+-#
+-# @mode: Mode of command operation. See @NbdServerRemoveMode description.
+-#        Default is 'safe'.
+-#
+-# Returns: error if
+-#            - the server is not running
+-#            - export is not found
+-#            - mode is 'safe' and there are existing connections
+-#
+-# Since: 2.12
+-##
+-{ 'command': 'nbd-server-remove',
+-  'data': {'name': 'str', '*mode': 'NbdServerRemoveMode'} }
+-
+-##
+-# @nbd-server-stop:
+-#
+-# Stop QEMU's embedded NBD server, and unregister all devices previously
+-# added via @nbd-server-add.
+-#
+-# Since: 1.3.0
+-##
+-{ 'command': 'nbd-server-stop' }
+-
+-##
+-# @BlockExportType:
+-#
+-# An enumeration of block export types
+-#
+-# @nbd: NBD export
+-#
+-# Since: 4.2
+-##
+-{ 'enum': 'BlockExportType',
+-  'data': [ 'nbd' ] }
+-
+-##
+-# @BlockExport:
+-#
+-# Describes a block export, i.e. how single node should be exported on an
+-# external interface.
+-#
+-# Since: 4.2
+-##
+-{ 'union': 'BlockExport',
+-  'base': { 'type': 'BlockExportType' },
+-  'discriminator': 'type',
+-  'data': {
+-      'nbd': 'BlockExportNbd'
+-   } }
+-
+ ##
+ # @QuorumOpType:
+ #
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+new file mode 100644
+index 0000000000..b21b8e3f4d
+--- /dev/null
++++ b/qapi/block-export.json
+@@ -0,0 +1,174 @@
++# -*- Mode: Python -*-
++# vim: filetype=python
++
++##
++# == Block device exports
++##
++
++{ 'include': 'sockets.json' }
++
++##
++# @NbdServerOptions:
++#
++# Keep this type consistent with the nbd-server-start arguments. The only
++# intended difference is using SocketAddress instead of SocketAddressLegacy.
++#
++# @addr: Address on which to listen.
++# @tls-creds: ID of the TLS credentials object (since 2.6).
++# @tls-authz: ID of the QAuthZ authorization object used to validate
++#             the client's x509 distinguished name. This object is
++#             is only resolved at time of use, so can be deleted and
++#             recreated on the fly while the NBD server is active.
++#             If missing, it will default to denying access (since 4.0).
++#
++# Since: 4.2
++##
++{ 'struct': 'NbdServerOptions',
++  'data': { 'addr': 'SocketAddress',
++            '*tls-creds': 'str',
++            '*tls-authz': 'str'} }
++
++##
++# @nbd-server-start:
++#
++# Start an NBD server listening on the given host and port.  Block
++# devices can then be exported using @nbd-server-add.  The NBD
++# server will present them as named exports; for example, another
++# QEMU instance could refer to them as "nbd:HOST:PORT:exportname=NAME".
++#
++# Keep this type consistent with the NbdServerOptions type. The only intended
++# difference is using SocketAddressLegacy instead of SocketAddress.
++#
++# @addr: Address on which to listen.
++# @tls-creds: ID of the TLS credentials object (since 2.6).
++# @tls-authz: ID of the QAuthZ authorization object used to validate
++#             the client's x509 distinguished name. This object is
++#             is only resolved at time of use, so can be deleted and
++#             recreated on the fly while the NBD server is active.
++#             If missing, it will default to denying access (since 4.0).
++#
++# Returns: error if the server is already running.
++#
++# Since: 1.3.0
++##
++{ 'command': 'nbd-server-start',
++  'data': { 'addr': 'SocketAddressLegacy',
++            '*tls-creds': 'str',
++            '*tls-authz': 'str'} }
++
++##
++# @BlockExportNbd:
++#
++# An NBD block export.
++#
++# @device: The device name or node name of the node to be exported
++#
++# @name: Export name. If unspecified, the @device parameter is used as the
++#        export name. (Since 2.12)
++#
++# @description: Free-form description of the export, up to 4096 bytes.
++#               (Since 5.0)
++#
++# @writable: Whether clients should be able to write to the device via the
++#            NBD connection (default false).
++#
++# @bitmap: Also export the dirty bitmap reachable from @device, so the
++#          NBD client can use NBD_OPT_SET_META_CONTEXT with
++#          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
++#
++# Since: 5.0
++##
++{ 'struct': 'BlockExportNbd',
++  'data': {'device': 'str', '*name': 'str', '*description': 'str',
++           '*writable': 'bool', '*bitmap': 'str' } }
++
++##
++# @nbd-server-add:
++#
++# Export a block node to QEMU's embedded NBD server.
++#
++# Returns: error if the server is not running, or export with the same name
++#          already exists.
++#
++# Since: 1.3.0
++##
++{ 'command': 'nbd-server-add',
++  'data': 'BlockExportNbd', 'boxed': true }
++
++##
++# @NbdServerRemoveMode:
++#
++# Mode for removing an NBD export.
++#
++# @safe: Remove export if there are no existing connections, fail otherwise.
++#
++# @hard: Drop all connections immediately and remove export.
++#
++# Potential additional modes to be added in the future:
++#
++# hide: Just hide export from new clients, leave existing connections as is.
++# Remove export after all clients are disconnected.
++#
++# soft: Hide export from new clients, answer with ESHUTDOWN for all further
++# requests from existing clients.
++#
++# Since: 2.12
++##
++{'enum': 'NbdServerRemoveMode', 'data': ['safe', 'hard']}
++
++##
++# @nbd-server-remove:
++#
++# Remove NBD export by name.
++#
++# @name: Export name.
++#
++# @mode: Mode of command operation. See @NbdServerRemoveMode description.
++#        Default is 'safe'.
++#
++# Returns: error if
++#            - the server is not running
++#            - export is not found
++#            - mode is 'safe' and there are existing connections
++#
++# Since: 2.12
++##
++{ 'command': 'nbd-server-remove',
++  'data': {'name': 'str', '*mode': 'NbdServerRemoveMode'} }
++
++##
++# @nbd-server-stop:
++#
++# Stop QEMU's embedded NBD server, and unregister all devices previously
++# added via @nbd-server-add.
++#
++# Since: 1.3.0
++##
++{ 'command': 'nbd-server-stop' }
++
++##
++# @BlockExportType:
++#
++# An enumeration of block export types
++#
++# @nbd: NBD export
++#
++# Since: 4.2
++##
++{ 'enum': 'BlockExportType',
++  'data': [ 'nbd' ] }
++
++##
++# @BlockExport:
++#
++# Describes a block export, i.e. how single node should be exported on an
++# external interface.
++#
++# Since: 4.2
++##
++{ 'union': 'BlockExport',
++  'base': { 'type': 'BlockExportType' },
++  'discriminator': 'type',
++  'data': {
++      'nbd': 'BlockExportNbd'
++   } }
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 0c6ca5c000..8d567e1386 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -66,6 +66,7 @@
+ { 'include': 'run-state.json' }
+ { 'include': 'crypto.json' }
+ { 'include': 'block.json' }
++{ 'include': 'block-export.json' }
+ { 'include': 'char.json' }
+ { 'include': 'dump.json' }
+ { 'include': 'job.json' }
 diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 9bc3bfaeec..0451683d03 100644
+index 0451683d03..262f6da2ce 100644
 --- a/include/block/nbd.h
 +++ b/include/block/nbd.h
-@@ -338,8 +338,6 @@ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp);
- void nbd_export_get(NBDExport *exp);
- void nbd_export_put(NBDExport *exp);
+@@ -20,7 +20,7 @@
+ #ifndef NBD_H
+ #define NBD_H
  
--BlockBackend *nbd_export_get_blockdev(NBDExport *exp);
--
- AioContext *nbd_export_aio_context(NBDExport *exp);
- NBDExport *nbd_export_find(const char *name);
- void nbd_export_close_all(void);
-diff --git a/nbd/server.c b/nbd/server.c
-index 982de67816..bd53f7baea 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1731,11 +1731,6 @@ void nbd_export_put(NBDExport *exp)
-     }
- }
+-#include "qapi/qapi-types-block.h"
++#include "qapi/qapi-types-block-export.h"
+ #include "io/channel-socket.h"
+ #include "crypto/tlscreds.h"
+ #include "qapi/error.h"
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index 4d3db5ed3c..6ce0f8f87c 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -40,6 +40,7 @@
+ #include "sysemu/block-backend.h"
+ #include "sysemu/blockdev.h"
+ #include "qapi/qapi-commands-block.h"
++#include "qapi/qapi-commands-block-export.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index 1a95d89f00..0f6b80c58f 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -14,7 +14,7 @@
+ #include "sysemu/block-backend.h"
+ #include "hw/block/block.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-commands-block.h"
++#include "qapi/qapi-commands-block-export.h"
+ #include "block/nbd.h"
+ #include "io/channel-socket.h"
+ #include "io/net-listener.h"
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index 7e9b0e0d3f..ed9d2afcf3 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -35,8 +35,8 @@
+ #include "monitor/monitor-internal.h"
  
--BlockBackend *nbd_export_get_blockdev(NBDExport *exp)
--{
--    return exp->blk;
--}
--
- void nbd_export_close_all(void)
- {
-     NBDExport *exp, *next;
+ #include "qapi/error.h"
+-#include "qapi/qapi-visit-block.h"
+ #include "qapi/qapi-visit-block-core.h"
++#include "qapi/qapi-visit-block-export.h"
+ #include "qapi/qapi-visit-control.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qstring.h"
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 7c4a89a882..ea359a0148 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -17,8 +17,9 @@ qapi_all_modules = [
+   'acpi',
+   'audio',
+   'authz',
+-  'block-core',
+   'block',
++  'block-core',
++  'block-export',
+   'char',
+   'common',
+   'control',
+@@ -49,6 +50,7 @@ qapi_all_modules = [
+ 
+ qapi_storage_daemon_modules = [
+   'block-core',
++  'block-export',
+   'char',
+   'common',
+   'control',
+diff --git a/storage-daemon/qapi/qapi-schema.json b/storage-daemon/qapi/qapi-schema.json
+index 6100d1f0c9..c6ad5ae1e3 100644
+--- a/storage-daemon/qapi/qapi-schema.json
++++ b/storage-daemon/qapi/qapi-schema.json
+@@ -16,6 +16,7 @@
+ { 'include': '../../qapi/pragma.json' }
+ 
+ { 'include': '../../qapi/block-core.json' }
++{ 'include': '../../qapi/block-export.json' }
+ { 'include': '../../qapi/char.json' }
+ { 'include': '../../qapi/common.json' }
+ { 'include': '../../qapi/control.json' }
 -- 
 2.25.4
 
