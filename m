@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28F328118C
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:49:44 +0200 (CEST)
-Received: from localhost ([::1]:57954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E25B28115B
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:40:53 +0200 (CEST)
+Received: from localhost ([::1]:60524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOJZI-0002yD-21
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48606)
+	id 1kOJQi-0000Xt-3t
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:40:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJNI-0006vB-NY
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:21 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41132)
+ id 1kOJNB-0006op-JM
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:15 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJND-0007cw-7t
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:20 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id w5so1436843wrp.8
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:37:02 -0700 (PDT)
+ id 1kOJN5-0007cD-1B
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:11 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id z4so1450024wrr.4
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DGPu6xjpfVcU2cvvFnAej/PDIX48+sbuTihWwVf3EwU=;
- b=P/GMOXfY1MSIp/9VqV+MovMG4OzhnGnTjZHpUhQRCA+tXr2yMR0L9ZZniVy7kshy8V
- XNQuLF2vQSDwtQj0oCmarryr7HmG5gZx+gmkr4DErsy01JdwWs90kHTFX/hSiDdNI+wG
- Q69oV49pjTxl3pkKZKqRw0koi00fzZJ4anKtnt/R3EUr0LaHKoELLxtSGbktbvD0AnEJ
- +Hh3oHT6W8n5Cb7LihTwTN/2A2sWE2Z9aD7I8anMi34o26XfBcSeaYF2TiPoplrMk80l
- ew5BqQ2Y5x3sKbgHA7zhT59xdJZXUSs61AecYU3L55fHkwm0KqyTPRFYj2vWmiGICLW9
- f96g==
+ bh=7YyNvtTVHS9g+3PWjEn5QUsNf/wgonsRE0HWf6d1wVM=;
+ b=eoTBC1h9rt7Ad6l7r4VboTu9UOD9D0qSNnLkqlhfgV7+C8mTpjVrnIwN5IEjpMdb02
+ KPOOGkrVBHLoFlvecIzeWD3rBVqR1IaUcOdyxZBtmbLiEsKNs75+XetxEzKM2pOp+Tjk
+ xAtB6B6aMn2eE6iz3opDG4eC3eLtRIitUU147vOKUFCNnfEL1ag7uVc0NIZHcPLXNYVK
+ aFiEvos3IRn0vXjP/X4mu3jzzMIzApgjrY8jA8q+hY/9gRv1HlPoW6Lkb6IhI8oka3Lb
+ fuf7lHgVW20RTY3gY7xXmgu/N3dXfQQp1p9MU7+hA7yGvYe8UYC8wlqbwfuFNY3pMrIK
+ pVdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DGPu6xjpfVcU2cvvFnAej/PDIX48+sbuTihWwVf3EwU=;
- b=I38/0caeeIugC8040CbTCZKDELtRmx7eWPrQAwreVcyEdVrhUbISJwYQAECvGZweRD
- PoohuPvCFXO1rlP+PuNDeZgZlalaH2RTxWDS5nWdwCLFqxa9EH13yFk2oMMoZLsVQY0f
- DJoP9Asis/6UsX28BXc/zndjhlZlG8ff0cYMd/KkOQDT1rTB2VX4aYgoKAbulYq0pLoY
- uk/Hu7xHpvWhAy4H5BL/rJ+wvVVmy4/Bt7zQlM9Vi+g0sbEhWE4840iOE53NkVVykD72
- 77yqAiCU8pW06Zi70nMl1IYZwbbLi1PbqtGghqw+lLBlXmDOHE4E83LS+Hv+1dUQKmcY
- chYA==
-X-Gm-Message-State: AOAM530qth7G6N+TMAdUdnXTCKfZ1JXy8v0GvY7kBr698WLm0I3WgmG3
- F1sCMJPE7dEa1Edcl72OBRg3LbDGHUBtOQ==
-X-Google-Smtp-Source: ABdhPJx1oOG1dtvMTzeUDBI6/JNQIq+1+TQGpsWvqtXCPKZJl3rCuUZbIhNj+1PNsviC7zXu+rif3Q==
-X-Received: by 2002:adf:e5c8:: with SMTP id a8mr2631011wrn.5.1601638621859;
- Fri, 02 Oct 2020 04:37:01 -0700 (PDT)
+ bh=7YyNvtTVHS9g+3PWjEn5QUsNf/wgonsRE0HWf6d1wVM=;
+ b=OnG3wQ3ts0GKLADn8SFee2ciEDILUiw9E8DwPaClXWPD0T79O4TuHxBzHOm3LfG6l0
+ gko3+XhoW24kowbjvd/zPydOHrps94wwTzqmSI/xeo77JkIgrKVa4QEF99AaKkW4nSca
+ UX5wJgcz9C5ln2Yn8OuAH8KzuTsmXln5D2QOBp8uo+v/m6XOETMZ4UOtJ8hfWqTGzqBR
+ Ico/bmOxCY9eHuTaZ93ZgHdHmPjVrefSO2MJECn5ewlAAWl057ZV+IADqy81f9pCdJ08
+ sU1jRXtNMLx+LiXPm2zZ6AKcn8RjUzXojsKYKnv1kkcWZi+dKNdpeD+d2J8TYRdhtOns
+ au+g==
+X-Gm-Message-State: AOAM531p1Goo2Qo+Jg/bvsA6/FjK3jBvCvCBiP01vDlC0w/pkAg+BPVl
+ vpKWA0Ult0rLLp0HlxvXQT6Z6g==
+X-Google-Smtp-Source: ABdhPJw8TKCy7skG3Easbg5SxxE+pT49SDx1qTozUikt21/9tbVtGaroIheituhGCPK25U+I4KGUHg==
+X-Received: by 2002:a5d:554c:: with SMTP id g12mr2553697wrw.294.1601638616051; 
+ Fri, 02 Oct 2020 04:36:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a10sm1424062wmj.38.2020.10.02.04.36.48
+ by smtp.gmail.com with ESMTPSA id s12sm1398060wmd.20.2020.10.02.04.36.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 02 Oct 2020 04:36:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 619241FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 7BBFA1FF92;
  Fri,  2 Oct 2020 12:36:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/14] travis.yml: Drop the Python 3.5 build
-Date: Fri,  2 Oct 2020 12:36:36 +0100
-Message-Id: <20201002113645.17693-6-alex.bennee@linaro.org>
+Subject: [PULL 06/14] tests/docker: Use Fedora containers for MinGW
+ cross-builds in the gitlab-CI
+Date: Fri,  2 Oct 2020 12:36:37 +0100
+Message-Id: <20201002113645.17693-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201002113645.17693-1-alex.bennee@linaro.org>
 References: <20201002113645.17693-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,43 +89,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-We are soon going to remove the support for Python 3.5. So remove
-the CI job now.
+According to our support policy, we do not support Debian 9 in QEMU
+anymore, and we only support building the Windows binaries with a
+very recent version of the MinGW toolchain. So we should not test
+the MinGW cross-compilation with Debian 9 anymore, but switch to
+something newer like Fedora. To do this, we need a separate Fedora
+container for each build that provides the QEMU_CONFIGURE_OPTS
+environment variable.
+Unfortunately, the MinGW 64-bit compiler seems to be a little bit
+slow, so we also have to disable some features like "capstone" in the
+build here to make sure that the CI pipelines still finish within a
+reasonable amount of time.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200922070441.48844-1-thuth@redhat.com>
-Message-Id: <20200925154027.12672-9-alex.bennee@linaro.org>
+Message-Id: <20200921174320.46062-2-thuth@redhat.com>
+Message-Id: <20200925154027.12672-10-alex.bennee@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index 990dd11e6f..c255c331a7 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -253,15 +253,6 @@ jobs:
-         - TEST_CMD=""
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 8c89efeb6d..15e7b564f9 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -248,6 +248,16 @@ i386-fedora-cross-container:
+   variables:
+     NAME: fedora-i386-cross
  
++win32-fedora-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora-win32-cross
++
++win64-fedora-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: fedora-win64-cross
++
+ amd64-ubuntu1804-container:
+   <<: *container_job_definition
+   variables:
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 4ec7226b5c..510cfec03b 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -105,9 +105,9 @@ cross-s390x-user:
+ cross-win32-system:
+   <<: *cross_system_build_job_definition
+   variables:
+-    IMAGE: debian-win32-cross
++    IMAGE: fedora-win32-cross
  
--    # Python builds
--    - name: "GCC Python 3.5 (x86_64-softmmu)"
--      env:
--        - CONFIG="--target-list=x86_64-softmmu"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
--      language: python
--      python: 3.5
--
--
-     # Using newer GCC with sanitizers
-     - name: "GCC9 with sanitizers (softmmu)"
-       dist: bionic
+ cross-win64-system:
+   <<: *cross_system_build_job_definition
+   variables:
+-    IMAGE: debian-win64-cross
++    IMAGE: fedora-win64-cross
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+new file mode 100644
+index 0000000000..5903e1b0b4
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -0,0 +1,42 @@
++FROM fedora:32
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++    bc \
++    bzip2 \
++    diffutils \
++    findutils \
++    gcc \
++    gettext \
++    git \
++    hostname \
++    make \
++    meson \
++    mingw32-bzip2 \
++    mingw32-curl \
++    mingw32-glib2 \
++    mingw32-gmp \
++    mingw32-gnutls \
++    mingw32-gtk3 \
++    mingw32-libjpeg-turbo \
++    mingw32-libpng \
++    mingw32-libtasn1 \
++    mingw32-nettle \
++    mingw32-nsis \
++    mingw32-pixman \
++    mingw32-pkg-config \
++    mingw32-SDL2 \
++    perl \
++    perl-Test-Harness \
++    python3 \
++    python3-PyYAML \
++    python3-setuptools \
++    tar \
++    which
++
++RUN dnf install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
++ENV FEATURES mingw
++
++# Specify the cross prefix for this image (see tests/docker/common.rc)
++ENV QEMU_CONFIGURE_OPTS --cross-prefix=i686-w64-mingw32-
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+new file mode 100644
+index 0000000000..7f03cd8ffc
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -0,0 +1,38 @@
++FROM fedora:32
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++    bc \
++    bzip2 \
++    diffutils \
++    findutils \
++    gcc \
++    gettext \
++    git \
++    hostname \
++    make \
++    meson \
++    mingw64-bzip2 \
++    mingw64-curl \
++    mingw64-glib2 \
++    mingw64-gmp \
++    mingw64-gtk3 \
++    mingw64-libjpeg-turbo \
++    mingw64-libpng \
++    mingw64-libtasn1 \
++    mingw64-pixman \
++    mingw64-pkg-config \
++    perl \
++    perl-Test-Harness \
++    python3 \
++    python3-PyYAML \
++    python3-setuptools \
++    tar \
++    which
++
++RUN dnf install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
++ENV FEATURES mingw
++
++# Specify the cross prefix for this image (see tests/docker/common.rc)
++ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32- --disable-capstone
 -- 
 2.20.1
 
