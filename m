@@ -2,68 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C9F281659
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:16:37 +0200 (CEST)
-Received: from localhost ([::1]:37442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB5228160B
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:05:13 +0200 (CEST)
+Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMnU-0000lp-FX
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:16:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
+	id 1kOMcS-0001mS-6Z
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:05:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kOMTI-0008Sz-K1
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:55:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43212)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kOMP9-0003V0-KK; Fri, 02 Oct 2020 10:51:27 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kOMTE-0005sO-7M
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:55:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kOMTA-0008C0-Uj
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 14:55:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CB3C82E80E9
- for <qemu-devel@nongnu.org>; Fri,  2 Oct 2020 14:55:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kOMP7-0005VZ-O7; Fri, 02 Oct 2020 10:51:27 -0400
+Received: by mail-wr1-x444.google.com with SMTP id g4so2141485wrs.5;
+ Fri, 02 Oct 2020 07:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1Qv7lZXTUX4YgEJVoDxTSAbbt05YOrcXEI/iCwJvaDE=;
+ b=CWs5clq0pwGaV5VKySbyHE+z3tRarVGBXj4JWgIcv8RFDj+oil7hQcjx4XIIQIz9Qt
+ +HCpOG6KjW5yH0JbaVciRPpPbsJUaGmdPyKvZ+axnIvzPqWT48fv0yIlvPt7jQm42iHz
+ uqt6CZ27mwYvHVS9fLose9see5Z/2h32jlciv1zn9SEqYg+mba91Tuv7XhwxdSa+fXDT
+ TsHyLdA48mU2zAG9gFz5LI7HD8nMSLH4nAz4Widmb14DuUf3XhxFFqYSoCE0kfOuWiwZ
+ 3/n/lyrnxX9BjygTEout9YwAQ1Bdb7a4JFHwwci5Zi+HUnW78ZYTDGqXLa0WubpfbWlD
+ 3FYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=1Qv7lZXTUX4YgEJVoDxTSAbbt05YOrcXEI/iCwJvaDE=;
+ b=DvYgPvRCFv/yp3xJN8tdB/39suFnbNqkPgT4TwC3CLhBw453i8riiMgo6bV6lIX3JV
+ QDbdvyHoUjsd6hGf+EzCMlj47MFuXwVhpCMgAyXojkxTyEqMwIbOrXZ20gNwh6LS6rlH
+ 2OgDocsYiCpcsRcCkbeC2w4y68Z7VH+hlA73rb9FkNUhlTMxTA1d9mECuQaiktbOcMlI
+ pTqVp/2BBgVaB76a1s4qYJLHxqDBfMpPscZjJ1p6jkmVhbrzFX+JIdqdrQC8uF6pxITd
+ SNS8mozL4uXt876Ockaz22iIhdzZFX36onG7Kzz6BdcH8uyahoz/pMFj/wpv60XAKoMw
+ 5XAA==
+X-Gm-Message-State: AOAM530PXttKKREd4IjqHPdXOcVf1dakyVbbSUpjbHE9bZPzry2tctOb
+ l8z1Mfpj2E0ItVIDAquKJPo=
+X-Google-Smtp-Source: ABdhPJz3leHHOkIZJ/tjSri/C1ryDN1A4LE25vWE0dLbu8WasQyol9tHPRXVORNi1EpxWjJEKPB//w==
+X-Received: by 2002:adf:91c2:: with SMTP id 60mr3795018wri.292.1601650283167; 
+ Fri, 02 Oct 2020 07:51:23 -0700 (PDT)
+Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id n2sm2265268wma.29.2020.10.02.07.51.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 07:51:22 -0700 (PDT)
+Subject: Re: [PATCH 10/14] hw/misc/bcm2835_cprman: implement clock mux
+ behaviour
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
+References: <20200925101731.2159827-1-luc@lmichel.fr>
+ <20200925101731.2159827-11-luc@lmichel.fr>
+ <76aae8af-dff0-b76f-cf04-0e3231eaf2bb@amsat.org>
+Autocrypt: addr=f4bug@amsat.org; keydata=
+ mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
+ u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
+ HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
+ YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
+ ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
+ dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
+ ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
+ Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
+ HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
+ Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
+ klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
+ jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
+ 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
+ loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
+ sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
+ JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
+ 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
+ K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
+ n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
+ CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
+Message-ID: <2ca8802e-3295-bd22-e705-931ae8dbbd1d@amsat.org>
+Date: Fri, 2 Oct 2020 16:51:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Oct 2020 14:48:33 -0000
-From: Frederic Bezies <1898215@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fredb74
-X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
-X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
-References: <160164961305.8642.6420581526403273155.malonedeb@wampee.canonical.com>
-Message-Id: <160165011405.9105.6862577215577395635.malone@wampee.canonical.com>
-Subject: [Bug 1898215] Re: [git][archlinux]Build process is busted in
- spice-display.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: fa3d300e97919ed4ec087471973c52c8e1311d2b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 10:45:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <76aae8af-dff0-b76f-cf04-0e3231eaf2bb@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.256,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,79 +115,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1898215 <1898215@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Full build log with make V=3D1.
+On 9/26/20 11:40 PM, Philippe Mathieu-Daudé wrote:
+> On 9/25/20 12:17 PM, Luc Michel wrote:
+>> A clock mux can be configured to select one of its 10 sources through
+>> the cm_ctl register. It also embeds yet another clock divider, composed
+>> of an integer part and a fractionnal part. The number of bits of each
+> 
+> Typo "fractional".
+> 
+>> part is mux dependant.
+> 
+> Typo "dependent"?
+> 
+>>
+>> Signed-off-by: Luc Michel <luc@lmichel.fr>
+>> ---
+>>  hw/misc/bcm2835_cprman.c | 43 +++++++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 42 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
+>> index 8df2db0fd9..75bc11939b 100644
+>> --- a/hw/misc/bcm2835_cprman.c
+>> +++ b/hw/misc/bcm2835_cprman.c
+>> @@ -229,19 +229,60 @@ static const TypeInfo cprman_pll_channel_info = {
+>>  };
+>>  
+>>  
+>>  /* clock mux */
+>>  
+>> +static bool clock_mux_is_enabled(CprmanClockMuxState *mux)
+>> +{
+>> +    return FIELD_EX32(*mux->reg_cm, CM_CLOCKx_CTL, ENABLE);
+>> +}
+>> +
+>>  static void clock_mux_update(CprmanClockMuxState *mux)
+>>  {
+>> -    clock_update(mux->out, 0);
+>> +    uint64_t freq, div;
+>> +    uint32_t src = FIELD_EX32(*mux->reg_cm, CM_CLOCKx_CTL, SRC);
+>> +    bool enabled = clock_mux_is_enabled(mux);
+>> +
+>> +    *mux->reg_cm = FIELD_DP32(*mux->reg_cm, CM_CLOCKx_CTL, BUSY, enabled);
+>> +
+>> +    if (!enabled) {
+>> +        clock_update(mux->out, 0);
+>> +        return;
+>> +    }
+>> +
+>> +    freq = clock_get_hz(mux->srcs[src]);
+>> +
+>> +    if (mux->int_bits == 0 && mux->frac_bits == 0) {
+>> +        clock_update_hz(mux->out, freq);
+>> +        return;
+>> +    }
+>> +
+>> +    /*
+>> +     * The divider has an integer and a fractional part. The size of each part
+>> +     * varies with the muxes (int_bits and frac_bits). Both parts are
+>> +     * concatenated, with the integer part always starting at bit 12.
+>> +     */
+>> +    div = mux->reg_cm[1] >> (R_CM_CLOCKx_DIV_FRAC_LENGTH - mux->frac_bits);
+>> +    div &= (1 << (mux->int_bits + mux->frac_bits)) - 1;
 
-** Attachment added: "qemu-v=3D1.log"
-   https://bugs.launchpad.net/qemu/+bug/1898215/+attachment/5416684/+files/=
-qemu-v%3D1.log
+Eventually:
 
--- =
+    div &= MAKE_64BIT_MASK(mux->int_bits + mux->frac_bits, 64);
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1898215
+>> +
+>> +    freq = (freq << mux->frac_bits) / div;
 
-Title:
-  [git][archlinux]Build process is busted in spice-display.c
+Maybe:
 
-Status in QEMU:
-  New
+    freq = muldiv64(freq, 1 << mux->frac_bits, div);
 
-Bug description:
-  Linux distribution: Archlinux. Crash log added is based on a build
-  from scratch.
+>> +
+>> +    clock_update_hz(mux->out, freq);
+>>  }
+>>  
+>>  static void clock_mux_src_update(void *opaque)
+>>  {
+>>      CprmanClockMuxState **backref = opaque;
+>>      CprmanClockMuxState *s = *backref;
+>> +    CprmanClockMuxSource src = backref - s->backref;
+>> +    uint32_t current_src;
 
-  Gcc version: 10.2.0
+Maybe avoid current_src and use in place.
 
-  Configure options used:
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  configure \
-      --prefix=3D/usr \
-      --sysconfdir=3D/etc \
-      --localstatedir=3D/var \
-      --libexecdir=3D/usr/lib/qemu \
-      --extra-ldflags=3D"$LDFLAGS" \
-      --smbd=3D/usr/bin/smbd \
-      --enable-modules \
-      --enable-sdl \
-      --disable-werror \
-      --enable-slirp=3Dsystem \
-      --enable-xfsctl \
-      --audio-drv-list=3D"pa alsa sdl"
-
-  Crash log:
-
-  ../ui/spice-display.c: In function 'interface_client_monitors_config':
-  ../ui/spice-display.c:682:25: error: 'VD_AGENT_CONFIG_MONITORS_FLAG_PHYSI=
-CAL_SIZE' undeclared (first use in this function); did you mean 'VD_AGENT_C=
-ONFIG_MONITORS_FLAG_USE_POS'?
-    682 |         if (mc->flags & VD_AGENT_CONFIG_MONITORS_FLAG_PHYSICAL_SI=
-ZE) {
-        |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-        |                         VD_AGENT_CONFIG_MONITORS_FLAG_USE_POS
-  ../ui/spice-display.c:682:25: note: each undeclared identifier is reporte=
-d only once for each function it appears in
-  ../ui/spice-display.c:683:13: error: unknown type name 'VDAgentMonitorMM'
-    683 |             VDAgentMonitorMM *mm =3D (void *)&mc->monitors[mc->nu=
-m_of_monitors];
-        |             ^~~~~~~~~~~~~~~~
-  ../ui/spice-display.c:684:37: error: request for member 'width' in someth=
-ing not a structure or union
-    684 |             info.width_mm =3D mm[head].width;
-        |                                     ^
-  ../ui/spice-display.c:685:38: error: request for member 'height' in somet=
-hing not a structure or union
-    685 |             info.height_mm =3D mm[head].height;
-        |                                      ^
-  make: *** [Makefile.ninja:2031: libcommon.fa.p/ui_spice-display.c.o] Erro=
-r 1
-  make: *** Waiting for unfinished jobs....
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1898215/+subscriptions
+>> +
+>> +    current_src = FIELD_EX32(*s->reg_cm, CM_CLOCKx_CTL, SRC);
+>> +
+>> +    if (current_src != src) {
+>> +        return;
+>> +    }
+>>  
+>>      clock_mux_update(s);
+>>  }
+>>  
+>>  static void clock_mux_init(Object *obj)
+>>
+> 
 
