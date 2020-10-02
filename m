@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7C4281909
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:19:31 +0200 (CEST)
-Received: from localhost ([::1]:52192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98863281903
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:18:31 +0200 (CEST)
+Received: from localhost ([::1]:47398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOOiQ-0001yn-7q
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40908)
+	id 1kOOhS-0008If-N4
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kOOfq-000740-95; Fri, 02 Oct 2020 13:16:50 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:35805)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kOOfp-00073A-SO
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:16:49 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kOOfo-00016V-GO; Fri, 02 Oct 2020 13:16:49 -0400
-Received: by mail-ej1-x644.google.com with SMTP id u21so3017145eja.2;
- Fri, 02 Oct 2020 10:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cMa4HcF1qD//+Q9EjGI9OvrlBKY3nCOhDzrnwd/FzsE=;
- b=n8cYeEqJKgL6sbxEcNG7CePo8fkSjgEMjjdRn3UZBJuWOlaz5Ivsf0k7pMyIJxtGwr
- /KbKVqcPsD4+cQ5G3kwZ/wIBn7VLnZasFKqmC+EI4UuAuw7h4Z8SUYOROE0ZJg3I+McY
- 1TXT7Vlk/w5hP2F868VY0pf6M0koYoWhbmuPO5Bzc5CHSWtqa9jh5XUmXl2KaHfzUoO3
- rxtoAw1Dmg8pai6l3ruNqYSZWzBFBqtW8srQr8Yfwexp1IP1h/L+l4YxRqM4vgwwUNF7
- 7wuUyVAqOJAGcdenW8qqLhb/CUfHgEYKfJqkq6GOu6Gb5Y9UScm+CqkClgZywHz8ZKDX
- s/jA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kOOfn-00016Y-Ot
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:16:49 -0400
+Received: by mail-ot1-x342.google.com with SMTP id h17so2097093otr.1
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TIlz5u8StRwhLPT+BwCkla9BZgqpT5kFw3brQxVWEIo=;
+ b=wfLt3rUyrvLyvA1Dc4Vs9AY5rDy+Lbfc24J/6YlphuTrGlhsVPWjj6ZmQC8hwnAU5d
+ 6sP7PZQ/La/knrme7wly2OiEABb/pYembnKQkrGhVgjwglxKmfV/JMEvMi5BV041DLD7
+ gQo9cr8/2cXov43Baj/SxgDW52zNezqIENo47JCzhzUSFzc39jwoT6cFjF4xdtnuvj6C
+ 1tDfBzo/bMryZ+a3ZbXNMtBe1KyVYyvEkKoBI6i4VpNxNWhJwd4YYpa9RvKUqGXChUSM
+ HLW3HG1I+flH5tDplxY61w3M+4dQlkAMKbD7YUdHoqYP0RYR+C/XG4spzYC6lr8iYsJK
+ /54w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cMa4HcF1qD//+Q9EjGI9OvrlBKY3nCOhDzrnwd/FzsE=;
- b=pshnZFK+SKl0OV+nObXiTrX0XQl70ll2stqyMofLgTQsKnPGiMnIrq1YIUv6F/HbX0
- WaextI6bClFEHp0b47FGtGrm2+Poyr1A8fYKZ7Zhy7G3jWEQE+zm5N62YP8r8Ht2MNIm
- NBam0QZFacey1mNn7nr8Bdo5tV3nJqcD9Iaq/3tuH0orGZdlxKoUDR4InIcnqI200HDm
- itOUli1QYZlTPBchn5EB62UGMR6HY+VP4VkYk0T7xTGSQmBwb7w58ZMhYl0xvghSgiSV
- kiRq1Pct29xY/zCNko38q6jau5oSb0ByfTPr8IQ6jXE5FLOSwXyIA4SlZWS6L6Wbnul4
- m0Rg==
-X-Gm-Message-State: AOAM530YsSlTAFlpLVOG2KTELbM30sQnD7eOcdbOex9QH/IN99xbFJkI
- VFoDPQV4pKX5pF7BhYqRsxiT24nA2ARjruBftuQ=
-X-Google-Smtp-Source: ABdhPJxYGKhhbzWJOV0ffHoKRoFj/lEMArKkN8rAx/M/ThGx2PMwmeAhwKd1FfLws+tZpmvK4NUyFJVITssvQWp0Ums=
-X-Received: by 2002:a17:906:a88a:: with SMTP id
- ha10mr3505350ejb.532.1601659006094; 
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TIlz5u8StRwhLPT+BwCkla9BZgqpT5kFw3brQxVWEIo=;
+ b=CzGYLgvVL8E74wgBpXBiJJ4K550mJk7yWPhYZ1bicRU+GX0mbmcAGvNkcP6UJXMNFv
+ dpCpS3v0iePZcDqRIP1uslz6s8KEJJ6Y61PQQo3iv5z8ijgYkjdmgOEvxiE45lzsMVXO
+ GF1m3I9kPUcr1ZmLQRVvYJ3JxWJKQCGu73ccnIQzeUg/400j+cbNYDsMhrYiP6lctWpB
+ QfT8akRRRW1U7sQnDZ8xgGZvswnYrvVoeVHT5rzSXxzGkhXvIq2nR8q2QxY3eYqqpDXV
+ WnYDGGkoonsXTGhoVQGG0BBtbKxfCRbBTntD7xoB1fVFA+FX61grpxSs/jJcU5d5fzpa
+ X98Q==
+X-Gm-Message-State: AOAM5332zfJPwzI/Wl1pHFUnNbhdqaf48qKZfLA08qK1RzwZrvOkrqX3
+ DKga7oh1m1Bw5MIFIA7SOkGvFQ==
+X-Google-Smtp-Source: ABdhPJxZP3ejcREhCQJ/udSzYI/0BuL2NLMZWu8JouBJqApWA1e9MOoQCUnKEC1w4WyTproXKrigTg==
+X-Received: by 2002:a9d:37c8:: with SMTP id x66mr2478336otb.290.1601659006443; 
  Fri, 02 Oct 2020 10:16:46 -0700 (PDT)
+Received: from [10.10.73.179] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id 187sm387145oie.42.2020.10.02.10.16.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 10:16:45 -0700 (PDT)
+Subject: Re: [RFC PATCH v4 00/29] Hexagon patch series
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1601314138-9930-1-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6fb34615-46c3-5b4f-81c6-99b6b4c0c12b@linaro.org>
+Date: Fri, 2 Oct 2020 12:16:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201002171343.283426-1-thuth@redhat.com>
-In-Reply-To: <20201002171343.283426-1-thuth@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 2 Oct 2020 21:16:34 +0400
-Message-ID: <CAJ+F1CKzAR3s+1W6BZHNVV531N7RY4NMDPo86+69rxmDWna7zQ@mail.gmail.com>
-Subject: Re: [PATCH] tests/test-char: Use a proper fallthrough comment
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000001c10af05b0b34c1b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x644.google.com
+In-Reply-To: <1601314138-9930-1-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.256,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,96 +89,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu trival <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>
+Cc: ale@rev.ng, riku.voipio@iki.fi, philmd@redhat.com, laurent@vivier.eu,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001c10af05b0b34c1b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/28/20 12:28 PM, Taylor Simpson wrote:
+> This series adds support for the Hexagon processor with Linux user support
+> 
+> See patch 02/34 Hexagon README for detailed information.
+> 
+> Once the series is applied, the Hexagon port will pass "make check-tcg".
+> The series also includes Hexagon-specific tests in tcg/tests/hexagon.
+> 
+> The series is also available at https://github.com/quic/qemu on branch
+> small_series_v4.
 
-On Fri, Oct 2, 2020 at 9:14 PM Thomas Huth <thuth@redhat.com> wrote:
+BTW, some whitespace warnings when applying this series.
 
-> For being able to compile with -Werror=3Dimplicit-fallthrough we need
-> to use comments that the compiler recognizes. Use "fallthrough" instead
-> of "no break" here.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
->
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+r~
 
----
->  tests/test-char.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/test-char.c b/tests/test-char.c
-> index d35cc839bc..9196e566e9 100644
-> --- a/tests/test-char.c
-> +++ b/tests/test-char.c
-> @@ -70,7 +70,7 @@ static void fe_event(void *opaque, QEMUChrEvent event)
->              h->openclose_mismatch =3D true;
->          }
->          h->is_open =3D new_open_state;
-> -        /* no break */
-> +        /* fallthrough */
->      default:
->          quit =3D true;
->          break;
-> --
-> 2.18.2
->
->
->
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000001c10af05b0b34c1b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 2, 2020 at 9:14 PM Thomas=
- Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">For being abl=
-e to compile with -Werror=3Dimplicit-fallthrough we need<br>
-to use comments that the compiler recognizes. Use &quot;fallthrough&quot; i=
-nstead<br>
-of &quot;no break&quot; here.<br>
-<br>
-Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
-=3D"_blank">thuth@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Re=
-viewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0tests/test-char.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/tests/test-char.c b/tests/test-char.c<br>
-index d35cc839bc..9196e566e9 100644<br>
---- a/tests/test-char.c<br>
-+++ b/tests/test-char.c<br>
-@@ -70,7 +70,7 @@ static void fe_event(void *opaque, QEMUChrEvent event)<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0h-&gt;openclose_mismatch =
-=3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0h-&gt;is_open =3D new_open_state;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* no break */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fallthrough */<br>
-=C2=A0 =C2=A0 =C2=A0default:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0quit =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
--- <br>
-2.18.2<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000001c10af05b0b34c1b--
+> Applying: Hexagon Update MAINTAINERS file
+> Applying: Hexagon (target/hexagon) README
+> .git/rebase-apply/patch:247: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon (include/elf.h) ELF machine definition
+> Applying: Hexagon (target/hexagon) scalar core definition
+> Applying: Hexagon (disas) disassembler
+> .git/rebase-apply/patch:87: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon (target/hexagon) register names
+> Applying: Hexagon (target/hexagon) scalar core helpers
+> .git/rebase-apply/patch:431: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon (target/hexagon) GDB Stub
+> Applying: Hexagon (target/hexagon) architecture types
+> Applying: Hexagon (target/hexagon) instruction and packet types
+> Applying: Hexagon (target/hexagon) register fields
+> .git/rebase-apply/patch:132: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon (target/hexagon) instruction attributes
+> .git/rebase-apply/patch:149: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon (target/hexagon) instruction/packet decode
+> Applying: Hexagon (target/hexagon) instruction printing
+> .git/rebase-apply/patch:136: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon (target/hexagon) utility functions
+> .git/rebase-apply/patch:512: new blank line at EOF.
+> +
+> .git/rebase-apply/patch:887: new blank line at EOF.
+> +
+> .git/rebase-apply/patch:1670: new blank line at EOF.
+> +
+> warning: 3 lines add whitespace errors.
+> Applying: Hexagon (target/hexagon/imported) arch import
+> .git/rebase-apply/patch:598: space before tab in indent.
+> 	  		fSETBYTE(i,RdV,fSATUB(fGETHALF(i,RssV)+fGETHALF(i,RttV)));
+> .git/rebase-apply/patch:1329: space before tab in indent.
+>  	 		 RdV = RsV;
+> .git/rebase-apply/patch:6793: space before tab in indent.
+>    	sys_icinva(thread, (REG),insn->slot);
+> .git/rebase-apply/patch:7280: space before tab in indent.
+>          		   fMPY16SS(fGETBYTE(1,RssV),fGETUBYTE(1,RttV)))));
+> .git/rebase-apply/patch:7282: space before tab in indent.
+>          		   fMPY16SS(fGETBYTE(3,RssV),fGETUBYTE(3,RttV)))));
+> warning: squelched 41 whitespace errors
+> warning: 46 lines add whitespace errors.
+> Applying: Hexagon (target/hexagon) generator phase 1 - C preprocessor for semantics
+> Applying: Hexagon (target/hexagon) generator phase 2 - generate header files
+> Applying: Hexagon (target/hexagon) generator phase 3 - C preprocessor for decode tree
+> Applying: Hexagon (target/hexagon) generater phase 4 - decode tree
+> Applying: Hexagon (target/hexagon) opcode data structures
+> Applying: Hexagon (target/hexagon) macros
+> Applying: Hexagon (target/hexagon) instruction classes
+> .git/rebase-apply/patch:141: new blank line at EOF.
+> +
+> .git/rebase-apply/patch:199: new blank line at EOF.
+> +
+> warning: 2 lines add whitespace errors.
+> Applying: Hexagon (target/hexagon) TCG generation
+> Applying: Hexagon (target/hexagon) TCG for instructions with multiple definitions
+> Applying: Hexagon (target/hexagon) translation
+> Applying: Hexagon (linux-user/hexagon) Linux user emulation
+> .git/rebase-apply/patch:405: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon (tests/tcg/hexagon) TCG tests
+> .git/rebase-apply/patch:1314: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: Hexagon build infrastructure
 
