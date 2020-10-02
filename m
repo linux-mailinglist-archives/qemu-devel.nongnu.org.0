@@ -2,92 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C2B281719
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:49:35 +0200 (CEST)
-Received: from localhost ([::1]:58754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7E2281759
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 18:03:04 +0200 (CEST)
+Received: from localhost ([::1]:52082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kONJO-0001d9-GY
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47378)
+	id 1kONWR-00033j-EW
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 12:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kON9n-0001Rk-Mr
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:39:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58364)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kON9l-0003iM-GM
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:39:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601653176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zQ9LLqXPSgdpZ+Y9rpUKcKengKscn7IuT+g4aoCrgRM=;
- b=CaO9SmRhOfoMKMyhMT1pK1h/jfIsrxAbQDcXOFvc7mrhAvkJxI2KfUJl56i44/smSN7Bdf
- Auu600R+RLeCyWfiNWorSHH4MyMh+GGmlVXn+HHuNH+zDijf8UgWrkN5qox+OF24u6SgnD
- Xvgq1QE55j/eb1wzU4FJql2cSpCeKcE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-ll-DsocDP9GqbC-JHOj9aQ-1; Fri, 02 Oct 2020 11:39:34 -0400
-X-MC-Unique: ll-DsocDP9GqbC-JHOj9aQ-1
-Received: by mail-wr1-f72.google.com with SMTP id y3so684244wrl.21
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 08:39:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kONIY-0001Vd-H5
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:48:42 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kONIV-00050V-LR
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:48:42 -0400
+Received: by mail-wm1-x341.google.com with SMTP id e11so1391059wme.0
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 08:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zQ9LLqXPSgdpZ+Y9rpUKcKengKscn7IuT+g4aoCrgRM=;
- b=dpBGyZVdNpBSZ1eSykCB/VXSdTPl1V3OkXa6CZwnNLBxcPdohE1U2Iqa2QS8YY2qNK
- zZjJWckx+2+Bo4JVWYEQ0ErOcscAAwH0FHtv9unuMnPrgcbMVJyeE+Gqe3qYS+8VcLEG
- Hgtz2OqBExrU224twikRZ+x1R4Y/vWC5UkrmfBcdIMc4IcodDtB1VtBHc8PX2n1g4z9f
- 1x4NXWfrVuaeQ5B8PBwhkgZBYo4S3E5JML33h/IPJ0u+slIGhEywVMUewWZ2G75PBNTp
- d7Vso6nJ9iBps3v6yLuPWW0o5yld9PqYMU0/lnGtpQY6Ggrli+OcZjy6Yt32JVLkq/iF
- bxCg==
-X-Gm-Message-State: AOAM530cxRYob31UalHVbtr+0l4LODB0GP5QPrh+wvdiQfrTJ38hoe6R
- nIXxb2qDCZX2DrKhz9IqLG47r6vyrCVbLpvdgX4VAoTdQcFl+5ElU3UaDtmWSz7An4aM7ZUg2ys
- 0CJpecZ8tKdozWhY=
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr3897158wrp.246.1601653172238; 
- Fri, 02 Oct 2020 08:39:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwm0JBVCwe8jPHYFBuqAj1HYp6fYwtusTCGm6AUiirwArStJqluHa7uIe5ZKfdA58i6VAfQAQ==
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr3897122wrp.246.1601653171919; 
- Fri, 02 Oct 2020 08:39:31 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:47e0:e742:75ba:b84d?
- ([2001:b07:6468:f312:47e0:e742:75ba:b84d])
- by smtp.gmail.com with ESMTPSA id n66sm2175611wmb.35.2020.10.02.08.39.28
+ bh=Ndn3+dn01xCBxjK2wL7sB8ecAb+kOBq9c06j8JXt5Jg=;
+ b=nXJ3uHSUaQtzOzDPBn2kl2dC4GZOT9MViCaPyKfyJeanGQNuaGQbtXdZ0ZMXrBKuQu
+ lJ3KVM4ukAbIPPXbqDf53XavYGLfoq6ZFHtlCEvY190OZWXxUAJNXCctPYh1Te00dbCh
+ 0DnJGQQexekx+2s1GmVwm1RMWCT5Qpfagf+QWqrbDBHYmFpr854/lZ+Y3GDJZK3SQ/0D
+ SBHtHDLqIYV8NAPGGKuKhWOYboKk9nr6J3uDzK7D8gQ6Cbl67a9x1JVXq996AP3luI4M
+ 89Na63qdC24YQ37b9kIWJu3+G9SyMeuyQw4YC9s8kliR+nXE79umnqzdPv3VhnG9HJXH
+ 0edQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Ndn3+dn01xCBxjK2wL7sB8ecAb+kOBq9c06j8JXt5Jg=;
+ b=eswA8ymD4jwBFwFH2lv5q9cSb7YTrFYCOglm8d3LrAjb89THPYrPixL438RZbB3uSC
+ S8gXVE1EAm7ca6fGgmrYM5+mWje4LUQcO2EJkZbQKgwRqeKm9eDvaKk0wBs1Jr2MGush
+ D7hGt4IrlKtk80PwSR7sYlvg0Y2fLjbS3w/RWP5cavv+S+QmNck0qB8kVM7vkfhdtw6N
+ 2wEGJ75IGDdkCKRC/t+stDA8xpJj5TABHgNhKKA9dRbfubvBDFdPN1louMw8h87u4gr0
+ CnEeNfxvHqoZVkWIy+BGYa4oWOtqGT+HHVqpa+VDxlT2f8AqWYwokE/6ef6iikctPd0Y
+ 4HKw==
+X-Gm-Message-State: AOAM5323QzYSF8EFmrRTHhXUPHf0dPfRblYnTvFBt+iZ8LEcWPNFX+EC
+ CnvTQLOfdpnKSL7zMxro7cE=
+X-Google-Smtp-Source: ABdhPJw6Y+lGbyFjJIvbe8jqMekypIf5wFpzjHmcYJCtgpDhqMFN1PoPY0GN5ApMjhKOpKp2ByETpQ==
+X-Received: by 2002:a1c:9885:: with SMTP id a127mr3604381wme.8.1601653717527; 
+ Fri, 02 Oct 2020 08:48:37 -0700 (PDT)
+Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id 88sm2208679wrl.76.2020.10.02.08.48.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 08:39:29 -0700 (PDT)
-Subject: Re: [PATCH v6 00/14] Reverse debugging
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <160137726426.31007.12061315974029139983.stgit@pasha-ThinkPad-X280>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <74dc59b1-7a2b-4f6b-a022-3d796f86b9c7@redhat.com>
-Date: Fri, 2 Oct 2020 17:39:27 +0200
+ Fri, 02 Oct 2020 08:48:36 -0700 (PDT)
+Subject: Re: [PATCH] hw/avr: Add limited support for avr gpio registers
+To: Heecheol Yang <heecheol.yang@outlook.com>, qemu-devel@nongnu.org
+References: <DM6PR16MB24737F911BD260F1FA8EBC37E6310@DM6PR16MB2473.namprd16.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <45f921ac-39d5-2650-9b52-382acecf71d7@amsat.org>
+Date: Fri, 2 Oct 2020 17:48:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <160137726426.31007.12061315974029139983.stgit@pasha-ThinkPad-X280>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <DM6PR16MB24737F911BD260F1FA8EBC37E6310@DM6PR16MB2473.namprd16.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.256,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,133 +114,340 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, philmd@redhat.com,
- mtosatti@redhat.com, stefanha@redhat.com, armbru@redhat.com, mreitz@redhat.com,
- wrampazz@redhat.com, crosa@redhat.com, alex.bennee@linaro.org,
- zhiwei_liu@c-sky.com, rth@twiddle.net
+Cc: S.E.Harris@kent.ac.uk, mrolnik@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/09/20 13:01, Pavel Dovgalyuk wrote:
-> GDB remote protocol supports reverse debugging of the targets.
-> It includes 'reverse step' and 'reverse continue' operations.
-> The first one finds the previous step of the execution,
-> and the second one is intended to stop at the last breakpoint that
-> would happen when the program is executed normally.
-> 
-> Reverse debugging is possible in the replay mode, when at least
-> one snapshot was created at the record or replay phase.
-> QEMU can use these snapshots for travelling back in time with GDB.
-> 
-> Running the execution in replay mode allows using GDB reverse debugging
-> commands:
->  - reverse-stepi (or rsi): Steps one instruction to the past.
->    QEMU loads on of the prior snapshots and proceeds to the desired
->    instruction forward. When that step is reaches, execution stops.
->  - reverse-continue (or rc): Runs execution "backwards".
->    QEMU tries to find breakpoint or watchpoint by loaded prior snapshot
->    and replaying the execution. Then QEMU loads snapshots again and
->    replays to the latest breakpoint. When there are no breakpoints in
->    the examined section of the execution, QEMU finds one more snapshot
->    and tries again. After the first snapshot is processed, execution
->    stops at this snapshot.
-> 
-> The set of patches include the following modifications:
->  - gdbstub update for reverse debugging support
->  - functions that automatically perform reverse step and reverse
->    continue operations
->  - hmp/qmp commands for manipulating the replay process
->  - improvement of the snapshotting for saving the execution step
->    in the snapshot parameters
->  - avocado-based acceptance tests for reverse debugging
-> 
-> The patches are available in the repository:
-> https://github.com/ispras/qemu/tree/rr-200901
+Hi Yang,
 
-Hi Pavel,
+On 10/2/20 5:24 PM, Heecheol Yang wrote:
+> Add some of these features for avr gpio:
+>
+>  Â  - GPIO I/O : PORTx registers
+>  Â  - Data Direction : DDRx registers
+>
+> Following things are not supported yet:
+>  Â  - PINx registers
+>  Â  - MCUR registers
+>  Â  - Even though read/write for DDRx registers are
+>  Â Â Â  implemented, actual direction controls are not
+>  Â Â Â  supported yet.
 
-I'm still seeing failures in "make check-block":
+Thanks for your patch, however its encoding seems
+completely broken, and I can not test it. Similar
+problem occurred to the patchew automatic script:
 
-https://gitlab.com/bonzini/qemu/-/jobs/769653852
+https://patchew.org/QEMU/DM6PR16MB24737F911BD260F1FA8EBC37E6310@DM6PR16MB2473.namprd16.prod.outlook.com/
 
-Paolo
+This might be useful:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Use_git_format-patch
 
-> v6 changes:
->  - removed passing err variable without checking it's value after
-> v5 changes:
->  - disabled reverse debugging tests for gitlab-based testing
->    due to the unidentified timeout problem
-> v4 changes:
->  - added VM snapshot creation on gdb connect (suggested by Alex Bennée)
->  - removed useless calls to error_free
->  - updated poll interrupt processing
->  - minor changes
-> v3 changes:
->  - rebased to support the new build system
->  - bumped avocado framework version for using fixed remote gdb client
-> v2 changes:
->  - rebased to the latest upstream version
->  - fixed replaying of the POLL interrupts after the latest debug changes
-> 
+Anyway I'll try to review what I can follow.
+
+>
+> Signed-off-by: Heecheol Yang <heecheol.yang@outlook.com>
 > ---
-> 
-> Pavel Dovgaluk (11):
->       replay: provide an accessor for rr filename
->       qcow2: introduce icount field for snapshots
->       qapi: introduce replay.json for record/replay-related stuff
->       replay: introduce info hmp/qmp command
->       replay: introduce breakpoint at the specified step
->       replay: implement replay-seek command
->       replay: flush rr queue before loading the vmstate
->       gdbstub: add reverse step support in replay mode
->       gdbstub: add reverse continue support in replay mode
->       replay: describe reverse debugging in docs/replay.txt
->       tests/acceptance: add reverse debugging test
-> 
-> Pavel Dovgalyuk (3):
->       replay: don't record interrupt poll
->       migration: introduce icount field for snapshots
->       replay: create temporary snapshot at debugger connection
-> 
-> 
->  MAINTAINERS                           |    2 
->  accel/tcg/cpu-exec.c                  |   21 ++
->  accel/tcg/translator.c                |    1 
->  block/qapi.c                          |   18 +-
->  block/qcow2-snapshot.c                |    9 +
->  block/qcow2.h                         |    3 
->  blockdev.c                            |   10 +
->  docs/interop/qcow2.txt                |    5 
->  docs/replay.txt                       |   46 +++++
->  exec.c                                |    8 +
->  gdbstub.c                             |   64 ++++++
->  hmp-commands-info.hx                  |   11 +
->  hmp-commands.hx                       |   50 +++++
->  include/block/snapshot.h              |    1 
->  include/monitor/hmp.h                 |    4 
->  include/sysemu/replay.h               |   26 +++
->  migration/savevm.c                    |   17 +-
->  qapi/block-core.json                  |   11 +
->  qapi/meson.build                      |    1 
->  qapi/misc.json                        |   18 --
->  qapi/qapi-schema.json                 |    1 
->  qapi/replay.json                      |  121 ++++++++++++
->  replay/meson.build                    |    1 
->  replay/replay-debugging.c             |  332 +++++++++++++++++++++++++++++++++
->  replay/replay-events.c                |    4 
->  replay/replay-internal.h              |    6 -
->  replay/replay.c                       |   22 ++
->  softmmu/cpus.c                        |   19 ++
->  stubs/replay.c                        |   15 +
->  tests/acceptance/reverse_debugging.py |  208 +++++++++++++++++++++
->  tests/qemu-iotests/267.out            |   48 ++---
->  31 files changed, 1039 insertions(+), 64 deletions(-)
->  create mode 100644 qapi/replay.json
->  create mode 100644 replay/replay-debugging.c
->  create mode 100644 tests/acceptance/reverse_debugging.py
-> 
-> --
-> Pavel Dovgalyuk
-> 
+>  Â hw/avr/KconfigÂ Â Â Â Â Â Â Â Â Â Â Â  |Â Â  1 +
+>  Â hw/avr/atmega.cÂ Â Â Â Â Â Â Â Â Â Â  |Â Â  7 ++-
+>  Â hw/avr/atmega.hÂ Â Â Â Â Â Â Â Â Â Â  |Â Â  2 +
+>  Â hw/gpio/KconfigÂ Â Â Â Â Â Â Â Â Â Â  |Â Â  3 +
+>  Â hw/gpio/avr_gpio.cÂ Â Â Â Â Â Â Â  | 117
++++++++++++++++++++++++++++++++++++++
+>  Â hw/gpio/meson.buildÂ Â Â Â Â Â Â  |Â Â  2 +
+>  Â include/hw/gpio/avr_gpio.h |Â  48 +++++++++++++++
+>  Â 7 files changed, 178 insertions(+), 2 deletions(-)
+>  Â create mode 100644 hw/gpio/avr_gpio.c
+>  Â create mode 100644 include/hw/gpio/avr_gpio.h
+>
+> diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+> index d31298c3cc..16a57ced11 100644
+> --- a/hw/avr/Kconfig
+> +++ b/hw/avr/Kconfig
+> @@ -3,6 +3,7 @@ config AVR_ATMEGA_MCU
+>  Â Â Â Â  select AVR_TIMER16
+>  Â Â Â Â  select AVR_USART
+>  Â Â Â Â  select AVR_POWER
+> +Â Â Â  select AVR_GPIO
+>
+>  Â config ARDUINO
+>  Â Â Â Â  select AVR_ATMEGA_MCU
+> diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+> index 44c6afebbb..ad942028fd 100644
+> --- a/hw/avr/atmega.c
+> +++ b/hw/avr/atmega.c
+> @@ -283,8 +283,11 @@ static void atmega_realize(DeviceState *dev, Error
+> **errp)
+>  Â Â Â Â Â Â Â Â Â Â Â Â  continue;
+>  Â Â Â Â Â Â Â Â  }
+>  Â Â Â Â Â Â Â Â  devname = g_strdup_printf("atmega-gpio-%c", 'a' +
+(char)i);
+> -Â Â Â Â Â Â Â  create_unimplemented_device(devname,
+> -Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â
+ OFFSET_DATA + mc->dev[idx].addr, 3);
+> +Â Â Â Â Â Â Â  object_initialize_child(OBJECT(dev), devname, &s->gpio[i],
+> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â
+TYPE_AVR_GPIO);
+> +Â Â Â Â Â Â Â  sysbus_realize(SYS_BUS_DEVICE(&s->gpio[i]), &error_abort);
+> +Â Â Â Â Â Â Â  sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio[i]), 0,
+> +Â Â Â Â Â Â Â Â Â Â Â  OFFSET_DATA + mc->dev[idx].addr);
+>  Â Â Â Â Â Â Â Â  g_free(devname);
+>  Â Â Â Â  }
+>
+> diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
+> index a99ee15c7e..e2289d5744 100644
+> --- a/hw/avr/atmega.h
+> +++ b/hw/avr/atmega.h
+> @@ -13,6 +13,7 @@
+>
+>  Â #include "hw/char/avr_usart.h"
+>  Â #include "hw/timer/avr_timer16.h"
+> +#include "hw/gpio/avr_gpio.h"
+>  Â #include "hw/misc/avr_power.h"
+>  Â #include "target/avr/cpu.h"
+>  Â #include "qom/object.h"
+> @@ -44,6 +45,7 @@ struct AtmegaMcuState {
+>  Â Â Â Â  DeviceState *io;
+>  Â Â Â Â  AVRMaskState pwr[POWER_MAX];
+>  Â Â Â Â  AVRUsartState usart[USART_MAX];
+> +Â Â Â  AVRGPIOState gpio[GPIO_MAX];
+>  Â Â Â Â  AVRTimer16State timer[TIMER_MAX];
+>  Â Â Â Â  uint64_t xtal_freq_hz;
+>  Â };
+> diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
+> index b6fdaa2586..1752d0ce56 100644
+> --- a/hw/gpio/Kconfig
+> +++ b/hw/gpio/Kconfig
+> @@ -10,3 +10,6 @@ config GPIO_KEY
+>
+>  Â config SIFIVE_GPIO
+>  Â Â Â Â  bool
+> +
+> +config AVR_GPIO
+> +Â Â Â  bool
+> diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
+> new file mode 100644
+> index 0000000000..7114216847
+> --- /dev/null
+> +++ b/hw/gpio/avr_gpio.c
+> @@ -0,0 +1,117 @@
+> +/*
+> + * AVR processors GPIO registers emulation.
+> + *
+> + * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
+> + *
+> + * This program is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU General Public License as
+> + * published by the Free Software Foundation; either version 2 or
+> + * (at your option) version 3 of the License.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+along
+> + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "qemu/timer.h"
 
+"qemu/timer.h" not needed.
+
+> +#include "qapi/error.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +#include "hw/gpio/avr_gpio.h"
+> +#include "hw/qdev-properties.h"
+> +#include "chardev/char-fe.h"
+
+"chardev/char-fe.h" not needed.
+
+> +
+> +static void avr_gpio_reset(DeviceState *dev)
+> +{
+> +Â Â Â  AVRGPIOState *gpio = AVR_GPIO(dev);
+> +Â Â Â  gpio->ddr_val = 0u;
+> +Â Â Â  gpio->port_val = 0u;
+> +}
+> +static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned int
+> size)
+> +{
+> +Â Â Â  AVRGPIOState *s = (AVRGPIOState *)opaque;
+> +Â Â Â  switch (offset) {
+> +Â Â Â  case GPIO_PIN:
+> +Â Â Â Â Â Â Â  /* Not implemented yet */
+
+Please use:
+
+   qemu_log_mask(LOG_UNIMP, ...
+
+> +Â Â Â Â Â Â Â  break;
+> +Â Â Â  case GPIO_DDR:
+> +Â Â Â Â Â Â Â  return s->ddr_val;
+> +Â Â Â Â Â Â Â  break;
+> +Â Â Â  case GPIO_PORT:
+> +Â Â Â Â Â Â Â  return s->port_val;
+> +Â Â Â  default:
+> +Â Â Â Â Â Â Â  qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %lx\n",
+> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  __func__, offset);
+> +Â Â Â Â Â Â Â  break;
+
+This can not happen, so I'd simply use:
+
+     g_assert_not_reached();
+
+> +Â Â Â  }
+> +Â Â Â  return 0;
+> +}
+> +
+> +static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t value,
+> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â
+unsigned int size)
+> +{
+> +Â Â Â  AVRGPIOState *s = (AVRGPIOState *)opaque;
+> +Â Â Â  switch (offset) {
+> +Â Â Â  case GPIO_PIN:
+> +Â Â Â Â Â Â Â  /* Not implemented yet */
+> +Â Â Â Â Â Â Â  break;
+> +Â Â Â  case GPIO_DDR:
+> +Â Â Â Â Â Â Â  s->ddr_val = value & 0xF;
+> +Â Â Â Â Â Â Â  break;
+> +Â Â Â  case GPIO_PORT:
+> +Â Â Â Â Â Â Â  s->port_val = value & 0xF;
+> +Â Â Â Â Â Â Â  break;
+> +Â Â Â  default:
+> +Â Â Â Â Â Â Â  qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %lx\n",
+> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  __func__, offset);
+> +Â Â Â Â Â Â Â  break;
+> +Â Â Â  }
+
+Similar comments than avr_gpio_read().
+
+> +}
+> +
+> +static const MemoryRegionOps avr_gpio_ops = {
+> +Â Â Â  .read = avr_gpio_read,
+> +Â Â Â  .write = avr_gpio_write,
+> +Â Â Â  .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +static void avr_gpio_init(Object *obj)
+> +{
+> +Â Â Â  AVRGPIOState *s = AVR_GPIO(obj);
+> +Â Â Â  memory_region_init_io(&s->mmio, obj, &avr_gpio_ops, s,
+> TYPE_AVR_GPIO, 3);
+> +Â Â Â  sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+> +Â Â Â  s->enabled = true;
+> +}
+> +static void avr_gpio_realize(DeviceState *dev, Error **errp)
+> +{
+> +Â Â Â  avr_gpio_reset(dev);
+> +}
+> +
+> +
+> +static void avr_gpio_class_init(ObjectClass *klass, void *data)
+> +{
+> +Â Â Â  DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +Â Â Â  dc->reset = avr_gpio_reset;
+> +Â Â Â  dc->realize = avr_gpio_realize;
+> +}
+> +
+> +static const TypeInfo avr_gpio_info = {
+> +Â Â Â  .nameÂ Â Â Â Â Â Â Â Â  = TYPE_AVR_GPIO,
+> +Â Â Â  .parentÂ Â Â Â Â Â Â  = TYPE_SYS_BUS_DEVICE,
+> +Â Â Â  .instance_size = sizeof(AVRGPIOState),
+> +Â Â Â  .instance_init = avr_gpio_init,
+> +Â Â Â  .class_initÂ Â Â  = avr_gpio_class_init,
+> +};
+> +
+> +static void avr_gpio_register_types(void)
+> +{
+> +Â Â Â  type_register_static(&avr_gpio_info);
+> +}
+> +
+> +type_init(avr_gpio_register_types)
+> diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+> index 86cae9a0f3..258bd5dcfc 100644
+> --- a/hw/gpio/meson.build
+> +++ b/hw/gpio/meson.build
+> @@ -11,3 +11,5 @@ softmmu_ss.add(when: 'CONFIG_OMAP', if_true:
+> files('omap_gpio.c'))
+>  Â softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
+>  Â softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true:
+files('aspeed_gpio.c'))
+>  Â softmmu_ss.add(when: 'CONFIG_SIFIVE_GPIO', if_true:
+> files('sifive_gpio.c'))
+> +
+> +softmmu_ss.add(when: 'CONFIG_AVR_GPIO', if_true: files('avr_gpio.c'))
+> diff --git a/include/hw/gpio/avr_gpio.h b/include/hw/gpio/avr_gpio.h
+> new file mode 100644
+> index 0000000000..45d42753c8
+> --- /dev/null
+> +++ b/include/hw/gpio/avr_gpio.h
+> @@ -0,0 +1,48 @@
+> +/*
+> + * AVR processors GPIO registers definition.
+> + *
+> + * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
+> + *
+> + * This program is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU General Public License as
+> + * published by the Free Software Foundation; either version 2 or
+> + * (at your option) version 3 of the License.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+along
+> + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef AVR_GPIO_H
+> +#define AVR_GPIO_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "qom/object.h"
+> +#include "chardev/char-fe.h"
+
+"chardev/char-fe.h" not needed.
+
+> +
+> +/* Offsets of registers. */
+> +#define GPIO_PINÂ Â  0x00
+> +#define GPIO_DDRÂ Â  0x01
+> +#define GPIO_PORTÂ  0x02
+> +
+> +#define TYPE_AVR_GPIO "avr-gpio"
+> +OBJECT_DECLARE_SIMPLE_TYPE(AVRGPIOState, AVR_GPIO)
+> +
+> +struct AVRGPIOState {
+> +Â Â Â  /*< private >*/
+> +Â Â Â  SysBusDevice parent_obj;
+> +
+> +Â Â Â  /*< public >*/
+> +Â Â Â  MemoryRegion mmio;
+> +
+> +Â Â Â  uint8_t ddr_val;
+> +Â Â Â  uint8_t port_val;
+> +Â Â Â  bool enabled;
+
+What is 'enabled' for?
+
+> +
+> +};
+> +
+> +#endif /* AVR_GPIO_H */
+> --
+> 2.17.1
+
+Regards,
+
+Phil.
 
