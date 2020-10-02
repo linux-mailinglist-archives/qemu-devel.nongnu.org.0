@@ -2,64 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C4D280E44
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 09:53:38 +0200 (CEST)
-Received: from localhost ([::1]:47578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6EC280E4B
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 09:54:15 +0200 (CEST)
+Received: from localhost ([::1]:48860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOFsn-0006IT-0p
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 03:53:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60064)
+	id 1kOFtO-0006q1-QN
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 03:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOFrI-0005Zz-Mp
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:52:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45532)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOFrh-0005uN-SX
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:52:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOFrG-00063G-VJ
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:52:04 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOFrc-00064w-IN
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 03:52:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601625122;
+ s=mimecast20190719; t=1601625143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ivkSKsH2SMbCFNJJ/SA1jIYh//S27iTFJYfGDtaqfI8=;
- b=MnBPPkAYxv4VH+RNHJidX0OMlWC0YVw1xiqKSom9Q/B02FnIPjOHy8asa2uk8NorEmkCAW
- 61OHV3kLBgQkhqShUDzMjtGcsSRDqN7El/R5q+0XwC7xubrvYMkyQlvImYSDJWWkcDLf/A
- gz+KT53S7Ak/cEpOqQFBNuUz2SgtCBc=
+ bh=TkILCR1CRVsYh7TQQoV8aZKTCV+2sw6l0sf93MG0UtQ=;
+ b=Z6UfcsnyzorsnwjWtncYItK3MdYJtoZnR/nxj9AMsN76aPkvJT9F+PEND9cbeBAu3QMXM9
+ sPW+jCalvugYKmYTMpyjjkPUDxFdfoCbgVRU4vugmCS30fJYwrAYsMpkLtw1XYnu/AxE9E
+ VfHxfPpslwKLfXVa3fU5l5jExOsvKYw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-zWxNlKJIMNiRFDEKM3A2dg-1; Fri, 02 Oct 2020 03:52:00 -0400
-X-MC-Unique: zWxNlKJIMNiRFDEKM3A2dg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-350-hJlYBTNrOtKcV0V81FnfMw-1; Fri, 02 Oct 2020 03:52:22 -0400
+X-MC-Unique: hJlYBTNrOtKcV0V81FnfMw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C1B9107464C;
- Fri,  2 Oct 2020 07:51:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
- [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BEE51002C01;
- Fri,  2 Oct 2020 07:51:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 085531132784; Fri,  2 Oct 2020 09:51:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v7 03/13] monitor: Use getter/setter functions for cur_mon
-References: <20200909151149.490589-1-kwolf@redhat.com>
- <20200909151149.490589-4-kwolf@redhat.com>
-Date: Fri, 02 Oct 2020 09:51:55 +0200
-In-Reply-To: <20200909151149.490589-4-kwolf@redhat.com> (Kevin Wolf's message
- of "Wed, 9 Sep 2020 17:11:39 +0200")
-Message-ID: <87v9ftoyjo.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7458186DD2C;
+ Fri,  2 Oct 2020 07:52:20 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-112-139.ams2.redhat.com [10.36.112.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB22B5D9D3;
+ Fri,  2 Oct 2020 07:52:19 +0000 (UTC)
+Date: Fri, 2 Oct 2020 09:52:18 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Subject: Re: [PATCH] qcow2: Use L1E_SIZE in qcow2_write_l1_entry()
+Message-ID: <20201002075218.GA4996@linux.fritz.box>
+References: <20200928162333.14998-1-berto@igalia.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200928162333.14998-1-berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,58 +77,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, dgilbert@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Additional nitpick detail on Kevin's request.
+Am 28.09.2020 um 18:23 hat Alberto Garcia geschrieben:
+> We overlooked these in 02b1ecfa100e7ecc2306560cd27a4a2622bfeb04
+> 
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Thanks, applied to the block branch.
 
-> cur_mon really needs to be coroutine-local as soon as we move monitor
-> command handlers to coroutines and let them yield. As a first step, just
-> remove all direct accesses to cur_mon so that we can implement this in
-> the getter function later.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-[...]
-> diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-> index af9f5c0c70..6c50dbf051 100644
-> --- a/tests/test-util-sockets.c
-> +++ b/tests/test-util-sockets.c
-> @@ -52,6 +52,7 @@ static void test_fd_is_socket_good(void)
->  
->  static int mon_fd = -1;
->  static const char *mon_fdname;
-> +__thread Monitor *cur_mon;
->  
->  int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp)
->  {
-> @@ -66,15 +67,12 @@ int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp)
->  
->  /*
->   * Syms of stubs in libqemuutil.a are discarded at .o file granularity.
-> - * To replace monitor_get_fd() we must ensure everything in
-> - * stubs/monitor.c is defined, to make sure monitor.o is discarded
-> - * otherwise we get duplicate syms at link time.
-> + * To replace monitor_get_fd() and monitor_cur(), we must ensure that we also
-> + * replace any other symbol that is used in the binary and would be taken from
-> + * the same stub object file, otherwise we get duplicate syms at link time.
-
-Wrapping the comment around column 70 or so would make it easier to
-read.  File has no maintainers.  Up to you.
-
->   */
-> -__thread Monitor *cur_mon;
-> +Monitor *monitor_cur(void) { return cur_mon; }
->  int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap) { abort(); }
-> -void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp) {}
-> -void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp) {}
-> -
->  
->  static void test_socket_fd_pass_name_good(void)
->  {
-[...]
+Kevin
 
 
