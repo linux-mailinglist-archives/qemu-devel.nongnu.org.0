@@ -2,77 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFA628178C
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 18:12:39 +0200 (CEST)
-Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A76281742
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:57:37 +0200 (CEST)
+Received: from localhost ([::1]:43538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kONfi-0005mP-0A
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 12:12:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53074)
+	id 1kONRA-0007Mv-Pf
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=537b2d3de=alistair.francis@wdc.com>)
- id 1kONXu-0005wN-Gb
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 12:04:35 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:62433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=537b2d3de=alistair.francis@wdc.com>)
- id 1kONXq-0007i5-J7
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 12:04:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1601655573; x=1633191573;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ykyOHQKd0DnNB+7usZoiN44NfPlbxAfGZT6Ewc/BDLc=;
- b=Lf6S9nAFxy8KQGXGMchCJp0azYzUmCHR4hw5pUDtuzWc6ZzDF7xsuIKb
- nLR+NDS388OPEtUah0GE19s5kl1YBmnO/c2CKZoloTA/Lqww80QCz9B8c
- yCyiFHvm+QkXFesaZy6qS75xVZSSlRIx1DFkaZb+l6nO7Q3q0KNNcHzYK
- EGvcVpjMtNbH5FtMr0TxIYorWxMHqi9FDF10OiiPb7WnKvpXjwVICqxh2
- 6wE/B95cUeBn2hAjtFQm3iNybGR9jrmwPc8dn2XWRLjLkp6lEsxodHJCz
- vj1m8j/C4F69b7/I8v4k49VaKT7jkvj5qTVgIhqiZeeHrodMUuClCzGRA Q==;
-IronPort-SDR: ht+n7i5i4FCD9QN4rqD/GwV8XS8R8KZuaCM9KqSMdUtuVIuGYh9C7AL8bz9wke6lHKBnqO9uC2
- 2fKT10kBuFQTTdsHMrq9+n5VRTj/9RcraRue24lx3lMKR3A6KZ/JirRgx8xck3rJgb+XD4TLU0
- 3xPuDzMm4aHQj7ll/E23UhhOD9qK32aGz5trayojGO/rfZfOMU5Dhkk/9+Y+wEeLM5nDJjgP/q
- mgbd/v6pfmsmdHyc0u866JPOuQWS9aAosE2swSRQAh37IJqIcP/pxd+ZcX72By9zoc4Ann3LUK
- c8E=
-X-IronPort-AV: E=Sophos;i="5.77,328,1596470400"; d="scan'208";a="252339369"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Oct 2020 00:19:29 +0800
-IronPort-SDR: Ze0TH+RfBE765+86JvtzdcoBAFMi5DkokvUvWKcKwAGyhXM7o1Xa8YXwTMekJSePtgUflInd6R
- 5PvCZzXTqX3A==
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Oct 2020 08:50:23 -0700
-IronPort-SDR: /GNh5Xtjgktm1l/dtTntGjN1PcOkMWyKiXwBv8VbcIpmsXcb97wmeSJO85HXKRLguyi82flUDE
- B0N4sZ3TtYuA==
-WDCIronportException: Internal
-Received: from lpt-park-h.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.59.178])
- by uls-op-cesaip01.wdc.com with ESMTP; 02 Oct 2020 09:04:27 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	ehabkost@redhat.com
-Subject: [PATCH v2 1/1] register: Remove unnecessary NULL check
-Date: Fri,  2 Oct 2020 08:53:27 -0700
-Message-Id: <2d8747944b70d105c7ce320be0151c4c4ec78d24.1601653938.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kONNj-0005q9-AY
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:54:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28880)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kONNg-0005sL-Rm
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:54:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601654039;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jNhLb38RB5xuTM1T2eoZEbny90Y7kEvpq9cZK+wncLg=;
+ b=CuiwPBgzfXlSZPnYqDAr7tSGILnoUlcKMMyq5OuVvnYgwuFZ1f+tEI+ZqVFLWbLJzrBZy6
+ G9B8Zk16ATV+/vLOUcfB8WQhn+5IcobrbRqReYIs8/1BJHO8ms2d/6VinakNUJk9mrFYn2
+ M54DzYR5hC2cLGM6z39K3+u71sMHQKQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-B3Z4Xy9LM7CLr01ueV4cdw-1; Fri, 02 Oct 2020 11:53:55 -0400
+X-MC-Unique: B3Z4Xy9LM7CLr01ueV4cdw-1
+Received: by mail-wr1-f71.google.com with SMTP id v5so695908wrs.17
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 08:53:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=jNhLb38RB5xuTM1T2eoZEbny90Y7kEvpq9cZK+wncLg=;
+ b=QHGHaXYqf4g1Bm9cfdhmfCSwnyxLSVcPy4cOZINiygztPV5oXHOfSD79hDDfE2lfVp
+ x/8PS/JbwgnIughF7VMhPZPGlMm/D/bad6Jw2CMKlpvSKhCuhIgJwhuRt2cObD/Du7fK
+ Pjp19TDyiugSUMRedzyixNAMq7QvoOWaIpNipw2q43iVXEA2zlRUsvL3emo02lDr5jMC
+ 6haIFvUekTWpzewo02R5Sc8pQv51m7SGl272zm3ZvVFwuKq0IWRGa+tn7VTcJewMIO4e
+ DxSX6T+UjdHJMCuHN00ndr2uPHUz1x8mmHEdyfCDRVr+XzWkqnT2LKt0lr8UHcn8X0al
+ u9EQ==
+X-Gm-Message-State: AOAM530WFoouU3dP4r0GGZtXyRo/Z7EF+4pLIM2+CZfJyHBgcGGeUi6Z
+ +rJy/pCnPzY/9v01RSo3ze9sxZvLxVfs5CB4qtKjlaDbNzH3yBplcKIDqgclUuSy9SbgAx3bYvH
+ yUmNBrvKn1m4WRMY=
+X-Received: by 2002:a5d:6283:: with SMTP id k3mr3903725wru.191.1601654034095; 
+ Fri, 02 Oct 2020 08:53:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCiAPlUoifDDsBiiE8b9VE0R5RzO0skSaAauhmPA959x2Os1D2SC3X1+tLNsr5xIK5XxgDNA==
+X-Received: by 2002:a5d:6283:: with SMTP id k3mr3903709wru.191.1601654033882; 
+ Fri, 02 Oct 2020 08:53:53 -0700 (PDT)
+Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
+ [83.53.161.74])
+ by smtp.gmail.com with ESMTPSA id d9sm2093631wmb.30.2020.10.02.08.53.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 08:53:53 -0700 (PDT)
+Subject: Re: [PATCH] gitlab-ci.yml: Only run one test-case per fuzzer
+To: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ qemu-devel@nongnu.org
+References: <20201002143524.56930-1-alxndr@bu.edu>
+ <6564a712-71e5-460b-c9d6-1d2c245ff6ea@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <746477ee-01db-e52b-8348-c42aad18e9da@redhat.com>
+Date: Fri, 2 Oct 2020 17:53:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <6564a712-71e5-460b-c9d6-1d2c245ff6ea@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=537b2d3de=alistair.francis@wdc.com;
- helo=esa2.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 11:42:05
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,34 +124,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alistair.francis@wdc.com, f4bug@amsat.org,
- alistair23@gmail.com
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes CID 1432800 by removing an unnecessary check.
+On 10/2/20 5:15 PM, Thomas Huth wrote:
+> On 02/10/2020 16.35, Alexander Bulekov wrote:
+>> With 1000 runs, there is a non-negligible chance that the fuzzer can
+>> trigger a crash. With this CI job, we care about catching build/runtime
+>> issues in the core fuzzing code. Actual device fuzzing takes place on
+>> oss-fuzz. For these purposes, only running one input should be
+>> sufficient.
+>>
+>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+>> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  .gitlab-ci.yml | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index a51c89554f..075c15d45c 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -303,7 +303,7 @@ build-oss-fuzz:
+>>                        | grep -v slirp); do
+>>          grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 || continue ;
+>>          echo Testing ${fuzzer} ... ;
+>> -        "${fuzzer}" -runs=1000 -seed=1 || exit 1 ;
+>> +        "${fuzzer}" -runs=1 -seed=1 || exit 1 ;
+> 
+> ... but we're apparently already using a fixed seed for running the
+> test, so it should be pretty much deterministic, shouldn't it? So the
+> chance that the fuzzer hits a crash here for a pre-existing problem
+> should be close to zero? ... so I'm not quite sure whether we really
+> need this?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/core/register.c | 4 ----
- 1 file changed, 4 deletions(-)
+You are right, "non-negligible chance that the fuzzer can trigger a
+crash" shouldn't be a problem. What matters is we don't waste CI
+resources, 1 run is enough to test the fuzzer is working.
 
-diff --git a/hw/core/register.c b/hw/core/register.c
-index 31038bd7cc..3600ef5bde 100644
---- a/hw/core/register.c
-+++ b/hw/core/register.c
-@@ -258,10 +258,6 @@ static RegisterInfoArray *register_init_block(DeviceState *owner,
-         int index = rae[i].addr / data_size;
-         RegisterInfo *r = &ri[index];
- 
--        if (data + data_size * index == 0 || !&rae[i]) {
--            continue;
--        }
--
-         /* Init the register, this will zero it. */
-         object_initialize((void *)r, sizeof(*r), TYPE_REGISTER);
- 
--- 
-2.28.0
+> Anyway, I certainly also won't object this patch, so in case
+> anybody wants to merge it:
+> 
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> 
 
 
