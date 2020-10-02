@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EAE2815A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:48:24 +0200 (CEST)
-Received: from localhost ([::1]:35018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FC62815D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:54:01 +0200 (CEST)
+Received: from localhost ([::1]:55086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMMB-0005XD-M1
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34360)
+	id 1kOMRc-0005RZ-Lb
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI4-0001A2-Hw
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI4-0001A4-Pj
  for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45752)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMHz-0004VX-8Q
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:06 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMI2-0004Vb-72
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601649842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ojSCmLxFNIo7TbCKM30bGglwGjRSfaORvBkMlNbVgfs=;
- b=hYP5EDkydoob1Dcx3srmKGrXHe+YhU77XiAlhtjDkBhOtiIKmNMZednqq7FnqFeP8bqhE3
- KKlYoKaAS4ElWBtOVlAwHGtJOsXpCTFzHpmA+2d1QwwdetZ4XSrAcVhE3UrQ8rIiP4+Mg7
- iouBpziVXF7S0NYMEsaxO6l17r6B+Z0=
+ bh=XFeys0fRkZF7aSyHogMPVsv8NICGMjYTpS3rySG33Nk=;
+ b=f6gUeeoEyX+cApk3lCofuRz2wQo/hnN/g/LhZY42wrWWwyiTY4njLkdGQDE3nQug1zmDbT
+ 6tE/flWzr1JaMum89vweWfuBAWXL+XTcwQ35XhlYR8LJAJbfx6tHCB5hGaginlQKsAsBvs
+ SgnZ/d4TH0MvMBF+cR1HrBZGnkJbAfM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-uvmmwm_eMzu7LVwDFzfSww-1; Fri, 02 Oct 2020 10:43:57 -0400
-X-MC-Unique: uvmmwm_eMzu7LVwDFzfSww-1
+ us-mta-192-9bvrpNG8Ndm0DkD8z7wHtQ-1; Fri, 02 Oct 2020 10:43:58 -0400
+X-MC-Unique: 9bvrpNG8Ndm0DkD8z7wHtQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 553A31084CAB;
- Fri,  2 Oct 2020 14:43:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74BBC80B71B;
+ Fri,  2 Oct 2020 14:43:57 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
  [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 434C95D9D5;
- Fri,  2 Oct 2020 14:43:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DFF65D9D5;
+ Fri,  2 Oct 2020 14:43:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/37] qemu-io-cmds: Simplify help_oneline
-Date: Fri,  2 Oct 2020 16:43:12 +0200
-Message-Id: <20201002144345.253865-5-kwolf@redhat.com>
+Subject: [PULL 05/37] nbd: Remove unused nbd_export_get_blockdev()
+Date: Fri,  2 Oct 2020 16:43:13 +0200
+Message-Id: <20201002144345.253865-6-kwolf@redhat.com>
 In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
 References: <20201002144345.253865-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -66,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,74 +83,46 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-
-help_oneline is declared and starts as:
-
-  static void help_oneline(const char *cmd, const cmdinfo_t *ct)
-  {
-      if (cmd) {
-          printf("%s ", cmd);
-      } else {
-          printf("%s ", ct->name);
-          if (ct->altname) {
-              printf("(or %s) ", ct->altname);
-          }
-      }
-
-However, there are only two routes to help_oneline being called:
-
-   help_f -> help_all -> help_oneline(ct->name, ct)
-
-   help_f -> help_onecmd(argv[1], ct)
-
-In the first case, 'cmd' and 'ct->name' are the same thing,
-so it's impossible for the if (cmd) to be false and then validly
-print ct->name - this is upsetting gcc
-( https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96739 )
-
-In the second case, cmd is argv[1] and we know we've got argv[1]
-so again (cmd) is non-NULL.
-
-Simplify help_oneline by just printing cmd.
-(Also strengthen argc check just to be pedantic)
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200824102914.105619-1-dgilbert@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200924152717.287415-2-kwolf@redhat.com>
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-io-cmds.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ include/block/nbd.h | 2 --
+ nbd/server.c        | 5 -----
+ 2 files changed, 7 deletions(-)
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index baeae86d8c..4153f1c0b0 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -2383,14 +2383,7 @@ static const cmdinfo_t sleep_cmd = {
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 9bc3bfaeec..0451683d03 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -338,8 +338,6 @@ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp);
+ void nbd_export_get(NBDExport *exp);
+ void nbd_export_put(NBDExport *exp);
  
- static void help_oneline(const char *cmd, const cmdinfo_t *ct)
- {
--    if (cmd) {
--        printf("%s ", cmd);
--    } else {
--        printf("%s ", ct->name);
--        if (ct->altname) {
--            printf("(or %s) ", ct->altname);
--        }
--    }
-+    printf("%s ", cmd);
- 
-     if (ct->args) {
-         printf("%s ", ct->args);
-@@ -2420,7 +2413,7 @@ static int help_f(BlockBackend *blk, int argc, char **argv)
- {
-     const cmdinfo_t *ct;
- 
--    if (argc == 1) {
-+    if (argc < 2) {
-         help_all();
-         return 0;
+-BlockBackend *nbd_export_get_blockdev(NBDExport *exp);
+-
+ AioContext *nbd_export_aio_context(NBDExport *exp);
+ NBDExport *nbd_export_find(const char *name);
+ void nbd_export_close_all(void);
+diff --git a/nbd/server.c b/nbd/server.c
+index 982de67816..bd53f7baea 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1731,11 +1731,6 @@ void nbd_export_put(NBDExport *exp)
      }
+ }
+ 
+-BlockBackend *nbd_export_get_blockdev(NBDExport *exp)
+-{
+-    return exp->blk;
+-}
+-
+ void nbd_export_close_all(void)
+ {
+     NBDExport *exp, *next;
 -- 
 2.25.4
 
