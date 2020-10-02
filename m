@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCB8280FAA
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 11:17:06 +0200 (CEST)
-Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CABB8280FB3
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 11:18:26 +0200 (CEST)
+Received: from localhost ([::1]:42144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOHBa-0000kh-0C
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 05:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48726)
+	id 1kOHCr-0002RE-Td
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 05:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kOH9y-0008Ex-J0; Fri, 02 Oct 2020 05:15:26 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:50157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kOH9w-0007xe-PS; Fri, 02 Oct 2020 05:15:26 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.17])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6CBB9614A228;
- Fri,  2 Oct 2020 11:15:21 +0200 (CEST)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 2 Oct 2020
- 11:15:20 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005c2960b0f-8cad-4745-b453-0ee292fa74a0,
- E5699CC8EA5174E5FAE9BB942A50BECA2342936F) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH] ppc/pnv: Increase max firware size
-To: Greg Kurz <groug@kaod.org>
-References: <20201002061353.1340766-1-clg@kaod.org>
- <81451df1-43d5-43ce-e3cf-703d78333841@kaod.org>
- <20201002092610.36b38900@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <81824d61-4719-6e5f-8f31-e252046718a7@kaod.org>
-Date: Fri, 2 Oct 2020 11:15:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kOHAO-0008Um-On
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 05:15:52 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kOHAM-00085U-Fn
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 05:15:52 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j2so960147wrx.7
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 02:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K/NN3NZEzXuiMEuQI3WFpeqHPOu1g3wsQaoHfhJznyM=;
+ b=YZNNgv2xtX53o+Z41JVjOR7YbBV4ge05CqmnD4Hh2z0ekuID0/fK2wdNkEeTb9h6sD
+ cCjdLoYNekyvbjpRHmXl0vshD3dsABBN1Xk9jI3QsNIYYUYMvnj5Mv9zdM/ZmL2AOaRq
+ bZxxiP6zcOgUTvtjfEfxkelu3nFNsrzf99a1KTaU7XLthMZES4DcH+TVAm+I8xCf53Vv
+ 0ZLbcjVlt11oShR/AwzLqLiqJvwdkUoDwitMpqrR+5loSGsv+67HMVF/3JsM6ztC+IYz
+ mcz8PLhvPxJJycUMxqkJPnr0LzQXyr9rGdHdfEX9S0ENTI3wL1Kq6QFvkSpQkFxkV7V6
+ eR9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K/NN3NZEzXuiMEuQI3WFpeqHPOu1g3wsQaoHfhJznyM=;
+ b=kcV6862rGU1Wx3eghpX4rGiSwkPPaO+DLVmvOUf5SAkx80Qr7m3qEKJ7E/ZEckakL3
+ oMx50cvKcybbno4+/Jyh33bIHwGSuhTZRfhGaat4tZAaVMoIgMWYeEl0rL2QC1Yj97im
+ 9img3dlBUCBjbzZDoxoKCFFCXmPE3FcvnMWs52aoXVh/KO2RQCWGSrlGkGrz0BgRriP3
+ zef1WO1BIULMqzxTsJmfN3CEtRfMjvpseK8DW21uBhW/RV+bICzyb7yaYJHwAc1/HjJa
+ VIX6RyTnunH9AIs+cKsOyNz+LBnhyC2fyW/UAI0JzAZCVSjQujTALTakn5C+ZuDELBPI
+ hHqw==
+X-Gm-Message-State: AOAM533ck9guIWSvcd3yLEnJqN6oTtxVGZvCCxmYN52f9FkwfkNjehPF
+ vf+GY86TCEg0lHtInttQLHuzpw==
+X-Google-Smtp-Source: ABdhPJw7fbIJIopjs76xpyhqBry6x93LCgnyxCP0Ol9+3xxnclTHvjeFS4vojlv/lD+OIGmti2mHhw==
+X-Received: by 2002:adf:e7ca:: with SMTP id e10mr1829354wrn.236.1601630147133; 
+ Fri, 02 Oct 2020 02:15:47 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m18sm1188642wmg.32.2020.10.02.02.15.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Oct 2020 02:15:45 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 48CB21FF7E;
+ Fri,  2 Oct 2020 10:15:45 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] gitlab: split deprecated job into build/check stages
+Date: Fri,  2 Oct 2020 10:15:38 +0100
+Message-Id: <20201002091538.3017-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201002092610.36b38900@bahia.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 6f7d27be-59d3-4a21-8a15-8d79e84933ec
-X-Ovh-Tracer-Id: 17269334247903497184
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrfeeigdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 05:15:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.26,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,29 +86,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/20 9:26 AM, Greg Kurz wrote:
-> On Fri, 2 Oct 2020 08:15:46 +0200
-> Cédric Le Goater <clg@kaod.org> wrote:
-> 
->> That was sent a bit fast. Can you please add in the commit log : 
->>
->>   Builds enabling GCOV can be bigger than 4MB and the limit on FSP
->>   systems is 16MB. 
->>
->> Thanks 
->>
-> 
-> And also s/firware/firmware in the title.
+While the job is pretty fast for only a few targets we still want to
+catch breakage of the build. By splitting the test step we can
+allow_failures for that while still ensuring we don't miss the build
+breaking.
 
-bah. sending a v2.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ .gitlab-ci.yml | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-Thanks,
-
-C.
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 346f23acf7..a51c89554f 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -270,9 +270,24 @@ build-deprecated:
+   variables:
+     IMAGE: debian-all-test-cross
+     CONFIGURE_ARGS: --disable-docs --disable-tools
+-    MAKE_CHECK_ARGS: check-tcg
++    MAKE_CHECK_ARGS: build-tcg
+     TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
+       unicore32-softmmu
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++# We split the check-tcg step as test failures are expected but we still
++# want to catch the build breaking.
++check-deprecated:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-deprecated
++      artifacts: true
++  variables:
++    IMAGE: debian-all-test-cross
++    MAKE_CHECK_ARGS: check-tcg
+   allow_failure: true
+ 
+ build-oss-fuzz:
+-- 
+2.20.1
 
 
