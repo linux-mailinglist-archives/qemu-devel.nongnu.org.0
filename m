@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C73128115C
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:41:01 +0200 (CEST)
-Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C371281165
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:44:38 +0200 (CEST)
+Received: from localhost ([::1]:41244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOJQq-0000qF-G0
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:41:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48334)
+	id 1kOJUL-0004RU-Hp
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJMv-0006nb-IN
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:00 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43686)
+ id 1kOJN5-0006oA-97
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:10 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJMo-0007bd-ND
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:36:54 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id k15so1437569wrn.10
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:36:50 -0700 (PDT)
+ id 1kOJMw-0007bo-Tc
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:05 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id g4so1450662wrs.5
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dapbAby+p+IB97tixpUV9qcke8guPCQp0Q97X2paJKo=;
- b=cNMioLAmqS0sE4QwG7m5Zykam0aEw+OAy/8SEUBm08fCjUCaOFi8CNZGt0KqY0tVQz
- PKbop8DuzpByiCDMV9qVDNViMzYo/1C2tBTUJDESD7IoT8AeAFNlDkkbGUK3wwZHgRnv
- VwTbyGfN4rFE+6nuRO9XrADSTWuXbzdNHnVkXfQdoWVp5d3DB9JixZmDp7cPNlC7qU7X
- DyPtdIZ3JZcQojCqQqHwP7B/D/zreiHxvaxsAQsrMb4WokWgElegRYkBKmshMmM7ZqzC
- 551QGcynN3LgmfhjtB2WStb7ckyhz1ejNiVAJkqoINZzZMwTtABjfR8vFlNS/Gpn0N2k
- uwoQ==
+ bh=9XYcghb9sPJN20tF//vvqdPEa8XcJlWcmFIQZkg5CNk=;
+ b=e+XIJuFzO7HYKqOrVIBNrn7BA7JZdRjUCZOdnvZ5ybfOR3XGYyLbFySqDnF/iReaZy
+ bKNb5Tv8MwB5Hvcb7wZx9fpABVa3onszeclvdiA6OIVbOP/9bYddSWttqitxdYOIrNU/
+ cqhwzcI7bh83RijWETnZ0iWgjW6VFJOZSAuKkvxN9q5Ub8zUEoUCWK4DWEZ36EEQyDDC
+ YY1TKHs4JImXX4liAjU8ZWjKGFpeA3TIYrhcUX6FOfuC7KxJFUggLtYZsWrByrvnpYD/
+ kA7saAmgfCiM2O38TAEOXPRR/dHgXzLfU0gP8JI+6m8yFyNS6+cOLGbpyVn1rHCqKcgr
+ JM2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dapbAby+p+IB97tixpUV9qcke8guPCQp0Q97X2paJKo=;
- b=qAA22JvrgzQh3GJVm/HcidyBjh3kI+iDv0ZkUXXzE7VmB8JpqjQ4nRRNFblNnLXDSL
- kD6xbnA4+CLcc+3NNst7vuYjDRRT8ppcgjjdJxx3dEYQrHWeRz2QAaWADdLLbYi3BQpf
- 7M9TgEvp+RUDPECzDTZMFPxQYqQ4Z7IuturD5AV63J1rnjlFSczYoOjOYOI0kPastNC1
- 25+1sndwmDnJY+NAVHlc/aGCd7eBkoiEk5dmAfhGWc/viP4i/Qx+7G8BNlqnaT8xkueO
- cyXpf09TSQNQGjtJ4azr1HbplcdFEimkA2tnYei3VZWJIMjfXgVTxzbmf9LGBjxTtJco
- 543g==
-X-Gm-Message-State: AOAM532WxF1dkI5iwrV0VG/d0kA9QvXwI5utaomu1aGnAZDRWJXaB5ei
- urpotT+U/4pRXuOy2G7kiBXLQg==
-X-Google-Smtp-Source: ABdhPJzlG5Hanjkan2nIbrKMLf0U3fYzelH1OQCvLSAqjp2vi9ebTjtwl//lGJya1cYHb8IIJ3euEw==
-X-Received: by 2002:adf:ed12:: with SMTP id a18mr2712195wro.178.1601638609197; 
- Fri, 02 Oct 2020 04:36:49 -0700 (PDT)
+ bh=9XYcghb9sPJN20tF//vvqdPEa8XcJlWcmFIQZkg5CNk=;
+ b=n7IZIw+3OiAKKpAzuiqhHn4VB9OBuID7OyZFeggZxuseD+qZQq1uGdjO7KczAiVY2N
+ iMe2D6pgB7QsfYMvK935k4V9w656cOVzR9OgbBu7TpplYMs42k7YNYxrwXMeaMzboArG
+ MzFrbtKZMDfREVJ0RaNTgNVfZx4d4oTkngO+g5TT728yZYf7Ry4tSQRL4so6n/F8SlS5
+ x8RO1uUWv76wJdQCXOeKCwkL8ZZQxg38K6yx2KCbJvdLCCk7vCALPtQV+Rn6om89Mibi
+ Aq/s0AAE1KgfjO2hlgzdaeWvsjwkjkdsXC7SKAOex4nWjlOpBgG0FdI0SMsODxzZN5jp
+ soaw==
+X-Gm-Message-State: AOAM532BMH7jrNWIfMOGaOhXUSWei3fha8t/g2ZF6bXg9+ohlVHNS07G
+ J/WuNfLxTDBp/oRIMCS8i7d0XQ==
+X-Google-Smtp-Source: ABdhPJzIluFM9wcsfkyRV2r8Jv0DGCHn9vTyMQxV4G6yFLZuXwgAwuor9MxxGLrXYxHNsBNj1ouFhw==
+X-Received: by 2002:a5d:5404:: with SMTP id g4mr2459003wrv.134.1601638611573; 
+ Fri, 02 Oct 2020 04:36:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w5sm1537648wmg.42.2020.10.02.04.36.46
+ by smtp.gmail.com with ESMTPSA id u66sm1504837wme.12.2020.10.02.04.36.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 02 Oct 2020 04:36:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 065B01FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 1E7091FF8C;
  Fri,  2 Oct 2020 12:36:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/14] migration: Silence compiler warning in
- global_state_store_running()
-Date: Fri,  2 Oct 2020 12:36:32 +0100
-Message-Id: <20201002113645.17693-2-alex.bennee@linaro.org>
+Subject: [PULL 02/14] travis.yml: Drop the default softmmu builds
+Date: Fri,  2 Oct 2020 12:36:33 +0100
+Message-Id: <20201002113645.17693-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201002113645.17693-1-alex.bennee@linaro.org>
 References: <20201002113645.17693-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,53 +88,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-GCC 9.3.0 on Ubuntu complains:
+The total runtime of all Travis jobs is very long and we are testing
+all softmmu targets in the gitlab-CI already - so we can speed up the
+Travis testing a little bit by not testing the softmmu targets here
+anymore.
 
-In file included from /usr/include/string.h:495,
-                 from /home/travis/build/huth/qemu/include/qemu/osdep.h:87,
-                 from ../migration/global_state.c:13:
-In function ‘strncpy’,
-    inlined from ‘global_state_store_running’ at ../migration/global_state.c:47:5:
-/usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
- ‘__builtin_strncpy’ specified bound 100 equals destination size [-Werror=stringop-truncation]
-  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-... but we apparently really want to do a strncpy here - the size is already
-checked with the assert() statement right in front of it. To silence the
-warning, simply replace it with our strpadcpy() function.
-
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com> (two years ago)
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200918103430.297167-4-thuth@redhat.com>
-Message-Id: <20200925154027.12672-5-alex.bennee@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200918103430.297167-5-thuth@redhat.com>
+Message-Id: <20200925154027.12672-6-alex.bennee@linaro.org>
 
-diff --git a/migration/global_state.c b/migration/global_state.c
-index 25311479a4..a33947ca32 100644
---- a/migration/global_state.c
-+++ b/migration/global_state.c
-@@ -44,8 +44,8 @@ void global_state_store_running(void)
- {
-     const char *state = RunState_str(RUN_STATE_RUNNING);
-     assert(strlen(state) < sizeof(global_state.runstate));
--    strncpy((char *)global_state.runstate,
--           state, sizeof(global_state.runstate));
-+    strpadcpy((char *)global_state.runstate, sizeof(global_state.runstate),
-+              state, '\0');
- }
+diff --git a/.travis.yml b/.travis.yml
+index bd9a6fc06c..b2d492f8c6 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -123,20 +123,6 @@ jobs:
+         - CONFIG="--disable-system --static"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
  
- bool global_state_received(void)
+-
+-    # we split the system builds as it takes a while to build them all
+-    - name: "GCC (main-softmmu)"
+-      env:
+-        - CONFIG="--disable-user --target-list=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+-
+-    - name: "GCC (other-softmmu)"
+-      env:
+-       - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+-
+     # Just build tools and run minimal unit and softfloat checks
+     - name: "GCC check-unit and check-softfloat"
+       env:
 -- 
 2.20.1
 
