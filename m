@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B7B281A52
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 20:00:01 +0200 (CEST)
-Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A619A281A49
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:57:45 +0200 (CEST)
+Received: from localhost ([::1]:51120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOPLb-0007xl-OV
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:59:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48260)
+	id 1kOPJQ-0005cR-O0
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kOPGE-00021A-Rg; Fri, 02 Oct 2020 13:54:27 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:38822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kOPGC-0005A3-Ti; Fri, 02 Oct 2020 13:54:26 -0400
-Received: by mail-lj1-x241.google.com with SMTP id w3so1879450ljo.5;
- Fri, 02 Oct 2020 10:54:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=KLzAvA12BDrOuDsq9G64J4ANl6yG66aF1CUdl7U7iys=;
- b=CrhgcxsEsgwH+hN5WbX4l6ogW7qHsbT3YwgMTc069pvHl+iPdhmZwXCBIezogDnXIx
- oWKZACF0s+ksfVpvuD7Mxy48nMmq1oe4xffUSVyz4Nyhl6pSr3O7kHNjPqJUXKbkwCba
- zlGfRwsb6eCyy905LTh8nvWvm3xE7lPmbCfzmsnuqT6C21OtgWDui66ue6dXENYqknhS
- ycORxP1sVr5Wa1hr7l92f1KBWcAVGToChsp/UE95UU2pWmTXs5u83j+lmsqeJCG91Ncl
- JiU0/uNbFXomQNEE+fiMLKx5zQB+oHEidq8lK7zvwR/kmKgS3Ga1ZFbrZU6b63Z4i4yy
- gouQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=KLzAvA12BDrOuDsq9G64J4ANl6yG66aF1CUdl7U7iys=;
- b=aILrFhc6n24CI5OR3gOcy6M17Uoi5kG1+7gKD1HBivaP79046dt687q9to47ZTCdMM
- +R4W7SySi6ek/mArgf4vZBHJG1POMcVeIr+cfkoWQgHXuFjOQoKkVvLAHCVtqMncRVaP
- bG+LGhgcXnBKbeUHvwOpRcePba46ecBIub5C4bDCz4iTHQtbhV5nd6mixf6PvHuE+QFQ
- ts1snHATd5nyjo/rWROdrAyV2lv2kCNHFzDmTYGk3d0/uy0mb7yeXBSnE9J7NiwzY6og
- cVCqwrtMK/4hq39hFO9dDmPiDI+06LEPdj6YxjePKL4UuJLIuKMIKQ1LFR7J5ylG7bnq
- LrWQ==
-X-Gm-Message-State: AOAM533YjVwul/09IxJlDbmv8xsl2a4FY7o7gnT/62lHpzglR266QD3E
- Vy1ObHnReOcT0cVZmP8ByGbGV0esLhzdLUTSNrw=
-X-Google-Smtp-Source: ABdhPJyNEK79fKniIRIGZEkHDSlgyRH2itR6GB7bOeMyfwRCoVEi3heuwBADyC09hBO+FZp0qXjQhAJLdrWZ8g8oXss=
-X-Received: by 2002:a2e:854c:: with SMTP id u12mr1004882ljj.120.1601661262425; 
- Fri, 02 Oct 2020 10:54:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201001173230.829-1-luoyonggang@gmail.com>
- <20201001173230.829-3-luoyonggang@gmail.com>
- <20201002153559.GJ2338114@redhat.com>
- <CAE2XoE_z3j+_+Oh1Kn-GSAT4q0_nXnT0sLHMLCw0+r1o0WBJSA@mail.gmail.com>
- <20201002164232.GO2338114@redhat.com>
- <CAE2XoE_+ERRdDgGcisNj0WWMU=rCs49PrikVw6Tk+Ov2TC0+Tw@mail.gmail.com>
- <7998dac5-0bd6-a552-30d4-c567805ad1ed@redhat.com>
-In-Reply-To: <7998dac5-0bd6-a552-30d4-c567805ad1ed@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Sat, 3 Oct 2020 01:54:11 +0800
-Message-ID: <CAE2XoE9OP0Z-xCXEjvAE-rCkusJ+GMypg=YU19ee8G=MKj2RPQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/4] curses: Fixes compiler error that complain don't
- have langinfo.h on msys2/mingw
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kOPHp-0004Kc-Kr
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:56:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43077)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kOPHk-0005W8-UE
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:56:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601661360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rIyElYhR44is0h6RReT8YJ4TgPcYf9CTiQTT44zOU5A=;
+ b=CvNjPem9vbai3yjWRb55HA/sjtvNKPD2H7/16rpSt8DB6PSrydXBrbyPdvwxuwOGSerKPy
+ hui9Xt9YX0aez2QOsoZ0DYYaNbaSpOlK/8mtCaSq+1IiRsmlYVGxmkuRyl41FLyzpUYvUH
+ Zt7qU77yMnwYmQw5ET36CI5a2kai/uA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-UhqWZ795OemvqvHJQ-FR4Q-1; Fri, 02 Oct 2020 13:55:57 -0400
+X-MC-Unique: UhqWZ795OemvqvHJQ-FR4Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43A98186DD41
+ for <qemu-devel@nongnu.org>; Fri,  2 Oct 2020 17:55:56 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9A965C1DA;
+ Fri,  2 Oct 2020 17:55:55 +0000 (UTC)
+Date: Fri, 2 Oct 2020 13:55:54 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000098f43a05b0b3d296"
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Subject: Re: [PULL v8 00/86] Misc QEMU patches for 2020-09-24
+Message-ID: <20201002175554.GD7303@habkost.net>
+References: <20200930195850.278104-1-pbonzini@redhat.com>
+ <a0b8e23a-cccb-3c5d-dbf7-f489c0d95f93@redhat.com>
+ <20201002162208.GB7303@habkost.net>
+ <a793e75b-47f2-5120-24cd-c50a6a45d04b@redhat.com>
+ <1a98babe-f6b9-fa73-24ca-07ecbf395225@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <1a98babe-f6b9-fa73-24ca-07ecbf395225@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,87 +85,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000098f43a05b0b3d296
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Oct 02, 2020 at 07:30:17PM +0200, Paolo Bonzini wrote:
+> On 02/10/20 19:26, Michal Prívozník wrote:
+> > On 10/2/20 6:22 PM, Eduardo Habkost wrote:
+> >> On Fri, Oct 02, 2020 at 05:58:55PM +0200, Michal Prívozník wrote:
+> >>> On 9/30/20 9:58 PM, Paolo Bonzini wrote:
+> >>>>
+> >>>> Eduardo Habkost (10):
+> >>> <snip/>
+> >>>>         docs: Create docs/devel/qom.rst
+> >>>
+> >>> cd442a45db60a1a72fcf980c24bd1227f13f8a87 is the first bad commit
+> >>>
+> >>> Sorry for noticing this earlier, but is this known? The build starts
+> >>> failing
+> >>> for me after this commit:
+> >>>
+> >>> /usr/bin/sphinx-build -Dversion=5.1.50 -Drelease= -W
+> >>> -Ddepfile=docs/devel.d
+> >>> -Ddepfile_stamp=docs/devel.stamp -b html -d
+> >>> /home/zippy/work/qemu/qemu.git/build/docs/devel.p
+> >>> /home/zippy/work/qemu/qemu.git/docs/devel
+> >>> /home/zippy/work/qemu/qemu.git/build/docs/devel
+> >>> Running Sphinx v3.2.1
+> >>> building [mo]: targets for 0 po files that are out of date
+> >>> building [html]: targets for 20 source files that are out of date
+> >>> updating environment: [new config] 20 added, 0 changed, 0 removed
+> >>> reading sources... [100%] testing
+> >>>
+> >>>
+> >>>
+> >>>
+> >>> Warning, treated as error:
+> >>> /home/zippy/work/qemu/qemu.git/docs/../include/qom/object.h:747:Error in
+> >>> declarator
+> >>> If declarator-id with parameters (e.g., 'void f(int arg)'):
+> >>>    Invalid C declaration: Expected identifier in nested name. [error
+> >>> at 24]
+> >>>      object_initialize_child ( parent,  propname,  child,  type)
+> >>>      ------------------------^
+> >>> If parenthesis in noptr-declarator (e.g., 'void (*f(int arg))(double)'):
+> >>>    Error in declarator or parameters
+> >>>    Invalid C declaration: Expecting "(" in parameters. [error at 32]
+> >>>      object_initialize_child ( parent,  propname,  child,  type)
+> >>>      --------------------------------^
+> >>>
+> >>> make[1]: *** [Makefile.ninja:9898: docs/devel.stamp] Error 2
+> >>> make[1]: *** Deleting file 'docs/devel.stamp'
+> >>> make[1]: Leaving directory '/home/zippy/work/qemu/qemu.git/build'
+> >>> make: *** [GNUmakefile:11: all] Error 2
+> >>
+> >> I can't reproduce it using Sphinx v2.2.2.  I'm still trying to
+> >> understand what exactly the error means.
+> >>
+> > 
+> > Same here.
+> > 
+> >> I really wish we used virtualenv + requirements.txt to require a
+> >> specific version of Sphinx instead of wasting time dealing a wide
+> >> range of Sphinx versions.
+> >>
+> > 
+> > I already have a patch that I keep locally to build with v3:
+> > 
+> > diff --git a/docs/qemu-option-trace.rst.inc
+> > b/docs/qemu-option-trace.rst.inc
+> > index 7e09773a9c..ae83f6a1a8 100644
+> > --- a/docs/qemu-option-trace.rst.inc
+> > +++ b/docs/qemu-option-trace.rst.inc
+> > @@ -1,7 +1,7 @@
+> > 
+> >  Specify tracing options.
+> > 
+> > -.. option:: [enable=]PATTERN
+> > +.. option:: enable=PATTERN
+> > 
+> >    Immediately enable events matching *PATTERN*
+> >    (either event name or a globbing pattern).  This option is only
+> > 
+> > 
+> > That said, I'm not objecting to requiring v2 for now and switching to v3
+> > later.
+> > 
+> > 
+> > But interestingly, through trial and error I've came across this hack,
+> > which allows me to build again. I have no idea why it works:
+> > 
+> > diff --git i/include/qom/object.h w/include/qom/object.h
+> > index 27aaa67e63..59c729ebb7 100644
+> > --- i/include/qom/object.h
+> > +++ w/include/qom/object.h
+> > @@ -762,13 +762,14 @@ bool object_initialize_child_with_propsv(Object
+> > *parentobj,
+> >   *                                      child, sizeof(*child), type,
+> >   *                                      &error_abort, NULL)
+> >   */
+> > -#define object_initialize_child(parent, propname, child, type)          \
+> > -    object_initialize_child_internal((parent), (propname),              \
+> > -                                     (child), sizeof(*(child)), (type))
+> >  void object_initialize_child_internal(Object *parent, const char
+> > *propname,
+> >                                        void *child, size_t size,
+> >                                        const char *type);
+> > 
+> > +#define object_initialize_child(parent, propname, child, type)          \
+> > +    object_initialize_child_internal((parent), (propname),              \
+> > +                                     (child), sizeof(*(child)), (type))
+> > +
+> 
+> The error is due to kerneldoc treating the macro definition like a
+> function, so that makes sense.  If the docs look good (no reference to
+> object_initialize_child_internal) then the patch can be applied.
 
-gotcha
-On Sat, Oct 3, 2020 at 1:49 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 02/10/20 19:47, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> > Because the configure script change far more complicated than you
-> > imgaine. And I post that before
->
-> Daniel is literally asking for a two-line change:
->
-> diff --git a/configure b/configure
-> index fee5faa054..ffd72b571d 100755
-> --- a/configure
-> +++ b/configure
-> @@ -3671,7 +3671,6 @@ if test "$curses" !=3D "no" ; then
->  #include <locale.h>
->  #include <curses.h>
->  #include <wchar.h>
-> -#include <langinfo.h>
->  int main(void) {
->    const char *codeset;
->    wchar_t wch =3D L'w';
-> @@ -3680,7 +3679,6 @@ int main(void) {
->    addwstr(L"wide chars\n");
->    addnwstr(&wch, 1);
->    add_wch(WACS_DEGREE);
-> -  codeset =3D nl_langinfo(CODESET);
->    return codeset !=3D 0;
->  }
->  EOF
->
-> Paolo
->
+The patch makes the document show object_initialize_child_internal().
 
+-- 
+Eduardo
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---00000000000098f43a05b0b3d296
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br>gotcha<br>On Sat, Oct 3, 2020 at 1:49 AM Paolo Bonzini=
- &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wro=
-te:<br>&gt;<br>&gt; On 02/10/20 19:47, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang=
- Luo) wrote:<br>&gt; &gt; Because the configure script change far more comp=
-licated than you<br>&gt; &gt; imgaine. And I post that before<br>&gt;<br>&g=
-t; Daniel is literally asking for a two-line change:<br>&gt;<br>&gt; diff -=
--git a/configure b/configure<br>&gt; index fee5faa054..ffd72b571d 100755<br=
->&gt; --- a/configure<br>&gt; +++ b/configure<br>&gt; @@ -3671,7 +3671,6 @@=
- if test &quot;$curses&quot; !=3D &quot;no&quot; ; then<br>&gt; =C2=A0#incl=
-ude &lt;locale.h&gt;<br>&gt; =C2=A0#include &lt;curses.h&gt;<br>&gt; =C2=A0=
-#include &lt;wchar.h&gt;<br>&gt; -#include &lt;langinfo.h&gt;<br>&gt; =C2=
-=A0int main(void) {<br>&gt; =C2=A0 =C2=A0const char *codeset;<br>&gt; =C2=
-=A0 =C2=A0wchar_t wch =3D L&#39;w&#39;;<br>&gt; @@ -3680,7 +3679,6 @@ int m=
-ain(void) {<br>&gt; =C2=A0 =C2=A0addwstr(L&quot;wide chars\n&quot;);<br>&gt=
-; =C2=A0 =C2=A0addnwstr(&amp;wch, 1);<br>&gt; =C2=A0 =C2=A0add_wch(WACS_DEG=
-REE);<br>&gt; - =C2=A0codeset =3D nl_langinfo(CODESET);<br>&gt; =C2=A0 =C2=
-=A0return codeset !=3D 0;<br>&gt; =C2=A0}<br>&gt; =C2=A0EOF<br>&gt;<br>&gt;=
- Paolo<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=
-=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =
-=C2=A0 sincerely,<br>Yonggang Luo</div>
-
---00000000000098f43a05b0b3d296--
 
