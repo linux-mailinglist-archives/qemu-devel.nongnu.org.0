@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E25B28115B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:40:53 +0200 (CEST)
-Received: from localhost ([::1]:60524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1E5281182
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 13:48:18 +0200 (CEST)
+Received: from localhost ([::1]:50984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOJQi-0000Xt-3t
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
+	id 1kOJXt-00007c-8J
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 07:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJNB-0006op-JM
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:15 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37580)
+ id 1kOJNJ-0006vr-FJ
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:22 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kOJN5-0007cD-1B
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:11 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z4so1450024wrr.4
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:36:56 -0700 (PDT)
+ id 1kOJND-0007cU-Bl
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 07:37:21 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id 13so1340571wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 04:36:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7YyNvtTVHS9g+3PWjEn5QUsNf/wgonsRE0HWf6d1wVM=;
- b=eoTBC1h9rt7Ad6l7r4VboTu9UOD9D0qSNnLkqlhfgV7+C8mTpjVrnIwN5IEjpMdb02
- KPOOGkrVBHLoFlvecIzeWD3rBVqR1IaUcOdyxZBtmbLiEsKNs75+XetxEzKM2pOp+Tjk
- xAtB6B6aMn2eE6iz3opDG4eC3eLtRIitUU147vOKUFCNnfEL1ag7uVc0NIZHcPLXNYVK
- aFiEvos3IRn0vXjP/X4mu3jzzMIzApgjrY8jA8q+hY/9gRv1HlPoW6Lkb6IhI8oka3Lb
- fuf7lHgVW20RTY3gY7xXmgu/N3dXfQQp1p9MU7+hA7yGvYe8UYC8wlqbwfuFNY3pMrIK
- pVdg==
+ bh=tRNZoVlCJ2ZAw3qHytXOnl+zX212N4XcvNhpj7RoDvU=;
+ b=dEWS0JYTNmz1WSY/fE29LV2xBloH+YfQxSKpWHw9lnSeylu8NtQmaeaPGjj2Ur9UA+
+ F5JArGdvhQb4QjhZOvL59iHNmquCCj7VTNeXiRPVU+ggj1fm7RYA3MW/nAXznPgTFcQP
+ YM1U+Ig6x25vgJQi6tdfOF95sEQgpnm7bSfSp8n1x4RnafE9ulRvmLsKpY8RGScI8o0F
+ YF5ODnwCLjTCU9jNGcEYlfnQlzf4jiL5/RlaD94VMhlYH/+g0nqUsQXuIH90d/Y+WQ0p
+ 0uA0GhTjIfkdusqBYm2a5EXWeXr1fiD+d1Qnr1jMfHkiakQby16LtR1AAZsNPse9vUWW
+ 9aeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7YyNvtTVHS9g+3PWjEn5QUsNf/wgonsRE0HWf6d1wVM=;
- b=OnG3wQ3ts0GKLADn8SFee2ciEDILUiw9E8DwPaClXWPD0T79O4TuHxBzHOm3LfG6l0
- gko3+XhoW24kowbjvd/zPydOHrps94wwTzqmSI/xeo77JkIgrKVa4QEF99AaKkW4nSca
- UX5wJgcz9C5ln2Yn8OuAH8KzuTsmXln5D2QOBp8uo+v/m6XOETMZ4UOtJ8hfWqTGzqBR
- Ico/bmOxCY9eHuTaZ93ZgHdHmPjVrefSO2MJECn5ewlAAWl057ZV+IADqy81f9pCdJ08
- sU1jRXtNMLx+LiXPm2zZ6AKcn8RjUzXojsKYKnv1kkcWZi+dKNdpeD+d2J8TYRdhtOns
- au+g==
-X-Gm-Message-State: AOAM531p1Goo2Qo+Jg/bvsA6/FjK3jBvCvCBiP01vDlC0w/pkAg+BPVl
- vpKWA0Ult0rLLp0HlxvXQT6Z6g==
-X-Google-Smtp-Source: ABdhPJw8TKCy7skG3Easbg5SxxE+pT49SDx1qTozUikt21/9tbVtGaroIheituhGCPK25U+I4KGUHg==
-X-Received: by 2002:a5d:554c:: with SMTP id g12mr2553697wrw.294.1601638616051; 
- Fri, 02 Oct 2020 04:36:56 -0700 (PDT)
+ bh=tRNZoVlCJ2ZAw3qHytXOnl+zX212N4XcvNhpj7RoDvU=;
+ b=Zu2vQMm9aK4H/wBTXiWNxL2CPYDGRUAFqWS2Q+/ZmFhoCrPTl6gFA6tOqO1kWIPJhw
+ t9HywOFQnkER3cZfX8/eSj3h3zBGKjhAKx9iH29Tw20JneiXVRVxYcWlhk5W+qsJ/iZK
+ WwBaH6fODXttxPGTz0tgPqrHuo8XaSqfsYEJ2bJc93IGvtjFWwmXtsuZyyq72KJXB33r
+ zT6uZep43eeT+Y0B2ViHIpb/vEdrcI3TWMGprCqPXmA1WfspSztUlypBsWXH0dZdpPJZ
+ WN54Vf/ileEgSDWO1bfMpNnAoS6+Cma9EkMs51wWO1YMqn1rgNrMhLlr7ZvvNX8blfiD
+ fEIw==
+X-Gm-Message-State: AOAM530G3iYdzMJeRTuOKih73C9ksFDVGrpTw+u8UKE2NJpFQuR8wwa8
+ +MQ9keFLPn+J+cyxpTmSyiNsOg==
+X-Google-Smtp-Source: ABdhPJwWu/OinZjXY0P200PupH+NBhXeGWvz7C/xI/n56N5LwuIEyiB7JewDyR2rMoXWXhoLT2kNpg==
+X-Received: by 2002:a1c:f407:: with SMTP id z7mr2426712wma.110.1601638618400; 
+ Fri, 02 Oct 2020 04:36:58 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s12sm1398060wmd.20.2020.10.02.04.36.48
+ by smtp.gmail.com with ESMTPSA id z203sm1558094wmg.17.2020.10.02.04.36.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 02 Oct 2020 04:36:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7BBFA1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 92D6C1FF93;
  Fri,  2 Oct 2020 12:36:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/14] tests/docker: Use Fedora containers for MinGW
- cross-builds in the gitlab-CI
-Date: Fri,  2 Oct 2020 12:36:37 +0100
-Message-Id: <20201002113645.17693-7-alex.bennee@linaro.org>
+Subject: [PULL 07/14] gitlab-ci: Remove the Debian9-based containers and
+ containers-layer3
+Date: Fri,  2 Oct 2020 12:36:38 +0100
+Message-Id: <20201002113645.17693-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201002113645.17693-1-alex.bennee@linaro.org>
 References: <20201002113645.17693-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,161 +89,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-According to our support policy, we do not support Debian 9 in QEMU
-anymore, and we only support building the Windows binaries with a
-very recent version of the MinGW toolchain. So we should not test
-the MinGW cross-compilation with Debian 9 anymore, but switch to
-something newer like Fedora. To do this, we need a separate Fedora
-container for each build that provides the QEMU_CONFIGURE_OPTS
-environment variable.
-Unfortunately, the MinGW 64-bit compiler seems to be a little bit
-slow, so we also have to disable some features like "capstone" in the
-build here to make sure that the CI pipelines still finish within a
-reasonable amount of time.
+According to our support policy, Debian 9 is not supported by the
+QEMU project anymore. Since we now switched the MinGW cross-compiler
+builds to Fedora, we do not need these Debian9-based containers
+in the gitlab-CI anymore, and can now also get rid of the "layer3"
+container build stage this way.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200921174320.46062-2-thuth@redhat.com>
-Message-Id: <20200925154027.12672-10-alex.bennee@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200921174320.46062-3-thuth@redhat.com>
+Message-Id: <20200925154027.12672-11-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 8c89efeb6d..15e7b564f9 100644
+index 15e7b564f9..6769eef0ff 100644
 --- a/.gitlab-ci.d/containers.yml
 +++ b/.gitlab-ci.d/containers.yml
-@@ -248,6 +248,16 @@ i386-fedora-cross-container:
+@@ -214,20 +214,6 @@ tricore-debian-cross-container:
    variables:
-     NAME: fedora-i386-cross
+     NAME: debian-tricore-cross
  
-+win32-fedora-cross-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: fedora-win32-cross
-+
-+win64-fedora-cross-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: fedora-win64-cross
-+
- amd64-ubuntu1804-container:
+-win32-debian-cross-container:
+-  <<: *container_job_definition
+-  stage: containers-layer3
+-  needs: ['amd64-debian9-mxe-container']
+-  variables:
+-    NAME: debian-win32-cross
+-
+-win64-debian-cross-container:
+-  <<: *container_job_definition
+-  stage: containers-layer3
+-  needs: ['amd64-debian9-mxe-container']
+-  variables:
+-    NAME: debian-win64-cross
+-
+ xtensa-debian-cross-container:
    <<: *container_job_definition
    variables:
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 4ec7226b5c..510cfec03b 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -105,9 +105,9 @@ cross-s390x-user:
- cross-win32-system:
-   <<: *cross_system_build_job_definition
-   variables:
--    IMAGE: debian-win32-cross
-+    IMAGE: fedora-win32-cross
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index a18e18b57e..c265e7f8ab 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -4,7 +4,6 @@
+ stages:
+   - containers
+   - containers-layer2
+-  - containers-layer3
+   - build
+   - test
  
- cross-win64-system:
-   <<: *cross_system_build_job_definition
-   variables:
--    IMAGE: debian-win64-cross
-+    IMAGE: fedora-win64-cross
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-new file mode 100644
-index 0000000000..5903e1b0b4
---- /dev/null
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -0,0 +1,42 @@
-+FROM fedora:32
-+
-+# Please keep this list sorted alphabetically
-+ENV PACKAGES \
-+    bc \
-+    bzip2 \
-+    diffutils \
-+    findutils \
-+    gcc \
-+    gettext \
-+    git \
-+    hostname \
-+    make \
-+    meson \
-+    mingw32-bzip2 \
-+    mingw32-curl \
-+    mingw32-glib2 \
-+    mingw32-gmp \
-+    mingw32-gnutls \
-+    mingw32-gtk3 \
-+    mingw32-libjpeg-turbo \
-+    mingw32-libpng \
-+    mingw32-libtasn1 \
-+    mingw32-nettle \
-+    mingw32-nsis \
-+    mingw32-pixman \
-+    mingw32-pkg-config \
-+    mingw32-SDL2 \
-+    perl \
-+    perl-Test-Harness \
-+    python3 \
-+    python3-PyYAML \
-+    python3-setuptools \
-+    tar \
-+    which
-+
-+RUN dnf install -y $PACKAGES
-+RUN rpm -q $PACKAGES | sort > /packages.txt
-+ENV FEATURES mingw
-+
-+# Specify the cross prefix for this image (see tests/docker/common.rc)
-+ENV QEMU_CONFIGURE_OPTS --cross-prefix=i686-w64-mingw32-
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-new file mode 100644
-index 0000000000..7f03cd8ffc
---- /dev/null
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -0,0 +1,38 @@
-+FROM fedora:32
-+
-+# Please keep this list sorted alphabetically
-+ENV PACKAGES \
-+    bc \
-+    bzip2 \
-+    diffutils \
-+    findutils \
-+    gcc \
-+    gettext \
-+    git \
-+    hostname \
-+    make \
-+    meson \
-+    mingw64-bzip2 \
-+    mingw64-curl \
-+    mingw64-glib2 \
-+    mingw64-gmp \
-+    mingw64-gtk3 \
-+    mingw64-libjpeg-turbo \
-+    mingw64-libpng \
-+    mingw64-libtasn1 \
-+    mingw64-pixman \
-+    mingw64-pkg-config \
-+    perl \
-+    perl-Test-Harness \
-+    python3 \
-+    python3-PyYAML \
-+    python3-setuptools \
-+    tar \
-+    which
-+
-+RUN dnf install -y $PACKAGES
-+RUN rpm -q $PACKAGES | sort > /packages.txt
-+ENV FEATURES mingw
-+
-+# Specify the cross prefix for this image (see tests/docker/common.rc)
-+ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32- --disable-capstone
 -- 
 2.20.1
 
