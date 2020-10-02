@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F5A281E01
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 00:05:07 +0200 (CEST)
-Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8601281E08
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 00:07:16 +0200 (CEST)
+Received: from localhost ([::1]:43044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOTAo-0007zI-1D
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 18:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34926)
+	id 1kOTCt-0002IS-NW
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 18:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kOT5z-0002bm-GR
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 18:00:07 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40119)
+ id 1kOT60-0002e1-Qg
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 18:00:08 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kOT5x-0007Ok-L1
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 18:00:07 -0400
-Received: by mail-ot1-x341.google.com with SMTP id c2so2882297otp.7
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 15:00:05 -0700 (PDT)
+ id 1kOT5y-0007P2-UV
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 18:00:08 -0400
+Received: by mail-ot1-x342.google.com with SMTP id y5so2877440otg.5
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 15:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Qqi4bkkjlO0OmQq7eFe7VQbO2qUT9g9kE2iVHKsaR1Y=;
- b=D/tYdAfSWu0ZA5cfpaVheM9LeiEXdHESrKwiijJO4u4y4Hzr7YKDhdI6POpbmRmMDT
- HYJ+tI9rpda5rPj6D+yfeQAcIc4GawSxyqowSJmLtGFLMMiCjCGpuPQXsGYSyx9y2od+
- sTkbuVKwsBtlUkgL0tSE/zdtYlTqC9a6cFgnft1PcNoHUkMrE7PpmcpzyBHW2WhicfsR
- V/ucHr8VACjlh46A+RsaH7BGekU8rE1V96T+HF9grOOwVNyC7BI1VhlmZA7940RHRTY4
- JnP8fzh6SCp8HMLP8Wozvu7MLeObRKKRX6Ex0EPFA8uShLnuise4tc7NbXS1OhzG0X5x
- aXrw==
+ bh=alZjlQJXj3PE/fgiElfGG8lmZ092HOwXFHnkKr7NfsI=;
+ b=eUcdYUiSmOLmvla2rtrnuoi1pzh744TEe44bOlVtAgw8+NvZVdc2bXArY7DuelD04O
+ w7HJZP/pzKf6r1dsQao0tiJrRHLfWnjkwC9uc3QH67sWTA86DEYlJz067luFaKvLq7OL
+ sJ1ClV6tg7+8TeKee3hbBrH/fLpIIPmY6Zeo/R/f0JhoCXqpgxfDXWJAvoKdLQ06RDim
+ m73XpI/AbFBU4Mr7JYbL3np7yJrPRPg7UP/+8b2ALXAS/iZrJuAi1RHCcwiVmpEPZU35
+ LYwO5bryl+f5gtz3u5Hz5jn2ilyeBJbwm4qOrtsRlwOIzApbvwuEgkaXL3KKJut8s7Tm
+ sBSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Qqi4bkkjlO0OmQq7eFe7VQbO2qUT9g9kE2iVHKsaR1Y=;
- b=Rkb4e7yRFVqSWHe2BVWDP6PbdlMRQxliEGMmLKnGZsnmTT7DUVFMUx70mKAnYeYYeH
- Ntz2hklMsvkZAs9q6dJZWWpwJc2F/gdmE0m0XZZoluAql7Zq3RrecvMvf6eCz5ugsfyw
- 4pgE9dGJef5FcpMSVvLHbmu8DtObj1R3T0Ofy5W5P7OSBHOeYnNmS0rk1IRxfHbg1qVO
- N18BNvpgTZq+0zsFJIulOedt2It5Ors9KQ0aHmR5Wn1xM6ssUjkJwE6hwop+A96We3Yd
- VeJTTlHORwXJBro05FV16Z7jeygXI/LALfLlC2yDjU2vzfUY2YGcUKZGKvZpgzcpgaM8
- cA8w==
-X-Gm-Message-State: AOAM533OCHg/WGtR+OkbpaDpAaPszM6v4kOM3+o4ue3CMSeOebjejdAN
- PKixokk1oUqGp93aIiCh5XKwt5Mar+ziTTtQ
-X-Google-Smtp-Source: ABdhPJwOMMrY2zqmaVeVWtgvqkV+NEiKiqKLMo/z8+xqSqfWlq9BoXCLN0wwVWtoAfApe2gWmoCnnA==
-X-Received: by 2002:a9d:4c0a:: with SMTP id l10mr3189312otf.166.1601676004063; 
- Fri, 02 Oct 2020 15:00:04 -0700 (PDT)
+ bh=alZjlQJXj3PE/fgiElfGG8lmZ092HOwXFHnkKr7NfsI=;
+ b=tGGXb+55+HQounVAC+A23dnzfpv/8FqyVfWCvgL0/1drXc7oNL0IXvenSP0nm4s/lC
+ 0kRbFwWowUj7LecjtuzWETq8Hsc/efvO4+slii2ZMkV6jIpguKLkKEIbKYuWCeAb0Ulz
+ 2Q+cyNpWjKqQ79JOfE7dprOJ0o3ovotpUkiMKGqnVEtFkmQnWVMLzt/N82491EemwFpT
+ NiPeR9agBom5elwM2FMK1fDPdFVhxr60DA4pFW60qg6yYMjlZOWpgr2ElSHt5Dtw/AAj
+ WGXffOpiRv/a+vaTqIpj7R0wkTYz2zGXp6CcNRWwsyianNADBMgyuWTwwUu7teJu2GLe
+ oiKw==
+X-Gm-Message-State: AOAM533peehMGX1sN5PLBYU7c18YAy/BN/hz3/D84kUcOkwy1ggjHVci
+ ghpZTsaO+fEHL1LoqO+C18EBb9tCQMGrm3QA
+X-Google-Smtp-Source: ABdhPJzAwkqMnyDkaRt2Hhi7hKZSwOFDBLSrdfxuy2ZLAyLSRw3vxCSGx7WK8zk2WM+41m87kzuNww==
+X-Received: by 2002:a9d:a24:: with SMTP id 33mr2921358otg.305.1601676005510;
+ Fri, 02 Oct 2020 15:00:05 -0700 (PDT)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k10sm684268ots.60.2020.10.02.15.00.02
+ by smtp.gmail.com with ESMTPSA id k10sm684268ots.60.2020.10.02.15.00.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 15:00:03 -0700 (PDT)
+ Fri, 02 Oct 2020 15:00:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 4/8] linux-user/elfload: Fix coding style in load_elf_image
-Date: Fri,  2 Oct 2020 16:59:51 -0500
-Message-Id: <20201002215955.254866-5-richard.henderson@linaro.org>
+Subject: [PATCH v10 5/8] linux-user/elfload: Adjust iteration over phdr
+Date: Fri,  2 Oct 2020 16:59:52 -0500
+Message-Id: <20201002215955.254866-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201002215955.254866-1-richard.henderson@linaro.org>
 References: <20201002215955.254866-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,36 +90,42 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixing this now will clarify following patches.
+The second loop uses a loop induction variable, and the first
+does not.  Transform the first to match the second, to simplify
+a following patch moving code between them.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ linux-user/elfload.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index f6022fd704..7572a32a30 100644
+index 7572a32a30..735ebfa190 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -2531,9 +2531,15 @@ static void load_elf_image(const char *image_name, int image_fd,
-             abi_ulong vaddr, vaddr_po, vaddr_ps, vaddr_ef, vaddr_em, vaddr_len;
-             int elf_prot = 0;
+@@ -2426,17 +2426,18 @@ static void load_elf_image(const char *image_name, int image_fd,
+     loaddr = -1, hiaddr = 0;
+     info->alignment = 0;
+     for (i = 0; i < ehdr->e_phnum; ++i) {
+-        if (phdr[i].p_type == PT_LOAD) {
+-            abi_ulong a = phdr[i].p_vaddr - phdr[i].p_offset;
++        struct elf_phdr *eppnt = phdr + i;
++        if (eppnt->p_type == PT_LOAD) {
++            abi_ulong a = eppnt->p_vaddr - eppnt->p_offset;
+             if (a < loaddr) {
+                 loaddr = a;
+             }
+-            a = phdr[i].p_vaddr + phdr[i].p_memsz;
++            a = eppnt->p_vaddr + eppnt->p_memsz;
+             if (a > hiaddr) {
+                 hiaddr = a;
+             }
+             ++info->nsegs;
+-            info->alignment |= phdr[i].p_align;
++            info->alignment |= eppnt->p_align;
+         }
+     }
  
--            if (eppnt->p_flags & PF_R) elf_prot =  PROT_READ;
--            if (eppnt->p_flags & PF_W) elf_prot |= PROT_WRITE;
--            if (eppnt->p_flags & PF_X) elf_prot |= PROT_EXEC;
-+            if (eppnt->p_flags & PF_R) {
-+                elf_prot |= PROT_READ;
-+            }
-+            if (eppnt->p_flags & PF_W) {
-+                elf_prot |= PROT_WRITE;
-+            }
-+            if (eppnt->p_flags & PF_X) {
-+                elf_prot |= PROT_EXEC;
-+            }
- 
-             vaddr = load_bias + eppnt->p_vaddr;
-             vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
 -- 
 2.25.1
 
