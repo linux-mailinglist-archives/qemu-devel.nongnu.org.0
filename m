@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D4A2818E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:15:13 +0200 (CEST)
-Received: from localhost ([::1]:39720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493E0281947
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:30:24 +0200 (CEST)
+Received: from localhost ([::1]:50698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOOeG-0004ug-K7
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:15:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40028)
+	id 1kOOsx-0005JU-9n
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:30:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <54781ff3e3231fa1b7e1bea8d16e825c5084a74f@lizzy.crudebyte.com>)
- id 1kOOd2-0003zr-I6
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:13:56 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:58511)
+ (envelope-from <61429f365a83c9e941b0d5ded9d55fdeaaedda5e@lizzy.crudebyte.com>)
+ id 1kOOna-00080D-TH
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:24:50 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <54781ff3e3231fa1b7e1bea8d16e825c5084a74f@lizzy.crudebyte.com>)
- id 1kOOd0-0000W0-IP
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:13:56 -0400
+ (envelope-from <61429f365a83c9e941b0d5ded9d55fdeaaedda5e@lizzy.crudebyte.com>)
+ id 1kOOnX-0001nV-Ga
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:24:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=iovGPj5Q92eV7i24vjrQeAdFBH4d8kiFupqK9XpeZzs=; b=Su25C
- 8gaw3BTY6ngHHdkJOLPBrdJUgNYVuAS+THvX35c2OMe5cbkHF09VDDjy6WoNMR4j3wqkM68DQQmyx
- 4S53+xwqVTJr2/CLVehm7yr7ElooOB3aY5k6VLfVG5j36JGo3o9ebTgpzDWN0NQizNI7fD2Ro3cTF
- AiGMpEzCqu0tcq5rfvdU0VMwwmWgf0c62e1Jk4zQjt32BByar0M7gBSlwK9xiGpVasvhfAk8lif2N
- 7FZPVPHu9/mx4cfPZuuVAGvoMG8wBF2tJZHESHZYIy6fTdpH4NllX/vn+VWhv61QPUSei/CZDNBsz
- 4EVCL9c8xKGs7jGbEzHrRocJUuWYw==;
-Message-Id: <54781ff3e3231fa1b7e1bea8d16e825c5084a74f.1601655308.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=Am7AnThgQlSLFdOJL4e448KatPmi955rqcXqeOaLFHs=; b=NogoX
+ NzZtj86qD+YUhZv6txDocgQL2gvOG5rK7VuBZQi3Kd7dj3acBxrs4vqM7r0yny6y4rknNdVOLGYRk
+ 1k1nb3EZHKzGwPH6v9ihgaehufxmKjH/uM14a5e9l3kt3PFjs3dSNfXLOcp/AppqpzPD8ccI5b6Ij
+ xmSC3dyFfAnIv1IUiXnPlWU0wY4jyblhRvJTKZqIOktgCXILlfUwJHKeTiU1TOnwRkZ4kDWV/BrjW
+ MPaouYQzRc3F1ALL0g0D+OyCHbHjMPZFj1klVTHjamFC1SAfNpq9X1cF9kNoYnprnJRZb60w981bJ
+ QnzjnkLw4Hn8CEQbtVi+SKcvRnQmA==;
+Message-Id: <61429f365a83c9e941b0d5ded9d55fdeaaedda5e.1601655308.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1601655308.git.qemu_oss@crudebyte.com>
 References: <cover.1601655308.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 2 Oct 2020 18:15:05 +0200
-Subject: [PATCH v3 06/11] tests/qtest/qos-test: dump QEMU command if verbose
+Subject: [PATCH v3 08/11] tests/9pfs: introduce local tests
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
  Greg Kurz <groug@kaod.org>, berrange@redhat.com
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=54781ff3e3231fa1b7e1bea8d16e825c5084a74f@lizzy.crudebyte.com;
+ envelope-from=61429f365a83c9e941b0d5ded9d55fdeaaedda5e@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 08:18:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,33 +67,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If qtests are run in verbose mode (i.e. if --verbose CL argument
-was provided) then print the assembled qemu command line for each
-test.
+This patch introduces 9pfs test cases using the 9pfs 'local'
+filesystem driver which reads/writes/creates/deletes real files
+and directories.
 
-Instead of using g_test_message() rather use printf() in combination
-with g_test_verbose(), to avoid g_test_message() cluttering the
-output.
+In this initial version, there is only one local test which actually
+only checks if the 9pfs 'local' device was created successfully.
+
+Before the 9pfs 'local' tests are run, a test directory 'qtest-9p-local'
+is created (with world rwx permissions) under the current working
+directory. At this point that test directory is not auto deleted yet.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/qos-test.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qtest/libqos/virtio-9p.c | 71 ++++++++++++++++++++++++++++++++++
+ tests/qtest/libqos/virtio-9p.h |  5 +++
+ tests/qtest/virtio-9p-test.c   | 44 ++++++++++++++-------
+ 3 files changed, 106 insertions(+), 14 deletions(-)
 
-diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index fe240b32a7..b9f0942386 100644
---- a/tests/qtest/qos-test.c
-+++ b/tests/qtest/qos-test.c
-@@ -89,6 +89,9 @@ static void qos_set_machines_devices_available(void)
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index 2e300063e3..1bada47af1 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -24,6 +24,34 @@
+ #include "qgraph.h"
  
- static void restart_qemu_or_continue(char *path)
+ static QGuestAllocator *alloc;
++static char *local_test_path;
++
++/* Concatenates the passed 2 pathes. Returned result must be freed. */
++static char *concat_path(const char* a, const char* b)
++{
++    return g_build_filename(a, b, NULL);
++}
++
++static void init_local_test_path(void)
++{
++    char *pwd = get_current_dir_name();
++    local_test_path = concat_path(pwd, "qtest-9p-local");
++    free(pwd);
++}
++
++/* Creates the directory for the 9pfs 'local' filesystem driver to access. */
++static void create_local_test_dir(void)
++{
++    struct stat st;
++
++    g_assert(local_test_path != NULL);
++    mkdir(local_test_path, 0777);
++
++    /* ensure test directory exists now ... */
++    g_assert(stat(local_test_path, &st) == 0);
++    /* ... and is actually a directory */
++    g_assert((st.st_mode & S_IFMT) == S_IFDIR);
++}
+ 
+ static void virtio_9p_cleanup(QVirtio9P *interface)
  {
-+    if (g_test_verbose()) {
-+        printf("Run QEMU with: '%s'\n", path);
-+    }
-     /* compares the current command line with the
-      * one previously executed: if they are the same,
-      * don't restart QEMU, if they differ, stop previous
+@@ -146,11 +174,54 @@ static void *virtio_9p_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
+     return obj;
+ }
+ 
++void virtio_9p_assign_local_driver(GString *cmd_line, const char *args)
++{
++    GRegex *regex;
++    char *s, *arg_repl;
++
++    g_assert_nonnull(local_test_path);
++
++    /* replace 'synth' driver by 'local' driver */
++    regex = g_regex_new("-fsdev synth,", 0, 0, NULL);
++    s = g_regex_replace_literal(
++        regex, cmd_line->str, -1, 0, "-fsdev local,", 0, NULL
++    );
++    g_string_assign(cmd_line, s);
++    g_free(s);
++    g_regex_unref(regex);
++
++    /* add 'path=...' to '-fsdev ...' group */
++    regex = g_regex_new("(-fsdev \\w+)(\\s*)", 0, 0, NULL);
++    arg_repl = g_strdup_printf("\\1\\2,path='%s'", local_test_path);
++    s = g_regex_replace(
++        regex, cmd_line->str, -1, 0, arg_repl, 0, NULL
++    );
++    g_string_assign(cmd_line, s);
++    g_free(arg_repl);
++    g_free(s);
++    g_regex_unref(regex);
++
++    /* add passed args to '-fsdev ...' group */
++    regex = g_regex_new("(-fsdev \\w+)(\\s*)", 0, 0, NULL);
++    arg_repl = g_strdup_printf("\\1\\2,%s", args);
++    s = g_regex_replace(
++        regex, cmd_line->str, -1, 0, arg_repl, 0, NULL
++    );
++    g_string_assign(cmd_line, s);
++    g_free(arg_repl);
++    g_free(s);
++    g_regex_unref(regex);
++}
++
+ static void virtio_9p_register_nodes(void)
+ {
+     const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG;
+     const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG;
+ 
++    /* make sure test dir for the 'local' tests exists and is clean */
++    init_local_test_path();
++    create_local_test_dir();
++
+     QPCIAddress addr = {
+         .devfn = QPCI_DEVFN(4, 0),
+     };
+diff --git a/tests/qtest/libqos/virtio-9p.h b/tests/qtest/libqos/virtio-9p.h
+index b1e6badc4a..326a603f72 100644
+--- a/tests/qtest/libqos/virtio-9p.h
++++ b/tests/qtest/libqos/virtio-9p.h
+@@ -44,4 +44,9 @@ struct QVirtio9PDevice {
+     QVirtio9P v9p;
+ };
+ 
++/**
++ * Prepares QEMU command line for 9pfs tests using the 'local' fs driver.
++ */
++void virtio_9p_assign_local_driver(GString *cmd_line, const char *args);
++
+ #endif
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 3281153b9c..af7e169d3a 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -895,29 +895,45 @@ static void fs_readdir_split_512(void *obj, void *data,
+     fs_readdir_split(obj, data, t_alloc, 512);
+ }
+ 
++static void *assign_9p_local_driver(GString *cmd_line, void *arg)
++{
++    virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
++    return arg;
++}
++
+ static void register_virtio_9p_test(void)
+ {
+-    qos_add_test("synth/config", "virtio-9p", pci_config, NULL);
+-    qos_add_test("synth/version/basic", "virtio-9p", fs_version, NULL);
+-    qos_add_test("synth/attach/basic", "virtio-9p", fs_attach, NULL);
+-    qos_add_test("synth/walk/basic", "virtio-9p", fs_walk, NULL);
++
++    QOSGraphTestOptions opts = {
++    };
++
++    /* 9pfs test cases using the 'synth' filesystem driver */
++    qos_add_test("synth/config", "virtio-9p", pci_config, &opts);
++    qos_add_test("synth/version/basic", "virtio-9p", fs_version,  &opts);
++    qos_add_test("synth/attach/basic", "virtio-9p", fs_attach,  &opts);
++    qos_add_test("synth/walk/basic", "virtio-9p", fs_walk,  &opts);
+     qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
+-                 NULL);
++                  &opts);
+     qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
+-                 fs_walk_dotdot, NULL);
+-    qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen, NULL);
+-    qos_add_test("synth/write/basic", "virtio-9p", fs_write, NULL);
++                 fs_walk_dotdot,  &opts);
++    qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen,  &opts);
++    qos_add_test("synth/write/basic", "virtio-9p", fs_write,  &opts);
+     qos_add_test("synth/flush/success", "virtio-9p", fs_flush_success,
+-                 NULL);
++                  &opts);
+     qos_add_test("synth/flush/ignored", "virtio-9p", fs_flush_ignored,
+-                 NULL);
+-    qos_add_test("synth/readdir/basic", "virtio-9p", fs_readdir, NULL);
++                  &opts);
++    qos_add_test("synth/readdir/basic", "virtio-9p", fs_readdir,  &opts);
+     qos_add_test("synth/readdir/split_512", "virtio-9p",
+-                 fs_readdir_split_512, NULL);
++                 fs_readdir_split_512,  &opts);
+     qos_add_test("synth/readdir/split_256", "virtio-9p",
+-                 fs_readdir_split_256, NULL);
++                 fs_readdir_split_256,  &opts);
+     qos_add_test("synth/readdir/split_128", "virtio-9p",
+-                 fs_readdir_split_128, NULL);
++                 fs_readdir_split_128,  &opts);
++
++
++    /* 9pfs test cases using the 'local' filesystem driver */
++    opts.before = assign_9p_local_driver;
++    qos_add_test("local/config", "virtio-9p", pci_config,  &opts);
+ }
+ 
+ libqos_init(register_virtio_9p_test);
 -- 
 2.20.1
 
