@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB202819FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:44:22 +0200 (CEST)
-Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2452819DF
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:41:16 +0200 (CEST)
+Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOP6T-0007qj-Ge
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
+	id 1kOP3T-0004X1-4R
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyT-0000PW-UP
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:05 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54463)
+ id 1kOOyU-0000RO-Oj
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:06 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyS-0003JE-EE
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:05 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id s13so2429761wmh.4
+ id 1kOOyT-0003JO-6f
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:06 -0400
+Received: by mail-wm1-x342.google.com with SMTP id y15so2574391wmi.0
  for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hDip1TuoGE2uTB5vESfk4LG+Rb+6jGwMeV9JdwzMKi4=;
- b=G01H/EcyvqF2YmQZc5uOTabHzb3JS1Jc6ZdneEb/xlYwL+yDSZhNW/y+xqWGtesRzn
- 0q1syvn1/xfXhMoyDUH77NICImuGynHtEFB5ySQa8/q5lkoz/P76lRYXz2JDPg3DbOj1
- gJ6oqUa5lH0H2JXn4Bi1oKJYsYow3qArKh+SdyIlG5yvEqgn55X1rdgPSN7gEYkOlDgb
- zmGwIBpvZ9OeixyGvHAxvVuQHmYXakueSthTRIvWtbGG4tXDc0BmAN9foRO0QX1c/Jvr
- u/RYwwLyojhYQn50AEU1mDOPIM1kPIZ/3de2wh+J78fOPOYe/d3o8dhfy5JAPCgpFlKd
- fw7g==
+ bh=xXdgD+CX1xaJz1RLqkztVK48fKpoJNRH36Jn29j2m3Q=;
+ b=MUAL6xIf8PviJhDBefAPrh7PcVnrrIOEO099O8FQoxcQFWYJP15tXvdIMXZ4IIPkMf
+ zg4dj+M4JzmME6yx0nmb/62DaPJhI8CM6EmxF6806IyZ6mg/vPhVbBqCRcO1gHGz6dKV
+ IbJ2/qUJ4dAXhiTz87R6NCtW1w6eibvsY+0hk2T8wxx83WrjznW16XBzq6zOdCtQ3FrT
+ sjBMTLCBlhkDj9fabM+tTniRITJk/FuNEXGLfFNV6ZGiQ9SMtejqyRpa2Ah2RAk7uG+O
+ U7mydm3W1I81+5gIpcPjeR4GIIt7iR6Dg7lElHCiD28l15dKtSL97qNCOEsfmDSnYwCX
+ pdZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hDip1TuoGE2uTB5vESfk4LG+Rb+6jGwMeV9JdwzMKi4=;
- b=cWy4g7AJz39QjOtJjwsFU6e0oUZlEFrAVprNFSANoMRzszrOdQW59EbQLmVIIX9p9v
- tu8GDj3ABBrSkBeCU+ZOa+gbPGDihKYGaKvI+Gv8FA/+rPBaVbMj9Td64o4++t1waU59
- C3oMtQICoaX+5nitKaFuxAdqirjfA733gEKW4BbBPobjtCAf3YBc1l4bwlPMyowpNBnZ
- 8coJ92h57aEBJABWaAFqahq/2srn6Pg3WkNSHCkRoKs1EB8uc+UM1HGMTMtFgvMayeAt
- KVPe1gtPpl5K19WRb64Yhyqu2jrsJyEPqLgiQtkVuJ2H2lKfcfiLFJ1aFH++7uuRSDLW
- 0wXA==
-X-Gm-Message-State: AOAM533XT5KziJ2u5m79e8qS3YGYuZDxbc+GP9Qx3gTWZzGoXwRmYNLW
- q7+ez+hD8aHIfBdyLFaIZdAnyZJaMak=
-X-Google-Smtp-Source: ABdhPJwwZmc8UGnvwiBJtCM53oIJH/kIksxq0VUqQ0TIJXth3yanVdHe73NJ0y3rau+nKuhokhnM7g==
-X-Received: by 2002:a05:600c:2186:: with SMTP id
- e6mr4329959wme.189.1601660162749; 
- Fri, 02 Oct 2020 10:36:02 -0700 (PDT)
+ bh=xXdgD+CX1xaJz1RLqkztVK48fKpoJNRH36Jn29j2m3Q=;
+ b=SAeL9jAHG+v+wB4yRLIhofDnidCddBtZJzyQ13OByVpGaN8kOAoerpcH1TgO0UI3QX
+ HpgeTim9mINgHwQJtQVec0Gm4/4m1CvAAnqtSGrxJBr70PsGPpQ3uRoA4j62L8/L0RaM
+ JCTL+5LTjfuEbohVuvZcQjk0o9nQocNZtY7/WRwpYwgKb30glp6WTF87YxYoB/Wr8aHu
+ krYg/5Xy/vSkDVnQoo3P0yPF0jG8S+s7NGPt6DlC5jIWCgne090vm9ff2jfg63+EHJvH
+ XmCrQiAmWxeKGMioUwjbamADyP91TujrtbvcU+j1O1tpE8Ee9GubhmIwZp04Wq70SkSf
+ 87yg==
+X-Gm-Message-State: AOAM531cjQMP4gPLcwud2Euqr9h7BrgwhqSN0XlFUetoIGbaVfbU+Hqr
+ gD9vB270kkVn7vgxdnFXM7McJ8Ut6iQ=
+X-Google-Smtp-Source: ABdhPJwZIGQ7loiGEIqV6MjBkBBlJEQUsSH2w1n8BmoTx03WHcvUOW/SusLD/7zGLY/Qlox9/XKUnQ==
+X-Received: by 2002:a1c:bbc6:: with SMTP id l189mr4315191wmf.52.1601660163638; 
+ Fri, 02 Oct 2020 10:36:03 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:47e0:e742:75ba:b84d])
  by smtp.gmail.com with ESMTPSA id
- l8sm2516454wrx.22.2020.10.02.10.36.01
+ l8sm2516454wrx.22.2020.10.02.10.36.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 10:36:02 -0700 (PDT)
+ Fri, 02 Oct 2020 10:36:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/10] scsi/scsi_bus: switch search direction in
- scsi_device_find
-Date: Fri,  2 Oct 2020 19:35:51 +0200
-Message-Id: <20201002173558.232960-4-pbonzini@redhat.com>
+Subject: [PATCH v6 04/10] device_core: use drain_call_rcu in in qmp_device_add
+Date: Fri,  2 Oct 2020 19:35:52 +0200
+Message-Id: <20201002173558.232960-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201002173558.232960-1-pbonzini@redhat.com>
 References: <20201002173558.232960-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -88,53 +86,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-This change will allow us to convert the bus children list to RCU,
-while not changing the logic of this function
+Soon, a device removal might only happen on RCU callback execution.
+This is okay for device-del which provides a DEVICE_DELETED event,
+but not for the failure case of device-add.  To avoid changing
+monitor semantics, just drain all pending RCU callbacks on error.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200913160259.32145-2-mlevitsk@redhat.com>
+Message-Id: <20200913160259.32145-4-mlevitsk@redhat.com>
+[Don't use it in qmp_device_del. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-bus.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ qdev-monitor.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 94921c04b1..69d7c3f90c 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -1571,7 +1571,7 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-     BusChild *kid;
-     SCSIDevice *target_dev = NULL;
- 
--    QTAILQ_FOREACH_REVERSE(kid, &bus->qbus.children, sibling) {
-+    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
-         DeviceState *qdev = kid->child;
-         SCSIDevice *dev = SCSI_DEVICE(qdev);
- 
-@@ -1579,7 +1579,15 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
-             if (dev->lun == lun) {
-                 return dev;
-             }
--            target_dev = dev;
-+
-+            /*
-+             * If we don't find exact match (channel/bus/lun),
-+             * we will return the first device which matches channel/bus
-+             */
-+
-+            if (!target_dev) {
-+                target_dev = dev;
-+            }
-         }
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index e9b7228480..bcfb90a08f 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -803,6 +803,18 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
+         return;
      }
-     return target_dev;
+     dev = qdev_device_add(opts, errp);
++
++    /*
++     * Drain all pending RCU callbacks. This is done because
++     * some bus related operations can delay a device removal
++     * (in this case this can happen if device is added and then
++     * removed due to a configuration error)
++     * to a RCU callback, but user might expect that this interface
++     * will finish its job completely once qmp command returns result
++     * to the user
++     */
++    drain_call_rcu();
++
+     if (!dev) {
+         qemu_opts_del(opts);
+         return;
 -- 
 2.26.2
 
