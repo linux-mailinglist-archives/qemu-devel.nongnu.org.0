@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C91281B2D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 20:53:41 +0200 (CEST)
-Received: from localhost ([::1]:56410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10E5281B34
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 20:55:30 +0200 (CEST)
+Received: from localhost ([::1]:60432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOQBY-0000SP-AS
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 14:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59212)
+	id 1kOQDJ-0002A5-T1
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 14:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOQAE-0007zj-N4
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 14:52:18 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOQAC-0003Uk-RP
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 14:52:18 -0400
-Received: by mail-ej1-x644.google.com with SMTP id i26so3308394ejb.12
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 11:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JRtRV5DwhN4sZj6i+KCROddwh5d67mIFZSGuJ8DZL00=;
- b=fPN3xdtqUhdAMQMjwkKV5hOvMH+0aLWzTj+UnCX/ASO3WRHpN7CX8g4t2XcahQ/0aJ
- In+rcGbPuqj24pUiq0QIiN0C1yfRAxEnbe69vdT8NUzUOUV1R6Rm510Qawm2T+b4Uzv+
- p2KtX/OZgkySN61gnS46BoGfEt42R1k3jm8FCMf/zHYccAmx9Es5xOh7rtAe6ZSqkk6O
- FBpTR8+fgy03wiiQiN/mmRQPS3g5T0VvMHS+zSzn/0GVXCAZNDFfDoiGXgEtW5ugQa0x
- emBTzkMHAVj/cPx/AQptfeeT2Y3zgXmBaAKGJPg25vFQqHh9fHT5W5H7/NhDK56aMpbb
- GDLg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kOQB7-0000Mw-Dw
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 14:53:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kOQB5-0003Yw-D5
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 14:53:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601664789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kETz8z/PNfNAdFKo8qzT79pmjMs6Htr1XZfifdBkzHY=;
+ b=EFkE93sDter8g75d1cihJaoCoZS9JwWYF442S5vpN0oCtbOr0r78yUhmDvFYXdnEQ4qAMg
+ PuGXTV7JoHyxAR3/fQxcyaMJcYgIpt5VPAL4013lAyjLUhfptZjDEjv606Mln1nv4U9f/+
+ L+jDS59ceHuf39zc+J0POPK+EYifQi0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-ZmO6XxPIMrOn6PUOr4ApLw-1; Fri, 02 Oct 2020 14:53:06 -0400
+X-MC-Unique: ZmO6XxPIMrOn6PUOr4ApLw-1
+Received: by mail-qk1-f197.google.com with SMTP id y17so1734518qky.0
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 11:53:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JRtRV5DwhN4sZj6i+KCROddwh5d67mIFZSGuJ8DZL00=;
- b=iKYmR8Qdl8L9cl0MDcLSieaZwCox7AjDyWOR0kCjASdxIR1yqM7RTg8TYHAFNcXsc8
- wgolMj+NOk7U21yF6HzUATHb4d7E9NUCOEbcEiimhRni6pDTa3Ct4AjucmGF+Cn/veo8
- Uth3KLwgaCIE/YRMirN3gmukme7iVj/fBbqB/fzowXmQpn5+uUIsfrtZqI9OHFjSZI1+
- Z39rbdSQE37yW1GN80B6CdLv1Q2DqaOIiZn3j6b6WdiBWgJH0UBif6PdLElKAURGG6Lb
- UL0bDXThbm2cxcflX91IpbzVUgWts4DBf9RywwsdG4uiyII4mQIXI3bYkY7YkEKehyBT
- 2EsQ==
-X-Gm-Message-State: AOAM533NhnhOZISnSHt9824TMs/vmD2Z60pYUNG3Fo10AFssKWIJy7WN
- 5D7PO+DnJcdhksV8oGF02H/UjTIYJNYnBhwx8U0ykA==
-X-Google-Smtp-Source: ABdhPJyMYv1RS4UWJ573HCcO8HP6uHbG7nxTNRuSZumqC+c5t2mw9sN5O4gbKLr7Z1adDW12WYtUIr8DSrPGBzzku64=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr3581616ejk.407.1601664734933; 
- Fri, 02 Oct 2020 11:52:14 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kETz8z/PNfNAdFKo8qzT79pmjMs6Htr1XZfifdBkzHY=;
+ b=cLSMwpBoKA0sWs8AubdntJPMGcukax97JPxGWFbUKMpCHxr0RgIdZSJY9yCEN2JFjE
+ 9J2bDwCu47mYbngobZYE2V59R+ipjGx3e8UgKvxtCylepZMAhBBkjejHwDaRvL5q0s1h
+ i8zIlTRIqjX7bQkZNdvdU3mu1TkVKoGInqgw3lonee0lWT20KbKb3A48EkQrySofv9Qs
+ 1ae1BwPBwYjkJLlckx4b75Vtnj8RgmqPuVaptUdsb9xU8fhxNEAS8S8lI2uPpgmgUfVC
+ 8tPaLFZNoYm+aKSPqGQK7kXnv2/zVlCJe/MTGpJKSu5mtb9BO6xTCn6msaZgf5TkXtOO
+ W/4w==
+X-Gm-Message-State: AOAM533bAf2eQaVRI9DJyszwnKtD2fYQt2EL2RzSvs0gl68eHYCc0NYr
+ D9253Cl4JKGKXvMizxJ8I07sYy7xWq93ok1+QhEAZmHbsT+9bXL504BNDdhL1N5fVAjvzSowkbw
+ jY3Q4sxKHwwAR5Fo=
+X-Received: by 2002:a37:9142:: with SMTP id t63mr3460344qkd.50.1601664785865; 
+ Fri, 02 Oct 2020 11:53:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzw/Xo1xk49Rm14R6K2qx34856SGweej+ospj6Bi+xf28FjEfy1pXrPU5U7HcCVmN2GCOTp3Q==
+X-Received: by 2002:a37:9142:: with SMTP id t63mr3460325qkd.50.1601664785578; 
+ Fri, 02 Oct 2020 11:53:05 -0700 (PDT)
+Received: from xz-x1 (toroon474qw-lp130-09-184-147-14-204.dsl.bell.ca.
+ [184.147.14.204])
+ by smtp.gmail.com with ESMTPSA id m10sm1671275qti.46.2020.10.02.11.53.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Oct 2020 11:53:04 -0700 (PDT)
+Date: Fri, 2 Oct 2020 14:53:03 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Wei Huang <wei.huang2@amd.com>
+Subject: Re: [PATCH V2 1/3] amd-iommu: Add address space notifier and replay
+ support
+Message-ID: <20201002185303.GE5473@xz-x1>
+References: <20201002145907.1294353-1-wei.huang2@amd.com>
+ <20201002145907.1294353-2-wei.huang2@amd.com>
 MIME-Version: 1.0
-References: <20200930195850.278104-1-pbonzini@redhat.com>
- <a0b8e23a-cccb-3c5d-dbf7-f489c0d95f93@redhat.com>
- <5c9a0783-f7ea-7872-f5f4-44ba9e65a1b2@redhat.com>
- <20201002182457.GE7303@habkost.net>
- <2be76d12-695b-363f-c74b-f1b461aec3df@redhat.com>
-In-Reply-To: <2be76d12-695b-363f-c74b-f1b461aec3df@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 2 Oct 2020 19:52:04 +0100
-Message-ID: <CAFEAcA_o8DbfBEOfR1VrFg-2AXOT2Ts3sj6KXrf4iL2BFMjMCQ@mail.gmail.com>
-Subject: Re: [PULL v8 00/86] Misc QEMU patches for 2020-09-24
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201002145907.1294353-2-wei.huang2@amd.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_DOTEDU=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,30 +95,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, pbonzini@redhat.com, Suravee.Suthikulpanit@amd.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2 Oct 2020 at 19:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> On 02/10/20 20:24, Eduardo Habkost wrote:
-> > We already have Sphinx 3.x hacks inside our fork of kernel-doc,
-> > see commit 152d1967f650 ("kernel-doc: Use c:struct for Sphinx 3.0
-> > and later").
-> >
-> > If we want to keep deviating from upstream kernel-doc, the
-> > following patch seems to work.  Do we want to?
+On Fri, Oct 02, 2020 at 09:59:05AM -0500, Wei Huang wrote:
+> +static void amdvi_address_space_unmap(AMDVIAddressSpace *as, IOMMUNotifier *n)
+> +{
+> +    IOMMUTLBEntry entry;
+> +    hwaddr start = n->start;
+> +    hwaddr end = n->end;
+> +    hwaddr size = end - start + 1;
+> +
+> +    entry.target_as = &address_space_memory;
+> +    entry.iova = start;
+> +    entry.translated_addr = 0;
+> +    entry.perm = IOMMU_NONE;
+> +    entry.addr_mask = size - 1;
 
-> I can try sending these to upstream Linux, too.
+This may race with Eugenio's series:
 
-I did mention the c:struct change we're carrying to Jon Corbet
-when I sent him the missing-close-paren fix to kernel-doc
-earlier this year:
-http://lkml.iu.edu/hypermail/linux/kernel/2004.1/08760.html
-I think it probably mostly needs somebody to try these changes
-in the context of producing the kernel docs and see if they
-are sufficient to fix kernel doc production too...
+  https://mail.gnu.org/archive/html/qemu-ppc/2020-09/msg00131.html
 
-thanks
--- PMM
+IMHO that series should be acceptable for merging already.  Anyway, there's
+probably a trivial conflict to solve.
+
+> +
+> +    memory_region_notify_one(n, &entry);
+> +}
+> +
+>  static gboolean amdvi_iotlb_remove_by_domid(gpointer key, gpointer value,
+>                                              gpointer user_data)
+>  {
+> @@ -1473,14 +1491,17 @@ static int amdvi_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>                                             Error **errp)
+>  {
+>      AMDVIAddressSpace *as = container_of(iommu, AMDVIAddressSpace, iommu);
+> +    AMDVIState *s = as->iommu_state;
+>  
+> -    if (new & IOMMU_NOTIFIER_MAP) {
+> -        error_setg(errp,
+> -                   "device %02x.%02x.%x requires iommu notifier which is not "
+> -                   "currently supported", as->bus_num, PCI_SLOT(as->devfn),
+> -                   PCI_FUNC(as->devfn));
+> -        return -EINVAL;
+
+Ideally, we shouldn't remove this error message until the functionality is
+fully implemented.  Otherwise an user could potentially boot such a vm with a
+broken assigned device.
+
+Thanks,
+
+> +    /* Update address space notifier flags */
+> +    as->notifier_flags = new;
+> +
+> +    if (old == IOMMU_NOTIFIER_NONE) {
+> +        QLIST_INSERT_HEAD(&s->amdvi_as_with_notifiers, as, next);
+> +    } else if (new == IOMMU_NOTIFIER_NONE) {
+> +        QLIST_REMOVE(as, next);
+>      }
+> +
+>      return 0;
+>  }
+
+-- 
+Peter Xu
+
 
