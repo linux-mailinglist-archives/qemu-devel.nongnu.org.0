@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF3228145E
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 15:43:35 +0200 (CEST)
-Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530B0281468
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 15:45:14 +0200 (CEST)
+Received: from localhost ([::1]:60798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOLLS-0003Ml-MX
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 09:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49240)
+	id 1kOLN3-0005WY-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 09:45:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOLHw-0007b3-Ct
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:39:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41751)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOLI2-0007co-5e
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:40:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOLHt-0005Rz-Mj
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:39:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kOLHy-0005Td-0Y
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:40:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601645990;
+ s=mimecast20190719; t=1601645996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tvVXKSfjWkoZJFhCHk1dGuX00kfrmBZkcI+Ka1f3ccA=;
- b=WLnR9ETfDS4r/AKBNje6d4yfmzyiqvTwaUreLh30eQ6pSwV7xqInImU0HYuHJ6YTXF3kMc
- S3kGoKovKhN2PMSpSJ2RtMuEXJja6ki5bjjaKx0hfMDqDbTsyXpBx4VZdsKb75uPqd5H92
- gbs29dFhDH749aiGKcl1vJKdg1qwXnI=
+ bh=8IRn/Y0aJt1eGijTbQmkn/6JoyPalvnCOEAPCHm0k58=;
+ b=MQBD7F11kpTxjsik9FV6v8rcS/d9u9imMaejaRE/Bxo/GCKTGsv0NS3RkRWzB26fpurtiF
+ ppSTEh9sI0MYvAL97aZy/g05cmU4HsvU/KxLrvfpaRITcMoQdfoeBViwIjsdMEdeG6//kC
+ 3WJxhDOFSI0uwC82k17eJCSKScBXZGI=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-ugbAX-LnMgyvnbXpHotCQA-1; Fri, 02 Oct 2020 09:39:49 -0400
-X-MC-Unique: ugbAX-LnMgyvnbXpHotCQA-1
-Received: by mail-wm1-f72.google.com with SMTP id d197so539756wmd.4
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 06:39:48 -0700 (PDT)
+ us-mta-480-VpEtMgYnNqybgH_jj2vP7g-1; Fri, 02 Oct 2020 09:39:55 -0400
+X-MC-Unique: VpEtMgYnNqybgH_jj2vP7g-1
+Received: by mail-wm1-f72.google.com with SMTP id t8so433910wmj.6
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 06:39:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tvVXKSfjWkoZJFhCHk1dGuX00kfrmBZkcI+Ka1f3ccA=;
- b=nKQvD9jdFMKIlP7nfIYmPAc44kve7koeipaICmv+6F3DWa9dtbqoXW8mX9R/I2kVsn
- jQWUgyJsGpYi48O+D0AZ6gYJc1ags+9L240opU8LbwgHk1KihWLByH+tf9/CtBEJqicq
- 7aWijprNmaC6qZR/h7j4saL18/+LsCB37GFsJazpMe8gMyqGr4bNdsdf1LKucjQWMjwI
- lSGgGrPQH+EOhSP+R4n+MCgJT/I0ee4DpdPBr10bzm5OlIsbRHTjjwkZkI98Wc+Vx4vt
- 2rmSHcyF3f9K6O1nufCpC+nPMkqhAHatjXsmZFP2s7csX/oFGffoD3ctljoKigc1zpsG
- e4+A==
-X-Gm-Message-State: AOAM533SlJT+/CQn2IP/SA/rF5nMpmgmCEbaXyNQ05pLDyzhFXKfHj6/
- Z02n8T2JTfHrT6xFwT6MPUd8mT9qtAxJ+rpFPonQz0aPwPwXI6lUCr2WrE4CAf99XLuVDzuAzlG
- VIyAv292C/hT0HEU=
-X-Received: by 2002:adf:9bcf:: with SMTP id e15mr3075495wrc.93.1601645987717; 
- Fri, 02 Oct 2020 06:39:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXZ0DUtM8ag+Gzw12Jr6+YpFZwVTHU0tycGVTY/5KbE5Wb3wWL4PNJqnB0Xi/zQrZCrmxEzA==
-X-Received: by 2002:adf:9bcf:: with SMTP id e15mr3075463wrc.93.1601645987503; 
- Fri, 02 Oct 2020 06:39:47 -0700 (PDT)
+ bh=8IRn/Y0aJt1eGijTbQmkn/6JoyPalvnCOEAPCHm0k58=;
+ b=oMyAjpTp8yRVbK7SeuNosyQxJtWymcy2FYlui+CSlXuAX8v1aFw8pAm0kvwNzbSLfo
+ UT4hu3TDo70ncaXVqRoNSbL5pCmOUnYqzZ3QXuI2K1M1pWqpZVCkiCL5iP46k4zPysEW
+ fWWY/Fhsum5RPcwkxbihmRHdMjlO6YnLYnC9xY/oEWzUzEkKIMybwwiWrdHxQAgd/1f/
+ uAjMRH1p033e5LdT+SLlWg87CMgHLuWvrHU+43+D4UlL3+ozN5fXseSS74UcNS980uwX
+ FiqBreU9nYvDzIrNksWptp6bH6rMaKICNpyhhCky7ASrckm4KPVY83VBnRA7+xB54ysi
+ 5Jdw==
+X-Gm-Message-State: AOAM531W1JmSkz8b1pn7L4Esdf2cMG476NHUh57B0R8SHop3ewiOAzL9
+ YtDb9JRQhqKhQi6aS9arpH8l90RTIWlHkMxlTlE0Z25ztjfD8I52xuggqL7ACokBupukHx8o0VU
+ j6EH21ZuNhs2zmkY=
+X-Received: by 2002:a5d:43cf:: with SMTP id v15mr3203828wrr.269.1601645993157; 
+ Fri, 02 Oct 2020 06:39:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyrtjDxbvNT2qZx2AnpZX/U8SDHXTxctCni5ZD+jg0EWfaGOVq2AOPJli+/iQHk1imFPhnyVw==
+X-Received: by 2002:a5d:43cf:: with SMTP id v15mr3203803wrr.269.1601645992898; 
+ Fri, 02 Oct 2020 06:39:52 -0700 (PDT)
 Received: from localhost.localdomain (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id d18sm1779795wrm.10.2020.10.02.06.39.46
+ by smtp.gmail.com with ESMTPSA id f6sm1818116wro.5.2020.10.02.06.39.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 06:39:46 -0700 (PDT)
+ Fri, 02 Oct 2020 06:39:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] qapi: Restrict 'query-kvm' command to machine code
-Date: Fri,  2 Oct 2020 15:39:22 +0200
-Message-Id: <20201002133923.1716645-5-philmd@redhat.com>
+Subject: [PATCH 5/5] qapi: Restrict Xen migration commands to migration.json
+Date: Fri,  2 Oct 2020 15:39:23 +0200
+Message-Id: <20201002133923.1716645-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201002133923.1716645-1-philmd@redhat.com>
 References: <20201002133923.1716645-1-philmd@redhat.com>
@@ -108,97 +108,165 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restricting query-kvm to machine.json pulls slightly
-less QAPI-generated code into user-mode and tools.
+Restricting xen-set-global-dirty-log and xen-load-devices-state
+commands migration.json pulls slightly less QAPI-generated code
+into user-mode and tools.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- qapi/machine.json | 30 ++++++++++++++++++++++++++++++
- qapi/misc.json    | 30 ------------------------------
- 2 files changed, 30 insertions(+), 30 deletions(-)
+ qapi/migration.json    | 41 +++++++++++++++++++++++++++++++++++++++++
+ qapi/misc.json         | 41 -----------------------------------------
+ accel/stubs/xen-stub.c |  2 +-
+ hw/i386/xen/xen-hvm.c  |  2 +-
+ migration/savevm.c     |  1 -
+ 5 files changed, 43 insertions(+), 44 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 5a3bbcae01..7c9a263778 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -561,6 +561,36 @@
- ##
- { 'command': 'inject-nmi' }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 7f5e6fd681..cb30f4c729 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1551,6 +1551,47 @@
+ { 'command': 'xen-save-devices-state',
+   'data': {'filename': 'str', '*live':'bool' } }
  
 +##
-+# @KvmInfo:
++# @xen-set-global-dirty-log:
 +#
-+# Information about support for KVM acceleration
++# Enable or disable the global dirty log mode.
 +#
-+# @enabled: true if KVM acceleration is active
++# @enable: true to enable, false to disable.
 +#
-+# @present: true if KVM acceleration is built into this executable
++# Returns: nothing
 +#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
-+
-+##
-+# @query-kvm:
-+#
-+# Returns information about KVM acceleration
-+#
-+# Returns: @KvmInfo
-+#
-+# Since: 0.14.0
++# Since: 1.3
 +#
 +# Example:
 +#
-+# -> { "execute": "query-kvm" }
-+# <- { "return": { "enabled": true, "present": true } }
++# -> { "execute": "xen-set-global-dirty-log",
++#      "arguments": { "enable": true } }
++# <- { "return": {} }
 +#
 +##
-+{ 'command': 'query-kvm', 'returns': 'KvmInfo' }
++{ 'command': 'xen-set-global-dirty-log', 'data': { 'enable': 'bool' } }
++
++##
++# @xen-load-devices-state:
++#
++# Load the state of all devices from file. The RAM and the block devices
++# of the VM are not loaded by this command.
++#
++# @filename: the file to load the state of the devices from as binary
++#            data. See xen-save-devices-state.txt for a description of the binary
++#            format.
++#
++# Since: 2.7
++#
++# Example:
++#
++# -> { "execute": "xen-load-devices-state",
++#      "arguments": { "filename": "/tmp/resume" } }
++# <- { "return": {} }
++#
++##
++{ 'command': 'xen-load-devices-state', 'data': {'filename': 'str'} }
 +
  ##
- # @NumaOptionsType:
+ # @xen-set-replication:
  #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 2a5d03a69e..9813893269 100644
+index 9813893269..afe936b45b 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -68,36 +68,6 @@
- ##
- { 'command': 'query-name', 'returns': 'NameInfo', 'allow-preconfig': true }
+@@ -287,26 +287,6 @@
+   'data': {'device': 'str', 'target': 'str', '*arg': 'str'},
+   'features': [ 'deprecated' ] }
  
 -##
--# @KvmInfo:
+-# @xen-set-global-dirty-log:
 -#
--# Information about support for KVM acceleration
+-# Enable or disable the global dirty log mode.
 -#
--# @enabled: true if KVM acceleration is active
+-# @enable: true to enable, false to disable.
 -#
--# @present: true if KVM acceleration is built into this executable
+-# Returns: nothing
 -#
--# Since: 0.14.0
--##
--{ 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
--
--##
--# @query-kvm:
--#
--# Returns information about KVM acceleration
--#
--# Returns: @KvmInfo
--#
--# Since: 0.14.0
+-# Since: 1.3
 -#
 -# Example:
 -#
--# -> { "execute": "query-kvm" }
--# <- { "return": { "enabled": true, "present": true } }
+-# -> { "execute": "xen-set-global-dirty-log",
+-#      "arguments": { "enable": true } }
+-# <- { "return": {} }
 -#
 -##
--{ 'command': 'query-kvm', 'returns': 'KvmInfo' }
+-{ 'command': 'xen-set-global-dirty-log', 'data': { 'enable': 'bool' } }
 -
  ##
- # @IOThreadInfo:
+ # @getfd:
  #
+@@ -606,24 +586,3 @@
+ ##
+ { 'enum': 'ReplayMode',
+   'data': [ 'none', 'record', 'play' ] }
+-
+-##
+-# @xen-load-devices-state:
+-#
+-# Load the state of all devices from file. The RAM and the block devices
+-# of the VM are not loaded by this command.
+-#
+-# @filename: the file to load the state of the devices from as binary
+-#            data. See xen-save-devices-state.txt for a description of the binary
+-#            format.
+-#
+-# Since: 2.7
+-#
+-# Example:
+-#
+-# -> { "execute": "xen-load-devices-state",
+-#      "arguments": { "filename": "/tmp/resume" } }
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'xen-load-devices-state', 'data': {'filename': 'str'} }
+diff --git a/accel/stubs/xen-stub.c b/accel/stubs/xen-stub.c
+index 7ba0b697f4..7054965c48 100644
+--- a/accel/stubs/xen-stub.c
++++ b/accel/stubs/xen-stub.c
+@@ -7,7 +7,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "sysemu/xen.h"
+-#include "qapi/qapi-commands-misc.h"
++#include "qapi/qapi-commands-migration.h"
+ 
+ bool xen_allowed;
+ 
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index f3ababf33b..9519c33c09 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -24,7 +24,7 @@
+ #include "hw/xen/xen-bus.h"
+ #include "hw/xen/xen-x86.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-commands-misc.h"
++#include "qapi/qapi-commands-migration.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/range.h"
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 34e4b71052..1fdf3f76c2 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -42,7 +42,6 @@
+ #include "postcopy-ram.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-migration.h"
+-#include "qapi/qapi-commands-misc.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/cpus.h"
 -- 
 2.26.2
 
