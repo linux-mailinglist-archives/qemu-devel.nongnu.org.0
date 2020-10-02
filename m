@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5796A2815F3
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:02:21 +0200 (CEST)
-Received: from localhost ([::1]:47824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765DC28160A
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:04:50 +0200 (CEST)
+Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMZg-0005fZ-D9
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34782)
+	id 1kOMc5-0001AW-FJ
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:04:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIL-0001tU-FL
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36533)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIO-00021D-Hf
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIJ-0004aW-0R
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:25 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIK-0004bA-Tv
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649862;
+ s=mimecast20190719; t=1601649864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2pcs35PEijL7rKNXuV6E/u4Lw4PgdCtjYx/YUU0pdYw=;
- b=bHFtchuhtv1NGMPb99017Nsp6rYdJtTCphpjpyVluRi9q89ANPCS5D+8yA7F+HL4kGu9ix
- ZZNMnk1qKcx6BtTKJvWdnWae7VCWPSnAIOOle99AZtwfDTtPTZtUWWOjurQo7XByMJCywD
- nmr6tcfSFwE2MLhM7umkhzswkhkXpYQ=
+ bh=VTrRirk6Zxuin2KOh+1DA9ZoczyFozOMYFd/oQTKhlA=;
+ b=ECN2TEqzXz8UYAGY0Dfn5S/hSFGkO3vO7ywsiRfqlPaAz2KEz0ytyZf7pUxmcYnTgzMJzR
+ 9fySRm+u7+yR0kYEyc/O9O1wjprk9cMTRPy5B6QadfLoht49myfxkh4tmrKcdPJ/JHOfM4
+ /izWBtRzkiEcn+UF3zQbazLXSNEo3P4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-EcGA_fG8OrC8cxK2jQODjQ-1; Fri, 02 Oct 2020 10:44:17 -0400
-X-MC-Unique: EcGA_fG8OrC8cxK2jQODjQ-1
+ us-mta-263-7oCybpBNMJWRUNkMp0RzxQ-1; Fri, 02 Oct 2020 10:44:20 -0400
+X-MC-Unique: 7oCybpBNMJWRUNkMp0RzxQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 734A2A7422;
- Fri,  2 Oct 2020 14:44:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02CB3A742B;
+ Fri,  2 Oct 2020 14:44:19 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
  [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B6BC5D9D3;
- Fri,  2 Oct 2020 14:44:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A4C75D9D3;
+ Fri,  2 Oct 2020 14:44:17 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 18/37] block/export: Move AioContext from NBDExport to
- BlockExport
-Date: Fri,  2 Oct 2020 16:43:26 +0200
-Message-Id: <20201002144345.253865-19-kwolf@redhat.com>
+Subject: [PULL 20/37] block/export: Allocate BlockExport in blk_exp_add()
+Date: Fri,  2 Oct 2020 16:43:28 +0200
+Message-Id: <20201002144345.253865-21-kwolf@redhat.com>
 In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
 References: <20201002144345.253865-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,166 +83,297 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Instead of letting the driver allocate and return the BlockExport
+object, allocate it already in blk_exp_add() and pass it. This allows us
+to initialise the generic part before calling into the driver so that
+the driver can just use these values instead of having to parse the
+options a second time.
+
+For symmetry, move freeing the BlockExport to blk_exp_unref().
+
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200924152717.287415-15-kwolf@redhat.com>
+Message-Id: <20200924152717.287415-17-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/export.h |  3 +++
- block/export/export.c  |  2 ++
- nbd/server.c           | 26 +++++++++++++-------------
- 3 files changed, 18 insertions(+), 13 deletions(-)
+ include/block/export.h |  8 +++++++-
+ include/block/nbd.h    | 11 ++++++-----
+ block/export/export.c  | 18 +++++++++++++++++-
+ blockdev-nbd.c         | 26 ++++++++++++++------------
+ nbd/server.c           | 30 +++++++++++++-----------------
+ 5 files changed, 57 insertions(+), 36 deletions(-)
 
 diff --git a/include/block/export.h b/include/block/export.h
-index 5236a35e12..e6f96f4e1e 100644
+index e6f96f4e1e..cf9b1c9dad 100644
 --- a/include/block/export.h
 +++ b/include/block/export.h
-@@ -41,6 +41,9 @@ struct BlockExport {
-      * the export.
-      */
-     int refcount;
-+
-+    /* The AioContext whose lock protects this BlockExport object. */
-+    AioContext *ctx;
- };
+@@ -22,8 +22,14 @@ typedef struct BlockExportDriver {
+     /* The export type that this driver services */
+     BlockExportType type;
  
- BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp);
++    /*
++     * The size of the driver-specific state that contains BlockExport as its
++     * first field.
++     */
++    size_t instance_size;
++
+     /* Creates and starts a new block export */
+-    BlockExport *(*create)(BlockExportOptions *, Error **);
++    int (*create)(BlockExport *, BlockExportOptions *, Error **);
+ 
+     /*
+      * Frees a removed block export. This function is only called after all
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index e3bd112227..fc2c153d5b 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -330,11 +330,12 @@ int nbd_errno_to_system_errno(int err);
+ typedef struct NBDExport NBDExport;
+ typedef struct NBDClient NBDClient;
+ 
+-BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp);
+-NBDExport *nbd_export_new(BlockDriverState *bs,
+-                          const char *name, const char *desc,
+-                          const char *bitmap, bool readonly, bool shared,
+-                          bool writethrough, Error **errp);
++int nbd_export_create(BlockExport *exp, BlockExportOptions *exp_args,
++                      Error **errp);
++int nbd_export_new(BlockExport *blk_exp, BlockDriverState *bs,
++                   const char *name, const char *desc,
++                   const char *bitmap, bool readonly, bool shared,
++                   bool writethrough, Error **errp);
+ void nbd_export_set_on_eject_blk(BlockExport *exp, BlockBackend *blk);
+ void nbd_export_close(NBDExport *exp);
+ void nbd_export_remove(NBDExport *exp, NbdServerRemoveMode mode, Error **errp);
 diff --git a/block/export/export.c b/block/export/export.c
-index baba4e94ff..8635318ef1 100644
+index 8635318ef1..6b2b29078b 100644
 --- a/block/export/export.c
 +++ b/block/export/export.c
-@@ -49,12 +49,14 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-     return drv->create(export, errp);
- }
- 
-+/* Callers must hold exp->ctx lock */
- void blk_exp_ref(BlockExport *exp)
+@@ -39,6 +39,8 @@ static const BlockExportDriver *blk_exp_find_driver(BlockExportType type)
+ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
  {
-     assert(exp->refcount > 0);
-     exp->refcount++;
- }
+     const BlockExportDriver *drv;
++    BlockExport *exp;
++    int ret;
  
-+/* Callers must hold exp->ctx lock */
- void blk_exp_unref(BlockExport *exp)
- {
-     assert(exp->refcount > 0);
-diff --git a/nbd/server.c b/nbd/server.c
-index 7be81c7bda..7cf81646fc 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -92,8 +92,6 @@ struct NBDExport {
-     QTAILQ_HEAD(, NBDClient) clients;
-     QTAILQ_ENTRY(NBDExport) next;
- 
--    AioContext *ctx;
--
-     BlockBackend *eject_notifier_blk;
-     Notifier eject_notifier;
- 
-@@ -1333,8 +1331,8 @@ static coroutine_fn int nbd_negotiate(NBDClient *client, Error **errp)
-     }
- 
-     /* Attach the channel to the same AioContext as the export */
--    if (client->exp && client->exp->ctx) {
--        qio_channel_attach_aio_context(client->ioc, client->exp->ctx);
-+    if (client->exp && client->exp->common.ctx) {
-+        qio_channel_attach_aio_context(client->ioc, client->exp->common.ctx);
-     }
- 
-     assert(!client->optlen);
-@@ -1466,7 +1464,7 @@ static void blk_aio_attached(AioContext *ctx, void *opaque)
- 
-     trace_nbd_blk_aio_attached(exp->name, ctx);
- 
--    exp->ctx = ctx;
-+    exp->common.ctx = ctx;
- 
-     QTAILQ_FOREACH(client, &exp->clients, next) {
-         qio_channel_attach_aio_context(client->ioc, ctx);
-@@ -1484,13 +1482,13 @@ static void blk_aio_detach(void *opaque)
-     NBDExport *exp = opaque;
-     NBDClient *client;
- 
--    trace_nbd_blk_aio_detach(exp->name, exp->ctx);
-+    trace_nbd_blk_aio_detach(exp->name, exp->common.ctx);
- 
-     QTAILQ_FOREACH(client, &exp->clients, next) {
-         qio_channel_detach_aio_context(client->ioc);
-     }
- 
--    exp->ctx = NULL;
-+    exp->common.ctx = NULL;
- }
- 
- static void nbd_eject_notifier(Notifier *n, void *data)
-@@ -1498,7 +1496,7 @@ static void nbd_eject_notifier(Notifier *n, void *data)
-     NBDExport *exp = container_of(n, NBDExport, eject_notifier);
-     AioContext *aio_context;
- 
--    aio_context = exp->ctx;
-+    aio_context = exp->common.ctx;
-     aio_context_acquire(aio_context);
-     nbd_export_close(exp);
-     aio_context_release(aio_context);
-@@ -1535,10 +1533,13 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+     drv = blk_exp_find_driver(export->type);
+     if (!drv) {
+@@ -46,7 +48,20 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
          return NULL;
      }
  
-+    ctx = bdrv_get_aio_context(bs);
+-    return drv->create(export, errp);
++    assert(drv->instance_size >= sizeof(BlockExport));
++    exp = g_malloc0(drv->instance_size);
++    *exp = (BlockExport) {
++        .drv        = drv,
++        .refcount   = 1,
++    };
 +
-     exp = g_new0(NBDExport, 1);
-     exp->common = (BlockExport) {
-         .drv        = &blk_exp_nbd,
-         .refcount   = 1,
-+        .ctx        = ctx,
-     };
++    ret = drv->create(exp, export, errp);
++    if (ret < 0) {
++        g_free(exp);
++        return NULL;
++    }
++
++    return exp;
+ }
+ 
+ /* Callers must hold exp->ctx lock */
+@@ -62,6 +77,7 @@ void blk_exp_unref(BlockExport *exp)
+     assert(exp->refcount > 0);
+     if (--exp->refcount == 0) {
+         exp->drv->delete(exp);
++        g_free(exp);
+     }
+ }
+ 
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index ef14303b25..b34f159888 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -173,18 +173,19 @@ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+     qapi_free_SocketAddress(addr_flat);
+ }
+ 
+-BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
++int nbd_export_create(BlockExport *exp, BlockExportOptions *exp_args,
++                      Error **errp)
+ {
+     BlockExportOptionsNbd *arg = &exp_args->u.nbd;
+     BlockDriverState *bs = NULL;
+-    NBDExport *exp = NULL;
+     AioContext *aio_context;
++    int ret;
+ 
+     assert(exp_args->type == BLOCK_EXPORT_TYPE_NBD);
+ 
+     if (!nbd_server && !is_qemu_nbd) {
+         error_setg(errp, "NBD server not running");
+-        return NULL;
++        return -EINVAL;
+     }
+ 
+     if (!arg->has_name) {
+@@ -193,22 +194,22 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
+ 
+     if (strlen(arg->name) > NBD_MAX_STRING_SIZE) {
+         error_setg(errp, "export name '%s' too long", arg->name);
+-        return NULL;
++        return -EINVAL;
+     }
+ 
+     if (arg->description && strlen(arg->description) > NBD_MAX_STRING_SIZE) {
+         error_setg(errp, "description '%s' too long", arg->description);
+-        return NULL;
++        return -EINVAL;
+     }
+ 
+     if (nbd_export_find(arg->name)) {
+         error_setg(errp, "NBD server already has export named '%s'", arg->name);
+-        return NULL;
++        return -EEXIST;
+     }
+ 
+     bs = bdrv_lookup_bs(NULL, exp_args->node_name, errp);
+     if (!bs) {
+-        return NULL;
++        return -ENOENT;
+     }
+ 
+     aio_context = bdrv_get_aio_context(bs);
+@@ -218,6 +219,7 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
+         arg->writable = false;
+     }
+     if (bdrv_is_read_only(bs) && arg->writable) {
++        ret = -EINVAL;
+         error_setg(errp, "Cannot export read-only node as writable");
+         goto out;
+     }
+@@ -226,22 +228,22 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
+         exp_args->writethrough = false;
+     }
+ 
+-    exp = nbd_export_new(bs, arg->name, arg->description, arg->bitmap,
++    ret = nbd_export_new(exp, bs, arg->name, arg->description, arg->bitmap,
+                          !arg->writable, !arg->writable,
+                          exp_args->writethrough, errp);
+-    if (!exp) {
++    if (ret < 0) {
+         goto out;
+     }
+ 
+     /* The list of named exports has a strong reference to this export now and
+      * our only way of accessing it is through nbd_export_find(), so we can drop
+      * the strong reference that is @exp. */
+-    blk_exp_unref((BlockExport*) exp);
++    blk_exp_unref(exp);
+ 
++    ret = 0;
+  out:
+     aio_context_release(aio_context);
+-    /* TODO Remove the cast: nbd_export_new() will return a BlockExport. */
+-    return (BlockExport*) exp;
++    return ret;
+ }
+ 
+ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+diff --git a/nbd/server.c b/nbd/server.c
+index 7cf81646fc..f31d8bbb60 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1514,14 +1514,14 @@ void nbd_export_set_on_eject_blk(BlockExport *exp, BlockBackend *blk)
+     blk_add_remove_bs_notifier(blk, &nbd_exp->eject_notifier);
+ }
+ 
+-NBDExport *nbd_export_new(BlockDriverState *bs,
+-                          const char *name, const char *desc,
+-                          const char *bitmap, bool readonly, bool shared,
+-                          bool writethrough, Error **errp)
++int nbd_export_new(BlockExport *blk_exp, BlockDriverState *bs,
++                   const char *name, const char *desc,
++                   const char *bitmap, bool readonly, bool shared,
++                   bool writethrough, Error **errp)
+ {
++    NBDExport *exp = container_of(blk_exp, NBDExport, common);
+     AioContext *ctx;
+     BlockBackend *blk;
+-    NBDExport *exp;
+     int64_t size;
+     uint64_t perm;
+     int ret;
+@@ -1530,17 +1530,11 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+     if (size < 0) {
+         error_setg_errno(errp, -size,
+                          "Failed to determine the NBD export's length");
+-        return NULL;
++        return size;
+     }
+ 
+     ctx = bdrv_get_aio_context(bs);
+-
+-    exp = g_new0(NBDExport, 1);
+-    exp->common = (BlockExport) {
+-        .drv        = &blk_exp_nbd,
+-        .refcount   = 1,
+-        .ctx        = ctx,
+-    };
++    blk_exp->ctx = ctx;
  
      /*
-@@ -1548,7 +1549,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
-      * ctx was acquired in the caller.
-      */
-     assert(name && strlen(name) <= NBD_MAX_STRING_SIZE);
--    ctx = bdrv_get_aio_context(bs);
-+
-     bdrv_invalidate_cache(bs, NULL);
+      * NBD exports are used for non-shared storage migration.  Make sure
+@@ -1599,16 +1593,19 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
+         }
  
-     /* Don't allow resize while the NBD server is running, otherwise we don't
-@@ -1622,7 +1623,6 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
-         assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SIZE);
-     }
+         if (bm == NULL) {
++            ret = -ENOENT;
+             error_setg(errp, "Bitmap '%s' is not found", bitmap);
+             goto fail;
+         }
  
--    exp->ctx = ctx;
-     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
+         if (bdrv_dirty_bitmap_check(bm, BDRV_BITMAP_ALLOW_RO, errp)) {
++            ret = -EINVAL;
+             goto fail;
+         }
  
+         if (readonly && bdrv_is_writable(bs) &&
+             bdrv_dirty_bitmap_enabled(bm)) {
++            ret = -EINVAL;
+             error_setg(errp,
+                        "Enabled bitmap '%s' incompatible with readonly export",
+                        bitmap);
+@@ -1628,14 +1625,13 @@ NBDExport *nbd_export_new(BlockDriverState *bs,
      blk_exp_ref(&exp->common);
-@@ -1653,7 +1653,7 @@ NBDExport *nbd_export_find(const char *name)
- AioContext *
- nbd_export_aio_context(NBDExport *exp)
- {
--    return exp->ctx;
-+    return exp->common.ctx;
+     QTAILQ_INSERT_TAIL(&exports, exp, next);
+ 
+-    return exp;
++    return 0;
+ 
+ fail:
+     blk_unref(blk);
+     g_free(exp->name);
+     g_free(exp->description);
+-    g_free(exp);
+-    return NULL;
++    return ret;
  }
  
- void nbd_export_close(NBDExport *exp)
-@@ -1738,7 +1738,7 @@ void nbd_export_close_all(void)
-     AioContext *aio_context;
- 
-     QTAILQ_FOREACH_SAFE(exp, &exports, next, next) {
--        aio_context = exp->ctx;
-+        aio_context = exp->common.ctx;
-         aio_context_acquire(aio_context);
-         nbd_export_close(exp);
-         aio_context_release(aio_context);
-@@ -2537,7 +2537,7 @@ static void nbd_client_receive_next_request(NBDClient *client)
-     if (!client->recv_coroutine && client->nb_requests < MAX_NBD_REQUESTS) {
-         nbd_client_get(client);
-         client->recv_coroutine = qemu_coroutine_create(nbd_trip, client);
--        aio_co_schedule(client->exp->ctx, client->recv_coroutine);
-+        aio_co_schedule(client->exp->common.ctx, client->recv_coroutine);
+ NBDExport *nbd_export_find(const char *name)
+@@ -1722,12 +1718,12 @@ static void nbd_export_delete(BlockExport *blk_exp)
      }
+ 
+     QTAILQ_REMOVE(&closed_exports, exp, next);
+-    g_free(exp);
+     aio_wait_kick();
  }
  
+ const BlockExportDriver blk_exp_nbd = {
+     .type               = BLOCK_EXPORT_TYPE_NBD,
++    .instance_size      = sizeof(NBDExport),
+     .create             = nbd_export_create,
+     .delete             = nbd_export_delete,
+ };
 -- 
 2.25.4
 
