@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA3B280D26
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 07:48:06 +0200 (CEST)
-Received: from localhost ([::1]:37292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB1F280D16
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 07:34:26 +0200 (CEST)
+Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kODvJ-0004X4-6G
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 01:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
+	id 1kODi5-0001Od-UM
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 01:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kOB16-0008OC-8V
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 22:41:52 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:37262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kOB13-0002xz-Tv
- for qemu-devel@nongnu.org; Thu, 01 Oct 2020 22:41:51 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0922TeHJ104746;
- Fri, 2 Oct 2020 02:41:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=e+KpEZ/G2GVblFzq9cQMq+1bD63IjoSEf+so3ndf1k0=;
- b=mepu29M2kYMToqyCI5Bga+hybqbi8S/B9mvfksnoGdZLapwzlctG7XhYBWo9Sz7Ejaxk
- MTkvrR7IG6HHdACngcpW5ESgFY3ZRkqm43aBi3WS6tvBL2hkPcBr9UmWhMLWZO8JrSXK
- GsietFP4wvGYClxZ9lUSSRUZ3IghUvjO7Re2SKYgp/T1slhxy59s/OTo4SavZRYwbf7p
- oGXBBQlTAWnYmzxxXxKw3RPEBJnapu7pUdyJGlMRCVT8CuZ/VHmESpFWf0T6K3Fs5Af/
- gD3l8SjLmkVGYPfnxCrSTSqgVXSx8wFoj45CoHk5Sr7UL7w0FUoBw0OUGtqg1sGMzwat hQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 33swkm93m7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 02 Oct 2020 02:41:41 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0922V0om180923;
- Fri, 2 Oct 2020 02:41:41 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 33uv2hs3yf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 02 Oct 2020 02:41:41 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0922fenK007774;
- Fri, 2 Oct 2020 02:41:40 GMT
-Received: from ban25x6uut148.us.oracle.com (/10.153.73.148)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 01 Oct 2020 19:41:40 -0700
-From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] vl: Add -no-panicstop option
-Date: Thu,  1 Oct 2020 22:41:34 -0400
-Message-Id: <1601606494-1154-2-git-send-email-alejandro.j.jimenez@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1601606494-1154-1-git-send-email-alejandro.j.jimenez@oracle.com>
-References: <1601606494-1154-1-git-send-email-alejandro.j.jimenez@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 adultscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010020016
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9761
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 clxscore=1011 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010020016
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=alejandro.j.jimenez@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 22:41:42
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kODgZ-0000wm-Gy
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 01:32:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20081)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kODgX-000703-L4
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 01:32:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601616768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=e0FTI5Tj364X0uSEMZp2Q9D8M8aRy/nc7tEEkdAUye8=;
+ b=hlb6kz/xS0/0XcbO93lF/cr1NdurwX/o45fRVkappMKY0LuZtIxfGCBDToPZql0DX4clSJ
+ IQzOKanoutf4P8qQ9pjWqV0uVzUYHkjyb/LVTnPcFh/W0KOz7hz4Uoeg2CHur1WzNLAiPP
+ cyxkfze73PVEWAh3WPzVWf6cyWdDGvA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-hrHMUME9P1Sv9bgjHge0Ag-1; Fri, 02 Oct 2020 01:32:47 -0400
+X-MC-Unique: hrHMUME9P1Sv9bgjHge0Ag-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D714E420E7;
+ Fri,  2 Oct 2020 05:32:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C50573693;
+ Fri,  2 Oct 2020 05:32:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B45E01132784; Fri,  2 Oct 2020 07:32:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 1/2] block/export: add vhost-user-blk multi-queue support
+References: <20201001144604.559733-1-stefanha@redhat.com>
+ <20201001144604.559733-2-stefanha@redhat.com>
+Date: Fri, 02 Oct 2020 07:32:39 +0200
+In-Reply-To: <20201001144604.559733-2-stefanha@redhat.com> (Stefan Hajnoczi's
+ message of "Thu, 1 Oct 2020 15:46:03 +0100")
+Message-ID: <87tuvdry4o.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 02 Oct 2020 01:46:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,97 +82,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Coiby Xu <Coiby.Xu@gmail.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current default action of pausing a guest after a panic event
-is received leaves the responsibility to resume guest execution to the
-management layer. The reasons for this behavior are discussed here:
-https://lore.kernel.org/qemu-devel/52148F88.5000509@redhat.com/
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-However, in instances like the case of older guests (Linux and
-Windows) using a pvpanic device but missing support for the
-PVPANIC_CRASHLOADED event, and Windows guests using the hv-crash
-enlightenment, it is desirable to allow the guests to continue
-running after sending a PVPANIC_PANICKED event. This allows such
-guests to proceed to capture a crash dump and automatically reboot
-without intervention of a management layer.
+> Allow the number of queues to be configured using --export
+> vhost-user-blk,num-queues=N. This setting should match the QEMU --device
+> vhost-user-blk-pci,num-queues=N setting but QEMU vhost-user-blk.c lowers
+> its own value if the vhost-user-blk backend offers fewer queues than
+> QEMU.
+>
+> The vhost-user-blk-server.c code is already capable of multi-queue. All
+> virtqueue processing runs in the same AioContext. No new locking is
+> needed.
+>
+> Add the num-queues=N option and set the VIRTIO_BLK_F_MQ feature bit.
+> Note that the feature bit only announces the presence of the num_queues
+> configuration space field. It does not promise that there is more than 1
+> virtqueue, so we can set it unconditionally.
+>
+> I tested multi-queue by running a random read fio test with numjobs=4 on
+> an -smp 4 guest. After the benchmark finished the guest /proc/interrupts
+> file showed activity on all 4 virtio-blk MSI-X. The /sys/block/vda/mq/
+> directory shows that Linux blk-mq has 4 queues configured.
+>
+> An automated test is included in the next commit.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  qapi/block-export.json               |  6 +++++-
+>  block/export/vhost-user-blk-server.c | 24 ++++++++++++++++++------
+>  2 files changed, 23 insertions(+), 7 deletions(-)
+>
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index a793e34af9..17020de257 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -93,11 +93,15 @@
+>  #        SocketAddress types are supported. Passed fds must be UNIX domain
+>  #        sockets.
+>  # @logical-block-size: Logical block size in bytes. Defaults to 512 bytes.
+> +# @num-queues: Number of request virtqueues. Must be greater than 0. Defaults
+> +#              to 1.
+>  #
+>  # Since: 5.2
+>  ##
+>  { 'struct': 'BlockExportOptionsVhostUserBlk',
+> -  'data': { 'addr': 'SocketAddress', '*logical-block-size': 'size' } }
+> +  'data': { 'addr': 'SocketAddress',
+> +	    '*logical-block-size': 'size',
 
-Add an option to avoid stopping a VM after a panic event is received.
+Tab damage.
 
-Signed-off-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Reviewed-by: Mark Kanda <mark.kanda@oracle.com>
----
- qemu-options.hx | 11 +++++++++++
- softmmu/vl.c    | 17 ++++++++++++++---
- 2 files changed, 25 insertions(+), 3 deletions(-)
+> +            '*num-queues': 'uint16'} }
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 3564c23..cbaf947 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3882,6 +3882,17 @@ SRST
-     specified domain id (XEN only).
- ERST
- 
-+DEF("no-panicstop", 0, QEMU_OPTION_no_panicstop, \
-+    "-no-panicstop	do not stop the VM on panic\n", QEMU_ARCH_ALL)
-+SRST
-+``-no-panicstop``
-+    Don't stop the VM when a panic event is received. This allows older guests
-+    using a pvpanic device but without support for the PVPANIC_CRASHLOADED
-+    event, and Windows guests using the hv-crash enlightenment to continue
-+    running and capture a crash dump or reboot without intervention of a
-+    management layer.
-+ERST
-+
- DEF("no-reboot", 0, QEMU_OPTION_no_reboot, \
-     "-no-reboot      exit instead of rebooting\n", QEMU_ARCH_ALL)
- SRST
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 22bc570..a939b18 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -147,6 +147,7 @@ int win2k_install_hack = 0;
- int singlestep = 0;
- int no_hpet = 0;
- int fd_bootchk = 1;
-+static int no_panicstop;
- static int no_reboot;
- int no_shutdown = 0;
- int graphic_rotate = 0;
-@@ -1431,9 +1432,16 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
-     if (current_cpu) {
-         current_cpu->crash_occurred = true;
-     }
--    qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
--                                   !!info, info);
--    vm_stop(RUN_STATE_GUEST_PANICKED);
-+
-+    if (no_panicstop) {
-+        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_RUN,
-+                                        !!info, info);
-+    } else {
-+        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
-+                                        !!info, info);
-+        vm_stop(RUN_STATE_GUEST_PANICKED);
-+    }
-+
-     if (!no_shutdown) {
-         qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
-                                        !!info, info);
-@@ -3558,6 +3566,9 @@ void qemu_init(int argc, char **argv, char **envp)
-             case QEMU_OPTION_no_hpet:
-                 no_hpet = 1;
-                 break;
-+            case QEMU_OPTION_no_panicstop:
-+                no_panicstop = 1;
-+                break;
-             case QEMU_OPTION_no_reboot:
-                 no_reboot = 1;
-                 break;
--- 
-1.8.3.1
+Out of curiosity: what made you pick 16 bit signed?  net.json uses both
+32 and 64 bit signed.  Odd...
+
+>  
+>  ##
+>  # @NbdServerAddOptions:
+
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
