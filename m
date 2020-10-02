@@ -2,97 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB5228160B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:05:13 +0200 (CEST)
-Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB33281643
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:13:33 +0200 (CEST)
+Received: from localhost ([::1]:57854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMcS-0001mS-6Z
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:05:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
+	id 1kOMkW-0005nN-5Y
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:13:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOMP9-0003V0-KK; Fri, 02 Oct 2020 10:51:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38030)
+ id 1kOMTH-0008QU-EL; Fri, 02 Oct 2020 10:55:43 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOMP7-0005VZ-O7; Fri, 02 Oct 2020 10:51:27 -0400
-Received: by mail-wr1-x444.google.com with SMTP id g4so2141485wrs.5;
- Fri, 02 Oct 2020 07:51:24 -0700 (PDT)
+ id 1kOMTE-0005sU-J6; Fri, 02 Oct 2020 10:55:43 -0400
+Received: by mail-wm1-x342.google.com with SMTP id v12so2064872wmh.3;
+ Fri, 02 Oct 2020 07:55:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1Qv7lZXTUX4YgEJVoDxTSAbbt05YOrcXEI/iCwJvaDE=;
- b=CWs5clq0pwGaV5VKySbyHE+z3tRarVGBXj4JWgIcv8RFDj+oil7hQcjx4XIIQIz9Qt
- +HCpOG6KjW5yH0JbaVciRPpPbsJUaGmdPyKvZ+axnIvzPqWT48fv0yIlvPt7jQm42iHz
- uqt6CZ27mwYvHVS9fLose9see5Z/2h32jlciv1zn9SEqYg+mba91Tuv7XhwxdSa+fXDT
- TsHyLdA48mU2zAG9gFz5LI7HD8nMSLH4nAz4Widmb14DuUf3XhxFFqYSoCE0kfOuWiwZ
- 3/n/lyrnxX9BjygTEout9YwAQ1Bdb7a4JFHwwci5Zi+HUnW78ZYTDGqXLa0WubpfbWlD
- 3FYQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HIUbFBaGFs+zDNCwEeYpcXbfIO6Aj85k50HldrkBzn4=;
+ b=PZqg87mA95FnXhbT77ae5gMalhe5hf5gjBxYNf8cFA1xyTnpHN3yKjO591cPyLT38M
+ 4Pdf1QraWbVqtQ6rmBWB0QS/C+xqnO1rer+v+1lTuzkOMXzmoOcRkx569oFBrQZ30LBw
+ n7fezWASlK6OavcXrAh8YjYqGU81nCeous9SHtUOIaMCiSGXDAucOV+PKzxqvwVv5L4y
+ 4A/EU0T6f9SGhyR8G6ptDBe+y8LhY8ZQXLDFfCb3QdJLZIP7DgDjSaD2tWDfE3+W1iBE
+ APd44aO3AObDwYcHT0/ud+InVpSyq811wpCQ4ZQfP20a02ilIQF/LBcyG1ImoTNFt7JL
+ Xc1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=1Qv7lZXTUX4YgEJVoDxTSAbbt05YOrcXEI/iCwJvaDE=;
- b=DvYgPvRCFv/yp3xJN8tdB/39suFnbNqkPgT4TwC3CLhBw453i8riiMgo6bV6lIX3JV
- QDbdvyHoUjsd6hGf+EzCMlj47MFuXwVhpCMgAyXojkxTyEqMwIbOrXZ20gNwh6LS6rlH
- 2OgDocsYiCpcsRcCkbeC2w4y68Z7VH+hlA73rb9FkNUhlTMxTA1d9mECuQaiktbOcMlI
- pTqVp/2BBgVaB76a1s4qYJLHxqDBfMpPscZjJ1p6jkmVhbrzFX+JIdqdrQC8uF6pxITd
- SNS8mozL4uXt876Ockaz22iIhdzZFX36onG7Kzz6BdcH8uyahoz/pMFj/wpv60XAKoMw
- 5XAA==
-X-Gm-Message-State: AOAM530PXttKKREd4IjqHPdXOcVf1dakyVbbSUpjbHE9bZPzry2tctOb
- l8z1Mfpj2E0ItVIDAquKJPo=
-X-Google-Smtp-Source: ABdhPJz3leHHOkIZJ/tjSri/C1ryDN1A4LE25vWE0dLbu8WasQyol9tHPRXVORNi1EpxWjJEKPB//w==
-X-Received: by 2002:adf:91c2:: with SMTP id 60mr3795018wri.292.1601650283167; 
- Fri, 02 Oct 2020 07:51:23 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HIUbFBaGFs+zDNCwEeYpcXbfIO6Aj85k50HldrkBzn4=;
+ b=DoGd973mRjcjyCBWtrIitUL4hPjQRYHkdVK+8VOuqLWP+5wRh6fI2LaRUzsCVKa6wD
+ 7s/Y8FryXaKg5jBrjMpy+53qdPk5jzckEIN+5CXfcGazx3lZYH36rJWsIvPkE4ar9Sdf
+ Rp4oJBEEggAfStgowLeh2VznZnMo1iCbM5K0rUAZFw/7L1zxj83uQ5/XLIjoUUI6Rz7v
+ CrAQ6miTlPGJT18S3R0m/zRM9nN83SPgMm+fbRZ4bWnVe9OPM5slJKZGNzi5cm4X3L/q
+ ivN3UDpsKXT0a8Ihgv3La4LImjrY/KbhY92dhgIsEQ6SOCUB9VOMmAwDGzxEDaGRfXRk
+ 9T/w==
+X-Gm-Message-State: AOAM533PR7XoQr4yrN+r1geHWGMDqYZ9lNtjpaxSaIUAK7dGiFEFKrpD
+ RL2bFSa4QC07121sa3WF9Qk=
+X-Google-Smtp-Source: ABdhPJzYWtUf05PtItNzJdRXiT0dGRQYPBke6bwkUMpg5cAyAymdCrGReecLjN+vwOLunQu0Nf9W0Q==
+X-Received: by 2002:a1c:2d85:: with SMTP id t127mr3302101wmt.22.1601650537845; 
+ Fri, 02 Oct 2020 07:55:37 -0700 (PDT)
 Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id n2sm2265268wma.29.2020.10.02.07.51.22
+ by smtp.gmail.com with ESMTPSA id q13sm2056241wra.93.2020.10.02.07.55.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 07:51:22 -0700 (PDT)
-Subject: Re: [PATCH 10/14] hw/misc/bcm2835_cprman: implement clock mux
- behaviour
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ Fri, 02 Oct 2020 07:55:37 -0700 (PDT)
+Subject: Re: [PATCH 11/14] hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
 To: Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
 References: <20200925101731.2159827-1-luc@lmichel.fr>
- <20200925101731.2159827-11-luc@lmichel.fr>
- <76aae8af-dff0-b76f-cf04-0e3231eaf2bb@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <2ca8802e-3295-bd22-e705-931ae8dbbd1d@amsat.org>
-Date: Fri, 2 Oct 2020 16:51:21 +0200
+ <20200925101731.2159827-12-luc@lmichel.fr>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ab123333-fd8b-9334-f70d-501bc2a4fbf0@amsat.org>
+Date: Fri, 2 Oct 2020 16:55:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <76aae8af-dff0-b76f-cf04-0e3231eaf2bb@amsat.org>
+In-Reply-To: <20200925101731.2159827-12-luc@lmichel.fr>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -19
@@ -120,106 +94,260 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/20 11:40 PM, Philippe Mathieu-Daudé wrote:
-> On 9/25/20 12:17 PM, Luc Michel wrote:
->> A clock mux can be configured to select one of its 10 sources through
->> the cm_ctl register. It also embeds yet another clock divider, composed
->> of an integer part and a fractionnal part. The number of bits of each
+On 9/25/20 12:17 PM, Luc Michel wrote:
+> This simple mux sits between the PLL channels and the DSI0E and DSI0P
+> clock muxes. This mux selects between PLLA-DSI0 and PLLD-DSI0 channel
+> and outputs the selected signal to source number 4 of DSI0E/P clock
+> muxes. It is controlled by the cm_dsi0hsck register.
 > 
-> Typo "fractional".
+> Signed-off-by: Luc Michel <luc@lmichel.fr>
+> ---
+>  include/hw/misc/bcm2835_cprman.h           | 15 +++++
+>  include/hw/misc/bcm2835_cprman_internals.h |  6 ++
+>  hw/misc/bcm2835_cprman.c                   | 78 +++++++++++++++++++++-
+>  3 files changed, 98 insertions(+), 1 deletion(-)
 > 
->> part is mux dependant.
-> 
-> Typo "dependent"?
-> 
->>
->> Signed-off-by: Luc Michel <luc@lmichel.fr>
->> ---
->>  hw/misc/bcm2835_cprman.c | 43 +++++++++++++++++++++++++++++++++++++++-
->>  1 file changed, 42 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
->> index 8df2db0fd9..75bc11939b 100644
->> --- a/hw/misc/bcm2835_cprman.c
->> +++ b/hw/misc/bcm2835_cprman.c
->> @@ -229,19 +229,60 @@ static const TypeInfo cprman_pll_channel_info = {
->>  };
->>  
->>  
->>  /* clock mux */
->>  
->> +static bool clock_mux_is_enabled(CprmanClockMuxState *mux)
->> +{
->> +    return FIELD_EX32(*mux->reg_cm, CM_CLOCKx_CTL, ENABLE);
->> +}
->> +
->>  static void clock_mux_update(CprmanClockMuxState *mux)
->>  {
->> -    clock_update(mux->out, 0);
->> +    uint64_t freq, div;
->> +    uint32_t src = FIELD_EX32(*mux->reg_cm, CM_CLOCKx_CTL, SRC);
->> +    bool enabled = clock_mux_is_enabled(mux);
->> +
->> +    *mux->reg_cm = FIELD_DP32(*mux->reg_cm, CM_CLOCKx_CTL, BUSY, enabled);
->> +
->> +    if (!enabled) {
->> +        clock_update(mux->out, 0);
->> +        return;
->> +    }
->> +
->> +    freq = clock_get_hz(mux->srcs[src]);
->> +
->> +    if (mux->int_bits == 0 && mux->frac_bits == 0) {
->> +        clock_update_hz(mux->out, freq);
->> +        return;
->> +    }
->> +
->> +    /*
->> +     * The divider has an integer and a fractional part. The size of each part
->> +     * varies with the muxes (int_bits and frac_bits). Both parts are
->> +     * concatenated, with the integer part always starting at bit 12.
->> +     */
->> +    div = mux->reg_cm[1] >> (R_CM_CLOCKx_DIV_FRAC_LENGTH - mux->frac_bits);
->> +    div &= (1 << (mux->int_bits + mux->frac_bits)) - 1;
+> diff --git a/include/hw/misc/bcm2835_cprman.h b/include/hw/misc/bcm2835_cprman.h
+> index c2a89e8e90..5555a299fc 100644
+> --- a/include/hw/misc/bcm2835_cprman.h
+> +++ b/include/hw/misc/bcm2835_cprman.h
+> @@ -171,20 +171,35 @@ typedef struct CprmanClockMuxState {
+>       * source number.
+>       */
+>      struct CprmanClockMuxState *backref[CPRMAN_NUM_CLOCK_MUX_SRC];
+>  } CprmanClockMuxState;
+>  
+> +typedef struct CprmanDsi0HsckMuxState {
+> +    /*< private >*/
+> +    DeviceState parent_obj;
+> +
+> +    /*< public >*/
+> +    CprmanClockMux id;
+> +
+> +    uint32_t *reg_cm;
+> +
+> +    Clock *plla_in;
+> +    Clock *plld_in;
+> +    Clock *out;
+> +} CprmanDsi0HsckMuxState;
+> +
+>  struct BCM2835CprmanState {
+>      /*< private >*/
+>      SysBusDevice parent_obj;
+>  
+>      /*< public >*/
+>      MemoryRegion iomem;
+>  
+>      CprmanPLLState plls[CPRMAN_NUM_PLL];
+>      CprmanPLLChannelState channels[CPRMAN_NUM_PLL_CHANNEL];
+>      CprmanClockMuxState clock_muxes[CPRMAN_NUM_CLOCK_MUX];
+> +    CprmanDsi0HsckMuxState dsi0hsck_mux;
+>  
+>      uint32_t regs[CPRMAN_NUM_REGS];
+>      uint32_t xosc_freq;
+>  
+>      Clock *xosc;
+> diff --git a/include/hw/misc/bcm2835_cprman_internals.h b/include/hw/misc/bcm2835_cprman_internals.h
+> index a2b5a1aa50..ad07cf5276 100644
+> --- a/include/hw/misc/bcm2835_cprman_internals.h
+> +++ b/include/hw/misc/bcm2835_cprman_internals.h
+> @@ -13,17 +13,20 @@
+>  #include "hw/misc/bcm2835_cprman.h"
+>  
+>  #define TYPE_CPRMAN_PLL "bcm2835-cprman-pll"
+>  #define TYPE_CPRMAN_PLL_CHANNEL "bcm2835-cprman-pll-channel"
+>  #define TYPE_CPRMAN_CLOCK_MUX "bcm2835-cprman-clock-mux"
+> +#define TYPE_CPRMAN_DSI0HSCK_MUX "bcm2835-cprman-dsi0hsck-mux"
+>  
+>  DECLARE_INSTANCE_CHECKER(CprmanPLLState, CPRMAN_PLL,
+>                           TYPE_CPRMAN_PLL)
+>  DECLARE_INSTANCE_CHECKER(CprmanPLLChannelState, CPRMAN_PLL_CHANNEL,
+>                           TYPE_CPRMAN_PLL_CHANNEL)
+>  DECLARE_INSTANCE_CHECKER(CprmanClockMuxState, CPRMAN_CLOCK_MUX,
+>                           TYPE_CPRMAN_CLOCK_MUX)
+> +DECLARE_INSTANCE_CHECKER(CprmanDsi0HsckMuxState, CPRMAN_DSI0HSCK_MUX,
+> +                         TYPE_CPRMAN_DSI0HSCK_MUX)
+>  
+>  /* Register map */
+>  
+>  /* PLLs */
+>  REG32(CM_PLLA, 0x104)
+> @@ -221,10 +224,13 @@ REG32(CM_LOCK, 0x114)
+>      FIELD(CM_LOCK, FLOCKD, 11, 1)
+>      FIELD(CM_LOCK, FLOCKC, 10, 1)
+>      FIELD(CM_LOCK, FLOCKB, 9, 1)
+>      FIELD(CM_LOCK, FLOCKA, 8, 1)
+>  
+> +REG32(CM_DSI0HSCK, 0x120)
+> +    FIELD(CM_DSI0HSCK, SELPLLD, 0, 1)
+> +
+>  /*
+>   * This field is common to all registers. Each register write value must match
+>   * the CPRMAN_PASSWORD magic value in its 8 MSB.
+>   */
+>  FIELD(CPRMAN, PASSWORD, 24, 8)
+> diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
+> index 75bc11939b..e576ab2642 100644
+> --- a/hw/misc/bcm2835_cprman.c
+> +++ b/hw/misc/bcm2835_cprman.c
+> @@ -327,10 +327,62 @@ static const TypeInfo cprman_clock_mux_info = {
+>      .class_init = clock_mux_class_init,
+>      .instance_init = clock_mux_init,
+>  };
+>  
+>  
+> +/* DSI0HSCK mux */
+> +
+> +static void dsi0hsck_mux_update(CprmanDsi0HsckMuxState *s)
+> +{
+> +    bool src_is_plld = FIELD_EX32(*s->reg_cm, CM_DSI0HSCK, SELPLLD);
+> +    Clock *src = src_is_plld ? s->plld_in : s->plla_in;
+> +
+> +    clock_update(s->out, clock_get(src));
+> +}
+> +
+> +static void dsi0hsck_mux_in_update(void *opaque)
+> +{
+> +    dsi0hsck_mux_update(CPRMAN_DSI0HSCK_MUX(opaque));
+> +}
+> +
+> +static void dsi0hsck_mux_init(Object *obj)
+> +{
+> +    CprmanDsi0HsckMuxState *s = CPRMAN_DSI0HSCK_MUX(obj);
+> +    DeviceState *dev = DEVICE(obj);
+> +
+> +    s->plla_in = qdev_init_clock_in(dev, "plla-in", dsi0hsck_mux_in_update, s);
+> +    s->plld_in = qdev_init_clock_in(dev, "plld-in", dsi0hsck_mux_in_update, s);
+> +    s->out = qdev_init_clock_out(DEVICE(s), "out");
+> +}
+> +
+> +static const VMStateDescription dsi0hsck_mux_vmstate = {
+> +    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_CLOCK(plla_in, CprmanDsi0HsckMuxState),
+> +        VMSTATE_CLOCK(plld_in, CprmanDsi0HsckMuxState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void dsi0hsck_mux_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->vmsd = &dsi0hsck_mux_vmstate;
+> +}
+> +
+> +static const TypeInfo cprman_dsi0hsck_mux_info = {
+> +    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
+> +    .parent = TYPE_DEVICE,
+> +    .instance_size = sizeof(CprmanDsi0HsckMuxState),
+> +    .class_init = dsi0hsck_mux_class_init,
+> +    .instance_init = dsi0hsck_mux_init,
+> +};
+> +
+> +
+>  /* CPRMAN "top level" model */
+>  
+>  static uint32_t get_cm_lock(const BCM2835CprmanState *s)
+>  {
+>      static const int CM_LOCK_MAPPING[] = {
+> @@ -488,10 +540,14 @@ static void cprman_write(void *opaque, hwaddr offset,
+>      case R_CM_SDCCTL ... R_CM_ARMCTL:
+>      case R_CM_AVEOCTL ... R_CM_EMMCDIV:
+>      case R_CM_EMMC2CTL ... R_CM_EMMC2DIV:
+>          update_mux_from_cm(s, idx);
+>          break;
+> +
+> +    case R_CM_DSI0HSCK:
+> +        dsi0hsck_mux_update(&s->dsi0hsck_mux);
+> +        break;
+>      }
+>  }
+>  
+>  #undef CASE_PLL_A2W_REGS
+>  
+> @@ -519,10 +575,12 @@ static void cprman_reset(DeviceState *dev)
+>  
+>      for (i = 0; i < CPRMAN_NUM_PLL_CHANNEL; i++) {
+>          device_cold_reset(DEVICE(&s->channels[i]));
+>      }
+>  
+> +    device_cold_reset(DEVICE(&s->dsi0hsck_mux));
+> +
+>      for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
+>          device_cold_reset(DEVICE(&s->clock_muxes[i]));
+>      }
+>  
+>      clock_update_hz(s->xosc, s->xosc_freq);
+> @@ -560,10 +618,14 @@ static void cprman_init(Object *obj)
+>                                  &s->channels[i],
+>                                  TYPE_CPRMAN_PLL_CHANNEL);
+>          set_pll_channel_init_info(s, &s->channels[i], i);
+>      }
+>  
+> +    object_initialize_child(obj, "dsi0hsck-mux",
+> +                            &s->dsi0hsck_mux, TYPE_CPRMAN_DSI0HSCK_MUX);
+> +    s->dsi0hsck_mux.reg_cm = &s->regs[R_CM_DSI0HSCK];
+> +
+>      for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
+>          char *alias;
+>  
+>          object_initialize_child(obj, CLOCK_MUX_INIT_INFO[i].name,
+>                                  &s->clock_muxes[i],
+> @@ -608,11 +670,11 @@ static void connect_mux_sources(BCM2835CprmanState *s,
+>          Clock *src;
+>  
+>          if (mapping == CPRMAN_CLOCK_SRC_FORCE_GROUND) {
+>              src = s->gnd;
+>          } else if (mapping == CPRMAN_CLOCK_SRC_DSI0HSCK) {
+> -            src = s->gnd; /* TODO */
+> +            src = s->dsi0hsck_mux.out;
+>          } else if (i < CPRMAN_CLOCK_SRC_PLLA) {
+>              src = CLK_SRC_MAPPING[i];
+>          } else {
+>              src = s->channels[mapping].out;
+>          }
+> @@ -646,10 +708,23 @@ static void cprman_realize(DeviceState *dev, Error **errp)
+>          if (!qdev_realize(DEVICE(channel), NULL, errp)) {
+>              return;
+>          }
+>      }
+>  
+> +    {
+> +        CprmanDsi0HsckMuxState *dsi0hsck_mux = &s->dsi0hsck_mux;
 
-Eventually:
-
-    div &= MAKE_64BIT_MASK(mux->int_bits + mux->frac_bits, 64);
-
->> +
->> +    freq = (freq << mux->frac_bits) / div;
-
-Maybe:
-
-    freq = muldiv64(freq, 1 << mux->frac_bits, div);
-
->> +
->> +    clock_update_hz(mux->out, freq);
->>  }
->>  
->>  static void clock_mux_src_update(void *opaque)
->>  {
->>      CprmanClockMuxState **backref = opaque;
->>      CprmanClockMuxState *s = *backref;
->> +    CprmanClockMuxSource src = backref - s->backref;
->> +    uint32_t current_src;
-
-Maybe avoid current_src and use in place.
+Why use a new block?
 
 Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
->> +
->> +    current_src = FIELD_EX32(*s->reg_cm, CM_CLOCKx_CTL, SRC);
->> +
->> +    if (current_src != src) {
->> +        return;
->> +    }
->>  
->>      clock_mux_update(s);
->>  }
->>  
->>  static void clock_mux_init(Object *obj)
->>
+> +
+> +        clock_set_source(dsi0hsck_mux->plla_in,
+> +                         s->channels[CPRMAN_PLLA_CHANNEL_DSI0].out);
+> +        clock_set_source(dsi0hsck_mux->plld_in,
+> +                         s->channels[CPRMAN_PLLD_CHANNEL_DSI0].out);
+> +
+> +        if (!qdev_realize(DEVICE(dsi0hsck_mux), NULL, errp)) {
+> +            return;
+> +        }
+> +    }
+> +
+>      for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
+>          CprmanClockMuxState *clock_mux = &s->clock_muxes[i];
+>  
+>          connect_mux_sources(s, clock_mux, CLOCK_MUX_INIT_INFO[i].src_mapping);
+>  
+> @@ -696,8 +771,9 @@ static void cprman_register_types(void)
+>  {
+>      type_register_static(&cprman_info);
+>      type_register_static(&cprman_pll_info);
+>      type_register_static(&cprman_pll_channel_info);
+>      type_register_static(&cprman_clock_mux_info);
+> +    type_register_static(&cprman_dsi0hsck_mux_info);
+>  }
+>  
+>  type_init(cprman_register_types);
 > 
 
