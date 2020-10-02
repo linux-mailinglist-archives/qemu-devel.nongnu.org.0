@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB04280D0B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 07:22:19 +0200 (CEST)
-Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E0E280D0F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 07:24:47 +0200 (CEST)
+Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kODWM-0003zu-Ko
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 01:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
+	id 1kODYk-0006JS-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 01:24:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kODP9-0004Kx-DG
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 01:14:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21202)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kODQB-0005iw-D5
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 01:16:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kODP7-0005Bi-Kx
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 01:14:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kODQ9-0005Qw-L4
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 01:15:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601615688;
+ s=mimecast20190719; t=1601615753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+wAcCEhcjSj6tEpviteLqIkcMeqpz1f2yPRxsgvx9wE=;
- b=Z7xl7Cl41BW1pRsO22x0zcf8KKKPo76e9mKp1yBf0cVNzyCt7iP2Ld0P2wyDwBwpcF3E8J
- x6Cdvt/G1ljpmV4EZ3kTwJhOT7Fzz1UU22LBk2QeqyVrSK6cJUiLJ9ztb+XT5FVElBdrpx
- aVOfdiAVoY1XUukSW418ffogYQ8k9SY=
+ bh=yjOVmG5P0WquPOPxlTDi1YhXt1Lo6hG/NUeb0apxGuA=;
+ b=XGM+vRSpkE/az7as45VP5GUEIYtGoel9grxQkIn2dxG/gVAhMNnYFt2ivXTjQo7XzSlkb2
+ vKLwjbuU7ox/ZdF0+yHE30QD9A5p2BpO6CyeHc8B2VGSJTGw2iA7b9wm3y15D2vVGUepZK
+ hafIuYZiAS510sysUqe0UIX6atFa6Zc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-6Q4_ePN6N3ygIx1UzUgA-g-1; Fri, 02 Oct 2020 01:14:47 -0400
-X-MC-Unique: 6Q4_ePN6N3ygIx1UzUgA-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-511-KcSJId9KOZWtyErXqcVjZA-1; Fri, 02 Oct 2020 01:15:51 -0400
+X-MC-Unique: KcSJId9KOZWtyErXqcVjZA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D39571882FA0;
- Fri,  2 Oct 2020 05:14:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 241901882FAA;
+ Fri,  2 Oct 2020 05:15:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
  [10.36.112.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 36B3010013BD;
- Fri,  2 Oct 2020 05:14:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E84D478822;
+ Fri,  2 Oct 2020 05:15:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 92E221132784; Fri,  2 Oct 2020 07:14:40 +0200 (CEST)
+ id 797CE1132784; Fri,  2 Oct 2020 07:15:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] block/nvme: Add driver statistics for access
- alignment and hw errors
-References: <20201001162939.1567915-1-philmd@redhat.com>
-Date: Fri, 02 Oct 2020 07:14:40 +0200
-In-Reply-To: <20201001162939.1567915-1-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 1 Oct 2020 18:29:39
- +0200")
-Message-ID: <87ft6xtdj3.fsf@dusky.pond.sub.org>
+To: Yonggang Luo <luoyonggang@gmail.com>
+Subject: Re: [PATCH v2 1/2] doc: Remove texi referenced in qemu-img-cmds.hx
+ and target/i386/cpu.c
+References: <20201001173503.1107-1-luoyonggang@gmail.com>
+ <20201001173503.1107-2-luoyonggang@gmail.com>
+Date: Fri, 02 Oct 2020 07:15:48 +0200
+In-Reply-To: <20201001173503.1107-2-luoyonggang@gmail.com> (Yonggang Luo's
+ message of "Fri, 2 Oct 2020 01:35:03 +0800")
+Message-ID: <87blhltdh7.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
@@ -85,109 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Yonggang Luo <luoyonggang@gmail.com> writes:
 
-> Keep statistics of some hardware errors, and number of
-> aligned/unaligned I/O accesses.
+> There is no texi document anymore
 >
-> QMP example booting a full RHEL 8.3 aarch64 guest:
->
-> { "execute": "query-blockstats" }
-> {
->     "return": [
->         {
->             "device": "",
->             "node-name": "drive0",
->             "stats": {
->                 "flush_total_time_ns": 6026948,
->                 "wr_highest_offset": 3383991230464,
->                 "wr_total_time_ns": 807450995,
->                 "failed_wr_operations": 0,
->                 "failed_rd_operations": 0,
->                 "wr_merged": 3,
->                 "wr_bytes": 50133504,
->                 "failed_unmap_operations": 0,
->                 "failed_flush_operations": 0,
->                 "account_invalid": false,
->                 "rd_total_time_ns": 1846979900,
->                 "flush_operations": 130,
->                 "wr_operations": 659,
->                 "rd_merged": 1192,
->                 "rd_bytes": 218244096,
->                 "account_failed": false,
->                 "idle_time_ns": 2678641497,
->                 "rd_operations": 7406,
->             },
->             "driver-specific": {
->                 "driver": "nvme",
->                 "completion-errors": 0,
->                 "unaligned-accesses": 2959,
->                 "aligned-accesses": 4477
->             },
->             "qdev": "/machine/peripheral-anon/device[0]/virtio-backend"
->         }
->     ]
-> }
->
-> Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 > ---
-> v2: 'access-nb' -> 'accesses' (Stefan)
-> ---
->  qapi/block-core.json | 24 +++++++++++++++++++++++-
->  block/nvme.c         | 27 +++++++++++++++++++++++++++
->  2 files changed, 50 insertions(+), 1 deletion(-)
+>  qemu-img-cmds.hx  | 2 +-
+>  target/i386/cpu.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 86ed72ef9f..dec17e3036 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -941,6 +941,27 @@
->        'discard-nb-failed': 'uint64',
->        'discard-bytes-ok': 'uint64' } }
-> =20
-> +##
-> +# @BlockStatsSpecificNvme:
-> +#
-> +# NVMe driver statistics
-> +#
-> +# @completion-errors: The number of completion errors.
-> +#
-> +# @aligned-accesses: The number of aligned accesses performed by
-> +#                    the driver.
-> +#
-> +# @unaligned-accesses: The number of unaligned accesses performed by
-> +#                      the driver.
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'struct': 'BlockStatsSpecificNvme',
-> +  'data': {
-> +      'completion-errors': 'uint64',
-> +      'aligned-accesses': 'uint64',
-> +      'unaligned-accesses': 'uint64' } }
-> +
->  ##
->  # @BlockStatsSpecific:
->  #
-> @@ -953,7 +974,8 @@
->    'discriminator': 'driver',
->    'data': {
->        'file': 'BlockStatsSpecificFile',
-> -      'host_device': 'BlockStatsSpecificFile' } }
-> +      'host_device': 'BlockStatsSpecificFile',
-> +      'nvme': 'BlockStatsSpecificNvme' } }
-> =20
->  ##
->  # @BlockStats:
+> diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+> index b89c019b76..cab8234235 100644
+> --- a/qemu-img-cmds.hx
+> +++ b/qemu-img-cmds.hx
+> @@ -1,5 +1,5 @@
+>  HXCOMM Keep the list of subcommands sorted by name.
+> -HXCOMM Use DEFHEADING() to define headings in both help text and texi
+> +HXCOMM Use DEFHEADING() to define headings in both help text and rST
+>  HXCOMM Text between SRST and ERST are copied to rST version and
+>  HXCOMM discarded from C version
+>  HXCOMM DEF(command, callback, arg_string) is used to construct
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index f37eb7b675..f8231f56b6 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4127,7 +4127,7 @@ static PropValue tcg_default_props[] = {
+>   * We resolve CPU model aliases using -v1 when using "-machine
+>   * none", but this is just for compatibility while libvirt isn't
+>   * adapted to resolve CPU model versions before creating VMs.
+> - * See "Runnability guarantee of CPU models" at * qemu-deprecated.texi.
+> + * See "Runnability guarantee of CPU models" at * deprecated.rst.
+>   */
+>  X86CPUVersion default_cpu_version = 1;
 
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Duplicates my "[PATCH 0/2] Update leftover comments that mention
+Texinfo", which Laurent has queued.
 
 
