@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7062815DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 16:57:01 +0200 (CEST)
-Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EFF2815EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:00:44 +0200 (CEST)
+Received: from localhost ([::1]:45726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMUW-00015J-Ao
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 10:57:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
+	id 1kOMY7-0004ng-AK
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIC-0001Vn-Dy
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50632)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIF-0001fb-Qp
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMIA-0004YK-8I
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:16 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kOMID-0004ZH-Dp
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 10:44:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601649853;
+ s=mimecast20190719; t=1601649856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1kIExrGYdOqL3CBb+ELu5otjx/HFY43HUD3DIvvXdKY=;
- b=b2gVG1Sr/a7vFkqmPGmofEwymVifiSBTV/nif5fpeaPbcED9iQn0Eyw8BdkEhDnQ9mGnzm
- 1z8qAIgnyFPPouNDUHIGVCGaaJkHpIJlN2ZzNbI/Q8g5HAykMdAkdvYZBLyidQmtKQNqWz
- d0g4kY0Ons2DUXPS4wa/bGtiNLez7AM=
+ bh=oU4wIUtNWlL0lHrzq52j/ZFdiheTWGrcaPhI9T2bBRg=;
+ b=S5hq4mDHs6LmMok/LLyncn04xUU7KsvD7Wrw//C9QXgPe8cQNGkk+GQ5l2MLbuFqNhOCx6
+ 48b5goiZuB2+e/jVju/ldxa6MbgbCnpJECHldP6xjpbhorwJOTIXKVurM3q74R2BG8sb+/
+ OH+dcli6ciofyKF9e/cK0dka4eLCKts=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-XYKwgCkmM_igdwBw-AD74w-1; Fri, 02 Oct 2020 10:44:11 -0400
-X-MC-Unique: XYKwgCkmM_igdwBw-AD74w-1
+ us-mta-521-8Xl9FQBbPrSA2vJz03HqLw-1; Fri, 02 Oct 2020 10:44:15 -0400
+X-MC-Unique: 8Xl9FQBbPrSA2vJz03HqLw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2960D192AB62;
- Fri,  2 Oct 2020 14:44:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4C611054F8E;
+ Fri,  2 Oct 2020 14:44:13 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-112-139.ams2.redhat.com
  [10.36.112.139])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 318535D9D3;
- Fri,  2 Oct 2020 14:44:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0B1C5D9D3;
+ Fri,  2 Oct 2020 14:44:12 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/37] nbd: Add writethrough to block-export-add
-Date: Fri,  2 Oct 2020 16:43:21 +0200
-Message-Id: <20201002144345.253865-14-kwolf@redhat.com>
+Subject: [PULL 16/37] nbd/server: Simplify export shutdown
+Date: Fri,  2 Oct 2020 16:43:24 +0200
+Message-Id: <20201002144345.253865-17-kwolf@redhat.com>
 In-Reply-To: <20201002144345.253865-1-kwolf@redhat.com>
 References: <20201002144345.253865-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,60 +83,76 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-nbd allows use of writethrough cache modes, which mean that write
-requests made through NBD will cause a flush before they complete.
-Expose the same functionality in block-export-add.
+Closing export is somewhat convoluted because nbd_export_close() and
+nbd_export_put() call each other and the ways they actually end up being
+nested is not necessarily obvious.
+
+However, it is not really necessary to call nbd_export_close() from
+nbd_export_put() when putting the last reference because it only does
+three things:
+
+1. Close all clients. We're going to refcount 0 and all clients hold a
+   reference, so we know there is no active client any more.
+
+2. Close the user reference (represented by exp->name being non-NULL).
+   The same argument applies: If the export were still named, we would
+   still have a reference.
+
+3. Freeing exp->description. This is really cleanup work to be done when
+   the export is finally freed. There is no reason to already clear it
+   while clients are still in the process of shutting down.
+
+So after moving the cleanup of exp->description, the code can be
+simplified so that only nbd_export_close() calls nbd_export_put(), but
+never the other way around.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200924152717.287415-10-kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200924152717.287415-13-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-export.json | 7 ++++++-
- blockdev-nbd.c         | 6 +++++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ nbd/server.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index 8aa8a01fa6..ce66f278b2 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -170,10 +170,15 @@
- # Describes a block export, i.e. how single node should be exported on an
- # external interface.
- #
-+# @writethrough: If true, caches are flushed after every write request to the
-+#                export before completion is signalled. (since: 5.2;
-+#                default: false)
-+#
- # Since: 4.2
- ##
- { 'union': 'BlockExportOptions',
--  'base': { 'type': 'BlockExportType' },
-+  'base': { 'type': 'BlockExportType',
-+            '*writethrough': 'bool' },
-   'discriminator': 'type',
-   'data': {
-       'nbd': 'BlockExportOptionsNbd'
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 41d5542987..09247a8ded 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -216,9 +216,13 @@ BlockExport *nbd_export_create(BlockExportOptions *exp_args, Error **errp)
-         goto out;
+diff --git a/nbd/server.c b/nbd/server.c
+index 1cc915f01d..fb70374df5 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1678,8 +1678,6 @@ void nbd_export_close(NBDExport *exp)
+         QTAILQ_REMOVE(&exports, exp, next);
+         QTAILQ_INSERT_TAIL(&closed_exports, exp, next);
      }
+-    g_free(exp->description);
+-    exp->description = NULL;
+     nbd_export_put(exp);
+ }
  
-+    if (!exp_args->has_writethrough) {
-+        exp_args->writethrough = false;
-+    }
+@@ -1706,19 +1704,12 @@ void nbd_export_get(NBDExport *exp)
+ void nbd_export_put(NBDExport *exp)
+ {
+     assert(exp->refcount > 0);
+-    if (exp->refcount == 1) {
+-        nbd_export_close(exp);
+-    }
+-
+-    /* nbd_export_close() may theoretically reduce refcount to 0. It may happen
+-     * if someone calls nbd_export_put() on named export not through
+-     * nbd_export_set_name() when refcount is 1. So, let's assert that
+-     * it is > 0.
+-     */
+-    assert(exp->refcount > 0);
+     if (--exp->refcount == 0) {
+         assert(exp->name == NULL);
+-        assert(exp->description == NULL);
++        assert(QTAILQ_EMPTY(&exp->clients));
 +
-     exp = nbd_export_new(bs, arg->name, arg->description, arg->bitmap,
-                          !arg->writable, !arg->writable,
--                         NULL, false, errp);
-+                         NULL, exp_args->writethrough, errp);
-     if (!exp) {
-         goto out;
-     }
++        g_free(exp->description);
++        exp->description = NULL;
+ 
+         if (exp->blk) {
+             if (exp->eject_notifier_blk) {
 -- 
 2.25.4
 
