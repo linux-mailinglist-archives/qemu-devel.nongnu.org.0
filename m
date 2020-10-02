@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF88A281692
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:27:38 +0200 (CEST)
-Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDBD281691
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:27:11 +0200 (CEST)
+Received: from localhost ([::1]:60248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMyA-0003ch-1P
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42386)
+	id 1kOMxi-0002Qa-5w
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOMqX-0004Ji-Ir
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:19:45 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOMqV-0001CN-Mc
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:19:45 -0400
-Received: by mail-ej1-x634.google.com with SMTP id u21so2529355eja.2
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 08:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ev6WsFt1/GGcPMANMoNRt/LGFZtNVFe2cwCI687KV/k=;
- b=oo8aEJYVJGiMQ42rID2yv0PEfHKHdVylu5fG47PvTo7zsmoTkuNQkKRhKNvByU8tZL
- 6c7ri9s+0vXTVKEJMJinDK8Qepesb8Fdg7cRIQ9EPB3g0nhq4mwMhrqlKG0hzRPr1kPv
- n74pZoL6E24GjeNgqyCvjELUK8v17u80g7XUYgjjxdyaHnPxAaXuChff0oNQVN8tTkU5
- 3YApaPnSlXsCHOmNTJOoSncDQH/xkxbTyGKK4UYmg28gqDlqIVzQIO+UGBCvDzEC74RT
- vT6jgoXA+MX1EqFeKh0x3OblSnLImFaKGpbhS8ue4TSs64H5vMYwp0SGti6eae3C+KN0
- 1xZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ev6WsFt1/GGcPMANMoNRt/LGFZtNVFe2cwCI687KV/k=;
- b=P3XwoJubUA9gfAGtR9JVhdlYj0f6i9fHro3hxS6DxkAcw/kdT0YYWcGwoZPurxl78g
- 8A12r62UUNIRcixYNbeiu2G7E4oXLkQ2Xcxl/lZ4n3ae0zZcJCF1gylUHzoJI4D/aS9s
- K7zSs+sinz/ukb48w6/i1dpD6FTr4fFo6PKdarU+aKgaP13Gevl04VDMYsPHZOy/aKuI
- ocec3GNubUheojnztdq0eoJoeQ52z/1rCxwjHyiDjr9ecZHPpxOUSLbjq9BfNH5TK4wv
- J30fuoADe1qc9SfX026Qs0S3nNcUCSwoFayYtOOFhpPYwKLh6Eij1HKCWWdo5fZaimRf
- QwtA==
-X-Gm-Message-State: AOAM531jnD4OGSeYCc5+1FvUHpLTCYK+aabpnU9l9eS9TMFCnSijp5HT
- M5z0MGZUgexcYuif0RJsOJUF/VxH3zv2l3CXIh5Jvg==
-X-Google-Smtp-Source: ABdhPJwlBlqKZRxxZ0lZKimXnNpmKZliLLlU9M6GjhUnpfYBf4y8YUnVCNCiJgYoIPhhiLSWTaZfZx5+JcR4577kl3c=
-X-Received: by 2002:a17:906:24d6:: with SMTP id
- f22mr2717683ejb.85.1601651981818; 
- Fri, 02 Oct 2020 08:19:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kOMvj-0000fK-11; Fri, 02 Oct 2020 11:25:07 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:57396)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kOMvc-0001ky-Ct; Fri, 02 Oct 2020 11:25:06 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 092FJCjX009115;
+ Fri, 2 Oct 2020 15:24:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=Au3SegbzlEBLORvHP8t+tb1nX/8DEP+yWCdqwmizheA=;
+ b=UANpDecJ2zS80w5L+LSFpDHz+kYGFdiUOpuePsnTDvAsd/zk7lkIPWbnr6bj54wPBzah
+ iY6ZnWL4DJiIPonoOrK9CBeWQSd+Bisz1jXAHjQ9b9AXiXzoJdcJ5DY7OweX1JgRVmER
+ zYaVlW1D60FmCM2RDEGOQNA+iLyLGBaKop1JZMV4NAg4i3c5cfoDbOe7XHmXuCQv9rts
+ 3qZCTEjE5H/gzAA3Uck7g5WWsyKjzGvx6CKdrhFmprcGDT5gzGxLm4HFEkNuWk9r8N+C
+ Fw6/+Ugc18WfCSIfOySPgYFqpNtZrwgL5tY7EiXoPO6/5rsjOTq4p1PQqvmnAUBQeb4Y UA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 33sx9nkeqv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 02 Oct 2020 15:24:48 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 092FJtWD194156;
+ Fri, 2 Oct 2020 15:22:48 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 33tfk3ng2w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 02 Oct 2020 15:22:48 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 092FMkAm003128;
+ Fri, 2 Oct 2020 15:22:47 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 02 Oct 2020 08:22:46 -0700
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id 5605019208F4; Fri,  2 Oct 2020 16:22:42 +0100 (IST)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] gitlab-ci.yml: Only run one test-case per fuzzer
+In-Reply-To: <20201002143524.56930-1-alxndr@bu.edu>
+References: <20201002143524.56930-1-alxndr@bu.edu>
+Date: Fri, 02 Oct 2020 16:22:42 +0100
+Message-ID: <m27ds87iv1.fsf@oracle.com>
 MIME-Version: 1.0
-References: <20201002121118.180315-1-cohuck@redhat.com>
-In-Reply-To: <20201002121118.180315-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 2 Oct 2020 16:19:30 +0100
-Message-ID: <CAFEAcA9K31Dv6RsL6O3oQqC9NQw6P1DjE0f+2TME0p4URusEyQ@mail.gmail.com>
-Subject: Re: [PULL 00/19] s390x changes
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9762
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ spamscore=0 mlxscore=0
+ phishscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=1
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2010020120
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9762
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=1
+ phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
+ spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2010020120
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=darren.kenny@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 11:24:51
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,37 +97,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2 Oct 2020 at 13:11, Cornelia Huck <cohuck@redhat.com> wrote:
+On Friday, 2020-10-02 at 10:35:24 -04, Alexander Bulekov wrote:
+> With 1000 runs, there is a non-negligible chance that the fuzzer can
+> trigger a crash. With this CI job, we care about catching build/runtime
+> issues in the core fuzzing code. Actual device fuzzing takes place on
+> oss-fuzz. For these purposes, only running one input should be
+> sufficient.
 >
-> The following changes since commit b5ce42f5d138d7546f9faa2decbd6ee8702243a3:
->
->   Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/ide-pull-request' into staging (2020-10-01 19:55:10 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cohuck/qemu tags/s390x-20201002
->
-> for you to fetch changes up to be2b567018d987591647935a7c9648e9c45e05e8:
->
->   s390x/tcg: Implement CIPHER MESSAGE WITH AUTHENTICATION (KMA) (2020-10-02 13:52:49 +0200)
->
-> ----------------------------------------------------------------
-> s390x update
-> - support extended sccb and diagnose 0x318
-> - implement additional instructions in tcg
-> - bug fixes
->
-> ----------------------------------------------------------------
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
+> ---
+>  .gitlab-ci.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index a51c89554f..075c15d45c 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -303,7 +303,7 @@ build-oss-fuzz:
+>                        | grep -v slirp); do
+>          grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 || cont=
+inue ;
+>          echo Testing ${fuzzer} ... ;
+> -        "${fuzzer}" -runs=3D1000 -seed=3D1 || exit 1 ;
+> +        "${fuzzer}" -runs=3D1 -seed=3D1 || exit 1 ;
+>        done
+>      # Unrelated to fuzzer: run some tests with -fsanitize=3Daddress
+>      - cd build-oss-fuzz && make check-qtest-i386 check-unit
+> --=20
+> 2.28.0
 
