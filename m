@@ -2,48 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA2B280F2D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 10:46:44 +0200 (CEST)
-Received: from localhost ([::1]:45678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E95A280F47
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 10:52:34 +0200 (CEST)
+Received: from localhost ([::1]:50168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOGiB-0007L8-BQ
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 04:46:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42714)
+	id 1kOGnp-0000ts-93
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 04:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1kOGh5-0006e5-EX; Fri, 02 Oct 2020 04:45:35 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:18408)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kOGjd-0007uF-0N; Fri, 02 Oct 2020 04:48:14 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1kOGh3-0004Fk-AD; Fri, 02 Oct 2020 04:45:35 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 3D8D54588F;
- Fri,  2 Oct 2020 10:45:28 +0200 (CEST)
-Date: Fri, 02 Oct 2020 10:45:15 +0200
-From: Fabian =?iso-8859-1?q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>
-Subject: Re: [PATCH qemu 1/4] drive-mirror: add support for sync=bitmap
- mode=never
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200922091418.53562-1-f.gruenbichler@proxmox.com>
- <20200922091418.53562-2-f.gruenbichler@proxmox.com>
- <87o8llrtse.fsf@dusky.pond.sub.org>
-In-Reply-To: <87o8llrtse.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kOGja-0004a3-Eu; Fri, 02 Oct 2020 04:48:12 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 841725803F7;
+ Fri,  2 Oct 2020 04:48:07 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 02 Oct 2020 04:48:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=NleZoGEpq+9ky9YfmCELoSGaqjp
+ tlF4a2o9ZrgakjfA=; b=dz3k9TAoCOnPj/mipsCQZtxDcdD6QRdnTg66zVlRVEy
+ 9SED3/GEHXHVso7+ek4DBnd6bAt2tAztS/u8y8o6IOF5A/HVHTZRJdya7W1EZmIG
+ 9T7H2aPH6zBNpKit3krJq9p+oAfgMq3Qdk4tVsVk/2GDEAbdQmolCkyVE9uZGFue
+ nW3lN17l8TRDjWAX40uR6l+EIpi2UFUmXvBdWTPaYF/vWr/zGcQSrEJyVJbsFZxI
+ NDhzLXbVv8kfqvO/8pVLQcSxR4xcQcmcsCjkrY5zgf7hOtw2zGzmrERtIhHKt9C6
+ sMbx8+g6aIQjIM4ey6k25GBixIE17mK8kE+g6YuFRcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=NleZoG
+ Epq+9ky9YfmCELoSGaqjptlF4a2o9ZrgakjfA=; b=tghya2SJLRknvsEpaiKhj6
+ 75kyNrQVjDhU9XGyoY+GOPggOzL7cEqc1OsCUrqRXhVVJiT4lpzJ/S5gw5YUmn3L
+ Wo7zwAJK1Z/KEHUIjfsxYlR/qLQEyBD6BT9FWIHN2ozB1Tk8b70LS2PdigTQsmQm
+ 6jDKe0IEgKTf4MBM/RXJwvw6loHxWhAW+PKKSQnZsW0DC6zQrTLcBg2t6a47eM6F
+ 8BWUCrrDFe9LR0cw8AN5wcu2morNVQ/dBtGni9pOLVNPNRPYJ6SoR7XTnWLGoP2p
+ sJbRxoCMXxjpD7OYz/Kf0Jg4jb/kv6fX89FpQI2LKPoiix9lA4+mINRclZMqQSOw
+ ==
+X-ME-Sender: <xms:Rul2X8QfYCNZULF9J2kEC3KTNdC86kP5s2bGZXiGiSEND_Q1bdzWng>
+ <xme:Rul2X5y6HfV1jM1ikWLe9ZjltV_2UMTOx2b9FU7aAey5msEMGkfhawB_vRjJS3Zqy
+ rLLlvnPxyXI9NlI4JU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeeigddtlecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:Rul2X530gFrayj_z8XtCq_xWiQ7PsMcmYlyaBco2bfspU-E8RudOpQ>
+ <xmx:Rul2XwChTFA_mKu_ZjVX0qUJhwQnSpaisNtkV97SESzEyBg1paE4QA>
+ <xmx:Rul2X1hRirHyCPiKGhgAnvraoZkngf1-E9gk2Ir6lndpy3ZxeMfngw>
+ <xmx:R-l2XzZCEtMY2yukw-Bclq_-6m0PctkW-QWwpDOTCntidUKUaFLmFA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 706EA306468B;
+ Fri,  2 Oct 2020 04:48:05 -0400 (EDT)
+Date: Fri, 2 Oct 2020 10:48:03 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 3/9] hw/block/nvme: support per-namespace smart log
+Message-ID: <20201002084803.GB877411@apples.localdomain>
+References: <20200930220414.562527-1-kbusch@kernel.org>
+ <20200930220414.562527-4-kbusch@kernel.org>
 MIME-Version: 1.0
-User-Agent: astroid/0.15.0 (https://github.com/astroidmail/astroid)
-Message-Id: <1601627258.kk9bqebpq1.astroid@nora.none>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=f.gruenbichler@proxmox.com; helo=proxmox-new.maurer-it.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 04:23:32
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
+Content-Disposition: inline
+In-Reply-To: <20200930220414.562527-4-kbusch@kernel.org>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 04:01:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SORTED_RECIPS=2.499, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,141 +96,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Ma Haocong <mahaocong@didichuxing.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <Niklas.Cassel@wdc.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On October 2, 2020 9:06 am, Markus Armbruster wrote:
-> Fabian Gr=C3=BCnbichler <f.gruenbichler@proxmox.com> writes:
+
+--LpQ9ahxlCli8rRTG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sep 30 15:04, Keith Busch wrote:
+> Let the user specify a specific namespace if they want to get access
+> stats for a specific namespace.
 >=20
->> From: John Snow <jsnow@redhat.com>
->>
->> This patch adds support for the "BITMAP" sync mode to drive-mirror and
->> blockdev-mirror. It adds support only for the BitmapSyncMode "never,"
->> because it's the simplest mode.
->>
->> This mode simply uses a user-provided bitmap as an initial copy
->> manifest, and then does not clear any bits in the bitmap at the
->> conclusion of the operation.
->>
->> Any new writes dirtied during the operation are copied out, in contrast
->> to backup. Note that whether these writes are reflected in the bitmap
->> at the conclusion of the operation depends on whether that bitmap is
->> actually recording!
->>
->> This patch was originally based on one by Ma Haocong, but it has since
->> been modified pretty heavily.
->>
->> Suggested-by: Ma Haocong <mahaocong@didichuxing.com>
->> Signed-off-by: Ma Haocong <mahaocong@didichuxing.com>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Signed-off-by: Fabian Gr=C3=BCnbichler <f.gruenbichler@proxmox.com>
->> ---
-> [...]
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index 2d94873ca0..dac5497084 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -1961,10 +1961,19 @@
->>  #        (all the disk, only the sectors allocated in the topmost image=
-, or
->>  #        only new I/O).
->>  #
->> +# @bitmap: The name of a bitmap to use for sync=3Dbitmap mode. This arg=
-ument must
->> +#          be present for bitmap mode and absent otherwise. The bitmap'=
-s
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  hw/block/nvme.c      | 66 +++++++++++++++++++++++++++-----------------
+>  include/block/nvme.h |  1 +
+>  2 files changed, 41 insertions(+), 26 deletions(-)
 >=20
-> What is "bitmap mode"?  Do you mean "present when @bitmap-mode is, else
-> absent"?
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 8d2b5be567..41389b2b09 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+>  static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_l=
+en,
+>                                  uint64_t off, NvmeRequest *req)
+>  {
+>      uint32_t nsid =3D le32_to_cpu(req->cmd.nsid);
+> -
+> +    struct nvme_stats stats =3D { 0 };
+> +    NvmeSmartLog smart =3D { 0 };
+>      uint32_t trans_len;
+> +    NvmeNamespace *ns;
+>      time_t current_ms;
+> -    uint64_t units_read =3D 0, units_written =3D 0;
+> -    uint64_t read_commands =3D 0, write_commands =3D 0;
+> -    NvmeSmartLog smart;
+> -
+> -    if (nsid && nsid !=3D 0xffffffff) {
+> -        return NVME_INVALID_FIELD | NVME_DNR;
+> -    }
+> =20
+>      if (off >=3D sizeof(smart)) {
+>          return NVME_INVALID_FIELD | NVME_DNR;
+>      }
+> =20
+> -    for (int i =3D 1; i <=3D n->num_namespaces; i++) {
+> -        NvmeNamespace *ns =3D nvme_ns(n, i);
+> -        if (!ns) {
+> -            continue;
+> -        }
+> -
+> -        BlockAcctStats *s =3D blk_get_stats(ns->blkconf.blk);
+> +    if (nsid !=3D 0xffffffff) {
+> +        ns =3D nvme_ns(n, nsid);
+> +        if (!ns)
+> +            return NVME_INVALID_NSID | NVME_DNR;
 
-bitmap mode is sync=3Dbitmap , as in the first sentence. if you set=20
-sync=3Dbitmap, you must specify a bitmap and a bitmap-mode. if you use=20
-another sync mode, you must not specify a bitmap or a bitmap-mode.
+Btw, this is failing style check (missing braces).
 
-there is also a 'sugar' sync mode 'incremental' that desugars to=20
-sync=3Dbitmap with bitmap-mode=3Don-success.  I guess that should also be=20
-mentioned somewhere in QAPI, it's mainly there since MirrorSyncMode has=20
-it as possible value, it's semantics are straight-forward to map onto=20
-this combination, and it's how the sync modes are known from backup=20
-jobs.
+--LpQ9ahxlCli8rRTG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-maybe the following is easier to understand and more aligned with=20
-bitmap-mode:
+-----BEGIN PGP SIGNATURE-----
 
-The name of the bitmap to use for sync=3Dbitmap/sync=3Dincremental mode.=20
-Must be present if sync is "bitmap" or "incremental". Must NOT be=20
-present otherwise.
+iQEyBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl926UEACgkQTeGvMW1P
+DekAeAf1FVoybPx077ScM+ggh1f8lgbaSNLU29uLaswE2G18zqVDYMzjoZ+sqkAn
+aG4h+R6erXe1BDhMkZXcNk+VrrJb3SbBw9HPdFmDgRFLQHmSxtywm/KWqp/CN6+y
+3yLfMoPXJD7TU4L6KWaSitGMlEYhxK1j4zyHyeYshxIj4befmGS2aoc6jWmDsm44
+UrZ/1+XMVewLXNsYTfs/gqQBS3U1TDUK2gGGOpAlrV//5DoRMbvJhmygGPyfoPQr
+pZRNAvOkKvXRF0AErn/rs5Q2ouerv5qYNIMsxZhmcwtOt7q0y/HaHDZTXKw6YBXm
+B7zJWmpfLMI9v0ulIe90HCSDTq0s
+=5nmX
+-----END PGP SIGNATURE-----
 
->> +#          granularity is used instead of @granularity (since 5.2).
->> +#
->> +# @bitmap-mode: Specifies the type of data the bitmap should contain af=
-ter
->> +#               the operation concludes. Must be present if sync is "bi=
-tmap".
->> +#               Must NOT be present otherwise. (Since 5.2)
-
-Specifies the type of data the bitmap should contain after the operation=20
-concludes. Must be present if sync is "bitmap". Must be "on-success" or=20
-absent if sync is "incremental". Must NOT be present otherwise.
-
->> +#
->>  # @granularity: granularity of the dirty bitmap, default is 64K
->>  #               if the image format doesn't have clusters, 4K if the cl=
-usters
->>  #               are smaller than that, else the cluster size.  Must be =
-a
->> -#               power of 2 between 512 and 64M (since 1.4).
->> +#               power of 2 between 512 and 64M. Must not be specified i=
-f
->> +#               @bitmap is present (since 1.4).
->>  #
->=20
-> Is @granularity forbidden with @bitmap because it makes no sense?
-
-yes.
-
->=20
-> If yes, then it doesn't actually default to anything then, does it?
-
-we must use the same granularity as the sync bitmap passed in via=20
-'bitmap', so the caller can't set a different one.
-
-> Looks like we have
->=20
->     sync            'bitmap'            anything else
->     -------------------------------------------------
->     bitmap          required            forbidden
->     bitmap-mode     required            forbidden
->     granularity     forbidden           optional
->=20
-> Correct?
-
-yes. with the addition of sync=3Dincremental as subset of sync=3Dbitmap, as=
-=20
-described above.
-
->=20
->>  # @buf-size: maximum amount of data in flight from source to
->>  #            target (since 1.4).
->> @@ -2002,7 +2011,9 @@
->>  { 'struct': 'DriveMirror',
->>    'data': { '*job-id': 'str', 'device': 'str', 'target': 'str',
->>              '*format': 'str', '*node-name': 'str', '*replaces': 'str',
->> -            'sync': 'MirrorSyncMode', '*mode': 'NewImageMode',
->> +            'sync': 'MirrorSyncMode', '*bitmap': 'str',
->> +            '*bitmap-mode': 'BitmapSyncMode',
->> +            '*mode': 'NewImageMode',
->>              '*speed': 'int', '*granularity': 'uint32',
->>              '*buf-size': 'int', '*on-source-error': 'BlockdevOnError',
->>              '*on-target-error': 'BlockdevOnError',
-> [Same for blockdev-mirror...]
->=20
->=20
->=20
->=20
-=
-
+--LpQ9ahxlCli8rRTG--
 
