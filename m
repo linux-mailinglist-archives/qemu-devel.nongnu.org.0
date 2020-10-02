@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEAC281301
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:43:51 +0200 (CEST)
-Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2A4281317
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:46:25 +0200 (CEST)
+Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOKPe-0000QF-Kc
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35544)
+	id 1kOKS9-0002Kt-1Y
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOKN1-0007MO-SK
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:41:09 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45051)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kOKMz-0007HP-CO
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:41:07 -0400
-Received: by mail-ed1-x543.google.com with SMTP id b12so1469879edz.11
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 05:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4lj7wFOKksjbC5te72hpMm9u37ZJNaIbp0yvMq7z1UM=;
- b=jNWkCRwAPwCTd9qJht+GbQEYgpWkixshgDTvYvRkkwGBId28lBYyXayNzuII1TMg3K
- YJvEdGRL1xIJ2QoTxRxDt4Fa/oJvvaXBEcKPXnQlkT4Q8HuZ1MGZ68+wKOu58AMfIKUH
- Qs9RQL22sSQUkRmKw00oIiAvqEeshZ7N7mtIVxlikZANqFhyz1S28AYvxQOeVJxPJ1m8
- 3UP+uCXGpigIkKWzI+hIgANQFiH3Z9haxMWlSQWHElc0JufWHg9YYfej14rQUr536hkw
- 9UJ2IOZdrjTU1K6+aCJS+1Dklh4hi3FBCECxFzhR5xRpv8QdIkHi0GdAZzSnn43BaCvJ
- Q7kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4lj7wFOKksjbC5te72hpMm9u37ZJNaIbp0yvMq7z1UM=;
- b=CzA3/m7x6Pb6ubTsSU22SZ+LjTHjnGqQujWUU11/GiEOADKEsmtuuSCoSrU7gKMVt6
- DfBdWCK6okVxeWZdV1tKHWDFz1W8R+afVhLOBHnaPE4JCm7gqL8Yg6BO5xbp1lj0u7w1
- oAWlD6ZSHtw0izYnef2F+mvR3U6Cu6QMLQgOHFJR8EWh4tkDd5lgByIoH4P2o4aRBgGI
- VloA72dnXkiMsgSU0rmr20/FwJrYh0CH4kGpdaK4vyK8DQ35fg12R0Elc7LKTrje28ge
- 4+lR/qTwsVzwcfi0UXgf+yPO6LD3ck2lEh/xHFT26GDrOUwpC+OBvp3o6GmAoWaVKPlD
- FrTQ==
-X-Gm-Message-State: AOAM5313jFGrDQDgQj/XFgckObDuESwSccX/aTMYdKHW41cw38pI3yO6
- bdzzLMl8/fx1FXCE+BfCSucYf3cSHNSOYC4CyehlMhtIADSUjQ==
-X-Google-Smtp-Source: ABdhPJyq7QJe9PN1zEZM4Hzn4nCo2GOC1Vl2CpsxfFtGfn49lblEynCGq+1F/Y7q0igt6h3HQSJ6FjSSCNHJbfRji/o=
-X-Received: by 2002:aa7:da94:: with SMTP id q20mr2176567eds.52.1601642463457; 
- Fri, 02 Oct 2020 05:41:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kOKPO-000118-AB
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:43:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kOKPK-0007TQ-Sd
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:43:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601642608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7itvo2RP2LpICMjhCTjhbtZOSTWzuxhP/szBzsFmyek=;
+ b=I6OJMs/HY/EurNhy8CZ8z/5o0KJrSZBypIdNlV9pVle6ptPnAOHkYY/jqqtzEigkBhYxvr
+ /crFtTIEHmEeRQVtCJajrhCsWU5FYFuelgI/9FcdMedNQ9xB3KDBKpYFmrZYqubAb4A6rk
+ NIZ5tEFJLSSIzsKgKYv5iCwtBH8uOL4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-378-cRYsa_T7OQ-bHNtwT-8mow-1; Fri, 02 Oct 2020 08:43:27 -0400
+X-MC-Unique: cRYsa_T7OQ-bHNtwT-8mow-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4496D801AF7;
+ Fri,  2 Oct 2020 12:43:26 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-90.ams2.redhat.com [10.36.112.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2FD3B78482;
+ Fri,  2 Oct 2020 12:43:19 +0000 (UTC)
+Subject: Re: [PATCH v2] gitlab: move linux-user plugins test across to gitlab
+To: Fam Zheng <fam@euphon.net>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
+References: <20201002103223.24022-1-alex.bennee@linaro.org>
+ <a38759c3ee674da9f92f175e222ca2323402593e.camel@euphon.net>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <9db0b656-8790-24b9-c40c-02c646c0e0d5@redhat.com>
+Date: Fri, 2 Oct 2020 14:43:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <1597278668-339715-1-git-send-email-fnu.vikram@xilinx.com>
- <CAFEAcA8gYXDJKMS3nUSW96hhwmC37=QX1EhVfWj7j0smKGvXgA@mail.gmail.com>
- <CAFEAcA-Y8GQXSU6F3-AWcW=5VcWOtT0w_Fi4SAbfT2M2zjxB1Q@mail.gmail.com>
- <20200914222838.GA75143@xilinx.com>
- <BYAPR02MB4823111774CAC3DA1577EF17BC300@BYAPR02MB4823.namprd02.prod.outlook.com>
-In-Reply-To: <BYAPR02MB4823111774CAC3DA1577EF17BC300@BYAPR02MB4823.namprd02.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 2 Oct 2020 13:40:51 +0100
-Message-ID: <CAFEAcA-yeb7tKcb0C5L-JSKwAwMr_Hq6BobM+-EY-WUnSPsRNg@mail.gmail.com>
-Subject: Re: [PATCH v9 0/4] Introduce Xilinx ZynqMP CAN controller
-To: Vikram Garhwal <fnuv@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <a38759c3ee674da9f92f175e222ca2323402593e.camel@euphon.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,18 +85,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 1 Oct 2020 at 18:57, Vikram Garhwal <fnuv@xilinx.com> wrote:
->
-> Hi Peter,
-> I sent rebased V10 series three weeks back as there were some issues with meson build on v9. Would it possible for you to apply the patch series?
+On 02/10/2020 13.16, Fam Zheng wrote:
+> On Fri, 2020-10-02 at 11:32 +0100, Alex Bennée wrote:
+>> Even with the recent split moving beefier plugins into contrib and
+>> dropping them from the check-tcg tests we are still hitting time
+>> limits. This possibly points to a slow down of --debug-tcg but seeing
+>> as we are migrating stuff to gitlab we might as well move there and
+>> bump the timeout.
+>>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> Hi Alex,
+> 
+> Unrelated to the patch: do we have custom runners on gitlab? I'm
+> exploring ideas to run vm based tests there.
 
-Oops, sorry -- I didn't notice the resent series. I've put it on
-my list to handle.
+Not yet, but Cleber is working on that topic...
 
-thanks
--- PMM
+ Thomas
+
 
