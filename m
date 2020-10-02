@@ -2,95 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79399280F43
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 10:51:57 +0200 (CEST)
-Received: from localhost ([::1]:51538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B4D280F62
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 11:01:23 +0200 (CEST)
+Received: from localhost ([::1]:56742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOGnE-0001a1-AF
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 04:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43536)
+	id 1kOGwM-0004Cu-Bl
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 05:01:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kOGlf-0000aa-Qb
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:50:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24109)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOGuW-0003iI-Vc
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:59:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kOGld-0004mt-Fy
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:50:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kOGuU-0005pZ-Jr
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 04:59:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601628616;
+ s=mimecast20190719; t=1601629165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0CIzjEYp18qgsiX7wwR7uxH0uREo1M9QGA/xyPD+Dgk=;
- b=J75B9eD72tKmTKhje8A7GQnS7TrohLSbuot9OxgmPAOHl7ONoRt75yGOHObif6s3EtcQ/J
- g2GAIus8pymGmuZFCIE8g6gvaQ94U86nxvfgaqdQkQ3fbLkP6xCkuNKPlohUShhFWrftpE
- LQLFy01taG1qJwfPP84IeEmrDHJqse4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-mwXpZb30OquK71P7lWjMSg-1; Fri, 02 Oct 2020 04:50:14 -0400
-X-MC-Unique: mwXpZb30OquK71P7lWjMSg-1
-Received: by mail-wm1-f71.google.com with SMTP id r10so370297wmh.0
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 01:50:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0CIzjEYp18qgsiX7wwR7uxH0uREo1M9QGA/xyPD+Dgk=;
- b=N1DWNCRRWsLfy9N0qVE6Hryj7QYbwYxXq4zufNCaP6vhS+xE1WvwfF4GnpkxpwKc6M
- dtYXFjptPkMQE2+kLGfMFWqpIscuhPqVjIWpv53Y8+5ZmjyHSKiRhGkaGwN3XCcAotGE
- qwssVaSN4/EGxh8SBMNXn7zUus/q8uonH4NLwyZzbGEOXn7W4i9L90iCCPTALp6LF1qi
- hqVowoC0N9DbT78pQ6I1tXtQBYXtqJh2s4MC+nbBc6gIyE2P4DpC1xwU2btmvjh75J7t
- 8INSGmZpdvNctFNNslT+C/j3tIBE4cFa5hA1Uk8dVZktr6Nc/SQO9YYIc86c5mogtBNQ
- HshA==
-X-Gm-Message-State: AOAM532mE6WvOOSn2EwRQhqj6lNUbzOF5mCjWCtY4J48UqDgzZ5V0Lf6
- 92smMFA/sTUbf74vjYRjxnArbDARYZ810PKepjbXEO6PQGxm5cLapECYZ2HCEkAFjhcSxMnHdXU
- ZVk4zHeat2EkEmZs=
-X-Received: by 2002:a7b:c1c5:: with SMTP id a5mr1581964wmj.187.1601628613326; 
- Fri, 02 Oct 2020 01:50:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybAXnAAaOnv3xgJ2kxjiXvzq1EJf6lnpHVsUvX6ndzfEnhFrHh5gq+AKYzzuSaJ5tIRCakAA==
-X-Received: by 2002:a7b:c1c5:: with SMTP id a5mr1581938wmj.187.1601628613114; 
- Fri, 02 Oct 2020 01:50:13 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:11eb:3314:c22:e3c7?
- ([2001:b07:6468:f312:11eb:3314:c22:e3c7])
- by smtp.gmail.com with ESMTPSA id r19sm960802wmh.7.2020.10.02.01.50.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 01:50:12 -0700 (PDT)
-Subject: Re: [PATCH v4 1/1] qapi: Restrict code generated for user-mode
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201002073621.1653924-1-philmd@redhat.com>
- <20201002073621.1653924-2-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <17772b79-07db-98ff-96c5-01a9ac1cbcca@redhat.com>
-Date: Fri, 2 Oct 2020 10:50:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=gSQLEzjCoofHvLRyic7Egg1QTCB+2StV2VfL+d22ipE=;
+ b=BhgYEpRV66PKI5GHQ+ra9guiUxfwOj0laLQg5ejrjdMZs8QRwpVcIUcQQQyZbfLPTrV+1z
+ mHP1Jai2fd00AD+W3DZi1Auj/488ecikV2k01B2Xi1dyucrHnqpj3WAJht5mBNqmIWmYMG
+ zf/AJM/Awr02xZj3PZ4fuF+ZgXXyl/4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121--3E7gdo5P9aRgYWDxpkf4Q-1; Fri, 02 Oct 2020 04:59:23 -0400
+X-MC-Unique: -3E7gdo5P9aRgYWDxpkf4Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A953A1015ED6;
+ Fri,  2 Oct 2020 08:58:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-101.ams2.redhat.com
+ [10.36.112.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4630160C05;
+ Fri,  2 Oct 2020 08:58:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BECDD1132784; Fri,  2 Oct 2020 10:58:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] elfload: use g_new instead of malloc
+References: <20201001123807.42978-1-eafanasova@gmail.com>
+ <87r1qhtdxt.fsf@dusky.pond.sub.org>
+ <b4ab229a-0e84-9d0b-1287-846c52a667bb@redhat.com>
+Date: Fri, 02 Oct 2020 10:58:50 +0200
+In-Reply-To: <b4ab229a-0e84-9d0b-1287-846c52a667bb@redhat.com> (Thomas Huth's
+ message of "Fri, 2 Oct 2020 07:18:06 +0200")
+Message-ID: <87eemhm2b9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20201002073621.1653924-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.26, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,109 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Elena Afanasova <eafanasova@gmail.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/10/20 09:36, Philippe Mathieu-Daudé wrote:
-> A lot of QAPI generated code is never used by user-mode.
-> 
-> Split out qapi_system_modules and qapi_system_or_tools_modules
-> from the qapi_all_modules array. We now have 4 groups:
-> - always used
-> - only used by system-mode
-> - not used by user-mode
-> - not used by tools
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  qapi/meson.build | 51 ++++++++++++++++++++++++++++++++++--------------
->  1 file changed, 36 insertions(+), 15 deletions(-)
-> 
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index 7c4a89a882..10cf01ef65 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -14,39 +14,60 @@ util_ss.add(files(
->  ))
->  
->  qapi_all_modules = [
-> +  'common',
-> +  'introspect',
-> +  'misc',
-> +]
-> +
-> +qapi_system_modules = [
->    'acpi',
->    'audio',
-> +  'dump',
-> +  'machine-target',
-> +  'migration',
-> +  'misc-target',
-> +  'net',
-> +  'pci',
-> +  'rdma',
-> +  'rocker',
-> +  'tpm',
-> +  'trace',
-> +]
-> +
-> +qapi_system_or_user_modules = [
-> +  'machine', # X86CPUFeatureWordInfo
-> +  'qdev',
-> +]
-> +
-> +qapi_system_or_tools_modules = [
->    'authz',
->    'block-core',
->    'block',
->    'char',
-> -  'common',
->    'control',
->    'crypto',
-> -  'dump',
->    'error',
-> -  'introspect',
->    'job',
-> -  'machine',
-> -  'machine-target',
-> -  'migration',
-> -  'misc',
-> -  'misc-target',
-> -  'net',
->    'pragma',
-> -  'qdev',
-> -  'pci',
->    'qom',
-> -  'rdma',
-> -  'rocker',
->    'run-state',
->    'sockets',
-> -  'tpm',
-> -  'trace',
->    'transaction',
->    'ui',
->  ]
->  
-> +if have_system
-> +  qapi_all_modules += qapi_system_modules
-> +endif
-> +
-> +if have_system or have_user
-> +  qapi_all_modules += qapi_system_or_user_modules
-> +endif
-> +
-> +if have_system or have_tools
-> +  qapi_all_modules += qapi_system_or_tools_modules
-> +endif
-> +
->  qapi_storage_daemon_modules = [
->    'block-core',
->    'char',
-> 
+Thomas Huth <thuth@redhat.com> writes:
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> On 02/10/2020 07.05, Markus Armbruster wrote:
+>> Elena Afanasova <eafanasova@gmail.com> writes:
+>> 
+>>> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+>>> ---
+>>>  bsd-user/elfload.c | 92 +++++++++++++++-------------------------------
+>>>  1 file changed, 30 insertions(+), 62 deletions(-)
+>>>
+>>> diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+>>> index 32378af7b2..e10ca54eb7 100644
+>>> --- a/bsd-user/elfload.c
+>>> +++ b/bsd-user/elfload.c
+>>> @@ -867,18 +867,14 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
+>>>          if (sizeof(struct elf_phdr) * interp_elf_ex->e_phnum > TARGET_PAGE_SIZE)
+>>>              return ~(abi_ulong)0UL;
+>>>  
+>>> -        elf_phdata =  (struct elf_phdr *)
+>>> -                malloc(sizeof(struct elf_phdr) * interp_elf_ex->e_phnum);
+>>> -
+>>> -        if (!elf_phdata)
+>>> -          return ~((abi_ulong)0UL);
+>>> +        elf_phdata = g_new(struct elf_phdr, interp_elf_ex->e_phnum);
+>>>  
+>>>          /*
+>>>           * If the size of this structure has changed, then punt, since
+>>>           * we will be doing the wrong thing.
+>>>           */
+>>>          if (interp_elf_ex->e_phentsize != sizeof(struct elf_phdr)) {
+>>> -            free(elf_phdata);
+>>> +            g_free(elf_phdata);
+>>>              return ~((abi_ulong)0UL);
+>>>          }
+>>>  
+>>> @@ -890,9 +886,8 @@ static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
+>>>          }
+>>>          if (retval < 0) {
+>>>                  perror("load_elf_interp");
+>>> +                g_free(elf_phdata);
+>>>                  exit(-1);
+>>> -                free (elf_phdata);
+>>> -                return retval;
+>> 
+>> Deleting return looks wrong.
+>
+> Why? There is an exit(-1) right in front of it, so this is dead code...
+> well, maybe that should be done in a separate patch, or at least
+> mentioned in the patch description, though.
+
+You're right; I missed the exit(-1).
+
+Following the unpleasant odour spread by exit(-1)...  Aha, the
+function's behavior on error is inconsistent: sometimes it returns zero,
+sometimes it exits.
+
+Since the problem is bigger than just one dead return, I recommend
+leaving it to a separate patch, and keeping this one focused on g_new().
 
 
