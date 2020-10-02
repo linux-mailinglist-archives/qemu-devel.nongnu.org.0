@@ -2,115 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180BD281794
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 18:13:59 +0200 (CEST)
-Received: from localhost ([::1]:53662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48D32818FC
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:17:10 +0200 (CEST)
+Received: from localhost ([::1]:44010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kONh0-00086j-4X
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 12:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54198)
+	id 1kOOg9-0006rK-Ob
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kONcg-0003vH-Lj
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 12:09:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kONce-0000L3-O5
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 12:09:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601654967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=v77O4D+B1h106BOw8BG714KC3w9llPv2M4ws/EzNo94=;
- b=fno3Mjl/VFIDi3cRTRGXDAQ3821iN8kX9ZbcJacOFBJu6lgiQMRApGKrS1ts/mYLujCpET
- cKs9K5KD4nIPwa7zKSRQIYMSld9OF7xrxCXalGDHczeYp2PMJiKN9wf6YJdzUy41zuPtgP
- BosT9D4NRhvQTJvRSBkjWzUubl90prc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-LJKdkCDJMSOM8AsRLIL1uw-1; Fri, 02 Oct 2020 12:09:25 -0400
-X-MC-Unique: LJKdkCDJMSOM8AsRLIL1uw-1
-Received: by mail-wr1-f72.google.com with SMTP id f18so717490wrv.19
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 09:09:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=v77O4D+B1h106BOw8BG714KC3w9llPv2M4ws/EzNo94=;
- b=UZO23oyaIgfzckA8WH7aedwzio3U/i2iQVLtPVVcxc8SP5FD91va3rCBjUQ1cZ70JR
- JRPW5OW2dYOBEtJoI1QQ3vasfJqyM33qCnKqTuz2CYjRH8cR6ot2XCz8C3ZbFn5zutel
- Y29ofUFXHcfcVqeE70DU1efznSOKkI3byLtahzyRvrupi/8+Ic/f7ZDQjdgJVQ+ocqD6
- ngGMR/RlEXfTnjbk7KJoSBBAZCnmFLpZz8mC6zgCLOGaope4oH5Bsj8ebcNjPd6R1QDm
- 2YYK/st/NNpBTHvGCpdv8ihZmEP52JVom+tSgmwgDV9yJ/HcgEr+UDmqyL14Yr5sM3LN
- etEA==
-X-Gm-Message-State: AOAM530Pc5s6htkZo0KGquo+VKZK+6b7/J4+9ldidcGmWXiYum9HKcas
- /CL74sSRfLIYxMrRMOwcCGN510z4h+nED9gBbXuXUlZpJ/eLfRpUQ2dOrf7Zcqda/uk9e5SE5pR
- wXpiq3DxSjx3hJJE=
-X-Received: by 2002:adf:ec4d:: with SMTP id w13mr4026106wrn.334.1601654964349; 
- Fri, 02 Oct 2020 09:09:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwj8ap4BRD7ejoxqSu+bLlkV22KLPynezKWzsXm2ZYeqCwQVkG+E4lyeZeRVZRINzY9TuSQOA==
-X-Received: by 2002:adf:ec4d:: with SMTP id w13mr4026063wrn.334.1601654964007; 
- Fri, 02 Oct 2020 09:09:24 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id a5sm2325376wrp.37.2020.10.02.09.09.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 09:09:23 -0700 (PDT)
-Subject: Re: [PATCH] hw/acpi/piix4: Rename piix4_pm_add_propeties() to
- piix4_pm_add_properties()
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <160165476743.57452.2128307974125615413.stgit@bahia.lan>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <9fc9a729-f806-52a9-3583-df2b5602ed19@redhat.com>
-Date: Fri, 2 Oct 2020 18:09:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <160165476743.57452.2128307974125615413.stgit@bahia.lan>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+ (Exim 4.90_1)
+ (envelope-from <4c1954a3515f63081ebb2e6870837b8edd0b4eab@lizzy.crudebyte.com>)
+ id 1kOOe5-0005FX-DZ
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:15:01 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:58511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <4c1954a3515f63081ebb2e6870837b8edd0b4eab@lizzy.crudebyte.com>)
+ id 1kOOe3-0000W0-Ct
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:15:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=ePtsKC4aFi7jGHFiSRI09MokuHMPuECH1mLHa2h/FG4=; b=j7cGb
+ MtdHiJgf7Lnq9nyhA/0QknQXL7vUbaD6bDgiRuJQkF9/ivu3OrCtktU3XJ+OSobM/Qfbg0AUrYOtO
+ aUcsXOHtXFt47JmjJfwWOmZ4a/EMyCgK8ot3H+lWg2apjFn/knhuZJBt6f2h7TX9BEOuPPMzKdMg1
+ 67qydvUMEMFf9bds8BeT59vO0vQWFAR1q0FUVswMmLuHzkvVW3KoBzTyHC0JqHllbR0FTCA/tFIaT
+ jXCs03bgz1vPEx4vhbUvUHPgN2dTblLATsuOeBYh+5Ez3cI9n7AojZ/AlgYjupk5eMaglmWk2kCIm
+ 4zlwaqA0kX1fLH3BuPEwk4rAUgc7w==;
+Message-Id: <4c1954a3515f63081ebb2e6870837b8edd0b4eab.1601655308.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1601655308.git.qemu_oss@crudebyte.com>
+References: <cover.1601655308.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 2 Oct 2020 18:15:05 +0200
+Subject: [PATCH v3 11/11] tests/9pfs: add local Tmkdir test
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ Greg Kurz <groug@kaod.org>, berrange@redhat.com
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=4c1954a3515f63081ebb2e6870837b8edd0b4eab@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 08:18:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,45 +64,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/20 6:06 PM, Greg Kurz wrote:
+This test case uses the 9pfs 'local' driver to create a directory
+and then checks if the expected directory was actually created
+(as real directory) on host side.
 
-Maybe add "Fix a typo" to make it obvious.
+This patch introduces a custom split() implementation, because
+the test code requires non empty array elements as result. For
+that reason g_strsplit() would not be a good alternative, as
+it would require additional filter code for reshuffling the
+array, and the resulting code would be even more complex than
+this split() function.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/virtio-9p-test.c | 139 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 139 insertions(+)
 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  hw/acpi/piix4.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 894d357f8c35..67a1ea41914f 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -437,7 +437,7 @@ static void piix4_pm_machine_ready(Notifier *n, void *opaque)
->          (memory_region_present(io_as, 0x2f8) ? 0x90 : 0);
->  }
->  
-> -static void piix4_pm_add_propeties(PIIX4PMState *s)
-> +static void piix4_pm_add_properties(PIIX4PMState *s)
->  {
->      static const uint8_t acpi_enable_cmd = ACPI_ENABLE;
->      static const uint8_t acpi_disable_cmd = ACPI_DISABLE;
-> @@ -509,7 +509,7 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
->                                     pci_get_bus(dev), s);
->      qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
->  
-> -    piix4_pm_add_propeties(s);
-> +    piix4_pm_add_properties(s);
->  }
->  
->  I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-> 
-> 
-> 
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index af7e169d3a..c15908f27b 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -18,6 +18,62 @@
+ #define QVIRTIO_9P_TIMEOUT_US (10 * 1000 * 1000)
+ static QGuestAllocator *alloc;
+ 
++/*
++ * Used to auto generate new fids. Start with arbitrary high value to avoid
++ * collision with hard coded fids in basic test code.
++ */
++static uint32_t fid_generator = 1000;
++
++static uint32_t genfid(void)
++{
++    return fid_generator++;
++}
++
++/**
++ * Splits the @a in string by @a delim into individual (non empty) strings
++ * and outputs them to @a out. The output array @a out is NULL terminated.
++ *
++ * Output array @a out must be freed by calling split_free().
++ *
++ * @returns number of individual elements in output array @a out (without the
++ *          final NULL terminating element)
++ */
++static int split(const char *in, const char *delim, char ***out)
++{
++    int n = 0, i = 0;
++    char *tmp, *p;
++
++    tmp = g_strdup(in);
++    for (p = strtok(tmp, delim); p != NULL; p = strtok(NULL, delim)) {
++        if (strlen(p) > 0) {
++            ++n;
++        }
++    }
++    g_free(tmp);
++
++    *out = g_new0(char *, n + 1); /* last element NULL delimiter */
++
++    tmp = g_strdup(in);
++    for (p = strtok(tmp, delim); p != NULL; p = strtok(NULL, delim)) {
++        if (strlen(p) > 0) {
++            (*out)[i++] = g_strdup(p);
++        }
++    }
++    g_free(tmp);
++
++    return n;
++}
++
++static void split_free(char ***out)
++{
++    int i;
++    for (i = 0; (*out)[i]; ++i) {
++        g_free((*out)[i]);
++    }
++    g_free(*out);
++    *out = NULL;
++}
++
+ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+@@ -201,6 +257,7 @@ static const char *rmessage_name(uint8_t id)
+         id == P9_RWALK ? "RWALK" :
+         id == P9_RLOPEN ? "RLOPEN" :
+         id == P9_RWRITE ? "RWRITE" :
++        id == P9_RMKDIR ? "RMKDIR" :
+         id == P9_RFLUSH ? "RFLUSH" :
+         id == P9_RREADDIR ? "READDIR" :
+         "<unknown>";
+@@ -578,6 +635,39 @@ static bool fs_dirents_contain_name(struct V9fsDirent *e, const char* name)
+     return false;
+ }
+ 
++/* size[4] Tmkdir tag[2] dfid[4] name[s] mode[4] gid[4] */
++static P9Req *v9fs_tmkdir(QVirtio9P *v9p, uint32_t dfid, const char *name,
++                          uint32_t mode, uint32_t gid, uint16_t tag)
++{
++    P9Req *req;
++
++    uint32_t body_size = 4 + 4 + 4;
++    uint16_t string_size = v9fs_string_size(name);
++
++    g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
++    body_size += string_size;
++
++    req = v9fs_req_init(v9p, body_size, P9_TMKDIR, tag);
++    v9fs_uint32_write(req, dfid);
++    v9fs_string_write(req, name);
++    v9fs_uint32_write(req, mode);
++    v9fs_uint32_write(req, gid);
++    v9fs_req_send(req);
++    return req;
++}
++
++/* size[4] Rmkdir tag[2] qid[13] */
++static void v9fs_rmkdir(P9Req *req, v9fs_qid *qid)
++{
++    v9fs_req_recv(req, P9_RMKDIR);
++    if (qid) {
++        v9fs_memread(req, qid, 13);
++    } else {
++        v9fs_memskip(req, 13);
++    }
++    v9fs_req_free(req);
++}
++
+ /* basic readdir test where reply fits into a single response message */
+ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+@@ -877,6 +967,30 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(wnames[0]);
+ }
+ 
++static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
++                     const char *path, const char *cname)
++{
++    QVirtio9P *v9p = obj;
++    alloc = t_alloc;
++    char **wnames;
++    char *const name = g_strdup(cname);
++    P9Req *req;
++    const uint32_t fid = genfid();
++
++    int nwnames = split(path, "/", &wnames);
++
++    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rwalk(req, NULL, NULL);
++
++    req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rmkdir(req, NULL);
++
++    g_free(name);
++    split_free(&wnames);
++}
++
+ static void fs_readdir_split_128(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
+ {
+@@ -895,6 +1009,30 @@ static void fs_readdir_split_512(void *obj, void *data,
+     fs_readdir_split(obj, data, t_alloc, 512);
+ }
+ 
++
++/* tests using the 9pfs 'local' fs driver */
++
++static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
++{
++    QVirtio9P *v9p = obj;
++    struct stat st;
++    char *root_path = virtio_9p_test_path("");
++    char *new_dir = virtio_9p_test_path("01");
++
++    g_assert(root_path != NULL);
++
++    fs_attach(v9p, NULL, t_alloc);
++    fs_mkdir(v9p, data, t_alloc, "/", "01");
++
++    /* check if created directory really exists now ... */
++    g_assert(stat(new_dir, &st) == 0);
++    /* ... and is actually a directory */
++    g_assert((st.st_mode & S_IFMT) == S_IFDIR);
++
++    g_free(new_dir);
++    g_free(root_path);
++}
++
+ static void *assign_9p_local_driver(GString *cmd_line, void *arg)
+ {
+     virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
+@@ -934,6 +1072,7 @@ static void register_virtio_9p_test(void)
+     /* 9pfs test cases using the 'local' filesystem driver */
+     opts.before = assign_9p_local_driver;
+     qos_add_test("local/config", "virtio-9p", pci_config,  &opts);
++    qos_add_test("local/create_dir", "virtio-9p", fs_create_dir, &opts);
+ }
+ 
+ libqos_init(register_virtio_9p_test);
+-- 
+2.20.1
 
 
