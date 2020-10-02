@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14E228168D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:26:48 +0200 (CEST)
-Received: from localhost ([::1]:57960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A99281696
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 17:28:38 +0200 (CEST)
+Received: from localhost ([::1]:37854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOMxL-0001So-On
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:26:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41244)
+	id 1kOMz7-0004tH-Gg
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 11:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kOMlp-0008Ik-VU
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:14:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29589)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kOMmC-0008NS-KA
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:15:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kOMlm-0000gb-2Q
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:14:53 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kOMm2-0000i0-Jr
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 11:15:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601651688;
+ s=mimecast20190719; t=1601651702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=30fqfoLqQiRuwc/yk5qEbVO4Tuvr2S7MLkajJboCMl4=;
- b=QsM4AslWommOZnLzm4nXXmMTUitBsGeBj5AtfzuqfmfbdrigN9Czb9hrxD+qTw/Eh0RXLt
- wGQNLAOAfU6rsgZDg6xdVsxHMrEUtYfHIal/W2saC+WV+Z/56wx9MuAvYt9rowXYW2wIEx
- ZH35nsir5S/tkkgmsJsPZkwDHlGW+a8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-OMe9rhcfP0efLYI3i7xjsA-1; Fri, 02 Oct 2020 11:14:30 -0400
-X-MC-Unique: OMe9rhcfP0efLYI3i7xjsA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9340F18B9F12;
- Fri,  2 Oct 2020 15:14:24 +0000 (UTC)
-Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A754D60C15;
- Fri,  2 Oct 2020 15:14:23 +0000 (UTC)
-Subject: Re: [PATCH v4 04/46] qapi: modify docstrings to be sphinx-compatible
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200930043150.1454766-1-jsnow@redhat.com>
- <20200930043150.1454766-5-jsnow@redhat.com>
- <87wo0bejmy.fsf@dusky.pond.sub.org>
- <96ba9e08-9806-baa3-62d2-2df84a666e62@redhat.com>
- <87blhm49bk.fsf@dusky.pond.sub.org>
- <5f3e38fd-6d18-5d28-31cd-6c0faa8c675d@redhat.com>
- <877ds9m1cb.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <0ae25be1-90ec-ef0b-b845-91d142b0c762@redhat.com>
-Date: Fri, 2 Oct 2020 11:14:23 -0400
+ bh=za7TTZQVCsQcbz/kEEwAeYjZE6N33tpYWV8tCzVC+2g=;
+ b=aiUOVyfNvsQcZy1AQ/iXDh5xeGgyC/Kv+o+nlpl2wpTCnqdsnEtGxPl/g+m8t9+5CvcznT
+ /AWj/w+8MpZYuiDb1xAFYFxIE7m5dE5QlspUXD+vLI+NCoCGTCtK9Lklb+jNBjNY/joHAe
+ 48P6k2RaQ4TXQm2A+VTCyYJtp+8pmYY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-BdV8vYfJMo-aAtWkLXfWBw-1; Fri, 02 Oct 2020 11:14:44 -0400
+X-MC-Unique: BdV8vYfJMo-aAtWkLXfWBw-1
+Received: by mail-wr1-f69.google.com with SMTP id d13so651354wrr.23
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 08:14:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=za7TTZQVCsQcbz/kEEwAeYjZE6N33tpYWV8tCzVC+2g=;
+ b=eGYzj8jJst8UwXAaVufOnMFM7kB6Nzmeggz0VEac2+eGrBBK/QJitAiIAcPKYCfEsj
+ V0DJWIH+x2bW76yqOJmpSPjJi8Ij/AZzAuz9pfBvqFTAdcFAgkwYDiQ3XEdCLzge9V17
+ pzs7sfNvilP4bCVy9o7/8UmsYgk9lHmoPK4JU8Sbr9UxC5F1EFrKlPGbw0vmXuDy8VVK
+ zVWItb/d7k1kKQLZzZEBvub+fUZhsOTAeipXFJyE9fjjbmWMYwFYs47ooikfe2DkYcI4
+ 0JKtBD0lfhg4o6HKU4v0ONdOCIow8Mn0H4zms3SM/YQbi3psXYH41AKzCD2DOR4OfXcM
+ 6DVQ==
+X-Gm-Message-State: AOAM530kPf5dwzdcz8CtOA9XVtJ+eGutyJv0FJ7MF3lV5Kt0AoPoDuen
+ PXiG42vZN6U4u0MJcnSWI8a5vCK5JskdkyQ87cnJiVNYlE/Q9ChimngRo4QSryWAdu9iYeMtSpT
+ blGabfBoSzvQOGUg=
+X-Received: by 2002:a7b:cb44:: with SMTP id v4mr3447797wmj.101.1601651682891; 
+ Fri, 02 Oct 2020 08:14:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUbBPAXcpXvAh5VHT1dTkH25G38HuCJpj3Y/ZvJDfVeB4lnLeBxyMfrMeOXpK0hronlkF18Q==
+X-Received: by 2002:a7b:cb44:: with SMTP id v4mr3447769wmj.101.1601651682616; 
+ Fri, 02 Oct 2020 08:14:42 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:47e0:e742:75ba:b84d?
+ ([2001:b07:6468:f312:47e0:e742:75ba:b84d])
+ by smtp.gmail.com with ESMTPSA id 76sm2365849wma.42.2020.10.02.08.14.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 08:14:41 -0700 (PDT)
+Subject: Re: [PATCH] meson.build: Don't look for libudev for static builds
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201002105239.2444-1-peter.maydell@linaro.org>
+ <b1a6000a-c9a1-43fb-7646-b6ea87797b2e@redhat.com>
+ <CAFEAcA9PbBByROzJ3+pfxycAoP-C5JnmfxQEt5jm6+3A3n2fbw@mail.gmail.com>
+ <df5bd19c-da9d-d3b0-71a9-4deed67450bf@redhat.com>
+ <CAFEAcA9M_BP9mnZHCLM93aYvMxrRHYFELQZ3FvsyH3hNvXtHDA@mail.gmail.com>
+ <405d680b-d088-58ff-9364-fcfcea1345dc@redhat.com>
+ <CAFEAcA9vr+HKe3HnNECo8=pP7KcdjZXr1cJqg8HTbYKbaNDY3A@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a1ef11fc-7652-056e-bfcc-db0f8fcfc13f@redhat.com>
+Date: Fri, 2 Oct 2020 17:14:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <877ds9m1cb.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAFEAcA9vr+HKe3HnNECo8=pP7KcdjZXr1cJqg8HTbYKbaNDY3A@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -88,441 +107,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/20 5:19 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> On 10/1/20 4:52 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> On 9/30/20 4:47 AM, Markus Armbruster wrote:
->>>>> John Snow <jsnow@redhat.com> writes:
->>>>>
->>>>>> I did not say "sphinx beautiful", just "sphinx compatible". They will
->>>>>> not throw errors when parsed and interpreted as ReST.
->>>>> "Bang on the keyboard until Sphinx doesn't throw errors anymore"
->>>>> might
->>>>> be good enough for a certain kind of mathematician, but a constructive
->>>>> solution needs a bit more direction.  Is there a specification to
->>>>> follow?  Other useful resources?
->>>>>
->>>>
->>>> I don't know if you are asking this question rhetorically, or in good faith.
->>> I ask to make sure I understand goals and limitations of your doc
->>> string
->>> work in this series.
->>> Also, even a passing to Sphinx becomes more useful when accompanied
->>> by a
->>> link to relevant documentation.
->>>
->>>> Let me preface this by saying: This series, and these 119 patches, are
->>>> not about finding a style guide for our docstring utilization or about
->>>> proposing one. It is also not about rigorously adding such
->>>> documentation or about finding ways to meaningfully publish it with
->>>> e.g. Sphinx, or the styling of such pages.
->>>>
->>>> Why bother to add docstrings at all, then? Because I needed them for
->>>> my own sake when learning this code and I felt it would be a waste to
->>>> just delete them, and I am of sound mind and able body and believe
->>>> that some documentation was better than none. They are useful even
->>>> just as plaintext.
->>>>
->>>> Having said that, let's explore the actual style I tend to use.
->>>>
->>>> I mentioned before in response to a review comment that there isn't
->>>> really any standard for docstrings. There are a few competing
->>>> "styles", but none of which are able to be programmatically checked
->>>> and validated.
->>>>
->>>> The primary guide for docstrings is PEP 257, of which I follow some
->>>> but not all of the recommendations.
->>>>
->>>> https://www.python.org/dev/peps/pep-0257/
->>>
->>> I find PEP 257 frustrating.  It leaves me with more questions than
->>> answers.
+On 02/10/20 16:18, Peter Maydell wrote:
+>> No, there's no functions at all.  You can of course put the detection and
+>> test in a single loop:
 >>
->> Yeah, sorry. That's what we're dealing with. It's very open-ended.
->>
->>>> In general,
->>>>
->>>> - Always use triple-double quotes (unenforced)
->>>> - Modules, classes, and functions should have docstrings (pylint)
->>>> - No empty lines before or after the docstring (unenforced)
->>>> - Multi-line docstrings should take the form (unenforced):
->>>>
->>>> """
->>>> single-line summary of function.
->>>>
->>>> Additional prose if needed describing the function.
->>>>
->>>> :param x: Input such that blah blah.
->>>> :raises y: When input ``x`` is unsuitable because blah blah.
->>>> :returns: A value that blah blah.
->>> This paragraph is already not PEP 257.
->>>
->>
->> Right -- well, it isn't NOT PEP 257 either. It just suggests you have
->> to describe these features, but it doesn't say HOW.
-> 
-> Yep.  Frustrating.
-> 
->>>> """
->>>>
->>>> PEP257 suggests a form where the single-line summary appears on the
->>>> same line as the opening triple quotes. I don't like this, and prefer
->>>> symmetry. PEP257 *also* suggests that writing it my way is equivalent
->>>> to their way, because any docstring processor should trim the first
->>>> line. I take this as tacit admission that my way is acceptable and has
->>>> merit.
->>> I prefer the symmetric form myself.
->>>
->>>> What about the syntax or markup inside the docstring itself? there is
->>>> *absolutely no standard*, but Sphinx autodoc recognizes a few field
->>>> lists as significant in its parsing, so I prefer using them:
->>>
->>> Doc link?
->>
->> Hard to search for in my opinion;
-> 
-> More reason to provide a link!
-> 
+>>   dependencies = {}
+>>   ...
+>>   if targetos == 'linux' and (have_system or have_tools)
+>>     dependencies += {'libudev': 'mpath'}
+>>   endif
+>>   ...
+>>   skeleton = 'int main(void) { return 0; }'
+>>   foreach var, option: dependencies
+>>     dep = dependency(var,
+>>                      required: get_option(option).enabled(),
+>>                      static: enable_static)
+>>     if dep.found() and enable_static and not cc.links(skeleton, dependencies: get_variable(var))
+>>       if get_option(option).enabled()
+>>           error('Cannot link with @0@'.format(var))
+>>         else
+>>           warning('Cannot link with @0@, disabling'.format(skeleton))
+>>           set_variable(var, not_found)
+>>         endif
+>>       endif
+>>     endif
+>>   endforeach
+> That is a lot uglier.
 
-Yup. I took a stab at it in a new commit message.
+The code above is ugly but it is also botched; it should be more like:
 
->>                                    you want to search for "sphinx
->> python domain", and then click on "field lists" on the sidebar.
->>
->> https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
->>
->> It has a special understanding for:
->>
->> param/parameter/arg/argument/key/keyword: I prefer "param"
->> here. Possibly key/keyword if we use a **kwargs form with a key that
->> we specially recognize, but I've not tested that yet. I know pycharm
->> understands "param" in a semantic way, and that's been good enough for me.
->>
->> type: Defines the type of a parameter. In my opinion, do not use
->> this. Let native type hints do the lifting.
-> 
-> Agree.
-> 
->> raises/raise/except/exception: I prefer "raises". "raises ErrorType
->> when...." is a good sentence.
->>
->> var/ivar/cvar: Describes a variable, presumably in the body of the
->> function below. I've never used this, I always describe it in prose
->> instead.
->>
->> vartype: Defines a type for a variable; I would again defer to the
->> native type system instead now.
->>
->> returns/return: I prefer "returns" for grammatical reasons
->> again. ("Returns such-and-such when...")
-> 
-> "Return such-and-such when..." is just as correct: imperative mood.  I
-> prefer imperative mood for function contracts.
-> 
+  dependencies = {}
+  ...
+  if targetos == 'linux' and (have_system or have_tools)
+    dependencies += {'libudev': get_option('mpath')}
+  else
+    libudev = not_found
+  endif
+  ...
 
-I think there's some other style guide I saw that prefers this too. I 
-think I casually prefer "raises" and "returns", but "raise X when" and 
-"return Y such that" both make sense, too.
+  skeleton = 'int main(void) { return 0; }'
+  foreach var, opt: dependencies
+    dep = dependency(var,
+                     required: opt.enabled(),
+                     static: enable_static)
+    if dep.found() and enable_static and not cc.links(skeleton, dependencies: dep)
+      # Meson should have already warned about the lack of a static library
+      if opt.enabled()
+        error('Cannot link with @0@'.format(var))
+      else
+      dep = not_found
+    endif
+    set_variable(var, dep)
+  endforeach
 
-Not something I'll go to fight and die for, but it's probably the case 
-that I have already been using the other form.
+which both shorter and more readable.
 
-I can fix these alongside a style guide if you'd like, but I'd ask for 
-your lenience to allow me do that as a follow-up in a series that I 
-won't mind spending more time in review to perfect our style.
+Or is it loops vs. functions that you find ugly?
 
->> rtype: again, type information. Don't use.
->>
->> meta: For directives to sphinx, e.g. :meta private: or :meta public:
->> to toggle the visibility class from its default. I don't use this.
->>
->>
->> None of these are validated or checked in any meaningful way; you can
->> use arbitrarily field lists (and I do in a few places!) to define your
->> own terms and so on.
->>
->>
->> (I would like to improve autodoc in the future to validate your
->> docstrings such that you can enforce :param:, :raises: and :return:
->> and it uses the type hints and introspection information to raise an
->> error when you make an obvious mistake. I am not there yet, but I am
->> using Peter Maydell's work to help inform how I might write such an
->> extension to autodoc. This work is not critical, but it will likely
->> occur upstream, outside of the QEMU context because I believe this is
->> a good thing to do for the ecosystem in general, to allow autodoc to
->> function slightly more like e.g. Doxygen does.)
-> 
-> Sounds useful, but yes, it's clearly outside QEMU context.
-> 
->>>> :param x: Denotes the parameter X. Do not use type information in the
->>>> string, we rely on mypy for that now.
->>>>
->>>> :raises y: explains a case in which an Exception type y may be raised
->>>> either directly by this code or anticipated to be allowed to be raised
->>>> by a helper call. (There's no standard here that I am aware of. I use
->>>> my judgment. Always document direct raise calls, but use your judgment
->>>> for sub-calls.)
->>>>
->>>> :returns: explains the semantics of the return value.
->>>>
->>>> That said, literally any sphinx/ReST markup is OK as long as it passes
->>>> make sphinxdocs. Some sphinx markup is prohibited, like adding new
->>>> full-throated sections. You can use arbitrary field lists, definition
->>>> lists, pre-formatted text, examples, code blocks, whatever.
->>>>
->>>> In general, you are not going to find the kind of semantic validation
->>>> you want to ensure that the parameter names are correct, or that you
->>>> spelled :param: right, or that you didn't miss a parameter or an
->>>> exception. None of that tooling exists for Python.
->>>>
->>>> Thus, it's all rather subjective. No right answers, no validation
->>>> tools. Just whatever seems reasonable to a human eye until such time
->>>> we actually decide to pursue publishing the API docs in the
->>>> development manual, if indeed we ever do so at all.
->>>>
->>>> That series sounds like a great opportunity to hash this all out. That
->>>> is when I would like to remove --missing-docstring, too. There will
->>>> absolutely be a "docstring series" in the future, but I am insisting
->>>> stubbornly it happen after strict typing.
->>>
->>> Okay.  Nevertheless, I'd prefer a bit more information in the commit
->>> message.  Here's my try:
->>>
->>>       qapi: Modify docstrings to be sphinx-compatible
->>>
->>>       I did not say "sphinx beautiful", just "sphinx compatible". They
->>>       will not throw errors when parsed and interpreted as ReST.  Finding
->>>       a comprehensive style guide for our docstring utilization is left
->>>       for another day.
->>>
->>>       For now, use field lists recognized by Sphinx autodoc.
->>>       FIXME link to their documentation
->>
->> That I can do -- and I will double down on my IOU for a more formal
->> style guide: https://gitlab.com/jsnow/qemu/-/issues/7
->>
->> I didn't bother writing it in any of the commits because I felt like
->> it'd get lost there and would be mostly useless; but a .rst doc inside
->> the package folder would be hard to miss.
->>
->> I plan to check in something like ./python/README.rst or
->> ./python/CODING_STYLE.rst to try and formalize a lot of what I am
->> doing here, where it's going to be harder to miss.
-> 
-> Makes sense.
-> 
->>>>>>
->>>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>>> ---
->>>>>>     scripts/qapi/gen.py    | 6 ++++--
->>>>>>     scripts/qapi/parser.py | 9 +++++----
->>>>>>     2 files changed, 9 insertions(+), 6 deletions(-)
->>>>>>
->>>>>> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
->>>>>> index ca66c82b5b8..fc19b2aeb9b 100644
->>>>>> --- a/scripts/qapi/gen.py
->>>>>> +++ b/scripts/qapi/gen.py
->>>>>> @@ -154,9 +154,11 @@ def _bottom(self):
->>>>>>       @contextmanager
->>>>>>     def ifcontext(ifcond, *args):
->>>>>> -    """A 'with' statement context manager to wrap with start_if()/end_if()
->>>>>> +    """
->>>>>> +    A 'with' statement context manager that wraps with `start_if` and `end_if`.
->>>>> Sadly, the fact that start_if() and end_if() are functions isn't
->>>>> immediately obvious anymore.
->>>>> I've seen :func:`start_if` elsewhere.  Is this something we should
->>>>> or
->>>>> want to use?
->>>>>
->>>>
->>>> We *could*.
->>>>
->>>> `start_if` relies on the default role, which I have provisionally set
->>>> to "any" here, so this is shorthand for :any:`start_if`.
->>>>
->>>> The :any: role means: "cross-reference any type of thing." If there is
->>>> not exactly one thing that matches, it results in an error during the
->>>> documentation build.
->>>>
->>>> I like this, because it's nice short-hand syntax that I think
->>>> communicates effectively to the reader that this is a symbol of some
->>>> kind without needing a premium of ReST-ese.
->>>>
->>>> CONSTANTS are capitalized, Classes are title cased, and functions are
->>>> lower_case. `lower_case` references can be assumed to be functions,
->>>
->>> `lower_case` could also refer to an attribute, variable, or
->>> parameter.
->>
->> Hm. Attribute yes, actually. variable and parameter no -- sphinx does
->> not presently provide syntax or roles for creating anchors to
->> parameter names or variables, so they are not able to be
->> cross-referenced.
-> 
-> How would you mark up variable names in doc strings?  Often, their
-> "variableness" is obvious from context, but not always.  In C comments,
-> we tend to use @var [*].
-> 
-
-I have been using ``var`` so far, to render it in a preformatted 
-monowidth style. It doesn't cross-reference anything and it is no 
-different from other pre-formatted literal blocks. I use the same markup 
-for Python types; ``str`` and ``List[str]`` and so on -- other literal 
-values like ``True``, ``False``, and ``"string_literal"``.
-
-We could look into creating markup for it, like :v:`var` or something, 
-to which we apply rendering logic to distinguish them, but that's beyond 
-my means to do quickly at the moment. I can add it to my list to 
-investigate ("someday").
-
-Also possible that we might look at autodoc extensions to generate 
-cross-references for variable names (by modifying handling for 
-:param:?), but I also don't know if rst/sphinx references can be 
-"scoped"? Variables and parameters will collide far more often than 
-function/class/module names.
-
-If you could do, say, `funcname.varname` in cases where the variable was 
-ambiguous and it jumped to the sphinx docs where that variable/parameter 
-was described, that'd be hot.
-
-But it's not something that's tractable to me right now, sorry.
-
->> Attributes CAN be cross-referenced, but only when they are documented.
->>
->> Another style guide thing:
->>
->> #: x is a number that represents "The Answer". See `Douglas Adams`_.
->> self.x = 42
->>
->> You can use the special comment form "#:" to add a one-line
->> description of an attribute that Sphinx will pick up. Sphinx skips
->> these attributes otherwise. If you consider them part of the interface
->> of the module, it's maybe a good idea to do this.
->>
->> You can also use docstrings, but the ordering changes:
->>
->> self.x = 42
->> """x is a number that represents "The Answer". See `Douglas Adams`_.
->>
->> I kind of like the #: form because it announces what follows, but I
->> admit it's a bit of special sphinx magic.
-> 
-> Are both equally available in Python IDEs and in interactive Python?
-> 
-
-Docstrings are only recognized as special for modules, classes and 
-functions. I do not think Python recognizes docstrings for attributes at 
-all, actually.
-
- >>> help(qapi.common)
-
-is going to show you:
-
-- the description (docstring, comments) for the module
-- the classes defined in it (Indentation),
-- functions and their docstrings (c_enum_const, c_fname, c_name, ...)
-- "Data": (EATSPACE, POINTER_SUFFIX, indent)
-
-I commented EATSPACE in my patches because I reference it from somewhere 
-else. Either style does not show up in help(qapi.common).
-
-qapi.common.EATSPACE does have a __doc__ attribute, but it's actually 
-the doc attribute for `str()`! Not what we wanted at all.
-
-So either style is invisible at runtime. Sad.
-
-We can also prefer to use @property style functions which can receive 
-docstrings -- but this only works for classes! I don't think there's a 
-standard way to define "properties" for modules exactly as such.
-
-That means that module-level data (constants, globals, etc.) don't 
-really have a great way to be documented. The best place is likely 
-actually in the module docstring itself, but you cannot cross-reference 
-such a location with Sphinx, I think.
-
-Needs more research, but again I plead that this is good fodder for a 
-later series when we attempt to calcify a standard.
-
->>>> but I will admit that this is not enforced or necessarily true as we
->>>> add more cross reference types in the future.
->>>>
->>>> (I am trying to add QMP cross-reference syntax!)
->>>>
->>>> I still prefer `start_if` to :func:`start_if` simply because it's less
->>>> markup and is easier to read in plaintext contexts. You're right, it
->>>> doesn't look like a function anymore.
->>> Yes, :func:`start_if` is rather heavy.  I asked because I wanted to
->>> understand what :func: buys us.  Not meant as endorsement.
->>>
->>
->> It specifically targets only cross-references of that exact type. In
->> the case that the :any: reference is ambiguous, :func: is the
->> disambiguation.
->>
->>> GDK-Doc seems smart enough to recognize start_if().  Sphinx isn't,
->>> because it's built around reST syntax.  We put our money on the Sphinx
->>> horse, so...
->>>
->>>> I'm not sure if another annotations would work -- `start_if`() or
->>>> `start_if()`. Both seem kind of clunky to me, to be honest. Personal
->>>> feeling is "not really worth the hassle."
->>>
->>> You later reported the latter works.
->>> I prefer `start_if()` to `start_if`.  Matter of taste.
->>
->> Change made.
-> 
-> Thanks!
-> 
->>>>>>     -    *args: any number of QAPIGenCCode
->>>>>> +    :param ifcond: List of conditionals
->>>>>> +    :param args: any number of `QAPIGenCCode`.
->>>>>>           Example::
->>>>>>     diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->>>>>> index 9d1a3e2eea9..02983979965 100644
->>>>>> --- a/scripts/qapi/parser.py
->>>>>> +++ b/scripts/qapi/parser.py
->>>>>> @@ -381,10 +381,11 @@ def append(self, line):
->>>>>>               The way that the line is dealt with depends on which
->>>>>> part of
->>>>>>             the documentation we're parsing right now:
->>>>>> -        * The body section: ._append_line is ._append_body_line
->>>>>> -        * An argument section: ._append_line is ._append_args_line
->>>>>> -        * A features section: ._append_line is ._append_features_line
->>>>>> -        * An additional section: ._append_line is ._append_various_line
->>>>>> +
->>>>>> +         * The body section: ._append_line is ._append_body_line
->>>>>> +         * An argument section: ._append_line is ._append_args_line
->>>>>> +         * A features section: ._append_line is ._append_features_line
->>>>>> +         * An additional section: ._append_line is ._append_various_line
->>>>>>             """
->>>>>>             line = line[1:]
->>>>>>             if not line:
->>>>> I understand why you insert a blank line (reST wants blank lines
->>>>> around
->>>>> lists), I don't understand why you indent.  Can you explain?
->>>>
->>>> I was mistaken about it needing the indent!
->>> Easy enough to tidy up :)
->>>
->>
->> Already done!
-> 
-> Thanks again!
-> 
-> 
-> [*] GTK-Doc says @var is just for parameters, but since it offers
-> nothing for variables, we sometimes use it for variables as well.
-> 
+Paolo
 
 
