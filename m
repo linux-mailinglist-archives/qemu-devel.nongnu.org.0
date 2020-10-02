@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0C82812A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:27:44 +0200 (CEST)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0942812B1
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 14:29:56 +0200 (CEST)
+Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOKA4-0001TP-00
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:27:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57008)
+	id 1kOKCB-0003wa-S4
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 08:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvK-0004dc-L9
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56178)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvP-0004pN-BJ
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvI-0003VQ-OU
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:30 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kOJvN-0003Wz-Gx
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 08:12:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601640748;
+ s=mimecast20190719; t=1601640752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/TdNG7A5nFaZM4Yjh3LLAFIvp8cCGg+8daj3bPu5Tx4=;
- b=XPZgBjxGlX7Aude4I9xqWo5eBgZGXxITcu/vd5fI/NRuhOFC3edhGo/MBjLitGN3Nc+gvh
- IdX2ZO3O5SKR0PNDzJaggrxkOov9ImJzTCRMwhNLsJvoX1lNmHGq2S12MTlfkYPoxt3/G1
- oCw/pdgEER5TffxKIJtJT46QrBjMbWg=
+ bh=W5jeL73icdSoEitdtgj4079z9kZgec574FtVJbMWvcM=;
+ b=CaflgcL0mx5Hj9WF11wdXHVkFmdu7OIxP9tOmqX0j5a+9j+omsmyld/+iBgxABQ0B0PzE9
+ FyNpI8E8qz/dJYwduydaLj+dJrGCzNND7W81miX3RBiVtIFn2nuVZeW6ylXYlXyQ+WvCVW
+ IlX1eec4D3+v8K0sXwvQLF8ONmIpEmc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-kuxcrFecMuOTmla6Yg-04g-1; Fri, 02 Oct 2020 08:12:25 -0400
-X-MC-Unique: kuxcrFecMuOTmla6Yg-04g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-473-GjkcAVbvM_-cMIYqXhhyhg-1; Fri, 02 Oct 2020 08:12:30 -0400
+X-MC-Unique: GjkcAVbvM_-cMIYqXhhyhg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A682285C736;
- Fri,  2 Oct 2020 12:12:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8390A873119;
+ Fri,  2 Oct 2020 12:12:29 +0000 (UTC)
 Received: from localhost (ovpn-112-216.ams2.redhat.com [10.36.112.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82E9710013BD;
- Fri,  2 Oct 2020 12:12:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 57C865D9D5;
+ Fri,  2 Oct 2020 12:12:26 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 15/19] s390x/tcg: Implement MULTIPLY HALFWORD (MGH)
-Date: Fri,  2 Oct 2020 14:11:14 +0200
-Message-Id: <20201002121118.180315-16-cohuck@redhat.com>
+Subject: [PULL 16/19] s390x/tcg: Implement BRANCH INDIRECT ON CONDITION (BIC)
+Date: Fri,  2 Oct 2020 14:11:15 +0200
+Message-Id: <20201002121118.180315-17-cohuck@redhat.com>
 In-Reply-To: <20201002121118.180315-1-cohuck@redhat.com>
 References: <20201002121118.180315-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/01 23:37:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,29 +86,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Just like MULTIPLY HALFWORD IMMEDIATE (MGHI), only the second operand
-(signed 16 bit) comes from memory.
+Just like BRANCH ON CONDITION - however the address is read from memory
+(always 8 bytes are read), we have to wrap the address manually. The
+address is read using current CPU DAT/address-space controls, just like
+ordinary data.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200928122717.30586-6-david@redhat.com>
+Message-Id: <20200928122717.30586-7-david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/insn-data.def | 1 +
- 1 file changed, 1 insertion(+)
+ target/s390x/insn-data.def | 2 ++
+ target/s390x/translate.c   | 8 ++++++++
+ 2 files changed, 10 insertions(+)
 
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 13c4ffdaf5b3..bf18d8aaf43e 100644
+index bf18d8aaf43e..3322e5f2a504 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -669,6 +669,7 @@
- /* MULTIPLY HALFWORD */
-     C(0x4c00, MH,      RX_a,  Z,   r1_o, m2_16s, new, r1_32, mul, 0)
-     C(0xe37c, MHY,     RXY_a, GIE, r1_o, m2_16s, new, r1_32, mul, 0)
-+    C(0xe33c, MGH,     RXY_a, MIE2,r1_o, m2_16s, r1, 0, mul, 0)
- /* MULTIPLY HALFWORD IMMEDIATE */
-     C(0xa70c, MHI,     RI_a,  Z,   r1_o, i2, new, r1_32, mul, 0)
-     C(0xa70d, MGHI,    RI_a,  Z,   r1_o, i2, r1, 0, mul, 0)
+@@ -115,6 +115,8 @@
+ /* BRANCH RELATIVE AND SAVE */
+     C(0xa705, BRAS,    RI_b,  Z,   0, 0, r1, 0, basi, 0)
+     C(0xc005, BRASL,   RIL_b, Z,   0, 0, r1, 0, basi, 0)
++/* BRANCH INDIRECT ON CONDITION */
++    C(0xe347, BIC,     RXY_b, MIE2,0, m2_64w, 0, 0, bc, 0)
+ /* BRANCH ON CONDITION */
+     C(0x0700, BCR,     RR_b,  Z,   0, r2_nz, 0, 0, bc, 0)
+     C(0x4700, BC,      RX_b,  Z,   0, a2, 0, 0, bc, 0)
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 66a3693d128c..27fb7af8fb1c 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -5956,6 +5956,14 @@ static void in2_m2_64(DisasContext *s, DisasOps *o)
+ }
+ #define SPEC_in2_m2_64 0
+ 
++static void in2_m2_64w(DisasContext *s, DisasOps *o)
++{
++    in2_a2(s, o);
++    tcg_gen_qemu_ld64(o->in2, o->in2, get_mem_index(s));
++    gen_addi_and_wrap_i64(s, o->in2, o->in2, 0);
++}
++#define SPEC_in2_m2_64w 0
++
+ #ifndef CONFIG_USER_ONLY
+ static void in2_m2_64a(DisasContext *s, DisasOps *o)
+ {
 -- 
 2.25.4
 
