@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A18E281964
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:37:42 +0200 (CEST)
-Received: from localhost ([::1]:32770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CCE2819E0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 19:41:17 +0200 (CEST)
+Received: from localhost ([::1]:38910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOP01-0001iB-J0
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44970)
+	id 1kOP3U-0004Xs-9H
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 13:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyS-0000Nj-Lj
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:04 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37325)
+ id 1kOOyT-0000Ok-DT
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:05 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kOOyQ-0003Iz-Ly
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:04 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z4so2681670wrr.4
- for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:36:02 -0700 (PDT)
+ id 1kOOyR-0003J9-FP
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 13:36:05 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id o5so2658235wrn.13
+ for <qemu-devel@nongnu.org>; Fri, 02 Oct 2020 10:36:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n/8ETOZvvibYNeWstHPm4Svp3CtDHbXvNRVqHpTs9/k=;
- b=KwyE2jldr5QD4IC5sX3hUkfZSuZsrL5GHhBCsWMjgPFlj3fMCzohrd0pmM1QroqJSa
- TIgw9MHJwowqMG3o+cUYBJiEVY8/PAqYW452dVBPqIaa7rXFqPw11GwfpVJbquHy7DQX
- vUNZycp9ZwLbmwK+04vo/F+7/qvaAEDrBZ6uas4gMKldRaPEAhUBPQfSMxu+0StgFOaj
- eNWC5xbnQatpswqP7ergFEknTeFoRQf2aK3iPXt3iqg9Q0Dr3L7CiN0CyZ8i1a+8cC6Q
- U7dFu92qWUsiesD7COIX6FTFulu3D54eWfDrEZhsruVgG6PBVLIk2QOWCWC7+knqSp+N
- ZKyw==
+ bh=7jnEPHNQolXrIggvM1boO0VCWcKwcGVqxDfZAb/xQC0=;
+ b=MNOEfMNrHRG/VRSQki1fA3bHhSb5YxxMfhWtcTXxUkB0l4Fx+Yg3NOeC+RRNIE3xiC
+ +GR4vWeSqdcBaATJFC32/nxuZTtr3MgR1sd4+V3jKULrWAePvSGdivWVYczFOh1ZzeEX
+ gpJ/qsvjGSh6Dx8A4buL9ecoXiKZ/4qe71mw1Ku+dwg7cWGiDe+AxOO+WsoaG+d/Zcoa
+ YSLowmp8GTGHcXwodM6NMEhiLPW3TZaSuXguwuAzUmI0Vr+MIRKrvut7d13nSeCtYJlm
+ HlYU/S+SRUDj5Gdf2a6jHbfIoJ3loWyhNgL+5r4ihDAiuZWCg3fCkxXEperZW7AltsqU
+ zKtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n/8ETOZvvibYNeWstHPm4Svp3CtDHbXvNRVqHpTs9/k=;
- b=CfHyyruoO8e5yWpp2eBkTLWLk1HxXM0cGr7jPpZvGReM00GAa+eGaHWBQR271XMeHp
- hIFnJlzMblLMGf8Cgw484gJWYgsQ0FI5i3rwAwGa/SkVHq6Jg46w4n0/Y06xkX7t7JJt
- Uw/6aDSe+Pkkk7WaVsC7eF+eLM7Lr+t/d6j1ONH1YWU8uEKq82iNVjK6ZxPqglm9VGKc
- tTrbzclNWhh78lBZJTrCkoQl5GxGNTEa6GL9UwepeJQ8weNMspW824thvEGEtou/NysF
- UjlNVjZ4za8tZhl99/CYh2B7jyDoc64jno7dRlVubpbvaNhZNPH6WEJR1+OZkAUuOq5z
- UuZA==
-X-Gm-Message-State: AOAM531d5VvkY3t0rp01XFcVMMD49aMgock/n9Zllg385oisW+kYLiwo
- auV/0AL9aaEwvc65y+Co9pP0xSzRxvc=
-X-Google-Smtp-Source: ABdhPJx8gNEJDh1Ywe8L2zkjxl6pr7ZGXc3V8SwaOCKXOwsv6OBnsAYUFMrddLxLhcdc8xrsmnLBIA==
-X-Received: by 2002:adf:cd05:: with SMTP id w5mr4262387wrm.62.1601660160880;
- Fri, 02 Oct 2020 10:36:00 -0700 (PDT)
+ bh=7jnEPHNQolXrIggvM1boO0VCWcKwcGVqxDfZAb/xQC0=;
+ b=l0SLsWRVefroXUS0QlDl6qHaJDg680gkMZ0RwMRAyLnwVf6XsAvSC6oz2ozCy65Btx
+ tKgqREQ8hm75YyFYyG1yuKY2yVVBxAEDiwSlpPOYe2cGRMhHK1xjM1Xr4RrCun8I6N5E
+ 3DiX59zZI560yGpR1EoIHrfyNiTCzrtreNhxcCWtT4BmYbZumpo4JT4iKTXq1KbDfsTj
+ vVP+MpKte3LDt9rUcZWpSkVaBNStBDBMg2TcRUtV+AwfUFVDXilHCFyUOzJhaugYOM3f
+ NHc68y4dNQfBfIYO2W2Dhqq4SXpR8DUcxPM03xBDPAKJDo9U/DEHY/yZQPLHxGZ24uMB
+ k4BA==
+X-Gm-Message-State: AOAM531Cm9bWt0w97l6y+kz75bTciTMIi8+uqu3IjQxMZR75BcAG7XBJ
+ Ozhc7m8+UxiBLAHTdF7p2pVsPeqNa2U=
+X-Google-Smtp-Source: ABdhPJxlZzkfreGBj0je2cBHtA4UrHf0ggRr2S+ZSEgdxRZ9nKD6V5/w9PTGoXdeO8jNEfTywOS+FA==
+X-Received: by 2002:adf:df87:: with SMTP id z7mr4375399wrl.239.1601660161856; 
+ Fri, 02 Oct 2020 10:36:01 -0700 (PDT)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:47e0:e742:75ba:b84d])
  by smtp.gmail.com with ESMTPSA id
  l8sm2516454wrx.22.2020.10.02.10.36.00 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 10:36:00 -0700 (PDT)
+ Fri, 02 Oct 2020 10:36:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/10] qdev: add "check if address free" callback for buses
-Date: Fri,  2 Oct 2020 19:35:49 +0200
-Message-Id: <20201002173558.232960-2-pbonzini@redhat.com>
+Subject: [PATCH v6 02/10] scsi: switch to bus->check_address
+Date: Fri,  2 Oct 2020 19:35:50 +0200
+Message-Id: <20201002173558.232960-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201002173558.232960-1-pbonzini@redhat.com>
 References: <20201002173558.232960-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -89,139 +89,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check if an address is free on the bus before plugging in the
-device.  This makes it possible to do the check without any
-side effects, and to detect the problem early without having
-to do it in the realize callback.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/qdev.c         | 17 +++++++++++++++--
- hw/net/virtio-net.c    |  2 +-
- hw/sd/core.c           |  3 ++-
- include/hw/qdev-core.h | 13 ++++++++++++-
- 4 files changed, 30 insertions(+), 5 deletions(-)
+ hw/scsi/scsi-bus.c | 122 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 75 insertions(+), 47 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 96772a15bd..74db78df36 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -94,13 +94,23 @@ static void bus_add_child(BusState *bus, DeviceState *child)
-                              0);
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 3284a5d1fb..94921c04b1 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -22,33 +22,6 @@ static void scsi_req_dequeue(SCSIRequest *req);
+ static uint8_t *scsi_target_alloc_buf(SCSIRequest *req, size_t len);
+ static void scsi_target_free_buf(SCSIRequest *req);
+ 
+-static Property scsi_props[] = {
+-    DEFINE_PROP_UINT32("channel", SCSIDevice, channel, 0),
+-    DEFINE_PROP_UINT32("scsi-id", SCSIDevice, id, -1),
+-    DEFINE_PROP_UINT32("lun", SCSIDevice, lun, -1),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+-static void scsi_bus_class_init(ObjectClass *klass, void *data)
+-{
+-    BusClass *k = BUS_CLASS(klass);
+-    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
+-
+-    k->get_dev_path = scsibus_get_dev_path;
+-    k->get_fw_dev_path = scsibus_get_fw_dev_path;
+-    hc->unplug = qdev_simple_device_unplug_cb;
+-}
+-
+-static const TypeInfo scsi_bus_info = {
+-    .name = TYPE_SCSI_BUS,
+-    .parent = TYPE_BUS,
+-    .instance_size = sizeof(SCSIBus),
+-    .class_init = scsi_bus_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { TYPE_HOTPLUG_HANDLER },
+-        { }
+-    }
+-};
+ static int next_scsi_bus;
+ 
+ static void scsi_device_realize(SCSIDevice *s, Error **errp)
+@@ -160,35 +133,68 @@ static void scsi_dma_restart_cb(void *opaque, int running, RunState state)
+     }
  }
  
--void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
-+static bool bus_check_address(BusState *bus, DeviceState *child, Error **errp)
+-static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
++static bool scsi_bus_is_address_free(SCSIBus *bus,
++				     int channel, int target, int lun,
++				     SCSIDevice **p_dev)
 +{
-+    BusClass *bc = BUS_GET_CLASS(bus);
-+    return !bc->check_address || bc->check_address(bus, child, errp);
++    SCSIDevice *d = scsi_device_find(bus, channel, target, lun);
++    if (d && d->lun == lun) {
++        if (p_dev) {
++            *p_dev = d;
++        }
++        return false;
++    }
++    if (p_dev) {
++        *p_dev = NULL;
++    }
++    return true;
 +}
 +
-+bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
++static bool scsi_bus_check_address(BusState *qbus, DeviceState *qdev, Error **errp)
  {
-     BusState *old_parent_bus = dev->parent_bus;
-     DeviceClass *dc = DEVICE_GET_CLASS(dev);
+     SCSIDevice *dev = SCSI_DEVICE(qdev);
+-    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
+-    SCSIDevice *d;
+-    Error *local_err = NULL;
++    SCSIBus *bus = SCSI_BUS(qbus);
  
-     assert(dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type));
- 
-+    if (!bus_check_address(bus, dev, errp)) {
+     if (dev->channel > bus->info->max_channel) {
+         error_setg(errp, "bad scsi channel id: %d", dev->channel);
+-        return;
++        return false;
+     }
+     if (dev->id != -1 && dev->id > bus->info->max_target) {
+         error_setg(errp, "bad scsi device id: %d", dev->id);
+-        return;
++        return false;
+     }
+     if (dev->lun != -1 && dev->lun > bus->info->max_lun) {
+         error_setg(errp, "bad scsi device lun: %d", dev->lun);
+-        return;
 +        return false;
 +    }
 +
-     if (old_parent_bus) {
-         trace_qdev_update_parent_bus(dev, object_get_typename(OBJECT(dev)),
-             old_parent_bus, object_get_typename(OBJECT(old_parent_bus)),
-@@ -126,6 +136,7 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
-         object_unref(OBJECT(old_parent_bus));
-         object_unref(OBJECT(dev));
-     }
-+    return true;
- }
- 
- DeviceState *qdev_new(const char *name)
-@@ -371,7 +382,9 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
-     assert(!dev->realized && !dev->parent_bus);
- 
-     if (bus) {
--        qdev_set_parent_bus(dev, bus);
-+        if (!qdev_set_parent_bus(dev, bus, errp)) {
++    if (dev->id != -1 && dev->lun != -1) {
++        SCSIDevice *d;
++        if (!scsi_bus_is_address_free(bus, dev->channel, dev->id, dev->lun, &d)) {
++            error_setg(errp, "lun already used by '%s'", d->qdev.id);
 +            return false;
 +        }
-     } else {
-         assert(!DEVICE_GET_CLASS(dev)->bus_type);
      }
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 7bf27b9db7..268cecc498 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3142,7 +3142,7 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
-         error_setg(errp, "virtio_net: couldn't find primary bus");
-         return false;
+ 
++    return true;
++}
++
++static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
++{
++    SCSIDevice *dev = SCSI_DEVICE(qdev);
++    SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
++    bool is_free;
++    Error *local_err = NULL;
++
+     if (dev->id == -1) {
+         int id = -1;
+         if (dev->lun == -1) {
+             dev->lun = 0;
+         }
+         do {
+-            d = scsi_device_find(bus, dev->channel, ++id, dev->lun);
+-        } while (d && d->lun == dev->lun && id < bus->info->max_target);
+-        if (d && d->lun == dev->lun) {
++            is_free = scsi_bus_is_address_free(bus, dev->channel, ++id, dev->lun, NULL);
++        } while (!is_free && id < bus->info->max_target);
++        if (!is_free) {
+             error_setg(errp, "no free target");
+             return;
+         }
+@@ -196,20 +202,13 @@ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+     } else if (dev->lun == -1) {
+         int lun = -1;
+         do {
+-            d = scsi_device_find(bus, dev->channel, dev->id, ++lun);
+-        } while (d && d->lun == lun && lun < bus->info->max_lun);
+-        if (d && d->lun == lun) {
++            is_free = scsi_bus_is_address_free(bus, dev->channel, dev->id, ++lun, NULL);
++        } while (!is_free && lun < bus->info->max_lun);
++        if (!is_free) {
+             error_setg(errp, "no free lun");
+             return;
+         }
+         dev->lun = lun;
+-    } else {
+-        d = scsi_device_find(bus, dev->channel, dev->id, dev->lun);
+-        assert(d);
+-        if (d->lun == dev->lun && dev != d) {
+-            error_setg(errp, "lun already used by '%s'", d->qdev.id);
+-            return;
+-        }
      }
--    qdev_set_parent_bus(n->primary_dev, n->primary_bus);
-+    qdev_set_parent_bus(n->primary_dev, n->primary_bus, &error_abort);
-     n->primary_should_be_hidden = false;
-     if (!qemu_opt_set_bool(n->primary_device_opts,
-                            "partially_hotplugged", true, errp)) {
-diff --git a/hw/sd/core.c b/hw/sd/core.c
-index 957d116f1a..08c93b5903 100644
---- a/hw/sd/core.c
-+++ b/hw/sd/core.c
-@@ -23,6 +23,7 @@
- #include "hw/qdev-core.h"
- #include "hw/sd/sd.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- #include "trace.h"
  
- static inline const char *sdbus_name(SDBus *sdbus)
-@@ -240,7 +241,7 @@ void sdbus_reparent_card(SDBus *from, SDBus *to)
-     readonly = sc->get_readonly(card);
+     QTAILQ_INIT(&dev->requests);
+@@ -1709,6 +1708,13 @@ const VMStateDescription vmstate_scsi_device = {
+     }
+ };
  
-     sdbus_set_inserted(from, false);
--    qdev_set_parent_bus(DEVICE(card), &to->qbus);
-+    qdev_set_parent_bus(DEVICE(card), &to->qbus, &error_abort);
-     sdbus_set_inserted(to, true);
-     sdbus_set_readonly(to, readonly);
- }
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 72064f4dd4..14d476c587 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -210,13 +210,24 @@ struct BusClass {
-     /* FIXME first arg should be BusState */
-     void (*print_dev)(Monitor *mon, DeviceState *dev, int indent);
-     char *(*get_dev_path)(DeviceState *dev);
++static Property scsi_props[] = {
++    DEFINE_PROP_UINT32("channel", SCSIDevice, channel, 0),
++    DEFINE_PROP_UINT32("scsi-id", SCSIDevice, id, -1),
++    DEFINE_PROP_UINT32("lun", SCSIDevice, lun, -1),
++    DEFINE_PROP_END_OF_LIST(),
++};
 +
-     /*
-      * This callback is used to create Open Firmware device path in accordance
-      * with OF spec http://forthworks.com/standards/of1275.pdf. Individual bus
-      * bindings can be found at http://playground.sun.com/1275/bindings/.
-      */
-     char *(*get_fw_dev_path)(DeviceState *dev);
-+
-     void (*reset)(BusState *bus);
-+
-+    /*
-+     * Return whether the device can be added to @bus,
-+     * based on the address that was set (via device properties)
-+     * before realize.  If not, on return @errp contains the
-+     * human-readable error message.
-+     */
-+    bool (*check_address)(BusState *bus, DeviceState *dev, Error **errp);
-+
-     BusRealize realize;
-     BusUnrealize unrealize;
+ static void scsi_device_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *k = DEVICE_CLASS(klass);
+@@ -1739,6 +1745,28 @@ static const TypeInfo scsi_device_type_info = {
+     .instance_init = scsi_dev_instance_init,
+ };
  
-@@ -788,7 +799,7 @@ const char *qdev_fw_name(DeviceState *dev);
- Object *qdev_get_machine(void);
- 
- /* FIXME: make this a link<> */
--void qdev_set_parent_bus(DeviceState *dev, BusState *bus);
-+bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp);
- 
- extern bool qdev_hotplug;
- extern bool qdev_hot_removed;
++static void scsi_bus_class_init(ObjectClass *klass, void *data)
++{
++    BusClass *k = BUS_CLASS(klass);
++    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(klass);
++
++    k->get_dev_path = scsibus_get_dev_path;
++    k->get_fw_dev_path = scsibus_get_fw_dev_path;
++    k->check_address = scsi_bus_check_address;
++    hc->unplug = qdev_simple_device_unplug_cb;
++}
++
++static const TypeInfo scsi_bus_info = {
++    .name = TYPE_SCSI_BUS,
++    .parent = TYPE_BUS,
++    .instance_size = sizeof(SCSIBus),
++    .class_init = scsi_bus_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_HOTPLUG_HANDLER },
++        { }
++    }
++};
++
+ static void scsi_register_types(void)
+ {
+     type_register_static(&scsi_bus_info);
 -- 
 2.26.2
 
