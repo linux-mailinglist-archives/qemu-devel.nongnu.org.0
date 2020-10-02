@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C8B2813C8
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 15:13:18 +0200 (CEST)
-Received: from localhost ([::1]:60172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D986B2813DF
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Oct 2020 15:17:08 +0200 (CEST)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOKs9-0008Ob-Nh
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 09:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
+	id 1kOKvr-0002Wz-VY
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 09:17:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kOKqd-0007M1-Rg
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:11:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58027)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kOKty-0001aE-Nh
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:15:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kOKqb-0002dS-R3
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:11:43 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kOKtt-0002xJ-7p
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 09:15:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601644298;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9oehqfd3ClazrR1vxs14+nwqmCN/L3eV3EEC1DtsFoQ=;
- b=dF9uVpRKjFNWI+PybiiBRVnsyUSmRn1F0SZsnLx6O87gvyEpkyMRXGpl+qRkLyThMPOlZM
- sYezdw/DsBbq6fBNjBFTsEig3FkDl5P0pWYNpLEvzy3Uky32E+wkKDLQwaGICVwIu6RrPX
- XL1X2GkDWYpVEvtG6ENhtlzGhO5bs+I=
+ s=mimecast20190719; t=1601644504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=7Q2+Dg7abeldWpVMdz/K+uE/ec+umHQILXtvkjCFi5Y=;
+ b=UVt4YltwI81LMo0hTqMI0crxLYQ5/PaGy9/RgCK8+ukR00YPlm8xO3u5KX/GhtFpFLoqTZ
+ g/MZ7GSvkHXOX033inXJSqYOBlMFBSTVaIYIeoE9mxScV5SALKrlGKsl2tWvUqLpklYevw
+ UUuT3dqmlek/qAluU7OIyZGaws+yD/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-Z2jTlr6ZNQim89Nbj4Td8A-1; Fri, 02 Oct 2020 09:11:36 -0400
-X-MC-Unique: Z2jTlr6ZNQim89Nbj4Td8A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-41-AnxVtaU1O_yKgd6zhsBwNQ-1; Fri, 02 Oct 2020 09:14:58 -0400
+X-MC-Unique: AnxVtaU1O_yKgd6zhsBwNQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5712803659;
- Fri,  2 Oct 2020 13:11:34 +0000 (UTC)
-Received: from redhat.com (ovpn-114-9.ams2.redhat.com [10.36.114.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4824A5C1DA;
- Fri,  2 Oct 2020 13:11:33 +0000 (UTC)
-Date: Fri, 2 Oct 2020 14:11:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dan Streetman <ddstreet@canonical.com>
-Subject: Re: [PATCH] configure: actually disable 'git_update' mode with
- --disable-git-update
-Message-ID: <20201002131130.GB2338114@redhat.com>
-References: <e55fea6e-e403-166f-e693-9e73ae29e5cc@msgid.tls.msk.ru>
- <20200729195829.1335082-1-ddstreet@canonical.com>
- <20200922163441.GA2049853@redhat.com>
- <CAOZ2QJPsSTH4MStgduBGjhvaH-5-Tgj7-++qYLbSmQnqWQPpug@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04C681021215;
+ Fri,  2 Oct 2020 13:14:56 +0000 (UTC)
+Received: from localhost (ovpn-114-195.ams2.redhat.com [10.36.114.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BBC379981;
+ Fri,  2 Oct 2020 13:14:55 +0000 (UTC)
+Date: Fri, 2 Oct 2020 14:14:54 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org, kvm@vger.kernel.org
+Subject: Call for KVM Forum panel discussion topics
+Message-ID: <20201002131454.GB574544@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <CAOZ2QJPsSTH4MStgduBGjhvaH-5-Tgj7-++qYLbSmQnqWQPpug@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 01:13:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -87,67 +77,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Rafael David Tinoco <rafael.tinoco@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 30, 2020 at 09:28:54PM -0400, Dan Streetman wrote:
-> On Tue, Sep 22, 2020 at 12:34 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Wed, Jul 29, 2020 at 03:58:29PM -0400, Dan Streetman wrote:
-> > > The --disable-git-update configure param sets git_update=no, but
-> > > some later checks only look for the .git dir. This changes the
-> > > --enable-git-update to set git_update=yes but also fail if it
-> > > does not find a .git dir. Then all the later checks for the .git
-> > > dir can just be changed to a check for $git_update = "yes".
-> > >
-> > > Also update the Makefile to skip the 'git_update' checks if it has
-> > > been disabled.
-> > >
-> > > This is needed because downstream packagers, e.g. Debian, Ubuntu, etc,
-> > > also keep the source code in git, but do not want to enable the
-> > > 'git_update' mode; with the current code, that's not possible even
-> > > if the downstream package specifies --disable-git-update.
-> >
-> > Lets recap the original intended behaviour
-> >
-> >  1. User building from master qemu.git or a fork
-> >      a) git_update=yes (default)
-> >          - Always sync submodules to required commit
-> >
-> >      b) git_update=no  (--disable-git-update)
-> >          - Never sync submodules, user is responsible for sync
-> >          - Validate submodules are at correct commit and fail if not.
-> >
-> >  2. User building from tarball
-> >      - Never do anything git related at all
-> >
-> >
-> > Your change is removing the validation from  1.b).
-> 
-> Would you accept adding a --disable-git-submodules-check so downstream
-> packagers can keep the source in git, but avoid the submodule
-> validation?
+--cvVnyQ+4j833TQvp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-It feels like the current option shouldn't be a boolean, rather
-a tri-state    --with-git-submodules=[update|validate|ignore]
+Hi,
+You can post questions for the KVM Forum panel discussion until October
+13th:
+https://etherpad.opendev.org/p/KVMForum_2020_Panel
 
-> Or do you have another suggestion for handling this?
+The panel is a yearly session at KVM Forum for discussing technical and
+non-technical topics related to KVM, QEMU, and open source
+virtualization in general. The panelists are developers, managers,
+researchers, and others involved in open source virtualization.
 
-Assuming you're just using git for conveniently applying local
-downstream patches, you don't need the git repo to exist once
-getting to the build stage. IOW just delete the .git dir after
-applying patches before running a build.
+Questions and topics come from the community, so please participate!
 
+The panelists this year are:
+ * Susie Li - Software Engineering Director, Intel
+ * Hubertus Franke - Distinguished Research Staff Member, IBM
+ * David Kaplan - Fellow, AMD
+ * Peter Maydell - Principal Software Engineer, ARM
+ * Richard W.M. Jones - Senior Principal Software Engineer, Red Hat
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+The panel session is on Wednesday, October 28th at KVM Forum 2020:
+https://sched.co/eE2D
+
+Last year's session is available for watching here:
+https://www.youtube.com/watch?v=8lmiZeh-xC0
+
+Stefan
+
+--cvVnyQ+4j833TQvp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl93J84ACgkQnKSrs4Gr
+c8iCaAf9GnfOnphKYUzFCJewaJfQm8IRTWlC27e78ilSZxbQPylTK3yRvekVcHFb
+zQGy3/AnPcfjrYFMDpzY/T2ko7kp8tFiP+e1Kk8LzlaUlGuK5Y8rUp/Ws6LNNgM1
+l75cSEAi+JmbqCJjDPMQC1sObbHugDFpshSC+y2xQByYXXpbMKuZSB7I4YCkeJ61
+j5SmkFED821KHyVbjIXlTNDgTPXfw7g2RHcKXeNZHPhUtYrorsxMLbGJZArzcEgs
+R+LnU05zCr6CkjOFfBozT/iozww5OKXIDep/gJ3fFY7+3g0I1Vv78v5ysxIOpa0V
+5P1EFljNL8NJ/Har3Z2IxuAyg1qiiA==
+=R6LZ
+-----END PGP SIGNATURE-----
+
+--cvVnyQ+4j833TQvp--
 
 
