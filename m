@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06D52825B7
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 19:57:50 +0200 (CEST)
-Received: from localhost ([::1]:52908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42E22825B9
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 19:59:35 +0200 (CEST)
+Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOln3-0005Rv-Nu
-	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 13:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
+	id 1kOlok-0007Vf-Se
+	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 13:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOllQ-0004Zt-02
- for qemu-devel@nongnu.org; Sat, 03 Oct 2020 13:56:08 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34091)
+ id 1kOlmJ-0005JQ-Bi
+ for qemu-devel@nongnu.org; Sat, 03 Oct 2020 13:57:03 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOllO-000523-8s
- for qemu-devel@nongnu.org; Sat, 03 Oct 2020 13:56:07 -0400
-Received: by mail-wr1-x444.google.com with SMTP id t10so5232006wrv.1
- for <qemu-devel@nongnu.org>; Sat, 03 Oct 2020 10:56:05 -0700 (PDT)
+ id 1kOlmH-0005A8-Bn
+ for qemu-devel@nongnu.org; Sat, 03 Oct 2020 13:57:03 -0400
+Received: by mail-wm1-x341.google.com with SMTP id e2so4896157wme.1
+ for <qemu-devel@nongnu.org>; Sat, 03 Oct 2020 10:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PVrMD5bSIZeKuBg0Tot7BN24PM8CfVzFwvMeC136QJY=;
- b=lVU4lr2VH0sG2lfOzs20YHlD2sM3Z9gmAgoBi3lGpVCak1WsRRQNo2JlneNUacAoO4
- U8Eb8DZMBhK0JY4klw2NEUvINrwJvSQ4/NrUyhQ+/6cB3WgdCef8iVgjF/k8TJ6G/a15
- bHxTx329qk18Do9JTxjPSFiaYL8s1h/c6gH7nOmwhrv/N1d+cmLUFspmhCHha+dyDmp1
- 1oe7HpgFQe5L20wxWFz4Cw5SjUlRnuRDwIkRVGWdMiVJlnrsGEq3xsudKBNhyQx/We77
- WkWdcDc2t4Mee6gIHlW/gB9Rly7tG/Qrr9aaR9IZcTEYW8jA3ZTLOVfTFZIS9M8fvsHp
- fxmA==
+ bh=RnlEYWO9WLH+3LGtzlV6BcD0kb/RdJQD/qsXm6Q0F/w=;
+ b=NOhgiJJt7bQycQMMYjjwW9diTPFF/2uHD27xe44RNzdGVmf7gK4IUA/HirUis3U9rT
+ jWET4f5avSLQko/tXG6Hvx/QtHJPRQhym9kgG3TQ/1+f5avz6XqDUB+LyQMWIQ/5FASf
+ RvI/UcW+KBad2nhq0elR919i4qNd5U1/3lFbrUFgpjjfSQnCmt+VlQJw2yy2TdMprQqP
+ 8eVikqW/MPHOiBSQeMnLoo4rIfOfqqiSjbT31Xmuffpyg3ZCRMJUmye7t2BYadXvJXRN
+ OR8hpu/qzVYgJ69HC80Ij2irtN90/PB5gu8F0whJqaaJ8Vcx4s8JuOVhIlXDiv3Z52tW
+ sXCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PVrMD5bSIZeKuBg0Tot7BN24PM8CfVzFwvMeC136QJY=;
- b=Zk6aimxGnbdQiLuLLQQL9CzPl1ADxBr+bcnyUyY4xaklYfngQjEYndZKcZFuhNEnpk
- nT9CFHe9S4mjZo0kBTZGabrorVQTaTfyuvvwqqSTGCOjTAxpIuwn+wf11lYgAeFjklxy
- 5+fTKHlN5Hzlzg6JKEXj+BtvbpxlN5TVbX74RMsh61qpHIYtvLkos41ZF4m1cjTPY22t
- MswTsWoLt91FUiVG23Qd/scuFD1yEJFZfvgOGuTc6EEezN5F5gMoDCiYTk1wRudd4p12
- XUN0LHpWKtCyQBXfap9kDhXCzcIXT09L3astWLTFwo4ojzq7HC2BdaQsTezID477UhuR
- 6YjA==
-X-Gm-Message-State: AOAM5304WvPltZcfQi/2lzYM5Hac+TjGQEJxDZTz5TIi96erVhH1+qYd
- xNAs0zS2fWtx7ha9VSQNPvlYj4YfslY=
-X-Google-Smtp-Source: ABdhPJw7MYY0mDhxYxM1BGYAI6iqJ90cVgEkVK6N/XeT4QMx/5k8GRpUJFgYBHYN8KBNXB9TQ/OwjQ==
-X-Received: by 2002:a5d:6886:: with SMTP id h6mr9408689wru.374.1601747764871; 
- Sat, 03 Oct 2020 10:56:04 -0700 (PDT)
+ bh=RnlEYWO9WLH+3LGtzlV6BcD0kb/RdJQD/qsXm6Q0F/w=;
+ b=q4SUIGYQhiHGj+Aq9bq1fc1CaLO+q38jBWNoq1O/AVTvU8kDQTlR5XTMV/PrMYmKEM
+ TcYJWwK1GZHBqHZRiAnjkcT0lLPtIxVSa3muj6xFq1EQ/UwlxqQOjEHwBo+IALBxu8UN
+ vwAqbwpwz+TIodvoW5tJ6Fu8t3w1JJWe4XXyX9KY1haVouN8Du66+uTbyuAygiGH0T47
+ aLiyblnA7iDFO+xxFZbJ/vqZLua3vZjhqGGfnRva4PbKlUR4NbunjIWFb0t22JqRkRTq
+ cXq8EAlFp0D+5RfW96AMZ1XEZ5/0CsKpuL+fpGh23X90Dlo+bUKXtbjDAzREJeSbaaaZ
+ /Wag==
+X-Gm-Message-State: AOAM532P49pAS8jjpZlhWirf2qn3cMxRduGEk1lYYgcjTZldNZfnfwMK
+ Ho2jCNX3u9nlyio1A32EiF8=
+X-Google-Smtp-Source: ABdhPJwjJy2VbQ65wWOVlFvJrhpXlCGsT809TOH5dx6AMK7GvI5TpnrjcRDkUOFHWzaPQiQuM1LDSA==
+X-Received: by 2002:a1c:7f8b:: with SMTP id a133mr9204602wmd.155.1601747819383; 
+ Sat, 03 Oct 2020 10:56:59 -0700 (PDT)
 Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
  [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id t5sm6319506wrb.21.2020.10.03.10.56.04
+ by smtp.gmail.com with ESMTPSA id k6sm5873283wmi.1.2020.10.03.10.56.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Oct 2020 10:56:04 -0700 (PDT)
-Subject: Re: [PATCH 6/6] docs/devel/qom: Avoid long lines
+ Sat, 03 Oct 2020 10:56:58 -0700 (PDT)
+Subject: Re: [PATCH 1/6] qom: Fix DECLARE_*CHECKER documentation
 To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 References: <20201003025424.199291-1-ehabkost@redhat.com>
- <20201003025424.199291-7-ehabkost@redhat.com>
+ <20201003025424.199291-2-ehabkost@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <09310238-32b2-b570-56da-a9f8d550ab8d@amsat.org>
-Date: Sat, 3 Oct 2020 19:56:03 +0200
+Message-ID: <2be2a009-8fea-9bfd-9901-7d534930eb6c@amsat.org>
+Date: Sat, 3 Oct 2020 19:56:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201003025424.199291-7-ehabkost@redhat.com>
+In-Reply-To: <20201003025424.199291-2-ehabkost@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -19
@@ -97,51 +97,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/3/20 4:54 AM, Eduardo Habkost wrote:
-> Long code lines don't look good in the rendered documents, make
-> them shorter.
+> Correct copy/paste mistake in the DECLARE_INSTANCE_CHECKER and
+> DECLARE_CLASS_CHECKERS documentation.
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  include/qom/object.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 27aaa67e63f..e738dfc6744 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -170,7 +170,7 @@ struct Object
+>   * Direct usage of this macro should be avoided, and the complete
+>   * OBJECT_DECLARE_TYPE macro is recommended instead.
+>   *
+> - * This macro will provide the three standard type cast functions for a
+> + * This macro will provide the the instance type cast functions for a
 
+Using a single "the":
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-> ---
->  docs/devel/qom.rst | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-> index 0c610e20d62..42d0dc4f4da 100644
-> --- a/docs/devel/qom.rst
-> +++ b/docs/devel/qom.rst
-> @@ -284,7 +284,8 @@ in the header file:
->  .. code-block:: c
->     :caption: Declaring a simple type
->  
-> -   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-> +   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device,
-> +                              MY_DEVICE, DEVICE)
->  
->  This is equivalent to the following:
->  
-> @@ -360,7 +361,8 @@ This accepts an array of interface type names.
->  
->     OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
->                                        MY_DEVICE, DEVICE,
-> -                                      { TYPE_USER_CREATABLE }, { NULL })
-> +                                      { TYPE_USER_CREATABLE },
-> +                                      { NULL })
->  
->  If the type is not intended to be instantiated, then then
->  the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-> @@ -368,7 +370,8 @@ the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
->  .. code-block:: c
->     :caption: Defining a simple abstract type
->  
-> -   OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-> +   OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device,
-> +                               MY_DEVICE, DEVICE)
->  
->  
->  
+>   * QOM type.
+>   */
+>  #define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
+> @@ -187,7 +187,7 @@ struct Object
+>   * Direct usage of this macro should be avoided, and the complete
+>   * OBJECT_DECLARE_TYPE macro is recommended instead.
+>   *
+> - * This macro will provide the three standard type cast functions for a
+> + * This macro will provide the class type cast functions for a
+>   * QOM type.
+>   */
+>  #define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
 > 
 
 
