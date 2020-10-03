@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F62282096
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:43:41 +0200 (CEST)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA7B28209B
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:45:59 +0200 (CEST)
+Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOXWN-00049S-R4
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41850)
+	id 1kOXYc-0007WL-Jc
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXUN-0002R9-JQ
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44867)
+ id 1kOXUO-0002SV-7z
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXUL-0002gP-Vu
+ id 1kOXUM-0002hG-IZ
  for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601692893;
@@ -25,32 +25,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3VXfXRoELIFszkw+f0Ls5+aw7iUG5vmbgXIN3bdgSt0=;
- b=fbsWAjnrEm+Tpr6e6XyeoqOoeWz6bkXMR0picwRHks4iI7Eo0C6TYZFR79NPIsxcc8BrKX
- Wsw0TfiTrq5LQJf+3fbHDvSebw3mbjQEbJQfwLvul7ZflNOaH9R/e8RJJ5oA6Pt54siIpF
- 98B0d2P91fvFNXQsuy/fb1gm22s9k9o=
+ bh=atYry9IjcahoRsU1YtQbFarNI2d10/MZXv75Kg2GEnM=;
+ b=FJZf0oOsPvdwLRiHJ1TQhi5UGrseDNCqHgDDECXmzuiVsdtRV00gF4zM0VjzqJWgE0gbop
+ TT0G1vGHq5LFDo/SmCU5+8xJCJeXOlSuDXm/9fd0nwI8+ZrXVvlJAwHNoNqWduJbQgKWw6
+ L1I2wkBTKqc2TYJz7SUpR9bg4lF2j5I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-TWyXorWVNeyqRc23t3262g-1; Fri, 02 Oct 2020 22:41:31 -0400
-X-MC-Unique: TWyXorWVNeyqRc23t3262g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-36-n7yl1234OsmmrHnJAh2v0g-1; Fri, 02 Oct 2020 22:41:32 -0400
+X-MC-Unique: n7yl1234OsmmrHnJAh2v0g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 124191853DA5;
- Sat,  3 Oct 2020 02:41:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15E8E1005E64;
+ Sat,  3 Oct 2020 02:41:31 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCDD575261;
- Sat,  3 Oct 2020 02:41:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D618078482;
+ Sat,  3 Oct 2020 02:41:30 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] memory: Explicitly tag doc comments for structs
-Date: Fri,  2 Oct 2020 22:41:22 -0400
-Message-Id: <20201003024123.193840-5-ehabkost@redhat.com>
+Subject: [PATCH 5/5] kernel-doc: Remove $decl_type='type name' hack
+Date: Fri,  2 Oct 2020 22:41:23 -0400
+Message-Id: <20201003024123.193840-6-ehabkost@redhat.com>
 In-Reply-To: <20201003024123.193840-1-ehabkost@redhat.com>
 References: <20201003024123.193840-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,45 +87,50 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow us to remove the QEMU-specific
-$decl_type='type name' hack from the kernel-doc script.
+The $decl_type='type name' hack makes it impossible to document
+macros with uppercase names (e.g. most of the macros in
+object.h).
+
+Now that we have explicitly tagged the struct and typedef doc
+comments in memory.h and object.h, we don't need that hack
+anymore.  This will make the documentation for the macros in
+object.h finally be rendered as expected.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/exec/memory.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/kernel-doc | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index dee09851622..622207bde12 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -443,7 +443,7 @@ struct IOMMUMemoryRegion {
-     QLIST_FOREACH((n), &(mr)->iommu_notify, node)
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 57b911ff174..0ff62bb6a2d 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1064,14 +1064,6 @@ sub output_blockhead {
+ sub dump_declaration($$) {
+     no strict 'refs';
+     my ($prototype, $file) = @_;
+-    if ($decl_type eq 'type name') {
+-       if ($prototype =~ /^(enum|struct|union)\s+/) {
+-	   $decl_type = $1;
+-	} else {
+-	   return;
+-       }
+-    }
+-
+     my $func = "dump_" . $decl_type;
+     &$func(@_);
+ }
+@@ -1928,9 +1920,7 @@ sub process_name($$) {
+ 	    ++$warnings;
+ 	}
  
- /**
-- * MemoryListener: callbacks structure for updates to the physical memory map
-+ * struct MemoryListener: callbacks structure for updates to the physical memory map
-  *
-  * Allows a component to adjust to changes in the guest-visible memory map.
-  * Use with memory_listener_register() and memory_listener_unregister().
-@@ -681,7 +681,7 @@ struct MemoryListener {
- };
- 
- /**
-- * AddressSpace: describes a mapping of addresses to #MemoryRegion objects
-+ * struct AddressSpace: describes a mapping of addresses to #MemoryRegion objects
-  */
- struct AddressSpace {
-     /* private: */
-@@ -721,7 +721,7 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
- 
- 
- /**
-- * MemoryRegionSection: describes a fragment of a #MemoryRegion
-+ * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
-  *
-  * @mr: the region, or %NULL if empty
-  * @fv: the flat view of the address space the region is mapped in
+-	if ($identifier =~ m/^[A-Z]/) {
+-	    $decl_type = 'type name';
+-	} elsif ($identifier =~ m/^struct\b/) {
++	if ($identifier =~ m/^struct\b/) {
+ 	    $decl_type = 'struct';
+ 	} elsif ($identifier =~ m/^union\b/) {
+ 	    $decl_type = 'union';
 -- 
 2.26.2
 
