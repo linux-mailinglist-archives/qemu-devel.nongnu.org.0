@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3346C2822AB
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 10:52:31 +0200 (CEST)
-Received: from localhost ([::1]:52548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5D82822AA
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 10:52:30 +0200 (CEST)
+Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOdHK-0004T3-9j
-	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 04:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58990)
+	id 1kOdHJ-0004U5-MQ
+	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 04:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kOdFu-0003Av-7H
+ id 1kOdFu-0003BL-EV
  for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:51:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29931)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kOdFs-000439-5d
- for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:51:01 -0400
+ id 1kOdFt-00043L-0o
+ for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:51:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601715059;
+ s=mimecast20190719; t=1601715060;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=B0EEbOeWpIaNSLCsI3Ua5B6R36+5wfhjeByNHGUXgLM=;
- b=icUxN1BAALWJ8iPPWuyIyc1Il2a6rdAFgCCG5/BCTHVFmgUIqvScg5UExZW95gmYQ3bdZJ
- 51leydOMZkJd2Tw0B3cRF1qZxd2yInp5USTBoOOE7jveHya3d9Nc9HzIPOlnwPoX9r9oK3
- Vk+eeA6a899HJOskTYsgxyapKjVuzec=
+ bh=A/kTLf6UVEo5Spl/NJoPOw7jWcr9EG2BU1kmo3sCcQk=;
+ b=gVaZYQeGORlhklKZ9cdH6b9TS+BFlWB21mYWN7itm0Pc6wEFveZcYxvTl6n7xV8Iehba03
+ qe+PmFIz9kBjDWXWmdVobRZcVuvLpSHD6KxW9Y7JVeKZ2yobi2U5hUnSTXCYIekCMCtFhj
+ 0X4lmmpmMfYPqGMNG3C9lJ4kcUhU+As=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-zivi0WvzPt6o7AU8KSVpiQ-1; Sat, 03 Oct 2020 04:50:57 -0400
-X-MC-Unique: zivi0WvzPt6o7AU8KSVpiQ-1
+ us-mta-277-28q3EeNCM3KMOAoLRbaOYw-1; Sat, 03 Oct 2020 04:50:58 -0400
+X-MC-Unique: 28q3EeNCM3KMOAoLRbaOYw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9611B8030B4;
- Sat,  3 Oct 2020 08:50:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7C291007469;
+ Sat,  3 Oct 2020 08:50:57 +0000 (UTC)
 Received: from donizetti.redhat.com (ovpn-112-44.ams2.redhat.com
  [10.36.112.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB45E60C05;
- Sat,  3 Oct 2020 08:50:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3EE160C05;
+ Sat,  3 Oct 2020 08:50:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: tcg: do not use implicit rules
-Date: Sat,  3 Oct 2020 10:50:53 +0200
-Message-Id: <20201003085054.332992-1-pbonzini@redhat.com>
+Subject: [PATCH] dockerfiles: add diffutils to Fedora
+Date: Sat,  3 Oct 2020 10:50:54 +0200
+Message-Id: <20201003085054.332992-2-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -82,43 +82,26 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use pattern rules to clarify which targets are going to match the
-rule and to provide clearer error messages.
+For some reason diffutils is not included in the Fedora containers anymore,
+causing the build to fail.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/Makefile.include | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/docker/dockerfiles/fedora.docker | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 40d909badc..5aca98e60c 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -50,21 +50,21 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
- $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
- 	$(eval -include $(SRC_PATH)/tests/tcg/Makefile.prereqs))
- 
--build-tcg-tests-%: $(if $(CONFIG_PLUGIN),test-plugins)
-+$(BUILD_TCG_TARGET_RULES): build-tcg-tests-%: $(if $(CONFIG_PLUGIN),test-plugins)
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
- 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
- 		SRC_PATH=$(SRC_PATH) \
- 	       	V="$(V)" TARGET="$*" guest-tests, \
- 		"BUILD", "TCG tests for $*")
- 
--run-tcg-tests-%: build-tcg-tests-% all
-+$(RUN_TCG_TARGET_RULES): run-tcg-tests-%: build-tcg-tests-% all
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
- 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
- 		SRC_PATH=$(SRC_PATH) SPEED="$(SPEED)" \
- 		V="$(V)" TARGET="$*" run-guest-tests, \
- 		"RUN", "TCG tests for $*")
- 
--clean-tcg-tests-%:
-+$(CLEAN_TCG_TARGET_RULES): clean-tcg-tests-%:
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
- 		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
- 		SRC_PATH=$(SRC_PATH) TARGET="$*" clean-guest-tests, \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 71e4b56977..ec783418c8 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -11,6 +11,7 @@ ENV PACKAGES \
+     cyrus-sasl-devel \
+     dbus-daemon \
+     device-mapper-multipath-devel \
++    diffutils \
+     findutils \
+     gcc \
+     gcc-c++ \
 -- 
 2.26.2
 
