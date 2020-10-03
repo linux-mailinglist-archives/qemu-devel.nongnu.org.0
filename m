@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB27F282045
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:00:37 +0200 (CEST)
-Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCA4282098
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:44:56 +0200 (CEST)
+Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOWqi-0003Us-Pf
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:00:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37150)
+	id 1kOXXb-0006YW-GC
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kOWpO-00031m-SV
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 21:59:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56096)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kOXUK-0002OG-Ux
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kOWpN-0005jD-7f
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 21:59:14 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kOXUH-0002f8-UH
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601690352;
+ s=mimecast20190719; t=1601692888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YeOAtvvMPwaNHz/wYRORgCGMK3Ts1ggRda1sMGxGQFA=;
- b=V8kRsPg73mY1aqPTpDBNpne+w39tFhduFJHfFgXNot4K0HeIbJMSkXzY9C7HASfBjATxky
- kd2zArMfpU0lxSwHWQHum36FgTWSW5HwA2O43dXoG63Qf5gpBiRTPiYui9WdztAHnK5lm2
- k3XKZ/sQ/JOVM6DqXUZHOu88pPmbGvc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZYvgHcR2UjUfUAs9WJ2WnlOfWSXhEXeYDUaCe5V5gBU=;
+ b=VkIJvVFxif4w48vDOjQz6NTM1e493XxPJy7YmOm7AuWHR3W3b0KNYISIMMgE6tD+fAursI
+ Y5Wp1dDAzvpHifdp5gOwc/z7u0uBsk5iTPOdhxGoL8l1fh+0aer/IxDUxxo+NyLQbbbzWM
+ s+9HbkhY/gLKtMvlo77ZltRTv1AD2LY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-1nU4H7_uOzuVqsTeKAiepQ-1; Fri, 02 Oct 2020 21:59:08 -0400
-X-MC-Unique: 1nU4H7_uOzuVqsTeKAiepQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-477-ugnN8MHEMTS1wXp0uN_qsA-1; Fri, 02 Oct 2020 22:41:26 -0400
+X-MC-Unique: ugnN8MHEMTS1wXp0uN_qsA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5F4E107464A;
- Sat,  3 Oct 2020 01:59:06 +0000 (UTC)
-Received: from [10.72.12.21] (ovpn-12-21.pek2.redhat.com [10.72.12.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3FDA5577C;
- Sat,  3 Oct 2020 01:59:00 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] vhost: Don't call log_access_ok() when using IOTLB
-To: Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <160139701999.162128.2399875915342200263.stgit@bahia.lan>
- <160139704424.162128.7839027287942194310.stgit@bahia.lan>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d9dae1ed-49a4-909a-6840-ae46a4ffdffc@redhat.com>
-Date: Sat, 3 Oct 2020 09:58:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2536A107464C;
+ Sat,  3 Oct 2020 02:41:25 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD4D95D9D3;
+ Sat,  3 Oct 2020 02:41:24 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] kernel-doc ixes
+Date: Fri,  2 Oct 2020 22:41:18 -0400
+Message-Id: <20201003024123.193840-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <160139704424.162128.7839027287942194310.stgit@bahia.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 21:59:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,91 +77,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, netdev@vger.kernel.org,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/9/30 上午12:30, Greg Kurz wrote:
-> When the IOTLB device is enabled, the log_guest_addr that is passed by
-> userspace to the VHOST_SET_VRING_ADDR ioctl, and which is then written
-> to vq->log_addr, is a GIOVA. All writes to this address are translated
-> by log_user() to writes to an HVA, and then ultimately logged through
-> the corresponding GPAs in log_write_hva(). No logging will ever occur
-> with vq->log_addr in this case. It is thus wrong to pass vq->log_addr
-> and log_guest_addr to log_access_vq() which assumes they are actual
-> GPAs.
->
-> Introduce a new vq_log_used_access_ok() helper that only checks accesses
-> to the log for the used structure when there isn't an IOTLB device around.
->
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->   drivers/vhost/vhost.c |   23 +++++++++++++++++++----
->   1 file changed, 19 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
-> index c3b49975dc28..5996e32fa818 100644
-> --- a/drivers/vhost/vhost.c
-> +++ b/drivers/vhost/vhost.c
-> @@ -1370,6 +1370,20 @@ bool vhost_log_access_ok(struct vhost_dev *dev)
->   }
->   EXPORT_SYMBOL_GPL(vhost_log_access_ok);
->   
-> +static bool vq_log_used_access_ok(struct vhost_virtqueue *vq,
-> +				  void __user *log_base,
-> +				  bool log_used,
-> +				  u64 log_addr,
-> +				  size_t log_size)
-> +{
-> +	/* If an IOTLB device is present, log_addr is a GIOVA that
-> +	 * will never be logged by log_used(). */
-> +	if (vq->iotlb)
-> +		return true;
-> +
-> +	return !log_used || log_access_ok(log_base, log_addr, log_size);
-> +}
-> +
->   /* Verify access for write logging. */
->   /* Caller should have vq mutex and device mutex */
->   static bool vq_log_access_ok(struct vhost_virtqueue *vq,
-> @@ -1377,8 +1391,8 @@ static bool vq_log_access_ok(struct vhost_virtqueue *vq,
->   {
->   	return vq_memory_access_ok(log_base, vq->umem,
->   				   vhost_has_feature(vq, VHOST_F_LOG_ALL)) &&
-> -		(!vq->log_used || log_access_ok(log_base, vq->log_addr,
-> -				  vhost_get_used_size(vq, vq->num)));
-> +		vq_log_used_access_ok(vq, log_base, vq->log_used, vq->log_addr,
-> +				      vhost_get_used_size(vq, vq->num));
->   }
->   
->   /* Can we start vq? */
-> @@ -1517,8 +1531,9 @@ static long vhost_vring_set_addr(struct vhost_dev *d,
->   			return -EINVAL;
->   
->   		/* Also validate log access for used ring if enabled. */
-> -		if ((a.flags & (0x1 << VHOST_VRING_F_LOG)) &&
-> -			!log_access_ok(vq->log_base, a.log_guest_addr,
-> +		if (!vq_log_used_access_ok(vq, vq->log_base,
-> +				a.flags & (0x1 << VHOST_VRING_F_LOG),
-> +				a.log_guest_addr,
->   				sizeof *vq->used +
->   				vq->num * sizeof *vq->used->ring))
-
-
-It looks to me that we should use vhost_get_used_size() which takes 
-event into account.
-
-Any reason that we can't reuse vq_log_access_ok() here?
-
-Thanks
-
-
->   			return -EINVAL;
->
->
+Among other fixes in kernel-doc, this series get rid of=0D
+QEMU-specific $decl_type=3D'type name' hack in kernel-doc, because=0D
+it made it impossible to document macros with names starting with=0D
+uppercase letters (like most of the macros at qom/object.h).=0D
+=0D
+Eduardo Habkost (5):=0D
+  kernel-doc: Handle function typedefs that return pointers=0D
+  kernel-doc: Handle function typedefs without asterisks=0D
+  qom: Explicitly tag doc comments for typedefs and structs=0D
+  memory: Explicitly tag doc comments for structs=0D
+  kernel-doc: Remove $decl_type=3D'type name' hack=0D
+=0D
+ include/exec/memory.h |  6 +++---=0D
+ include/qom/object.h  | 22 +++++++++++-----------=0D
+ scripts/kernel-doc    | 16 +++-------------=0D
+ 3 files changed, 17 insertions(+), 27 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
