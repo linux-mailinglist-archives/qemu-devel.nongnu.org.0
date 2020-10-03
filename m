@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF942820B0
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:58:28 +0200 (CEST)
-Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE5528219B
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 07:31:48 +0200 (CEST)
+Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOXkh-00055m-UG
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43292)
+	id 1kOa95-0001KD-4J
+	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 01:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXh1-0000KV-Fp
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXgz-0006mG-56
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601693676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RryN1wuq1e+u90CZe8CDcWYJr0/T0Z9OK10DU4F2D1g=;
- b=Za+Y7xCyfuxdffgKNMxlZOiR3d8LKqKM9I2BxqRtszIU9+QJrKFouEzzGb9vLjt+eewIDv
- DwBsEN7d5hlPDJ8nAgClOwlEJDik4exLgKIdmm2Hrnj8LS+COmedQeo5pkj/sWrVBP/Xnp
- xImXrreWpaX4nmQg5aK8KCgWD4Rmje8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-amRCrFUvNPeU4TzEHSvLqA-1; Fri, 02 Oct 2020 22:54:34 -0400
-X-MC-Unique: amRCrFUvNPeU4TzEHSvLqA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3AD880ED8E
- for <qemu-devel@nongnu.org>; Sat,  3 Oct 2020 02:54:33 +0000 (UTC)
-Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 783231002C00;
- Sat,  3 Oct 2020 02:54:33 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] docs/devel/qom: Avoid long lines
-Date: Fri,  2 Oct 2020 22:54:24 -0400
-Message-Id: <20201003025424.199291-7-ehabkost@redhat.com>
-In-Reply-To: <20201003025424.199291-1-ehabkost@redhat.com>
-References: <20201003025424.199291-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kOa7z-0000hY-1i; Sat, 03 Oct 2020 01:30:39 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39151)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
+ id 1kOa7x-0000JN-A0; Sat, 03 Oct 2020 01:30:38 -0400
+Received: by mail-ot1-x343.google.com with SMTP id u25so3544914otq.6;
+ Fri, 02 Oct 2020 22:30:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+TBwnHhyO6rYGo/JS6j684wdk4x4F9+47Qp1eAYpAII=;
+ b=ZTkNMBw4YyBVO4sSsLaBBhNxIHpvjTAfMVJM9fbpYLcuvuIwWyPIwAciGvtbIdzTl3
+ sWSyKiUbFtp3muL4MoA1442ib7tiNtu/ffMQC5CmPtUPhlJ+XZdbRt8wwy7sNkI6XCyJ
+ r/NQAkUWB2H+bZf4AWuV/4ulz4hwH7JGPpF48ahdQ4ej29vUAAd+X4WAWKPuxQ9LabNd
+ tL+OG1WDKqTx73Z7Yjmg0AB3XGosjDax5SyXZRJcbpVGkjFhmN2IyFU51+BuGSDQFoEd
+ buP3gtPAwWqVIzspxWrdsvqYAbfaPmxeVMIdTbDgfE60WRDZdkIbhqvSLAddF2zGEj6b
+ 69Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+TBwnHhyO6rYGo/JS6j684wdk4x4F9+47Qp1eAYpAII=;
+ b=m0vQSHVqGGBgj9HSJgiWuIn3nH226uMyolYNEIziafywcSavfdGD1NiaWfmKDnZnF8
+ jRtuWb8nUGV4eQDg1hawJdXleqM4EBzdz3R1KKn/cHb1re7HaLiqjsHq/VzgohwOhvbc
+ S4J8Amdw8N3L34QXKwpsMqUOSFml3myneZfSZy3CJ9WEaXYYTQkg2PgYuShqaTgMOubV
+ ADnepCrpDKxTQhQJQg9wA1Zt2zD7xHEkmJLP7DxQQORWN43HV9gfHDsWsdskeEVvM52e
+ 2DgjhV5DVfyPI8I8Jxtgp8tpb/cIzQ0/FHEb2JiwZ3zjgg+PJr0B8HGDEsbTbF7RnQu+
+ rbTA==
+X-Gm-Message-State: AOAM530looFbdDYGrSg4FK/Hjalzmeq+VtXypzDemlwwljF6Xoy9btQZ
+ HeJS3yNDHiScJMTgLc2KWS6O+6XppgWYvs2ArLg=
+X-Google-Smtp-Source: ABdhPJyKfJzjlwqI2W8rVRsFf/u1SSrz0OnjiD0qoCmUUEtJKX6gQLIci4JgBxbDalNVSKbnB4gqF7/ai0s+nj7ZSX8=
+X-Received: by 2002:a05:6830:1187:: with SMTP id
+ u7mr4084711otq.181.1601703035134; 
+ Fri, 02 Oct 2020 22:30:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 21:51:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <160165476743.57452.2128307974125615413.stgit@bahia.lan>
+In-Reply-To: <160165476743.57452.2128307974125615413.stgit@bahia.lan>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Sat, 3 Oct 2020 13:29:59 +0800
+Message-ID: <CAKXe6SKC2aBuGUCrqg73VpiMVY3US8tvq9CbOxy71pFKcYok-Q@mail.gmail.com>
+Subject: Re: [PATCH] hw/acpi/piix4: Rename piix4_pm_add_propeties() to
+ piix4_pm_add_properties()
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,55 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-trivial@nongnu.org, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Long code lines don't look good in the rendered documents, make
-them shorter.
+Greg Kurz <groug@kaod.org> =E4=BA=8E2020=E5=B9=B410=E6=9C=883=E6=97=A5=E5=
+=91=A8=E5=85=AD =E4=B8=8A=E5=8D=8812:07=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- docs/devel/qom.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
-diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-index 0c610e20d62..42d0dc4f4da 100644
---- a/docs/devel/qom.rst
-+++ b/docs/devel/qom.rst
-@@ -284,7 +284,8 @@ in the header file:
- .. code-block:: c
-    :caption: Declaring a simple type
- 
--   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device,
-+                              MY_DEVICE, DEVICE)
- 
- This is equivalent to the following:
- 
-@@ -360,7 +361,8 @@ This accepts an array of interface type names.
- 
-    OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
-                                       MY_DEVICE, DEVICE,
--                                      { TYPE_USER_CREATABLE }, { NULL })
-+                                      { TYPE_USER_CREATABLE },
-+                                      { NULL })
- 
- If the type is not intended to be instantiated, then then
- the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-@@ -368,7 +370,8 @@ the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
- .. code-block:: c
-    :caption: Defining a simple abstract type
- 
--   OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device,
-+                               MY_DEVICE, DEVICE)
- 
- 
- 
--- 
-2.26.2
-
+> ---
+>  hw/acpi/piix4.c |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 894d357f8c35..67a1ea41914f 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -437,7 +437,7 @@ static void piix4_pm_machine_ready(Notifier *n, void =
+*opaque)
+>          (memory_region_present(io_as, 0x2f8) ? 0x90 : 0);
+>  }
+>
+> -static void piix4_pm_add_propeties(PIIX4PMState *s)
+> +static void piix4_pm_add_properties(PIIX4PMState *s)
+>  {
+>      static const uint8_t acpi_enable_cmd =3D ACPI_ENABLE;
+>      static const uint8_t acpi_disable_cmd =3D ACPI_DISABLE;
+> @@ -509,7 +509,7 @@ static void piix4_pm_realize(PCIDevice *dev, Error **=
+errp)
+>                                     pci_get_bus(dev), s);
+>      qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
+>
+> -    piix4_pm_add_propeties(s);
+> +    piix4_pm_add_properties(s);
+>  }
+>
+>  I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+>
+>
+>
 
