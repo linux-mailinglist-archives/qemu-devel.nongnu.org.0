@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9148528227F
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 10:31:50 +0200 (CEST)
-Received: from localhost ([::1]:59448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF6E2822A2
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 10:47:21 +0200 (CEST)
+Received: from localhost ([::1]:41388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOcxJ-00038I-Kk
-	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 04:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
+	id 1kOdCK-00089A-DZ
+	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 04:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kOcvi-0002bu-A7
- for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:30:11 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:46415)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kOdAl-0007LQ-Ed
+ for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:45:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kOcvf-0001nt-6H
- for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:30:10 -0400
-Received: by mail-lf1-x144.google.com with SMTP id b22so4709820lfs.13
- for <qemu-devel@nongnu.org>; Sat, 03 Oct 2020 01:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=mpbq4+1BiPHRAqlukHo0ieFtAtZZh97DqXDDYN5cG/Y=;
- b=GxhkawkiO1/tK/ftfxbPaKUuPIp8TtKdEKWkzsu4FR7TiHSbUjTWfO7YIeNG+c9/sI
- pUv3qz4ANhIBRGkayLSQVd1WhH0a6gvprUcrxhg2SyXhmMrIvbsBDlPiW0dTN7Prbcor
- cYmsvHGOSCANiv3L+tp2UKkE9Pd0IVXKF/yv76M6CZI1vz9utIQ8CogiL3oRydT0CsKz
- 39REsbpWh/w8j1j5OhrsaqFHzo3Hzg3vBvlRCzLMMBDuSSxF5F9TqPZH3R/aPlzZRdMZ
- sp5ChVj8cziKUkIqQEXvHbrU/f+p3U5ndpQgBgcPnXGYKDPqMvs1rBgvy3liHbe23VO8
- OnEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=mpbq4+1BiPHRAqlukHo0ieFtAtZZh97DqXDDYN5cG/Y=;
- b=Tchd8zLfIm2k2+2t5EEMNQUUcnJEkbjYGMhxr4/N8IwaAXULFkYgtUn31D/KKRzCGn
- goFGZJv5SXcyTUTkd5oFisBWV+2yMU0yhvbyQjlD3GwUSwIuMrpXPlUqNcldyv+N14JC
- aXA1yEv+DDAHjvDMQyRFYRd4AAcyPpbfvi6Up7Y/ifBFMbg8Ep/j7MdUs0ECNRKSEHYA
- haUGGqmfjiliHRox7mKe+1IuTQtO58K9tNWOhSKWnnVUyn5tDICWgqLfBb+htp2jpjTl
- pgEu+G918TRiD0uoer31AuYvblP2QM2JLpW6iu8XmqD+TTh6vah6Zdnur1bbI7q6HaKj
- GnfQ==
-X-Gm-Message-State: AOAM530A+OZPg3NjofqBwxuDSPI/C6uA2bksnLuOlCuFcKUKFtBiERKn
- NPTMiAYO/ilaR+o/B07ZQGqoUlGZQjJcrf0OwyI=
-X-Google-Smtp-Source: ABdhPJzts7vWuN9E9xsdAcQLIXxzFY1f3zlhWDJ8eHmf9O2hsHxu8iZrLclcaLCATZkbxXfTPsJoO33e1rhk6InG5W8=
-X-Received: by 2002:a19:674f:: with SMTP id e15mr1994639lfj.50.1601713804605; 
- Sat, 03 Oct 2020 01:30:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kOdAj-0003NN-DW
+ for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:45:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kOdAh-0007lv-Gc
+ for <qemu-devel@nongnu.org>; Sat, 03 Oct 2020 08:45:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7A3CB2E80DB
+ for <qemu-devel@nongnu.org>; Sat,  3 Oct 2020 08:45:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201002105239.2444-1-peter.maydell@linaro.org>
- <b1a6000a-c9a1-43fb-7646-b6ea87797b2e@redhat.com>
- <CAFEAcA9PbBByROzJ3+pfxycAoP-C5JnmfxQEt5jm6+3A3n2fbw@mail.gmail.com>
- <df5bd19c-da9d-d3b0-71a9-4deed67450bf@redhat.com>
- <CAFEAcA9M_BP9mnZHCLM93aYvMxrRHYFELQZ3FvsyH3hNvXtHDA@mail.gmail.com>
- <CAE2XoE-RnJ2j732JfxDA2A9O0Bp4KJ2rGG0LTjrDMKvRox-VBg@mail.gmail.com>
- <d6417044-324c-0bec-a05c-1142dcdc6003@redhat.com>
-In-Reply-To: <d6417044-324c-0bec-a05c-1142dcdc6003@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Sat, 3 Oct 2020 16:29:54 +0800
-Message-ID: <CAE2XoE_4S6NpA7+TOuzwQ=TFjw5=rOe-_mrSkuJ4OEzUWK1X2A@mail.gmail.com>
-Subject: Re: [PATCH] meson.build: Don't look for libudev for static builds
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000005afc8a05b0c00e54"
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 03 Oct 2020 08:36:01 -0000
+From: Thomas Huth <1898084@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pere-jobs th-huth
+X-Launchpad-Bug-Reporter: Ophir LOJKINE (pere-jobs)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160157283310.5327.3681752113841049978.malonedeb@soybean.canonical.com>
+Message-Id: <160171416109.9249.1662688515943745211.malone@wampee.canonical.com>
+Subject: [Bug 1898084] Re: Assertion failed: (buf_len != 0), function soread, 
+ file socket.c, line 183.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
+X-Launchpad-Hash: ce2e0801c9fe66ba52792247524d6f5fccd44bae
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/03 03:55:45
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,223 +73,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1898084 <1898084@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005afc8a05b0c00e54
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+libslirp is a separate project now, and I see that you already reported
+it there (https://gitlab.freedesktop.org/slirp/libslirp/-/issues/29), so
+I'm closing this QEMU ticket now.
 
-On Sat, Oct 3, 2020 at 3:50 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 03/10/20 09:24, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> >
-> >
-> > On Fri, Oct 2, 2020 at 9:11 PM Peter Maydell <peter.maydell@linaro.org
-> > <mailto:peter.maydell@linaro.org>> wrote:
-> >>
-> >> On Fri, 2 Oct 2020 at 14:05, Paolo Bonzini <pbonzini@redhat.com
-> > <mailto:pbonzini@redhat.com>> wrote:
-> >> >
-> >> > On 02/10/20 14:35, Peter Maydell wrote:
-> >> > >
-> >> > > It would be better to do the "see if a static library is present"
-> >> > > test. This isn't too hard to do in configure (compare that
-> >> > > six line fix to the detection of libgio). Hopefully it is
-> >> > > not too hard to do in meson ?
-> >> >
-> >> > Yes, something like:
-> >> >
-> >> > if enable_static
-> >> >   skeleton =3D 'int main(void) { return 0; }'
-> >> >   if not cc.links(skeleton, dependencies: libudev)
-> >> >     if get_option('mpath').enabled()
-> >> >         error('Cannot link with libudev')
-> >> >       else
-> >> >         warning('Cannot link with libudev, disabling')
-> >> >         libudev =3D not_found
-> >> >       endif
-> >> >     endif
-> >> >   endif
-> >> > endif
-> >>
-> >> This duplicates the information that the thing that depends
-> >> on libudev is mpath. Can we put this in a wrapper around
-> >> dependency() so that we could just say something like
-> >>   libudev =3D compile_checked_dependency('libudev',
-> >>                        required: get_option('mpath').enabled(),
-> >>                        static: enable_static)
-> >>
-> > Hi Bonzini,
-> > This looks like a frequently used function, can we upstrem to meson?
->
-> Yes, I think adding a "links" argument to dependency (similar to
-> find_library's has_headers argument) makes sense.  That would be written
->
->     dependency('libudev',
->                required: get_option('mpath').enabled(),
->                static: enable_static,
->                links: skeleton)
->
-For some meson script like this:
-curses =3D not_found
-if iconv.found() and not get_option('curses').disabled()
-  curses_libname_list =3D ['ncursesw', 'ncurses', 'cursesw', 'pdcurses']
-  curses_test =3D '''
-    #include <locale.h>
-    #include <curses.h>
-    #include <wchar.h>
-    int main(void) {
-      wchar_t wch =3D L'w';
-      setlocale(LC_ALL, "");
-      resize_term(0, 0);
-      addwstr(L"wide chars\n");
-      addnwstr(&wch, 1);
-      add_wch(WACS_DEGREE);
-      return 0;
-    }'''
-  foreach curses_libname : curses_libname_list
-      libcurses =3D dependency(curses_libname,
-                             required: false,
-                             method: 'pkg-config',
-                             static: enable_static)
+** Bug watch added: gitlab.freedesktop.org/slirp/libslirp/-/issues #29
+   https://gitlab.freedesktop.org/slirp/libslirp/-/issues/29
 
-      if not libcurses.found()
-        dirs =3D ['/usr/include/ncursesw']
-        if targetos =3D=3D 'windows'
-          dirs =3D []
-        endif
-        libcurses =3D cc.find_library(curses_libname,
-                                    required: false,
-                                    dirs: dirs,
-                                    static: enable_static)
-      endif
-      if libcurses.found()
-        if cc.links(curses_test, dependencies: [libcurses])
-          curses =3D declare_dependency(compile_args: '-DNCURSES_WIDECHAR',
-dependencies: [libcurses])
-          break
-        endif
-      endif
-  endforeach
-endif
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-We also need to define extra  compile_args  '-DNCURSES_WIDECHAR' as the
-part of dependencies.
+** Changed in: qemu
+       Status: Invalid =3D> Triaged
 
-> But anyway that shouldn't be a blocker for more improvements to qemu's
-> meson.build.  Now that we have 5-10 dependencies converted we have a
-> clearer idea of how to abstract the tests.
->
-> Paolo
->
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1898084
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+Title:
+  Assertion failed: (buf_len !=3D 0), function soread, file socket.c, line
+  183.
 
---0000000000005afc8a05b0c00e54
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Status in QEMU:
+  Triaged
 
-<div dir=3D"ltr"><br><br>On Sat, Oct 3, 2020 at 3:50 PM Paolo Bonzini &lt;<=
-a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br=
->&gt;<br>&gt; On 03/10/20 09:24, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) =
-wrote:<br>&gt; &gt;<br>&gt; &gt;<br>&gt; &gt; On Fri, Oct 2, 2020 at 9:11 P=
-M Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.mayde=
-ll@linaro.org</a><br>&gt; &gt; &lt;mailto:<a href=3D"mailto:peter.maydell@l=
-inaro.org">peter.maydell@linaro.org</a>&gt;&gt; wrote:<br>&gt; &gt;&gt;<br>=
-&gt; &gt;&gt; On Fri, 2 Oct 2020 at 14:05, Paolo Bonzini &lt;<a href=3D"mai=
-lto:pbonzini@redhat.com">pbonzini@redhat.com</a><br>&gt; &gt; &lt;mailto:<a=
- href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt;&gt; wrote:=
-<br>&gt; &gt;&gt; &gt;<br>&gt; &gt;&gt; &gt; On 02/10/20 14:35, Peter Mayde=
-ll wrote:<br>&gt; &gt;&gt; &gt; &gt;<br>&gt; &gt;&gt; &gt; &gt; It would be=
- better to do the &quot;see if a static library is present&quot;<br>&gt; &g=
-t;&gt; &gt; &gt; test. This isn&#39;t too hard to do in configure (compare =
-that<br>&gt; &gt;&gt; &gt; &gt; six line fix to the detection of libgio). H=
-opefully it is<br>&gt; &gt;&gt; &gt; &gt; not too hard to do in meson ?<br>=
-&gt; &gt;&gt; &gt;<br>&gt; &gt;&gt; &gt; Yes, something like:<br>&gt; &gt;&=
-gt; &gt;<br>&gt; &gt;&gt; &gt; if enable_static<br>&gt; &gt;&gt; &gt; =C2=
-=A0 skeleton =3D &#39;int main(void) { return 0; }&#39;<br>&gt; &gt;&gt; &g=
-t; =C2=A0 if not cc.links(skeleton, dependencies: libudev)<br>&gt; &gt;&gt;=
- &gt; =C2=A0 =C2=A0 if get_option(&#39;mpath&#39;).enabled()<br>&gt; &gt;&g=
-t; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 error(&#39;Cannot link with libudev&#39=
-;)<br>&gt; &gt;&gt; &gt; =C2=A0 =C2=A0 =C2=A0 else<br>&gt; &gt;&gt; &gt; =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 warning(&#39;Cannot link with libudev, disablin=
-g&#39;)<br>&gt; &gt;&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 libudev =3D not_f=
-ound<br>&gt; &gt;&gt; &gt; =C2=A0 =C2=A0 =C2=A0 endif<br>&gt; &gt;&gt; &gt;=
- =C2=A0 =C2=A0 endif<br>&gt; &gt;&gt; &gt; =C2=A0 endif<br>&gt; &gt;&gt; &g=
-t; endif<br>&gt; &gt;&gt;<br>&gt; &gt;&gt; This duplicates the information =
-that the thing that depends<br>&gt; &gt;&gt; on libudev is mpath. Can we pu=
-t this in a wrapper around<br>&gt; &gt;&gt; dependency() so that we could j=
-ust say something like<br>&gt; &gt;&gt; =C2=A0 libudev =3D compile_checked_=
-dependency(&#39;libudev&#39;,<br>&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0required: get_option=
-(&#39;mpath&#39;).enabled(),<br>&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0static: enable_stati=
-c)<br>&gt; &gt;&gt;<br>&gt; &gt; Hi Bonzini,<br>&gt; &gt; This looks like a=
- frequently used function, can we upstrem to meson?<br>&gt;<br>&gt; Yes, I =
-think adding a &quot;links&quot; argument to dependency (similar to<br>&gt;=
- find_library&#39;s has_headers argument) makes sense.=C2=A0 That would be =
-written<br>&gt;<br>&gt; =C2=A0 =C2=A0 dependency(&#39;libudev&#39;,<br>&gt;=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0required: get_optio=
-n(&#39;mpath&#39;).enabled(),<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0static: enable_static,<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0links: skeleton)<br>&gt;<div>For some meson =
-script like this:</div><div>curses =3D not_found<br>if iconv.found() and no=
-t get_option(&#39;curses&#39;).disabled()<br>=C2=A0 curses_libname_list =3D=
- [&#39;ncursesw&#39;, &#39;ncurses&#39;, &#39;cursesw&#39;, &#39;pdcurses&#=
-39;]<br>=C2=A0 curses_test =3D &#39;&#39;&#39;<br>=C2=A0 =C2=A0 #include &l=
-t;locale.h&gt;<br>=C2=A0 =C2=A0 #include &lt;curses.h&gt;<br>=C2=A0 =C2=A0 =
-#include &lt;wchar.h&gt;<br>=C2=A0 =C2=A0 int main(void) {<br>=C2=A0 =C2=A0=
- =C2=A0 wchar_t wch =3D L&#39;w&#39;;<br>=C2=A0 =C2=A0 =C2=A0 setlocale(LC_=
-ALL, &quot;&quot;);<br>=C2=A0 =C2=A0 =C2=A0 resize_term(0, 0);<br>=C2=A0 =
-=C2=A0 =C2=A0 addwstr(L&quot;wide chars\n&quot;);<br>=C2=A0 =C2=A0 =C2=A0 a=
-ddnwstr(&amp;wch, 1);<br>=C2=A0 =C2=A0 =C2=A0 add_wch(WACS_DEGREE);<br>=C2=
-=A0 =C2=A0 =C2=A0 return 0;<br>=C2=A0 =C2=A0 }&#39;&#39;&#39;<br>=C2=A0 for=
-each curses_libname : curses_libname_list<br>=C2=A0 =C2=A0 =C2=A0 libcurses=
- =3D dependency(curses_libname,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0required:=
- false,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0method: &#39;pkg-config&#39;,<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0static: enable_static)<br><br>=C2=A0 =C2=A0 =
-=C2=A0 if not libcurses.found()<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 dirs =3D [&#=
-39;/usr/include/ncursesw&#39;]<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 if targetos =
-=3D=3D &#39;windows&#39;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dirs =3D []<=
-br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 endif<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 libcurs=
-es =3D cc.find_library(curses_libname,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 required: false,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 dirs: dirs,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 static: enable_static)<br>=C2=A0 =C2=A0 =C2=A0 endif<br>=C2=A0 =
-=C2=A0 =C2=A0 if libcurses.found()<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 if cc.lin=
-ks(curses_test, dependencies: [libcurses])<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 curses =3D declare_dependency(compile_args: &#39;-DNCURSES_WIDECHAR&=
-#39;, dependencies: [libcurses])<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
-k<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 endif<br>=C2=A0 =C2=A0 =C2=A0 endif<br>=C2=
-=A0 endforeach<br>endif<br></div><div><br></div><div>We also need to define=
- extra=C2=A0
+Bug description:
+  I have a virtual raspberry py that I am running qemu 5.1.0 for MacOS.
 
-compile_args=C2=A0
+  Here is the command line I used:
 
-&#39;-DNCURSES_WIDECHAR&#39; as the part of dependencies.</div><div><br>&gt=
-; But anyway that shouldn&#39;t be a blocker for more improvements to qemu&=
-#39;s<br>&gt; meson.build.=C2=A0 Now that we have 5-10 dependencies convert=
-ed we have a<br>&gt; clearer idea of how to abstract the tests.<br>&gt;<br>=
-&gt; Paolo<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=
-=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=
-=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
+  qemu-system-arm \
+    -M versatilepb \
+    -cpu arm1176 \
+    -m 256 \
+    -drive file=3D2020-08-20-raspios-buster-armhf-lite.img,if=3Dnone,index=
+=3D0,media=3Ddisk,format=3Draw,id=3Ddisk0 \
+    -device virtio-blk-pci,drive=3Ddisk0,disable-modern=3Don,disable-legacy=
+=3Doff \
+    -net nic -net user,hostfwd=3Dtcp::5022-:22 \
+    -dtb versatile-pb-buster-5.4.51.dtb \
+    -kernel kernel-qemu-5.4.51-buster \
+    -append "root=3D/dev/vda2 panic=3D1" \
+    -no-reboot \
+    -serial stdio
 
---0000000000005afc8a05b0c00e54--
+  When trying to ssh from another machine while docker was running
+  inside the VM, I got the following error:
+
+  Assertion failed: (buf_len !=3D 0), function soread, file /private/tmp/qe=
+mu-20200813-13289-1g95loa/qemu-5.1.0/slirp/src/socket.c, line 183
+  ../boot.sh: line 12:  8592 Abort trap: 6
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1898084/+subscriptions
 
