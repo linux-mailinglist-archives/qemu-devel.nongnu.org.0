@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2E92820AC
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:56:49 +0200 (CEST)
-Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21362820AD
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:56:50 +0200 (CEST)
+Received: from localhost ([::1]:55072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOXj6-00021I-CQ
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43188)
+	id 1kOXj7-00024J-OX
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXgu-0000FG-3a
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42739)
+ id 1kOXgv-0000FV-C3
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXgs-0006j0-D4
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:31 -0400
+ id 1kOXgt-0006jk-PZ
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601693669;
+ s=mimecast20190719; t=1601693671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d1UGozPiLsg8iTHrcO64i29mynbrHiKjnQfaaPRMXhs=;
- b=Zoz051v2ilXs5YU2v9bIIg6H4frzaf786SWjOhgrUylhbvupO2RzLkah1uYuyWSIxfoY5I
- 85bfxQ0YRLYitXQg2lABIZrC5M4inP1sTDDflsyA9gevL2fGbX3nSrQxkNH0Q/vAJXVdF/
- 1/Akd/LbxYoH0c2zW/JaXEdkK7HSsaI=
+ bh=7s6zjBFB47ayF/d6RFVRlod5GtaCuUx6CuKTN+BTCeA=;
+ b=bK/O3Zd4TbVFIu4mk3hflqY2qprR82h2B0meDRlfLK5Hv4LL6I4nfISiQ5AyBN3QftlpNZ
+ RduHyW2MUVYfhCM9AGj55TJpiPtaK7XAXmqSMMSWFB4RYMvMDzi9Z/5pCI9Xy2QlmK7ckH
+ YTNIVH8DnCbBMkM8JaRhPdUUGsis+gA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-DTeeERW6M_-JiJ5mNOuSpQ-1; Fri, 02 Oct 2020 22:54:28 -0400
-X-MC-Unique: DTeeERW6M_-JiJ5mNOuSpQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-361-Ziffj3v6PHOPHZRHwo6LcA-1; Fri, 02 Oct 2020 22:54:29 -0400
+X-MC-Unique: Ziffj3v6PHOPHZRHwo6LcA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 126551074648
- for <qemu-devel@nongnu.org>; Sat,  3 Oct 2020 02:54:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97572184C802
+ for <qemu-devel@nongnu.org>; Sat,  3 Oct 2020 02:54:28 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D39E75D9D3;
- Sat,  3 Oct 2020 02:54:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CE2B1002C00;
+ Sat,  3 Oct 2020 02:54:27 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] qom: Fix DECLARE_*CHECKER documentation
-Date: Fri,  2 Oct 2020 22:54:19 -0400
-Message-Id: <20201003025424.199291-2-ehabkost@redhat.com>
+Subject: [PATCH 2/6] docs/devel/qom: Fix indentation of bulleted list
+Date: Fri,  2 Oct 2020 22:54:20 -0400
+Message-Id: <20201003025424.199291-3-ehabkost@redhat.com>
 In-Reply-To: <20201003025424.199291-1-ehabkost@redhat.com>
 References: <20201003025424.199291-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,36 +86,31 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correct copy/paste mistake in the DECLARE_INSTANCE_CHECKER and
-DECLARE_CLASS_CHECKERS documentation.
+The list was incorrectly parsed as a literal block due to
+indentation.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/qom/object.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/devel/qom.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 27aaa67e63f..e738dfc6744 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -170,7 +170,7 @@ struct Object
-  * Direct usage of this macro should be avoided, and the complete
-  * OBJECT_DECLARE_TYPE macro is recommended instead.
-  *
-- * This macro will provide the three standard type cast functions for a
-+ * This macro will provide the the instance type cast functions for a
-  * QOM type.
-  */
- #define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
-@@ -187,7 +187,7 @@ struct Object
-  * Direct usage of this macro should be avoided, and the complete
-  * OBJECT_DECLARE_TYPE macro is recommended instead.
-  *
-- * This macro will provide the three standard type cast functions for a
-+ * This macro will provide the class type cast functions for a
-  * QOM type.
-  */
- #define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
+diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+index 0b943b2a1a8..c4857d95c8e 100644
+--- a/docs/devel/qom.rst
++++ b/docs/devel/qom.rst
+@@ -8,9 +8,9 @@ The QEMU Object Model provides a framework for registering user creatable
+ types and instantiating objects from those types.  QOM provides the following
+ features:
+ 
+- - System for dynamically registering types
+- - Support for single-inheritance of types
+- - Multiple inheritance of stateless interfaces
++- System for dynamically registering types
++- Support for single-inheritance of types
++- Multiple inheritance of stateless interfaces
+ 
+ .. code-block:: c
+    :caption: Creating a minimal type
 -- 
 2.26.2
 
