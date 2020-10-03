@@ -2,86 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F35B2825CE
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 20:15:26 +0200 (CEST)
-Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E079282D52
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 21:42:47 +0200 (CEST)
+Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOm45-0005tz-7X
-	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 14:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
+	id 1kP9u9-0004Xg-NJ
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 15:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOm34-0005LU-Fc; Sat, 03 Oct 2020 14:14:22 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kOm32-00079t-Jq; Sat, 03 Oct 2020 14:14:22 -0400
-Received: by mail-wm1-x342.google.com with SMTP id w2so4703494wmi.1;
- Sat, 03 Oct 2020 11:14:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kxQCIZkLUp4cXcK24Uf9Izm4LCAQBro6GywH9pmjLrQ=;
- b=mcM5zsn/B9EblArEbpE5eXMBSgpflN6zdB7bJskMAtfQXICHdH7kqw2/p38uX1QJOS
- eMeSR1PZ+eUBPi490Y80bT2cjBvPQy8uk7nig92wOZBWImtHth5kVdpB6/vUXxKuKKKw
- 34O2VY0QK0fFtCmY84UQgZiVwp5dtjnDtI1+F9UR8lIMeMJrrsmNjKlYx92098FzCMYr
- VKPppf7bM4mHRl+K/gfF3LMHqD+KA0IXCCa7PtRT6LGXkEpB1WQDiVLVcccgFXqONoCG
- dDqXzIfAd6nEVhVBdBrzcZgvx7MvfbjZPt03Ma31X7XwNBu1d4Xunf8e0WbmEIUdQGLC
- gvPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kxQCIZkLUp4cXcK24Uf9Izm4LCAQBro6GywH9pmjLrQ=;
- b=bNL2IE+dLwHGySHBJX39EOzynTDOUgsbJYHpN4nCvB/yGEt2Ly4K7Z/nDip9B5FL4j
- 9hqQr88kjgJ5hH1xYSysmdX/DY4We1SUhnAL52Vr4m4Q60KYWztybVcgMUOVaaKK7y7m
- uJmDhxX3VMos30pdr6pv3CsZGTZzUBQ+cFBlGQcXuMPutlTIG0UhRRGGkmSAGt5LJdNf
- qUCUWvWnXxRcHmxfMqYbo5Lfe8njdrYnlWkYX6Q0tK6xkTFDZq68HSjbejbNzMKYLc4B
- VoSY+TkRDfo1AZcDarB57QQfbmO+K1UwTuYQ5TO+2QjeAT32LHqIlGS8db7B24Yaymep
- NILQ==
-X-Gm-Message-State: AOAM533WV+ou80/D69QSPDGWV8Mc0t6cgcoPPqA2XWiUvSQQqHWpQZMg
- L7XJ6QTkdkGKYTrdFyRpFls=
-X-Google-Smtp-Source: ABdhPJywd95Iz8HNvH0yv+DltUyscKaUIsdI6HEmpi5W692tJl6Ob4Nc2qe9ErK2OeY6DGYW5LMprQ==
-X-Received: by 2002:a1c:a515:: with SMTP id o21mr8584850wme.75.1601748857867; 
- Sat, 03 Oct 2020 11:14:17 -0700 (PDT)
-Received: from [192.168.1.36] (74.red-83-53-161.dynamicip.rima-tde.net.
- [83.53.161.74])
- by smtp.gmail.com with ESMTPSA id f14sm6605477wrv.72.2020.10.03.11.14.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Oct 2020 11:14:16 -0700 (PDT)
-Subject: Re: [PATCH 04/14] hw/arm/raspi: add a skeleton implementation of the
- cprman
-To: Luc Michel <luc@lmichel.fr>
-References: <20200925101731.2159827-1-luc@lmichel.fr>
- <20200925101731.2159827-5-luc@lmichel.fr>
- <85ccb491-8d4a-caf3-595d-7415471f5dc7@amsat.org>
- <20200928084515.r7s3cl6jlzm465iw@sekoia-pc.home.lmichel.fr>
- <4aa9f0c3-dc4b-1e87-d601-87b0498de8b1@amsat.org>
- <20201003115444.m2woqcpit34vfv3u@sekoia-pc.home.lmichel.fr>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <dfb488db-afa4-d307-cac1-ce71e5ebf29a@amsat.org>
-Date: Sat, 3 Oct 2020 20:14:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
+ id 1kP9sB-00042z-TM
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 15:40:43 -0400
+Received: from mail-mw2nam10olkn2087.outbound.protection.outlook.com
+ ([40.92.42.87]:49121 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
+ id 1kP9s8-0002Bd-Ni
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 15:40:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y4SBZUdGM3mhLz8rEcy/EJKAuuiHZEgB2oioXLOpRu4KPeLeWNOL4vh+38tDM759FkhmgXsMMYUoGoR5Ttd9/p/Mey7AgknZlfCs0fw6/PxKEiie2RyvIo6xqSFGegn6aFU/tW5G3KglajCzffGXbs93DH22w0pGKJwdtCwD3W5TtfNRGmsboF80y00mAPyFPJ1EOFc+1g5l8gLoGI1I/83se4Ao0sqP7t59cciOacQivrSzoKK20ie0hIfzmhRPwETfRQFt6dIrL3UyX3zE4a9bNclLDGG4My8FBWdcW0NSxfBAKYfpfDLtJkkg2Te5YjMpbWfWDU98fIveNG37eQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6tSfAHg3N4BP2/y2VHKhB+VguW7zHCZvKUH4nQJIRSg=;
+ b=AfrrSWn1OmWCtwxObXoLZ1ufgfCeBqLlSv6gpWdyxjmJ8Kho4hYdW0448ohzzSdg2rAjjAFUOIZoIQ+SnbY1aceRpFmy70/9GI9/AVHZyGgYfOHUN3i8VXSDoElVIAbUXlHE7wp6lb9hgBB5kIX0YE0J+8rKGh4Ythkiloip2Wu/k89mXpG2vVpewpeMjdFwrEjIzrKOtV8vu0L98T4zavvDF5IadTzpsdEbRFf1ecluyudaUR5krp/lSgIlQ1GdIBG56Vx9ANMFE4Ta48QNBG+5gsMuzia5dg00+eRK39xyDGRVgy0rWf85DwQ6LjzLuRdu2jH/x6vGqcQBXkamKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6tSfAHg3N4BP2/y2VHKhB+VguW7zHCZvKUH4nQJIRSg=;
+ b=FRgNVnp8mjjD+xQjubArTOKZEWC7ITfoskug8YqKi4Vg9l9nU1ozcO4EZAWkyUC1gxyIseTFh3btfSOb0bwpq7G3b3EUmmm5XLZSmopEZf847SpAs62+9jKQrbuLrQlwh4tjmCNMqMEBIx9n7VqdnIgAfWsQjuBeSaCcZ1rHPUtQjT92pfH6WxfASR8kNPiki7pkp3h3SkbGpA9zXvNi8TpeQXIfRlqVECosoMw3UcKS76JxaNFpvP3hIb/4Uwi9p8GTLiNgt0d2OjMTka/wLdiLtmDeCwLSVlsj/h1QpXahbpRybn/HZiRIEWQhyw46GQYuaMBW4TIAw9Ag96/GSQ==
+Received: from DM6NAM10FT015.eop-nam10.prod.protection.outlook.com
+ (2a01:111:e400:7e86::50) by
+ DM6NAM10HT028.eop-nam10.prod.protection.outlook.com (2a01:111:e400:7e86::108)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.34; Sat, 3 Oct
+ 2020 22:02:02 +0000
+Received: from DM6PR16MB2473.namprd16.prod.outlook.com
+ (2a01:111:e400:7e86::53) by DM6NAM10FT015.mail.protection.outlook.com
+ (2a01:111:e400:7e86::100) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.34 via Frontend
+ Transport; Sat, 3 Oct 2020 22:02:02 +0000
+Received: from DM6PR16MB2473.namprd16.prod.outlook.com
+ ([fe80::ec2c:246a:b4d4:48b1]) by DM6PR16MB2473.namprd16.prod.outlook.com
+ ([fe80::ec2c:246a:b4d4:48b1%3]) with mapi id 15.20.3433.039; Sat, 3 Oct 2020
+ 22:02:02 +0000
+From: Hee-cheol Yang <heecheol.yang@outlook.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Hee-cheol Yang
+ <heecheol.yang@outlook.com>
+Subject: RE: [PATCH v2] hw/avr: Add limited support for avr gpio registers
+Thread-Topic: [PATCH v2] hw/avr: Add limited support for avr gpio registers
+Thread-Index: AQHWmYI5aN4/7/KuykiauBZvsOOin6mGK+gAgABCuAs=
+Date: Sat, 3 Oct 2020 22:02:02 +0000
+Message-ID: <DM6PR16MB24739B6BF93E480B6873A216E60E0@DM6PR16MB2473.namprd16.prod.outlook.com>
+References: <DM6PR16MB2473C5A77E009CA2FEF3D8ECE60E0@DM6PR16MB2473.namprd16.prod.outlook.com>,
+ <77f59e9a-861e-f580-57f4-72912ba2566a@amsat.org>
+In-Reply-To: <77f59e9a-861e-f580-57f4-72912ba2566a@amsat.org>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:D321509D9F057D3F408ED59A4793ADE3C13C9C2FE79BEB8C1F29E63019248244;
+ UpperCasedChecksum:4A5C3FD3F23913A8803E3CCD857286E0191B49B7DBCECA127B1C2F0517B48AAE;
+ SizeAsReceived:7138; Count:45
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [URA/jH/0m3WV7Rbf63u3b1gQLNk3vNVx]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 45
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 1890bc27-4e73-45bd-08ab-08d867e7f5a2
+x-ms-exchange-slblob-mailprops: ZK1LJjhzK/D0dphKRG3Uc6K54Ygkcp4hzJXdQT/ClpVR2n0WlZYv7C2fJs8TZIBay0SdAlDtaQU0yHg3CIvUqGeq17dvqiswo0yDaiDJ0V6kVoM5UV3PXgtbyFj6J7af3hsSKke4mvFV07Pvc3lxM0x9yV1U9xABmHkVmYH+iBnsLE1CE3spI4ArmnYD9reBd2401v1Gc6hzkW5qu+ysfYsIv/jLtBuj6+QiIkYf399Iw8UybPVKF6dss6Fwfjes46QSYjKSZAydxPGONlI/FThaU7/SFT/by5SNJHtHN1Qnz3bB+wB0MAPfzVhCIlNWJhXG05RD90uGHhVN6FcuZlyfWhK17pAfH7g/Dczl4vJvRnH9Iaa8wb2A8YjHTDYV/xYOL/TIZsWjzpa24NRJoUJab++zMrfI6tbkysNkyJC5eGvevYpBhE0yiUeY2XtRqHEn6lKqobhDC+oMf7oWZrv0SaNLBu2Hhyz1VFYvegnZxPhCIS5i4uSlzrhqIs2UCdCQ23IkYKC10ml4O87C9AG+M8zNBWMvJ5oYhL5MAKPunj8n1qE8p0XknDxm6bK1jWVRR5PzI4tKVbcw9rmGsu+Bjem1fdRcEELeFl6atX32rO8vEdpd8CFkLXSLNgl+ED40I48xa8spV9Qpnx8kOXDcgpbZAA41mIHMZRyQzVqhUrnQMuMUF2RJsaM1LL0kldHz7BysxFIRnVPA+wV5XrbevyPx8qjb5w15jCnGM9H5BIU+w5ukl4pDDHKPcTJ7676ytGC63nGd5pwfD5MWK+Y60c1Fkep62ujj+peMqjbBz/zzG1NElkGzRQmXvZgVJBSKlUehV+nCtPh9inlQa1iyRT2ybJXJP4+gie8g2InR47A418sUk7EfKIlJ3Nw69vRVDULiE2PgX/9BTazqatY4J/a18R8bnMjj/T/lIngVCk3KTdTng4rDxN1O080h
+x-ms-traffictypediagnostic: DM6NAM10HT028:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ANUsHtpp7zhK74s72D9w1xF5p7c+Om86SBul/qrpjKoGx4zuDa2i7BSr/InrY6c+IwKa16y4YqGvlJpEly66HxUB1ZsbYH4fB0ECYBBWIVZaiAcARYnZB3mCtWgQrobUTGrgjhWcHjRYAHi+ZQmmcuOqj1ZbOr09Jj+CBhKYFkHijn8uOH25wLK2rivCXhi3vE1rLKU11PDnx5X/fZR7sH78hsMZi4J/PMwzRYcZFn0YRRloAtE1q3eWQN0r0U16
+x-ms-exchange-antispam-messagedata: zPB3VckpzXikYhxtUxpK4CE8giZe/o/gvQi5ohPkXTKlwCKxpNsOa/4596JFw04YlhFDHhAKHL1tJg/wq/arLF1HCnpcMBMSadPx+uHNfvsGyRwp6XsZ9J6XlY7poDfvTzJ3sSlm3JhmD2tU6JTm1g==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_DM6PR16MB24739B6BF93E480B6873A216E60E0DM6PR16MB2473namp_"
 MIME-Version: 1.0
-In-Reply-To: <20201003115444.m2woqcpit34vfv3u@sekoia-pc.home.lmichel.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM10FT015.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1890bc27-4e73-45bd-08ab-08d867e7f5a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2020 22:02:02.8358 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6NAM10HT028
+X-OriginatorOrg: outlook.com
+Received-SPF: pass client-ip=40.92.42.87;
+ envelope-from=heecheol.yang@outlook.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/04 15:40:38
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.252,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,78 +117,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/20 1:54 PM, Luc Michel wrote:
-> On 16:37 Fri 02 Oct     , Philippe Mathieu-Daudé wrote:
-> 
-> [snip]
-> 
->>>>> +struct BCM2835CprmanState {
->>>>> +    /*< private >*/
->>>>> +    SysBusDevice parent_obj;
->>>>> +
->>>>> +    /*< public >*/
->>>>> +    MemoryRegion iomem;
->>>>> +
->>>>> +    uint32_t regs[CPRMAN_NUM_REGS];
->>>>> +    uint32_t xosc_freq;
->>>>> +
->>>>> +    Clock *xosc;
->>
->> Isn't it xosc external to the CPRMAN?
->>
-> Yes on real hardware I'm pretty sure it's the oscillator we can see on
-> the board itself, near the SoC (on the bottom side). This is how I first
-> planned to implement it. I then realized that would add complexity to
-> the BCM2835Peripherals model for no good reasons IMHO (mainly because of
-> migration). So at the end I put it inside the CPRMAN for simplicity, and
-> added a property to set its frequency.
+--_000_DM6PR16MB24739B6BF93E480B6873A216E60E0DM6PR16MB2473namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-OK as long as all boards have a 19.2MHz crystal, but if the property
-is not easily accessible why not use a #define in
-"hw/arm/raspi_platform.h" instead?
+VGhhbmtzIGZvciB5b3VyIHJldmlldy4NCkFjdHVhbGx5LCB0aGUgdmVyeSByZWNlbnQgdjIgb25l
+IGlzIHY0LiBUaGVyZSB3YXMgYW4gdHlwbyB3aGlsZSBJIHdhcyB3cml0aW5nIG11bHRpcGxlIG1h
+aWxzIGZvciBzdWNjZXNzZnVsIHBhdGNoZXcgYnVpbGRzKHYyIGFuZCB2MyBoYXMgdGhlIHNhbWUg
+Y29udGVudHMpIC4uIFNvcnJ5Lg0KDQpJZiBuZWVkZWQsIGxldCBtZSBrbm93IHRvIHdyaXRlIHRo
+ZSBuZXcgdGl0bGVkIHZlcnNpb24gb2YgbWFpbCB3aGljaCBjb250YWlucyB0aGUgc2FtZSBjb250
+ZW50cy4NCg0KDQoNCi0tLS0tLS0tIOybkOuzuCDsnbTrqZTsnbwgLS0tLS0tLS0NCuuwnOyLoDog
+UGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPGY0YnVnQGFtc2F0Lm9yZz4NCuuCoOynnDogMjAvMTAv
+NCDsmKTsoIQgMzowMyAoR01UKzA5OjAwKQ0K67Cb7J2AIOyCrOuejDogSGVlY2hlb2wgWWFuZyA8
+aGVlY2hlb2wueWFuZ0BvdXRsb29rLmNvbT4sIHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0K7LC47KGw
+OiBTYXJhaCBIYXJyaXMgPFMuRS5IYXJyaXNAa2VudC5hYy51az4sIE1pY2hhZWwgUm9sbmlrIDxt
+cm9sbmlrQGdtYWlsLmNvbT4NCuygnOuqqTogUmU6IFtQQVRDSCB2Ml0gaHcvYXZyOiBBZGQgbGlt
+aXRlZCBzdXBwb3J0IGZvciBhdnIgZ3BpbyByZWdpc3RlcnMNCg0KT24gMTAvMy8yMCAyOjM4IFBN
+LCBIZWVjaGVvbCBZYW5nIHdyb3RlOg0KPiBBZGQgc29tZSBvZiB0aGVzZSBmZWF0dXJlcyBmb3Ig
+YXZyIGdwaW86DQo+DQo+ICAgLSBHUElPIEkvTyA6IFBPUlR4IHJlZ2lzdGVycw0KPiAgIC0gRGF0
+YSBEaXJlY3Rpb24gOiBERFJ4IHJlZ2lzdGVycw0KPg0KPiBGb2xsb3dpbmcgdGhpbmdzIGFyZSBu
+b3Qgc3VwcG9ydGVkIHlldDoNCj4gICAtIFBJTnggcmVnaXN0ZXJzDQo+ICAgLSBNQ1VSIHJlZ2lz
+dGVycw0KPiAgIC0gRXZlbiB0aG91Z2ggcmVhZC93cml0ZSBmb3IgRERSeCByZWdpc3RlcnMgYXJl
+DQo+ICAgICBpbXBsZW1lbnRlZCwgYWN0dWFsIGRpcmVjdGlvbiBjb250cm9scyBhcmUgbm90DQo+
+ICAgICBzdXBwb3J0ZWQgeWV0Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIZWVjaGVvbCBZYW5nIDxo
+ZWVjaGVvbC55YW5nQG91dGxvb2suY29tPg0KPiAtLS0NCj4gIGh3L2F2ci9LY29uZmlnICAgICAg
+ICAgICAgIHwgICAxICsNCj4gIGh3L2F2ci9hdG1lZ2EuYyAgICAgICAgICAgIHwgICA3ICsrLQ0K
+PiAgaHcvYXZyL2F0bWVnYS5oICAgICAgICAgICAgfCAgIDIgKw0KPiAgaHcvZ3Bpby9LY29uZmln
+ICAgICAgICAgICAgfCAgIDMgKw0KPiAgaHcvZ3Bpby9hdnJfZ3Bpby5jICAgICAgICAgfCAxMTIg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiAgaHcvZ3Bpby9tZXNvbi5i
+dWlsZCAgICAgICAgfCAgIDIgKw0KPiAgaW5jbHVkZS9ody9ncGlvL2F2cl9ncGlvLmggfCAgNDYg
+KysrKysrKysrKysrKysrDQo+ICA3IGZpbGVzIGNoYW5nZWQsIDE3MSBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGh3L2dwaW8vYXZyX2dwaW8uYw0K
+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvaHcvZ3Bpby9hdnJfZ3Bpby5oDQoNCkZZSSB0
+aGlzIG9uZSBpcyBwb3N0ZWQgY29ycmVjdGx5LCBJIGNhbiByZWFkIGl0IGFuZCBwYXRjaGV3DQpz
+dWNjZXNzZnVsbHkgYXBwbGllZCBpdDoNCmh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9ETTZQUjE2
+TUIyNDczQzVBNzdFMDA5Q0EyRkVGM0Q4RUNFNjBFMEBETTZQUjE2TUIyNDczLm5hbXByZDE2LnBy
+b2Qub3V0bG9vay5jb20vDQoNCkJ1dCB2MyBpcyBicm9rZW4gYWdhaW4uLi4NCg==
 
-Else we should alias the property using object_property_add_alias()
-in TYPE_BCM2835_PERIPHERALS.
+--_000_DM6PR16MB24739B6BF93E480B6873A216E60E0DM6PR16MB2473namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> 
->>>>> +};
-> 
-> [snip]
-> 
->>>>> +static const MemoryRegionOps cprman_ops = {
->>>>> +    .read = cprman_read,
->>>>> +    .write = cprman_write,
->>>>> +    .endianness = DEVICE_LITTLE_ENDIAN,
->>>>> +    .valid      = {
->>>>> +        .min_access_size        = 4,
->>>>> +        .max_access_size        = 4,
->>>>
->>>> I couldn't find this in the public datasheets (any pointer?).
->>>>
->>>> Since your implementation is 32bit, can you explicit .impl
->>>> min/max = 4?
->>>
->>> I could not find this information either, but I assumed this is the
->>> case, mainly because of the 'PASSWORD' field in all registers.
->>
->> Good point. Do you mind adding a comment about it here please?
->>
-> 
-> OK
-> 
->>>
->>> Regarding .impl, I thought that having .valid was enough?
->>
->> Until we eventually figure out we can do 64-bit accesses,
->> so someone change .valid.max to 8 and your model is broken :/
-> 
-> OK, I'll add the .impl constraints.
-> 
-> [snip]
-> 
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVu
+dD0iTWljcm9zb2Z0IEV4Y2hhbmdlIFNlcnZlciI+DQo8IS0tIGNvbnZlcnRlZCBmcm9tIHRleHQg
+LS0+PHN0eWxlPjwhLS0gLkVtYWlsUXVvdGUgeyBtYXJnaW4tbGVmdDogMXB0OyBwYWRkaW5nLWxl
+ZnQ6IDRwdDsgYm9yZGVyLWxlZnQ6ICM4MDAwMDAgMnB4IHNvbGlkOyB9IC0tPjwvc3R5bGU+DQo8
+L2hlYWQ+DQo8Ym9keT4NCjxkaXYgZGlyPSJhdXRvIj4NCjxkaXYgZGlyPSJhdXRvIj5UaGFua3Mg
+Zm9yIHlvdXIgcmV2aWV3LiZuYnNwOzwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPkFjdHVhbGx5LCB0
+aGUgdmVyeSByZWNlbnQgdjIgb25lIGlzIHY0LiBUaGVyZSB3YXMgYW4gdHlwbyB3aGlsZSBJIHdh
+cyB3cml0aW5nIG11bHRpcGxlIG1haWxzIGZvciBzdWNjZXNzZnVsIHBhdGNoZXcgYnVpbGRzKHYy
+IGFuZCB2MyBoYXMgdGhlIHNhbWUgY29udGVudHMpIC4uIFNvcnJ5LiZuYnNwOzwvZGl2Pg0KPGRp
+diBkaXI9ImF1dG8iPjxicj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPklmIG5lZWRlZCwgbGV0
+IG1lIGtub3cgdG8gd3JpdGUgdGhlIG5ldyB0aXRsZWQgdmVyc2lvbiBvZiBtYWlsIHdoaWNoIGNv
+bnRhaW5zIHRoZSBzYW1lIGNvbnRlbnRzLjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPjxicj4NCjwv
+ZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pi0tLS0tLS0t
+IOybkOuzuCDsnbTrqZTsnbwgLS0tLS0tLS08L2Rpdj4NCjxkaXY+67Cc7IugOiBQaGlsaXBwZSBN
+YXRoaWV1LURhdWTDqSAmbHQ7ZjRidWdAYW1zYXQub3JnJmd0OyA8L2Rpdj4NCjxkaXY+64Kg7Kec
+OiAyMC8xMC80IOyYpOyghCAzOjAzIChHTVQrMDk6MDApIDwvZGl2Pg0KPGRpdj7rsJvsnYAg7IKs
+656MOiBIZWVjaGVvbCBZYW5nICZsdDtoZWVjaGVvbC55YW5nQG91dGxvb2suY29tJmd0OywgcWVt
+dS1kZXZlbEBub25nbnUub3JnIDwvZGl2Pg0KPGRpdj7ssLjsobA6IFNhcmFoIEhhcnJpcyAmbHQ7
+Uy5FLkhhcnJpc0BrZW50LmFjLnVrJmd0OywgTWljaGFlbCBSb2xuaWsgJmx0O21yb2xuaWtAZ21h
+aWwuY29tJmd0Ow0KPC9kaXY+DQo8ZGl2PuygnOuqqTogUmU6IFtQQVRDSCB2Ml0gaHcvYXZyOiBB
+ZGQgbGltaXRlZCBzdXBwb3J0IGZvciBhdnIgZ3BpbyByZWdpc3RlcnMgPC9kaXY+DQo8ZGl2Pjxi
+cj4NCjwvZGl2Pg0KPC9kaXY+DQo8Zm9udCBzaXplPSIyIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExcHQ7Ij4NCjxkaXYgY2xhc3M9IlBsYWluVGV4dCI+T24gMTAvMy8yMCAyOjM4IFBNLCBIZWVj
+aGVvbCBZYW5nIHdyb3RlOjxicj4NCiZndDsgQWRkIHNvbWUgb2YgdGhlc2UgZmVhdHVyZXMgZm9y
+IGF2ciBncGlvOjxicj4NCiZndDsgPGJyPg0KJmd0OyZuYnNwOyZuYnNwOyAtIEdQSU8gSS9PIDog
+UE9SVHggcmVnaXN0ZXJzPGJyPg0KJmd0OyZuYnNwOyZuYnNwOyAtIERhdGEgRGlyZWN0aW9uIDog
+RERSeCByZWdpc3RlcnM8YnI+DQomZ3Q7IDxicj4NCiZndDsgRm9sbG93aW5nIHRoaW5ncyBhcmUg
+bm90IHN1cHBvcnRlZCB5ZXQ6PGJyPg0KJmd0OyZuYnNwOyZuYnNwOyAtIFBJTnggcmVnaXN0ZXJz
+PGJyPg0KJmd0OyZuYnNwOyZuYnNwOyAtIE1DVVIgcmVnaXN0ZXJzPGJyPg0KJmd0OyZuYnNwOyZu
+YnNwOyAtIEV2ZW4gdGhvdWdoIHJlYWQvd3JpdGUgZm9yIEREUnggcmVnaXN0ZXJzIGFyZTxicj4N
+CiZndDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaW1wbGVtZW50ZWQsIGFjdHVhbCBkaXJlY3Rp
+b24gY29udHJvbHMgYXJlIG5vdDxicj4NCiZndDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgc3Vw
+cG9ydGVkIHlldC48YnI+DQomZ3Q7IDxicj4NCiZndDsgU2lnbmVkLW9mZi1ieTogSGVlY2hlb2wg
+WWFuZyAmbHQ7aGVlY2hlb2wueWFuZ0BvdXRsb29rLmNvbSZndDs8YnI+DQomZ3Q7IC0tLTxicj4N
+CiZndDsmbmJzcDsgaHcvYXZyL0tjb25maWcmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgfCZuYnNwOyZuYnNwOyAx
+ICs8YnI+DQomZ3Q7Jm5ic3A7IGh3L2F2ci9hdG1lZ2EuYyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB8Jm5ic3A7Jm5ic3A7
+IDcgKystPGJyPg0KJmd0OyZuYnNwOyBody9hdnIvYXRtZWdhLmgmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgfCZuYnNwOyZu
+YnNwOyAyICs8YnI+DQomZ3Q7Jm5ic3A7IGh3L2dwaW8vS2NvbmZpZyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB8Jm5ic3A7
+Jm5ic3A7IDMgKzxicj4NCiZndDsmbmJzcDsgaHcvZ3Bpby9hdnJfZ3Bpby5jJm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHwgMTEyICsrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKys8YnI+DQomZ3Q7Jm5ic3A7IGh3L2dwaW8vbWVzb24uYnVp
+bGQmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgfCZuYnNwOyZuYnNw
+OyAyICs8YnI+DQomZ3Q7Jm5ic3A7IGluY2x1ZGUvaHcvZ3Bpby9hdnJfZ3Bpby5oIHwmbmJzcDsg
+NDYgKysrKysrKysrKysrKysrPGJyPg0KJmd0OyZuYnNwOyA3IGZpbGVzIGNoYW5nZWQsIDE3MSBp
+bnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKTxicj4NCiZndDsmbmJzcDsgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGh3L2dwaW8vYXZyX2dwaW8uYzxicj4NCiZndDsmbmJzcDsgY3JlYXRlIG1vZGUgMTAw
+NjQ0IGluY2x1ZGUvaHcvZ3Bpby9hdnJfZ3Bpby5oPGJyPg0KPGJyPg0KRllJIHRoaXMgb25lIGlz
+IHBvc3RlZCBjb3JyZWN0bHksIEkgY2FuIHJlYWQgaXQgYW5kIHBhdGNoZXc8YnI+DQpzdWNjZXNz
+ZnVsbHkgYXBwbGllZCBpdDo8YnI+DQo8YSBocmVmPSJodHRwczovL3BhdGNoZXcub3JnL1FFTVUv
+RE02UFIxNk1CMjQ3M0M1QTc3RTAwOUNBMkZFRjNEOEVDRTYwRTBARE02UFIxNk1CMjQ3My5uYW1w
+cmQxNi5wcm9kLm91dGxvb2suY29tLyI+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VL0RNNlBSMTZN
+QjI0NzNDNUE3N0UwMDlDQTJGRUYzRDhFQ0U2MEUwQERNNlBSMTZNQjI0NzMubmFtcHJkMTYucHJv
+ZC5vdXRsb29rLmNvbS88L2E+PGJyPg0KPGJyPg0KQnV0IHYzIGlzIGJyb2tlbiBhZ2Fpbi4uLjxi
+cj4NCjwvZGl2Pg0KPC9zcGFuPjwvZm9udD4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+
+--_000_DM6PR16MB24739B6BF93E480B6873A216E60E0DM6PR16MB2473namp_--
 
