@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EDF2820AF
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:58:27 +0200 (CEST)
-Received: from localhost ([::1]:34160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33312820AE
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:56:51 +0200 (CEST)
+Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOXkh-00053M-10
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43250)
+	id 1kOXj8-000273-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXgy-0000JU-L9
+ id 1kOXh0-0000Jn-C8
  for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25480)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXgw-0006ky-M7
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:36 -0400
+ id 1kOXgx-0006lE-2s
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:54:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601693673;
+ s=mimecast20190719; t=1601693674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EHHjWkfKs8d/Xytfa1ktdrYOHwiyPc8ce1Y4dywLVUw=;
- b=Ft93DsxeAFvmSC0nnZ6PEAvzRx6RcN2DMvU7Wb00lsPgFDMX9ou23ylKK4lvCssuP2INBL
- tSQh8huAcQdqhez7cFIt7cPMiLJPO8fpw/fgrtuEaqA2CJ3oDjmYG1U2z1Oy/6lXkroBdl
- ih6c8FuBPJfx/RvLDZkiHOQKmZqw6Zo=
+ bh=2A5cF6gZOkcZ7CSA+401TXofEcmZp/VoxSCPPiuAYaE=;
+ b=d4rMCy4NyVn3ytFvHlUZTgkynUauMxlER1Ho1ClxXYLgMeJVZJ7JgG3zFOnnGQCYp/cmd+
+ BUumQMPoPlH1OfYYhLpRXW302VowDcINNuoq0XmXEpFTAGnYkp5mv4IYHr6Nq8U+K8fvKc
+ MIqBWqXxDmZTQEnFx+UtYkJNHN+u3Kk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-IPRAr_lZN--Y8lXEhxP6WA-1; Fri, 02 Oct 2020 22:54:31 -0400
-X-MC-Unique: IPRAr_lZN--Y8lXEhxP6WA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-463-5JBEQCVIOdiVcbdrgbErtg-1; Fri, 02 Oct 2020 22:54:32 -0400
+X-MC-Unique: 5JBEQCVIOdiVcbdrgbErtg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7461C184C802
- for <qemu-devel@nongnu.org>; Sat,  3 Oct 2020 02:54:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7201C1074648
+ for <qemu-devel@nongnu.org>; Sat,  3 Oct 2020 02:54:31 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CF575D9D3;
- Sat,  3 Oct 2020 02:54:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 377161992F;
+ Sat,  3 Oct 2020 02:54:31 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] docs/devel/qom: Fix indentation of code blocks
-Date: Fri,  2 Oct 2020 22:54:21 -0400
-Message-Id: <20201003025424.199291-4-ehabkost@redhat.com>
+Subject: [PATCH 4/6] docs/devel/qom: Use *emphasis* for emphasis
+Date: Fri,  2 Oct 2020 22:54:22 -0400
+Message-Id: <20201003025424.199291-5-ehabkost@redhat.com>
 In-Reply-To: <20201003025424.199291-1-ehabkost@redhat.com>
 References: <20201003025424.199291-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,136 +86,38 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some code blocks had one extra space, fix that.
+<emphasis> is not valid reST syntax.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- docs/devel/qom.rst | 76 +++++++++++++++++++++++-----------------------
- 1 file changed, 38 insertions(+), 38 deletions(-)
+ docs/devel/qom.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-index c4857d95c8e..a47e1b9a239 100644
+index a47e1b9a239..0c610e20d62 100644
 --- a/docs/devel/qom.rst
 +++ b/docs/devel/qom.rst
-@@ -284,28 +284,28 @@ in the header file:
- .. code-block:: c
-    :caption: Declaring a simple type
+@@ -174,17 +174,17 @@ dynamically cast it to an object that implements the interface.
+ Methods
+ =======
  
--    OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
+-A <emphasis>method</emphasis> is a function within the namespace scope of
++A *method* is a function within the namespace scope of
+ a class. It usually operates on the object instance by passing it as a
+ strongly-typed first argument.
+ If it does not operate on an object instance, it is dubbed
+-<emphasis>class method</emphasis>.
++*class method*.
  
- This is equivalent to the following:
+ Methods cannot be overloaded. That is, the #ObjectClass and method name
+ uniquely identity the function to be called; the signature does not vary
+ except for trailing varargs.
  
- .. code-block:: c
-    :caption: Expansion from declaring a simple type
- 
--    typedef struct MyDevice MyDevice;
--    typedef struct MyDeviceClass MyDeviceClass;
-+   typedef struct MyDevice MyDevice;
-+   typedef struct MyDeviceClass MyDeviceClass;
- 
--    G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
-+   G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
- 
--    #define MY_DEVICE_GET_CLASS(void *obj) \
--            OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
--    #define MY_DEVICE_CLASS(void *klass) \
--            OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
--    #define MY_DEVICE(void *obj)
--            OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-+   #define MY_DEVICE_GET_CLASS(void *obj) \
-+           OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-+   #define MY_DEVICE_CLASS(void *klass) \
-+           OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-+   #define MY_DEVICE(void *obj)
-+           OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
- 
--    struct MyDeviceClass {
--        DeviceClass parent_class;
--    };
-+   struct MyDeviceClass {
-+       DeviceClass parent_class;
-+   };
- 
- The 'struct MyDevice' needs to be declared separately.
- If the type requires virtual functions to be declared in the class
-@@ -319,33 +319,33 @@ In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
- .. code-block:: c
-    :caption: Defining a simple type
- 
--    OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
- 
- This is equivalent to the following:
- 
- .. code-block:: c
-    :caption: Expansion from defining a simple type
- 
--    static void my_device_finalize(Object *obj);
--    static void my_device_class_init(ObjectClass *oc, void *data);
--    static void my_device_init(Object *obj);
--
--    static const TypeInfo my_device_info = {
--        .parent = TYPE_DEVICE,
--        .name = TYPE_MY_DEVICE,
--        .instance_size = sizeof(MyDevice),
--        .instance_init = my_device_init,
--        .instance_finalize = my_device_finalize,
--        .class_size = sizeof(MyDeviceClass),
--        .class_init = my_device_class_init,
--    };
--
--    static void
--    my_device_register_types(void)
--    {
--        type_register_static(&my_device_info);
--    }
--    type_init(my_device_register_types);
-+   static void my_device_finalize(Object *obj);
-+   static void my_device_class_init(ObjectClass *oc, void *data);
-+   static void my_device_init(Object *obj);
-+
-+   static const TypeInfo my_device_info = {
-+       .parent = TYPE_DEVICE,
-+       .name = TYPE_MY_DEVICE,
-+       .instance_size = sizeof(MyDevice),
-+       .instance_init = my_device_init,
-+       .instance_finalize = my_device_finalize,
-+       .class_size = sizeof(MyDeviceClass),
-+       .class_init = my_device_class_init,
-+   };
-+
-+   static void
-+   my_device_register_types(void)
-+   {
-+       type_register_static(&my_device_info);
-+   }
-+   type_init(my_device_register_types);
- 
- This is sufficient to get the type registered with the type
- system, and the three standard methods now need to be implemented
-@@ -358,9 +358,9 @@ This accepts an array of interface type names.
- .. code-block:: c
-    :caption: Defining a simple type implementing interfaces
- 
--    OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
--                                       MY_DEVICE, DEVICE,
--                                       { TYPE_USER_CREATABLE }, { NULL })
-+   OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
-+                                      MY_DEVICE, DEVICE,
-+                                      { TYPE_USER_CREATABLE }, { NULL })
- 
- If the type is not intended to be instantiated, then then
- the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-@@ -368,7 +368,7 @@ the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
- .. code-block:: c
-    :caption: Defining a simple abstract type
- 
--    OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
- 
- 
- 
+-Methods are always <emphasis>virtual</emphasis>. Overriding a method in
++Methods are always *virtual*. Overriding a method in
+ #TypeInfo.class_init of a subclass leads to any user of the class obtained
+ via OBJECT_GET_CLASS() accessing the overridden function.
+ The original function is not automatically invoked. It is the responsibility
 -- 
 2.26.2
 
