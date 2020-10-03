@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A591282095
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:43:26 +0200 (CEST)
-Received: from localhost ([::1]:41124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C6C282097
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 04:43:43 +0200 (CEST)
+Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOXW8-0003yR-W8
-	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41818)
+	id 1kOXWQ-0004Ea-Co
+	for lists+qemu-devel@lfdr.de; Fri, 02 Oct 2020 22:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXUL-0002OM-87
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49032)
+ id 1kOXUM-0002PS-Ne
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kOXUJ-0002fL-A2
- for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:32 -0400
+ id 1kOXUK-0002gE-TS
+ for qemu-devel@nongnu.org; Fri, 02 Oct 2020 22:41:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601692890;
+ s=mimecast20190719; t=1601692891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M4X3K5/XVZS6vBEhGqH+5mU9f2taNKBvfUeFnkFJiqY=;
- b=L7vIK71B5825GN+jcp/Ihkd0Ojhs/r5lZr+m7YZseKhr4xuiLD18uXkPB4Pll40JlnVwqF
- jdnfVG/6UGIxf62Hg4CBZSKzi4FH6QXifmsSgbg2s+An5YGPsSI06IYj5vXHo6k3ZS0ftQ
- PCWS+04BsqJ+6nJsll5G/imEt1NMZLE=
+ bh=BZVwN/5HIlHRgAkJloBA4OWPlFEj0dos8CaUo1T5q94=;
+ b=ZUQuL084+ucEeJ5X15dS9PC7NoIDh1y1ZTcGXuKhS56nfzDt9q33q7kDZa9A2whKlHURzJ
+ RJg+LC9KT2qYH1ZS+wE7XZytchabUIU3/DsxcLsEOgkLsc/OgdnPPw03BAHPTWQ6LMuJqz
+ RdLomWUSViqcFwi8DuPPpRmFDORj3Zw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-sNmPIEdqNjeYqRFrB1qKQg-1; Fri, 02 Oct 2020 22:41:28 -0400
-X-MC-Unique: sNmPIEdqNjeYqRFrB1qKQg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-217-lc_wfcd2PRSikFQ-npV2yg-1; Fri, 02 Oct 2020 22:41:30 -0400
+X-MC-Unique: lc_wfcd2PRSikFQ-npV2yg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAA1180EF9B;
- Sat,  3 Oct 2020 02:41:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E91EF80EF9E;
+ Sat,  3 Oct 2020 02:41:28 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D71C19C66;
- Sat,  3 Oct 2020 02:41:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACCB47EB7C;
+ Sat,  3 Oct 2020 02:41:28 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] kernel-doc: Handle function typedefs without asterisks
-Date: Fri,  2 Oct 2020 22:41:20 -0400
-Message-Id: <20201003024123.193840-3-ehabkost@redhat.com>
+Subject: [PATCH 3/5] qom: Explicitly tag doc comments for typedefs and structs
+Date: Fri,  2 Oct 2020 22:41:21 -0400
+Message-Id: <20201003024123.193840-4-ehabkost@redhat.com>
 In-Reply-To: <20201003024123.193840-1-ehabkost@redhat.com>
 References: <20201003024123.193840-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 21:51:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/02 21:59:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,28 +87,118 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example of typedef that was not parsed by kernel-doc:
-
-  typedef void (ObjectUnparent)(Object *obj);
+If we explicitly indicate we are documenting a typedef or a
+struct, we'll be able to remove the $decl_type='type name' hack
+from kernel-doc.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qom/object.h | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 57a4a72970f..57b911ff174 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1318,7 +1318,7 @@ sub dump_typedef($$) {
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 27aaa67e63f..32bdf4cce53 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -31,7 +31,7 @@ typedef struct InterfaceInfo InterfaceInfo;
+ typedef struct ObjectProperty ObjectProperty;
  
-     # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
- 	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
+ /**
+- * ObjectPropertyAccessor:
++ * typedef ObjectPropertyAccessor:
+  * @obj: the object that owns the property
+  * @v: the visitor that contains the property data
+  * @name: the name of the property
+@@ -47,7 +47,7 @@ typedef void (ObjectPropertyAccessor)(Object *obj,
+                                       Error **errp);
  
- 	# Function typedefs
+ /**
+- * ObjectPropertyResolve:
++ * typedef ObjectPropertyResolve:
+  * @obj: the object that owns the property
+  * @opaque: the opaque registered with the property
+  * @part: the name of the property
+@@ -66,7 +66,7 @@ typedef Object *(ObjectPropertyResolve)(Object *obj,
+                                         const char *part);
+ 
+ /**
+- * ObjectPropertyRelease:
++ * typedef ObjectPropertyRelease:
+  * @obj: the object that owns the property
+  * @name: the name of the property
+  * @opaque: the opaque registered with the property
+@@ -78,7 +78,7 @@ typedef void (ObjectPropertyRelease)(Object *obj,
+                                      void *opaque);
+ 
+ /**
+- * ObjectPropertyInit:
++ * typedef ObjectPropertyInit:
+  * @obj: the object that owns the property
+  * @prop: the property to set
+  *
+@@ -101,7 +101,7 @@ struct ObjectProperty
+ };
+ 
+ /**
+- * ObjectUnparent:
++ * typedef ObjectUnparent:
+  * @obj: the object that is being removed from the composition tree
+  *
+  * Called when an object is being removed from the QOM composition tree.
+@@ -110,7 +110,7 @@ struct ObjectProperty
+ typedef void (ObjectUnparent)(Object *obj);
+ 
+ /**
+- * ObjectFree:
++ * typedef ObjectFree:
+  * @obj: the object being freed
+  *
+  * Called when an object's last reference is removed.
+@@ -120,7 +120,7 @@ typedef void (ObjectFree)(void *obj);
+ #define OBJECT_CLASS_CAST_CACHE 4
+ 
+ /**
+- * ObjectClass:
++ * struct ObjectClass:
+  *
+  * The base for all classes.  The only thing that #ObjectClass contains is an
+  * integer type handle.
+@@ -140,7 +140,7 @@ struct ObjectClass
+ };
+ 
+ /**
+- * Object:
++ * struct Object:
+  *
+  * The base for all objects.  The first member of this object is a pointer to
+  * a #ObjectClass.  Since C guarantees that the first member of a structure
+@@ -370,7 +370,7 @@ struct Object
+                                 true, { NULL })
+ 
+ /**
+- * TypeInfo:
++ * struct TypeInfo:
+  * @name: The name of the type.
+  * @parent: The name of the parent type.
+  * @instance_size: The size of the object (derivative of #Object).  If
+@@ -496,7 +496,7 @@ struct TypeInfo
+     OBJECT_CLASS_CHECK(class, object_get_class(OBJECT(obj)), name)
+ 
+ /**
+- * InterfaceInfo:
++ * struct InterfaceInfo:
+  * @type: The name of the interface.
+  *
+  * The information associated with an interface.
+@@ -506,7 +506,7 @@ struct InterfaceInfo {
+ };
+ 
+ /**
+- * InterfaceClass:
++ * struct InterfaceClass:
+  * @parent_class: the base class
+  *
+  * The class for all interfaces.  Subclasses of this class should only add
 -- 
 2.26.2
 
