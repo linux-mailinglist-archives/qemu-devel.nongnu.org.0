@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879252822A3
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 10:47:23 +0200 (CEST)
-Received: from localhost ([::1]:41494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BB1282286
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Oct 2020 10:39:59 +0200 (CEST)
+Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kOdCM-0008Bh-K8
-	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 04:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57968)
+	id 1kOd5C-0004rH-05
+	for lists+qemu-devel@lfdr.de; Sat, 03 Oct 2020 04:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kOdAm-0007LX-N6
- for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:45:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kOdAj-0003NP-Mc
- for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:45:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kOdAi-0007nB-6n
- for <qemu-devel@nongnu.org>; Sat, 03 Oct 2020 08:45:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3026F2E8031
- for <qemu-devel@nongnu.org>; Sat,  3 Oct 2020 08:45:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kOd4K-0004SY-3n
+ for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:39:04 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:52575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kOd4H-0002dK-GN
+ for qemu-devel@nongnu.org; Sat, 03 Oct 2020 04:39:03 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.76])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4BA3C6197B53;
+ Sat,  3 Oct 2020 10:38:50 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Sat, 3 Oct 2020
+ 10:38:49 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005e6880fe4-ca63-4cea-b120-8e938ba0c296,
+ 3345FDB4B62F999A850A9D5BF875A94D2EA020F3) smtp.auth=groug@kaod.org
+Date: Sat, 3 Oct 2020 10:38:48 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v2 2/2] vhost: Don't call log_access_ok() when using IOTLB
+Message-ID: <20201003103848.766c7442@bahia.lan>
+In-Reply-To: <d9dae1ed-49a4-909a-6840-ae46a4ffdffc@redhat.com>
+References: <160139701999.162128.2399875915342200263.stgit@bahia.lan>
+ <160139704424.162128.7839027287942194310.stgit@bahia.lan>
+ <d9dae1ed-49a4-909a-6840-ae46a4ffdffc@redhat.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 03 Oct 2020 08:37:24 -0000
-From: Thomas Huth <1898084@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pere-jobs th-huth
-X-Launchpad-Bug-Reporter: Ophir LOJKINE (pere-jobs)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160157283310.5327.3681752113841049978.malonedeb@soybean.canonical.com>
-Message-Id: <160171424441.13458.15444744732594583162.malone@gac.canonical.com>
-Subject: [Bug 1898084] Re: Assertion failed: (buf_len != 0), function soread, 
- file socket.c, line 183.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 44d9cc38d682cb5ba9d8f8c624ef10305a98a94f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/03 03:55:45
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 7085d870-f704-48ed-abc4-e9fdc74ba25a
+X-Ovh-Tracer-Id: 4078572412553632108
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrfeekgddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/03 04:38:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,54 +70,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1898084 <1898084@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, netdev@vger.kernel.org,
+ Laurent Vivier <laurent@vivier.eu>, virtualization@lists.linux-foundation.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hmm, thinking about it twice, maybe let's rather keep this open, to make
-sure that we update to the right version of libslirp in QEMU once the
-fix is released there.
+On Sat, 3 Oct 2020 09:58:59 +0800
+Jason Wang <jasowang@redhat.com> wrote:
 
--- =
+>=20
+> On 2020/9/30 =E4=B8=8A=E5=8D=8812:30, Greg Kurz wrote:
+> > When the IOTLB device is enabled, the log_guest_addr that is passed by
+> > userspace to the VHOST_SET_VRING_ADDR ioctl, and which is then written
+> > to vq->log_addr, is a GIOVA. All writes to this address are translated
+> > by log_user() to writes to an HVA, and then ultimately logged through
+> > the corresponding GPAs in log_write_hva(). No logging will ever occur
+> > with vq->log_addr in this case. It is thus wrong to pass vq->log_addr
+> > and log_guest_addr to log_access_vq() which assumes they are actual
+> > GPAs.
+> >
+> > Introduce a new vq_log_used_access_ok() helper that only checks accesses
+> > to the log for the used structure when there isn't an IOTLB device arou=
+nd.
+> >
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >   drivers/vhost/vhost.c |   23 +++++++++++++++++++----
+> >   1 file changed, 19 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
+> > index c3b49975dc28..5996e32fa818 100644
+> > --- a/drivers/vhost/vhost.c
+> > +++ b/drivers/vhost/vhost.c
+> > @@ -1370,6 +1370,20 @@ bool vhost_log_access_ok(struct vhost_dev *dev)
+> >   }
+> >   EXPORT_SYMBOL_GPL(vhost_log_access_ok);
+> >  =20
+> > +static bool vq_log_used_access_ok(struct vhost_virtqueue *vq,
+> > +				  void __user *log_base,
+> > +				  bool log_used,
+> > +				  u64 log_addr,
+> > +				  size_t log_size)
+> > +{
+> > +	/* If an IOTLB device is present, log_addr is a GIOVA that
+> > +	 * will never be logged by log_used(). */
+> > +	if (vq->iotlb)
+> > +		return true;
+> > +
+> > +	return !log_used || log_access_ok(log_base, log_addr, log_size);
+> > +}
+> > +
+> >   /* Verify access for write logging. */
+> >   /* Caller should have vq mutex and device mutex */
+> >   static bool vq_log_access_ok(struct vhost_virtqueue *vq,
+> > @@ -1377,8 +1391,8 @@ static bool vq_log_access_ok(struct vhost_virtque=
+ue *vq,
+> >   {
+> >   	return vq_memory_access_ok(log_base, vq->umem,
+> >   				   vhost_has_feature(vq, VHOST_F_LOG_ALL)) &&
+> > -		(!vq->log_used || log_access_ok(log_base, vq->log_addr,
+> > -				  vhost_get_used_size(vq, vq->num)));
+> > +		vq_log_used_access_ok(vq, log_base, vq->log_used, vq->log_addr,
+> > +				      vhost_get_used_size(vq, vq->num));
+> >   }
+> >  =20
+> >   /* Can we start vq? */
+> > @@ -1517,8 +1531,9 @@ static long vhost_vring_set_addr(struct vhost_dev=
+ *d,
+> >   			return -EINVAL;
+> >  =20
+> >   		/* Also validate log access for used ring if enabled. */
+> > -		if ((a.flags & (0x1 << VHOST_VRING_F_LOG)) &&
+> > -			!log_access_ok(vq->log_base, a.log_guest_addr,
+> > +		if (!vq_log_used_access_ok(vq, vq->log_base,
+> > +				a.flags & (0x1 << VHOST_VRING_F_LOG),
+> > +				a.log_guest_addr,
+> >   				sizeof *vq->used +
+> >   				vq->num * sizeof *vq->used->ring))
+>=20
+>=20
+> It looks to me that we should use vhost_get_used_size() which takes=20
+> event into account.
+>=20
+> Any reason that we can't reuse vq_log_access_ok() here?
+>=20
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1898084
+No reason indeed but I'll fix this in a preliminary patch, and
+send a v2 shortly.
 
-Title:
-  Assertion failed: (buf_len !=3D 0), function soread, file socket.c, line
-  183.
+Cheers,
 
-Status in QEMU:
-  Triaged
+--
+Greg
 
-Bug description:
-  I have a virtual raspberry py that I am running qemu 5.1.0 for MacOS.
+> Thanks
+>=20
+>=20
+> >   			return -EINVAL;
+> >
+> >
+>=20
 
-  Here is the command line I used:
-
-  qemu-system-arm \
-    -M versatilepb \
-    -cpu arm1176 \
-    -m 256 \
-    -drive file=3D2020-08-20-raspios-buster-armhf-lite.img,if=3Dnone,index=
-=3D0,media=3Ddisk,format=3Draw,id=3Ddisk0 \
-    -device virtio-blk-pci,drive=3Ddisk0,disable-modern=3Don,disable-legacy=
-=3Doff \
-    -net nic -net user,hostfwd=3Dtcp::5022-:22 \
-    -dtb versatile-pb-buster-5.4.51.dtb \
-    -kernel kernel-qemu-5.4.51-buster \
-    -append "root=3D/dev/vda2 panic=3D1" \
-    -no-reboot \
-    -serial stdio
-
-  When trying to ssh from another machine while docker was running
-  inside the VM, I got the following error:
-
-  Assertion failed: (buf_len !=3D 0), function soread, file /private/tmp/qe=
-mu-20200813-13289-1g95loa/qemu-5.1.0/slirp/src/socket.c, line 183
-  ../boot.sh: line 12:  8592 Abort trap: 6
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1898084/+subscriptions
 
