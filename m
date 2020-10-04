@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7023D282C69
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:11:44 +0200 (CEST)
-Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C71282C6C
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:14:03 +0200 (CEST)
+Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8U3-0002BP-G8
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:11:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45996)
+	id 1kP8WI-0005bK-CW
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:14:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nh-0002Xu-Av
+ id 1kP8Nh-0002YY-UE
  for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:09 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38619)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nf-0008KP-GJ
+ id 1kP8Ng-0008Ka-E9
  for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:09 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v12so6559643wmh.3
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:07 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id k18so6552342wmj.5
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SbkTu/IhMJ/C6IJ2FiboW4MDdddpSWQsUo8c159m5ZQ=;
- b=X//18WsoxtrVC9prukqpDF4E4Vh0SI3FeLzxJV3/wWJVeLWaNZJ7CHAvjeqobUKp7Z
- VcR2ETFIR43Y5FQa0cV/6tpWQRcbC5ItTHCBPQgaW9zu1vGaC6nCB6hCrxmkMfjW1GPc
- Al20gDz9PPnpoWeRP2ZWCKkfN70bzPqzD8FvW5DOsiHSVQWXrgTgqp0D9i6J0doXRMU4
- swDaXZua2DGU1eVXhbiJp7EvRKxABmybrPqP5EddMI05fIiTw22v/jeyU4rSpaQdQ7C7
- Nz3+1msmLzq8swBG9dKHCQh/GQiXFbo1po2/Ud0Ennvvb/lOLmh+0QW997ojgtP4a6oN
- A+Kw==
+ bh=LXvU+0XkQjXvJi8RBmEkZmklmgOSv1oOkVzzR13SKwU=;
+ b=tJ6cAyQAMuXh4ZKZEzlvS7E7gz26NhSsWq8j+3UBoz/APZLUUk4l/yrny7rcGXqlf3
+ vvgS3Rgzttj7crbrxRDFEgzNUPFPRhO6BIN3ML+4dQrWhUaRKd/qRucs2jARfezG6P7/
+ bSn3xAERChvyR8lZRslowaiEQ/qpRaiG9TSc1Tdgpl3+ZXW8H9ZQ5q9h46tJ6pHHyxdY
+ ra1kyivZNLeSCNnAAEYQ8WqVSViViXSVY70XCh/lfGhQHFWX9eLuSChIuLAAd0t2jGmJ
+ gXXFaC2x7f4DjBQTjs2r8bbXMfZm4P8/PmJokQJvyQdLF8RRknFPKwUJT4y18f998oU3
+ HPCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SbkTu/IhMJ/C6IJ2FiboW4MDdddpSWQsUo8c159m5ZQ=;
- b=nxh4uI1toHrmP/xgk/CY4r3Kg8UljfbwmUpFAYSafiDzz8/o7fifZOAzB+gW87Hsrk
- sVAQqsG5wtL/oSKUqiPgswNj2wAPAS3UMNc5OXagrw+3G++SzVP9t8ief64vsJ18uq0r
- lTuelK254unqOqFJLnfc9q/NJviSggt0tQ8LLcRd51ciIpllB5Q95FxF/zqB4BU+EFq3
- kw8M0JjWSzmSt9fVAAtvi6VZ6qHnySaqnQJXpan9Gd9WubXD19j6gf4jL+KkgrxHjpF/
- R4cGZnCTjhgQOp6f1o4JE3WSCdtdHBu6pVTD8maAJN7MxaX4FQxpHLB9pKVBhJGOIGRl
- EsWg==
-X-Gm-Message-State: AOAM531BAA6G9sdZvSal8Y/o+17lG5py0wTpUDoTk5HURERnYN7JqZoo
- jK/RZML1YGSTYKrCwifruaDoKmX5y4dG4Q==
-X-Google-Smtp-Source: ABdhPJxAHf1iox4SWzTTrAZo2TGHlsLeCzh+c+Diu8t5zbIRb5QLBsw4zS4TW3k6gIThkQm+lPUJzA==
-X-Received: by 2002:a7b:c14f:: with SMTP id z15mr8931201wmi.73.1601834706062; 
- Sun, 04 Oct 2020 11:05:06 -0700 (PDT)
+ bh=LXvU+0XkQjXvJi8RBmEkZmklmgOSv1oOkVzzR13SKwU=;
+ b=sLPhVDp/0HloMAvsDx5jfoJU+1C7WPcuLMJqJN8WiPUSDdQPERb25wBQfjUGZmMCPA
+ Z6psTSQorH08LKW3/898ZJMPCum2lZGWqS+t2rlhL6REP01C1TOCJNg22Xj7lZc4cd5E
+ yJQ+pTsAFXzwwyOLGtXtcK+0RTVyxJmSMGTFcZTOr/wGK6p0OkbTDH6ZcWQUWNq9DjpW
+ 7r6yaYehZueArCMTuJx7qL4u7Sj0x//gdm+rN61NBcgI/HBgrA2opYnH2mixw13EdJEm
+ /xmOg56qFCYom2HQ2HB0yyQFACuO1Cy4EI7Dltjec93MJCDkCT4HfPzDaIg5/3Sln/nP
+ vupQ==
+X-Gm-Message-State: AOAM53282pwPy2OJXAuFGDGDpYDqPWjJOohqvKPyyfIkwGErcEFD+Roa
+ uREFvxmwoDOlLH5FFo8+M4KZsxdJyhRIvw==
+X-Google-Smtp-Source: ABdhPJzOUfThX3OMx3oUNAr68qjHOV7HVwIWtyvgyL1brL1uFGMHL8I/ci53LAJh6kfRGKNsyPBfUw==
+X-Received: by 2002:a7b:c418:: with SMTP id k24mr12831281wmi.118.1601834707020; 
+ Sun, 04 Oct 2020 11:05:07 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.04
+ by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 11:05:05 -0700 (PDT)
+ Sun, 04 Oct 2020 11:05:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 14/21] contrib/gitdm: Add Samsung to the domain map
-Date: Sun,  4 Oct 2020 20:04:36 +0200
-Message-Id: <20201004180443.2035359-15-f4bug@amsat.org>
+Subject: [RFC PATCH 15/21] contrib/gitdm: Add Renesas to the domain map
+Date: Sun,  4 Oct 2020 20:04:37 +0200
+Message-Id: <20201004180443.2035359-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201004180443.2035359-1-f4bug@amsat.org>
 References: <20201004180443.2035359-1-f4bug@amsat.org>
@@ -88,73 +88,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergey Fedorov <s.fedorov@samsung.com>,
- Evgeny Voevodin <e.voevodin@samsung.com>,
- Alexey Perevalov <a.perevalov@samsung.com>,
- Ilya Maximets <i.maximets@samsung.com>,
- Sangho Park <sangho1206.park@samsung.com>,
- Stanislav Vorobiov <s.vorobiov@samsung.com>,
- Mikhail Ilyin <m.ilin@samsung.com>, Igor Mitsyanko <i.mitsyanko@samsung.com>,
- Mike McCormack <mj.mccormack@samsung.com>,
- Yeongkyoon Lee <yeongkyoon.lee@samsung.com>, Pavel Fedin <p.fedin@samsung.com>,
- Maxim Ostapenko <m.ostapenko@partner.samsung.com>,
- Mario Smarduch <m.smarduch@samsung.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Munkyu Im <munkyu.im@samsung.com>, SeokYeon Hwang <syeon.hwang@samsung.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Igor Skalkin <i.skalkin@samsung.com>, Maksim Kozlov <m.kozlov@samsung.com>,
- Klaus Jensen <k.jensen@samsung.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- YuYeon Oh <yuyeon.oh@samsung.com>, Oleg Ogurtsov <o.ogurtsov@samsung.com>,
- Jaroslaw Pelczar <j.pelczar@samsung.com>
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a number of contributors from this domain,
+There is a number of contributions from this domain,
 add its own entry to the gitdm domain map.
 
-Cc: Alexey Perevalov <a.perevalov@samsung.com>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Evgeny Voevodin <e.voevodin@samsung.com>
-Cc: Igor Mitsyanko <i.mitsyanko@samsung.com>
-Cc: Igor Skalkin <i.skalkin@samsung.com>
-Cc: Ilya Maximets <i.maximets@samsung.com>
-Cc: Jaroslaw Pelczar <j.pelczar@samsung.com>
-Cc: Klaus Jensen <k.jensen@samsung.com>
-Cc: Maksim Kozlov <m.kozlov@samsung.com>
-Cc: Mario Smarduch <m.smarduch@samsung.com>
-Cc: Maxim Ostapenko <m.ostapenko@partner.samsung.com>
-Cc: Mike McCormack <mj.mccormack@samsung.com>
-Cc: Mikhail Ilyin <m.ilin@samsung.com>
-Cc: Munkyu Im <munkyu.im@samsung.com>
-Cc: Oleg Ogurtsov <o.ogurtsov@samsung.com>
-Cc: Pavel Fedin <p.fedin@samsung.com>
-Cc: Sangho Park <sangho1206.park@samsung.com>
-Cc: SeokYeon Hwang <syeon.hwang@samsung.com>
-Cc: Sergey Fedorov <s.fedorov@samsung.com>
-Cc: Stanislav Vorobiov <s.vorobiov@samsung.com>
-Cc: Yeongkyoon Lee <yeongkyoon.lee@samsung.com>
-Cc: YuYeon Oh <yuyeon.oh@samsung.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-One Reviewed-by/Ack-by from someone from this domain
-should be sufficient to get this patch merged.
----
- contrib/gitdm/domain-map | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/gitdm/group-map-renesas | 3 +++
+ gitdm.config                    | 1 +
+ 2 files changed, 4 insertions(+)
+ create mode 100644 contrib/gitdm/group-map-renesas
 
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 47522dff02..77f2a140cd 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -31,6 +31,7 @@ proxmox.com     Proxmox
- quicinc.com     Qualcomm
- redhat.com      Red Hat
- rt-rk.com       RT-RK
-+samsung.com     Samsung
- siemens.com     Siemens
- sifive.com      SiFive
- suse.de         SUSE
+diff --git a/contrib/gitdm/group-map-renesas b/contrib/gitdm/group-map-renesas
+new file mode 100644
+index 0000000000..4d54ec2307
+--- /dev/null
++++ b/contrib/gitdm/group-map-renesas
+@@ -0,0 +1,3 @@
++# Renesas Electronics
++
++ysato@users.sourceforge.jp
+diff --git a/gitdm.config b/gitdm.config
+index 1c56131769..6db72da339 100644
+--- a/gitdm.config
++++ b/gitdm.config
+@@ -39,6 +39,7 @@ GroupMap contrib/gitdm/group-map-ibm IBM
+ GroupMap contrib/gitdm/group-map-janustech Janus Technologies
+ GroupMap contrib/gitdm/group-map-nutanix Nutanix
+ GroupMap contrib/gitdm/group-map-oracle Oracle
++GroupMap contrib/gitdm/group-map-renesas Renesas
+ 
+ # Also group together our prolific individual contributors
+ # and those working under academic auspices
 -- 
 2.26.2
 
