@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAB5282C79
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:22:10 +0200 (CEST)
-Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4C5282C83
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:27:18 +0200 (CEST)
+Received: from localhost ([::1]:39316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8e9-0004Fk-2X
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
+	id 1kP8j7-0006Q0-Lv
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nr-0002lj-1H
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:19 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46012)
+ id 1kP8h7-0005oM-90
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:25:13 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Np-0008Nz-BR
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:18 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x14so7074160wrl.12
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:16 -0700 (PDT)
+ id 1kP8h5-00026Z-Iz
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:25:12 -0400
+Received: by mail-wm1-x341.google.com with SMTP id j136so6585210wmj.2
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=T9OS4piSvemeoKDeGmvndJFJ70sjoMM7Z5emZ5RNq14=;
- b=RXV4Np+KeqsIh8XBC8aAt5uYSus7rr9LKSDAkInPmqh49uFWPcVxKHJDIowOFDvtzy
- Ql73U5H6Sd/Sy7RvRWjbB6B+ioZa1VBpY96gE4xNA6RSv+jwpCElqyeS9zQVnMUs0rDX
- 0UoVup/Kcy4i/g5ASISt+6ybisnOLSR/33O8DunrZ8LHweEAhqRD68XxNwCcc0/jPSlc
- xiLW2HNecLIFXynXrQnQZvLDt08+S/mgZcoj08SBJMora8h7qpzlEu3rISlPFSVdzOk7
- t0Ennq0DkpBCU5lStjM8cJ5Wojuwi50aHS4cdNzl2s8UdMqv+QhDgkNpFbeJESmzzvtM
- htjA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9JR01Ay2v5ejxYhIOCc1GUk0ay2p2mOurCw+oBZeVjU=;
+ b=kywiiwlsblELBwiN30D6034mWYABHw1bjNzZvp+6hWNl1GDJ46jRQuXzxOWqcVA4oa
+ Kh8k5Bfn3PXiXTSm8RGsO55u+yA2OKLJZO/xGDTeb+5CGqoC9gVyUyxSg4BakwFO2lbP
+ dJ73J/AHpOJOjzbpD4tUSHbOsOc1zZK+Zmbnq3gWjGWwASSbCsOt36LxQ+GEGmBTbFQp
+ Aq1i2MfWi7vAq0xD8gu4iiFgZuhC0j7KkIIcmCUz9lZChGkR2tRB+elq3+qyw9Jqijws
+ kRjEpRI+g2ABp8ohtZ6cxfJzrhRlTsHm0BGLsFd38/bokBJx59ACvgi3HYoJc2Cu3rnz
+ 9bGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T9OS4piSvemeoKDeGmvndJFJ70sjoMM7Z5emZ5RNq14=;
- b=eLEp2Lr8E2oN6G0vJliOSFqZVbSwXtGhx4xfEckaGfWKgt5HSHT/hd82lStSe29ZEa
- Im52WBcGOK7P1ZQJbVHaQrmV/0jNdPbnayZk4cQ8I3Dd5Z+ZYcHub9P17DiBzuarFURe
- nWrYRwFxTavmbMy2U0phh+uflgXNl737wZk9SiQSNvt5jTr7DIP5a9e16WeOAFdTTXDp
- Ioy5lrEmGfYsEZdQywQaeipv7On7XXT5z4roZIxCuODHq2j6wxPsf60XoEcKsTmR0P/j
- VO8jCd+q6X4/+fwwgyIh2/Pqhaq1Jsc4aa/Ycj0LsfJadqsC7UefZFWeWFAC0smNMUI+
- T55w==
-X-Gm-Message-State: AOAM531Tih4XAdp6xKr0aFkr+yz6JUcswoeusvK5RvB4p6GV+AZoF4PR
- nV8AXKniUm5v3wNgykWJSjDDB4YrRQCocg==
-X-Google-Smtp-Source: ABdhPJzV5Ryb/BMkLCxZcttmMgkvfW4rnWU3DAn9B4sIRCuBsb4f2QitqeDptJRTEckklikcYCdYEQ==
-X-Received: by 2002:adf:a1d6:: with SMTP id v22mr7656910wrv.185.1601834715724; 
- Sun, 04 Oct 2020 11:05:15 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=9JR01Ay2v5ejxYhIOCc1GUk0ay2p2mOurCw+oBZeVjU=;
+ b=TwK4fdFcaN9xHJzBtVmX8e7HisUNkl22js6IxaTZU6O61pJlNzbF7keluExZElrsAt
+ JGyCJmqS4rZpK0rARfez0mlC7kBUm4TkvnG7uLIvokSJofrlbpYQ1JPuM8mygeLxmTXy
+ hjI/hmSl/GALtrmb+9PT4PGu/fVywR+iC0yuhHj4OW+LWspsffSpUwpLtGRn7Kab7DxI
+ HfIWG3aZkf7mU7tlVF/z1zLOyndr6j799PlJHFTGOVIcEYAeQD+rJbUed7dzfUeZ+hVq
+ jaHq77fEW/RN8tY63BMAZjv5TtLMvgvF/FNJbNt8vkYRHFxNvXSHU0Yot4oCIMwQci/9
+ gMIA==
+X-Gm-Message-State: AOAM532rY4OfmBKbRJqV1KFoeR4TZSb/Jw8iwauiS+cPJcMz7fFuN1cm
+ vFchhUc/AK+yPdw/F6EI0Gptb16cYcLRtA==
+X-Google-Smtp-Source: ABdhPJwI4ROob7KTV9F6/M+HmBVildWpwXOCg87y7ei9GSoe/j+lkuvhsP1vU0NLPt9c/QoWUTEHKA==
+X-Received: by 2002:a1c:6a06:: with SMTP id f6mr3106258wmc.184.1601835909231; 
+ Sun, 04 Oct 2020 11:25:09 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.13
+ by smtp.gmail.com with ESMTPSA id k15sm10533906wrv.90.2020.10.04.11.25.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 11:05:14 -0700 (PDT)
+ Sun, 04 Oct 2020 11:25:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 21/21] contrib/gitdm: Add ZTE to the domain map
-Date: Sun,  4 Oct 2020 20:04:43 +0200
-Message-Id: <20201004180443.2035359-22-f4bug@amsat.org>
+Subject: [RFC PATCH] contrib/gitdm: Add more individual contributors
+Date: Sun,  4 Oct 2020 20:25:06 +0200
+Message-Id: <20201004182506.2038515-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201004180443.2035359-1-f4bug@amsat.org>
-References: <20201004180443.2035359-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,50 +86,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yi Wang <wang.yi59@zte.com.cn>, Peng Hao <peng.hao2@zte.com.cn>,
- Wang Yong <wang.yong155@zte.com.cn>, Wang Guang <wang.guang55@zte.com.cn>,
- Yun Liu <liu.yunh@zte.com.cn>, Li Ping <li.ping288@zte.com.cn>,
- Liu Yi <liu.yi24@zte.com.cn>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiang Biao <jiang.biao2@zte.com.cn>, ZhiPeng Lu <lu.zhipeng@zte.com.cn>,
+Cc: James Hogan <jhogan@kernel.org>, Paul Zimmerman <pauldzim@gmail.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Sven Schnelle <svens@stackframe.org>, Paul Burton <paulburton@kernel.org>,
+ Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Finn Thain <fthain@telegraphics.com.au>,
+ Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=20Zolt=C3=A1n?= <dirty.ice.hu@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>, Stefan Weil <sw@weilnetz.de>,
+ Alistair Francis <alistair@alistair23.me>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wang Yechao <wang.yechao255@zte.com.cn>,
- Liao Pingfang <liao.pingfang@zte.com.cn>, Jiyun Fan <fan.jiyun@zte.com.cn>
+ Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, David Carlier <devnexen@gmail.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a number of contributors from this domain,
-add its own entry to the gitdm domain map.
+These individual contributors have a number of contributions,
+add them to the 'individual' group map.
 
-Cc: Jiang Biao <jiang.biao2@zte.com.cn>
-Cc: Liao Pingfang <liao.pingfang@zte.com.cn>
-Cc: Li Ping <li.ping288@zte.com.cn>
-Cc: Peng Hao <peng.hao2@zte.com.cn>
-Cc: Wang Guang <wang.guang55@zte.com.cn>
-Cc: Wang Yechao <wang.yechao255@zte.com.cn>
-Cc: Wang Yong <wang.yong155@zte.com.cn>
-Cc: Yi Wang <wang.yi59@zte.com.cn>
-Cc: Yun Liu <liu.yunh@zte.com.cn>
-Cc: ZhiPeng Lu <lu.zhipeng@zte.com.cn>
-Cc: Jiyun Fan <fan.jiyun@zte.com.cn>
-Cc: Liu Yi <liu.yi24@zte.com.cn>
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: David Carlier <devnexen@gmail.com>
+Cc: Finn Thain <fthain@telegraphics.com.au>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Hervé Poussineau <hpoussin@reactos.org>
+Cc: James Hogan <jhogan@kernel.org>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Kővágó Zoltán <dirty.ice.hu@gmail.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Michael Rolnik <mrolnik@gmail.com>
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
+Cc: Paul Burton <paulburton@kernel.org>
+Cc: Paul Zimmerman <pauldzim@gmail.com>
+Cc: Stefan Weil <sw@weilnetz.de>
+Cc: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+Cc: Sven Schnelle <svens@stackframe.org>
+Cc: Thomas Huth <huth@tuxfamily.org>
+Cc: Volker Rümelin <vr_qemu@t-online.de>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-One Reviewed-by/Ack-by from someone from this domain
-should be sufficient to get this patch merged.
+To the developers Cc'ed: If you agree with your entry, please
+reply with a Reviewed-by/Acked-by tag. If you disagree or doesn't
+care, please either reply with Nack-by or ignore this patch.
+I'll repost in 2 weeks as formal patch (not RFC) with only the
+entries acked by their author.
 ---
- contrib/gitdm/domain-map | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/gitdm/group-map-individuals | 22 ++++++++++++++++++++++
+ contrib/gitdm/group-map-redhat      |  1 -
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 4e6bf16e4e..8781e4ba87 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -43,3 +43,4 @@ windriver.com   Wind River
- xilinx.com      Xilinx
- yadro.com       YADRO
- yandex-team.ru  Yandex
-+zte.com.cn      ZTE
+diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
+index cf8a2ce367..b478fd4576 100644
+--- a/contrib/gitdm/group-map-individuals
++++ b/contrib/gitdm/group-map-individuals
+@@ -16,3 +16,25 @@ aurelien@aurel32.net
+ balaton@eik.bme.hu
+ e.emanuelegiuseppe@gmail.com
+ andrew.smirnov@gmail.com
++sw@weilnetz.de
++huth@tuxfamily.org
++laurent@vivier.eu
++atar4qemu@gmail.com
++hpoussin@reactos.org
++deller@gmx.de
++alistair@alistair23.me
++fthain@telegraphics.com.au
++svens@stackframe.org
++aleksandar.qemu.devel@gmail.com
++jhogan@kernel.org
++paulburton@kernel.org
++vr_qemu@t-online.de
++nieklinnenbank@gmail.com
++devnexen@gmail.com
++jcd@tribudubois.net
++dirty.ice.hu@gmail.com
++mrolnik@gmail.com
++pauldzim@gmail.com
++linux@roeck-us.net
++sundeep.lkml@gmail.com
++ahmedkhaledkaraman@gmail.com
+diff --git a/contrib/gitdm/group-map-redhat b/contrib/gitdm/group-map-redhat
+index d15db2d35e..4a8ca84b36 100644
+--- a/contrib/gitdm/group-map-redhat
++++ b/contrib/gitdm/group-map-redhat
+@@ -3,6 +3,5 @@
+ #
+ 
+ david@gibson.dropbear.id.au
+-laurent@vivier.eu
+ pjp@fedoraproject.org
+ armbru@pond.sub.org
 -- 
 2.26.2
 
