@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE6A282D8B
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 22:42:36 +0200 (CEST)
-Received: from localhost ([::1]:53214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8E9282D90
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 22:48:02 +0200 (CEST)
+Received: from localhost ([::1]:59434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPAq3-0001qL-Vf
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 16:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37498)
+	id 1kPAvJ-0004dv-UH
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 16:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPAnr-0000tX-N1
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 16:40:19 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33333)
+ id 1kPAtl-0004CE-DQ
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 16:46:25 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPAnp-0008NU-Nr
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 16:40:19 -0400
-Received: by mail-wm1-x342.google.com with SMTP id z22so507991wmi.0
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 13:40:17 -0700 (PDT)
+ id 1kPAti-0000dr-JV
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 16:46:24 -0400
+Received: by mail-wr1-x442.google.com with SMTP id k10so7332169wru.6
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 13:46:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p/+UFJ5tcX1x4IrUrs4JVRko4rLWEYX7wuvXqdP/XvQ=;
- b=XRx8fBDtNixUdPAoTHm06hfCWyxWSHTE50J/49B+SS++GcxeMf8QYYPOmGwBrnGzcV
- 7prQkl3t3CEj0TzArNoGvpL3JGaIGhyih0gEUAMHzHFxyrxwh67xKxg1Iq4ZKhwgTuJ0
- wyClS3VRtIPHJZvZqbYtzyZTJQ1VI8U9ptoIsAW6T8rDbHLtxZLU2/5BvVH3R+QaVNtm
- yNbukNovuE83JjPRM3PG17f+WshHBOPDH+tliaJLz4v6XZYnNS9OJdgDLXrLCbmKOgcc
- mzIAn7tjvW+jYkfwa+X02mTdqbe3+OMaIQpYgJ135s6TPV3siAXlJBj/i9vFkmOZSqSj
- pryw==
+ bh=9W7QqLxCDxQ0VUYDuTg/fuTwoAI3pI8zkbI64r1Nyao=;
+ b=gOeQi4Y+C+kRuemypejyYWMj61qfgekPNPLCcxpzcTuo59xO8b1roR9vyub3Ij3kZh
+ LInYHFLN+wQO5fWzCJj/bSQnRuWzCxYGphOwSVIJjZ9gI3C5cNd8po7xS6BWiu7ICiwS
+ 7Q9liUi9+zWOj2UTtAllDzCIw2jIX/2WgtcWCH6/kFaIkPDh/cIWIkLqdLIDdqdIGJxw
+ 1AsJUM/TDtrMFxBuu2At0UB+rRDILs+TKO3PxBWa5sYze8CaZuv8LWezBArE6wNs2F+S
+ +17qMBfYfvC4mPHh1ItFO8sVlwFzYw5enZo9IJbe/8L1iCvBUuLkMtD6XxL3UGfIq4sh
+ 7nWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=p/+UFJ5tcX1x4IrUrs4JVRko4rLWEYX7wuvXqdP/XvQ=;
- b=lxk96R62od8m5Xwh9zx/wQIulPb6vXmry5bH2nRa3091dWS2KT6hCK4IkvApRBBlex
- ulOFNRJfMEVFYqDKk2Hx3OFGqoScfv8hg6X5u0GY3+oVl6Of6iZEuMYqu2CvfgyVsLHI
- NgI0wwaDG1QTTZOkxjPSDqyk/MP0BqB0lu/TnTJT0WqtMEt1DQPYKZjg/O4n7pwe5Rek
- IKhtLjo5g2QrOAZ8l4XoK6rZw7PoULrT7LQvuwZA8wmpQk06pxdSt4ka6nC5qAUKhpXl
- WpxpPame4GhsRA6VEWTsTb0LgTjA4yJvrHerQuIoLtT5qE6T/1yI5DVQ7e/TD512FyJ/
- setQ==
-X-Gm-Message-State: AOAM533gf9up88IeXK83TeTz24OPGCGCbhm0cn4XO/QE1ztmvWoAY0eL
- exQVWCqAHCcvWl6ctyxMOi6TL84h7Ac20w==
-X-Google-Smtp-Source: ABdhPJzOld8x6t0n4Z/bXGdDazc27ssLhdIgTWMc7a7p1ak/Fla/pRH1Jhd/ht5pBVcdXz30wVM1qw==
-X-Received: by 2002:a1c:59c3:: with SMTP id n186mr13483313wmb.32.1601844015891; 
- Sun, 04 Oct 2020 13:40:15 -0700 (PDT)
+ bh=9W7QqLxCDxQ0VUYDuTg/fuTwoAI3pI8zkbI64r1Nyao=;
+ b=TmkeUISjBm6EI2kY3EjtvnilDwtNwCitOu2BTBP7WcTK5Fi++BAGSyGAFcdHq0Iy8X
+ CFnNWAVDSo4Dk8EJH7v5yLyAu4bkaPWTs8pd86+Jee22m/AWYNARdWVL8eJ6HEj5hD73
+ gRDpb6cdFX7pjFFhTaVe0EXbK1I3HC0xa+dogvr4kGm/XbTdX9B1vLN6z/HWmNVCo0BU
+ 0UBz7omAcPq0KYFTF+8wrcgjiCTtVHIcBE6hARtbCvx9p0zVpIE+durwMHi2Qvof07Pd
+ qBI4raeeXJTMEv7/m0wfS8lWQVunnWvwLZ+P1BD7GsCMkJEUA96S5I5uRg7uvKy1RYGs
+ Rvmw==
+X-Gm-Message-State: AOAM531gxLBLRO8I9sfj+hLvNWdhX+8aSylgytmTtlJL409HTdXDoEzD
+ AC//Hnb9vPnLETdyxrZOIIVlJj6VJx1x1Q==
+X-Google-Smtp-Source: ABdhPJwPgmmLkkJgyQv0pcy/BY9aJbleGtUodmtsMkPPsPNm8UGEJzDOUMTRaQ7Qsiru8bpC7gdLGg==
+X-Received: by 2002:adf:dbc3:: with SMTP id e3mr7943630wrj.1.1601844379795;
+ Sun, 04 Oct 2020 13:46:19 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id y1sm10245424wma.36.2020.10.04.13.40.13
+ by smtp.gmail.com with ESMTPSA id v2sm10391962wme.19.2020.10.04.13.46.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 13:40:15 -0700 (PDT)
+ Sun, 04 Oct 2020 13:46:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/2] contrib/gitdm: Add more academic domains
-Date: Sun,  4 Oct 2020 22:40:10 +0200
-Message-Id: <20201004204010.2048608-3-f4bug@amsat.org>
+Subject: [PATCH 3/2] .mailmap: Correct Yuval Shaia email address
+Date: Sun,  4 Oct 2020 22:46:18 +0200
+Message-Id: <20201004204618.2049548-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201004204010.2048608-1-f4bug@amsat.org>
-References: <20201004204010.2048608-1-f4bug@amsat.org>
+In-Reply-To: <20201004172644.2027440-1-f4bug@amsat.org>
+References: <20201004172644.2027440-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,103 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mike Ryan <mikeryan@isi.edu>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- Vince Weaver <vince@csl.cornell.edu>, Xinyu Li <precinct@mail.ustc.edu.cn>,
- Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>,
- Amir Charif <amir.charif@cea.fr>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Alex Barcelo <abarcelo@ac.upc.edu>,
- =?UTF-8?q?Llu=C3=ADs=20Vilanova?= <vilanova@ac.upc.edu>,
- linzhecheng <linzc@zju.edu.cn>,
- Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>,
- Dayeol Lee <dayeol@berkeley.edu>, Zhang Mengchi <zhangmengchi@mprc.pku.edu.cn>,
- Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>,
- Brian Wheeler <bdwheele@indiana.edu>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Christoffer Dall <cdall@cs.columbia.edu>, Colin Lord <cdlord2@illinois.edu>,
- Gabriel Somlo <somlo@cmu.edu>, Alexander Bulekov <alxndr@bu.edu>,
- Fan Yang <Fan_Yang@sjtu.edu.cn>, Fabrice Desclaux <fabrice.desclaux@cea.fr>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>,
- Akkarit Sangpetch <asangpet@andrew.cmu.edu>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- Chen Wei-Ren <chenwj@iis.sinica.edu.tw>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Nickolai Zeldovich <nickolai@csail.mit.edu>,
- Timothy Edward Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a number of contributions from these academic domains.
-Add the entries to the gitdm 'academic' domain map.
+Fix Yuval Shaia email in commits f93cfdc583 and 1d2695ef02
+to avoid gid-dm warnings.
 
-Cc: Akkarit Sangpetch <asangpet@andrew.cmu.edu>
-Cc: Alexander Bulekov <alxndr@bu.edu>
-Cc: Alexander Oleinik <alxndr@bu.edu>
-Cc: Alex Barcelo <abarcelo@ac.upc.edu>
-Cc: Brian Wheeler <bdwheele@indiana.edu>
-Cc: Chen Wei-Ren <chenwj@iis.sinica.edu.tw>
-Cc: Christoffer Dall <cdall@cs.columbia.edu>
-Cc: Colin Lord <cdlord2@illinois.edu>
-Cc: Dayeol Lee <dayeol@berkeley.edu>
-Cc: Fan Yang <Fan_Yang@sjtu.edu.cn>
-Cc: Gabriel Somlo <somlo@cmu.edu>
-Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
-Cc: linzhecheng <linzc@zju.edu.cn>
-Cc: Lluís Vilanova <vilanova@ac.upc.edu>
-Cc: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
-Cc: Mike Ryan <mikeryan@isi.edu>
-Cc: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc: Vince Weaver <vince@csl.cornell.edu>
-Cc: Xinyu Li <precinct@mail.ustc.edu.cn>
-Cc: Zhang Mengchi <zhangmengchi@mprc.pku.edu.cn>
-Cc: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Cc: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
-Cc: Timothy Edward Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
-Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Cc: César Belley <cesar.belley@lse.epita.fr>
-Cc: Amir Charif <amir.charif@cea.fr>
-Cc: Fabrice Desclaux <fabrice.desclaux@cea.fr>
+Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-To the developers Cc'ed: If you agree with the entry of your
-domain, please reply with a Reviewed-by/Acked-by tag. If you
-disagree or doesn't care, please either reply with Nack-by or
-ignore this patch.
-I'll repost in 2 weeks as formal patch (not RFC) with only the
-entries acked by their author.
-One Reviewed-by/Ack-by from someone from a domain should be
-sufficient to get the domain included in the final patch.
----
- contrib/gitdm/group-map-academics | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
-index c7b0dd46a3..fd42bb8069 100644
---- a/contrib/gitdm/group-map-academics
-+++ b/contrib/gitdm/group-map-academics
-@@ -11,9 +11,17 @@ ispras.ru
- pavel.dovgaluk@gmail.com
- 
- # Columbia University
--cs.columbia.edu
- cota@braap.org
- 
- jiaxun.yang@flygoat.com
- 
- artem.k.pisarenko@gmail.com
-+
-+uni-paderborn.de
-+edu
-+ac.uk
-+edu.cn
-+edu.tw
-+cmp.felk.cvut.cz
-+epita.fr
-+cea.fr
+diff --git a/.mailmap b/.mailmap
+index dea358ea7d..b86359bd10 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -173,6 +173,7 @@ Yu-Chen Lin <npes87184@gmail.com> <yuchenlin@synology.com>
+ YunQiang Su <syq@debian.org>
+ YunQiang Su <ysu@wavecomp.com>
+ Yuri Pudgorodskiy <yur@virtuozzo.com>
++Yuval Shaia <yuval.shaia.ml@gmail.com> <yuval.shaia.ml.gmail.com>
+ Zhengui Li <lizhengui@huawei.com>
+ Zhenwei Pi <pizhenwei@bytedance.com>
+ Zhenwei Pi <zhenwei.pi@youruncloud.com>
 -- 
 2.26.2
 
