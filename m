@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173DC282C5C
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:07:25 +0200 (CEST)
-Received: from localhost ([::1]:49784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BC9282C64
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:09:29 +0200 (CEST)
+Received: from localhost ([::1]:57352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8Ps-000469-2D
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45874)
+	id 1kP8Rs-00076A-FR
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8NV-0002Cr-Os
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:04:57 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40690)
+ id 1kP8NX-0002FW-Bz
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:02 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8NT-0008It-Ux
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:04:57 -0400
-Received: by mail-wm1-x344.google.com with SMTP id k18so6552028wmj.5
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:04:55 -0700 (PDT)
+ id 1kP8NV-0008J7-VH
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:04:59 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e18so1181490wrw.9
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fcKbYvK4PRu4k4dZjxhsKkRtkGG0YlBGcreCrvCe9+w=;
- b=eJcoCguyRx0Q9Yp0dvJ5IqDuCoH/In6Iq0VpsVoHXLOid0JGsgRSO9WL9dYoM6Ldz4
- Ex+oDzRSu4wNH7biroDiu31xJLQ1REFc6oFdX2ABj1Tigj8+dc8+ruUBTPZWFbfNflVX
- YvU9fXU8s3SdyOPObusujsvDC84hs+Y72sXq/g6JquNOsyda0ScSTRDlCjG2A2T8oB5A
- n4Cru8U2ApVYnJHKtneHzYcLdRtJpghqvoPpx6vkwkMzbrAsuKWaurIwlph12LThCS2I
- zFNVZ6/LBz45LSXhLay4MuU6c+XiT13tHSMJvMGz30Zx1Eee9kxsBsihp7qD+bQaiLk9
- lahQ==
+ bh=QCT4q5u+oiIGVxW8dsha6dI+UyuXD9P/qaCjAefvMtI=;
+ b=pG/+RZ0m7+xm2UGnJVnZsQZcF/2MiWn7Gl+sOE7i5n1GX2kBwAgesOc06EqgxiQ8Rr
+ uyBAXm06rBX2ILSIlr+hhVGsiD5OZ9QqgdoTnbEsKibcPffJEgK9ga10LhWpHVOTf4CN
+ L6GGhGdkcX0Szk+7h7t74sxD7pi7A+Rj5rsfX1gc79zp8htCeJ6UtTRGM83BpufVRVCc
+ t1VXXzxioYVVkIiDClxuiCCSyjLhWezcm3bGllx1Lsboxmheuvv+DsQwYwXp58z1S8ZA
+ FexrOR9vTImWshaV3emk7tQ+ygLdenSb5TYGiP1dwC1UsuW6VkxzgcGqqTzKKBYvsRP+
+ Ifkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fcKbYvK4PRu4k4dZjxhsKkRtkGG0YlBGcreCrvCe9+w=;
- b=VuRFPFQOe1jVNGEI0hnJE5UICJfHcX1Q/fuC4pGtF559QSg37maUT7gEpeLzEiHMAd
- 4CdMApdKOU+TzL2MSSNQXEU8C0KMLqJEhDMqMIYXwjlLPPshsWmvXzjK6j/+dYxiAWek
- q22xBinjGQJ+STOx7oU07K5195/lrAUqqaiO1FIN488ZyPHeU7EhOmhSiimPOt2RotbC
- TIj2M5cC/gSWGCuIV18SuZUtzRi4AO4fjXhfp4IGf4pRRKZrxr4/0KS+SnaR9IjquuU6
- G+K3QwGt/X/e0Jh+x+HNXdoE3i5K3h532iFD4zWuQLPxSLFdPGqpqnOPuXvc8y8Yy7wo
- tURw==
-X-Gm-Message-State: AOAM531k79fx4X9E+UiWmn9scxyAVbxED2Vt4t9beusW5HHtc+wnNPYm
- PXHlZx6xXPJmAAOh1jIk4Ht2XWTp5Sw=
-X-Google-Smtp-Source: ABdhPJwcjW4y59JDCc/jEvujoHwYH0eV39DjdXq0SqxzsalyfWbmi1O2k+JOEjxi88NIA7+xajo60w==
-X-Received: by 2002:a1c:2e55:: with SMTP id u82mr10808062wmu.121.1601834694253; 
- Sun, 04 Oct 2020 11:04:54 -0700 (PDT)
+ bh=QCT4q5u+oiIGVxW8dsha6dI+UyuXD9P/qaCjAefvMtI=;
+ b=pYTyFKaftISI157TkEXdciSvCsgS9bDwEK4YrngMocLQOQLSoDmdaMbvCWS+kBr/ys
+ TsyTqG4sYtxXmsuTEPRc6HubysSDXbgEDKBmFXtaJbmVvZ2kZkDC2fOVh8UFV+bwd2Jx
+ gRIzLbajU+aslbBuQ0akEgR/Exhnh6y3x2H7OBQaoK8tFBxHkfNiBhsJyj+n3CH/EpHb
+ ujHNyOey+3Wmu8In2+gCdNKDvlWk7aRXoo+LhkHJMguwx/H7UjwtK4OkM+6P7Bd3aFAb
+ 6CHQg7N6SXBiBXqcXQIOmvYMNabBq6TRDcNwyYLvQvAwkqUUVN3KYvR/C+gnrHe/wk+j
+ eFsQ==
+X-Gm-Message-State: AOAM5322sODd1qRNSyMyJPohiEj8Za9vpUrfNPaw66Ug2GJswPeUIGGd
+ /N8dKu2jTGktGWT02DHoGp2+tCm4gj0=
+X-Google-Smtp-Source: ABdhPJyJij5poH1fCNF1qU3Qq1SXhG1qBkFBlYtyy4b16ejwCkwORLfPzUayyS7/oY4JSPtbRkk9Jw==
+X-Received: by 2002:adf:f084:: with SMTP id n4mr6272477wro.16.1601834696388;
+ Sun, 04 Oct 2020 11:04:56 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.04.52
+ by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.04.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 11:04:53 -0700 (PDT)
+ Sun, 04 Oct 2020 11:04:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 06/21] contrib/gitdm: Add Google to the domain map
-Date: Sun,  4 Oct 2020 20:04:28 +0200
-Message-Id: <20201004180443.2035359-7-f4bug@amsat.org>
+Subject: [RFC PATCH 07/21] contrib/gitdm: Add more contributors to IBM group
+Date: Sun,  4 Oct 2020 20:04:29 +0200
+Message-Id: <20201004180443.2035359-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201004180443.2035359-1-f4bug@amsat.org>
 References: <20201004180443.2035359-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,71 +88,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joe Richey <joerichey@google.com>,
- Palmer Dabbelt <palmerdabbelt@google.com>, Lirong Yuan <yuanzi@google.com>,
- Josh Kunz <jkz@google.com>, Tao Wu <lepton@google.com>,
- Thomas Knych <thomaswk@google.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Ian McKellar <ianloic@google.com>,
- Andrew Oates <aoates@google.com>, Erik Kline <ek@google.com>,
- Doug Kwan <dougkwan@google.com>, Matt Gingell <gingell@google.com>,
- Christian Svensson <bluecmd@google.com>,
- David 'Digit' Turner <digit@google.com>,
- Todd Eisenberger <teisenbe@google.com>, Doug Evans <dje@google.com>,
- Lingfeng Yang <lfy@google.com>, Peter Collingbourne <pcc@google.com>,
- Shu-Chun Weng <scw@google.com>, Catalin Patulea <catalinp@google.com>,
- Torbjorn Granlund <torbjorng@google.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a number of contributors from this domain,
-add its own entry to the gitdm domain map.
-
-Cc: Andrew Oates <aoates@google.com>
-Cc: Catalin Patulea <catalinp@google.com>
-Cc: Christian Svensson <bluecmd@google.com>
-Cc: David 'Digit' Turner <digit@google.com>
-Cc: Doug Evans <dje@google.com>
-Cc: Doug Kwan <dougkwan@google.com>
-Cc: Erik Kline <ek@google.com>
-Cc: Havard Skinnemoen <hskinnemoen@google.com>
-Cc: Ian McKellar <ianloic@google.com>
-Cc: Joe Richey <joerichey@google.com>
-Cc: Josh Kunz <jkz@google.com>
-Cc: Lingfeng Yang <lfy@google.com>
-Cc: Lirong Yuan <yuanzi@google.com>
-Cc: Matt Gingell <gingell@google.com>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: Peter Collingbourne <pcc@google.com>
-Cc: Shu-Chun Weng <scw@google.com>
-Cc: Tao Wu <lepton@google.com>
-Cc: Thomas Knych <thomaswk@google.com>
-Cc: Todd Eisenberger <teisenbe@google.com>
-Cc: Torbjorn Granlund <torbjorng@google.com>
+Author: Leonardo Bras <leonardo@linux.ibm.com>
+Author: Leonardo Bras <leobras.c@gmail.com>
+Author: Pavel Zbitskiy <pavel.zbitskiy@gmail.com>
+Author: Anton Blanchard <anton@ozlabs.org>
+Author: Nicholas Piggin <npiggin@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-One Reviewed-by/Ack-by from someone from this domain
-should be sufficient to get this patch merged.
+To the developers Cc'ed: If you agree with your entry, please
+reply with a Reviewed-by/Acked-by tag. If you disagree or doesn't
+care, please either reply with Nack-by or ignore this patch.
+I'll repost in 2 weeks as formal patch (not RFC) with only the
+entries acked by their author.
 ---
- contrib/gitdm/domain-map | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ contrib/gitdm/group-map-ibm | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index a27dca6b44..3e9602287a 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -13,8 +13,9 @@ bytedance.com   ByteDance
- cmss.chinamobile.com China Mobile
- citrix.com      Citrix
- daynix.com      Daynix
--greensocs.com   GreenSocs
- fujitsu.com     Fujitsu
-+google.com      Google
-+greensocs.com   GreenSocs
- huawei.com      Huawei
- ibm.com         IBM
- igalia.com      Igalia
+diff --git a/contrib/gitdm/group-map-ibm b/contrib/gitdm/group-map-ibm
+index da62fa3f44..7c9f996b42 100644
+--- a/contrib/gitdm/group-map-ibm
++++ b/contrib/gitdm/group-map-ibm
+@@ -12,3 +12,7 @@ jcfaracco@gmail.com
+ joel@jms.id.au
+ sjitindarsingh@gmail.com
+ tommusta@gmail.com
++leobras.c@gmail.com
++pavel.zbitskiy@gmail.com
++anton@ozlabs.org
++npiggin@gmail.com
 -- 
 2.26.2
 
