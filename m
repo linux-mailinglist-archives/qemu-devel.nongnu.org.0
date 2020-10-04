@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF11282C75
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:18:10 +0200 (CEST)
-Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86467282C70
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:15:32 +0200 (CEST)
+Received: from localhost ([::1]:48684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8aH-0001Jr-GV
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:18:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46046)
+	id 1kP8Xj-0006fO-Hx
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:15:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nm-0002gH-5w
+ id 1kP8Nn-0002gI-FS
  for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:16 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53032)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nk-0008LF-IV
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:13 -0400
-Received: by mail-wm1-x342.google.com with SMTP id q9so6333297wmj.2
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:12 -0700 (PDT)
+ id 1kP8Nl-0008LU-Vp
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:15 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h7so3465206wre.4
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CNCNpGjp96y2JHNzWJfKXUrq2r9Jjr3LOoTmZiDw5nU=;
- b=coEv5z5b1IdIdlaOwxBIFASZZ3vVzCeFspJUpC2XTAHbysALFWyD3cVd3hdOjHq7Ij
- 6Obm2WWXE0tpG5H00B2hgUN52uWZfxvL1gpgyQLS93vsBdNHuEwBgd92cht5DquBjC4K
- ktolLd0KUwpuG+fvPfVPjFDKVORlGlCO7oEBVglb2uD5+jC30VPfGjM2x7szQirXCkwO
- J5IyqrmBImcBySzkMuGM8P07S9y6KFuDMZ9j8WzHaMKrQP4c7epefLl2qqZkFJQua27d
- TJn/XZIOvsuZvAQN7Mv3Ro5wHC19ys8ICPuZlJfFrLWGZH6tcW8NyopKbryZv0rnuRHK
- wDEw==
+ bh=lPkditD6hs2q2H3smeJcXzWyzKVAfF5M4jBe898tJg4=;
+ b=Eku+8e4tq0+nytpbDBDQ9b7yEh3gkPpTDc+vr6kUqSrDv5xkapo5ayQauZfRUqXvPC
+ hu4LN9+RbEU/C17k16rR36LdKyDEIEyl0OePTikLDx4M5m3E4g0NPfVQFO8rQkubh06+
+ B19bLxuhY19VG5MXbtuBrbsgkTEFumGrHcqliODUm5s7N3C8WVEmK5MVHVrV/ifXmSEL
+ Xk4heAMLo1idzfO3ZGLHTLaw81w76ShAUC9qn6rOZKld3AvkBvcdcmll1qs57Blbmmss
+ T3/e3NVwc4BuotQyEvprOA/6rMg7Qp3DZJ8KDKGrcWrWGv1exs6E7TSL90D44BIm38Mo
+ SiUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CNCNpGjp96y2JHNzWJfKXUrq2r9Jjr3LOoTmZiDw5nU=;
- b=h5rcRyYsekzH35F7g8c70hKhVfHCKhnKABIFwAMejSDimM6THWgRRmsXPrEgcLZRC9
- Vvt9qer/hiXNHcm9G+bgx5aorwuYAgFq+uwK9sRiBSnbay86WSPV86tLfCzFw7Gb/1Dg
- hxPK9uTd+XA1+83iCrQokiATC8QNb5fd1OQbXI60hFMiBwy4YQ32mQGAvVjroqtyCqyn
- qc0SapZL2kW2QwmRZ2lynD8BlUPnHeK16w/jHpBTge7O7m709fLdufqn5FPOps8Ov6ub
- ZyMI04VM9gtSDifpD/0JnHgFAtupAoZAX68ci7Sy+EjvimFZlQOovi8oTd0rQrpJCCh3
- /Nug==
-X-Gm-Message-State: AOAM532HuwnZdtfuc++GUPIgnErQSooR4CD6KZJQNgIKXPKNoWODCag4
- xPW32KyfO582KY2fBNwpdlkbJajtgLMjlw==
-X-Google-Smtp-Source: ABdhPJwvv6/nXnLF/IRr/xIsEIAaY5mEtsnaB9rBvEoJmm6SUkwmqfqwWmt/l1ioYocCmDlo6/0VYw==
-X-Received: by 2002:a1c:23c9:: with SMTP id j192mr13301915wmj.6.1601834711029; 
- Sun, 04 Oct 2020 11:05:11 -0700 (PDT)
+ bh=lPkditD6hs2q2H3smeJcXzWyzKVAfF5M4jBe898tJg4=;
+ b=Sqb4t1rMubXSLI6BkjFp2T+fobk7z90H51EyYft9AY1VDAA04b5tCnDs+HKEIDHIjH
+ XQjuDFhBFlh1dzRmXGl0H7FRlWI7/Frf9FLEmqByVbQVqhxpSPJr67ZA9jKxAxzXc/q0
+ VAolV2G+WT0EHARFAYJHJ0tfmdIkliRe9Ja1ife29QM043c1xThYHOS1XmtzKgWTlZiq
+ 19WHAwKhuByJRJznPOowVCWLEKiBgtbM4jCzGRrkGBflza4W6Jtfv8CBKqOwqKxjy8AJ
+ fvfigVGmLYtV1JFyAriQ/B/jE+QxlzmHUoSmu6MoAsfC6BzTqMac7hPXRQ8oGeuO919x
+ h5RQ==
+X-Gm-Message-State: AOAM5305FPbmwrHPZ7wqMJMri/i4yUQlW+y42RpNvacBievNvhQ3G6OY
+ Ixohb+zjTBiAhbHbOQSFQS2qJO+1yoyjbg==
+X-Google-Smtp-Source: ABdhPJwdU4t1sWKY+IxJG/tbXeWFwBimgWQu2Wj1l+Y4OBwyr2IoltFf4wFBnoyFwqMJ8hyrw/dspg==
+X-Received: by 2002:adf:f2c1:: with SMTP id d1mr6913430wrp.179.1601834712588; 
+ Sun, 04 Oct 2020 11:05:12 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.09
+ by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 11:05:10 -0700 (PDT)
+ Sun, 04 Oct 2020 11:05:12 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 18/21] contrib/gitdm: Add Wind River to the domain map
-Date: Sun,  4 Oct 2020 20:04:40 +0200
-Message-Id: <20201004180443.2035359-19-f4bug@amsat.org>
+Subject: [RFC PATCH 19/21] contrib/gitdm: Add Yadro to the domain map
+Date: Sun,  4 Oct 2020 20:04:41 +0200
+Message-Id: <20201004180443.2035359-20-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201004180443.2035359-1-f4bug@amsat.org>
 References: <20201004180443.2035359-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,71 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jim Somerville <Jim.Somerville@windriver.com>,
- Bill Paul <wpaul@windriver.com>, Vlad Lungu <vlad.lungu@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Tiejun Chen <tiejun.chen@windriver.com>,
- Yiting Wang <yiting.wang@windriver.com>,
- Jason Wessel <jason.wessel@windriver.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Igor Kononenko <i.kononenko@yadro.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a number of contributors from this domain,
+There is a number of contributions from this domain,
 add its own entry to the gitdm domain map.
 
-Cc: Bill Paul <wpaul@windriver.com>
-Cc: Bin Meng <bin.meng@windriver.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>
-Cc: Jason Wessel <jason.wessel@windriver.com>
-Cc: Jim Somerville <Jim.Somerville@windriver.com>
-Cc: Tiejun Chen <tiejun.chen@windriver.com>
-Cc: Vlad Lungu <vlad.lungu@windriver.com>
-Cc: Yiting Wang <yiting.wang@windriver.com>
+Cc: Igor Kononenko <i.kononenko@yadro.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
 One Reviewed-by/Ack-by from someone from this domain
 should be sufficient to get this patch merged.
-
-Ben, can you confirm your bmeng.cn@gmail.com address?
-Should it be considered 'individual contribution' instead?
 ---
- contrib/gitdm/domain-map          | 1 +
- contrib/gitdm/group-map-windriver | 1 +
- gitdm.config                      | 1 +
- 3 files changed, 3 insertions(+)
- create mode 100644 contrib/gitdm/group-map-windriver
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 9642fd44fc..6b3a2c3b4e 100644
+index 6b3a2c3b4e..7170ddea7a 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -39,4 +39,5 @@ suse.de         SUSE
- virtuozzo.com   Virtuozzo
- wavecomp.com    Wavecomp
+@@ -41,3 +41,4 @@ wavecomp.com    Wavecomp
  wdc.com         Western Digital
-+windriver.com   Wind River
+ windriver.com   Wind River
  xilinx.com      Xilinx
-diff --git a/contrib/gitdm/group-map-windriver b/contrib/gitdm/group-map-windriver
-new file mode 100644
-index 0000000000..8b4662daa9
---- /dev/null
-+++ b/contrib/gitdm/group-map-windriver
-@@ -0,0 +1 @@
-+bmeng.cn@gmail.com
-diff --git a/gitdm.config b/gitdm.config
-index 6db72da339..c384d0f4ab 100644
---- a/gitdm.config
-+++ b/gitdm.config
-@@ -40,6 +40,7 @@ GroupMap contrib/gitdm/group-map-janustech Janus Technologies
- GroupMap contrib/gitdm/group-map-nutanix Nutanix
- GroupMap contrib/gitdm/group-map-oracle Oracle
- GroupMap contrib/gitdm/group-map-renesas Renesas
-+GroupMap contrib/gitdm/group-map-windriver Wind River
- 
- # Also group together our prolific individual contributors
- # and those working under academic auspices
++yadro.com       YADRO
 -- 
 2.26.2
 
