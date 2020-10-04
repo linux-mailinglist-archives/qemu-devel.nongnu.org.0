@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C521282C67
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:10:29 +0200 (CEST)
-Received: from localhost ([::1]:60076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485D5282C6B
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:12:40 +0200 (CEST)
+Received: from localhost ([::1]:40266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8Sq-0008D8-Gp
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45950)
+	id 1kP8Ux-0003HX-AW
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nd-0002NS-AV
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:05 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42947)
+ id 1kP8Ne-0002QT-Hk
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:06 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Na-0008Jc-Ui
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:04 -0400
-Received: by mail-wr1-x441.google.com with SMTP id e18so1181613wrw.9
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:02 -0700 (PDT)
+ id 1kP8Nc-0008K0-PD
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:06 -0400
+Received: by mail-wm1-x344.google.com with SMTP id j136so6555560wmj.2
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vh4+AuQar0YnwnSPAY0Sx99++Yu4SLhLBMcb3f0gv+Y=;
- b=ikfv9EUyqff2zVoYE96pF4eliOU6+RkSMGTnAUYKFL4G2uTdzgHo+Zu0C+ZSaO/zDc
- pSRUfKmURsTbvqqpoVi3OivuWeBpmcsUnI8zzI69I12z4Yi/VuNXNeR4ZPa6odohijCJ
- Ic9GBESjJ2Kta5Y0kmgIaMQrmnOJBgNpMqqOTmlK/RMc5REEoXK0nyMXeuatWDZaS/gI
- nAbCdMH4p9gWNdiRl5hvg8hfknXhQOzgNuP5sckFPce00WgGn6MXHSKh4Yq7L3rSQL86
- iGEG9lna94KKxkFilFurp964d/HBjMFFJeJCAlNuLbmf0emKuMfDoMn7RDu4+IZ+lCa/
- SLQA==
+ bh=cOMsVR/bsvHdway04jDltRgllwzQmPMEyrlXW5r0zlw=;
+ b=lRdkO7K8Fu3h2bVNhvGVYCDCKCIm3UsTh9Q6gVzkJl+ReCYioBSXG23TEgwBHsVj4k
+ XC1X/M55Ky4yFCIFzsCoXzvd/Xr93lz7rYfP3dCXkEDfE3iVtQ5nmTwQlY0DEVgyGO7x
+ 5lcGjUnVu7Nymn6wqvM/+x7nC9nYQu7uEM3IKLA+L3MCilWmEswtXJsPVlMXNUL5epM0
+ aQrUhE0nHyjqIkWcNzYWzvCTDLCXu2bEG84zz6rozqIc3sB3saE8IwZFZOelm06ILlXC
+ yFo1atH0/sInse379wcwW81rnmXFEAU1StBn7VIcrsgh2EZdx3QykPcPD1H2l+PFivbM
+ /NGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vh4+AuQar0YnwnSPAY0Sx99++Yu4SLhLBMcb3f0gv+Y=;
- b=i/bODzTkmgkNa9URkigPpBkfauo830FxtV/0Eul7B6jp+edNymfQJl7wDiUxu14QA6
- bMQzL4SBhR3dHoZpqj+HI2GXDU/i+Vt9fqOxmL4EJukj+urxA/EwgfYKmjx/QXGUllJn
- rI4MrvKpmvUQfVsixTAbLvxdhYtj0TFgss3wz6P6Auai1cihfFBDRGF/QCX/qlPj2Hxv
- PymXauq2Etr0SKiY1suwgDUiLbAWGsNk41C913UhPpjkEeWiwYndCAPR168PP0LVLn0y
- soULABlRrI2Pnuj91R5JEI3vsD2bCTuk4QMyGkPVWvdL0X3aF8qcY4FlwRkM5S6+G8wu
- vFUQ==
-X-Gm-Message-State: AOAM5336kBenyGP0czo+dmEzVQGG/L97Gbgp/IBAUHRdM+lq+PQbMHQP
- ulP6L30QS8m2ILDKQg68e1NEEnVP/ow=
-X-Google-Smtp-Source: ABdhPJzf2VE82thp8lGJuysJDBSHmKSDF71PE8IyxUKcx/ij0FVAWv+LYqy69Sc5v9qy72CuuHrkZA==
-X-Received: by 2002:a05:6000:1282:: with SMTP id
- f2mr14324045wrx.251.1601834701351; 
- Sun, 04 Oct 2020 11:05:01 -0700 (PDT)
+ bh=cOMsVR/bsvHdway04jDltRgllwzQmPMEyrlXW5r0zlw=;
+ b=fmGi5Mg99Y8ZLFuTqbnycEi3BttReuTtWVZA8Q2k1Vk4iIDPOiJneqxAV0m8uynMQK
+ VvXdkCekUTI+IBsE83x123rAmon1xu7mcmlitH84I2DzXYf4i3eL2vnmnf+qswhDgWdO
+ OQSBrslOujysZV+C1ZqVy69Jew6Afst2psxc9j6qiWbKf21IJ+pkskL79JexfXutk5b7
+ iID2w089fcLa7+DpR/dFJl3ipnofT9IDB7cBlj7oGLjcPGOUekyG2wMe0Ymr3qp6vnfi
+ jV32b4QOWkN7zQh9KW+8u3sZKK8y0UBq1v8Sejtb0wHo2L/u5nt3NhnSUu+SFD2PDIba
+ u3Bg==
+X-Gm-Message-State: AOAM533LrUqDORIFpP30j09gM4bFl+IYEJ8aTEnf4Vp6+T0ZsJjDpdJ6
+ 4FHZUAwi6cvEz6dyMckGhCb3DHDsAeu2nQ==
+X-Google-Smtp-Source: ABdhPJxCLt7fxTsj6OGEMBRJLGDJJ+OXYsMePKBY86LqYQjyokm5yrfq/YNUazUqpPScJdgfTvsACg==
+X-Received: by 2002:a1c:1f87:: with SMTP id
+ f129mr13417484wmf.182.1601834703232; 
+ Sun, 04 Oct 2020 11:05:03 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.00
+ by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 11:05:00 -0700 (PDT)
+ Sun, 04 Oct 2020 11:05:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 11/21] contrib/gitdm: Add Yuval Shaia to Oracle group
-Date: Sun,  4 Oct 2020 20:04:33 +0200
-Message-Id: <20201004180443.2035359-12-f4bug@amsat.org>
+Subject: [RFC PATCH 12/21] contrib/gitdm: Add Qualcomm to the domain map
+Date: Sun,  4 Oct 2020 20:04:34 +0200
+Message-Id: <20201004180443.2035359-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201004180443.2035359-1-f4bug@amsat.org>
 References: <20201004180443.2035359-1-f4bug@amsat.org>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,45 +89,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yuval Shaia <yuval.shaia@oracle.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Yuval Shaia <yuval.shaia@oracle.com>
-Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
+There is a number of contributions from this domain,
+add its own entry to the gitdm domain map.
+
+Cc: Stephen Long <steplong@quicinc.com>
+Cc: Taylor Simpson <tsimpson@quicinc.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Yuval, if you agree with your entry, please reply with a
-Reviewed-by/Acked-by tag and I'll repost it in 2 weeks as
-a formal patch (not RFC). If you disagree or doesn't
-care, please either reply with Nack-by or ignore this patch.
+One Reviewed-by/Ack-by from someone from this domain
+should be sufficient to get this patch merged.
 ---
- contrib/gitdm/group-map-oracle | 1 +
- gitdm.config                   | 1 +
- 2 files changed, 2 insertions(+)
- create mode 100644 contrib/gitdm/group-map-oracle
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/contrib/gitdm/group-map-oracle b/contrib/gitdm/group-map-oracle
-new file mode 100644
-index 0000000000..c07d5a3d06
---- /dev/null
-+++ b/contrib/gitdm/group-map-oracle
-@@ -0,0 +1 @@
-+yuval.shaia.ml@gmail.com
-diff --git a/gitdm.config b/gitdm.config
-index 4f821ab8ba..1c56131769 100644
---- a/gitdm.config
-+++ b/gitdm.config
-@@ -38,6 +38,7 @@ GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
- GroupMap contrib/gitdm/group-map-ibm IBM
- GroupMap contrib/gitdm/group-map-janustech Janus Technologies
- GroupMap contrib/gitdm/group-map-nutanix Nutanix
-+GroupMap contrib/gitdm/group-map-oracle Oracle
- 
- # Also group together our prolific individual contributors
- # and those working under academic auspices
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index d7dca5efd4..47522dff02 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -28,6 +28,7 @@ nutanix.com     Nutanix
+ nuviainc.com    NUVIA
+ oracle.com      Oracle
+ proxmox.com     Proxmox
++quicinc.com     Qualcomm
+ redhat.com      Red Hat
+ rt-rk.com       RT-RK
+ siemens.com     Siemens
 -- 
 2.26.2
 
