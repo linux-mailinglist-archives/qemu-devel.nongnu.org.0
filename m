@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1589282B0B
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 15:37:09 +0200 (CEST)
-Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE090282BE8
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 19:15:19 +0200 (CEST)
+Received: from localhost ([::1]:35662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP4CK-0007tK-K3
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 09:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36986)
+	id 1kP7bS-0008K7-Dk
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 13:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kP4At-0007Is-Eu
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 09:35:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42756)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kP7ag-0007s2-HM
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 13:14:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kP4Aq-0001V4-R0
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 09:35:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kP4Ao-0007Iv-VN
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 13:35:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EC1872E80DB
- for <qemu-devel@nongnu.org>; Sun,  4 Oct 2020 13:35:34 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 04 Oct 2020 13:27:41 -0000
-From: Sergiy K <1897481@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kP7af-0002lU-3I
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 13:14:30 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s12so7001475wrw.11
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 10:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ltLeod2LiPAD8k/jT3NnKmKDXPxUjrLbzoTIDcXyXJ4=;
+ b=pwsn3ffpf2FKIAttskEubnhr5Kk9N0iROTJznLBJsQX0DhzZrdAc+GTr9EdXUDBsNE
+ uZlzf580g8WElzijMPc7bPSorCFKq2adVIpARDQA8g/pl6UBWZeTAUqjxZswyOWqB/KO
+ YHk8VxZbClmXDbXDkf1LAhl54btlL35DIy08unr0/N/4Yg6Lrf2pg/Jr5z5y0muziowv
+ iLjgIodoH2ncc7bcp/NOSX5C5rvvrpjn+Ur9Ub88XQ4x/mUa0pWjnuH3JL4I/dWI5zDM
+ mxXE/yxVJG4o35XVHeE85SIsbtR+ZFmtaQ9dtOGcYm2h9PxJsK14MeyROCuJqQ4IVQbn
+ NBUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ltLeod2LiPAD8k/jT3NnKmKDXPxUjrLbzoTIDcXyXJ4=;
+ b=PyvwwwDUttdlJwt5YFadnLZ41TM8gF6gncddDHHvgZfDJHTbpJMn63XJoByrvdSFlZ
+ buDcdaWBZhukhiGaVAizq5rBVC83xP5k765iXNVdrqVh3YkLdfsbrkSBv49rljyd4wCb
+ Dtm7IToFhGad2Wm2fMAhYR6/HtauiC6Qvm//ztNvPSPaSUfINjkcDgTEeexjRi9yCdC3
+ LLplvzavv3d2t643a7y35zOSTb4uPgnihAogt0CLvE06SRBlUJpnm+0w2n9dkI3L9vrk
+ 0fN8Z3UkERUBrp+ntldEtQVZ+FdnMUF2/SELV04X1aBKKSmeNnrC3OxCWY0fk87qtg63
+ UGRg==
+X-Gm-Message-State: AOAM530UM3RTADwEnqEDhcl/8b4z7h6O5LtJhvETNkHYXXmjueYuVfEE
+ Bd7Fx9g3sgjwy+4Ui9gtmejhrFuAS/k=
+X-Google-Smtp-Source: ABdhPJzWEOt36YVMd0FubRnLx2OoItRxkJZmolV7RU+MhzSkKSaXl9VvJNgzZHvEhdsrG1Sgpr26vg==
+X-Received: by 2002:adf:de11:: with SMTP id b17mr13279409wrm.82.1601831667609; 
+ Sun, 04 Oct 2020 10:14:27 -0700 (PDT)
+Received: from localhost.localdomain
+ (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id j14sm9827413wrr.66.2020.10.04.10.14.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Oct 2020 10:14:26 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson sergey-kukunin
-X-Launchpad-Bug-Reporter: Sergiy K (sergey-kukunin)
-X-Launchpad-Bug-Modifier: Sergiy K (sergey-kukunin)
-References: <160123953126.1246.10707501292033522741.malonedeb@gac.canonical.com>
-Message-Id: <160181806124.5178.5407820070805170576.malone@soybean.canonical.com>
-Subject: [Bug 1897481] Re: qemu crashes with VGA pass-through, e-GPU,
- nvidia 1060
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 7a6088697fe82128b956ed5cae2010304d885abb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/04 09:00:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] contrib/gitdm: Update file types after switch to Meson
+Date: Sun,  4 Oct 2020 19:14:25 +0200
+Message-Id: <20201004171425.2025680-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,267 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1897481 <1897481@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I recorded both lspci -vvvv and lspci -xxxx for the following
-connections:
+- meson.build is in use since commit a56650518f
+  ("configure: integrate Meson in the build system"),
+- .h.inc since commit 0979ed017f
+  ("meson: rename .inc.h files to .h.inc") and
+- .rst.inc since commit 87c0868f46
+  ("qemu-nbd: Convert invocation documentation to rST").
 
-  - hotplug: when GPU is connected after the host was loaded
-  - fresh: when GPU is connected before the host was started
-
-The main difference is the following:
-
-1c1
-< # hotplug
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-> # fresh
-6c6
-< 	Control: I/O+ Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Step=
-ping- SERR- FastB2B- DisINTx-
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 ---
-> 	Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Step=
-ping- SERR- FastB2B- DisINTx-
-8c8
-< 	Interrupt: pin A routed to IRQ 18
----
-> 	Interrupt: pin A routed to IRQ 255
-10,13c10,14
-< 	Region 1: Memory at <unassigned> (64-bit, prefetchable) [disabled]
-< 	Region 3: Memory at <unassigned> (64-bit, prefetchable) [disabled]
-< 	Region 5: I/O ports at 4000 [size=3D128]
-< 	Expansion ROM at f1400000 [virtual] [disabled] [size=3D512K]
----
-> 	Region 0: Memory at f0000000 (32-bit, non-prefetchable) [size=3D16M]
-> 	Region 1: Memory at c0000000 (64-bit, prefetchable) [size=3D256M]
-> 	Region 3: Memory at d0000000 (64-bit, prefetchable) [size=3D32M]
-> 	Region 5: I/O ports at 4000 [disabled] [size=3D128]
-> 	Expansion ROM at f1080000 [disabled] [size=3D512K]
-30c31
-< 		LnkSta:	Speed 5GT/s (downgraded), Width x1 (downgraded)
----
-> 		LnkSta:	Speed 2.5GT/s (downgraded), Width x1 (downgraded)
-35a37
-> 			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
-79c81
-< 	Interrupt: pin B routed to IRQ 19
----
-> 	Interrupt: pin B routed to IRQ 255
-81c83
-< 	Region 0: Memory at f1480000 (32-bit, non-prefetchable) [size=3D16K]
----
-> 	Region 0: Memory at f1000000 (32-bit, non-prefetchable) [size=3D16K]
-98c100
-< 		LnkSta:	Speed 5GT/s (downgraded), Width x1 (downgraded)
----
-> 		LnkSta:	Speed 2.5GT/s (downgraded), Width x1 (downgraded)
-124,125c126,127
+ contrib/gitdm/filetypes.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I can tell, that hotplug connects as 5GT/s and fresh - 2.5GT/s. And
-there is an obvious difference between Regions.
+diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
+index d2d6f6db8d..16e2075681 100644
+--- a/contrib/gitdm/filetypes.txt
++++ b/contrib/gitdm/filetypes.txt
+@@ -49,6 +49,7 @@ filetype code \.c\+\+$	# C++
+ filetype code \.cxx$	# C++
+ filetype code \.cc$	# C++
+ filetype code \.h$	# C or C++ header
++filetype code \.h.inc$	# C header
+ filetype code \.hh$	# C++ header
+ filetype code \.hpp$	# C++ header
+ filetype code \.hxx$	# C++ header
+@@ -97,6 +98,7 @@ filetype devel-doc ^BSD-3-Clause$
+ filetype devel-doc ^GPL-2.0$
+ filetype devel-doc \.txt$
+ filetype devel-doc \.rst$
++filetype devel-doc \.rst\.inc$
+ filetype devel-doc \.texi$
+ filetype devel-doc \.pod$
+ 
+@@ -108,6 +110,7 @@ filetype build Makefile$
+ filetype build Makefile\.*$
+ filetype build config$
+ filetype build conf$
++filetype build meson.build
+ filetype build \.cfg$
+ filetype build \.mk$
+ filetype build \.mak$
+-- 
+2.26.2
 
-The difference between lspci -xxxx but I don't know how to interpret the
-result:
-
-124,125c126,127
-< 00: de 10 03 1c 01 00 10 00 a1 00 00 03 00 00 80 00
-< 10: 00 00 00 00 0c 00 00 00 00 00 00 00 0c 00 00 00
----
-> 00: de 10 03 1c 02 00 10 00 a1 00 00 03 10 00 80 00
-> 10: 00 00 00 f0 0c 00 00 c0 00 00 00 00 0c 00 00 d0
-127c129
-< 30: 00 00 00 00 60 00 00 00 00 00 00 00 00 01 00 00
----
-> 30: 00 00 f8 ff 60 00 00 00 00 00 00 00 ff 01 00 00
-132c134
-< 80: 10 29 09 00 03 3d 45 00 43 01 12 10 00 00 00 00
----
-> 80: 10 29 09 00 03 3d 45 00 43 01 11 10 00 00 00 00
-198c200
-< 4a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78
----
-> 4a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff
-221c223
-< 610: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
----
-> 610: 01 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-257c259
-< 850: 00 00 00 00 78 00 00 00 ff 3f 00 00 00 00 00 00
----
-> 850: 00 00 00 00 af 04 00 00 ff 3f 00 00 00 00 00 00
-382,383c384,385
-< 00: de 10 f1 10 02 00 10 00 a1 00 03 04 00 00 80 00
-< 10: 00 00 48 f1 00 00 00 00 00 00 00 00 00 00 00 00
----
-> 00: de 10 f1 10 02 00 10 00 a1 00 03 04 10 00 80 00
-> 10: 00 00 00 f1 00 00 00 00 00 00 00 00 00 00 00 00
-385c387
-< 30: 00 00 00 00 60 00 00 00 00 00 00 00 00 02 00 00
----
-> 30: 00 00 00 00 60 00 00 00 00 00 00 00 ff 02 00 00
-390c392
-< 80: 10 29 09 00 03 3d 45 00 43 01 12 10 00 00 00 00
----
-> 80: 10 29 09 00 03 3d 45 00 43 01 11 10 00 00 00 00
-456,457c458,459
-< 4a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78
-< 4b0: 78 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
----
-> 4a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff
-> 4b0: af 04 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-
-** Attachment added: "lspci-hotplug"
-   https://bugs.launchpad.net/qemu/+bug/1897481/+attachment/5417476/+files/=
-lspci-hotplug
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1897481
-
-Title:
-  qemu crashes with VGA pass-through, e-GPU, nvidia 1060
-
-Status in QEMU:
-  New
-
-Bug description:
-  I try to pass-through nvidia 1060 6gb card, which is connected via
-  ExpressCard (EXP-GDC converter).
-
-  I can successfully run my virtual machine without pass-through, but
-  when I try to add the devices, qemu crashes.
-
-  The coredump contains:
-
-  Stack trace of thread 3289311:
-  #0  0x0000000000614c49 memory_region_update_container_subregions (qemu-sy=
-stem-x86_64 + 0x214c49)
-  #1  0x00000000005c0e8c vfio_probe_nvidia_bar0_quirk (qemu-system-x86_64 +=
- 0x1c0e8c)
-  #2  0x00000000005bcec0 vfio_realize (qemu-system-x86_64 + 0x1bcec0)
-  #3  0x000000000079b423 pci_qdev_realize (qemu-system-x86_64 + 0x39b423)
-  #4  0x00000000006facda device_set_realized (qemu-system-x86_64 + 0x2facda)
-  #5  0x0000000000887e57 property_set_bool (qemu-system-x86_64 + 0x487e57)
-  #6  0x000000000088ac48 object_property_set (qemu-system-x86_64 + 0x48ac48)
-  #7  0x000000000088d1d2 object_property_set_qobject (qemu-system-x86_64 + =
-0x48d1d2)
-  #8  0x000000000088b1f7 object_property_set_bool (qemu-system-x86_64 + 0x4=
-8b1f7)
-  #9  0x0000000000693785 qdev_device_add (qemu-system-x86_64 + 0x293785)
-  #10 0x000000000061aad0 device_init_func (qemu-system-x86_64 + 0x21aad0)
-  #11 0x000000000098c87b qemu_opts_foreach (qemu-system-x86_64 + 0x58c87b)
-  #12 0x00000000006211cb qemu_init (qemu-system-x86_64 + 0x2211cb)
-  #13 0x00000000005002aa main (qemu-system-x86_64 + 0x1002aa)
-  #14 0x00007fce8af21152 __libc_start_main (libc.so.6 + 0x28152)
-  #15 0x000000000050087e _start (qemu-system-x86_64 + 0x10087e)
-
-  The whole running command is pretty long, since I use libvirt to
-  manage my machines:
-
-  LC_ALL=3DC \
-  PATH=3D/usr/local/sbin:/usr/local/bin:/usr/bin \
-  HOME=3D/var/lib/libvirt/qemu/domain-2-Win10 \
-  XDG_DATA_HOME=3D/var/lib/libvirt/qemu/domain-2-Win10/.local/share \
-  XDG_CACHE_HOME=3D/var/lib/libvirt/qemu/domain-2-Win10/.cache \
-  XDG_CONFIG_HOME=3D/var/lib/libvirt/qemu/domain-2-Win10/.config \
-  QEMU_AUDIO_DRV=3Dspice \
-  /usr/bin/qemu-system-x86_64 \
-  -name guest=3DWin10,debug-threads=3Don \
-  -S \
-  -blockdev '{"driver":"file","filename":"/usr/share/edk2-ovmf/x64/OVMF_COD=
-E.fd","node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard"=
-:"unmap"}' \
-  -blockdev '{"node-name":"libvirt-pflash0-format","read-only":true,"driver=
-":"raw","file":"libvirt-pflash0-storage"}' \
-  -blockdev '{"driver":"file","filename":"/var/lib/libvirt/qemu/nvram/Win10=
-_VARS.fd","node-name":"libvirt-pflash1-storage","auto-read-only":true,"disc=
-ard":"unmap"}' \
-  -blockdev '{"node-name":"libvirt-pflash1-format","read-only":false,"drive=
-r":"raw","file":"libvirt-pflash1-storage"}' \
-  -machine pc-q35-5.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-core=3D=
-off,pflash0=3Dlibvirt-pflash0-format,pflash1=3Dlibvirt-pflash1-format \
-  -cpu host,migratable=3Don,hv-time,hv-relaxed,hv-vapic,hv-spinlocks=3D0x1f=
-ff \
-  -m 8192 \
-  -overcommit mem-lock=3Doff \
-  -smp 2,sockets=3D2,cores=3D1,threads=3D1 \
-  -uuid 7043c77b-4903-4527-8089-9679d9a17fee \
-  -no-user-config \
-  -nodefaults \
-  -chardev stdio,mux=3Don,id=3Dcharmonitor \
-  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
-  -rtc base=3Dlocaltime,driftfix=3Dslew \
-  -global kvm-pit.lost_tick_policy=3Ddelay \
-  -no-hpet \
-  -no-shutdown \
-  -global ICH9-LPC.disable_s3=3D1 \
-  -global ICH9-LPC.disable_s4=3D1 \
-  -boot strict=3Don \
-  -device pcie-root-port,port=3D0x10,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,mu=
-ltifunction=3Don,addr=3D0x2 \
-  -device pcie-root-port,port=3D0x11,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,ad=
-dr=3D0x2.0x1 \
-  -device pcie-root-port,port=3D0x12,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,ad=
-dr=3D0x2.0x2 \
-  -device pcie-root-port,port=3D0x13,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,ad=
-dr=3D0x2.0x3 \
-  -device pcie-root-port,port=3D0x14,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,ad=
-dr=3D0x2.0x4 \
-  -device pcie-root-port,port=3D0x15,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,ad=
-dr=3D0x2.0x5 \
-  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 \
-  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 \
-  -blockdev '{"driver":"file","filename":"/home/sergiy/VirtualBox VMs/win4g=
-ames.img","node-name":"libvirt-2-storage","auto-read-only":true,"discard":"=
-unmap"}' \
-  -blockdev '{"node-name":"libvirt-2-format","read-only":false,"driver":"ra=
-w","file":"libvirt-2-storage"}' \
-  -device ide-hd,bus=3Dide.0,drive=3Dlibvirt-2-format,id=3Dsata0-0-0,bootin=
-dex=3D1 \
-  -blockdev '{"driver":"file","filename":"/home/sergiy/Downloads/Win10_2004=
-_Ukrainian_x64.iso","node-name":"libvirt-1-storage","auto-read-only":true,"=
-discard":"unmap"}' \
-  -blockdev '{"node-name":"libvirt-1-format","read-only":true,"driver":"raw=
-","file":"libvirt-1-storage"}' \
-  -device ide-cd,bus=3Dide.1,drive=3Dlibvirt-1-format,id=3Dsata0-0-1 \
-  -chardev pty,id=3Dcharserial0 \
-  -device isa-serial,chardev=3Dcharserial0,id=3Dserial0 \
-  -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent \
-  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
-l0,id=3Dchannel0,name=3Dcom.redhat.spice.0 \
-  -spice port=3D5900,addr=3D127.0.0.1,disable-ticketing,image-compression=
-=3Doff,seamless-migration=3Don \
-  -device qxl-vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vram=
-64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bus=3Dpcie.0,addr=3D0x1 \
-  -chardev spicevmc,id=3Dcharredir0,name=3Dusbredir \
-  -device usb-redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D1 \
-  -chardev spicevmc,id=3Dcharredir1,name=3Dusbredir \
-  -device usb-redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D2 \
-  -device vfio-pci,host=3D0000:04:00.0,id=3Dhostdev0,bus=3Dpci.4,multifunct=
-ion=3Don,addr=3D0x0 \
-  -device vfio-pci,host=3D0000:04:00.1,id=3Dhostdev1,bus=3Dpci.4,addr=3D0x0=
-.0x1 \
-  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.5,addr=3D0x0 \
-  -sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourc=
-econtrol=3Ddeny \
-  -msg timestamp=3Don
-
-  I've forced vfio_pci module for the VGA, and ensured that lspci shows
-
-    Kernel driver in use: vfio_pci
-
-  My laptop is Thinkpad x230, that runs on Intel(R) Core(TM) i5-3320M CPU @=
- 2.60GHz. =
-
-  I run 5.8.6-1-MANJARO kernel and run QEMU emulator version 5.1.0.
-
-  Thank you for your attention. I'd love to provide more information,
-  but I don't know what else matters.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1897481/+subscriptions
 
