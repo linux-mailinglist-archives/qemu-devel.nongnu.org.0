@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86467282C70
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:15:32 +0200 (CEST)
-Received: from localhost ([::1]:48684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76E8282C7A
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:22:37 +0200 (CEST)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8Xj-0006fO-Hx
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:15:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
+	id 1kP8ea-00058L-R8
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nn-0002gI-FS
+ id 1kP8No-0002gK-Rd
  for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:16 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36915)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kP8Nl-0008LU-Vp
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:15 -0400
-Received: by mail-wr1-x441.google.com with SMTP id h7so3465206wre.4
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:13 -0700 (PDT)
+ id 1kP8Nn-0008N0-9V
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:05:16 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x14so7074098wrl.12
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lPkditD6hs2q2H3smeJcXzWyzKVAfF5M4jBe898tJg4=;
- b=Eku+8e4tq0+nytpbDBDQ9b7yEh3gkPpTDc+vr6kUqSrDv5xkapo5ayQauZfRUqXvPC
- hu4LN9+RbEU/C17k16rR36LdKyDEIEyl0OePTikLDx4M5m3E4g0NPfVQFO8rQkubh06+
- B19bLxuhY19VG5MXbtuBrbsgkTEFumGrHcqliODUm5s7N3C8WVEmK5MVHVrV/ifXmSEL
- Xk4heAMLo1idzfO3ZGLHTLaw81w76ShAUC9qn6rOZKld3AvkBvcdcmll1qs57Blbmmss
- T3/e3NVwc4BuotQyEvprOA/6rMg7Qp3DZJ8KDKGrcWrWGv1exs6E7TSL90D44BIm38Mo
- SiUw==
+ bh=p9OEtyJxKpCurcZ78tvFjGcFFhrcGCOfm14aEbv8zLg=;
+ b=NXrJhk5C5IvU6W5U32laCsg37+2rVuP0dKFXPSn9bNBBEDnsy/x2HQJlsX4v6dfKMx
+ DL7FKJjG6tcM12Hyy/ZVdLx69i+1cdPfDBryRcd8TgPG6NSi7LZMLZgBRPs6QaBnydn0
+ XqAM8CQ+4qbBQ0p4jpnXwABMuzSOebZZG22Le6vxeKh7DXZnqaVn/5/oJaAWsB9qAkSt
+ 4iwPZuyzXlJpAx2fj+T/2E3/h4+jYuPZ3Vpuigaece5bTMnGqVm0RJqNhzlrVXRC0HIO
+ lIBwJH58Mo0rtce+7U/wN5eUXJV7o23CZ4Sdv7Pf0flIIg7DUCjb6AnTMH8VFlOGrfag
+ I3Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lPkditD6hs2q2H3smeJcXzWyzKVAfF5M4jBe898tJg4=;
- b=Sqb4t1rMubXSLI6BkjFp2T+fobk7z90H51EyYft9AY1VDAA04b5tCnDs+HKEIDHIjH
- XQjuDFhBFlh1dzRmXGl0H7FRlWI7/Frf9FLEmqByVbQVqhxpSPJr67ZA9jKxAxzXc/q0
- VAolV2G+WT0EHARFAYJHJ0tfmdIkliRe9Ja1ife29QM043c1xThYHOS1XmtzKgWTlZiq
- 19WHAwKhuByJRJznPOowVCWLEKiBgtbM4jCzGRrkGBflza4W6Jtfv8CBKqOwqKxjy8AJ
- fvfigVGmLYtV1JFyAriQ/B/jE+QxlzmHUoSmu6MoAsfC6BzTqMac7hPXRQ8oGeuO919x
- h5RQ==
-X-Gm-Message-State: AOAM5305FPbmwrHPZ7wqMJMri/i4yUQlW+y42RpNvacBievNvhQ3G6OY
- Ixohb+zjTBiAhbHbOQSFQS2qJO+1yoyjbg==
-X-Google-Smtp-Source: ABdhPJwdU4t1sWKY+IxJG/tbXeWFwBimgWQu2Wj1l+Y4OBwyr2IoltFf4wFBnoyFwqMJ8hyrw/dspg==
-X-Received: by 2002:adf:f2c1:: with SMTP id d1mr6913430wrp.179.1601834712588; 
- Sun, 04 Oct 2020 11:05:12 -0700 (PDT)
+ bh=p9OEtyJxKpCurcZ78tvFjGcFFhrcGCOfm14aEbv8zLg=;
+ b=dG+PAg8paMrnXXSz0M17hS7+qgiYdESAKeDGTU5tHIDbyu9Mq8NmABGpwB7DDVhDGX
+ AR3ZgsuDvzx+NxJUeFFSxsb0IjAWfdvEgubvPr27IYqyXrLXvYgDPs5sERbDW7vRX9kZ
+ PQ65UGKr5p1nqjlOwJivbgYGUQSeGw8AgWP3MYdr7goNM2Lytfc4TJ0/GhZ/BdNgOOHp
+ twKsZPPyniPFLhTDKb4+d0Et1mD0RJBF6ECnP80ma4Kcg1K6rrSOEXL8HU+DwAx57ueN
+ yD2qLS8AoAZyp1G5b9oi07HDUoEAiKW6CcXh57YeQRaXkF+IWknmqvtnXrd2ke/A7Pdj
+ gUjw==
+X-Gm-Message-State: AOAM531OHt08bF63+Ao4Dz9PaZpOhgvZAVpBzlaWbrgaaHxqdprLoXZC
+ v9AL450oQOty/C/mrF4XQNkJ+7+Ox9wK2Q==
+X-Google-Smtp-Source: ABdhPJzXMBtrrj5KBH3NqjSTVRspLKN32CBfRwzgATwaupKbBikQ7UZy7NYzWE+DETeMDxpQS5kskw==
+X-Received: by 2002:a05:6000:108a:: with SMTP id
+ y10mr7910559wrw.41.1601834713757; 
+ Sun, 04 Oct 2020 11:05:13 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.11
+ by smtp.gmail.com with ESMTPSA id j10sm9593202wrn.2.2020.10.04.11.05.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 11:05:12 -0700 (PDT)
+ Sun, 04 Oct 2020 11:05:13 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 19/21] contrib/gitdm: Add Yadro to the domain map
-Date: Sun,  4 Oct 2020 20:04:41 +0200
-Message-Id: <20201004180443.2035359-20-f4bug@amsat.org>
+Subject: [RFC PATCH 20/21] contrib/gitdm: Add Yandex to the domain map
+Date: Sun,  4 Oct 2020 20:04:42 +0200
+Message-Id: <20201004180443.2035359-21-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201004180443.2035359-1-f4bug@amsat.org>
 References: <20201004180443.2035359-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,18 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Kononenko <i.kononenko@yadro.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
+Cc: Yury Kotov <yury-kotov@yandex-team.ru>,
+ Alexey Krasikov <alex-krasikov@yandex-team.ru>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Roman Kagan <rvkagan@yandex-team.ru>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Alexey Kirillov <lekiravi@yandex-team.ru>,
+ Dima Stepanov <dimastep@yandex-team.ru>,
+ Evgeny Yakovlev <wrfsh@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a number of contributions from this domain,
+There is a number of contributors from this domain,
 add its own entry to the gitdm domain map.
 
-Cc: Igor Kononenko <i.kononenko@yadro.com>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+Cc: Alexey Kirillov <lekiravi@yandex-team.ru>
+Cc: Alexey Krasikov <alex-krasikov@yandex-team.ru>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: Dima Stepanov <dimastep@yandex-team.ru>
+Cc: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Cc: Roman Kagan <rvkagan@yandex-team.ru>
+Cc: Yury Kotov <yury-kotov@yandex-team.ru>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
 One Reviewed-by/Ack-by from someone from this domain
@@ -109,14 +120,14 @@ should be sufficient to get this patch merged.
  1 file changed, 1 insertion(+)
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 6b3a2c3b4e..7170ddea7a 100644
+index 7170ddea7a..4e6bf16e4e 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -41,3 +41,4 @@ wavecomp.com    Wavecomp
- wdc.com         Western Digital
+@@ -42,3 +42,4 @@ wdc.com         Western Digital
  windriver.com   Wind River
  xilinx.com      Xilinx
-+yadro.com       YADRO
+ yadro.com       YADRO
++yandex-team.ru  Yandex
 -- 
 2.26.2
 
