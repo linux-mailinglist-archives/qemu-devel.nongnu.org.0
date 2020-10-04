@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98725282C95
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:42:27 +0200 (CEST)
-Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7C7282C9B
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:50:14 +0200 (CEST)
+Received: from localhost ([::1]:59004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8xl-0003fQ-5E
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50732)
+	id 1kP95J-0007Jg-7I
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kP8wR-0002un-0v
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:41:03 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:39880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kP8wN-0003u8-S5
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:41:02 -0400
-Received: by mail-ej1-x642.google.com with SMTP id lw21so4762508ejb.6
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 11:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vPP3s4z361Q9UgQNLLTL7OkavWGws14FpHuVpd66USo=;
- b=mmJtpsOS8ugC5pZ2fC9NsasWinEZCA3IWEKnwATZFzxq3BU+O9GdQFbnCwTjlSSRpX
- tYx2zEdYaqLFmEI4/EC9KoCYqOx54nS1bY3uNzrYn6H9NyDQoBR4rnlDzJRdzUc0Nhh7
- VPP/Go8ftHassRygl1KeOHpcrjYBS4sH8CSNGQFti3j3agWu2eO62py25CsDXkb3CqBP
- 59XTuBXkkFVP6E7+N93RIfGVjDE5VhkXLuRXpekl1pqnr2A9+5VSQOKPTkAavXZo8dHJ
- FF97o5v4yOti9TGihzMCEdF4CGYPcRa5qGfQ12gMdvkJnqBLxATVPLCitja1Kr0N56XR
- wh6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vPP3s4z361Q9UgQNLLTL7OkavWGws14FpHuVpd66USo=;
- b=FcwW2pJIbi4CaWBV/Gxac3buaK8cTLgGI82oeTqUlE197Ne3dJoyAtW/1Nmw/YQ25x
- nxm3F3lg9EYbiD5StnEX7vhrT1R3OhVOuoxN+8uV1c308YGUeOCXNvW8pXz+zvDIGDpk
- gvhyvQl/bvvxmEcboI+MWwsKfnBCjEftNoovi4DW023y7rEhsVdomWcBGebZEfuLjyyE
- Z1LKeUNWgb5d7yLroyAso9Ac41twFl/EM//2E0GkdlqJPJapl1TELjbscllAliKHXBCG
- 1JnCUpXmdDysRX2LSCtKFI941YwoM3kSh2PAXB2nfGYnOoLXOdWNDvM27a6LZhUpjJH6
- jjSQ==
-X-Gm-Message-State: AOAM531jNWJD14yk++cn7o0XEoaMjaavpXcNQX59Yt8hVCxxnddNSB3C
- 96yRNQKAxSCkVFSzGkQBRbafLPU3+AAvp5JQo3yViw==
-X-Google-Smtp-Source: ABdhPJwI4Kuk0DLopxQQFsVJd36uVqa4/wc42sYxtjxCOTRkDh3lTqZwxjQ6YtDzPdfGyy/EUIuBx06zXMdiTlzw3Gc=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr11713267ejk.407.1601836857425; 
- Sun, 04 Oct 2020 11:40:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kP90g-0005PS-Gp
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:45:26 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]:43916
+ helo=v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kP90b-0004Rl-SN
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:45:26 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id 728C1DB4B10;
+ Sun,  4 Oct 2020 20:45:18 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
+Received: from v2201612906741603.powersrv.de ([127.0.0.1])
+ by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id JzEtFvdSkldQ; Sun,  4 Oct 2020 20:45:14 +0200 (CEST)
+Received: from macbook02.fritz.box (p57b42307.dip0.t-ipconnect.de
+ [87.180.35.7])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 9FAF5DB4AE9;
+ Sun,  4 Oct 2020 20:45:14 +0200 (CEST)
+Subject: Re: [RFC PATCH] contrib/gitdm: Add more individual contributors
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201004182506.2038515-1-f4bug@amsat.org>
+From: Stefan Weil <sw@weilnetz.de>
+Message-ID: <1ca53844-67f0-9563-b347-9ca2ec0ace9a@weilnetz.de>
+Date: Sun, 4 Oct 2020 20:45:14 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <47dbcad4-3121-b1c3-06fa-abec7c353fb6@gmail.com>
- <87sgatanti.fsf@linaro.org>
-In-Reply-To: <87sgatanti.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 4 Oct 2020 19:40:46 +0100
-Message-ID: <CAFEAcA_ZMLV3DZ_R_SHvPLdEf=i-xpspD5itBmfYeqyMhgtLWQ@mail.gmail.com>
-Subject: Re: Emulate Rpi with QEMU fails
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20201004182506.2038515-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=v2201612906741603.powersrv.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/04 14:45:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,58 +67,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Thomas <74cmonty@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 4 Oct 2020 at 18:44, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
-> Thomas <74cmonty@gmail.com> writes:
-> > I'm trying to emulate Rpi with QEMU.
-> > I found
-> > [url=3D1]this[/url]
-> > arcticle in Raspberry Pi Geek documenting the steps including persisten=
-t
-> > storage on host.
-> >
-> > However when starting the emulation with command
-> > qemu-system-arm -M versatilepb -cpu arm1176 -m 256 -serial stdio -hda
-> > 2020-08-20-raspios-buster-armhf-lite.img -net
-> > "user,hostfwd=3Dtcp::5022-:22" -dtb versatile-pb-buster.dtb -kernel
-> > kernel-qemu-5.4.51-buster -append "root=3D/dev/sda2 rootfstype=3Dext4 r=
-w
-> > panic=3D1" -no-reboot
+Am 04.10.20 um 20:25 schrieb Philippe Mathieu-Daudé:
+
+> These individual contributors have a number of contributions,
+> add them to the 'individual' group map.
 >
-> Let's start with the fact you are using a versatilepb machine type with
-> a versatilepb dtb and not the rasppi model.
+> Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> Cc: Alistair Francis <alistair@alistair23.me>
+> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+> Cc: David Carlier <devnexen@gmail.com>
+> Cc: Finn Thain <fthain@telegraphics.com.au>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Hervé Poussineau <hpoussin@reactos.org>
+> Cc: James Hogan <jhogan@kernel.org>
+> Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+> Cc: Kővágó Zoltán <dirty.ice.hu@gmail.com>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Cc: Michael Rolnik <mrolnik@gmail.com>
+> Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Cc: Paul Burton <paulburton@kernel.org>
+> Cc: Paul Zimmerman <pauldzim@gmail.com>
+> Cc: Stefan Weil <sw@weilnetz.de>
+> Cc: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+> Cc: Sven Schnelle <svens@stackframe.org>
+> Cc: Thomas Huth <huth@tuxfamily.org>
+> Cc: Volker Rümelin <vr_qemu@t-online.de>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> To the developers Cc'ed: If you agree with your entry, please
+> reply with a Reviewed-by/Acked-by tag. If you disagree or doesn't
+> care, please either reply with Nack-by or ignore this patch.
+> I'll repost in 2 weeks as formal patch (not RFC) with only the
+> entries acked by their author.
+> ---
+>   contrib/gitdm/group-map-individuals | 22 ++++++++++++++++++++++
+>   contrib/gitdm/group-map-redhat      |  1 -
+>   2 files changed, 22 insertions(+), 1 deletion(-)
+>
+> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
+> index cf8a2ce367..b478fd4576 100644
+> --- a/contrib/gitdm/group-map-individuals
+> +++ b/contrib/gitdm/group-map-individuals
+> @@ -16,3 +16,25 @@ aurelien@aurel32.net
+>   balaton@eik.bme.hu
+>   e.emanuelegiuseppe@gmail.com
+>   andrew.smirnov@gmail.com
+> +sw@weilnetz.de
+> +huth@tuxfamily.org
+> +laurent@vivier.eu
+> +atar4qemu@gmail.com
+> +hpoussin@reactos.org
+> +deller@gmx.de
+> +alistair@alistair23.me
+> +fthain@telegraphics.com.au
+> +svens@stackframe.org
+> +aleksandar.qemu.devel@gmail.com
+> +jhogan@kernel.org
+> +paulburton@kernel.org
+> +vr_qemu@t-online.de
+> +nieklinnenbank@gmail.com
+> +devnexen@gmail.com
+> +jcd@tribudubois.net
+> +dirty.ice.hu@gmail.com
+> +mrolnik@gmail.com
+> +pauldzim@gmail.com
+> +linux@roeck-us.net
+> +sundeep.lkml@gmail.com
+> +ahmedkhaledkaraman@gmail.com
 
-Given the name of the kernel image, this probably actually *is*
-built for versatilepb, or it wouldn't have got as far as failing
-to mount the root partition. There seems to be a lot of confusion
-in the raspberry pi community about the difference between
-running the raspi userspace plus a for-versatilepb kernel
-versus running a full raspi setup.
 
-Anyway, failing to mount the rootfs and not listing any
-sda devices is not a problem with the fstab, because the system
-hasn't got as far as being able to mount the filesystem with a
-fstab on it yet. One possibility is that the kernel is
-missing the device drivers for either PCI or for the SCSI
-controller that gets plugged in to versatilepb by default.
+Acked-by: Stefan Weil <sw@weilnetz.de>
 
-My guess at the cause is that you're trying to boot a Linux 5.something
-kernel and you've run into the issue described in this thread:
-https://lists.gnu.org/archive/html/qemu-discuss/2020-09/msg00023.html
-where the Linux 5.x sym53c8xx scsi driver is not compatible with QEMU's
-emulation of that device. If that's the case then you should see
-earlier in the kernel boot log error messages similar to the ones
-that Roger reported. The fix would be either to use an older
-kernel, or to change the QEMU commandline to use a different
-SCSI controller (or to use a virtio block device).
-
-thanks
--- PMM
 
