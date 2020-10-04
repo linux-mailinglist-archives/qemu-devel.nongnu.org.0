@@ -2,78 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE0A282C93
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:38:34 +0200 (CEST)
-Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436E3282C96
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 20:46:10 +0200 (CEST)
+Received: from localhost ([::1]:54298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kP8u1-0001V3-Jq
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
+	id 1kP91M-0004zZ-3a
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 14:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kP8rz-0000UI-2b; Sun, 04 Oct 2020 14:36:28 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:43512)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kP8vd-0002Tl-Ue
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:40:13 -0400
+Received: from mout.gmx.net ([212.227.15.19]:39995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kP8rw-0003Nz-O9; Sun, 04 Oct 2020 14:36:26 -0400
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 863E8C60F16;
- Sun,  4 Oct 2020 18:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1601836579;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oYrPmGapUrL8sbllpEjU/XZ4BAVyq3utolvb2tZ2CQU=;
- b=N2WXytjPhf9ZiqjlGepmRjdDkLbJMKmCBcAHzbS8qfZcENekLuY8I+MkUBFxPORetBLMVy
- FRPmN63Z/s2cmtQGK8f9IwUchTnvo9Mb1YL1y/G99j5Nh6Q+PQCqGBOPoWBzxXMSzC3GVx
- npxILmZd6G1BX6U3/OFcFWASG1PvneMQp1varXqnNDG0IliHOyfxVlp1coNjc2OZONQa5n
- cDplVEjDAyso4Ho1NWN+VlqJHb8L+95QJud2pCFW+SXJSFC2nSfiWYceRoI0g2rYiramA2
- ep9Mn1YO9LBY/NyKdkTHMIR7K0+rBsQ4lV/o6KgqJeoBhCsExv6CL/8HTXSUEA==
-Date: Sun, 4 Oct 2020 20:37:19 +0200
-From: Luc Michel <luc@lmichel.fr>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 10/14] hw/misc/bcm2835_cprman: implement clock mux
- behaviour
-Message-ID: <20201004183719.m3tsetxcgvc5ea2m@sekoia-pc.home.lmichel.fr>
-References: <20200925101731.2159827-1-luc@lmichel.fr>
- <20200925101731.2159827-11-luc@lmichel.fr>
- <76aae8af-dff0-b76f-cf04-0e3231eaf2bb@amsat.org>
- <2ca8802e-3295-bd22-e705-931ae8dbbd1d@amsat.org>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1kP8va-0003ex-Vg
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 14:40:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1601836805;
+ bh=i7q+GfiMetHNCU7kyAY8f7rxcXVz1/2fVPlAaeZJafk=;
+ h=X-UI-Sender-Class:Subject:To:References:From:Date:In-Reply-To;
+ b=SzIpCl7dMgU2qTb2skoD/zbLgFhJz/gGOtN96KSraQqu//bE+2cP+8sgEDc0B8S8N
+ zhi485pBEdMOf88ojY536NDVjzNEvQOtuP928mmCqOcYnRX8OcP66BgQUGdr0gK7e1
+ eucdFK/uO4H7qSrVhtXMVWqgDj7PIfNaxLCsZp0w=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.179.39] ([92.116.174.203]) by mail.gmx.com (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MIMfW-1kD3aK3NjA-00EJzt; Sun, 04
+ Oct 2020 20:40:04 +0200
+Subject: Re: [RFC PATCH] contrib/gitdm: Add more individual contributors
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201004182506.2038515-1-f4bug@amsat.org>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ mQINBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
+ HLnjgkbPFDmcmCz5V0Wv1mKYRClAHPCIBIJgyICqqUZo2qGmKstUx3pFAiztlXBANpRECgwJ
+ r+8w6mkccOM9GhoPU0vMaD/UVJcJQzvrxVHO8EHS36aUkjKd6cOpdVbCt3qx8cEhCmaFEO6u
+ CL+k5AZQoABbFQEBocZE1/lSYzaHkcHrjn4cQjc3CffXnUVYwlo8EYOtAHgMDC39s9a7S90L
+ 69l6G73lYBD/Br5lnDPlG6dKfGFZZpQ1h8/x+Qz366Ojfq9MuuRJg7ZQpe6foiOtqwKym/zV
+ dVvSdOOc5sHSpfwu5+BVAAyBd6hw4NddlAQUjHSRs3zJ9OfrEx2d3mIfXZ7+pMhZ7qX0Axlq
+ Lq+B5cfLpzkPAgKn11tfXFxP+hcPHIts0bnDz4EEp+HraW+oRCH2m57Y9zhcJTOJaLw4YpTY
+ GRUlF076vZ2Hz/xMEvIJddRGId7UXZgH9a32NDf+BUjWEZvFt1wFSW1r7zb7oGCwZMy2LI/G
+ aHQv/N0NeFMd28z+deyxd0k1CGefHJuJcOJDVtcE1rGQ43aDhWSpXvXKDj42vFD2We6uIo9D
+ 1VNre2+uAxFzqqf026H6cH8hin9Vnx7p3uq3Dka/Y/qmRFnKVQARAQABtBxIZWxnZSBEZWxs
+ ZXIgPGRlbGxlckBnbXguZGU+iQJRBBMBCAA7AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheA
+ FiEERUSCKCzZENvvPSX4Pl89BKeiRgMFAl3J1zsCGQEACgkQPl89BKeiRgNK7xAAg6kJTPje
+ uBm9PJTUxXaoaLJFXbYdSPfXhqX/BI9Xi2VzhwC2nSmizdFbeobQBTtRIz5LPhjk95t11q0s
+ uP5htzNISPpwxiYZGKrNnXfcPlziI2bUtlz4ke34cLK6MIl1kbS0/kJBxhiXyvyTWk2JmkMi
+ REjR84lCMAoJd1OM9XGFOg94BT5aLlEKFcld9qj7B4UFpma8RbRUpUWdo0omAEgrnhaKJwV8
+ qt0ULaF/kyP5qbI8iA2PAvIjq73dA4LNKdMFPG7Rw8yITQ1Vi0DlDgDT2RLvKxEQC0o3C6O4
+ iQq7qamsThLK0JSDRdLDnq6Phv+Yahd7sDMYuk3gIdoyczRkXzncWAYq7XTWl7nZYBVXG1D8
+ gkdclsnHzEKpTQIzn/rGyZshsjL4pxVUIpw/vdfx8oNRLKj7iduf11g2kFP71e9v2PP94ik3
+ Xi9oszP+fP770J0B8QM8w745BrcQm41SsILjArK+5mMHrYhM4ZFN7aipK3UXDNs3vjN+t0zi
+ qErzlrxXtsX4J6nqjs/mF9frVkpv7OTAzj7pjFHv0Bu8pRm4AyW6Y5/H6jOup6nkJdP/AFDu
+ 5ImdlA0jhr3iLk9s9WnjBUHyMYu+HD7qR3yhX6uWxg2oB2FWVMRLXbPEt2hRGq09rVQS7DBy
+ dbZgPwou7pD8MTfQhGmDJFKm2ju5Ag0EXchrcwEQAOsDQjdtPeaRt8EP2pc8tG+g9eiiX9Sh
+ rX87SLSeKF6uHpEJ3VbhafIU6A7hy7RcIJnQz0hEUdXjH774B8YD3JKnAtfAyuIU2/rOGa/v
+ UN4BY6U6TVIOv9piVQByBthGQh4YHhePSKtPzK9Pv/6rd8H3IWnJK/dXiUDQllkedrENXrZp
+ eLUjhyp94ooo9XqRl44YqlsrSUh+BzW7wqwfmu26UjmAzIZYVCPCq5IjD96QrhLf6naY6En3
+ ++tqCAWPkqKvWfRdXPOz4GK08uhcBp3jZHTVkcbo5qahVpv8Y8mzOvSIAxnIjb+cklVxjyY9
+ dVlrhfKiK5L+zA2fWUreVBqLs1SjfHm5OGuQ2qqzVcMYJGH/uisJn22VXB1c48yYyGv2HUN5
+ lC1JHQUV9734I5cczA2Gfo27nTHy3zANj4hy+s/q1adzvn7hMokU7OehwKrNXafFfwWVK3OG
+ 1dSjWtgIv5KJi1XZk5TV6JlPZSqj4D8pUwIx3KSp0cD7xTEZATRfc47Yc+cyKcXG034tNEAc
+ xZNTR1kMi9njdxc1wzM9T6pspTtA0vuD3ee94Dg+nDrH1As24uwfFLguiILPzpl0kLaPYYgB
+ wumlL2nGcB6RVRRFMiAS5uOTEk+sJ/tRiQwO3K8vmaECaNJRfJC7weH+jww1Dzo0f1TP6rUa
+ fTBRABEBAAGJAjYEGAEIACAWIQRFRIIoLNkQ2+89Jfg+Xz0Ep6JGAwUCXchrcwIbDAAKCRA+
+ Xz0Ep6JGAxtdEAC54NQMBwjUNqBNCMsh6WrwQwbg9tkJw718QHPw43gKFSxFIYzdBzD/YMPH
+ l+2fFiefvmI4uNDjlyCITGSM+T6b8cA7YAKvZhzJyJSS7pRzsIKGjhk7zADL1+PJei9p9idy
+ RbmFKo0dAL+ac0t/EZULHGPuIiavWLgwYLVoUEBwz86ZtEtVmDmEsj8ryWw75ZIarNDhV74s
+ BdM2ffUJk3+vWe25BPcJiaZkTuFt+xt2CdbvpZv3IPrEkp9GAKof2hHdFCRKMtgxBo8Kao6p
+ Ws/Vv68FusAi94ySuZT3fp1xGWWf5+1jX4ylC//w0Rj85QihTpA2MylORUNFvH0MRJx4mlFk
+ XN6G+5jIIJhG46LUucQ28+VyEDNcGL3tarnkw8ngEhAbnvMJ2RTx8vGh7PssKaGzAUmNNZiG
+ MB4mPKqvDZ02j1wp7vthQcOEg08z1+XHXb8ZZKST7yTVa5P89JymGE8CBGdQaAXnqYK3/yWf
+ FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
+ 4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
+ ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLrgzBF3IbakWCSsGAQQB2kcP
+ AQEHQNdEF2C6q5MwiI+3akqcRJWo5mN24V3vb3guRJHo8xbFiQKtBBgBCAAgFiEERUSCKCzZ
+ ENvvPSX4Pl89BKeiRgMFAl3IbakCGwIAgQkQPl89BKeiRgN2IAQZFggAHRYhBLzpEj4a0p8H
+ wEm73vcStRCiOg9fBQJdyG2pAAoJEPcStRCiOg9fto8A/3cti96iIyCLswnSntdzdYl72SjJ
+ HnsUYypLPeKEXwCqAQDB69QCjXHPmQ/340v6jONRMH6eLuGOdIBx8D+oBp8+BGLiD/9qu5H/
+ eGe0rrmE5lLFRlnm5QqKKi4gKt2WHMEdGi7fXggOTZbuKJA9+DzPxcf9ShuQMJRQDkgzv/VD
+ V1fvOdaIMlM1EjMxIS2fyyI+9KZD7WwFYK3VIOsC7PtjOLYHSr7o7vDHNqTle7JYGEPlxuE6
+ hjMU7Ew2Ni4SBio8PILVXE+dL/BELp5JzOcMPnOnVsQtNbllIYvXRyX0qkTD6XM2Jbh+xI9P
+ xajC+ojJ/cqPYBEALVfgdh6MbA8rx3EOCYj/n8cZ/xfo+wR/zSQ+m9wIhjxI4XfbNz8oGECm
+ xeg1uqcyxfHx+N/pdg5Rvw9g+rtlfmTCj8JhNksNr0NcsNXTkaOy++4Wb9lKDAUcRma7TgMk
+ Yq21O5RINec5Jo3xeEUfApVwbueBWCtq4bljeXG93iOWMk4cYqsRVsWsDxsplHQfh5xHk2Zf
+ GAUYbm/rX36cdDBbaX2+rgvcHDTx9fOXozugEqFQv9oNg3UnXDWyEeiDLTC/0Gei/Jd/YL1p
+ XzCscCr+pggvqX7kI33AQsxo1DT19sNYLU5dJ5Qxz1+zdNkB9kK9CcTVFXMYehKueBkk5MaU
+ ou0ZH9LCDjtnOKxPuUWstxTXWzsinSpLDIpkP//4fN6asmPo2cSXMXE0iA5WsWAXcK8uZ4jD
+ c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
+Message-ID: <875a50f9-3c66-d6a6-2c03-8b78e283e304@gmx.de>
+Date: Sun, 4 Oct 2020 20:40:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201004182506.2038515-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2ca8802e-3295-bd22-e705-931ae8dbbd1d@amsat.org>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
- s=pharaoh; t=1601836579;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oYrPmGapUrL8sbllpEjU/XZ4BAVyq3utolvb2tZ2CQU=;
- b=SXe2tJozztdlXfHaThnIncvtgJTXXjP2Djg3jMntdui+7wMRfsv/QIOV3Eqzcn5Rqks/wu
- WjjX6xo0j1vHQAgXO9fGYxl+fa71icmlwvINGh5hJ11wrU8CZgV5Fyplj//RWz9EmcIGlS
- DmbrdJ1PM312yl67nbd0sgprXSYW4J1ebVGyg2aSErGr0z7bs4aeVOUI69PX1JgI8G5dBw
- Q+p9j88tuHkjKjHEeY6FPgZGq5eWMmpQqvH8WsmXs0bOa2TaDKJNm/ecu5I0L/dd4dCXXq
- dKDuxoYzZBybdJIqzMOFSbP5QbrbJaJNj2KZomIJJdgDlDcm39bd9M3Tr0yz0w==
-ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601836579; a=rsa-sha256; cv=none;
- b=caikVKz2or3ZkhbvaBRVRYr9A9BZj9e/sQbDkie+2Y5IKtfLFnESivxZsqU/nP47golzn7Y/OYWpBw6kJuBtzAyIRO4J3wMYBoJaUnKbJ+6sSvDRplkfV+6gOlVLz9ORWxep1UXQjN6FDeVrxGpTVx6bPdzbLQVhsDkIhbfY91tBAf9zgV1Mmxn2p1q0FRj5Kl/blJcAVoMDxARIBbIDOeiOAeYpNawJUaU8Tj3gl/AV3+vHlHaGUNg16d/d+HPhyeB16Qsxg4IBmqxgNmwNVFGkK2RpY2vQxYiFcDl0GlNLQ0bk0QzUvqxIpIrCFvdxj/GW7E85EW7Wo892X+ZQbg==
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sekoia smtp.mailfrom=luc@lmichel.fr
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/04 14:36:20
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:bKxAX1hvjKpHOPDMFof7s+EWWffjrwN6hT+MsDqmv2QFahvBoey
+ 4X/RoKMfjX7V7CtkeKOqGFsBZl3uSVrpme7K9Ju27EWeZFGvZetMNSyJ0J/Zs0x++5eq4jA
+ AF2CngEbFM3qOBKOIXClkTE1rcNE4A66cHW9HKaBEgxUtmiP68yuNwobRS85044S9KLtz4y
+ Zv+kiD8x7T4WgGy+mulCw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2qZU75L3bno=:+px2Mznf/Ehqu1zojCZuSM
+ pJji6kji4/hDzxjtQ6TOnufLIGWn0l7TtyBM4B2Zf//yt6XsvLQfqAh7hDeFFjz8lBZQHcGmP
+ 7lzmAmgdcK9JadLV+DbP2KO3Ii8celFB1P4YL+Du5xGUJIb0Ug70azdV00SKSdwtJwiUa+Mfc
+ WZmw91xD+ngKeX3crioSHAyakEd4oQF2Hrfv1fF51C/RKva5lmMSrzzWr2fB6zOPzcT1CD//K
+ 8PAaP8U9A/kSh6lcKcQzazTiZ5Q4O1kNnxEnVLv4yljIchCeowlTBL3z6rWo9hLqD1xKK8S5X
+ 7l1bnYDVaHeEJhrF8gAs+B3vGR8eTQtvSjQAjl2ZIzowx6dX0Eo7knx6WWFU0uTrQMvSQ+8T6
+ rhYEHqsq6B9pUVRepLrOyKQbVmJzr57hdQ0eaVSSmUSRVvJTcaF9Sm36qJxbOSH6u9Ksq5vCE
+ Wr2S50dvw0ugFOxmhw+59njkp9QXDmcUEwnq0hhP6h+6F+hzVNOdt+Aj7NU2vCctF/KFrvjM1
+ tr/RQUZPgbiz6wZv1Eq77mOv++KiDStqvSMqB+v9cMS36cKr3EOMiOjlvM4So/OTSRFVQhhJO
+ F+rUy/SVwMi33OrA4AwIReejc3SEuXIZOS9YdHKMzrivaHp/z2ffOCzuvB7f97nou6h+rA6ni
+ SJ9zUUGY1gtMx2Oru7jqPCMQahKmDrku0GDW8s2Lcq6kklHUhz8PfM1gCbZ/W6wwGCxoablXx
+ GJR6nb3RrQ5FBELyX2YWawVwbamPQQxA8Hg32gGSeASIfqbSF8pfcUxMBsmleZZB8h8DuPNZ6
+ X7q7h7XC2pQ5JnP2SNi/jdrf9nHefZfwd35GssvrRMiD6VuRvXY+HmhgRQy4uRBISQZX6YvYi
+ 6ZB3mvmT62JtJz928e+IX9J4O0oIaBN3HTtiw1hA2gkI7R84m9YwOn3aGwp0Wv4mFAVNoGTNT
+ FrXCK0nLFcQN0P5SJPQIriiEEIgUW9BONPcV1CmnrkkHLj10GCa4SLYk8HWtUvKtb64DkbuiN
+ WxVH/kDRfEKo1fkhge3u3u+5h2iPJFHA/wiQHaP9ByAJhxnZzhAS5oXz5Xa08gyHZ0wHuIIVn
+ o83VAZ9GP6+Aht1InpPmd/ScM9+bzkH2q2aj6HFuuXvSne62LtLZw29kosBlFxiklJ6Ol95+n
+ e4UVAJ2klRLbzG+a8AROaTl3p/w3ey34WR6opDvBPDJyYyOttOG0rtdFIfEfRWzOtHjJZEXYh
+ l32Pwec+d64/Y8ZkZ
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/04 13:36:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,128 +145,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16:51 Fri 02 Oct     , Philippe Mathieu-Daudé wrote:
-> On 9/26/20 11:40 PM, Philippe Mathieu-Daudé wrote:
-> > On 9/25/20 12:17 PM, Luc Michel wrote:
-> >> A clock mux can be configured to select one of its 10 sources through
-> >> the cm_ctl register. It also embeds yet another clock divider, composed
-> >> of an integer part and a fractionnal part. The number of bits of each
-> > 
-> > Typo "fractional".
-> > 
-> >> part is mux dependant.
-> > 
-> > Typo "dependent"?
-> > 
-> >>
-> >> Signed-off-by: Luc Michel <luc@lmichel.fr>
-> >> ---
-> >>  hw/misc/bcm2835_cprman.c | 43 +++++++++++++++++++++++++++++++++++++++-
-> >>  1 file changed, 42 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-> >> index 8df2db0fd9..75bc11939b 100644
-> >> --- a/hw/misc/bcm2835_cprman.c
-> >> +++ b/hw/misc/bcm2835_cprman.c
-> >> @@ -229,19 +229,60 @@ static const TypeInfo cprman_pll_channel_info = {
-> >>  };
-> >>  
-> >>  
-> >>  /* clock mux */
-> >>  
-> >> +static bool clock_mux_is_enabled(CprmanClockMuxState *mux)
-> >> +{
-> >> +    return FIELD_EX32(*mux->reg_cm, CM_CLOCKx_CTL, ENABLE);
-> >> +}
-> >> +
-> >>  static void clock_mux_update(CprmanClockMuxState *mux)
-> >>  {
-> >> -    clock_update(mux->out, 0);
-> >> +    uint64_t freq, div;
-> >> +    uint32_t src = FIELD_EX32(*mux->reg_cm, CM_CLOCKx_CTL, SRC);
-> >> +    bool enabled = clock_mux_is_enabled(mux);
-> >> +
-> >> +    *mux->reg_cm = FIELD_DP32(*mux->reg_cm, CM_CLOCKx_CTL, BUSY, enabled);
-> >> +
-> >> +    if (!enabled) {
-> >> +        clock_update(mux->out, 0);
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    freq = clock_get_hz(mux->srcs[src]);
-> >> +
-> >> +    if (mux->int_bits == 0 && mux->frac_bits == 0) {
-> >> +        clock_update_hz(mux->out, freq);
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    /*
-> >> +     * The divider has an integer and a fractional part. The size of each part
-> >> +     * varies with the muxes (int_bits and frac_bits). Both parts are
-> >> +     * concatenated, with the integer part always starting at bit 12.
-> >> +     */
-> >> +    div = mux->reg_cm[1] >> (R_CM_CLOCKx_DIV_FRAC_LENGTH - mux->frac_bits);
-> >> +    div &= (1 << (mux->int_bits + mux->frac_bits)) - 1;
-> 
-> Eventually:
-> 
->     div &= MAKE_64BIT_MASK(mux->int_bits + mux->frac_bits, 64);
-I think this is MAKE_64BIT_MASK(0, mux->int_bits + mux->frac_bits)
-(The shift macro parameter is 0 to have the ones positioned at the
-mask's LSBs.
-I'll use this macro in my next re-roll.
+On 10/4/20 8:25 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> These individual contributors have a number of contributions,
+> add them to the 'individual' group map.
+>
+> Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> Cc: Alistair Francis <alistair@alistair23.me>
+> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+> Cc: David Carlier <devnexen@gmail.com>
+> Cc: Finn Thain <fthain@telegraphics.com.au>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+> Cc: James Hogan <jhogan@kernel.org>
+> Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+> Cc: K=C5=91v=C3=A1g=C3=B3 Zolt=C3=A1n <dirty.ice.hu@gmail.com>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Cc: Michael Rolnik <mrolnik@gmail.com>
+> Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Cc: Paul Burton <paulburton@kernel.org>
+> Cc: Paul Zimmerman <pauldzim@gmail.com>
+> Cc: Stefan Weil <sw@weilnetz.de>
+> Cc: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+> Cc: Sven Schnelle <svens@stackframe.org>
+> Cc: Thomas Huth <huth@tuxfamily.org>
+> Cc: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> To the developers Cc'ed: If you agree with your entry, please
+> reply with a Reviewed-by/Acked-by tag. If you disagree or doesn't
+> care, please either reply with Nack-by or ignore this patch.
+> I'll repost in 2 weeks as formal patch (not RFC) with only the
+> entries acked by their author.
 
-> 
-> >> +
-> >> +    freq = (freq << mux->frac_bits) / div;
-> 
-> Maybe:
-> 
->     freq = muldiv64(freq, 1 << mux->frac_bits, div);
-OK
+Acked-by: Helge Deller <deller@gmx.de>
 
-> 
-> >> +
-> >> +    clock_update_hz(mux->out, freq);
-> >>  }
-> >>  
-> >>  static void clock_mux_src_update(void *opaque)
-> >>  {
-> >>      CprmanClockMuxState **backref = opaque;
-> >>      CprmanClockMuxState *s = *backref;
-> >> +    CprmanClockMuxSource src = backref - s->backref;
-> >> +    uint32_t current_src;
-> 
-> Maybe avoid current_src and use in place.
-OK
+Thanks!
+Helge
 
-> 
-> Otherwise:
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Thanks !
+> ---
+>  contrib/gitdm/group-map-individuals | 22 ++++++++++++++++++++++
+>  contrib/gitdm/group-map-redhat      |  1 -
+>  2 files changed, 22 insertions(+), 1 deletion(-)
+>
+> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-m=
+ap-individuals
+> index cf8a2ce367..b478fd4576 100644
+> --- a/contrib/gitdm/group-map-individuals
+> +++ b/contrib/gitdm/group-map-individuals
+> @@ -16,3 +16,25 @@ aurelien@aurel32.net
+>  balaton@eik.bme.hu
+>  e.emanuelegiuseppe@gmail.com
+>  andrew.smirnov@gmail.com
+> +sw@weilnetz.de
+> +huth@tuxfamily.org
+> +laurent@vivier.eu
+> +atar4qemu@gmail.com
+> +hpoussin@reactos.org
+> +deller@gmx.de
+> +alistair@alistair23.me
+> +fthain@telegraphics.com.au
+> +svens@stackframe.org
+> +aleksandar.qemu.devel@gmail.com
+> +jhogan@kernel.org
+> +paulburton@kernel.org
+> +vr_qemu@t-online.de
+> +nieklinnenbank@gmail.com
+> +devnexen@gmail.com
+> +jcd@tribudubois.net
+> +dirty.ice.hu@gmail.com
+> +mrolnik@gmail.com
+> +pauldzim@gmail.com
+> +linux@roeck-us.net
+> +sundeep.lkml@gmail.com
+> +ahmedkhaledkaraman@gmail.com
+> diff --git a/contrib/gitdm/group-map-redhat b/contrib/gitdm/group-map-re=
+dhat
+> index d15db2d35e..4a8ca84b36 100644
+> --- a/contrib/gitdm/group-map-redhat
+> +++ b/contrib/gitdm/group-map-redhat
+> @@ -3,6 +3,5 @@
+>  #
+>
+>  david@gibson.dropbear.id.au
+> -laurent@vivier.eu
+>  pjp@fedoraproject.org
+>  armbru@pond.sub.org
+>
 
--- 
-Luc
-
-> 
-> >> +
-> >> +    current_src = FIELD_EX32(*s->reg_cm, CM_CLOCKx_CTL, SRC);
-> >> +
-> >> +    if (current_src != src) {
-> >> +        return;
-> >> +    }
-> >>  
-> >>      clock_mux_update(s);
-> >>  }
-> >>  
-> >>  static void clock_mux_init(Object *obj)
-> >>
-> > 
-
--- 
 
