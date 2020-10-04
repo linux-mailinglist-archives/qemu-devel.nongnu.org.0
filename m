@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DF8282D8A
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 22:42:27 +0200 (CEST)
-Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33205282D8E
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Oct 2020 22:44:41 +0200 (CEST)
+Received: from localhost ([::1]:56242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPApt-0001h7-IT
-	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 16:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
+	id 1kPAs4-000370-9w
+	for lists+qemu-devel@lfdr.de; Sun, 04 Oct 2020 16:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPAno-0000pL-8D
+ id 1kPAno-0000pR-Mm
  for qemu-devel@nongnu.org; Sun, 04 Oct 2020 16:40:16 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40272)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPAnm-0008Ko-Ak
- for qemu-devel@nongnu.org; Sun, 04 Oct 2020 16:40:15 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j2so7334630wrx.7
- for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 13:40:13 -0700 (PDT)
+ id 1kPAnn-0008LQ-A4
+ for qemu-devel@nongnu.org; Sun, 04 Oct 2020 16:40:16 -0400
+Received: by mail-wr1-x443.google.com with SMTP id o5so7311981wrn.13
+ for <qemu-devel@nongnu.org>; Sun, 04 Oct 2020 13:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RYJteSOOfFo3m/CvcNV9rLBtaBuFYsOa4hhbQf3DcUM=;
- b=iNb652OtJPPAIQ26h68h4xF2xeS6MV+PCuxHNESeA+Us3X/n5YqjbuEqvA9QtpXzVF
- 3J9aAsd2GQTzq1dh54tN5KO7rV+9JwFtcIssZq6+TzERXczD0pd6MEUlgQZsQcNSSbdQ
- LNMwDHF35DhIJX9vHKb61zyDlj1zyyaQUVWxCOheLVNKQc7++cqwqhuQ4jcVAjuBylWB
- ah0nOefO1cc7uoP5O9jOw5R9ae+KtwVMuq7UUIiXjMY/GMFlKWa3aicz1IOILKY+d9Wn
- siJE6Ic9qOQVVbpAtMc88ASwdGWydFzAFtAtP28tqL+M0XlyubgX8EC/ROYaNSMm0Pas
- uIvQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bUQVva2+x0gxkjCNaWZB7LXKpo81OHKP88TdTCRYgb4=;
+ b=agh9kOQS75WXxYR54dTZWs1uK77XCe3wosn3eJ8y5gl/4AX6E9+KJr1cAlsZSPjqXy
+ q7Ue+mwC1zx0r/0tCMPok3YVXntpyswpboJrLEwNwwlvgr6+t4JBq+QH1MaGLl/l402g
+ Hq/BkDUd8eGFowsl3Dz3tJg403u6o/QMC3SB4AtK7LQwEY4scAuGcJGXvrnFGRAkHBJD
+ 8PhemPZlTpUmVwDlgX8U5NXRHUmOTzyVbNvYsiB/Crc6zOEboZDJLHejmW51jMVm5qnN
+ KyA3T8mx78UpXO3YCHKHYphzF13uCm9a97JDA0YhsEchhLK4IXfxZmX+i4CvvBLUz2X5
+ 0vpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=RYJteSOOfFo3m/CvcNV9rLBtaBuFYsOa4hhbQf3DcUM=;
- b=br+BfMIUW5rv9nH3I66ZHuxxk3wXGohOlABzgY7j0qKwdwgvF4kVUH2WsFqDL9QBdD
- p0tt5Z8utCLPwg9IqEo0Q3EJImY3V1md/mDgjBy/UKpPBd8nhaWfSdFbmVqVzEFxpNRH
- 9pE/vWJeafhNo7LBwj+VIpmM+cMQGCQxIviur5EDRRkgjF6YY5Z84V8e6i6X+pWdFVmL
- f7kmXe4Jr7cvnDfDqCZoGsaXFe13nomlRuk+DdoFMl/j4uH+O742bQtb6a7n0NmLa2ef
- 26KhAH22c8jL+H0bOgD3yN9PgJF1GrFIPUEbc5gaeLZgPo+ykwC0lRKnHCv/Ja8QjxSY
- XIFA==
-X-Gm-Message-State: AOAM533Yws+WXlJJU1efCwRkWKahFTJilERtG6xpx/t52KYBfLNvyTqF
- 4T4yfcSU3UMgp9qe5Pw4M6urQcPX1W3Obw==
-X-Google-Smtp-Source: ABdhPJxaugTIvmAatpd33UL4oO+C6DxFl4nKA3ArPenkEfd32EpoBh+lXX65D/tgggV5I8D2V9lQCA==
-X-Received: by 2002:adf:e552:: with SMTP id z18mr13189233wrm.50.1601844012625; 
- Sun, 04 Oct 2020 13:40:12 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=bUQVva2+x0gxkjCNaWZB7LXKpo81OHKP88TdTCRYgb4=;
+ b=EddS7/3uAdx5hM9LIxDyQvUCD5DoScldpekznLr6fVBZjlP+5mlsxYaGnmdLLDOKZ8
+ /iDTShbwG8P4tzLT5LZgqKm7iBTjius6jEOGmV3cG3xm4EmI4I5yTZkgvrxBMfF2ftnx
+ qWmMWl9MNnDr9ytAM5h/zHRvRq6HTj2/E6YSYV9G5+2lThbpGdRXvli38w4jqhgKrIUj
+ wA8L0MxV8c6pFHSqb63sbZuK+2SuAPY4VPm0+k+Fq2rgOzspFOSqV1bMZ0YK/cSMbkmT
+ Up5QtzJOLB7m9fgHJ9kTExp1cR6OPCp0FVGjs23/kS4y8/VlL/FakUBePll6mmJ6nAks
+ J6Gg==
+X-Gm-Message-State: AOAM530UCxfjhfb5dt4cCyK4Fu0eplu6XIDBkgzSWNzqgqS3aZZbBBY8
+ XGg5t9eH4bVjmPIqvobAPsl53djcwCsWFA==
+X-Google-Smtp-Source: ABdhPJxbsBka/Auzz55vBi0Fz2mANUhizEzg3L7tSRR+n/kf9hcfIf36RO8a+3ZpQhhxGnKEK7n9Jw==
+X-Received: by 2002:adf:ec0a:: with SMTP id x10mr13254105wrn.47.1601844013625; 
+ Sun, 04 Oct 2020 13:40:13 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id y1sm10245424wma.36.2020.10.04.13.40.11
+ by smtp.gmail.com with ESMTPSA id y1sm10245424wma.36.2020.10.04.13.40.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Oct 2020 13:40:11 -0700 (PDT)
+ Sun, 04 Oct 2020 13:40:13 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/2] contrib/gitdm: Add more academic contributors
-Date: Sun,  4 Oct 2020 22:40:08 +0200
-Message-Id: <20201004204010.2048608-1-f4bug@amsat.org>
+Subject: [RFC PATCH 1/2] contrib/gitdm: Add more academic contributors
+Date: Sun,  4 Oct 2020 22:40:09 +0200
+Message-Id: <20201004204010.2048608-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201004204010.2048608-1-f4bug@amsat.org>
+References: <20201004204010.2048608-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::443;
@@ -85,20 +88,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Artem Pisarenko <artem.k.pisarenko@gmail.com>,
+ Pavel Dovgaluk <pavel.dovgaluk@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Better represent the academic group in git-dm statistics.
+These academic contributors have a number of contributions,
+add them to the 'academic' group map.
 
-Philippe Mathieu-Daudé (2):
-  contrib/gitdm: Add more academic contributors
-  contrib/gitdm: Add more academic domains
+Cc: Pavel Dovgaluk <pavel.dovgaluk@gmail.com>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Artem Pisarenko <artem.k.pisarenko@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+To the developers Cc'ed: If you agree with your entry, please
+reply with a Reviewed-by/Acked-by tag. If you disagree or doesn't
+care, please either reply with Nack-by or ignore this patch.
+I'll repost in 2 weeks as formal patch (not RFC) with only the
+entries acked by their author.
+---
+ contrib/gitdm/group-map-academics | 5 +++++
+ 1 file changed, 5 insertions(+)
 
- contrib/gitdm/group-map-academics | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
+diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
+index 08f9d81d13..c7b0dd46a3 100644
+--- a/contrib/gitdm/group-map-academics
++++ b/contrib/gitdm/group-map-academics
+@@ -8,7 +8,12 @@
+ 
+ # Institute for System Programming of Russian Academy of Science
+ ispras.ru
++pavel.dovgaluk@gmail.com
+ 
+ # Columbia University
+ cs.columbia.edu
+ cota@braap.org
++
++jiaxun.yang@flygoat.com
++
++artem.k.pisarenko@gmail.com
 -- 
 2.26.2
 
