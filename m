@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8367B284086
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:19:36 +0200 (CEST)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF51D284092
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:26:41 +0200 (CEST)
+Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWxL-0003G8-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57266)
+	id 1kPX4C-0002qg-SB
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXw-0001lf-JQ
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:53:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXs-0007FP-4C
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:53:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601927594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XGaPDoKo6uulFtyoUAJz01LXnrYXw3hQNvaQ1rbsAAI=;
- b=TvsuWwcQhn9QjjYTPPr6ruuTikyt3LHRIycAbLcDgafUt+0o/3a7Q8nMqUEDqBwsaVGkwh
- s0+28LNt/+O0Kdm7uiGJ/8GhWmoBPpRbBOMEE2+AMvhKTU5UzvcPTY7R+97Uynj7lt+Cza
- k0gxYx42HY5dsctuWAVlt4R0C7NEu7M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-VLeotwJ3PF2zFUvpLrK2vw-1; Mon, 05 Oct 2020 15:53:12 -0400
-X-MC-Unique: VLeotwJ3PF2zFUvpLrK2vw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1AF318A8223
- for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:53:11 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 831235C1C4;
- Mon,  5 Oct 2020 19:52:59 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 36/36] qapi/visit.py: add type hint annotations
-Date: Mon,  5 Oct 2020 15:51:58 -0400
-Message-Id: <20201005195158.2348217-37-jsnow@redhat.com>
-In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
-References: <20201005195158.2348217-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPWaV-0005Jt-82; Mon, 05 Oct 2020 15:55:59 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44004)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPWaS-0007jC-RI; Mon, 05 Oct 2020 15:55:58 -0400
+Received: by mail-lj1-x243.google.com with SMTP id l13so5532067ljg.10;
+ Mon, 05 Oct 2020 12:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=kIgkJgwRnlXzAi/N6bYPqXdd1GzIP0MwV+Ya7hdUJwQ=;
+ b=B9rVGwK9fKwiTKAgXV/CsVM8pQF2hNecLvB+Yc0Bl2EneFnDuP73GuOe7yMPCS0Jkj
+ EZbAdErtkKTFjb4iC73yvzezX4EoOg2J6x68BmDk+CyjE13RCF8uwGUMSpnT5fiZXoNj
+ fbIg7BwQQJaniSK5GOP7hkR4fCfSU/AERAIYeYsOUR3dmddfcO9j+E7uQcAV5ezwozTc
+ j9OLqsKJE0H2ugYSlf6cMXFCHGT+6ONUJk0gmrehz/Gu3GlKFHDjAkEnh68ubOJTYrxH
+ ocNnJTbrYGYnn2PJbXsnTDLH/D+14k4W6qX44ZVQMzjFIRraRC6kwSI63kBWToDiuvZB
+ Y2jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=kIgkJgwRnlXzAi/N6bYPqXdd1GzIP0MwV+Ya7hdUJwQ=;
+ b=rl6yyfyYavo3yu0YUtdLX47XSp8wzrEYpiLghsLQEp3no9u37kM9s4QJz58qfVHgMN
+ xkPKWIoXF5RnaewhZUlTUdo6MEhoFAVM37llkVAzS02XsEuHRur/SusTerJXVmIGvojg
+ Q7OVzbbfQTLtQFMllIAMGvEvnbTzERD1sU3C6TU0CnAm8ensex+Fx2Y2b/u8SM2N1KnP
+ SR8moNxUBaHSh6bavh74TzUiMctewMUWXiP+z4fa/bDRmohUfUCe8eGnoaa/7OvM6/Hz
+ guvAxYqSxIHjB1Zt/Vpp5IWlZcsjzsToMOV4GXQmZP6zK94z4T+uQKECW1vEVPpCF6jn
+ 8fqg==
+X-Gm-Message-State: AOAM531MIT/SddJPJ1gUZSf1eXPEKuedzW3vLOsSFRgmTuX+Z5bu4QNh
+ KgTBYsQeTD0wFgQlSCOzHamSrHxLrAv0fo6sH5M=
+X-Google-Smtp-Source: ABdhPJwWlkqiA9FlZf6P1ZMOc8WE8FinwWK7yB6bSp9DtZtpzmeeUl7QW49Wb7wpgbqtYcqZPnrM4zjxl2IJUMKSDUg=
+X-Received: by 2002:a2e:978f:: with SMTP id y15mr412200lji.300.1601927753868; 
+ Mon, 05 Oct 2020 12:55:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201005172109.416-1-luoyonggang@gmail.com>
+ <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
+In-Reply-To: <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Tue, 6 Oct 2020 03:55:42 +0800
+Message-ID: <CAE2XoE_a4Q++HAbe2_MgbOgAqTqCtEDGOegQL+mJ5CKCp5HtAA@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts: Convert qemu-version.sh to qemu-version.py
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000b9a95705b0f1de34"
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,217 +78,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Annotations do not change runtime behavior.
-This commit *only* adds annotations.
+--000000000000b9a95705b0f1de34
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
----
- scripts/qapi/mypy.ini |  5 ---
- scripts/qapi/visit.py | 73 +++++++++++++++++++++++++++++++++----------
- 2 files changed, 56 insertions(+), 22 deletions(-)
+On Tue, Oct 6, 2020 at 3:23 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+>
+> On Mon, 5 Oct 2020 at 18:24, Yonggang Luo <luoyonggang@gmail.com> wrote:
+> >
+> > The sh script are harder to maintain for compatible different
+> > xsh environment
+> >
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > ---
+> >  meson.build             |  2 +-
+> >  scripts/qemu-version.py | 30 ++++++++++++++++++++++++++++++
+> >  scripts/qemu-version.sh | 25 -------------------------
+> >  3 files changed, 31 insertions(+), 26 deletions(-)
+> >  create mode 100644 scripts/qemu-version.py
+> >  delete mode 100755 scripts/qemu-version.sh
+> >
+> > diff --git a/meson.build b/meson.build
+> > index 95a532bd29..20f653b6eb 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -1072,7 +1072,7 @@ tracetool =3D [
+> >     '--backend=3D' + config_host['TRACE_BACKENDS']
+> >  ]
+> >
+> > -qemu_version_cmd =3D [find_program('scripts/qemu-version.sh'),
+> > +qemu_version_cmd =3D [find_program('scripts/qemu-version.py'),
+> >                      meson.current_source_dir(),
+> >                      config_host['PKGVERSION'], meson.project_version()=
+]
+> >  qemu_version =3D custom_target('qemu-version.h',
+> > diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
+> > new file mode 100644
+> > index 0000000000..384c54027d
+> > --- /dev/null
+> > +++ b/scripts/qemu-version.py
+> > @@ -0,0 +1,30 @@
+> > +#!/usr/bin/env python3
+> > +
+> > +# Script for retrieve qemu git version information
+> > +# and output to stdout as QEMU_PKGVERSION and QEMU_FULL_VERSION header
+> > +# Author: Yonggang Luo <luoyonggang@gmail.com>
+>
+> Can we have a license statement in all new files, please?
+>
+> > +
+> > +import sys
+> > +import subprocess
+> > +
+> > +def main(args):
+> > +    if len(args) <=3D 3:
+> > +        sys.exit(0)
+> > +
+> > +    dir =3D args[1]
+> > +    pkgversion =3D args[2]
+> > +    version =3D args[3]
+> > +    pc =3D subprocess.run(['git', 'describe', '--match', "'v*'",
+'--dirty', '--always'],
+> > +        stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, cwd=3Dd=
+ir)
+> > +    if pc.returncode =3D=3D 0:
+> > +        pkgversion =3D pc.stdout.decode('utf8').strip()
+> > +    fullversion =3D version
+> > +    if len(pkgversion) > 0:
+> > +        fullversion =3D "{} ({})".format(version, pkgversion)
+> > +
+> > +    version_header =3D '''#define QEMU_PKGVERSION "{}"
+> > +#define QEMU_FULL_VERSION "{}"'''.format(pkgversion, fullversion)
+> > +    sys.stdout.buffer.write(version_header.encode('utf8'))
+> > +
+> > +if __name__ =3D=3D "__main__":
+> > +    main(sys.argv)
+>
+> Wow, python really makes this kind of task clunky compared to shell...
+That's right, the size are bloated, but for me, easier to understand
+>
+> This doesn't seem to be the same logic as the original shell.
+> I'm not too familiar with python, but:
+>  * the shell script doesn't run git if pkgversion is not the empty string
+>  * the shell script doesn't run git unless the .git directory exists
+> If these are intentional behaviour changes you should mention
+> them in the commit message.
+>
+> Also worth mentioning that you're fixing the bug in the shell
+> script where we ignore the output from git (the intention was
+> to ignore a failure from git but otherwise to keep its output;
+> this patch:
+>
+https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.co=
+m/
+> is the fix for that in the existing shell script).
+>
+> > diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
+> > deleted file mode 100755
+> > index 03128c56a2..0000000000
+> > --- a/scripts/qemu-version.sh
+> > +++ /dev/null
+> > @@ -1,25 +0,0 @@
+> > -#!/bin/sh
+> > -
+> > -set -eu
+> > -
+> > -dir=3D"$1"
+> > -pkgversion=3D"$2"
+> > -version=3D"$3"
+> > -
+> > -if [ -z "$pkgversion" ]; then
+> > -    cd "$dir"
+> > -    if [ -e .git ]; then
+> > -        pkgversion=3D$(git describe --match 'v*' --dirty | echo "")
+> > -    fi
+> > -fi
+> > -
+> > -if [ -n "$pkgversion" ]; then
+> > -    fullversion=3D"$version ($pkgversion)"
+> > -else
+> > -    fullversion=3D"$version"
+> > -fi
+> > -
+> > -cat <<EOF
+> > -#define QEMU_PKGVERSION "$pkgversion"
+> > -#define QEMU_FULL_VERSION "$fullversion"
+> > -EOF
+>
+> thanks
+> -- PMM
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 83f19813553..74fc6c82153 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -28,8 +28,3 @@ check_untyped_defs = False
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
--
--[mypy-qapi.visit]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index e54694e23db..14d4f0b261f 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -13,6 +13,8 @@
- See the COPYING file in the top-level directory.
- """
- 
-+from typing import List, Optional
-+
- from .common import (
-     c_enum_const,
-     c_name,
-@@ -22,10 +24,20 @@
-     mcgen,
- )
- from .gen import QAPISchemaModularCVisitor, ifcontext
--from .schema import QAPISchemaEnumType, QAPISchemaObjectType
-+from .schema import (
-+    QAPISchema,
-+    QAPISchemaEnumMember,
-+    QAPISchemaEnumType,
-+    QAPISchemaFeature,
-+    QAPISchemaObjectType,
-+    QAPISchemaObjectTypeMember,
-+    QAPISchemaType,
-+    QAPISchemaVariants,
-+)
-+from .source import QAPISourceInfo
- 
- 
--def gen_visit_decl(name, scalar=False):
-+def gen_visit_decl(name: str, scalar: bool = False) -> str:
-     c_type = c_name(name) + ' *'
-     if not scalar:
-         c_type += '*'
-@@ -37,7 +49,7 @@ def gen_visit_decl(name, scalar=False):
-                  c_name=c_name(name), c_type=c_type)
- 
- 
--def gen_visit_members_decl(name):
-+def gen_visit_members_decl(name: str) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp);
-@@ -45,7 +57,10 @@ def gen_visit_members_decl(name):
-                  c_name=c_name(name))
- 
- 
--def gen_visit_object_members(name, base, members, variants):
-+def gen_visit_object_members(name: str,
-+                             base: Optional[QAPISchemaObjectType],
-+                             members: List[QAPISchemaObjectTypeMember],
-+                             variants: Optional[QAPISchemaVariants]) -> str:
-     ret = mcgen('''
- 
- bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
-@@ -125,7 +140,7 @@ def gen_visit_object_members(name, base, members, variants):
-     return ret
- 
- 
--def gen_visit_list(name, element_type):
-+def gen_visit_list(name: str, element_type: QAPISchemaType) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s(Visitor *v, const char *name,
-@@ -159,7 +174,7 @@ def gen_visit_list(name, element_type):
-                  c_name=c_name(name), c_elt_type=element_type.c_name())
- 
- 
--def gen_visit_enum(name):
-+def gen_visit_enum(name: str) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s(Visitor *v, const char *name,
-@@ -174,7 +189,7 @@ def gen_visit_enum(name):
-                  c_name=c_name(name))
- 
- 
--def gen_visit_alternate(name, variants):
-+def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
-     ret = mcgen('''
- 
- bool visit_type_%(c_name)s
-@@ -250,7 +265,7 @@ def gen_visit_alternate(name, variants):
-     return ret
- 
- 
--def gen_visit_object(name):
-+def gen_visit_object(name: str) -> str:
-     return mcgen('''
- 
- bool visit_type_%(c_name)s
-@@ -285,12 +300,12 @@ def gen_visit_object(name):
- 
- class QAPISchemaGenVisitVisitor(QAPISchemaModularCVisitor):
- 
--    def __init__(self, prefix):
-+    def __init__(self, prefix: str):
-         super().__init__(
-             prefix, 'qapi-visit', ' * Schema-defined QAPI visitors',
-             ' * Built-in QAPI visitors', __doc__)
- 
--    def _begin_system_module(self, name):
-+    def _begin_system_module(self, name: None) -> None:
-         self._genc.preamble_add(mcgen('''
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-@@ -302,7 +317,7 @@ def _begin_system_module(self, name):
- 
- '''))
- 
--    def _begin_user_module(self, name):
-+    def _begin_user_module(self, name: str) -> None:
-         types = self._module_basename('qapi-types', name)
-         visit = self._module_basename('qapi-visit', name)
-         self._genc.preamble_add(mcgen('''
-@@ -319,18 +334,34 @@ def _begin_user_module(self, name):
- ''',
-                                       types=types))
- 
--    def visit_enum_type(self, name, info, ifcond, features, members, prefix):
-+    def visit_enum_type(self,
-+                        name: str,
-+                        info: QAPISourceInfo,
-+                        ifcond: List[str],
-+                        features: List[QAPISchemaFeature],
-+                        members: List[QAPISchemaEnumMember],
-+                        prefix: Optional[str]) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name, scalar=True))
-             self._genc.add(gen_visit_enum(name))
- 
--    def visit_array_type(self, name, info, ifcond, element_type):
-+    def visit_array_type(self,
-+                         name: str,
-+                         info: Optional[QAPISourceInfo],
-+                         ifcond: List[str],
-+                         element_type: QAPISchemaType) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_list(name, element_type))
- 
--    def visit_object_type(self, name, info, ifcond, features,
--                          base, members, variants):
-+    def visit_object_type(self,
-+                          name: str,
-+                          info: Optional[QAPISourceInfo],
-+                          ifcond: List[str],
-+                          features: List[QAPISchemaFeature],
-+                          base: Optional[QAPISchemaObjectType],
-+                          members: List[QAPISchemaObjectTypeMember],
-+                          variants: Optional[QAPISchemaVariants]) -> None:
-         # Nothing to do for the special empty builtin
-         if name == 'q_empty':
-             return
-@@ -345,13 +376,21 @@ def visit_object_type(self, name, info, ifcond, features,
-                 self._genh.add(gen_visit_decl(name))
-                 self._genc.add(gen_visit_object(name))
- 
--    def visit_alternate_type(self, name, info, ifcond, features, variants):
-+    def visit_alternate_type(self,
-+                             name: str,
-+                             info: QAPISourceInfo,
-+                             ifcond: List[str],
-+                             features: List[QAPISchemaFeature],
-+                             variants: QAPISchemaVariants) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name))
-             self._genc.add(gen_visit_alternate(name, variants))
- 
- 
--def gen_visit(schema, output_dir, prefix, opt_builtins):
-+def gen_visit(schema: QAPISchema,
-+              output_dir: str,
-+              prefix: str,
-+              opt_builtins: bool) -> None:
-     vis = QAPISchemaGenVisitVisitor(prefix)
-     schema.visit(vis)
-     vis.write(output_dir, opt_builtins)
--- 
-2.26.2
 
+
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--000000000000b9a95705b0f1de34
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Tue, Oct 6, 2020 at 3:23 AM Peter Maydell &lt;<=
+a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt;=
+ wrote:<br>&gt;<br>&gt; On Mon, 5 Oct 2020 at 18:24, Yonggang Luo &lt;<a hr=
+ef=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt; wrote:<br=
+>&gt; &gt;<br>&gt; &gt; The sh script are harder to maintain for compatible=
+ different<br>&gt; &gt; xsh environment<br>&gt; &gt;<br>&gt; &gt; Signed-of=
+f-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang=
+@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =C2=A0meson.build =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A02 +-<br>&gt; &gt; =C2=A0scripts/=
+qemu-version.py | 30 ++++++++++++++++++++++++++++++<br>&gt; &gt; =C2=A0scri=
+pts/qemu-version.sh | 25 -------------------------<br>&gt; &gt; =C2=A03 fil=
+es changed, 31 insertions(+), 26 deletions(-)<br>&gt; &gt; =C2=A0create mod=
+e 100644 scripts/qemu-version.py<br>&gt; &gt; =C2=A0delete mode 100755 scri=
+pts/qemu-version.sh<br>&gt; &gt;<br>&gt; &gt; diff --git a/meson.build b/me=
+son.build<br>&gt; &gt; index 95a532bd29..20f653b6eb 100644<br>&gt; &gt; ---=
+ a/meson.build<br>&gt; &gt; +++ b/meson.build<br>&gt; &gt; @@ -1072,7 +1072=
+,7 @@ tracetool =3D [<br>&gt; &gt; =C2=A0 =C2=A0 &#39;--backend=3D&#39; + c=
+onfig_host[&#39;TRACE_BACKENDS&#39;]<br>&gt; &gt; =C2=A0]<br>&gt; &gt;<br>&=
+gt; &gt; -qemu_version_cmd =3D [find_program(&#39;scripts/qemu-version.sh&#=
+39;),<br>&gt; &gt; +qemu_version_cmd =3D [find_program(&#39;scripts/qemu-ve=
+rsion.py&#39;),<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0meson.current_source_dir(),<br>&gt; &gt; =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0co=
+nfig_host[&#39;PKGVERSION&#39;], meson.project_version()]<br>&gt; &gt; =C2=
+=A0qemu_version =3D custom_target(&#39;qemu-version.h&#39;,<br>&gt; &gt; di=
+ff --git a/scripts/qemu-version.py b/scripts/qemu-version.py<br>&gt; &gt; n=
+ew file mode 100644<br>&gt; &gt; index 0000000000..384c54027d<br>&gt; &gt; =
+--- /dev/null<br>&gt; &gt; +++ b/scripts/qemu-version.py<br>&gt; &gt; @@ -0=
+,0 +1,30 @@<br>&gt; &gt; +#!/usr/bin/env python3<br>&gt; &gt; +<br>&gt; &gt=
+; +# Script for retrieve qemu git version information<br>&gt; &gt; +# and o=
+utput to stdout as QEMU_PKGVERSION and QEMU_FULL_VERSION header<br>&gt; &gt=
+; +# Author: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoy=
+onggang@gmail.com</a>&gt;<br>&gt;<br>&gt; Can we have a license statement i=
+n all new files, please?<br>&gt;<br>&gt; &gt; +<br>&gt; &gt; +import sys<br=
+>&gt; &gt; +import subprocess<br>&gt; &gt; +<br>&gt; &gt; +def main(args):<=
+br>&gt; &gt; + =C2=A0 =C2=A0if len(args) &lt;=3D 3:<br>&gt; &gt; + =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0sys.exit(0)<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0=
+dir =3D args[1]<br>&gt; &gt; + =C2=A0 =C2=A0pkgversion =3D args[2]<br>&gt; =
+&gt; + =C2=A0 =C2=A0version =3D args[3]<br>&gt; &gt; + =C2=A0 =C2=A0pc =3D =
+subprocess.run([&#39;git&#39;, &#39;describe&#39;, &#39;--match&#39;, &quot=
+;&#39;v*&#39;&quot;, &#39;--dirty&#39;, &#39;--always&#39;],<br>&gt; &gt; +=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.D=
+EVNULL, cwd=3Ddir)<br>&gt; &gt; + =C2=A0 =C2=A0if pc.returncode =3D=3D 0:<b=
+r>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0pkgversion =3D pc.stdout.decode(&#=
+39;utf8&#39;).strip()<br>&gt; &gt; + =C2=A0 =C2=A0fullversion =3D version<b=
+r>&gt; &gt; + =C2=A0 =C2=A0if len(pkgversion) &gt; 0:<br>&gt; &gt; + =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0fullversion =3D &quot;{} ({})&quot;.format(version, pk=
+gversion)<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0version_header =3D &#3=
+9;&#39;&#39;#define QEMU_PKGVERSION &quot;{}&quot;<br>&gt; &gt; +#define QE=
+MU_FULL_VERSION &quot;{}&quot;&#39;&#39;&#39;.format(pkgversion, fullversio=
+n)<br>&gt; &gt; + =C2=A0 =C2=A0sys.stdout.buffer.write(version_header.encod=
+e(&#39;utf8&#39;))<br>&gt; &gt; +<br>&gt; &gt; +if __name__ =3D=3D &quot;__=
+main__&quot;:<br>&gt; &gt; + =C2=A0 =C2=A0main(sys.argv)<br>&gt;<br>&gt; Wo=
+w, python really makes this kind of task clunky compared to shell...<div>Th=
+at&#39;s right, the size are bloated, but for me, easier to understand<br>&=
+gt;<br>&gt; This doesn&#39;t seem to be the same logic as the original shel=
+l.<br>&gt; I&#39;m not too familiar with python, but:<br>&gt; =C2=A0* the s=
+hell script doesn&#39;t run git if pkgversion is not the empty string<br>&g=
+t; =C2=A0* the shell script doesn&#39;t run git unless the .git directory e=
+xists<br>&gt; If these are intentional behaviour changes you should mention=
+<br>&gt; them in the commit message.<br>&gt;<br>&gt; Also worth mentioning =
+that you&#39;re fixing the bug in the shell<br>&gt; script where we ignore =
+the output from git (the intention was<br>&gt; to ignore a failure from git=
+ but otherwise to keep its output;<br>&gt; this patch:<br>&gt; <a href=3D"h=
+ttps://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.com=
+/">https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat=
+.com/</a><br>&gt; is the fix for that in the existing shell script).<br>&gt=
+;<br>&gt; &gt; diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.=
+sh<br>&gt; &gt; deleted file mode 100755<br>&gt; &gt; index 03128c56a2..000=
+0000000<br>&gt; &gt; --- a/scripts/qemu-version.sh<br>&gt; &gt; +++ /dev/nu=
+ll<br>&gt; &gt; @@ -1,25 +0,0 @@<br>&gt; &gt; -#!/bin/sh<br>&gt; &gt; -<br>=
+&gt; &gt; -set -eu<br>&gt; &gt; -<br>&gt; &gt; -dir=3D&quot;$1&quot;<br>&gt=
+; &gt; -pkgversion=3D&quot;$2&quot;<br>&gt; &gt; -version=3D&quot;$3&quot;<=
+br>&gt; &gt; -<br>&gt; &gt; -if [ -z &quot;$pkgversion&quot; ]; then<br>&gt=
+; &gt; - =C2=A0 =C2=A0cd &quot;$dir&quot;<br>&gt; &gt; - =C2=A0 =C2=A0if [ =
+-e .git ]; then<br>&gt; &gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0pkgversion=3D$(gi=
+t describe --match &#39;v*&#39; --dirty | echo &quot;&quot;)<br>&gt; &gt; -=
+ =C2=A0 =C2=A0fi<br>&gt; &gt; -fi<br>&gt; &gt; -<br>&gt; &gt; -if [ -n &quo=
+t;$pkgversion&quot; ]; then<br>&gt; &gt; - =C2=A0 =C2=A0fullversion=3D&quot=
+;$version ($pkgversion)&quot;<br>&gt; &gt; -else<br>&gt; &gt; - =C2=A0 =C2=
+=A0fullversion=3D&quot;$version&quot;<br>&gt; &gt; -fi<br>&gt; &gt; -<br>&g=
+t; &gt; -cat &lt;&lt;EOF<br>&gt; &gt; -#define QEMU_PKGVERSION &quot;$pkgve=
+rsion&quot;<br>&gt; &gt; -#define QEMU_FULL_VERSION &quot;$fullversion&quot=
+;<br>&gt; &gt; -EOF<br>&gt;<br>&gt; thanks<br>&gt; -- PMM<br><br><br><br>--=
+<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=
+=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggan=
+g Luo</div></div>
+
+--000000000000b9a95705b0f1de34--
 
