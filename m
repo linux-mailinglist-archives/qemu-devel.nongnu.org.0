@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D64283279
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:49:00 +0200 (CEST)
-Received: from localhost ([::1]:60690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7886B2832AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 11:02:07 +0200 (CEST)
+Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPMB1-0001b6-SG
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41970)
+	id 1kPMNi-0000q6-Ik
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 05:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPM8u-00085o-2A
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:46:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPM8m-00025w-RX
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:46:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601887599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iGtB50YnsRxdtPcnxSKy9zziUsWLU+C2ClHiTUgK4HY=;
- b=ErKtggPNLAdxJRoMZM8qJ3tJKJHTvZWYTsN4iCtjzFaODiVfWiC16EcDUaMkNAT/qGsPPz
- MqouicTSxQBDFccK45irfQlqZ77GzLqO9HRq2oMajYgKWiaJq+doNFTBhWXpe5wEN8C36Z
- p3SEM/zYSZ22/sDVPFF+qgYmTr4iThA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-is83IHTdP7KS4NYI0XJv-g-1; Mon, 05 Oct 2020 04:46:38 -0400
-X-MC-Unique: is83IHTdP7KS4NYI0XJv-g-1
-Received: by mail-wm1-f70.google.com with SMTP id g125so1633146wme.1
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:46:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kPMLm-0000I3-Mu
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 05:00:06 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:32864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kPMLk-0003sq-7k
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 05:00:06 -0400
+Received: by mail-wr1-x444.google.com with SMTP id m6so8633997wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 02:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=LMRj7yIuZe5JSB4nuuFlt6ZlYKqFb12hcrE3hlxKy0Y=;
+ b=YOgzYJjdjyWBrFApD8FvMjP0FD1cPaSgbT7Mzp4h4fW9872eb7CcXkzrzJfbwdvLNk
+ pbMGY6ZOImbdnruLv0fVt89pIWrmvwK9RAVNkZ7ey+0Ofa7jGkT0pyIDiqTZYGIIZmps
+ IvLIztPaTrO/tPOxMJLiavU4R7TJ9fvqHl9dbBkTlMWBmnD58TYPnUMGT26RCKQ+4uam
+ xngr/8M/pZcODKwLf5UV8syKCCOXKFAh3zi0402i02UpTu+uIA3ASQesCpivrqIMpDYc
+ F//n3qSxKNGSsLnrvZAdYs+7QT6mceLAZNThNjf2c5K6n9B5QQ4jX1h2j22rfsz2z+Mc
+ lldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=iGtB50YnsRxdtPcnxSKy9zziUsWLU+C2ClHiTUgK4HY=;
- b=Jje9s0XIlb1ypyNjDKWOQ+m1NLn0uRCsoMKxtw+SzOwpDMCjQC7m7jbMy1BcdfTJ7s
- 5C1zEDOZ7fz0HLR3Xfwkwi0vDsvxHTiG38AZaD4nRBN55xd9HzyxqF7AJzQSbBF40Etq
- RwKCBKhgeSM5SXE+9C+ef6ulris2tibgEgP3d7VsOn8F0jf845Zezlt6sM1me+z2hgHf
- xUloR5E5bdOadxygjkSHAVhScLIjg2tr39AwgvMM4V/kUE6Nj47fQayRjkeniLF1HCCZ
- 2217ZNlgsc2SvFrvL5CdiZC8uOM2NniC4wt31d9TgEZfa8XpT68tMGzz3ZBrhEUgZfrR
- Zkuw==
-X-Gm-Message-State: AOAM530U1qrxJKXRTL7DE5FKyRKhFQ6J7IY8YBCmTzE3GNGFgB2neiwX
- GWGb5iCf9AySZso5HQXDLEu/Nfx5ZJi2gqTKzIg5+Nbdk/TnEUhdn3adcQECvam3J/Z1FEBkaP2
- WWeF/GPyKraiChR8=
-X-Received: by 2002:adf:f508:: with SMTP id q8mr15628310wro.233.1601887596919; 
- Mon, 05 Oct 2020 01:46:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxh8gBdXjFPP6Fg5LpFJWyuWEnPq5OgT89WT+nnJI2qo5KAVzXdVErIty6ISrAJ1Uq7rNJfQ==
-X-Received: by 2002:adf:f508:: with SMTP id q8mr15628293wro.233.1601887596747; 
- Mon, 05 Oct 2020 01:46:36 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:2e86:3d8b:8b70:920c?
- ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
- by smtp.gmail.com with ESMTPSA id f63sm11027412wme.38.2020.10.05.01.46.36
+ bh=LMRj7yIuZe5JSB4nuuFlt6ZlYKqFb12hcrE3hlxKy0Y=;
+ b=DsmaTZCQlIW2lGFztGpu/bvodynkgZDEB23YSraJCHHKNA+PupkbtDCjpEIEXzWSJ2
+ Bt/zE3NI6awZMwWcl1GV4Rzaerx71TpK0mT4bv9iav8Qf9Y/MmRIXwefoRYzaPsTCv1E
+ K3FV0MCyhu89UXc4EcrMS5iGqDIDmZJB7pfZgD21BM5IuCyBLqpUp/BhCTF+Ig15hBuu
+ yJ3U4B+LeZs/V0yu2RMchT+qyEoSjNkyCMgR0RoAjYejGLcP3RWH4x14S6kfjgoaK7Os
+ SXilQ/p2tUSwAAabNUvZYer1eJRstOS9bNrgTpfrzNossrQsqPfnia57IAW6mG6BJyPl
+ WUoA==
+X-Gm-Message-State: AOAM531KoD4r1X2m16QFJLf6bKmS4T/p3RA/kaFt2r9L/DjCo3oAu+Wv
+ EkBM36ru/keBBrtDyrbzf28=
+X-Google-Smtp-Source: ABdhPJyUeemQs3yZWOopZZN6v9IWWCIrbCZPQM2frCyc1nWlHm1pl8PkuYC3cbc73PnF6jf2Ngx+fQ==
+X-Received: by 2002:adf:ee07:: with SMTP id y7mr6622945wrn.229.1601888402760; 
+ Mon, 05 Oct 2020 02:00:02 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id u188sm7770536wmu.0.2020.10.05.02.00.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Oct 2020 01:46:36 -0700 (PDT)
-Subject: Re: [PATCH] qom: Improve error message displayed with missing object
- properties
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200920155340.401482-1-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0263e47d-549e-8acb-a6cb-93a7436f5f6d@redhat.com>
-Date: Mon, 5 Oct 2020 10:46:38 +0200
+ Mon, 05 Oct 2020 02:00:02 -0700 (PDT)
+Subject: Re: [RFC PATCH 09/21] contrib/gitdm: Add Nutanix to the domain map
+To: Ani Sinha <ani@anisinha.ca>
+References: <20201004180443.2035359-1-f4bug@amsat.org>
+ <20201004180443.2035359-10-f4bug@amsat.org>
+ <CAARzgwwrUAO8mW=nY3bbnwzyjHX8isf1XDDNR8XnXTO5=J4ovA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a4859a37-4697-00ee-3e55-e0fc745f26d6@amsat.org>
+Date: Mon, 5 Oct 2020 11:00:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200920155340.401482-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAARzgwwrUAO8mW=nY3bbnwzyjHX8isf1XDDNR8XnXTO5=J4ovA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,40 +92,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Mike Cui <cui@nutanix.com>, Peter Turschmid <peter.turschm@nutanix.com>,
+ Ani Sinha <ani.sinha@nutanix.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ Prerna Saxena <prerna.saxena@nutanix.com>,
+ Malcolm Crossley <malcolm@nutanix.com>,
+ David Vrabel <david.vrabel@nutanix.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Felipe Franciosi <felipe@nutanix.com>,
+ Jonathan Davies <jonathan.davies@nutanix.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/20 17:53, Philippe Mathieu-Daudé wrote:
-> Instead of only displaying the property missing, also display
-> the object name. This help developer to quickly figure out the
-> mistake without opening a debugger.
+On 10/5/20 7:22 AM, Ani Sinha wrote:
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  qom/object.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/qom/object.c b/qom/object.c
-> index 387efb25ebe..257914b1fe3 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -1259,7 +1259,8 @@ ObjectProperty *object_property_find(Object *obj, const char *name,
->          return prop;
->      }
->  
-> -    error_setg(errp, "Property '.%s' not found", name);
-> +    error_setg(errp, "Property '%s.%s' not found",
-> +               object_get_typename(obj), name);
->      return NULL;
->  }
->  
+> On Sun, Oct 4, 2020 at 23:34 Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> wrote:
 > 
+>     There is a number of contributors from this domain,
+>     add its own entry to the gitdm domain map.
+> 
+>     Cc: Ani Sinha <ani.sinha@nutanix.com <mailto:ani.sinha@nutanix.com>>
+>     Cc: David Vrabel <david.vrabel@nutanix.com
+>     <mailto:david.vrabel@nutanix.com>>
+>     Cc: Felipe Franciosi <felipe@nutanix.com <mailto:felipe@nutanix.com>>
+>     Cc: Jonathan Davies <jonathan.davies@nutanix.com
+>     <mailto:jonathan.davies@nutanix.com>>
+>     Cc: Malcolm Crossley <malcolm@nutanix.com <mailto:malcolm@nutanix.com>>
+>     Cc: Mike Cui <cui@nutanix.com <mailto:cui@nutanix.com>>
+>     Cc: Peter Turschmid <peter.turschm@nutanix.com
+>     <mailto:peter.turschm@nutanix.com>>
+>     Cc: Prerna Saxena <prerna.saxena@nutanix.com
+>     <mailto:prerna.saxena@nutanix.com>>
+>     Cc: Raphael Norwitz <raphael.norwitz@nutanix.com
+>     <mailto:raphael.norwitz@nutanix.com>>
+>     Cc: Swapnil Ingle <swapnil.ingle@nutanix.com
+>     <mailto:swapnil.ingle@nutanix.com>>
+>     Cc: Ani Sinha <ani@anisinha.ca <mailto:ani@anisinha.ca>>
+> 
+> 
+> I’ve left Nutanix and not part of the company anymore. Malcolm, David,
+> Mike also has left Nutanix.
+> 
+> 
+> 
+>     Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>>
+>     ---
+>     One Reviewed-by/Ack-by from someone from this domain
+>     should be sufficient to get this patch merged.
+> 
+>     Ani, can you confirm the ani@anisinha.ca <mailto:ani@anisinha.ca> email?
+>     Should it go into 'individual contributors' instead?
+> 
+> 
+> Yes I’m an individual contributor now. 
+> 
+> 
+>     ---
+>      contrib/gitdm/domain-map        | 1 +
+>      contrib/gitdm/group-map-nutanix | 2 ++
+>      gitdm.config                    | 1 +
+>      3 files changed, 4 insertions(+)
+>      create mode 100644 contrib/gitdm/group-map-nutanix
+> 
+>     diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+>     index 4850eab4c4..39251fd97c 100644
+>     --- a/contrib/gitdm/domain-map
+>     +++ b/contrib/gitdm/domain-map
+>     @@ -24,6 +24,7 @@ linaro.org <http://linaro.org>      Linaro
+>      codesourcery.com <http://codesourcery.com> Mentor Graphics
+>      microsoft.com <http://microsoft.com>   Microsoft
+>      nokia.com <http://nokia.com>       Nokia
+>     +nutanix.com <http://nutanix.com>     Nutanix
+>      oracle.com <http://oracle.com>      Oracle
+>      proxmox.com <http://proxmox.com>     Proxmox
+>      redhat.com <http://redhat.com>      Red Hat
+>     diff --git a/contrib/gitdm/group-map-nutanix
+>     b/contrib/gitdm/group-map-nutanix
+>     new file mode 100644
+>     index 0000000000..a3f11425b3
+>     --- /dev/null
+>     +++ b/contrib/gitdm/group-map-nutanix
+>     @@ -0,0 +1,2 @@
+>     +raphael.s.norwitz@gmail.com <mailto:raphael.s.norwitz@gmail.com>
+>     +ani@anisinha.ca <mailto:ani@anisinha.ca>
+> 
+> 
+> Same here. Not part of Nutanix. 
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+OK I'll correct, thanks for the feedback.
 
-I think it's okay for qemu-trivial.
-
+> 
+>     <mailto:ani@anisinha.ca>
+>     diff --git a/gitdm.config b/gitdm.config
+>     index c01c219078..4f821ab8ba 100644
+>     --- a/gitdm.config
+>     +++ b/gitdm.config
+>     @@ -37,6 +37,7 @@ GroupMap contrib/gitdm/group-map-cadence Cadence
+>     Design Systems
+>      GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
+>      GroupMap contrib/gitdm/group-map-ibm IBM
+>      GroupMap contrib/gitdm/group-map-janustech Janus Technologies
+>     +GroupMap contrib/gitdm/group-map-nutanix Nutanix
+> 
+>      # Also group together our prolific individual contributors
+>      # and those working under academic auspices
+>     -- 
+>     2.26.2
+> 
 
