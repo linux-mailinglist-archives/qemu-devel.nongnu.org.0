@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE4F283712
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 15:58:18 +0200 (CEST)
-Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6729C283722
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 15:59:59 +0200 (CEST)
+Received: from localhost ([::1]:59958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPR0M-0008Oz-0X
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 09:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
+	id 1kPR1y-0001kc-Gg
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 09:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPQyQ-000784-1N
+ id 1kPQyR-000787-79
  for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:19 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53391)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPQyO-0000NI-KJ
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:17 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id f21so3465589wml.3
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 06:56:14 -0700 (PDT)
+ id 1kPQyO-0000NN-Kp
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:18 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id m6so9725765wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 06:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2o8pQnaV6jx+33KumWBlrHoy1B3kkbh0WO/pEaQSKfQ=;
- b=KXJDlJ9Sm7JV5Co5Fwo6ZBd5lWJUzXqj2pbX/WCOznO72/gDAuNh1l5vVM348GG2no
- R+m4FmvsT1K+PASnhjoMhkQzEABSwI4y0+urvmFC4iClkn4/M68hhgwk/pOz/k0zam2Q
- o8IJv9bkSTY2VNrKiS0W3KE5qpWt6t1406L2/MkYx36EmmllZbxlhK27tiJisO7s/Pkm
- Hy/RxJDHMBMmGzopQc8LC6X0gyIm0HHrh0gajRV6rIKuZIH10Ql7jj3rdhE5H2bmKlrC
- +Hsxqelj7Ka7DWn+6xNgEIg5a9+nStAl192zvW4BQ6Mkq4FaNhynVigFUfRrRE9qA6ZT
- 2ghw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=33jc4GvxhINu+DGd3c2tDcuxZvRf6s057BT97g14Zqk=;
+ b=VxCR0l9rKKAXmjy5tIC+pdCGSffUiBrTm3xY6tYNPjQQnsGxyVbkeqbPn+3M+l6Dq8
+ 3lCo6GaYD+Kh1h9NsMKY6VEdA3cOf/hSgZBiWuHwwLfUzwiXSSDrD/u4S1sKpV6Wx1Cg
+ soRDfP+njjHY92/rDPZ8I2S/QhzD8pQEu8A4htnBLLG75pqUsskwc42/tMykjc7BpZzQ
+ s6srQfipCpEktn4Tw1E1tQnXp16FEibdCLLAYc+fLw9jHJt8F1N5m5TEKmDEhwcZvTw4
+ ft591bVpudPqXSBGw5/BxbwqMbZnXiM7D3RV1Kte7Qjlc0w9WXffnUfa/dkcNY2Gdo0y
+ yfrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=2o8pQnaV6jx+33KumWBlrHoy1B3kkbh0WO/pEaQSKfQ=;
- b=NZ9tJPT44xISt+AVdbC4AdNDoisyOSgFWe3wqPEyOUY0Fz4aPN1YpsohirpF4A6r9Q
- V4wxSeW3gzCrzSxjtpm+MB+1vhz66QNDYmOf9gljIG8QRMNCOMs0Cgyp3mjLRHHK6pEr
- J0AwjIFhEngQNWmo2Ph/QI/Vkq6PukuOgH2k4wusceIokgcJO8P4ZOG7pUwqP0vM4WiZ
- 6d5F44b2MSSii3qfpAqzRdxZojK5pObsV15euSL/+5sm4ce+KX3PaTffkgPwe7ObYvvW
- LugoQPmHDwzhKl86/o70zp9e8S/kzlTynqK9wrXIOHD5gueV8ZVSkVowxPCT0gvw27Dl
- 1PiQ==
-X-Gm-Message-State: AOAM532+32CSviMAvVz9ovchCkheqJu9mNgXoh1IHKaQVrIhFEKcvVEV
- vugsaWr0GLQumMpKvc1GiK9ZBxjTEzE=
-X-Google-Smtp-Source: ABdhPJyE1l+lxjvx3RJEwLXJpG0CE3NLAkHR5GwQAe8Z5J/7CAxOCdsITGcW1fbMU7iL/Xfwf1Amlw==
-X-Received: by 2002:a1c:1bd1:: with SMTP id
- b200mr17882877wmb.171.1601906172888; 
- Mon, 05 Oct 2020 06:56:12 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=33jc4GvxhINu+DGd3c2tDcuxZvRf6s057BT97g14Zqk=;
+ b=sVCXDXKjJu4/Wzc2I2LKSJfLHzl10ULXkn/HaGihQTeToa7+G97Liv6IpzqREp9+JS
+ ONMcBQgy52dCBZ9z2o4DI//VGXqcGICq5Iq/noKsj/XYx0on/BzcwzF1x4/cennr6/jJ
+ sv0D/ipaWl9T7cAbpOqURn7KGRuP++Cm/HB5cOkno0jT2vE7fqpIBdf3926MHGwu8XxD
+ GrHZsGYLGb4EcBBgnMO73zF828SIgtVeSlZtlnXzwUbTUp751tGFzzFTmUdk+P4kl8PX
+ lsOUBX8kvvG+DeE28DV9wcO2T8IKwH6EQ/SXnh5/1t984cETj1BBRcQY6fdlNnombu5y
+ ncdQ==
+X-Gm-Message-State: AOAM531LxJm2TMF/eCeD5lJF+8ebZR9xsemqwN4h4eFwwShM3+89yu9h
+ QJSjiSMjQ5RG9N0me7ZkuV/8CTUseSs=
+X-Google-Smtp-Source: ABdhPJwtcNw1DjTLVIgQMAew8oEvAMd/2C7OCveuLzor2V6vlzAyU/FDlaPt14pQWREolYhygJw15g==
+X-Received: by 2002:adf:db52:: with SMTP id f18mr17857460wrj.397.1601906173601; 
+ Mon, 05 Oct 2020 06:56:13 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
  by smtp.gmail.com with ESMTPSA id c8sm13406559wmd.18.2020.10.05.06.56.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 06:56:12 -0700 (PDT)
+ Mon, 05 Oct 2020 06:56:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] Convert remaining submodules to meson,
- cleanup env var handling
-Date: Mon,  5 Oct 2020 15:56:09 +0200
-Message-Id: <20201005135613.435932-1-pbonzini@redhat.com>
+Subject: [PATCH 1/4] slirp: Convert Makefile bits to meson bits
+Date: Mon,  5 Oct 2020 15:56:10 +0200
+Message-Id: <20201005135613.435932-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201005135613.435932-1-pbonzini@redhat.com>
+References: <20201005135613.435932-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,50 +89,330 @@ Cc: marcandre.lureau@redhat.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main purpose of this series is to have a correct and consistent
-handling of CFLAGS/CXXFLAGS/LDFLAGS environment variables:
+SLIRP uses Meson so it could become a subproject in the future,
+but our choice of configure options is not yet supported in Meson
+(https://github.com/mesonbuild/meson/pull/7740).
 
-- correct: avoid that the -pie flag, used for the compiler checks in
-the configure script, ends up being passed to Meson if an LDFLAGS
-environment variable exists (patch 3)
+For now, build the library via the main meson.build just like for
+capstone.
 
-- consistent: ensure that CFLAGS that are set in the configure
-script are persistent even if Meson is restarted; to do so,
-make the configure script store them in the cross file it generates.
+This improves the current state of affairs in that we will re-link
+the qemu executables against a changed libslirp.a, which we wouldn't
+do before-hand.
 
-In order to avoid having to deal with recursive make, patches 1
-and 2 integrate the Meson-based build system with the build of
-embedded slirp and libfdt.  This follows the lead of Richard's
-patches to do the same with Capstone.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ Makefile                |  7 +---
+ configure               | 68 ++++---------------------------
+ meson.build             | 90 +++++++++++++++++++++++++++++++++++++----
+ meson_options.txt       |  3 ++
+ net/meson.build         |  2 +-
+ tests/qtest/meson.build |  6 +--
+ 6 files changed, 99 insertions(+), 77 deletions(-)
 
-Based-on: <20201003093851.324923-1-richard.henderson@linaro.org>
-Supersedes: <20200923092617.1593722-1-pbonzini@redhat.com>
-
-Paolo Bonzini (4):
-  slirp: Convert Makefile bits to meson bits
-  dtc: Convert Makefile bits to meson bits
-  configure: do not clobber environment CFLAGS/CXXFLAGS/LDFLAGS
-  configure: consistently pass CFLAGS/CXXFLAGS/LDFLAGS to meson
-
- Makefile                                      |  28 +--
- configure                                     | 222 +++++-------------
- default-configs/targets/aarch64-softmmu.mak   |   1 +
- default-configs/targets/arm-softmmu.mak       |   1 +
- .../targets/microblaze-softmmu.mak            |   1 +
- .../targets/microblazeel-softmmu.mak          |   1 +
- default-configs/targets/mips64el-softmmu.mak  |   1 +
- default-configs/targets/ppc-softmmu.mak       |   1 +
- default-configs/targets/ppc64-softmmu.mak     |   1 +
- default-configs/targets/riscv32-softmmu.mak   |   1 +
- default-configs/targets/riscv64-softmmu.mak   |   1 +
- default-configs/targets/rx-softmmu.mak        |   1 +
- meson.build                                   | 164 +++++++++++--
- meson_options.txt                             |   6 +
- net/meson.build                               |   2 +-
- tests/qtest/meson.build                       |   6 +-
- 16 files changed, 225 insertions(+), 213 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index f27bd4b2eb..9d6b7fc8c0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -163,12 +163,7 @@ dtc/%: .git-submodule-status
+ capstone/all:
+ 
+ .PHONY: slirp/all
+-slirp/all: .git-submodule-status
+-	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp		\
+-		BUILD_DIR="$(BUILD_DIR)/slirp" 			\
+-		PKG_CONFIG="$(PKG_CONFIG)" 				\
+-		CC="$(CC)" AR="$(AR)" 	LD="$(LD)" RANLIB="$(RANLIB)"	\
+-		CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)")
++slirp/all:
+ 
+ ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
+ ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+diff --git a/configure b/configure
+index 66641099fc..51f4e978be 100755
+--- a/configure
++++ b/configure
+@@ -349,7 +349,7 @@ modules="no"
+ module_upgrades="no"
+ prefix="/usr/local"
+ qemu_suffix="qemu"
+-slirp=""
++slirp="auto"
+ oss_lib=""
+ bsd="no"
+ linux="no"
+@@ -1058,9 +1058,9 @@ for opt do
+   ;;
+   --enable-vnc-png) vnc_png="enabled"
+   ;;
+-  --disable-slirp) slirp="no"
++  --disable-slirp) slirp="disabled"
+   ;;
+-  --enable-slirp=git) slirp="git"
++  --enable-slirp=git) slirp="internal"
+   ;;
+   --enable-slirp=system) slirp="system"
+   ;;
+@@ -5806,56 +5806,12 @@ fi
+ ##########################################
+ # check for slirp
+ 
+-# slirp is only required when building softmmu targets
+-if test -z "$slirp" -a "$softmmu" != "yes" ; then
+-    slirp="no"
+-fi
+-
+ case "$slirp" in
+-  "" | yes)
+-    if $pkg_config slirp; then
+-      slirp=system
+-    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+-      slirp=git
+-    elif test -e "${source_path}/slirp/Makefile" ; then
+-      slirp=internal
+-    elif test -z "$slirp" ; then
+-      slirp=no
+-    else
+-      feature_not_found "slirp" "Install slirp devel or git submodule"
+-    fi
+-    ;;
+-
+-  system)
+-    if ! $pkg_config slirp; then
+-      feature_not_found "slirp" "Install slirp devel"
+-    fi
+-    ;;
+-esac
+-
+-case "$slirp" in
+-  git | internal)
+-    if test "$slirp" = git; then
++  auto | enabled | internal)
++    # Simpler to always update submodule, even if not needed.
++    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+       git_submodules="${git_submodules} slirp"
+     fi
+-    mkdir -p slirp
+-    slirp_cflags="-I${source_path}/slirp/src -Islirp/src"
+-    slirp_libs="-Lslirp -lslirp"
+-    if test "$mingw32" = "yes" ; then
+-      slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+-    fi
+-    ;;
+-
+-  system)
+-    slirp_version=$($pkg_config --modversion slirp 2>/dev/null)
+-    slirp_cflags=$($pkg_config --cflags slirp 2>/dev/null)
+-    slirp_libs=$($pkg_config --libs slirp 2>/dev/null)
+-    ;;
+-
+-  no)
+-    ;;
+-  *)
+-    error_exit "Unknown state for slirp: $slirp"
+     ;;
+ esac
+ 
+@@ -6256,16 +6212,8 @@ fi
+ if test "$guest_agent" = "yes" ; then
+   echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
+ fi
+-if test "$slirp" != "no"; then
+-  echo "CONFIG_SLIRP=y" >> $config_host_mak
+-  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+-  echo "SLIRP_CFLAGS=$slirp_cflags" >> $config_host_mak
+-  echo "SLIRP_LIBS=$slirp_libs" >> $config_host_mak
+-fi
++echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+ subdirs=
+-if [ "$slirp" = "git" -o "$slirp" = "internal" ]; then
+-  subdirs="$subdirs slirp"
+-fi
+ if test "$vde" = "yes" ; then
+   echo "CONFIG_VDE=y" >> $config_host_mak
+   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
+@@ -7321,7 +7269,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+ 	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+ 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+ 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
+-	-Dcapstone=$capstone \
++	-Dcapstone=$capstone -Dslirp=$slirp \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
+diff --git a/meson.build b/meson.build
+index 64c5c5a33c..6ee8c3265c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -300,11 +300,6 @@ else
+   xkbcommon = dependency('xkbcommon', required: get_option('xkbcommon'),
+                          method: 'pkg-config', static: enable_static)
+ endif
+-slirp = not_found
+-if config_host.has_key('CONFIG_SLIRP')
+-  slirp = declare_dependency(compile_args: config_host['SLIRP_CFLAGS'].split(),
+-                             link_args: config_host['SLIRP_LIBS'].split())
+-endif
+ vde = not_found
+ if config_host.has_key('CONFIG_VDE')
+   vde = declare_dependency(link_args: config_host['VDE_LIBS'].split())
+@@ -966,7 +961,88 @@ if capstone_opt == 'internal'
+   capstone = declare_dependency(link_with: libcapstone,
+                                 include_directories: 'capstone/include')
+ endif
++
++slirp = not_found
++slirp_opt = 'disabled'
++if have_system
++  slirp_opt = get_option('slirp')
++  if slirp_opt in ['enabled', 'auto', 'system']
++    have_internal = fs.exists(meson.current_source_dir() / 'slirp/meson.build')
++    slirp = dependency('slirp', static: enable_static,
++                       method: 'pkg-config',
++                       required: slirp_opt == 'system' or
++                                 slirp_opt == 'enabled' and not have_internal)
++    if slirp.found()
++      slirp_opt = 'system'
++    elif have_internal
++      slirp_opt = 'internal'
++    else
++      slirp_opt = 'disabled'
++    endif
++  endif
++  if slirp_opt == 'internal'
++    slirp_deps = []
++    if targetos == 'windows'
++      slirp_deps = cc.find_library('iphlpapi')
++    endif
++    slirp_conf = configuration_data()
++    slirp_conf.set('SLIRP_MAJOR_VERSION', meson.project_version().split('.')[0])
++    slirp_conf.set('SLIRP_MINOR_VERSION', meson.project_version().split('.')[1])
++    slirp_conf.set('SLIRP_MICRO_VERSION', meson.project_version().split('.')[2])
++    slirp_conf.set_quoted('SLIRP_VERSION_STRING', meson.project_version())
++    slirp_cargs = ['-DG_LOG_DOMAIN="Slirp"']
++    slirp_files = [
++      'slirp/src/arp_table.c',
++      'slirp/src/bootp.c',
++      'slirp/src/cksum.c',
++      'slirp/src/dhcpv6.c',
++      'slirp/src/dnssearch.c',
++      'slirp/src/if.c',
++      'slirp/src/ip6_icmp.c',
++      'slirp/src/ip6_input.c',
++      'slirp/src/ip6_output.c',
++      'slirp/src/ip_icmp.c',
++      'slirp/src/ip_input.c',
++      'slirp/src/ip_output.c',
++      'slirp/src/mbuf.c',
++      'slirp/src/misc.c',
++      'slirp/src/ncsi.c',
++      'slirp/src/ndp_table.c',
++      'slirp/src/sbuf.c',
++      'slirp/src/slirp.c',
++      'slirp/src/socket.c',
++      'slirp/src/state.c',
++      'slirp/src/stream.c',
++      'slirp/src/tcp_input.c',
++      'slirp/src/tcp_output.c',
++      'slirp/src/tcp_subr.c',
++      'slirp/src/tcp_timer.c',
++      'slirp/src/tftp.c',
++      'slirp/src/udp.c',
++      'slirp/src/udp6.c',
++      'slirp/src/util.c',
++      'slirp/src/version.c',
++      'slirp/src/vmstate.c',
++    ]
++
++    configure_file(
++      input : 'slirp/src/libslirp-version.h.in',
++      output : 'libslirp-version.h',
++      configuration: slirp_conf)
++
++    slirp_inc = include_directories('slirp', 'slirp/src')
++    libslirp = static_library('slirp',
++                              sources: slirp_files,
++                              c_args: slirp_cargs,
++                              include_directories: slirp_inc)
++    slirp = declare_dependency(link_with: libslirp,
++                               dependencies: slirp_deps,
++                               include_directories: slirp_inc)
++  endif
++endif
++
+ config_host_data.set('CONFIG_CAPSTONE', capstone.found())
++config_host_data.set('CONFIG_SLIRP', slirp.found())
+ 
+ genh += configure_file(output: 'config-host.h', configuration: config_host_data)
+ 
+@@ -1643,8 +1719,8 @@ summary_info += {'python':            '@0@ (version: @1@)'.format(python.full_pa
+ summary_info += {'sphinx-build':      config_host['SPHINX_BUILD']}
+ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
+ # TODO: add back version
+-summary_info += {'slirp support':     config_host.has_key('CONFIG_SLIRP')}
+-if config_host.has_key('CONFIG_SLIRP')
++summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
++if slirp_opt != 'disabled'
+   summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
+ endif
+ summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
+diff --git a/meson_options.txt b/meson_options.txt
+index a0455d8a95..8a362fb08d 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -52,3 +52,6 @@ option('xkbcommon', type : 'feature', value : 'auto',
+ option('capstone', type: 'combo', value: 'auto',
+        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+        description: 'Whether and how to find the capstone library')
++option('slirp', type: 'combo', value: 'auto',
++       choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
++       description: 'Whether and how to find the slirp library')
+diff --git a/net/meson.build b/net/meson.build
+index 6c2ec47dd5..1c7e3a3cb9 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -18,7 +18,7 @@ softmmu_ss.add(files(
+ ))
+ 
+ softmmu_ss.add(when: 'CONFIG_L2TPV3', if_true: files('l2tpv3.c'))
+-softmmu_ss.add(when: ['CONFIG_SLIRP', slirp], if_true: files('slirp.c'))
++softmmu_ss.add(when: slirp, if_true: files('slirp.c'))
+ softmmu_ss.add(when: ['CONFIG_VDE', vde], if_true: files('vde.c'))
+ softmmu_ss.add(when: 'CONFIG_NETMAP', if_true: files('netmap.c'))
+ vhost_user_ss = ss.source_set()
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 4f7757ee93..ad33ac311d 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -23,7 +23,7 @@ qtests_pci = \
+   (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
+ 
+ qtests_i386 = \
+-  (config_host.has_key('CONFIG_SLIRP') ? ['pxe-test', 'test-netfilter'] : []) +             \
++  (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +             \
+   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                     \
+   (have_tools ? ['ahci-test'] : []) +                                                       \
+   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +           \
+@@ -117,7 +117,7 @@ qtests_ppc64 = \
+   (config_all_devices.has_key('CONFIG_PSERIES') ? ['device-plug-test'] : []) +               \
+   (config_all_devices.has_key('CONFIG_POWERNV') ? ['pnv-xscom-test'] : []) +                 \
+   (config_all_devices.has_key('CONFIG_PSERIES') ? ['rtas-test'] : []) +                      \
+-  (config_host.has_key('CONFIG_SLIRP') ? ['pxe-test', 'test-netfilter'] : []) +              \
++  (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +              \
+   (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +             \
+   (config_all_devices.has_key('CONFIG_USB_XHCI_NEC') ? ['usb-hcd-xhci-test'] : []) +         \
+   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                      \
+@@ -151,7 +151,7 @@ qtests_aarch64 = \
+    'migration-test']
+ 
+ qtests_s390x = \
+-  (config_host.has_key('CONFIG_SLIRP') ? ['pxe-test', 'test-netfilter'] : []) +                 \
++  (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +                 \
+   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                         \
+   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-redirector'] : []) +                     \
+   ['boot-serial-test',
 -- 
 2.26.2
+
 
 
