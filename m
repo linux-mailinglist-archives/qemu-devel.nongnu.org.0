@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF51D284092
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:26:41 +0200 (CEST)
-Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8D828408A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:20:46 +0200 (CEST)
+Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPX4C-0002qg-SB
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
+	id 1kPWyT-0004u1-D5
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:20:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPWaV-0005Jt-82; Mon, 05 Oct 2020 15:55:59 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPWaS-0007jC-RI; Mon, 05 Oct 2020 15:55:58 -0400
-Received: by mail-lj1-x243.google.com with SMTP id l13so5532067ljg.10;
- Mon, 05 Oct 2020 12:55:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=kIgkJgwRnlXzAi/N6bYPqXdd1GzIP0MwV+Ya7hdUJwQ=;
- b=B9rVGwK9fKwiTKAgXV/CsVM8pQF2hNecLvB+Yc0Bl2EneFnDuP73GuOe7yMPCS0Jkj
- EZbAdErtkKTFjb4iC73yvzezX4EoOg2J6x68BmDk+CyjE13RCF8uwGUMSpnT5fiZXoNj
- fbIg7BwQQJaniSK5GOP7hkR4fCfSU/AERAIYeYsOUR3dmddfcO9j+E7uQcAV5ezwozTc
- j9OLqsKJE0H2ugYSlf6cMXFCHGT+6ONUJk0gmrehz/Gu3GlKFHDjAkEnh68ubOJTYrxH
- ocNnJTbrYGYnn2PJbXsnTDLH/D+14k4W6qX44ZVQMzjFIRraRC6kwSI63kBWToDiuvZB
- Y2jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=kIgkJgwRnlXzAi/N6bYPqXdd1GzIP0MwV+Ya7hdUJwQ=;
- b=rl6yyfyYavo3yu0YUtdLX47XSp8wzrEYpiLghsLQEp3no9u37kM9s4QJz58qfVHgMN
- xkPKWIoXF5RnaewhZUlTUdo6MEhoFAVM37llkVAzS02XsEuHRur/SusTerJXVmIGvojg
- Q7OVzbbfQTLtQFMllIAMGvEvnbTzERD1sU3C6TU0CnAm8ensex+Fx2Y2b/u8SM2N1KnP
- SR8moNxUBaHSh6bavh74TzUiMctewMUWXiP+z4fa/bDRmohUfUCe8eGnoaa/7OvM6/Hz
- guvAxYqSxIHjB1Zt/Vpp5IWlZcsjzsToMOV4GXQmZP6zK94z4T+uQKECW1vEVPpCF6jn
- 8fqg==
-X-Gm-Message-State: AOAM531MIT/SddJPJ1gUZSf1eXPEKuedzW3vLOsSFRgmTuX+Z5bu4QNh
- KgTBYsQeTD0wFgQlSCOzHamSrHxLrAv0fo6sH5M=
-X-Google-Smtp-Source: ABdhPJwWlkqiA9FlZf6P1ZMOc8WE8FinwWK7yB6bSp9DtZtpzmeeUl7QW49Wb7wpgbqtYcqZPnrM4zjxl2IJUMKSDUg=
-X-Received: by 2002:a2e:978f:: with SMTP id y15mr412200lji.300.1601927753868; 
- Mon, 05 Oct 2020 12:55:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1kPWZu-00042y-DI; Mon, 05 Oct 2020 15:55:22 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:35786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1kPWZo-0007S3-U1; Mon, 05 Oct 2020 15:55:22 -0400
+Received: from sekoia-pc.home.lmichel.fr (sekoia-pc.home.lmichel.fr
+ [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPS id 45620C60F16;
+ Mon,  5 Oct 2020 19:55:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1601927714;
+ h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:in-reply-to:
+ references; bh=iR4KXb62I/k5aldm3ydk7GV+/axR6FSrHl7HyK9S/UM=;
+ b=Y1s7LgZJPp3GnPWQmniwTosEZggQvxD+rx2k4GMEQkdqC+Q7JvdEh7bMwlvseJ5NmZ/l06
+ N+J+Y3pkUgkkKRKPsDeBeV0hYEOpEKjgdGek9FgluXK9ATg7td3HuNcRnJww9GmhcVF4am
+ Dyj4BFXDNW6j9rtMh4L1cnC81gDUI1dOUmKpqIP/biUwsgrg+zwxxteYXYbOTZC4lSu9cU
+ C1vSd2ZD7Lc8bioSLk7s1I3gpyamglSUa0Ffq2aWkUoOoe2e2ZABQqMLm578r6LXim1wO7
+ 4Kz6Ke4EN7yzN7Bql3urPqcbS/8V46s19cKC0Dp1RplwgjHaguT29nGS/3UcEA==
+From: Luc Michel <luc@lmichel.fr>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/15] raspi: add the bcm2835 cprman clock manager
+Date: Mon,  5 Oct 2020 21:55:57 +0200
+Message-Id: <20201005195612.1999165-1-luc@lmichel.fr>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20201005172109.416-1-luoyonggang@gmail.com>
- <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
-In-Reply-To: <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Tue, 6 Oct 2020 03:55:42 +0800
-Message-ID: <CAE2XoE_a4Q++HAbe2_MgbOgAqTqCtEDGOegQL+mJ5CKCp5HtAA@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts: Convert qemu-version.sh to qemu-version.py
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b9a95705b0f1de34"
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
+ s=pharaoh; t=1601927714;
+ h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:in-reply-to:
+ references; bh=iR4KXb62I/k5aldm3ydk7GV+/axR6FSrHl7HyK9S/UM=;
+ b=EcNFv3wEJBDFP4k3tZJCrwRrULNUIW/0E6Y36iowqzzsJ4v5D0Vnc07ykZswI1mep2Ek7c
+ gPu5/KEBhFWyaByB5MpiAufl6TucK6O9P+/6BSLzCFlQzagXCosIIvn2lRWoXF+NIvlnH8
+ AjhKaykGesNuRq62pty7HH1c/Yz7LtUJvVRewtQ+nMoF0JWKGg5zUm2zLiLa9uCpluARO3
+ TG26lnu8URiOCaS9ECoywnvTiFkj5Ax/Rz84lTifR/kBgY9WXI2MzBUYC+vI53dF6xjHXl
+ 0oRwElna/2MxHqL7PC3nJU+zDLqE/HYPkVkLb77/DZ57Jtmjux19BqWkceL/hQ==
+ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601927714; a=rsa-sha256; cv=none;
+ b=V8nZ2B2oK8JAMSbsUmGt4GHLN9hG6qf5WHZ2ds8Ws9InqExoPAvyhIeSwGxopF7QFI4hxgUoinK2Ff9cna3zPzld7BNRSdbTu3BuW1gnRxHczSq8mwVY5e+bCGt3/2j912zjbp1Z7uwsV3sLuYLcmKAHjqphY+neStg1TrOAbON6d9di530Jqv5itLcNkTpm0IHk1wSsmIJZ4DdiYyjWArvcYz2kLVwMATuxotjdrUYBHLn9STrCy1vN0WrKiSZcCz2FE1D/IKa43MarX9bGNLRjmGL7ue11VC4qu5JS6dOoXR0Uv/I4DZkShENw2yUmTMiHcleCj/bm1/QLwUNMag==
+ARC-Authentication-Results: i=1;
+	pharaoh.lmichel.fr
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 15:49:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,245 +80,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Havard Skinnemoen <hskinnemoen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b9a95705b0f1de34
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v1 -> v2:
+  - patch 05: Added a comment about MMIO .valid constraints [Phil]
+  - patch 05: Added MMIO .impl [Phil]
+  - patch 05: Moved init_internal_clock to the public clock API, renamed
+    clock_new (new patch 03) [Phil]
+  - patch 11: use muldiv64 for clock mux frequency output computation [Phil]
+  - patch 11: add a check for null divisor (Phil: I dropped your r-b)
+  - Typos, formatting, naming, style [Phil]
 
-On Tue, Oct 6, 2020 at 3:23 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
->
-> On Mon, 5 Oct 2020 at 18:24, Yonggang Luo <luoyonggang@gmail.com> wrote:
-> >
-> > The sh script are harder to maintain for compatible different
-> > xsh environment
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >  meson.build             |  2 +-
-> >  scripts/qemu-version.py | 30 ++++++++++++++++++++++++++++++
-> >  scripts/qemu-version.sh | 25 -------------------------
-> >  3 files changed, 31 insertions(+), 26 deletions(-)
-> >  create mode 100644 scripts/qemu-version.py
-> >  delete mode 100755 scripts/qemu-version.sh
-> >
-> > diff --git a/meson.build b/meson.build
-> > index 95a532bd29..20f653b6eb 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -1072,7 +1072,7 @@ tracetool =3D [
-> >     '--backend=3D' + config_host['TRACE_BACKENDS']
-> >  ]
-> >
-> > -qemu_version_cmd =3D [find_program('scripts/qemu-version.sh'),
-> > +qemu_version_cmd =3D [find_program('scripts/qemu-version.py'),
-> >                      meson.current_source_dir(),
-> >                      config_host['PKGVERSION'], meson.project_version()=
-]
-> >  qemu_version =3D custom_target('qemu-version.h',
-> > diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
-> > new file mode 100644
-> > index 0000000000..384c54027d
-> > --- /dev/null
-> > +++ b/scripts/qemu-version.py
-> > @@ -0,0 +1,30 @@
-> > +#!/usr/bin/env python3
-> > +
-> > +# Script for retrieve qemu git version information
-> > +# and output to stdout as QEMU_PKGVERSION and QEMU_FULL_VERSION header
-> > +# Author: Yonggang Luo <luoyonggang@gmail.com>
->
-> Can we have a license statement in all new files, please?
->
-> > +
-> > +import sys
-> > +import subprocess
-> > +
-> > +def main(args):
-> > +    if len(args) <=3D 3:
-> > +        sys.exit(0)
-> > +
-> > +    dir =3D args[1]
-> > +    pkgversion =3D args[2]
-> > +    version =3D args[3]
-> > +    pc =3D subprocess.run(['git', 'describe', '--match', "'v*'",
-'--dirty', '--always'],
-> > +        stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, cwd=3Dd=
-ir)
-> > +    if pc.returncode =3D=3D 0:
-> > +        pkgversion =3D pc.stdout.decode('utf8').strip()
-> > +    fullversion =3D version
-> > +    if len(pkgversion) > 0:
-> > +        fullversion =3D "{} ({})".format(version, pkgversion)
-> > +
-> > +    version_header =3D '''#define QEMU_PKGVERSION "{}"
-> > +#define QEMU_FULL_VERSION "{}"'''.format(pkgversion, fullversion)
-> > +    sys.stdout.buffer.write(version_header.encode('utf8'))
-> > +
-> > +if __name__ =3D=3D "__main__":
-> > +    main(sys.argv)
->
-> Wow, python really makes this kind of task clunky compared to shell...
-That's right, the size are bloated, but for me, easier to understand
->
-> This doesn't seem to be the same logic as the original shell.
-> I'm not too familiar with python, but:
->  * the shell script doesn't run git if pkgversion is not the empty string
->  * the shell script doesn't run git unless the .git directory exists
-> If these are intentional behaviour changes you should mention
-> them in the commit message.
->
-> Also worth mentioning that you're fixing the bug in the shell
-> script where we ignore the output from git (the intention was
-> to ignore a failure from git but otherwise to keep its output;
-> this patch:
->
-https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.co=
-m/
-> is the fix for that in the existing shell script).
->
-> > diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-> > deleted file mode 100755
-> > index 03128c56a2..0000000000
-> > --- a/scripts/qemu-version.sh
-> > +++ /dev/null
-> > @@ -1,25 +0,0 @@
-> > -#!/bin/sh
-> > -
-> > -set -eu
-> > -
-> > -dir=3D"$1"
-> > -pkgversion=3D"$2"
-> > -version=3D"$3"
-> > -
-> > -if [ -z "$pkgversion" ]; then
-> > -    cd "$dir"
-> > -    if [ -e .git ]; then
-> > -        pkgversion=3D$(git describe --match 'v*' --dirty | echo "")
-> > -    fi
-> > -fi
-> > -
-> > -if [ -n "$pkgversion" ]; then
-> > -    fullversion=3D"$version ($pkgversion)"
-> > -else
-> > -    fullversion=3D"$version"
-> > -fi
-> > -
-> > -cat <<EOF
-> > -#define QEMU_PKGVERSION "$pkgversion"
-> > -#define QEMU_FULL_VERSION "$fullversion"
-> > -EOF
->
-> thanks
-> -- PMM
+Patches without review: 03, 09, 10, 11, 13, 15
 
+Hi,
 
+This series add the BCM2835 CPRMAN clock manager peripheral to the
+Raspberry Pi machine.
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+Patches 1-3 are preliminary changes, patches 4-12 are the actual
+implementation.
 
---000000000000b9a95705b0f1de34
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The two last patches add a clock input to the PL011 and
+connect it to the CPRMAN and are RFC.
 
-<div dir=3D"ltr"><br><br>On Tue, Oct 6, 2020 at 3:23 AM Peter Maydell &lt;<=
-a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt;=
- wrote:<br>&gt;<br>&gt; On Mon, 5 Oct 2020 at 18:24, Yonggang Luo &lt;<a hr=
-ef=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt; wrote:<br=
->&gt; &gt;<br>&gt; &gt; The sh script are harder to maintain for compatible=
- different<br>&gt; &gt; xsh environment<br>&gt; &gt;<br>&gt; &gt; Signed-of=
-f-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang=
-@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =C2=A0meson.build =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A02 +-<br>&gt; &gt; =C2=A0scripts/=
-qemu-version.py | 30 ++++++++++++++++++++++++++++++<br>&gt; &gt; =C2=A0scri=
-pts/qemu-version.sh | 25 -------------------------<br>&gt; &gt; =C2=A03 fil=
-es changed, 31 insertions(+), 26 deletions(-)<br>&gt; &gt; =C2=A0create mod=
-e 100644 scripts/qemu-version.py<br>&gt; &gt; =C2=A0delete mode 100755 scri=
-pts/qemu-version.sh<br>&gt; &gt;<br>&gt; &gt; diff --git a/meson.build b/me=
-son.build<br>&gt; &gt; index 95a532bd29..20f653b6eb 100644<br>&gt; &gt; ---=
- a/meson.build<br>&gt; &gt; +++ b/meson.build<br>&gt; &gt; @@ -1072,7 +1072=
-,7 @@ tracetool =3D [<br>&gt; &gt; =C2=A0 =C2=A0 &#39;--backend=3D&#39; + c=
-onfig_host[&#39;TRACE_BACKENDS&#39;]<br>&gt; &gt; =C2=A0]<br>&gt; &gt;<br>&=
-gt; &gt; -qemu_version_cmd =3D [find_program(&#39;scripts/qemu-version.sh&#=
-39;),<br>&gt; &gt; +qemu_version_cmd =3D [find_program(&#39;scripts/qemu-ve=
-rsion.py&#39;),<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0meson.current_source_dir(),<br>&gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0co=
-nfig_host[&#39;PKGVERSION&#39;], meson.project_version()]<br>&gt; &gt; =C2=
-=A0qemu_version =3D custom_target(&#39;qemu-version.h&#39;,<br>&gt; &gt; di=
-ff --git a/scripts/qemu-version.py b/scripts/qemu-version.py<br>&gt; &gt; n=
-ew file mode 100644<br>&gt; &gt; index 0000000000..384c54027d<br>&gt; &gt; =
---- /dev/null<br>&gt; &gt; +++ b/scripts/qemu-version.py<br>&gt; &gt; @@ -0=
-,0 +1,30 @@<br>&gt; &gt; +#!/usr/bin/env python3<br>&gt; &gt; +<br>&gt; &gt=
-; +# Script for retrieve qemu git version information<br>&gt; &gt; +# and o=
-utput to stdout as QEMU_PKGVERSION and QEMU_FULL_VERSION header<br>&gt; &gt=
-; +# Author: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoy=
-onggang@gmail.com</a>&gt;<br>&gt;<br>&gt; Can we have a license statement i=
-n all new files, please?<br>&gt;<br>&gt; &gt; +<br>&gt; &gt; +import sys<br=
->&gt; &gt; +import subprocess<br>&gt; &gt; +<br>&gt; &gt; +def main(args):<=
-br>&gt; &gt; + =C2=A0 =C2=A0if len(args) &lt;=3D 3:<br>&gt; &gt; + =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0sys.exit(0)<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0=
-dir =3D args[1]<br>&gt; &gt; + =C2=A0 =C2=A0pkgversion =3D args[2]<br>&gt; =
-&gt; + =C2=A0 =C2=A0version =3D args[3]<br>&gt; &gt; + =C2=A0 =C2=A0pc =3D =
-subprocess.run([&#39;git&#39;, &#39;describe&#39;, &#39;--match&#39;, &quot=
-;&#39;v*&#39;&quot;, &#39;--dirty&#39;, &#39;--always&#39;],<br>&gt; &gt; +=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.D=
-EVNULL, cwd=3Ddir)<br>&gt; &gt; + =C2=A0 =C2=A0if pc.returncode =3D=3D 0:<b=
-r>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0pkgversion =3D pc.stdout.decode(&#=
-39;utf8&#39;).strip()<br>&gt; &gt; + =C2=A0 =C2=A0fullversion =3D version<b=
-r>&gt; &gt; + =C2=A0 =C2=A0if len(pkgversion) &gt; 0:<br>&gt; &gt; + =C2=A0=
- =C2=A0 =C2=A0 =C2=A0fullversion =3D &quot;{} ({})&quot;.format(version, pk=
-gversion)<br>&gt; &gt; +<br>&gt; &gt; + =C2=A0 =C2=A0version_header =3D &#3=
-9;&#39;&#39;#define QEMU_PKGVERSION &quot;{}&quot;<br>&gt; &gt; +#define QE=
-MU_FULL_VERSION &quot;{}&quot;&#39;&#39;&#39;.format(pkgversion, fullversio=
-n)<br>&gt; &gt; + =C2=A0 =C2=A0sys.stdout.buffer.write(version_header.encod=
-e(&#39;utf8&#39;))<br>&gt; &gt; +<br>&gt; &gt; +if __name__ =3D=3D &quot;__=
-main__&quot;:<br>&gt; &gt; + =C2=A0 =C2=A0main(sys.argv)<br>&gt;<br>&gt; Wo=
-w, python really makes this kind of task clunky compared to shell...<div>Th=
-at&#39;s right, the size are bloated, but for me, easier to understand<br>&=
-gt;<br>&gt; This doesn&#39;t seem to be the same logic as the original shel=
-l.<br>&gt; I&#39;m not too familiar with python, but:<br>&gt; =C2=A0* the s=
-hell script doesn&#39;t run git if pkgversion is not the empty string<br>&g=
-t; =C2=A0* the shell script doesn&#39;t run git unless the .git directory e=
-xists<br>&gt; If these are intentional behaviour changes you should mention=
-<br>&gt; them in the commit message.<br>&gt;<br>&gt; Also worth mentioning =
-that you&#39;re fixing the bug in the shell<br>&gt; script where we ignore =
-the output from git (the intention was<br>&gt; to ignore a failure from git=
- but otherwise to keep its output;<br>&gt; this patch:<br>&gt; <a href=3D"h=
-ttps://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.com=
-/">https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat=
-.com/</a><br>&gt; is the fix for that in the existing shell script).<br>&gt=
-;<br>&gt; &gt; diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.=
-sh<br>&gt; &gt; deleted file mode 100755<br>&gt; &gt; index 03128c56a2..000=
-0000000<br>&gt; &gt; --- a/scripts/qemu-version.sh<br>&gt; &gt; +++ /dev/nu=
-ll<br>&gt; &gt; @@ -1,25 +0,0 @@<br>&gt; &gt; -#!/bin/sh<br>&gt; &gt; -<br>=
-&gt; &gt; -set -eu<br>&gt; &gt; -<br>&gt; &gt; -dir=3D&quot;$1&quot;<br>&gt=
-; &gt; -pkgversion=3D&quot;$2&quot;<br>&gt; &gt; -version=3D&quot;$3&quot;<=
-br>&gt; &gt; -<br>&gt; &gt; -if [ -z &quot;$pkgversion&quot; ]; then<br>&gt=
-; &gt; - =C2=A0 =C2=A0cd &quot;$dir&quot;<br>&gt; &gt; - =C2=A0 =C2=A0if [ =
--e .git ]; then<br>&gt; &gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0pkgversion=3D$(gi=
-t describe --match &#39;v*&#39; --dirty | echo &quot;&quot;)<br>&gt; &gt; -=
- =C2=A0 =C2=A0fi<br>&gt; &gt; -fi<br>&gt; &gt; -<br>&gt; &gt; -if [ -n &quo=
-t;$pkgversion&quot; ]; then<br>&gt; &gt; - =C2=A0 =C2=A0fullversion=3D&quot=
-;$version ($pkgversion)&quot;<br>&gt; &gt; -else<br>&gt; &gt; - =C2=A0 =C2=
-=A0fullversion=3D&quot;$version&quot;<br>&gt; &gt; -fi<br>&gt; &gt; -<br>&g=
-t; &gt; -cat &lt;&lt;EOF<br>&gt; &gt; -#define QEMU_PKGVERSION &quot;$pkgve=
-rsion&quot;<br>&gt; &gt; -#define QEMU_FULL_VERSION &quot;$fullversion&quot=
-;<br>&gt; &gt; -EOF<br>&gt;<br>&gt; thanks<br>&gt; -- PMM<br><br><br><br>--=
-<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=
-=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggan=
-g Luo</div></div>
+This series has been tested with Linux 5.4.61 (the current raspios
+version). It fixes the kernel Oops at boot time due to invalid UART
+clock value, and other warnings/errors here and there because of bad
+clocks or lack of CPRMAN.
 
---000000000000b9a95705b0f1de34--
+Here is the clock tree as seen by Linux when booted in QEMU:
+(/sys/kernel/debug/clk/clk_summary with some columns removed)
+
+                        enable  prepare              
+   clock                 count    count          rate
+-----------------------------------------------------
+ otg                         0        0     480000000
+ osc                         5        5      19200000
+    gp2                      1        1         32768
+    tsens                    0        0       1920000
+    otp                      0        0       4800000
+    timer                    0        0       1000002
+    pllh                     4        4     864000000
+       pllh_pix_prediv       1        1       3375000
+          pllh_pix           0        0        337500
+       pllh_aux              1        1     216000000
+          vec                0        0     108000000
+       pllh_rcal_prediv      1        1       3375000
+          pllh_rcal          0        0        337500
+    plld                     3        3    2000000024
+       plld_dsi1             0        0       7812501
+       plld_dsi0             0        0       7812501
+       plld_per              3        3     500000006
+          gp1                1        1      25000000
+          uart               1        2      47999625
+       plld_core             2        2     500000006
+          sdram              0        0     166666668
+    pllc                     3        3    2400000000
+       pllc_per              1        1    1200000000
+          emmc               0        0     200000000
+       pllc_core2            0        0       9375000
+       pllc_core1            0        0       9375000
+       pllc_core0            2        2    1200000000
+          vpu                1        1     700000000
+             aux_spi2        0        0     700000000
+             aux_spi1        0        0     700000000
+             aux_uart        0        0     700000000
+             peri_image      0        0     700000000
+    plla                     2        2    2250000000
+       plla_ccp2             0        0       8789063
+       plla_dsi0             0        0       8789063
+       plla_core             1        1     750000000
+          h264               0        0     250000000
+          isp                0        0     250000000
+ dsi1p                       0        0             0
+ dsi0p                       0        0             0
+ dsi1e                       0        0             0
+ dsi0e                       0        0             0
+ cam1                        0        0             0
+ cam0                        0        0             0
+ dpi                         0        0             0
+ tec                         0        0             0
+ smi                         0        0             0
+ slim                        0        0             0
+ gp0                         0        0             0
+ dft                         0        0             0
+ aveo                        0        0             0
+ pcm                         0        0             0
+ pwm                         0        0             0
+ hsm                         0        0             0
+
+It shows small differences with real hardware due other missing
+peripherals for which the driver turn the clock off (like tsens).
+
+Luc Michel (15):
+  hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
+  hw/core/clock: trace clock values in Hz instead of ns
+  hw/core/clock: add the clock_new helper function
+  hw/arm/raspi: fix CPRMAN base address
+  hw/arm/raspi: add a skeleton implementation of the CPRMAN
+  hw/misc/bcm2835_cprman: add a PLL skeleton implementation
+  hw/misc/bcm2835_cprman: implement PLLs behaviour
+  hw/misc/bcm2835_cprman: add a PLL channel skeleton implementation
+  hw/misc/bcm2835_cprman: implement PLL channels behaviour
+  hw/misc/bcm2835_cprman: add a clock mux skeleton implementation
+  hw/misc/bcm2835_cprman: implement clock mux behaviour
+  hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
+  hw/misc/bcm2835_cprman: add sane reset values to the registers
+  hw/char/pl011: add a clock input
+  hw/arm/bcm2835_peripherals: connect the UART clock
+
+ include/hw/arm/bcm2835_peripherals.h       |    5 +-
+ include/hw/arm/raspi_platform.h            |    5 +-
+ include/hw/char/pl011.h                    |    1 +
+ include/hw/clock.h                         |   31 +
+ include/hw/misc/bcm2835_cprman.h           |  209 ++++
+ include/hw/misc/bcm2835_cprman_internals.h | 1018 ++++++++++++++++++++
+ hw/arm/bcm2835_peripherals.c               |   15 +-
+ hw/char/pl011.c                            |   45 +
+ hw/core/clock.c                            |    6 +-
+ hw/misc/bcm2835_cprman.c                   |  798 +++++++++++++++
+ hw/char/trace-events                       |    1 +
+ hw/core/trace-events                       |    4 +-
+ hw/misc/meson.build                        |    1 +
+ hw/misc/trace-events                       |    5 +
+ 14 files changed, 2132 insertions(+), 12 deletions(-)
+ create mode 100644 include/hw/misc/bcm2835_cprman.h
+ create mode 100644 include/hw/misc/bcm2835_cprman_internals.h
+ create mode 100644 hw/misc/bcm2835_cprman.c
+
+-- 
+2.28.0
+
 
