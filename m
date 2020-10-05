@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641ED284062
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:08:45 +0200 (CEST)
-Received: from localhost ([::1]:54398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF8A28405D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:07:55 +0200 (CEST)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWmq-0004U1-BR
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56942)
+	id 1kPWm2-00039I-5P
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXB-0000aJ-FJ
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54399)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXE-0000hc-BI
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWX9-0007Ar-HF
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:33 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXC-0007BI-Mv
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601927550;
+ s=mimecast20190719; t=1601927554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ByDlvOtSsfN8S4NZCIhG3gH/OvkJg2U+5cEP3dfJlBI=;
- b=ebo857fBEGWEob6Nx3PqSDh3L34CcZh2k8mrXJbNGPQm2c+7eDVjg+agZMuOC0x3ae6xgQ
- G5GmKAOzTQCmnrwq/FYlJbGHipRkYAJoUJLcs+GuZJMBmzmGJQ6a8lYLaaT9xYNdjyJOqE
- XB667E6qY58grOkx5F4WcQ/rOe1jcwc=
+ bh=QpcPc0JJZjUHkmAfzfFumJ9LBKbWFBiymq5dslj7rHA=;
+ b=QD6gvLc17h8F9MMMok3DTxVpdXJjLdQcPXoB8YOqfupfciP9hpvX5z9DclPvwn0Imm7A1o
+ SQWspDDcfxvWV9pQFTZUu25Lbr6Mv45pVHIsxIg2CMz2GzbMIIP53BFf+T8gjhlm7KbQmP
+ zvIHYHgtR6OMu8FxdN3N0yAt4/Lnrk8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-C1qBjvSkMcSiQJLM8K9KJw-1; Mon, 05 Oct 2020 15:52:29 -0400
-X-MC-Unique: C1qBjvSkMcSiQJLM8K9KJw-1
+ us-mta-545-EB0BbwusPkmi45J0bnquAA-1; Mon, 05 Oct 2020 15:52:32 -0400
+X-MC-Unique: EB0BbwusPkmi45J0bnquAA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC4A7427C2
- for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B1A6107ACF5
+ for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:31 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 060885C1BD;
- Mon,  5 Oct 2020 19:52:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46BFF5C1BD;
+ Mon,  5 Oct 2020 19:52:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 19/36] qapi/events.py: add type hint annotations
-Date: Mon,  5 Oct 2020 15:51:41 -0400
-Message-Id: <20201005195158.2348217-20-jsnow@redhat.com>
+Subject: [PATCH v5 20/36] qapi/events.py: Move comments into docstrings
+Date: Mon,  5 Oct 2020 15:51:42 -0400
+Message-Id: <20201005195158.2348217-21-jsnow@redhat.com>
 In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,148 +83,33 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Annotations do not change runtime behavior.
-This commit *only* adds annotations.
+Clarify them while we're here.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/events.py | 46 ++++++++++++++++++++++++++++++++----------
- scripts/qapi/mypy.ini  |  5 -----
- 2 files changed, 35 insertions(+), 16 deletions(-)
+ scripts/qapi/events.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index f840a62ed92..57e0939e963 100644
+index 57e0939e963..599f3d1f564 100644
 --- a/scripts/qapi/events.py
 +++ b/scripts/qapi/events.py
-@@ -12,19 +12,31 @@
- See the COPYING file in the top-level directory.
- """
+@@ -44,8 +44,12 @@ def gen_event_send_decl(name: str,
+                  proto=build_event_send_proto(name, arg_type, boxed))
  
-+from typing import List
+ 
+-# Declare and initialize an object 'qapi' using parameters from build_params()
+ def gen_param_var(typ: QAPISchemaObjectType) -> str:
++    """
++    Generate a struct variable holding the event parameters.
 +
- from .common import c_enum_const, c_name, mcgen
- from .gen import QAPISchemaModularCVisitor, build_params, ifcontext
--from .schema import QAPISchemaEnumMember
-+from .schema import (
-+    QAPISchema,
-+    QAPISchemaEnumMember,
-+    QAPISchemaFeature,
-+    QAPISchemaObjectType,
-+)
-+from .source import QAPISourceInfo
- from .types import gen_enum, gen_enum_lookup
- 
- 
--def build_event_send_proto(name, arg_type, boxed):
-+def build_event_send_proto(name: str,
-+                           arg_type: QAPISchemaObjectType,
-+                           boxed: bool) -> str:
-     return 'void qapi_event_send_%(c_name)s(%(param)s)' % {
-         'c_name': c_name(name.lower()),
-         'param': build_params(arg_type, boxed)}
- 
- 
--def gen_event_send_decl(name, arg_type, boxed):
-+def gen_event_send_decl(name: str,
-+                        arg_type: QAPISchemaObjectType,
-+                        boxed: bool) -> str:
-     return mcgen('''
- 
- %(proto)s;
-@@ -33,7 +45,7 @@ def gen_event_send_decl(name, arg_type, boxed):
- 
- 
- # Declare and initialize an object 'qapi' using parameters from build_params()
--def gen_param_var(typ):
-+def gen_param_var(typ: QAPISchemaObjectType) -> str:
++    Initialize it with the function arguments defined in `gen_event_send`.
++    """
      assert not typ.variants
      ret = mcgen('''
      %(c_name)s param = {
-@@ -61,7 +73,11 @@ def gen_param_var(typ):
-     return ret
- 
- 
--def gen_event_send(name, arg_type, boxed, event_enum_name, event_emit):
-+def gen_event_send(name: str,
-+                   arg_type: QAPISchemaObjectType,
-+                   boxed: bool,
-+                   event_enum_name: str,
-+                   event_emit: str) -> str:
-     # FIXME: Our declaration of local variables (and of 'errp' in the
-     # parameter list) can collide with exploded members of the event's
-     # data type passed in as parameters.  If this collision ever hits in
-@@ -137,15 +153,15 @@ def gen_event_send(name, arg_type, boxed, event_enum_name, event_emit):
- 
- class QAPISchemaGenEventVisitor(QAPISchemaModularCVisitor):
- 
--    def __init__(self, prefix):
-+    def __init__(self, prefix: str):
-         super().__init__(
-             prefix, 'qapi-events',
-             ' * Schema-defined QAPI/QMP events', None, __doc__)
-         self._event_enum_name = c_name(prefix + 'QAPIEvent', protect=False)
--        self._event_enum_members = []
-+        self._event_enum_members: List[QAPISchemaEnumMember] = []
-         self._event_emit_name = c_name(prefix + 'qapi_event_emit')
- 
--    def _begin_user_module(self, name):
-+    def _begin_user_module(self, name: str) -> None:
-         events = self._module_basename('qapi-events', name)
-         types = self._module_basename('qapi-types', name)
-         visit = self._module_basename('qapi-visit', name)
-@@ -168,7 +184,7 @@ def _begin_user_module(self, name):
- ''',
-                              types=types))
- 
--    def visit_end(self):
-+    def visit_end(self) -> None:
-         self._add_system_module('emit', ' * QAPI Events emission')
-         self._genc.preamble_add(mcgen('''
- #include "qemu/osdep.h"
-@@ -189,7 +205,13 @@ def visit_end(self):
-                              event_emit=self._event_emit_name,
-                              event_enum=self._event_enum_name))
- 
--    def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-+    def visit_event(self,
-+                    name: str,
-+                    info: QAPISourceInfo,
-+                    ifcond: List[str],
-+                    features: List[QAPISchemaFeature],
-+                    arg_type: QAPISchemaObjectType,
-+                    boxed: bool) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_event_send_decl(name, arg_type, boxed))
-             self._genc.add(gen_event_send(name, arg_type, boxed,
-@@ -200,7 +222,9 @@ def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-         self._event_enum_members.append(QAPISchemaEnumMember(name, None))
- 
- 
--def gen_events(schema, output_dir, prefix):
-+def gen_events(schema: QAPISchema,
-+               output_dir: str,
-+               prefix: str) -> None:
-     vis = QAPISchemaGenEventVisitor(prefix)
-     schema.visit(vis)
-     vis.write(output_dir)
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 00fac15dc6e..5df11e53fd1 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -14,11 +14,6 @@ disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
- 
--[mypy-qapi.events]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
--
- [mypy-qapi.expr]
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
 -- 
 2.26.2
 
