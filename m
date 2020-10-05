@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E834283F21
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 20:57:00 +0200 (CEST)
-Received: from localhost ([::1]:35622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5F4283F27
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 20:57:52 +0200 (CEST)
+Received: from localhost ([::1]:38208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPVfP-0003XQ-4R
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 14:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44342)
+	id 1kPVgF-0004aZ-BR
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 14:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kPVaC-0006fJ-Nd
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:36 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:33782)
+ id 1kPVaE-0006gZ-M0
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:38 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:56408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kPVaA-00083y-Ko
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:36 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095Io6D6039122;
+ id 1kPVaB-000847-62
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:38 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095InRwO184669;
  Mon, 5 Oct 2020 18:51:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=QsTJrkV79jEL4PCVywh611cfBs8S4LFIp9MsnrxsRW4=;
- b=Q3BTtdoK4gqNQfNYW4BM2YSeMLyRn3aWUFTjeRC79UXtrephGohVLxhj/WRR5TDQGFex
- AjC4d+FCAJdJ/J6tR11w9PkyQwFL+Prs65X4YczlxKrrnu2wJ6QgoOxvNmTs4NmR0hX7
- WNEhSpgEuE7TtGIMS/jatleEAB2F+kK3J0UuXTiDz0+i7b4QsK2HzqPZdHxB7izk6Snt
- Y0++G+3YjhyM8LbF5sVkUqciZn6GDlq3ZY8ZRYIV0v5bNqV3moBarnb76pmgW5rZEKfi
- jqyXidoMEqEXf23dI4VU4DGJhiedbxwQyiRJkArGwj/0YAuW06pAGI/wy23JiMFk5Dox GQ== 
+ bh=TxbYluq6P+wdVO3WejpM0UCI4Gev1IIpPMAx0KMXa60=;
+ b=A91B3kwoQ5IJQB0Oy4UrOmc3KLqlPcOcfqQxIK5l4rz1/StGZgPIT2WrpBaZgiMJXZMu
+ AvKO5OE0pHUtfGlH3tAm9obms9SdONpv7xKPsQqftUhQ50FIHhfe4jDNyh15aBMR45OT
+ +Z705DzJyRaxdqWLXpUf70TBjgJQhQaDUSdAxUfnWJhAOpIqudXhRYbw6bIjQteJLW5Z
+ ubGqa7z0cY0Q3P7dhqmK7Z38TFaexqL2tEZoxY8owql44nnILQm7XYH4EaN5xIyol4SE
+ KBQn4EBAk9KYRnpRtQkwrQlZPsI1GebbarWYlryijIkGR4YiTw+IFFODZvgxQf53QS+s ww== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 33xetaqcjv-1
+ by userp2120.oracle.com with ESMTP id 33xhxmq551-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
  Mon, 05 Oct 2020 18:51:27 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095IpDD2182610;
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095IpDqn182601;
  Mon, 5 Oct 2020 18:51:26 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 33y2vkvf82-1
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 33y2vkvf8j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 05 Oct 2020 18:51:26 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 095IpOYO014434;
- Mon, 5 Oct 2020 18:51:24 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 095IpPnl001930;
+ Mon, 5 Oct 2020 18:51:26 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 05 Oct 2020 11:51:24 -0700
+ with ESMTP ; Mon, 05 Oct 2020 11:51:25 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 08/19] multi-process: Associate fd of a PCIDevice with its
- object
-Date: Mon,  5 Oct 2020 11:50:56 -0700
-Message-Id: <5d35602f436bb5b659f8ffba6be204aa1c3ab312.1601923020.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v10 09/19] multi-process: setup memory manager for remote
+ device
+Date: Mon,  5 Oct 2020 11:50:57 -0700
+Message-Id: <206d07ba1eeedcd42bdfff8d828a086c7dc8fe93.1601923020.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1601923020.git.elena.ufimtseva@oracle.com>
 References: <cover.1601923020.git.elena.ufimtseva@oracle.com>
@@ -70,24 +70,23 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  engine=8.12.0-2006250000 definitions=main-2010050136
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9765
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 mlxscore=0
- clxscore=1015 priorityscore=1501 adultscore=0 mlxlogscore=999 phishscore=0
- impostorscore=0 malwarescore=0 suspectscore=4 lowpriorityscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ malwarescore=0 bulkscore=0
+ impostorscore=0 lowpriorityscore=0 suspectscore=4 phishscore=0
+ mlxlogscore=999 adultscore=0 clxscore=1015 spamscore=0 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2010050136
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=elena.ufimtseva@oracle.com; helo=aserp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 14:51:28
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=elena.ufimtseva@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 12:40:53
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,70 +112,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Associate the file descriptor for a PCIDevice in remote process with
-DeviceState object.
+SyncSysMemMsg message format is defined. It is used to send
+file descriptors of the RAM regions to remote device.
+RAM on the remote device is configured with a set of file descriptors.
+Old RAM regions are deleted and new regions, each with an fd, is
+added to the RAM.
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS                  |   2 +
- hw/i386/meson.build          |   1 +
- hw/i386/remote-msg.c         |   1 +
- hw/i386/remote-obj.c         | 152 +++++++++++++++++++++++++++++++++++
- include/hw/i386/remote-obj.h |  42 ++++++++++
- 5 files changed, 198 insertions(+)
- create mode 100644 hw/i386/remote-obj.c
- create mode 100644 include/hw/i386/remote-obj.h
+ MAINTAINERS                     |  2 ++
+ hw/i386/meson.build             |  1 +
+ hw/i386/remote-memory.c         | 58 +++++++++++++++++++++++++++++++++
+ include/hw/i386/remote-memory.h | 19 +++++++++++
+ include/io/mpqemu-link.h        | 13 ++++++++
+ io/mpqemu-link.c                | 11 +++++++
+ 6 files changed, 104 insertions(+)
+ create mode 100644 hw/i386/remote-memory.c
+ create mode 100644 include/hw/i386/remote-memory.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 9885c9499f..ac8eefaa3f 100644
+index ac8eefaa3f..14b8c005fc 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3048,6 +3048,8 @@ F: include/hw/i386/remote.h
- F: io/mpqemu-link.c
- F: include/io/mpqemu-link.h
+@@ -3050,6 +3050,8 @@ F: include/io/mpqemu-link.h
  F: hw/i386/remote-msg.c
-+F: include/hw/i386/remote-obj.h
-+F: hw/i386/remote-obj.c
+ F: include/hw/i386/remote-obj.h
+ F: hw/i386/remote-obj.c
++F: include/hw/i386/remote-memory.h
++F: hw/i386/remote-memory.c
  
  Build and test automation
  -------------------------
 diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index 238ae0879d..7b35f35d86 100644
+index 7b35f35d86..36e151c80a 100644
 --- a/hw/i386/meson.build
 +++ b/hw/i386/meson.build
-@@ -25,6 +25,7 @@ i386_ss.add(when: 'CONFIG_PC', if_true: files(
-   'port92.c'))
+@@ -26,6 +26,7 @@ i386_ss.add(when: 'CONFIG_PC', if_true: files(
  i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote.c'))
  i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote-msg.c'))
-+i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote-obj.c'))
+ i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote-obj.c'))
++i386_ss.add(when: 'CONFIG_MPQEMU', if_true: files('remote-memory.c'))
  
  subdir('kvm')
  subdir('xen')
-diff --git a/hw/i386/remote-msg.c b/hw/i386/remote-msg.c
-index 83fd7bd852..6451b77ae2 100644
---- a/hw/i386/remote-msg.c
-+++ b/hw/i386/remote-msg.c
-@@ -56,6 +56,7 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-         }
-     }
-     qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+    g_free(com);
- 
-     return;
- }
-diff --git a/hw/i386/remote-obj.c b/hw/i386/remote-obj.c
+diff --git a/hw/i386/remote-memory.c b/hw/i386/remote-memory.c
 new file mode 100644
-index 0000000000..e778487b71
+index 0000000000..27bc8a7674
 --- /dev/null
-+++ b/hw/i386/remote-obj.c
-@@ -0,0 +1,152 @@
++++ b/hw/i386/remote-memory.c
+@@ -0,0 +1,58 @@
 +/*
-+ * Copyright © 2020 Oracle and/or its affiliates.
++ * Memory manager for remote device
 + *
-+ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
++ * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + *
 + */
@@ -184,194 +177,147 @@ index 0000000000..e778487b71
 +#include "qemu/osdep.h"
 +#include "qemu-common.h"
 +
-+#include "hw/i386/remote-obj.h"
-+#include "qemu/error-report.h"
-+#include "qom/object_interfaces.h"
-+#include "hw/qdev-core.h"
-+#include "io/channel.h"
-+#include "hw/qdev-core.h"
-+#include "hw/i386/remote.h"
-+#include "io/channel-util.h"
++#include "hw/i386/remote-memory.h"
++#include "exec/address-spaces.h"
++#include "exec/ram_addr.h"
 +#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/pci/pci.h"
 +
-+static void remote_object_set_fd(Object *obj, const char *str, Error **errp)
++void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
 +{
-+    RemoteObject *o = REMOTE_OBJECT(obj);
++    SyncSysmemMsg *sysmem_info = &msg->data.sync_sysmem;
++    MemoryRegion *sysmem, *subregion, *next;
++    static unsigned int suffix;
++    Error *local_err = NULL;
++    char *name;
++    int region;
 +
-+    o->fd = atoi(str);
-+}
++    sysmem = get_system_memory();
 +
-+static void remote_object_set_devid(Object *obj, const char *str, Error **errp)
-+{
-+    RemoteObject *o = REMOTE_OBJECT(obj);
++    memory_region_transaction_begin();
 +
-+    g_free(o->devid);
-+
-+    o->devid = g_strdup(str);
-+}
-+
-+static void property_release_remote_object(Object *obj, const char *name,
-+                                           void *opaque)
-+{
-+    Object *remote_object = OBJECT(opaque);
-+
-+    object_unref(remote_object);
-+}
-+
-+static void remote_object_machine_done(Notifier *notifier, void *data)
-+{
-+    RemoteObject *o = container_of(notifier, RemoteObject, machine_done);
-+    DeviceState *dev = NULL;
-+    QIOChannel *ioc = NULL;
-+    Coroutine *co = NULL;
-+    RemoteCommDev *comdev = NULL;
-+    Error *err = NULL;
-+
-+    dev = qdev_find_recursive(sysbus_get_default(), o->devid);
-+    if (!dev || !object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-+        error_report("%s is not a PCI device", o->devid);
-+        return;
++    QTAILQ_FOREACH_SAFE(subregion, &sysmem->subregions, subregions_link, next) {
++        if (subregion->ram) {
++            memory_region_del_subregion(sysmem, subregion);
++            object_unparent(OBJECT(subregion));
++        }
 +    }
 +
-+    ioc = qio_channel_new_fd(o->fd, &err);
-+    if (!ioc) {
-+        error_report_err(err);
-+        return;
-+    }
-+    qio_channel_set_blocking(ioc, false, NULL);
-+    qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS);
++    for (region = 0; region < msg->num_fds; region++) {
++        subregion = g_new(MemoryRegion, 1);
++        name = g_strdup_printf("remote-mem-%u", suffix++);
++        memory_region_init_ram_from_fd(subregion, NULL,
++                                       name, sysmem_info->sizes[region],
++                                       RAM_SHARED, msg->fds[region],
++                                       sysmem_info->offsets[region],
++                                       &local_err);
++        g_free(name);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            break;
++        }
 +
-+    object_property_add(OBJECT(dev), "remote-object", "object", NULL, NULL,
-+                        property_release_remote_object, (void *)OBJECT(o));
-+    /* co-routine should free this. */
-+    comdev = g_new0(RemoteCommDev, 1);
-+    *comdev = (RemoteCommDev) {
-+        .ioc = ioc,
-+        .dev = PCI_DEVICE(dev),
-+    };
-+
-+    co = qemu_coroutine_create(mpqemu_remote_msg_loop_co, comdev);
-+    qemu_coroutine_enter(co);
-+}
-+
-+static void remote_object_init(Object *obj)
-+{
-+    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
-+    RemoteObject *o = REMOTE_OBJECT(obj);
-+
-+    if (k->nr_devs >= k->max_devs) {
-+        error_report("Reached maximum number of devices: %u", k->max_devs);
-+        return;
++        memory_region_add_subregion(sysmem, sysmem_info->gpas[region],
++                                    subregion);
 +    }
 +
-+    o->ioc = NULL;
-+    o->fd = -1;
-+    o->devid = NULL;
-+
-+    k->nr_devs++;
-+
-+    object_property_add_str(obj, "fd", NULL, remote_object_set_fd);
-+    object_property_set_description(obj, "fd",
-+                                    "file descriptor for the object");
-+    object_property_add_str(obj, "devid", NULL, remote_object_set_devid);
-+    object_property_set_description(obj, "devid",
-+                                    "id of device to associate");
-+
-+    o->machine_done.notify = remote_object_machine_done;
-+    qemu_add_machine_init_done_notifier(&o->machine_done);
++    memory_region_transaction_commit();
 +}
-+
-+static void remote_object_finalize(Object *obj)
-+{
-+    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
-+    RemoteObject *o = REMOTE_OBJECT(obj);
-+
-+    if (o->ioc) {
-+        qio_channel_shutdown(o->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+        qio_channel_close(o->ioc, NULL);
-+    }
-+    k->nr_devs--;
-+    g_free(o->devid);
-+}
-+
-+static void remote_object_class_init(ObjectClass *klass, void *data)
-+{
-+    RemoteObjectClass *k = REMOTE_OBJECT_CLASS(klass);
-+
-+    k->max_devs = 1;
-+    k->nr_devs = 0;
-+}
-+
-+static const TypeInfo remote_object_info = {
-+    .name = TYPE_REMOTE_OBJECT,
-+    .parent = TYPE_OBJECT,
-+    .instance_size = sizeof(RemoteObject),
-+    .instance_init = remote_object_init,
-+    .instance_finalize = remote_object_finalize,
-+    .class_size = sizeof(RemoteObjectClass),
-+    .class_init = remote_object_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+static void register_types(void)
-+{
-+    type_register_static(&remote_object_info);
-+}
-+
-+type_init(register_types);
-diff --git a/include/hw/i386/remote-obj.h b/include/hw/i386/remote-obj.h
+diff --git a/include/hw/i386/remote-memory.h b/include/hw/i386/remote-memory.h
 new file mode 100644
-index 0000000000..8513c2bb84
+index 0000000000..aab3e4d85d
 --- /dev/null
-+++ b/include/hw/i386/remote-obj.h
-@@ -0,0 +1,42 @@
++++ b/include/hw/i386/remote-memory.h
+@@ -0,0 +1,19 @@
 +/*
-+ * Copyright © 2020 Oracle and/or its affiliates.
++ * Memory manager for remote device
 + *
-+ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
++ * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + *
 + */
 +
-+#ifndef REMOTE_OBJECT_H
-+#define REMOTE_OBJECT_H
++#ifndef REMOTE_MEMORY_H
++#define REMOTE_MEMORY_H
 +
-+#include "io/channel.h"
-+#include "qemu/notify.h"
++#include "exec/hwaddr.h"
++#include "io/mpqemu-link.h"
 +
-+#define TYPE_REMOTE_OBJECT "remote-object"
-+#define REMOTE_OBJECT(obj) \
-+    OBJECT_CHECK(RemoteObject, (obj), TYPE_REMOTE_OBJECT)
-+#define REMOTE_OBJECT_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(RemoteObjectClass, (obj), TYPE_REMOTE_OBJECT)
-+#define REMOTE_OBJECT_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(RemoteObjectClass, (klass), TYPE_REMOTE_OBJECT)
-+
-+typedef struct {
-+    ObjectClass parent_class;
-+
-+    unsigned int nr_devs;
-+    unsigned int max_devs;
-+} RemoteObjectClass;
-+
-+typedef struct {
-+    /* private */
-+    Object parent;
-+
-+    Notifier machine_done;
-+
-+    int fd;
-+    char *devid;
-+    QIOChannel *ioc;
-+} RemoteObject;
++void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp);
 +
 +#endif
+diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+index 3505e062dd..e33181ad80 100644
+--- a/include/io/mpqemu-link.h
++++ b/include/io/mpqemu-link.h
+@@ -14,6 +14,7 @@
+ #include "qom/object.h"
+ #include "qemu/thread.h"
+ #include "io/channel.h"
++#include "exec/hwaddr.h"
+ 
+ #define REMOTE_MAX_FDS 8
+ 
+@@ -24,12 +25,22 @@
+  *
+  * MPQemuCmd enum type to specify the command to be executed on the remote
+  * device.
++ *
++ * SYNC_SYSMEM      Shares QEMU's RAM with remote device's RAM
+  */
+ typedef enum {
+     MPQEMU_CMD_INIT,
++    SYNC_SYSMEM,
++    RET_MSG,
+     MPQEMU_CMD_MAX,
+ } MPQemuCmd;
+ 
++typedef struct {
++    hwaddr gpas[REMOTE_MAX_FDS];
++    uint64_t sizes[REMOTE_MAX_FDS];
++    off_t offsets[REMOTE_MAX_FDS];
++} SyncSysmemMsg;
++
+ /**
+  * MPQemuMsg:
+  * @cmd: The remote command
+@@ -40,12 +51,14 @@ typedef enum {
+  * MPQemuMsg Format of the message sent to the remote device from QEMU.
+  *
+  */
++
+ typedef struct {
+     int cmd;
+     size_t size;
+ 
+     union {
+         uint64_t u64;
++        SyncSysmemMsg sync_sysmem;
+     } data;
+ 
+     int fds[REMOTE_MAX_FDS];
+diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+index 42df2af229..8d966820a0 100644
+--- a/io/mpqemu-link.c
++++ b/io/mpqemu-link.c
+@@ -226,5 +226,16 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+         }
+     }
+ 
++     /* Verify message specific fields. */
++    switch (msg->cmd) {
++    case SYNC_SYSMEM:
++        if (msg->num_fds == 0 || msg->size != sizeof(SyncSysmemMsg)) {
++            return false;
++        }
++        break;
++    default:
++        break;
++    }
++
+     return true;
+ }
 -- 
 2.25.GIT
 
