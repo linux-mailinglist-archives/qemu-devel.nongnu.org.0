@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C300028406C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:11:27 +0200 (CEST)
-Received: from localhost ([::1]:34386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052F0284065
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:09:17 +0200 (CEST)
+Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWpS-0007uc-Hf
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:11:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
+	id 1kPWnM-00054q-2Q
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXK-0000wO-Os
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXL-0000ws-Ho
  for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60610)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXI-0007C4-On
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:42 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXJ-0007CC-Lj
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1601927560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qGw20eIKiIOAoBIIJQ+ThMoU0wWE4UU+clXIwJBFTTg=;
- b=eRQj90ZQI7iIGz1dbM1PYrsHdkMwkbGe4ykOeOP3pKI0XfvwcZdVHrr2IV9vmqxNNN9V9c
- arfCPlAmz0v47e+W1tXbAhTRKAxnBsDYV3xr20+hgtDpr44LWFkLzp7aXKgD2/5KezohGg
- 7NXF1gzPrpvtv/PgxJMboyYAwYDFIYE=
+ bh=bpioM5nqlHvgbQ4J6zKmx+vZfIvBUGNxRW5ZEmtw7wQ=;
+ b=fVLEPSv0Ozf4iqv5PRN/ShpMOz1TKkJplL8VGytBDPsAjt6ncLUuRcBdo6sQqzp8HnMKug
+ f8+qrBvcFeOGUuqQtw8NtbVHaU4cPgvK215QmPTBNb1r2noGH+hmTmGfPxQ6azZEd1CvPH
+ gpvGOZycPt40s3ic6SVTLE7rb45qr/M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-YopRkbF-Mp2fFoF6LjmjUg-1; Mon, 05 Oct 2020 15:52:38 -0400
-X-MC-Unique: YopRkbF-Mp2fFoF6LjmjUg-1
+ us-mta-284-JzdbC9CRPriGk-6cHtlO2A-1; Mon, 05 Oct 2020 15:52:38 -0400
+X-MC-Unique: JzdbC9CRPriGk-6cHtlO2A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F51156BE4
- for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07F8656BE5
+ for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:38 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B41625C1BD;
- Mon,  5 Oct 2020 19:52:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70CE85C1BD;
+ Mon,  5 Oct 2020 19:52:37 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 24/36] qapi/source.py: add type hint annotations
-Date: Mon,  5 Oct 2020 15:51:46 -0400
-Message-Id: <20201005195158.2348217-25-jsnow@redhat.com>
+Subject: [PATCH v5 25/36] qapi/source.py: delint with pylint
+Date: Mon,  5 Oct 2020 15:51:47 -0400
+Message-Id: <20201005195158.2348217-26-jsnow@redhat.com>
 In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,121 +83,44 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Annotations do not change runtime behavior.
-This commit *only* adds annotations.
-
-A note on typing of __init__: mypy requires init functions with no
-parameters to document a return type of None to be considered fully
-typed. In the case when there are input parameters, None may be omitted.
-
-Since __init__ may never return any value, it is preferred to omit the
-return annotation whenever possible.
+Shush an error and leave a hint for future cleanups when we're allowed
+to use Python 3.7+.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/mypy.ini  |  5 -----
- scripts/qapi/source.py | 31 ++++++++++++++++++-------------
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ scripts/qapi/pylintrc  | 1 -
+ scripts/qapi/source.py | 3 +++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 8ab9ac52cc4..1b8555dfa39 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -34,11 +34,6 @@ disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 507f15537ab..d840b150313 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -7,7 +7,6 @@ ignore-patterns=error.py,
+                 gen.py,
+                 parser.py,
+                 schema.py,
+-                source.py,
+                 types.py,
+                 visit.py,
  
--[mypy-qapi.source]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
--
- [mypy-qapi.types]
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
 diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-index e97b9a8e15e..1cc6a5b82dc 100644
+index 1cc6a5b82dc..ba991d798fe 100644
 --- a/scripts/qapi/source.py
 +++ b/scripts/qapi/source.py
-@@ -11,37 +11,42 @@
- 
- import copy
- import sys
-+from typing import List, Optional, TypeVar
+@@ -15,6 +15,9 @@
  
  
  class QAPISchemaPragma:
--    def __init__(self):
-+    def __init__(self) -> None:
++    # Replace with @dataclass in Python 3.7+
++    # pylint: disable=too-few-public-methods
++
+     def __init__(self) -> None:
          # Are documentation comments required?
          self.doc_required = False
-         # Whitelist of commands allowed to return a non-dictionary
--        self.returns_whitelist = []
-+        self.returns_whitelist: List[str] = []
-         # Whitelist of entities allowed to violate case conventions
--        self.name_case_whitelist = []
-+        self.name_case_whitelist: List[str] = []
- 
- 
- class QAPISourceInfo:
--    def __init__(self, fname, line, parent):
-+    T = TypeVar('T', bound='QAPISourceInfo')
-+
-+    def __init__(self: T, fname: str, line: int, parent: Optional[T]):
-         self.fname = fname
-         self.line = line
-         self.parent = parent
--        self.pragma = parent.pragma if parent else QAPISchemaPragma()
--        self.defn_meta = None
--        self.defn_name = None
-+        self.pragma: QAPISchemaPragma = (
-+            parent.pragma if parent else QAPISchemaPragma()
-+        )
-+        self.defn_meta: Optional[str] = None
-+        self.defn_name: Optional[str] = None
- 
--    def set_defn(self, meta, name):
-+    def set_defn(self, meta: str, name: str) -> None:
-         self.defn_meta = meta
-         self.defn_name = name
- 
--    def next_line(self):
-+    def next_line(self: T) -> T:
-         info = copy.copy(self)
-         info.line += 1
-         return info
- 
--    def loc(self):
-+    def loc(self) -> str:
-         if self.fname is None:
-             return sys.argv[0]
-         ret = self.fname
-@@ -49,13 +54,13 @@ def loc(self):
-             ret += ':%d' % self.line
-         return ret
- 
--    def in_defn(self):
-+    def in_defn(self) -> str:
-         if self.defn_name:
-             return "%s: In %s '%s':\n" % (self.fname,
-                                           self.defn_meta, self.defn_name)
-         return ''
- 
--    def include_path(self):
-+    def include_path(self) -> str:
-         ret = ''
-         parent = self.parent
-         while parent:
-@@ -63,5 +68,5 @@ def include_path(self):
-             parent = parent.parent
-         return ret
- 
--    def __str__(self):
-+    def __str__(self) -> str:
-         return self.include_path() + self.in_defn() + self.loc()
 -- 
 2.26.2
 
