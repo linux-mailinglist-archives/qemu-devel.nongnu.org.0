@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6808928408C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:23:37 +0200 (CEST)
-Received: from localhost ([::1]:45872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F40F2840B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:30:18 +0200 (CEST)
+Received: from localhost ([::1]:37622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPX1E-0007mC-Gy
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57852)
+	id 1kPX7h-0007gX-L9
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kPWaI-0004zD-Ci; Mon, 05 Oct 2020 15:55:46 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:35980)
+ id 1kPWaK-00053j-8h; Mon, 05 Oct 2020 15:55:48 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:35986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kPWaG-0007ZY-2T; Mon, 05 Oct 2020 15:55:46 -0400
+ id 1kPWaG-0007Zm-Py; Mon, 05 Oct 2020 15:55:47 -0400
 Received: from sekoia-pc.home.lmichel.fr (sekoia-pc.home.lmichel.fr
  [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPS id 22D9BC60F23;
+ by pharaoh.lmichel.fr (Postfix) with ESMTPS id 3D7D2C60F24;
  Mon,  5 Oct 2020 19:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
  t=1601927720;
@@ -28,17 +28,18 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh;
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rgQnfA4gJ5UqQkulxy+qp1Ezps7+MOOFEN3I8HU3nPw=;
- b=HpGBfrqT5zf3Xo4h2VyGmPCGiTbPeQcP1WmH4SEbitffqje7G3L8wOENHyIwjkwwsYzPpv
- lxn5C6mxWmG7e5kyh8Dy6roEVE2jf3TyHtE2N4As33GkpvkerURsRjlYvS4EQupc4Szoud
- FhWFAkZ88zpN2sdT/d64d0Ziw41qJfx5+MwuRx8bVk0iMNOq8nuOlbvLu+uI6xs+0o+sra
- GPo1OHXXEJPr5z8pbr6eltvttQbq3eD50kNDA7H2f6DWGcgtfGcSButxtL3X4Z68B+rUE1
- HZjQ8t+0KFzFVnhAytgD4QfJC2MF8L+BZdw8GN9FIUGRfGtn/swZoU/05/iHJA==
+ bh=Sh4M/AM8ilA70ET1I52chfcLvmLFx+95VsX0J+yprsQ=;
+ b=QHlBOYjB98HzGezhoV6TWe1GEFvNXX5j1ecCW8koZxCSMpv8a0jpM9UUjH46fL78r81ZK8
+ VAM9/uBaWsHnFXf0l3m2440GkzL7gKHIp+jqVjw6IjJdA3fytIoZPpd2TNKLzuVUZr6bgN
+ 12AzO6p/SD4pMSZVtOKccKT5kE4Z+xDA7HXIHyKB45sTnYaF/OCuElBaupJlXBNxHC8ZFg
+ IiDeibAtalBt/wv21w5SuZVUaaOYzcWaXgCcKw3twWGNvtij5yP12W8aYLc5uwHzZkjvUR
+ a/8SZ9kjizAF9KKb0DuthwkSiiaZg1rk3tT5kGaL/U8QkfTRzJUwnctF6GPjKQ==
 From: Luc Michel <luc@lmichel.fr>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/15] hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
-Date: Mon,  5 Oct 2020 21:56:09 +0200
-Message-Id: <20201005195612.1999165-13-luc@lmichel.fr>
+Subject: [PATCH v2 13/15] hw/misc/bcm2835_cprman: add sane reset values to the
+ registers
+Date: Mon,  5 Oct 2020 21:56:10 +0200
+Message-Id: <20201005195612.1999165-14-luc@lmichel.fr>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201005195612.1999165-1-luc@lmichel.fr>
 References: <20201005195612.1999165-1-luc@lmichel.fr>
@@ -52,14 +53,14 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rgQnfA4gJ5UqQkulxy+qp1Ezps7+MOOFEN3I8HU3nPw=;
- b=OFzSJOv1dIV5034BL//GACaNYfDMm8wFd8CRxcvkn6WIRRbOBYRLljqw4obPRxJ6C0Edtq
- 5p1F5DgCVWtltQSNLy1oQFnRxWAvOvZnxyEidkfLRkX0p3AnDQf0NpW+LpBR+Y5beAFhxp
- 8InyHNmue9EUeg+OtePjZOMy8eduBWa8GVzqj/J/PKy4cSMNC85lOIeynphwclf1jy0X/3
- H76saGaFLkTvh/kHNhG6L4Zt6bajpKRnP4jugB1lDCDNVBMFyu/561PVJ5axSP3aprZQSB
- W/rJlM8rjD4dYq9BhNB5YtSenAX9eHML9rXRgFQa4t5VXHmxcpmLnqpb/AVbGg==
+ bh=Sh4M/AM8ilA70ET1I52chfcLvmLFx+95VsX0J+yprsQ=;
+ b=Kdn/K+Z7JGnLlUrtvtaXUVSFSf07D/eX9XQ3JhGKZvn72wM0+yb3TZjBKeTi9+r5SelTtL
+ sc/lz5PzaWtOhv/iSTho1aK+7uNGe1dgoCULK+tnHP8ksNUFvZonPW0HJnRJPUFFutTVkS
+ ZUkeNilV6VNttQOXrKAtbdo/2x82hmwcY6V65pdT0JoXj1KWZxQcMCM0aIZuIDVcPKkMtc
+ dz+WTH4pxHLeyrh0YY/OXwm83MSzo8lJWC//ClQirnv64f/27gof7FchHXLMS+f6OVGw2M
+ clWBrOW6aJRD3MW3O6v7wCNln8IQ4otY5tAE83GYdPm7dlakX/EY+GcCgTlTiA==
 ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1601927720; a=rsa-sha256; cv=none;
- b=EfK5vG+7Sz6VlLyHx/tTXDTcbSI/JHcciA/mR8fsCuAsq/4bb2oYhUmVpHFdZoP1984PCOa0XSTq6EGRQUR1FBhoScLbkgTELEs9H5lRcJEnjWt0HnWos+ERb7TJkUXE5xiAYsDHYj3x5x35kNcCER17kkcAMqFsk69CjntGBAD5B1WK2bSBIhNub2sQ/3mfhQQzR6MQNHfHqMsy/yPr0F9xnw8dLFle5QjWxsuez34T6ay76AD7rIs3ItIEO0mFQHYe1jvSSFbV96wkTTikkCVJ6IFRjeK4jj0xy6g40WNh50pMjbk/uWm6+0zgwhOW1n1E+tVU/mEC8WB5CAPVLQ==
+ b=YNWFwKHyEe2PQBZ292HQYGuFnqeBfxtWkYekUOkZnQc1ZAr1ppA8teX1usECj/zcgB2dFQJOxZLFgZHatrfR9qGulGMYVsR4zpTp9KVar/Oz2DXZV4F+oQeY9pp4Nt+mOV0Dj/Jq/DdkAtLqh1JEGdpXRH7e49YrLzZhNugWbTeOgimxGoeVjc2zPrZ/jEhiiEFKSIX9eIX5FTv17NocP+tZVbOkvAtUiSCzEGLUN4nO1Zndd7GqIIRC45idgXi7mg5nqPiSTceE/iEGaErhg2ks3tH4UhRLjBey7QCPHCDGRI8NuVOTMQOFm4kaA5JugBx1FlAPx3YBqckNQO9yNg==
 ARC-Authentication-Results: i=1;
 	pharaoh.lmichel.fr
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
@@ -93,252 +94,412 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simple mux sits between the PLL channels and the DSI0E and DSI0P
-clock muxes. This mux selects between PLLA-DSI0 and PLLD-DSI0 channel
-and outputs the selected signal to source number 4 of DSI0E/P clock
-muxes. It is controlled by the cm_dsi0hsck register.
+Those reset values have been extracted from a Raspberry Pi 3 model B
+v1.2, using the 2020-08-20 version of raspios. The dump was done using
+the debugfs interface of the CPRMAN driver in Linux (under
+'/sys/kernel/debug/clk'). Each exposed clock tree stage (PLLs, channels
+and muxes) can be observed by reading the 'regdump' file (e.g.
+'plla/regdump').
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Those values are set by the Raspberry Pi firmware at boot time (Linux
+expects them to be set when it boots up).
+
+Some stages are not exposed by the Linux driver (e.g. the PLL B). For
+those, the reset values are unknown and left to 0 which implies a
+disabled output.
+
+Once booted in QEMU, the final clock tree is very similar to the one
+visible on real hardware. The differences come from some unimplemented
+devices for which the driver simply disable the corresponding clock.
+
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Luc Michel <luc@lmichel.fr>
 ---
- include/hw/misc/bcm2835_cprman.h           | 15 +++++
- include/hw/misc/bcm2835_cprman_internals.h |  6 ++
- hw/misc/bcm2835_cprman.c                   | 74 +++++++++++++++++++++-
- 3 files changed, 94 insertions(+), 1 deletion(-)
+ include/hw/misc/bcm2835_cprman_internals.h | 269 +++++++++++++++++++++
+ hw/misc/bcm2835_cprman.c                   |  31 +++
+ 2 files changed, 300 insertions(+)
 
-diff --git a/include/hw/misc/bcm2835_cprman.h b/include/hw/misc/bcm2835_cprman.h
-index 817915ee95..4a1060c3d1 100644
---- a/include/hw/misc/bcm2835_cprman.h
-+++ b/include/hw/misc/bcm2835_cprman.h
-@@ -171,20 +171,35 @@ typedef struct CprmanClockMuxState {
-      * source number.
-      */
-     struct CprmanClockMuxState *backref[CPRMAN_NUM_CLOCK_MUX_SRC];
- } CprmanClockMuxState;
- 
-+typedef struct CprmanDsi0HsckMuxState {
-+    /*< private >*/
-+    DeviceState parent_obj;
-+
-+    /*< public >*/
-+    CprmanClockMux id;
-+
-+    uint32_t *reg_cm;
-+
-+    Clock *plla_in;
-+    Clock *plld_in;
-+    Clock *out;
-+} CprmanDsi0HsckMuxState;
-+
- struct BCM2835CprmanState {
-     /*< private >*/
-     SysBusDevice parent_obj;
- 
-     /*< public >*/
-     MemoryRegion iomem;
- 
-     CprmanPllState plls[CPRMAN_NUM_PLL];
-     CprmanPllChannelState channels[CPRMAN_NUM_PLL_CHANNEL];
-     CprmanClockMuxState clock_muxes[CPRMAN_NUM_CLOCK_MUX];
-+    CprmanDsi0HsckMuxState dsi0hsck_mux;
- 
-     uint32_t regs[CPRMAN_NUM_REGS];
-     uint32_t xosc_freq;
- 
-     Clock *xosc;
 diff --git a/include/hw/misc/bcm2835_cprman_internals.h b/include/hw/misc/bcm2835_cprman_internals.h
-index 2d16f9ace5..d9abda91cb 100644
+index d9abda91cb..8361c4c423 100644
 --- a/include/hw/misc/bcm2835_cprman_internals.h
 +++ b/include/hw/misc/bcm2835_cprman_internals.h
-@@ -13,17 +13,20 @@
- #include "hw/misc/bcm2835_cprman.h"
+@@ -744,6 +744,275 @@ static inline void set_clock_mux_init_info(BCM2835CprmanState *s,
+     mux->reg_cm = &s->regs[CLOCK_MUX_INIT_INFO[id].cm_offset];
+     mux->int_bits = CLOCK_MUX_INIT_INFO[id].int_bits;
+     mux->frac_bits = CLOCK_MUX_INIT_INFO[id].frac_bits;
+ }
  
- #define TYPE_CPRMAN_PLL "bcm2835-cprman-pll"
- #define TYPE_CPRMAN_PLL_CHANNEL "bcm2835-cprman-pll-channel"
- #define TYPE_CPRMAN_CLOCK_MUX "bcm2835-cprman-clock-mux"
-+#define TYPE_CPRMAN_DSI0HSCK_MUX "bcm2835-cprman-dsi0hsck-mux"
- 
- DECLARE_INSTANCE_CHECKER(CprmanPllState, CPRMAN_PLL,
-                          TYPE_CPRMAN_PLL)
- DECLARE_INSTANCE_CHECKER(CprmanPllChannelState, CPRMAN_PLL_CHANNEL,
-                          TYPE_CPRMAN_PLL_CHANNEL)
- DECLARE_INSTANCE_CHECKER(CprmanClockMuxState, CPRMAN_CLOCK_MUX,
-                          TYPE_CPRMAN_CLOCK_MUX)
-+DECLARE_INSTANCE_CHECKER(CprmanDsi0HsckMuxState, CPRMAN_DSI0HSCK_MUX,
-+                         TYPE_CPRMAN_DSI0HSCK_MUX)
- 
- /* Register map */
- 
- /* PLLs */
- REG32(CM_PLLA, 0x104)
-@@ -221,10 +224,13 @@ REG32(CM_LOCK, 0x114)
-     FIELD(CM_LOCK, FLOCKD, 11, 1)
-     FIELD(CM_LOCK, FLOCKC, 10, 1)
-     FIELD(CM_LOCK, FLOCKB, 9, 1)
-     FIELD(CM_LOCK, FLOCKA, 8, 1)
- 
-+REG32(CM_DSI0HSCK, 0x120)
-+    FIELD(CM_DSI0HSCK, SELPLLD, 0, 1)
 +
- /*
-  * This field is common to all registers. Each register write value must match
-  * the CPRMAN_PASSWORD magic value in its 8 MSB.
-  */
- FIELD(CPRMAN, PASSWORD, 24, 8)
++/*
++ * Object reset info
++ * Those values have been dumped from a Raspberry Pi 3 Model B v1.2 using the
++ * clk debugfs interface in Linux.
++ */
++typedef struct PLLResetInfo {
++    uint32_t cm;
++    uint32_t a2w_ctrl;
++    uint32_t a2w_ana[4];
++    uint32_t a2w_frac;
++} PLLResetInfo;
++
++static const PLLResetInfo PLL_RESET_INFO[] = {
++    [CPRMAN_PLLA] = {
++        .cm = 0x0000008a,
++        .a2w_ctrl = 0x0002103a,
++        .a2w_frac = 0x00098000,
++        .a2w_ana = { 0x00000000, 0x00144000, 0x00000000, 0x00000100 }
++    },
++
++    [CPRMAN_PLLC] = {
++        .cm = 0x00000228,
++        .a2w_ctrl = 0x0002103e,
++        .a2w_frac = 0x00080000,
++        .a2w_ana = { 0x00000000, 0x00144000, 0x00000000, 0x00000100 }
++    },
++
++    [CPRMAN_PLLD] = {
++        .cm = 0x0000020a,
++        .a2w_ctrl = 0x00021034,
++        .a2w_frac = 0x00015556,
++        .a2w_ana = { 0x00000000, 0x00144000, 0x00000000, 0x00000100 }
++    },
++
++    [CPRMAN_PLLH] = {
++        .cm = 0x00000000,
++        .a2w_ctrl = 0x0002102d,
++        .a2w_frac = 0x00000000,
++        .a2w_ana = { 0x00900000, 0x0000000c, 0x00000000, 0x00000000 }
++    },
++
++    [CPRMAN_PLLB] = {
++        /* unknown */
++        .cm = 0x00000000,
++        .a2w_ctrl = 0x00000000,
++        .a2w_frac = 0x00000000,
++        .a2w_ana = { 0x00000000, 0x00000000, 0x00000000, 0x00000000 }
++    }
++};
++
++typedef struct PLLChannelResetInfo {
++    /*
++     * Even though a PLL channel has a CM register, it shares it with its
++     * parent PLL. The parent already takes care of the reset value.
++     */
++    uint32_t a2w_ctrl;
++} PLLChannelResetInfo;
++
++static const PLLChannelResetInfo PLL_CHANNEL_RESET_INFO[] = {
++    [CPRMAN_PLLA_CHANNEL_DSI0] = { .a2w_ctrl = 0x00000100 },
++    [CPRMAN_PLLA_CHANNEL_CORE] = { .a2w_ctrl = 0x00000003 },
++    [CPRMAN_PLLA_CHANNEL_PER] = { .a2w_ctrl = 0x00000000 }, /* unknown */
++    [CPRMAN_PLLA_CHANNEL_CCP2] = { .a2w_ctrl = 0x00000100 },
++
++    [CPRMAN_PLLC_CHANNEL_CORE2] = { .a2w_ctrl = 0x00000100 },
++    [CPRMAN_PLLC_CHANNEL_CORE1] = { .a2w_ctrl = 0x00000100 },
++    [CPRMAN_PLLC_CHANNEL_PER] = { .a2w_ctrl = 0x00000002 },
++    [CPRMAN_PLLC_CHANNEL_CORE0] = { .a2w_ctrl = 0x00000002 },
++
++    [CPRMAN_PLLD_CHANNEL_DSI0] = { .a2w_ctrl = 0x00000100 },
++    [CPRMAN_PLLD_CHANNEL_CORE] = { .a2w_ctrl = 0x00000004 },
++    [CPRMAN_PLLD_CHANNEL_PER] = { .a2w_ctrl = 0x00000004 },
++    [CPRMAN_PLLD_CHANNEL_DSI1] = { .a2w_ctrl = 0x00000100 },
++
++    [CPRMAN_PLLH_CHANNEL_AUX] = { .a2w_ctrl = 0x00000004 },
++    [CPRMAN_PLLH_CHANNEL_RCAL] = { .a2w_ctrl = 0x00000000 },
++    [CPRMAN_PLLH_CHANNEL_PIX] = { .a2w_ctrl = 0x00000000 },
++
++    [CPRMAN_PLLB_CHANNEL_ARM] = { .a2w_ctrl = 0x00000000 }, /* unknown */
++};
++
++typedef struct ClockMuxResetInfo {
++    uint32_t cm_ctrl;
++    uint32_t cm_div;
++} ClockMuxResetInfo;
++
++static const ClockMuxResetInfo CLOCK_MUX_RESET_INFO[] = {
++    [CPRMAN_CLOCK_GNRIC] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_VPU] = {
++        .cm_ctrl = 0x00000245,
++        .cm_div = 0x00003000,
++    },
++
++    [CPRMAN_CLOCK_SYS] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_PERIA] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_PERII] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_H264] = {
++        .cm_ctrl = 0x00000244,
++        .cm_div = 0x00003000,
++    },
++
++    [CPRMAN_CLOCK_ISP] = {
++        .cm_ctrl = 0x00000244,
++        .cm_div = 0x00003000,
++    },
++
++    [CPRMAN_CLOCK_V3D] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_CAM0] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_CAM1] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_CCP2] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_DSI0E] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_DSI0P] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_DPI] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_GP0] = {
++        .cm_ctrl = 0x00000200,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_GP1] = {
++        .cm_ctrl = 0x00000096,
++        .cm_div = 0x00014000,
++    },
++
++    [CPRMAN_CLOCK_GP2] = {
++        .cm_ctrl = 0x00000291,
++        .cm_div = 0x00249f00,
++    },
++
++    [CPRMAN_CLOCK_HSM] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_OTP] = {
++        .cm_ctrl = 0x00000091,
++        .cm_div = 0x00004000,
++    },
++
++    [CPRMAN_CLOCK_PCM] = {
++        .cm_ctrl = 0x00000200,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_PWM] = {
++        .cm_ctrl = 0x00000200,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_SLIM] = {
++        .cm_ctrl = 0x00000200,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_SMI] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_TEC] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_TD0] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_TD1] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_TSENS] = {
++        .cm_ctrl = 0x00000091,
++        .cm_div = 0x0000a000,
++    },
++
++    [CPRMAN_CLOCK_TIMER] = {
++        .cm_ctrl = 0x00000291,
++        .cm_div = 0x00013333,
++    },
++
++    [CPRMAN_CLOCK_UART] = {
++        .cm_ctrl = 0x00000296,
++        .cm_div = 0x0000a6ab,
++    },
++
++    [CPRMAN_CLOCK_VEC] = {
++        .cm_ctrl = 0x00000097,
++        .cm_div = 0x00002000,
++    },
++
++    [CPRMAN_CLOCK_PULSE] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_SDC] = {
++        .cm_ctrl = 0x00004006,
++        .cm_div = 0x00003000,
++    },
++
++    [CPRMAN_CLOCK_ARM] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++
++    [CPRMAN_CLOCK_AVEO] = {
++        .cm_ctrl = 0x00000000,
++        .cm_div = 0x00000000,
++    },
++
++    [CPRMAN_CLOCK_EMMC] = {
++        .cm_ctrl = 0x00000295,
++        .cm_div = 0x00006000,
++    },
++
++    [CPRMAN_CLOCK_EMMC2] = {
++        .cm_ctrl = 0, /* unknown */
++        .cm_div = 0
++    },
++};
++
+ #endif
 diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-index 7d59423367..4f5bb7a182 100644
+index 4f5bb7a182..4ede5a52a0 100644
 --- a/hw/misc/bcm2835_cprman.c
 +++ b/hw/misc/bcm2835_cprman.c
-@@ -328,10 +328,62 @@ static const TypeInfo cprman_clock_mux_info = {
-     .class_init = clock_mux_class_init,
-     .instance_init = clock_mux_init,
+@@ -51,10 +51,21 @@
+ #include "hw/misc/bcm2835_cprman_internals.h"
+ #include "trace.h"
+ 
+ /* PLL */
+ 
++static void pll_reset(DeviceState *dev)
++{
++    CprmanPllState *s = CPRMAN_PLL(dev);
++    const PLLResetInfo *info = &PLL_RESET_INFO[s->id];
++
++    *s->reg_cm = info->cm;
++    *s->reg_a2w_ctrl = info->a2w_ctrl;
++    memcpy(s->reg_a2w_ana, info->a2w_ana, sizeof(info->a2w_ana));
++    *s->reg_a2w_frac = info->a2w_frac;
++}
++
+ static bool pll_is_locked(const CprmanPllState *pll)
+ {
+     return !FIELD_EX32(*pll->reg_a2w_ctrl, A2W_PLLx_CTRL, PWRDN)
+         && !FIELD_EX32(*pll->reg_cm, CM_PLLx, ANARST);
+ }
+@@ -121,10 +132,11 @@ static const VMStateDescription pll_vmstate = {
+ 
+ static void pll_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
++    dc->reset = pll_reset;
+     dc->vmsd = &pll_vmstate;
+ }
+ 
+ static const TypeInfo cprman_pll_info = {
+     .name = TYPE_CPRMAN_PLL,
+@@ -135,10 +147,18 @@ static const TypeInfo cprman_pll_info = {
  };
  
  
-+/* DSI0HSCK mux */
-+
-+static void dsi0hsck_mux_update(CprmanDsi0HsckMuxState *s)
-+{
-+    bool src_is_plld = FIELD_EX32(*s->reg_cm, CM_DSI0HSCK, SELPLLD);
-+    Clock *src = src_is_plld ? s->plld_in : s->plla_in;
-+
-+    clock_update(s->out, clock_get(src));
-+}
-+
-+static void dsi0hsck_mux_in_update(void *opaque)
-+{
-+    dsi0hsck_mux_update(CPRMAN_DSI0HSCK_MUX(opaque));
-+}
-+
-+static void dsi0hsck_mux_init(Object *obj)
-+{
-+    CprmanDsi0HsckMuxState *s = CPRMAN_DSI0HSCK_MUX(obj);
-+    DeviceState *dev = DEVICE(obj);
-+
-+    s->plla_in = qdev_init_clock_in(dev, "plla-in", dsi0hsck_mux_in_update, s);
-+    s->plld_in = qdev_init_clock_in(dev, "plld-in", dsi0hsck_mux_in_update, s);
-+    s->out = qdev_init_clock_out(DEVICE(s), "out");
-+}
-+
-+static const VMStateDescription dsi0hsck_mux_vmstate = {
-+    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_CLOCK(plla_in, CprmanDsi0HsckMuxState),
-+        VMSTATE_CLOCK(plld_in, CprmanDsi0HsckMuxState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void dsi0hsck_mux_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &dsi0hsck_mux_vmstate;
-+}
-+
-+static const TypeInfo cprman_dsi0hsck_mux_info = {
-+    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
-+    .parent = TYPE_DEVICE,
-+    .instance_size = sizeof(CprmanDsi0HsckMuxState),
-+    .class_init = dsi0hsck_mux_class_init,
-+    .instance_init = dsi0hsck_mux_init,
-+};
-+
-+
- /* CPRMAN "top level" model */
+ /* PLL channel */
  
- static uint32_t get_cm_lock(const BCM2835CprmanState *s)
- {
-     static const int CM_LOCK_MAPPING[CPRMAN_NUM_PLL] = {
-@@ -489,10 +541,14 @@ static void cprman_write(void *opaque, hwaddr offset,
-     case R_CM_SDCCTL ... R_CM_ARMCTL:
-     case R_CM_AVEOCTL ... R_CM_EMMCDIV:
-     case R_CM_EMMC2CTL ... R_CM_EMMC2DIV:
-         update_mux_from_cm(s, idx);
-         break;
++static void pll_channel_reset(DeviceState *dev)
++{
++    CprmanPllChannelState *s = CPRMAN_PLL_CHANNEL(dev);
++    const PLLChannelResetInfo *info = &PLL_CHANNEL_RESET_INFO[s->id];
 +
-+    case R_CM_DSI0HSCK:
-+        dsi0hsck_mux_update(&s->dsi0hsck_mux);
-+        break;
-     }
++    *s->reg_a2w_ctrl = info->a2w_ctrl;
++}
++
+ static bool pll_channel_is_enabled(CprmanPllChannelState *channel)
+ {
+     /*
+      * XXX I'm not sure of the purpose of the LOAD field. The Linux driver does
+      * not set it when enabling the channel, but does clear it when disabling
+@@ -215,10 +235,11 @@ static const VMStateDescription pll_channel_vmstate = {
+ 
+ static void pll_channel_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
++    dc->reset = pll_channel_reset;
+     dc->vmsd = &pll_channel_vmstate;
  }
  
- #undef CASE_PLL_A2W_REGS
- 
-@@ -528,10 +584,12 @@ static void cprman_reset(DeviceState *dev)
- 
-     for (i = 0; i < CPRMAN_NUM_PLL_CHANNEL; i++) {
-         device_cold_reset(DEVICE(&s->channels[i]));
+ static const TypeInfo cprman_pll_channel_info = {
+     .name = TYPE_CPRMAN_PLL_CHANNEL,
+@@ -284,10 +305,19 @@ static void clock_mux_src_update(void *opaque)
      }
  
-+    device_cold_reset(DEVICE(&s->dsi0hsck_mux));
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         device_cold_reset(DEVICE(&s->clock_muxes[i]));
-     }
- 
-     clock_update_hz(s->xosc, s->xosc_freq);
-@@ -553,10 +611,14 @@ static void cprman_init(Object *obj)
-                                 &s->channels[i],
-                                 TYPE_CPRMAN_PLL_CHANNEL);
-         set_pll_channel_init_info(s, &s->channels[i], i);
-     }
- 
-+    object_initialize_child(obj, "dsi0hsck-mux",
-+                            &s->dsi0hsck_mux, TYPE_CPRMAN_DSI0HSCK_MUX);
-+    s->dsi0hsck_mux.reg_cm = &s->regs[R_CM_DSI0HSCK];
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         char *alias;
- 
-         object_initialize_child(obj, CLOCK_MUX_INIT_INFO[i].name,
-                                 &s->clock_muxes[i],
-@@ -600,11 +662,11 @@ static void connect_mux_sources(BCM2835CprmanState *s,
-         Clock *src;
- 
-         if (mapping == CPRMAN_CLOCK_SRC_FORCE_GROUND) {
-             src = s->gnd;
-         } else if (mapping == CPRMAN_CLOCK_SRC_DSI0HSCK) {
--            src = s->gnd; /* TODO */
-+            src = s->dsi0hsck_mux.out;
-         } else if (i < CPRMAN_CLOCK_SRC_PLLA) {
-             src = CLK_SRC_MAPPING[i];
-         } else {
-             src = s->channels[mapping].out;
-         }
-@@ -638,10 +700,19 @@ static void cprman_realize(DeviceState *dev, Error **errp)
-         if (!qdev_realize(DEVICE(channel), NULL, errp)) {
-             return;
-         }
-     }
- 
-+    clock_set_source(s->dsi0hsck_mux.plla_in,
-+                     s->channels[CPRMAN_PLLA_CHANNEL_DSI0].out);
-+    clock_set_source(s->dsi0hsck_mux.plld_in,
-+                     s->channels[CPRMAN_PLLD_CHANNEL_DSI0].out);
-+
-+    if (!qdev_realize(DEVICE(&s->dsi0hsck_mux), NULL, errp)) {
-+        return;
-+    }
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         CprmanClockMuxState *clock_mux = &s->clock_muxes[i];
- 
-         connect_mux_sources(s, clock_mux, CLOCK_MUX_INIT_INFO[i].src_mapping);
- 
-@@ -688,8 +759,9 @@ static void cprman_register_types(void)
- {
-     type_register_static(&cprman_info);
-     type_register_static(&cprman_pll_info);
-     type_register_static(&cprman_pll_channel_info);
-     type_register_static(&cprman_clock_mux_info);
-+    type_register_static(&cprman_dsi0hsck_mux_info);
+     clock_mux_update(s);
  }
  
- type_init(cprman_register_types);
++static void clock_mux_reset(DeviceState *dev)
++{
++    CprmanClockMuxState *clock = CPRMAN_CLOCK_MUX(dev);
++    const ClockMuxResetInfo *info = &CLOCK_MUX_RESET_INFO[clock->id];
++
++    clock->reg_cm[0] = info->cm_ctrl;
++    clock->reg_cm[1] = info->cm_div;
++}
++
+ static void clock_mux_init(Object *obj)
+ {
+     CprmanClockMuxState *s = CPRMAN_CLOCK_MUX(obj);
+     size_t i;
+ 
+@@ -316,10 +346,11 @@ static const VMStateDescription clock_mux_vmstate = {
+ 
+ static void clock_mux_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
++    dc->reset = clock_mux_reset;
+     dc->vmsd = &clock_mux_vmstate;
+ }
+ 
+ static const TypeInfo cprman_clock_mux_info = {
+     .name = TYPE_CPRMAN_CLOCK_MUX,
 -- 
 2.28.0
 
