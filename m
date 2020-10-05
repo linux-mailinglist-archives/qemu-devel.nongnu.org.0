@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723B4283C99
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:34:34 +0200 (CEST)
-Received: from localhost ([::1]:48566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48AE283BE2
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:02:43 +0200 (CEST)
+Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPTRZ-0004B0-7D
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
+	id 1kPSwi-0002Fm-QT
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPSu1-00017M-V3
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPSts-0002Dj-BO
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601913583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V9hwa2yuNNhm7HvvUUGAyuEeEh3K20UpOiE4l0Q9puU=;
- b=Daa8pLiG3X2hb1nN3H/worpYJvTfRIgdVKNVIZfXTOjJi3zVCe1dR7Y28XCUjjxcSNvhnT
- JlBE+nVKT1gCZSl6VoNGQ2ZyI+9tFtsjfVxFE+qQyAP8EqQnQyq49vs2dHIDSF80oqRIui
- s8l9WI35JzXXskYNdThdco2INfEgb7k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-26B9wRJjNJ-F6OiPIRa3EQ-1; Mon, 05 Oct 2020 11:59:40 -0400
-X-MC-Unique: 26B9wRJjNJ-F6OiPIRa3EQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C8DAE820;
- Mon,  5 Oct 2020 15:59:39 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-145.ams2.redhat.com
- [10.36.113.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EFD5860C11;
- Mon,  5 Oct 2020 15:59:37 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v8 14/14] block: Convert 'block_resize' to coroutine
-Date: Mon,  5 Oct 2020 17:58:55 +0200
-Message-Id: <20201005155855.256490-15-kwolf@redhat.com>
-In-Reply-To: <20201005155855.256490-1-kwolf@redhat.com>
-References: <20201005155855.256490-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPStO-0008Ux-6O
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:14 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPStK-00027W-LK
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:13 -0400
+Received: by mail-lj1-x242.google.com with SMTP id a4so3351913lji.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 08:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=KZSr1+RWhjf73U8t/JBw3lLrcq3qCKPaCeufJWjWElk=;
+ b=NzaH5cApY7pP8PbQGrKxnQlPEOEaaV8HAaDJ/9bPap0zDWMWhZmU+TRboiArX+YkCr
+ At7cDGOJpvRDxv2ZI07NmJLZTMN2TjbZ50xptiCkXsyPwg4khd171HlJAn2wuL7wf+pv
+ ZDfi9GqO3Vg/4GrKbrS3rLZGQQ/lIEreSNFPJ5+WMtaRD2tdvN5NnQRQDKJx7FgHvmmj
+ ZwPnGuv0UBcy0IQyvc2olHSwag6VbvkZPhbCgGH47yGJ68tZ8gCjDBRVbaSQb7dAL2LE
+ VasCDHbQUc9j2RmDyMWVv5Qf1CySVIUSpbivMcRGO7apxg1RgFNMzxlWIM5CtkHLu5Xt
+ 4svg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=KZSr1+RWhjf73U8t/JBw3lLrcq3qCKPaCeufJWjWElk=;
+ b=SYcmKenHnfsp8Jk+eimxSIFTACywI1Y5OYek2RFQ7e49ncFuoX47WUpFHLEhqyH8xz
+ kTd1EhOf3GCWuL/Dr/NGVU/RKsXT0Ma+kMQnDC5eDFnjAdq9IB3ZDwDyWp7jlohIJjpQ
+ EDxHYoErOZJa3mKnTfP8KqMEOJClSZpghHTXne+76nxGoqHikG7F8dB2HiGG26/3DgEB
+ BBGMGN+V6EQ9kkVKWCtXTkdR9++0bcB4/rAxcHYRniLlXQEiO9SNl4ag5UBNYJlRM2ig
+ UtTu9xrrQ7E99SE4CL7VkB/4If1bZQuvxgRaicc9K7MeCAi6BHNmpemRRL+2NqZmmdNx
+ 8P9A==
+X-Gm-Message-State: AOAM533ZjeNVl6A44Y9EuaJmfDkW7mDs6AOMe1xOw9PPQZaKzLwtyM5k
+ 3pZXdk59EIYcChWntvr1mCXta4O/yPKtu87N7a8=
+X-Google-Smtp-Source: ABdhPJzrILBFsenUhsRIY8/O6MFTiBFerhZtaYWEZNKMJoRwoAnSW2Xd3AO6fWIKsyiFsQJEkaYYpaaDMgAqVB0d6AE=
+X-Received: by 2002:a2e:9dc7:: with SMTP id x7mr130185ljj.447.1601913548860;
+ Mon, 05 Oct 2020 08:59:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201001163429.1348-1-luoyonggang@gmail.com>
+ <20201001163429.1348-5-luoyonggang@gmail.com>
+ <87sgat2bqh.fsf@linaro.org>
+In-Reply-To: <87sgat2bqh.fsf@linaro.org>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Mon, 5 Oct 2020 23:58:59 +0800
+Message-ID: <CAE2XoE_UUUSyMaeEbZzci2t9GQ+1sgm=B5M7qOytr6JX+XPgJQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] plugin: define QEMU_PLUGIN_API_IMPLEMENTATION first
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000000a73da05b0ee902d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,107 +81,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, marcandre.lureau@gmail.com, armbru@redhat.com,
- stefanha@redhat.com, qemu-devel@nongnu.org
+Reply-To: luoyonggang@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-block_resize performs some I/O that could potentially take quite some
-time, so use it as an example for the new 'coroutine': true annotation
-in the QAPI schema.
+--0000000000000a73da05b0ee902d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-bdrv_truncate() requires that we're already in the right AioContext for
-the BlockDriverState if called in coroutine context. So instead of just
-taking the AioContext lock, move the QMP handler coroutine to the
-context.
+Hi, I split this out just for easier review, so the lines changed in api.c
+and core.c
+equales to the number of function exported, anyway
 
-Call blk_unref() only after switching back because blk_unref() may only
-be called in the main thread.
+On Mon, Oct 5, 2020 at 6:44 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>
+>
+> Yonggang Luo <luoyonggang@gmail.com> writes:
+>
+> > This is used to distinguish from the qemu and plugin in
+> > header qemu-plugin.h
+> >
+> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> > ---
+> >  plugins/api.c  | 1 +
+> >  plugins/core.c | 1 +
+> >  2 files changed, 2 insertions(+)
+> >
+> > diff --git a/plugins/api.c b/plugins/api.c
+> > index bbdc5a4eb4..f16922ca8b 100644
+> > --- a/plugins/api.c
+> > +++ b/plugins/api.c
+> > @@ -35,6 +35,7 @@
+> >   */
+> >
+> >  #include "qemu/osdep.h"
+> > +#define QEMU_PLUGIN_API_IMPLEMENTATION
+> >  #include "qemu/plugin.h"
+>
+> This doesn't do anything in this patch. You should split the special
+> handling in the plugin header and combine it in this patch. Also I'm not
+> quite sure of the logic you are trying to achieve later on:
+>
+>   #if !defined(QEMU_PLUGIN_API_IMPLEMENTATION)
+>   #if defined(QEMU_PLUGIN_IMPLEMENTATION)
+>   #define QEMU_PLUGIN_EXTERN
+>   #else
+>   #define QEMU_PLUGIN_EXTERN extern
+>   #endif
+>
+> It seems to me you could get away with only one symbol - ideally just
+> defined in plugins/api.c so you don't need to churn the plugins with
+> changes, e.g.
+>
+>   #ifdef QEMU_PLUGIN_API_IMPLEMENTATION
+>   #define QEMU_PLUGIN_EXTERN
+>   #else
+>   #define QEMU_PLUGIN_EXTERN extern
+>   #endif
+>
+> But I'd still like to have a better answer as to why we need the extern?
+> Is this a limitation of the mingw compiler or some windows special?
+>
+> >  #include "cpu.h"
+> >  #include "sysemu/sysemu.h"
+> > diff --git a/plugins/core.c b/plugins/core.c
+> > index 51bfc94787..7a79ea4179 100644
+> > --- a/plugins/core.c
+> > +++ b/plugins/core.c
+> > @@ -12,6 +12,7 @@
+> >   * SPDX-License-Identifier: GPL-2.0-or-later
+> >   */
+> >  #include "qemu/osdep.h"
+> > +#define QEMU_PLUGIN_API_IMPLEMENTATION
+> >  #include "qemu/error-report.h"
+> >  #include "qemu/config-file.h"
+> >  #include "qapi/error.h"
+>
+> I don't think we include qemu/plugin.h from this file although it does
+> raise the question of what happens when other parts of QEMU include the
+> internal qemu/plugins.h header.
+>
+> --
+> Alex Benn=C3=A9e
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qapi/block-core.json |  3 ++-
- blockdev.c           | 16 ++++++++--------
- hmp-commands.hx      |  1 +
- 3 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 12a24772b5..90383b0148 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1304,7 +1304,8 @@
- { 'command': 'block_resize',
-   'data': { '*device': 'str',
-             '*node-name': 'str',
--            'size': 'int' } }
-+            'size': 'int' },
-+  'coroutine': true }
- 
- ##
- # @NewImageMode:
-diff --git a/blockdev.c b/blockdev.c
-index bebd3ba1c3..e331f81034 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2439,14 +2439,14 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
-     return ret;
- }
- 
--void qmp_block_resize(bool has_device, const char *device,
--                      bool has_node_name, const char *node_name,
--                      int64_t size, Error **errp)
-+void coroutine_fn qmp_block_resize(bool has_device, const char *device,
-+                                   bool has_node_name, const char *node_name,
-+                                   int64_t size, Error **errp)
- {
-     Error *local_err = NULL;
-     BlockBackend *blk = NULL;
-     BlockDriverState *bs;
--    AioContext *aio_context;
-+    AioContext *old_ctx;
- 
-     bs = bdrv_lookup_bs(has_device ? device : NULL,
-                         has_node_name ? node_name : NULL,
-@@ -2456,9 +2456,6 @@ void qmp_block_resize(bool has_device, const char *device,
-         return;
-     }
- 
--    aio_context = bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
--
-     if (size < 0) {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0 size");
-         goto out;
-@@ -2475,12 +2472,15 @@ void qmp_block_resize(bool has_device, const char *device,
-     }
- 
-     bdrv_drained_begin(bs);
-+    old_ctx = bdrv_co_enter(bs);
-     blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
-+    bdrv_co_leave(bs, old_ctx);
-     bdrv_drained_end(bs);
- 
- out:
-+    bdrv_co_lock(bs);
-     blk_unref(blk);
--    aio_context_release(aio_context);
-+    bdrv_co_unlock(bs);
- }
- 
- void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 1088d64503..de83a5cc61 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -76,6 +76,7 @@ ERST
-         .params     = "device size",
-         .help       = "resize a block image",
-         .cmd        = hmp_block_resize,
-+        .coroutine  = true,
-     },
- 
- SRST
--- 
-2.25.4
 
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--0000000000000a73da05b0ee902d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi, I split this out just for easier review, so the lines =
+changed in api.c and core.c<div>equales to the number of function exported,=
+ anyway<br><br>On Mon, Oct 5, 2020 at 6:44 PM Alex Benn=C3=A9e &lt;<a href=
+=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br=
+>&gt;<br>&gt;<br>&gt; Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.=
+com">luoyonggang@gmail.com</a>&gt; writes:<br>&gt;<br>&gt; &gt; This is use=
+d to distinguish from the qemu and plugin in<br>&gt; &gt; header qemu-plugi=
+n.h<br>&gt; &gt;<br>&gt; &gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"ma=
+ilto:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt;<br>&gt; &gt; ---<=
+br>&gt; &gt; =C2=A0plugins/api.c =C2=A0| 1 +<br>&gt; &gt; =C2=A0plugins/cor=
+e.c | 1 +<br>&gt; &gt; =C2=A02 files changed, 2 insertions(+)<br>&gt; &gt;<=
+br>&gt; &gt; diff --git a/plugins/api.c b/plugins/api.c<br>&gt; &gt; index =
+bbdc5a4eb4..f16922ca8b 100644<br>&gt; &gt; --- a/plugins/api.c<br>&gt; &gt;=
+ +++ b/plugins/api.c<br>&gt; &gt; @@ -35,6 +35,7 @@<br>&gt; &gt; =C2=A0 */<=
+br>&gt; &gt; <br>&gt; &gt; =C2=A0#include &quot;qemu/osdep.h&quot;<br>&gt; =
+&gt; +#define QEMU_PLUGIN_API_IMPLEMENTATION<br>&gt; &gt; =C2=A0#include &q=
+uot;qemu/plugin.h&quot;<br>&gt;<br>&gt; This doesn&#39;t do anything in thi=
+s patch. You should split the special<br>&gt; handling in the plugin header=
+ and combine it in this patch. Also I&#39;m not<br>&gt; quite sure of the l=
+ogic you are trying to achieve later on:<br>&gt;<br>&gt; =C2=A0 #if !define=
+d(QEMU_PLUGIN_API_IMPLEMENTATION)<br>&gt; =C2=A0 #if defined(QEMU_PLUGIN_IM=
+PLEMENTATION)<br>&gt; =C2=A0 #define QEMU_PLUGIN_EXTERN<br>&gt; =C2=A0 #els=
+e<br>&gt; =C2=A0 #define QEMU_PLUGIN_EXTERN extern<br>&gt; =C2=A0 #endif<br=
+>&gt;<br>&gt; It seems to me you could get away with only one symbol - idea=
+lly just<br>&gt; defined in plugins/api.c so you don&#39;t need to churn th=
+e plugins with<br>&gt; changes, e.g.<br>&gt;<br>&gt; =C2=A0 #ifdef QEMU_PLU=
+GIN_API_IMPLEMENTATION<br>&gt; =C2=A0 #define QEMU_PLUGIN_EXTERN<br>&gt; =
+=C2=A0 #else<br>&gt; =C2=A0 #define QEMU_PLUGIN_EXTERN extern<br>&gt; =C2=
+=A0 #endif<br>&gt;<br>&gt; But I&#39;d still like to have a better answer a=
+s to why we need the extern?<br>&gt; Is this a limitation of the mingw comp=
+iler or some windows special?<br>&gt;<br>&gt; &gt; =C2=A0#include &quot;cpu=
+.h&quot;<br>&gt; &gt; =C2=A0#include &quot;sysemu/sysemu.h&quot;<br>&gt; &g=
+t; diff --git a/plugins/core.c b/plugins/core.c<br>&gt; &gt; index 51bfc947=
+87..7a79ea4179 100644<br>&gt; &gt; --- a/plugins/core.c<br>&gt; &gt; +++ b/=
+plugins/core.c<br>&gt; &gt; @@ -12,6 +12,7 @@<br>&gt; &gt; =C2=A0 * SPDX-Li=
+cense-Identifier: GPL-2.0-or-later<br>&gt; &gt; =C2=A0 */<br>&gt; &gt; =C2=
+=A0#include &quot;qemu/osdep.h&quot;<br>&gt; &gt; +#define QEMU_PLUGIN_API_=
+IMPLEMENTATION<br>&gt; &gt; =C2=A0#include &quot;qemu/error-report.h&quot;<=
+br>&gt; &gt; =C2=A0#include &quot;qemu/config-file.h&quot;<br>&gt; &gt; =C2=
+=A0#include &quot;qapi/error.h&quot;<br>&gt;<br>&gt; I don&#39;t think we i=
+nclude qemu/plugin.h from this file although it does<br>&gt; raise the ques=
+tion of what happens when other parts of QEMU include the<br>&gt; internal =
+qemu/plugins.h header.<br>&gt;<br>&gt; --<br>&gt; Alex Benn=C3=A9e<br><br><=
+br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=
+=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>=
+Yonggang Luo</div></div>
+
+--0000000000000a73da05b0ee902d--
 
