@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A663283713
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 15:58:22 +0200 (CEST)
-Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA43428373C
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 16:03:27 +0200 (CEST)
+Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPR0P-0008TA-1e
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 09:58:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54004)
+	id 1kPR5K-0004gN-U4
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 10:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPQyS-00078T-08
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:20 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39436)
+ id 1kPQyR-00078D-Hp
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:19 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPQyO-0000NT-S0
+ id 1kPQyP-0000NV-JE
  for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:19 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k10so9683837wru.6
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 06:56:16 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id g12so4256663wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 06:56:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U7sNZB2VXonlY+9BgEDJ21Ard5jJhPjK31W+FYncWDk=;
- b=H+TyBtcIfwbf1aFsmsGBXxStLECRz/OSrT+CQaY8inLX+VuJOaBfSIj5j1HSr682vg
- TCOztDVSDrp/zQIebgq8xne4oQ3aTgh1wsveWNBkGqB9sGuBA3iEMlPsThxBj5hVAWNE
- qel3artLMA/fmsrbERFJuwz+DHgEf1EzkzpBNHviPxwFfN2s7Sc4BfOjrk2hYChsIp4g
- Fq01KhZ9Oemo9mRik1JFsGE04aDEnkSHSacouJjDLj9okx1wL5NwzkiFPOFbshLwwHPd
- 8tKjo4Xn50ECEJhDRziD2tAU6yJlEmRD+PrmwO8OIrtuogL2zMTuoFuJq50jGFHl8Rfo
- Igqg==
+ bh=BrtOVW9V3D/LBY3s2wsbDM0UEoZEQflzxibiFznmWyI=;
+ b=K886jNcbzUyJrsJhdh7hCBkTgscOWeqDZHysSjnmRsCmb7HdY8ZRE1CTs4qG48/Ul+
+ z2LIGjvLZnR3+n98XhJYVXcjxqTPqDZuTY3ZIZnt5O6nJNBpjdNIBMsseSumF580NFkn
+ 7OaMchJJpNAWtb29XnC/ZNTT+mQ6t8u96RtBTNQoGVLbnDAzmt6BLQwjE/zec7EJn0lf
+ 0MNWTrdKJTwxay9Tm7HZYQrrjY6wxZVaUqIRRbe4TShb6PWigeIlpLaA4rkjxZlxAQc9
+ x183doyOUTcdbShd1H345/ht7lM6zFR4CZusUsPjv0nEUP2xrI97L4l8Omx5l8s7tOaY
+ dX7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U7sNZB2VXonlY+9BgEDJ21Ard5jJhPjK31W+FYncWDk=;
- b=rZCtdmMzQMH3FIqk2p7d4474Hnz+yNTApsxopQNogbpFIoRJG0ycseazSfQFDO1Thz
- Fvzeq1UqVVCU2sICG1yuNdDKZyXSCDCza+8mmehJ6zM5GSfTqpoqlIYaa9JXtH/APT1Z
- OcnXzTz94rze6Ap+ZCkZUZ2/TsCEL+Rmtt3inOSIfA4nXsD5VJAjKGv7O5qYMvqHWXGH
- 5wvVrZWAdbcmVCjhgNbzQ1DSOivRIVU3P3C11/tD1Sqp5zHMOcv2RUV2B9IuCJrHexf0
- o/3DdCFHj8kSnu+nSOnvNWGuG6jnNfL0Gp2OOZfFbnpWCydWB6/pZOFo1o4E20/Mt+MC
- /mXA==
-X-Gm-Message-State: AOAM533FXLTlBPTySaHWEKrypYdJ5PtYEva/a++00MhRHqKSf7ioa9VJ
- svk4MA1B+PQp9zJ6fhBylv5TtYbs50A=
-X-Google-Smtp-Source: ABdhPJzvyksxF/JK/7tQBh3sRITDzqCkhyLe9ivCkSO9I2H6lAS+utBvl0HcWiOgClmrL6FY4nt4Iw==
-X-Received: by 2002:a05:6000:10ce:: with SMTP id
- b14mr6002072wrx.204.1601906174831; 
- Mon, 05 Oct 2020 06:56:14 -0700 (PDT)
+ bh=BrtOVW9V3D/LBY3s2wsbDM0UEoZEQflzxibiFznmWyI=;
+ b=dAIs4r2/YDHDP2D5zKkjqeVx6B1mcNufVpWrU0gKMididTyImrGt0B7GM3nc0yMm94
+ mgQgdFsrrwh5ymtWrz079z3LHs8UvyxYL11kRtG+NYHkgVw6ZIAwgMtlEKNRtg/yaOvD
+ cIXxQ2Qjeix2HCj+ZxcWmB4ilFKNaZ/l9Xj3qtZaBRu9Go+toJT83F4jQDQgL9NJjLFC
+ 8lQcasWHbe19RVlieHnXvPf2Mtnc/Cpaxdmnj6GuD64oSQ/GN74CQDE4H84Kye5SdXD1
+ 6kL7PBSDkb5Mhuq3qxTU7hRhSXprR+eeieurCASTVuvOpWX6Aumc8TNs6a0rieL5BBG4
+ OH6w==
+X-Gm-Message-State: AOAM533fY6XKG4VehUvBYNJBB1Rgo8KiKBbQ/j+2iT6gy5WS8UZrYHs0
+ DgX3WW4w86l94oNW0wshpdMj3WqHY1U=
+X-Google-Smtp-Source: ABdhPJw72CPkbrSJFqy4fgbEFKxM4xGHhsfkP0CuQgBMfvzhSqTHtw4exPqrgkqYESKsu3JVM1DgaA==
+X-Received: by 2002:adf:e7c8:: with SMTP id e8mr12608881wrn.358.1601906175685; 
+ Mon, 05 Oct 2020 06:56:15 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
- by smtp.gmail.com with ESMTPSA id c8sm13406559wmd.18.2020.10.05.06.56.13
+ by smtp.gmail.com with ESMTPSA id c8sm13406559wmd.18.2020.10.05.06.56.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 06:56:14 -0700 (PDT)
+ Mon, 05 Oct 2020 06:56:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] dtc: Convert Makefile bits to meson bits
-Date: Mon,  5 Oct 2020 15:56:11 +0200
-Message-Id: <20201005135613.435932-3-pbonzini@redhat.com>
+Subject: [PATCH 3/4] configure: do not clobber environment
+ CFLAGS/CXXFLAGS/LDFLAGS
+Date: Mon,  5 Oct 2020 15:56:12 +0200
+Message-Id: <20201005135613.435932-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201005135613.435932-1-pbonzini@redhat.com>
 References: <20201005135613.435932-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -90,431 +90,170 @@ Cc: marcandre.lureau@redhat.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build the library via the main meson.build just like for capstone.
-This improves the current state of affairs in that we will re-link
-the qemu executables against a changed libfdt.a, which we wouldn't
-do before-hand, and lets us remove the whole recursive make machinery.
+If the CFLAGS, CXXFLAGS or LDFLAGS variables are present in the environment,
+any modification made within the configure script is passed down to Meson.
+This is particularly undesirable for the "-pie" option, since it overrides
+"-shared" and thus messes up the linker flags for shared modules.
 
-The list of targets that require FDT is now obtained from default-configs/
-instead of being hardcoded in the configure script.
+Using a separate variable therefore fixes the bug, while clarifying that
+the scope of these CFLAGS is just the configure script.
 
+We also do not need to pass those variables in config-host.mak; they
+were only used for printing the summary now that all submodules are
+built with handwritten Meson rules).  For now synthesize CFLAGS in the
+configuration summary, the next patch will also pass them in a cleaner
+way using the cross file.
+
+Reported-by: Frederic Bezies
+Analyzed-by: Toolybird
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20200923092617.1593722-4-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                                      | 23 +----
- configure                                     | 93 ++++---------------
- default-configs/targets/aarch64-softmmu.mak   |  1 +
- default-configs/targets/arm-softmmu.mak       |  1 +
- .../targets/microblaze-softmmu.mak            |  1 +
- .../targets/microblazeel-softmmu.mak          |  1 +
- default-configs/targets/mips64el-softmmu.mak  |  1 +
- default-configs/targets/ppc-softmmu.mak       |  1 +
- default-configs/targets/ppc64-softmmu.mak     |  1 +
- default-configs/targets/riscv32-softmmu.mak   |  1 +
- default-configs/targets/riscv64-softmmu.mak   |  1 +
- default-configs/targets/rx-softmmu.mak        |  1 +
- meson.build                                   | 61 ++++++++++--
- meson_options.txt                             |  3 +
- 14 files changed, 84 insertions(+), 106 deletions(-)
+ configure   | 38 +++++++++++++++++---------------------
+ meson.build |  3 ++-
+ 2 files changed, 19 insertions(+), 22 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 9d6b7fc8c0..c37e513431 100644
---- a/Makefile
-+++ b/Makefile
-@@ -142,28 +142,6 @@ SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory --quiet)
- include $(SRC_PATH)/tests/Makefile.include
- 
- all: recurse-all
--Makefile: $(addsuffix /all, $(SUBDIRS))
--
--# LIBFDT_lib="": avoid breaking existing trees with objects requiring -fPIC
--DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_lib=""
--DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
--DTC_CPPFLAGS=-I$(SRC_PATH)/dtc/libfdt
--
--.PHONY: dtc/all
--dtc/all: .git-submodule-status dtc/libfdt
--	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt,)
--
--dtc/%: .git-submodule-status
--	@mkdir -p $@
--
--# Retain for a while so that incremental build across this patch
--# does not raise an error for missing target "capstone/all", which
--# comes from the saved SUBDIRS value.
--.PHONY: capstone/all
--capstone/all:
--
--.PHONY: slirp/all
--slirp/all:
- 
- ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
- ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
 diff --git a/configure b/configure
-index 51f4e978be..2fdb4339e8 100755
+index 2fdb4339e8..1b173276ea 100755
 --- a/configure
 +++ b/configure
-@@ -296,7 +296,7 @@ brlapi=""
- curl=""
- curses=""
- docs=""
--fdt=""
-+fdt="auto"
- netmap="no"
- sdl="auto"
- sdl_image="auto"
-@@ -1181,9 +1181,13 @@ for opt do
-   ;;
-   --enable-curl) curl="yes"
-   ;;
--  --disable-fdt) fdt="no"
-+  --disable-fdt) fdt="disabled"
-   ;;
--  --enable-fdt) fdt="yes"
-+  --enable-fdt) fdt="enabled"
-+  ;;
-+  --enable-fdt=git) fdt="internal"
-+  ;;
-+  --enable-fdt=system) fdt="system"
-   ;;
-   --disable-linux-aio) linux_aio="no"
-   ;;
-@@ -3941,67 +3945,15 @@ fi
+@@ -155,7 +155,7 @@ update_cxxflags() {
+     # options which some versions of GCC's C++ compiler complain about
+     # because they only make sense for C programs.
+     QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
+-    CXXFLAGS=$(echo "$CFLAGS" | sed s/-std=gnu99/-std=gnu++11/)
++    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu99/-std=gnu++11/)
+     for arg in $QEMU_CFLAGS; do
+         case $arg in
+             -Wstrict-prototypes|-Wmissing-prototypes|-Wnested-externs|\
+@@ -170,13 +170,14 @@ update_cxxflags() {
  
- ##########################################
- # fdt probe
--# fdt support is mandatory for at least some target architectures,
--# so insist on it if we're building those system emulators.
--fdt_required=no
--for target in $target_list; do
--  case $target in
--    aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|mips64el-softmmu|riscv*-softmmu|rx-softmmu)
--      fdt_required=yes
--    ;;
--  esac
--done
--
--if test "$fdt_required" = "yes"; then
--  if test "$fdt" = "no"; then
--    error_exit "fdt disabled but some requested targets require it." \
--      "You can turn off fdt only if you also disable all the system emulation" \
--      "targets which need it (by specifying a cut down --target-list)."
--  fi
--  fdt=yes
--elif test "$fdt" != "yes" ; then
--  fdt=no
--fi
--
--# fdt is only required when building softmmu targets
--if test -z "$fdt" -a "$softmmu" != "yes" ; then
--    fdt="no"
--fi
+ compile_object() {
+   local_cflags="$1"
+-  do_cc $CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
++  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
+ }
  
--if test "$fdt" != "no" ; then
--  fdt_libs="-lfdt"
--  # explicitly check for libfdt_env.h as it is missing in some stable installs
--  # and test for required functions to make sure we are on a version >= 1.4.2
--  cat > $TMPC << EOF
--#include <libfdt.h>
--#include <libfdt_env.h>
--int main(void) { fdt_check_full(NULL, 0); return 0; }
--EOF
--  if compile_prog "" "$fdt_libs" ; then
--    # system DTC is good - use it
--    fdt=system
--  else
--      # have GIT checkout, so activate dtc submodule
--      if test -e "${source_path}/.git" ; then
--          git_submodules="${git_submodules} dtc"
--      fi
--      if test -d "${source_path}/dtc/libfdt" || test -e "${source_path}/.git" ; then
--          fdt=git
--          mkdir -p dtc
--          fdt_cflags="-I${source_path}/dtc/libfdt"
--          fdt_ldflags="-Ldtc/libfdt"
--          fdt_libs="$fdt_libs"
--      elif test "$fdt" = "yes" ; then
--          # Not a git build & no libfdt found, prompt for system install
--          error_exit "DTC (libfdt) version >= 1.4.2 not present." \
--                     "Please install the DTC (libfdt) devel package"
--      else
--          # don't have and don't want
--          fdt_libs=
--          fdt=no
--      fi
--  fi
--fi
-+case "$fdt" in
-+  auto | enabled | internal)
-+    # Simpler to always update submodule, even if not needed.
-+    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-+      git_submodules="${git_submodules} dtc"
-+    fi
-+    ;;
-+esac
+ compile_prog() {
+   local_cflags="$1"
+   local_ldflags="$2"
+-  do_cc $CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC $LDFLAGS $QEMU_LDFLAGS $local_ldflags
++  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC \
++      $LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ldflags
+ }
  
- ##########################################
- # opengl probe (for sdl2, gtk, milkymist-tmu2)
-@@ -6107,9 +6059,6 @@ fi
- if test $git_update = 'yes' ; then
-     (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
+ # symbolically link $1 to $2.  Portable version of "ln -sf".
+@@ -537,7 +538,10 @@ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+ QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
+ QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
+-CFLAGS="-std=gnu99 -Wall"
++
++# Flags that are needed during configure but later taken care of by Meson
++CONFIGURE_CFLAGS="-std=gnu99 -Wall"
++CONFIGURE_LDFLAGS=
+ 
+ 
+ check_define() {
+@@ -851,7 +855,7 @@ if test "$mingw32" = "yes" ; then
+   EXESUF=".exe"
+   HOST_DSOSUF=".dll"
+   # MinGW needs -mthreads for TLS and macro _MT.
+-  CFLAGS="-mthreads $CFLAGS"
++  CONFIGURE_CFLAGS="-mthreads $CONFIGURE_CFLAGS"
+   write_c_skeleton;
+   prefix="/qemu"
+   qemu_suffix=""
+@@ -2109,7 +2113,7 @@ fi
+ 
+ if test "$static" = "yes"; then
+   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
+-    CFLAGS="-fPIE -DPIE $CFLAGS"
++    CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+     QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
+     pie="yes"
+   elif test "$pie" = "yes"; then
+@@ -2119,11 +2123,11 @@ if test "$static" = "yes"; then
+     pie="no"
+   fi
+ elif test "$pie" = "no"; then
+-  CFLAGS="$CFLAGS_NOPIE $CFLAGS"
+-  LDFLAGS="$LDFLAGS_NOPIE $LDFLAGS"
++  CONFIGURE_CFLAGS="$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
++  CONFIGURE_LDFLAGS="$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
+ elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+-  CFLAGS="-fPIE -DPIE $CFLAGS"
+-  LDFLAGS="-pie $LDFLAGS"
++  CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
++  CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
+   pie="yes"
+ elif test "$pie" = "yes"; then
+   error_exit "PIE not available due to missing toolchain support"
+@@ -3667,7 +3671,7 @@ EOF
+ if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
+     if cc_has_warning_flag "-Wno-unknown-attributes"; then
+         glib_cflags="-Wno-unknown-attributes $glib_cflags"
+-        CFLAGS="-Wno-unknown-attributes $CFLAGS"
++        CONFIGURE_CFLAGS="-Wno-unknown-attributes $CONFIGURE_CFLAGS"
+     fi
  fi
--if test "$fdt" = "git" ; then
--    symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+ 
+@@ -3687,7 +3691,7 @@ EOF
+ if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
+     if cc_has_warning_flag "-Wno-unused-function"; then
+         glib_cflags="$glib_cflags -Wno-unused-function"
+-        CFLAGS="$CFLAGS -Wno-unused-function"
++        CONFIGURE_CFLAGS="$CONFIGURE_CFLAGS -Wno-unused-function"
+     fi
+ fi
+ 
+@@ -5814,13 +5818,6 @@ elif test "$fortify_source" = "yes" ; then
+   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
+   debug=no
+ fi
+-if test "$debug_info" = "yes"; then
+-  CFLAGS="-g $CFLAGS"
+-  LDFLAGS="-g $LDFLAGS"
+-fi
+-if test "$debug" = "no"; then
+-  CFLAGS="-O2 $CFLAGS"
 -fi
  
- config_host_mak="config-host.mak"
+ case "$ARCH" in
+ alpha)
+@@ -6043,7 +6040,7 @@ EOF
  
-@@ -6213,7 +6162,6 @@ if test "$guest_agent" = "yes" ; then
-   echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
- fi
- echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
--subdirs=
- if test "$vde" = "yes" ; then
-   echo "CONFIG_VDE=y" >> $config_host_mak
-   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
-@@ -6539,11 +6487,6 @@ fi
- if test "$preadv" = "yes" ; then
-   echo "CONFIG_PREADV=y" >> $config_host_mak
- fi
--if test "$fdt" != "no" ; then
--  echo "CONFIG_FDT=y" >> $config_host_mak
--  echo "FDT_CFLAGS=$fdt_cflags" >> $config_host_mak
--  echo "FDT_LIBS=$fdt_ldflags $fdt_libs" >> $config_host_mak
--fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
- fi
-@@ -7083,14 +7026,10 @@ for target in $target_list; do
-     esac
- done
+     update_cxxflags
  
--if [ "$fdt" = "git" ]; then
--  subdirs="$subdirs dtc"
--fi
- echo "CONFIG_QEMU_INTERP_PREFIX=$interp_prefix" | sed 's/%M/@0@/' >> $config_host_mak
- if test "$default_targets" = "yes"; then
-   echo "CONFIG_DEFAULT_TARGETS=y" >> $config_host_mak
- fi
--echo "SUBDIRS=$subdirs" >> $config_host_mak
- 
- if test "$numa" = "yes"; then
-   echo "CONFIG_NUMA=y" >> $config_host_mak
-@@ -7269,7 +7208,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
- 	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
- 	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
- 	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
--	-Dcapstone=$capstone -Dslirp=$slirp \
-+	-Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-         $cross_arg \
-         "$PWD" "$source_path"
- 
-diff --git a/default-configs/targets/aarch64-softmmu.mak b/default-configs/targets/aarch64-softmmu.mak
-index a8c0174fc3..7703127674 100644
---- a/default-configs/targets/aarch64-softmmu.mak
-+++ b/default-configs/targets/aarch64-softmmu.mak
-@@ -2,3 +2,4 @@ TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/arm-softmmu.mak b/default-configs/targets/arm-softmmu.mak
-index 9b1a7f37c6..84a98f4818 100644
---- a/default-configs/targets/arm-softmmu.mak
-+++ b/default-configs/targets/arm-softmmu.mak
-@@ -1,3 +1,4 @@
- TARGET_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/microblaze-softmmu.mak b/default-configs/targets/microblaze-softmmu.mak
-index 0b5c78ef00..33f2a00402 100644
---- a/default-configs/targets/microblaze-softmmu.mak
-+++ b/default-configs/targets/microblaze-softmmu.mak
-@@ -1,3 +1,4 @@
- TARGET_ARCH=microblaze
- TARGET_WORDS_BIGENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/microblazeel-softmmu.mak b/default-configs/targets/microblazeel-softmmu.mak
-index dc822219d8..af40391f2f 100644
---- a/default-configs/targets/microblazeel-softmmu.mak
-+++ b/default-configs/targets/microblazeel-softmmu.mak
-@@ -1,2 +1,3 @@
- TARGET_ARCH=microblaze
- TARGET_SUPPORTS_MTTCG=y
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/mips64el-softmmu.mak b/default-configs/targets/mips64el-softmmu.mak
-index b751ae1bcf..5a52aa4b64 100644
---- a/default-configs/targets/mips64el-softmmu.mak
-+++ b/default-configs/targets/mips64el-softmmu.mak
-@@ -1,3 +1,4 @@
- TARGET_ARCH=mips64
- TARGET_BASE_ARCH=mips
- TARGET_ALIGNED_ONLY=y
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/ppc-softmmu.mak b/default-configs/targets/ppc-softmmu.mak
-index ef69037a2c..f4eef1819a 100644
---- a/default-configs/targets/ppc-softmmu.mak
-+++ b/default-configs/targets/ppc-softmmu.mak
-@@ -1,3 +1,4 @@
- TARGET_ARCH=ppc
- TARGET_WORDS_BIGENDIAN=y
- TARGET_XML_FILES= gdb-xml/power-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/ppc64-softmmu.mak b/default-configs/targets/ppc64-softmmu.mak
-index 0fde2d02b9..84fbf46be9 100644
---- a/default-configs/targets/ppc64-softmmu.mak
-+++ b/default-configs/targets/ppc64-softmmu.mak
-@@ -3,3 +3,4 @@ TARGET_BASE_ARCH=ppc
- TARGET_WORDS_BIGENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/power64-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml gdb-xml/power-vsx.xml
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/riscv32-softmmu.mak b/default-configs/targets/riscv32-softmmu.mak
-index 4544e1ae9a..9446d96d13 100644
---- a/default-configs/targets/riscv32-softmmu.mak
-+++ b/default-configs/targets/riscv32-softmmu.mak
-@@ -2,3 +2,4 @@ TARGET_ARCH=riscv32
- TARGET_BASE_ARCH=riscv
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/riscv-32bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-32bit-csr.xml gdb-xml/riscv-32bit-virtual.xml
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/riscv64-softmmu.mak b/default-configs/targets/riscv64-softmmu.mak
-index 6ce0b283cf..d809bd666a 100644
---- a/default-configs/targets/riscv64-softmmu.mak
-+++ b/default-configs/targets/riscv64-softmmu.mak
-@@ -2,3 +2,4 @@ TARGET_ARCH=riscv64
- TARGET_BASE_ARCH=riscv
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-csr.xml gdb-xml/riscv-64bit-virtual.xml
-+TARGET_NEED_FDT=y
-diff --git a/default-configs/targets/rx-softmmu.mak b/default-configs/targets/rx-softmmu.mak
-index 2d410e0b0c..0c458b2d07 100644
---- a/default-configs/targets/rx-softmmu.mak
-+++ b/default-configs/targets/rx-softmmu.mak
-@@ -1,2 +1,3 @@
- TARGET_ARCH=rx
- TARGET_XML_FILES= gdb-xml/rx-core.xml
-+TARGET_NEED_FDT=y
+-    if do_cxx $CXXFLAGS $QEMU_CXXFLAGS -o $TMPE $TMPCXX $TMPO $QEMU_LDFLAGS; then
++    if do_cxx $CXXFLAGS $CONFIGURE_CXXFLAGS $QEMU_CXXFLAGS -o $TMPE $TMPCXX $TMPO $QEMU_LDFLAGS; then
+         # C++ compiler $cxx works ok with C compiler $cc
+         :
+     else
+@@ -6953,7 +6950,6 @@ echo "RANLIB=$ranlib" >> $config_host_mak
+ echo "NM=$nm" >> $config_host_mak
+ echo "PKG_CONFIG=$pkg_config_exe" >> $config_host_mak
+ echo "WINDRES=$windres" >> $config_host_mak
+-echo "CFLAGS=$CFLAGS" >> $config_host_mak
+ echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
+ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 6ee8c3265c..426b73d31f 100644
+index 426b73d31f..d9377f371d 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -531,11 +531,6 @@ if get_option('vnc').enabled()
-                               compile_args: '-DSTRUCT_IOVEC_DEFINED')
-   endif
+@@ -1758,7 +1758,8 @@ if targetos == 'darwin'
+   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
  endif
--fdt = not_found
--if 'CONFIG_FDT' in config_host
--  fdt = declare_dependency(compile_args: config_host['FDT_CFLAGS'].split(),
--                           link_args: config_host['FDT_LIBS'].split())
--endif
- snappy = not_found
- if 'CONFIG_SNAPPY' in config_host
-   snappy = declare_dependency(link_args: config_host['SNAPPY_LIBS'].split())
-@@ -723,6 +718,7 @@ ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
- 
- default_targets = 'CONFIG_DEFAULT_TARGETS' in config_host
- actual_target_dirs = []
-+fdt_required = []
- foreach target : target_dirs
-   config_target = { 'TARGET_NAME': target.split('-')[0] }
-   if target.endswith('linux-user')
-@@ -774,6 +770,10 @@ foreach target : target_dirs
-   config_target += keyval.load('default-configs/targets' / target + '.mak')
-   config_target += { 'TARGET_' + config_target['TARGET_ARCH'].to_upper(): 'y' }
- 
-+  if 'TARGET_NEED_FDT' in config_target
-+    fdt_required += target
-+  endif
-+
-   # Add default keys
-   if 'TARGET_BASE_ARCH' not in config_target
-     config_target += {'TARGET_BASE_ARCH': config_target['TARGET_ARCH']}
-@@ -1041,7 +1041,54 @@ if have_system
-   endif
- endif
- 
-+fdt = not_found
-+fdt_opt = get_option('fdt')
-+if have_system
-+  if fdt_opt in ['enabled', 'auto', 'system']
-+    have_internal = fs.exists(meson.current_source_dir() / 'dtc/libfdt/Makefile.libfdt')
-+    fdt = cc.find_library('fdt', static: enable_static,
-+                          required: fdt_opt == 'system' or
-+                                    fdt_opt == 'enabled' and not have_internal)
-+    if fdt.found() and cc.links('''
-+       #include <libfdt.h>
-+       #include <libfdt_env.h>
-+       int main(void) { fdt_check_full(NULL, 0); return 0; }''',
-+         dependencies: fdt)
-+      fdt_opt = 'system'
-+    elif have_internal
-+      fdt_opt = 'internal'
-+    else
-+      fdt_opt = 'disabled'
-+    endif
-+  endif
-+  if fdt_opt == 'internal'
-+    fdt_files = files(
-+      'dtc/libfdt/fdt.c',
-+      'dtc/libfdt/fdt_ro.c',
-+      'dtc/libfdt/fdt_wip.c',
-+      'dtc/libfdt/fdt_sw.c',
-+      'dtc/libfdt/fdt_rw.c',
-+      'dtc/libfdt/fdt_strerror.c',
-+      'dtc/libfdt/fdt_empty_tree.c',
-+      'dtc/libfdt/fdt_addresses.c',
-+      'dtc/libfdt/fdt_overlay.c',
-+      'dtc/libfdt/fdt_check.c',
-+    )
-+
-+    fdt_inc = include_directories('dtc/libfdt')
-+    libfdt = static_library('fdt',
-+                            sources: fdt_files,
-+                            include_directories: fdt_inc)
-+    fdt = declare_dependency(link_with: libfdt,
-+                             include_directories: fdt_inc)
-+  endif
-+endif
-+if not fdt.found() and fdt_required.length() > 0
-+  error('fdt not available but required by targets ' + ', '.join(fdt_required))
-+endif
-+
- config_host_data.set('CONFIG_CAPSTONE', capstone.found())
-+config_host_data.set('CONFIG_FDT', fdt.found())
- config_host_data.set('CONFIG_SLIRP', slirp.found())
- 
- genh += configure_file(output: 'config-host.h', configuration: config_host_data)
-@@ -1311,7 +1358,7 @@ softmmu_ss.add(files(
- 
- softmmu_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
- softmmu_ss.add(when: 'CONFIG_SECCOMP', if_true: [files('qemu-seccomp.c'), seccomp])
--softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
-+softmmu_ss.add(when: fdt, if_true: files('device_tree.c'))
- 
- common_ss.add(files('cpus-common.c'))
- 
-@@ -1804,7 +1851,7 @@ endif
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
- summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
--summary_info += {'fdt support':       config_host.has_key('CONFIG_FDT')}
-+summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
- summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
- summary_info += {'preadv support':    config_host.has_key('CONFIG_PREADV')}
- summary_info += {'fdatasync':         config_host.has_key('CONFIG_FDATASYNC')}
-diff --git a/meson_options.txt b/meson_options.txt
-index 8a362fb08d..1d3c94840a 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -55,3 +55,6 @@ option('capstone', type: 'combo', value: 'auto',
- option('slirp', type: 'combo', value: 'auto',
-        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-        description: 'Whether and how to find the slirp library')
-+option('fdt', type: 'combo', value: 'auto',
-+       choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-+       description: 'Whether and how to find the libfdt library')
+ summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
+-summary_info += {'CFLAGS':            config_host['CFLAGS']}
++summary_info += {'CFLAGS':            '-O' + get_option('optimization')
++                                           + (get_option('debug') ? ' -g' : '')}
+ summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
+ summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+ summary_info += {'make':              config_host['MAKE']}
 -- 
 2.26.2
 
