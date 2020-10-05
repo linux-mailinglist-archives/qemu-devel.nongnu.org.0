@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3012328326B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:46:36 +0200 (CEST)
-Received: from localhost ([::1]:52754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58152283278
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:48:48 +0200 (CEST)
+Received: from localhost ([::1]:59626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPM8h-0006dq-9D
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41556)
+	id 1kPMAn-0001AT-N5
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPM6a-0005Db-Ox
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:44:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25396)
+ id 1kPM8G-0007iH-1h
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:46:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPM6Y-0001kA-F0
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:44:24 -0400
+ id 1kPM8D-00022F-UR
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:46:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601887460;
+ s=mimecast20190719; t=1601887565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s67EkkDFWu7se6DueBPlDE8HGIJXstU2ZAIwbZ/kYHA=;
- b=gW+Mbt/TwEi3/jgGMS44l8rDAPAXlmIetHn+3rGWiR9pejF+qJRFQARRRt0/DcRNGyoVF6
- q2gzPrSWNB7wyv83dfUXIY+y7ZH5RQPrgKXSKQN7CgMHq5TKO0mzYgEbqEEYWxDN8cxUOY
- 1M1LqbeValifYlrtXjHvQ94L7sQFZCE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-s7l_AD-kO5ec_s6g5nUu_Q-1; Mon, 05 Oct 2020 04:44:17 -0400
-X-MC-Unique: s7l_AD-kO5ec_s6g5nUu_Q-1
-Received: by mail-wm1-f71.google.com with SMTP id f2so1497180wml.6
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:44:17 -0700 (PDT)
+ bh=okCrQkGxtnHZPZ8SiAzTpzb/xJBxhBwvy+wvdWPVABI=;
+ b=SV8EkKfnwHtY20jF1GctejVTRViEJOV6mSVtox/hjUVx016OzAYoGpOWpIVmPxbXWweM0u
+ 0Wryh62Qr2rElOLl1vs+/1kjalg1xzI7j/cnLd388JTwRw3UJfn1MF3YpPqC1E5yf7xmkT
+ uMxQckoegipYoTIPQw+/d/3H3f/YA+c=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-YNmQ6IXyN6GYKUDDSjGLdg-1; Mon, 05 Oct 2020 04:46:03 -0400
+X-MC-Unique: YNmQ6IXyN6GYKUDDSjGLdg-1
+Received: by mail-wr1-f72.google.com with SMTP id w7so3746338wrp.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:46:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=s67EkkDFWu7se6DueBPlDE8HGIJXstU2ZAIwbZ/kYHA=;
- b=qauiORVNAkY7ZPllrOseDF5An6HBEfMOqiGrmcCFBiyzXriNYDCg9yvopDkbNpDmdt
- FXFGs0h+Et3LMvXNSvqbpj7ThB2sCdaxahbOWlet2uKEiyqGncA2fZUrRDDrUG2FWbft
- sJVOwlMmzOaOb+k55gZrdqQyVFvcVnSIeRvSnYsER7w06TvYKOgEB7rA7KgMtCu9Mt6V
- EGUuTeAUZFfm76+L2BzBGZPvVq38EexFLASzqpI2UMVvjVrAIJYWMRZ83kShgjtSKoHg
- ErUsqGF463DWr0GaB4EBBYxBCkwOBo2egLeVqkSOKHPUdGsXaFt+cdcEg6h4WdqwNzls
- tn/g==
-X-Gm-Message-State: AOAM530sh5KsQVmQLMRv/waYRKKbHLgx8PAvj5MrostHstnGtGqKYVKe
- o+YNeORkXiY91P0XB7+qCwEFe6Vk6NtkryZ9bMQAxcKAjwq6w83n+kxaRrHJGOn+7HMr/Cl30HA
- K1EY5NG6p0iHWZnk=
-X-Received: by 2002:a1c:4909:: with SMTP id w9mr16711784wma.133.1601887456121; 
- Mon, 05 Oct 2020 01:44:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxceM9cZLh3NfwX8uJzDyzbx1Zg65L/SQ2gheyuT5lrUq/IlFhVWAsRokG+Q/bqc/8m8kYPxQ==
-X-Received: by 2002:a1c:4909:: with SMTP id w9mr16711760wma.133.1601887455890; 
- Mon, 05 Oct 2020 01:44:15 -0700 (PDT)
+ bh=okCrQkGxtnHZPZ8SiAzTpzb/xJBxhBwvy+wvdWPVABI=;
+ b=KYNkdWVD02eE2maEzHFZ+ExbNvChHVMaQo1qqBeHXl52O+I03HTZJVbH6lDmqNO0Dq
+ vx77q5DfYKj5vVm8A79XrjJkwUYjYzPqwPBYVVM8TC07zD3z/VaR+MUbNE2fo6ZmQMIa
+ fxZT9IUmacIiCOKoLD+9IZ9mPlLdu4ZcEbRLV1Dx8XDgMhBbSdZsiUzYms4Jk0tRUCBD
+ rQgV9NRxufACsaIz2ChVhMqyek9eLaLBfrH5xV6EeWJIRIa0HeQXW+yjGhmSgsn7hkMV
+ FSD4I7fkK4vo2OCXfR3R0/8XfIBCVUG+crWsPEYKlu/JArZKRCgKZ9CK+VwgDt8RDfn3
+ 5nRw==
+X-Gm-Message-State: AOAM532OI+Dwnk9u44qpGaJIKShK8urD81jAXrj/s0ofMmwGcVDK6+Pw
+ OD2Cnyw0qf78w+JOIBCBlyILG4tP+Bk0BCB6eC6JR9ma/iIjuDQPgFgczsDLVRzwAPyW/j3SOuP
+ jDnwzNxJKPCWEEyE=
+X-Received: by 2002:adf:e407:: with SMTP id g7mr10330887wrm.349.1601887562083; 
+ Mon, 05 Oct 2020 01:46:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwL7iy8SyjTNcssIenIDbDU3EPy6FirqSaU/6oIe+Yp0UOc3VHOKrxtGPaaIZvrooguFHlONw==
+X-Received: by 2002:adf:e407:: with SMTP id g7mr10330871wrm.349.1601887561841; 
+ Mon, 05 Oct 2020 01:46:01 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:2e86:3d8b:8b70:920c?
  ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
- by smtp.gmail.com with ESMTPSA id w15sm12312185wro.46.2020.10.05.01.44.14
+ by smtp.gmail.com with ESMTPSA id h17sm13109068wro.27.2020.10.05.01.46.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Oct 2020 01:44:15 -0700 (PDT)
-Subject: Re: [PULL v2 00/92] Misc patches for 2020-09-24
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200925102257.1848666-1-pbonzini@redhat.com>
- <CAFEAcA-okvLfrjtvVVUWJWunzOSC8kgAEUuMM1JXciebfSJ0pg@mail.gmail.com>
- <CAFEAcA_6j7n5CvahUkxuQmWLfpq6L5ya+XTCMqnxaTqoB05QpA@mail.gmail.com>
- <62f95614-b9b1-8a9f-a4e0-c825799b6958@redhat.com>
+ Mon, 05 Oct 2020 01:46:00 -0700 (PDT)
+Subject: Re: [PATCH 0/5] qapi: Restrict machine (and migration) specific
+ commands
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201002133923.1716645-1-philmd@redhat.com>
+ <87wo05aypg.fsf@dusky.pond.sub.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b6277f12-b24e-20c2-687f-c1cff8ebad3f@redhat.com>
-Date: Mon, 5 Oct 2020 10:44:15 +0200
+Message-ID: <0c54aa06-372c-ab81-0974-34340adb7b55@redhat.com>
+Date: Mon, 5 Oct 2020 10:46:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <62f95614-b9b1-8a9f-a4e0-c825799b6958@redhat.com>
+In-Reply-To: <87wo05aypg.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,39 +105,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/20 09:51, Philippe Mathieu-Daudé wrote:
-> Is that why your "configure: fix performance regression due to PIC
-> objects" patch has been dropped from your pull request?
+On 05/10/20 10:01, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+> 
+>> Reduce the machine code pulled into qemu-storage-daemon.
+> I'm leaving review to Eduardo and Marcel for PATCH 1-4, and to David and
+> Juan for PATCH 5.  David already ACKed.
+> 
+> Can do the pull request.
+> 
 
-Partly.
+If it counts, :) for patch 1-4:
 
-Regarding this particular failure, since Richard's capstone patches are 
-being merged, I think it's easier to do the same with slirp and libfdt 
-and drop the submodule rules from the makefile altogether.  Then we can
-merge safely "configure: fix performance regression due to PIC objects"
-and also simplify the CFLAGS/LDFLAGS patches.
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Second, I am hoping that https://github.com/mesonbuild/meson/pull/7760 
-gets in 0.56.0; then the fix can be simply
+Generally these patches to remove code from user-mode emulators
+fall into the "if it builds it's fine" bucket, since I assume
+we want the "misc" subschema to be as small as possible.
 
-diff --git a/meson.build b/meson.build
-index 1dd3f49011..d29b9d41db 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,6 +1,6 @@
- project('qemu', ['c'], meson_version: '>=0.55.0',
--        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11',
--                          'b_colorout=auto'],
-+        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto'] +
-+                         (meson.version().version_compare('>=0.56.0') ? ['b_staticpic=false'] : []),
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
- 
- not_found = dependency('', required: false)
- 
 Paolo
 
 
