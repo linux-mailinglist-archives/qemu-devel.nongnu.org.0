@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2C528320E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:31:56 +0200 (CEST)
-Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400AB28321C
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:35:04 +0200 (CEST)
+Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPLuV-00074F-Iw
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:31:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36954)
+	id 1kPLxX-0002Dv-8V
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:35:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmr-00084n-AM
+ id 1kPLmr-00085E-Fp
  for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:01 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39611)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmo-0007Js-Oe
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:00 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id t17so7812728wmi.4
+ id 1kPLmp-0007Jz-1s
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:01 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 13so7636469wmf.0
  for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d/6w7cwNeEMUJTL0K6G7lo4Y3Xqu1aQim4LACNPfDLU=;
- b=nMLXNoJ2iA8T4Zzzs+hlLES2bV6BdwJedTrpZ9jc8YF0ngSgnxqZ6ZQB1h5z8qp7w5
- Y2YRQUeyrRV69IkeBmvCHasjKcy2LHtsv3b72gVaW/5+g+SwEtAKh6Adb/0QwCY67ReP
- NH5lWH5c2+Nh45ccW4ab/o1R5ppISM4Lbkge6NKk+ztQmDg5115VLqnlgklUM5zb4YY1
- jaKvtrY+ogx2g3d3adqEiSYhPNFFZuqJ0DmVAiJpt4KGylMj8gJtH4U2fW37kTHZyBaS
- 5iPLr1Qmt6DEaXevJVDbbGtqZqKZt4FzsbRGr3naCT4AV4qvFrJVFI8OtDrkPY6mDaWp
- I7aQ==
+ bh=TY2brkwcBdIH91nPnw+zTPTVXWuUUIgSzEitafhmCuQ=;
+ b=ZzWDAsdahWjanEdA0YeGqSmzXsMizS9vI/t5MIlPC3WDuoOijIMPqA7YRWG0o7usa/
+ +/Ax8QOLducHy/9fZnH9GuU+bAEEFXQD37/iSyFL+xbqcrIQ9DLCukyG5DR00RwLd/5V
+ 9KfodvFvz74cayAnblQR8ohrxAjgXOSW3vPr1hVRRKhLDl40BcbrNabSRZ3oQ/VIbFE6
+ WgXF13eZgqGsBLqU2RGiSzC1Zl9djmcybKX9A72wXjYfscCx5AVuInbOxK+w36X3pS1K
+ oiQ3wWguY3WBqys0xiaSDP45nvVZmI2cyP8oplvnQbQ6b98/NNAGdW8IIe5kSSN0NWz7
+ Fcgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d/6w7cwNeEMUJTL0K6G7lo4Y3Xqu1aQim4LACNPfDLU=;
- b=YZJhUqsOmhoftv5jydAN6SAsRENCMRn2mJ+4qObjbNCyrGmg2E1sRupZ46kYeYELv1
- h7HO34k2LBT3myv7oU+5HFx4vAfBFg+2tpiiiSq3AaRsLbZOhMXjxxxAS8SXvyc0UE+x
- eJG8jTOqmh6VOL/jyM4Mhusqr5qk1DG/eINnFKVwQ0gQV/2yBfenqOBHxdHvynzIdUK1
- blvZSG+SC0p9tENE6WaviDAqN4vy4i83rbrDN5GQXMcWBQzy+0/NmzJooio14ubRNsPn
- 7UOW7ETkz31w2XT4hwO9upAkshqX4Rf59fSSmeGzs1haLL0PcSnlkdzqL4K6B9MPRXsD
- aI/w==
-X-Gm-Message-State: AOAM5317OXn0g5Y/LNyv1pqFmHz/VZZ5NWDpYj5DtBjUxkZIRLhHy5V3
- Uqj4W+PBieoYjwYapasHLnU332QCgoI=
-X-Google-Smtp-Source: ABdhPJxGwWO1kPiPLRbsu5gZway8Vbk4H91EUdFbNmWZ5dHazsept8FYSCftw4GIc8KTJKQ7hH7g5g==
-X-Received: by 2002:a1c:3283:: with SMTP id y125mr802048wmy.61.1601886236802; 
- Mon, 05 Oct 2020 01:23:56 -0700 (PDT)
+ bh=TY2brkwcBdIH91nPnw+zTPTVXWuUUIgSzEitafhmCuQ=;
+ b=LIlIzM0lLTAJgFt/YFL9WqnrrOlEIxUpuQ9+boJFsXZeb2r+hdb4AolM/nr1RKpqnk
+ 63x+dSgyPbdtz+ze9xFW9ubcilgvLfilA1Kyv/vSxnGVcK1JjgTBzzRF3HTyDUV9Y5Ft
+ pp/WI3Je9hdgvv7W8rsI9hpfw0Z7zJiPwtp5XTCWLuL7CBDHeQbPI5Iihqx59i9rFkMH
+ 0/ikn4rI14lNVO+g09p+XYnPZ+bWogQdFThCaPt2LS1JRsFxHqjALaoUAKrgbMaQpggH
+ 4gvg/lTdcotj0QEVzxI7YOlRW5RIi8kxhARWQjMpmFuoBLqz32S/ZlsQ/kuasBYjHewk
+ S3dw==
+X-Gm-Message-State: AOAM532CQaXzo0IvCxaGrMSW4Amsvwf2XOJA9zfpCSsMIYuz0+yyBx5r
+ JYX0zHr/J2KtLKDuw/zOQlaoFwDOE4c=
+X-Google-Smtp-Source: ABdhPJww6ft9/ueFuG6Ti/u9IQT55Djg0UTp+YsMTR8KgJN4Mh6giyG9lruzrREt/xQU0Lwds6Jh1w==
+X-Received: by 2002:a1c:7ed5:: with SMTP id
+ z204mr15758471wmc.177.1601886237446; 
+ Mon, 05 Oct 2020 01:23:57 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
  by smtp.gmail.com with ESMTPSA id z15sm11931434wrv.94.2020.10.05.01.23.56
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 01:23:56 -0700 (PDT)
+ Mon, 05 Oct 2020 01:23:57 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/19] default-configs: remove default-configs/devices for
- user-mode targets
-Date: Mon,  5 Oct 2020 10:23:40 +0200
-Message-Id: <20201005082349.354095-11-pbonzini@redhat.com>
+Subject: [PULL 11/19] configure: move OpenBSD W^X test to meson
+Date: Mon,  5 Oct 2020 10:23:41 +0200
+Message-Id: <20201005082349.354095-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201005082349.354095-1-pbonzini@redhat.com>
 References: <20201005082349.354095-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -86,392 +87,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We no longer need dummy files to detect targets, since
-default-configs/targets/ exists.
+The TCG option is now passed through to Meson.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                                           | 6 +++---
- default-configs/devices/aarch64-linux-user.mak      | 1 -
- default-configs/devices/aarch64_be-linux-user.mak   | 1 -
- default-configs/devices/alpha-linux-user.mak        | 1 -
- default-configs/devices/arm-linux-user.mak          | 1 -
- default-configs/devices/armeb-linux-user.mak        | 1 -
- default-configs/devices/cris-linux-user.mak         | 1 -
- default-configs/devices/hppa-linux-user.mak         | 1 -
- default-configs/devices/i386-bsd-user.mak           | 1 -
- default-configs/devices/i386-linux-user.mak         | 1 -
- default-configs/devices/m68k-linux-user.mak         | 1 -
- default-configs/devices/microblaze-linux-user.mak   | 1 -
- default-configs/devices/microblazeel-linux-user.mak | 1 -
- default-configs/devices/mips-linux-user.mak         | 1 -
- default-configs/devices/mips64-linux-user.mak       | 1 -
- default-configs/devices/mips64el-linux-user.mak     | 1 -
- default-configs/devices/mipsel-linux-user.mak       | 1 -
- default-configs/devices/mipsn32-linux-user.mak      | 1 -
- default-configs/devices/mipsn32el-linux-user.mak    | 1 -
- default-configs/devices/nios2-linux-user.mak        | 1 -
- default-configs/devices/or1k-linux-user.mak         | 1 -
- default-configs/devices/ppc-linux-user.mak          | 1 -
- default-configs/devices/ppc64-linux-user.mak        | 1 -
- default-configs/devices/ppc64abi32-linux-user.mak   | 1 -
- default-configs/devices/ppc64le-linux-user.mak      | 1 -
- default-configs/devices/riscv32-linux-user.mak      | 1 -
- default-configs/devices/riscv64-linux-user.mak      | 1 -
- default-configs/devices/s390x-linux-user.mak        | 1 -
- default-configs/devices/sh4-linux-user.mak          | 1 -
- default-configs/devices/sh4eb-linux-user.mak        | 1 -
- default-configs/devices/sparc-bsd-user.mak          | 1 -
- default-configs/devices/sparc-linux-user.mak        | 1 -
- default-configs/devices/sparc32plus-linux-user.mak  | 1 -
- default-configs/devices/sparc64-bsd-user.mak        | 1 -
- default-configs/devices/sparc64-linux-user.mak      | 1 -
- default-configs/devices/tilegx-linux-user.mak       | 1 -
- default-configs/devices/x86_64-bsd-user.mak         | 1 -
- default-configs/devices/x86_64-linux-user.mak       | 1 -
- default-configs/devices/xtensa-linux-user.mak       | 1 -
- default-configs/devices/xtensaeb-linux-user.mak     | 1 -
- 40 files changed, 3 insertions(+), 42 deletions(-)
- delete mode 100644 default-configs/devices/aarch64-linux-user.mak
- delete mode 100644 default-configs/devices/aarch64_be-linux-user.mak
- delete mode 100644 default-configs/devices/alpha-linux-user.mak
- delete mode 100644 default-configs/devices/arm-linux-user.mak
- delete mode 100644 default-configs/devices/armeb-linux-user.mak
- delete mode 100644 default-configs/devices/cris-linux-user.mak
- delete mode 100644 default-configs/devices/hppa-linux-user.mak
- delete mode 100644 default-configs/devices/i386-bsd-user.mak
- delete mode 100644 default-configs/devices/i386-linux-user.mak
- delete mode 100644 default-configs/devices/m68k-linux-user.mak
- delete mode 100644 default-configs/devices/microblaze-linux-user.mak
- delete mode 100644 default-configs/devices/microblazeel-linux-user.mak
- delete mode 100644 default-configs/devices/mips-linux-user.mak
- delete mode 100644 default-configs/devices/mips64-linux-user.mak
- delete mode 100644 default-configs/devices/mips64el-linux-user.mak
- delete mode 100644 default-configs/devices/mipsel-linux-user.mak
- delete mode 100644 default-configs/devices/mipsn32-linux-user.mak
- delete mode 100644 default-configs/devices/mipsn32el-linux-user.mak
- delete mode 100644 default-configs/devices/nios2-linux-user.mak
- delete mode 100644 default-configs/devices/or1k-linux-user.mak
- delete mode 100644 default-configs/devices/ppc-linux-user.mak
- delete mode 100644 default-configs/devices/ppc64-linux-user.mak
- delete mode 100644 default-configs/devices/ppc64abi32-linux-user.mak
- delete mode 100644 default-configs/devices/ppc64le-linux-user.mak
- delete mode 100644 default-configs/devices/riscv32-linux-user.mak
- delete mode 100644 default-configs/devices/riscv64-linux-user.mak
- delete mode 100644 default-configs/devices/s390x-linux-user.mak
- delete mode 100644 default-configs/devices/sh4-linux-user.mak
- delete mode 100644 default-configs/devices/sh4eb-linux-user.mak
- delete mode 100644 default-configs/devices/sparc-bsd-user.mak
- delete mode 100644 default-configs/devices/sparc-linux-user.mak
- delete mode 100644 default-configs/devices/sparc32plus-linux-user.mak
- delete mode 100644 default-configs/devices/sparc64-bsd-user.mak
- delete mode 100644 default-configs/devices/sparc64-linux-user.mak
- delete mode 100644 default-configs/devices/tilegx-linux-user.mak
- delete mode 100644 default-configs/devices/x86_64-bsd-user.mak
- delete mode 100644 default-configs/devices/x86_64-linux-user.mak
- delete mode 100644 default-configs/devices/xtensa-linux-user.mak
- delete mode 100644 default-configs/devices/xtensaeb-linux-user.mak
+ configure   | 15 ---------------
+ meson.build |  8 +++++++-
+ 2 files changed, 7 insertions(+), 16 deletions(-)
 
 diff --git a/configure b/configure
-index a0701570d0..a32c43a905 100755
+index a32c43a905..b31bf24d60 100755
 --- a/configure
 +++ b/configure
-@@ -1604,13 +1604,13 @@ deprecated_features=""
- mak_wilds=""
- 
- if [ "$softmmu" = "yes" ]; then
--    mak_wilds="${mak_wilds} $source_path/default-configs/devices/*-softmmu.mak"
-+    mak_wilds="${mak_wilds} $source_path/default-configs/targets/*-softmmu.mak"
- fi
- if [ "$linux_user" = "yes" ]; then
--    mak_wilds="${mak_wilds} $source_path/default-configs/devices/*-linux-user.mak"
-+    mak_wilds="${mak_wilds} $source_path/default-configs/targets/*-linux-user.mak"
- fi
- if [ "$bsd_user" = "yes" ]; then
--    mak_wilds="${mak_wilds} $source_path/default-configs/devices/*-bsd-user.mak"
-+    mak_wilds="${mak_wilds} $source_path/default-configs/targets/*-bsd-user.mak"
+@@ -1594,10 +1594,6 @@ if [ "$ARCH" = "unknown" ]; then
+   linux_user="no"
  fi
  
- # If the user doesn't explicitly specify a deprecated target we will
-diff --git a/default-configs/devices/aarch64-linux-user.mak b/default-configs/devices/aarch64-linux-user.mak
-deleted file mode 100644
-index 0a5b08a007..0000000000
---- a/default-configs/devices/aarch64-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for aarch64-linux-user
-diff --git a/default-configs/devices/aarch64_be-linux-user.mak b/default-configs/devices/aarch64_be-linux-user.mak
-deleted file mode 100644
-index a69d9d2e41..0000000000
---- a/default-configs/devices/aarch64_be-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for aarch64_be-linux-user
-diff --git a/default-configs/devices/alpha-linux-user.mak b/default-configs/devices/alpha-linux-user.mak
-deleted file mode 100644
-index 7956e29898..0000000000
---- a/default-configs/devices/alpha-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for alpha-linux-user
-diff --git a/default-configs/devices/arm-linux-user.mak b/default-configs/devices/arm-linux-user.mak
-deleted file mode 100644
-index 413361a022..0000000000
---- a/default-configs/devices/arm-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for arm-linux-user
-diff --git a/default-configs/devices/armeb-linux-user.mak b/default-configs/devices/armeb-linux-user.mak
-deleted file mode 100644
-index bf2ffe7038..0000000000
---- a/default-configs/devices/armeb-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for armeb-linux-user
-diff --git a/default-configs/devices/cris-linux-user.mak b/default-configs/devices/cris-linux-user.mak
-deleted file mode 100644
-index e3aec7b864..0000000000
---- a/default-configs/devices/cris-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for cris-linux-user
-diff --git a/default-configs/devices/hppa-linux-user.mak b/default-configs/devices/hppa-linux-user.mak
-deleted file mode 100644
-index 796393940b..0000000000
---- a/default-configs/devices/hppa-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for hppa-linux-user
-diff --git a/default-configs/devices/i386-bsd-user.mak b/default-configs/devices/i386-bsd-user.mak
-deleted file mode 100644
-index af1b31a59a..0000000000
---- a/default-configs/devices/i386-bsd-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for i386-bsd-user
-diff --git a/default-configs/devices/i386-linux-user.mak b/default-configs/devices/i386-linux-user.mak
-deleted file mode 100644
-index 8657e68627..0000000000
---- a/default-configs/devices/i386-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for i386-linux-user
-diff --git a/default-configs/devices/m68k-linux-user.mak b/default-configs/devices/m68k-linux-user.mak
-deleted file mode 100644
-index 06cd5ed7ed..0000000000
---- a/default-configs/devices/m68k-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for m68k-linux-user
-diff --git a/default-configs/devices/microblaze-linux-user.mak b/default-configs/devices/microblaze-linux-user.mak
-deleted file mode 100644
-index 566fdc01c4..0000000000
---- a/default-configs/devices/microblaze-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for microblaze-linux-user
-diff --git a/default-configs/devices/microblazeel-linux-user.mak b/default-configs/devices/microblazeel-linux-user.mak
-deleted file mode 100644
-index 378c6ddcb0..0000000000
---- a/default-configs/devices/microblazeel-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for microblazeel-linux-user
-diff --git a/default-configs/devices/mips-linux-user.mak b/default-configs/devices/mips-linux-user.mak
-deleted file mode 100644
-index 31df57021e..0000000000
---- a/default-configs/devices/mips-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for mips-linux-user
-diff --git a/default-configs/devices/mips64-linux-user.mak b/default-configs/devices/mips64-linux-user.mak
-deleted file mode 100644
-index 1598bfcf7d..0000000000
---- a/default-configs/devices/mips64-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for mips64-linux-user
-diff --git a/default-configs/devices/mips64el-linux-user.mak b/default-configs/devices/mips64el-linux-user.mak
-deleted file mode 100644
-index 629f084086..0000000000
---- a/default-configs/devices/mips64el-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for mips64el-linux-user
-diff --git a/default-configs/devices/mipsel-linux-user.mak b/default-configs/devices/mipsel-linux-user.mak
-deleted file mode 100644
-index 4d0e4afb69..0000000000
---- a/default-configs/devices/mipsel-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for mipsel-linux-user
-diff --git a/default-configs/devices/mipsn32-linux-user.mak b/default-configs/devices/mipsn32-linux-user.mak
-deleted file mode 100644
-index 5b97919794..0000000000
---- a/default-configs/devices/mipsn32-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for mipsn32-linux-user
-diff --git a/default-configs/devices/mipsn32el-linux-user.mak b/default-configs/devices/mipsn32el-linux-user.mak
-deleted file mode 100644
-index d6367ff987..0000000000
---- a/default-configs/devices/mipsn32el-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for mipsn32el-linux-user
-diff --git a/default-configs/devices/nios2-linux-user.mak b/default-configs/devices/nios2-linux-user.mak
-deleted file mode 100644
-index 5be3eb795d..0000000000
---- a/default-configs/devices/nios2-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for nios2-linux-user
-diff --git a/default-configs/devices/or1k-linux-user.mak b/default-configs/devices/or1k-linux-user.mak
-deleted file mode 100644
-index 20e03c1317..0000000000
---- a/default-configs/devices/or1k-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for or1k-linux-user
-diff --git a/default-configs/devices/ppc-linux-user.mak b/default-configs/devices/ppc-linux-user.mak
-deleted file mode 100644
-index 6273df2930..0000000000
---- a/default-configs/devices/ppc-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for ppc-linux-user
-diff --git a/default-configs/devices/ppc64-linux-user.mak b/default-configs/devices/ppc64-linux-user.mak
-deleted file mode 100644
-index 422d3fbaeb..0000000000
---- a/default-configs/devices/ppc64-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for ppc64-linux-user
-diff --git a/default-configs/devices/ppc64abi32-linux-user.mak b/default-configs/devices/ppc64abi32-linux-user.mak
-deleted file mode 100644
-index 1c657ec9bb..0000000000
---- a/default-configs/devices/ppc64abi32-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for ppc64abi32-linux-user
-diff --git a/default-configs/devices/ppc64le-linux-user.mak b/default-configs/devices/ppc64le-linux-user.mak
-deleted file mode 100644
-index 63f4269023..0000000000
---- a/default-configs/devices/ppc64le-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for ppc64le-linux-user
-diff --git a/default-configs/devices/riscv32-linux-user.mak b/default-configs/devices/riscv32-linux-user.mak
-deleted file mode 100644
-index 865b362f5a..0000000000
---- a/default-configs/devices/riscv32-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for riscv-linux-user
-diff --git a/default-configs/devices/riscv64-linux-user.mak b/default-configs/devices/riscv64-linux-user.mak
-deleted file mode 100644
-index 865b362f5a..0000000000
---- a/default-configs/devices/riscv64-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for riscv-linux-user
-diff --git a/default-configs/devices/s390x-linux-user.mak b/default-configs/devices/s390x-linux-user.mak
-deleted file mode 100644
-index a243c99874..0000000000
---- a/default-configs/devices/s390x-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for s390x-linux-user
-diff --git a/default-configs/devices/sh4-linux-user.mak b/default-configs/devices/sh4-linux-user.mak
-deleted file mode 100644
-index a469e19ac6..0000000000
---- a/default-configs/devices/sh4-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for sh4-linux-user
-diff --git a/default-configs/devices/sh4eb-linux-user.mak b/default-configs/devices/sh4eb-linux-user.mak
-deleted file mode 100644
-index be08ca1002..0000000000
---- a/default-configs/devices/sh4eb-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for sh4eb-linux-user
-diff --git a/default-configs/devices/sparc-bsd-user.mak b/default-configs/devices/sparc-bsd-user.mak
-deleted file mode 100644
-index 21e09508d8..0000000000
---- a/default-configs/devices/sparc-bsd-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for sparc-bsd-user
-diff --git a/default-configs/devices/sparc-linux-user.mak b/default-configs/devices/sparc-linux-user.mak
-deleted file mode 100644
-index 9c716d1f92..0000000000
---- a/default-configs/devices/sparc-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for sparc-linux-user
-diff --git a/default-configs/devices/sparc32plus-linux-user.mak b/default-configs/devices/sparc32plus-linux-user.mak
-deleted file mode 100644
-index 432e88011e..0000000000
---- a/default-configs/devices/sparc32plus-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for sparc32plus-linux-user
-diff --git a/default-configs/devices/sparc64-bsd-user.mak b/default-configs/devices/sparc64-bsd-user.mak
-deleted file mode 100644
-index b8b9eea7f6..0000000000
---- a/default-configs/devices/sparc64-bsd-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for sparc64-bsd-user
-diff --git a/default-configs/devices/sparc64-linux-user.mak b/default-configs/devices/sparc64-linux-user.mak
-deleted file mode 100644
-index bf1bdd6aa4..0000000000
---- a/default-configs/devices/sparc64-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for sparc64-linux-user
-diff --git a/default-configs/devices/tilegx-linux-user.mak b/default-configs/devices/tilegx-linux-user.mak
-deleted file mode 100644
-index 3e47493af0..0000000000
---- a/default-configs/devices/tilegx-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for tilegx-linux-user
-diff --git a/default-configs/devices/x86_64-bsd-user.mak b/default-configs/devices/x86_64-bsd-user.mak
-deleted file mode 100644
-index 73e5d34ec5..0000000000
---- a/default-configs/devices/x86_64-bsd-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for x86_64-bsd-user
-diff --git a/default-configs/devices/x86_64-linux-user.mak b/default-configs/devices/x86_64-linux-user.mak
-deleted file mode 100644
-index bec1d9e7c6..0000000000
---- a/default-configs/devices/x86_64-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for x86_64-linux-user
-diff --git a/default-configs/devices/xtensa-linux-user.mak b/default-configs/devices/xtensa-linux-user.mak
-deleted file mode 100644
-index fd1d350ee9..0000000000
---- a/default-configs/devices/xtensa-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for xtensa-linux-user
-diff --git a/default-configs/devices/xtensaeb-linux-user.mak b/default-configs/devices/xtensaeb-linux-user.mak
-deleted file mode 100644
-index fd1d350ee9..0000000000
---- a/default-configs/devices/xtensaeb-linux-user.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--# Default configuration for xtensa-linux-user
+-if [ "$bsd_user" = "no" -a "$linux_user" = "no" -a "$softmmu" = "no" ] ; then
+-  tcg="disabled"
+-fi
+-
+ default_target_list=""
+ deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
+ deprecated_features=""
+@@ -6041,17 +6037,6 @@ if test "$mingw32" = "yes" ; then
+     done
+ fi
+ 
+-# Disable OpenBSD W^X if available
+-if test "$tcg" = "enabled" && test "$targetos" = "OpenBSD"; then
+-    cat > $TMPC <<EOF
+-    int main(void) { return 0; }
+-EOF
+-    wx_ldflags="-Wl,-z,wxneeded"
+-    if compile_prog "" "$wx_ldflags"; then
+-        QEMU_LDFLAGS="$QEMU_LDFLAGS $wx_ldflags"
+-    fi
+-fi
+-
+ qemu_confdir="$sysconfdir/$qemu_suffix"
+ qemu_moddir="$libdir/$qemu_suffix"
+ qemu_datadir="$datadir/$qemu_suffix"
+diff --git a/meson.build b/meson.build
+index 743a6504a7..60ecd03fbd 100644
+--- a/meson.build
++++ b/meson.build
+@@ -124,6 +124,7 @@ socket = []
+ version_res = []
+ coref = []
+ iokit = []
++emulator_link_args = []
+ cocoa = not_found
+ hvf = not_found
+ if targetos == 'windows'
+@@ -146,6 +147,11 @@ elif targetos == 'haiku'
+   socket = [cc.find_library('posix_error_mapper'),
+             cc.find_library('network'),
+             cc.find_library('bsd')]
++elif targetos == 'openbsd'
++  if not get_option('tcg').disabled() and target_dirs.length() > 0
++    # Disable OpenBSD W^X if available
++    emulator_link_args = cc.get_supported_link_arguments('-Wl,-z,wxneeded')
++  endif
+ endif
+ 
+ accelerators = []
+@@ -1247,7 +1253,7 @@ foreach target : target_dirs
+   c_args = ['-DNEED_CPU_H',
+             '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
+             '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
+-  link_args = []
++  link_args = emulator_link_args
+ 
+   config_target += config_host
+   target_inc = [include_directories('target' / config_target['TARGET_BASE_ARCH'])]
 -- 
 2.26.2
 
