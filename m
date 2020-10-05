@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFC1283F33
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 21:00:07 +0200 (CEST)
-Received: from localhost ([::1]:44314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1572C283F1A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 20:54:45 +0200 (CEST)
+Received: from localhost ([::1]:55666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPViQ-00075W-35
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 15:00:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44894)
+	id 1kPVdE-00005g-2n
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 14:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kPVcD-00005U-Px
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:53:41 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:54496)
+ id 1kPVaJ-0006le-I0
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:43 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:52642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kPVcA-0008Eu-1w
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:53:41 -0400
+ id 1kPVaE-00084r-Gt
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:43 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095InrtC076457;
- Mon, 5 Oct 2020 18:53:31 GMT
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095InpIk076385;
+ Mon, 5 Oct 2020 18:51:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=Zob/CAQNpsA6Cc4lW9xePRMMGl4iruYiIHIocoF1NGA=;
- b=DBZmGkHFNVZFCVDO/orQV7C7p5YHryC+APo/Bb4UZHp0XSPyN+PqGPvLRZmNW1s/fAMQ
- mV2ACJYRyTcEq6kIlYXjJqw4hwSwjSb8i6Wc+z4YC+eZVOoZ6QNCDiM29pZZg4IaAmUk
- vDbCy/ksV7o17mfPP3RZYyKtGgUjWkaXQwNih+NniJU7M+DXvKq85tntT5rO31oe9xcK
- OIW63QGC0u/kV6FZxXkAd3yPBmxBYp82J+3oysgw2o5pwB92IpCG6JMU97AvrDU0cwFC
- FJog+ydGBT8MQY4fcOwh53C+/RnWmrhYHPpr+Z083lqNUUbgN7w9GqsvNurdDDGw8oxs KA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 33ym34ca5m-1
+ bh=GfH29LOVukU9oR+y74tZgNODRb6C2k/ly1HK3rCi9kI=;
+ b=MhOJyDkOyG6SsItdAVAIOykByzm21Sc6ffB6GEFve+QLdZETywa3Kr14ahK8P8/4gS/4
+ yTgJFta4UnD5GqydDamhZcnC9vYGHIrpDFlWga8Tct6AAceo2hfrvQvLgse+/hfRr9fa
+ 2At48tPi1UE5EVoI2FAy44V/PUFoUKJARbbK6c2AeQ/+72uf5J+OaV2CnpUxEXSu5sPu
+ Bzz1EZOlUrhoKL/roJVYmUFF44xqdp14ci4JthfwDsffv04LKH+Y+xsWCFtjEdmg3Dkg
+ TNJJOXgdWQcmsIt2eGbqOoTcFZIa/j1CKSgVwY+++5AhkF9Pl3q3WG4b4ET4cBtQjtOO 7g== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 33ym34c9sc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 05 Oct 2020 18:53:31 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095Ip6Y6026125;
+ Mon, 05 Oct 2020 18:51:32 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095IpDIm182547;
  Mon, 5 Oct 2020 18:51:31 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 33yyje8pcp-1
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 33y2vkvfdc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 05 Oct 2020 18:51:30 +0000
+ Mon, 05 Oct 2020 18:51:31 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 095IpTAo014474;
- Mon, 5 Oct 2020 18:51:29 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 095IpUeL001992;
+ Mon, 5 Oct 2020 18:51:30 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 05 Oct 2020 11:51:28 -0700
+ with ESMTP ; Mon, 05 Oct 2020 11:51:30 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 11/19] multi-process: add proxy communication functions
-Date: Mon,  5 Oct 2020 11:50:59 -0700
-Message-Id: <3839485584bff489f33041f2c51f51c01617b907.1601923020.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v10 12/19] multi-process: Forward PCI config space acceses to
+ the remote process
+Date: Mon,  5 Oct 2020 11:51:00 -0700
+Message-Id: <fc7a3b03ab53f317b2bb012362fcd7ed0b07f4ac.1601923020.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1601923020.git.elena.ufimtseva@oracle.com>
 References: <cover.1601923020.git.elena.ufimtseva@oracle.com>
@@ -61,11 +62,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9765
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010050136
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999
+ malwarescore=0 suspectscore=1 spamscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010050136
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9765
  signatures=668680
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
@@ -110,93 +111,238 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
+The Proxy Object sends the PCI config space accesses as messages
+to the remote process over the communication channel
+
+TODO:
+Investigate if the local PCI config writes can be dropped.
+Without the proxy local PCI config space writes for the device,
+the driver in the guest times out on the probing.
+We have tried to only refer to the remote for the PCI config writes,
+but the driver timeout in the guest forced as to left this
+as it is (removing local PCI config only).
+
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/io/mpqemu-link.h |  4 ++++
- io/mpqemu-link.c         | 38 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 42 insertions(+)
+ hw/i386/remote-msg.c     | 62 ++++++++++++++++++++++++++++++++++++++++
+ hw/pci/proxy.c           | 50 ++++++++++++++++++++++++++++++++
+ include/io/mpqemu-link.h |  9 ++++++
+ io/mpqemu-link.c         |  6 ++++
+ 4 files changed, 127 insertions(+)
 
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index e33181ad80..4bea5daeb4 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -15,6 +15,8 @@
- #include "qemu/thread.h"
- #include "io/channel.h"
- #include "exec/hwaddr.h"
-+#include "io/channel-socket.h"
-+#include "hw/pci/proxy.h"
+diff --git a/hw/i386/remote-msg.c b/hw/i386/remote-msg.c
+index 6451b77ae2..94937db1c5 100644
+--- a/hw/i386/remote-msg.c
++++ b/hw/i386/remote-msg.c
+@@ -15,6 +15,12 @@
+ #include "io/mpqemu-link.h"
+ #include "qapi/error.h"
+ #include "sysemu/runstate.h"
++#include "hw/pci/pci.h"
++
++static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
++                                 MPQemuMsg *msg);
++static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
++                                MPQemuMsg *msg);
  
- #define REMOTE_MAX_FDS 8
+ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+ {
+@@ -43,6 +49,12 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+         }
  
-@@ -65,6 +67,8 @@ typedef struct {
-     int num_fds;
- } QEMU_PACKED MPQemuMsg;
+         switch (msg.cmd) {
++        case PCI_CONFIG_WRITE:
++            process_config_write(com->ioc, pci_dev, &msg);
++            break;
++        case PCI_CONFIG_READ:
++            process_config_read(com->ioc, pci_dev, &msg);
++            break;
+         default:
+             error_setg(&local_err,
+                        "Unknown command (%d) received for device %s (pid=%d)",
+@@ -60,3 +72,53 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
  
-+uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
-+                                         Error **errp);
- void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
- void mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
- 
-diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-index 8d966820a0..618061753b 100644
---- a/io/mpqemu-link.c
-+++ b/io/mpqemu-link.c
-@@ -17,6 +17,7 @@
- #include "qemu/iov.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
-+#include "io/channel.h"
- 
- /*
-  * Send message over the ioc QIOChannel.
-@@ -207,6 +208,43 @@ fail:
-     }
+     return;
  }
- 
-+/*
-+ * Called from VCPU thread in non-coroutine context.
-+ */
-+uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
-+                                         Error **errp)
++
++static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
++                                 MPQemuMsg *msg)
 +{
-+    MPQemuMsg msg_reply = {0};
-+    uint64_t ret = UINT64_MAX;
++    ConfDataMsg *conf = (ConfDataMsg *)&msg->data.conf_data;
++    MPQemuMsg ret = { 0 };
 +    Error *local_err = NULL;
 +
-+    qemu_mutex_lock(&pdev->io_mutex);
-+    mpqemu_msg_send(msg, pdev->ioc, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        goto exit_send;
-+    }
-+
-+    mpqemu_msg_recv(&msg_reply, pdev->ioc, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        goto exit_send;
-+    }
-+
-+    if (!mpqemu_msg_valid(&msg_reply) || msg_reply.cmd != RET_MSG) {
-+        error_setg(errp, "ERROR: Invalid reply received for command %d",
-+                         msg->cmd);
-+        goto exit_send;
++    if ((conf->addr + sizeof(conf->val)) > pci_config_size(dev)) {
++        error_report("Bad address received when writing PCI config, pid %d",
++                     getpid());
++        ret.data.u64 = UINT64_MAX;
 +    } else {
-+        ret = msg_reply.data.u64;
++        pci_default_write_config(dev, conf->addr, conf->val, conf->l);
 +    }
 +
-+ exit_send:
-+    qemu_mutex_unlock(&pdev->io_mutex);
++    ret.cmd = RET_MSG;
++    ret.size = sizeof(ret.data.u64);
++
++    mpqemu_msg_send(&ret, ioc, &local_err);
++    if (local_err) {
++        error_report("Could not send message to proxy from pid %d",
++                     getpid());
++    }
++}
++
++static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
++                                MPQemuMsg *msg)
++{
++    ConfDataMsg *conf = (ConfDataMsg *)&msg->data.conf_data;
++    MPQemuMsg ret = { 0 };
++    Error *local_err = NULL;
++
++    if ((conf->addr + sizeof(conf->val)) > pci_config_size(dev)) {
++        error_report("Bad address received when reading PCI config, pid %d",
++                     getpid());
++        ret.data.u64 = UINT64_MAX;
++    } else {
++        ret.data.u64 = pci_default_read_config(dev, conf->addr, conf->l);
++    }
++
++    ret.cmd = RET_MSG;
++    ret.size = sizeof(ret.data.u64);
++
++    mpqemu_msg_send(&ret, ioc, &local_err);
++    if (local_err) {
++        error_report("Could not send message to proxy from pid %d",
++                     getpid());
++    }
++}
+diff --git a/hw/pci/proxy.c b/hw/pci/proxy.c
+index 6b954f22a5..083ec8382a 100644
+--- a/hw/pci/proxy.c
++++ b/hw/pci/proxy.c
+@@ -16,6 +16,8 @@
+ #include "hw/qdev-properties.h"
+ #include "monitor/monitor.h"
+ #include "migration/blocker.h"
++#include "io/mpqemu-link.h"
++#include "qemu/error-report.h"
+ 
+ static void proxy_set_socket(PCIProxyDev *pdev, int fd, Error **errp)
+ {
+@@ -65,6 +67,51 @@ static void pci_proxy_dev_exit(PCIDevice *pdev)
+     qio_channel_close(dev->ioc, NULL);
+ }
+ 
++static int config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
++                          int l, unsigned int op)
++{
++    MPQemuMsg msg = { 0 };
++    uint64_t ret = -EINVAL;
++    Error *local_err = NULL;
++
++    msg.cmd = op;
++    msg.data.conf_data.addr = addr;
++    msg.data.conf_data.val = (op == PCI_CONFIG_WRITE) ? *val : 0;
++    msg.data.conf_data.l = l;
++    msg.size = sizeof(ConfDataMsg);
++
++    ret = mpqemu_msg_send_and_await_reply(&msg, pdev, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++    }
++    if (op == PCI_CONFIG_READ) {
++        *val = (uint32_t)ret;
++    }
 +
 +    return ret;
 +}
 +
- bool mpqemu_msg_valid(MPQemuMsg *msg)
++static uint32_t pci_proxy_read_config(PCIDevice *d, uint32_t addr, int len)
++{
++    uint32_t val;
++
++    (void)config_op_send(PCI_PROXY_DEV(d), addr, &val, len, PCI_CONFIG_READ);
++
++    return val;
++}
++
++static void pci_proxy_write_config(PCIDevice *d, uint32_t addr, uint32_t val,
++                                   int l)
++{
++    /*
++     * Some of the functions access the copy of the remote device
++     * PCI config space, therefore maintain it updated.
++     */
++    pci_default_write_config(d, addr, val, l);
++
++    (void)config_op_send(PCI_PROXY_DEV(d), addr, &val, l, PCI_CONFIG_WRITE);
++}
++
+ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
  {
-     if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -72,6 +119,9 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+ 
+     k->realize = pci_proxy_dev_realize;
+     k->exit = pci_proxy_dev_exit;
++    k->config_read = pci_proxy_read_config;
++    k->config_write = pci_proxy_write_config;
++
+     device_class_set_props(dc, proxy_properties);
+ }
+ 
+diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+index 4bea5daeb4..459d345897 100644
+--- a/include/io/mpqemu-link.h
++++ b/include/io/mpqemu-link.h
+@@ -34,6 +34,8 @@ typedef enum {
+     MPQEMU_CMD_INIT,
+     SYNC_SYSMEM,
+     RET_MSG,
++    PCI_CONFIG_WRITE,
++    PCI_CONFIG_READ,
+     MPQEMU_CMD_MAX,
+ } MPQemuCmd;
+ 
+@@ -43,6 +45,12 @@ typedef struct {
+     off_t offsets[REMOTE_MAX_FDS];
+ } SyncSysmemMsg;
+ 
++typedef struct {
++    uint32_t addr;
++    uint32_t val;
++    int l;
++} ConfDataMsg;
++
+ /**
+  * MPQemuMsg:
+  * @cmd: The remote command
+@@ -60,6 +68,7 @@ typedef struct {
+ 
+     union {
+         uint64_t u64;
++        ConfDataMsg conf_data;
+         SyncSysmemMsg sync_sysmem;
+     } data;
+ 
+diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+index 618061753b..4e0f57a7f5 100644
+--- a/io/mpqemu-link.c
++++ b/io/mpqemu-link.c
+@@ -271,6 +271,12 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+             return false;
+         }
+         break;
++    case PCI_CONFIG_WRITE:
++    case PCI_CONFIG_READ:
++        if (msg->size != sizeof(ConfDataMsg)) {
++            return false;
++        }
++        break;
+     default:
+         break;
+     }
 -- 
 2.25.GIT
 
