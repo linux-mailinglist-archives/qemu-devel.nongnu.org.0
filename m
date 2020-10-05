@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC23283CE0
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:53:47 +0200 (CEST)
-Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B85A283CFA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 19:01:26 +0200 (CEST)
+Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPTkA-0004bI-In
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46512)
+	id 1kPTrY-0002gT-AG
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 13:01:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kPTid-00038z-Is; Mon, 05 Oct 2020 12:52:11 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39284
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kPTib-0001du-OK; Mon, 05 Oct 2020 12:52:11 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 095GX9A4009575; Mon, 5 Oct 2020 12:52:07 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34061casqf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Oct 2020 12:52:06 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 095GcqOY013442;
- Mon, 5 Oct 2020 16:52:05 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 33xgjh2cj6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Oct 2020 16:52:05 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 095Gq2oV21889418
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Oct 2020 16:52:03 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B4EE1AE051;
- Mon,  5 Oct 2020 16:52:01 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 520F0AE057;
- Mon,  5 Oct 2020 16:52:01 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon,  5 Oct 2020 16:52:01 +0000 (GMT)
-Received: from yukon.ibmuc.com (sig-9-145-2-207.uk.ibm.com [9.145.2.207])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 9B3872201BC;
- Mon,  5 Oct 2020 18:52:00 +0200 (CEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 6/6] spapr/xive: Introduce a new CAS value for the StoreEOI
- capability
-Date: Mon,  5 Oct 2020 18:51:47 +0200
-Message-Id: <20201005165147.526426-7-clg@kaod.org>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201005165147.526426-1-clg@kaod.org>
-References: <20201005165147.526426-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kPTpC-0001SI-Df
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:59:00 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kPTp9-0002RK-5h
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:58:58 -0400
+Received: by mail-oi1-x243.google.com with SMTP id x62so4930403oix.11
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 09:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S3+TYbT1fFZy18sR1x/5WNfjMK8/14PhYYhpiP2tuHw=;
+ b=u2W/Sm1eG9I3f+1zgd6QaHWFLAlNLrUGO5KUzce06hqN2jMdknEErncGi0Falxg6UD
+ A0rFZMkWR2qsdYdqGm0iZAsaT15vHI/U1UAaN8rJa98qseesDy1jqYA5x3BALG66Asmz
+ rZbkgwlNpw9l6z4BoucSAeSlP4ysz36tK34vocRN3HVOoGj2kAEhSZmYgon46eXLnvpX
+ lj20WU9rdCpXXohw4mnUcGxAqO0q2Hmxiqfu7kCM1XIxIxNn2ZDGw/p4epY4rohhn1uh
+ TBM/dr79u1/b+jDVew9OpatYno9sTe3IiQiAKhYw/dTFCd4b34F7GN2O/vMXdC1k/Gpj
+ lDhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S3+TYbT1fFZy18sR1x/5WNfjMK8/14PhYYhpiP2tuHw=;
+ b=L0nU1U9tyLUN1htdSxMLcXg1jLRUegOgsuHsel1eMQorYcDnefZxde+iUNhhxi3QWm
+ o2WUqupSUh6RWpBQkfB0YHkFj6pq/Y4lxwpC8aWrRWN+zPCLAsyr7FdWSTgxXns/9Se1
+ iaTt4fSY8O9TTSAZq9eQ8uiawaAyahotL2PmqL2vtq7BUy/UV4/owDAr1utFrw+u3HlJ
+ 2E2S7xnL9xo7k8bshqSgx6SFJgEqQXqzoKrYayxvxghIds7gbP6ueC+nBMAKks4suY5b
+ P1Po9TwzxdP7u73P7XeI5/QygQWH2xsEU5Me6KoAeEoR62AF4g0YL+AAXxGIXzSO5aOq
+ eJuQ==
+X-Gm-Message-State: AOAM530dUj3t8lNYhqe94ltHaXOBVWI1+VRD2iqQpvYcX1b1x07RskFA
+ UAncM+MaF3Q7QkJJnysmWKOCOnSbCppifwYY
+X-Google-Smtp-Source: ABdhPJy5aA9uyVhNNox+RuZjpnWyIJMH6RM8zYp4Ck4jWL2ZLk4Hcr7DYb7s7f600dRy4cZPsR2lQQ==
+X-Received: by 2002:aca:ea44:: with SMTP id i65mr159445oih.117.1601917133481; 
+ Mon, 05 Oct 2020 09:58:53 -0700 (PDT)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id r21sm69162otd.47.2020.10.05.09.58.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 09:58:52 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/tcg/linux-test: Adjust getsockname for musl
+Date: Mon,  5 Oct 2020 11:58:50 -0500
+Message-Id: <20201005165850.88425-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-10-05_11:2020-10-05,
- 2020-10-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- adultscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- mlxlogscore=740 impostorscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1034 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2010050117
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 12:52:05
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,146 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Gustavo Romero <gromero@linux.ibm.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the StoreEOI capability is set to "cas", let CAS decide when
-StoreEOI should be advertised. StoreEOI is safe to use with a P10
-compat machine because the OS enforces load-after-store ordering but
-not with P9 compat.
+Unlike glibc, musl does not use transparent unions to hide
+the different structures that overlap struct sockaddr.
 
-The question now is : should we make "cas" the default at the machine
-level ?
+Add an explicit cast to work around this.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/ppc/spapr.h      |  1 +
- include/hw/ppc/spapr_xive.h |  1 +
- hw/intc/spapr_xive.c        |  9 +++++++++
- hw/ppc/spapr_caps.c         | 21 +++++++++++++++++----
- hw/ppc/spapr_hcall.c        |  7 +++++++
- 5 files changed, 35 insertions(+), 4 deletions(-)
+ tests/tcg/multiarch/linux-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index b701c14b4e09..17e7d873e8dc 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -87,6 +87,7 @@ typedef enum {
- #define SPAPR_CAP_ON                    0x01
-=20
- /* Custom Caps */
-+#define SPAPR_CAP_CAS                   0x02
-=20
- /* Generic */
- #define SPAPR_CAP_BROKEN                0x00
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 26c8d90d7196..8b8aa586e44f 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -75,6 +75,7 @@ void spapr_xive_map_mmio(SpaprXive *xive);
-=20
- int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
-                              uint32_t *out_server, uint8_t *out_prio);
-+void spapr_xive_enable_store_eoi(SpaprXive *xive, bool enable);
-=20
- /*
-  * KVM XIVE device helpers
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 41f2719ff93a..f57a2681dd91 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -1802,3 +1802,12 @@ void spapr_xive_hcall_init(SpaprMachineState *spap=
-r)
-     spapr_register_hypercall(H_INT_SYNC, h_int_sync);
-     spapr_register_hypercall(H_INT_RESET, h_int_reset);
- }
-+
-+void spapr_xive_enable_store_eoi(SpaprXive *xive, bool enable)
-+{
-+    if (enable) {
-+        xive->source.esb_flags |=3D XIVE_SRC_STORE_EOI;
-+    } else {
-+        xive->source.esb_flags &=3D ~XIVE_SRC_STORE_EOI;
-+    }
-+}
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 9251badbdc27..c55e1fccb9bc 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -524,6 +524,13 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr=
-, uint8_t val,
-     }
- }
-=20
-+SpaprCapPossible cap_storeeoi_possible =3D {
-+    .num =3D 3,
-+    .vals =3D { "off", "on", "cas" },
-+    .help =3D "off - no StoreEOI, on - StoreEOI, "
-+            "cas - negotiated at CAS (POWER10 compat only)",
-+};
-+
- static void cap_storeeoi_apply(SpaprMachineState *spapr, uint8_t val,
-                                Error **errp)
- {
-@@ -550,6 +557,11 @@ static void cap_storeeoi_apply(SpaprMachineState *sp=
-apr, uint8_t val,
-             return;
-         }
-=20
-+        /* CAS will decide to advertise StoreEOI (P10 compat kernels onl=
-y) */
-+        if (val =3D=3D SPAPR_CAP_CAS) {
-+            return;
-+        }
-+
-         /*
-          * load-after-store ordering is not enforced on POWER9 CPUs
-          * and StoreEOI can be racy.
-@@ -671,11 +683,12 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM]=
- =3D {
-     },
-     [SPAPR_CAP_STOREEOI] =3D {
-         .name =3D "storeeoi",
--        .description =3D "Implements XIVE StoreEOI feature",
-+        .description =3D "Implements XIVE StoreEOI feature (off, on, cas=
-)",
-         .index =3D SPAPR_CAP_STOREEOI,
--        .get =3D spapr_cap_get_bool,
--        .set =3D spapr_cap_set_bool,
--        .type =3D "bool",
-+        .get =3D spapr_cap_get_string,
-+        .set =3D spapr_cap_set_string,
-+        .type =3D "string",
-+        .possible =3D &cap_storeeoi_possible,
-         .apply =3D cap_storeeoi_apply,
-     },
- };
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 607740150fa2..158b122b9192 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1804,6 +1804,13 @@ target_ulong do_client_architecture_support(PowerP=
-CCPU *cpu,
- "Guest requested unavailable interrupt mode (XIVE), try the ic-mode=3Dxi=
-ve or ic-mode=3Ddual machine property");
-             exit(EXIT_FAILURE);
-         }
-+
-+        /* Advertise StoreEOI for a P10 compat guest. */
-+        if (spapr_get_cap(spapr, SPAPR_CAP_STOREEOI) =3D=3D SPAPR_CAP_CA=
-S) {
-+            bool enable =3D ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_=
-10, 0,
-+                                           cpu->compat_pvr);
-+            spapr_xive_enable_store_eoi(spapr->xive, enable);
-+        }
-     } else {
-         if (!spapr->irq->xics) {
-             error_report(
---=20
-2.25.4
+diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
+index 8a7c15cd31..96bbad5823 100644
+--- a/tests/tcg/multiarch/linux-test.c
++++ b/tests/tcg/multiarch/linux-test.c
+@@ -296,7 +296,7 @@ static void test_socket(void)
+     server_fd = server_socket();
+     /* find out what port we got */
+     socklen = sizeof(server_addr);
+-    ret = getsockname(server_fd, &server_addr, &socklen);
++    ret = getsockname(server_fd, (struct sockaddr *)&server_addr, &socklen);
+     chk_error(ret);
+     server_port = ntohs(server_addr.sin_port);
+ 
+-- 
+2.25.1
 
 
