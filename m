@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D70283F19
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 20:54:42 +0200 (CEST)
-Received: from localhost ([::1]:55400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12998283F20
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 20:56:59 +0200 (CEST)
+Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPVdB-0008PU-Pq
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 14:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44288)
+	id 1kPVfO-0003TK-1D
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 14:56:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kPVaA-0006dr-Ep
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:34 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:56292)
+ id 1kPVaB-0006eB-9P
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:35 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:52520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kPVa7-00083G-Tj
+ id 1kPVa7-00083P-O3
  for qemu-devel@nongnu.org; Mon, 05 Oct 2020 14:51:34 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095InMuO184443;
- Mon, 5 Oct 2020 18:51:21 GMT
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095InpX1076382;
+ Mon, 5 Oct 2020 18:51:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=SSAYW8Y7++xg0+Rdn7Hgc5r4Dpkokayl41VlovFqMno=;
- b=g67knUZU7XPAnDOfohklmp71cz+L6DdbcjCFLi67/TB/dqaqmo7M9KUebM6zI9KJxX/9
- Qr4BeqUmKmN5Uk1bcftBJa/vjLA4AShE7m0KjTFOtDH2jevy3eUXEqlO7EvlqPp6dFLy
- Ehu0WfOLALzONluDznSohB6mrgqHGCDLqJsVN2ezmfSpWCXnLr8+xjGnPcsOJ5p2DEaY
- uRtjn9nUBbGmczuXwtT8rZ34PjTATb+XyI+7R0Tb2GX1RsMclW1DIGu4pnKyEWR5+Cmg
- 7s9U3EkYNmjadUN2L9maI37D142qFIBTf45ccETvNdkHHVOew7RXONIdFBFip63CqAU7 mw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 33xhxmq54g-1
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=DSVWraebzFC9YxMzx/WYyHA7syPYZcR25yCGn/QGJRU=;
+ b=w5vy8a+ljjohLwEjlAI8BU+5P368EqII58ga1/EiT0kQoTJNOSMrgvAh7dRwOxPdziAK
+ PDciIacF1q9WSOEtnC7e/FL3jQgTHP7FpR1ttx5moLQ/qsBqDbJMa6GSO4YdreDdDd2O
+ Ry3u3JivlEDdtSlROP63NdofePvirfZHOEBaNUFCY4Z/4Lfp+u9QP/0G9vrVMId2StwE
+ XSC+TiILixA95aQtWVqFprjlOoMiIU/JIkwdwbUQwCluJIPv9SXoS6W3tMJT+xM7xelM
+ JADZIOMQgAbyvOALEEFi1DHpHYazu3Rj6EAkvUmv+guFx93g1tHOAm2ysyi8gZPXF70r LQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 33ym34c9rm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 05 Oct 2020 18:51:21 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095Ip6Xt026125;
+ Mon, 05 Oct 2020 18:51:22 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 095IomJD124190;
  Mon, 5 Oct 2020 18:51:21 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 33yyje8p27-1
+ by aserp3020.oracle.com with ESMTP id 33y36wumbn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 05 Oct 2020 18:51:21 +0000
 Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 095IpJ08005244;
- Mon, 5 Oct 2020 18:51:19 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 095IpKJ7005260;
+ Mon, 5 Oct 2020 18:51:20 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 05 Oct 2020 11:51:18 -0700
+ with ESMTP ; Mon, 05 Oct 2020 11:51:20 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 05/19] multi-process: add qio channel function to transmit
-Date: Mon,  5 Oct 2020 11:50:53 -0700
-Message-Id: <7acf95b8d3ca6fbb03d8a3422c2c8d1221525331.1601923020.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v10 06/19] multi-process: define MPQemuMsg format and
+ transmission functions
+Date: Mon,  5 Oct 2020 11:50:54 -0700
+Message-Id: <45fd2f984d994d70b5d1780ac39ca2c03dcc10bf.1601923020.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1601923020.git.elena.ufimtseva@oracle.com>
 References: <cover.1601923020.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9765
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
- adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010050136
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ adultscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 suspectscore=1 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010050136
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9765
  signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- malwarescore=0 bulkscore=0
- impostorscore=0 lowpriorityscore=0 suspectscore=3 phishscore=0
- mlxlogscore=999 adultscore=0 clxscore=1015 spamscore=0 priorityscore=1501
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ priorityscore=1501
+ mlxscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 spamscore=0
+ malwarescore=0 phishscore=0 suspectscore=1 adultscore=0 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
  definitions=main-2010050136
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=elena.ufimtseva@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 12:40:53
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=elena.ufimtseva@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 14:51:29
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -50
 X-Spam_score: -5.1
@@ -110,108 +112,359 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-The entire array of the memory regions and file handlers.
-Will be used in the next patch.
+Defines MPQemuMsg, which is the message that is sent to the remote
+process. This message is sent over QIOChannel and is used to
+command the remote process to perform various tasks.
+Define transmission functions used by proxy and by remote.
+There are certain restrictions on where its safe to use these
+functions:
+  - From main loop in co-routine context. Will block the main loop if not in
+    co-routine context;
+  - From vCPU thread with no co-routine context and if the channel is not part
+    of the main loop handling;
+  - From IOThread within co-routine context, outside of co-routine context will
+    block IOThread;
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- include/io/channel.h | 24 +++++++++++++++++++++++
- io/channel.c         | 45 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 69 insertions(+)
+ MAINTAINERS              |   2 +
+ include/io/mpqemu-link.h |  60 ++++++++++
+ io/meson.build           |   2 +
+ io/mpqemu-link.c         | 230 +++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 294 insertions(+)
+ create mode 100644 include/io/mpqemu-link.h
+ create mode 100644 io/mpqemu-link.c
 
-diff --git a/include/io/channel.h b/include/io/channel.h
-index d4557f0930..c2e3eaeafc 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -779,5 +779,29 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
-                                     IOHandler *io_read,
-                                     IOHandler *io_write,
-                                     void *opaque);
-+/**
-+ * qio_channel_writev_full_all:
-+ * @ioc: the channel object
-+ * @iov: the array of memory regions to write data from
-+ * @niov: the length of the @iov array
-+ * @fds: an array of file handles to send
-+ * @nfds: number of file handles in @fds
-+ * @errp: pointer to a NULL-initialized error object
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 38d19c83cd..1ca1f8ccff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3045,6 +3045,8 @@ F: hw/pci-host/remote.c
+ F: include/hw/pci-host/remote.h
+ F: hw/i386/remote.c
+ F: include/hw/i386/remote.h
++F: io/mpqemu-link.c
++F: include/io/mpqemu-link.h
+ 
+ Build and test automation
+ -------------------------
+diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+new file mode 100644
+index 0000000000..3505e062dd
+--- /dev/null
++++ b/include/io/mpqemu-link.h
+@@ -0,0 +1,60 @@
++/*
++ * Communication channel between QEMU and remote device process
 + *
++ * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
-+ * Behaves like qio_channel_writev_full but will attempt
-+ * to send all data passed (file handles and memory regions).
-+ * The function will wait for all requested data
-+ * to be written, yielding from the current coroutine
-+ * if required.
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
 + *
-+ * Returns: 0 if all bytes were written, or -1 on error
 + */
 +
-+int qio_channel_writev_full_all(QIOChannel *ioc,
-+                           const struct iovec *iov,
-+                           size_t niov,
-+                           int *fds, size_t nfds,
-+                           Error **errp);
++#ifndef MPQEMU_LINK_H
++#define MPQEMU_LINK_H
++
++#include "qom/object.h"
++#include "qemu/thread.h"
++#include "io/channel.h"
++
++#define REMOTE_MAX_FDS 8
++
++#define MPQEMU_MSG_HDR_SIZE offsetof(MPQemuMsg, data.u64)
++
++/**
++ * MPQemuCmd:
++ *
++ * MPQemuCmd enum type to specify the command to be executed on the remote
++ * device.
++ */
++typedef enum {
++    MPQEMU_CMD_INIT,
++    MPQEMU_CMD_MAX,
++} MPQemuCmd;
++
++/**
++ * MPQemuMsg:
++ * @cmd: The remote command
++ * @size: Size of the data to be shared
++ * @data: Structured data
++ * @fds: File descriptors to be shared with remote device
++ *
++ * MPQemuMsg Format of the message sent to the remote device from QEMU.
++ *
++ */
++typedef struct {
++    int cmd;
++    size_t size;
++
++    union {
++        uint64_t u64;
++    } data;
++
++    int fds[REMOTE_MAX_FDS];
++    int num_fds;
++} QEMU_PACKED MPQemuMsg;
++
++void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
++void mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
++
++bool mpqemu_msg_valid(MPQemuMsg *msg);
++
++#endif
+diff --git a/io/meson.build b/io/meson.build
+index 768c1b5ec3..3d40cd8867 100644
+--- a/io/meson.build
++++ b/io/meson.build
+@@ -15,6 +15,8 @@ io_ss.add(files(
+   'task.c',
+ ))
  
- #endif /* QIO_CHANNEL_H */
-diff --git a/io/channel.c b/io/channel.c
-index e4376eb0bc..22c10c5ccc 100644
---- a/io/channel.c
-+++ b/io/channel.c
-@@ -190,6 +190,51 @@ int qio_channel_writev_all(QIOChannel *ioc,
-     return ret;
- }
- 
-+int qio_channel_writev_full_all(QIOChannel *ioc,
-+                                const struct iovec *iov,
-+                                size_t niov,
-+                                int *fds, size_t nfds,
-+                                Error **errp)
++io_ss.add(when: 'CONFIG_MPQEMU', if_true: files('mpqemu-link.c'))
++
+ io_ss = io_ss.apply(config_host, strict: false)
+ libio = static_library('io', io_ss.sources() + genh,
+                        dependencies: [io_ss.dependencies()],
+diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+new file mode 100644
+index 0000000000..42df2af229
+--- /dev/null
++++ b/io/mpqemu-link.c
+@@ -0,0 +1,230 @@
++/*
++ * Communication channel between QEMU and remote device process
++ *
++ * Copyright © 2018, 2020 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "qemu/module.h"
++#include "io/mpqemu-link.h"
++#include "qapi/error.h"
++#include "qemu/iov.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++
++/*
++ * Send message over the ioc QIOChannel.
++ * This function is safe to call from:
++ * - From main loop in co-routine context. Will block the main loop if not in
++ *   co-routine context;
++ * - From vCPU thread with no co-routine context and if the channel is not part
++ *   of the main loop handling;
++ * - From IOThread within co-routine context, outside of co-routine context
++ *   will block IOThread;
++ */
++void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
 +{
-+    int ret = -1;
-+    struct iovec *local_iov = g_new(struct iovec, niov);
-+    struct iovec *local_iov_head = local_iov;
-+    unsigned int nlocal_iov = niov;
++    bool iolock = qemu_mutex_iothread_locked();
++    bool iothread = qemu_get_current_aio_context() == qemu_get_aio_context() ?
++                    false : true;
++    Error *local_err = NULL;
++    struct iovec send[2] =  {0};
++    int *fds = NULL;
++    size_t nfds = 0;
 +
-+    nlocal_iov = iov_copy(local_iov, nlocal_iov,
-+                          iov, niov,
-+                          0, iov_size(iov, niov));
++    send[0].iov_base = msg;
++    send[0].iov_len = MPQEMU_MSG_HDR_SIZE;
 +
-+    while (nlocal_iov > 0) {
-+        ssize_t len;
-+        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds,
-+                                      nfds, errp);
-+        if (len == QIO_CHANNEL_ERR_BLOCK) {
++    send[1].iov_base = (void *)&msg->data;
++    send[1].iov_len = msg->size;
++
++    if (msg->num_fds) {
++        nfds = msg->num_fds;
++        fds = msg->fds;
++    }
++    /*
++     * Dont use in IOThread out of co-routine context as
++     * it will block IOThread.
++     */
++    if (iothread) {
++        assert(qemu_in_coroutine());
++    }
++    /*
++     * Skip unlocking/locking iothread when in IOThread running
++     * in co-routine context. Co-routine context is asserted above
++     * for IOThread case.
++     * Also skip this while in a co-routine in the main context.
++     */
++    if (iolock && !iothread && !qemu_in_coroutine()) {
++        qemu_mutex_unlock_iothread();
++    }
++
++    (void)qio_channel_writev_full_all(ioc, send, G_N_ELEMENTS(send), fds, nfds,
++                                      &local_err);
++
++    if (iolock && !iothread && !qemu_in_coroutine()) {
++        /* See above comment why skip locking here. */
++        qemu_mutex_lock_iothread();
++    }
++
++    if (errp) {
++        error_propagate(errp, local_err);
++    } else if (local_err) {
++        error_report_err(local_err);
++    }
++
++    return;
++}
++
++/*
++ * Read message from the ioc QIOChannel.
++ * This function is safe to call from:
++ * - From main loop in co-routine context. Will block the main loop if not in
++ *   co-routine context;
++ * - From vCPU thread with no co-routine context and if the channel is not part
++ *   of the main loop handling;
++ * - From IOThread within co-routine context, outside of co-routine context
++ *   will block IOThread;
++ */
++static ssize_t mpqemu_read(QIOChannel *ioc, void *buf, size_t len, int **fds,
++                           size_t *nfds, Error **errp)
++{
++    struct iovec iov = { .iov_base = buf, .iov_len = len };
++    bool iolock = qemu_mutex_iothread_locked();
++    bool iothread = qemu_get_current_aio_context() == qemu_get_aio_context()
++                        ? false : true;
++    struct iovec *iovp = &iov;
++    Error *local_err = NULL;
++    unsigned int niov = 1;
++    size_t *l_nfds = nfds;
++    int **l_fds = fds;
++    ssize_t bytes = 0;
++    size_t size;
++
++    size = iov.iov_len;
++
++    /*
++     * Dont use in IOThread out of co-routine context as
++     * it will block IOThread.
++     */
++    if (iothread) {
++        assert(qemu_in_coroutine());
++    }
++
++    while (size > 0) {
++        bytes = qio_channel_readv_full(ioc, iovp, niov, l_fds, l_nfds,
++                                       &local_err);
++        if (bytes == QIO_CHANNEL_ERR_BLOCK) {
++            /*
++             * Skip unlocking/locking iothread when in IOThread running
++             * in co-routine context. Co-routine context is asserted above
++             * for IOThread case.
++             * Also skip this while in a co-routine in the main context.
++             */
++            if (iolock && !iothread && !qemu_in_coroutine()) {
++                qemu_mutex_unlock_iothread();
++            }
 +            if (qemu_in_coroutine()) {
-+                qio_channel_yield(ioc, G_IO_OUT);
++                qio_channel_yield(ioc, G_IO_IN);
 +            } else {
-+                qio_channel_wait(ioc, G_IO_OUT);
++                qio_channel_wait(ioc, G_IO_IN);
++            }
++            /* See above comment why skip locking here. */
++            if (iolock && !iothread && !qemu_in_coroutine()) {
++                qemu_mutex_lock_iothread();
 +            }
 +            continue;
 +        }
-+        if (len < 0) {
-+            goto cleanup;
++
++        if (bytes <= 0) {
++            error_propagate(errp, local_err);
++            return -EIO;
 +        }
 +
-+        iov_discard_front(&local_iov, &nlocal_iov, len);
++        l_fds = NULL;
++        l_nfds = NULL;
 +
-+        if (len > 0) {
-+            fds = NULL;
-+            nfds = 0;
++        size -= bytes;
++
++        (void)iov_discard_front(&iovp, &niov, bytes);
++    }
++
++    return len - size;
++}
++
++void mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
++{
++    Error *local_err = NULL;
++    int *fds = NULL;
++    size_t nfds = 0;
++    ssize_t len;
++
++    len = mpqemu_read(ioc, (void *)msg, MPQEMU_MSG_HDR_SIZE, &fds, &nfds,
++                      &local_err);
++    if (!local_err) {
++        if (len == -EIO) {
++            error_setg(&local_err, "Connection closed.");
++            goto fail;
++        }
++        if (len < 0) {
++            error_setg(&local_err, "Message length is less than 0");
++            goto fail;
++        }
++        if (len != MPQEMU_MSG_HDR_SIZE) {
++            error_setg(&local_err, "Message header corrupted");
++            goto fail;
++        }
++    } else {
++        goto fail;
++    }
++
++    if (msg->size > sizeof(msg->data)) {
++        error_setg(&local_err, "Invalid size for message");
++        goto fail;
++    }
++
++    if (mpqemu_read(ioc, (void *)&msg->data, msg->size, NULL, NULL,
++                    &local_err) < 0) {
++        goto fail;
++    }
++
++    msg->num_fds = nfds;
++    if (nfds) {
++        memcpy(msg->fds, fds, nfds * sizeof(int));
++    }
++
++fail:
++    if (errp) {
++        error_propagate(errp, local_err);
++    } else if (local_err) {
++        error_report_err(local_err);
++    }
++}
++
++bool mpqemu_msg_valid(MPQemuMsg *msg)
++{
++    if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
++        return false;
++    }
++
++    /* Verify FDs. */
++    if (msg->num_fds >= REMOTE_MAX_FDS) {
++        return false;
++    }
++
++    if (msg->num_fds > 0) {
++        for (int i = 0; i < msg->num_fds; i++) {
++            if (fcntl(msg->fds[i], F_GETFL) == -1) {
++                return false;
++            }
 +        }
 +    }
 +
-+    ret = 0;
-+ cleanup:
-+    g_free(local_iov_head);
-+    return ret;
++    return true;
 +}
-+
- ssize_t qio_channel_readv(QIOChannel *ioc,
-                           const struct iovec *iov,
-                           size_t niov,
 -- 
 2.25.GIT
 
