@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0877428406D
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:11:55 +0200 (CEST)
-Received: from localhost ([::1]:35696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB01284074
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:14:29 +0200 (CEST)
+Received: from localhost ([::1]:46652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWpu-000077-0v
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57068)
+	id 1kPWsO-0004in-NB
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXN-0000yg-Ac
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37450)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXP-00013P-Vu
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXL-0007Cc-N9
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:45 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWXO-0007Cv-7X
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601927563;
+ s=mimecast20190719; t=1601927565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NokZjup1s/JJJLtM1cjZYz1WaakVYpJE4WuZHADWMxE=;
- b=hgdSWibF2JDe59VjqfHzCd2hfvtvoNLMilKlx8u5M80wbM+Pt8h20q+dRMPOKj5BFFpp1Z
- cayzu6mnpe4HKxSdTpezswz4KNcQM5b784DmdOx2jeuYdkBIRmaXtOVYZkH3kzPAJASu9F
- APtMxwqPShysR57URCSwh3MuoGXnryw=
+ bh=G6BFGkJiO6qB2E8L1SDJ+QZF9PvXD8maeIDwsxoS75w=;
+ b=iMbUwdTKx0bQFMzFZGFJioVdsBeDrbTm+DceGjxs5g2Vg6lBa07Onbqt5MNZ5GAG2tGNBK
+ ulZhxUthpruGe8t/TLLoSuSgWkK6rZhowAn+QDjqGw1lqbXPP2s4txvYogc7PSBanejHU/
+ T34pdmHj4NnSqi+CH13Rlxgp09Olo74=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-FZUTCqBuNHGD2gq_xDANeQ-1; Mon, 05 Oct 2020 15:52:41 -0400
-X-MC-Unique: FZUTCqBuNHGD2gq_xDANeQ-1
+ us-mta-592-SHIf2TBYPcKxzfgS7fUxDA-1; Mon, 05 Oct 2020 15:52:42 -0400
+X-MC-Unique: SHIf2TBYPcKxzfgS7fUxDA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 651541018F60
- for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A28C31018F7A
+ for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:41 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9379E5C1BD;
- Mon,  5 Oct 2020 19:52:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD65A5C1BD;
+ Mon,  5 Oct 2020 19:52:40 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 28/36] qapi/gen.py: Enable checking with mypy
-Date: Mon,  5 Oct 2020 15:51:50 -0400
-Message-Id: <20201005195158.2348217-29-jsnow@redhat.com>
+Subject: [PATCH v5 29/36] qapi/gen.py: Remove unused parameter
+Date: Mon,  5 Oct 2020 15:51:51 -0400
+Message-Id: <20201005195158.2348217-30-jsnow@redhat.com>
 In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,30 +83,37 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+module_basename doesn't use the 'what' argument, so remove it.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/mypy.ini | 5 -----
- 1 file changed, 5 deletions(-)
+ scripts/qapi/gen.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 1b8555dfa39..c6960ff2dbd 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -14,11 +14,6 @@ disallow_untyped_defs = False
- disallow_incomplete_defs = False
- check_untyped_defs = False
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index d0391cd8718..3624162bb77 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -259,7 +259,7 @@ def _is_user_module(name: Optional[str]) -> bool:
+     def _is_builtin_module(name: Optional[str]) -> bool:
+         return not name
  
--[mypy-qapi.gen]
--disallow_untyped_defs = False
--disallow_incomplete_defs = False
--check_untyped_defs = False
--
- [mypy-qapi.introspect]
- disallow_untyped_defs = False
- disallow_incomplete_defs = False
+-    def _module_dirname(self, what: str, name: Optional[str]) -> str:
++    def _module_dirname(self, name: Optional[str]) -> str:
+         if self._is_user_module(name):
+             return os.path.dirname(name)
+         return ''
+@@ -277,7 +277,7 @@ def _module_basename(self, what: str, name: Optional[str]) -> str:
+         return ret
+ 
+     def _module_filename(self, what: str, name: Optional[str]) -> str:
+-        return os.path.join(self._module_dirname(what, name),
++        return os.path.join(self._module_dirname(name),
+                             self._module_basename(what, name))
+ 
+     def _add_module(self, name: Optional[str], blurb: str) -> None:
 -- 
 2.26.2
 
