@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F4A28320F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:31:57 +0200 (CEST)
-Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF00C28321D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:35:07 +0200 (CEST)
+Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPLuW-0007An-Pp
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:31:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37048)
+	id 1kPLxa-0002Jr-MC
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmv-0008EQ-B5
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:05 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36107)
+ id 1kPLmw-0008GY-84
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:06 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmt-0007Ky-GP
+ id 1kPLmu-0007LC-GH
  for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:05 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z1so8471118wrt.3
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:24:03 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id d81so2593057wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Pa1mqceM/ZYvpPF7bcpg2S6znQSV1IB1IPFJZ/cyliY=;
- b=no1D1cIbVtmkyn2ef44Vs57olB+7a07sejBZlIF+Pl79YmeAuwAUCcuvakbsajyKf5
- 13/vQ/YxaZidbe6OhjKkg3YjvK12D0C18ej7FE+nbiUu2ot5ROpUO23V7rgJLfiFXo6R
- nrlbwlsTVU2GrD/q+cDYlkEMwFMWZjspmE3M0oaGVu7TrsgicUJUV4WFTg/cmGV2VQ3k
- BkI9dk8okNF3fSFIif6mwgK6OUJOp6QA9wrschxn2UBxJbaFK/PJFkvHByNhKXRoHdCD
- lhzb505PvZkzn1k0nKEEJgdERUwbhQI5Q4ZsnshMLkpKdiG/yNoOP5+GlPa8r5QQ1m8F
- 3XfA==
+ bh=+qTSz1E9WPbTWRbvvqKtc2mBpV+7bgZoqIwjSP5/4yk=;
+ b=IuCquimDXf+B7F5q6uUK2dKhSU9jrnsEg4ueW3wqSeQ+Hu2ZI8R4secncuTQ9i3VG1
+ 43jU2dJK2YUtXZt8SKNhpXP2m+WUaYkUa8KCUixgWO0J/zzWC/SNqGrbQhCwZ6RQxHhc
+ 82db94RxcgAT0pzSv6u+YCMLHQe9vby1ebCTyA2+Oja4ZCZ6B6DR/DGkNoLyIMP9XDLp
+ 58RmwlJCGvr4uHcjtleq5oWRvzcv50vvxcCxASD5wC5QKwTJMCwh2xpjqeS6Yee/k2Dv
+ rDMSOTDe6WnIJ7mz7FJ2eWLIXx8TZarec1jekZL4ih1awyiUy1RbcqO71nEOBVCPzRqg
+ wkkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Pa1mqceM/ZYvpPF7bcpg2S6znQSV1IB1IPFJZ/cyliY=;
- b=pxlL8Tdz/UEmANrScjJ/crG86dP+0Bvv83HHHqUJQ0xUj+OCrO1UOD6e8erxG/1PyC
- rRvg1sJ9NurwpMBVNm8gXRKUCjkIhOg2lUlMH3xdSyFor18E8NQAJ51mhqBPC7yUyE65
- MxSYPGXI7fJQP5rSMJEfz//xAWgrwReYp52w7xJ7QJIDmz2dpIrZz+jtFpfKoMEVcvde
- KK20thjAPBaj3jjkSl4CsdOsgPrV5z78AAvrrH2SI6DKL5I4JOGCX7wKpWNx+1quYDH0
- Qz0ai/BpCWepdwZxiMIsv2Lm7c/Ed4gAjbjn9GmbVCyx1L/zhyjuqNGshH9V1EWwIjbe
- PbuA==
-X-Gm-Message-State: AOAM531ca7dDyFFEPpntjn+7RUJub8bFVvDUip7lfi4aDG4V09kU54kO
- wQY9A0wuEc1O0aijHRs0irHeQPvKKN0=
-X-Google-Smtp-Source: ABdhPJxOCrKk6dmwku70g4jAH2VC3qCuoI9am8qYlpnUgrBvwbG7j+A1mROkh51mQxHo+E3BKlgKpA==
-X-Received: by 2002:adf:b641:: with SMTP id i1mr4524372wre.376.1601886241783; 
- Mon, 05 Oct 2020 01:24:01 -0700 (PDT)
+ bh=+qTSz1E9WPbTWRbvvqKtc2mBpV+7bgZoqIwjSP5/4yk=;
+ b=uR79FDfajC7ZlkjWxtFk/MvfYohzpL1Ld5n4aGT1vAauDUi4r1HYWtEDRU7D/ZfdKc
+ dPw47aozs/Vt9x8N2fT8j4cBvTbYHH3jptVJWtawaB1HwQy0tHwJQOl8adPWxBWTLSLb
+ X6ppsMJh82EVWHkHMhT5kCwcXXdl77hkw2CSqsz+lDpqCw5XBEeFmGPw0njJ0Ldqtjt0
+ +V2W3q+noCbFE1wea7yJ4aCNWcbGokZLoVOApGHEijkwA9CHMPwg8k0UZoFKOpW24/w1
+ 8A5qwse0ybaykXsmy1yeFUiflv7hVUGZZKvwvGo5g83TGAYxkAoXBG6Qc3tfdJRxYZ54
+ ZbBg==
+X-Gm-Message-State: AOAM531SPDtcnmZt/IZNYxwijGuM6ZukcVJxmsJcttzmqqgUPXd4d8u8
+ CvPrx+CslGjlwgt2bG4dAcAI3X0cRUk=
+X-Google-Smtp-Source: ABdhPJyu2P2Ic9BnxwXAGYPeNKmI9StUsr8W4hUfFXG780b7NDvObCHcGe1HiRUL+G2IOAvLx2e5XA==
+X-Received: by 2002:a1c:7708:: with SMTP id t8mr3611232wmi.6.1601886242818;
+ Mon, 05 Oct 2020 01:24:02 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
  by smtp.gmail.com with ESMTPSA id z15sm11931434wrv.94.2020.10.05.01.24.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 01:24:01 -0700 (PDT)
+ Mon, 05 Oct 2020 01:24:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/19] qapi/run-state.json: introduce memory failure event
-Date: Mon,  5 Oct 2020 10:23:46 +0200
-Message-Id: <20201005082349.354095-17-pbonzini@redhat.com>
+Subject: [PULL 17/19] target-i386: post memory failure event to QMP
+Date: Mon,  5 Oct 2020 10:23:47 +0200
+Message-Id: <20201005082349.354095-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201005082349.354095-1-pbonzini@redhat.com>
 References: <20201005082349.354095-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -91,120 +91,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: zhenwei pi <pizhenwei@bytedance.com>
 
-Introduce memory failure events for hypervisor and guest. This lets
-mft: Need exactly one file argument.  Try `mft --help' for more
-information.
-
-Suggested by Peter Maydell, rename events name&description to make
-them architecture-neutral; and suggested by Paolo, add more info to
-distinguish a mce is AR/AO, and if a previous MCE was still being
-processed in the guest.
+Post memory failure event through QMP to handle hardware memory corrupted
+event. Rather than simply printing to the log, QEMU could report more
+effective message to the client. For example, if a guest receives an MCE,
+evacuating the host could be a good idea.
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-Message-Id: <20200930100440.1060708-3-pizhenwei@bytedance.com>
+Message-Id: <20200930100440.1060708-4-pizhenwei@bytedance.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/run-state.json | 90 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+ target/i386/helper.c | 24 ++++++++++++++++++++----
+ target/i386/kvm.c    | 13 ++++++++++++-
+ 2 files changed, 32 insertions(+), 5 deletions(-)
 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 7cc9f96a5b..964c8ef391 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -475,3 +475,93 @@
-            'psw-mask': 'uint64',
-            'psw-addr': 'uint64',
-            'reason': 'S390CrashReason' } }
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 17e1684ff9..32fa21a7bb 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/qapi-events-run-state.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "qemu/qemu-print.h"
+@@ -851,6 +852,15 @@ typedef struct MCEInjectionParams {
+     int flags;
+ } MCEInjectionParams;
+ 
++static void emit_guest_memory_failure(MemoryFailureAction action, bool ar,
++                                      bool recursive)
++{
++    MemoryFailureFlags mff = {.action_required = ar, .recursive = recursive};
 +
-+##
-+# @MEMORY_FAILURE:
-+#
-+# Emitted when a memory failure occurs on host side.
-+#
-+# @recipient: recipient is defined as @MemoryFailureRecipient.
-+#
-+# @action: action that has been taken. action is defined as @MemoryFailureAction.
-+#
-+# @flags: flags for MemoryFailureAction. action is defined as @MemoryFailureFlags.
-+#
-+# Since: 5.2
-+#
-+# Example:
-+#
-+# <- { "event": "MEMORY_FAILURE",
-+#      "data": { "recipient": "hypervisor",
-+#                "action": "fatal",
-+#                "flags": { 'action-required': false } }
-+#
-+##
-+{ 'event': 'MEMORY_FAILURE',
-+  'data': { 'recipient': 'MemoryFailureRecipient',
-+            'action': 'MemoryFailureAction',
-+            'flags': 'MemoryFailureFlags'} }
++    qapi_event_send_memory_failure(MEMORY_FAILURE_RECIPIENT_GUEST, action,
++                                   &mff);
++}
 +
-+##
-+# @MemoryFailureRecipient:
-+#
-+# Hardware memory failure occurs, handled by recipient.
-+#
-+# @hypervisor: memory failure at QEMU process address space.
-+#              (none guest memory, but used by QEMU itself).
-+#
-+# @guest: memory failure at guest memory,
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'enum': 'MemoryFailureRecipient',
-+  'data': [ 'hypervisor',
-+            'guest' ] }
+ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+ {
+     MCEInjectionParams *params = data.host_ptr;
+@@ -859,16 +869,18 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+     uint64_t *banks = cenv->mce_banks + 4 * params->bank;
+     g_autofree char *msg = NULL;
+     bool need_reset = false;
++    bool recursive;
++    bool ar = !!(params->status & MCI_STATUS_AR);
+ 
+     cpu_synchronize_state(cs);
++    recursive = !!(cenv->mcg_status & MCG_STATUS_MCIP);
+ 
+     /*
+      * If there is an MCE exception being processed, ignore this SRAO MCE
+      * unless unconditional injection was requested.
+      */
+-    if (!(params->flags & MCE_INJECT_UNCOND_AO)
+-        && !(params->status & MCI_STATUS_AR)
+-        && (cenv->mcg_status & MCG_STATUS_MCIP)) {
++    if (!(params->flags & MCE_INJECT_UNCOND_AO) && !ar && recursive) {
++        emit_guest_memory_failure(MEMORY_FAILURE_ACTION_IGNORE, ar, recursive);
+         return;
+     }
+ 
+@@ -896,7 +908,7 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+             return;
+         }
+ 
+-        if (cenv->mcg_status & MCG_STATUS_MCIP) {
++        if (recursive) {
+             need_reset = true;
+             msg = g_strdup_printf("CPU %d: Previous MCE still in progress, "
+                                   "raising triple fault", cs->cpu_index);
+@@ -909,6 +921,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+         }
+ 
+         if (need_reset) {
++            emit_guest_memory_failure(MEMORY_FAILURE_ACTION_RESET, ar,
++                                      recursive);
+             monitor_printf(params->mon, "%s", msg);
+             qemu_log_mask(CPU_LOG_RESET, "%s\n", msg);
+             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+@@ -934,6 +948,8 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+     } else {
+         banks[1] |= MCI_STATUS_OVER;
+     }
 +
++    emit_guest_memory_failure(MEMORY_FAILURE_ACTION_INJECT, ar, recursive);
+ }
+ 
+ void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index f6dae4cfb6..8b12387d30 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -13,6 +13,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/qapi-events-run-state.h"
+ #include "qapi/error.h"
+ #include <sys/ioctl.h>
+ #include <sys/utsname.h>
+@@ -549,8 +550,17 @@ static void kvm_mce_inject(X86CPU *cpu, hwaddr paddr, int code)
+                        (MCM_ADDR_PHYS << 6) | 0xc, flags);
+ }
+ 
++static void emit_hypervisor_memory_failure(MemoryFailureAction action, bool ar)
++{
++    MemoryFailureFlags mff = {.action_required = ar, .recursive = false};
 +
-+##
-+# @MemoryFailureAction:
-+#
-+# Actions taken by QEMU in response to a hardware memory failure.
-+#
-+# @ignore: the memory failure could be ignored.  This will only be the case
-+#          for action-optional failures.
-+#
-+# @inject: memory failure occurred in guest memory, the guest enabled MCE
-+#          handling mechanism, and QEMU could inject the MCE into the guest
-+#          successfully.
-+#
-+# @fatal: the failure is unrecoverable.  This occurs for action-required
-+#         failures if the recipient is the hypervisor; QEMU will exit.
-+#
-+# @reset: the failure is unrecoverable but confined to the guest.  This
-+#         occurs if the recipient is a guest guest which is not ready
-+#         to handle memory failures.
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'enum': 'MemoryFailureAction',
-+  'data': [ 'ignore',
-+            'inject',
-+            'fatal',
-+            'reset' ] }
++    qapi_event_send_memory_failure(MEMORY_FAILURE_RECIPIENT_HYPERVISOR, action,
++                                   &mff);
++}
 +
-+##
-+# @MemoryFailureFlags:
-+#
-+# Additional information on memory failures.
-+#
-+# @action-required: whether a memory failure event is action-required
-+#                   or action-optional (e.g. a failure during memory scrub).
-+#
-+# @recursive: whether the failure occurred while the previous
-+#             failure was still in progress.
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'struct': 'MemoryFailureFlags',
-+  'data': { 'action-required': 'bool',
-+            'recursive': 'bool'} }
+ static void hardware_memory_error(void *host_addr)
+ {
++    emit_hypervisor_memory_failure(MEMORY_FAILURE_ACTION_FATAL, true);
+     error_report("QEMU got Hardware memory error at addr %p", host_addr);
+     exit(1);
+ }
+@@ -605,7 +615,8 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
+         hardware_memory_error(addr);
+     }
+ 
+-    /* Hope we are lucky for AO MCE */
++    /* Hope we are lucky for AO MCE, just notify a event */
++    emit_hypervisor_memory_failure(MEMORY_FAILURE_ACTION_IGNORE, false);
+ }
+ 
+ static void kvm_reset_exception(CPUX86State *env)
 -- 
 2.26.2
 
