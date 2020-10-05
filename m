@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB09283FEF
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 21:56:57 +0200 (CEST)
-Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B386283FF3
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 21:59:05 +0200 (CEST)
+Received: from localhost ([::1]:54922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWbQ-0005BV-Ar
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 15:56:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56600)
+	id 1kPWdU-0000KS-8n
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 15:59:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWl-00082e-8j
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46963)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWm-00085c-SN
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWi-00075D-Pi
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:06 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWk-00075S-5O
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601927522;
+ s=mimecast20190719; t=1601927525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uK8aJWmONLmLz8GThMNVOIyusxyJ7b5QrlusdD7Nbd4=;
- b=bwz+iMvoqQq1R1S6ORqvq8ZOs5EzQFvCLuJ/swAhR3ydcWjP/0Wd0QbsscIYTZBDJOmABE
- bWtxUIJ97VQGhQUI/P6hnSpOW1854bXGgXgSXD/4yWdrByYr1ARqyRwf7EuZHKDUgHZPov
- ByzCyT4LaNM++ShKxeK9lLtAFrTzvT8=
+ bh=joEwYvZXqHddGSMyTfIajUr87bTrmv/TWHAqflVz3w4=;
+ b=Bci+aHz+dLni8kgauUtXDP6yf8P227NKP869m98aIWK7kzPb9swpmjFA2UeiroSvvkwsRM
+ bpdINg96W/LQZ2SdQRDnWAkWtU6JGc6Pt1m7oyrMe6fkwnXWFqlyolZhVvum2gIjT7aCqh
+ dI61wzzeKXjfOmfXa+GT8BwCtcwkE3o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-Xguq7p6iNvmBCHprgwkA1w-1; Mon, 05 Oct 2020 15:52:01 -0400
-X-MC-Unique: Xguq7p6iNvmBCHprgwkA1w-1
+ us-mta-368-QiDvIg-yMWOphBwwhLK-KQ-1; Mon, 05 Oct 2020 15:52:01 -0400
+X-MC-Unique: QiDvIg-yMWOphBwwhLK-KQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3667D107ACF9
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5523873084
  for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:00 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A06045C1BD;
- Mon,  5 Oct 2020 19:51:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A1025C1BD;
+ Mon,  5 Oct 2020 19:52:00 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/36] docs: repair broken references
-Date: Mon,  5 Oct 2020 15:51:23 -0400
-Message-Id: <20201005195158.2348217-2-jsnow@redhat.com>
+Subject: [PATCH v5 02/36] qapi: modify docstrings to be sphinx-compatible
+Date: Mon,  5 Oct 2020 15:51:24 -0400
+Message-Id: <20201005195158.2348217-3-jsnow@redhat.com>
 In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,41 +83,63 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In two different places, we are not making a cross-reference to some
-resource correctly.
+A precise style guide and a package-wide overhaul is forthcoming pending
+further discussion and consensus. At present, we are avoiding obvious
+errors that cause sphinx documentation build problems.
 
+A preliminary style guide is loosely based on PEP 257 and Sphinx
+Autodoc. It is chosen for interoperability with our existing Sphinx
+framework, and because it has loose recognition in the Pycharm IDE.
+
+- Use Triple-double quotes (""").
+- Opening and closing quotes appear on their own lines for multi-line docs.
+- A single-sentence summary should be the first line of the docstring.
+- A blank line follows.
+- Further prose, if needed, is written next and can be multiple paragraphs,
+  contain RST markup, etc.
+- The :param x: desc, :returns: desc, and :raises z: desc info fields follow.
+- Additional examples, diagrams, or other metadata follows below.
+
+See also:
+
+https://www.python.org/dev/peps/pep-0257/
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/devel/multi-thread-tcg.rst | 2 +-
- docs/devel/testing.rst          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/gen.py    | 6 ++++--
+ scripts/qapi/parser.py | 1 +
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
-index 21483870dbc..92a9eba13c9 100644
---- a/docs/devel/multi-thread-tcg.rst
-+++ b/docs/devel/multi-thread-tcg.rst
-@@ -267,7 +267,7 @@ of view of external observers (e.g. another processor core). They can
- apply to any memory operations as well as just loads or stores.
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index ca66c82b5b8..dc7b94aa115 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -154,9 +154,11 @@ def _bottom(self):
  
- The Linux kernel has an excellent `write-up
--<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`
-+<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`_
- on the various forms of memory barrier and the guarantees they can
- provide.
+ @contextmanager
+ def ifcontext(ifcond, *args):
+-    """A 'with' statement context manager to wrap with start_if()/end_if()
++    """
++    A with-statement context manager that wraps with `start_if()` / `end_if()`.
  
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index bd64c1bdcdd..8875a40a2b6 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -953,7 +953,7 @@ compiler flags are needed to build for a given target.
- If you have the ability to run containers as the user you can also
- take advantage of the build systems "Docker" support. It will then use
- containers to build any test case for an enabled guest where there is
--no system compiler available. See :ref: `_docker-ref` for details.
-+no system compiler available. See :ref:`docker-ref` for details.
+-    *args: any number of QAPIGenCCode
++    :param ifcond: A list of conditionals, passed to `start_if()`.
++    :param args: any number of `QAPIGenCCode`.
  
- Running subset of tests
- -----------------------
+     Example::
+ 
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 9d1a3e2eea9..31bc2e6dca9 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -381,6 +381,7 @@ def append(self, line):
+ 
+         The way that the line is dealt with depends on which part of
+         the documentation we're parsing right now:
++
+         * The body section: ._append_line is ._append_body_line
+         * An argument section: ._append_line is ._append_args_line
+         * A features section: ._append_line is ._append_features_line
 -- 
 2.26.2
 
