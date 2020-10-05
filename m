@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A40E2840D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:34:14 +0200 (CEST)
-Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDFC28409A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:29:24 +0200 (CEST)
+Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPXBV-00035B-3U
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
+	id 1kPX6p-0006yL-9N
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kPWev-0004u7-KQ; Mon, 05 Oct 2020 16:00:33 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:46518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kPWet-000843-02; Mon, 05 Oct 2020 16:00:33 -0400
-Received: by mail-ej1-x643.google.com with SMTP id cb21so7255973ejb.13;
- Mon, 05 Oct 2020 13:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jN3LE8p6atd5HvhNF0VPAG9XMzJBs38DyeEWeOc6qZ0=;
- b=rS6sOfLsJZO7tVWt2KY7QtGImwzGeI4dRx3Q2Snw71XIsBGcX8PZOP2r45nkf9CQ9b
- 4fgNxgDio/wfZk2lo7eh2/dNgmYvpiXJaPkP7UI2sBYG3U/J+Iy3loEcAft+YCuM3Hdh
- ur8bitOi+6mcRwOI/tQ5QBPk0GQhSXlAzIdx2hnNa0sb9ejCRlt89bB21NPJ8sSViC+f
- OEnumemc35Ysd1MFaT5qx3ocw7iVLJNFyDRBJs0obvhFk9F3QeKECa2ihKWkx8rtq79i
- Sk2spMPJPpzb3ftRkU89rx/xmW7ZnvACvN6S7JZ0Z7K8F6UPqYB/+8e5bwnMdZ0gn3UM
- PauQ==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kPWkv-0002mm-SJ
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 16:06:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kPWkt-0000L2-Il
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 16:06:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601928400;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WTPbRsoAdIdaieEFBEjZBBCyhx5pQwTJSbQV3jAJ6SU=;
+ b=UyCpxWoP0es+zgGXwRYhbZIK+NaZrzBJ6hphcukRp5J3z6MPr4sCr0WC8OjeqiGFF4EpNX
+ w/ma4CCfTYNjnZnXZWk2gleCn4L/jevjQO8Hciq2vgrQt9NVYOdCraWC/m/sl6yOF5wdRt
+ RWSMXXnq+8ww8/z+MKlcaDjux4pxnDc=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-FvJboAegOGyCx8Ji-aWsSA-1; Mon, 05 Oct 2020 16:06:38 -0400
+X-MC-Unique: FvJboAegOGyCx8Ji-aWsSA-1
+Received: by mail-il1-f199.google.com with SMTP id 9so7700391ile.22
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 13:06:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jN3LE8p6atd5HvhNF0VPAG9XMzJBs38DyeEWeOc6qZ0=;
- b=coq3fVcZO0xwzV5SIOI6UPs9BVzniKpoBuSa3eH5eCSLVkV+7psREBugYhyjKujhMH
- OqYMzvWWbWD025PZUXpq1kT5CtLFzPphOkyQmsrGIg0iH3QxEcikG3fyR0S+2VHyghDr
- jc36YXj9z5rAOTGvCIPeJBdSiboDWSpFUXmXHg+S10BgSYKVrjuejMFqnH1fL3A9OYZ4
- PZ7o5z3MwTe0BeF0RliJxGj5qyjoIs0f/q3H+XLt/OSG3rMb0Jz9XWCmNlA15lHaIy/U
- aPR4Ev1PmOGceanI4ujnUYE6ZtMvoQM0LiqPB0c6dQhrzhcZeOa+JryLIbPV7XlRrFo9
- QxEg==
-X-Gm-Message-State: AOAM53319/L+d3e2TjsdoTv8/tArtGDK6hlAxF9SEBIsySA15oMYXqaQ
- +rbIpfW47Pof0AAowNx3MOg/Bqb3LbhvsBzk5Dc=
-X-Google-Smtp-Source: ABdhPJyUDhTLcmv1merl3ZdQjDOF/Uq6mEPeqmftLlpnBRTGv4rzQnq4ovktmV4F6YNZ59jV+24uqqfLUu3XGOvatEE=
-X-Received: by 2002:a17:906:515:: with SMTP id
- j21mr1429736eja.105.1601928028318; 
- Mon, 05 Oct 2020 13:00:28 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WTPbRsoAdIdaieEFBEjZBBCyhx5pQwTJSbQV3jAJ6SU=;
+ b=lx0czp+TnsKmbLO3IxIRp5ks3+ErAbNOUvA1et3t9cOwLjtQSnYDpicwYJ+bUXnten
+ tGWURvmb3RNGHWItmJhGKegiPfaXEaIH/NBhdlnucS73FSbOrXlFDitNi/7OUBPf2nBI
+ tKcWgn/lwxfPZAIOTJZ1BR+pnP2RYJPatevP/l0betTBf5GHf6rL3WFC/d9WGgv8SAWi
+ M1zdk3XCrRlWbt2JjZk4Yq75zHc06lnpn3NUtyytSicY57hZkImEswZCH4SGIvN3C+Ry
+ y01+SjJ4xhDqAAw00Ew8rpohKFZeHLYlrFumr1NHF6ji2TvRUBjAe1Cn+d7vzkIu2BgM
+ tzcw==
+X-Gm-Message-State: AOAM533yn01M9AyqpJH/DmfQvkWDcq5oGPWFUw/ErvAVIFGmZT7cVRgw
+ j+FO82p1OJplwPsAGCYvCQoSIF+1/kXbPqv2+nu9iJwE3+sBKv+GtjGjycbazwBUaMC5kgjgmWB
+ JXKCkS1b7xilxFWaKcF5tWbqWb+zXDBs=
+X-Received: by 2002:a05:6638:f03:: with SMTP id
+ h3mr1475952jas.36.1601928397926; 
+ Mon, 05 Oct 2020 13:06:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyHeq++59ug/FUJZEuILeI66AoE0E9EjsPWMsMSyjda7KgIWHEu8lzgCZAeVCL2ael7rB2747RXED0HzC5gRSI=
+X-Received: by 2002:a05:6638:f03:: with SMTP id
+ h3mr1475938jas.36.1601928397723; 
+ Mon, 05 Oct 2020 13:06:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201005195129.1507-1-luoyonggang@gmail.com>
-In-Reply-To: <20201005195129.1507-1-luoyonggang@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 6 Oct 2020 00:00:16 +0400
-Message-ID: <CAJ+F1C+6Ur2QJ57P9jZ-d7TtvDgG6OBmpq9fTCBi2W7ee_O2iA@mail.gmail.com>
-Subject: Re: [PATCH v3] scripts: Convert qemu-version.sh to qemu-version.py
-To: Yonggang Luo <luoyonggang@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000156f0f05b0f1efc2"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <CAHOaf96qxm6_qigD+DuoJ5GpS9rOqXe4Gv=2UnujiiwcfN0HHQ@mail.gmail.com>
+In-Reply-To: <CAHOaf96qxm6_qigD+DuoJ5GpS9rOqXe4Gv=2UnujiiwcfN0HHQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 6 Oct 2020 00:06:26 +0400
+Message-ID: <CAMxuvazRhrB8baHp3p=NmzCX5hQBDF6mYDDaQ5Ow1TZu96T2Uw@mail.gmail.com>
+Subject: Re: [PATCH] qom: fix objects with improper parent type
+To: Sergey Nizovtsev <snizovtsev@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,284 +93,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ben Warren <ben@skyportsystems.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-trivial <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000156f0f05b0f1efc2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 30, 2020 at 3:47 AM Sergey Nizovtsev <snizovtsev@gmail.com> wro=
+te:
+>
+> Some objects accidentally inherit ObjectClass instead of Object.
+> They compile silently but may crash after downcasting.
+>
+> In this patch, we introduce a coccinelle script to find broken
+> declarations and fix them manually with proper base type.
+>
+> Signed-off-by: Sergey Nizovtsev <snizovtsev@gmail.com>
 
-On Mon, Oct 5, 2020 at 11:52 PM Yonggang Luo <luoyonggang@gmail.com> wrote:
-
-> The sh script are harder to maintain for compatible different
-> xsh environment so convert it to python script
-> Also incorporate the fixes in
->
-> https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.=
-com/
->
-> Testing args length and if not enough, setting pkgversion and version to =
-''
->
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
->
-
-lgtm
+thanks!!
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
----
->  meson.build             |  2 +-
->  scripts/qemu-version.py | 37 +++++++++++++++++++++++++++++++++++++
->  scripts/qemu-version.sh | 25 -------------------------
->  3 files changed, 38 insertions(+), 26 deletions(-)
->  create mode 100644 scripts/qemu-version.py
->  delete mode 100755 scripts/qemu-version.sh
+> ---
+>  scripts/coccinelle/qobject-parent-type.cocci | 26 ++++++++++++++++++++
+>  include/hw/acpi/vmgenid.h                    |  2 +-
+>  include/hw/misc/vmcoreinfo.h                 |  2 +-
+>  include/net/can_host.h                       |  2 +-
+>  MAINTAINERS                                  |  1 +
+>  5 files changed, 30 insertions(+), 3 deletions(-)
+>  create mode 100644 scripts/coccinelle/qobject-parent-type.cocci
 >
-> diff --git a/meson.build b/meson.build
-> index 95a532bd29..20f653b6eb 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1072,7 +1072,7 @@ tracetool =3D [
->     '--backend=3D' + config_host['TRACE_BACKENDS']
->  ]
->
-> -qemu_version_cmd =3D [find_program('scripts/qemu-version.sh'),
-> +qemu_version_cmd =3D [find_program('scripts/qemu-version.py'),
->                      meson.current_source_dir(),
->                      config_host['PKGVERSION'], meson.project_version()]
->  qemu_version =3D custom_target('qemu-version.h',
-> diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
+> diff --git a/scripts/coccinelle/qobject-parent-type.cocci
+> b/scripts/coccinelle/qobject-parent-type.cocci
 > new file mode 100644
-> index 0000000000..fc1531ef2b
+> index 0000000000..9afb3edd97
 > --- /dev/null
-> +++ b/scripts/qemu-version.py
-> @@ -0,0 +1,37 @@
-> +#!/usr/bin/env python3
+> +++ b/scripts/coccinelle/qobject-parent-type.cocci
+> @@ -0,0 +1,26 @@
+> +// Highlight object declarations that don't look like object class but
+> +// accidentally inherit from it.
 > +
-> +#
-> +# Script for retrieve qemu git version information
-> +#
-> +# Author: Yonggang Luo <luoyonggang@gmail.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2.  See
-> +# the COPYING file in the top-level directory.
-> +#
+> +@match@
+> +identifier obj_t, fld;
+> +type parent_t =3D~ ".*Class$";
+> +@@
+> +struct obj_t {
+> +    parent_t fld;
+> +    ...
+> +};
 > +
-> +import sys
-> +import subprocess
+> +@script:python filter depends on match@
+> +obj_t << match.obj_t;
+> +@@
+> +is_class_obj =3D obj_t.endswith('Class')
+> +cocci.include_match(not is_class_obj)
 > +
-> +def main(args):
-> +    pkgversion =3D ''
-> +    version =3D ''
-> +    if len(args) > 3:
-> +        dir =3D args[1]
-> +        pkgversion =3D args[2]
-> +        version =3D args[3]
-> +        if len(pkgversion) =3D=3D 0:
-> +            pc =3D subprocess.run(['git', 'describe', '--match', "'v*'",
-> '--dirty', '--always'],
-> +                                stdout=3Dsubprocess.PIPE,
-> stderr=3Dsubprocess.DEVNULL, cwd=3Ddir)
-> +            if pc.returncode =3D=3D 0:
-> +                pkgversion =3D pc.stdout.decode('utf8').strip()
-> +
-> +    fullversion =3D version
-> +    if len(pkgversion) > 0:
-> +        fullversion =3D "{} ({})".format(version, pkgversion)
-> +
-> +    version_header =3D '''#define QEMU_PKGVERSION "{}"
-> +#define QEMU_FULL_VERSION "{}"'''.format(pkgversion, fullversion)
-> +    sys.stdout.buffer.write(version_header.encode('utf8'))
-> +
-> +if __name__ =3D=3D "__main__":
-> +    main(sys.argv)
-> diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-> deleted file mode 100755
-> index 03128c56a2..0000000000
-> --- a/scripts/qemu-version.sh
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -#!/bin/sh
-> -
-> -set -eu
-> -
-> -dir=3D"$1"
-> -pkgversion=3D"$2"
-> -version=3D"$3"
-> -
-> -if [ -z "$pkgversion" ]; then
-> -    cd "$dir"
-> -    if [ -e .git ]; then
-> -        pkgversion=3D$(git describe --match 'v*' --dirty | echo "")
-> -    fi
-> -fi
-> -
-> -if [ -n "$pkgversion" ]; then
-> -    fullversion=3D"$version ($pkgversion)"
-> -else
-> -    fullversion=3D"$version"
-> -fi
-> -
-> -cat <<EOF
-> -#define QEMU_PKGVERSION "$pkgversion"
-> -#define QEMU_FULL_VERSION "$fullversion"
-> -EOF
+> +@replacement depends on filter@
+> +identifier match.obj_t, match.fld;
+> +type match.parent_t;
+> +@@
+> +struct obj_t {
+> +*   parent_t fld;
+> +    ...
+> +};
+> diff --git a/include/hw/acpi/vmgenid.h b/include/hw/acpi/vmgenid.h
+> index d50fbacb8e..cb4ad37fc5 100644
+> --- a/include/hw/acpi/vmgenid.h
+> +++ b/include/hw/acpi/vmgenid.h
+> @@ -19,7 +19,7 @@
+>  OBJECT_DECLARE_SIMPLE_TYPE(VmGenIdState, VMGENID)
+>
+>  struct VmGenIdState {
+> -    DeviceClass parent_obj;
+> +    DeviceState parent_obj;
+>      QemuUUID guid;                /* The 128-bit GUID seen by the guest =
+*/
+>      uint8_t vmgenid_addr_le[8];   /* Address of the GUID (little-endian)=
+ */
+>  };
+> diff --git a/include/hw/misc/vmcoreinfo.h b/include/hw/misc/vmcoreinfo.h
+> index ebada6617a..0b7b55d400 100644
+> --- a/include/hw/misc/vmcoreinfo.h
+> +++ b/include/hw/misc/vmcoreinfo.h
+> @@ -24,7 +24,7 @@ DECLARE_INSTANCE_CHECKER(VMCoreInfoState, VMCOREINFO,
+>  typedef struct fw_cfg_vmcoreinfo FWCfgVMCoreInfo;
+>
+>  struct VMCoreInfoState {
+> -    DeviceClass parent_obj;
+> +    DeviceState parent_obj;
+>
+>      bool has_vmcoreinfo;
+>      FWCfgVMCoreInfo vmcoreinfo;
+> diff --git a/include/net/can_host.h b/include/net/can_host.h
+> index 4e3ce3f954..caab71bdda 100644
+> --- a/include/net/can_host.h
+> +++ b/include/net/can_host.h
+> @@ -35,7 +35,7 @@
+>  OBJECT_DECLARE_TYPE(CanHostState, CanHostClass, CAN_HOST)
+>
+>  struct CanHostState {
+> -    ObjectClass oc;
+> +    Object oc;
+>
+>      CanBusState *bus;
+>      CanBusClientState bus_client;
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5eed1e692b..2160b8196a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2402,6 +2402,7 @@ F: qobject/
+>  F: include/qapi/qmp/
+>  X: include/qapi/qmp/dispatch.h
+>  F: scripts/coccinelle/qobject.cocci
+> +F: scripts/coccinelle/qobject-parent-type.cocci
+>  F: tests/check-qdict.c
+>  F: tests/check-qjson.c
+>  F: tests/check-qlist.c
 > --
-> 2.28.0.windows.1
->
->
+> 2.28.0
 >
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000156f0f05b0f1efc2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 5, 2020 at 11:52 PM Yongg=
-ang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">T=
-he sh script are harder to maintain for compatible different<br>
-xsh environment so convert it to python script<br>
-Also incorporate the fixes in<br>
-<a href=3D"https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lurea=
-u@redhat.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEM=
-U/20200929143654.518157-1-marcandre.lureau@redhat.com/</a><br>
-<br>
-Testing args length and if not enough, setting pkgversion and version to &#=
-39;&#39;<br>
-<br>
-Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com" ta=
-rget=3D"_blank">luoyonggang@gmail.com</a>&gt;<br></blockquote><div><br></di=
-v><div>lgtm</div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"ma=
-ilto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div>=
-<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 =
-+-<br>
-=C2=A0scripts/qemu-version.py | 37 +++++++++++++++++++++++++++++++++++++<br=
->
-=C2=A0scripts/qemu-version.sh | 25 -------------------------<br>
-=C2=A03 files changed, 38 insertions(+), 26 deletions(-)<br>
-=C2=A0create mode 100644 scripts/qemu-version.py<br>
-=C2=A0delete mode 100755 scripts/qemu-version.sh<br>
-<br>
-diff --git a/meson.build b/meson.build<br>
-index 95a532bd29..20f653b6eb 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -1072,7 +1072,7 @@ tracetool =3D [<br>
-=C2=A0 =C2=A0 &#39;--backend=3D&#39; + config_host[&#39;TRACE_BACKENDS&#39;=
-]<br>
-=C2=A0]<br>
-<br>
--qemu_version_cmd =3D [find_program(&#39;scripts/qemu-version.sh&#39;),<br>
-+qemu_version_cmd =3D [find_program(&#39;scripts/qemu-version.py&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0meson.current_source_dir(),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0config_host[&#39;PKGVERSION&#39;], meson.project_version()]<br>
-=C2=A0qemu_version =3D custom_target(&#39;qemu-version.h&#39;,<br>
-diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py<br>
-new file mode 100644<br>
-index 0000000000..fc1531ef2b<br>
---- /dev/null<br>
-+++ b/scripts/qemu-version.py<br>
-@@ -0,0 +1,37 @@<br>
-+#!/usr/bin/env python3<br>
-+<br>
-+#<br>
-+# Script for retrieve qemu git version information<br>
-+#<br>
-+# Author: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com" target=
-=3D"_blank">luoyonggang@gmail.com</a>&gt;<br>
-+#<br>
-+# This work is licensed under the terms of the GNU GPL, version 2.=C2=A0 S=
-ee<br>
-+# the COPYING file in the top-level directory.<br>
-+#<br>
-+<br>
-+import sys<br>
-+import subprocess<br>
-+<br>
-+def main(args):<br>
-+=C2=A0 =C2=A0 pkgversion =3D &#39;&#39;<br>
-+=C2=A0 =C2=A0 version =3D &#39;&#39;<br>
-+=C2=A0 =C2=A0 if len(args) &gt; 3:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 dir =3D args[1]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgversion =3D args[2]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 version =3D args[3]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(pkgversion) =3D=3D 0:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pc =3D subprocess.run([&#39;git&=
-#39;, &#39;describe&#39;, &#39;--match&#39;, &quot;&#39;v*&#39;&quot;, &#39=
-;--dirty&#39;, &#39;--always&#39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stdout=3Dsubprocess.PIPE, stderr=3Ds=
-ubprocess.DEVNULL, cwd=3Ddir)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if pc.returncode =3D=3D 0:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgversion =3D pc.=
-stdout.decode(&#39;utf8&#39;).strip()<br>
-+<br>
-+=C2=A0 =C2=A0 fullversion =3D version<br>
-+=C2=A0 =C2=A0 if len(pkgversion) &gt; 0:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fullversion =3D &quot;{} ({})&quot;.format(ver=
-sion, pkgversion)<br>
-+<br>
-+=C2=A0 =C2=A0 version_header =3D &#39;&#39;&#39;#define QEMU_PKGVERSION &q=
-uot;{}&quot;<br>
-+#define QEMU_FULL_VERSION &quot;{}&quot;&#39;&#39;&#39;.format(pkgversion,=
- fullversion)<br>
-+=C2=A0 =C2=A0 sys.stdout.buffer.write(version_header.encode(&#39;utf8&#39;=
-))<br>
-+<br>
-+if __name__ =3D=3D &quot;__main__&quot;:<br>
-+=C2=A0 =C2=A0 main(sys.argv)<br>
-diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh<br>
-deleted file mode 100755<br>
-index 03128c56a2..0000000000<br>
---- a/scripts/qemu-version.sh<br>
-+++ /dev/null<br>
-@@ -1,25 +0,0 @@<br>
--#!/bin/sh<br>
--<br>
--set -eu<br>
--<br>
--dir=3D&quot;$1&quot;<br>
--pkgversion=3D&quot;$2&quot;<br>
--version=3D&quot;$3&quot;<br>
--<br>
--if [ -z &quot;$pkgversion&quot; ]; then<br>
--=C2=A0 =C2=A0 cd &quot;$dir&quot;<br>
--=C2=A0 =C2=A0 if [ -e .git ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgversion=3D$(git describe --match &#39;v*&#3=
-9; --dirty | echo &quot;&quot;)<br>
--=C2=A0 =C2=A0 fi<br>
--fi<br>
--<br>
--if [ -n &quot;$pkgversion&quot; ]; then<br>
--=C2=A0 =C2=A0 fullversion=3D&quot;$version ($pkgversion)&quot;<br>
--else<br>
--=C2=A0 =C2=A0 fullversion=3D&quot;$version&quot;<br>
--fi<br>
--<br>
--cat &lt;&lt;EOF<br>
--#define QEMU_PKGVERSION &quot;$pkgversion&quot;<br>
--#define QEMU_FULL_VERSION &quot;$fullversion&quot;<br>
--EOF<br>
--- <br>
-2.28.0.windows.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000156f0f05b0f1efc2--
 
