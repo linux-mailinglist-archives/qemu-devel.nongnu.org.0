@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A705284207
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 23:20:37 +0200 (CEST)
-Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2482A28420D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 23:22:30 +0200 (CEST)
+Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPXuN-0003VP-WF
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 17:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43304)
+	id 1kPXwD-0006fs-6O
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 17:22:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPXkb-0008OJ-E5
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 17:10:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30936)
+ id 1kPXkn-0000Bz-G2
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 17:10:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPXkZ-0007Sa-5S
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 17:10:28 -0400
+ id 1kPXkj-0007US-8V
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 17:10:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601932226;
+ s=mimecast20190719; t=1601932235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W+yWMzr7we7iUkfgz+kLkjKlVO4iF5CR5vCYlbGAjXM=;
- b=W4f7YBfOAkZL1pwBGmjK7kbbGB3e2q7oK5KA6Ye7TGMMbgSDn6P/Mx+JxstlS26FfBAh2S
- y2cwdcSR0jE5phLfw8Zlc1wUbgLqyyK9ECrGkLcXspZpviN5jfRmWYVf599o9rMRPs2VBy
- H7yccILMO6thfrxkJNl8WAaYG561Ick=
+ bh=uEyhLN+7XslyBoI0Db6s1CZEYZyW8MgA6FMtj5f7PIE=;
+ b=FIYEtLdpcJtrL/Yv8z3FgTGfDXmStCogiF6p/LIpCLGwG6dlsVCZ78RZtsh8OW72O5sAQA
+ /Tn2IJ9PVSZT/hIdoA2L1YfL50EMAZ6qUR2NJI98u70Nogn53vpvKi+oBmhDJA5rUXiPuZ
+ 84ozNjRphD2r8eQujpTseAZ/aNM+qoc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-6n565AwYO3mNHhBpxhkKoA-1; Mon, 05 Oct 2020 17:10:24 -0400
-X-MC-Unique: 6n565AwYO3mNHhBpxhkKoA-1
+ us-mta-65-ON17W0wNOPO7TeyY14uwJg-1; Mon, 05 Oct 2020 17:10:31 -0400
+X-MC-Unique: ON17W0wNOPO7TeyY14uwJg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 625071DDED;
- Mon,  5 Oct 2020 21:10:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E7EF18A8220;
+ Mon,  5 Oct 2020 21:10:30 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECE3160BFA;
- Mon,  5 Oct 2020 21:10:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C123660BFA;
+ Mon,  5 Oct 2020 21:10:29 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 13/21] docs/devel/qom: Fix indentation of code blocks
-Date: Mon,  5 Oct 2020 17:09:52 -0400
-Message-Id: <20201005211000.710404-14-ehabkost@redhat.com>
+Subject: [PULL 14/21] docs/devel/qom: Use *emphasis* for emphasis
+Date: Mon,  5 Oct 2020 17:09:53 -0400
+Message-Id: <20201005211000.710404-15-ehabkost@redhat.com>
 In-Reply-To: <20201005211000.710404-1-ehabkost@redhat.com>
 References: <20201005211000.710404-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -56,18 +56,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,143 +83,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some code blocks had one extra space, fix that.
+<emphasis> is not valid reST syntax.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201003025424.199291-4-ehabkost@redhat.com>
+Message-Id: <20201003025424.199291-5-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- docs/devel/qom.rst | 76 +++++++++++++++++++++++-----------------------
- 1 file changed, 38 insertions(+), 38 deletions(-)
+ docs/devel/qom.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-index c4857d95c8e..a47e1b9a239 100644
+index a47e1b9a239..0c610e20d62 100644
 --- a/docs/devel/qom.rst
 +++ b/docs/devel/qom.rst
-@@ -284,28 +284,28 @@ in the header file:
- .. code-block:: c
-    :caption: Declaring a simple type
+@@ -174,17 +174,17 @@ dynamically cast it to an object that implements the interface.
+ Methods
+ =======
  
--    OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
+-A <emphasis>method</emphasis> is a function within the namespace scope of
++A *method* is a function within the namespace scope of
+ a class. It usually operates on the object instance by passing it as a
+ strongly-typed first argument.
+ If it does not operate on an object instance, it is dubbed
+-<emphasis>class method</emphasis>.
++*class method*.
  
- This is equivalent to the following:
+ Methods cannot be overloaded. That is, the #ObjectClass and method name
+ uniquely identity the function to be called; the signature does not vary
+ except for trailing varargs.
  
- .. code-block:: c
-    :caption: Expansion from declaring a simple type
- 
--    typedef struct MyDevice MyDevice;
--    typedef struct MyDeviceClass MyDeviceClass;
-+   typedef struct MyDevice MyDevice;
-+   typedef struct MyDeviceClass MyDeviceClass;
- 
--    G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
-+   G_DEFINE_AUTOPTR_CLEANUP_FUNC(MyDeviceClass, object_unref)
- 
--    #define MY_DEVICE_GET_CLASS(void *obj) \
--            OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
--    #define MY_DEVICE_CLASS(void *klass) \
--            OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
--    #define MY_DEVICE(void *obj)
--            OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
-+   #define MY_DEVICE_GET_CLASS(void *obj) \
-+           OBJECT_GET_CLASS(MyDeviceClass, obj, TYPE_MY_DEVICE)
-+   #define MY_DEVICE_CLASS(void *klass) \
-+           OBJECT_CLASS_CHECK(MyDeviceClass, klass, TYPE_MY_DEVICE)
-+   #define MY_DEVICE(void *obj)
-+           OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
- 
--    struct MyDeviceClass {
--        DeviceClass parent_class;
--    };
-+   struct MyDeviceClass {
-+       DeviceClass parent_class;
-+   };
- 
- The 'struct MyDevice' needs to be declared separately.
- If the type requires virtual functions to be declared in the class
-@@ -319,33 +319,33 @@ In the simple case the OBJECT_DEFINE_TYPE macro is suitable:
- .. code-block:: c
-    :caption: Defining a simple type
- 
--    OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DEFINE_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
- 
- This is equivalent to the following:
- 
- .. code-block:: c
-    :caption: Expansion from defining a simple type
- 
--    static void my_device_finalize(Object *obj);
--    static void my_device_class_init(ObjectClass *oc, void *data);
--    static void my_device_init(Object *obj);
--
--    static const TypeInfo my_device_info = {
--        .parent = TYPE_DEVICE,
--        .name = TYPE_MY_DEVICE,
--        .instance_size = sizeof(MyDevice),
--        .instance_init = my_device_init,
--        .instance_finalize = my_device_finalize,
--        .class_size = sizeof(MyDeviceClass),
--        .class_init = my_device_class_init,
--    };
--
--    static void
--    my_device_register_types(void)
--    {
--        type_register_static(&my_device_info);
--    }
--    type_init(my_device_register_types);
-+   static void my_device_finalize(Object *obj);
-+   static void my_device_class_init(ObjectClass *oc, void *data);
-+   static void my_device_init(Object *obj);
-+
-+   static const TypeInfo my_device_info = {
-+       .parent = TYPE_DEVICE,
-+       .name = TYPE_MY_DEVICE,
-+       .instance_size = sizeof(MyDevice),
-+       .instance_init = my_device_init,
-+       .instance_finalize = my_device_finalize,
-+       .class_size = sizeof(MyDeviceClass),
-+       .class_init = my_device_class_init,
-+   };
-+
-+   static void
-+   my_device_register_types(void)
-+   {
-+       type_register_static(&my_device_info);
-+   }
-+   type_init(my_device_register_types);
- 
- This is sufficient to get the type registered with the type
- system, and the three standard methods now need to be implemented
-@@ -358,9 +358,9 @@ This accepts an array of interface type names.
- .. code-block:: c
-    :caption: Defining a simple type implementing interfaces
- 
--    OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
--                                       MY_DEVICE, DEVICE,
--                                       { TYPE_USER_CREATABLE }, { NULL })
-+   OBJECT_DEFINE_TYPE_WITH_INTERFACES(MyDevice, my_device,
-+                                      MY_DEVICE, DEVICE,
-+                                      { TYPE_USER_CREATABLE }, { NULL })
- 
- If the type is not intended to be instantiated, then then
- the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
-@@ -368,7 +368,7 @@ the OBJECT_DEFINE_ABSTRACT_TYPE() macro can be used instead:
- .. code-block:: c
-    :caption: Defining a simple abstract type
- 
--    OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
-+   OBJECT_DEFINE_ABSTRACT_TYPE(MyDevice, my_device, MY_DEVICE, DEVICE)
- 
- 
- 
+-Methods are always <emphasis>virtual</emphasis>. Overriding a method in
++Methods are always *virtual*. Overriding a method in
+ #TypeInfo.class_init of a subclass leads to any user of the class obtained
+ via OBJECT_GET_CLASS() accessing the overridden function.
+ The original function is not automatically invoked. It is the responsibility
 -- 
 2.26.2
 
