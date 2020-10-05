@@ -2,121 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FFF7283C9E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:37:51 +0200 (CEST)
-Received: from localhost ([::1]:57616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7332F283CAC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:42:01 +0200 (CEST)
+Received: from localhost ([::1]:36866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPTUk-000833-40
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
+	id 1kPTYm-0002w4-IO
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kPTRI-0004gG-No
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:34:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55813)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kPTXH-0001tL-Vr
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:40:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kPTRG-0007Xr-41
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:34:16 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kPTXE-00009A-TL
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:40:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601915652;
+ s=mimecast20190719; t=1601916023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2w2hOtxtJ/0YyRAo0XLN47K5bdO3ij2ydHb10/m31jU=;
- b=acq7k6XUHa+5+yJgfLkI2kregTTofc9yMjONvOAPBlleXCL2EtgfZOuNx8pFDZ//vmE9ru
- QlAMHE+E8RqSHv6cem8pslzlQzvynxT9aruOK6nS+Ldq8TaOLYvRNDAes7r33SCoPrvL8b
- eK4Zg4/X7Cn/7o8BAvVM03qlmSoUqVA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OK4Zm+CDihcj7rnMnXkHEuEcrJFYNjGqyRUOrY+EdNY=;
+ b=hysPRBCD27yf1Bpx6fCocayKnriida6f7faLtIFZhPL78axJpVWx/PGcwl9tL3rqcrNk3F
+ 48JK1pGtm3AkSkPNaQd/yucDRHsvWk+Q0wikLKq35Ky3tVvewDExqNLuUiAsoIqPxpkhYJ
+ FQwE7YnZfiWuXS6GaJFpQ8MzjLdcWuA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-Pfqqtqt_M9e8QHPgiNHJwQ-1; Mon, 05 Oct 2020 12:34:08 -0400
-X-MC-Unique: Pfqqtqt_M9e8QHPgiNHJwQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-67-3hj0ReY8O5OU_QQPhm2HCA-1; Mon, 05 Oct 2020 12:40:21 -0400
+X-MC-Unique: 3hj0ReY8O5OU_QQPhm2HCA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8511118C5217;
- Mon,  5 Oct 2020 16:34:07 +0000 (UTC)
-Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 217C65D9D2;
- Mon,  5 Oct 2020 16:34:04 +0000 (UTC)
-Subject: Re: [PATCH v8 02/14] monitor: Add Monitor parameter to
- monitor_get_cpu_index()
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20201005155855.256490-1-kwolf@redhat.com>
- <20201005155855.256490-3-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Autocrypt: addr=eblake@redhat.com; keydata=
- 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
-Organization: Red Hat, Inc.
-Message-ID: <2dc5d73c-9158-352e-450c-5d935125841f@redhat.com>
-Date: Mon, 5 Oct 2020 11:34:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 737CFE0040;
+ Mon,  5 Oct 2020 16:40:19 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49D545C221;
+ Mon,  5 Oct 2020 16:40:11 +0000 (UTC)
+Date: Mon, 5 Oct 2020 18:40:09 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH 01/16] hw/core/cpu: Let CPU object have a clock source
+Message-ID: <20201005184009.493629b0@redhat.com>
+In-Reply-To: <da7248f7-5098-188b-d274-e122c87bb498@amsat.org>
+References: <20200928171539.788309-1-f4bug@amsat.org>
+ <20200928171539.788309-2-f4bug@amsat.org>
+ <20200930094313.1120a040@redhat.com>
+ <da7248f7-5098-188b-d274-e122c87bb498@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20201005155855.256490-3-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="47nHsAHMcqOneIEJYhkkx3hyOmZik00Dl"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -129,71 +83,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, armbru@redhat.com, stefanha@redhat.com,
- qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---47nHsAHMcqOneIEJYhkkx3hyOmZik00Dl
-Content-Type: multipart/mixed; boundary="NgIhaaWhcb76VLUHY24pTHyWgaSo3xu35";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: marcandre.lureau@gmail.com, armbru@redhat.com, stefanha@redhat.com,
- qemu-devel@nongnu.org
-Message-ID: <2dc5d73c-9158-352e-450c-5d935125841f@redhat.com>
-Subject: Re: [PATCH v8 02/14] monitor: Add Monitor parameter to
- monitor_get_cpu_index()
-References: <20201005155855.256490-1-kwolf@redhat.com>
- <20201005155855.256490-3-kwolf@redhat.com>
-In-Reply-To: <20201005155855.256490-3-kwolf@redhat.com>
+On Wed, 30 Sep 2020 12:16:53 +0200
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
---NgIhaaWhcb76VLUHY24pTHyWgaSo3xu35
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 10/5/20 10:58 AM, Kevin Wolf wrote:
-> Most callers actually don't have to rely on cur_mon, but already know
-> for which monitor they call monitor_get_cpu_index().
+> +arm/ppc/riscv folks
 >=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/monitor/monitor.h  |  2 +-
->  hw/core/machine-hmp-cmds.c |  2 +-
->  monitor/hmp-cmds.c         |  2 +-
->  monitor/misc.c             | 20 ++++++++++----------
->  softmmu/cpus.c             |  2 +-
->  5 files changed, 14 insertions(+), 14 deletions(-)
+> On 9/30/20 9:43 AM, Igor Mammedov wrote:
+> > On Mon, 28 Sep 2020 19:15:24 +0200
+> > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+> >  =20
+> >> Let CPUState have a clock source (named 'clk') and CPUClass
+> >> have a clock_update() callback. The clock can be optionally
+> >> set Using qdev_connect_clock_in() from the Clock API.
+> >> If the clock changes, the optional clock_update() will be
+> >> called. =20
+> >=20
+> > the sole user of it is mips cpu, so question is why
+> > you are making it part of generic CPUm instead of
+> > MIPSCPUClass/MIPSCPU? =20
 >=20
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> This is a feature of the CPU, regardless its architecture.
+>=20
+> I expect the other archs to start using it soon.
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---NgIhaaWhcb76VLUHY24pTHyWgaSo3xu35--
-
---47nHsAHMcqOneIEJYhkkx3hyOmZik00Dl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl97SvsACgkQp6FrSiUn
-Q2qvlQf/W3CLjPaaCBF3Vcc5xSvaTnrywEJrgKfmVX8Rulo9d1Ucscs1UmBNO6UH
-pe9eZVDPdBTBDFcbCibVW845Gx32O2VXMOXtD2+eHw1GbIUyg3QC70kSa3nb8TjR
-MeFZ/3KYDQ0Pk28kdgnU90BgHYf0Viaiaa7KQo0CnBwcM/EpmyjZlC1bLN4mh0vq
-Fg/IbqVlpWpxpnCdqRcPl/LUGIZk4A1GYT8lmqkkivolMK0eOEcLMxzLuXZh6cVM
-h5pmGJENx6EKv+bUy7Q5542EzyR0RaPOsUJU/BUHURFMtM5T++v4uXFrp/bByaBz
-GkNVzV3x8muadvmeEAknatXAX3OwEQ==
-=HZYW
------END PGP SIGNATURE-----
-
---47nHsAHMcqOneIEJYhkkx3hyOmZik00Dl--
+if there aren't any plans to actually to do that,
+I'd keep it to MIPS class and generalize later when there is demand.
+=20
+>=20
+> >  =20
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >> ---
+> >>  include/hw/core/cpu.h |  5 +++++
+> >>  hw/core/cpu.c         | 12 ++++++++++++
+> >>  2 files changed, 17 insertions(+)
+> >>
+> >> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> >> index 6c34798c8b3..6989d90c193 100644
+> >> --- a/include/hw/core/cpu.h
+> >> +++ b/include/hw/core/cpu.h
+> >> @@ -31,6 +31,7 @@
+> >>  #include "qemu/thread.h"
+> >>  #include "qemu/plugin.h"
+> >>  #include "qom/object.h"
+> >> +#include "hw/clock.h"
+> >> =20
+> >>  typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
+> >>                                       void *opaque);
+> >> @@ -155,6 +156,7 @@ struct TranslationBlock;
+> >>   * @disas_set_info: Setup architecture specific components of disasse=
+mbly info
+> >>   * @adjust_watchpoint_address: Perform a target-specific adjustment t=
+o an
+> >>   * address before attempting to match it against watchpoints.
+> >> + * @clock_update: Callback for input clock changes
+> >>   *
+> >>   * Represents a CPU family or model.
+> >>   */
+> >> @@ -176,6 +178,7 @@ struct CPUClass {
+> >>                                    unsigned size, MMUAccessType access=
+_type,
+> >>                                    int mmu_idx, MemTxAttrs attrs,
+> >>                                    MemTxResult response, uintptr_t ret=
+addr);
+> >> +    void (*clock_update)(CPUState *cpu);
+> >>      bool (*virtio_is_big_endian)(CPUState *cpu);
+> >>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+> >>                             uint8_t *buf, int len, bool is_write);
+> >> @@ -316,6 +319,7 @@ struct qemu_work_item;
+> >>   *   QOM parent.
+> >>   * @nr_cores: Number of cores within this CPU package.
+> >>   * @nr_threads: Number of threads within this CPU.
+> >> + * @clock: this CPU source clock (an output clock of another device)
+> >>   * @running: #true if CPU is currently running (lockless).
+> >>   * @has_waiter: #true if a CPU is currently waiting for the cpu_exec_=
+end;
+> >>   * valid under cpu_list_lock.
+> >> @@ -400,6 +404,7 @@ struct CPUState {
+> >>      int num_ases;
+> >>      AddressSpace *as;
+> >>      MemoryRegion *memory;
+> >> +    Clock *clock;
+> >> =20
+> >>      void *env_ptr; /* CPUArchState */
+> >>      IcountDecr *icount_decr_ptr;
+> >> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+> >> index c55c09f734c..37fcff3ec64 100644
+> >> --- a/hw/core/cpu.c
+> >> +++ b/hw/core/cpu.c
+> >> @@ -30,6 +30,7 @@
+> >>  #include "qemu/qemu-print.h"
+> >>  #include "sysemu/tcg.h"
+> >>  #include "hw/boards.h"
+> >> +#include "hw/qdev-clock.h"
+> >>  #include "hw/qdev-properties.h"
+> >>  #include "trace/trace-root.h"
+> >>  #include "qemu/plugin.h"
+> >> @@ -247,6 +248,16 @@ void cpu_reset(CPUState *cpu)
+> >>      trace_guest_cpu_reset(cpu);
+> >>  }
+> >> =20
+> >> +static void cpu_clk_update(void *opaque)
+> >> +{
+> >> +    CPUState *cpu =3D opaque;
+> >> +    CPUClass *cc =3D CPU_GET_CLASS(cpu);
+> >> +
+> >> +    if (cc->clock_update) {
+> >> +        cc->clock_update(cpu);
+> >> +    }
+> >> +}
+> >> +
+> >>  static void cpu_common_reset(DeviceState *dev)
+> >>  {
+> >>      CPUState *cpu =3D CPU(dev);
+> >> @@ -367,6 +378,7 @@ static void cpu_common_initfn(Object *obj)
+> >>      /* the default value is changed by qemu_init_vcpu() for softmmu *=
+/
+> >>      cpu->nr_cores =3D 1;
+> >>      cpu->nr_threads =3D 1;
+> >> +    cpu->clock =3D qdev_init_clock_in(DEVICE(obj), "clk", cpu_clk_upd=
+ate, cpu);
+> >> =20
+> >>      qemu_mutex_init(&cpu->work_mutex);
+> >>      QSIMPLEQ_INIT(&cpu->work_list); =20
+> >  =20
+>=20
 
 
