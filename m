@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34B92841B5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:55:17 +0200 (CEST)
-Received: from localhost ([::1]:35628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48D22841ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 23:12:06 +0200 (CEST)
+Received: from localhost ([::1]:46692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPXVs-0003Xw-UF
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:55:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
+	id 1kPXm9-0001XR-PG
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 17:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1kPXTo-0001l6-Pq
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 16:53:08 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:33808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1kPXTl-0005qr-3P
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 16:53:07 -0400
-IronPort-SDR: Fu/t0yPZ3xJ3WQ/IPbc3/PDf0X/D2RDbI098g0+T7EJsSJBRvoKeC8IX+MIFoyuyae8G7fLj6v
- cPQX1TmpVFUw32eIY9JyuO1p1+MuXahIE//xc1SubbkturkDbd8+c1N8VALEft4Jjuj89Cm1U5
- 0/4XxG7iz/1dvsqcaBNOyekQdemCo9P6JrW97LEyM6P8KmXsVEE4Ud5gzSyO6YSeqfJ0wPuDKh
- YgX9dVlXWY4XLRwE1s93AJXQdGNFKQIBY23neU6zVi+j3LaBKphbse4InHi2GYIN1Hc8pDS8L+
- 4oA=
-X-IronPort-AV: E=Sophos;i="5.77,340,1596528000"; d="scan'208";a="55847254"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa1.mentor.iphmx.com with ESMTP; 05 Oct 2020 12:53:01 -0800
-IronPort-SDR: N45VDAZv4rkLXzOKL0ENJdhjMU4Ef0lxLOSVMIxO9JvfpNIychGdBIMAuEz/VYMMbZ4GBv4+b4
- 0VsMy7z28xML1psivTIdoBWz1yB64tV8a5Tqy/SiJXwOeFuQF8JSd8S0RIeDaoDDkPO8OeZXBO
- RTW7qcTPFLjGo7tZ18+U3vlb4lqyzD8VBR/9XG2WryOYS2se5czzBd9jR5/1/1lX7wBxHm4Qix
- QhWzIHI5/XjvEEuFLM+DeksFNoZLVzo/IBeSt5ZuzUZxEx6d38muQuNMkuh06EjfdDKuxuVnGN
- laY=
-Date: Mon, 5 Oct 2020 20:52:56 +0000
-From: Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH 08/21] contrib/gitdm: Add Mentor Graphics to the
- domain map
-In-Reply-To: <87eemc3b1q.fsf@linaro.org>
-Message-ID: <alpine.DEB.2.21.2010052047250.11145@digraph.polyomino.org.uk>
-References: <20201004180443.2035359-1-f4bug@amsat.org>
- <20201004180443.2035359-9-f4bug@amsat.org>
- <alpine.DEB.2.21.2010051327090.312@digraph.polyomino.org.uk>
- <87eemc3b1q.fsf@linaro.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kPXkL-00088w-Lb
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 17:10:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kPXkH-0007Kv-5k
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 17:10:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601932208;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vw4zCSrS4U5/JK3O9rHiZHdu8K4xPDfCEJomri/dtB8=;
+ b=U1lAW6OdgiGqH01D0b3Z4yU2eHoaYzTcp2J9gxhv00Dtpjgl0j2dsTFtzlLEAOJQRPXbrM
+ QAuYnL3JOC5PyrQTXtOA+Ar1rdKwPEkx/U3CkGRWortEUe8AoyJjwTjfT5fG64j61zPUhr
+ s46LrEnQ4ZTp0Rl4XTxtGAN6RP04BD0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-vQDR30IdM42BKRg8r65EiA-1; Mon, 05 Oct 2020 17:10:04 -0400
+X-MC-Unique: vQDR30IdM42BKRg8r65EiA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3017D104D3E0;
+ Mon,  5 Oct 2020 21:10:03 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07C7F55778;
+ Mon,  5 Oct 2020 21:10:01 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/21] machine + QOM queue, 2020-10-05
+Date: Mon,  5 Oct 2020 17:09:39 -0400
+Message-Id: <20201005211000.710404-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="-1152306461-1321629755-1601931176=:11145"
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-Received-SPF: pass client-ip=68.232.129.153;
- envelope-from=joseph_myers@mentor.com; helo=esa1.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 16:53:02
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,47 +78,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kwok Cheung Yeung <kcy@codesourcery.com>,
- Andrew Jenner <andrew@codesourcery.com>, Jan Kiszka <jan.kiszka@siemens.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Julian Brown <julian@codesourcery.com>,
- Sandra Loosemore <sandra@codesourcery.com>,
- Taimoor Mirza <tmirza@codesourcery.com>,
- Thomas Schwinge <thomas@codesourcery.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----1152306461-1321629755-1601931176=:11145
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+The following changes since commit 36d9c2883e55c863b622b99f0ebb5143f0001401=
+:=0D
+=0D
+  readthedocs: build with Python 3.6 (2020-10-05 16:30:45 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/ehabkost/qemu.git tags/machine-next-pull-request=0D
+=0D
+for you to fetch changes up to fec5c4b6d3b7f3ffcfcbe1714e0405df6de2a222:=0D
+=0D
+  kernel-doc: Remove $decl_type=3D'type name' hack (2020-10-05 12:48:11 -04=
+00)=0D
+=0D
+----------------------------------------------------------------=0D
+machine + QOM queue, 2020-10-05=0D
+=0D
+* QOM documentation fixes and cleanups (Eduardo Habkost)=0D
+* user-mode: Prune build dependencies (Philippe Mathieu-Daud=C3=A9)=0D
+* qom: Improve error message (Philippe Mathieu-Daud=C3=A9)=0D
+* numa: hmat: require parent cache description before the next=0D
+  level one (Igor Mammedov)=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Eduardo Habkost (11):=0D
+  qom: Fix DECLARE_*CHECKER documentation=0D
+  docs/devel/qom: Fix indentation of bulleted list=0D
+  docs/devel/qom: Fix indentation of code blocks=0D
+  docs/devel/qom: Use *emphasis* for emphasis=0D
+  docs/devel/qom: Remove usage of <code>=0D
+  docs/devel/qom: Avoid long lines=0D
+  kernel-doc: Handle function typedefs that return pointers=0D
+  kernel-doc: Handle function typedefs without asterisks=0D
+  qom: Explicitly tag doc comments for typedefs and structs=0D
+  memory: Explicitly tag doc comments for structs=0D
+  kernel-doc: Remove $decl_type=3D'type name' hack=0D
+=0D
+Igor Mammedov (1):=0D
+  numa: hmat: require parent cache description before the next level one=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (9):=0D
+  hw/core/qdev-properties: Use qemu_strtol() in set_mac() handler=0D
+  hw/core/qdev-properties: Use qemu_strtoul() in set_pci_host_devaddr()=0D
+  hw/core/qdev-properties: Fix code style=0D
+  hw/core/qdev-properties: Export enum-related functions=0D
+  hw/core/qdev-properties: Export qdev_prop_enum=0D
+  hw/core/qdev-properties: Export some integer-related functions=0D
+  hw/core/qdev-properties: Extract system-mode specific properties=0D
+  hw/core/cpu: Add missing 'exec/cpu-common.h' include=0D
+  qom: Improve error message displayed with missing object properties=0D
+=0D
+ docs/devel/qom.rst               |  91 ++--=0D
+ hw/core/qdev-prop-internal.h     |  30 ++=0D
+ include/exec/memory.h            |   6 +-=0D
+ include/hw/qdev-properties.h     |   1 +=0D
+ include/qom/object.h             |  38 +-=0D
+ hw/core/cpu.c                    |   1 +=0D
+ hw/core/numa.c                   |   8 +-=0D
+ hw/core/qdev-properties-system.c | 687 ++++++++++++++++++++++++++++-=0D
+ hw/core/qdev-properties.c        | 735 ++-----------------------------=0D
+ qom/object.c                     |   3 +-=0D
+ scripts/kernel-doc               |  16 +-=0D
+ 11 files changed, 831 insertions(+), 785 deletions(-)=0D
+ create mode 100644 hw/core/qdev-prop-internal.h=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-On Mon, 5 Oct 2020, Alex Bennée wrote:
-
-> Joseph Myers <joseph@codesourcery.com> writes:
-> 
-> > On Sun, 4 Oct 2020, Philippe Mathieu-Daudé wrote:
-> >
-> >> There is a number of contributors from this domain,
-> >> add its own entry to the gitdm domain map.
-> >
-> > At some point the main branding will be Siemens; not sure how you want to 
-> > handle that.
-> 
-> We've already done something similar with WaveComp who have rolled up
-> the various mips and imgtec contributions into
-> contrib/gitdm/group-map-wavecomp.
-> 
-> It's really up to you and which corporate entity would like internet
-> bragging points. The only Siemens contributor I could find is Jan Kiszka
-> but he has contributed a fair amount ;-)
-
-Given that the Mentor branding is going away (and the "Mentor Graphics" 
-version largely has gone away, "Mentor, a Siemens Business" is what's 
-currently used as a Mentor brand), probably it makes sense to use Siemens 
-for both codesourcery.com and mentor.com addresses.
-
--- 
-Joseph S. Myers
-joseph@codesourcery.com
----1152306461-1321629755-1601931176=:11145--
 
