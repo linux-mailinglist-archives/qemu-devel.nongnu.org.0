@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F14283445
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 12:56:39 +0200 (CEST)
-Received: from localhost ([::1]:34088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F15283458
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 12:58:06 +0200 (CEST)
+Received: from localhost ([::1]:38324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPOAX-0004Yf-Nu
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 06:56:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39830)
+	id 1kPOBx-0006H4-HQ
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 06:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPO7D-0001da-8h
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:53:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32218)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPO8o-0003RP-TG
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:54:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPO7A-0001eC-P2
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:53:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPO8m-0001pY-Ai
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:54:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601895187;
+ s=mimecast20190719; t=1601895286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kbiHNjQke6HODK9Aq4q/LEwhaKtx/GjpAuwA6iwInj8=;
- b=GxLYpJY3LVYVld/qE2/5OZh/7QF0TlOGnH4KznP8UTKMtLpknVN89MuZ9B10huygDUzrDS
- /chFKEmJIadrzq6s5ErDEPURt6knOWUviM3AI3mT8B4xCrU6Kdqr1k3HO3QiQyGbRNfS34
- FP2SQaGt/SKtCc+VHXlgOR5hF8FtAj0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-B7OiFN1-MXOshFMUkMQpXw-1; Mon, 05 Oct 2020 06:53:05 -0400
-X-MC-Unique: B7OiFN1-MXOshFMUkMQpXw-1
-Received: by mail-wr1-f71.google.com with SMTP id i10so3833823wrq.5
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 03:53:04 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W5oSV3fSW9ps9rV2v6Nd7VuQOUigTcSM57Y2eKxjzWk=;
+ b=cEFxyN+PP7e7NpbU/A6qNQEaTomaC8UgO/x++ZB5j0zjxaHwaz16SqdgJwGQjHKv4K6Dh/
+ W8aGkuggS+OWMmM3Nz7oDIfGL87+aM50C1MNDTROtMFRD9/j05wokOfBAqAzKIseaOkll+
+ eWmwT2XfDHNNvqXDk3K3D8cB0xXLjb4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-O7obgI4KMrGBlH6U309B7Q-1; Mon, 05 Oct 2020 06:54:45 -0400
+X-MC-Unique: O7obgI4KMrGBlH6U309B7Q-1
+Received: by mail-wr1-f70.google.com with SMTP id i10so3835316wrq.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 03:54:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=kbiHNjQke6HODK9Aq4q/LEwhaKtx/GjpAuwA6iwInj8=;
- b=LCfZNaPoztGBYy0LpSaHd23vhEmcXyLUXzJjXv3whfV3F9FJA/l89zVH/U0DhZdXIi
- 1l+r3tt+8cR7eHm3a/oxexOA/glB/5Lpm23Pgk2gVNLYXr7PIS9RdHTWaGcryKyr8Mu5
- OGm0LFYDHoddWlPb++ApAQiY76664eaqtZJvUKJ3tNTPP0deDuFnQKjh4vC/lmZHpuQY
- lZCOWRbTSd6z1DGpxmaIhBwO3PWIv+KXeHCT98S42pUknA32N81Pb/UI84r9TUQPKNa9
- yopywvLGQ55ry/WFQW3OzSoVbfKLWH6DyQhHNfVIDAfSaz3+48CQJbxkjNl3tpYXKDqK
- ILiw==
-X-Gm-Message-State: AOAM531ygeZttzMvt1REiigcBtOb7RVskkwL2hLc0A3kkL3PXQVIRfOg
- lQz+r1kZBlK4MaHC6pVpiZNljxkkSRwNWndWI7uOlAt02mwebWfn54B7vx21nVrkIX9O6jNuhWD
- jsMXY5gQWnQHN0PI=
-X-Received: by 2002:a1c:111:: with SMTP id 17mr15948750wmb.126.1601895184071; 
- Mon, 05 Oct 2020 03:53:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy30tyA/gUzbfN4GfzcirYYgq3wPlEjkNGuczMbEveLo5Ma7OijnoB+fYprt4GnFnU65+AICg==
-X-Received: by 2002:a1c:111:: with SMTP id 17mr15948727wmb.126.1601895183801; 
- Mon, 05 Oct 2020 03:53:03 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:2e86:3d8b:8b70:920c?
- ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
- by smtp.gmail.com with ESMTPSA id k190sm8882949wme.33.2020.10.05.03.53.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Oct 2020 03:53:03 -0700 (PDT)
-Subject: Re: [PATCH v3 17/19] hw/arm: Automatically select the 'virt' machine
- on KVM
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200316160634.3386-1-philmd@redhat.com>
- <20200316160634.3386-18-philmd@redhat.com>
- <CAFEAcA-Rt__Du0TqqVFov4mNoBvC9hTt7t7e-3G45Eck4z94tQ@mail.gmail.com>
- <CAFEAcA-u53dVdv8EJdeeOWxw+SfPJueTq7M6g0vBF5XM2Go4zw@mail.gmail.com>
- <c7d07e18-57dd-7b55-f3dc-283c9d13e4b5@redhat.com>
- <8253ddd7-3149-17d9-1174-6474c4bde605@redhat.com>
- <36629bed-9b32-01a0-fdc2-831b10e4bad9@redhat.com>
- <f3b931f5-c785-1d98-edd1-e5fcc91ff0ce@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4c371698-b41a-82ba-9fe9-022a37a86a01@redhat.com>
-Date: Mon, 5 Oct 2020 12:53:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=W5oSV3fSW9ps9rV2v6Nd7VuQOUigTcSM57Y2eKxjzWk=;
+ b=sqaOERjx07EU1IOeet+lAU+evWXmPT4rzNN3il4/kkfYbqrb9Wozou5y4E4YJKqbhE
+ 95TZhZ9W2VbxsN25Uhun+rr6qNXU8BGw9Yrq6VplBYeMlONYjCSaod6PZcezabI4fEHS
+ 0GmJjmmvH/AtPeS1rEqtey71n5eI9jR5yFaU2pn8b26x3RWp1f39spgpYaeqIMSGKQLS
+ Jta/HokhAb2sFsVmUGY7AJKVu69gaHQ5uvaa2cXnFKxHJhWG19Ph11ed32aJJDZ+bOOa
+ OSClaERFw1Pxb/5/6+f0eZzYNOd9dQxCjsZXi2SAW6ju2EBu+kURGRvtjWW7O2tdyZsm
+ jhDw==
+X-Gm-Message-State: AOAM532FBgbHCDLwxQ4lNd0Qkf0ZgNn3y7YLkPXf+WAFRHfAKgbbm+Ol
+ u8T08S4qvAar2EQhWlGDKT7MImaUOCfJDjRO078Jq+Tw1kp4+eqYXezr5mmhdzqcB2U7StLBea7
+ a4pPGZCvj0drJ3NI=
+X-Received: by 2002:adf:eacf:: with SMTP id o15mr17983813wrn.12.1601895284178; 
+ Mon, 05 Oct 2020 03:54:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjHZnC2XayDUw93gFjexETESqMcfHdVUBYXiTc38MqO0oCIm+V/v/Ptc7ZWUDdvhVTaFRrzw==
+X-Received: by 2002:adf:eacf:: with SMTP id o15mr17983802wrn.12.1601895284013; 
+ Mon, 05 Oct 2020 03:54:44 -0700 (PDT)
+Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id m13sm12888756wrr.74.2020.10.05.03.54.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 03:54:43 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/3] qom: Fix missing interface in qemu-storage-daemon
+Date: Mon,  5 Oct 2020 12:54:39 +0200
+Message-Id: <20201005105442.2093105-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <f3b931f5-c785-1d98-edd1-e5fcc91ff0ce@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -94,9 +79,8 @@ X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,38 +93,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/20 11:22, Philippe Mathieu-Daudé wrote:
-> List of arch-indep Kconfig using arch-defined selectors:
-> 
-> hw/acpi/Kconfig:42:    depends on PC
-> hw/intc/Kconfig:31:    depends on ARM_GIC && KVM
-> hw/intc/Kconfig:36:    depends on OPENPIC && KVM
-> hw/intc/Kconfig:40:    depends on POWERNV || PSERIES
-> hw/intc/Kconfig:49:    depends on XICS && KVM
-> hw/intc/Kconfig:60:    depends on S390_FLIC && KVM
-> hw/mem/Kconfig:11:    depends on (PC || PSERIES || ARM_VIRT)
-> hw/pci-bridge/Kconfig:8:    default y if Q35
-> hw/timer/Kconfig:14:    default y if PC
-> hw/tpm/Kconfig:18:    depends on TPM && PC
-> hw/tpm/Kconfig:24:    depends on TPM && PSERIES
-> hw/vfio/Kconfig:16:    depends on LINUX && S390_CCW_VIRTIO
-> hw/vfio/Kconfig:38:    depends on LINUX && S390_CCW_VIRTIO
-> 
+Attempt to fix the issue reported by Kevin.
 
-I don't think that's a problem, and also I'm not sure this patch is a
-good idea.
+Introduce a trivial test, but there is currently no
+framework in place to test qemu-storage-daemon.
 
-See docs/devel/kconfig.rst: "Boards default to false; they are enabled
-by the ``default-configs/*.mak`` for the target they apply to".
+There might be better fix to this QOM issue,
+I went for the easiest one I could figure out.
 
-Paolo
+Philippe Mathieu-Daudé (3):
+  qom: Always register FW_CFG_DATA_GENERATOR_INTERFACE
+  tests: Only build socket_scm_helper when a softmmu target is available
+  tests: Add a trivial qemu-storage-daemon test
+
+ hw/nvram/fw_cfg.c            |  7 -------
+ qom/fw_cfg_interface.c       | 15 +++++++++++++++
+ MAINTAINERS                  |  1 +
+ qom/meson.build              |  5 +++++
+ tests/Makefile.include       |  5 +++++
+ tests/qemu-storage-daemon.sh | 10 ++++++++++
+ 6 files changed, 36 insertions(+), 7 deletions(-)
+ create mode 100644 qom/fw_cfg_interface.c
+ create mode 100755 tests/qemu-storage-daemon.sh
+
+-- 
+2.26.2
 
 
