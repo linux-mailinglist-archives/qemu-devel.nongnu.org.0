@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B703D28374A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 16:05:19 +0200 (CEST)
-Received: from localhost ([::1]:42338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7895F283761
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 16:12:12 +0200 (CEST)
+Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPR78-0006bw-HO
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 10:05:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
+	id 1kPRDn-00022C-As
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 10:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPQyS-00078W-M7
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:21 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35854)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kPRCh-00012K-Ed
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 10:11:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPQyQ-0000Ne-8d
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:56:20 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id e2so8899396wme.1
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 06:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gpUh9/EliZXjQLaVCeWx3yQd/gRzzOP0M3qR6kaKJGU=;
- b=sqcKQI0sM5juQaJ2tQT4/fLuxc+PFxtpch5JgyKs+/iUFekdKmlSv0luDQ9Bbz9Bmh
- pqjuE3qiSXK8Bambqw2AVS8ixKcRl512p7VHpDrb0HdK2FHZ9GLUGlHtSYmhAw+oAgh9
- 8fq0EPq/fy4KucHUN7KUFDjUlrkmaejfHof1QEUPxtBCFQGgVJBYCfpGfNIJFwcpeIk3
- Ox3jAvIUFD3FRZ1MKCcuZSCdwbMYFP5C5qcU4sL9unqcp2LXceXrETJ6BUsBHfq7kx9v
- cM88BErhpzH2AWBcK5sUeyfMKKZANSPR5LD0xgpFjgkxqcuIM6dEr3o65vAKHdtMKFjc
- 4xBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gpUh9/EliZXjQLaVCeWx3yQd/gRzzOP0M3qR6kaKJGU=;
- b=Zemk7OaTC/ZUcDqCxJnecjk5o5URw4UoQKkDuupyhRlNwDOYMV9Ybc3Nohh21xWD6j
- GwsE1TDI7TRUZEdQOTb+E9D6KmM7KVCGVH7mOtpjkBJoDVFDxvnGhUwiU/qOjBse0uoO
- EUXUf/nMJj+H9X032KMqkH/zWdsTiLhT8kDGMbGnVQYwCUcomkbUZLxtmlNcxgaSsNhV
- ziFhx/hhQ2aasNwKUksMjhjyGtjBlx9iJwJTjEzWGEY2qRAS99tc3aZVwnOOpXpfOx0o
- XUgZ1W9c3FT4HaxwzZOj4dcsOH12YnTzNL1efIsH0E6l1YY1LQtCpwND4yUzCrcCFCom
- G7AA==
-X-Gm-Message-State: AOAM532nQnX+Vqc2N9jzxE9Y0Y48SDDQQwkfCwbupy/lYJaIuTQtDPHP
- pv1F2Z49yXlzwO9WoBIv2rE+T/Xt2Xg=
-X-Google-Smtp-Source: ABdhPJyBzpgyZbiQs8nUCnX+SGuSPRCzuRZ5m4OGx9PFz7V1I4Q8tkOZg4yhT4s5DVmcVbdHxFPcYw==
-X-Received: by 2002:a1c:f005:: with SMTP id a5mr8088230wmb.160.1601906176630; 
- Mon, 05 Oct 2020 06:56:16 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
- by smtp.gmail.com with ESMTPSA id c8sm13406559wmd.18.2020.10.05.06.56.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 06:56:16 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] configure: consistently pass CFLAGS/CXXFLAGS/LDFLAGS to
- meson
-Date: Mon,  5 Oct 2020 15:56:13 +0200
-Message-Id: <20201005135613.435932-5-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201005135613.435932-1-pbonzini@redhat.com>
-References: <20201005135613.435932-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kPRCe-0002Y7-9Z
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 10:11:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kPRCb-0000dL-Gi
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 14:10:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7BEBC2E80DC
+ for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 14:10:57 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 05 Oct 2020 13:57:36 -0000
+From: Paolo Bonzini <1896096@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange bonzini fredb74 laurent-vivier pmaydell
+ toolybird
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+References: <160036517624.17887.51064102046414127.malonedeb@soybean.canonical.com>
+Message-Id: <160190625668.5448.3002919124493151361.malone@soybean.canonical.com>
+Subject: [Bug 1896096] Re: Git version: Build process is broken in
+ block_curl.c.o
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
+X-Launchpad-Hash: 733ea0d8eab3943511f414dcec72b27392fb6126
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 10:10:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,101 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, richard.henderson@linaro.org
+Reply-To: Bug 1896096 <1896096@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Environment variables like CFLAGS are easy to accidentally change.  Meson
-warns if that happens, but in a project with a lot of configuration that
-is easy to lose.  It is also surprising behavior since meson caches -D
-options and remembers those on reconfiguration (which we rely on,
-since configure options become -D options).
+New version of the patches posted:
 
-By placing the user-provided CFLAGS, CXXFLAGS and LDFLAGS in the
-cross file, we at least get consistent behavior.  These environment
-variables are still ugly and not really recommended, but there are
-distros that rely on them.  For the gory details, refer to
-https://github.com/mesonbuild/meson/issues/4664.
+[PATCH 0/4] Convert remaining submodules to meson, cleanup env var
+handling
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200923092617.1593722-5-pbonzini@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure   | 25 +++++++++++++++----------
- meson.build | 14 ++++++++++++--
- 2 files changed, 27 insertions(+), 12 deletions(-)
+This will sidestep the issue that broke in the Sep 24 pull request.
 
-diff --git a/configure b/configure
-index 1b173276ea..04c8cc017c 100755
---- a/configure
-+++ b/configure
-@@ -7130,24 +7130,29 @@ echo "export PYTHON='$python'" >> "$iotests_common_env"
- if test "$skip_meson" = no; then
- cross="config-meson.cross.new"
- meson_quote() {
--    echo "['$(echo $* | sed "s/ /','/g")']"
-+    echo "'$(echo $* | sed "s/ /','/g")'"
- }
- 
- echo "# Automatically generated by configure - do not modify" > $cross
- echo "[properties]" >> $cross
- test -z "$cxx" && echo "link_language = 'c'" >> $cross
-+echo "[built-in options]" >> $cross
-+echo "c_args = [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
-+echo "cpp_args = [${CXXFLAGS:+$(meson_quote $CXXFLAGS)}]" >> $cross
-+echo "c_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
-+echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
- echo "[binaries]" >> $cross
--echo "c = $(meson_quote $cc)" >> $cross
--test -n "$cxx" && echo "cpp = $(meson_quote $cxx)" >> $cross
--echo "ar = $(meson_quote $ar)" >> $cross
--echo "nm = $(meson_quote $nm)" >> $cross
--echo "pkgconfig = $(meson_quote $pkg_config_exe)" >> $cross
--echo "ranlib = $(meson_quote $ranlib)" >> $cross
-+echo "c = [$(meson_quote $cc)]" >> $cross
-+test -n "$cxx" && echo "cpp = [$(meson_quote $cxx)]" >> $cross
-+echo "ar = [$(meson_quote $ar)]" >> $cross
-+echo "nm = [$(meson_quote $nm)]" >> $cross
-+echo "pkgconfig = [$(meson_quote $pkg_config_exe)]" >> $cross
-+echo "ranlib = [$(meson_quote $ranlib)]" >> $cross
- if has $sdl2_config; then
--  echo "sdl2-config = $(meson_quote $sdl2_config)" >> $cross
-+  echo "sdl2-config = [$(meson_quote $sdl2_config)]" >> $cross
- fi
--echo "strip = $(meson_quote $strip)" >> $cross
--echo "windres = $(meson_quote $windres)" >> $cross
-+echo "strip = [$(meson_quote $strip)]" >> $cross
-+echo "windres = [$(meson_quote $windres)]" >> $cross
- if test -n "$cross_prefix"; then
-     cross_arg="--cross-file config-meson.cross"
-     echo "[host_machine]" >> $cross
-diff --git a/meson.build b/meson.build
-index d9377f371d..e9122d2b90 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1758,8 +1758,18 @@ if targetos == 'darwin'
-   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
- endif
- summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
--summary_info += {'CFLAGS':            '-O' + get_option('optimization')
--                                           + (get_option('debug') ? ' -g' : '')}
-+summary_info += {'CFLAGS':            ' '.join(get_option('c_args')
-+                                               + ['-O' + get_option('optimization')]
-+                                               + (get_option('debug') ? ['-g'] : []))}
-+if link_language == 'cpp'
-+  summary_info += {'CXXFLAGS':        ' '.join(get_option('cpp_args')
-+                                               + ['-O' + get_option('optimization')]
-+                                               + (get_option('debug') ? ['-g'] : []))}
-+endif
-+link_args = get_option(link_language + '_link_args')
-+if link_args.length() > 0
-+  summary_info += {'LDFLAGS':         ' '.join(link_args)}
-+endif
- summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
- summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
- summary_info += {'make':              config_host['MAKE']}
--- 
-2.26.2
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1896096
+
+Title:
+  Git version: Build process is broken in block_curl.c.o
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Gcc version: 10.2.0
+  Glusterfs: 8.1
+  Libguestfs: 1.42
+
+  Configure options used:
+
+  configure \
+      --prefix=3D/usr \
+      --sysconfdir=3D/etc \
+      --localstatedir=3D/var \
+      --libexecdir=3D/usr/lib/qemu \
+      --extra-ldflags=3D"$LDFLAGS" \
+      --smbd=3D/usr/bin/smbd \
+      --enable-modules \
+      --enable-sdl \
+      --disable-werror \
+      --enable-slirp=3Dsystem \
+      --enable-xfsctl \
+      --audio-drv-list=3D"pa alsa sdl"
+      =
+
+  Error log attached. Here is the beginning:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../lib/Scrt=
+1.o: in function `_start':
+  (.text+0x24): undefined reference to `main'
+  /usr/bin/ld: libblock-curl.a(block_curl.c.o): in function `curl_block_ini=
+t':
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1896096/+subscriptions
 
