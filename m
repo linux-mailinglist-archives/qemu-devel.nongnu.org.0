@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA1D283C6F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:27:47 +0200 (CEST)
-Received: from localhost ([::1]:33570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA21283C7E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:30:05 +0200 (CEST)
+Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPTL0-0006CH-M0
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:27:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39566)
+	id 1kPTNE-0000FA-1w
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kPTIe-0004ZM-VQ
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:25:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kPTIc-0006LB-2e
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:25:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601915115;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZI+1ORyaGKDJkownlU7L2YNLxIF0skIUSBsxrZtf1ng=;
- b=RxkX0ekT+Bpc2m/C4HUXffRo8B+l0XbVQGjonAgKlYlxBFAp2xptR2pqZZKGzkQPRLye+I
- jruNLteWWfPiUFwo5GD89ZFhQoLWvh7mP3oG15eAkoCWNcB4JkQ82UIHJH3GEbJDaCI1Gx
- Dfxnr9I/lMN2qwfCkQNiex5pu7fD6M4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574--xAXl0aAP9iuAben2Z7Fgw-1; Mon, 05 Oct 2020 12:25:14 -0400
-X-MC-Unique: -xAXl0aAP9iuAben2Z7Fgw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 377B7801ADD;
- Mon,  5 Oct 2020 16:25:12 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63D9A60CD0;
- Mon,  5 Oct 2020 16:25:04 +0000 (UTC)
-Date: Mon, 5 Oct 2020 18:25:02 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH 15/16] target/mips/cpu: Do not allow system-mode use
- without input clock
-Message-ID: <20201005182502.00da41f4@redhat.com>
-In-Reply-To: <35db3210-8165-6fe8-c835-22970fb31c93@amsat.org>
-References: <20200928171539.788309-1-f4bug@amsat.org>
- <20200928171539.788309-16-f4bug@amsat.org>
- <20200929150154.04f77949@redhat.com>
- <35db3210-8165-6fe8-c835-22970fb31c93@amsat.org>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPTLd-0007S8-8a
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:28:25 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:37136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPTLb-0006o4-MP
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 12:28:24 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id kk9so77221pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 09:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uqucitEH4/4+GS3KmukO0nlTVwKYBiH1PWiLYzxk3YM=;
+ b=RL0UDXRuizz+aWjp1ng2Y1riRG1furOoFYce5B8k1088jongDp6tfLBvREwV3WkaB0
+ IhcM0p9C2VE4tXcfIGE31zLZeIuIutm8ieW5ZABAoBB6mkDL92FXmccnhTihb7WDOwOz
+ Zu7BO4qtZAtfNc777YmHDXyjHjaxUosGaueK1yT9jwq9nMHJ2EjzYmwWJ/rNPMOfVbjn
+ NTbEDHDaAc/yrKk1Kg3pXlf8DEdN8wFphWNrwbuDhjzXyTNxOSRsbgIszhVmpUt7IOPO
+ Mlfxd5lyOKvVtkO4/YnyR4O1PP/DgXMMOE32qC5I+RP8WEO46xIgT/y3c3MerGbfY9bj
+ cQtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uqucitEH4/4+GS3KmukO0nlTVwKYBiH1PWiLYzxk3YM=;
+ b=VsPzXRQdjK0uFO8FpgswqcxN6IMgRG4s+Hv91IheUEqZYrjByNUb/0JJ44PJmjaXr0
+ Ukv+bXFFng2JMFPbyfJA5690HjDpZhR1wWtlWl81QC3NeOw/sGLO758AppBuULYxiISP
+ gXY6EzIM9sxyXESvbY7L8u2pvxpVekjQYcBAbWzPTzmp4HuvyfBw8Axs8muAgbT1Noww
+ ApxXCrcRVMah68qMH3nF7RCnJEFOcb/ossZ6mhJ6JSKofV9BLaCp9N6wyt/0IacdpuUT
+ q/OiZA2bzinmQz8FYFPmeXlzh4BJc81yjXdvskhGHUXSDM/8c//rjspr9UGzm8x3rI7F
+ AY7Q==
+X-Gm-Message-State: AOAM531cGAlald5Q02TdTh4IB3p6R8iRp63t4d1b9R0V3+OHp9C4IU1y
+ ozgfOWydKVFPGNDdZys48p4EIpa/x+W2Lw==
+X-Google-Smtp-Source: ABdhPJywz6sdmuk5Cx+GUrs5uFJbvruPte2mQ9hxexBKp4XQaLOY7gObpG3zRorfuVuGQgMVLObcnw==
+X-Received: by 2002:a17:90a:e697:: with SMTP id
+ s23mr228554pjy.16.1601915301419; 
+ Mon, 05 Oct 2020 09:28:21 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id x13sm374725pfj.199.2020.10.05.09.28.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 09:28:20 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/6] Enable plugin support on msys2/mingw
+Date: Tue,  6 Oct 2020 00:28:00 +0800
+Message-Id: <20201005162806.1350-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,127 +84,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Cleber Rosa <crosa@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 29 Sep 2020 16:40:24 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-
-> On 9/29/20 3:01 PM, Igor Mammedov wrote:
-> > On Mon, 28 Sep 2020 19:15:38 +0200
-> > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-> >  =20
-> >> Now than all QOM users provides the input clock, do not allow
-> >> using a CPU core without its input clock connected on system-mode
-> >> emulation. For user-mode, keep providing a fixed 200 MHz clock,
-> >> as it used by the RDHWR instruction (see commit cdfcad788394).
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >> ---
-> >> Cc: Igor Mammedov <imammedo@redhat.com>
-> >>
-> >> We need the qtest check for tests/qtest/machine-none-test.c
-> >> which instanciate a CPU with the none machine. Igor, is it
-> >> better to remove the MIPS targets from the test cpus_map[]?
-it will help to pass test but,
-
-> >=20
-> > I don't get idea, could you rephrase/elaborate? =20
->=20
-> cpu_class_init sets:
->=20
->     /*
->      * Reason: CPUs still need special care by board code: wiring up
->      * IRQs, adding reset handlers, halting non-first CPUs, ...
->      */
->     dc->user_creatable =3D false;
->=20
-> but the CPUs are created via another path in vl.c:
->=20
->         current_machine->cpu_type =3D parse_cpu_option(cpu_option);
->=20
-> The machine-none-test assumes CPU objects are user-creatable.
-
-user_creatable -> able to create using -device,=20
-so test doesn't make this assumption.
-
-problem is that enforcing would make machine-none not usable
-for probing CPU features which is used by mgmt,
-so that would break.
-
->=20
-> With this patch I enforce MIPS CPU to have an input clock
-> connected, so they are not user-creatable anymore.
->=20
-> I tried this code ...:
->=20
-> --- a/target/mips/cpu.c
-> +++ b/target/mips/cpu.c
-> @@ -229,7 +229,11 @@ static const TypeInfo mips_cpu_type_info =3D {
->  static void mips_cpu_cpudef_class_init(ObjectClass *oc, void *data)
->  {
->      MIPSCPUClass *mcc =3D MIPS_CPU_CLASS(oc);
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +
->      mcc->cpu_def =3D data;
-> +    /* Reason: clock need to be wired up */
-> +    dc->user_creatable =3D false;
->  }
->=20
-> ... but it is ignored, the CPU can still be created.
->=20
-> Not sure how to handle this.
->=20
-> >  =20
-> >> ---
-> >>  target/mips/cpu.c | 8 ++++++++
-> >>  1 file changed, 8 insertions(+)
-> >>
-> >> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-> >> index 2f75216c324..cc4ee75af30 100644
-> >> --- a/target/mips/cpu.c
-> >> +++ b/target/mips/cpu.c
-> >> @@ -25,6 +25,7 @@
-> >>  #include "kvm_mips.h"
-> >>  #include "qemu/module.h"
-> >>  #include "sysemu/kvm.h"
-> >> +#include "sysemu/qtest.h"
-> >>  #include "exec/exec-all.h"
-> >>  #include "hw/qdev-clock.h"
-> >>  #include "hw/qdev-properties.h"
-> >> @@ -159,11 +160,18 @@ static void mips_cpu_realizefn(DeviceState *dev,=
- Error **errp)
-> >>      Error *local_err =3D NULL;
-> >> =20
-> >>      if (!clock_get(cs->clock)) {
-> >> +#ifdef CONFIG_USER_ONLY
-> >>          /*
-> >>           * Initialize the frequency to 200MHz in case
-> >>           * the clock remains unconnected.
-> >>           */
-> >>          clock_set_hz(cs->clock, 200000000);
-> >> +#else
-> >> +        if (!qtest_enabled()) {
-> >> +            error_setg(errp, "CPU clock must be connected to a clock =
-source");
-> >> +            return;
-> >> +        }
-> >> +#endif
-> >>      }
-> >>      mips_cpu_clk_update(cs);
-> >>   =20
-> >  =20
->=20
-
+V3-V4=0D
+Split  plugin: Fixes typo in qemu-plugin.h out=0D
+Trying to explain the design of=0D
+plugin: Getting qemu-plugin works under win32.=0D
+=0D
+V1-V2=0D
+1. Fixes review comments=0D
+2. Increase QEMU_PLUGIN_VERSION to 1 for compat  QEMU_PLUGIN_VERSION 0=0D
+3. Revise the loader to support for version 0 and 1=0D
+4. By export function qemu_plugin_initialize in plugin, and call it in load=
+er=3D=0D
+, so=0D
+  we have no need call it in every plugin. And also provide a standard impl=
+em=3D=0D
+entation,=0D
+  anyway, use can also override it.=0D
+=0D
+Add this feature on msys2/mingw by using glib provided cross-platform dlsym=
+ f=3D=0D
+unctional.=0D
+=0D
+Yonggang Luo (6):=0D
+  plugins: Fixes a issue when dlsym failed, the handle not closed=0D
+  plugin: Fixes compiling errors on msys2/mingw=0D
+  plugin: getting qemu_plugin_get_hwaddr only expose one function=0D
+    prototype=0D
+  plugin: Fixes typo in qemu-plugin.h=0D
+  plugin: Getting qemu-plugin works under win32.=0D
+  cirrus: Enable plugin in cirrus for windows=0D
+=0D
+ .cirrus.yml                  |   3 +-=0D
+ Makefile                     |   1 -=0D
+ configure                    |  71 -------------=0D
+ contrib/plugins/hotblocks.c  |   3 +-=0D
+ contrib/plugins/hotpages.c   |   1 +=0D
+ contrib/plugins/howvec.c     |   1 +=0D
+ contrib/plugins/lockstep.c   |   1 +=0D
+ include/qemu/qemu-plugin.h   | 197 +++++++++++++++++++++++++++--------=0D
+ meson.build                  |   6 +-=0D
+ plugins/api.c                |  76 +++++++-------=0D
+ plugins/core.c               |  16 ++-=0D
+ plugins/loader.c             |  51 ++++++++-=0D
+ plugins/meson.build          |  10 +-=0D
+ plugins/plugin.h             |   1 +=0D
+ plugins/qemu-plugins.symbols |  40 -------=0D
+ tests/plugin/bb.c            |   5 +-=0D
+ tests/plugin/empty.c         |   1 +=0D
+ tests/plugin/insn.c          |   1 +=0D
+ tests/plugin/mem.c           |   1 +=0D
+ 19 files changed, 272 insertions(+), 214 deletions(-)=0D
+ delete mode 100644 plugins/qemu-plugins.symbols=0D
+=0D
+--=3D20=0D
+2.28.0.windows.1=0D
+=0D
 
