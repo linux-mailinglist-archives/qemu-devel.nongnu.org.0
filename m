@@ -2,62 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8472A2836D9
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 15:48:24 +0200 (CEST)
-Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787A02836F8
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 15:53:15 +0200 (CEST)
+Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPQql-0001MZ-JD
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 09:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
+	id 1kPQvS-0004Fc-8z
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 09:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kPQod-0008RF-PW
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:46:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33143)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kPQuB-0003n4-0L
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:51:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kPQoX-0007ak-N6
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:46:11 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kPQu7-0008Hj-K1
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 09:51:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601905564;
+ s=mimecast20190719; t=1601905909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/3d8IVKj4L1Ph3rSApF+Q7x6Gi7COij3vKIFWWh9/p4=;
- b=CSubx+qjR7znjvY+c8Q79uleuWpXlpaE0hp51pe1Me5i5RN8RBJ2rkm2ghoOU6Awt8t1hp
- fMwkydQn7V6saP3iPCmCwSYQy9/WH361/WXb/8JFtl3VH+5i7rSlLoOIRCtzGSMweHXNY5
- tOE/aMQBufv3ESm6FjJ30wW1UJt+kvg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-2EU-5NoEO7-A3C2Q6abgcA-1; Mon, 05 Oct 2020 09:46:01 -0400
-X-MC-Unique: 2EU-5NoEO7-A3C2Q6abgcA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 942D02FD14;
- Mon,  5 Oct 2020 13:46:00 +0000 (UTC)
-Received: from localhost (ovpn-112-117.ams2.redhat.com [10.36.112.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3F1A1002C00;
- Mon,  5 Oct 2020 13:45:52 +0000 (UTC)
-Date: Mon, 5 Oct 2020 14:45:52 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: QEMU API cleanup initiative - Let's chat during the KVM call
-Message-ID: <20201005134552.GC5029@stefanha-x1.localdomain>
-References: <1f0b0576-eb07-bf5a-a4d8-c6a2d18d1a94@redhat.com>
+ bh=LwnvKkTIEX1hLZTP6g4MaygMOcmle/VcAqV9CA59kyE=;
+ b=QQiPT/jAUcojt5I4ptI3rw7q4IcN/OjVqHYNtzSCMB0biyJ9V1PLSP/ecI8lHALCqmm8CI
+ dHoWKWaOI4USloUxWmmweAIkAcE0tlWr8RfVi0F6mEuluLT48uysGSxHpvA3esZp8c++5Q
+ eQv10VYVZ7IIq6hrHPsAbuN/fWd1jYM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-_2tErJKbMGa_tFygnYuIEQ-1; Mon, 05 Oct 2020 09:51:48 -0400
+X-MC-Unique: _2tErJKbMGa_tFygnYuIEQ-1
+Received: by mail-wr1-f71.google.com with SMTP id 33so1714459wrf.22
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 06:51:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LwnvKkTIEX1hLZTP6g4MaygMOcmle/VcAqV9CA59kyE=;
+ b=IhaFElIuMc4r2BZ1/pPkJPLB4OliMzUln013XTDdcTIP1OLOl2zLRriyjLX1BC3QPO
+ DlkqN8kmkdLxL/8XXveXke+s1XbVzH7fhh15VfhhwIM5B16XauXZ0W+Ygi1Zqgqqei4c
+ 2MRKNPxFqHxzv9AIL0YnpChGq39X+l7PQzYjzm+WFD/BIH3PENd3eSpK78NCQgyql6jF
+ PzqzZroy60fPW43drATW8kqtHEO6q4vhAm9saaFtRDunuX76LDRvn8HVDWarsHBG7+SV
+ F6FPxzUpug67j0Y1ugftfsaJNOewHi9sr2t2n8fMH+E7ztjIBq2PTYtHgU2TCuWwCwYB
+ g2Ig==
+X-Gm-Message-State: AOAM532xr/9q1y+skwyuuI4EYQVu1ZW2A1RJtfgh9PvOYgP46cCuscoq
+ 77COyqZbDFN0pemVBQD+GzbwrjbLljuKWCmjArXw3cKXoMQ5pZk2ZB/RLDGoqmm+20YN4vFzSFl
+ gcnV5nh5SIYSvmsk=
+X-Received: by 2002:a1c:9894:: with SMTP id
+ a142mr16592096wme.167.1601905907282; 
+ Mon, 05 Oct 2020 06:51:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyrvI3ZeRmpvgF1dhCypTpq8rxwqQOxI8XKSZa0WgSjxycubreOuSeXC669gXvvpcxPcm6+bw==
+X-Received: by 2002:a1c:9894:: with SMTP id
+ a142mr16592076wme.167.1601905907063; 
+ Mon, 05 Oct 2020 06:51:47 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:2e86:3d8b:8b70:920c?
+ ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
+ by smtp.gmail.com with ESMTPSA id v9sm36238wrv.35.2020.10.05.06.51.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Oct 2020 06:51:46 -0700 (PDT)
+Subject: Re: [PATCH v7 00/14] Reverse debugging
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <160174516520.12451.10785284392438702137.stgit@pasha-ThinkPad-X280>
+ <1d81369e-3e20-444a-1ad4-197edc0245a9@redhat.com>
+ <1c91f71b-c144-65c2-82b4-1121fa9a7c07@ispras.ru>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <fa049022-b89c-921b-436f-a7240e811bf3@redhat.com>
+Date: Mon, 5 Oct 2020 15:51:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <1f0b0576-eb07-bf5a-a4d8-c6a2d18d1a94@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <1c91f71b-c144-65c2-82b4-1121fa9a7c07@ispras.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VywGB/WGlW4DM4P8"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -66,8 +90,9 @@ X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,56 +105,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, wrampazz@redhat.com, ehabkost@redhat.com,
+ alex.bennee@linaro.org, mtosatti@redhat.com, armbru@redhat.com,
+ mreitz@redhat.com, stefanha@redhat.com, crosa@redhat.com, philmd@redhat.com,
+ zhiwei_liu@c-sky.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---VywGB/WGlW4DM4P8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 05/10/20 15:45, Pavel Dovgalyuk wrote:
+> 
+> That's very strange.
+> None of the patches affect RR for AArch64. Is this the real failure or
+> just a coincidence?
+> I also tried running this test on my local machine and got normal
+> execution time for replay:
+> real    0m0,968s
+> user    0m0,657s
+> sys    0m0,625s
+> 
+> By the way, this is an early RR test. Now we have more complex (and
+> easier to reproduce) avocado-based RR tests (for aarch64 too).
+> I.e. record and replay in this test are divided into two "tests",
+> and can cause races if running in parallel for some reason.
 
-On Sat, Oct 03, 2020 at 08:14:11PM -0400, John Snow wrote:
-> I would like to use the KVM call to discuss a roadmap for converting the
-> remaining options to QAPI, what that would take, and who will take ownership
-> for which subsystems/flags. I would like to bring these discussions to KVM
-> Forum and lend serious, dedicated effort to finishing this task.
+Good to know.  I'll keep this series in my tree so that it reruns, and
+will keep an eye on whether I see similar failures in the next few days.
+ I have seen other similar timeouts (e.g. in xtensa test-timer) that
+weren't related to RR so it's possible that it's a false positive.
 
-Subsystem maintainers will need to review these patches. Hopefully many
-of them are willing to do the conversion themselves. Code examples for
-common conversions would help (e.g. QemuOpts to QAPI, strtol() to QAPI,
-etc).
+> Shouldn't we just drop this one?
 
-Do error messages need to be preserved? For example, maybe the input
-validation order or the actual error message is different with QAPI and
-that may affect programs that launch QEMU.
+Feel free to send a patch to Alex for it.
 
-Is there any way to detect incompatible command-line changes besides
-running make check? One idea is to run a fuzzer to check if certain
-inputs are accepted by the new/old version but not the other.
-
-Stefan
-
---VywGB/WGlW4DM4P8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl97I48ACgkQnKSrs4Gr
-c8jCoAf/UAXPYRCTYrTFFJBDNQxXVHMrHj/awrWz29SOjQwKG6/Si0OVC2bRY9gw
-zHj15MT6nRfRQkSoI2VeSbJYWmgWjkMU9RIKx4TrP7ucFhqGW9FCjkyIysFNuOME
-Eart0gbXBlQVd+mNL6ts7rWLbeLgr3BtbxmgnPL35GP+eLk90xjGNsCO/a26N8ZA
-HRwC2ZilkI2OFjIV0QhO3lEb+nG9qgVtiORvECiow8Mguxs6UAJyUzTGEnTc7+Ry
-hzpElX2u93IHTIqrpbF+J/22cTs89F68/7c6+rD48qHIpm558F058oXiN19ajR5T
-1/O2W6kSXXr5GF8O5gQTEjd5SmTCUg==
-=03+B
------END PGP SIGNATURE-----
-
---VywGB/WGlW4DM4P8--
+Paolo
 
 
