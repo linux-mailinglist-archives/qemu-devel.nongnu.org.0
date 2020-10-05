@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18AB283230
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:38:18 +0200 (CEST)
-Received: from localhost ([::1]:60460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C0828329D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:55:41 +0200 (CEST)
+Received: from localhost ([::1]:46588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPM0f-0006PD-5Z
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:38:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37094)
+	id 1kPMHU-0007YX-UA
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmx-0008KO-Ph
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:07 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52414)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmv-0007Li-Vy
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:07 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id q9so7630894wmj.2
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:24:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=L5bnLnRgyCXqmqskotXFSaPQP0wUnC9+XJCdXnSYiEg=;
- b=QK0bhUArJ3zQ2fkKIhCuPPtr44mgAtE1ReX4YlvhlIwvo8pDTnIyT5KH8BbClSrect
- 7ENURDa0HEdl4ld0NVwxGVYT920RWp1s2c1T6mc0HaRf6sUBaNrgdXM9f5pDeefRUTJr
- b8xTKPfr6L/CY66kfhRJtA9sWmDx/AY3z346UXhhH3BSejHhNwSSSd/AhwI8X3i+3XaN
- p8LMAIjacbS0j8N9oUON0CsnGIgMBz1XrHk9tw9izKLBeRJhL7xtqM3DrDM9EJPHL4Ab
- mKjK8z/9x0tg4e9i8qBB3xjYFR/nld98s3YrJhGpRH7bm5q1uxmzY+oHoufm1RQmXDMe
- 4saA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=L5bnLnRgyCXqmqskotXFSaPQP0wUnC9+XJCdXnSYiEg=;
- b=UYkDvx3VIO2fopjm+vnALf4YVE2x9z6ePOM+HThpLiMcoYAPIB3Z8TJ6ZaKo+97ePz
- znBjvR45imIcZHhKqFIZBgJUL+VgkLk8cUn/3GEGZR7QVr4EVuE3X+uSFh+LdMXfvyay
- WkDCYd0rCU0dyRRP8TH36vWZe3SziNBCMZepe6fCK64oLbZqyKs4yjEIalfu5pPekEOM
- 11D+pOeRuehWgA0/zGVwKXXUJYsuF3SnJYZRkkCplA01hMx4xQPETuRUpqvW8HVwrMko
- GD0PmtElTdXtOJHB7Ld4RzDITzLd8KFi2TH7WVB/96YE1HhcfglRWqIkOS0ijVGyd+FJ
- O2yw==
-X-Gm-Message-State: AOAM5325jgWJUomIeH3IAAJmA8/Wq9Xdqt6pdKt0ZDe0NO8xSUM/mMFb
- BCxqrbi5KJiK6XpSC32R4ae9bREk8Lo=
-X-Google-Smtp-Source: ABdhPJzXYc19fsQC4V6lqb+Pu2fkC89+n82+TotAcB1+Xdyo1YuNHcUvOBBFss4lktO9iS0/6Cp8tw==
-X-Received: by 2002:a1c:9885:: with SMTP id a127mr15655749wme.8.1601886244466; 
- Mon, 05 Oct 2020 01:24:04 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
- by smtp.gmail.com with ESMTPSA id z15sm11931434wrv.94.2020.10.05.01.24.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 01:24:04 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 19/19] dockerfiles: add diffutils to Fedora
-Date: Mon,  5 Oct 2020 10:23:49 +0200
-Message-Id: <20201005082349.354095-20-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201005082349.354095-1-pbonzini@redhat.com>
-References: <20201005082349.354095-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1kPLwD-0001vK-EH
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:33:43 -0400
+Received: from david.siemens.de ([192.35.17.14]:45489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1kPLw9-0000C3-3m
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:33:39 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 0958XVUx015655
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 5 Oct 2020 10:33:31 +0200
+Received: from [167.87.39.163] ([167.87.39.163])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 0958XUJ5026146;
+ Mon, 5 Oct 2020 10:33:30 +0200
+Subject: Re: scripts/gdb: issues when loading modules after lx-symbols
+To: Stefano Garzarella <sgarzare@redhat.com>
+References: <CAGxU2F7+Tf+hJxxadT_Rw01O43RU9RsasJiVLpukbhvo1w++fA@mail.gmail.com>
+ <9e247182-2cc3-9fac-e12e-9743ef24ec43@siemens.com>
+ <20201005081451.ajtm6rctimrg5frr@steredhat>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <0b862e95-c2a7-ad00-5f57-8d958e4af20c@siemens.com>
+Date: Mon, 5 Oct 2020 10:33:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201005081451.ajtm6rctimrg5frr@steredhat>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.35.17.14; envelope-from=jan.kiszka@siemens.com;
+ helo=david.siemens.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 04:33:34
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,36 +63,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neal Gompa <ngompa13@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, linux-kernel@vger.kernel.org,
+ Kieran Bingham <kbingham@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some reason diffutils is not included in the Fedora containers anymore,
-causing the build to fail.
+On 05.10.20 10:14, Stefano Garzarella wrote:
+> On Sun, Oct 04, 2020 at 08:52:37PM +0200, Jan Kiszka wrote:
+>> On 01.10.20 16:31, Stefano Garzarella wrote:
+>>> Hi,
+>>> I had some issues with gdb scripts and kernel modules in Linux 5.9-rc7.
+>>>
+>>> If the modules are already loaded, and I do 'lx-symbols', all work fine.
+>>> But, if I load a kernel module after 'lx-symbols', I had this issue:
+>>>
+>>> [ 5093.393940] invalid opcode: 0000 [#1] SMP PTI
+>>> [ 5093.395134] CPU: 0 PID: 576 Comm: modprobe Not tainted 5.9.0-rc7-ste-00010-gf0b671d9608d-dirty #2
+>>> [ 5093.397566] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.13.0-2.fc32 04/01/2014
+>>> [ 5093.400761] RIP: 0010:do_init_module+0x1/0x270
+>>> [ 5093.402553] Code: ff ff e9 cf fe ff ff 0f 0b 49 c7 c4 f2 ff ff ff e9 c1 fe ff ff e8 5f b2 65 00 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 cc <1f> 44 00 00 55 ba 10 00 00 00 be c0 0c 00 00 48 89 e5 41 56 41 55
+>>> [ 5093.409505] RSP: 0018:ffffc90000563d18 EFLAGS: 00010246
+>>> [ 5093.412056] RAX: 0000000000000000 RBX: ffffffffc010a0c0 RCX: 0000000000004ee3
+>>> [ 5093.414472] RDX: 0000000000004ee2 RSI: ffffea0001efe188 RDI: ffffffffc010a0c0
+>>> [ 5093.416349] RBP: ffffc90000563e50 R08: 0000000000000000 R09: 0000000000000002
+>>> [ 5093.418044] R10: 0000000000000096 R11: 00000000000008a4 R12: ffff88807a0d1280
+>>> [ 5093.424721] R13: ffffffffc010a110 R14: ffff88807a0d1300 R15: ffffc90000563e70
+>>> [ 5093.427138] FS:  00007f018f632740(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+>>> [ 5093.430037] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> [ 5093.432279] CR2: 000055fbe282b239 CR3: 000000007922a006 CR4: 0000000000170ef0
+>>> [ 5093.435096] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>>> [ 5093.436765] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>>> [ 5093.439689] Call Trace:
+>>> [ 5093.440954]  ? load_module+0x24b6/0x27d0
+>>> [ 5093.443212]  ? __kernel_read+0xd6/0x150
+>>> [ 5093.445140]  __do_sys_finit_module+0xd3/0xf0
+>>> [ 5093.446877]  __x64_sys_finit_module+0x1a/0x20
+>>> [ 5093.449098]  do_syscall_64+0x38/0x50
+>>> [ 5093.450877]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>>> [ 5093.456153] RIP: 0033:0x7f018f75c43d
+>>> [ 5093.457728] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 2b 6a 0c 00 f7 d8 64 89 01 48
+>>> [ 5093.466349] RSP: 002b:00007ffd7f080368 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+>>> [ 5093.470613] RAX: ffffffffffffffda RBX: 0000557e5c96f9c0 RCX: 00007f018f75c43d
+>>> [ 5093.474747] RDX: 0000000000000000 RSI: 0000557e5c964288 RDI: 0000000000000003
+>>> [ 5093.478049] RBP: 0000000000040000 R08: 0000000000000000 R09: 0000000000000000
+>>> [ 5093.481298] R10: 0000000000000003 R11: 0000000000000246 R12: 0000000000000000
+>>> [ 5093.483725] R13: 0000557e5c964288 R14: 0000557e5c96f950 R15: 0000557e5c9775c0
+>>> [ 5093.485778] Modules linked in: virtio_vdpa(+) vdpa sunrpc kvm_intel kvm irqbypass virtio_blk virtio_rng rng_core [last unloaded: virtio_vdpa]
+>>> [ 5093.488695] ---[ end trace 23712ecebc11f53c ]---
+>>>
+>>> Guest kernel: Linux 5.9-rc7
+>>> gdb: GNU gdb (GDB) Fedora 9.1-6.fc32
+>>> I tried with QEMU 4.2.1 and the latest master branch: same issue.
+>>>
+>>>
+>>> I did some digging, and skipping the gdb 'add-symbol-file' command in symbol.py
+>>> avoid the issue, but of course I don't have the symbols loaded:
+>>>
+>>>     diff --git a/scripts/gdb/linux/symbols.py b/scripts/gdb/linux/symbols.py
+>>>     index 1be9763cf8bb..eadfaa4d4907 100644
+>>>     --- a/scripts/gdb/linux/symbols.py
+>>>     +++ b/scripts/gdb/linux/symbols.py
+>>>     @@ -129,7 +129,7 @@ lx-symbols command."""
+>>>                      filename=module_file,
+>>>                      addr=module_addr,
+>>>                      sections=self._section_arguments(module))
+>>>     -            gdb.execute(cmdline, to_string=True)
+>>>     +            #gdb.execute(cmdline, to_string=True)
+>>>                  if module_name not in self.loaded_modules:
+>>>                      self.loaded_modules.append(module_name)
+>>>              else:
+>>>
+>>> I tried several modules and this happens every time after '(gdb) lx-symbols'.
+>>>
+>>> Do you have any hints?
+>>>
+>> I assume you are debugging a kernel inside QEMU/KVM, right?
+> 
+> Right!
+> 
+>>                                                             Does it work
+>> without -enable-kvm?
+> 
+> Yes, disabling kvm it works.
+> 
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Neal Gompa <ngompa13@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201003085054.332992-2-pbonzini@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/docker/dockerfiles/fedora.docker | 1 +
- 1 file changed, 1 insertion(+)
+OK, there it is, still...
+What may also "work" is going down to single core.
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 71e4b56977..ec783418c8 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -11,6 +11,7 @@ ENV PACKAGES \
-     cyrus-sasl-devel \
-     dbus-daemon \
-     device-mapper-multipath-devel \
-+    diffutils \
-     findutils \
-     gcc \
-     gcc-c++ \
+>>
+>> Debugging guests in KVM mode at least was unstable for a long time. I
+>> avoided setting soft-BPs - which is what the script does for the sake of
+>> tracking modules loading -, falling back to hw-BPs, as I had no time to
+>> debug that further. /Maybe/ that's the issue here.
+> 
+> Thanks for the suggestion, I'll try to have a look.
+> 
+
+Would be great if this issue could finally be resolved. And then covered
+by the kvm-unit tests. Those still succeed, I think.
+
+Jan
+
 -- 
-2.26.2
-
+Siemens AG, T RDA IOT
+Corporate Competence Center Embedded Linux
 
