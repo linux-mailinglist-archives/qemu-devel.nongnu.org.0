@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3E9283C17
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:07:26 +0200 (CEST)
-Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D49283C1D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:10:18 +0200 (CEST)
+Received: from localhost ([::1]:49686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPT1J-0001Ev-7M
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
+	id 1kPT45-0005a3-8U
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPStU-0000LF-4t
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33318)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPStV-0000P4-Cq
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPStS-00028x-8y
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:19 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPStT-00029A-Lb
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:59:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601913557;
+ s=mimecast20190719; t=1601913558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gt32NBO3sXET1DxWl+fYeN2DGnRXHsVKHZKbDzzHXFY=;
- b=BkUzzi9Hqo8GuA+1T0tI3j9MaTv8JZ5qKMY2iIbqCCCfqtUiqgWNkV7+49Wjg2W2SRmcB2
- 6dqewR5tE4udaExNTPNIMGQdHtuSp6UgwBwHaYm28SFwgccsV0nt6FqGCIpPcrMeL1wTsd
- rvIdE49j1k+loetOSvbEreeztyrf1mE=
+ bh=lMQlAf73YBYMHwrfbPfHm01yXpYu/jGVGq8w5VKBK4I=;
+ b=gp1F9anyggzlfNaCjqk+6vdo2Wu80FwOC9VpEGh1UgrVzS3BvCzqvyYMIHUB2mb9BCxEYq
+ zqA0pxY9zsO6PbqwkkJHzndA/HZ/XU2BnxyKM5kc1L7zxHVLS1BUONzwe2K1gs8eP0cJWs
+ 91bMw+X3I1Kx0YM8g766UmYQU8FwvPI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-bhMgweZuOt2-ZoRy0FihJQ-1; Mon, 05 Oct 2020 11:59:15 -0400
-X-MC-Unique: bhMgweZuOt2-ZoRy0FihJQ-1
+ us-mta-220-qjTgdVyqP9q-ZQz2yoY69g-1; Mon, 05 Oct 2020 11:59:17 -0400
+X-MC-Unique: qjTgdVyqP9q-ZQz2yoY69g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5302E64085;
- Mon,  5 Oct 2020 15:59:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2C44801FD5;
+ Mon,  5 Oct 2020 15:59:15 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-145.ams2.redhat.com
  [10.36.113.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC3CE65F5E;
- Mon,  5 Oct 2020 15:59:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A20B368433;
+ Mon,  5 Oct 2020 15:59:14 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 04/14] hmp: Update current monitor only in
- handle_hmp_command()
-Date: Mon,  5 Oct 2020 17:58:45 +0200
-Message-Id: <20201005155855.256490-5-kwolf@redhat.com>
+Subject: [PATCH v8 05/14] qmp: Assert that no other monitor is active
+Date: Mon,  5 Oct 2020 17:58:46 +0200
+Message-Id: <20201005155855.256490-6-kwolf@redhat.com>
 In-Reply-To: <20201005155855.256490-1-kwolf@redhat.com>
 References: <20201005155855.256490-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -85,96 +84,32 @@ Cc: kwolf@redhat.com, marcandre.lureau@gmail.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current monitor is updated relatively early in the command handling
-code even though only the command handler actually needs it.
-
-The current monitor will become coroutine-local later, so we can only
-update it when we know in which coroutine the command will be exectued.
-Move it to handle_hmp_command() where this information will be
-available.
+monitor_qmp_dispatch() is never supposed to be called in the context of
+another monitor, so assert that monitor_cur() is NULL instead of saving
+and restoring it.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- monitor/hmp.c  | 10 +++++-----
- monitor/misc.c |  5 -----
- 2 files changed, 5 insertions(+), 10 deletions(-)
+ monitor/qmp.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index e0cc9e65dd..560ec98e7b 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1061,6 +1061,7 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
-     QDict *qdict;
-     const HMPCommand *cmd;
-     const char *cmd_start = cmdline;
-+    Monitor *old_mon;
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index bb2d9d0cc7..8469970c69 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -140,8 +140,11 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
+     QDict *error;
  
-     trace_handle_hmp_command(mon, cmdline);
- 
-@@ -1079,7 +1080,11 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
-         return;
-     }
- 
-+    /* old_mon is non-NULL when called from qmp_human_monitor_command() */
-+    old_mon = monitor_set_cur(&mon->common);
-     cmd->cmd(&mon->common, qdict);
-+    monitor_set_cur(old_mon);
+     old_mon = monitor_set_cur(&mon->common);
++    assert(old_mon == NULL);
 +
-     qobject_unref(qdict);
- }
- 
-@@ -1301,11 +1306,8 @@ cleanup:
- static void monitor_read(void *opaque, const uint8_t *buf, int size)
- {
-     MonitorHMP *mon = container_of(opaque, MonitorHMP, common);
--    Monitor *old_mon;
-     int i;
- 
--    old_mon = monitor_set_cur(&mon->common);
--
-     if (mon->rs) {
-         for (i = 0; i < size; i++) {
-             readline_handle_byte(mon->rs, buf[i]);
-@@ -1317,8 +1319,6 @@ static void monitor_read(void *opaque, const uint8_t *buf, int size)
-             handle_hmp_command(mon, (char *)buf);
-         }
-     }
--
+     rsp = qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon));
 -    monitor_set_cur(old_mon);
- }
++
++    monitor_set_cur(NULL);
  
- static void monitor_event(void *opaque, QEMUChrEvent event)
-diff --git a/monitor/misc.c b/monitor/misc.c
-index ee8db45094..4a859fb24a 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -120,17 +120,13 @@ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
-                                 int64_t cpu_index, Error **errp)
- {
-     char *output = NULL;
--    Monitor *old_mon;
-     MonitorHMP hmp = {};
- 
-     monitor_data_init(&hmp.common, false, true, false);
- 
--    old_mon = monitor_set_cur(&hmp.common);
--
-     if (has_cpu_index) {
-         int ret = monitor_set_cpu(&hmp.common, cpu_index);
-         if (ret < 0) {
--            monitor_set_cur(old_mon);
-             error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cpu-index",
-                        "a CPU number");
-             goto out;
-@@ -138,7 +134,6 @@ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
-     }
- 
-     handle_hmp_command(&hmp, command_line);
--    monitor_set_cur(old_mon);
- 
-     WITH_QEMU_LOCK_GUARD(&hmp.common.mon_lock) {
-         if (qstring_get_length(hmp.common.outbuf) > 0) {
+     if (mon->commands == &qmp_cap_negotiation_commands) {
+         error = qdict_get_qdict(rsp, "error");
 -- 
 2.25.4
 
