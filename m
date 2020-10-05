@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D200C283CEF
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:58:00 +0200 (CEST)
-Received: from localhost ([::1]:41838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92728283CEA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:56:56 +0200 (CEST)
+Received: from localhost ([::1]:39702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPToF-0000QX-Un
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46558)
+	id 1kPTnD-0007wZ-MO
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kPTif-00039l-2y; Mon, 05 Oct 2020 12:52:13 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63782)
+ id 1kPTie-00039e-W8; Mon, 05 Oct 2020 12:52:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kPTid-0001e2-6M; Mon, 05 Oct 2020 12:52:12 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1kPTid-0001e4-5H; Mon, 05 Oct 2020 12:52:12 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 095GWFH0001044; Mon, 5 Oct 2020 12:52:05 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34072ggq7n-1
+ 095Gjmax105076; Mon, 5 Oct 2020 12:52:06 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34079w03wa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Oct 2020 12:52:04 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 095GbdmT019531;
- Mon, 5 Oct 2020 16:52:02 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04fra.de.ibm.com with ESMTP id 33xgx817d0-1
+ Mon, 05 Oct 2020 12:52:05 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 095Gq3ts006808;
+ Mon, 5 Oct 2020 16:52:03 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 33xgx8ack8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Oct 2020 16:52:02 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 095Gq0T532571842
+ Mon, 05 Oct 2020 16:52:03 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 095Gq1Hh32440652
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Oct 2020 16:52:00 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6A4FBAE04D;
- Mon,  5 Oct 2020 16:52:00 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 14EA0AE053;
+ Mon, 5 Oct 2020 16:52:01 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 18D2D4C058;
+ Mon,  5 Oct 2020 16:52:01 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B90994C044;
  Mon,  5 Oct 2020 16:52:00 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Mon,  5 Oct 2020 16:52:00 +0000 (GMT)
 Received: from yukon.ibmuc.com (sig-9-145-2-207.uk.ibm.com [9.145.2.207])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 494572201BC;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id F2EE2220155;
  Mon,  5 Oct 2020 18:51:59 +0200 (CEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 4/6] spapr/xive: Enforce load-after-store ordering
-Date: Mon,  5 Oct 2020 18:51:45 +0200
-Message-Id: <20201005165147.526426-5-clg@kaod.org>
+Subject: [PATCH v2 5/6] spapr/xive: Activate StoreEOI at the source level
+Date: Mon,  5 Oct 2020 18:51:46 +0200
+Message-Id: <20201005165147.526426-6-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20201005165147.526426-1-clg@kaod.org>
 References: <20201005165147.526426-1-clg@kaod.org>
@@ -67,10 +67,10 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-10-05_11:2020-10-05,
  2020-10-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 bulkscore=0
- mlxscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 suspectscore=0 phishscore=0 spamscore=0
- mlxlogscore=801 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1034 bulkscore=0 adultscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2006250000 definitions=main-2010050117
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -100,88 +100,68 @@ Cc: qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XIVE_ESB_SET_PQ_10 load operation is used to disable temporarily
-an interrupt source. If StoreEOI is active, a source could be left
-enabled if the load and store operations come out of order.
+When the StoreEOI capability is "on", the H_INT_GET_SOURCE_INFO will
+set the StoreEOI flag for all sources. This could be an issue if
+StoreEOI is not supported on a specific source, of a passthrough
+device for instance. In that case, we could either introduce a new KVM
+ioctl to query the characteristics of the source at the HW level or
+deactivate StoreEOI on the machine.
 
-QEMU makes use of this offset to quiesce the sources before a
-migration. Enforce the load-after-store ordering always when doing so
-without querying the characteristics of the sources on the host. The
-performance penalty will be very small for QEMU.
+This is theoretically unsafe on a POWER9 host but it still runs.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive.h    |  8 ++++++++
- hw/intc/spapr_xive_kvm.c | 12 ++++++++++++
- hw/intc/xive.c           |  6 ++++++
- 3 files changed, 26 insertions(+)
+ hw/intc/spapr_xive.c | 1 +
+ hw/ppc/spapr_irq.c   | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 445eccfe6b73..39cd273f86d5 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -279,6 +279,14 @@ static inline hwaddr xive_source_esb_mgmt(XiveSource=
- *xsrc, int srcno)
- #define XIVE_ESB_SET_PQ_10      0xe00 /* Load */
- #define XIVE_ESB_SET_PQ_11      0xf00 /* Load */
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 1fa09f287ac0..41f2719ff93a 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -280,6 +280,7 @@ static void spapr_xive_instance_init(Object *obj)
+     SpaprXive *xive =3D SPAPR_XIVE(obj);
 =20
-+/*
-+ * Load-after-store ordering
-+ *
-+ * Adding this offset to the load address will enforce
-+ * load-after-store ordering. This is required to use with StoreEOI.
-+ */
-+#define XIVE_ESB_LD_ST_MO       0x40 /* Load-after-store ordering */
-+
- uint8_t xive_source_esb_get(XiveSource *xsrc, uint32_t srcno);
- uint8_t xive_source_esb_set(XiveSource *xsrc, uint32_t srcno, uint8_t pq=
-);
+     object_initialize_child(obj, "source", &xive->source, TYPE_XIVE_SOUR=
+CE);
++    object_property_add_alias(obj, "flags", OBJECT(&xive->source), "flag=
+s");
 =20
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 66bf4c06fe55..d428422a7b72 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -357,6 +357,18 @@ static uint64_t xive_esb_rw(XiveSource *xsrc, int sr=
-cno, uint32_t offset,
+     object_initialize_child(obj, "end_source", &xive->end_source,
+                             TYPE_XIVE_END_SOURCE);
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index f59960339ec3..cdf9f9df4173 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -325,9 +325,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Error =
+**errp)
 =20
- static uint8_t xive_esb_read(XiveSource *xsrc, int srcno, uint32_t offse=
-t)
- {
-+    /*
-+     * The XIVE_ESB_SET_PQ_10 load operation is used to disable
-+     * temporarily an interrupt source. If StoreEOI is active, a
-+     * source could be left enabled if the load and store operations
-+     * come out of order.
-+     *
-+     * Enforce the load-after-store ordering always.
-+     */
-+    if (offset =3D=3D XIVE_ESB_SET_PQ_10) {
-+        offset |=3D XIVE_ESB_LD_ST_MO;
-+    }
-+
-     return xive_esb_rw(xsrc, srcno, offset, 0, 0) & 0x3;
- }
+     if (spapr->irq->xive) {
+         uint32_t nr_servers =3D spapr_max_server_number(spapr);
++        uint64_t flags =3D 0;
+         DeviceState *dev;
+         int i;
 =20
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 489e6256ef70..b710ba2df095 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -998,6 +998,12 @@ static uint64_t xive_source_esb_read(void *opaque, h=
-waddr addr, unsigned size)
-     case XIVE_ESB_SET_PQ_01 ... XIVE_ESB_SET_PQ_01 + 0x0FF:
-     case XIVE_ESB_SET_PQ_10 ... XIVE_ESB_SET_PQ_10 + 0x0FF:
-     case XIVE_ESB_SET_PQ_11 ... XIVE_ESB_SET_PQ_11 + 0x0FF:
-+        if (offset =3D=3D XIVE_ESB_SET_PQ_10 &&
-+            xsrc->esb_flags & XIVE_SRC_STORE_EOI) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: load-after-store order=
-ing "
-+                          "not enforced with Store EOI active for IRQ %d=
-\n",
-+                          srcno);
++        if (spapr_get_cap(spapr, SPAPR_CAP_STOREEOI) =3D=3D SPAPR_CAP_ON=
+) {
++            flags |=3D XIVE_SRC_STORE_EOI;
 +        }
-         ret =3D xive_source_esb_set(xsrc, srcno, (offset >> 8) & 0x3);
-         break;
-     default:
++
+         dev =3D qdev_new(TYPE_SPAPR_XIVE);
+         qdev_prop_set_uint32(dev, "nr-irqs", smc->nr_xirqs + SPAPR_XIRQ_=
+BASE);
+         /*
+@@ -337,6 +342,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
+*errp)
+         qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
+         object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(spap=
+r),
+                                  &error_abort);
++        object_property_set_int(OBJECT(dev), "flags", flags, &error_abor=
+t);
+         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+=20
+         spapr->xive =3D SPAPR_XIVE(dev);
 --=20
 2.25.4
 
