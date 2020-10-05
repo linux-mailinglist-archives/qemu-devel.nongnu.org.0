@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0149D28405E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:07:59 +0200 (CEST)
-Received: from localhost ([::1]:51574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B998284021
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:03:56 +0200 (CEST)
+Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWm6-0003J8-1q
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
+	id 1kPWiB-0006Ia-4r
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWX8-0000TO-If
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32462)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWX9-0000Ve-HI
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWX5-00078y-MF
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWX7-0007AP-AG
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601927547;
+ s=mimecast20190719; t=1601927548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9zFBaWvVJPG3rjs8pj+3mSBCJfVyPtmMqFlvinO7qcw=;
- b=QDiq7YGGuxZE08rUntUAdHFd0U5puILw+hJlhJWMJHRpcVZ6NLEKXBUIYv8W3tTGeNda0I
- DCBh8gY8jCRq8JGzY002B4RTtmgtHiBSe+AyvJV39IT6fTaNczlMXdMhW/iYQL2IF6r4LA
- ZTJpw0xfcnzeuTv09ddGfdPJj0rNR1Q=
+ bh=ybbMySC/0u9IR0Th546QMy9LpOxRoMz0sTM2iXqSsaA=;
+ b=E9fbHGhSvEF8oZG6NNLQr+kL8+ySQlrycDmIwVJtFRhSIx40EdpCdEEXDCku/Ysmd249Bx
+ 3KybqXwRRdqmnQsl4Guhyip/W5dkeBVEf6FSzlkXWEODSGSQQ4iGe6E6AtwbRMQ8JzmRYJ
+ IhmANW2sgs+6/mGSE+KWZp/+f+X0psE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-dhprW4l3PNSl082w55T_hA-1; Mon, 05 Oct 2020 15:52:25 -0400
-X-MC-Unique: dhprW4l3PNSl082w55T_hA-1
+ us-mta-211-uuvLHfLLPxubuSa1Da-wnA-1; Mon, 05 Oct 2020 15:52:26 -0400
+X-MC-Unique: uuvLHfLLPxubuSa1Da-wnA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9990218A822F
- for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01FAD1015CA6
+ for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:26 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 806585C1BD;
- Mon,  5 Oct 2020 19:52:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD37C5C1BD;
+ Mon,  5 Oct 2020 19:52:24 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 16/36] qapi/common.py: Convert comments into docstrings,
- and elaborate
-Date: Mon,  5 Oct 2020 15:51:38 -0400
-Message-Id: <20201005195158.2348217-17-jsnow@redhat.com>
+Subject: [PATCH v5 17/36] qapi/common.py: move build_params into gen.py
+Date: Mon,  5 Oct 2020 15:51:39 -0400
+Message-Id: <20201005195158.2348217-18-jsnow@redhat.com>
 In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
@@ -84,126 +83,159 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As docstrings, they'll show up in documentation and IDE help.
-
-The docstring style being targeted is the Sphinx documentation
-style. Sphinx uses an extension of ReST with "domains". We use the
-(implicit) Python domain, which supports a number of custom "info
-fields". Those info fields are documented here:
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
-
-Primarily, we use `:param X: descr`, `:return[s]: descr`, and `:raise[s]
-Z: when`. Everything else is the Sphinx dialect of ReST.
-
-(No, nothing checks or enforces this style that I am aware of. Sphinx
-either chokes or succeeds, but does not enforce a standard of what is
-otherwise inside the docstring. Pycharm does highlight when your param
-fields are not aligned with the actual fields present. It does not
-highlight missing return or exception statements. There is no existing
-style guide I am aware of that covers a standard for a minimally
-acceptable docstring. I am debating writing one.)
+Including it in common.py creates a circular import dependency; schema
+relies on common, but common.build_params requires a type annotation
+from schema. To type this properly, it needs to be moved outside the
+cycle.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/common.py | 53 +++++++++++++++++++++++++++++++-----------
- 1 file changed, 39 insertions(+), 14 deletions(-)
+ scripts/qapi/commands.py |  9 +++++++--
+ scripts/qapi/common.py   | 23 -----------------------
+ scripts/qapi/events.py   |  9 ++-------
+ scripts/qapi/gen.py      | 31 +++++++++++++++++++++++++++++--
+ 4 files changed, 38 insertions(+), 34 deletions(-)
 
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 5dc2f5a9fa8..f67393f8713 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -13,8 +13,13 @@
+ See the COPYING file in the top-level directory.
+ """
+ 
+-from .common import build_params, c_name, mcgen
+-from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
++from .common import c_name, mcgen
++from .gen import (
++    QAPIGenCCode,
++    QAPISchemaModularCVisitor,
++    build_params,
++    ifcontext,
++)
+ 
+ 
+ def gen_command_decl(name, arg_type, boxed, ret_type):
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 74a2c001ed9..0ef38ea5fe0 100644
+index 0ef38ea5fe0..9ab0685cc51 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -15,15 +15,24 @@
- from typing import Optional, Sequence
+@@ -209,26 +209,3 @@ def gen_endif(ifcond: Sequence[str]) -> str:
+ #endif /* %(cond)s */
+ ''', cond=ifc)
+     return ret
+-
+-
+-def build_params(arg_type,
+-                 boxed: bool,
+-                 extra: Optional[str] = None) -> str:
+-    ret = ''
+-    sep = ''
+-    if boxed:
+-        assert arg_type
+-        ret += '%s arg' % arg_type.c_param_type()
+-        sep = ', '
+-    elif arg_type:
+-        assert not arg_type.variants
+-        for memb in arg_type.members:
+-            ret += sep
+-            sep = ', '
+-            if memb.optional:
+-                ret += 'bool has_%s, ' % c_name(memb.name)
+-            ret += '%s %s' % (memb.type.c_param_type(),
+-                              c_name(memb.name))
+-    if extra:
+-        ret += sep + extra
+-    return ret if ret else 'void'
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index 6b3afa14d72..f840a62ed92 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -12,13 +12,8 @@
+ See the COPYING file in the top-level directory.
+ """
+ 
+-from .common import (
+-    build_params,
+-    c_enum_const,
+-    c_name,
+-    mcgen,
+-)
+-from .gen import QAPISchemaModularCVisitor, ifcontext
++from .common import c_enum_const, c_name, mcgen
++from .gen import QAPISchemaModularCVisitor, build_params, ifcontext
+ from .schema import QAPISchemaEnumMember
+ from .types import gen_enum, gen_enum_lookup
+ 
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index 1fed712b43b..f2e2746fea5 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -2,9 +2,11 @@
+ #
+ # QAPI code generation
+ #
+-# Copyright (c) 2018-2019 Red Hat Inc.
++# Copyright IBM, Corp. 2011
++# Copyright (c) 2013-2019 Red Hat Inc.
+ #
+ # Authors:
++#  Anthony Liguori <aliguori@us.ibm.com>
+ #  Markus Armbruster <armbru@redhat.com>
+ #  Marc-André Lureau <marcandre.lureau@redhat.com>
+ #
+@@ -15,16 +17,18 @@
+ import errno
+ import os
+ import re
++from typing import Optional
+ 
+ from .common import (
+     c_fname,
++    c_name,
+     gen_endif,
+     gen_if,
+     guardend,
+     guardstart,
+     mcgen,
+ )
+-from .schema import QAPISchemaVisitor
++from .schema import QAPISchemaObjectType, QAPISchemaVisitor
  
  
-+#: Sentinel value that causes all space to its right to be removed.
- EATSPACE = '\033EATSPACE.'
- POINTER_SUFFIX = ' *' + EATSPACE
- _C_NAME_TRANS = str.maketrans('.-', '__')
+ class QAPIGen:
+@@ -90,6 +94,29 @@ def _wrap_ifcond(ifcond, before, after):
+     return out
  
  
--# ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
--# ENUM_NAME -> ENUM_NAME, ENUM_NAME1 -> ENUM_NAME1, ENUM_Name2 -> ENUM_NAME2
--# ENUM24_Name -> ENUM24_NAME
- def camel_to_upper(value: str) -> str:
-+    """
-+    Converts CamelCase to CAMEL_CASE.
++def build_params(arg_type: Optional[QAPISchemaObjectType],
++                 boxed: bool,
++                 extra: Optional[str] = None) -> str:
++    ret = ''
++    sep = ''
++    if boxed:
++        assert arg_type
++        ret += '%s arg' % arg_type.c_param_type()
++        sep = ', '
++    elif arg_type:
++        assert not arg_type.variants
++        for memb in arg_type.members:
++            ret += sep
++            sep = ', '
++            if memb.optional:
++                ret += 'bool has_%s, ' % c_name(memb.name)
++            ret += '%s %s' % (memb.type.c_param_type(),
++                              c_name(memb.name))
++    if extra:
++        ret += sep + extra
++    return ret if ret else 'void'
 +
-+    Examples:
-+      ENUMName -> ENUM_NAME
-+      EnumName1 -> ENUM_NAME1
-+      ENUM_NAME -> ENUM_NAME
-+      ENUM_NAME1 -> ENUM_NAME1
-+      ENUM_Name2 -> ENUM_NAME2
-+      ENUM24_Name -> ENUM24_NAME
-+    """
-     c_fun_str = c_name(value, False)
-     if value.isupper():
-         return c_fun_str
-@@ -45,21 +54,33 @@ def camel_to_upper(value: str) -> str:
- def c_enum_const(type_name: str,
-                  const_name: str,
-                  prefix: Optional[str] = None) -> str:
-+    """
-+    Generate a C enumeration constant name.
 +
-+    :param type_name: The name of the enumeration.
-+    :param const_name: The name of this constant.
-+    :param prefix: Optional, prefix that overrides the type_name.
-+    """
-     if prefix is not None:
-         type_name = prefix
-     return camel_to_upper(type_name) + '_' + c_name(const_name, False).upper()
+ class QAPIGenCCode(QAPIGen):
  
- 
--# Map @name to a valid C identifier.
--# If @protect, avoid returning certain ticklish identifiers (like
--# C keywords) by prepending 'q_'.
--#
--# Used for converting 'name' from a 'name':'type' qapi definition
--# into a generated struct member, as well as converting type names
--# into substrings of a generated C function name.
--# '__a.b_c' -> '__a_b_c', 'x-foo' -> 'x_foo'
--# protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
- def c_name(name: str, protect: bool = True) -> str:
-+    """
-+    Map ``name`` to a valid C identifier.
-+
-+    Used for converting 'name' from a 'name':'type' qapi definition
-+    into a generated struct member, as well as converting type names
-+    into substrings of a generated C function name.
-+
-+    '__a.b_c' -> '__a_b_c', 'x-foo' -> 'x_foo'
-+    protect=True: 'int' -> 'q_int'; protect=False: 'int' -> 'int'
-+
-+    :param name: The name to map.
-+    :param protect: If true, avoid returning certain ticklish identifiers
-+                    (like C keywords) by prepending ``q_``.
-+    """
-     # ANSI X3J11/88-090, 3.1.1
-     c89_words = set(['auto', 'break', 'case', 'char', 'const', 'continue',
-                      'default', 'do', 'double', 'else', 'enum', 'extern',
-@@ -129,12 +150,16 @@ def decrease(self, amount: int = 4) -> None:
-         self._level -= amount
- 
- 
-+#: Global, current indent level for code generation.
- indent = Indentation()
- 
- 
--# Generate @code with @kwds interpolated.
--# Obey indent, and strip EATSPACE.
- def cgen(code: str, **kwds: object) -> str:
-+    """
-+    Generate ``code`` with ``kwds`` interpolated.
-+
-+    Obey `indent`, and strip `EATSPACE`.
-+    """
-     raw = code % kwds
-     if indent:
-         raw = re.sub(r'^(?!(#|$))', str(indent), raw, flags=re.MULTILINE)
+     def __init__(self, fname):
 -- 
 2.26.2
 
